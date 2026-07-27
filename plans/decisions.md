@@ -738,11 +738,1312 @@ Justin sent a run of Good Inside screenshots as the north star: DiGi comes up fi
 
 Justin confirmed both open questions. (1) Stay in house on Resend and the database for the whole funnel, not Mailchimp and not a third party lifecycle tool for now; Loops.so stays a later option only if a no code editor is wanted. (2) Yes to trial over waitlist. On inspection the starter quiz already creates the account and starts the 7 day trial at the end (trial_ends_at set via trialEndsFromNow), so there is no parent waitlist left in the app to remove; that was the old external Mailchimp list. School waitlist stays separate (the Mailchimp school enquiry form) until we bring it into the database. Next build unlocked: a status aware funnel on Resend, one contacts model across leads, magnet leads and parents, with a computed lifecycle_state (lead, trialing, trial_ending, active, lapsed) so the lifecycle emails branch by state, trial nurture stops on payment and win back starts on lapse. Non urgent since the trial already works; queued behind the Quests area redesign.
 
+## 2026-07-16 — Handoff to the Mobbin design session: DiGi rename + chat flow
+
+Assigned to the concurrent Mobbin connected design session, not this one, to
+avoid two sessions editing the DiGi chat UI at once.
+
+1. Rename the chat header eyebrow from "Your AI advisor" to "Your evidence led
+   guide" in app/(dashboard)/dashboard/digi/DigiChat.tsx (around line 485).
+   DiGi is a warm guide grounded in research, not a generic AI advisor. No
+   dashes in the copy. Optional later consistency pass on the marketing
+   mentions of "DiGi AI advisor" (pathway, join, home page), not urgent.
+
+2. Make the DiGi chat read as one flowing thread, matching the welcome sheet.
+   The DigiWelcomeSheet (components/digi/DigiWelcomeSheet.tsx) flows: big warm
+   Nunito, generous line height, cream ground, one voice. The chat currently
+   renders DiGi replies as separate stacked white cards that read as boxed
+   fragments. Target: group consecutive DiGi lines into one soft continuous
+   bubble or column rather than N bordered cards; warmer type (Nunito ~15 to
+   16px, line height ~1.6, ink slightly softened); a cream or terracotta-lt
+   ground for DiGi turns with the parent's turns kept visually distinct;
+   generous spacing, rounded, no harsh separators; keep the calm "Reflection
+   saved" footer. Pull live Mobbin references for AI chat / conversation
+   patterns before finalising, then translate into our butter and ink.
+
+Also shipped this session on PR 288 (backend, no UI overlap): school
+reminders now push the child's phone as well as the parent PWA for child
+appropriate one off items (kit, event, homework) the night before; weekly
+routines already did this.
+
+## 2026-07-16 — Push test honesty (backend done, card copy handed to design session)
+
+A parent tapped Send a test on the school card, saw "Sent, it should reach
+your phone", but nothing arrived, because push subscriptions are per device
+and the test landed on their Mac Chrome where they were testing, not the
+phone. Backend done this session: /api/school/remind/test now returns
+platforms (labels of the device hosts it reached) and hasApple (whether any
+Apple push endpoint, ie an iPhone, iPad or Mac Safari, is subscribed at all).
+Chrome uses the same host on desktop and Android so that one stays the honest
+"Chrome (desktop or Android)".
+
+Handoff to the design session (SchoolActionsCard.tsx, the sendTest result
+copy, a UI file so not touched here): replace the flat "Sent, it should reach
+your phone within seconds" with an honest line built from the response, eg
+"Sent to Chrome (desktop or Android). If your phone did not buzz, open the app
+on your phone and turn on notifications there." When hasApple is false and the
+parent is likely on iPhone, spell out the iOS steps: add to Home Screen, open
+from the icon, then allow notifications. Keep it calm and plain, no dashes.
+
 ## 2026-07-16 — "Is a Ban a Plan?" series framing (ban neutral, deadline not a plan)
 
 Built the 7 post LinkedIn series plus newsletter from the anti ban evidence report, under content/packs/2026-07-16-is-a-ban-a-plan/. The one framing rule, written into 00-framing-guardrail.md and held on every post: a ban is a deadline, not a plan. The series never relitigates the ban, for or against. When the evidence shows circumvention (Barnes BMJ 85% still using, Chicago working paper 75% found bypass easy), that is framed as "a line alone does not reach the child, so build the thing that does", never as "the ban failed". Episode 3 is the ~1 in 10 hidden thread reveal (poverty, ACEs, caregiver mental health); the other six each carry one brick.
 
 Verification (background agent) drove three deliberate edits away from the source report: (1) the 4.7m Australian accounts is worded "access restricted" per eSafety, never "deactivated"; (2) the report's "300% VPN / 488% app" percentages are OVERSTATED (488% was one app's usage not all downloads) and were cut, replaced with "VPN demand spiked to a multi year high, downloads of smaller apps climbed steeply"; (3) the Kids Helpline "~100 contacts / sextortion rise" figures are UNVERIFIED and were cut entirely. The Chicago BFI/NBER working paper sample size conflicts across sources (746 vs 835) so the copy says "hundreds of teenagers", never a precise N. JRC 96%/37% is worded "a large four country study", not all EU. All logged in 03-guide-and-sources.md, which doubles as the PATHWAY reply. Delivered to Research Drive as three Docs. Draft PR #290. Branch restarted off latest main first because the prior branch PR (#289) had already merged.
+
+## 2026-07-16 — Mobbin reconnected: fresh UX pull captured for the Quests redesign
+
+The Quests redesign brief (quests-redesign.md) and the Good Inside design language entry both flagged that Mobbin was offline the day they were written, so StarSummary and the front door were built from the documented spirit only, not live screens. Mobbin is back. Pulled fresh screens for every pattern the plan names and wrote them up in design-refs/quests-mobbin-notes.md, each pattern linked to the exact Mobbin screen so a builder can open it while working. Highlights that change the build: GoHenry's child earning screen shows the week as one segmented bar (Allowance, Tasks done, To do) rather than three flat tiles, so fold our waiting/to do/this week tiles into one bar with the tiles as tap targets below; Greenlight's parent home proves a stat card reads as tappable only when it carries a one word action sublabel (Manage), so our three tiles each need a Review/Open/Adjust line; Opal's Blocks screen is the exact model for the live device timer, a single running session card with the remaining time big and a draining progress underline, PWA mirrors it, never a lock; Greenlight's set allowance screen already ships the age aware recommendation box that the DiGi screen time balance insight should copy (recommended balance, age named, one honest sentence, never a rule); LookUp/Byte/GoHenry Learn for the four big labelled front door tiles, we alternate butter and cream not a saturated wall; Finch for celebration that rewards the choice and growth (egg hatching, weekly star, streak framed as days done not loss aversion), which doubles as the safety template for the child insight surface; Duolingo ABC and BitePal for the child insight card shape, one big bubble headline, one squad character, one idea, one gentle dismiss. Skip list recorded too: no saturated colour walls, no loss aversion streak copy, no passcode lock as the timer spine (Parent PIN stays parked), never their fonts. This unblocks slices 1 to 3 of the Quests redesign; no code changed this session, references only. Draft PR opened on claude/mobbin-ux-references-i142dd. No SQL.
+
+## 2026-07-16 — Email funnel status layer, deliverability hygiene, and config knobs (backend batch)
+
+Built the status aware email funnel end to end on Resend and the database, no
+new vendor. lib/email/lifecycle.ts computes a contact's state (lead, trialing,
+trial_ending, active, lapsed) from the fields we already hold. The daily cron
+now branches on state, not just day counts: a trial ending nudge two days
+before a no card trial runs out, a win back a couple of days after a trial
+lapses unpaid (held so it never lands the same day as the day 7 founder
+email), and a lead nurture (migration 063, starter_leads.nurtured_at) that
+sends one come start the trial email to a captured email with no account,
+excluding anyone who already has a profile (the converted flag is never set,
+so profiles is the source of truth). Nurture stops on payment because an
+active member is never in the trial_ending or lapsed state. Deliverability
+hygiene: /api/email/webhook suppresses hard bounces and spam complaints
+(email_opt_out for members, nurtured_at for leads), soft bounces ignored,
+svix verified against RESEND_WEBHOOK_SECRET. Also this batch: the Stripe
+checkout can require a Terms tick (consent_collection) behind
+STRIPE_TOS_CONSENT env because it needs a Terms URL in the Stripe Dashboard
+first; school reminders now reach the child's phone and the parent's inbox
+(strong subject, fix it link) not only the parent PWA, aligned across the
+morning and evening crons to child appropriate kinds only; the screens gate
+(before screens quests locking the timer) is now shown to the parent on the
+Quests page; and STAR_MINUTES became a config value (NEXT_PUBLIC_STAR_MINUTES,
+default 5) so the exchange rate is tunable without code. Config to set when
+ready: run migrations 061, 062, 063; RESEND_WEBHOOK_SECRET plus a Resend
+webhook at /api/email/webhook for bounced and complained; Terms URL in Stripe
+then STRIPE_TOS_CONSENT=on. All on PR 296, clean and mergeable. The per child
+parent set rate and the Quests slice 3 send to child persisted state remain UI
+work for the design session, not built in parallel.
+## 2026-07-16 — Mobbin polish pass: Quests readability, balance bar, and DiGi as one flowing voice
+
+The Quests redesign (slices 1 to 3 and the child insight surface) had already shipped from a parallel session (PR #293) while this session pulled the Mobbin references, so this session did the "before final polish" the plan deferred to when Mobbin reconnected, plus two live design asks from Justin. Five files, references only where noted, all typecheck clean and screenshot verified in a throwaway harness (deleted before commit).
+
+Quests control centre polish, from the live GoHenry and Greenlight screens the blind build could not see. StarSummary tiles now carry a Greenlight style tap affordance: an interactive tile wears a small chevron and a slight raised look, the static "this week" tile stays visibly calmer, so a parent knows at a glance which tiles act. ScreenBalanceInsight gained the Greenlight split visual: DiGi's age aware text now sits above a slim balance bar showing the recommended screen slice (the age guide minutes) against the rest of a full waking day, with a two dot legend (≈75 min screen for 8 to 10, ≈60 for 4 to 7). It is a shape not a hard split, framed to stay a calibrated steer, never a rule (non negotiable 1). New export WAKING_DAY_MINS and guideMins/bandLabel on the insight return.
+
+Quests copy, Justin flagged the bottom text on the preview was too long. Simplified to the best practice scannable form (Good Inside / Greenlight / BitePal, one idea per line): the Share "how it works and why it is safe" wall of text became a three tick list (Nothing to install, no login, no messages · Only your family holds the link · Stars land only when you approve them here); the "do this first", "hand the quests over" and the top intro paragraphs were tightened to one short line each.
+
+DiGi chat flow, Justin's design session. Pulled Mobbin AI-chat references first (Pi and Dot: the guide flows as plain warm text, only the user gets a bubble; noted in design-refs/digi-chat-mobbin-notes.md). Header eyebrow changed "Your AI advisor" to "Your evidence led guide". The thread now reads like DigiWelcomeSheet: DiGi's reply is one soft butter bubble (terracotta-lt) with its separate thoughts set apart by generous spacing, not the old stack of white boxed cards with drop shadows; warmer Nunito, generous line height, on the cream ground. Only the parent's own message keeps the solid butter bubble on the right. Loading dots and the empty state greeting softened to match; the calm "Reflection saved" footer kept. No SQL. On branch claude/mobbin-ux-references-i142dd (restarted off latest main since the references PR #294 had merged).
+
+## 2026-07-16 — Good Inside menus: the Lessons library as a big card collection
+
+Continuing the Good Inside queue (item 3, the big card collection style through the menus). The Lessons browser already had rich thumbnail cards on the Watch and Printables tabs, but the middle Lessons library tab was a plain compact list, the one clear inconsistency. Pulled Mobbin collection grid references first (Headspace Courses and Singles, stoic Library: a two column grid of big cards, a tinted header block, bold title, meta and a short line) and rebuilt the library list to match: a responsive grid of pastel collection cards, each a stage tinted header with the category emoji, a category eyebrow, the title, a two line key message, and a Start / Run again / Preview action, keeping the done (green) and members (locked) states. New categoryEmoji helper (book default, never the film emoji). Screenshot verified in a throwaway harness at mobile width; typecheck clean. The rest of the Good Inside queue was already built by the parallel session and verified this session: the daily deck is already the focus card story flow, and the lesson player is already the Duolingo one slide story style, so no rebuild was needed there. On branch claude/mobbin-ux-references-i142dd (PR #295). No SQL.
+
+## 2026-07-16 — Good Inside menus continued: Scripts library as a big card collection, DiGi naming aligned
+
+Two more in the same pass. The Scripts library, a core menu the Good Inside brief names, was a plain grouped list; rebuilt it to the same big pastel collection card as the Lessons library (a category emoji in a stage tinted header, category eyebrow, title, the situation as a two line clamp, and an Open / Read again / Preview action, keeping the done, locked and recommended match states). New CATEGORY_EMOJI map (quote mark default). Also aligned the in app DiGi naming to the chat header's "evidence led guide": the onboarding eyebrow and the day three toolkit email line. Left the marketing pages and SEO meta as "AI parenting advisor" on purpose (a deliberate search term), and the internal LLM system prompts unchanged. Screenshot verified the scripts grid in a throwaway harness; typecheck clean. Scripts is the last plain list menu; the child app My Lessons was left as is (freshly reworked into sub tabs, high regression risk for low gain). PR #295. No SQL.
+
+## 2026-07-16 — Child reward pop up: bigger, happier art
+
+Small follow up after the Good Inside sweep merged (PR #295). The design brief had named the child reward pop up (HappyNews) as wanting "bigger, happier art than the current pop up." Bumped it toward the Duolingo ABC warmth: the squad character is bigger (64 to 76) with a thicker ring, the headline is bigger (17 to 19), and the confetti burst is fuller (14 to 18 pieces). Still the same transient bottom pop up that springs up, celebrates and tucks away, just warmer. Standalone component, no logic change, typecheck clean. Branch restarted off latest main since PR #295 had merged; new draft PR. No SQL.
+
+## 2026-07-16 — DiGi rename extended to marketing (pre launch, no SEO cost)
+
+Justin confirmed the child app is good as is and the marketing copy is fine to change since nothing has launched, so the "evidence led guide" reframe now runs across the marketing surfaces too, not just the in app ones: the homepage hero eyebrow, the DiGi feature card title, the pricing line, the join and pathway feature lists, the FAQ answer, the OG and page meta descriptions, and the DigiCharacter alt text. The SEO keyword "AI parenting advisor" became "evidence led parenting guide". Left untouched on purpose: the internal DiGi LLM system prompts (lib/digi/system.ts, safety.ts, insights.ts and the two api routes), which describe DiGi's role to the model and are never seen by a user. Typecheck clean. On PR #297. No SQL.
+
+## 2026-07-16 — Child app: light pastel wash background
+
+Justin wanted the child app off the flat dark espresso and onto a faded pastel combination of our colours, child approved. Pulled Mobbin for child colour schemes first (Kit uses a soft pink lavender pastel, Tolan and Calm Kids a dusk gradient; Duolingo ABC actually a warm dark brown close to what we had). Showed Justin three candidates rendered with real content for contrast; he picked the light pastel wash. Rebuilt the child quest screen (app/k/[token]/KidQuestScreen.tsx): background is now linear-gradient(168deg, #FFF3DC 0%, #FDE7F0 46%, #EAE7FB 100%), a warm butter to soft rose to lavender, and every one of the ~47 white on dark spots was flipped to work on light: headings and body to ink, the glass panels (tabs, fold strip, tip card, device and goal bars, ask more, catch up, nav sub tiles) to solid white or cream with a faint ink border, secondary text to ink-soft/ink-muted. White stays only where it belongs, on the red count badges and the deep teal buttons. Verified the quests and lessons tabs in a harness at mobile width, all text readable, cards separating cleanly. On PR #299. No SQL.
+## 2026-07-16 — Rehearsal voice off by default, Stuck for words fixed, DiGi bounce is a click me, daily viewing guide
+
+A run of live red pen from Justin on the parent app, all backend and behaviour
+(the Mobbin design session owns the visual polish).
+
+**DiGi voice is off by default everywhere, opt in only.** The Rehearse with
+DiGi child voice defaulted on (browser speech), so it spoke unasked and felt
+inconsistent with the click to play Skye voice on scripts. Now voiceOn starts
+false; the button reads Add voice when off and Voice on when on, and turning it
+on reads the child's latest line straight away so the parent hears what they
+switched on. Script reader stays click to play, DiGi chat has no audio, so
+nothing on the platform speaks until asked. Deeper unify of the rehearsal
+browser voice to the generated Skye voice is a later job (dynamic lines cannot
+be pre rendered), noted not done.
+
+**Stuck for words now works and is evidence led.** The suggest button called the
+model directly with no fallback ladder and swallowed any 404 into an empty list,
+so on a bad primary model it silently did nothing. Now it runs the full model
+fallback ladder, parses the JSON array or falls back to line parsing, and on a
+real empty returns a friendly note the card shows instead of a dead button. The
+prompt is rewritten to ground the three lines in the child mental health
+evidence (name and validate the feeling first, connection before correction, a
+limit with empathy, an element of choice, never a flat no or a lecture). Tapping
+a line drops it into the box, then Say it sends it to DiGi.
+
+**Home daily path DiGi is a click me when work remains.** Justin's steer: a
+constant bounce is right only when there is still something to do that day, and
+then it should invite a tap and take them to it. DiGiCharacter gained a once
+prop (one bounce then settle, repeat 0 not -1); TodayPathStrip loops DiGi only
+while a step is outstanding (pressure) and now wraps the bouncing DiGi in a Link
+to the next task with a 👆 Click me, do this next bubble; when the day is done it
+bounces once, celebrates and stops being a button. DigiStreakWidget bounces once
+when the streak is alive today, loops only when it needs keeping warm.
+
+**Quests front door buttons land somewhere.** Set tasks, Screen time and Share
+app read as broken because Set tasks was a no op when already on the manage tab
+and Share switched a tab far below the fold. Now Set tasks scrolls to the quest
+list, Screen time to the screen time card, Share to the tabs (new quest-tabs
+anchor), each landing visibly.
+
+**Push test is honest about where it landed.** The school Send a test said it
+should reach your phone even when the only subscription was the laptop. It now
+names the devices it actually reached (platforms) and, when no Apple push
+endpoint is subscribed, spells out turning notifications on on the phone itself
+(and adding to the home screen first on iPhone).
+
+**Recommended daily viewing, built into the timer (plan: daily-guide-plan.md).**
+Age banded soft guide (from screen-balance BAND), read against minutes logged
+today. New lib/quests/daily-guide.ts (pure state: recommended, used, remaining,
+status under/reached/over) and lib/quests/usage.ts (getMinutesUsedToday, sums
+today's device_sessions plus manual star_spends not tied to a session, so the
+phone timer and the no phone co view mark both count once). Surfaced: the parent
+screen time card shows used vs recommended per child with a treat note when a
+grant would go over; the child timer shows a today's screen time bar and a calm
+you have had your screen time today pause at the guide, still letting them ask a
+grown up for a treat. Never a hard block: the parent holds the real control.
+/api/quests/time/active and the child page carry usedToday plus recommended. No
+migration. All on branch claude/continue-build-ldot8v.
+
+## 2026-07-16 — Shared notes and scripts land on the child's own app, not SMS (migration 064)
+
+Justin: a note or script we share should appear on the child's phone (their own
+app) and be stored to read again, not fired out over SMS, and this delivery
+should apply to anything we share to a child; the read together option stays
+only for the no phone ages. Built as a reusable system.
+
+- Migration 064 child_shares (id, user_id, child_id, kind note|script, title,
+  body, ref, created_at, read_at), RLS owner only, idempotent, flat.
+- /api/child-share: POST (parent auth) stores the share and best effort pings
+  the child's device deep linked to their own page, returns hasApp; PATCH marks
+  a share read from the child's link (token is the auth, scoped to that child).
+- The child's app shows a From your grown up card at the top of their page
+  (NotesFromGrownUp): the note in warm italic, a Got it thank you button that
+  marks it read on the server and folds it away, but it stays in their history.
+  The kid page loads the last twelve shares; a missing table degrades to empty,
+  never breaks the page.
+- The script note card (ScriptDepth) now leads with Send to their app for a
+  child who has their link set up (no phone number needed), the note landing in
+  their app and pinging their phone. SMS drops to Text it instead. For the young
+  ages (foundation, builder) the read together option (bedtime, lunchbox) leads
+  and there is no app send. Copy stays throughout. The script page passes the
+  child id and whether a kid link exists.
+
+The same POST /api/child-share is the reusable path for sharing anything else to
+a child's app later. Owner action: run migration 064.
+
+Voice consistency (item 2): the critical part shipped earlier (voice off by
+default, consistent opt in across the platform). True unification of the live
+rehearsal voice to the recorded Skye voice is not buildable in app, the Skye
+voice is pre generated audio files and dynamic rehearsal lines would need a live
+text to speech service (a provider, key and cost decision for Justin). Flagged,
+not faked.
+
+## 2026-07-16 — Something else is not a tracked concern, share nudge opens a real printable
+
+Two red pen fixes from Justin.
+
+**Something else is a picker, not a rateable moment.** The daily concern check
+in (Still on the list) was showing a Something else row with Better/Same/Still
+hard, because the generic catch all was being written to the concerns ledger and
+counted (Come up 4 times). Only the specific moment a parent lands on should be
+tracked. Fixed at the source and the surface: the moment tagger and the Right
+Now rescue no longer log the generic slug (something-else, something_else,
+other) as a concern, and the daily check in filters those slugs and a Something
+else label out defensively so any old row never shows. The typed Something else
+(custom rescue) still logs, because there the label is the parent's real words,
+a genuine specific moment.
+
+**The share a printable nudge now opens a real printable.** DiGi's proactive
+share nudge deep linked to /dashboard/lessons, so tapping the notification
+landed on a hub, not an actual printable. It now points at /dashboard/printables
+(a real page of ready to print sheets, which does exist, the PRINTABLES
+registry), and the prompt copy names Printables to match. New prompts carry the
+new href; old pending ones age out.
+
+## 2026-07-16 — Weekly review shows what DiGi is doing, notifications clear on tap
+
+Two more from Justin.
+
+**Your week with DiGi tells you what it is doing while it reads.** The preview
+button sat on Reading for a while with no sign of life. Now, while DiGi builds
+the review, the card runs a warm little narrative in DiGi's voice (Just reading
+all our chats from this week... Got them, pulling out what actually mattered...
+Here you go, shaping the plan for next week...), DiGi shifts to a thinking mood,
+so the wait reads as DiGi working, not a stuck button.
+
+**A DiGi notification clears when you open it.** The notifications feed is
+derived live, so a DiGi nudge kept showing in the bell even after the parent
+tapped it. NotificationCard (new client card) marks a DiGi prompt acted on tap
+(keepalive fetch, so it lands through the navigation), and the feed only shows
+pending, so it is gone from the count next look. The action notifications
+(approve, a child's ask, school) still clear only when the parent actually does
+the thing on the target page, so a stray tap never loses one.
+
+## 2026-07-16 — Two transient messages now ease away instead of lingering
+
+Justin: nothing that has said its piece should sit on screen forever.
+
+- The Mid meltdown coach mark on the Help now button now eases itself away after
+  two minutes (and counts as seen so it does not pop again), rather than waiting
+  for the parent to close it. The X still dismisses it early.
+- The Reflection saved, DiGi will use this tomorrow line in the DiGi chat now
+  shows for about four seconds after a reflection saves, then fades, via a
+  separate reflectionToast state so reflectionDone stays true and the prompt
+  never resurfaces.
+
+## 2026-07-16 — Weekly school routines: clear for today, keep the reminder (migration 065)
+
+Justin: clearing a weekly reminder (PE kit) should clear it for today only, not
+delete the routine, with a delete for when they really want it gone. Two things
+were wrong: a recurring routine showed in the notifications bell every single
+day (not only its weekday), and the only clear on it was Remove, which deleted
+the whole routine.
+
+- Migration 065 adds school_actions.cleared_on (date). Clearing a routine for
+  today stamps cleared_on = today (server side); the row stays open and comes
+  back next week.
+- /api/school/actions PATCH takes clear_today: true and stamps cleared_on;
+  done / dismissed still end a one off or delete a routine.
+- The notifications feed (collect.ts) now shows a recurring routine only on its
+  own weekday, and holds it back once cleared for today, so it never nags daily.
+- The school card shows Clear for today on a routine on its day (it stays in the
+  Every week list, marked Cleared for today), and Remove became Delete for
+  ending it for good.
+- The child's From school banner also respects cleared_on, so a cleared routine
+  steps back from the child's screen too. The Home Screen app badge already
+  ignored recurring routines, so no change there.
+
+## 2026-07-16 — Screen balance insight is now real, moving data
+
+Justin: the balance bar was a fixed age guide (always about 75 min for 8 to 10),
+he wanted real data, a level that moves with the minutes used and the tasks
+done, and bigger and bolder.
+
+Rebuilt ScreenBalanceInsight into a live balance level. The two sides are the
+star economy's own exchange rate made visible: screen minutes actually USED
+today (from getMinutesUsedToday, now returned per child by /api/quests as
+usage) against real world minutes EARNED today (stars approved today times
+STAR_MINUTES). The needle sits where the balance tips: green and calm when real
+life is ahead, tipping to screen with a nudge when screen leads, a calm midpoint
+when the day is empty. Bigger heading, a bold 22px bar with a moving needle, and
+the two figures called out. The age guide stays as a small mono context line.
+QuestManager passes usedTodayMinutes and earnedTodayStars (today's approved
+ticks). No migration.
+
+## 2026-07-16 — Bell updates on clear, school reminders clear in place and mirror to the child
+
+Justin, on the notifications bell and the school reminder card.
+
+**The bell re-counts the moment something clears.** NotificationsBell only
+fetched once on mount, so the red number sat stale after clearing. It now
+re-fetches on a gc:notifs-changed window event, on focus, and when the tab
+comes back into view. Every clear dispatches that event, so the count drops at
+once.
+
+**A school reminder clears in place, acknowledged not deleted.** The
+notification card no longer just links to the school page. A weekly routine
+(PE kit) shows Clear for this week, which acknowledges it (cleared_on = today,
+kept for next week); a one off shows Got it, clear (done for good). The card
+folds away and the bell updates, with a quiet Open school link for full manage.
+collect.ts carries a recurring flag so the card knows which. DiGi cards also
+fire the event as they mark themselves acted.
+
+**The routine mirrors to the child's app by default.** A child appropriate
+weekly routine (kit, event, homework) now shows on the child's From school
+banner on its day without the grown up needing to tick anything, and steps back
+once cleared for the week; parent only kinds (a payment) never reach the child.
+
+All on branch claude/continue-build-ldot8v (PR 300). No migration (uses the
+064/065 columns already there).
+
+## 2026-07-16 — Child quests: live approval, clear waiting state, done falls off
+
+Justin, on the child app: when a child ticks a quest it is out of their hands
+(waiting on the grown up), the yes should land live, be obvious, and the quest
+should fall off the list once done, so the flow makes sense.
+
+- New GET /api/quests/tick?token= returns today's tick status per quest (token
+  is the auth). The kid screen polls it every 12s and the moment the tab comes
+  back, so a Waiting quest flips to Done without a refresh, and a squad friend
+  springs up (Your grown up said yes! plus the minutes earned) the first time
+  an approval lands.
+- The list is now three clear groups: what is still theirs to do, then Waiting
+  for your grown up (a dashed terracotta card, an hourglass, With your grown up
+  now, nothing to do, so it plainly reads as out of their hands, not done), then
+  a folded N done today. The to do count is untouched quests only, so waiting
+  never reads as still to do, and an approved quest drops straight into the
+  folded done group.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The approve loop is live both ways
+
+Closing the loop started with the child live approval. The parent side updated
+only on reload, so a child ticking a quest did not show until refresh.
+
+- The Home quest board (QuestBoard) now polls every 15s and refetches on focus
+  and when the tab is looked at again, so a fresh pending tick appears without a
+  reload.
+- The Waiting on you banner does the same, in sync with the bell via the
+  gc:notifs-changed event, so the red count and the plain English summary stay
+  live.
+- Approving on the board fires gc:notifs-changed, so the bell and banner drop at
+  once, and the child's own app hears the yes on its next poll (the loop from the
+  earlier child live approval work).
+
+Whole flow now: child ticks, parent sees it live and approves, child sees the
+yes live, and it falls off both lists. On PR 303. No migration.
+
+## 2026-07-16 — The child My week chart, made obvious
+
+Justin could not read the old My week chart (variable height pills with floating
+numbers read as noise, not progress). Researched the kid reward loops we lean on
+(Finch, Duolingo streaks, GoHenry): the pattern that lands with children is a
+show up streak, not a bar chart.
+
+- KidWeekChart is now a week strip: one circle per day, filled gold with a star
+  for a day they earned something, an empty dashed circle for a quiet day, today
+  ringed. A plain headline frames how many days they showed up (A fresh week let
+  us go, Great going N days this week, Amazing N days this week). The green line
+  stays: stars earned equals minutes of screen time, so the reason to show up is
+  right there. Reads at a glance for a young child, no numbers to decode.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — Agreed quests drop off the parent board
+
+Justin's board expanded a child and showed every quest done today as a growing
+pile of Done rows, so what was still to do got lost.
+
+- The expanded child list now leads with only what is still to do, big and
+  tappable. The agreed (done) quests fold into a quiet dashed N done today line
+  a parent can open if they want the detail, so the list never grows into a wall
+  of Done. When nothing is left, a single All done for today line shows instead.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — Stuck for words is fixed and expert grounded
+
+The rehearsal Show me options button kept dying with DiGi could not think of
+options just now. Root cause: suggest passed the rehearsal messages straight
+through, so the conversation ended on the child's line and the model carried on
+IN THE CHILD'S VOICE instead of coaching, then parsed to nothing.
+
+- Suggest now builds its own single coach turn: the recent exchange folded into
+  context, then a plain ask for three lines as JSON. It never ends on the child.
+- The prompt is grounded explicitly in the expert playbook we stand on: Dr Becky
+  Kennedy (connection before correction, two things are true), Sue Atkins (the
+  calm confident boundary), emotion coaching (name the feeling first), and a real
+  element of choice. So the pre filled lines are strategic, not generic.
+- The button can never die again: if every model fails, it returns three expert
+  grounded lines built from the script itself (validate the feeling, the script's
+  own say this line, offer a way forward together). A noDashes pass keeps every
+  suggested line dash free.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The Friday round up, made clear and expert grounded
+
+Justin: the weekly page is the first thing a parent sees, so it has to be clear
+and premium, and it should relay the expert guidance we stand on, week by week,
+tidy and easy to follow. Rebuilt the weekly review card around four things:
+
+- A balance score front and centre. A real 0 to 100 read of the week's screen
+  minutes against the evidence based healthy guide for the children's ages
+  (recommended daily minutes times seven), softened when screen was earned back
+  through real quests. Big number, a moving level, and one honest line.
+- This week's wins, gathered from the family's own numbers: stars earned and the
+  minutes they bought, the quest they leaned into, days shown up, calm moments
+  handled. Best first, top three.
+- One line of guidance from the experts, chosen by this week's shape and
+  attributed (Dr Becky Kennedy, Sue Atkins, emotion coaching). This is how the
+  science gets relayed into the update every week.
+- Worth a glance, where each item now links to the thing it is about (Quests for
+  a screen tip back, School for open reminders, Check in for a flagged watch for).
+
+New pure helpers weekBalance and expertWeekTip live in lib/quests/screen-balance
+(client safe). gatherWeek now also reads age bands and calm moments handled. No
+migration, the review stats JSON already carries it.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The Sunday wellbeing check in, and DiGi's agreed weekly plan
+
+Justin wants DiGi to proactively check in on a Sunday: ask how the PARENT is,
+what went well, what was hardest, and what they want next week to feel like, then
+hand back a plan grounded in the experts and the family's data, so DiGi keeps
+advising week by week. Built as a stepped card (his pick), with the agreed plan
+living on Home all week (his pick).
+
+The five questions, the intelligence we need to direct a plan:
+1. How are YOU this week (1 to 5). The mission made real, the parent's own wellbeing.
+2. What went well (quick chips). Gathers the week's successes.
+3. What felt hardest (concern chips, mapped to the ledger so DiGi carries it on).
+4. What do you want next week to feel like (calmer mornings, less screen battle,
+   more connection, better sleep, feeling calmer myself). The direction.
+5. DiGi's plan: one to three small evidence based steps tied to the answers,
+   attributed to the experts (Dr Becky Kennedy, Sue Atkins, emotion coaching).
+   The parent taps Agree.
+
+Once agreed the plan sits on Home as a This week with DiGi strip all week, right
+above the Friday round up, closing the loop. Reuses wellbeing_checkins (parent
+mood plus the concern ledger already wired to it); migration 066 adds week_start,
+went_well, focus, plan, plan_agreed and a unique index for the weekly upsert.
+generateWeeklyPlan runs the DIGI_MODEL fallback ladder with a deterministic,
+attributable fallback so the plan is never empty and never carries a dash.
+
+Files: supabase/migrations/066_weekly_checkin_plan.sql, lib/digi/weekly-plan.ts,
+app/api/wellbeing/weekly/route.ts, components/digi/SundayCheckIn.tsx, mounted on
+dashboard Home above the round up. On PR 303 (continue-build-ldot8v). MIGRATION 066.
+
+## 2026-07-16 — Home popups no longer stack on load
+
+Three popups (the DiGi welcome sheet, the setup unlock toast, the Now coach mark)
+all fired the second Home loaded, landing on top of each other. Justin wanted a
+clean login, then a quick gentle alert about a minute in, not a pile.
+
+- New tiny shared lock, lib/ui/popupQueue: a session scoped flag so only one
+  popup is ever up, plus staggered base delays (welcome 60s, toast 63s, coach
+  66s). whenClear waits out the delay then holds until nothing else is up.
+- The welcome sheet now greets about a minute after login (still once a day), and
+  takes the lock while open. The toast and the coach mark wait behind it and show
+  one at a time once it is dismissed. All three release the lock on close.
+- Frequency is unchanged and gentle: welcome once a day, toast once per unlock,
+  coach mark once ever with its two minute auto dismiss.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — The child's balance strip on their own app
+
+Justin: the child's top bar should show family help against screen watched, on
+track or not, the same balance logic as the parent, highlight the week's jobs,
+and give a productive way to ask a grown up for more. And better colours than the
+wall of gold.
+
+- New KidBalanceStrip sits under the star bank: a two sided level, green for the
+  real life jobs they earned today (stars times minutes) against gold for the
+  screen watched today, with a needle and an On track / Screen is ahead pill.
+- A week highlight chip in sage: N stars earned from jobs this week, minutes
+  watched beside it.
+- Be productive, always a door open: a teal Ask for a new job button that rides
+  the existing askForMore ping to the parent. It shouts a little louder (Do a job
+  to balance it) when screen has pulled ahead, and turns to Asked once sent.
+- Colour: green (real life), gold (screen), teal (the action), sage (the win),
+  so the child's screen is no longer one flat block of gold.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-16 — Colour pass on the child app top section
+
+The child's top was a wall of gold, led by a solid gold star bank block. Reworked
+it into one cohesive set of premium cards on the pink background.
+
+- Star bank is now a white card with a gold star medallion and a gold left accent,
+  not a flat gold fill. The number and minutes read in ink, the earned this week
+  line picks up teal, and the streak sits in its own warm flame chip.
+- With the balance strip below it (green real life, gold screen, teal action, sage
+  win) the top column now carries gold, green, teal and sage instead of one note
+  of gold, and the single bold gold CTA (the to do signpost) stands out again.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-17 — Sunday check in is Sunday only, child app tidy ups
+
+- The Sunday check in now only appears proactively on a Sunday. The rest of the
+  week it stays quiet (the agreed plan still shows all week once set), so Home is
+  never cluttered with a card there is nothing to do with yet.
+- Child app: a redeemed reward can be ticked off (Got it, tick it off) and drops
+  away, remembered on their device, so a finished goal never lingers.
+- Child app: a new Our family deal popup, a quiet link the child can open any
+  time to keep an eye on the deal (jobs earn stars, stars buy screen time, a good
+  amount a day, and what they are saving for). The kid app is token based and does
+  not load the parent's signed agreement, so this is the deal in the child's own
+  words, self contained.
+
+On PR 303 (continue-build-ldot8v). No migration.
+
+## 2026-07-17 — Launch build 1: the readiness passport made visible (Rec 1)
+
+The daily loop barely referenced the whole point (ready at 16, no cliff edge).
+New lib/content/readiness.ts holds the passport stamps, one named competence per
+stage (Steady stops, Healthy habits, How it works, Real footprint, Ready), each
+with what it builds toward, plus the measured science (Candice Odgers, Amy Orben,
+Cambridge, the digital passport idea): balance and competence over a countdown,
+deliberately not the moral panic line, Haidt left out per Justin.
+
+- Pathway page now shows the current stage's stamp (what it builds and toward
+  what) and a Why this works science card.
+- The Friday round up ties the week back to the pathway: this stamp, one step
+  nearer ready at 16, linking to the pathway.
+
+Marketing page is the mobbin session's lane, so its version of this narrative is
+handed off below, not built here. On PR 303. No migration.
+
+## 2026-07-17 — Launch build 2: the smartphone contradiction, answered (Rec 2)
+
+The fair charge is that a screen reduction brand shipped an app for a young
+child's phone. Answered in the product, not just in words, and in line with the
+never police rule.
+
+- Under 11 (Foundation and Builder, 4 to 10) now defaults to co-view: parent led,
+  done together on the parent's device, no child device. Was 4 to 7 only.
+- Own device stays a free opt in. The setup copy leads with co-view as the
+  evidence aligned recommendation, and frames own device as the parent's call for
+  an older child who already has one. We point the way, we do not police.
+- OUR_STANCE added to lib/content/readiness and shown as a card on the pathway:
+  we do not put phones in children's hands, and the choice is always yours.
+- Real life as the counterweight already ships as the child balance strip; the
+  stance and the co-view default push the framing further toward earned and
+  balanced rather than a screen wallet.
+
+On PR 303. No migration.
+
+## 2026-07-17 — Launch build 3: marketing narrative handed to the mobbin session
+
+The marketing page is the mobbin session's lane, so rather than build it here (two
+sessions on one page is the duplication trap), the launch narrative is written up
+in plans/marketing-brief-launch.md for that session to apply: one hero promise
+(get them ready for the phone, no cliff edge), how we do it (the passport steps),
+the measured science (Odgers, Orben, reuse WHY_IT_WORKS), and the stance (reuse
+OUR_STANCE). All three content blocks live in lib/content/readiness.ts so the site
+and the app never drift.
+
+On PR 303. No migration.
+
+## 2026-07-17 — Child picks their buddy and colour (option 3, not gender)
+
+Instead of asking a child's gender (more data than we need, and stereotyping),
+the child personalises their own app. Migration 067 adds children.buddy and
+children.accent. A Make it mine sheet on the child app lets them pick a DiGi
+squad buddy (DiGi, Oliver, Sofia, Zara) and an accent colour (sunshine, grass,
+ocean, coral, berry). Their buddy greets them in the tip card, the accent takes
+the star bank and the buddy ring, saved to their record via a token authed
+endpoint. No gender collected anywhere. MIGRATION 067.
+
+## 2026-07-17 — Tailor by concern (option 2) and school email coming soon
+
+- Option 2: the pathway now tailors the current stage by the concern the family
+  actually flagged, not by the child's sex. The top open concern maps to the
+  stage's own action for it (For your family right now), so a parent worried about
+  gaming and one worried about comparison get different guidance. The honest,
+  precise version of a boy and girl pathway, with no gender data.
+- School email forwarding is marked coming soon for launch (complex, to go live
+  with the Apple app wrap). The whole SchoolSetup email flow is replaced by a
+  coming soon card. The manual weekly routines (SchoolActionsCard) stay live and
+  do the everyday job. Nothing was deleted, only hidden behind coming soon.
+
+On PR 303. No migration.
+
+## 2026-07-17 — DiGi welcome carries an occasional named social insight
+
+After the first few greetings, and only now and then (every third, rotating
+children), the DiGi welcome sheet adds one age relevant social media insight
+named to a child, grounded in Candace Odgers (what the data shows) and Catherine
+Knibbs (the psychology, the trusted adult). New lib/content/social-insights.ts,
+age banded, calm, never alarmist. The welcome sheet now takes children with age
+bands so it can name and age target. This keeps a gentle check on social media
+running through the platform, including 16 plus (the platform keeps supporting,
+does not stop at 16). On PR 303. No migration.
+
+## 2026-07-17 — Multi child: honest state (audit)
+Quests, stars and the pathway map handle several children. But most coaching and
+content surfaces (DiGi chat, daily practice, scripts, right now rescue, tracker,
+wellbeing, agreement, lessons, printables, Home) are anchored to the PRIMARY
+child via is_primary. So a family with more than one child gets per child quests
+and pathway, but one shared coaching context on the primary child. Full per child
+coaching everywhere is a real post launch workstream, not a launch week fix.
+
+## 2026-07-17 — Consolidation pass: fewer cards, calmer surfaces
+
+Answering the honest read that the app had grown busy. Removing and folding, not
+adding. Multi child functionality (per child quests, stars, links, pathway) left
+intact; only coaching stays primary child as agreed.
+
+- Pathway: the two big cards added this session (the science and the stance) are
+  folded into one PathwayEvidence card, collapsed by default, one tap to read. The
+  pathway is a next step again, not a research brochure.
+- Child app: the star bank and the balance strip are merged into one block (stars
+  and streak on top, the balance meter, week jobs and earn more below), so the top
+  of the child app is one calm card, not two.
+- Parent Home: already hero led (Today's Path plus a tidy tile grid), so no risky
+  reorg. The weekly review preview offer now only shows from Thursday on, so it is
+  not one more card every day.
+
+On PR 303. No migration.
+
+## 2026-07-17 — Next build lined up: stage the reveal (onboarding)
+
+The remaining lever on "too much" inside the product. Full spec in
+plans/onboarding-reveal-plan.md: a soft reveal (never a hard lock) where a new
+account meets a one loop Home first, and DiGi introduces the rest one calm card at
+a time over the first fortnight, plus a lighter first run setup. Migration free
+for v1 (account age plus localStorage). Ready to run on Justin's word; not started.
+
+## 2026-07-17 — Built: stage the reveal (onboarding calm start)
+
+A soft reveal, never a hard lock, driven by account age so no migration. A new
+parent meets a one loop Home; the rest opens over the first fortnight.
+
+- lib/onboarding/reveal.ts: the schedule (moments day 3, lessons day 6, pathway
+  day 9, wellbeing day 12), keyed by days since signup. Established accounts (and
+  any unknown age) reveal everything, so nothing regresses.
+- components/onboarding/RevealCard.tsx: a DiGi New card announcing the newest
+  unlocked feature once, seen tracked in localStorage.
+- Home now gates by reveal: the Sunday check in and weekly round up wait for day
+  12, the Keep going tiles start with just Ask DiGi and Set up and fill in as
+  features unlock, and DiGi prompts, smart alerts and readiness wait for day 3.
+- Everything stays reachable in the tab bar throughout; the reveal only controls
+  what Home promotes.
+
+On PR 303. No migration.
+
+## 2026-07-17 — Child screen simplified, icon led (Greenlight style)
+
+Justin: the child screen was way too messy, an adult analytics dashboard, not a
+kid's app. Stripped it right back, using Greenlight as the reference.
+
+- Removed the analytical balance strip from the child home entirely (the real
+  life vs screen meter, the on track pill, the two sided labels, the week stats
+  line, the dark ask button, and the dead KidBalanceStrip component). The balance
+  stays a PARENT tool, where it belongs, not something a young child reads.
+- The star card is now just the stars, the minutes, and the streak.
+- The whole child path is now four clean icon tiles, Greenlight style: a white
+  card, a rounded colour icon square, a bold title, one short line. My jobs, Use
+  my time, New job (asks a grown up), Our deal. Big, few words, obvious to tap.
+- Our family deal moves from a text link into one of the tiles.
+
+On PR 303. No migration.
+
+## 2026-07-17 — Insights board hardened, plus a product pulse
+
+The founder insights board looked broken pre launch because it only mined DiGi
+chats, and there are none yet. Two fixes.
+
+- Product pulse: a new founder only aggregate read across all families
+  (/api/admin/product-pulse), loaded on open, de-identified counts and sums only.
+  Families and children, active this week, quests set and done, screen minutes,
+  check ins and average parent mood, plus a stage breakdown. So the board is
+  useful from day one, and it is the general data gathering for deciding what to
+  build and watching product health week to week.
+- Empty states: the DiGi insight run now says plainly when there are no
+  conversations in the window yet, and the pulse says when there are no families
+  yet, so nothing reads as broken before launch.
+
+Founder only throughout (gated on FOUNDER_NOTIFY_EMAIL). On a new PR off main.
+No migration.
+
+## 2026-07-17 — Red pen pass, then device time, positive screen time and the wisdom pop
+
+A run of mobile review fixes and three agreed builds. All on branch
+claude/continue-build-ldot8v, PR 317. No migrations.
+
+Red pen fixes:
+- The home daily strip now counts the day done by minutes actually invested
+  (a real weight per step), not two quick taps, so the "your X minutes" claim
+  is true. The road to 16 stops ticking earlier stages by age; they read as
+  catch up foundations with a line that nothing is done because of age.
+- The Together share choice flips instantly and surfaces the co view launch,
+  no dead reload. School reminders now prompt the day before on the child's
+  own screen (a calm get it ready tonight heads up) and show a Tomorrow tag on
+  parent routines, matching the night before push.
+- Notifications made actionable: clearing a school item now tells the bell to
+  recount at once; the child's things to do pop is a doorway (Show me jumps to
+  the to-do, and the DiGi line stays tappable every open); and the child
+  printable ask that reached notifications but could not be opened is fixed
+  (the locked family wording "Please can I do the X printable" now resolves to
+  the real sheet and print link, same as "Print the X sheet").
+
+Agreed builds:
+- Screen time is never a debt. Justin floated a negative balance; we chose the
+  positive version instead. With no stars, the Use my time tile is a warm
+  doorway to earning (do a job, then swap for time), never a minus number or a
+  dead lock. Keeps the calibrated, never punish spirit and the earn loop.
+- Device timer parent signal: start already pushes the parent and shows a live
+  shared countdown; the end of timer push already existed. Added the daily
+  allowance signal: when a session ends and the child has reached the healthy
+  daily amount for their age, the parent push says so calmly (their stars keep
+  earning for tomorrow), distinct from a plain timer up.
+- The wisdom pop (child): on a quiet open, a squad friend brings one age
+  relevant idea about screens and wellbeing from the child science bank
+  (lib/content/child-insights.ts, traceable to Odgers, Orben, displacement
+  science), and sometimes points at a fun sheet. A treat every few days, never
+  every day. Parent wellbeing is already research grounded through the DiGi
+  welcome (social insights, Odgers and Knibbs) and the parent_care nudges
+  (expert_knowledge normal_moments), so the wellbeing tips run on both sides.
+
+## 2026-07-17 — Lessons reachable on mobile: a DiGi lesson nudge
+
+On a phone the bottom bar has five fixed slots (Home, Scripts, DiGi, Quests,
+Progress) and the old scrolling top strip was removed, so Lessons had no nav
+tab at all, only the Home Keep going tile once lessons are revealed. Rather
+than crowd the bar, DiGi brings the lesson to the parent.
+
+- New DigiLessonNudge card on Home: one age relevant watch together film the
+  child has not seen yet, offered with the same two real choices as the hub,
+  Watch together here (co view) or Send to their phone (the ping). Dismissible
+  for the day so it is an offer, not a nag. Reuses the existing LessonSendButton
+  and the together co view route, no new endpoints.
+- Picks the closest unseen film at or below the child's stage, earliest step
+  first. Only shows once the lessons reveal has opened for the account.
+- The existing Home Lessons tile stays as the always there path. No change to
+  the five slot mobile bar. No migration.
+
+## 2026-07-17 — A benefit email for each service (the service drip)
+
+The onboarding emails sold the platform in general (welcome, stage, tour, DiGi,
+founder) but no single email sold each service's benefit and drove its setup.
+Added a gated service drip in the daily email cron.
+
+- New benefit emails, one per service, Justin's voice, no dashes: the child's
+  own app (day 9), earned screen time via quests (day 11), watch together
+  lessons (day 13), school reminders (day 15), the family agreement (day 17).
+- Each is GATED: it only sends when that service is not set up yet (no kid
+  link, no active quest, no lesson completion, no school connection or action,
+  no agreement), so a parent who has set it up is never nagged, and the setup
+  signal is only queried once the day and the email_log both allow it.
+- Idempotent through email_log like the rest, keys svc-childphone,
+  svc-screentime, svc-lessons, svc-school, svc-agreement. No migration.
+- Device time rides inside the screen time email; printables and the wellbeing
+  tracker are the remaining services without a dedicated email (they have no
+  clean setup gate), easy to add if wanted.
+
+## 2026-07-18 — DiGi knowledge bank: directory, and a self growing research updater with a human gate
+
+Justin wanted the evidence bank visible, and a way for it to grow itself from the
+latest research in line with our thinking, without ever losing credibility.
+
+- Directory: a founder only view on the insights board of every researcher,
+  expert and body in expert_knowledge, grouped by source with topics, age bands,
+  a sample finding and a link. The bank already holds Odgers, Orben, Przybylski,
+  Livingstone, Knibbs, Dr Becky, Damour, NHS, NSPCC, NICE, UKCIS, Internet
+  Matters, Anna Freud, Cambridge and more.
+- The research updater (cron/knowledge-refresh, 1st and 15th of the month): reads
+  what parents have asked (digi_questions), drafts up to six candidate findings
+  from real, credible sources that fit the educate not ban pathway, tries web
+  search then falls back to model knowledge, and drops them into a review queue
+  (expert_knowledge_candidates, migration 068) as PENDING. It emails the founder
+  when new candidates land.
+- The human gate: nothing reaches the live bank until the founder clicks OK on
+  the insights board (promotes into expert_knowledge) or rejects. This is the
+  guardrail against a fabricated finding ever entering under a real name. Never
+  auto publish.
+
+## 2026-07-18 — Make it mine recolours the whole child screen
+
+The child app background is no longer a fixed pink/purple gradient (which also
+broke the no purple gradients rule). Make it mine now sets the whole background,
+not just the ring, from a colour bar with a live preview. Default is a premium
+dark anthracite (graphite). Themes: graphite, ocean, grass, sunshine, coral,
+berry, each with its own on background ink so text stays readable. The shared
+--kid-bg default (lesson, adventure, game screens) is now the anthracite too.
+Saved via the existing children.accent field, no migration.
+
+## 2026-07-18 — Child app celebrates balance, not screen time
+
+The child home no longer leads with screen time. The star bank, today usage and
+use my device time are one balance card whose hero line is the healthy balance
+of jobs done against screen used, plus the job streak. We never push device use;
+we celebrate balance and gently nudge jobs when screen runs ahead. Full vision
+(Duolingo nudges, monthly offline pushes to lessons/printables/connection, a
+balance reward score, the science) is in plans/balance-first-child.md, to build
+next on Justin go.
+
+## 2026-07-18 — Parent set daily screen time limit
+
+children.daily_limit_minutes (migration 069, nullable). Null uses the age based
+recommendation. Parent sets it in the quest manager (per child), where the age
+recommendation is always shown so they do not set it higher by accident. The
+child app shows used against this number (X of limit) and the device time picker
+never offers past what is left of it today, so a day never runs beyond the cap
+even when stars have banked up. Bank total (minutes ready) is separate from what
+is usable today.
+
+## 18 July 2026 — first pass on the two Mobbin lane items (hand to Mobbin to finish design)
+
+Countdown to offline fun: the child device timer's last ten seconds are now a
+happy countdown, not an alarm. A soft rising blip each second, a warm spoken
+line at ten ("Ten seconds. Time to find some offline fun."), and a gentle spoken
+three, two, one, all via Web Audio and Web Speech so there are no asset files.
+The number turns terracotta, a party emoji bounces, and a friendly line comes
+up. Time's up copy reframed to "Time for offline fun!". Handed to Mobbin to
+settle the exact voice, wording and motion.
+
+Make it mine, mix your own colour: the colour bar keeps the six named pastels
+and adds a hue slider under them. Any hue becomes a soft wash the same gentle
+way as the set ones (light background, dark ink, deeper accent). Stored as
+h<hue> (0 to 360), validated bounded in /api/kid/buddy so it is never arbitrary
+data. resolveTheme in KidQuestScreen turns a named id or an h<hue> into the full
+theme. Handed to Mobbin to finish the visual of the slider itself.
+
+## 18 July 2026 — comprehensive moments library by age (migration 073)
+
+Added 26 moments to the daily_moments library, by canonical age band (4-7, 8-10,
+11-13, 13-15, 16+) and across all seven categories, to sit alongside the existing
+set. Grounded in mainstream child development and child mental health practice and
+in the spirit of Dr Becky Kennedy (connection before correction, good inside), Sue
+Atkins (calm routines, warm authority) and Catherine Knibbs (the online world
+through a nervous system and safety lens). No allow or deny: every opener leads to
+a calibrated pathway. No dashes in any copy. Uses the canonical age vocabulary so
+it matches children.age_band directly, and the range overlap matcher covers the
+older 8-11 style seed too. Icons are emoji placeholders: the Higgsfield
+illustrations, in the Happy News style, are the Mobbin lane, briefed separately.
+Idempotent insert, guarded by title.
+
+## 20 July 2026 — the narrowed daily flow ships on the real home (PR 397)
+
+Justin approved the ref-daily-flow sample, so the real parent home now has
+one shape every day: DiGi greets in one sentence (road position plus today's
+minutes), the streak chip sits right, THE one card names the one next step
+(same getTodayLoop engine, the minute weights and minutes line copy moved to
+lib/pathway/today-loop-copy.ts so server and client count the day the same
+way), and everything else folds to slim rows. Family quests row carries a
+live N to approve badge; from age 8 to 10 with no kid link yet it also
+carries the QR handover nudge to the quests Share tab. Sunday adds the round
+up row. Nothing was deleted: the quest board (with the goal bars) moved to
+the top of the quests page with its quest-board anchor, the full road strip
+stays on the pathway page, literacy strand ticks stay on the pathway and
+Progress pages, and the quieter cards (moments grid, insight, alerts,
+readiness, school, DiGi extras, upgrade) live inside a folded Everything
+else row on home. The road primitives also scaled up Duolingo style:
+StageDot 64 default (56 kid, 44 mini) with the 0 5px 0 coin edge on every
+state, thicker dotted trails, larger labels, and a sticky stage and stamp
+chip on the pathway page while the road scrolls.
+
+## 20 July 2026 — the daily path and the road go Duolingo sized (PR 397, second pass)
+
+Justin sized the direction: the daily path must be big like the Duolingo
+pathway as the stem of what to do next, and the road to 16 as big as fits
+Duolingo clarity. The one card with four dots is superseded by the big
+vertical winding path (TodayPathBig: same getTodayLoop engine, same minute
+weights from lib/pathway/task-minutes, same copy, 68px pressed edge nodes,
+green ticks, DiGi beside the pulsing current node, the Go callout riding
+next to it, big icon minute chips). The pathway road is the page hero now:
+84px stamp nodes on a thick winding trail, sticky butter position card
+(stage plus stamp of 5), trophy at the end. The timer pops up on Home only
+when relevant: a live countdown row or a pending ask row, tap through to the
+full card on Quests, silent otherwise. Nothing dismantled: the quest board
+kept its move to the top of the quests page with the quest-board anchor, the
+kid handover prompt rides on Home and the quests page from the 8 to 10 band
+until a kid link exists, and every quieter Home card still renders inside
+the folded Everything else row, with the check ins prompt kept outside the
+fold so its setup anchor never lands on a closed drawer.
+
+## 20 July 2026 — Booked: the lesson library grows on a rhythm
+Justin confirmed the test layer replaces nothing: the 20 age staged Rosenshine
+lessons and their hand drawn art stay permanently, new lessons only add rows.
+BOOKED for the next build week: a lesson writer pipeline in the style of the
+fortnightly script writer (PR 355), producing new Rosenshine lessons by stage
+on a steady cadence, research grounded, with choice questions so every new
+lesson is testable on arrival, into a review queue before going live. Also
+carried: age right lessons surfacing in the child app with the child taking
+the multiple choice themselves, passes flowing to the parent ticks.
+Also booked with it: the lesson player presentation upgrade, slides better
+than PowerPoint. One player build lifts every lesson at once since slides are
+data: full bleed one idea slides, huge Nunito 900 type, GSAP slide
+transitions and staggered reveals, a thin butter progress bar, DiGi popping
+in as the presenter on digi slides, house style illustrated diagrams per
+concept, choice slides as tactile moments with instant warm feedback, swipe
+and arrow key navigation. No new content format needed, the jsonb slide
+types already carry it.
+
+## 20 July 2026 — Kid app: one Today list, the timer rule, gifts with a pay back, the age based contract
+Justin's brief for the child screen. One: the three competing to do surfaces
+(the Daily Three, the My jobs tile, the separate My to do today list) merge
+into ONE Today list at the top of the kid screen: family jobs due today plus
+Learn and Move, each with its stars, ticked in one flow. The engines stay
+untouched (localStorage day record for Learn and Move, quest_ticks for jobs);
+this is presentation unification. The tile grid below keeps only what is not
+a to do: Use my time, My road, Our deal, Make it mine, New job. Two: the
+device rule reads in child words wherever a device would be used: "Any screen
+goes through my timer. Do jobs, earn stars, start the timer." Three: a parent
+can gift screen minutes that debit jobs later (migration 080, gift_debts);
+the child sees one warm owed row and the next approved quest tick settles the
+oldest debt. Never shame, the pay back is saying thanks. Four: an age based
+one screen contract on the kid link first run, wording by age band, one big
+I agree button; acceptance locks in on kid_links (agreed_at, agreed_level in
+migration 080) and is visible read only to both sides afterwards. DiGi
+context reads it later in a separate change Justin owns.
+
+## 20 July 2026 — The lesson player build carries the schools wow brief
+Four moves folded into the booked player upgrade: wear Rosenshine openly
+(phase labels, retrieval named), map every lesson to Education for a
+Connected World strand plus Key Stage plus PSHE link as visible badges
+(the Ofsted personal development evidence), the cinematic player as
+booked, and a whole class 16:9 projector mode of the same player with
+per child pass data as exportable progress evidence. Parents buy the
+outcome, schools buy the evidence, same rows serve both.
+CLARIFIED by Justin same day: the family app lessons are NOT the school
+product. The app version teaches in a warm parent and child facing way and
+serves as the reference point schools see; the real academic depth is
+reserved for the school curriculum (schools/01, docs/09) as its own deeper
+tier. The whole class mode and curriculum badges therefore showcase and
+point toward the school curriculum rather than exposing the family lessons
+as the full school offer.
+
+## 2026-07-20: DiGi device check ins (PR #412, migration 082)
+
+From real parent feedback (the birthday Switch, the sons always on the
+Xbox): DiGi now checks in about device battles per child, from that
+child's actual device_sessions data, not generic questions. Decisions:
+signals computed live from the last 14 days (no usage copied anywhere),
+prompt bank lives in one lib (lib/digi/device-checkins.ts), one check in
+per child per week at most, strongest signal first, deduped against open
+concerns, Not really quiets that prompt for three weeks. Yes this is us
+opens the DiGi chat prefilled through the existing q param. The card and
+the generic DiGi wondering share the same gap key so DiGi never asks two
+questions in one visit. Migration 082 (digi_device_checkins) claimed in
+the PR title; 081 belongs to the ask first PR #408. If the table is not
+migrated yet the surface stays silent rather than breaking its promises.
+
+## 20 July 2026 — The cinematic player ships, one build lifting every lesson (PR #419)
+
+The booked player upgrade landed as one rewrite of components/lessons/
+LessonPlayer.tsx, so every surface that renders slides (parent lessons, AI
+modules, educator teach, kid star lessons) upgraded at once. Decisions:
+the player is now a full bleed cream takeover with a thin butter progress
+bar, huge Nunito 900 headlines, GSAP slide transitions plus staggered
+data-reveal builds, swipe and arrow key navigation. Rosenshine is worn
+openly: a quiet mono phase label on every slide (the starter phase says
+RETRIEVAL, because that is what it is) and both near miss screens frame
+the retake as retrieval practice. Choice slides went tactile (big pressed
+edge answers, instant warm feedback, GSAP pop); the 70 percent pass system
+and lesson_completions semantics are untouched. Curriculum badges are an
+honest derivation in lib/content/curriculum-badges.ts: Key Stage from the
+stage (Explorer says KS2/3, no rounding up), Education for a Connected
+World strand from the category, one small mono chip each on the intro
+slide and the hub tiles, no overclaiming. The child app gained My lessons
+(/k/[token]/lessons): the age right stage lessons on the kid dark theme,
+the SAME player as a light takeover, teacher scripts stripped server side,
+the parent paywall honoured (one free taste per stage), and completion
+writing through /api/kid/lesson-complete (token auth, admin client) into
+lesson_completions under the PARENT user_id, so a child's pass lights the
+same parent ticks as a together pass and is never downgraded by a wobbly
+replay. Whole class mode (/class/[lessonId]) renders any live family
+lesson read only at projector scale, arrow keys advance, choice answers
+big for hands up, ending on the quiet line that this is the family version
+and the full school curriculum goes deeper, pointing at /schools: the
+family lessons showcase toward the school tier, they are not the school
+offer. No migration: 083 was taken on main, 084 stays free.
+
+## 20 July 2026 — Go live day, closed out
+Twenty seven PRs merged (#393 to #421), migrations 058 and 074 to 083
+applied, schema verified to match the codebase (sweep query, empty).
+Live tonight: the big daily path home, hero road with Can do levels,
+Explore grid, digital literacy headline and premium homepage, testable
+Rosenshine lessons in the cinematic player on parent and child apps
+with curriculum badges and whole class mode, 96 Happy News lesson
+covers, the child one list with the locking age contract and gift pay
+backs, ask first screen time with the child status banner and kid
+nudges, DiGi device check ins, the school report progress page, and
+the age up birthday mechanism with the multi child switcher.
+OPEN PRODUCT CALLS for Justin: gate /class mode or keep it open as the
+schools demo; whether child lesson passes should mint stars and how
+many; rehearsal chips send immediately vs prefill for tweaking; eyeball
+the 96 generated covers on the hub. Next booked: fortnightly lesson
+writer pipeline, school curriculum depth tier, educator views adopting
+the lesson covers.
+
+## 20 Jul 2026 (late): school quiz v2 after first child test
+Justin's daughter play tested the path and spotted the quiz answers sat in
+predictable positions. Fixed properly: every run now samples 5 questions from
+a bigger curriculum pool per age band and shuffles answer positions client
+side, so there is never a pattern. Every question gained a why line shown
+after answering with a Continue button (the Duolingo and Bitesize teach beat,
+checked on Mobbin). Pools stay curriculum honest: KS1 bonds and counting, the
+Year 4 tables check, KS3 FDP and algebra, GCSE foundation, everyday money at
+16 plus. BOOKED NEXT: question banks in the database per school year (not per
+band), more subjects (spelling, grammar, science), adaptive difficulty that
+follows the child's hit rate, and educator review of every item. That build
+should follow the lessons pipeline pattern: research grounded, testable on
+arrival, review queue before live.
+
+## 20 Jul 2026 (evening): Etsy channel greenlit, printables engine created
+Justin ran a multi agent research sweep on best selling Etsy printables
+(school planners, build at home kits, launch mechanics, funnel case studies,
+plus a teardown of La Casita Educativa, a 400k follower Spanish printables
+brand). Decisions: revive Justin's dormant Etsy shop as the Guided Childhood
+shop rather than opening fresh; the shop's two jobs are profitable sales and
+compliant list building toward /starter-pack; price floor £4, revenue core
+£8 to £25 bundles; opt out of Offsite Ads on day one; school planners ship
+first (US back to school peaks now, UK wave 15 Aug to 10 Sep); products are
+fronted by the CURRENT squad (Oliver, Zara, Sofia, DiGi golden star, UK
+animals; Teo, Olga, Alma remain legacy) with each character owning the lane
+matching their lesson topic; classroom products will carry the schools team
+when it is defined. New skill .claude/skills/printables-engine/SKILL.md is
+the production pipeline; plans/etsy-launch-plan.md is the step by step plan.
+Full research outputs live in the session, summaries to be committed as
+research docs on the etsy research branch.
+
+## 21 Jul 2026: three La Casita game copies built into the child app
+The A to Z Showdown, Word Fishing and Ice Cream Shop printables (merged in
+PR 443) are now playable inside the child app, the interactive twin of the
+paper products a member family buys on Etsy. Built into the EXISTING
+quest-games system (lib/quest-games/registry.ts + components/quest-games/
+QuestGamePlayer.tsx), not a parallel one: three new mechanics (wheel, fishing,
+coins) with three renderer views. Key decision: the games plug into the
+registry and the existing games tab (gamesForStage) and pay stars through the
+existing /api/quests/lesson-complete approval loop, so NO migration, NO new
+routes, NO new API and NO home screen changes were needed. Content lives as
+data (78 A to Z clues, phonics word lists, ice cream coin prices verified
+makeable in two to three coins), renderers in the app, per the school-quizzes
+precedent. Fronted by DiGi (A to Z, Word Fishing) and Sofia (Ice Cream Shop).
+Verified: full tsc clean, both Vercel previews deployed green, and all three
+rendered and interaction tested in a real browser at mobile width. PR 449
+(draft). Note: the parallel routes/kid_games approach the first architecture
+map suggested was rejected after reading the real code, which already had the
+quest-games system.
+
+## 21 Jul 2026: real character art + game thumbnails + New badges
+Justin supplied the finished squad art (via Google Drive, since the Higgsfield
+CDN download stays blocked in session and pasted images do not persist). Saved
+to public/digi-squad/: Oliver.png (portrait), Oliver-football.png (hero), Zara.png,
+Sofia.jpeg, DiGi-star.png; the old basic Oliver is replaced. Built three
+professional game card thumbnails from the real art (public/games/) with the
+HTML to PNG pipeline, no Higgsfield needed. Sofia's Ice Cream Shop now uses the
+real Sofia portrait at the counter instead of the drawn stand in. Added thumb
+and isNew to QuestGameMeta so the kid Games tab shows a proper picture and a New
+badge on the three La Casita games. tsc clean, games re rendered and checked.
+
+## 25 Jul 2026: learning printables show no score to the child
+The UK curriculum learning sheets (England, Years 1 to 6, maths, English and
+reading) will never show the child a mark or a percentage. The sheet returns one
+thing: the two or three items to go over with a grown up. Justin agreed the
+recommendation.
+
+The reason is the product, not squeamishness. A score turns a warm shared thing
+into a test that judges them, and the child stops asking for help on the bits
+they found hard, which is the entire mechanism. The parent gets the substance
+(here is where she is shaky) without a number attached to their child.
+
+## 26 Jul 2026: the welcome rotates across opens, not inside one
+The launch overlay used to cycle six mission lines every six seconds inside a
+single view, and it quoted a duration. Both are now gone.
+
+The rotation axis was wrong. It rotates **across opens**: one card, one service,
+one tap, gone, and a parent meets the whole product across a fortnight of quick
+hellos rather than a tour nobody sits through. Anything the family has not set
+up leads, so the card is a useful next thing rather than a fact about us.
+
+The duration was worse. "Today takes about six minutes" is the first thing a
+tired parent reads and it lands as a commitment, not a welcome. They find out it
+is short by it being short. No total is ever quoted again.
+
+Every card carries the trust line: not what the service is, but what happens to
+what you tell it. Families are rightly wary of apps that hoover up information
+about their children, so the honest answer is both the explanation and the
+reason to trust us. `lib/home/welcome-cards.ts` holds the catalogue and the
+pick, kept pure so the selection can be reasoned about on its own.
+
+## 26 Jul 2026: the child phone handover is asked once, properly, and paper is a real answer
+Half the product lives on the child's side and the QR code was buried on the
+Quests page, so a family could run one side of a two sided thing for weeks. It
+is now asked on the second app open, never the first, and never as a second
+overlay: it takes the one welcome slot when it is its turn.
+
+Three calls worth recording.
+
+**Sending the link sits equal to the QR code.** The parent is holding the phone
+showing the code and cannot scan it with that same device, so a QR only ask is a
+dead end for every child who is not stood right next to them.
+
+**"We do it on paper" is a real preference, not a dismissal.** Plenty of
+families will not give a child a phone and we should be the platform that says
+fine. It is stored (`profiles.handover_choice`) and the prompt never returns.
+
+**The asking is capped** at three (`profiles.handover_asks`, migration 103, with
+a browser side backstop). An overlay on login is the most intrusive surface we
+have and the fastest way to make it hated is to let it nag forever. After that
+it falls back to the quiet prompt already on Quests.
+
+The age gate was already right and stays: nothing is offered below the 8 plus
+band, because asking a parent of a five year old to link a phone reads as us
+pushing devices onto little children.
+
+## 26 Jul 2026: leads get a real stop link, because address matching cannot catch everyone
+Checked whether the pre sign up emails reach people who have already joined.
+Every starter pack link lives in a lead only email, and the cron does exclude
+anyone with a matching account, so the design is right. Both sides lowercase the
+address at write time, so case is not the hole either.
+
+The hole is a parent who took a printable with one address and then signed up
+with another. Matching on address cannot ever catch that, and until now their
+only way out was a mailto in the footer, which is no way out at all.
+
+So every lead email now carries a real one click stop, signed with an HMAC over
+the address (`leadUnsubscribeUrl`), and the same door handles both kinds of
+recipient. Clicking it stops the lead sequence AND opts out any account on that
+address, because someone clicking stop means stop, not stop one of two lists
+they did not know they were on. Migration 104 adds `starter_leads.unsubscribed_at`.
+
+Both lead reads fall back to the unfiltered query if that column is missing, so
+a deploy landing before the migration cannot silently switch the whole lead
+programme off. This is the same defensive shape as the handover column read.
+
+It is also what the bulk sender rules ask for: a link that works in one tap.
+
+## 26 Jul 2026: the parent app type scale goes up, by rule not by hand
+Justin, on a real phone: the text is way too small, make it much bigger across
+the app. He was right, and it was not one screen. Every size in the parent app
+is set by hand in an inline style, about two and a half thousand of them, so
+there was no single number to turn and no honest way to do it by eye.
+
+`tools/bump-type-scale.py` holds the rule, deliberately dull so it is
+predictable and reversible:
+
+- under 9px, left alone. Micro marks inside small dots and badges, where two
+  more pixels overflows the thing holding them.
+- 9 to 20px, plus two. The whole readable range: labels, body, sub copy.
+- over 20px, left alone. Already display sized, and mostly emoji glyphs sized
+  to fit a fixed box.
+
+Plus two rather than a percentage on purpose. It lifts the small end most in
+relative terms, which is where the pain was (a 10px mono label gains a fifth, a
+20px heading a tenth), and it can never reorder the hierarchy: anything bigger
+than its neighbour before is still bigger after. clamp() sizes move too, but
+only where the top of the clamp is 22px or under.
+
+2477 sizes across 228 files. Checked for horizontal overflow at 390 wide on
+three fixture pages: zero on all three, console clean.
+
+## 26 Jul 2026: add a job is a button, at the top of the list
+Adding a job is the one thing a parent opens the Quests manager to do, and the
+only way to write one was a lone input below two screens of ready made ideas.
+Set tasks and Manage jobs both landed above that wall rather than at it.
+
+There is now an add a job button in the header of the child's own quest list,
+opening an inline composer in place. Set tasks and Manage jobs land there with
+it already open. The ideas grid stays where it is, for a parent who wants to
+browse rather than type.
+
+## 26 Jul 2026: the child app squad intro plays once a week, not every open
+Six cards at four and a half seconds each is nearly half a minute of splash
+standing between a child and their jobs, and it ran on every single open. A
+thing that lovely stops being lovely the third time in a day.
+
+It now plays once a week. Often enough that the family they are collecting
+stays in mind, rare enough that it is a treat rather than a toll gate. The first
+open for a new child always gets it. The clock is stamped when the intro
+appears, not when it finishes, so a child who wanders off halfway through is not
+met by the whole thing again on the next open.
+
+One trap worth recording, because it is easy to walk back into. The gate cannot
+re-read the raw timestamp on every mount: playing the intro stamps the clock, so
+the next read within the same open says "not due" and the intro vanishes from
+under the child. Anything that remounts the screen triggers it, and React strict
+mode in development does exactly that, which is how it was caught. The answer is
+worked out once per app open and held in sessionStorage, so every mount within
+one open agrees.
+
+Verified across five simulated app opens: new child yes, same day no, next day
+no, a week later yes, straight after that no.
+
+## 27 Jul 2026: outstanding jobs get a reminder when the timer ends, not a block
+Justin asked whether to refuse screen time while jobs are outstanding, or remind
+them once the timer finishes. The reminder, and not narrowly.
+
+A blanket block is the wrong tool. At four in the afternoon every daily job is
+outstanding, bedtime ones included, so it would fire almost always and the child
+would learn the deal is rigged rather than earned. It also puts the app in the
+chair saying no, which is the opposite of non negotiable 1: never allow or deny,
+always a calibrated pathway.
+
+The gate already exists for families who want one, and it is the calibrated
+version: `blocks_screens` per job, set by the parent, enforced at
+`/api/quests/time/start` with a "chores first" answer naming what is blocking.
+
+So the timer end screen now names the jobs still waiting and what the lot is
+worth in minutes. It is the strongest moment there is: the fun has just
+finished, they are being handed back to the room anyway, and the next block of
+time is sitting right there in the jobs.
+
+## 27 Jul 2026: the child's timer card is driven by the live session, not page load
+Justin: pressed stop, and it was still ticking somewhere else. Two faults, both
+the same shape, a snapshot standing in for live state.
+
+The card was keyed and seeded on the session the page happened to load with, so
+it could not see a block that started or ended anywhere else. A grown up
+starting time from their side left the card sitting idle until a full reload.
+
+And stopping cleared the card's own state but told the screen around it nothing,
+so for up to twelve seconds, until the next poll, the rest of the app still
+believed the clock was running. `onSessionChange` now reports a start, a stop
+and a countdown reaching zero the instant each happens, and the card is keyed
+and seeded on the live session.
+
+Checked while there: the server is not the problem. `/api/quests/time/start`
+already closes any open session before opening a new one, so two rows can never
+run at once, and the parent side polls every eight seconds.
+
+## 27 Jul 2026: the community poll gets a year of questions, and they rotate register
+Justin asked whether the poll should vary and what the variations should be. Yes,
+plainly: 099 seeded one question, which proves the feature and does not keep it.
+A poll that never changes is answered once and then it is furniture.
+
+Migration 106 seeds twelve, August 2026 to July 2027. Three rules shaped them,
+and they matter more than the questions.
+
+**The register rotates.** The point of the bite is the reassurance of the crowd,
+not a monthly audit of everything going wrong. So these are not twelve versions
+of what is hardest: some ask what is working, some what is coming, the last asks
+what has actually changed in a year. A product whose whole pitch is warmth
+cannot ask a worried parent to rank their failures twelve times running.
+
+**No option is an admission of failure.** There is always a way to answer
+honestly when it is going badly without it reading as a confession: honestly I
+stopped counting weeks ago, nothing reliably and that is why I am here. A poll
+with an obviously right answer teaches parents to lie to it, and then both the
+aggregate and what DiGi remembers are worthless.
+
+**The answer has to be diagnostic.** Every vote lands in digi_memory so next
+month DiGi can pick the thread up. A question whose answer tells DiGi nothing is
+entertainment, and this is not an entertainment feature.
+
+Anchored to the UK year on purpose: six week holidays in August, the Christmas
+list in November, secondary transition in June. Written for the moment rather
+than pulled from a bank, which is most of the difference between a bite and a
+survey.
+
+Ran 099 then 106 against a real Postgres 16 rather than reading them: both
+execute clean, 106 is idempotent on a second run, and the API selection query
+returns the right question for each of the thirteen months.
+
+Known and deliberate: from August 2027 the last question repeats every month,
+because falling back to the most recent poll is what stops a missing month
+breaking the feature. Noted at the top of the migration so it is found. Seed the
+next twelve before summer 2027.
+
+## 27 Jul 2026: curriculum spine built, and the sources are blocked by egress policy
+Migration 108 lays the spine for the learning printables: objectives keyed by
+curriculum, year group, subject, term and strand, so a sheet can be assembled
+for one year at one point in the school year. Term is a column because what a
+Year 4 should know is useless in September and true in June.
+
+`source` is NOT NULL on purpose, and that is the load bearing decision. Accuracy
+is the whole product: a sheet testing the wrong thing for the year is worse than
+no sheet, because a parent believes it and acts on it. An objective nobody can
+trace cannot be inserted at all. `verbatim` records whether the text is the
+published statutory wording or our paraphrase, because those are different
+promises and only one can be quoted to a parent. Both proven against a real
+Postgres, including that the gate rejects an untraceable row.
+
+**The blocker, which needs Justin.** The statutory sources cannot be reached
+from this workspace. `assets.publishing.service.gov.uk`, `gov.uk` and
+`ncetm.org.uk` all return 403 at the egress proxy, which is an organisation
+policy denial and not something to route around. Search still returns published
+wording, so eighteen Year 4 maths objectives are seeded and every one is
+verbatim and traced, but the rest of Year 4 and all of Years 1 to 3, 5 and 6 are
+deliberately absent rather than written from memory.
+
+Two ways forward: allow those hosts through egress, or paste the programmes of
+study in. Either unblocks the long pole. The machinery does not need to change.
 
 ## 25 Jul 2026 — New KS2 AI lesson is module 22
 The UC Irvine panel additions add one new child lesson, Let AI help you not do it for you (KS2, host DiGi, teaches stay-the-maker and explain-it-back). Decided it is module 22, a clean addition, no renumbering of the existing 21. module_id ks2-22-ai-maker. Source script content/lesson-scripts/ai-panel-additions.md, wiring in plans/handoff-ai-lessons-to-app.md. KS3 Lesson 12 and KS4/KS5 Lesson 20 get cognitive-offload uplifts, plus a parent lesson on connection over control.

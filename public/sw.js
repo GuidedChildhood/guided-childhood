@@ -1,9 +1,10 @@
-const CACHE_NAME = 'gc-v5'
+const CACHE_NAME = 'gc-v7'
+// Only static media is ever cached. Pages, scripts and styles are never stored,
+// so a deploy is picked up the instant the device is online, and the app can
+// never boot an old shell from a stale cache. The v7 bump purges anything the
+// earlier versions cached, including any old HTML or JS.
 const STATIC_ASSETS = [
-  '/',
-  '/starter-pack',
-  '/login',
-  '/signup',
+  '/icons/icon-192.png',
 ]
 
 self.addEventListener('install', event => {
@@ -46,22 +47,13 @@ self.addEventListener('fetch', event => {
     return
   }
 
-  // Everything else — pages, scripts and styles — is network first. Fresh
-  // HTML must always pair with fresh JS: a stale or truncated script served
-  // from cache is what left buttons dead and screens blank after a deploy.
-  // The cache is only a genuine offline fallback, and we only ever store a
-  // complete same origin 200, never a half loaded or error response.
-  event.respondWith(
-    fetch(request)
-      .then(res => {
-        if (res.ok && res.type === 'basic') {
-          const clone = res.clone()
-          caches.open(CACHE_NAME).then(cache => cache.put(request, clone))
-        }
-        return res
-      })
-      .catch(() => caches.match(request).then(cached => cached ?? Response.error()))
-  )
+  // Everything else — pages, scripts and styles — is network only, never
+  // cached. Fresh HTML must always pair with fresh JS, and the surest way to
+  // guarantee that is to never keep an old copy: a deploy is live the moment
+  // the device is online, and there is no stale shell to boot. This is what
+  // stops the app opening on an old version. We let the request go straight to
+  // the network without intercepting, so the browser handles it normally.
+  return
 })
 
 // ── PUSH NOTIFICATIONS ──────────────────────────────────────────────────────
@@ -92,17 +84,28 @@ self.addEventListener('push', event => {
 
 self.addEventListener('notificationclick', event => {
   event.notification.close()
-  const url = event.notification.data?.url ?? '/dashboard'
+  const raw = event.notification.data?.url ?? '/dashboard'
+  // Only ever open our own pages from a tap.
+  const url = typeof raw === 'string' && raw.startsWith('/') ? raw : '/dashboard'
 
-  event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
-      for (const client of clientList) {
-        if (client.url.includes(self.location.origin) && 'focus' in client) {
-          client.navigate(url)
-          return client.focus()
-        }
+  // A tap must always land on the CURRENT app, never a window that has sat in
+  // the background for days running the bundle it loaded at its last cold
+  // start. So when a window already exists we focus it, then force a real full
+  // page navigation two ways at once: client.navigate for browsers that
+  // support it, and a message the page turns into location.assign for the
+  // ones (iOS in particular) where client.navigate silently rejects. Either
+  // path is a full document load, so the fresh deploy comes down with it.
+  event.waitUntil((async () => {
+    const clientList = await clients.matchAll({ type: 'window', includeUncontrolled: true })
+    for (const client of clientList) {
+      if (!client.url.startsWith(self.location.origin)) continue
+      try { if ('focus' in client) await client.focus() } catch { /* still navigate */ }
+      try { client.postMessage({ type: 'navigate', url }) } catch { /* navigate below */ }
+      if ('navigate' in client) {
+        try { await client.navigate(url) } catch { /* the message path covers iOS */ }
       }
-      return clients.openWindow(url)
-    })
-  )
+      return
+    }
+    await clients.openWindow(url)
+  })())
 })

@@ -1,13 +1,21 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { questDueToday } from '@/lib/quests/due'
+import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
 import { getStarBanks } from '@/lib/quests/bank'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
-import { getActiveSession } from '@/lib/quests/device-time'
+import { getActiveSession, isAskLive } from '@/lib/quests/device-time'
+import { getMinutesUsedToday } from '@/lib/quests/usage'
+import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { hasFullAccess } from '@/lib/access'
+import { contractLevelFor } from '@/lib/content/kid-contract'
+import { getPrintable } from '@/lib/printables/registry'
+import { getAllStagesProgress } from '@/lib/pathway/progress'
+import { earnedFriends } from '@/lib/pathway/streak-unlock'
 import KidQuestScreen from './KidQuestScreen'
+import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
 
 // The kid's own screen. Opened from the private link their parent sends,
 // no account, no login, nothing to install. Today's quests, big ticks,
@@ -15,6 +23,13 @@ import KidQuestScreen from './KidQuestScreen'
 // everything; no parent data is reachable from here.
 
 export const dynamic = 'force-dynamic'
+
+// The same category emoji the lesson player and the path use, so the Today
+// "Learn" headline, the road stone and the lesson itself never disagree.
+const KID_LESSON_EMOJI: Record<string, string> = {
+  safety: '🛡️', screen_habits: '📱', wellbeing: '💛',
+  online_risks: '🔍', ai_safety: '🤖', ai_literacy: '🤖',
+}
 
 // On a child's Home Screen this page is called My Quests, opens full
 // screen like a real app (which is also what lets reminders work on
@@ -40,7 +55,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
 
   const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
-    supabase.from('children').select('name, age_band').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('name, age_band, buddy, accent, daily_limit_minutes').eq('id', link.child_id).maybeSingle(),
     supabase.from('family_quests')
       .select('id, title, emoji, stars, schedule, schedule_days, blocks_screens')
       .eq('user_id', link.user_id)
@@ -106,8 +121,12 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     return { label: 'SMTWTFS'[dow], count, today: off === 0 }
   })
 
-  const quests = (questsRes.data ?? []).filter(q => questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
-  const laterQuests = (questsRes.data ?? [])
+  // A printable ask that was turned into a job on an older build (before the
+  // decide endpoint stopped doing that) is not a real job, so it never shows in
+  // the child's list as one. New asks never reach here at all.
+  const realQuests = (questsRes.data ?? []).filter(q => !isPrintableAskTitle(q.title as string))
+  const quests = realQuests.filter(q => questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
+  const laterQuests = realQuests
     .filter(q => !questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
     .map(q => ({ title: q.title, emoji: q.emoji, schedule: q.schedule }))
   const starsByQuest = new Map((questsRes.data ?? []).map(q => [q.id, q.stars]))
@@ -196,31 +215,290 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // up where it left off on a refresh.
   const activeSession = await getActiveSession(supabase, link.child_id)
 
+  // The recommended daily viewing for this age, and how much has already been
+  // logged today, so the child's timer can show the balance and gently pause
+  // once they have had their healthy amount. A soft guide, never a hard block.
+  const usedTodayMap = await getMinutesUsedToday(supabase, link.user_id, [link.child_id])
+  const usedTodayMinutes = usedTodayMap.get(link.child_id) ?? 0
+  // The daily limit the child's app shows and caps against: the parent's own
+  // number if they set one, otherwise the healthy age recommendation.
+  const parentLimit = (childRes.data as { daily_limit_minutes?: number | null } | null)?.daily_limit_minutes
+  const recommendedMinutes = parentLimit != null && parentLimit > 0
+    ? parentLimit
+    : recommendedDailyMinutes(ageBand ?? null)
+
+  // The child's stage library lessons and their passes, the exact same count
+  // the parent's progress report uses, so the road's proof and the report can
+  // never disagree. Fails soft to nulls on any read error.
+  //
+  // From the same read we also pick the child's focus lesson: the next one for
+  // this stage they have not passed yet, in the curriculum's own order. This
+  // is what the Today "Learn" headline points at, so the real Rosenshine
+  // lessons are put in front of the child one at a time, and passing one
+  // ticks the parent's progress report through the lesson player. Nulls fall
+  // back to the mini lessons on any read error.
+  let stageLessonsPassed: number | null = null
+  let stageLessonsTotal: number | null = null
+  let focusLesson: { id: string; title: string; emoji: string; stars: number } | null = null
+  {
+    const stageSlug = ageBand ? getStageFromAgeBand(ageBand).name.toLowerCase() : 'builder'
+    const [{ data: stageLessonRows, error: lessonsErr }, { data: passRows, error: passErr }] = await Promise.all([
+      supabase.from('lessons').select('id, title, category, sort_order')
+        .eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub')
+        .order('sort_order', { ascending: true }),
+      supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', link.user_id).eq('lesson_source', 'lesson'),
+    ])
+    if (!lessonsErr && !passErr && (stageLessonRows ?? []).length > 0) {
+      const rows = stageLessonRows ?? []
+      const ids = new Set(rows.map(l => l.id))
+      const passedIds = new Set(
+        (passRows ?? []).filter(c => c.passed !== false && ids.has(c.lesson_id)).map(c => c.lesson_id),
+      )
+      stageLessonsTotal = ids.size
+      stageLessonsPassed = passedIds.size
+      const next = rows.find(l => !passedIds.has(l.id))
+      if (next) {
+        focusLesson = {
+          id: next.id as string,
+          title: next.title as string,
+          emoji: KID_LESSON_EMOJI[String(next.category)] ?? '📘',
+          stars: 10,
+        }
+      }
+    }
+  }
+
+  // Notes and scripts a grown up shared to this child's own app, newest first.
+  // These land here instead of a text message, and stay to be read again.
+  const { data: shareRows } = await supabase
+    .from('child_shares')
+    .select('id, kind, title, body, created_at, read_at')
+    .eq('child_id', link.child_id)
+    .order('created_at', { ascending: false })
+    .limit(12)
+  const notes = (shareRows ?? []).map(n => ({
+    id: n.id as string,
+    kind: n.kind as string,
+    title: n.title as string,
+    body: n.body as string,
+    read: Boolean(n.read_at),
+  }))
+
   // From school, for the child themselves: the reminders their grown up sent
   // through (one offs due today) and any weekly routine set to reach them
   // automatically on its day. These show as a banner on the child's own
   // screen that goes red as a timed one nears, so the child sees it too, not
   // only the parent. Only ever the items meant for the child.
   const todayWeekday = new Date().getDay()
+  const tomorrowDate = new Date(Date.now() + 86400000).toISOString().slice(0, 10)
+  const tomorrowWeekday = (todayWeekday + 1) % 7
   const { data: schoolRows } = await supabase
     .from('school_actions')
-    .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child')
+    .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child, cleared_on')
     .eq('user_id', link.user_id)
     .eq('status', 'open')
-    .or(`due_date.eq.${today},recurs_weekday.eq.${todayWeekday}`)
+    .or(`due_date.eq.${today},due_date.eq.${tomorrowDate},recurs_weekday.eq.${todayWeekday},recurs_weekday.eq.${tomorrowWeekday}`)
+  // Child appropriate kinds mirror to the child's own banner so they know
+  // too: a PE kit or homework routine, never a parent only thing like a
+  // payment. A weekly routine shows on its day by default (no need for the
+  // grown up to tick anything), and steps back once cleared for the week.
+  // Tomorrow's child items also show, in their own calm heads up, so the
+  // child can get the kit ready the night before, the same nudge the parent
+  // gets by push.
+  const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
   const schoolToday = (schoolRows ?? [])
-    .filter(a => a.recurs_weekday != null ? a.auto_send_to_child : a.sent_to_child)
-    .map(a => ({
-      id: a.id as string,
-      title: a.title as string,
-      kind: a.kind as string,
-      time: typeof a.due_time === 'string' ? (a.due_time as string).slice(0, 5) : null,
-    }))
+    .map(a => {
+      const cleared = String((a as { cleared_on?: string | null }).cleared_on ?? '')
+      const isRoutine = a.recurs_weekday != null
+      const childOk = isRoutine ? (a.auto_send_to_child || CHILD_KINDS.has(a.kind as string)) : (a.sent_to_child || CHILD_KINDS.has(a.kind as string))
+      if (!childOk) return null
+      const dueToday = isRoutine ? a.recurs_weekday === todayWeekday : a.due_date === today
+      const dueTomorrow = isRoutine ? a.recurs_weekday === tomorrowWeekday : a.due_date === tomorrowDate
+      // A routine cleared for today steps back from today, but still shows a
+      // tomorrow heads up if it comes round again tomorrow.
+      const when: 'today' | 'tomorrow' | null =
+        dueToday && cleared !== today ? 'today' : dueTomorrow ? 'tomorrow' : null
+      if (!when) return null
+      return {
+        id: a.id as string,
+        title: a.title as string,
+        kind: a.kind as string,
+        time: typeof a.due_time === 'string' ? (a.due_time as string).slice(0, 5) : null,
+        when,
+      }
+    })
+    .filter((x): x is { id: string; title: string; kind: string; time: string | null; when: 'today' | 'tomorrow' } => x !== null)
+
+  // Our family deal: the agreement the parent and child built and signed
+  // together. The child sees it in Our deal, so the contract they agreed is
+  // always there to read, not only on the parent side. Only the sections the
+  // family actually filled in show, in child friendly words.
+  const { data: agreementRow } = await supabase
+    .from('family_agreements')
+    .select('family_values, bedroom_rule_time, bedroom_rule_location, social_media_terms, when_things_go_wrong, extra_agreements, signed_by_parent, signed_by_child')
+    .eq('user_id', link.user_id)
+    .maybeSingle()
+  const agreementItems: { title: string; body: string }[] = []
+  if (agreementRow) {
+    const add = (title: string, body?: string | null) => {
+      const t = (body ?? '').trim()
+      if (t) agreementItems.push({ title, body: t })
+    }
+    add('What matters to us', agreementRow.family_values as string | null)
+    const bedtime = [agreementRow.bedroom_rule_time, agreementRow.bedroom_rule_location]
+      .map(s => String(s ?? '').trim()).filter(Boolean).join(' · ')
+    add('Phones at bedtime', bedtime)
+    add('Apps and social media', agreementRow.social_media_terms as string | null)
+    add('If something goes wrong', agreementRow.when_things_go_wrong as string | null)
+    add('Our extra promises', agreementRow.extra_agreements as string | null)
+  }
+  const agreementSigned = Boolean(agreementRow?.signed_by_parent && agreementRow?.signed_by_child)
+
+  // The age based timer contract and the gifted time still owed. Both land
+  // with migration 080, so each read is its own best effort query that fails
+  // soft on an older database: the contract gate simply waits until the
+  // columns exist, and the owed row stays hidden until the table does.
+  let contractAgreedAt: string | null = null
+  let contractReady = false
+  {
+    const { data, error } = await supabase
+      .from('kid_links').select('agreed_at').eq('token', token).maybeSingle()
+    if (!error) {
+      contractReady = true
+      contractAgreedAt = (data?.agreed_at as string | null) ?? null
+    }
+  }
+  let giftStarsOwed = 0
+  {
+    const { data, error } = await supabase
+      .from('gift_debts').select('stars_owed')
+      .eq('child_id', link.child_id).eq('settled', false)
+    if (!error) giftStarsOwed = (data ?? []).reduce((sum, d) => sum + (Number(d.stars_owed) || 0), 0)
+  }
+
+  // Who starts the timer for this child, unset reading as ask, plus the
+  // latest screen time ask (last twelve hours, so a stale answer never
+  // greets them) and any unread nudges. The nudges table lands with
+  // migration 081, so that read fails soft to none.
+  let deviceTrust = 'ask'
+  {
+    const { data, error } = await supabase
+      .from('children').select('device_trust').eq('id', link.child_id).maybeSingle()
+    if (!error && (data?.device_trust === 'watch' || data?.device_trust === 'trusted')) {
+      deviceTrust = data.device_trust
+    }
+  }
+  let initialAsk: { id: string; device: string; minutes: number; status: 'pending' | 'approved' | 'declined' } | null = null
+  {
+    const { data, error } = await supabase
+      .from('device_requests')
+      .select('id, device, minutes, status, created_at')
+      .eq('child_id', link.child_id)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    // Same freshness rule as the live poll: pending or declined stales at twelve
+    // hours, an approved yes stays startable for a full day.
+    if (!error && data && ['pending', 'approved', 'declined'].includes(String(data.status))
+        && isAskLive(String(data.status), String(data.created_at))) {
+      initialAsk = {
+        id: String(data.id), device: String(data.device),
+        minutes: Number(data.minutes), status: data.status as 'pending' | 'approved' | 'declined',
+      }
+    }
+  }
+  let initialNudges: { id: string; message: string }[] = []
+  {
+    const { data, error } = await supabase
+      .from('kid_nudges')
+      .select('id, message')
+      .eq('child_id', link.child_id)
+      .eq('seen', false)
+      .order('created_at', { ascending: false })
+      .limit(4)
+    if (!error) initialNudges = (data ?? []).map(n => ({ id: String(n.id), message: String(n.message) }))
+  }
+
+  // A printable a grown up sent straight to this child lands at the top of
+  // their to do. The oldest open one leads. Fails soft to none before 089.
+  let assignedPrintable: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; previewUrl: string } | null = null
+  {
+    const { data } = await supabase.from('printable_assignments')
+      .select('printable_key')
+      .eq('child_id', link.child_id).is('cleared_at', null)
+      .order('created_at', { ascending: true }).limit(1).maybeSingle()
+    const p = data ? getPrintable(String(data.printable_key)) : null
+    // The finished products print their real colour in edition; the card shows
+    // the real cover so the child sees exactly what a grown up sent.
+    if (p) assignedPrintable = { key: p.key, title: p.title, emoji: p.emoji, stars: p.stars, sheetUrl: p.pdfColourIn ?? p.sheetUrl, previewUrl: p.previewUrl }
+  }
+
+  // How many passport stages the family has completed, so the app only offers
+  // the Planet Friends this child has earned. Same reading as the passport;
+  // fails soft to none.
+  let stageEarned = 0
+  try {
+    const prog = await getAllStagesProgress(supabase, link.user_id, 0)
+    stageEarned = (['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const)
+      .filter(s => prog[s]?.contentComplete).length
+  } catch { stageEarned = 0 }
+
+  // Streaks also unlock Friends: every four completed jobs streaks earns one, so
+  // a child never waits years. The child has whichever is further along.
+  let completedStreaks = 0
+  try {
+    const { count } = await supabase
+      .from('job_streaks')
+      .select('id', { count: 'exact', head: true })
+      .eq('child_id', link.child_id)
+    completedStreaks = count ?? 0
+  } catch { completedStreaks = 0 }
+  const earnedStages = earnedFriends(stageEarned, completedStreaks)
+
+  // Sheets finished away from a screen and confirmed by a grown up. The parent
+  // stats already count these into the off screen total; this is so the child
+  // sees their own real world tally too, in the place they do the work. Fails
+  // soft before migration 087, where it simply reads zero.
+  let sheetsDone = 0
+  let sheetStars = 0
+  try {
+    const { data: sheets } = await supabase
+      .from('printable_completions')
+      .select('stars')
+      .eq('child_id', link.child_id)
+      .eq('status', 'confirmed')
+    sheetsDone = (sheets ?? []).length
+    sheetStars = (sheets ?? []).reduce((sum, r) => sum + (Number(r.stars) || 0), 0)
+  } catch { sheetsDone = 0; sheetStars = 0 }
+
+  // The screens this family owns, for the timer picker. Fails soft: before
+  // migration 106 there is no table, and the picker falls back to the four
+  // kinds exactly as it did before.
+  let familyDevices: FamilyDevice[] = []
+  try {
+    const { data } = await supabase
+      .from('family_devices')
+      .select('id, label, kind, guide_key, shared, retired_at')
+      .eq('user_id', link.user_id)
+      .is('retired_at', null)
+      .order('created_at', { ascending: true })
+    familyDevices = ((data ?? []) as FamilyDeviceRow[]).map(toFamilyDevice)
+  } catch { familyDevices = [] }
 
   return (
     <KidQuestScreen
+      familyDevices={familyDevices}
+      sheetsDone={sheetsDone}
+      sheetStars={sheetStars}
+      earnedStages={earnedStages}
+      completedStreaks={completedStreaks}
+      assignedPrintable={assignedPrintable}
       token={token}
+      agreementItems={agreementItems}
+      agreementSigned={agreementSigned}
       childName={childRes.data?.name ?? 'Superstar'}
+      buddy={(childRes.data?.buddy as string | null) ?? null}
+      accent={(childRes.data?.accent as string | null) ?? null}
       stageId={stageId}
       quests={dueQuests}
       todayTicks={todayTicksRes.data ?? []}
@@ -233,11 +511,24 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       doneLessonKeys={doneLessonKeys}
       bank={bank}
       usedWeekMinutes={usedWeekMinutes}
+      usedTodayMinutes={usedTodayMinutes}
+      recommendedMinutes={recommendedMinutes}
+      stageLessonsPassed={stageLessonsPassed}
+      stageLessonsTotal={stageLessonsTotal}
+      focusLesson={focusLesson}
       printablesUnlocked={printablesUnlocked}
       activeSession={activeSession}
       weekChart={weekChart}
       requests={(requestsRes.data ?? []) as { id: string; title: string; emoji: string; status: string }[]}
       schoolToday={schoolToday}
+      notes={notes}
+      contractLevel={contractLevelFor(ageBand ?? null)}
+      contractAgreedAt={contractAgreedAt}
+      contractReady={contractReady}
+      giftStarsOwed={giftStarsOwed}
+      deviceTrust={deviceTrust}
+      initialAsk={initialAsk}
+      initialNudges={initialNudges}
     />
   )
 }

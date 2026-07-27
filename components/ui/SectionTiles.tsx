@@ -1,0 +1,91 @@
+import Link from 'next/link'
+
+// The pastel section tile, in one place, used by the Quests shortcuts and the
+// passport page so the two read as the same product.
+//
+// Mobbin first, per CLAUDE.md. The references pulled were Vocabulary's Practice
+// grid, Ahead's journey tiles and Tiimo's explore cards, all iOS. Every one of
+// them does the same thing our tiles were not doing: the pastel fill carries a
+// REAL border in a darker shade of itself, plus a hard offset shadow. That is
+// the whole difference between a tile that reads as a crisp physical button and
+// one that reads as a washed out block of colour, which is what ours were: flat
+// fill, no edge, nothing to catch the eye.
+//
+// The border and shadow use the tile's own accent rather than grey, so six
+// tiles side by side still read as six different places rather than six copies
+// of one component. It is the same border plus 0 5px 0 language as our buttons,
+// so nothing new is introduced to the design system, it is just applied here.
+
+export type SectionTile = {
+  href: string
+  label: string
+  sub: string
+  /** Rendered inside the white icon plate. An icon component or an emoji. */
+  icon: React.ReactNode
+  /** The pastel fill. */
+  bg: string
+  /** The edge and the shadow. A darker relative of bg, never grey. */
+  accent: string
+  /** Live state, when the tile has something worth saying up front. */
+  badge?: string | null
+}
+
+export default function SectionTiles({
+  tiles, columns = 2,
+}: {
+  tiles: SectionTile[]
+  columns?: 1 | 2
+}) {
+  return (
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: columns === 2 ? '1fr 1fr' : '1fr',
+      gap: 12, marginBottom: 18,
+    }}>
+      {tiles.map(t => (
+        <Link
+          key={t.href + t.label}
+          href={t.href}
+          style={{
+            display: 'block', textDecoration: 'none',
+            background: t.bg,
+            border: `2px solid ${t.accent}`,
+            borderRadius: 18,
+            boxShadow: `0 4px 0 ${t.accent}`,
+            padding: '15px 16px 16px',
+          }}
+        >
+          <span style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
+            <span aria-hidden style={{
+              width: 42, height: 42, borderRadius: 13, background: '#fff',
+              border: `1.5px solid ${t.accent}`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0, color: 'var(--ink)', fontSize: 21, lineHeight: 1,
+            }}>
+              {t.icon}
+            </span>
+            {/* The number that makes a tile worth pressing today, when there is
+                one. A tile that can say 3 waiting should say it here rather
+                than make a parent open it to find out. */}
+            {t.badge && (
+              <span style={{
+                flexShrink: 0, background: '#fff', border: `1.5px solid ${t.accent}`,
+                borderRadius: 100, padding: '3px 10px',
+                fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
+                color: 'var(--ink)', whiteSpace: 'nowrap',
+              }}>
+                {t.badge}
+              </span>
+            )}
+          </span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18.5, color: 'var(--ink)', lineHeight: 1.15 }}>
+            {t.label}
+          </span>
+          <span style={{ display: 'block', fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 3 }}>
+            {t.sub}
+          </span>
+        </Link>
+      ))}
+    </div>
+  )
+}

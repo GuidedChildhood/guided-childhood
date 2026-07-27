@@ -8,20 +8,28 @@ import { useEffect } from 'react'
 // face delivering the news, never a grey toast. Tap it to send it away early,
 // or it leaves on its own after a few seconds.
 //
-// The art is the real squad: DiGi the golden star, and Oliver, Zara and Sofia.
-// Swappable for warmer Happy News style illustrations later without touching
-// any of the call sites.
+// The art is the real cast: DiGi the golden star, and the Planet Friends
+// (Pebble, Bloop, Orbit, Nova, Cosmo) drawn from the one source of truth, so a
+// child's own buddy can pop up here and every surface stays in step.
 
-export type CharacterKey = 'digi' | 'oliver' | 'zara' | 'sofia'
+import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
+
+export type CharacterKey = 'digi' | 'pebble' | 'bloop' | 'orbit' | 'nova' | 'cosmo'
 
 const CHARACTER: Record<CharacterKey, { src: string; name: string; ring: string }> = {
-  digi:   { src: '/digi-squad/DiGi-star.svg', name: 'DiGi',   ring: 'var(--terracotta)' },
-  oliver: { src: '/digi-squad/Oliver.png',    name: 'Oliver', ring: '#D4600A' },
-  zara:   { src: '/digi-squad/Zara.png',      name: 'Zara',   ring: '#C9962A' },
-  sofia:  { src: '/digi-squad/Sofia.jpeg',    name: 'Sofia',  ring: '#2E7D5A' },
-}
+  digi: { src: '/digi-squad/DiGi-star.svg', name: 'DiGi', ring: 'var(--terracotta)' },
+  ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { src: c.cutout, name: c.name, ring: c.colour }])),
+} as Record<CharacterKey, { src: string; name: string; ring: string }>
 
-export type HappyNewsItem = { character: CharacterKey; headline: string; sub?: string }
+// A friendly fallback so a missing or unknown key never crashes a celebration.
+function charFor(key: CharacterKey) { return CHARACTER[key] ?? CHARACTER.digi }
+
+// An optional action turns the pop into a doorway: a chunky button that takes
+// the child straight to the thing it is about (their to-do list, or a fun sheet)
+// and tucks the pop away, so a pop is something they can act on, not just read.
+// It either scrolls to a targetId on the page or runs onClick (for example to
+// open a tab), whichever is given.
+export type HappyNewsItem = { character: CharacterKey; headline: string; sub?: string; action?: { label: string; targetId?: string; onClick?: () => void } }
 
 const CONFETTI = ['#F6C244', '#E5734B', '#2E7D5A', '#7C5CBF', '#4B9CE5', '#E5484D']
 
@@ -33,7 +41,7 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
   }, [item, onClose])
 
   if (!item) return null
-  const c = CHARACTER[item.character]
+  const c = charFor(item.character)
 
   return (
     <div
@@ -54,7 +62,7 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
 
       {/* Confetti burst behind the card */}
       <div style={{ position: 'absolute', bottom: '70px', left: '50%', width: 0, height: 0, pointerEvents: 'none' }}>
-        {Array.from({ length: 14 }).map((_, i) => {
+        {Array.from({ length: 18 }).map((_, i) => {
           const drift = `${(i % 2 ? 1 : -1) * (20 + (i * 7) % 90)}px`
           const fall = `${-70 - (i * 13) % 120}px`
           return (
@@ -77,8 +85,8 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
         animation: 'gcHappyUp 0.55s cubic-bezier(0.22,1.2,0.36,1) both',
       }}>
         <span style={{
-          flexShrink: 0, width: 64, height: 64, borderRadius: '50%', overflow: 'hidden',
-          background: '#FFF7E8', border: `2.5px solid ${c.ring}`,
+          flexShrink: 0, width: 76, height: 76, borderRadius: '50%', overflow: 'hidden',
+          background: '#FFF7E8', border: `3px solid ${c.ring}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           animation: 'gcHappyBob 1.6s ease-in-out infinite',
         }}>
@@ -86,16 +94,36 @@ export default function HappyNews({ item, onClose }: { item: HappyNewsItem | nul
           <img src={c.src} alt={c.name} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: c.ring, marginBottom: '2px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: c.ring, marginBottom: '2px' }}>
             {c.name} says
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.2 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '21px', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
             {item.headline}
           </div>
           {item.sub && (
-            <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '3px' }}>
+            <div style={{ fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '3px' }}>
               {item.sub}
             </div>
+          )}
+          {item.action && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                try {
+                  if (item.action!.onClick) item.action!.onClick()
+                  else if (item.action!.targetId) document.getElementById(item.action!.targetId)?.scrollIntoView({ behavior: 'smooth' })
+                } catch { /* no target */ }
+                onClose()
+              }}
+              style={{
+                marginTop: '9px', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+                borderRadius: '12px', padding: '9px 16px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
+                boxShadow: '0 4px 0 var(--terracotta-dark)',
+              }}
+            >
+              {item.action.label}
+            </button>
           )}
         </div>
       </div>

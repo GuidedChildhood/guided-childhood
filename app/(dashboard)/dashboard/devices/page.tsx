@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import type { AgeBand } from '@/lib/content/stages'
 import DeviceHub from './DeviceHub'
+import DeviceSweepCard from '@/components/devices/DeviceSweepCard'
+import YourHome from '@/components/devices/YourHome'
 import type { DeviceGuide } from './DeviceList'
 
 const STAGE_MAP: Record<string, { id: string; label: string }> = {
@@ -40,45 +42,62 @@ export default async function DevicesPage() {
       .maybeSingle(),
     supabase
       .from('device_setup_progress')
-      .select('device_key')
+      .select('device_key, status')
       .eq('user_id', user.id),
   ])
 
   const devices = (devicesData ?? []) as DeviceGuide[]
-  const completedKeys = (progressData ?? []).map(p => p.device_key as string)
+  // status is done (settings in place) or not_owned (we do not have this yet).
+  // Before migration 090 there is no status column, so a missing value reads
+  // as done, exactly as it did before.
+  const progressRows = (progressData ?? []) as { device_key: string; status?: string }[]
+  const completedKeys = progressRows.filter(p => (p.status ?? 'done') === 'done').map(p => p.device_key)
+  const notOwnedKeys = progressRows.filter(p => p.status === 'not_owned').map(p => p.device_key)
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px 48px' }}>
       <div style={{ marginBottom: '20px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Device Safety Hub</p>
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
           Set up every device the right way
         </h1>
-        <p style={{ color: 'var(--ink)', fontSize: '15px' }}>
+        <p style={{ color: 'var(--ink)', fontSize: '17px' }}>
           Step by step guides for every device{child?.name && child.name !== 'Your child' ? ` ${child.name} uses` : ' your family uses'}, matched to age.
         </p>
       </div>
 
       {stageNote && (
         <div style={{ background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)', borderRadius: '16px', padding: '18px 20px', marginBottom: '20px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
             {stage.label}
           </div>
-          <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '12px' }}>
+          <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '12px' }}>
             {stageNote.desc_text}
           </p>
           <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '10px', padding: '12px 14px', borderLeft: '3px solid var(--terracotta)' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
               What the research says at this age
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6 }}>
+            <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6 }}>
               {stageNote.science}
             </p>
           </div>
         </div>
       )}
 
-      <DeviceHub devices={devices} childAge={childAge} initialCompleted={completedKeys} />
+      {/* Their house, before our catalogue. Everything below is a guide we
+          publish; this is the list of things they actually own, and it is what
+          the passport counts and what a timer runs against. */}
+      <YourHome childName={child?.name ?? null} />
+
+      <DeviceSweepCard />
+
+      <DeviceHub
+        devices={devices}
+        childAge={childAge}
+        initialCompleted={completedKeys}
+        initialNotOwned={notOwnedKeys}
+      />
     </div>
   )
 }

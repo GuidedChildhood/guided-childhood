@@ -44,9 +44,9 @@ export default function UpdateBanner() {
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
           width: '100%', background: 'var(--deep-teal)', color: '#fff', border: 'none',
-          borderRadius: '14px', padding: '13px 16px', cursor: 'pointer',
-          boxShadow: '0 10px 30px rgba(23,60,70,0.35)',
-          fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 600,
+          borderRadius: '18px', padding: '15px 18px', cursor: 'pointer',
+          boxShadow: '0 2px 4px rgba(23,60,70,0.10), 0 18px 42px -12px rgba(23,60,70,0.45)',
+          fontFamily: 'var(--font-body)', fontSize: '15.5px', fontWeight: 600,
         }}
       >
         <span>A newer version is ready</span>

@@ -7,8 +7,8 @@ import PrintButton from '@/components/educator/PrintButton'
 // plain words. Short on purpose: every long answer lives in its own Hub
 // document, and each answer points there.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.7 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.7 }
 
 const FAQS = [
   { q: 'Is this compliant with the new RSHE guidance?', a: 'The scheme is mapped module by module to the July 2025 statutory guidance that becomes compulsory in September 2026, including its newly named topics (deepfakes, misogynistic online cultures, online gambling, harms of pornography, illegal online behaviours). The full matrix is in the Hub under RSHE 2025 mapping, printable for your inspection file.' },

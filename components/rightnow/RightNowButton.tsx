@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { MOMENT_PHOTOS } from '@/lib/content/moment-photos'
 import { scriptVoiceUrl } from '@/lib/content/script-voice'
+import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
+import DigiCharacter from '@/components/digi/DigiCharacter'
 
 // The Right Now button: the emergency entry point in the centre of the
 // mobile tab bar. A child is crying because the TV went off and the parent
@@ -80,8 +82,8 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
   const [pickedLabel, setPickedLabel] = useState('')
   const [script, setScript] = useState<ScriptResult | null>(null)
   const [failed, setFailed] = useState(false)
-  // Something else: the parent types one line and DiGi writes the words on
-  // the spot, instead of being dumped into the library mid meltdown.
+  // Something else: the parent types one line and DiGi writes the words on the
+  // spot, or steps through to the full moments library to pick the exact one.
   const [customMode, setCustomMode] = useState(false)
   const [customInput, setCustomInput] = useState('')
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -107,16 +109,29 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
 
   useEffect(() => { setMounted(true) }, [])
 
-  // One time coach mark: explain the button before its first ever use.
+  // One time coach mark: explain the button before its first ever use. It waits
+  // about a minute after login and until nothing else is up (the welcome sheet
+  // and any toast go first), so it never lands as part of a pile on load.
   useEffect(() => {
-    if (localStorage.getItem('gc_now_hint_seen') !== '1') {
-      const id = setTimeout(() => setShowHint(true), 1200)
-      return () => clearTimeout(id)
-    }
+    if (localStorage.getItem('gc_now_hint_seen') === '1') return
+    return whenClear(POPUP_DELAY.coach, () => { openPopup('coach'); setShowHint(true) })
   }, [])
+
+  // It has said its piece: the coach mark eases itself away after two minutes
+  // so it never lingers, and counts as seen so it does not pop up again.
+  useEffect(() => {
+    if (!showHint) return
+    const id = setTimeout(() => {
+      localStorage.setItem('gc_now_hint_seen', '1')
+      closePopup('coach')
+      setShowHint(false)
+    }, 120000)
+    return () => clearTimeout(id)
+  }, [showHint])
 
   function dismissHint() {
     localStorage.setItem('gc_now_hint_seen', '1')
+    closePopup('coach')
     setShowHint(false)
   }
 
@@ -213,17 +228,19 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
         <div
           className="rightnow-hint"
           style={{
-            position: 'fixed', zIndex: 90, width: 'min(86vw, 310px)',
+            position: 'fixed', zIndex: 90, width: 'min(90vw, 340px)',
             ...(variant === 'fab'
               ? { bottom: '150px', right: '14px' }
               : { bottom: '92px', left: '50%', transform: 'translateX(-50%)' }),
-            // Warm and light, in the brand butter, so it reads as a friendly
-            // tip and not a stark black box. Dark ink text keeps it readable.
+            // The premium DiGi note: the butter DiGi mark and warm ink of the
+            // DiGi front door, so the tip reads as DiGi leaning in, clear and
+            // premium, never a stark black box.
             background: '#fff',
             color: 'var(--ink)',
-            border: '1.5px solid var(--terracotta)',
-            borderRadius: '18px', padding: '15px 40px 15px 17px',
-            boxShadow: '0 14px 34px -12px rgba(26,26,46,0.24)',
+            border: '1.5px solid var(--border)',
+            borderRadius: '16px', padding: '17px 42px 17px 17px',
+            boxShadow: '0 8px 24px rgba(26,26,46,0.10), 0 3px 0 var(--border)',
+            display: 'flex', gap: '13px', alignItems: 'flex-start',
           }}
         >
           {/* An obvious way out: a real close control, not click the bubble */}
@@ -232,24 +249,39 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             onClick={dismissHint}
             aria-label="Dismiss tip"
             style={{
-              position: 'absolute', top: '9px', right: '9px',
+              position: 'absolute', top: '11px', right: '11px',
               width: '28px', height: '28px', borderRadius: '50%',
               background: 'var(--cream)', border: '1px solid var(--border)',
-              color: 'var(--ink-muted)', fontSize: '14px', lineHeight: 1, cursor: 'pointer',
+              color: 'var(--ink-muted)', fontSize: '16px', lineHeight: 1, cursor: 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >
             ✕
           </button>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', margin: '0 0 5px', letterSpacing: '-0.01em', color: 'var(--ink)' }}>
-            Mid meltdown? This button.
-          </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: '13px', lineHeight: 1.55, margin: 0, color: 'var(--ink-soft)' }}>
-            When a hard moment is happening, tap Now, pick the situation, and the calm words appear. Two taps, no searching.
-          </p>
+          {/* The DiGi avatar, the same butter circle as the Home greeting */}
+          <span style={{
+            flexShrink: 0, width: 44, height: 44, borderRadius: '50%',
+            background: 'var(--terracotta)', border: '2px solid var(--terracotta-dark)',
+            boxShadow: '0 3px 0 var(--terracotta-dark)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <DigiCharacter mood="speak" size={30} once />
+          </span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{
+              display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+              letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px',
+            }}>Help now</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17.5px', margin: '0 0 5px', letterSpacing: '-0.01em', lineHeight: 1.2, color: 'var(--ink)' }}>
+              Mid meltdown? This button.
+            </span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: '15.5px', lineHeight: 1.55, margin: 0, color: 'var(--ink-soft)' }}>
+              When a hard moment is happening, tap Now, pick the situation, and the calm words appear. Two taps, no searching.
+            </span>
+          </span>
           <div className="rightnow-hint-arrow" style={{
             position: 'absolute', bottom: '-7px', width: '14px', height: '14px', background: '#fff',
-            borderRight: '1.5px solid var(--terracotta)', borderBottom: '1.5px solid var(--terracotta)',
+            borderRight: '1.5px solid var(--border)', borderBottom: '1.5px solid var(--border)',
             ...(variant === 'fab'
               ? { right: '28px', transform: 'rotate(45deg)' }
               : { left: '50%', transform: 'translateX(-50%) rotate(45deg)' }),
@@ -303,7 +335,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             <BoltIcon />
           </span>
           <span style={{
-            fontSize: '9px',
+            fontSize: '11px',
             fontWeight: 600,
             letterSpacing: '.05em',
             textTransform: 'uppercase',
@@ -361,7 +393,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                 aria-label="Close"
                 style={{
                   background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '50%',
-                  width: '38px', height: '38px', fontSize: '16px', color: 'var(--ink-soft)',
+                  width: '38px', height: '38px', fontSize: '18px', color: 'var(--ink-soft)',
                   cursor: 'pointer', lineHeight: 1,
                 }}
               >
@@ -371,13 +403,13 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
 
             {!picked ? (
               <>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '8px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '8px' }}>
                   Right now
                 </div>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '26px', color: 'var(--ink)', letterSpacing: '-.02em', margin: '6px 0 4px' }}>
                   What is happening right now?
                 </h2>
-                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
+                <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
                   Pick the moment and the calm words appear: what to say, what not to say. It gets remembered too, so tomorrow we ask how it went and DiGi knows the story.
                 </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
@@ -390,7 +422,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px',
                         background: 'var(--white)', border: '1.5px solid var(--border)',
                         borderRadius: '18px', padding: '16px 12px 14px', cursor: 'pointer',
-                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px',
+                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px',
                         color: 'var(--ink)', textAlign: 'center', lineHeight: 1.3,
                         boxShadow: '0 3px 0 var(--border)',
                       }}
@@ -411,13 +443,13 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
               </>
             ) : customMode ? (
               <>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '8px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '8px' }}>
                   Right now
                 </div>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '24px', color: 'var(--ink)', letterSpacing: '-.02em', margin: '6px 0 4px' }}>
                   Tell me what is happening
                 </h2>
-                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
+                <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
                   One line is enough. DiGi writes the calm words for this exact moment, for your child&rsquo;s age.
                 </p>
                 <textarea
@@ -431,7 +463,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   style={{
                     width: '100%', padding: '14px 16px', borderRadius: '16px',
                     border: '1.5px solid var(--border)', background: 'var(--white, #fff)',
-                    fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)',
+                    fontFamily: 'var(--font-body)', fontSize: '18px', color: 'var(--ink)',
                     lineHeight: 1.5, resize: 'none', outline: 'none', marginBottom: '12px',
                     boxSizing: 'border-box',
                   }}
@@ -442,20 +474,46 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                   disabled={!customInput.trim()}
                   style={{
                     width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
                     border: 'none', borderRadius: '16px', padding: '16px 20px',
                     cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)',
-                    opacity: customInput.trim() ? 1 : 0.55, marginBottom: '10px',
+                    opacity: customInput.trim() ? 1 : 0.55, marginBottom: '12px',
                   }}
                 >
                   Get the words
                 </button>
+
+                {/* The whole library is one tap away: every moment we have
+                    designed, on the pick a moment page, so nothing ever feels
+                    missing behind Something else. */}
+                <Link
+                  href="/dashboard/moments"
+                  onClick={() => { stopVoice(); setOpen(false) }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none',
+                    background: 'var(--white)', border: '1.5px solid var(--border)',
+                    borderRadius: '16px', padding: '14px 16px', marginBottom: '10px',
+                    boxShadow: '0 3px 0 var(--border)',
+                  }}
+                >
+                  <span style={{ fontSize: '1.4rem', flexShrink: 0 }}>🗂️</span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.25 }}>
+                      Browse every moment
+                    </span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-soft)', marginTop: '1px' }}>
+                      Pick the exact one from the full library
+                    </span>
+                  </span>
+                  <span style={{ fontSize: '1.2rem', flexShrink: 0, color: 'var(--ink-muted)' }}>→</span>
+                </Link>
+
                 <button
                   type="button"
                   onClick={() => { setCustomMode(false); setPicked(null) }}
                   style={{
                     width: '100%', background: 'none', border: 'none', cursor: 'pointer',
-                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
+                    fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600,
                     color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '10px 0',
                   }}
                 >
@@ -464,21 +522,21 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
               </>
             ) : (
               <>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '8px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: '8px' }}>
                   {pickedLabel}
                 </div>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', color: 'var(--ink)', letterSpacing: '-.02em', margin: '6px 0 16px' }}>
                   {script ? script.title : failed ? 'The words are with DiGi' : 'Getting your words'}
                 </h2>
                 {!script && !failed && (
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em', margin: '-8px 0 14px' }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600, color: 'var(--ink-muted)', letterSpacing: '0.04em', margin: '-8px 0 14px' }}>
                     While the words come, breathe out slowly once. You first, then them.
                   </p>
                 )}
 
                 {failed ? (
                   <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', marginBottom: '16px' }}>
-                    <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
+                    <p style={{ fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.6 }}>
                       We could not load the script just now. DiGi can talk you through this exact moment instead, and it already knows what is happening.
                     </p>
                   </div>
@@ -491,7 +549,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                       animation: script ? undefined : 'rightnow-pulse 1.2s ease-in-out infinite',
                     }}>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '10px' }}>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
                           Say this
                         </div>
                         {script?.sort_order != null && scriptVoiceUrl(script.sort_order) && (
@@ -502,7 +560,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                               display: 'inline-flex', alignItems: 'center', gap: '6px',
                               background: 'var(--white, #fff)', border: '1.5px solid var(--border)',
                               borderRadius: '100px', padding: '6px 12px', cursor: 'pointer',
-                              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+                              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
                               letterSpacing: '0.06em', color: 'var(--ink)',
                             }}
                           >
@@ -510,7 +568,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                           </button>
                         )}
                       </div>
-                      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '20px', lineHeight: 1.45, color: 'var(--ink)', minHeight: script ? undefined : '86px' }}>
+                      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '22px', lineHeight: 1.45, color: 'var(--ink)', minHeight: script ? undefined : '86px' }}>
                         {script?.say_this ?? ''}
                       </p>
                     </div>
@@ -521,14 +579,37 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                       borderRadius: '16px', padding: '18px 20px', marginBottom: '20px',
                       animation: script ? undefined : 'rightnow-pulse 1.2s ease-in-out infinite',
                     }}>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--danger)', marginBottom: '8px' }}>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--danger)', marginBottom: '8px' }}>
                         {script?.crisis ? 'A human, right now' : 'Not this'}
                       </div>
-                      <p style={{ fontSize: '15px', lineHeight: 1.55, color: 'var(--danger)', minHeight: script ? undefined : '44px' }}>
+                      <p style={{ fontSize: '17px', lineHeight: 1.55, color: 'var(--danger)', minHeight: script ? undefined : '44px' }}>
                         {script?.not_this ?? ''}
                       </p>
                     </div>
                   </>
+                )}
+
+                {/* When the words point to doing something fun instead of the
+                    screen, offer the printables for real ideas, so the parent is
+                    not left holding 'let us find something fun' with nothing to
+                    reach for. Only on cards that actually suggest it. */}
+                {script && /\bfun\b|do together|do instead|something (else )?to do|off ?screen|offline/i.test(`${script.say_this ?? ''} ${script.title ?? ''}`) && (
+                  <Link
+                    href="/dashboard/printables"
+                    onClick={() => { stopVoice(); setOpen(false) }}
+                    className="no-print"
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none',
+                      background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF', borderRadius: '14px',
+                      padding: '12px 14px', marginBottom: '10px',
+                    }}
+                  >
+                    <span aria-hidden style={{ fontSize: '22px', flexShrink: 0 }}>🖍️</span>
+                    <span style={{ flex: 1, fontFamily: 'var(--font-body)', fontSize: '15.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+                      Need something fun to reach for? Printables for offline ideas
+                    </span>
+                    <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--terracotta-dark)' }}>→</span>
+                  </Link>
                 )}
 
                 <div className="no-print" style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', paddingBottom: '12px' }}>
@@ -546,7 +627,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                         style={{
                           flex: 1, background: 'var(--white)', border: '1.5px solid var(--border)',
                           color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700,
-                          fontSize: '13px', borderRadius: '14px', padding: '12px 10px',
+                          fontSize: '15px', borderRadius: '14px', padding: '12px 10px',
                           cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
                         }}
                       >
@@ -558,7 +639,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                         style={{
                           flex: 1, background: 'var(--white)', border: '1.5px solid var(--border)',
                           color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700,
-                          fontSize: '13px', borderRadius: '14px', padding: '12px 10px',
+                          fontSize: '15px', borderRadius: '14px', padding: '12px 10px',
                           cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
                         }}
                       >
@@ -572,7 +653,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     style={{
                       display: 'block', textAlign: 'center', textDecoration: 'none',
                       background: 'var(--terracotta)', color: 'var(--ink)',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
                       borderRadius: '16px', padding: '16px 20px',
                       boxShadow: '0 5px 0 var(--terracotta-dark)',
                     }}
@@ -585,7 +666,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                     style={{
                       background: 'var(--white)', border: '1.5px solid var(--border)',
                       color: 'var(--ink-soft)', fontFamily: 'var(--font-display)', fontWeight: 700,
-                      fontSize: '15px', borderRadius: '16px', padding: '15px 20px',
+                      fontSize: '17px', borderRadius: '16px', padding: '15px 20px',
                       cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
                     }}
                   >

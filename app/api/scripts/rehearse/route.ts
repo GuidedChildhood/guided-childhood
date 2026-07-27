@@ -4,6 +4,8 @@ import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
+import { ladderStep, STEP_NOTE } from '@/lib/content/refusal-ladder'
+import { getExpertKnowledge } from '@/lib/digi/brain'
 
 // Rehearse with DiGi: a safe place to practise the words before the real
 // conversation. DiGi plays the child, reacting the way a real child of this
@@ -39,8 +41,33 @@ export const dynamic = 'force-dynamic'
 
 const WARM_ERROR = 'DiGi lost its place for a second. Try that line again, nothing was lost.'
 
+// No dashes in any copy, ever. Turn stray em, en and spaced hyphens into commas
+// so a model line never slips a dash through.
+function noDashes(s: string): string {
+  return s.replace(/\s*[—–]\s*/g, ', ').replace(/\s+-\s+/g, ', ').trim()
+}
+
+// The safety net for Stuck for words: three genuinely good lines grounded in the
+// expert canon (Dr Becky Kennedy, connection before correction and two things
+// are true; Sue Atkins, the calm confident boundary; emotion coaching, name the
+// feeling first). Built from this script so they always fit the moment, even
+// with no model. Never leaves the parent with a dead button.
+function expertFallbackLines(childName: string, situation: string, sayThis: string): string[] {
+  const lines: string[] = [
+    `I can see this feels really unfair right now, and it makes sense you are frustrated.`,
+  ]
+  const say = noDashes((sayThis ?? '').trim())
+  if (say) lines.push(say)
+  else lines.push(`Two things are true. You are allowed to be cross, and it is still time to stop.`)
+  lines.push(`Shall we figure out a good stopping point together, so it is not so sudden next time?`)
+  return lines.slice(0, 3).map(noDashes)
+}
+
 type Body = {
   mode: 'child' | 'coach' | 'suggest'
+  /** Which script this is, so DiGi can lead with a line that has already
+   *  worked for this family. Optional: the fixture page sends none. */
+  sortOrder?: number
   scriptTitle: string
   situation: string
   sayThis: string
@@ -63,7 +90,7 @@ export async function POST(request: Request) {
   }
 
   const body = (await request.json()) as Body
-  const { mode, scriptTitle, situation, sayThis, notThis } = body
+  const { mode, sortOrder, scriptTitle, situation, sayThis, notThis } = body
   if (!scriptTitle || !Array.isArray(body.messages)) {
     return NextResponse.json({ error: 'Bad request' }, { status: 400 })
   }
@@ -78,44 +105,156 @@ export async function POST(request: Request) {
   const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
   const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
 
+  // How a child of this stage genuinely argues, from developmental psychology:
+  // the shape of protest changes with age, and the role play should match it so
+  // the parent practises against the real thing, not a generic small adult.
+  const AGE_VOICE: Record<number, string> = {
+    1: 'At 4 to 7 the protest is egocentric and in the body: short bursts, but I WANT it, crying close to the surface, no real negotiation, easily derailed by feelings, sometimes a flat refusal or flopping. Very short sentences, simple words, now focused.',
+    2: 'At 8 to 10 the protest runs on fairness and deals: that is SO unfair, five more minutes, I promise I will after, comparing siblings and friends by name, bargaining hard, rules lawyering the exact wording of what was agreed.',
+    3: 'At 11 to 13 the protest runs on peer norms and budding autonomy: literally everyone has it, you are so embarrassing, eye rolling, one word answers when hurt, sudden door slamming energy, deeply sensitive to being treated like a little kid.',
+    4: 'At 13 to 15 the protest runs on privacy, trust and identity: why do you not trust me, it is MY phone, you do not understand anything, going quiet or cold rather than loud, testing whether the parent respects them as almost an adult.',
+    5: 'At 16 plus the pushback is near adult: reasoned argument, appeals to independence and rights, sometimes weary tolerance, and the real conversation is about trust and staying connected rather than rules.',
+  }
+  const ageVoice = AGE_VOICE[stage.id] ?? AGE_VOICE[3]
+
+  // The evidence bank feeds the coach too, keyed on the situation plus the
+  // child's own words from the rehearsal, since script titles often carry no
+  // topic keywords and the child's words (game, fair, phone) are what the bank
+  // matcher keys on.
+  const recentChildWords = body.messages.filter(m => m.role === 'assistant').slice(-2).map(m => m.content).join(' ')
+  let coachBank = ''
+  if (mode === 'coach') {
+    try {
+      coachBank = await getExpertKnowledge(supabase, child?.age_band ?? null, `${scriptTitle} ${situation} ${recentChildWords}`)
+    } catch { /* the coaching stands on the canon regardless */ }
+  }
+
   const system = mode === 'coach'
     ? `You are DiGi, a warm parenting coach reviewing a practice run. The parent has just rehearsed a real conversation with you playing their child. Now step OUT of character and coach them, briefly and kindly.
 
 The script they were practising is "${scriptTitle}" (${situation}).
 The line to aim for: "${sayThis}"
-The line to avoid: "${notThis}"
+The line to avoid: "${notThis}"${coachBank ? `\n\nRelevant findings from our research bank, cite one by name where it genuinely fits the feedback:\n${coachBank}` : ''}
 
 Give feedback in 3 to 4 short chat messages separated by blank lines:
 - One genuine thing that landed well in how they spoke.
 - One small adjustment, specific to a thing they actually said, phrased as encouragement not correction.
 - One sentence they could try if the real conversation gets stuck.
+If the parent said three or more things and the child never budged, make one of your messages the ladder itself, because it is the thing they most need and almost nobody knows it: warmth is the opening and not the ending, and what actually finishes a standoff is a boundary in Becky Kennedy's sense, something the PARENT will do rather than something the child must do, since that needs no agreement to work. Add that a child who is still cross but heard, with the rule intact, is the good outcome rather than a failed conversation, and that the repair happens afterwards when you are both calm.
+If the rehearsal involved something upsetting the child saw online, warmly praise any parent line that made clear the child is not in trouble, and never suggest taking the device away, since confiscation ends future telling.
 Warm, plain, direct. Never shame. No bullet points. No dashes anywhere. End on belief that they can do this.`
     : `You are role-playing a child so a parent can practise a hard conversation. Stay fully in character as the child. Do NOT give advice, do NOT break character, do NOT speak as an assistant.
 
-You are ${childName}, ${stage.ages}. The situation: ${situation}. Your parent is about to talk to you about it. React the way a real child this age genuinely might: a little defensive or testing at first, wanting to be understood, softening if the parent stays calm and connected, pushing back if they come in with a flat no. Keep every reply to one or two natural sentences, the way a child actually talks, never a speech. Use age appropriate language, the real slang and half sentences of a child this age, not a tidy grown up version. Ground it in the real world: name the actual app or game, invent a friend's name, mention being the only one left out, homework, being tired, whatever a child this age would really bring up in this exact situation, so it feels like a real moment and not a script. Never be abusive or use profanity. No dashes anywhere in what you say. If the parent handles it really well, let it show. This is practice, so make it feel real but winnable.`
+You are ${childName}, ${stage.ages}. How a child this age genuinely argues: ${ageVoice} The situation: ${situation}. Your parent is about to talk to you about it. React the way a real child this age genuinely might: a little defensive or testing at first, wanting to be understood, softening if the parent stays calm and connected, pushing back if they come in with a flat no. Keep every reply to one or two natural sentences, the way a child actually talks, never a speech. Use age appropriate language, the real slang and half sentences of a child this age, not a tidy grown up version. Ground it in the real world: name the actual app or game, invent a friend's name, mention being the only one left out, homework, being tired, whatever a child this age would really bring up in this exact situation, so it feels like a real moment and not a script. Never be abusive or use profanity. No dashes anywhere in what you say. If the parent handles it really well, let it show. This is practice, so make it feel real but winnable.
+
+Your FIRST message is the blurt: the exact raw thing a real child this age says in the heat of this precise moment, mid feeling, not a greeting and not a summary. Think what actually comes out of a child's mouth, the protest, the whatabout, the friend comparison, the am I in trouble, in their words.
+
+The flipped lid rule: while you are at peak upset you do not respond to logic or consequences, only to being felt. Soften only after the parent genuinely connects with the feeling, never on a well argued line alone. And after the parent's first good line, push back at least once more before softening, so they practise holding the boundary under repeated protest, which is where real conversations are lost.
+
+If the situation involves an online game, you cannot pause a live match and your teammates are real people, so protest the match boundary, not the minutes. If the situation involves something upsetting seen online, your first fear is being in trouble or losing your device, and you only begin to open up once the parent makes it clearly safe to tell.`
 
   const messages = body.messages
     .filter(m => (m.role === 'user' || m.role === 'assistant') && m.content?.trim())
     .slice(-16)
 
   // Suggest mode: the parent is stuck for words, so DiGi hands three short
-  // lines they could say next, calibrated to this script, without breaking the
-  // rehearsal. Non streaming, returns a plain JSON array of options.
+  // lines they could say next, grounded in the evidence on what actually helps
+  // a child in a hard moment (connection before correction, name the feeling,
+  // hold the limit warmly, never a flat no), calibrated to this script. Non
+  // streaming, returns a plain JSON array of options. Runs the full model
+  // fallback ladder so a 404 on the first model never leaves the parent with a
+  // dead button, and falls back to line parsing if the JSON is imperfect.
   if (mode === 'suggest') {
-    const suggestSystem = `You are DiGi, a calm parenting coach. The parent is mid practice and unsure what to say next to ${childName} (${stage.ages}) about: ${situation}. Suggest exactly 3 short things they could say next, each ONE natural sentence, warm and calibrated, never a flat no and never a lecture. Lean towards the spirit of saying: "${sayThis}". Steer clear of: "${notThis}". Return ONLY a JSON array of 3 strings. No dashes anywhere.`
+    // The research bank: real findings for this age and situation, so the
+    // suggested lines are grounded in the evidence, not just the canon.
+    let bankKnowledge = ''
     try {
-      const r = await anthropic.messages.create({
-        model: DIGI_MODEL, max_tokens: 300,
-        system: suggestSystem,
-        messages: messages.length ? messages : [{ role: 'user', content: '(Give three opening lines the parent could start with.)' }],
-      })
-      const text = r.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('')
-      const match = text.match(/\[[\s\S]*\]/)
-      const options = match ? (JSON.parse(match[0]) as unknown[]).filter(x => typeof x === 'string').slice(0, 3) : []
-      return NextResponse.json({ options })
-    } catch {
-      return NextResponse.json({ options: [] })
+      bankKnowledge = await getExpertKnowledge(supabase, child?.age_band ?? null, `${scriptTitle} ${situation} ${recentChildWords}`)
+    } catch { /* the canon below still grounds the lines */ }
+
+    // How many times the parent has already tried. Past three, more empathy is
+    // the wrong tool and DiGi should be handing over a boundary instead.
+    const suggestStep = ladderStep(messages.filter(m => m.role === 'user').length)
+
+    // A line this family has already told us worked, on this script, after a
+    // real moment with their real child. It leads rather than replaces: it is
+    // one family's single data point, so it earns first place and nothing more.
+    // Only while DiGi is still connecting, since a line that worked at the
+    // start of a conversation is not the line for a fourth refusal.
+    let provenLine = ''
+    if (typeof sortOrder === 'number' && suggestStep === 'connect') {
+      const { data } = await supabase
+        .from('script_completions').select('worked_line')
+        .eq('user_id', user.id).eq('script_sort_order', sortOrder).maybeSingle()
+      const won = (data as { worked_line?: string | null } | null)?.worked_line
+      if (won && won.trim()) provenLine = won.trim()
     }
+
+    const suggestSystem = `You are DiGi, a sharp, evidence led parenting guide coaching a parent mid rehearsal. Your job is to hand them the exact words to say next to ${childName} (${stage.ages}) about: ${situation}.${bankKnowledge ? `\n\nRelevant findings from our research bank, use them to shape the lines where they fit:\n${bankKnowledge}` : ''}
+
+Draw on the actual playbook the leading child and parent wellbeing experts teach:
+- Dr Becky Kennedy: connection before correction, and "two things are true" (the child's feeling is real AND the limit still holds).
+- Sue Atkins: the calm, confident boundary, said once, warmly, without wobble or lecture.
+- Catherine Knibbs: the digital world acts on a child's nervous system, so speak to the state under the behaviour, keep yourself the safe person to tell, and never make the child the problem.
+- Emotion coaching (Gottman, Tina Payne Bryson): name and validate the feeling first, so the child feels felt before anything is asked of them.
+- Ross Greene: kids do well if they can, so when the child is stuck (homework, mornings), the strongest opener is the Plan B empathy step, I have noticed this has been hard, what is up, before any expectation is restated.
+- Give a real element of choice or collaboration so the child keeps their dignity and some control.
+
+Never offer a line that: bribes the child to comply, says because I said so, compares them to a sibling, uses sarcasm or mockery, threatens to take the device away in a disclosure moment, labels them addicted, or minimises with it is just a game. Each of these is documented to make the moment worse.
+
+Each line should do one of these well: name and validate what ${childName} is feeling, hold the limit warmly WITH the empathy rather than instead of it, or offer a choice or a way to solve it together. Never a flat no, never a lecture, never shame, never sarcasm.
+
+WHERE THIS STANDOFF HAS GOT TO: ${suggestStep === 'connect'
+  ? 'Early. Validation is the right move: name what the child feels.'
+  : suggestStep === 'boundary'
+    ? 'The parent has already validated three times and the child is STILL refusing. Do NOT offer another validating line, it now reads as a parent with no answer. Offer the boundary instead, and use Becky Kennedy\'s definition exactly: a boundary is what the PARENT will do, never what the child must do. "I am going to come and take it at six" works because it needs no compliance. "Turn it off now" does not, because it can be refused. Each line must be something the parent can carry out alone, and must leave the child free to be furious about it.'
+    : 'This has gone on long enough and now needs ENDING, not winning. Offer lines that close it warmly and leave the relationship intact: the limit holds, the child is allowed to be angry, the parent is not withdrawing love, and it gets picked up when everyone is calm. Never a parting shot, never a lecture, never a fresh demand.'}
+
+${provenLine ? `This parent has already told us that "${provenLine}" worked with this child in this exact situation. Make your FIRST suggestion that line, or the closest natural version of it that fits what the child just said. The other two stay fresh.\n\n` : ''}Suggest exactly 3 short lines the parent could say next, each ONE natural spoken British sentence a real parent would actually say out loud in this moment, responding to what the child just said. Lean towards the spirit of: "${sayThis}". Steer clear of the spirit of: "${notThis}". Return ONLY a JSON array of 3 strings, nothing else. Never use a dash of any kind.`
+
+    // Build our own single user turn so the model always answers as the coach.
+    // Passing the rehearsal messages straight through ends on the child's line,
+    // which makes the model continue in the child's voice instead of coaching,
+    // the exact reason the button was dying. Fold the recent exchange into
+    // context text and ask plainly for the three lines.
+    const recent = messages.slice(-6)
+      .map(m => `${m.role === 'user' ? 'Parent' : childName}: ${m.content}`).join('\n')
+    const lastChild = [...messages].reverse().find(m => m.role === 'assistant')?.content
+    const ask = recent
+      ? `Here is how the rehearsal is going so far:\n${recent}\n\n${lastChild ? `${childName} has just said: "${lastChild}". ` : ''}Give me three lines I could say back right now, as a JSON array of 3 strings.`
+      : `Give me three strong opening lines I could start this conversation with, as a JSON array of 3 strings.`
+
+    const models = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
+    for (const model of models) {
+      try {
+        const r = await anthropic.messages.create({
+          model, max_tokens: 400,
+          system: suggestSystem,
+          messages: [{ role: 'user', content: ask }],
+        })
+        const text = r.content.filter(b => b.type === 'text').map(b => (b as { text: string }).text).join('').trim()
+        let options: string[] = []
+        const match = text.match(/\[[\s\S]*\]/)
+        if (match) {
+          try { options = (JSON.parse(match[0]) as unknown[]).filter(x => typeof x === 'string') } catch { /* fall through to line parse */ }
+        }
+        // Fallback parse: a plain list, one line each, strip bullets and quotes.
+        if (options.length === 0 && text) {
+          options = text.split('\n')
+            .map(l => l.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, '').replace(/^["'"]|["'"]$/g, '').trim())
+            .filter(l => l.length > 0 && !/^\[|\]$/.test(l))
+        }
+        options = options.slice(0, 3).map(noDashes).filter(Boolean)
+        if (options.length > 0) return NextResponse.json({ options })
+      } catch (err) {
+        const isModelError = err instanceof Anthropic.APIError && (err.status === 404 || err.status === 400)
+        if (!isModelError) break
+        // try the next model in the ladder
+      }
+    }
+    // Never a dead button: hand back the expert grounded lines built from this
+    // very script, so the parent always has three real things to say.
+    return NextResponse.json({ options: expertFallbackLines(childName, situation, sayThis) })
   }
 
   // Coach mode reviews the run just completed; if the parent has not said

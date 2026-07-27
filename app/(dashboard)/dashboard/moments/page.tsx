@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import { type AgeBand } from '@/lib/content/stages'
+import { ageBandInList } from '@/lib/content/stages'
 import MomentsGrid from './MomentsGrid'
 import type { Moment } from '@/components/cards/MomentCard'
 
@@ -34,9 +34,10 @@ export default async function MomentsPage() {
   const child = childResult.data
   const allMoments: Moment[] = momentsResult.data ?? []
 
-  // Filter to child's age band if known
+  // Filter to child's age band if known, matching by range overlap so a
+  // moment tagged 8-11 still reaches a child on the app's 8-10 band.
   const moments = child?.age_band
-    ? allMoments.filter(m => m.age_bands.length === 0 || m.age_bands.includes(child.age_band as AgeBand))
+    ? allMoments.filter(m => ageBandInList(child.age_band, m.age_bands))
     : allMoments
 
   // DiGi's pick: the same intelligence that runs the home path chooses one
@@ -65,10 +66,10 @@ export default async function MomentsPage() {
     <div style={{ maxWidth: '700px', margin: '0 auto', padding: '24px 20px' }}>
       <div style={{ marginBottom: '24px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Moment cards</p>
-        <h1 style={{ fontSize: 'clamp(1.4rem, 4vw, 1.8rem)', marginBottom: '8px' }}>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
           Every moment, handled
         </h1>
-        <p style={{ fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
+        <p style={{ fontSize: '16px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
           Flip a card to get the science and the exact words from DiGi.
           {child?.name && child.name !== 'Your child' ? ` Filtered for ${child.name}.` : ''}
         </p>

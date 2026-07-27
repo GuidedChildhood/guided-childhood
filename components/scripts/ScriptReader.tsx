@@ -1,13 +1,22 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  eyebrow, sheet, sheetBand, dottedRule, sheetBody, stageAccent, stageCircle,
+} from '@/components/scripts/card-system'
 
-// The heart of a script: the line to say, made to feel like the single
-// most important thing on the screen. A parent opens this in the heat of a
-// hard moment, so the words they will actually say are set large and warm,
-// they can pull them full screen to read while looking at their child, and
-// they can hear them read aloud first so the delivery lands calm, not
-// clipped. Everything else on the page supports this one card.
+// The heart of a script: the line to say, made to feel like the single most
+// important thing on the screen. A parent opens this in the heat of a hard
+// moment, so the words they will actually say are set large and warm, and they
+// can hear them read aloud first so the delivery lands calm, not clipped.
+//
+// It used to arrive as four separate white boxes, and four boxes read as four
+// things to get through. It is one thing: the words for one moment. So it is
+// one sheet now, butter, with the four steps as numbered blocks divided by a
+// dotted rule, the way a good worksheet is laid out. Every supporting step is
+// set at the same size, because none of them outranks the one beside it. Only
+// the words to say are bigger, because they are the only part a parent is
+// going to say out loud.
 
 type Props = {
   sayThis: string
@@ -80,48 +89,44 @@ function SpeakerIcon({ speaking }: { speaking: boolean }) {
 
 export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, stageId, voiceUrl }: Props) {
   const { speaking, supported, play } = useReadAloud(voiceUrl)
+  const accent = stageAccent(stageId)
+
+  // Every step opens the same way: the number circle and the mono label on one
+  // baseline, so the eye walks the sequence 1 to 4 down one left edge.
+  const head = (num: number, label: string, tone?: string) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 11, marginBottom: 12 }}>
+      <span style={stageCircle(accent)}>{num}</span>
+      <span style={{ ...eyebrow, color: tone ?? 'var(--terracotta-dark)' }}>{label}</span>
+    </div>
+  )
 
   return (
-    <>
-      {/* ── The hero: the line to say ─────────────────────────────────── */}
-      <section
-        style={{
-          position: 'relative',
-          borderRadius: 24,
-          padding: 'clamp(24px, 6vw, 40px)',
-          marginBottom: 18,
-          overflow: 'hidden',
-          background:
-            'radial-gradient(120% 90% at 12% -10%, rgba(237,195,95,0.22), transparent 55%),' +
-            'linear-gradient(160deg, #FFF9EC 0%, #FEF3D8 55%, #FBE9C4 100%)',
-          border: '1.5px solid rgba(201,154,40,0.28)',
-          boxShadow: '0 18px 40px -22px rgba(140,100,20,0.5)',
-        }}
-      >
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18,
-        }}>
-          <span style={{
-            width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
-            background: 'var(--terracotta)', color: '#3A2C0C',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
-            boxShadow: '0 2px 0 var(--terracotta-dark)',
-          }}>1</span>
-          <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600,
-            letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
-          }}>
-            Say this
-          </span>
-        </div>
+    <section style={sheet}>
 
+      {/* The band, with the same convex arc the daily deck cards wear, so a
+          script and a card read as one family. It names what the sheet is. */}
+      <div style={sheetBand}>
+        <div style={{ ...eyebrow, fontSize: 12, color: '#4A3410', opacity: 0.75 }}>
+          The script
+        </div>
+        <div style={{
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19,
+          color: '#3A2C0C', lineHeight: 1.2, letterSpacing: '-0.01em', marginTop: 2,
+        }}>
+          Four steps, in order
+        </div>
+      </div>
+
+      <div style={{ padding: 'clamp(20px, 5vw, 26px)' }}>
+
+        {/* ── 1 · Say this: the one thing on the page said out loud ─────── */}
+        {head(1, 'Say this')}
         <blockquote style={{
           margin: 0,
           fontFamily: 'var(--font-display)',
-          fontWeight: 800,
-          fontSize: 'clamp(1.5rem, 5.4vw, 2.4rem)',
-          lineHeight: 1.28,
+          fontWeight: 900,
+          fontSize: 'clamp(24px, 6.6vw, 30px)',
+          lineHeight: 1.3,
           letterSpacing: '-0.015em',
           color: '#4A3410',
           textWrap: 'balance',
@@ -129,118 +134,53 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
           <span aria-hidden style={{ opacity: 0.35 }}>&ldquo;</span>{sayThis}<span aria-hidden style={{ opacity: 0.35 }}>&rdquo;</span>
         </blockquote>
 
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 24 }}>
-          {supported && (
+        {supported && (
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 18 }}>
             <button onClick={play} style={heroBtn(speaking)}>
               <SpeakerIcon speaking={speaking} />
               {speaking ? 'Stop' : 'Hear it aloud'}
             </button>
-          )}
-        </div>
-      </section>
+          </div>
+        )}
 
-      {/* ── Not this ──────────────────────────────────────────────────── */}
-      <SupportCard
-        num={2}
-        label="Not this"
-        accent="var(--danger)"
-        bg="var(--danger-bg)"
-        border="var(--danger-border)"
-      >
-        <p style={{ fontSize: 16, color: 'var(--danger)', lineHeight: 1.6, fontStyle: 'italic', margin: 0 }}>
-          &ldquo;{notThis}&rdquo;
-        </p>
-      </SupportCard>
+        <div style={dottedRule} />
 
-      {/* ── Why it works (the evidence) ───────────────────────────────── */}
-      <SupportCard
-        num={3}
-        label="Why it works"
-        accent="var(--terracotta-dark)"
-        bg="var(--tint-sage)"
-        border="rgba(46,40,24,0.12)"
-      >
-        <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
-          {whyItWorks}
+        {/* ── 2 · Not this ─────────────────────────────────────────────── */}
+        {head(2, 'Not this', 'var(--danger)')}
+        <p style={{ ...sheetBody, color: 'var(--danger)', fontStyle: 'italic' }}>
+          <span aria-hidden style={{ opacity: 0.5 }}>&ldquo;</span>{notThis}<span aria-hidden style={{ opacity: 0.5 }}>&rdquo;</span>
         </p>
-      </SupportCard>
 
-      {/* ── Tonight (the one action) ──────────────────────────────────── */}
-      <div style={{
-        position: 'relative',
-        borderRadius: 20,
-        padding: 'clamp(20px, 5vw, 28px)',
-        marginBottom: 18,
-        background: 'linear-gradient(160deg, #22505C 0%, #173C46 100%)',
-        boxShadow: '0 14px 34px -20px rgba(23,60,70,0.7)',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-          <span style={{
-            width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
-            background: 'var(--butter, #EDC35F)', color: '#173C46',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14,
-          }}>4</span>
-          <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600,
-            letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--butter, #EDC35F)',
-          }}>
-            Tonight
-          </span>
-        </div>
-        <p style={{ fontSize: 17, color: '#fff', lineHeight: 1.6, fontWeight: 500, margin: 0 }}>
-          {tonight}
-        </p>
+        <div style={dottedRule} />
+
+        {/* ── 3 · Why it works (the evidence) ──────────────────────────── */}
+        {head(3, 'Why it works')}
+        <p style={sheetBody}>{whyItWorks}</p>
+
+        <div style={dottedRule} />
+
+        {/* ── 4 · Tonight (the one action) ─────────────────────────────── */}
+        {head(4, 'Tonight')}
+        <p style={{ ...sheetBody, fontWeight: 600 }}>{tonight}</p>
       </div>
 
       <style>{`
         @keyframes sr-bar { 0%,100% { transform: scaleY(0.4) } 50% { transform: scaleY(1) } }
       `}</style>
-    </>
+    </section>
   )
 }
 
-// The two hero actions share one chunky, tactile button so they read as a
-// pair, filled when active.
+// The hero action: one chunky, tactile button, filled when active.
 function heroBtn(active: boolean): React.CSSProperties {
   return {
     display: 'inline-flex', alignItems: 'center', gap: 8,
     padding: '11px 18px', borderRadius: 14, cursor: 'pointer',
-    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13.5,
-    background: active ? 'var(--terracotta)' : 'rgba(255,255,255,0.72)',
+    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5,
+    background: active ? 'var(--terracotta)' : 'var(--terracotta-lt)',
     color: active ? '#fff' : '#4A3410',
     border: '1.5px solid rgba(201,154,40,0.35)',
     boxShadow: active ? 'none' : '0 3px 0 rgba(201,154,40,0.3)',
     transition: 'transform 0.12s, box-shadow 0.12s',
   }
-}
-
-function SupportCard({
-  num, label, accent, bg, border, children,
-}: {
-  num: number; label: string; accent: string; bg: string; border: string; children: React.ReactNode
-}) {
-  return (
-    <div style={{
-      background: bg, border: `1.5px solid ${border}`, borderRadius: 18,
-      padding: 22, marginBottom: 14, display: 'flex', gap: 16,
-    }}>
-      <span style={{
-        width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
-        background: num === 2 ? 'var(--danger)' : 'var(--terracotta)',
-        color: num === 2 ? '#fff' : '#3A2C0C',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14,
-      }}>{num}</span>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 600,
-          letterSpacing: '0.14em', textTransform: 'uppercase', color: accent, marginBottom: 10,
-        }}>
-          {label}
-        </div>
-        {children}
-      </div>
-    </div>
-  )
 }

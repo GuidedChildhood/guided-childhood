@@ -3,8 +3,10 @@ import { randomBytes } from 'crypto'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
+import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
 
 // The parent's quest manager API. GET returns everything the manager and
 // the board need in one call: children, their quests, today's ticks, the
@@ -38,6 +40,12 @@ export async function GET() {
   const children = childrenRes.data ?? []
   const banks = await getStarBanks(supabase, user.id, children.map(c => c.id))
 
+  // Minutes of screen time each child has actually used today, so the balance
+  // insight can show a real, moving level rather than a fixed age guide.
+  const usedTodayMap = await getMinutesUsedToday(supabase, user.id, children.map(c => c.id))
+  const usage: Record<string, number> = {}
+  for (const c of children) usage[c.id as string] = usedTodayMap.get(c.id as string) ?? 0
+
   // Live device time sessions, so the board can show a running countdown
   // next to the child who is using their screen time right now.
   const { data: sessionRows } = await supabase
@@ -58,6 +66,7 @@ export async function GET() {
     spends: spendsRes.data ?? [],
     banks,
     sessions,
+    usage,
   })
 }
 
@@ -78,9 +87,11 @@ export async function POST(req: NextRequest) {
     if (!stageId) return NextResponse.json({ error: 'bad age band' }, { status: 400 })
     const { count } = await supabase
       .from('children').select('id', { count: 'exact', head: true }).eq('parent_id', user.id)
-    // How they use it: explicit choice, else a sensible default by age (a four
-    // to seven year old co-views, everyone older gets their own app).
-    const useMode = ['own', 'coview'].includes(body.use_mode) ? body.use_mode : (body.age_band === '4-7' ? 'coview' : 'own')
+    // How they use it: explicit choice, else a sensible default by age. Under 11
+    // (Foundation and Builder) defaults to parent led, no child device, because
+    // that is the stance: we do not put a phone in a young child's hand. Their
+    // own app is a deliberate choice for an older child who already has a device.
+    const useMode = ['own', 'coview'].includes(body.use_mode) ? body.use_mode : (['4-7', '8-10'].includes(body.age_band) ? 'coview' : 'own')
     const { data, error } = await supabase.from('children').insert({
       parent_id: user.id,
       name: String(body.name).slice(0, 60),
@@ -97,6 +108,20 @@ export async function POST(req: NextRequest) {
   if (body.action === 'usemode' && body.child_id && ['own', 'coview'].includes(body.use_mode)) {
     const { error } = await supabase
       .from('children').update({ use_mode: body.use_mode }).eq('id', body.child_id).eq('parent_id', user.id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ ok: true })
+  }
+
+  // Save the child's daily screen time limit. A number is clamped to a sane
+  // range, and null resets it back to the age based recommendation.
+  if (body.action === 'dailylimit' && body.child_id) {
+    const raw = body.minutes
+    const limit = raw == null || raw === '' ? null : Math.max(15, Math.min(300, Math.round(Number(raw))))
+    if (limit !== null && !Number.isFinite(limit)) {
+      return NextResponse.json({ error: 'bad minutes' }, { status: 400 })
+    }
+    const { error } = await supabase
+      .from('children').update({ daily_limit_minutes: limit }).eq('id', body.child_id).eq('parent_id', user.id)
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true })
   }
@@ -141,6 +166,41 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true })
   }
 
+  // Mark the saving goal complete from the parent side: the child saved
+  // enough, the parent hands over the real reward, so the stars are spent and
+  // the goal is marked redeemed. Same honest bank as the child's own redeem,
+  // just driven by the grown up. One redemption per goal, until a new one is
+  // set. The child gets a little cheer on their page.
+  if (body.action === 'goal_redeem' && body.child_id) {
+    const { data: goal } = await supabase
+      .from('star_goals').select('id, title, stars_needed, achieved_at')
+      .eq('child_id', body.child_id).eq('user_id', user.id).maybeSingle()
+    if (!goal) return NextResponse.json({ error: 'no goal' }, { status: 404 })
+    if (goal.achieved_at) return NextResponse.json({ error: 'already redeemed', already: true }, { status: 400 })
+
+    const cost = goal.stars_needed
+    const [bank] = await getStarBanks(supabase, user.id, [body.child_id])
+    if (!bank || bank.balance < cost) {
+      return NextResponse.json({ error: 'not enough stars', balance: bank?.balance ?? 0 }, { status: 400 })
+    }
+
+    // Spend the stars (a reward has no minutes) and mark the goal redeemed.
+    const { error: spendError } = await supabase.from('star_spends').insert({
+      user_id: user.id, child_id: body.child_id, stars: cost, minutes: 0,
+      note: `🎁 Reward: ${goal.title}`,
+    })
+    if (spendError) return NextResponse.json({ error: spendError.message }, { status: 500 })
+    await supabase.from('star_goals').update({ achieved_at: new Date().toISOString() }).eq('id', goal.id)
+
+    // Cheer the child on their own page.
+    await pushToChild(
+      createAdminClient(), user.id, body.child_id,
+      'You earned your reward! 🎉',
+      `You saved ${cost} star${cost === 1 ? '' : 's'} for "${goal.title}". Enjoy it, then pick a new thing to save for.`
+    )
+    return NextResponse.json({ ok: true, balance: bank.balance - cost })
+  }
+
   // Decide a child's own quest ask: added turns it into a real quest with
   // the stars the parent sets, declined closes it kindly. Either way the
   // child's page shows the answer, and their device gets a nudge if their
@@ -156,22 +216,35 @@ export async function POST(req: NextRequest) {
     if (!request) return NextResponse.json({ error: 'unknown request' }, { status: 404 })
 
     if (body.decision === 'added') {
-      const stars = Math.min(10, Math.max(1, Number(body.stars) || 2))
-      const schedule = ['daily', 'weekdays', 'weekend', 'once'].includes(body.schedule) ? body.schedule : 'once'
-      const { error: questError } = await supabase.from('family_quests').insert({
-        user_id: user.id,
-        child_id: request.child_id,
-        title: request.title,
-        emoji: request.emoji ?? '⭐',
-        stars,
-        schedule,
-      })
-      if (questError) return NextResponse.json({ error: questError.message }, { status: 500 })
-      await pushToChild(
-        createAdminClient(), user.id, request.child_id,
-        'Your quest idea is on! ⭐',
-        `"${request.title}" is now a real quest worth ${stars} star${stars === 1 ? '' : 's'}, that is ${stars * STAR_MINUTES} minutes. Go get it.`
-      )
+      // A printable ask is not a job: turning "Please can I do the X printable"
+      // into a family_quest would drop the child's own asking phrase into their
+      // daily list as a task. Printables live in the printables flow, where the
+      // child does the sheet and claims its own stars, so here the ask is simply
+      // said yes to and closed, and the child is pointed at their Printables tab.
+      if (isPrintableAskTitle(request.title)) {
+        await pushToChild(
+          createAdminClient(), user.id, request.child_id,
+          'Yes to your printable! 🖍️',
+          'Your grown up said yes. Open your Printables to colour it in and earn the stars.'
+        )
+      } else {
+        const stars = Math.min(10, Math.max(1, Number(body.stars) || 2))
+        const schedule = ['daily', 'weekdays', 'weekend', 'once'].includes(body.schedule) ? body.schedule : 'once'
+        const { error: questError } = await supabase.from('family_quests').insert({
+          user_id: user.id,
+          child_id: request.child_id,
+          title: request.title,
+          emoji: request.emoji ?? '⭐',
+          stars,
+          schedule,
+        })
+        if (questError) return NextResponse.json({ error: questError.message }, { status: 500 })
+        await pushToChild(
+          createAdminClient(), user.id, request.child_id,
+          'Your quest idea is on! ⭐',
+          `"${request.title}" is now a real quest worth ${stars} star${stars === 1 ? '' : 's'}, that is ${stars * STAR_MINUTES} minutes. Go get it.`
+        )
+      }
     } else {
       await pushToChild(
         createAdminClient(), user.id, request.child_id,

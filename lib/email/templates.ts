@@ -1,6 +1,9 @@
-// The five lifecycle emails. Plain warm HTML in the butter and ink
+// The lifecycle and nurture emails. Plain warm HTML in the butter and ink
 // system, table based so every client renders it, Justin's voice
 // throughout. No dashes in any copy.
+
+import type { WeeklyReview } from '@/lib/digi/weekly-review'
+import type { MonthPace } from '@/lib/balance/pace'
 
 const INK = '#1A1A2E'
 const INK_SOFT = '#52526A'
@@ -126,7 +129,7 @@ export function day3TourEmail(params: {
       heading(`${parentName}, here is the whole toolkit.`) +
       p(`Three days in, so here is every piece in one place, what each one is for and where to find it. Save this one, it works as a map any time you are not sure where something lives.`) +
       step(1, 'Scripts', `The exact words for the moment you are in: what to say, what not to say, and why it works. This is the one to open when a screen fight is happening right now.`, 'Open scripts', `${APP}/dashboard/scripts`) +
-      step(2, 'DiGi', `Your AI advisor for the question too small for a professional and too specific for a book. Ask it anything about ${childName} and screens, any time.`, 'Ask DiGi', `${APP}/dashboard/digi`) +
+      step(2, 'DiGi', `Your evidence led guide for the question too small for a professional and too specific for a book. Ask it anything about ${childName} and screens, any time.`, 'Ask DiGi', `${APP}/dashboard/digi`) +
       step(3, 'Family Quests', `${childName}'s everyday jobs, packing a bag, getting dressed, being kind, earn stars. Stars buy the screen time you both agree on. They tick, you approve.`, 'Set up quests', `${APP}/dashboard/quests`) +
       step(4, 'Family Agreement', `The rules decided together, not handed down, covering screens off time, where devices sleep, and what happens when something goes wrong. Signed by both of you.`, 'Build your agreement', `${APP}/dashboard/agreement`) +
       step(5, 'School emails, caught automatically', `Forward school emails to your private address and PE kit days, forms and deadlines land as reminders here, straight into the platform, never buried in an inbox.`, 'Connect your school', `${APP}/dashboard/school`) +
@@ -177,6 +180,92 @@ export function day7FounderEmail(params: {
   }
 }
 
+// ── The service drip ──
+// One benefit email per service, spaced through the second week and each only
+// sent when that service is NOT set up yet, so it is a genuine "here is why,
+// here is where" nudge and never nags about something already done. Justin's
+// voice, benefit first, one clear door.
+
+// Child's own app on their device
+export function childPhoneEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: `Give ${childName} their own version`,
+    html: wrapper(
+      heading(`${childName} can have their own app.`) +
+      p(`It is the piece parents tell us changes the mood at home the most. ${childName} opens their own screen and sees their jobs, ticks them off, and watches their stars grow into screen time they earned.`) +
+      p(`No app store, no logins, nothing to install. You hold up a code, they point their tablet or phone at it, and they are in. You approve everything from your side, and there is nothing they can break.`) +
+      button('Set up their app', `${APP}/dashboard/quests`) +
+      p(`For a little one with no device, the same app opens on your phone and you do it together.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Family Quests and earned screen time
+export function screenTimeEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'Screen time, without the fight',
+    html: wrapper(
+      heading(`Turn screen time into something earned.`) +
+      p(`The daily battle usually comes from screens being a thing you give or take away. Family Quests flips it: ${childName}'s everyday jobs earn stars, stars buy the minutes you both agreed, and ${childName} chooses when to spend them.`) +
+      p(`No timer standoff, no nagging. When the time is up, their own screen says so, and yours gets a quiet heads up too. When they have run out, the answer is never a telling off, it is do another job.`) +
+      button('Set up quests and screen time', `${APP}/dashboard/quests`) +
+      p(`This is the bit backed by the research on self regulation: a child who earns and spends their own time learns to manage it.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Watch together lessons
+export function lessonsEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'Five minutes that does the hard talk for you',
+    html: wrapper(
+      heading(`The talks you dread, done in five minutes.`) +
+      p(`Comparison, strangers, staying kind online, knowing when to stop. Big talks, and hard to start. The lessons do the starting for you.`) +
+      p(`Short films you watch together on your device, or send straight to ${childName}'s phone to play on their own. Each one lands one idea in ${childName}'s language, then earns them a star for finishing.`) +
+      button('Watch one together', `${APP}/dashboard/lessons`) +
+      p(`No lecture from you needed. DiGi even nudges you the next one when the time is right.`),
+      unsubscribe
+    ),
+  }
+}
+
+// School reminders
+export function schoolRemindersEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'Never miss another kit day',
+    html: wrapper(
+      heading(`PE kit, forms and deadlines, sorted.`) +
+      p(`Add your weekly routines once, or forward a school email to your private address, and the night before you get a reminder while there is still time to pack the bag or sign the form. Nothing buried in an inbox.`) +
+      p(`The child friendly ones reach ${childName} too, so packing the swimming kit becomes their job, not only something you carry in your head.`) +
+      button('Set up school reminders', `${APP}/dashboard/school`) +
+      p(`It works whether or not your school ever emails you.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Family agreement
+export function familyAgreementEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'The rules that actually stick',
+    html: wrapper(
+      heading(`Agree the screen rules together, once.`) +
+      p(`Rules handed down get fought. Rules a child helped write get kept. The family agreement walks you both through five short talks: screens off times, where devices sleep at night, what happens when something goes wrong, and turns them into one simple sheet you both sign.`) +
+      p(`It takes one sitting with ${childName}, and it ends the daily renegotiation because the answer is already agreed and on the wall.`) +
+      button('Build your agreement', `${APP}/dashboard/agreement`) +
+      p(`Not a contract to police them. A promise you make to each other.`),
+      unsubscribe
+    ),
+  }
+}
+
 // 5 · Weekly digest with the child's progress
 export function weeklyDigestEmail(params: {
   childName: string
@@ -202,6 +291,92 @@ export function weeklyDigestEmail(params: {
   }
 }
 
+// 10 · Lead nurture, sent once to an email captured before an account exists
+// (a magnet download or a quiz drop off). Warm, no hard sell, one door to the
+// free trial. No account yet, so unsubscribe is a plain reply address.
+export function leadNurtureEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'Your pathway is a couple of minutes away',
+    html: wrapper(
+      heading('Whenever you are ready.') +
+      p(`You grabbed something from us recently, thank you. If it was useful, there is a whole calm plan behind it, matched to your child's age.`) +
+      p(`It takes about two minutes to set up, no card needed, and the free trial opens everything: the scripts for the hard conversations, the daily moments, and DiGi whenever you want the exact words.`) +
+      button('Start the free trial', `${APP}/starter-pack`) +
+      p(`No rush, and no pressure. The door stays open whenever the timing feels right.`),
+      unsubscribe
+    ),
+  }
+}
+
+// 8 · Trial ending, the gentle nudge two days before a no card trial runs
+// out. No pressure, a reminder of what they would keep, one clear door.
+export function trialEndingEmail(params: {
+  childName: string
+  daysLeft: number
+  unsubscribe: string
+}): EmailContent {
+  const { childName, daysLeft, unsubscribe } = params
+  const when = daysLeft <= 1 ? 'tomorrow' : `in ${daysLeft} days`
+  return {
+    subject: `Your free trial ends ${when}`,
+    html: wrapper(
+      heading('A quick heads up.') +
+      p(`Your free trial ends ${when}. No card was taken, so nothing happens automatically, this is just so it does not catch you out.`) +
+      p(`If it has helped with ${childName}, keeping it means the daily moments, the scripts for the hard conversations, and DiGi whenever you need the words all stay on.`) +
+      button('Keep everything on', `${APP}/dashboard/upgrade`) +
+      p(`And if the timing is not right, that is completely fine. You drop to the free tier and keep your pathway. Nothing is lost.`),
+      unsubscribe
+    ),
+  }
+}
+
+// 9 · Win back, sent once a short while after a trial lapses unpaid. Warm,
+// no guilt, the door left open.
+export function winBackEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'The door is still open',
+    html: wrapper(
+      heading('No rush, just a hello.') +
+      p(`Your trial wrapped up and you are on the free tier now, which is a perfectly good place to be. No guilt here.`) +
+      p(`When things with ${childName} feel like they need a steadier hand again, everything is one tap from being back on: the scripts, the daily moments, DiGi at 11pm.`) +
+      button('Pick up where you left off', `${APP}/dashboard/upgrade`) +
+      p(`One small thing this week is the whole idea. That is all it ever asks.`),
+      unsubscribe
+    ),
+  }
+}
+
+// 7 · School reminder, the belt and braces channel alongside the push. A
+// strong, specific subject so it stands out in a busy inbox, the list of
+// what is due, and a plain link to fix it if DiGi picked it up wrong from a
+// forwarded school email.
+export function schoolReminderEmail(params: {
+  titles: string[]
+  adjustUrl: string
+  unsubscribe: string
+}): EmailContent {
+  const { titles, adjustUrl, unsubscribe } = params
+  const subject = titles.length === 1
+    ? `Tomorrow: ${titles[0]} 🎒`
+    : `Tomorrow for school: ${titles[0]} and ${titles.length - 1} more 🎒`
+  const list = titles.map(t => `<li style="margin:0 0 6px">${t}</li>`).join('')
+  return {
+    subject,
+    html: wrapper(
+      heading('From school, due tomorrow.') +
+      p('Here is what to sort tonight while it is still easy:') +
+      `<ul style="margin:0 0 16px;padding-left:20px;font-size:16px;color:${INK}">${list}</ul>` +
+      button('Open my school reminders', `${APP}/dashboard/school`) +
+      p(`Not right, or DiGi picked it up wrong from an email? <a href="${adjustUrl}" style="color:${BUTTER_DARK};font-weight:700">Adjust or clear it here</a>.`),
+      unsubscribe
+    ),
+  }
+}
+
 // 6 · Lead magnet delivery, sent the moment a parent asks for a free
 // printable. Warm, short, and it points gently on to the free pathway
 // without a hard sell. There is no account yet, so unsubscribe is a
@@ -221,6 +396,373 @@ export function magnetEmail(params: {
       p(`This is the free front door to Guided Childhood. When you want the calm plan behind it, the starter pack picks the first small move for your child in about two minutes.`) +
       button('See the free starter pack', `${APP}/starter-pack`),
       'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
+    ),
+  }
+}
+
+// Minutes to a short label for the weekly review stats block.
+function fmtMinsEmail(mins: number): string {
+  const m = Math.max(0, Math.round(mins))
+  const h = Math.floor(m / 60)
+  const r = m % 60
+  if (h <= 0) return `${r} min`
+  if (r === 0) return `${h}h`
+  return `${h}h ${r}m`
+}
+
+// The DiGi weekly catch up. The clever per family read the Sunday review
+// already builds, turned into an email so it reaches a parent who lives in
+// their inbox, not only the phone push: the week's own numbers, one warm note,
+// one gentle watch for, and one thing to set up for next week. Nothing is
+// shared or compared, the numbers are the family's own.
+export function weeklyReviewEmail(params: {
+  parentName: string
+  childLabel: string
+  review: WeeklyReview
+  unsubscribe: string
+  poll?: { question: string; results: { label: string; pct: number }[]; total: number } | null
+}): EmailContent {
+  const { childLabel, review, unsubscribe, poll } = params
+  const s = review.stats
+  const statRow = (label: string, value: string) => `<tr>
+    <td style="padding:8px 4px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT}">${label}</td>
+    <td style="padding:8px 4px;font-family:'IBM Plex Mono',Menlo,monospace;font-size:14px;font-weight:700;color:${INK};text-align:right">${value}</td>
+  </tr>`
+  const rows = [
+    statRow('Jobs done', `${s.questsApproved}`),
+    statRow('Stars earned', `${s.starsEarned}`),
+    statRow('Screen time', s.deviceMinutes > 0 ? fmtMinsEmail(s.deviceMinutes) : 'none logged'),
+    ...(s.lessonsDone.length ? [statRow('Lessons', `${s.lessonsDone.length}`)] : []),
+    ...(s.momentsDone ? [statRow('Calm moments', `${s.momentsDone}`)] : []),
+    statRow('Days you showed up', `${s.activeDays} of 7`),
+  ].join('')
+
+  return {
+    subject: `${childLabel}'s week with DiGi`,
+    html: wrapper(
+      heading(`This week with ${childLabel}`) +
+      p(review.summary) +
+      `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:8px 16px;margin:0 0 20px">${rows}</table>` +
+      (review.watch_for ? p(`<strong>One thing to keep an eye on.</strong> ${review.watch_for}`) : '') +
+      (review.suggestion ? p(`<strong>For next week.</strong> ${review.suggestion}`) : '') +
+      // Once a month the community bite comes back as the crowd: what every
+      // other family answered. The reassurance is the whole point, so it reads
+      // as company rather than a chart.
+      (poll && poll.total > 0
+        ? `<div style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:16px 18px;margin:0 0 20px">
+             <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${BUTTER_DARK};margin-bottom:6px">This month, across every family</div>
+             <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:17px;font-weight:800;color:${INK};line-height:1.3;margin-bottom:12px">${poll.question}</div>
+             ${poll.results.map(r => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px"><tr>
+               <td style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};padding-right:10px">${r.label}</td>
+               <td width="52" style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:14px;font-weight:700;color:${INK};text-align:right">${r.pct}%</td>
+             </tr><tr><td colspan="2" style="padding-top:4px">
+               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#EFEDE8;border-radius:100px"><tr>
+                 <td width="${r.pct}%" style="background:${BUTTER};border-radius:100px;font-size:0;line-height:6px">&nbsp;</td>
+                 <td style="font-size:0;line-height:6px">&nbsp;</td>
+               </tr></table>
+             </td></tr></table>`).join('')}
+             <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:13px;color:${INK_MUTED};margin-top:10px">${poll.total} ${poll.total === 1 ? 'family' : 'families'} answered. Whatever your week looked like, you are in good company.</div>
+           </div>`
+        : '') +
+      button('See the full week', `${APP}/dashboard`) +
+      p(`These numbers are ${childLabel}'s own. Nothing here is shared or set against another family, it is just your week, read back to you.`),
+      unsubscribe
+    ),
+  }
+}
+
+// The monthly screen time review.
+//
+// One number, one verdict, one thing to do, and nothing else. The weekly review
+// is the rich one with jobs and stars and lessons; this is deliberately the
+// opposite. A parent skimming an inbox should get the whole answer from the
+// subject line, and the body should confirm it in about eight seconds.
+//
+// The verdict wording is the same VERDICT_LABEL the stats page uses, so the
+// email and the app never disagree about whether a month was alright. Anything
+// else would make the email untrustworthy, and an untrustworthy monthly email
+// is worse than no monthly email.
+//
+// The colour follows the verdict rather than the brand, because a green block
+// saying "well over the guide" is a mixed message, and this is the one email
+// where the parent needs to read the temperature before the words.
+export function monthlyBalanceEmail(params: {
+  childLabel: string
+  monthLabel: string
+  pace: MonthPace
+  /** The heaviest device of the month, when there was one. */
+  heaviest?: { label: string; minutes: number } | null
+  unsubscribe: string
+}): EmailContent {
+  const { childLabel, monthLabel, pace, heaviest, unsubscribe } = params
+
+  const tone = pace.verdict === 'well_over'
+    ? { bg: '#FDECEC', border: '#F3C9C9', ink: '#A33A3A' }
+    : pace.verdict === 'a_little_high'
+    ? { bg: '#FBF0E6', border: '#E8C9A8', ink: '#A65D2E' }
+    : { bg: '#EDF5F1', border: '#D6E5DF', ink: '#236F52' }
+
+  const arrow = pace.direction === 'down' ? '↓' : pace.direction === 'up' ? '↑' : null
+
+  return {
+    subject: `${childLabel}'s screen time in ${monthLabel}: ${pace.headline.toLowerCase()}`,
+    html: wrapper(
+      heading(`${monthLabel}, in one number`) +
+      `<div style="background:${tone.bg};border:1px solid ${tone.border};border-radius:16px;padding:20px 22px;margin:0 0 20px">
+         <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:${tone.ink};margin-bottom:10px">${pace.headline}</div>
+         <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:42px;font-weight:800;line-height:1;color:${INK};letter-spacing:-0.02em">${pace.average} <span style="font-size:19px;font-weight:800">minutes a day</span></div>
+         ${pace.previousAverage != null
+           ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};margin-top:8px">${arrow ? `${arrow} ` : ''}last month was ${pace.previousAverage}</div>`
+           : ''}
+       </div>` +
+      p(pace.line) +
+      (heaviest
+        ? p(`Most of it was on ${heaviest.label}, at ${fmtMinsEmail(heaviest.minutes)} across the month.`)
+        : '') +
+      button('See the full picture', `${APP}/dashboard/stats`) +
+      p(`This is a budget, not a rule. A heavy weekend does not break anything, it just makes the next few days a little lighter. Nothing here is compared against another family.`),
+      unsubscribe
+    ),
+  }
+}
+
+// ── Pre sign up teasers ──────────────────────────────────────────────
+// One clever thing per email, each earning the sign up by showing not telling.
+// Sent to leads on a gentle cadence. Every call to action goes to the free
+// starter pack (house rule 9).
+//
+// The cron passes a real signed stop link (leadUnsubscribeUrl), which matters
+// most for the parent who took a printable with one address and then joined
+// with another: the account check matches on address, so two addresses defeat
+// it and always will, and without a working link they were stuck being sold
+// what they already own. The mailto stays only as the default for a caller
+// with no address to hand, which in practice is the fixture pages.
+
+const LEAD_UNSUB = 'mailto:hello@guidedchildhood.com?subject=Unsubscribe'
+
+export function digiTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'The assistant that never just says no',
+    html: wrapper(
+      heading('An answer, not a ban.') +
+      p(`Most advice on screens comes down to take it away. That teaches a child nothing for the day they get it back.`) +
+      p(`DiGi is different. Ask it anything, the 11pm worry, the game you have never heard of, the friend who just got a phone, and it hands you a calm pathway for your child's exact age. Never allow or deny, always one small step you can actually take tonight.`) +
+      p(`It is the part parents tell us they did not know they were missing.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function scriptsTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'The exact words for the 7am screen meltdown',
+    html: wrapper(
+      heading('When you do not know what to say.') +
+      p(`The tablet goes off, the morning falls apart, and every calm plan you had goes with it. In that moment you do not need a theory, you need the next sentence.`) +
+      p(`Guided Childhood gives you the actual words. Short scripts for the meltdowns, the handovers and the hard nos, written with child psychologists, ready to read off your phone while it is happening.`) +
+      p(`Warm, firm, and tested on real mornings.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function printablesTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'Print it tonight, offline win tomorrow',
+    html: wrapper(
+      heading('Screens down, without the fight.') +
+      p(`Sometimes the best screen tool is a piece of paper. Star charts for the fridge, colour in Planet Friends, a whole offline pack a child can do at the table while you make tea.`) +
+      p(`Every printable ties back to the same reward loop as the app, so time off screens becomes something a child chooses, not something you have to enforce.`) +
+      p(`Print one tonight and see what tomorrow looks like.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function balanceTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'An hour a day, is that ok?',
+    html: wrapper(
+      heading('The number, settled by the science.') +
+      p(`Every parent asks it and no one gives a straight answer. Guided Childhood does. It shows the healthy amount of recreational screen for your child's exact age, per day and per week, drawn straight from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
+      p(`Then it sets your child's real usage against it, so you can see at a glance where an hour a day actually sits. A calm steer for their age, never a hard cap.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function mentalHealthTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'It is not just you',
+    html: wrapper(
+      heading('The worry you have not said out loud.') +
+      p(`The late night doubt, the comparison, the feeling that everyone else has this figured out. They do not, and the evidence is clear that these moments are normal.`) +
+      p(`Guided Childhood has a library of those exact moments, each one met with a calm, research backed reason it is ok, from the people parents actually trust. Not just for your child. For you.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function safetyTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'The talk about deepfakes and scams, done for you',
+    html: wrapper(
+      heading('The hard talks, made easy.') +
+      p(`Strangers, scams, deepfakes, what stays online forever. The conversations that matter most are the ones we put off because we do not know how to start them.`) +
+      p(`Guided Childhood turns each one into a five minute lesson, pitched to your child's age, that does the hard part for you. You come out of it closer, not lectured at.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function passportTeaserEmail(unsubscribe: string = LEAD_UNSUB): EmailContent {
+  return {
+    subject: 'One map, from 4 to 16',
+    html: wrapper(
+      heading('A childhood you can see.') +
+      p(`Digital parenting feels like a hundred separate decisions. Guided Childhood turns it into one clear map, a passport your child grows along from their first safe steps at 4 to full readiness at 16.`) +
+      p(`Every job done, every lesson learned and every calm screen off earns a stamp. You always know where you are, and where you are heading next.`) +
+      button('See the free starter pack', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+export function founderLeadEmail(params: { remaining: number; unsubscribe?: string }): EmailContent {
+  const { remaining, unsubscribe = LEAD_UNSUB } = params
+  return {
+    subject: `${remaining} founding places left`,
+    html: wrapper(
+      heading('Before the founder rate closes.') +
+      p(`You had a look at Guided Childhood but have not started yet, so here is the one nudge worth sending.`) +
+      p(`The founder rate opens the whole platform for £7.99 a month, held for life, and it is capped at 50 families. Right now there are <strong>${remaining}</strong> places left. When they are gone the price goes up and stays up.`) +
+      p(`The starter pack still picks your child's first move in about two minutes, free.`) +
+      button('Claim a founding place', `${APP}/starter-pack`),
+      unsubscribe
+    ),
+  }
+}
+
+// ── Post sign up pillar reveals ──────────────────────────────────────
+// Once a family is in, reveal one feature at a time so the free plan feels
+// generous. Each is only sent when that feature has not been touched yet, so it
+// is a genuine here is why, here is where, never a nag about something done.
+
+export function printablesRevealEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: `Colour in the Planet Friends with ${childName} tonight`,
+    html: wrapper(
+      heading('The offline pack is yours.') +
+      p(`Alongside the app there is a whole set of printables: star charts for the fridge, colour in Planet Friends, weekly calendars and the full offline pack, all free on your plan.`) +
+      p(`They use the same stars ${childName} already earns, so screen off time becomes a reward, not a battle. Print one tonight.`) +
+      button('Open the printables', `${APP}/dashboard/printables`),
+      unsubscribe
+    ),
+  }
+}
+
+export function balanceRevealEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: `Where ${childName}'s screen time actually sits`,
+    html: wrapper(
+      heading('The balance, by the science.') +
+      p(`Your balance and stats now show the healthy amount of recreational screen for ${childName}'s age, per day and per week, drawn from the WHO, the American Academy of Pediatrics, the Canadian movement guidelines and the RCPCH.`) +
+      p(`It sets ${childName}'s real usage against that guide, so you can see in one glance whether a day sits inside the healthy range. A steer for their age, never a hard cap.`) +
+      button('See the balance', `${APP}/dashboard/quests`),
+      unsubscribe
+    ),
+  }
+}
+
+export function mentalHealthRevealEmail(params: { unsubscribe: string }): EmailContent {
+  const { unsubscribe } = params
+  return {
+    subject: 'For the worry you have not said out loud',
+    html: wrapper(
+      heading('This one is for you.') +
+      p(`The late night doubt, the comparison, the feeling everyone else has it figured out. Guided Childhood has a library of those exact moments, each met with a calm, research backed reason it is normal.`) +
+      p(`It is there whenever you need it, from the experts parents actually trust. Two minutes, and you feel a little less alone in it.`) +
+      button('Open the library', `${APP}/dashboard`),
+      unsubscribe
+    ),
+  }
+}
+
+export function passportRevealEmail(params: { childName: string; unsubscribe: string }): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: `${childName}'s passport is filling up`,
+    html: wrapper(
+      heading('See how far you have come.') +
+      p(`Every job done, lesson learned and calm screen off earns ${childName} a stamp on their passport, the one map that runs from their first safe steps to full readiness at 16.`) +
+      p(`It is the clearest way to see the childhood you are building, one small win at a time. Take a look at where you are.`) +
+      button('Open the passport', `${APP}/dashboard/pathway`),
+      unsubscribe
+    ),
+  }
+}
+
+// The keepsake order confirmation. A physical thing is being made and posted,
+// so this says plainly what was bought, what happens next and roughly when,
+// because the gap between paying and a parcel arriving is where doubt lives.
+export function orderConfirmationEmail(params: {
+  lines: { name: string; qty: number }[]
+  totalLabel: string
+  childName: string | null
+  unsubscribe: string
+}): EmailContent {
+  const { lines, totalLabel, childName, unsubscribe } = params
+  const list = lines
+    .map(l => `<li style="margin:0 0 6px">${l.name}${l.qty > 1 ? ` × ${l.qty}` : ''}</li>`)
+    .join('')
+  return {
+    subject: 'Your keepsake is on its way',
+    html: wrapper(
+      heading('Thank you. We are making it now.') +
+      p(`Here is what you ordered:`) +
+      `<ul style="margin:0 0 16px;padding-left:20px">${list}</ul>` +
+      p(`Total paid: <strong>${totalLabel}</strong>`) +
+      p(childName
+        ? `The passport prints ${childName}'s real stamps, the ones actually earned, so no two are ever the same. That does mean each one is made to order rather than pulled off a shelf.`
+        : `Everything here is made to order rather than pulled off a shelf.`) +
+      p(`Expect it inside two weeks. If anything is wrong when it lands, reply to this email and I will sort it myself.`) +
+      button('See the passport', `${APP}/dashboard/pathway`),
+      unsubscribe
+    ),
+  }
+}
+
+// The note to ourselves. Not a customer email: it is the thing that stops a
+// paid order sitting unnoticed while a family waits.
+export function orderFulfilmentEmail(params: {
+  orderId: string
+  email: string
+  lines: { name: string; qty: number }[]
+  totalLabel: string
+  childName: string | null
+  shipping: string
+}): EmailContent {
+  const { orderId, email, lines, totalLabel, childName, shipping } = params
+  const list = lines
+    .map(l => `<li style="margin:0 0 6px">${l.name}${l.qty > 1 ? ` × ${l.qty}` : ''}</li>`)
+    .join('')
+  return {
+    subject: `New keepsake order ${orderId.slice(0, 8)}`,
+    html: wrapper(
+      heading('A keepsake order to fulfil.') +
+      `<ul style="margin:0 0 16px;padding-left:20px">${list}</ul>` +
+      p(`Paid <strong>${totalLabel}</strong> by ${email}.`) +
+      p(childName ? `Child on the order: ${childName}. Print the passport from their real stamps.` : `No child on the order.`) +
+      p(`Ship to:<br>${shipping}`),
+      `${APP}/dashboard`
     ),
   }
 }

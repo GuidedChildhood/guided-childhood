@@ -237,6 +237,38 @@ export function getStageFromAgeBand(ageBand: AgeBand): Stage {
   return STAGES.find(s => s.ageBand === ageBand) ?? STAGES[0]
 }
 
+// Age band tags are ranges, and not every source writes them in the same
+// vocabulary: the app's canonical bands are 4-7, 8-10, 11-13, 13-15, 16+, but
+// some seeded content uses 8-11, 12-15, 16-18. Matching by exact string then
+// silently drops a child (Teo, on 8-10, matched none of the 8-11 moments and
+// the library read as empty). So we match by numeric overlap of the two ranges
+// instead, which is robust whichever vocabulary either side happens to use.
+function bandRange(band: string): [number, number] | null {
+  const plus = /^(\d+)\s*\+$/.exec(band.trim())
+  if (plus) return [Number(plus[1]), 99]
+  const span = /^(\d+)\s*-\s*(\d+)$/.exec(band.trim())
+  if (span) return [Number(span[1]), Number(span[2])]
+  const one = /^(\d+)$/.exec(band.trim())
+  if (one) return [Number(one[1]), Number(one[1])]
+  return null
+}
+
+// Does a child's age band fall inside this content's age bands? An empty list
+// means all ages. A band that will not parse is treated as a match, so odd data
+// shows up rather than vanishing.
+export function ageBandInList(childBand: string | null | undefined, contentBands: string[] | null | undefined): boolean {
+  const bands = contentBands ?? []
+  if (bands.length === 0) return true
+  if (!childBand) return true
+  const child = bandRange(childBand)
+  if (!child) return true
+  return bands.some(b => {
+    const r = bandRange(b)
+    if (!r) return true
+    return child[0] <= r[1] && r[0] <= child[1]
+  })
+}
+
 export const AGE_BAND_OPTIONS: { label: string; value: AgeBand; sub: string }[] = [
   { label: '4 to 7 years', value: '4-7', sub: 'Stage 1 · Foundation' },
   { label: '8 to 10 years', value: '8-10', sub: 'Stage 2 · Builder' },

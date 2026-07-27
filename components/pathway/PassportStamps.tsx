@@ -14,6 +14,28 @@ import Link from 'next/link'
 
 export type StampStatus = 'earned' | 'current' | 'catchup' | 'upcoming'
 
+// One row of the passport's per stage checklist: a plain thing to do or a tick,
+// with a running percent, where it links to, and a warm line on how to improve.
+// An alert carries a gentle amber heads up, like a device set up ahead of age.
+export interface ChecklistSection {
+  key: string
+  emoji: string
+  label: string
+  pct: number
+  detail: string
+  href: string
+  help: string
+  alert?: string
+  /**
+   * True when this is not a job you can finish today. Jobs and screen balance
+   * are judged across the stage, so they go green by keeping something up
+   * rather than by ticking something off, and they can go amber again. Saying
+   * so is the difference between a checklist a parent can act on and one that
+   * looks broken because two rows never complete.
+   */
+  ongoing?: boolean
+}
+
 export interface Stamp {
   id: number
   name: string
@@ -30,6 +52,10 @@ export interface Stamp {
   streakPct?: number
   devicesPct?: number
   lessonsPct?: number
+  // The newer five section checklist (devices, moments, lessons and tests, jobs
+  // and routines, balance). When present the passport page renders this instead
+  // of the four task list, each row a tick or a tap with a running percent.
+  sections?: ChecklistSection[]
 }
 
 const R = 32
@@ -71,14 +97,14 @@ export default function PassportStamps({
       padding: '20px', marginBottom: '20px',
     }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
           {childName === 'your child' ? 'The' : `${childName}'s`} social media passport
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
           {earnedCount}/{stamps.length}
         </span>
       </div>
-      <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 16px' }}>
+      <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 16px' }}>
         One stamp for each stage, earned as you work through it. Complete the passport by 16.
       </p>
 
@@ -132,7 +158,7 @@ export default function PassportStamps({
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11.5px', color: 'var(--ink)', lineHeight: 1.15 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.15 }}>
                     {stamp.name}
                   </div>
                   <div style={{
@@ -155,10 +181,10 @@ export default function PassportStamps({
           padding: '14px 16px', textAlign: 'center',
           animation: drawn ? 'stampIn 0.6s cubic-bezier(0.34,1.56,0.64,1) both' : 'none',
         }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: '#fff' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: '#fff' }}>
             🎉 Passport complete
           </div>
-          <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, marginTop: '3px' }}>
+          <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, marginTop: '3px' }}>
             Every stage earned, all the way to 16. {childName === 'your child' ? 'Your child is' : `${childName} is`} prepared, educated and safe.
           </div>
         </div>

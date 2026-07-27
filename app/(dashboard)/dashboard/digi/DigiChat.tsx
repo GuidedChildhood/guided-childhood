@@ -1,10 +1,9 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
-import LessonPlayer from '@/components/lessons/LessonPlayer'
-import type { LessonSlide } from '@/lib/content/lesson-slides'
+import DigiHero from '@/components/digi/DigiHero'
+import ThinkingReassurance from '@/components/digi/ThinkingReassurance'
 
 function DigiAvatar({ size = 26, mood = 'idle' }: { size?: number; mood?: DigiMood }) {
   return <DigiCharacter size={size} mood={mood} />
@@ -15,217 +14,43 @@ interface Message {
   content: string
 }
 
-// Chat protocol, made bulletproof: DiGi is told to write short texts
-// separated by blank lines, but a reply is still rendered as proper
-// chat bubbles even if a paragraph comes back long. Blank lines split
-// first, then anything still over ~200 characters is split again on
-// sentence boundaries into two sentence chunks, so the premium chat
-// look never depends on the model getting the format exactly right.
-const MAX_BUBBLE_CHARS = 200
-
-function splitIntoBubbles(content: string): string[] {
-  const paragraphs = content.split(/\n{2,}/).map(s => s.trim()).filter(Boolean)
-  const bubbles: string[] = []
-  for (const para of paragraphs) {
-    if (para.length <= MAX_BUBBLE_CHARS) {
-      bubbles.push(para)
-      continue
-    }
-    const sentences = para.split(/(?<=[.?!])\s+(?=[A-Z0-9"'])/).filter(Boolean)
-    let chunk = ''
-    for (const s of sentences) {
-      const candidate = chunk ? `${chunk} ${s}` : s
-      if (candidate.length > MAX_BUBBLE_CHARS && chunk) {
-        bubbles.push(chunk)
-        chunk = s
-      } else {
-        chunk = candidate
-      }
-    }
-    if (chunk) bubbles.push(chunk)
-  }
-  return bubbles
-}
-
-// When DiGi answers a how to in the house lesson shape, splitting it on blank
-// lines shatters the numbered steps across ragged bubbles (the three steps land
-// half in one box, half in the next). So a lesson reply is caught here and
-// rendered as one clean structured card instead. Anything that is not a lesson
-// falls through to the normal chat bubbles untouched.
-interface LessonParts {
-  title: string
-  bigIdea?: string
-  why?: string
-  steps: string[]
-  tryTonight?: string
-}
-
-function parseLesson(content: string): LessonParts | null {
-  const text = content.trim()
-  // The lesson always opens with the Lesson label, so this is a stable, early
-  // signal even while the reply is still streaming in.
-  if (!/^Lesson:/i.test(text)) return null
-
-  const markers: { key: keyof LessonParts; re: RegExp }[] = [
-    { key: 'title', re: /Lesson:/i },
-    { key: 'bigIdea', re: /The big idea:/i },
-    { key: 'why', re: /Why it works[^:\n]*:/i },
-    { key: 'steps', re: /Teach it in (?:three|3) steps:/i },
-    { key: 'tryTonight', re: /Try tonight:/i },
-  ]
-
-  const found = markers
-    .map(m => {
-      const match = text.match(m.re)
-      return match && match.index != null
-        ? { key: m.key, start: match.index, end: match.index + match[0].length }
-        : null
-    })
-    .filter((x): x is { key: keyof LessonParts; start: number; end: number } => x !== null)
-    .sort((a, b) => a.start - b.start)
-
-  const parts: LessonParts = { title: '', steps: [] }
-  for (let i = 0; i < found.length; i++) {
-    const cur = found[i]
-    const next = found[i + 1]
-    const body = text.slice(cur.end, next ? next.start : undefined).trim()
-    if (cur.key === 'steps') {
-      // Split on the numbered markers whether the steps came on their own lines
-      // or ran together on one line, so 1 2 3 always separate cleanly.
-      parts.steps = body.split(/\s*\d+[.)]\s+/).map(s => s.trim()).filter(Boolean)
+// Render DiGi's bold lead ins (**like this**) as real bold, so a structured
+// answer reads with the clarity of a coach, the bold phrase carrying the point
+// and the rest of the sentence explaining it. Everything outside the asterisks
+// stays plain. A lone trailing ** while the reply is still streaming is ignored.
+function renderInline(text: string): ReactNode[] {
+  const nodes: ReactNode[] = []
+  // Bold lead ins (**like this**) and internal links DiGi drops in to point at a
+  // real script it already has ([Title](/dashboard/...)). The link renders as a
+  // tappable chip so a parent can open the exact script from the conversation.
+  const re = /\*\*(.+?)\*\*|\[([^\]]+)\]\((\/[^)\s]+)\)/g
+  let last = 0
+  let key = 0
+  let m: RegExpExecArray | null
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > last) nodes.push(text.slice(last, m.index))
+    if (m[1] !== undefined) {
+      nodes.push(<strong key={key++} style={{ fontWeight: 800, color: 'var(--ink)' }}>{m[1]}</strong>)
     } else {
-      parts[cur.key] = body
+      nodes.push(
+        <Link key={key++} href={m[3]} style={{ color: 'var(--terracotta-dark)', fontWeight: 800, textDecoration: 'underline', textUnderlineOffset: '2px' }}>
+          {m[2]} →
+        </Link>
+      )
     }
+    last = m.index + m[0].length
   }
-
-  if (!parts.title) return null
-  return parts
+  if (last < text.length) nodes.push(text.slice(last))
+  return nodes
 }
 
-// A DiGi written lesson becomes real slides, so Play it runs the same
-// interactive player a library lesson uses: one part at a time, DiGi
-// reacting, the try tonight landing last. No database row, so the player
-// skips the completion write (completeEndpoint null).
-function lessonToSlides(parts: LessonParts): LessonSlide[] {
-  const slides: LessonSlide[] = [{ type: 'title', eyebrow: 'A DiGi lesson, made for you', title: parts.title }]
-  if (parts.bigIdea) slides.push({ type: 'concept', heading: 'The big idea', body: parts.bigIdea })
-  if (parts.why) slides.push({ type: 'concept', heading: 'Why it works', body: parts.why })
-  if (parts.steps.length) slides.push({ type: 'recap', heading: 'Teach it in three steps', points: parts.steps })
-  if (parts.tryTonight) slides.push({ type: 'tryit', heading: 'Try tonight', body: parts.tryTonight })
-  return slides
-}
-
-function LessonCard({ parts }: { parts: LessonParts }) {
-  const [playing, setPlaying] = useState(false)
-  const labelStyle: React.CSSProperties = {
-    fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700,
-    letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)',
-  }
-  return (
-    <div style={{
-      background: 'var(--white, #fff)', border: '1px solid var(--terracotta-lt)',
-      borderRadius: '18px', padding: '18px 18px 16px',
-      boxShadow: '0 1px 1px rgba(26,26,46,0.04), 0 4px 14px rgba(26,26,46,0.07)',
-    }}>
-      <div style={{ ...labelStyle, marginBottom: 6 }}>Lesson</div>
-      <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', letterSpacing: '-0.02em', color: 'var(--ink)', lineHeight: 1.2, margin: 0 }}>
-        {parts.title}
-      </h3>
-
-      {parts.bigIdea && (
-        <div style={{ background: 'var(--stage-2)', borderRadius: 14, padding: '13px 15px', marginTop: 14 }}>
-          <div style={{ ...labelStyle, marginBottom: 5 }}>The big idea</div>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>{parts.bigIdea}</p>
-        </div>
-      )}
-
-      {parts.why && (
-        <div style={{ marginTop: 14 }}>
-          <div style={{ ...labelStyle, marginBottom: 5 }}>Why it works</div>
-          <p style={{ fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>{parts.why}</p>
-        </div>
-      )}
-
-      {parts.steps.length > 0 && (
-        <div style={{ marginTop: 16 }}>
-          <div style={{ ...labelStyle, marginBottom: 10 }}>Teach it in three steps</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {parts.steps.map((step, i) => (
-              <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <span style={{
-                  width: 24, height: 24, borderRadius: '50%', flexShrink: 0, marginTop: 1,
-                  background: 'var(--terracotta)', color: 'var(--ink)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 12.5,
-                }}>{i + 1}</span>
-                <span style={{ fontSize: 15, color: 'var(--ink)', lineHeight: 1.55, paddingTop: 1 }}>{step}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {parts.tryTonight && (
-        <div style={{ background: 'var(--stage-1)', border: '1px solid var(--stage-1-bold)', borderRadius: 14, padding: '13px 15px', marginTop: 16 }}>
-          <div style={{ ...labelStyle, color: 'var(--stage-1-text)', marginBottom: 5 }}>Try tonight</div>
-          <p style={{ fontSize: 15, color: 'var(--ink)', lineHeight: 1.55, margin: 0, fontWeight: 500 }}>{parts.tryTonight}</p>
-        </div>
-      )}
-
-      <button
-        type="button"
-        onClick={() => setPlaying(true)}
-        style={{
-          width: '100%', marginTop: 14,
-          background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-          borderRadius: 14, padding: '12px 18px', cursor: 'pointer',
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14,
-          boxShadow: '0 4px 0 var(--terracotta-dark)',
-        }}
-      >
-        ▶ Play it as a lesson
-      </button>
-
-      {playing && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={parts.title}
-          style={{ position: 'fixed', inset: 0, zIndex: 300, background: 'var(--cream)', overflowY: 'auto' }}
-        >
-          <div style={{ maxWidth: 620, margin: '0 auto', padding: '18px 20px 48px' }}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 10 }}>
-              <button
-                type="button"
-                onClick={() => setPlaying(false)}
-                aria-label="Close the lesson"
-                style={{
-                  background: 'var(--white, #fff)', border: '1px solid var(--border)', borderRadius: '50%',
-                  width: 38, height: 38, fontSize: 16, color: 'var(--ink-soft)', cursor: 'pointer', lineHeight: 1,
-                }}
-              >
-                ✕
-              </button>
-            </div>
-            <LessonPlayer
-              lessonId="digi-quick-lesson"
-              lessonSource="ai_lesson"
-              slides={lessonToSlides(parts)}
-              backHref="/dashboard/digi"
-              completeEndpoint={null}
-            />
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
 
 export default function DigiChat({
   initialMessages,
   initialCount,
   isPaid,
   stagePrompts,
+  faqPrompts,
   pendingReflection,
   stageId,
   stageName,
@@ -234,6 +59,7 @@ export default function DigiChat({
   initialCount: number
   isPaid: boolean
   stagePrompts: string[]
+  faqPrompts?: string[]
   pendingReflection?: { question: string; answered: boolean } | null
   stageId?: number
   stageName?: string
@@ -252,15 +78,48 @@ export default function DigiChat({
     }
   }, [stageId])
 
-  // Reflection state
+  // Reflection state. A reflection saved before the truncation fix may be a
+  // clipped fragment, so only surface one that ends as a proper question.
   const [reflectionQuestion, setReflectionQuestion] = useState<string | null>(
-    pendingReflection && !pendingReflection.answered ? pendingReflection.question : null
+    pendingReflection && !pendingReflection.answered && pendingReflection.question.trim().endsWith('?')
+      ? pendingReflection.question
+      : null
   )
   const [reflectionInput, setReflectionInput] = useState('')
   const [reflectionSaving, setReflectionSaving] = useState(false)
   const [reflectionDone, setReflectionDone] = useState(
     pendingReflection?.answered ?? false
   )
+  // A brief confirmation the moment a reflection saves, then it eases away so
+  // it never lingers at the bottom of the thread. Separate from reflectionDone,
+  // which stays true so the prompt does not resurface.
+  const [reflectionToast, setReflectionToast] = useState(false)
+  useEffect(() => {
+    if (!reflectionToast) return
+    const id = setTimeout(() => setReflectionToast(false), 4000)
+    return () => clearTimeout(id)
+  }, [reflectionToast])
+
+  // The reflection is a gentle end of chat ask, never an interruption. When a
+  // reply carries one, we hold it here and only surface the card once the
+  // parent has paused (no new message for a spell), so it lands at the natural
+  // end of the conversation rather than between two of their questions.
+  const reflectionTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const armReflection = (q: string) => {
+    if (reflectionTimer.current) clearTimeout(reflectionTimer.current)
+    reflectionTimer.current = setTimeout(() => {
+      setReflectionQuestion(prev => (prev || reflectionDone ? prev : q))
+    }, 22_000)
+  }
+  useEffect(() => () => { if (reflectionTimer.current) clearTimeout(reflectionTimer.current) }, [])
+
+  // Flagging an answer as off: a quiet way for the parent to tell us when a
+  // reply missed, with a short note. It lands server side for the team to work
+  // on, and resets the moment the next question is asked.
+  const [flagOpen, setFlagOpen] = useState(false)
+  const [flagNote, setFlagNote] = useState('')
+  const [flagSending, setFlagSending] = useState(false)
+  const [flagSent, setFlagSent] = useState(false)
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -271,9 +130,53 @@ export default function DigiChat({
   // scroll never triggers a re-render.
   const scrollRef = useRef<HTMLDivElement>(null)
   const stickRef = useRef(true)
+  // Pin the newest question to the very top of the view, the Good Inside feel,
+  // until the parent scrolls away or asks the next thing. On its own a scroll
+  // cannot lift a fresh question to the top, because nothing has streamed in
+  // below it yet, and on a tall laptop a short answer never fills the gap. So we
+  // also drop a full viewport of trailing space below on send, which guarantees
+  // the question can always reach the top, then trim it once the answer lands.
+  const pinRef = useRef(false)
+  const tailRef = useRef<HTMLDivElement>(null)
+  const [tailSpace, setTailSpace] = useState(0)
+  const PIN_PAD = 12
+  // The scrollTop we set ourselves, so our own programmatic scroll is never
+  // mistaken for the parent taking the wheel.
+  const selfScroll = useRef<number | null>(null)
+
+  // Lift the newest question to the top of the view.
+  const pinToTop = () => {
+    const el = scrollRef.current
+    if (!el) return
+    const qs = el.querySelectorAll('[data-role="user"]')
+    const last = qs[qs.length - 1] as HTMLElement | undefined
+    if (!last) return
+    const top = el.scrollTop + (last.getBoundingClientRect().top - el.getBoundingClientRect().top) - PIN_PAD
+    selfScroll.current = top
+    el.scrollTop = top
+  }
+
+  // Once the answer is in, trim the trailing space to exactly a viewport below
+  // the question, so the pinned position never clamps (the question stays put)
+  // and there is no giant empty gap under a short reply.
+  const refitTail = () => {
+    const el = scrollRef.current, tail = tailRef.current
+    if (!el || !tail) return
+    const qs = el.querySelectorAll('[data-role="user"]')
+    const last = qs[qs.length - 1] as HTMLElement | undefined
+    if (!last) return
+    const qTop = last.getBoundingClientRect().top - el.getBoundingClientRect().top + el.scrollTop
+    const belowQ = (el.scrollHeight - tail.offsetHeight) - qTop
+    setTailSpace(Math.max(24, el.clientHeight - belowQ))
+  }
+
   const onMessagesScroll = () => {
     const el = scrollRef.current
-    if (el) stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
+    if (!el) return
+    // Ignore the scroll our own pin just caused; only a real move ends the pin.
+    if (selfScroll.current != null && Math.abs(el.scrollTop - selfScroll.current) < 3) return
+    pinRef.current = false
+    stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
   }
   const FREE_LIMIT = 3
 
@@ -319,15 +222,17 @@ export default function DigiChat({
     el.style.height = `${Math.min(el.scrollHeight, 160)}px`
   }, [input])
 
-  // Keep the newest text in view as it streams, but only while the reader is
-  // pinned to the bottom. Instant, not smooth: a smooth animation on every
-  // streamed token stacks up into jank and fights the reader. If they have
-  // scrolled up to read, we leave them exactly where they are.
+  // A brand new question jumps to the top of the view, the Good Inside feel:
+  // the parent reads their own question at the top with DiGi's answer flowing
+  // beneath it, rather than being dragged to the foot of a growing thread. Any
+  // other update just keeps the newest text in view while pinned to the bottom.
   useEffect(() => {
-    if (!stickRef.current) return
     const el = scrollRef.current
-    if (el) el.scrollTop = el.scrollHeight
-  }, [messages, reflectionQuestion])
+    if (!el) return
+    if (pinRef.current) { pinToTop(); return }
+    if (stickRef.current) { selfScroll.current = el.scrollHeight; el.scrollTop = el.scrollHeight }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages, reflectionQuestion, tailSpace])
 
   // Safety net: a tap that navigates away while a textarea is still
   // focused can skip the blur handler, which would leave the tab bar
@@ -339,8 +244,20 @@ export default function DigiChat({
     if (!typed.trim() || loading) return
     const messageText = text ? typed : continuingPrefix ? `${continuingPrefix}${typed}` : typed
 
-    // Sending is an intent to see the reply: always re-pin to the bottom.
-    stickRef.current = true
+    // A new message means the conversation is still going, so any reflection
+    // that was waiting to appear stands down and defers to the next real pause.
+    if (reflectionTimer.current) { clearTimeout(reflectionTimer.current); reflectionTimer.current = null }
+    if (!reflectionDone) setReflectionQuestion(null)
+    // A fresh question clears any flag box left open on the previous answer.
+    setFlagOpen(false); setFlagSent(false); setFlagNote('')
+
+    // Sending lifts the new question to the top of the view, not the bottom, so
+    // the answer reads from the question down, the Good Inside feel. A full
+    // viewport of trailing space guarantees the question can reach the very top
+    // even before the answer has filled in beneath it.
+    stickRef.current = false
+    pinRef.current = true
+    if (scrollRef.current) setTailSpace(scrollRef.current.clientHeight)
     setMessages(prev => [...prev, { role: 'user', content: messageText }])
     setInput('')
     setContinuingPrefix(null)
@@ -409,7 +326,11 @@ export default function DigiChat({
 
       const parts = fullText.split(REFLECTION_MARKER)
       const mainResponse = parts[0]?.trim() ?? fullText.trim()
-      const reflective = parts[1]?.trim() || null
+      // A real reflection always ends with a question mark. If the reply ran
+      // long and the reflection came through truncated, drop it rather than
+      // show a half sentence ("...or does he pr").
+      const rawReflective = parts[1]?.trim() || null
+      const reflective = rawReflective && rawReflective.endsWith('?') ? rawReflective : null
 
       if (!mainResponse) {
         setError('DiGi took too long to answer. Your message was not lost, try sending it again.')
@@ -419,9 +340,19 @@ export default function DigiChat({
 
       showReply(mainResponse)
       setDailyCount(Number.isFinite(usedToday) && usedToday > 0 ? usedToday : dailyCount + 1)
-      // Surface reflective question if new (and not already showing one)
+      // The answer has landed. Re-assert the question at the top, trim the
+      // trailing space to a viewport, then release the pin so the parent can
+      // read and scroll freely. The trim leaves the pinned position valid, so
+      // the question does not slip down even on a tall screen.
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        pinToTop()
+        refitTail()
+        pinRef.current = false
+      }))
+      // Hold the reflective question back and only let it surface once the
+      // parent has paused, so it never interrupts a live back and forth.
       if (reflective && !reflectionQuestion && !reflectionDone) {
-        setReflectionQuestion(reflective)
+        armReflection(reflective)
       }
     } catch {
       if (replyStarted) {
@@ -433,6 +364,31 @@ export default function DigiChat({
     } finally {
       setLoading(false)
       setStreamingReply(false)
+    }
+  }
+
+  async function submitFlag() {
+    if (!flagNote.trim() || flagSending) return
+    const last = messages[messages.length - 1]
+    const lastQuestion = [...messages].reverse().find(m => m.role === 'user')
+    setFlagSending(true)
+    try {
+      await fetch('/api/digi/flag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: lastQuestion?.content ?? null,
+          answer: last?.role === 'assistant' ? last.content : null,
+          note: flagNote.trim(),
+        }),
+      })
+      setFlagSent(true)
+      setFlagOpen(false)
+      setFlagNote('')
+    } catch {
+      // fail quietly, never block the parent
+    } finally {
+      setFlagSending(false)
     }
   }
 
@@ -449,6 +405,7 @@ export default function DigiChat({
         }),
       })
       setReflectionDone(true)
+      setReflectionToast(true)
       setReflectionQuestion(null)
     } catch {
       // fail silently — not critical
@@ -482,18 +439,18 @@ export default function DigiChat({
               <DigiAvatar size={36} mood="wave" />
             </div>
             <div>
-              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 10 }}>Your AI advisor</p>
+              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 12 }}>Your evidence led guide</p>
               <h1 style={{ fontSize: '1.05rem', marginBottom: '0', lineHeight: 1 }}>DiGi</h1>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
             {!isPaid && (
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: '11px', color: 'var(--ink-muted)' }}>
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-muted)' }}>
                 {dailyCount}/{FREE_LIMIT} today
               </span>
             )}
             {atLimit && (
-              <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-body)', fontSize: '10px', color: 'var(--terracotta)', textDecoration: 'none' }}>
+              <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none' }}>
                 Upgrade for unlimited →
               </Link>
             )}
@@ -502,17 +459,18 @@ export default function DigiChat({
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} onScroll={onMessagesScroll} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: 'var(--cream)' }}>
+      <div ref={scrollRef} onScroll={onMessagesScroll} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: '#fff' }}>
 
         {messages.length === 0 && (
-          <div style={{ paddingTop: '8px' }}>
-            <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', marginBottom: '20px' }}>
-              <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '8px', fontWeight: 600 }}>
-                I&apos;m DiGi, your digital parenting advisor.
-              </p>
-              <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-                I&apos;m trained on the research and I get more useful the more you tell me. What&apos;s on your mind?
-              </p>
+          <div style={{ paddingTop: '4px' }}>
+            {/* The premium DiGi front door: the same warm hero DiGi opens with
+                everywhere, in our butter and ink. */}
+            <div style={{ margin: '0 -20px 24px' }}>
+              <DigiHero
+                title={<>Let&apos;s make today a little easier.</>}
+                subtitle="I am trained on the research and I get more useful the more you tell me. What is on your mind?"
+                curved={false}
+              />
             </div>
 
             {stageId && stageName && !deviceSetupDismissed && (
@@ -532,24 +490,24 @@ export default function DigiChat({
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   boxShadow: '0 2px 0 var(--terracotta-dark)',
                 }}>
-                  <span style={{ fontSize: '14px', color: '#fff' }}>⚙</span>
+                  <span style={{ fontSize: '16px', color: '#fff' }}>⚙</span>
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
                     letterSpacing: '0.1em', textTransform: 'uppercase',
                     color: 'var(--terracotta)', marginBottom: '4px',
                   }}>
                     Device setup · Stage {stageId}
                   </div>
-                  <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.5, marginBottom: '10px' }}>
+                  <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.5, marginBottom: '10px' }}>
                     Have you set the right device settings for {stageName}? I work better when the basics are in place.
                   </p>
                   <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                     <Link
                       href={`/dashboard/pathway`}
                       style={{
-                        fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+                        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
                         color: 'var(--terracotta)', textDecoration: 'underline',
                         letterSpacing: '0.04em',
                       }}
@@ -563,7 +521,7 @@ export default function DigiChat({
                       }}
                       style={{
                         background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-                        fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+                        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
                         color: 'var(--ink-muted)', letterSpacing: '0.04em',
                       }}
                     >
@@ -574,7 +532,7 @@ export default function DigiChat({
               </div>
             )}
 
-            <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 10 }}>Try asking</p>
+            <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 12 }}>Try asking</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
               {stagePrompts.map((prompt, i) => (
                 <button
@@ -585,7 +543,7 @@ export default function DigiChat({
                     background: 'var(--white)',
                     border: '1px solid var(--border)',
                     borderRadius: '12px',
-                    fontSize: '14px',
+                    fontSize: '16px',
                     color: 'var(--ink-soft)',
                     textAlign: 'left',
                     cursor: 'pointer',
@@ -604,73 +562,185 @@ export default function DigiChat({
         )}
 
         {messages.map((msg, i) => {
-          // Chat protocol: every short thought in a DiGi reply becomes its
-          // own bubble, the way real messaging apps stack a multi part
-          // message. The avatar sits once, beside the last bubble, and
-          // consecutive bubbles in the group sit close with softened inner
-          // corners, the iMessage grouping look rather than separate cards.
-          // A lesson reply renders as one structured card. Everything else
-          // stacks as the usual chat bubbles.
-          const lesson = msg.role === 'assistant' ? parseLesson(msg.content) : null
-          const bubbles = msg.role === 'assistant' ? splitIntoBubbles(msg.content) : [msg.content]
-          if (!lesson && bubbles.length === 0) return null
-          return (
-            <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start', marginBottom: '18px' }}>
-              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, maxWidth: '86%' }}>
-                {msg.role === 'assistant' && (
-                  <div style={{ width: 30, flexShrink: 0, marginBottom: 2 }}>
-                    <DigiAvatar size={30} />
-                  </div>
-                )}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', minWidth: 0 }}>
-                  {lesson ? <LessonCard parts={lesson} /> : bubbles.map((text, b) => {
-                    const first = b === 0
-                    const last = b === bubbles.length - 1
-                    return (
-                      <div
-                        key={b}
-                        style={{
-                          padding: '13px 17px',
-                          borderRadius: msg.role === 'user'
-                            ? `20px ${first ? '20px' : '8px'} ${last ? '5px' : '8px'} 20px`
-                            : `${first ? '20px' : '8px'} 20px 20px ${last ? '5px' : '8px'}`,
-                          background: msg.role === 'user' ? 'var(--terracotta)' : 'var(--white, #fff)',
-                          color: msg.role === 'user' ? 'var(--ink)' : 'var(--ink)',
-                          boxShadow: msg.role === 'assistant'
-                            ? '0 1px 1px rgba(26,26,46,0.04), 0 4px 14px rgba(26,26,46,0.07)'
-                            : '0 2px 0 var(--terracotta-dark)',
-                          fontSize: '16.5px',
-                          lineHeight: 1.5,
-                          whiteSpace: 'pre-wrap',
-                          fontWeight: 500,
-                        }}
-                      >
-                        {text}
-                      </div>
-                    )
-                  })}
+          // DiGi speaks as one warm, continuous voice, the way the welcome
+          // sheet reads, not a stack of boxed white cards. The whole reply
+          // flows inside a single soft butter bubble, its separate thoughts
+          // set apart by generous spacing rather than separate boxes. Only the
+          // parent's own message wears the solid butter bubble, on the right.
+          // A lesson reply still renders as its structured card.
+          if (msg.role === 'user') {
+            return (
+              <div key={i} data-role="user" style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '22px' }}>
+                <div style={{
+                  // The Good Inside blue: a soft periwinkle question pill with
+                  // dark ink text, so the parent's question reads clear at the
+                  // top with DiGi's answer flowing beneath it.
+                  maxWidth: '84%', background: '#DCE7FB', color: '#1B2A4A',
+                  borderRadius: '20px', padding: '14px 18px',
+                  fontFamily: 'var(--font-display)', fontSize: '19px', lineHeight: 1.45,
+                  fontWeight: 800, whiteSpace: 'pre-wrap',
+                }}>
+                  {msg.content}
                 </div>
+              </div>
+            )
+          }
+          // DiGi answers as clean, flowing guidance now, clear instructions a
+          // parent can act on, never a boxed lesson with a play button. Each
+          // point stays whole (split on blank lines only), its bold lead in
+          // carrying the move.
+          const paras = msg.content.split(/\n{2,}/).map(s => s.trim()).filter(Boolean)
+          if (paras.length === 0) return null
+          // A short one liner is just chat. A multi step how to is the kind of
+          // thing a child could hear too, so offer to put it in their words.
+          const offerChildVersion = i === messages.length - 1 && !streamingReply && paras.length >= 3
+          return (
+            <div key={i} style={{ marginBottom: '26px' }}>
+              {/* DiGi's mark and name sit once above the answer, the reference
+                  feel: no coloured bubble, just a clear note from a coach. */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 11 }}>
+                <div style={{ width: 26, height: 26, flexShrink: 0 }}><DigiAvatar size={26} /></div>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)' }}>DiGi</span>
+              </div>
+              {/* The answer flows as plain text on white, its separate points set
+                  apart by space, each bold lead in carrying the move. */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                {paras.map((text, b) => (
+                  <p key={b} style={{
+                    margin: 0, fontFamily: 'var(--font-body)', fontSize: '19px',
+                    lineHeight: 1.6, color: 'var(--ink)', fontWeight: 500, whiteSpace: 'pre-wrap',
+                  }}>
+                    {renderInline(text)}
+                  </p>
+                ))}
+                {offerChildVersion && (
+                  <button
+                    onClick={() => sendMessage('Put that in simple words for my child to read, at their age, so we can go through it together.')}
+                    style={{
+                      alignSelf: 'flex-start', marginTop: 3, background: '#fff', border: '1.5px solid var(--terracotta)',
+                      color: 'var(--ink)', borderRadius: 12, padding: '9px 14px', cursor: 'pointer',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                    }}
+                  >
+                    Put this in words for my child
+                  </button>
+                )}
               </div>
             </div>
           )
         })}
 
-        {loading && !streamingReply && (
-          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '18px', alignItems: 'flex-end', gap: 8 }}>
-            <div style={{ width: 30, flexShrink: 0 }}><DigiAvatar size={30} mood="thinking" /></div>
-            <div style={{ padding: '15px 18px', background: 'var(--white)', borderRadius: '20px 20px 20px 5px', boxShadow: '0 1px 1px rgba(26,26,46,0.04), 0 4px 14px rgba(26,26,46,0.07)', display: 'flex', gap: '5px', alignItems: 'center' }}>
-              {[0, 1, 2].map(i => (
-                <div key={i} style={{ width: '7px', height: '7px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
+        {/* Between chats, a quiet drop in: a couple of places that help with what
+            they just asked, the Good Inside feel. Only once the answer is settled,
+            never mid stream, and easy to ignore, so it never distracts. */}
+        {messages.length > 0 && messages[messages.length - 1].role === 'assistant' && !streamingReply && !loading && (
+          <div style={{ marginBottom: '26px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '9px' }}>
+              More that might help
+            </div>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              {[
+                { icon: '❝', label: 'Scripts for moments like this', href: '/dashboard/scripts' },
+                { icon: '🎬', label: 'A lesson to watch together', href: '/dashboard/lessons' },
+              ].map(r => (
+                <Link key={r.href} href={r.href} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '7px',
+                  background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px',
+                  padding: '9px 13px', textDecoration: 'none',
+                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)',
+                }}>
+                  <span aria-hidden>{r.icon}</span>{r.label}
+                </Link>
               ))}
+            </div>
+
+            {/* Flag an answer as off. Quiet by default, a small note box when
+                opened, a plain thank you once sent. Never in the way. */}
+            <div style={{ marginTop: '14px' }}>
+              {flagSent ? (
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)' }}>
+                  Thank you. We will look at this.
+                </div>
+              ) : flagOpen ? (
+                <div>
+                  <textarea
+                    value={flagNote}
+                    onChange={e => setFlagNote(e.target.value)}
+                    placeholder="What was off about this answer? It helps us make DiGi better."
+                    rows={2}
+                    style={{
+                      width: '100%', boxSizing: 'border-box', padding: '10px 13px', borderRadius: '12px',
+                      border: '1.5px solid var(--border)', background: 'var(--cream)',
+                      fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)',
+                      resize: 'none', outline: 'none', lineHeight: 1.5, marginBottom: '8px',
+                    }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
+                    onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
+                  />
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button
+                      onClick={submitFlag}
+                      disabled={flagSending || !flagNote.trim()}
+                      style={{
+                        background: flagNote.trim() ? 'var(--terracotta)' : 'var(--border)',
+                        color: flagNote.trim() ? 'var(--ink)' : 'var(--ink-muted)', border: 'none',
+                        borderRadius: '10px', padding: '9px 15px', cursor: flagNote.trim() ? 'pointer' : 'not-allowed',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
+                      }}
+                    >
+                      {flagSending ? 'Sending…' : 'Send'}
+                    </button>
+                    <button
+                      onClick={() => { setFlagOpen(false); setFlagNote('') }}
+                      style={{
+                        background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px', padding: '9px 14px',
+                        cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14.5px', color: 'var(--ink-soft)',
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setFlagOpen(true)}
+                  style={{
+                    background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                    fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-light)',
+                    textDecoration: 'underline', textUnderlineOffset: '3px',
+                  }}
+                >
+                  Something off with this answer? Tell us
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {loading && !streamingReply && (
+          <div style={{ marginBottom: '26px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 11 }}>
+              <div style={{ width: 26, height: 26, flexShrink: 0 }}><DigiAvatar size={26} mood="thinking" /></div>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)' }}>DiGi</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'inline-flex', gap: '5px', alignItems: 'center', background: 'var(--cream)', borderRadius: '100px', padding: '10px 14px' }}>
+                {[0, 1, 2].map(i => (
+                  <div key={i} style={{ width: '7px', height: '7px', background: 'var(--ink-light)', borderRadius: '50%', animation: `bounce 1.2s ease-in-out ${i * 0.2}s infinite` }} />
+                ))}
+              </div>
+              {/* The true reassurance: DiGi is reading vetted research, not the
+                  open web, and every answer clears our safety guardrails. */}
+              <ThinkingReassurance />
             </div>
           </div>
         )}
 
         {error && (
           <div style={{ padding: '12px 16px', background: 'var(--stage-1)', borderRadius: '12px', marginBottom: '12px' }}>
-            <p style={{ fontSize: '13px', color: 'var(--ink)', lineHeight: 1.5 }}>{error}</p>
+            <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.5 }}>{error}</p>
             {error.toLowerCase().includes('upgrade') && (
-              <Link href="/dashboard/upgrade" className="btn" style={{ marginTop: '12px', display: 'inline-flex', padding: '10px 20px', fontSize: '12px' }}>
+              <Link href="/dashboard/upgrade" className="btn" style={{ marginTop: '12px', display: 'inline-flex', padding: '10px 20px', fontSize: '14px' }}>
                 Unlock unlimited DiGi
               </Link>
             )}
@@ -690,11 +760,11 @@ export default function DigiChat({
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: 10, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
                 Today's reflection
               </span>
             </div>
-            <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.6, marginBottom: 14, fontWeight: 500 }}>
+            <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.6, marginBottom: 14, fontWeight: 500 }}>
               {reflectionQuestion}
             </p>
             <textarea
@@ -709,7 +779,7 @@ export default function DigiChat({
                 border: '1.5px solid var(--border)',
                 background: 'var(--cream)',
                 fontFamily: 'var(--font-body)',
-                fontSize: '14px',
+                fontSize: '16px',
                 color: 'var(--ink)',
                 resize: 'none',
                 outline: 'none',
@@ -733,7 +803,7 @@ export default function DigiChat({
                   borderRadius: '10px',
                   fontFamily: 'var(--font-body)',
                   fontWeight: 600,
-                  fontSize: '13px',
+                  fontSize: '15px',
                   cursor: reflectionInput.trim() ? 'pointer' : 'not-allowed',
                   transition: 'background 0.15s',
                 }}
@@ -748,7 +818,7 @@ export default function DigiChat({
                   border: '1px solid var(--border)',
                   borderRadius: '10px',
                   fontFamily: 'var(--font-body)',
-                  fontSize: '13px',
+                  fontSize: '15px',
                   color: 'var(--ink-muted)',
                   cursor: 'pointer',
                 }}
@@ -759,22 +829,55 @@ export default function DigiChat({
           </div>
         )}
 
-        {reflectionDone && (
-          <div style={{ textAlign: 'center', padding: '12px 0 8px', marginBottom: 8 }}>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 12, color: 'var(--ink-muted)' }}>
+        {reflectionToast && (
+          <div style={{ textAlign: 'center', padding: '12px 0 8px', marginBottom: 8, transition: 'opacity 0.4s' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink-muted)' }}>
               ✓ Reflection saved. DiGi will use this tomorrow
             </p>
           </div>
         )}
 
-        <div ref={messagesEndRef} style={{ height: '20px' }} />
+        <div ref={tailRef} aria-hidden style={{ height: Math.max(20, tailSpace) }} />
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
       <div style={{ padding: '14px 20px', borderTop: '1px solid var(--border)', background: 'var(--white)', flexShrink: 0 }}>
+        {/* A quiet strip of example questions that stays under the chat once it
+            is under way, so a parent always sees the kind of thing they can ask,
+            like how long a child their age should be on a screen. Hidden while
+            they are typing or continuing a topic, and gone at the daily limit.
+            The empty state keeps its own bigger Try asking list above. */}
+        {!atLimit && messages.length > 0 && !input.trim() && !continuingTopic && (faqPrompts?.length ?? 0) > 0 && (
+          <div
+            aria-label="Example questions to ask DiGi"
+            style={{
+              display: 'flex', gap: '7px', overflowX: 'auto', paddingBottom: '10px',
+              margin: '0 -20px', paddingLeft: '20px', paddingRight: '20px', scrollbarWidth: 'none',
+            }}
+          >
+            {faqPrompts!.map((q, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => sendMessage(q)}
+                style={{
+                  flexShrink: 0, whiteSpace: 'nowrap', cursor: 'pointer',
+                  background: 'var(--cream)', border: '1px solid var(--border)',
+                  borderRadius: '100px', padding: '8px 14px',
+                  fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--terracotta)')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              >
+                {q}
+              </button>
+            ))}
+          </div>
+        )}
         {atLimit ? (
           <div style={{ textAlign: 'center', padding: '8px 0' }}>
-            <p style={{ fontSize: '13px', color: 'var(--ink-muted)', marginBottom: '12px' }}>
+            <p style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '12px' }}>
               You have used your 3 free messages today. Come back tomorrow, or upgrade for unlimited DiGi.
             </p>
             <Link href="/dashboard/upgrade" className="btn" style={{ display: 'inline-flex' }}>
@@ -789,7 +892,7 @@ export default function DigiChat({
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
                   background: 'var(--stage-2)', border: '1px solid var(--border)',
                   borderRadius: '100px', padding: '5px 12px',
-                  fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+                  fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
                   color: 'var(--ink-soft)', maxWidth: '100%',
                 }}>
                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -799,50 +902,68 @@ export default function DigiChat({
                     type="button"
                     onClick={() => { setContinuingPrefix(null); setContinuingTopic(null) }}
                     aria-label="Stop continuing this topic"
-                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--ink-muted)', fontSize: '13px', lineHeight: 1, flexShrink: 0 }}
+                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--ink-muted)', fontSize: '15px', lineHeight: 1, flexShrink: 0 }}
                   >
                     ×
                   </button>
                 </span>
               </div>
             )}
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
+            {/* The compose pill: soft rounded field with a butter send tucked
+                in the corner, the reference feel in our palette. */}
+            <div style={{
+              display: 'flex', gap: '8px', alignItems: 'flex-end',
+              background: 'var(--cream)', border: '1.5px solid var(--border)',
+              borderRadius: '26px', padding: '6px 6px 6px 18px',
+              transition: 'border-color 0.15s',
+            }}>
             <textarea
               ref={textareaRef}
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() } }}
-              placeholder={continuingTopic ? 'What is happening, in your own words...' : "Ask DiGi anything about your child's digital world..."}
+              placeholder={continuingTopic ? 'What is happening, in your own words...' : 'Type your question'}
               rows={1}
               style={{
                 flex: 1,
-                padding: '13px 16px',
-                borderRadius: '14px',
-                border: '1.5px solid var(--border)',
-                background: 'var(--cream)',
+                padding: '9px 0',
+                border: 'none',
+                background: 'transparent',
                 fontFamily: 'var(--font-body)',
-                fontSize: '16.5px',
+                fontSize: '18.5px',
                 color: 'var(--ink)',
                 resize: 'none',
                 outline: 'none',
                 lineHeight: 1.5,
                 maxHeight: '160px',
                 overflowY: 'auto',
-                transition: 'border-color 0.15s',
               }}
-              onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
-              onBlur={e => { e.currentTarget.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
+              onFocus={e => { const p = e.currentTarget.parentElement; if (p) p.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
+              onBlur={e => { const p = e.currentTarget.parentElement; if (p) p.style.borderColor = 'var(--border)'; document.body.classList.remove('gc-input-focused') }}
             />
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="btn"
-              style={{ padding: '13px 20px', flexShrink: 0, fontSize: '13px' }}
+              aria-label="Send to DiGi"
+              style={{
+                flexShrink: 0, width: 44, height: 44, borderRadius: '50%', border: 'none',
+                background: input.trim() ? 'var(--terracotta)' : 'var(--border)',
+                color: 'var(--ink)', cursor: input.trim() ? 'pointer' : 'default',
+                boxShadow: input.trim() ? '0 4px 0 var(--terracotta-dark)' : 'none',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 22, fontWeight: 800, lineHeight: 1,
+                transition: 'background 0.15s',
+              }}
             >
-              Send
+              ↑
             </button>
             </div>
           </form>
+        )}
+        {!atLimit && (
+          <p style={{ margin: '9px 6px 0', textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
+            DiGi is a guide, not a crisis line, and can make mistakes. In an emergency call 999, or Samaritans on 116 123.
+          </p>
         )}
       </div>
 

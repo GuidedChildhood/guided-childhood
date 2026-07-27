@@ -12,13 +12,11 @@
 
 const CONFETTI = ['#F6C244', '#E5734B', '#2E7D5A', '#7C5CBF', '#4B9CE5']
 
-// The squad friends are solid background art, so they only look right cropped
-// into a circle. The star is transparent and floats uncropped.
-const SCENE_FRIEND: Record<string, { src: string; ring: string }> = {
-  oliver: { src: '/digi-squad/Oliver.png', ring: '#D4600A' },
-  zara: { src: '/digi-squad/Zara.png', ring: '#C9962A' },
-  sofia: { src: '/digi-squad/Sofia.jpeg', ring: '#2E7D5A' },
-}
+// The Planet Friends are transparent cut outs, so they float free and uncropped
+// just like the star, drawn from the one source of truth.
+import { characterByKey } from '@/lib/content/stage-characters'
+
+export type SceneCharacter = 'star' | 'pebble' | 'bloop' | 'orbit' | 'nova' | 'cosmo'
 
 export default function HappyScene({
   headline, sub, image, character = 'star', tone = 'onDark',
@@ -26,10 +24,10 @@ export default function HappyScene({
   headline: string
   sub?: string
   image?: string
-  character?: 'star' | 'oliver' | 'zara' | 'sofia'
+  character?: SceneCharacter
   tone?: 'onDark' | 'onLight'
 }) {
-  const friend = character !== 'star' ? SCENE_FRIEND[character] : null
+  const friend = character !== 'star' ? characterByKey(character) ?? null : null
   const titleColor = tone === 'onDark' ? '#fff' : 'var(--ink)'
   const subColor = tone === 'onDark' ? 'rgba(255,255,255,0.85)' : 'var(--ink-soft)'
 
@@ -51,7 +49,7 @@ export default function HappyScene({
 
         {/* Twinkling stars */}
         {[[24, 30], [168, 22], [40, 74], [156, 70]].map(([x, y], i) => (
-          <span key={i} style={{ position: 'absolute', left: x, top: y, fontSize: '15px', animation: `gcSceneTwinkle ${1.4 + i * 0.3}s ease-in-out ${i * 0.2}s infinite` }} aria-hidden>⭐</span>
+          <span key={i} style={{ position: 'absolute', left: x, top: y, fontSize: '17px', animation: `gcSceneTwinkle ${1.4 + i * 0.3}s ease-in-out ${i * 0.2}s infinite` }} aria-hidden>⭐</span>
         ))}
 
         {/* Drifting confetti */}
@@ -73,10 +71,8 @@ export default function HappyScene({
             // eslint-disable-next-line @next/next/no-img-element
             <img src={image} alt="" style={{ width: 220, height: 'auto', maxWidth: '78vw', objectFit: 'contain', filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.22))' }} />
           ) : friend ? (
-            <span style={{ display: 'block', width: 104, height: 104, borderRadius: '50%', overflow: 'hidden', background: '#FFF7E8', border: `3px solid ${friend.ring}`, boxShadow: '0 8px 14px rgba(0,0,0,0.22)' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={friend.src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </span>
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={friend.cutout} alt={friend.name} style={{ width: 116, height: 116, objectFit: 'contain', filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.22))' }} />
           ) : (
             // eslint-disable-next-line @next/next/no-img-element
             <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: 96, height: 96, objectFit: 'contain', filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.22))' }} />
@@ -88,7 +84,7 @@ export default function HappyScene({
         {headline}
       </p>
       {sub && (
-        <p style={{ fontSize: '15px', color: subColor, lineHeight: 1.5, margin: 0, maxWidth: 320, marginLeft: 'auto', marginRight: 'auto' }}>
+        <p style={{ fontSize: '17px', color: subColor, lineHeight: 1.5, margin: 0, maxWidth: 320, marginLeft: 'auto', marginRight: 'auto' }}>
           {sub}
         </p>
       )}

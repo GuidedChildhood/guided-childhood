@@ -7,10 +7,10 @@ import PrintButton from '@/components/educator/PrintButton'
 // and online safety policy. Written to the 2025 guidance requirements,
 // including the parental transparency wording.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.7 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.7 }
 const block: React.CSSProperties = { border: '1.5px solid var(--border)', borderRadius: '14px', padding: '16px 20px', marginBottom: '16px', background: 'var(--cream)' }
-const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', margin: '0 0 8px' }
+const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', margin: '0 0 8px' }
 
 export default async function PolicyTextPage() {
   const supabase = await createClient()
@@ -101,7 +101,7 @@ export default async function PolicyTextPage() {
           </p>
         </div>
 
-        <p style={{ ...body, fontSize: '11.5px', color: 'var(--ink-muted)' }}>
+        <p style={{ ...body, fontSize: '13.5px', color: 'var(--ink-muted)' }}>
           This text is a starting point, not legal advice. Your policy remains your school&rsquo;s own
           document and should be reviewed by your PSHE lead, DSL and governing body in the normal way.
         </p>

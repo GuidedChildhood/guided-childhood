@@ -2,68 +2,32 @@ import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { STAGES } from '@/lib/content/stages'
+import { STAGES, type ChallengeId } from '@/lib/content/stages'
+import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
-import StageRoadMap from '@/components/pathway/StageRoadMap'
-import { getStageProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
+import StageRoad from '@/components/pathway/StageRoad'
+import LiteracyAreas from '@/components/pathway/LiteracyAreas'
+import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
+import { getStageProgress, getAllStagesProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 import { getJourney } from '@/lib/pathway/journey'
-
-const STAGE_DISPLAY: Record<number, {
-  displayName: string
-  subtitle: string | null
-  concepts: string[]
-  color: string
-  bg: string
-  numColor: string
-}> = {
-  1: {
-    displayName: 'Foundation',
-    subtitle: null,
-    concepts: ['Shared screen', 'Co viewing', 'No solo device', 'No feeds'],
-    color: 'var(--terracotta)',
-    bg: 'var(--stage-1)',
-    numColor: 'var(--terracotta)',
-  },
-  2: {
-    displayName: 'First Steps',
-    subtitle: null,
-    concepts: ['Restricted phone', 'Family contacts', 'Privacy basics', 'Algorithms'],
-    color: 'var(--terracotta)',
-    bg: 'var(--stage-2)',
-    numColor: 'var(--terracotta)',
-  },
-  3: {
-    displayName: 'Explorer',
-    subtitle: 'Critical Window',
-    concepts: ['Guided smartphone', 'No social media', 'Comparison', 'Orben research'],
-    color: 'var(--terracotta)',
-    bg: 'var(--stage-3)',
-    numColor: 'var(--terracotta)',
-  },
-  4: {
-    displayName: 'Navigator',
-    subtitle: null,
-    concepts: ['Monitored social', 'Reputation', 'Filter bubbles', 'Readiness'],
-    color: 'var(--terracotta)',
-    bg: 'var(--stage-4)',
-    numColor: 'var(--terracotta)',
-  },
-  5: {
-    displayName: 'Independent',
-    subtitle: null,
-    concepts: ['Trust-based', 'Full access', 'AI literacy', 'Vibe coding'],
-    color: 'var(--terracotta)',
-    bg: 'var(--stage-5)',
-    numColor: 'var(--ink-muted)',
-  },
-}
+import ChildSwitcher from '@/components/children/ChildSwitcher'
+import { pickChild } from '@/lib/children/select'
+import DigiCharacter from '@/components/digi/DigiCharacter'
+import PassportBook from '@/components/pathway/PassportBook'
+import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
+import MeetTheFriends from '@/components/pathway/MeetTheFriends'
+import StageReadiness from '@/components/pathway/StageReadiness'
+import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
+import { READINESS } from '@/lib/content/readiness'
+import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
-export default async function PathwayPage() {
+export default async function PathwayPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
+  const { child: childParam } = await searchParams
 
   const [profileResult, childrenResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
@@ -77,50 +41,270 @@ export default async function PathwayPage() {
     foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5,
   }
 
-  const childStageNums = new Set(children.map(c => c.stage_id ? stageIdToNum[c.stage_id] ?? null : null).filter(Boolean))
-  const primaryChild = children[0]
+  // The whole road renders for the selected child (?child=<id>), defaulting
+  // to the primary, so a second or third child gets their own pathway too.
+  const primaryChild = pickChild(children, childParam)
   const currentStageNum = primaryChild?.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
 
-  const [currentStageProgress, journey] = primaryChild?.stage_id
+  const [currentStageProgress, journey, allStagesProgress] = primaryChild?.stage_id
     ? await Promise.all([
         getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0),
         getJourney(supabase, user.id, primaryChild.stage_id as ProgressStageId),
+        getAllStagesProgress(supabase, user.id, primaryChild.streak_weeks ?? 0),
       ])
-    : [null, null]
+    : [null, null, null]
+
+  // One shared reading per stage for the road, the same blend the passport
+  // uses, keyed by stage number, so caught up pages and filled stamps show
+  // truthfully on the road instead of a fixed badge.
+  const stageStatus: Record<number, { pct: number; complete: boolean }> = {}
+  if (allStagesProgress) {
+    for (const slug of Object.keys(allStagesProgress) as ProgressStageId[]) {
+      stageStatus[stageIdToNum[slug]] = { pct: allStagesProgress[slug].overallPct, complete: allStagesProgress[slug].contentComplete }
+    }
+  }
 
   const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
+
+  // One live literacy reading for the whole page, shared by the four strands
+  // card and the end of stage check below, so they never disagree.
+  const litStatuses = await getLiteracyStatuses(supabase, user.id, currentStageNum ?? 1)
+
+  // The end of stage readiness inputs: which strands for this age are green,
+  // which are still amber (with their one next step), how many stage lessons
+  // are left, and whether the passport quiz for this stage is already passed.
+  const READINESS_AREAS = [
+    { key: 'safe', name: 'Safe online', startStage: 1 },
+    { key: 'balance', name: 'Healthy balance', startStage: 1 },
+    { key: 'ai', name: 'AI and chatbots', startStage: 3 },
+    { key: 'social', name: 'Social media ready', startStage: 3 },
+  ] as const
+  const stageNum = currentStageNum ?? 1
+  const activeAreas = READINESS_AREAS.filter(a => stageNum >= a.startStage)
+  const readinessAmbers = activeAreas
+    .filter(a => (litStatuses[a.key]?.tone ?? 'green') !== 'green')
+    .map(a => ({ name: a.name, improve: litStatuses[a.key]?.improve ?? 'Do the next step', href: litStatuses[a.key]?.href ?? '/dashboard/lessons' }))
+  const readinessGreens = activeAreas.length - readinessAmbers.length
+  const lessonsLeft = Math.max(0, (currentStageProgress?.lessonsTotal ?? 0) - (currentStageProgress?.lessonsDone ?? 0))
+  const passedStages = await getPassedStageQuizzes(supabase, user.id, primaryChild?.id ?? null)
+  const stageQuizPassed = passedStages.has(stageNum)
+
+  // Show the end of stage check as a family nears the end: content finished, or
+  // the blend past three quarters, or the stamp already earned so it can show.
+  const nearStageEnd = !!primaryChild?.stage_id && (
+    stageQuizPassed ||
+    (currentStageProgress?.contentComplete ?? false) ||
+    (currentStageProgress?.overallPct ?? 0) >= 75
+  )
+  const stampName = READINESS[Math.min(4, Math.max(0, stageNum - 1))].stamp
+
+  // The passport the road is filling, so the goal sits right beside the map:
+  // one stamp per stage, earned as the family works through it, catch up pages
+  // for earlier stages and a peek at the ones ahead. Same reading as the road.
+  const STAGE_SLUGS_ARR: ProgressStageId[] = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
+  const passportStamps: Stamp[] = allStagesProgress && currentStageNum
+    ? STAGES.map(s => {
+        const prog = allStagesProgress[STAGE_SLUGS_ARR[s.id - 1]]
+        const status: StampStatus =
+          prog.contentComplete ? 'earned'
+          : s.id === currentStageNum ? 'current'
+          : s.id < currentStageNum ? 'catchup'
+          : 'upcoming'
+        // A stage still ahead reads a true zero, never the blend's free credit
+        // from the global streak or empty device list. Earned shows the stamp,
+        // the current and catch up stages show their real reading.
+        const pct = status === 'earned' ? 100 : status === 'upcoming' ? 0 : prog.overallPct
+        return {
+          id: s.id, name: s.name, ages: s.ages, pct, status,
+          href: '/dashboard/lessons',
+          lessonsDone: prog.lessonsDone, lessonsTotal: prog.lessonsTotal,
+          scriptsPct: prog.scriptsPct, streakPct: prog.streakPct,
+          devicesPct: prog.devicesPct, lessonsPct: prog.lessonsPct,
+        }
+      })
+    : []
+
+  // Tailor the stage by the concern this family actually flagged, not by any
+  // assumption about the child. The top open concern maps straight to the
+  // stage's own action for it, so an eleven year old whose parent worries about
+  // gaming and one whose parent worries about comparison get different guidance,
+  // the honest version of a boy and girl pathway.
+  const { data: topConcern } = await supabase
+    .from('concerns').select('slug, label')
+    .eq('user_id', user.id).neq('status', 'resolved')
+    .order('times_flagged', { ascending: false }).limit(1).maybeSingle()
+  const concernSlug = (topConcern as { slug?: string } | null)?.slug as ChallengeId | undefined
+  const concernLabel = (topConcern as { label?: string } | null)?.label ?? null
+  const kidLabel = primaryChild?.name && primaryChild.name !== 'Your child' ? primaryChild.name : 'your child'
+
+  // The page in six doors, in the order a parent actually wants them: is this
+  // working, then the passport itself, then this week, then the road, then the
+  // four things, then what we are on right now.
+  //
+  // It used to be one long scroll with everything equally loud, so a parent
+  // who came to check one thing read all of it or gave up. These are anchors
+  // rather than routes: nothing moved, it can just be reached now.
+  const SECTIONS: SectionTile[] = [
+    { href: '#is-it-working', label: 'Is it working', sub: 'The honest read on where you are',
+      icon: '📈', bg: 'var(--tint-sage)', accent: '#9CC3B4' },
+    { href: '#passport', label: 'View passport', sub: 'One page per stage, tap to fill it',
+      icon: '🛂', bg: 'var(--terracotta-lt)', accent: 'var(--terracotta)' },
+    { href: '/dashboard/stats', label: `${kidLabel}'s week`, sub: 'Screen balance and what to aim for',
+      icon: '⚖️', bg: 'var(--tint-blue)', accent: '#A9C8E4' },
+    { href: '#the-road', label: 'The pathway to 16', sub: 'All five stages on one road',
+      icon: '🗺️', bg: 'var(--stage-5)', accent: '#C4B5E8' },
+    { href: '#four-things', label: `The four we build for ${kidLabel}`, sub: 'Safe, balanced, AI aware, social ready',
+      icon: '🧭', bg: 'var(--stage-3)', accent: '#F0B9AE' },
+    { href: '#working-on', label: 'What we are working on', sub: 'This stage, right now',
+      icon: '🎯', bg: 'var(--stage-1)', accent: '#E8CE7A' },
+  ]
+
+  const tailoredAction = concernSlug && currentStageContent
+    ? currentStageContent.challengeActions[concernSlug] ?? null
+    : null
 
   return (
     <div style={{ padding: '24px 0 32px' }}>
       {/* Header */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto', marginBottom: '20px' }}>
+        <ChildSwitcher kids={children} selectedId={primaryChild?.id ?? null} basePath="/dashboard/pathway" />
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Your journey</p>
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>The pathway to 16</h1>
-        <p style={{ color: 'var(--ink-muted)', fontSize: '15px', lineHeight: 1.55 }}>
-          This is your child’s social media passport. The plan that turns 16 from a cliff edge into a gentle ramp, earned one stage at a time, all the way to independence. Your next step is always here.
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>The pathway to 16</h1>
+        <p style={{ color: 'var(--ink)', fontSize: '20px', lineHeight: 1.55, maxWidth: '580px', fontWeight: 600 }}>
+          A passport that proves {kidLabel} can actually handle the internet, earned one stage at a time, so 16 arrives as a gentle ramp instead of a cliff edge.
         </p>
-        <Link href="/passport" style={{ display: 'inline-block', marginTop: '8px', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none', letterSpacing: '0.03em' }}>
+
+        {/* What it proves, and what we do about it. This page is the whole
+            promise of the product and it never once said what the promise was:
+            a parent read a road, five circles and a percentage, and had to
+            infer the rest. Four lines, the biggest supporting type on the page,
+            and it is said. */}
+        <ul style={{ listStyle: 'none', padding: 0, margin: '14px 0 0', maxWidth: '580px' }}>
+          {[
+            ['🛡️', 'Safe online', 'Spotting what is not right, and always telling someone.'],
+            ['⚖️', 'A healthy balance', 'Screen time earned from real world jobs, never just handed over.'],
+            ['🤖', 'AI and what is real', 'Knowing when something is made up, sold to them, or a bot.'],
+            ['💬', 'Ready for social media', 'Judgement built years before the account, not the week they ask.'],
+          ].map(([em, t, b]) => (
+            <li key={t} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', marginBottom: 9 }}>
+              <span aria-hidden style={{ fontSize: 20, lineHeight: 1.2, flexShrink: 0 }}>{em}</span>
+              <span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17.5, color: 'var(--ink)' }}>{t}</span>
+                <span style={{ display: 'block', fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.45 }}>{b}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p style={{ color: 'var(--ink)', fontSize: '17px', lineHeight: 1.55, maxWidth: '580px', margin: '4px 0 0', fontWeight: 600 }}>
+          We tell you what to do, how to do it, and the research it comes from. You just do today.
+        </p>
+        <Link href="/passport" style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-mono)', fontSize: '15px', color: 'var(--terracotta-dark)', textDecoration: 'underline', textUnderlineOffset: '3px', letterSpacing: '0.03em' }}>
           Why we call it a passport →
         </Link>
         {children.length > 1 && (
-          <p style={{ color: 'var(--ink-muted)', fontSize: '14px', marginTop: '4px' }}>
+          <p style={{ color: 'var(--ink-muted)', fontSize: '16px', marginTop: '4px' }}>
             {children.length} children, one account.
           </p>
         )}
       </div>
 
-      {/* The road to 16 at a glance: where this family is on the whole map,
-          before any detail. Orientation first, then the journey below. */}
-      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
-        <StageRoadMap
+      {/* Six doors into a page that used to be one long equally loud scroll. */}
+      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 8px' }}>
+        <SectionTiles tiles={SECTIONS} />
+      </div>
+
+      {/* Reassurance before the map. The five stages can look like a lot at a
+          glance, so DiGi says the one thing a parent needs to hear: you do not
+          hold all of this, we do. Just do today. */}
+      <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 20px' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '13px',
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          borderRadius: '18px', padding: '15px 17px',
+        }}>
+          <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <DigiCharacter size={28} mood="wave" />
+          </span>
+          <p style={{ flex: 1, minWidth: 0, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+            <strong style={{ fontWeight: 800 }}>Do not worry about the whole map.</strong> We have got you. Just follow each daily task and we drive the growing up for you, all the way to 16 and beyond.
+          </p>
+        </div>
+      </div>
+
+      {/* THE road, the hero of the page: five big stamp nodes on one thick
+          winding trail, Duolingo sized, DiGi on the current one, the sticky
+          position card riding along as you scroll, live progress and the
+          stage detail folded in. */}
+      <div id="the-road" style={{ scrollMarginTop: '84px', padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
+        <StageRoad
           currentStageNum={currentStageNum}
           progressPct={currentStageProgress?.overallPct ?? null}
+          childName={primaryChild?.name ?? undefined}
+          stageStatus={stageStatus}
         />
+      </div>
+
+      {/* The goal beside the map: the passport they are filling, one stamp per
+          stage, so a parent looking at the road can see exactly what it builds
+          towards and watch the stamps land as they go. */}
+      {passportStamps.length > 0 && (
+        <div id="passport" style={{ scrollMarginTop: '84px', padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
+          {/* Meet the family, where the five point star used to sit: DiGi and the
+              Planet Friends the child grows up with, an introduction not a score. */}
+          <MeetTheFriends childName={primaryChild?.name ?? null} />
+          <PassportBook stamps={passportStamps} childName={primaryChild?.name ?? 'your child'} />
+        </div>
+      )}
+
+      {/* The four literacy strands in plain words, each with a live reading
+          from the family's real week: the jobs and screen balance, open
+          worries, and lessons done per strand. Green means on track, red means
+          worth a look, the same readings the rest of the app uses. */}
+      <div id="four-things" style={{ scrollMarginTop: '84px' }} />
+      <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={litStatuses} />
+
+      {/* The end of stage readiness check, DiGi's voice: as the family nears the
+          end of a stage, DiGi reads where they are, names what is left, and when
+          nothing is, offers the short passport quiz that earns the stamp. */}
+      <div id="is-it-working" style={{ scrollMarginTop: '84px' }} />
+      {nearStageEnd && currentStageContent && (
+        <div style={{ marginTop: 4 }}>
+          <StageReadiness
+            stageId={stageNum}
+            stageName={currentStageContent.name}
+            stampName={stampName}
+            childId={primaryChild?.id ?? null}
+            childName={primaryChild?.name ?? null}
+            greens={readinessGreens}
+            activeAreas={activeAreas.length}
+            lessonsLeft={lessonsLeft}
+            ambers={readinessAmbers}
+            alreadyPassed={stageQuizPassed}
+          />
+        </div>
+      )}
+
+      {/* Tailored by what this family flagged, not by the child's sex. */}
+      {tailoredAction && (
+        <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
+          <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '5px' }}>
+              For your family right now{concernLabel ? ` · ${concernLabel}` : ''}
+            </div>
+            <p style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{tailoredAction}</p>
+          </div>
+        </div>
+      )}
+
+      {/* The evidence and the stance, folded into one card that opens on demand,
+          so the pathway stays a next step, not a research brochure. */}
+      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 24px' }}>
+        <PathwayEvidence />
       </div>
 
       {/* The journey: one spine, three strands, the single next step */}
       {journey && currentStageContent && (
-        <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 32px' }}>
+        <div id="working-on" style={{ scrollMarginTop: '84px', padding: '0 20px', maxWidth: '720px', margin: '0 auto 32px' }}>
           <PathwayJourney
             journey={journey}
             childName={primaryChild?.name ?? 'your child'}
@@ -143,218 +327,68 @@ export default async function PathwayPage() {
                 <span style={{ color: '#fff', fontSize: '1rem', lineHeight: 1 }}>◎</span>
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: '#fff' }}>
                   Not sure of your next step?
                 </div>
-                <div style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.45, marginTop: '2px' }}>
+                <div style={{ fontSize: '14.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.45, marginTop: '2px' }}>
                   DiGi reads the moments you have flagged and talks you through the one that matters now.
                 </div>
               </div>
-              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '18px', flexShrink: 0 }}>→</span>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '20px', flexShrink: 0 }}>→</span>
             </div>
           </Link>
         </div>
       )}
 
-      {/* Stage cards — horizontal scroll on mobile, grid on desktop */}
-      <div className="stage-scroll-container">
-        <div className="stage-cards-row">
-          {STAGES.map(stage => {
-            const display = STAGE_DISPLAY[stage.id]
-            const isMyStage = childStageNums.has(stage.id)
-            const stageId = ['foundation', 'builder', 'explorer', 'shaper', 'independent'][stage.id - 1]
-            const numLabel = String(stage.id).padStart(2, '0')
-
-            return (
-              <div
-                key={stage.id}
-                className="stage-card"
-                style={{
-                  background: display.bg,
-                  border: isMyStage ? `2.5px solid ${display.color}` : '1.5px solid var(--border)',
-                  borderRadius: '20px',
-                  overflow: 'hidden',
-                  position: 'relative',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                {isMyStage && (
-                  <div style={{
-                    position: 'absolute', top: '12px', right: '12px',
-                    background: display.color, color: 'var(--ink)',
-                    fontFamily: 'var(--font-mono)', fontSize: '9px',
-                    fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase',
-                    padding: '3px 8px', borderRadius: '100px',
-                  }}>
-                    Your stage
-                  </div>
-                )}
-
-                {stage.id === currentStageNum && currentStageProgress && (
-                  <div style={{ padding: '16px 22px 0' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: display.color }}>
-                        Progress
-                      </span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)' }}>
-                        {currentStageProgress.overallPct}%
-                      </span>
-                    </div>
-                    <div style={{ height: '6px', background: 'rgba(255,255,255,0.6)', borderRadius: '100px', overflow: 'hidden' }}>
-                      <div style={{ width: `${currentStageProgress.overallPct}%`, height: '100%', background: display.color, borderRadius: '100px', transition: 'width 0.3s ease' }} />
-                    </div>
-                  </div>
-                )}
-
-                {/* Stage number — large */}
-                <div style={{ padding: '22px 22px 0' }}>
-                  <div style={{
-                    fontFamily: 'var(--font-mono)', fontWeight: 700,
-                    fontSize: '48px', lineHeight: 1, letterSpacing: '-0.02em',
-                    color: display.numColor, opacity: 0.4,
-                    marginBottom: '6px',
-                  }}>
-                    {numLabel}
-                  </div>
-
-                  {/* Stage name */}
-                  <div style={{ marginBottom: '2px' }}>
-                    <span style={{
-                      fontFamily: 'var(--font-display)', fontWeight: 800,
-                      fontSize: '21px', color: 'var(--ink)', letterSpacing: '-0.01em',
-                    }}>
-                      {display.displayName}
-                    </span>
-                    {display.subtitle && (
-                      <span style={{
-                        display: 'block',
-                        fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-                        letterSpacing: '0.1em', textTransform: 'uppercase',
-                        color: display.color, marginTop: '4px',
-                      }}>
-                        {display.subtitle}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Year / age */}
-                  <div style={{ marginBottom: '16px' }}>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.04em', marginBottom: '2px' }}>
-                      {stage.keyStage} · {stage.yearGroup}
-                    </div>
-                    <div style={{ fontSize: '13px', color: 'var(--ink-soft)', fontWeight: 600 }}>
-                      {stage.ages}
-                      <span style={{ fontWeight: 400, color: 'var(--ink-muted)' }}> &nbsp;({stage.usGrade})</span>
-                    </div>
-                  </div>
-
-                  {/* Concepts */}
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '18px' }}>
-                    {display.concepts.map(c => (
-                      <span key={c} style={{
-                        fontFamily: 'var(--font-mono)', fontSize: '10px',
-                        color: display.color,
-                        background: `color-mix(in srgb, ${display.bg} 60%, white)`,
-                        border: `1px solid color-mix(in srgb, ${display.color} 20%, transparent)`,
-                        padding: '3px 9px', borderRadius: '100px',
-                        fontWeight: 500, letterSpacing: '0.04em',
-                      }}>
-                        {c}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Parent question */}
-                  <div style={{
-                    background: 'rgba(255,255,255,0.6)',
-                    borderRadius: '12px',
-                    padding: '14px 16px',
-                    marginBottom: '18px',
-                  }}>
-                    <p style={{
-                      fontSize: '13px', fontStyle: 'italic',
-                      color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0,
-                    }}>
-                      &ldquo;{stage.parentQuote.replace(/^"/, '').replace(/"$/, '')}&rdquo;
-                    </p>
-                  </div>
-                </div>
-
-                {/* CTA */}
-                <div style={{ padding: '0 22px 22px', marginTop: 'auto' }}>
-                  <Link
-                    href={`/dashboard/scripts?stage=${stageId}`}
-                    style={{
-                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      background: display.color, color: 'var(--ink)',
-                      borderRadius: '16px', padding: '13px 16px',
-                      fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
-                      letterSpacing: '0.06em', textTransform: 'uppercase',
-                      textDecoration: 'none', transition: 'opacity 0.15s',
-                    }}
-                  >
-                    <span>See scripts</span>
-                    <span style={{ fontSize: '16px', fontWeight: 400, letterSpacing: 0 }}>→</span>
-                  </Link>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* Scroll hint on mobile */}
-      <div className="scroll-hint" style={{ textAlign: 'center', marginTop: '14px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', letterSpacing: '0.06em' }}>
-          swipe to explore
-        </span>
-      </div>
-
       {/* Multiple children section */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '28px auto 0' }}>
         {children.length > 1 && (
           <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
               Your children
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {children.map(child => {
                 const stageNum = child.stage_id ? stageIdToNum[child.stage_id] : null
-                const display = stageNum ? STAGE_DISPLAY[stageNum] : null
+                const stageMeta = stageNum ? STAGES.find(st => st.id === stageNum) ?? null : null
                 return (
-                  <div key={child.id} style={{
+                  <Link key={child.id} href={child.is_primary ? '/dashboard/pathway' : `/dashboard/pathway?child=${child.id}`} style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     background: 'var(--cream)', border: '1px solid var(--border)',
                     borderRadius: '12px', padding: '12px 16px', gap: '12px',
+                    textDecoration: 'none',
                   }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)' }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)' }}>
                       {child.name}
                     </span>
-                    {display && (
+                    {stageMeta && (
                       <span style={{
-                        fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-                        color: display.color, background: display.bg,
+                        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                        color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
                         padding: '3px 10px', borderRadius: '100px', letterSpacing: '0.06em',
                         textTransform: 'uppercase', whiteSpace: 'nowrap',
                       }}>
-                        {display.displayName}
+                        Stage {stageMeta.id} · {stageMeta.name}
                       </span>
                     )}
-                  </div>
+                  </Link>
                 )
               })}
             </div>
           </div>
         )}
 
+        {/* The printed passport link used to be hand rolled here. It now lives
+            inside PassportBook itself, so it follows the passport onto every
+            page that shows one rather than only this one. */}
+
         {/* Add child prompt */}
         <div style={{ textAlign: 'center', marginTop: '8px' }}>
-          <p style={{ fontSize: '13px', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '10px' }}>
             Multiple children? One account covers all of them.
           </p>
           <Link href="/dashboard/settings" style={{
-            fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)',
+            fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)',
             textDecoration: 'underline', letterSpacing: '0.04em',
           }}>
             Manage children →
@@ -369,7 +403,7 @@ export default async function PathwayPage() {
           }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate</p>
             <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Unlock all 5 stages for £7.99 / month</h3>
-            <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
+            <p style={{ fontSize: '16px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
               All scripts, unlimited DiGi, wellbeing tracker. First 50 members only.
             </p>
             <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>
@@ -379,49 +413,6 @@ export default async function PathwayPage() {
         )}
       </div>
 
-      <style>{`
-        .stage-scroll-container {
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          scrollbar-width: none;
-          padding: 0 20px 12px;
-        }
-        .stage-scroll-container::-webkit-scrollbar { display: none; }
-
-        .stage-cards-row {
-          display: flex;
-          gap: 14px;
-          width: max-content;
-          scroll-snap-type: x mandatory;
-        }
-
-        .stage-card {
-          width: min(82vw, 300px);
-          flex-shrink: 0;
-          scroll-snap-align: start;
-        }
-
-        .scroll-hint { display: block; }
-
-        @media (min-width: 768px) {
-          .stage-scroll-container {
-            overflow-x: visible;
-            padding: 0 20px;
-          }
-          .stage-cards-row {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-          }
-          .stage-card {
-            width: auto;
-            scroll-snap-align: unset;
-          }
-          .scroll-hint { display: none; }
-        }
-      `}</style>
     </div>
   )
 }

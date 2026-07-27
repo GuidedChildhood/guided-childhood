@@ -60,3 +60,34 @@ Open questions before the apex move (JP to confirm):
 - Do not move DNS for tools. or evidence. subdomains.
 - Do not point www at the app until the redirect map above is filled and the two
   clashes are decided.
+
+## Update 2026-07-17 — decision: app goes on the main domain, and the two wellbeing pages must survive
+
+JP's call: host the main app on the main domain (www and apex), not on a
+subdomain. Both of these must keep working after go live:
+
+1. `www.guidedchildhood.com/digitalwellbeing` — the marketing page.
+2. `wellbeing.guidedchildhood.com/signup` — the report app signup.
+
+What this means, verified against the code:
+
+- `wellbeing.guidedchildhood.com` is a SEPARATE subdomain running a SEPARATE
+  app (this repo has no /signup route and no reference to that host). Pointing
+  the main app at www or apex does NOT touch it. It keeps serving as long as its
+  DNS record is left alone at go live. So page 2 is safe by default. Rule: do
+  not change the wellbeing. DNS.
+- `www.../digitalwellbeing` is served by THIS app's own marketing page
+  (`app/(marketing)/digitalwellbeing/page.tsx`) once the app owns www. It
+  renders fine, so page 1 works. BUT its CTAs currently point at
+  `/starter-pack`, not at the report. To make the report funnel correct they
+  should point at `https://wellbeing.guidedchildhood.com/signup`. Open decision
+  for JP: rewire those CTAs, or leave /digitalwellbeing as a main platform
+  landing and keep the report funnel entirely on the wellbeing. subdomain.
+- The paths the earlier note feared would 404 on the apex move
+  (`/evidence`, `/five-questions`, `/investor`, `/investor-deck`) now exist as
+  real pages in this app, so they serve rather than break. Confirm the app's
+  versions are canonical, or add redirects to the existing ones.
+
+DNS steps (Vercel, not code): point www and the apex at the app; add
+guidedchildhood.com and www.guidedchildhood.com as domains on the app project;
+leave wellbeing., tools. and evidence. subdomains exactly as they are.

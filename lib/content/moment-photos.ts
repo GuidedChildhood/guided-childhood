@@ -33,11 +33,71 @@ export const MOMENT_PHOTOS: Record<string, string> = {
   laptop_open:          BASE + 'hf_20260712_195801_7ebe6c72-e96f-45f7-9af5-60d1f5165158.png',
   two_mugs:             BASE + 'hf_20260712_195749_3a134594-53b8-4807-9336-71a0ec97cd8a.png',
   closed_door:          BASE + 'hf_20260712_195751_08c58628-9d2f-47b7-95ba-c2976058b790.png',
+
+  // The 18 July 2026 batch, drawn for the library by age (migration 073). Same
+  // hand drawn picture book family: cream ground, ink line, no people, the
+  // object tells the story, gentle and hopeful even on the hard ones.
+  clothes_laid:         BASE + 'hf_20260719_000846_a50743fe-762e-47e4-b648-5079835a1f92.png',
+  plate_new_food:       BASE + 'hf_20260719_000848_9ee5c6a3-c6d6-4c3b-afc8-81dfabc26e44.png',
+  single_place:         BASE + 'hf_20260719_000854_5d33f678-ed60-4c6b-b9e4-3181ebf5b59c.png',
+  bag_snack:            BASE + 'hf_20260719_000856_5e2df752-e711-4a1c-acf4-07c45e95ae72.png',
+  phones_group:         BASE + 'hf_20260719_000904_3b0cd85c-a4ae-4a85-a77f-4fe88a7f3673.png',
+  laptop_nightlight:    BASE + 'hf_20260719_000905_771cbb77-4119-4d9b-a672-25e8c1d1988c.png',
+  cloud_rainbow:        BASE + 'hf_20260718_154040_b03ac5de-cdbd-4933-afdc-a9889edbcd97.png',
+  worry_jar:            BASE + 'hf_20260719_000912_1c4ed3f1-0bd9-4dce-984f-c96a0e327d63.png',
+  rainy_window:         BASE + 'hf_20260719_000914_872e67d4-467f-49cf-ba26-7e4b91a4af96.png',
+  kettle_calm:          BASE + 'hf_20260719_000921_47ba93ba-3a93-4422-b904-1a8f26b635d5.png',
+  bag_blanket:          BASE + 'hf_20260719_000922_37b067a5-17bd-4c8d-b510-b517b0933dfd.png',
+
+  // The 19 July 2026 batch: the 13 library titles that borrowed an interim tile
+  // now get their own draw, per the brief in plans/mobbin-moments-brief.md.
+  tablet_breakfast:     BASE + 'hf_20260719_013057_766d443e-30c5-4441-8c59-74a9c5feeaf0.png',
+  dark_alarm:           BASE + 'hf_20260719_013059_907e862f-927d-4a3b-88cb-8bf8c8a22fab.png',
+  phone_basket:         BASE + 'hf_20260719_013101_6c9b5164-8e3c-44fc-ac2f-16dd0ce6c77c.png',
+  coat_peg:             BASE + 'hf_20260719_013103_99849b76-b8cf-4078-8fdd-2617fd55c510.png',
+  tv_off_toy:           BASE + 'hf_20260719_013105_960c27f4-742c-4d48-8b94-8b98212fc1ea.png',
+  controller_sofa:      BASE + 'hf_20260719_013109_1aa94abf-6a2a-4823-9730-0420bcb7a0cf.png',
+  blurred_feed:         BASE + 'hf_20260719_013110_e5570802-6b6f-4ebc-a640-ef40fa478238.png',
+  open_door:            BASE + 'hf_20260719_013112_6c8efa5c-6a8e-4895-a871-9a930ded7e5b.png',
+  toys_tidied:          BASE + 'hf_20260719_013115_4780508c-96fe-444e-b653-4fa0e0ae19a8.png',
+  uniform_hook:         BASE + 'hf_20260719_013117_2f344c4e-c6ec-408a-bad0-b5b42361de7b.png',
+  shared_toy:           BASE + 'hf_20260719_013119_52e54382-4a35-4471-8346-baff94e1640f.png',
+  phone_charging_door:  BASE + 'hf_20260719_013121_312d9f7e-fd10-4435-914b-fbc49980e4e4.png',
+  lamp_stories:         BASE + 'hf_20260719_013123_75d3ad52-ea48-4cef-8938-a4e872926c7a.png',
 }
 
 // Title to tile, most specific patterns first so the right photo wins. Covers
 // every one of the seeded moment cards across all nine categories.
 const TITLE_TO_PHOTO: [RegExp, keyof typeof MOMENT_PHOTOS][] = [
+  // The library by age (migration 073), matched by its exact titles and kept
+  // above the broad older patterns so its own art always wins.
+  [/slow to get ready/i, 'clothes_laid'],
+  [/same few foods/i, 'plate_new_food'],
+  [/skipping meals|eating alone/i, 'single_place'],
+  [/talk about their day/i, 'bag_snack'],
+  [/everyone else has a phone/i, 'phones_group'],
+  [/upsetting online|saw something upsetting/i, 'laptop_nightlight'],
+  [/big tantrums|tantrums and meltdowns/i, 'cloud_rainbow'],
+  [/worry and anxiety/i, 'worry_jar'],
+  [/seeming low|low or flat/i, 'rainy_window'],
+  [/boils over/i, 'kettle_calm'],
+  [/after school meltdown/i, 'bag_blanket'],
+  // The rest of that batch got its own draw on 19 July 2026, so every library
+  // title now resolves to a dedicated tile, never a borrowed interim one.
+  [/wants the tablet/i, 'tablet_breakfast'],
+  [/hard to wake|late night before/i, 'dark_alarm'],
+  [/phones? at the dinner table/i, 'phone_basket'],
+  [/want to go to school/i, 'coat_peg'],
+  [/turning the screen off/i, 'tv_off_toy'],
+  [/come off the game/i, 'controller_sofa'],
+  [/comparing themselves/i, 'blurred_feed'],
+  [/leaving the house/i, 'open_door'],
+  [/playdate|ending a fun thing/i, 'toys_tidied'],
+  [/settling into a new school|new school or class/i, 'uniform_hook'],
+  [/siblings fighting/i, 'shared_toy'],
+  [/wind down|screens before bed/i, 'phone_charging_door'],
+  [/bedtime stalling/i, 'lamp_stories'],
+
   // Parent support first, so parental guilt does not match the emotions guilt
   [/shouting|failure as a parent|as a parent|mental health|parent burnout/i, 'two_mugs'],
 

@@ -58,6 +58,11 @@
   --tint-amber:        #F0E8D0;
   --tint-green:        #E8F4EE;
 
+  /* ── CHILD APP BACKGROUND ── premium anthracite by default. The home screen
+     lets the child recolour it from Make it mine, this is the shared default
+     the lesson, adventure and game screens rest on. */
+  --kid-bg: linear-gradient(180deg, #4C5057 0%, #34373D 100%);
+
   /* ── LEGACY ALIASES ── */
   --warm:              var(--cream);
   --cream-2:           var(--cream);
@@ -99,6 +104,11 @@ body {
   font-size: 16px;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+  /* One global readability dial for both apps. The interface is built in fixed
+     pixel sizes across hundreds of components, so a modest uniform zoom is the
+     honest way to make every screen bigger and clearer at once, text, spacing
+     and all. Tuned here in one place: nudge up for larger, down for tighter. */
+  zoom: 1.07;
 }
 
 h1, h2, h3, h4, h5 {
@@ -248,7 +258,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   bottom: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  height: 72px;
   background: rgba(255,255,255,.96);
   backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
@@ -260,6 +270,19 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 }
 @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
 
+/* A page's own sticky action bar (the shop basket, for one) has to sit ABOVE
+   the global tab bar on mobile or the tab bar covers it, and on the floor on
+   desktop where there is no tab bar to clear. Media queries cannot be written
+   inline, so the offset lives here. */
+.above-tab-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(72px + env(safe-area-inset-bottom));
+  z-index: 40;
+}
+@media (min-width: 768px) { .above-tab-bar { bottom: 0; } }
+
 /* While a text input has focus and the on screen keyboard is up, the
    global tab bar and the page's own compose bar both try to pin
    themselves above the keyboard, stacking messily. The tab bar steps
@@ -267,32 +290,57 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
    matters while typing. */
 body.gc-input-focused .bottom-tab-bar { display: none; }
 
+/* Sentence case at a readable size, the way the best parent apps label a tab
+   bar. The old 9px uppercase letterspaced label in muted grey was the hardest
+   text in either app to read, and pale butter for the active tab was almost
+   invisible on white. Labels are now ink, the active one darker and heavier,
+   and the colour lives in the icon pill where it can be seen. */
 .tab-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 3px;
-  padding: 8px 12px;
+  padding: 6px 6px;
   cursor: pointer;
   text-decoration: none;
-  color: var(--ink-muted);
+  color: var(--ink-soft);
   font-family: var(--font-body);
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  transition: color 0.15s;
+  letter-spacing: 0;
+  text-transform: none;
+  line-height: 1.2;
+  transition: color 0.15s, transform 0.06s ease;
   flex: 1;
   border-radius: 12px;
+  /* Kill the 300ms mobile tap delay and the grey tap flash, then give our
+     own instant press feedback below so the bar answers a finger at once. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
 }
-.tab-item.active { color: var(--terracotta); font-weight: 800; }
-.tab-item svg { width: 22px; height: 22px; }
+.tab-item.active { font-weight: 800; }
+/* Immediate tactile response the moment a finger lands, before the next
+   page has loaded, so the tab bar never feels like it is thinking. */
+.tab-item:active { transform: scale(0.9); }
+.tab-item svg { width: 24px; height: 24px; }
 /* Hover only for real pointers: on touch, :hover can stick after a tap
    and leave the wrong tab looking active until another tap clears it,
    which is exactly what made Home look current while on another page. */
 @media (hover: hover) and (pointer: fine) {
   .tab-item:hover { color: var(--terracotta); }
 }
+
+/* Child switcher pills: instant press response so switching child on the
+   Passport feels immediate, paired with the optimistic highlight in the
+   component. No tap delay, no grey flash. */
+.child-switch-pill {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.06s ease, background 0.12s, box-shadow 0.12s, border-color 0.12s;
+}
+.child-switch-pill:active { transform: scale(0.94); }
 
 /* ── DIGI CARD (app) ── */
 .digi-card {
@@ -335,8 +383,11 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   flex-shrink: 0;
 }
 
+/* One conversation grammar across the whole site, the same as the DiGi chat
+   a parent meets at login: their words in the soft blue pill, DiGi answering
+   as clean ink text. Every mock conversation inherits it from here. */
 .bubble-digi {
-  background: var(--cream);
+  background: #fff;
   padding: 11px 14px;
   border-radius: 16px;
   border-bottom-left-radius: 4px;
@@ -348,13 +399,15 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 }
 
 .bubble-parent {
-  background: var(--stage-3);
-  padding: 11px 14px;
+  background: #DCE7FB;
+  padding: 11px 15px;
   border-radius: 16px;
   border-bottom-right-radius: 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: .85rem;
-  line-height: 1.65;
-  color: var(--ink);
+  line-height: 1.55;
+  color: #1B2A4A;
   max-width: 86%;
 }
 
@@ -820,6 +873,29 @@ h1, h2, h3 { text-wrap: balance; }
   animation: digi-pop-in 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s both;
 }
 
+/* The alarm clock jiggle when the child's device time is up: a cheerful
+   wobble that matches the fun jingle, not a stern buzz. */
+@keyframes gcAlarmBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  20%      { transform: translateY(-8px) rotate(-12deg) scale(1.12); }
+  45%      { transform: translateY(0) rotate(11deg) scale(1.08); }
+  70%      { transform: translateY(-4px) rotate(-7deg) scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [style*="gcAlarmBounce"] { animation: none !important; }
+}
+
+/* Each of the last ten seconds lands with a soft pop, so the number itself
+   feels like a happy countdown to offline fun, not a clock running out. */
+@keyframes gcCountPop {
+  0%   { transform: scale(1.28); }
+  55%  { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [style*="gcCountPop"] { animation: none !important; }
+}
+
 /* ── NAV LINKS ── */
 .nav-links-desktop {
   display: flex;
@@ -834,6 +910,31 @@ h1, h2, h3 { text-wrap: balance; }
    so this media query can actually win, an inline display would override it
    and leave the desktop nav overflowing off the top of the phone. */
 @media (max-width: 720px) { .nav-links-desktop { display: none; } }
+
+/* ── HEADER CTAS ── the two premium capsules on the right of the marketing
+   header: Log in as a clear ghost pill, Get Started as the solid butter one,
+   both the same height so they read as a balanced pair, the Linear and mymind
+   pattern in our butter and ink. */
+.hdr-login {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 100px; border: 1.5px solid var(--border);
+  background: #fff; color: var(--ink);
+  font-family: var(--font-display); font-weight: 800; font-size: 14.5px;
+  letter-spacing: -0.01em; padding: 10px 20px;
+  text-decoration: none; white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.hdr-login:hover { background: var(--cream); border-color: var(--ink-light); }
+.hdr-login:active { transform: translateY(1px); }
+.hdr-cta {
+  border-radius: 100px; font-size: 14.5px; padding: 11px 22px;
+  box-shadow: 0 4px 0 var(--terracotta-dark);
+}
+.hdr-cta:hover, .hdr-cta:active { box-shadow: 0 4px 0 var(--terracotta-dark); }
+@media (max-width: 420px) {
+  .hdr-login { padding: 9px 15px; font-size: 13.5px; }
+  .hdr-cta { padding: 10px 16px; font-size: 13.5px; }
+}
 
 /* ── PATHWAY GRID (stage walkthrough) ── */
 .pathway-grid {
@@ -925,7 +1026,7 @@ body.gc-input-focused .rightnow-fab { display: none; }
     padding: 14px 22px;
     cursor: pointer;
     font-family: var(--font-display);
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 800;
     letter-spacing: -0.01em;
     box-shadow: 0 5px 0 var(--terracotta-dark), 0 10px 30px rgba(0,0,0,0.15);

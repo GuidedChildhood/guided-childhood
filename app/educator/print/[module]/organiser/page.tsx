@@ -8,8 +8,8 @@ import { parseSlides, type ObjectiveSlide, type KeywordsSlide } from '@/lib/cont
 // page per module. What I am learning, my words, the tool, and the
 // before and after reflection so pupils see their own learning move.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6 }
 const box: React.CSSProperties = { border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px 18px', marginBottom: '12px' }
 const writeLine: React.CSSProperties = { borderBottom: '1px solid var(--border)', height: '24px' }
 
@@ -58,7 +58,7 @@ export default async function KnowledgeOrganiserPage({ params }: { params: Promi
 
       <div style={{ ...box, border: '2px solid var(--gold, #F2C94C)', background: 'var(--cream)' }}>
         <div style={{ ...mono, color: 'var(--gold-dark, #7A5A0E)' }}>By the end I can say</div>
-        <p style={{ ...body, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', marginTop: '6px' }}>
+        <p style={{ ...body, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', marginTop: '6px' }}>
           &ldquo;{lesson.single_action_outcome}&rdquo;
         </p>
       </div>
@@ -82,7 +82,7 @@ export default async function KnowledgeOrganiserPage({ params }: { params: Promi
           <div style={mono}>My words for this topic</div>
           {words.map(w => (
             <p key={w.word} style={{ ...body, marginTop: '6px' }}>
-              <strong style={{ fontFamily: 'var(--font-mono)', fontSize: '12px' }}>{w.word}</strong> · {w.definition}
+              <strong style={{ fontFamily: 'var(--font-mono)', fontSize: '14px' }}>{w.word}</strong> · {w.definition}
             </p>
           ))}
         </div>
@@ -93,7 +93,7 @@ export default async function KnowledgeOrganiserPage({ params }: { params: Promi
         {(tool.lines ?? []).map((line, i) => (
           <p key={i} style={{ ...body, fontWeight: 800, marginTop: '6px' }}>{line}</p>
         ))}
-        {tool.strapline && <p style={{ ...body, fontSize: '11.5px', color: 'var(--ink-muted)', marginTop: '6px' }}>{tool.strapline}</p>}
+        {tool.strapline && <p style={{ ...body, fontSize: '13.5px', color: 'var(--ink-muted)', marginTop: '6px' }}>{tool.strapline}</p>}
       </div>
 
       <div style={box}>
@@ -103,7 +103,7 @@ export default async function KnowledgeOrganiserPage({ params }: { params: Promi
         <div style={writeLine} />
       </div>
 
-      <p style={{ ...mono, fontSize: '9px', textAlign: 'center', marginTop: '10px' }}>
+      <p style={{ ...mono, fontSize: '11px', textAlign: 'center', marginTop: '10px' }}>
         GUIDED CHILDHOOD SCHOOLS · KEEP THIS IN YOUR BOOK
       </p>
     </main>

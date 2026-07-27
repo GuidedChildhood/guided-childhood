@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DiGi's A to Z Showdown · Phone</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{--cream:#F9F8F6;--ink:#1A1A2E;--ink-soft:#52526A;--ink-muted:#8888A0;
+    --border:#EAEAF0;--terracotta:#EDC35F;--terracotta-dark:#C99A28;--terracotta-lt:#FEF7E0;
+    --coral:#D4600A;--green:#2F8F6B;--tint-blue:#D8E8F8;--tint-sage:#E8F0EE;--white:#FFF;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);}
+  .screen{width:1080px;height:1920px;background:var(--cream);padding:70px 60px;
+    display:flex;flex-direction:column;position:relative;align-items:center;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+    letter-spacing:6px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:74px;line-height:1.05;text-align:center;}
+  .card{background:var(--white);border:6px solid var(--ink);border-radius:36px;
+    box-shadow:0 10px 0 var(--ink);}
+  .chip{background:var(--white);border:5px solid var(--ink);border-radius:28px;
+    box-shadow:0 8px 0 var(--ink);padding:16px 30px;font-weight:800;font-size:30px;}
+  .bubble{background:var(--white);border:6px solid var(--ink);border-radius:36px;
+    box-shadow:0 10px 0 var(--ink);padding:34px 38px;font-weight:800;font-size:33px;
+    line-height:1.35;position:relative;flex:1;}
+  .bubble:after{content:'';position:absolute;left:-28px;top:50%;transform:translateY(-50%);
+    border-top:22px solid transparent;border-bottom:22px solid transparent;
+    border-right:28px solid var(--ink);}
+  .foot{position:absolute;bottom:44px;left:60px;right:60px;text-align:center;
+    font-family:'IBM Plex Mono',monospace;font-size:24px;letter-spacing:4px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .wheel-badge-a{fill:var(--terracotta-lt);}
+  .wheel-badge-b{fill:var(--tint-blue);}
+  .wheel-shadow{fill:var(--ink);}
+  .wheel-letter{fill:var(--ink);font-family:'Nunito',sans-serif;font-weight:900;}
+  .wheel-ring{fill:none;stroke:var(--terracotta);stroke-width:4;stroke-dasharray:14 12;}
+  .wheel-label{fill:var(--ink-muted);font-family:'IBM Plex Mono',monospace;letter-spacing:6px;}
+  .step{display:flex;gap:30px;align-items:flex-start;background:var(--white);
+    border:6px solid var(--ink);border-radius:36px;box-shadow:0 10px 0 var(--ink);
+    padding:30px 36px;}
+  .step .n{min-width:72px;height:72px;border:6px solid var(--ink);border-radius:50%;
+    background:var(--terracotta-lt);display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:38px;}
+  .step p{font-weight:600;font-size:31px;line-height:1.35;color:var(--ink-soft);}
+  .step p strong{color:var(--ink);font-weight:900;}
+</style>
+</head>
+<body>
+
+<!-- SCREEN 1 · THE WHEEL -->
+<div class="screen" id="s1">
+  <div class="eyebrow">DiGi's A to Z Showdown</div>
+  <h1 style="margin-top:20px;">Race the alphabet</h1>
+  <div class="wheel" data-size="920" style="margin-top:24px;"></div>
+  <div style="display:flex;gap:24px;margin-top:30px;">
+    <div class="chip" style="display:flex;align-items:center;gap:16px;">
+      <span style="width:34px;height:34px;border:5px solid var(--ink);border-radius:10px;background:var(--green);display:inline-block;"></span>Got it
+    </div>
+    <div class="chip" style="display:flex;align-items:center;gap:16px;">
+      <span style="width:34px;height:34px;border:5px solid var(--ink);border-radius:10px;background:var(--coral);display:inline-block;"></span>Missed it
+    </div>
+    <div class="chip" style="display:flex;align-items:center;gap:16px;">
+      <span style="width:34px;height:34px;border:5px dashed var(--ink);border-radius:10px;background:var(--white);display:inline-block;"></span>Passed
+    </div>
+  </div>
+  <div class="card" style="margin-top:44px;width:100%;padding:36px 44px;background:var(--terracotta-lt);display:flex;align-items:center;justify-content:space-between;">
+    <div style="font-weight:900;font-size:40px;">My greens today</div>
+    <div style="font-weight:900;font-size:44px;color:var(--ink-soft);">______ out of 26</div>
+  </div>
+  <div style="display:flex;gap:34px;margin-top:44px;width:100%;align-items:center;">
+    <img src="images/DiGi-star.svg" alt="DiGi" style="width:190px;height:204px;flex-shrink:0;">
+    <div class="bubble" style="font-size:31px;">Keep me on your screen while you play, or laminate my paper twin and wipe it clean for every rematch!</div>
+  </div>
+  <div class="foot">guidedchildhood.com</div>
+</div>
+
+<!-- SCREEN 2 · HOW TO PLAY -->
+<div class="screen" id="s2">
+  <div class="eyebrow">DiGi's A to Z Showdown</div>
+  <h1 style="margin-top:20px;">How to play</h1>
+  <div style="display:flex;flex-direction:column;gap:28px;margin-top:44px;width:100%;">
+    <div class="step"><div class="n">1</div><p><strong>Set the table.</strong> Wheel out flat, clue cards stacked A to Z, one player hosts.</p></div>
+    <div class="step"><div class="n">2</div><p><strong>Read the clue.</strong> Every answer begins with the letter on the card. X just hides inside its answer.</p></div>
+    <div class="step"><div class="n">3</div><p><strong>Colour the wheel.</strong> Right is green, wrong is coral, and a pass waits for the next lap.</p></div>
+    <div class="step"><div class="n">4</div><p><strong>Finish the lap.</strong> Keep circling until every letter has a colour.</p></div>
+    <div class="step"><div class="n">5</div><p><strong>Count the greens.</strong> That is your score out of 26. Best of three rounds takes the crown.</p></div>
+  </div>
+  <div style="display:flex;gap:34px;margin-top:50px;width:100%;align-items:center;">
+    <img src="images/DiGi-star.svg" alt="DiGi" style="width:220px;height:236px;flex-shrink:0;">
+    <div class="bubble">Read every clue twice, nice and slow. Never mouth the answer. And cheer the passes, they always come back round!</div>
+  </div>
+  <div class="foot">guidedchildhood.com</div>
+</div>
+
+<script>
+function buildWheel(px){
+  const N = 26, C = 500, R = 420, B = 88, RX = 22;
+  let shadows = '', badges = '', letters = '';
+  for (let i = 0; i < N; i++){
+    const ang = -Math.PI / 2 + (i * 2 * Math.PI / N);
+    const x = C + R * Math.cos(ang), y = C + R * Math.sin(ang);
+    const cls = i % 2 === 0 ? 'wheel-badge-a' : 'wheel-badge-b';
+    shadows += `<rect class="wheel-shadow" x="${(x-B/2).toFixed(1)}" y="${(y-B/2+7).toFixed(1)}" width="${B}" height="${B}" rx="${RX}"/>`;
+    badges  += `<rect class="${cls}" x="${(x-B/2).toFixed(1)}" y="${(y-B/2).toFixed(1)}" width="${B}" height="${B}" rx="${RX}" stroke="#1A1A2E" stroke-width="6"/>`;
+    letters += `<text class="wheel-letter" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="50" text-anchor="middle" dominant-baseline="central">${String.fromCharCode(65+i)}</text>`;
+  }
+  return `<svg width="${px}" height="${px}" viewBox="0 0 1000 1000">
+    <circle class="wheel-ring" cx="500" cy="500" r="330"/>
+    ${shadows}${badges}${letters}
+    <image href="images/DiGi-star.svg" x="355" y="330" width="290" height="312"/>
+    <text class="wheel-label" x="500" y="715" font-size="26" text-anchor="middle">RACE THE ALPHABET</text>
+  </svg>`;
+}
+document.querySelectorAll('.wheel').forEach(el => {
+  el.innerHTML = buildWheel(parseInt(el.dataset.size, 10));
+});
+</script>
+</body>
+</html>

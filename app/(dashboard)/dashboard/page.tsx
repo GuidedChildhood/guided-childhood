@@ -2,39 +2,56 @@ import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess, inTrial, trialDaysLeft } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { getStageFromAgeBand, type AgeBand, type ChallengeId, STAGES } from '@/lib/content/stages'
+import { getStageFromAgeBand, ageBandInList, type AgeBand, type ChallengeId, STAGES } from '@/lib/content/stages'
 import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
 import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
-import WeeklyReviewCard from '@/components/digi/WeeklyReviewCard'
+import DigiWondering from '@/components/digi/DigiWondering'
+import DigiDeviceCheckin from '@/components/digi/DigiDeviceCheckin'
+import SundayCheckIn from '@/components/digi/SundayCheckIn'
+import RevealCard from '@/components/onboarding/RevealCard'
+import { revealedKeys, eligibleReveals, daysSince } from '@/lib/onboarding/reveal'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
-import StreakFlame from '@/components/daily/StreakFlame'
 import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
-import QuestBoard from '@/components/quests/QuestBoard'
 import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
+import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
+import SocialMediaHeadsUp from '@/components/pathway/SocialMediaHeadsUp'
+import PhoneHeadsUp from '@/components/pathway/PhoneHeadsUp'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
-import TodayPathStrip from '@/components/daily/TodayPathStrip'
+import TodayPathBig from '@/components/daily/TodayPathBig'
+import DigiGreeting from '@/components/home/DigiGreeting'
+import MissionWelcome from '@/components/home/MissionWelcome'
+import ChildAppNudge from '@/components/home/ChildAppNudge'
+import CommunityBite from '@/components/community/CommunityBite'
+import DealReviewNudge from '@/components/quests/DealReviewNudge'
+import HomeRows from '@/components/home/HomeRows'
+import BirthdayNudge from '@/components/home/BirthdayNudge'
+import LiveTimerChip from '@/components/home/LiveTimerChip'
+import ExploreGrid from '@/components/home/ExploreGrid'
+import { investedMinutes } from '@/lib/pathway/task-minutes'
+import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
+import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
+import DigiFlashUp from '@/components/digi/DigiFlashUp'
+import DigiPrintableNudge from '@/components/digi/DigiPrintableNudge'
+import DigiScriptNudge from '@/components/digi/DigiScriptNudge'
+import { printablesForStage } from '@/lib/printables/registry'
+import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getDailyStreak } from '@/lib/pathway/streak'
+import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
-
-const STAGE_COLORS = {
-  1: { bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)', border: 'var(--stage-1)' },
-  2: { bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)', border: 'var(--stage-2)' },
-  3: { bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', text: 'var(--stage-3-text)', border: 'var(--stage-3)' },
-  4: { bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)', border: 'var(--stage-4)' },
-  5: { bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)', border: 'var(--stage-5)' },
-} as const
+import ChildSwitcher from '@/components/children/ChildSwitcher'
+import { pickChild } from '@/lib/children/select'
 
 const WEEKLY_ACTIONS = [
   'Put the bedroom rule in place',
@@ -42,10 +59,11 @@ const WEEKLY_ACTIONS = [
   'Do this week’s wellbeing check in',
 ]
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
+  const { child: childParam } = await searchParams
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -65,7 +83,7 @@ export default async function DashboardPage() {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
   const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult] = await Promise.all([
-    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
+    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
@@ -81,30 +99,60 @@ export default async function DashboardPage() {
     // moment the open list empties out.
     supabase.from('school_actions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
     // Whether any child already has their own phone link (the kid companion
-    // link). Keyed by user, matched to the primary child below.
-    supabase.from('kid_links').select('child_id').eq('user_id', user.id),
+    // link). Keyed by user, matched to the primary child below. last_seen_at
+    // rides along because a link that was made and never opened leaves the
+    // family exactly where a link that was never made does.
+    supabase.from('kid_links').select('child_id, last_seen_at').eq('user_id', user.id),
     // The problem this family is working on right now: the most recently
     // flagged live concern, for the focus bar above the path.
     supabase.from('concerns').select('label, status').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(1).maybeSingle(),
   ])
 
-  const child = childResult.data
-  // Every child's name, primary first, so DiGi can greet the whole family by
-  // name in the welcome sheet.
-  const { data: allKids } = await supabase
-    .from('children').select('name, is_primary').eq('parent_id', user.id)
-    .order('is_primary', { ascending: false })
-  const childNames = (allKids ?? []).map(k => k.name as string).filter(Boolean)
+  // Every child, primary first. The whole page runs on the selected child
+  // (?child=<id>, defaulting to the primary), and the same list feeds the
+  // switcher pills and DiGi's whole family greeting in the welcome sheet.
+  const allKids = childResult.data ?? []
+  const child = pickChild(allKids, childParam)
+  const welcomeChildren = allKids
+    .filter(k => k.name)
+    .map(k => ({ name: k.name as string, ageBand: (k.age_band as string | null) ?? null }))
+
+  // Stage the reveal by account age: a new parent meets a one loop Home, and the
+  // rest opens up over the first fortnight. Established accounts reveal everything
+  // (daysSince is large), so nothing regresses for existing families.
+  const accountAgeDays = daysSince(user.created_at)
+  const revealed = revealedKeys(accountAgeDays)
+  const reveals = eligibleReveals(accountAgeDays)
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
+
+  // Children still missing the growing up switch (their birthday). Offered
+  // later in the journey, not at setup: the card waits until day three, and
+  // the read fails soft to nobody before migration 083.
+  let birthdayMissing: string[] = []
+  if (accountAgeDays >= 3) {
+    const { data: dobRows, error: dobErr } = await supabase
+      .from('children').select('name, date_of_birth').eq('parent_id', user.id)
+    if (!dobErr) {
+      birthdayMissing = (dobRows ?? [])
+        .filter(r => !r.date_of_birth)
+        .map(r => (r.name && r.name !== 'Your child' ? String(r.name) : 'your child'))
+    }
+  }
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
   const hasSchoolConnection = !!schoolConnectionResult.data
   // The child phone link step only belongs once a child is old enough to
   // have a phone. We record around 9 as the point that starts, so any band
   // above Foundation (4 to 7) shows it. If the parent set an even younger
   // child, the step simply waits until they move up.
-  const phoneAge = !!childResult.data?.age_band && childResult.data.age_band !== '4-7'
-  const hasKidLink = (kidLinksResult.data ?? []).some(k => k.child_id === childResult.data?.id)
+  const phoneAge = !!child?.age_band && child.age_band !== '4-7'
+  const hasKidLink = (kidLinksResult.data ?? []).some(k => k.child_id === child?.id)
+  // The child app is only really set up once the child has actually opened it.
+  // A parent can run the whole parent side for weeks without realising the
+  // jobs, the earned device time and the printables all live on the child's
+  // side, so until this is true Home says so plainly.
+  const childAppLive = (kidLinksResult.data ?? [])
+    .some(k => k.child_id === child?.id && !!k.last_seen_at)
   const setupFlags = {
     agreement: !!agreementResult.data,
     quests: (questsCountResult.count ?? 0) > 0,
@@ -112,6 +160,45 @@ export default async function DashboardPage() {
     push: !!pushSubResult.data,
     daily: !!anySessionResult.data,
     childLink: hasKidLink,
+  }
+
+  // DiGi brings a lesson to Home: one age relevant film the child has not
+  // watched yet, offered with the same two choices as the hub (watch together
+  // here, or send to their phone). This is the mobile answer to a nav that has
+  // no room for a Lessons tab, so lessons are always one tap away. Only once
+  // lessons have been revealed for this account.
+  let lessonNudge: { code: string; title: string; catchphrase: string | null } | null = null
+  if (revealed.has('lessons') && child?.id) {
+    const stageNum = child.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
+    const [{ lessons: films }, watchedFilms] = await Promise.all([
+      getParentLessons(supabase),
+      getCompletionsForChild(supabase, child.id),
+    ])
+    const unseen = films.filter(f => !watchedFilms.has(f.lesson_code))
+    // Prefer the closest film at or below the child's stage, earliest step first.
+    const pick = [...unseen]
+      .filter(f => f.stage_id <= stageNum)
+      .sort((a, b) => (b.stage_id - a.stage_id) || (a.journey_step - b.journey_step))[0]
+      ?? unseen[0]
+    if (pick) lessonNudge = { code: pick.lesson_code, title: pick.title, catchphrase: pick.catchphrase ?? null }
+  }
+  const lessonChildName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
+
+  // The flash up rotation: DiGi brings ONE thing to Home now and then, a
+  // printable one visit, a script another, a lesson, a moment. The cards
+  // themselves are picked here so the choice is steady by the day, not random,
+  // and the gate below decides whether today is even a show day.
+  const childStageNum = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
+  const dayIndex = Math.floor(Date.now() / 86_400_000)
+  const stagePrintables = printablesForStage(childStageNum)
+  const flashPrintable = stagePrintables.length ? stagePrintables[dayIndex % stagePrintables.length] : null
+  let flashScript: { title: string; situation: string | null; sort_order: number } | null = null
+  if (revealed.has('moments')) {
+    const { data: scriptRows } = await supabase
+      .from('scripts').select('title, situation, sort_order').order('sort_order', { ascending: true }).limit(30)
+    const rows = scriptRows ?? []
+    const r = rows.length ? rows[dayIndex % rows.length] : null
+    if (r) flashScript = { title: r.title as string, situation: (r.situation as string | null) ?? null, sort_order: r.sort_order as number }
   }
 
   // One conductor, one ask at a time. SetupPath sequences the setup steps
@@ -123,6 +210,25 @@ export default async function DashboardPage() {
   const setupSteps = visibleSetupSteps(phoneAge)
   const currentSetupStep = setupSteps.find(s => !setupFlags[s.key])?.key ?? null
   const setupComplete = currentSetupStep === null
+
+  // Is the child phone handover still an open question for this family? Four
+  // gates, all of them server side. Old enough to have a phone at all, no link
+  // made yet, they have not told us they do it on paper, and we have not
+  // already asked more times than is fair. The overlay itself waits for the
+  // second app open, which the client counts.
+  //
+  // Read on its own rather than folded into the profile select above, so that
+  // on any deploy where migration 103 has not been run yet the missing columns
+  // cost nothing but this one null. Putting them in the main select would take
+  // the whole profile read down with them, and Home would lose the name, the
+  // trial banner and the daily minutes over a prompt.
+  const { data: handoverRow } = await supabase
+    .from('profiles').select('handover_choice, handover_asks').eq('id', user.id).maybeSingle()
+  const handoverAsks = Number((handoverRow as { handover_asks?: number } | null)?.handover_asks ?? 0)
+  const handoverChoice = (handoverRow as { handover_choice?: string | null } | null)?.handover_choice ?? null
+  const handoverChild = (phoneAge && child?.id && !hasKidLink && !handoverChoice && handoverAsks < MAX_HANDOVER_ASKS)
+    ? { id: child.id, name: child.name ?? null }
+    : null
 
   // Most applicable first: filter to the child's age, then lead with the
   // categories most likely happening at this hour (UK time), so the grid
@@ -139,7 +245,7 @@ export default async function DashboardPage() {
   }
   const allMoments: Moment[] = todayMomentsResult.data ?? []
   const ageMoments = child?.age_band
-    ? allMoments.filter(m => m.age_bands.length === 0 || m.age_bands.includes(child.age_band as AgeBand))
+    ? allMoments.filter(m => ageBandInList(child.age_band, m.age_bands))
     : allMoments
   const todayMoments = [...ageMoments].sort((a, b) => slotRank(a) - slotRank(b)).slice(0, 5)
 
@@ -147,7 +253,6 @@ export default async function DashboardPage() {
     ? getStageFromAgeBand(child.age_band as AgeBand)
     : STAGES[0]
 
-  const stageColor = STAGE_COLORS[stage.id as keyof typeof STAGE_COLORS]
   const isPaid = hasFullAccess(profile, user.email)
   // The parent's first name, resolved from the best source we have: the
   // profile, then the auth metadata set at signup, then the email local part,
@@ -162,15 +267,36 @@ export default async function DashboardPage() {
     ? firstNameRaw.charAt(0).toUpperCase() + firstNameRaw.slice(1)
     : 'there'
 
+  // How long since anything in the family deal actually moved, so the review
+  // nudge only ever fires on a deal that has genuinely gone quiet. The most
+  // recent job added or changed is the honest signal: it is the part of the
+  // deal a family touches. Null means there is no deal yet to review.
+  let dealDaysSinceChange: number | null = null
+  let dealChildToken: string | null = null
+  try {
+    const { data: lastQuest } = await supabase
+      .from('family_quests').select('created_at')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false }).limit(1).maybeSingle()
+    if (lastQuest?.created_at) {
+      const days = Math.floor((Date.now() - new Date(lastQuest.created_at as string).getTime()) / 86400000)
+      dealDaysSinceChange = Number.isFinite(days) ? days : null
+    }
+    const { data: tokenRow } = await supabase
+      .from('kid_links').select('token').eq('user_id', user.id).limit(1).maybeSingle()
+    dealChildToken = (tokenRow?.token as string | null) ?? null
+  } catch { dealDaysSinceChange = null }
+
   // Today's loop and the daily streak, both resolved server side.
   // stage.name lowercased matches the pathway stage slugs exactly
   // (foundation/builder/explorer/shaper/independent), same rule the
   // daily deck relies on.
   const stageSlug = stage.name.toLowerCase() as PathwayStageId
   const challenge = ((profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
-  const [streak, todayLoop, suggestions, watchTogetherTotal, watchTogetherDone] = await Promise.all([
+  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
+    getLiteracyStatuses(supabase, user.id, stage.id),
     child?.stage_id
       ? getSuggestions(supabase, user.id, { childName: child.name, childId: child.id, stageId: stageSlug, ukHour })
       : Promise.resolve([] as Suggestion[]),
@@ -180,11 +306,27 @@ export default async function DashboardPage() {
     child
       ? supabase.from('parent_lesson_completions').select('id', { count: 'exact', head: true }).eq('child_id', child.id)
       : Promise.resolve({ count: 0 }),
+    // The child's own stage lessons and their passes, so DiGi's welcome can
+    // name exactly which lessons to send for progress with the live count.
+    supabase.from('lessons').select('id').eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub'),
+    supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', user.id).eq('lesson_source', 'lesson'),
   ])
   const watchTogether = {
     total: watchTogetherTotal.count ?? 0,
     done: Math.min(watchTogetherDone.count ?? 0, watchTogetherTotal.count ?? 0),
   }
+  // The same counting rule as the progress report: only this stage's family
+  // lessons, and only passes (an old completion without the pass columns
+  // counts, a failed run does not).
+  const stageLessonIds = new Set((stageLessonRows.data ?? []).map(l => l.id))
+  const stagePassed = new Set(
+    (stageLessonDone.data ?? [])
+      .filter(c => c.passed !== false && stageLessonIds.has(c.lesson_id))
+      .map(c => c.lesson_id)
+  )
+  const stageLessons = stageLessonIds.size > 0
+    ? { total: stageLessonIds.size, passed: stagePassed.size }
+    : null
 
   // Last completed script insight
   const { data: lastCompletion } = await supabase
@@ -222,80 +364,286 @@ export default async function DashboardPage() {
   const trialLeft = trialDaysLeft(profile)
   const trialEnded = !isPaid && Boolean(profile?.trial_ends_at) && !showTrial
 
+  // The child's jobs, read across for DiGi's greeting: whether today's jobs are
+  // done and the on time streak, so the parent line says if they are on track
+  // and links to the screen and jobs balance. The same strict streak the
+  // passport uses. Best effort, silent if the tables are not there yet.
+  let jobsStatus: 'on_track' | 'pending' | 'none' | undefined
+  let jobsStreakDays = 0
+  if (child?.id) {
+    const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
+    const [jqRes, jtRes] = await Promise.all([
+      supabase.from('family_quests').select('id, schedule, schedule_days, created_at').eq('user_id', user.id).eq('child_id', child.id).eq('active', true),
+      supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', child.id).gte('tick_date', sinceJobs),
+    ])
+    const jq = (jqRes.data ?? []) as StreakQuest[]
+    const jt = (jtRes.data ?? []) as StreakTick[]
+    jobsStatus = jobsTodayStatus(jq, jt)
+    jobsStreakDays = computeJobsStreak(jq, jt).streakDays
+  }
+
+  // Once today's habit is done, a returning parent should land on quests, an
+  // overview of what is waiting from their child, not the finished path. This
+  // reads the same "day done" the greeting and the path use, so the lead only
+  // changes once the daily loop is genuinely complete.
+  const dailySteps = todayLoop.filter(t => t.key !== 'done')
+  const dayComplete = dailyDone
+    || investedMinutes(todayLoop) >= ((profile?.daily_minutes as number | null) ?? 10)
+    || (dailySteps.length > 0 && dailySteps.every(t => t.done))
+  const questsChildName = child?.name && child.name !== 'Your child' ? child.name : null
+
+  // Finishing the daily habit is not the end of the day's work, it is the point
+  // the parent is free to do the thing that actually moves the family along. So
+  // rather than always pointing at the quests board, this picks the one real
+  // next job and names it.
+  //
+  // The order is what would genuinely cost them most to miss: a child waiting
+  // on an answer beats setting anything up, an empty jobs board beats the
+  // passport (nothing else works without jobs), and once both are running the
+  // passport is what is left. The child app handover is deliberately not in
+  // here, because ChildAppNudge above already owns that and saying it twice on
+  // one screen is nagging.
+  const noQuestsYet = (questsCountResult.count ?? 0) === 0
+  const stageLessonsLeft = stageLessons ? stageLessons.total - stageLessons.passed : 0
+
+  const nextUp: { eyebrow: string; title: string; line: string; href: string; icon: string } =
+    jobsStatus === 'pending'
+      ? {
+          eyebrow: "Today's habit done",
+          title: questsChildName ? `${questsChildName}'s quests` : 'Family quests',
+          line: 'Jobs to check off and any asks to answer',
+          href: '/dashboard/quests', icon: '⭐',
+        }
+      : noQuestsYet
+      ? {
+          eyebrow: "Today's habit done",
+          title: 'Set their first jobs',
+          line: 'Real world jobs are what earn screen time, so nothing else starts moving until these exist.',
+          href: '/dashboard/quests', icon: '🧹',
+        }
+      : stageLessonsLeft > 0
+      ? {
+          eyebrow: "Today's habit done",
+          title: 'Move the passport on',
+          line: `${stageLessons!.passed} of ${stageLessons!.total} lessons passed at ${stage.name}. Pass the rest to stamp this stage.`,
+          href: '/dashboard/pathway', icon: '🛂',
+        }
+      : {
+          eyebrow: "Today's habit done",
+          title: questsChildName ? `${questsChildName}'s quests` : 'Family quests',
+          line: jobsStatus === 'on_track'
+            ? "Today's jobs are done. Check any asks and set tomorrow's"
+            : 'Set the jobs and screen time to get the stars flowing',
+          href: '/dashboard/quests', icon: '⭐',
+        }
+
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
+      {/* More than one child: butter pills at the top switch whose day this
+          is. Every reading below recomputes for the selected child. */}
+      <ChildSwitcher kids={allKids} selectedId={child?.id ?? null} basePath="/dashboard" />
       {/* DiGi comes up first, once a day, greeting the family by name */}
-      <DigiWelcomeSheet childNames={childNames} />
+      <DigiWelcomeSheet
+        childrenInfo={welcomeChildren}
+        guide={{
+          stageNum: stage.id,
+          stageName: stage.name,
+          childName: (child?.name && child.name !== 'Your child') ? child.name : 'your child',
+          // DiGi's walk ends on today, one thing. While the child has never
+          // opened their app, that IS the one thing: nothing else on the loop
+          // pays off as much as the side of the product they cannot see yet.
+          // Once they are in, it goes back to the normal daily loop.
+          nextTask: !childAppLive
+            ? { label: 'Share the QR code with them', href: '/dashboard/quests?tab=share' }
+            : (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
+          strands: (['safe', 'balance', 'ai', 'social'] as const).map(k => ({
+            name: k === 'safe' ? 'Safe online' : k === 'balance' ? 'Healthy balance' : k === 'ai' ? 'AI and chatbots' : 'Social media ready',
+            tone: (stage.id >= (k === 'ai' || k === 'social' ? 3 : 1))
+              ? (literacyStatuses[k]?.tone ?? 'green')
+              : 'grey' as const,
+          })),
+          stageLessons,
+        }}
+      />
+      {/* The growing up switch, offered once the family is settled: children
+          without a birthday get one warm card naming the benefit. */}
+      <BirthdayNudge kidNames={birthdayMissing} />
+
       {/* Trial status: warm and forgiving during, a gentle offer after, never
           a lockout. The everyday habit stays free either way. */}
       {showTrial && (
         <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>
               ✨ Full access, {trialLeft} {trialLeft === 1 ? 'day' : 'days'} left
             </span>
-            <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none', letterSpacing: '0.04em' }}>
+            <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none', letterSpacing: '0.04em' }}>
               See membership →
             </Link>
           </div>
-          <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
+          <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
             Everything is open while you settle in. Five to ten minutes a day, all the way to 16.
           </p>
         </div>
       )}
       {trialEnded && (
         <div style={{ background: 'var(--deep-teal)', borderRadius: '16px', padding: '16px 18px', marginBottom: '18px' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: '#fff', marginBottom: '4px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: '#fff', marginBottom: '4px' }}>
             Your 7 days of full access have finished
           </div>
-          <p style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
+          <p style={{ fontSize: '14.5px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
             The daily habit, quests and your tracker stay free. The founder rate opens everything for £7.99 a month, for life.
           </p>
-          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
             Unlock everything again
           </Link>
         </div>
       )}
-      {/* Header — child name + stage + streak */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '22px', gap: '12px' }}>
-        <div>
-          {/* The tour promises "Step into Teo's pathway"; Home pays it off.
-              A bare name read as a label, the possessive reads as a road
-              that belongs to them. */}
-          <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1, marginBottom: '6px' }}>
-            {(child?.name && child.name !== 'Your child') ? `${child.name}'s pathway` : `Hello ${firstName}`}
-          </h1>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <span style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
-              letterSpacing: '0.1em', textTransform: 'uppercase',
-              background: stageColor.bold, color: stageColor.text,
-              padding: '3px 10px', borderRadius: '100px',
-            }}>
-              Stage {stage.id} · {stage.name}
-            </span>
-            {stage.isCritical && (
-              <span style={{
-                fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
-                letterSpacing: '0.08em', textTransform: 'uppercase',
-                background: 'var(--terracotta)', color: 'var(--ink)',
-                padding: '3px 8px', borderRadius: '100px',
-              }}>
-                Critical window
-              </span>
-            )}
-          </div>
-        </div>
-        <StreakFlame count={streak.count} aliveToday={streak.aliveToday} />
-      </div>
+      {/* Welcome back, one beat, gone. Each open introduces a different thing
+          the platform does, and what we do with what you tell it, so a parent
+          meets the whole product across a fortnight of quick hellos instead of
+          a tour nobody sits through. Anything not set up yet leads. */}
+      <MissionWelcome
+        firstName={firstName}
+        flags={setupFlags}
+        phoneAge={phoneAge}
+        handoverChild={handoverChild}
+        child={child?.id ? { id: child.id, name: child.name ?? null } : null}
+      />
+
+      {/* Half the product is on the child's phone. Until they have opened it,
+          the parent is running one side of a two sided thing and usually does
+          not know it, so this says what is missing and where the QR code is.
+          It goes for good the moment the child opens their app. */}
+      {!childAppLive && <ChildAppNudge childName={child?.name ?? null} childId={child?.id ?? null} />}
+
+      {/* Every couple of weeks, DiGi asks whether the deal still fits. A deal
+          set in week one quietly stops matching the family by week six, so this
+          is the prompt to look, update, and put the new one on the fridge. */}
+      {dealDaysSinceChange !== null && (
+        <DealReviewNudge daysSinceChange={dealDaysSinceChange} childToken={dealChildToken} />
+      )}
+
+      {/* DiGi greets in one line: who, where on the road, and what today
+          costs in minutes, with the streak flame alongside. The h1 header
+          this replaces said the same things across three rows. */}
+      {(() => {
+        const dailyBudget = (profile?.daily_minutes as number | null) ?? 10
+        const spent = investedMinutes(todayLoop)
+        const stepsAllDone = todayLoop.filter(t => t.key !== 'done').every(t => t.done)
+        return (
+          <DigiGreeting
+            firstName={firstName}
+            childName={child?.name ?? undefined}
+            stageName={stage.name}
+            stageNum={stage.id}
+            minutesLeft={Math.max(1, dailyBudget - spent)}
+            dayDone={spent >= dailyBudget || stepsAllDone}
+            streakCount={streak.count}
+            aliveToday={streak.aliveToday}
+            jobsStatus={jobsStatus}
+            jobsStreakDays={jobsStreakDays}
+            balanceHref="/dashboard/quests"
+          />
+        )
+      })()}
+
+      {/* The device timer, only when it is live: a child's running countdown
+          or a pending ask, one slim row that opens the full card on Quests.
+          Nothing renders here on a quiet day. */}
+      <LiveTimerChip />
 
       {/* Waiting on you: the one clear next action at the top. A red count of
-          the quests to approve and the ideas a child pitched, tapping down to
-          the board where a parent acts on them. Silent when nothing waits. */}
+          the quests to approve and the ideas a child pitched, tapping through
+          to where a parent acts on them. Silent when nothing waits. */}
       <WaitingOnYou />
 
-      {/* The Sunday DiGi weekly review, when there is one to read. */}
-      <WeeklyReviewCard />
+      {/* The monthly community bite: one question, answered in a tap, and the
+          answer turns into the crowd. Sits under what is waiting, because a
+          parent with jobs to approve should see those first. Silent once it is
+          answered and read, until next month's question. */}
+      <CommunityBite />
+
+      {/* Day done, so lead with quests. A returning parent whose daily habit is
+          finished lands on an overview of what is waiting from their child,
+          jobs to check and asks to answer, one tap into the Quests board. This
+          sits above the finished path so the day's next real thing is first.
+          Silent until the habit is done, so it never crowds the path. */}
+      {dayComplete && (
+        <Link href={nextUp.href} style={{ textDecoration: 'none', display: 'block', marginBottom: '22px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px', background: 'linear-gradient(135deg, #FFF7EA 0%, #FCEAC0 100%)', border: '1.5px solid var(--gold)', borderRadius: '22px', padding: '18px 20px', boxShadow: '0 10px 26px -12px rgba(198,144,24,0.45)' }}>
+            <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '15px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '27px', boxShadow: '0 3px 8px rgba(198,144,24,0.18)' }}>{nextUp.icon}</span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '4px' }}>{nextUp.eyebrow}</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
+                {nextUp.title}
+              </span>
+              <span style={{ display: 'block', fontSize: '16.5px', color: 'var(--ink-soft)', marginTop: '3px', lineHeight: 1.4 }}>
+                {nextUp.line}
+              </span>
+            </span>
+            <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '12px 20px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
+          </div>
+        </Link>
+      )}
+
+      {/* The hero of Home while the day is still open: today's loop as the big
+          vertical path, Duolingo sized, DiGi on the lit next step and one big
+          Go. Once the habit is done the quests lead above takes first place and
+          the path sits below in its finished state. */}
+      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
+
+      {/* Everything else folds to big friendly rows: quests with the live
+          approve count, the road to 16 with the stamp position, and DiGi.
+          Sundays add the round up row. The full quest board lives on the
+          Quests page, the full road on the Pathway page, the strand ticks on
+          the Progress page. */}
+      {(() => {
+        const dayName = new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'Europe/London' }).format(new Date())
+        const handover = !!child?.age_band && child.age_band !== '4-7' && !hasKidLink
+          && !!child?.name && child.name !== 'Your child'
+        return (
+          <HomeRows
+            stageName={stage.name}
+            stageNum={stage.id}
+            criticalWindow={stage.isCritical}
+            handoverChildName={handover ? child!.name : null}
+            isSunday={dayName === 'Sun'}
+          />
+        )
+      })()}
+
+      {/* Stage the reveal: DiGi introduces one newly unlocked feature to a new
+          parent, once. Silent for an established account. */}
+      <RevealCard reveals={reveals} />
+
+      {/* The Sunday round up keeps its spot: it carries the agreed plan through
+          the week and is a weekly ritual, not a daily nag. */}
+      {revealed.has('wellbeing') && <SundayCheckIn />}
+
+      {/* One DiGi interrupt, and only now and then. The flash up gate shows a
+          SINGLE card on the first visit of a day, at most twice a week, never
+          two days running, rotating the theme: a lesson one time, a printable
+          another, a script, a gentle moment, a device check in, and most days
+          nothing at all. Each slot may still self hide (a device check in with
+          no pattern to raise), which simply makes it a quiet day. This replaces
+          the old stack of device check in, wondering and the standalone lesson
+          nudge, so a parent never meets a wall of DiGi cards. */}
+      <DigiFlashUp
+        slots={[
+          ...(lessonNudge ? [{ key: 'lesson', node: (
+            <DigiLessonNudge childId={child?.id ?? null} childName={lessonChildName} code={lessonNudge.code} title={lessonNudge.title} catchphrase={lessonNudge.catchphrase} />
+          ) }] : []),
+          ...(revealed.has('lessons') && flashPrintable ? [{ key: 'printable', node: (
+            <DigiPrintableNudge emoji={flashPrintable.emoji} title={flashPrintable.title} blurb={flashPrintable.blurb} />
+          ) }] : []),
+          ...(flashScript ? [{ key: 'script', node: (
+            <DigiScriptNudge title={flashScript.title} situation={flashScript.situation} sortOrder={flashScript.sort_order} />
+          ) }] : []),
+          ...(revealed.has('wellbeing') ? [{ key: 'moment', node: <DigiWondering /> }] : []),
+          ...(revealed.has('wellbeing') ? [{ key: 'device', node: <DigiDeviceCheckin /> }] : []),
+        ]}
+      />
 
       {/* Setup lives on its own page now, out of the daily Home. While it is
           unfinished, Home carries one compact way in, naming the next step;
@@ -315,11 +663,11 @@ export default async function DashboardPage() {
                 <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
                   Finish setting up
                 </span>
-                <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {doneCount} of {setupSteps.length} done{next ? ` · next: ${next.title.toLowerCase()}` : ''}
                 </span>
               </span>
-              <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '11px', padding: '9px 16px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+              <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '11px', padding: '9px 16px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
                 Continue
               </span>
             </div>
@@ -359,16 +707,16 @@ export default async function DashboardPage() {
               background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
               borderRadius: '14px', padding: '11px 14px',
             }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
                 Your focus
               </span>
-              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {label}
                 <span style={{ fontWeight: 600, color: improving ? 'var(--stage-1-text)' : 'var(--ink-muted)' }}>
                   {' '}· {focusConcern ? (improving ? 'getting better' : 'working on it') : 'your starting focus'}
                 </span>
               </span>
-              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
                 The words for tonight →
               </span>
             </div>
@@ -376,51 +724,95 @@ export default async function DashboardPage() {
         )
       })()}
 
-      {/* Today's Path: the hero of Home. The day's routine as one clear strip,
-          DiGi sitting on the lit next step, so Home opens with a single thing to
-          do rather than a wall of cards. */}
-      <TodayPathStrip tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} />
-
       {/* The glanceable stat row: streak, stars in the bank, today's quests,
           the three numbers a parent wants at a glance. */}
-      <HomeStats streakCount={streak.count} />
+      <HomeStats streakCount={streak.count} streakTotal={streak.total} />
 
-      {/* Family quests, high in the daily flow: every child at a glance,
-          tickable here. The id is the anchor the Waiting on you banner
-          scrolls to. */}
-      <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
-        <QuestBoard />
+      {/* Push notification opt-in. Rendered whenever check ins are not yet on
+          (so the enable button is always reachable, including when a parent
+          taps the Turn on check ins step out of order), and kept once they are
+          on so the granted state and Send a test stay available. The id is the
+          anchor the setup step link scrolls to. Stays outside the fold below
+          so that link never lands on a closed drawer. */}
+      <div id="turn-on-check-ins" style={{ marginBottom: '20px', scrollMarginTop: '80px' }}>
+        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
       </div>
+
+      {/* See everything we do: the whole platform as grouped big icon tiles
+          (the Explore section), then every quieter card Home used to stack,
+          all one tap behind one calm row so the daily screen keeps one shape
+          and the next action above stays dominant. */}
+      {/* Everything we do, no longer buried behind one tap: a sticky row of
+          section tabs jumps straight to the group you want, so the whole
+          platform is organised and reachable while the daily flow above still
+          leads. Each group keeps its own clear subheading below. */}
+      <div style={{ marginBottom: '20px' }}>
+        <div style={{ position: 'sticky', top: 0, zIndex: 4, display: 'flex', gap: '8px', overflowX: 'auto', padding: '10px 0', marginBottom: '6px', background: 'var(--cream)', borderBottom: '1px solid var(--border)' }}>
+          {[
+            { href: '#dash-explore', label: '🧭 Explore' },
+            { href: '#dash-keepgoing', label: '📚 Every part' },
+            { href: '#dash-more', label: '💛 DiGi and alerts' },
+          ].map(t => (
+            <a key={t.href} href={t.href} style={{ flexShrink: 0, textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px', padding: '8px 14px', boxShadow: '0 2px 0 rgba(26,26,46,0.05)' }}>
+              {t.label}
+            </a>
+          ))}
+        </div>
+        <div id="dash-explore" style={{ paddingTop: '10px', scrollMarginTop: '64px' }}>
+          <p className="eyebrow" style={{ margin: '0 0 10px 2px', fontSize: 12 }}>Explore everything</p>
+
+        {/* The Explore grid: grouped big icons, every tile an existing page */}
+        <ExploreGrid scriptHref={todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts'} />
+
+        <p className="eyebrow" style={{ margin: '4px 0 10px 2px', fontSize: 12 }}>Your cards and prompts</p>
+
+      {/* The lesson nudge now rides through the DiGi flash up rotation above,
+          so lessons stay reachable on mobile without stacking a second DiGi
+          card on Home. */}
 
       {/* Keep going: the rest of the membership as a quiet grid of tiles, so
           every part is one tap away without a wall of full width cards. */}
-      <p className="eyebrow" style={{ margin: '0 0 10px', fontSize: 10 }}>Keep going</p>
+      <p id="dash-keepgoing" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 12, scrollMarginTop: '64px' }}>Keep going, every part one tap</p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '22px' }}>
-        {[
-          { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Watch together, five minutes' },
-          { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle' },
-          { href: '/dashboard/digi', external: false, bg: 'var(--stage-5)', icon: '◎', title: 'Ask DiGi', sub: 'Anything about their world' },
-          { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Pathway', sub: 'The whole road to 16' },
-          { href: '/dashboard/scripts', external: false, bg: 'var(--stage-1)', icon: '❝', title: 'Scripts', sub: 'What to say, word for word' },
-          { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'The offline pathway' },
-          { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet' },
-          { href: '/dashboard/setup', external: false, bg: 'var(--cream)', icon: '🧭', title: 'Set up', sub: 'Quests, school, devices' },
-          { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership' },
-        ].map(t => (
+        {([
+          { href: '/dashboard/digi', external: false, bg: 'var(--stage-5)', icon: '◎', title: 'Ask DiGi', sub: 'Anything about their world', reveal: 'core' },
+          { href: '/dashboard/setup', external: false, bg: 'var(--cream)', icon: '🧭', title: 'Set up', sub: 'Quests, school, devices', reveal: 'core' },
+          { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle', reveal: 'moments' },
+          { href: '/dashboard/scripts', external: false, bg: 'var(--stage-1)', icon: '❝', title: 'Scripts', sub: 'What to say, word for word', reveal: 'moments' },
+          { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Watch together, five minutes', reveal: 'lessons' },
+          { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'The offline pathway', reveal: 'lessons' },
+          { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Pathway', sub: 'The whole road to 16', reveal: 'pathway' },
+          { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet', reveal: 'wellbeing' },
+          { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership', reveal: 'wellbeing' },
+        ] as const).filter(t => revealed.has(t.reveal)).map(t => (
           <Link key={t.href} href={t.href} {...(t.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '6px', background: t.bg, border: `1.5px solid ${t.bg}`, borderRadius: '16px', padding: '15px' }}>
-            <span style={{ fontSize: '20px', lineHeight: 1 }}>{t.icon}</span>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.2 }}>{t.title}</span>
-            <span style={{ fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{t.sub}</span>
+            <span style={{ fontSize: '22px', lineHeight: 1 }}>{t.icon}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>{t.title}</span>
+            <span style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{t.sub}</span>
           </Link>
         ))}
       </div>
 
       {/* Below the daily flow, quieter: the streak card, DiGi's proactive
           prompts, the ranked alerts and the age gate. */}
+      <p id="dash-more" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 12, scrollMarginTop: '64px' }}>DiGi, your streak and alerts</p>
       <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
-      <DigiPrompts />
-      <SmartAlerts suggestions={suggestions} />
-      <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
+      {revealed.has('moments') && (
+        <>
+          <DigiPrompts />
+          <SmartAlerts suggestions={suggestions} />
+          {/* Looking ahead at Builder (Stage 2): DiGi rotates two calm pre
+              warnings so only one shows, and never every day, the phone
+              conversation and the secondary school social media move. From
+              Stage 3 the full readiness panel takes over. */}
+          {stage.id === 2 && (
+            new Date().getDate() % 2 === 0
+              ? <PhoneHeadsUp childName={child?.name} />
+              : <SocialMediaHeadsUp childName={child?.name} />
+          )}
+          <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
+        </>
+      )}
 
       {/* DiGi check in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
@@ -441,41 +833,31 @@ export default async function DashboardPage() {
               <span style={{ fontSize: '.9rem', color: '#fff', lineHeight: 1 }}>◎</span>
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>DiGi</div>
-              <div style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>Following up from {lastFeedback.feedback_date === today ? 'earlier today' : 'yesterday'}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>DiGi</div>
+              <div style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>Following up from {lastFeedback.feedback_date === today ? 'earlier today' : 'yesterday'}</div>
             </div>
           </div>
 
           {lastFeedback.digi_insight ? (
-            <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
+            <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
               {lastFeedback.digi_insight}
             </p>
           ) : (
             <>
-              <p style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', marginBottom: '8px' }}>
+              <p style={{ fontSize: '14px', color: 'var(--ink-muted)', fontStyle: 'italic', marginBottom: '8px' }}>
                 You answered: &ldquo;{lastFeedback.parent_response!.length > 120 ? lastFeedback.parent_response!.slice(0, 117) + '...' : lastFeedback.parent_response}&rdquo;
               </p>
-              <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
+              <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
                 {buildDigiFollowup(stage.id, child?.name ?? null)}
               </p>
             </>
           )}
 
-          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '14px', display: 'inline-block' }}>
+          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '14px', display: 'inline-block' }}>
             Continue with DiGi →
           </Link>
         </div>
       )}
-
-      {/* Push notification opt-in. Rendered whenever check ins are not yet on
-          (so the enable button is always reachable, including when a parent
-          taps the Turn on check ins step out of order), and kept once they are
-          on so the granted state and Send a test stay available. The id is the
-          anchor the step link scrolls to, which is what makes that button
-          actually do something instead of a silent reload. */}
-      <div id="turn-on-check-ins" style={{ marginBottom: '20px', scrollMarginTop: '80px' }}>
-        <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
-      </div>
 
       {/* Device setup prompt: a supplementary ask, held back until the core
           setup path is done so it never competes with the current step. */}
@@ -506,7 +888,7 @@ export default async function DashboardPage() {
             <p className="eyebrow" style={{ margin: 0 }}>Moment cards</p>
             <Link
               href="/dashboard/moments"
-              style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none', fontWeight: 500 }}
+              style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--terracotta)', textDecoration: 'none', fontWeight: 500 }}
             >
               Browse all →
             </Link>
@@ -539,7 +921,7 @@ export default async function DashboardPage() {
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.95rem', color: '#fff', lineHeight: 1.25 }}>
                   All moments
                 </span>
-                <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4 }}>
+                <span style={{ fontSize: '13px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4 }}>
                   Quick help for any battle, any time of day
                 </span>
               </div>
@@ -558,20 +940,20 @@ export default async function DashboardPage() {
           marginBottom: '20px',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px', gap: '12px', flexWrap: 'wrap' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
               Last script insight
             </div>
             <Link
               href={`/dashboard/scripts/${lastInsight.sort_order}/deck`}
-              style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', textDecoration: 'none', letterSpacing: '0.06em' }}
+              style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none', letterSpacing: '0.06em' }}
             >
               Read again →
             </Link>
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)', marginBottom: '8px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)', marginBottom: '8px' }}>
             {lastInsight.title}
           </div>
-          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
             {lastInsight.why_it_works}
           </p>
         </div>
@@ -596,17 +978,17 @@ export default async function DashboardPage() {
               display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0,
             }}>💛</span>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
                 Monthly check in
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '2px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '2px' }}>
                 A minute for you, {firstName}
               </div>
-              <div style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+              <div style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
                 How have you been this month? Not your child. You.
               </div>
             </div>
-            <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+            <span style={{ fontSize: '20px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
           </div>
         </Link>
       )}
@@ -614,10 +996,10 @@ export default async function DashboardPage() {
       {/* This week's actions */}
       <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
             This week's actions
           </div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta)' }}>
             {child?.actions_this_week ?? 0} done from daily practice
           </div>
         </div>
@@ -632,23 +1014,23 @@ export default async function DashboardPage() {
                 flexShrink: 0,
                 marginTop: '7px',
               }} />
-              <span style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.5 }}>{action}</span>
+              <span style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.5 }}>{action}</span>
             </div>
           ))}
         </div>
 
         <div style={{ marginTop: '16px', padding: '14px 16px', background: 'var(--stage-5)', border: '1px solid var(--stage-5)', borderRadius: '10px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--terracotta)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi tip
           </div>
-          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
             {stage.id <= 2
               ? 'The bedroom rule is the single most effective structural protection at this stage. If it is not in place, this is the week.'
               : stage.id === 3
               ? 'The algorithm conversation opens more than any rule will close. Curiosity, not alarm.'
               : 'The weekly check in, same day same time, is your relationship maintenance. It does not have to be about screens.'}
           </p>
-          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '8px', display: 'block' }}>
+          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '8px', display: 'block' }}>
             Ask DiGi →
           </Link>
         </div>
@@ -660,7 +1042,7 @@ export default async function DashboardPage() {
       <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
               DiGi
             </div>
             <h3 style={{ fontSize: '1.1rem', color: 'var(--ink)', marginBottom: '0' }}>
@@ -668,7 +1050,7 @@ export default async function DashboardPage() {
             </h3>
           </div>
           {!isPaid && (
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', whiteSpace: 'nowrap', marginLeft: '12px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)', whiteSpace: 'nowrap', marginLeft: '12px' }}>
               3 / day free
             </span>
           )}
@@ -685,7 +1067,7 @@ export default async function DashboardPage() {
                 background: 'var(--cream)',
                 border: '1px solid var(--border)',
                 borderRadius: '10px',
-                fontSize: '13px',
+                fontSize: '15px',
                 color: 'var(--ink-soft)',
                 textDecoration: 'none',
                 lineHeight: 1.4,
@@ -706,7 +1088,7 @@ export default async function DashboardPage() {
         <div style={{ border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '20px 22px', background: 'var(--stage-5)' }}>
           <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate, 50 places</p>
           <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Unlock everything for £7.99 / month</h3>
-          <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
+          <p style={{ fontSize: '16px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
             All 5 stages, unlimited DiGi, 100 plus scripts, the AI module, wellbeing tracker. First 50 members only.
           </p>
           <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>
@@ -714,6 +1096,9 @@ export default async function DashboardPage() {
           </Link>
         </div>
       )}
+
+        </div>
+      </div>
     </div>
   )
 }

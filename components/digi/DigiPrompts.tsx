@@ -53,15 +53,15 @@ export default function DigiPrompts() {
               <DigiCharacter mood={p.kind === 'celebration' ? 'happy' : 'speak'} size={30} />
             </span>
             <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
                 {KIND_LABEL[p.kind] ?? 'From DiGi'}
               </span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.25, marginTop: '3px' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18.5px', color: 'var(--ink)', lineHeight: 1.25, marginTop: '3px' }}>
                 {p.title}
               </span>
             </span>
           </div>
-          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.68, margin: '0 0 15px' }}>
+          <p style={{ fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.68, margin: '0 0 15px' }}>
             {p.body}
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -72,16 +72,16 @@ export default function DigiPrompts() {
                 display: 'inline-flex', alignItems: 'center', gap: '7px',
                 background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
                 borderRadius: '13px', padding: '10px 16px',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
                 boxShadow: '0 4px 0 var(--terracotta-dark)',
               }}
             >
               {p.href ? 'Open Lessons' : 'Talk it through'}
-              <span style={{ fontSize: '15px' }} aria-hidden>→</span>
+              <span style={{ fontSize: '17px' }} aria-hidden>→</span>
             </Link>
             <button
               onClick={() => dismiss(p.id)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)' }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)' }}
             >
               Dismiss
             </button>

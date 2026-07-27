@@ -26,6 +26,10 @@ export type Magnet = {
   close: string
   // The download filename (no extension).
   filename: string
+  // When set, the magnet hands over this ready made PDF from public instead
+  // of the one page sheet generated from `items`. Used for the full multi
+  // page products (the Starter Pack) that already exist as real print files.
+  staticPdf?: string
 }
 
 export const MAGNETS: Record<string, Magnet> = {
@@ -61,6 +65,19 @@ export const MAGNETS: Record<string, Magnet> = {
     ],
     close: 'Calm, balanced, and open to being updated as the evidence moves.',
     filename: 'The-evidence-behind-Guided-Childhood',
+  },
+  'starter-pack': {
+    slug: 'starter-pack',
+    eyebrow: 'The starter pack',
+    title: 'The Guided Childhood Starter Pack',
+    intro:
+      'The whole deal on paper. A star reward chart for the fridge, the jobs that earn stars, how to guides, a wake up workout, football and dance, a healthy breakfast plate, a print and play game and pages to colour. One star is five minutes of screen time.',
+    numbered: false,
+    items: [],
+    close: 'Print it, stick the chart on the fridge, and start today.',
+    filename: 'The-Guided-Childhood-Starter-Pack',
+    // The real 11 page product, served straight from public.
+    staticPdf: '/printables/starter-pack-colour.pdf',
   },
 }
 

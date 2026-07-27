@@ -26,7 +26,7 @@ export const STEPS: SetupStep[] = [
   { key: 'push',      title: 'Turn on check ins',          what: 'Three gentle nudges a day at the moments your child faces screens.', href: '/dashboard#turn-on-check-ins' },
   { key: 'quests',    title: 'Set up Family Quests',       what: 'Their everyday jobs earn stars, stars buy the screen time you agree. They tick, you approve. Two minutes to set up, and the kids love it.', href: '/dashboard/quests' },
   { key: 'school',    title: 'Set up school routines',      what: 'Add PE kit, library day or a Saturday activity by hand, once, and it reminds you and your child every week from then on. Forwarding school email is there too if you want it.', href: '/dashboard/school' },
-  { key: 'childLink', title: 'Send your child their phone link', what: 'When they are old enough for a phone, around 9, send their own private link by message. It opens like a mini app on their phone, nothing to install, and their quests come with them.', href: '/dashboard/quests?tab=share' },
+  { key: 'childLink', title: 'Send your child their phone link', what: 'Only if your older child already has their own device. Send their private link by message, it opens like a mini app, nothing to install. For younger children you do it together on your device instead, no child device needed.', href: '/dashboard/quests?tab=share' },
   { key: 'agreement', title: 'Build your family agreement', what: 'When you are ready: decided together and signed, it makes every boundary something you both chose, and it powers what the stars buy.', href: '/dashboard/agreement' },
 ]
 

@@ -15,6 +15,9 @@ export type Notification = {
   href: string
   at: string
   urgent: boolean
+  // School only: whether this is a weekly routine (so it can be cleared for
+  // the week and kept) versus a one off (cleared for good).
+  recurring?: boolean
 }
 
 export type NotificationFeed = {
@@ -25,14 +28,17 @@ export type NotificationFeed = {
 
 export async function getNotifications(supabase: NotifClient, userId: string): Promise<NotificationFeed> {
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
-  const [childrenRes, questsRes, ticksRes, asksRes, schoolRes, digiRes, sessionsRes] = await Promise.all([
+  const [childrenRes, questsRes, ticksRes, asksRes, schoolRes, digiRes, sessionsRes, printablesRes] = await Promise.all([
     supabase.from('children').select('id, name').eq('parent_id', userId),
     supabase.from('family_quests').select('id, title, emoji').eq('user_id', userId),
     supabase.from('quest_ticks').select('id, quest_id, child_id, tick_date').eq('user_id', userId).eq('status', 'pending').gte('tick_date', weekAgo),
     supabase.from('quest_requests').select('id, child_id, title, emoji, created_at, status').eq('user_id', userId).eq('status', 'pending'),
-    supabase.from('school_actions').select('id, title, due_date, created_at').eq('user_id', userId).eq('status', 'open'),
+    supabase.from('school_actions').select('id, title, due_date, created_at, recurs_weekday, cleared_on').eq('user_id', userId).eq('status', 'open'),
     supabase.from('digi_prompts').select('id, kind, title, body, href, created_at').eq('user_id', userId).eq('status', 'pending'),
     supabase.from('device_sessions').select('id, child_id, device, ends_at').eq('user_id', userId).eq('status', 'active').gt('ends_at', new Date().toISOString()),
+    // Printables a child says they finished, waiting on the parent to confirm.
+    // Fails soft to nothing before migration 087.
+    supabase.from('printable_completions').select('id, child_id, title, emoji, stars, created_at').eq('user_id', userId).eq('status', 'pending'),
   ])
 
   const childName = new Map((childrenRes.data ?? []).map(c => [c.id as string, c.name as string]))
@@ -53,9 +59,21 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
     })
   }
 
+  // A child finished a printable at home and is waiting on the grown up to
+  // confirm it so the stars land. Urgent like a tick: a child did real work.
+  for (const p of printablesRes.data ?? []) {
+    items.push({
+      id: `printable-${p.id}`, kind: 'approve', icon: '🖍️', urgent: true,
+      title: `${nameOf(p.child_id as string)} finished a printable`,
+      body: `${p.emoji ?? '🖍️'} ${p.title} · tap to confirm and land ${p.stars} stars`,
+      href: '/dashboard/quests', at: String(p.created_at),
+    })
+  }
+
   // A child pitched their own quest or asked for a printable.
   for (const a of asksRes.data ?? []) {
-    const isPrint = String(a.title).startsWith('Print the ')
+    const t = String(a.title)
+    const isPrint = t.startsWith('Print the ') || (t.startsWith('Please can I do the ') && t.endsWith(' printable'))
     items.push({
       id: `ask-${a.id}`, kind: 'ask', icon: isPrint ? '🖨️' : '💡', urgent: false,
       title: `${nameOf(a.child_id as string)} asked for something`,
@@ -78,14 +96,25 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
     })
   }
 
-  // Something from school still open.
+  // Something from school still open. A one off shows until it is done. A
+  // weekly routine (PE kit every Thursday) only shows on its own weekday, and
+  // once cleared for today it steps back until next week, so it never nags
+  // every single day.
+  const today = new Date().toISOString().slice(0, 10)
+  const todayWeekday = new Date().getDay()
   for (const s of schoolRes.data ?? []) {
-    const due = s.due_date ? ` · due ${String(s.due_date)}` : ''
+    const recurs = (s as { recurs_weekday?: number | null }).recurs_weekday
+    if (recurs != null) {
+      if (recurs !== todayWeekday) continue
+      if (String((s as { cleared_on?: string | null }).cleared_on ?? '') === today) continue
+    }
+    const due = s.due_date ? ` · due ${String(s.due_date)}` : recurs != null ? ' · today' : ''
     items.push({
       id: `school-${s.id}`, kind: 'school', icon: '🏫', urgent: false,
       title: s.title as string,
       body: `From school${due}`,
-      href: '/dashboard/school', at: String(s.created_at ?? s.due_date ?? ''),
+      href: '/dashboard/school', at: String(s.created_at ?? s.due_date ?? today),
+      recurring: recurs != null,
     })
   }
 

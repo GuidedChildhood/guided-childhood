@@ -9,7 +9,15 @@
 // creates a one off family quest, the child hands the finished sheet
 // back, the parent ticks it, the stars land in the time bank.
 
+import { characterByKey } from '@/lib/content/stage-characters'
+
 const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
+
+// The Planet Friend colour in sheets show the finished character on the card and
+// the empty line art in the PDF. A card thumbnail is a shop window: the child
+// should see who they are about to colour, in full colour, the same art they
+// meet in the app. The sheet they print is still the clean line art.
+const friendArt = (key: string) => characterByKey(key)?.img ?? ''
 
 export type Printable = {
   key: string
@@ -32,6 +40,21 @@ export type Printable = {
   extraSheetUrls?: string[]
   extraSheetUrlsEs?: string[]
   previewUrl: string
+  // The finished Etsy grade products, when we have built them: the full
+  // colour edition and the print at home colour in edition, served straight
+  // from public. When set, the card offers both as direct downloads instead
+  // of the single generated sheet.
+  pdfColour?: string
+  pdfColourIn?: string
+  /**
+   * Free to download without a membership. Almost nothing is: the printables
+   * are a member feature and the preview is the sell. The exception is the
+   * Starter Pack, which is the lead magnet every marketing CTA on the site
+   * points at. Giving it away at the front door and then locking the same
+   * booklet inside the app is the wrong way round, and it also meant nobody,
+   * including us, could open it to check it.
+   */
+  free?: boolean
 }
 
 export const PRINTABLES: Printable[] = [
@@ -41,8 +64,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2, 3], minutes: 'All summer', setting: 'anywhere', skill: 'Family time',
     stars: 5,
     blurb: 'Sixteen real world summer wins, coloured in one by one. Fill the page before September.',
-    sheetUrl: BASE + 'hf_20260713_124922_ba0709ec-ec0d-4c0d-a8a6-af46bd990fae.png',
-    sheetUrlEs: BASE + 'hf_20260713_132550_1294330c-1bf1-4803-b1ab-f4bd1f054f6f.png',
+    sheetUrl: BASE + 'hf_20260723_213637_d6872260-9a6f-46a0-9649-4aa63d2749cc.png',
+    sheetUrlEs: BASE + 'hf_20260722_122910_c7938e56-a03c-47ba-841c-1d3a4669cdb1.png',
     previewUrl: BASE + 'hf_20260713_124936_d5894552-b377-4835-b103-599872e5b4d5.png',
   },
   {
@@ -51,8 +74,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2, 3], minutes: 'One wet day', setting: 'indoors', skill: 'Creativity',
     stars: 5,
     blurb: 'The screens stay off and the rain stays out. Forts, baking, kitchen discos and hot chocolate.',
-    sheetUrl: BASE + 'hf_20260713_125301_6f2b5e5d-85e2-4a91-bbc6-e0f2367e5908.png',
-    sheetUrlEs: BASE + 'hf_20260713_132555_33e47caa-d096-43ee-8294-f18bf561d992.png',
+    sheetUrl: BASE + 'hf_20260723_213647_3b2e6b06-247b-4077-9e99-3503153c49aa.png',
+    sheetUrlEs: BASE + 'hf_20260722_122913_8935b9b3-71c1-4514-8023-e30e081cf413.png',
     previewUrl: BASE + 'hf_20260713_125305_b235e9e2-d3c2-4fd0-aef6-a6c0c90e8a5b.png',
   },
   {
@@ -61,8 +84,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2, 3, 4], minutes: 'A few weeks', setting: 'anywhere', skill: 'Wellbeing',
     stars: 5,
     blurb: 'Every box coloured made someone’s day better. Thank you notes, baking for a neighbour, three real compliments.',
-    sheetUrl: BASE + 'hf_20260713_125323_1242da82-d705-4bec-83f4-2acfc357b38c.png',
-    sheetUrlEs: BASE + 'hf_20260713_132622_2f3c7661-f22d-4f7a-8d58-2c34ac5ede9e.png',
+    sheetUrl: BASE + 'hf_20260723_213653_581c2af5-6ad9-4c34-8b4b-91e9c1f16e12.png',
+    sheetUrlEs: BASE + 'hf_20260722_122921_d147a484-fb66-41a5-8248-7380d91dfd4d.png',
     previewUrl: BASE + 'hf_20260713_125326_94438fa2-9760-4981-b058-205ea2623e2f.png',
   },
   {
@@ -71,8 +94,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2, 3, 4], minutes: 'A month of stories', setting: 'anywhere', skill: 'Reading',
     stars: 5,
     blurb: 'Eight ways to read: outside, to someone, about space, a book they chose themselves.',
-    sheetUrl: BASE + 'hf_20260713_125341_14a3ecc6-7706-4ccf-b1ca-67eee4e9bad9.png',
-    sheetUrlEs: BASE + 'hf_20260713_132628_59a9f6de-080b-4765-9a58-5ebce84fb951.png',
+    sheetUrl: BASE + 'hf_20260723_213701_edd87579-52fb-4064-afe7-2ec65759e841.png',
+    sheetUrlEs: BASE + 'hf_20260722_122923_526700d3-41c9-417f-8b31-f781821d8582.png',
     previewUrl: BASE + 'hf_20260713_125344_3aaa7475-b816-4b0b-8d3f-932fd86f48f2.png',
   },
   {
@@ -81,8 +104,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2, 3], minutes: '45 minutes', setting: 'outdoors', skill: 'Attention',
     stars: 5,
     blurb: 'Take it on a walk. A feather, a snail, a funny shaped cloud. Look, spot, colour.',
-    sheetUrl: BASE + 'hf_20260713_125401_9fc5d6aa-042a-4c2c-906c-495d1a71b442.png',
-    sheetUrlEs: BASE + 'hf_20260713_132647_97614a78-c23d-40c8-aa1c-a02632ce75d9.png',
+    sheetUrl: BASE + 'hf_20260723_213708_0127e4b3-6a1b-4b71-adda-7698c48f5a9e.png',
+    sheetUrlEs: BASE + 'hf_20260722_122935_9531a458-ca41-4e5b-8804-daa0bcaf69e2.png',
     previewUrl: BASE + 'hf_20260713_125404_e98b9bff-4d58-43e9-976f-8e7704586b31.png',
   },
   {
@@ -91,8 +114,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2, 3, 4, 5], minutes: 'A few weekends', setting: 'anywhere', skill: 'Family time',
     stars: 5,
     blurb: 'Done together or not at all: game night, a screen free evening, a walk somewhere new.',
-    sheetUrl: BASE + 'hf_20260713_125421_89d1c68e-fb50-4046-8a9c-d33bbfa4759c.png',
-    sheetUrlEs: BASE + 'hf_20260713_132652_0b2abeb9-04eb-4c6b-9fda-753a7c9c8242.png',
+    sheetUrl: BASE + 'hf_20260723_213714_9e2a8b73-f0c7-49d9-8cc4-cf811315dc51.png',
+    sheetUrlEs: BASE + 'hf_20260722_122939_99b00997-c232-46ce-809d-75ea7984317a.png',
     previewUrl: BASE + 'hf_20260713_125425_decdd972-db44-4eb1-9b37-56ea142bee1d.png',
   },
   {
@@ -101,10 +124,10 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2, 3], minutes: 'One afternoon', setting: 'indoors', skill: 'Creativity',
     stars: 5,
     blurb: 'Two pages, one craft: cut out the bucket, glue on the handle and friends, write the list, colour the lot.',
-    sheetUrl: BASE + 'hf_20260713_135347_bd5adb12-5316-4d17-a99a-68dca28c1d07.png',
-    extraSheetUrls: [BASE + 'hf_20260713_135351_23e3bb15-5856-4759-95cf-b989098f9faa.png'],
-    sheetUrlEs: BASE + 'hf_20260713_135730_8cd335c2-8065-4c3d-9416-bdd52eb1c322.png',
-    extraSheetUrlsEs: [BASE + 'hf_20260713_135734_8c8dee4f-dd30-4a87-a5d6-f1568d371767.png'],
+    sheetUrl: BASE + 'hf_20260723_213720_c1179ea9-8395-4561-88a0-c7f0d3276a65.png',
+    extraSheetUrls: [BASE + 'hf_20260723_213727_8befed5e-3de3-47f7-847c-6d9950cc6d54.png'],
+    sheetUrlEs: BASE + 'hf_20260722_123013_7e5fdfdd-2cca-4dfe-b7d0-9a494802915c.png',
+    extraSheetUrlsEs: [BASE + 'hf_20260722_123017_3f1f0526-a079-45c8-b2c6-36bcc85a58aa.png'],
     previewUrl: BASE + 'hf_20260713_140432_f5db6b56-1610-47bb-a7bf-bb4b29a07d73.png',
   },
   {
@@ -112,11 +135,292 @@ export const PRINTABLES: Printable[] = [
     title: 'My Spanish Bucket List', emoji: '🇪🇸', kind: 'bucket',
     stages: [1, 2, 3, 4], minutes: 'A week of words', setting: 'anywhere', skill: 'Spanish',
     stars: 5,
-    blurb: 'Hola, gracias, uno dos tres. Eight first steps into Spanish, said out loud and coloured in.',
-    sheetUrl: BASE + 'hf_20260713_130906_33a56139-da85-4684-ad89-84067d3e705b.png',
-    previewUrl: BASE + 'hf_20260713_130909_6f362795-3990-499b-81b7-69068534efc8.png',
+    blurb: 'Hola, gracias, uno dos tres. Six first steps into Spanish, said out loud and coloured in.',
+    sheetUrl: BASE + 'hf_20260723_213735_043f46a9-afa4-4c21-bb19-1579404a2bfc.png',
+    previewUrl: BASE + 'hf_20260722_110327_09f96b0e-2738-4ed7-9c2b-3ad726c6aa1f.png',
+  },
+  // DiGi's Planet Friends, one colour in sheet each, tied to the stage that
+  // unlocks that Friend. The card shows the finished Friend in full colour, the
+  // same art the child meets in the app, so the thumbnail sells what they are
+  // about to make. The sheet they actually print is still the clean line art.
+  {
+    key: 'meet-pebble',
+    title: 'Colour in Pebble', emoji: '🟡', kind: 'craft',
+    stages: [1], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Your Stage 1 Planet Friend, full of curiosity and wonder. Colour Pebble in however you like.',
+    sheetUrl: BASE + 'hf_20260723_121101_b9370321-6338-41b6-8c06-220c937d6705.png',
+    previewUrl: friendArt('pebble'),
+  },
+  {
+    key: 'meet-bloop',
+    title: 'Colour in Bloop', emoji: '🟢', kind: 'craft',
+    stages: [2], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Your Stage 2 Planet Friend, creative and clever. Bring Bloop to life with colour.',
+    sheetUrl: BASE + 'hf_20260723_121102_5535f574-b642-4f8f-bcc3-8d4a7ff2c334.png',
+    previewUrl: friendArt('bloop'),
+  },
+  {
+    key: 'meet-orbit',
+    title: 'Colour in Orbit', emoji: '🔵', kind: 'craft',
+    stages: [3], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Your Stage 3 Planet Friend, always exploring. Colour Orbit ready for the next big question.',
+    sheetUrl: BASE + 'hf_20260723_121113_c6a1b8e9-da55-43d5-bf5f-9bdf7ffa9954.png',
+    previewUrl: friendArt('orbit'),
+  },
+  {
+    key: 'meet-nova',
+    title: 'Colour in Nova', emoji: '🟣', kind: 'craft',
+    stages: [4], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
+    sheetUrl: BASE + 'hf_20260725_090749_b565097d-be3d-403d-8435-2817497807bc.png',
+    previewUrl: friendArt('nova'),
+  },
+  {
+    key: 'meet-cosmo',
+    title: 'Colour in Cosmo', emoji: '🟠', kind: 'craft',
+    stages: [5], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
+    sheetUrl: BASE + 'hf_20260725_090756_3600a3d8-266c-40ca-af9c-b890f0223bed.png',
+    previewUrl: friendArt('cosmo'),
+  },
+  // Brought over from the Etsy shop into the app library, redrawn in the house
+  // colour in style (clean line art, no old squad). The professions sheet and
+  // the two fish sheets Justin was looking for.
+  {
+    key: 'what-do-they-do',
+    title: 'What Do They Do?', emoji: '👩‍🚒', kind: 'brain',
+    stages: [1, 2, 3], minutes: 'One sitting', setting: 'anywhere', skill: 'The world of work',
+    stars: 5,
+    blurb: 'Six real jobs to colour in and name, from a doctor to an astronaut. A gentle first look at what people do all day.',
+    sheetUrl: BASE + 'hf_20260723_175806_cef2b287-0b7a-44df-8fcb-2d4bd49438f4.jpeg',
+    previewUrl: BASE + 'hf_20260723_175806_cef2b287-0b7a-44df-8fcb-2d4bd49438f4.jpeg',
+  },
+  {
+    key: 'fish-tank-splash',
+    title: 'Splash! Colour the Fish Tank', emoji: '🐠', kind: 'craft',
+    stages: [1, 2], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
+    stars: 5,
+    blurb: 'A whole fish tank to bring to life: fish, bubbles, seaweed and hidden treasure, all waiting for colour.',
+    sheetUrl: BASE + 'hf_20260723_175808_fa0d39b7-eec9-4668-9c0c-c0ccc44a9d23.jpeg',
+    previewUrl: BASE + 'hf_20260723_175808_fa0d39b7-eec9-4668-9c0c-c0ccc44a9d23.jpeg',
+  },
+  {
+    key: 'word-fishing',
+    title: 'Word Fishing', emoji: '🎣', kind: 'brain',
+    stages: [1, 2], minutes: 'One sitting', setting: 'anywhere', skill: 'Early reading',
+    stars: 5,
+    blurb: 'Catch a fish, write a word. Colour the scene, then fill each fish with a word you have learned.',
+    sheetUrl: BASE + 'hf_20260723_175811_2b009418-c5e9-4ed0-b683-afefbce44562.jpeg',
+    previewUrl: BASE + 'hf_20260723_175811_2b009418-c5e9-4ed0-b683-afefbce44562.jpeg',
+  },
+  // The rest of the La Casita set, redrawn in the house colour in style with no
+  // old squad, so the whole shop lives in the app library too.
+  {
+    key: 'a-to-z-showdown',
+    title: 'A to Z Showdown', emoji: '🔤', kind: 'brain',
+    stages: [1], minutes: 'A few sittings', setting: 'anywhere', skill: 'Letters',
+    stars: 5,
+    blurb: 'The whole alphabet to colour, a picture for every letter from apple to zebra. First letters, one page.',
+    sheetUrl: BASE + 'hf_20260723_183651_aa160950-e6cc-428c-8f6c-9055d3d5d696.jpeg',
+    previewUrl: BASE + 'hf_20260723_183651_aa160950-e6cc-428c-8f6c-9055d3d5d696.jpeg',
+  },
+  {
+    key: 'back-to-school-escape',
+    title: 'Back to School Escape', emoji: '🎒', kind: 'hunt',
+    stages: [1, 2], minutes: '30 minutes', setting: 'indoors', skill: 'Problem solving',
+    stars: 5,
+    blurb: 'Find the way from home to school through the maze, spot the school things and colour them all in.',
+    sheetUrl: BASE + 'hf_20260725_001938_cc4414ce-8819-4566-bd22-0b2f12228a8f.png',
+    previewUrl: BASE + 'hf_20260725_001938_cc4414ce-8819-4566-bd22-0b2f12228a8f.png',
+  },
+  {
+    key: 'calm-down-corner',
+    title: 'My Calm Down Corner', emoji: '🌈', kind: 'brain',
+    stages: [1, 2, 3], minutes: 'One sitting', setting: 'anywhere', skill: 'Wellbeing',
+    stars: 5,
+    blurb: 'Trace the flower to breathe, colour the feelings faces, and find four calm things to try when big feelings come.',
+    sheetUrl: BASE + 'hf_20260723_183655_101486b3-d91f-4b7a-b013-01d7cf4ed17e.jpeg',
+    previewUrl: BASE + 'hf_20260723_183655_101486b3-d91f-4b7a-b013-01d7cf4ed17e.jpeg',
+  },
+  {
+    key: 'count-to-20',
+    title: 'Count to 20', emoji: '🔢', kind: 'brain',
+    stages: [1], minutes: 'One sitting', setting: 'anywhere', skill: 'Numbers',
+    stars: 5,
+    blurb: 'Every number from one to twenty with just as many things to count and colour. First numbers made fun.',
+    sheetUrl: BASE + 'hf_20260723_183658_8cf2c5c0-2978-4e76-91fc-f6eaf25e9f40.jpeg',
+    previewUrl: BASE + 'hf_20260723_183658_8cf2c5c0-2978-4e76-91fc-f6eaf25e9f40.jpeg',
+  },
+  {
+    key: 'earn-your-screen-time',
+    title: 'Earn Your Screen Time', emoji: '⭐', kind: 'challenge',
+    stages: [1, 2, 3], minutes: 'All week', setting: 'anywhere', skill: 'Routines',
+    stars: 5,
+    blurb: 'A chart to colour a star for every job done. Fill the row and the screen time is properly earned.',
+    sheetUrl: BASE + 'hf_20260723_183700_526ae65f-6225-4577-b29b-6a39534201e2.jpeg',
+    previewUrl: BASE + 'hf_20260723_183700_526ae65f-6225-4577-b29b-6a39534201e2.jpeg',
+  },
+  {
+    key: 'family-phone-agreement',
+    title: 'Our Family Phone Agreement', emoji: '📱', kind: 'challenge',
+    stages: [2, 3, 4, 5], minutes: 'One sitting', setting: 'anywhere', skill: 'Family time',
+    stars: 5,
+    blurb: 'Fill in the promises together, tick the ones that matter to your family, and both sign at the bottom.',
+    sheetUrl: BASE + 'hf_20260723_183702_484d077f-f638-4001-bf1e-5890a0801f00.jpeg',
+    previewUrl: BASE + 'hf_20260723_183702_484d077f-f638-4001-bf1e-5890a0801f00.jpeg',
+  },
+  {
+    key: 'ice-cream-shop',
+    title: 'The Ice Cream Shop', emoji: '🍦', kind: 'craft',
+    stages: [1, 2], minutes: 'One sitting', setting: 'anywhere', skill: 'Numbers',
+    stars: 5,
+    blurb: 'Colour the shop, set your own prices on the tags and take an order. Play shop and practise coins.',
+    sheetUrl: BASE + 'hf_20260725_001946_59d57d74-f6d9-4374-a2bb-1b92cac6e41c.png',
+    previewUrl: BASE + 'hf_20260725_001946_59d57d74-f6d9-4374-a2bb-1b92cac6e41c.png',
+  },
+  {
+    key: 'left-and-right',
+    title: 'Left and Right', emoji: '👐', kind: 'brain',
+    stages: [1], minutes: 'One sitting', setting: 'anywhere', skill: 'Learning',
+    stars: 5,
+    blurb: 'Colour and label your left and right hands, follow the arrows, and work out which way to go.',
+    sheetUrl: BASE + 'hf_20260725_001930_01e5df7c-cf07-4c46-8fd8-2924b3d8ea53.png',
+    previewUrl: BASE + 'hf_20260725_001930_01e5df7c-cf07-4c46-8fd8-2924b3d8ea53.png',
+  },
+  {
+    key: 'school-year-planner',
+    title: 'My School Year Planner', emoji: '🗓️', kind: 'challenge',
+    stages: [2, 3, 4], minutes: 'All year', setting: 'anywhere', skill: 'Organisation',
+    stars: 5,
+    blurb: 'Twelve months to fill in, room for the dates that matter, and space for a name and class. A whole year, planned.',
+    sheetUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
+    previewUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
+  },
+  // The flagship. A premium, newspaper styled booklet that teaches the whole
+  // deal on paper: real jobs earn stars, one star is five minutes of screen
+  // time. The fridge star chart is the hero. Served funnel free in the app, the
+  // last page bonus swapped for a member note.
+  {
+    key: 'starter-pack',
+    title: 'The Guided Childhood Starter Pack', emoji: '📰', kind: 'challenge',
+    stages: [1, 2, 3, 4, 5], minutes: 'All week', setting: 'anywhere', skill: 'Screen time',
+    stars: 5,
+    // Free, as the comment above always said it was. It is the lead magnet the
+    // whole marketing site hands out at /starter-pack, so locking it inside the
+    // app was giving it away to strangers and charging members for it.
+    free: true,
+    blurb: 'The whole deal on paper. A star reward chart for the fridge, the jobs that earn stars, how to guides, a wake up workout, football, dance, a healthy breakfast plate, a print and play game and pages to colour. One star is five minutes of screen time.',
+    sheetUrl: '/printables/starter-pack-colour.pdf',
+    previewUrl: '/printables/starter-pack.png',
   },
 ]
+
+// The real, finished products we have built and shipped to Etsy, now brought
+// into the app library as the actual multi page PDFs (colour to print and use,
+// plus a colour in edition to print and colour for stars). Held as an overlay
+// so the base entries above stay the single source, and each product's real
+// preview and both editions come straight from public. Optional blurb and title
+// overrides keep the card honest where the earlier sheet described something
+// different.
+//
+// Character note: four of these covers were drawn with the retired squad
+// (Oliver, Zara, Sofia), and for a while the fix was to point those four card
+// previews at separately generated art on the CDN. That left a card promising
+// one thing and a download delivering another, on an external host, for a cover
+// we already had.
+//
+// The PDFs themselves have since been redrawn with the Planet Friends, so every
+// preview here is now rendered straight from page one of its own colour edition
+// and served from public. The card is the sheet. Regenerate a PDF and its cover
+// is regenerated from it, which is the only way the two can never drift again.
+type LocalProduct = { preview: string; colour: string; colourIn: string; blurb?: string; title?: string }
+
+const LOCAL_PRODUCTS: Record<string, LocalProduct> = {
+  'what-do-they-do': {
+    preview: '/printables/what-do-they-do.png',
+    colour: '/printables/what-do-they-do-colour.pdf',
+    colourIn: '/printables/what-do-they-do-colourin.pdf',
+    title: 'What Do They Do?',
+    blurb: 'Eight real jobs to build and name, from a baker to a postie. Cut the syllable tiles, make each word, then match the worker to their place and tool.',
+  },
+  'fish-tank-splash': {
+    preview: '/printables/fish-tank-splash.png',
+    colour: '/printables/fish-tank-splash-colour.pdf',
+    colourIn: '/printables/fish-tank-splash-colourin.pdf',
+    title: 'Splash! Match the Fish to Their Colour',
+    blurb: 'A first colour matching game. Six bright fishbowls and lots of little fish: colour each fish and pop it in the bowl of the same colour.',
+  },
+  'word-fishing': {
+    preview: '/printables/word-fishing.png',
+    colour: '/printables/word-fishing-colour.pdf',
+    colourIn: '/printables/word-fishing-colourin.pdf',
+  },
+  'a-to-z-showdown': {
+    preview: '/printables/a-to-z-showdown.png',
+    colour: '/printables/a-to-z-showdown-colour.pdf',
+    colourIn: '/printables/a-to-z-showdown-colourin.pdf',
+  },
+  'back-to-school-escape': {
+    preview: '/printables/back-to-school-escape.png',
+    colour: '/printables/back-to-school-escape-colour.pdf',
+    colourIn: '/printables/back-to-school-escape-colourin.pdf',
+  },
+  'calm-down-corner': {
+    preview: '/printables/calm-down-corner.png',
+    colour: '/printables/calm-down-corner-colour.pdf',
+    colourIn: '/printables/calm-down-corner-colourin.pdf',
+  },
+  'count-to-20': {
+    preview: '/printables/count-to-20.png',
+    colour: '/printables/count-to-20-colour.pdf',
+    colourIn: '/printables/count-to-20-colourin.pdf',
+  },
+  'earn-your-screen-time': {
+    preview: '/printables/earn-your-screen-time.png',
+    colour: '/printables/earn-your-screen-time-colour.pdf',
+    colourIn: '/printables/earn-your-screen-time-colourin.pdf',
+  },
+  'family-phone-agreement': {
+    preview: '/printables/family-phone-agreement.png',
+    colour: '/printables/family-phone-agreement-colour.pdf',
+    colourIn: '/printables/family-phone-agreement-colourin.pdf',
+  },
+  'ice-cream-shop': {
+    preview: '/printables/ice-cream-shop.png',
+    colour: '/printables/ice-cream-shop-colour.pdf',
+    colourIn: '/printables/ice-cream-shop-colourin.pdf',
+  },
+  'left-and-right': {
+    preview: '/printables/left-and-right.png',
+    colour: '/printables/left-and-right-colour.pdf',
+    colourIn: '/printables/left-and-right-colourin.pdf',
+  },
+  'school-year-planner': {
+    preview: '/printables/school-year-planner.png',
+    colour: '/printables/school-year-planner-colour.pdf',
+    colourIn: '/printables/school-year-planner-colourin.pdf',
+  },
+  'starter-pack': {
+    preview: '/printables/starter-pack.png',
+    colour: '/printables/starter-pack-colour.pdf',
+    colourIn: '/printables/starter-pack-colourin.pdf',
+  },
+}
+
+for (const p of PRINTABLES) {
+  const local = LOCAL_PRODUCTS[p.key]
+  if (!local) continue
+  p.previewUrl = local.preview
+  p.pdfColour = local.colour
+  p.pdfColourIn = local.colourIn
+  if (local.blurb) p.blurb = local.blurb
+  if (local.title) p.title = local.title
+}
 
 export function getPrintable(key: string): Printable | null {
   return PRINTABLES.find(p => p.key === key) ?? null

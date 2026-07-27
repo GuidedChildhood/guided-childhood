@@ -1,0 +1,60 @@
+import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
+import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
+
+// The top of the Quests page: the four places a parent actually goes, as flat
+// coloured tiles. Built the way the calmest parent apps do a browse grid (Good
+// Inside's Discover): one solid colour per tile, a real drawn icon rather than
+// an emoji, a bold title and one short line under it saying what happens.
+//
+// This replaces the pair of buttons that used to sit at the very top. Two
+// buttons could not hold the four real destinations, so the extras were buried
+// further down the page where nobody found them.
+
+type Tile = {
+  href: string
+  label: string
+  sub: string
+  icon: KidIconName
+  bg: string
+  iconBg: string
+}
+
+const TILES: Tile[] = [
+  {
+    // Straight to the child's own list, which is where the add a job button
+    // lives. It used to land at the top of the manager, above two screens of
+    // ideas, which is not what a parent pressing manage jobs came to do.
+    href: '#my-todo', label: 'Manage jobs', sub: 'Add, agree and send',
+    icon: 'jobs', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
+  },
+  {
+    href: '/dashboard/printables', label: 'Printables', sub: 'Charts to print',
+    icon: 'printables', bg: 'var(--tint-blue)', iconBg: 'rgba(255,255,255,0.72)',
+  },
+  {
+    href: '/dashboard/quests/play', label: 'Learning games', sub: 'Play and earn stars',
+    icon: 'games', bg: 'var(--tint-green)', iconBg: 'rgba(255,255,255,0.72)',
+  },
+  {
+    href: '/dashboard/quests/deal', label: 'Our family deal', sub: 'Print it for the fridge',
+    icon: 'deal', bg: 'var(--tint-sage)', iconBg: 'rgba(255,255,255,0.72)',
+  },
+]
+
+// Same outlined tile as the passport page now, so the two read as one product.
+// The flat fill with no edge was the softest thing on either page.
+const ACCENT: Record<string, string> = {
+  'var(--terracotta-lt)': 'var(--terracotta)',
+  'var(--tint-blue)': '#A9C8E4',
+  'var(--tint-green)': '#9CC3B4',
+  'var(--tint-sage)': '#9CC3B4',
+}
+
+export default function QuestShortcuts() {
+  const tiles: SectionTile[] = TILES.map(t => ({
+    href: t.href, label: t.label, sub: t.sub,
+    icon: <KidIcon name={t.icon} size={23} />,
+    bg: t.bg, accent: ACCENT[t.bg] ?? 'var(--border)',
+  }))
+  return <SectionTiles tiles={tiles} />
+}

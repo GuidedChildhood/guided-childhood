@@ -7,8 +7,8 @@ import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@/lib/content/schoo
 // The year at a glance: every key stage's modules spread across the three
 // terms, printable for the staffroom wall and the subject lead's file.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink)', lineHeight: 1.55 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55 }
 
 const TERMS = ['Autumn', 'Spring', 'Summer']
 
@@ -29,7 +29,7 @@ export default async function YearPlanPage() {
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: '6px 0 8px' }}>
           The year at a glance
         </h1>
-        <p style={{ ...body, fontSize: '13px', marginBottom: '22px', maxWidth: '620px' }}>
+        <p style={{ ...body, fontSize: '15px', marginBottom: '22px', maxWidth: '620px' }}>
           A suggested spread of each key stage&rsquo;s modules across the three terms. The sequence
           builds deliberately (each starter revisits the previous module), but every lesson stands
           alone, so reordering around your timetable loses nothing except the retrieval thread.
@@ -49,7 +49,7 @@ export default async function YearPlanPage() {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                 {terms.map(({ term, modules: termModules }) => (
                   <div key={term} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 14px' }}>
-                    <div style={{ ...mono, fontSize: '9.5px', color: 'var(--green-dark)', marginBottom: '6px' }}>{term}</div>
+                    <div style={{ ...mono, fontSize: '11.5px', color: 'var(--green-dark)', marginBottom: '6px' }}>{term}</div>
                     {termModules.length === 0 && <p style={{ ...body, color: 'var(--ink-muted)' }}>Revisit and embed</p>}
                     {termModules.map(m => (
                       <p key={m.moduleId} style={{ ...body, margin: '0 0 6px' }}>

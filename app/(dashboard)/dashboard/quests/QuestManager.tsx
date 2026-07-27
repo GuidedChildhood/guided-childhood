@@ -4,27 +4,37 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
+import JobBalance from '@/components/quests/JobBalance'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
+import QrHandoverModal from '@/components/quests/QrHandoverModal'
 import StarSummary from '@/components/quests/StarSummary'
+import ScreenGateBanner from '@/components/quests/ScreenGateBanner'
 import { questDueToday } from '@/lib/quests/due'
+import { recommendedDailyMinutes, bandLabelFor } from '@/lib/quests/screen-balance'
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
 import { PRINTABLES } from '@/lib/printables/registry'
 import { deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
 
-// When a child asks for a printable their pitch reads "Print the {title}
-// sheet" (set in the kid screen). Match it back to the sheet so the parent
-// gets a real print link right here, not just the words.
+// When a child asks for a printable their pitch reads either "Print the
+// {title} sheet" (full access, no printer at home) or "Please can I do the
+// {title} printable" (locked, asking to unlock it). Match either form back to
+// the sheet so the parent always gets a real print link right here, not just
+// the words. Missing the second form was why a child's printable ask landed
+// in notifications with no way to open it.
 function printableForAsk(title: string) {
-  return PRINTABLES.find(p => title === `Print the ${p.title} sheet`) ?? null
+  return PRINTABLES.find(p =>
+    title === `Print the ${p.title} sheet` ||
+    title === `Please can I do the ${p.title} printable`
+  ) ?? null
 }
 
 type QuestTab = 'manage' | 'rewards' | 'games' | 'share'
-const TABS: { key: QuestTab; label: string }[] = [
-  { key: 'manage', label: 'Quests' },
-  { key: 'rewards', label: 'Rewards' },
-  { key: 'games', label: 'Games' },
-  { key: 'share', label: 'Share' },
+const TABS: { key: QuestTab; label: string; icon: string; hint: string }[] = [
+  { key: 'manage', label: 'Quests', icon: '⭐', hint: 'Set the tasks' },
+  { key: 'rewards', label: 'Rewards', icon: '🎁', hint: 'Prizes to save for' },
+  { key: 'games', label: 'Games', icon: '🎲', hint: 'Play to learn' },
+  { key: 'share', label: 'Share', icon: '📲', hint: 'Phone or QR code' },
 ]
 
 // The parent's quest manager. Pick from templates or write your own,
@@ -32,11 +42,11 @@ const TABS: { key: QuestTab; label: string }[] = [
 // quests over: share the kid link for older children or print the sheet
 // for little ones.
 
-type Child = { id: string; name: string; age_band: string | null; phone?: string | null; use_mode?: string | null }
+type Child = { id: string; name: string; age_band: string | null; phone?: string | null; use_mode?: string | null; daily_limit_minutes?: number | null }
 
 const AGE_BANDS = ['4-7', '8-10', '11-13', '13-15', '16+'] as const
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null; blocks_screens?: boolean }
-type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
+type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null }
 type KidLink = { child_id: string; token: string }
 type Tick = { quest_id: string; child_id: string | null; status: string; tick_date: string; approved_at: string | null }
 type Ask = { id: string; child_id: string; title: string; emoji: string; status: string; created_at: string }
@@ -57,21 +67,34 @@ export default function QuestManager() {
   const [children, setChildren] = useState<Child[]>([])
   const [quests, setQuests] = useState<Quest[]>([])
   const [goals, setGoals] = useState<Goal[]>([])
+  // Finished goals the parent has cleared off the panel. The reward stays
+  // recorded server side (DiGi still remembers it), this just stops the earned
+  // card from sitting here forever once it has been seen. Keyed by child and
+  // the moment it was achieved, kept in the browser so it survives a refresh.
+  const [dismissedGoalDone, setDismissedGoalDone] = useState<Set<string>>(new Set())
   const [ticks, setTicks] = useState<Tick[]>([])
   const [links, setLinks] = useState<KidLink[]>([])
   const [activeChild, setActiveChild] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [customTitle, setCustomTitle] = useState('')
+  // The add a job composer that sits at the top of the child's own list. The
+  // only way to write a job used to be a lone input far below the ideas grid,
+  // so a parent who arrived wanting to add one thing had to scroll past two
+  // screens of suggestions to find the box. The obvious button is up here now.
+  const [addOpen, setAddOpen] = useState(false)
   const [goalTitle, setGoalTitle] = useState('')
   const [goalStars, setGoalStars] = useState('20')
   const [dailyStars, setDailyStars] = useState('')
   const [copied, setCopied] = useState(false)
+  const [showQr, setShowQr] = useState(false)
   const [addingChild, setAddingChild] = useState(false)
   const [newChildName, setNewChildName] = useState('')
   const [newChildAge, setNewChildAge] = useState<string | null>(null)
   const [newChildMode, setNewChildMode] = useState<'own' | 'coview'>('own')
   const [phoneDraft, setPhoneDraft] = useState('')
   const [phoneSaved, setPhoneSaved] = useState(false)
+  const [limitDraft, setLimitDraft] = useState('')
+  const [limitSaved, setLimitSaved] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [ticked, setTicked] = useState<string | null>(null)
   const [firstTask, setFirstTask] = useState('')
@@ -79,12 +102,16 @@ export default function QuestManager() {
   const [handMode, setHandMode] = useState<'phone' | 'paper'>('phone')
   const [pingResult, setPingResult] = useState<string | null>(null)
   const [pingDraft, setPingDraft] = useState('')
+  // Quests done today fold into a quiet strip, so the manage list stays what is
+  // still live rather than a long wall of ticked off rows.
+  const [showParentDone, setShowParentDone] = useState(false)
   const [contactsSupported, setContactsSupported] = useState(false)
   const [tab, setTab] = useState<QuestTab>('manage')
   const [asksList, setAsksList] = useState<Ask[]>([])
   const [banks, setBanks] = useState<Bank[]>([])
   const [spends, setSpends] = useState<Spend[]>([])
   const [sessions, setSessions] = useState<Session[]>([])
+  const [usage, setUsage] = useState<Record<string, number>>({})
   const [askStars, setAskStars] = useState<Record<string, number>>({})
   const [askSchedule, setAskSchedule] = useState<Record<string, string>>({})
   const [spendMsg, setSpendMsg] = useState<string | null>(null)
@@ -179,6 +206,17 @@ export default function QuestManager() {
     await load()
   }
 
+  // Jump to a section, switching tab first when the target lives inside one.
+  // Two animation frames so the tab content is actually in the DOM before we
+  // scroll, otherwise the scroll fires against an element that is not there yet
+  // (the old fixed 60ms race was why these quick buttons felt dead).
+  function goToSection(anchorId: string, tabKey?: QuestTab) {
+    if (tabKey && tabKey !== tab) setTab(tabKey)
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.getElementById(anchorId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }))
+  }
+
   async function savePhone() {
     if (!activeChild) return
     await fetch('/api/quests', {
@@ -188,6 +226,18 @@ export default function QuestManager() {
     })
     setPhoneSaved(true)
     setTimeout(() => setPhoneSaved(false), 2000)
+    await load()
+  }
+
+  async function saveDailyLimit(minutes: number | null) {
+    if (!activeChild) return
+    await fetch('/api/quests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'dailylimit', child_id: activeChild, minutes }),
+    })
+    setLimitSaved(true)
+    setTimeout(() => setLimitSaved(false), 2000)
     await load()
   }
 
@@ -204,11 +254,21 @@ export default function QuestManager() {
       setBanks(data.banks ?? [])
       setSpends(data.spends ?? [])
       setSessions(data.sessions ?? [])
+      setUsage(data.usage ?? {})
       if (!activeChild && data.children?.length) setActiveChild(data.children[0].id)
     } catch { /* retry on next action */ } finally { setLoading(false) }
   }, [activeChild])
 
   useEffect(() => { load() }, [load])
+
+  // When the approve queue on the board says yes to a child's tick, it fires
+  // gc:notifs-changed. Reload here so the Waiting your yes count on the summary
+  // drops in step with the approval, instead of lingering until a refresh.
+  useEffect(() => {
+    const onChange = () => { load() }
+    window.addEventListener('gc:notifs-changed', onChange)
+    return () => window.removeEventListener('gc:notifs-changed', onChange)
+  }, [load])
 
   // The day goal box always shows what is currently set for this child.
   useEffect(() => {
@@ -297,6 +357,25 @@ export default function QuestManager() {
     }
     await load()
     setAddingRoutine(null)
+  }
+
+  // Turn a whole routine off in one tap, for a holiday or a change of shape:
+  // every quest that came from this pack drops off the child's board. It is not
+  // gone for good, adding the routine again brings the same jobs straight back.
+  const [removingRoutine, setRemovingRoutine] = useState<string | null>(null)
+  async function removeRoutine(pack: RoutinePack) {
+    if (!activeChild || removingRoutine) return
+    setRemovingRoutine(pack.key)
+    const ids = childQuests.filter(q => pack.tasks.some(t => t.title === q.title)).map(q => q.id)
+    for (const id of ids) {
+      await fetch('/api/quests', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ quest_id: id }),
+      }).catch(() => {})
+    }
+    await load()
+    setRemovingRoutine(null)
   }
 
   // The spotted it prompt: the bedroom is not tidy, homework is not done.
@@ -393,6 +472,36 @@ export default function QuestManager() {
     await load()
   }
 
+  // The parent marks the saving goal done: the child saved enough and the
+  // real reward is handed over, so the stars are spent and the goal closes.
+  async function redeemGoal() {
+    if (!activeChild) return
+    await fetch('/api/quests', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'goal_redeem', child_id: activeChild }),
+    }).catch(() => {})
+    await load()
+  }
+
+  // Load the set of finished goals the parent has already cleared, once on mount.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('gc_goal_done_dismissed')
+      if (raw) setDismissedGoalDone(new Set(JSON.parse(raw) as string[]))
+    } catch { /* private mode, no memory needed */ }
+  }, [])
+
+  // Drop a finished goal off the panel and remember that choice.
+  function dismissGoalDone(key: string) {
+    setDismissedGoalDone(prev => {
+      const next = new Set(prev)
+      next.add(key)
+      try { localStorage.setItem('gc_goal_done_dismissed', JSON.stringify([...next])) } catch { /* ignore */ }
+      return next
+    })
+  }
+
   async function sendPing(message: string) {
     if (!activeChild) return
     setPingResult('Sending...')
@@ -434,18 +543,22 @@ export default function QuestManager() {
     } catch { /* cancelled */ }
   }
 
-  if (loading) return <p style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>One moment...</p>
+  if (loading) return <p style={{ fontSize: '16px', color: 'var(--ink-muted)' }}>One moment...</p>
 
   const templatesUnused = QUEST_TEMPLATES.filter(t => !childQuests.some(q => q.title === t.title))
 
   return (
     <div>
+      {/* The instant hand over: scan the QR straight onto the child's phone. */}
+      {showQr && link && child && (
+        <QrHandoverModal token={link.token} childName={child.name} onClose={() => setShowQr(false)} />
+      )}
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '10px' }}>Family Quests</p>
       <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '10px' }}>
         The deal: quests earn stars
       </h1>
-      <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
-        Mostly real chores and jobs that earn stars, agreed with you. No phone needed: print the sheet for the fridge, or just tick them off here yourself. Older children can have their own private link if they want one, never a reason to hand a child a phone before they are ready.
+      <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '20px' }}>
+        Real chores and jobs, agreed with you, that earn stars. No phone needed: print the sheet, or tick them off here yourself.
       </p>
 
       {/* Child picker plus add another, right here, never back to onboarding */}
@@ -457,9 +570,9 @@ export default function QuestManager() {
             style={{
               padding: '9px 18px', borderRadius: '100px', cursor: 'pointer',
               border: '1.5px solid var(--border)',
-              background: activeChild === c.id ? 'var(--deep-teal)' : '#fff',
-              color: activeChild === c.id ? '#fff' : 'var(--ink-soft)',
-              fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
+              background: activeChild === c.id ? 'var(--terracotta)' : '#fff',
+              color: activeChild === c.id ? 'var(--ink)' : 'var(--ink-soft)',
+              fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700,
             }}
           >
             {c.name}
@@ -470,7 +583,7 @@ export default function QuestManager() {
           style={{
             padding: '9px 18px', borderRadius: '100px', cursor: 'pointer',
             border: '1.5px dashed var(--terracotta-dark)', background: 'var(--terracotta-lt)',
-            color: 'var(--ink)', fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
+            color: 'var(--ink)', fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 700,
           }}
         >
           {children.length === 0 ? 'Add your child' : 'Add another child'} +
@@ -479,7 +592,7 @@ export default function QuestManager() {
 
       {(addingChild || children.length === 0) && (
         <div style={card}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
             {children.length === 0 ? 'First, who is this for?' : 'Add a child'}
           </div>
           <input
@@ -489,7 +602,7 @@ export default function QuestManager() {
             style={{
               width: '100%', padding: '12px 15px', borderRadius: '12px', marginBottom: '12px',
               border: '1.5px solid var(--border)', background: 'var(--cream)',
-              fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', outline: 'none',
+              fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none',
             }}
             maxLength={60}
           />
@@ -497,13 +610,13 @@ export default function QuestManager() {
             {AGE_BANDS.map(band => (
               <button
                 key={band}
-                onClick={() => { setNewChildAge(band); setNewChildMode(band === '4-7' ? 'coview' : 'own') }}
+                onClick={() => { setNewChildAge(band); setNewChildMode(['4-7', '8-10'].includes(band) ? 'coview' : 'own') }}
                 style={{
                   padding: '9px 16px', borderRadius: '100px', cursor: 'pointer',
                   border: '1.5px solid var(--border)',
-                  background: newChildAge === band ? 'var(--deep-teal)' : '#fff',
-                  color: newChildAge === band ? '#fff' : 'var(--ink-soft)',
-                  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                  background: newChildAge === band ? 'var(--terracotta)' : '#fff',
+                  color: newChildAge === band ? 'var(--ink)' : 'var(--ink-soft)',
+                  fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
                 }}
               >
                 {band === '16+' ? 'Ages 16 and up' : `Ages ${band.replace('-', ' to ')}`}
@@ -514,21 +627,21 @@ export default function QuestManager() {
           {/* How they use it: their own app, or together on your device. */}
           {newChildAge && (
             <div style={{ marginBottom: '14px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                 How will {newChildName.trim() || 'they'} use it?
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
                 {([
-                  ['own', '📱 Their own app', 'On their tablet or phone. You send the link or QR, they add it to their home screen.'],
-                  ['coview', '👀 Together on your device', 'You open it on your phone and do it together. Best for a little one with no device.'],
+                  ['coview', '👀 Together on your device', 'You open it on your phone and do it together, no device in their hands. What the evidence points to for under 11, and what we recommend.'],
+                  ['own', '📱 Their own app', 'If they already have their own device you can set it up here. Your family, your call, we just point the way.'],
                 ] as const).map(([m, label, hint]) => (
                   <button key={m} onClick={() => setNewChildMode(m)} aria-pressed={newChildMode === m} style={{
                     textAlign: 'left', padding: '10px 13px', borderRadius: '12px', cursor: 'pointer',
                     background: newChildMode === m ? 'var(--terracotta-lt)' : '#fff',
                     border: newChildMode === m ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
                   }}>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{label}</span>
-                    <span style={{ display: 'block', fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '1px' }}>{hint}</span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>{label}</span>
+                    <span style={{ display: 'block', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '1px' }}>{hint}</span>
                   </button>
                 ))}
               </div>
@@ -540,7 +653,7 @@ export default function QuestManager() {
             disabled={!newChildName.trim() || !newChildAge}
             style={{
               background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '14px',
-              padding: '12px 22px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+              padding: '12px 22px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
               boxShadow: '0 4px 0 var(--terracotta-dark)',
               opacity: (!newChildName.trim() || !newChildAge) ? 0.6 : 1,
             }}
@@ -560,26 +673,101 @@ export default function QuestManager() {
             const tickedToday = new Set(ticks.filter(t => t.tick_date === today).map(t => t.quest_id))
             const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
             const g = goals.find(gg => gg.child_id === activeChild)
+            const gBalance = banks.find(b => b.child_id === activeChild)?.balance ?? 0
+            const goalDoneKey = g?.achieved_at ? `${g.child_id}:${g.achieved_at}` : null
             return (
               <StarSummary
                 childName={child.name}
-                balanceStars={banks.find(b => b.child_id === activeChild)?.balance ?? 0}
+                balanceStars={gBalance}
                 weekStars={starsThisWeek}
                 pending={ticks.filter(t => t.child_id === activeChild && t.status === 'pending').length}
                 todo={dueToday.filter(q => !tickedToday.has(q.id)).length}
                 goal={g ? { title: g.title, stars_needed: g.stars_needed } : null}
+                goalReached={!!g && !g.achieved_at && gBalance >= g.stars_needed}
+                goalAchieved={!!g?.achieved_at && !(goalDoneKey != null && dismissedGoalDone.has(goalDoneKey))}
+                onGoalDone={redeemGoal}
+                onSetGoal={() => {
+                  // Setting a new goal is the natural end of the celebration:
+                  // drop the earned card off and land on the goal setter, which
+                  // lives on the Rewards tab, not Manage.
+                  if (goalDoneKey) dismissGoalDone(goalDoneKey)
+                  goToSection('star-goal', 'rewards')
+                }}
+                onDismissGoalDone={goalDoneKey ? () => dismissGoalDone(goalDoneKey) : undefined}
                 timerRunning={sessions.some(s => s.child_id === activeChild)}
-                onApprove={() => { if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard#quest-board' } else { setTab('manage') } }}
-                onScreenTime={() => document.getElementById('screen-time')?.scrollIntoView({ behavior: 'smooth' })}
-                onShare={() => setTab('share')}
+                sessionEndsAt={sessions.find(s => s.child_id === activeChild)?.ends_at ?? null}
+                onApprove={() => {
+                  if (ticks.some(t => t.child_id === activeChild && t.status === 'pending')) { window.location.href = '/dashboard/quests#quest-board'; return }
+                  // Set tasks means set tasks. It lands on the child's own list
+                  // with the add a job composer already open, rather than at the
+                  // top of a tab strip with the real job somewhere below.
+                  setAddOpen(true)
+                  goToSection('my-todo', 'manage')
+                }}
+                onTodo={() => { setAddOpen(true); goToSection('my-todo', 'manage') }}
+                onScreenTime={() => { window.location.href = '/dashboard/stats' }}
+                onShare={() => goToSection('quest-tabs', 'share')}
               />
             )
           })()}
 
+          {/* DiGi's read on today's job load: the science backed check that jobs
+              stay a helpful dose, not a swamp, with a spread across the week
+              nudge when the day runs heavy. */}
+          {(() => {
+            const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
+            return (
+              <JobBalance
+                childName={child.name}
+                ageBand={child.age_band}
+                jobsDueToday={dueToday.map(q => ({ title: q.title, stars: q.stars }))}
+                onReview={() => goToSection('quest-tabs', 'manage')}
+              />
+            )
+          })()}
+
+          {/* The screens gate, made visible to the parent: the child's pending
+              ask first with Yes, start it and Not yet, then the blocking jobs
+              grouped by title with a red count chip and a Remind button each.
+              Refreshes on the same poll as the screen time card. */}
+          {(() => {
+            const gate = childQuests.filter(q => q.blocks_screens && questDueToday(q.schedule, q.schedule_days))
+            const blocking = gate.filter(q => !approvedTodayIds.has(q.id))
+            const grouped = new Map<string, { questId: string; title: string; count: number }>()
+            for (const q of blocking) {
+              const g = grouped.get(q.title)
+              if (g) g.count += 1
+              else grouped.set(q.title, { questId: q.id, title: q.title, count: 1 })
+            }
+            return (
+              <ScreenGateBanner
+                childId={activeChild ?? ''}
+                childName={child.name}
+                gateCount={gate.length}
+                blocking={[...grouped.values()]}
+                onAnswered={load}
+                coView={child.use_mode !== 'own'}
+              />
+            )
+          })()}
+
+          {/* The balance and stats now live on their own page, opened from this
+              button and from the Screen time quick tile, so the Quests page
+              stays clean instead of carrying the whole scales card. */}
+          <div id="screen-time" style={{ scrollMarginTop: '80px' }} />
+          <Link href="/dashboard/stats" style={{ ...card, display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none' }}>
+            <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #FFE9A8, #EDC35F)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: '0 3px 0 var(--terracotta-dark)', flexShrink: 0 }} aria-hidden>📊</span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>Balance and stats</span>
+              <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>See {child.name}&apos;s screen time by type this week, the healthy level, and the off screen wins.</span>
+            </span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--terracotta-dark)' }}>›</span>
+          </Link>
+
           {/* Hand it over: the one decision, made simple. To their phone,
               or onto paper. Everything else lives in the tabs below. */}
           <div style={card}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
               Hand it to {child.name}
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '14px' }}>
@@ -596,8 +784,8 @@ export default function QuestManager() {
                 >
                   <span style={{ fontSize: '26px', lineHeight: 1 }}>{icon}</span>
                   <span>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>{title}</span>
-                    <span style={{ display: 'block', fontSize: '11.5px', color: 'var(--ink-soft)', marginTop: '2px' }}>{sub}</span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>{title}</span>
+                    <span style={{ display: 'block', fontSize: '13.5px', color: 'var(--ink-soft)', marginTop: '2px' }}>{sub}</span>
                   </span>
                 </button>
               ))}
@@ -611,14 +799,14 @@ export default function QuestManager() {
                       <>
                         <button onClick={shareLink} style={{
                           background: 'var(--terracotta)', border: 'none', borderRadius: '12px', padding: '11px 18px', cursor: 'pointer',
-                          fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)',
+                          fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
                           boxShadow: '0 3px 0 var(--terracotta-dark)',
                         }}>
                           {copied ? 'Link copied ✓' : `📤 Send ${child.name} the link`}
                         </button>
                         <button onClick={() => sendPing('Quest check! Come and see your stars ⭐')} style={{
                           background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '11px 18px', cursor: 'pointer',
-                          fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)',
+                          fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
                         }}>
                           🔔 Ping their phone
                         </button>
@@ -626,21 +814,30 @@ export default function QuestManager() {
                     ) : (
                       <button onClick={getLink} style={{
                         background: 'var(--terracotta)', border: 'none', borderRadius: '12px', padding: '11px 18px', cursor: 'pointer',
-                        fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)',
+                        fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
                         boxShadow: '0 3px 0 var(--terracotta-dark)',
                       }}>
                         🔑 Create {child.name}&apos;s private link
                       </button>
                     )}
                   </div>
-                  {pingResult && <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>{pingResult}</p>}
+                  {pingResult && <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>{pingResult}</p>}
                   <div style={{ background: 'var(--tint-sage)', borderRadius: '12px', padding: '12px 14px' }}>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
-                      How it works, and why it is safe
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                      One private page, and it is safe
                     </div>
-                    <p style={{ fontSize: '12.5px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
-                      {child.name} gets one private page, not an app. Nothing to install, no account, no login, no messages from anyone. The link is the key and only your family holds it. It opens like a mini app (add it to their Home Screen for one tap) and every star still lands only when you approve it here.
-                    </p>
+                    <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      {[
+                        'Nothing to install, no login, no messages',
+                        'Only your family holds the link',
+                        'Stars land only when you approve them here',
+                      ].map(line => (
+                        <li key={line} style={{ display: 'flex', gap: '8px', fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.4 }}>
+                          <span aria-hidden style={{ color: 'var(--retro-green)', fontWeight: 900, flexShrink: 0 }}>✓</span>
+                          <span>{line}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
                 {/* What they see: the real child page */}
@@ -656,6 +853,12 @@ export default function QuestManager() {
               </div>
             ) : (
               <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', marginBottom: '3px' }}>
+                  The offline pack
+                </div>
+                <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+                  Four things to print, tap any one to open it ready for the printer.
+                </p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '8px', marginBottom: '10px' }}>
                   {[
                     ['🖨️', 'Quest sheet', '/dashboard/quests/print'],
@@ -665,36 +868,44 @@ export default function QuestManager() {
                   ].map(([icon, label, href]) => (
                     <a key={href} href={href} style={{
                       display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none',
-                      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px',
+                      background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '13px 15px',
                     }}>
-                      <span style={{ fontSize: '20px', lineHeight: 1 }}>{icon}</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>{label}</span>
+                      <span style={{ fontSize: '22px', lineHeight: 1 }}>{icon}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>{label}</span>
                     </a>
                   ))}
                 </div>
-                <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+                <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
                   No phone needed. Print it for the fridge, tick quests off here yourself, and the stars still land in {child.name}&apos;s bank.
                 </p>
               </div>
             )}
           </div>
 
-          {/* The tabs: everything in its own place instead of one long scroll */}
-          <div style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px', marginBottom: '18px', width: 'fit-content', maxWidth: '100%', overflowX: 'auto' }}>
-            {TABS.map(t => (
-              <button
-                key={t.key}
-                onClick={() => setTab(t.key)}
-                style={{
-                  padding: '9px 18px', borderRadius: '100px', cursor: 'pointer', border: 'none', flexShrink: 0,
-                  background: tab === t.key ? 'var(--deep-teal)' : 'transparent',
-                  color: tab === t.key ? '#fff' : 'var(--ink-soft)',
-                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
-                }}
-              >
-                {t.label}
-              </button>
-            ))}
+          {/* The front door: four big labelled buttons with an icon and a line
+              of what each is for, so a parent knows exactly where to go. */}
+          <div id="quest-tabs" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', marginBottom: '18px', scrollMarginTop: '80px' }}>
+            {TABS.map(t => {
+              const on = tab === t.key
+              return (
+                <button
+                  key={t.key}
+                  onClick={() => setTab(t.key)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '11px', textAlign: 'left', cursor: 'pointer',
+                    background: on ? 'var(--terracotta-lt)' : '#fff',
+                    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                    borderRadius: '16px', padding: '12px 14px',
+                  }}
+                >
+                  <span style={{ fontSize: '1.5rem', lineHeight: 1, flexShrink: 0 }}>{t.icon}</span>
+                  <span style={{ minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>{t.label}</span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 600, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.hint}</span>
+                  </span>
+                </button>
+              )
+            })}
           </div>
 
           {tab === 'manage' && (
@@ -713,22 +924,23 @@ export default function QuestManager() {
               onClick={() => setTab('share')}
               style={{
                 width: '100%', textAlign: 'left', cursor: 'pointer', border: 'none',
-                background: 'var(--deep-teal)', borderRadius: '18px', padding: '16px 18px', marginBottom: '16px',
+                background: 'var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginBottom: '16px',
                 display: 'flex', alignItems: 'center', gap: '14px',
+                boxShadow: '0 5px 0 var(--terracotta-dark)',
               }}
             >
-              <span style={{ width: 42, height: 42, borderRadius: '12px', background: 'var(--terracotta)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>{youngChild ? '🖨️' : '📲'}</span>
+              <span style={{ width: 42, height: 42, borderRadius: '12px', background: '#fff', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', boxShadow: '0 3px 0 rgba(0,0,0,0.15)' }}>{youngChild ? '🖨️' : '📲'}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: '#fff' }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>
                   {youngChild ? `Print ${child.name}'s quest sheet` : `Put ${child.name}'s quests on their phone`}
                 </span>
-                <span style={{ display: 'block', fontSize: '12.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.45, marginTop: '2px' }}>
+                <span style={{ display: 'block', fontSize: '14.5px', color: 'var(--ink)', opacity: 0.75, lineHeight: 1.45, marginTop: '2px' }}>
                   {youngChild
                     ? 'At this age quests work best on paper, done with you. No phone needed. Print the sheet for the fridge.'
                     : 'Send their own private quest page by message. It opens like a mini app, nothing to install.'}
                 </span>
               </span>
-              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '18px', flexShrink: 0 }}>→</span>
+              <span style={{ color: 'var(--ink)', opacity: 0.7, fontSize: '20px', flexShrink: 0 }}>→</span>
             </button>
           )}
           {/* All quests done today: the whole thing lights up */}
@@ -741,10 +953,10 @@ export default function QuestManager() {
             }}>
               <span style={{ fontSize: '26px', flexShrink: 0 }}>🌟</span>
               <span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15.5px', color: 'var(--stage-1-text)' }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17.5px', color: 'var(--stage-1-text)' }}>
                   Every quest done today
                 </span>
-                <span style={{ display: 'block', fontSize: '13px', color: 'var(--stage-1-text)', opacity: 0.85, marginTop: '2px' }}>
+                <span style={{ display: 'block', fontSize: '15px', color: 'var(--stage-1-text)', opacity: 0.85, marginTop: '2px' }}>
                   {child.name} cleared the lot. The stars are theirs.
                 </span>
               </span>
@@ -754,10 +966,10 @@ export default function QuestManager() {
               tap makes it a real quest, their page tells them the news */}
           {asksList.filter(a => a.child_id === activeChild && a.status === 'pending').length > 0 && (
             <div style={{ ...card, background: 'var(--tint-blue)' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '4px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '4px' }}>
                 {child.name} pitched these quests
               </div>
-              <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+              <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
                 Their own ideas, from their quest page. Set the stars, say yes, and it lands on their list.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -769,7 +981,7 @@ export default function QuestManager() {
                     <div key={a.id} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '12px 14px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
                         <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>{a.emoji}</span>
-                        <span style={{ flex: 1, minWidth: 0, fontSize: '14px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
+                        <span style={{ flex: 1, minWidth: 0, fontSize: '16px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
                           {a.title}
                         </span>
                       </div>
@@ -783,10 +995,10 @@ export default function QuestManager() {
                           rel="noopener noreferrer"
                           style={{
                             display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '12px',
-                            background: 'var(--deep-teal)', color: '#fff', textDecoration: 'none',
+                            background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
                             borderRadius: '11px', padding: '9px 15px',
-                            fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
-                            boxShadow: '0 3px 0 rgba(0,0,0,0.25)',
+                            fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
+                            boxShadow: '0 3px 0 var(--terracotta-dark)',
                           }}
                         >
                           🖨️ Print {sheet.title}
@@ -795,7 +1007,7 @@ export default function QuestManager() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                           <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.max(1, stars - 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {stars}</span>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {stars}</span>
                           <button onClick={() => setAskStars(prev => ({ ...prev, [a.id]: Math.min(10, stars + 1) }))} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
                         </span>
                         <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
@@ -806,9 +1018,9 @@ export default function QuestManager() {
                               style={{
                                 padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
                                 border: '1.5px solid var(--border)',
-                                background: schedule === s ? 'var(--deep-teal)' : '#fff',
-                                color: schedule === s ? '#fff' : 'var(--ink-soft)',
-                                fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                                background: schedule === s ? 'var(--terracotta)' : '#fff',
+                                color: schedule === s ? 'var(--ink)' : 'var(--ink-soft)',
+                                fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
                               }}
                             >
                               {SCHEDULE_LABELS[s]}
@@ -821,7 +1033,7 @@ export default function QuestManager() {
                             style={{
                               background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
                               borderRadius: '10px', padding: '8px 16px', cursor: 'pointer',
-                              fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800,
+                              fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
                               boxShadow: '0 3px 0 var(--terracotta-dark)',
                             }}
                           >
@@ -832,7 +1044,7 @@ export default function QuestManager() {
                             style={{
                               background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
                               padding: '8px 12px', cursor: 'pointer',
-                              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)',
+                              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)',
                             }}
                           >
                             Not now
@@ -848,11 +1060,11 @@ export default function QuestManager() {
 
           {/* Do this first: the spotted it prompt and the printed contract */}
           <div style={card}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
               📵 Do this first
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
-              Spotted something that needs doing before screens go on? Send it now: it lands at the top of {child.name}&apos;s list marked before screens, pings their device, and sits on the printed contract.
+            <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
+              Something to do before screens go on? Send it now. It jumps to the top of {child.name}&apos;s list and pings their phone.
             </p>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px' }}>
               {['🛏️ Tidy your bedroom', '📚 Homework finished', '🎒 Bag packed for tomorrow'].map(chip => (
@@ -862,7 +1074,7 @@ export default function QuestManager() {
                   style={{
                     background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
                     padding: '8px 14px', cursor: 'pointer',
-                    fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)',
+                    fontFamily: 'var(--font-display)', fontSize: '14.5px', fontWeight: 700, color: 'var(--ink)',
                   }}
                 >
                   {chip}
@@ -877,7 +1089,7 @@ export default function QuestManager() {
                 placeholder="Or type it: feed the dog, violin practice..."
                 style={{
                   flex: 1, minWidth: '200px', border: '1.5px solid var(--border)', borderRadius: '12px',
-                  padding: '10px 14px', fontSize: '13.5px', fontFamily: 'inherit', color: 'var(--ink)',
+                  padding: '10px 14px', fontSize: '15.5px', fontFamily: 'inherit', color: 'var(--ink)',
                 }}
               />
               <button
@@ -887,7 +1099,7 @@ export default function QuestManager() {
                   background: 'var(--terracotta)', border: 'none', borderRadius: '12px',
                   padding: '10px 18px', cursor: firstTask.trim() ? 'pointer' : 'default',
                   opacity: firstTask.trim() ? 1 : 0.5,
-                  fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800, color: 'var(--ink)',
+                  fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
                   boxShadow: '0 3px 0 var(--terracotta-dark)',
                 }}
               >
@@ -895,13 +1107,13 @@ export default function QuestManager() {
               </button>
             </div>
             {firstMsg && (
-              <p style={{ fontSize: '12.5px', color: 'var(--terracotta-dark)', fontWeight: 700, margin: '10px 0 0' }}>{firstMsg}</p>
+              <p style={{ fontSize: '14.5px', color: 'var(--terracotta-dark)', fontWeight: 700, margin: '10px 0 0' }}>{firstMsg}</p>
             )}
             <a
               href="/dashboard/quests/contract"
               style={{
                 display: 'inline-block', marginTop: '12px',
-                fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700,
                 color: 'var(--terracotta-dark)', textDecoration: 'none',
               }}
             >
@@ -909,13 +1121,113 @@ export default function QuestManager() {
             </a>
           </div>
 
-          <div style={{ ...card, ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
-              {child.name}&apos;s quests
+          <div id="my-todo" style={{ ...card, scrollMarginTop: '80px', ...(allDoneToday ? { borderColor: 'var(--terracotta)', boxShadow: '0 6px 20px rgba(237,195,95,0.18)' } : {}) }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+                {child.name}&apos;s quests
+              </div>
+              {/* The obvious way in. Adding a job is the single thing a parent
+                  comes to this card to do, and it used to mean scrolling past
+                  two screens of ideas to reach a lone input at the bottom. */}
+              <button
+                onClick={() => setAddOpen(o => !o)}
+                style={{
+                  background: addOpen ? '#fff' : 'var(--terracotta)', color: 'var(--ink)',
+                  border: addOpen ? '1.5px solid var(--border)' : 'none', borderRadius: '13px',
+                  padding: '10px 16px', cursor: 'pointer',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
+                  boxShadow: addOpen ? 'none' : '0 3px 0 var(--terracotta-dark)',
+                }}
+              >
+                {addOpen ? 'Close' : '+ Add a job'}
+              </button>
             </div>
-            {childQuests.length === 0 && (
-              <p style={{ fontSize: '13px', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
-                No quests yet. Add from the ideas below.
+
+            {addOpen && (
+              <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '12px', marginBottom: '12px' }}>
+                {/* Add a job means add a job, not only write one from scratch.
+                    Most parents want a ready made one, and asking them to type
+                    out "one hour of outside play" when we already have it is
+                    work we invented. Play first, because play pays the most
+                    stars and is the job families most often forget counts. */}
+                {templatesUnused.length > 0 && (
+                  <>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
+                      Tap one to add it
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: '7px', marginBottom: '12px' }}>
+                      {[...templatesUnused].sort((a, b) => Number(!!b.play) - Number(!!a.play)).slice(0, 6).map(t => (
+                        <button
+                          key={t.title}
+                          onClick={() => addQuest(t)}
+                          style={{
+                            display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left',
+                            padding: '10px 11px', borderRadius: '13px', cursor: 'pointer',
+                            background: '#fff', border: '1.5px solid var(--border)',
+                          }}
+                        >
+                          <span aria-hidden style={{ fontSize: '20px', lineHeight: 1, flexShrink: 0 }}>{t.emoji}</span>
+                          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25 }}>
+                            {t.title}
+                          </span>
+                          <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                            ⭐{t.stars}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => document.getElementById('all-ideas')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                      style={{
+                        background: 'none', border: 'none', padding: 0, marginBottom: '14px', cursor: 'pointer',
+                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--terracotta-dark)',
+                      }}
+                    >
+                      See all {templatesUnused.length} ideas, and the whole week routines →
+                    </button>
+                  </>
+                )}
+
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
+                  Or write your own
+                </div>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <input
+                    autoFocus
+                    value={customTitle}
+                    onChange={e => setCustomTitle(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter' && customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
+                    placeholder="Make your bed, feed the cat..."
+                    style={{
+                      flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
+                      border: '1.5px solid var(--border)', background: '#fff',
+                      fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none',
+                    }}
+                    maxLength={120}
+                  />
+                  <button
+                    onClick={() => { if (customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
+                    disabled={!customTitle.trim()}
+                    style={{
+                      flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+                      borderRadius: '12px', padding: '12px 20px',
+                      cursor: customTitle.trim() ? 'pointer' : 'default',
+                      fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
+                      boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: customTitle.trim() ? 1 : 0.5,
+                    }}
+                  >
+                    Add
+                  </button>
+                </div>
+                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
+                  Lands as a daily job worth one star. Change the days or the stars on the job itself once it is in, or pick from the ready made ideas further down.
+                </p>
+              </div>
+            )}
+
+            {childQuests.length === 0 && !addOpen && (
+              <p style={{ fontSize: '15px', color: 'var(--ink-muted)', margin: '0 0 6px' }}>
+                No quests yet. Press add a job, or pick from the ideas below.
               </p>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -923,11 +1235,12 @@ export default function QuestManager() {
                   so the live list is always what is left. A stable sort keeps
                   the order within each group, and a freshly added quest, being
                   not done, lands at the top. */}
-              {[...childQuests].sort((a, b) => {
-                const da = approvedTodayIds.has(a.id) || ticked === a.id
-                const db = approvedTodayIds.has(b.id) || ticked === b.id
-                return Number(da) - Number(db)
-              }).map(q => {
+              {(() => {
+                const isDone = (q: typeof childQuests[number]) => approvedTodayIds.has(q.id) || ticked === q.id
+                const sorted = [...childQuests].sort((a, b) => Number(isDone(a)) - Number(isDone(b)))
+                const openL = sorted.filter(x => !isDone(x))
+                const doneL = sorted.filter(x => isDone(x))
+                const row = (q: typeof childQuests[number]) => {
                 const editing = editingId === q.id
                 const sheet = printableForAsk(q.title)
                 const doneToday = approvedTodayIds.has(q.id) || ticked === q.id
@@ -939,8 +1252,8 @@ export default function QuestManager() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{q.emoji}</span>
                       <span style={{ flex: 1, minWidth: 0 }}>
-                        <span style={{ display: 'block', fontSize: '14px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{q.title}</span>
-                        <span style={{ fontSize: '11px', color: 'var(--ink-muted)' }}>
+                        <span style={{ display: 'block', fontSize: '16px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{q.title}</span>
+                        <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>
                           {SCHEDULE_LABELS[q.schedule] ?? q.schedule} · ⭐ {q.stars}{q.blocks_screens ? ' · 📵 before screens' : ''}
                         </span>
                       </span>
@@ -953,10 +1266,10 @@ export default function QuestManager() {
                           rel="noopener noreferrer"
                           title={`Open ${sheet.title} to print`}
                           style={{
-                            background: 'var(--deep-teal)', color: '#fff', textDecoration: 'none',
+                            background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
                             border: 'none', borderRadius: '10px',
-                            padding: '7px 12px', flexShrink: 0,
-                            fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800,
+                            padding: '7px 12px', flexShrink: 0, boxShadow: '0 2px 0 var(--terracotta-dark)',
+                            fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
                           }}
                         >
                           🖨️ Print
@@ -970,7 +1283,7 @@ export default function QuestManager() {
                           background: doneToday ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
                           border: '1.5px solid var(--terracotta)', borderRadius: '10px',
                           padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
-                          fontFamily: 'var(--font-display)', fontSize: '12px', fontWeight: 800, color: 'var(--ink)',
+                          fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)',
                         }}
                       >
                         {doneToday ? 'Done ✓' : 'Done?'}
@@ -980,7 +1293,7 @@ export default function QuestManager() {
                         style={{
                           background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
                           padding: '7px 10px', cursor: 'pointer', flexShrink: 0,
-                          fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)',
+                          fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)',
                         }}
                       >
                         {editing ? 'Close' : 'Edit'}
@@ -991,7 +1304,7 @@ export default function QuestManager() {
                       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                           <button onClick={() => editQuest(q.id, { stars: q.stars - 1 })} disabled={q.stars <= 1} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {q.stars}</span>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {q.stars}</span>
                           <button onClick={() => editQuest(q.id, { stars: q.stars + 1 })} disabled={q.stars >= 10} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>+</button>
                         </span>
                         <span style={{ display: 'inline-flex', gap: '6px', flexWrap: 'wrap' }}>
@@ -1004,9 +1317,9 @@ export default function QuestManager() {
                                 style={{
                                   padding: '6px 12px', borderRadius: '100px', cursor: 'pointer',
                                   border: '1.5px solid var(--border)',
-                                  background: (!activeDays && q.schedule === s) ? 'var(--deep-teal)' : '#fff',
-                                  color: (!activeDays && q.schedule === s) ? '#fff' : 'var(--ink-soft)',
-                                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                                  background: (!activeDays && q.schedule === s) ? 'var(--terracotta)' : '#fff',
+                                  color: (!activeDays && q.schedule === s) ? 'var(--ink)' : 'var(--ink-soft)',
+                                  fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
                                 }}
                               >
                                 {SCHEDULE_LABELS[s]}
@@ -1032,7 +1345,7 @@ export default function QuestManager() {
                                   border: on ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
                                   background: on ? 'var(--terracotta)' : '#fff',
                                   color: on ? 'var(--ink)' : 'var(--ink-muted)',
-                                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                                  fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
                                 }}
                               >
                                 {l}
@@ -1048,31 +1361,58 @@ export default function QuestManager() {
                             border: `1.5px solid ${q.blocks_screens ? 'var(--terracotta)' : 'var(--border)'}`,
                             background: q.blocks_screens ? 'var(--terracotta-lt)' : '#fff',
                             color: q.blocks_screens ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
-                            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
                           }}
                         >
                           📵 Screens wait{q.blocks_screens ? ' ✓' : ''}
                         </button>
                         <button onClick={() => removeQuest(q.id)} style={{
                           marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer',
-                          fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--danger)', fontWeight: 700,
+                          fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--danger)', fontWeight: 700,
                         }}>
                           Remove quest
                         </button>
                       </div>
                     )}
                   </div>
+                  )
+                }
+                return (
+                  <>
+                    {openL.map(row)}
+                    {doneL.length > 0 && (
+                      <>
+                        {/* Done today, folded away to keep the live list short */}
+                        <button
+                          onClick={() => setShowParentDone(s => !s)}
+                          style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+                            width: '100%', cursor: 'pointer', textAlign: 'left',
+                            background: 'var(--cream)', border: '1.5px solid var(--border)',
+                            borderRadius: '12px', padding: '11px 14px',
+                            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)',
+                          }}
+                        >
+                          <span>✓ {doneL.length} done today</span>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+                            {showParentDone ? 'Hide ▲' : 'Show ▼'}
+                          </span>
+                        </button>
+                        {showParentDone && doneL.map(row)}
+                      </>
+                    )}
+                  </>
                 )
-              })}
+              })()}
             </div>
           </div>
 
           {/* Routines: a whole moment of the week added in one tap */}
           <div style={card}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
               Routines
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+            <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
               Add a whole moment of the week in one tap: the school morning, the bedtime wind down, the weekend reset. Each drops in its jobs on the right days. You can edit or remove any of them after.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '10px' }}>
@@ -1083,25 +1423,40 @@ export default function QuestManager() {
                   <div key={pack.key} style={{ border: '1.5px solid var(--border)', borderRadius: '15px', padding: '13px 14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
                       <span style={{ fontSize: '1.4rem' }}>{pack.emoji}</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{pack.name}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>{pack.name}</span>
                     </div>
-                    <p style={{ fontSize: '12px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0, flex: 1 }}>{pack.blurb}</p>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--ink-muted)' }}>
-                      {pack.tasks.length} jobs{already > 0 && !allIn ? ` · ${already} already set` : ''}
+                    <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0, flex: 1 }}>{pack.blurb}</p>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: allIn ? 'var(--retro-green-dark, #2F8F6B)' : 'var(--ink-muted)' }}>
+                      {allIn ? `On · ${pack.tasks.length} jobs` : `${pack.tasks.length} jobs${already > 0 ? ` · ${already} already set` : ''}`}
                     </div>
-                    <button
-                      onClick={() => addRoutine(pack)}
-                      disabled={allIn || addingRoutine === pack.key}
-                      style={{
-                        width: '100%', padding: '10px', borderRadius: '12px', border: 'none',
-                        cursor: allIn || addingRoutine === pack.key ? 'default' : 'pointer',
-                        background: allIn ? 'var(--tint-sage)' : 'var(--terracotta)',
-                        color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
-                        boxShadow: allIn ? 'none' : '0 3px 0 var(--terracotta-dark)',
-                      }}
-                    >
-                      {allIn ? 'All set ✓' : addingRoutine === pack.key ? 'Adding…' : `Add this routine`}
-                    </button>
+                    {allIn ? (
+                      <button
+                        onClick={() => removeRoutine(pack)}
+                        disabled={removingRoutine === pack.key}
+                        style={{
+                          width: '100%', padding: '10px', borderRadius: '12px',
+                          border: '1.5px solid var(--border)', background: '#fff',
+                          cursor: removingRoutine === pack.key ? 'default' : 'pointer',
+                          color: 'var(--ink-soft)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                        }}
+                      >
+                        {removingRoutine === pack.key ? 'Turning off…' : 'Turn off'}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => addRoutine(pack)}
+                        disabled={addingRoutine === pack.key}
+                        style={{
+                          width: '100%', padding: '10px', borderRadius: '12px', border: 'none',
+                          cursor: addingRoutine === pack.key ? 'default' : 'pointer',
+                          background: 'var(--terracotta)',
+                          color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                          boxShadow: '0 3px 0 var(--terracotta-dark)',
+                        }}
+                      >
+                        {addingRoutine === pack.key ? 'Adding…' : already > 0 ? 'Finish adding' : 'Add this routine'}
+                      </button>
+                    )}
                   </div>
                 )
               })}
@@ -1110,11 +1465,11 @@ export default function QuestManager() {
 
           {/* Templates: play and outside lead, and pay the most */}
           {templatesUnused.length > 0 && (
-            <div style={card}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+            <div id="all-ideas" style={{ ...card, scrollMarginTop: '80px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
                 Play pays best
               </div>
-              <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+              <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
                 {PLAY_PAYS_WHY}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '10px', marginBottom: '18px' }}>
@@ -1131,13 +1486,13 @@ export default function QuestManager() {
                   >
                     <span style={{
                       width: 38, height: 38, borderRadius: '11px', flexShrink: 0,
-                      background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px',
+                      background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px',
                     }}>{t.emoji}</span>
                     <span style={{ flex: 1, minWidth: 0 }}>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.25 }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.25 }}>
                         {t.title}
                       </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                         ⭐ {t.stars}
                       </span>
                     </span>
@@ -1145,13 +1500,13 @@ export default function QuestManager() {
                       width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
                       background: 'var(--terracotta)', color: 'var(--ink)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', lineHeight: 1,
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', lineHeight: 1,
                       boxShadow: '0 2px 0 var(--terracotta-dark)',
                     }}>+</span>
                   </button>
                 ))}
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
                 Everyday quest ideas, tap to add
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))', gap: '10px' }}>
@@ -1168,16 +1523,16 @@ export default function QuestManager() {
                   >
                     <span style={{
                       width: 34, height: 34, borderRadius: '10px', flexShrink: 0,
-                      background: 'var(--cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '16px',
+                      background: 'var(--cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px',
                     }}>{t.emoji}</span>
-                    <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '13px', color: 'var(--ink)', lineHeight: 1.3 }}>
+                    <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.3 }}>
                       {t.title}
                     </span>
                     <span style={{
                       width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
                       background: 'var(--cream)', color: 'var(--terracotta-dark)', border: '1.5px solid var(--border)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', lineHeight: 1,
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', lineHeight: 1,
                     }}>+</span>
                   </button>
                 ))}
@@ -1191,15 +1546,16 @@ export default function QuestManager() {
                   style={{
                     flex: 1, padding: '11px 14px', borderRadius: '12px',
                     border: '1.5px solid var(--border)', background: 'var(--cream)',
-                    fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', outline: 'none',
+                    fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
                   }}
                   maxLength={120}
                 />
                 <button
                   onClick={() => { if (customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
                   style={{
-                    background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '12px',
-                    padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                    background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px',
+                    padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
+                    boxShadow: '0 3px 0 var(--terracotta-dark)',
                   }}
                 >
                   Add
@@ -1213,10 +1569,10 @@ export default function QuestManager() {
           {completed.length > 0 && (
             <div style={card}>
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '12px' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--stage-1-text)' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--stage-1-text)' }}>
                   Done and starred this week
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                   ⭐ {starsThisWeek}
                 </div>
               </div>
@@ -1232,15 +1588,15 @@ export default function QuestManager() {
                     }}>
                       <span style={{
                         width: 30, height: 30, borderRadius: '9px', flexShrink: 0, background: '#fff',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px',
                       }}>{q?.emoji ?? '⭐'}</span>
-                      <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
+                      <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px', color: 'var(--ink)' }}>
                         {q?.title ?? 'Completed quest'}
                       </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', color: 'var(--ink-muted)', flexShrink: 0 }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', color: 'var(--ink-muted)', flexShrink: 0 }}>
                         {when}
                       </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', flexShrink: 0 }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)', flexShrink: 0 }}>
                         ⭐ {q?.stars ?? 1}
                       </span>
                     </div>
@@ -1265,8 +1621,8 @@ export default function QuestManager() {
             const balance = bank?.balance ?? 0
             const childSpends = spends.filter(s => s.child_id === activeChild).slice(0, 6)
             return (
-              <div style={{ ...card, background: 'var(--deep-teal)', border: 'none' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
+              <div style={card}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
                   {child.name}&apos;s screen time bank
                 </div>
                 <div style={{ display: 'flex', gap: '18px', flexWrap: 'wrap', marginBottom: '14px' }}>
@@ -1276,14 +1632,14 @@ export default function QuestManager() {
                     { label: 'Used', value: `⭐ ${bank?.spent ?? 0}`, sub: `${(bank?.spent ?? 0) * STAR_MINUTES} min` },
                   ].map(s => (
                     <div key={s.label}>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginBottom: '2px' }}>{s.label}</div>
-                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: '#fff', lineHeight: 1.1 }}>{s.value}</div>
-                      <div style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255,255,255,0.7)' }}>{s.sub}</div>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '2px' }}>{s.label}</div>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', lineHeight: 1.1 }}>{s.value}</div>
+                      <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ink-soft)' }}>{s.sub}</div>
                     </div>
                   ))}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: '13px', fontWeight: 600, color: 'rgba(255,255,255,0.8)' }}>
+                  <span style={{ fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)' }}>
                     Screen time used:
                   </span>
                   {[15, 30, 60].map(m => (
@@ -1292,11 +1648,11 @@ export default function QuestManager() {
                       onClick={() => spendTime(m)}
                       disabled={balance <= 0}
                       style={{
-                        background: balance > 0 ? 'var(--terracotta)' : 'rgba(255,255,255,0.15)',
-                        color: balance > 0 ? 'var(--ink)' : 'rgba(255,255,255,0.5)',
+                        background: balance > 0 ? 'var(--terracotta)' : 'var(--cream)',
+                        color: balance > 0 ? 'var(--ink)' : 'var(--ink-muted)',
                         border: 'none', borderRadius: '100px', padding: '8px 14px',
                         cursor: balance > 0 ? 'pointer' : 'default',
-                        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                        fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
                         boxShadow: balance > 0 ? '0 3px 0 var(--terracotta-dark)' : 'none',
                       }}
                     >
@@ -1305,14 +1661,14 @@ export default function QuestManager() {
                   ))}
                 </div>
                 {spendMsg && (
-                  <p style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--terracotta)', margin: '10px 0 0' }}>
+                  <p style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--terracotta-dark)', margin: '10px 0 0' }}>
                     {spendMsg}
                   </p>
                 )}
                 {childSpends.length > 0 && (
-                  <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+                  <div style={{ marginTop: '14px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
                     {childSpends.map(s => (
-                      <p key={s.id} style={{ fontSize: '12.5px', color: 'rgba(255,255,255,0.75)', margin: '0 0 4px', lineHeight: 1.5 }}>
+                      <p key={s.id} style={{ fontSize: '14.5px', color: 'var(--ink-soft)', margin: '0 0 4px', lineHeight: 1.5 }}>
                         {s.minutes > 0 ? `${s.minutes} min used` : (s.note ?? 'Reward')} · ⭐ {s.stars} · {new Date(s.created_at).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}
                       </p>
                     ))}
@@ -1323,17 +1679,17 @@ export default function QuestManager() {
           })()}
 
           {/* Star goal */}
-          <div style={card}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+          <div id="star-goal" style={card}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
               What the stars buy
             </div>
             {goal ? (
-              <p style={{ fontSize: '14px', color: 'var(--ink)', margin: '0 0 12px' }}>
+              <p style={{ fontSize: '16px', color: 'var(--ink)', margin: '0 0 12px' }}>
                 Current goal: <strong>{goal.title}</strong> at ⭐ {goal.stars_needed}
                 {goal.daily_stars ? <> with a day goal of ⭐ {goal.daily_stars}</> : null}. Set a new one below to replace it.
               </p>
             ) : (
-              <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
+              <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
                 Agree it together: the Saturday film, an hour of Minecraft, the swimming trip. The agreement makes it official.
               </p>
             )}
@@ -1345,7 +1701,7 @@ export default function QuestManager() {
                 style={{
                   flex: 2, minWidth: '160px', padding: '11px 14px', borderRadius: '12px',
                   border: '1.5px solid var(--border)', background: 'var(--cream)',
-                  fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', outline: 'none',
+                  fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
                 }}
                 maxLength={120}
               />
@@ -1356,14 +1712,14 @@ export default function QuestManager() {
                 style={{
                   width: '76px', padding: '11px 14px', borderRadius: '12px',
                   border: '1.5px solid var(--border)', background: 'var(--cream)',
-                  fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)', outline: 'none', textAlign: 'center',
+                  fontFamily: 'var(--font-mono)', fontSize: '16px', color: 'var(--ink)', outline: 'none', textAlign: 'center',
                 }}
               />
               <button
                 onClick={saveGoal}
                 style={{
                   background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px',
-                  padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                  padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
                   boxShadow: '0 3px 0 var(--terracotta-dark)',
                 }}
               >
@@ -1372,7 +1728,7 @@ export default function QuestManager() {
             </div>
             {/* Day goal: enough stars in one day completes the day */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginTop: '12px' }}>
-              <span style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+              <span style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
                 Day goal, stars that finish the day:
               </span>
               <input
@@ -1384,10 +1740,10 @@ export default function QuestManager() {
                 style={{
                   width: '64px', padding: '9px 12px', borderRadius: '12px',
                   border: '1.5px solid var(--border)', background: 'var(--cream)',
-                  fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)', outline: 'none', textAlign: 'center',
+                  fontFamily: 'var(--font-mono)', fontSize: '16px', color: 'var(--ink)', outline: 'none', textAlign: 'center',
                 }}
               />
-              <span style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>
+              <span style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>
                 Hit it and their page says the day is complete
               </span>
             </div>
@@ -1398,31 +1754,37 @@ export default function QuestManager() {
 
           {tab === 'share' && (
           <>
+          {/* Share to this child: the QR leads, the fastest hand over there
+              is. Point their device at it and their app opens, no typing. */}
+          {link && <ChildLinkShare token={link.token} childName={child.name} ageBand={child.age_band} useMode={child.use_mode} onSetMode={setUseMode} />}
+
           {/* Hand it over */}
           <div style={{ ...card, background: 'var(--tint-blue)', border: '1.5px solid var(--border)' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '10px' }}>
               Hand the quests over
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px' }}>
-              Older kids get their own private quest page: send the link by message, it opens like a mini app, nothing to install. Little ones get the printed sheet for the fridge.
+            <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
+              Older kids get their own private page, sent by message. Little ones get the printed sheet for the fridge.
             </p>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               {link ? (
                 <button
-                  onClick={shareLink}
+                  onClick={() => setShowQr(true)}
                   style={{
-                    background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '14px',
-                    padding: '12px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+                    background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '14px',
+                    padding: '12px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
+                    boxShadow: '0 3px 0 var(--terracotta-dark)',
                   }}
                 >
-                  {copied ? 'Link copied ✓' : `Send ${child.name} their link`}
+                  Send {child.name} their link
                 </button>
               ) : (
                 <button
                   onClick={getLink}
                   style={{
-                    background: 'var(--deep-teal)', color: '#fff', border: 'none', borderRadius: '14px',
-                    padding: '12px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+                    background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '14px',
+                    padding: '12px 20px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
+                    boxShadow: '0 3px 0 var(--terracotta-dark)',
                   }}
                 >
                   Create {child.name}&apos;s quest link
@@ -1437,7 +1799,7 @@ export default function QuestManager() {
                     display: 'inline-flex', alignItems: 'center', gap: '7px',
                     background: '#25D366', color: '#fff', borderRadius: '14px',
                     padding: '12px 20px', textDecoration: 'none',
-                    fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+                    fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
                   }}
                 >
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -1452,7 +1814,7 @@ export default function QuestManager() {
                   display: 'inline-flex', alignItems: 'center',
                   background: '#fff', color: 'var(--ink)', borderRadius: '14px',
                   padding: '12px 20px', textDecoration: 'none', border: '1.5px solid var(--border)',
-                  fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+                  fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
                 }}
               >
                 Print the sheet
@@ -1463,7 +1825,7 @@ export default function QuestManager() {
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
                   background: 'var(--butter, #EDC35F)', color: 'var(--ink)', borderRadius: '14px',
                   padding: '12px 20px', textDecoration: 'none',
-                  fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+                  fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
                   boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
                 }}
               >
@@ -1475,7 +1837,7 @@ export default function QuestManager() {
                 to their Messages thread, sent from YOUR phone, nothing sent
                 by us directly */}
             <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                 {child.name}&apos;s phone (optional)
               </div>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -1487,7 +1849,7 @@ export default function QuestManager() {
                   style={{
                     flex: 1, minWidth: '150px', padding: '10px 14px', borderRadius: '12px',
                     border: '1.5px solid var(--border)', background: '#fff',
-                    fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)', outline: 'none',
+                    fontFamily: 'var(--font-mono)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
                   }}
                   maxLength={20}
                 />
@@ -1496,7 +1858,7 @@ export default function QuestManager() {
                     onClick={pickContact}
                     style={{
                       background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
-                      padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-soft)',
+                      padding: '10px 14px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink-soft)',
                     }}
                   >
                     From contacts
@@ -1506,7 +1868,7 @@ export default function QuestManager() {
                   onClick={savePhone}
                   style={{
                     background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
-                    padding: '10px 16px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-soft)',
+                    padding: '10px 16px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink-soft)',
                   }}
                 >
                   {phoneSaved ? 'Saved ✓' : 'Save'}
@@ -1518,7 +1880,7 @@ export default function QuestManager() {
                       display: 'inline-flex', alignItems: 'center',
                       background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px',
                       padding: '10px 16px', textDecoration: 'none',
-                      fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                      fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
                       boxShadow: '0 3px 0 var(--terracotta-dark)',
                     }}
                   >
@@ -1528,23 +1890,74 @@ export default function QuestManager() {
               </div>
             </div>
 
+            {/* Daily screen time limit: what the child's app shows used against
+                and never offers past. Defaults to the healthy age guide, which
+                we show so a parent never sets it higher without meaning to. */}
+            {(() => {
+              const rec = recommendedDailyMinutes(child.age_band)
+              const current = child.daily_limit_minutes ?? null
+              const draftVal = limitDraft !== '' ? limitDraft : (current != null ? String(current) : '')
+              return (
+                <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                    {child.name}&apos;s daily screen time limit
+                  </div>
+                  <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
+                    Recommended for {bandLabelFor(child.age_band)}: <strong style={{ color: 'var(--ink)' }}>{rec} minutes a day</strong>. This is what {child.name}&apos;s app counts against, and it never offers more than this in a day. {current == null ? 'Using the recommendation.' : `Your limit: ${current} min.`}
+                  </p>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                    <input
+                      value={draftVal}
+                      onChange={e => setLimitDraft(e.target.value.replace(/[^0-9]/g, '').slice(0, 3))}
+                      placeholder={`${rec}`}
+                      inputMode="numeric"
+                      style={{
+                        width: '90px', padding: '10px 14px', borderRadius: '12px',
+                        border: '1.5px solid var(--border)', background: '#fff',
+                        fontFamily: 'var(--font-mono)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
+                      }}
+                      maxLength={3}
+                    />
+                    <span style={{ fontSize: '15px', color: 'var(--ink-soft)' }}>min a day</span>
+                    <button
+                      onClick={() => { const n = parseInt(draftVal, 10); saveDailyLimit(Number.isFinite(n) && n > 0 ? n : null); setLimitDraft('') }}
+                      style={{
+                        background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
+                        padding: '10px 16px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink-soft)',
+                      }}
+                    >
+                      {limitSaved ? 'Saved ✓' : 'Save'}
+                    </button>
+                    {current != null && (
+                      <button
+                        onClick={() => { saveDailyLimit(null); setLimitDraft('') }}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'underline' }}
+                      >
+                        Use recommended
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )
+            })()}
+
             {/* Ping their phone right now, through the quest page reminders */}
             <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                 Ping {child.name}&apos;s phone now
               </div>
-              <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
+              <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
                 One tap and it buzzes on their phone. Works once they have opened their quest link and turned on reminders.
               </p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Turn the TV off please', 'Time to start your homework', 'Dinner in 10 minutes, start wrapping up', 'Please come downstairs'].map(msg => (
+                {['You can watch now, you earned it ⭐', 'Please finish your chores first', 'Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Turn the TV off please', 'Time to start your homework', 'Dinner in 10 minutes, start wrapping up', 'Please come downstairs', 'Time for bed now please'].map(msg => (
                   <button
                     key={msg}
                     onClick={() => sendPing(msg)}
                     style={{
                       background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
                       padding: '9px 14px', cursor: 'pointer', fontFamily: 'var(--font-body)',
-                      fontSize: '12.5px', fontWeight: 600, color: 'var(--ink)', textAlign: 'left',
+                      fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)', textAlign: 'left',
                     }}
                   >
                     {msg.length > 34 ? msg.slice(0, 31) + '...' : msg}
@@ -1564,7 +1977,7 @@ export default function QuestManager() {
                   style={{
                     flex: 1, minWidth: 0, padding: '10px 12px', borderRadius: '12px',
                     border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)',
-                    fontSize: '13px', color: 'var(--ink)', background: '#fff',
+                    fontSize: '15px', color: 'var(--ink)', background: '#fff',
                   }}
                 />
                 <button
@@ -1574,7 +1987,7 @@ export default function QuestManager() {
                     flexShrink: 0, background: pingDraft.trim() ? 'var(--terracotta)' : 'var(--border)',
                     color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '10px 16px',
                     cursor: pingDraft.trim() ? 'pointer' : 'default',
-                    fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                    fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
                     boxShadow: pingDraft.trim() ? '0 3px 0 var(--terracotta-dark)' : 'none',
                   }}
                 >
@@ -1582,16 +1995,13 @@ export default function QuestManager() {
                 </button>
               </form>
               {pingResult && (
-                <p style={{ fontSize: '12.5px', color: pingResult.startsWith('Ping sent') ? 'var(--terracotta-dark)' : 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.55, margin: '10px 0 0' }}>
+                <p style={{ fontSize: '14.5px', color: pingResult.startsWith('Ping sent') ? 'var(--terracotta-dark)' : 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.55, margin: '10px 0 0' }}>
                   {pingResult}
                 </p>
               )}
             </div>
           </div>
 
-          {/* More ways to share: QR, copy, email, and co-view on this device,
-              for no phone, no WhatsApp, or a very young child. */}
-          {link && <ChildLinkShare token={link.token} childName={child.name} ageBand={child.age_band} useMode={child.use_mode} onSetMode={setUseMode} />}
           </>
           )}
         </>
@@ -1624,10 +2034,10 @@ function ParentTimePill({ session, childName }: { session: Session; childName: s
     }}>
       <span style={{ fontSize: '1.6rem', flexShrink: 0 }}>{deviceEmoji(session.device)}</span>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>
           {childName} is on the {deviceLabel(session.device)}
         </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)' }}>
           {session.stars} star{session.stars === 1 ? '' : 's'} spent · {session.minutes} min booked
         </div>
       </div>
@@ -1659,17 +2069,17 @@ function GamesTab({ stageKey, childName, childId, onShare }: {
   const [shared, setShared] = useState<string | null>(null)
   return (
     <div>
-      <div style={{ ...card, background: 'var(--deep-teal)', border: 'none', color: '#fff' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+      <div style={{ ...card, color: 'var(--ink)' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
           {childName}&apos;s games · {label.name} · {label.ages}
         </div>
-        <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, margin: 0 }}>
+        <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
           These are {childName}&apos;s games, already on their quest link and matched to their stage. Every one teaches something real and pays stars into their bank. Preview any to see what they will play, or send one to nudge them to play it now.
         </p>
       </div>
 
       {games.length === 0 ? (
-        <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
+        <p style={{ fontSize: '15px', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
           More games for this stage are on the way. In the meantime the daily deck and quests keep the stars coming.
         </p>
       ) : (
@@ -1682,14 +2092,14 @@ function GamesTab({ stageKey, childName, childId, onShare }: {
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
                 <span style={{ fontSize: '1.7rem', flexShrink: 0 }}>{g.emoji}</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.2 }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.2 }}>
                   {g.title}
                 </span>
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
                 {g.stage} · ⭐ {g.stars} · On their link
               </div>
-              <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px', flex: 1 }}>
+              <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px', flex: 1 }}>
                 {g.blurb}
               </p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -1700,7 +2110,7 @@ function GamesTab({ stageKey, childName, childId, onShare }: {
                     textDecoration: 'none', cursor: childId ? 'pointer' : 'default',
                     background: shared === g.key ? 'var(--tint-sage)' : 'var(--terracotta)', color: 'var(--ink)',
                     border: 'none', borderRadius: '12px', padding: '9px 16px',
-                    fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 800,
+                    fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
                     boxShadow: shared === g.key ? 'none' : '0 3px 0 var(--terracotta-dark)',
                     opacity: childId ? 1 : 0.6,
                   }}
@@ -1711,7 +2121,7 @@ function GamesTab({ stageKey, childName, childId, onShare }: {
                   href={`/dashboard/quests/play/${g.key}`}
                   style={{
                     textDecoration: 'none', alignSelf: 'center',
-                    fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700,
+                    fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700,
                     color: 'var(--ink-soft)', padding: '6px 4px',
                   }}
                 >

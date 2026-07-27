@@ -12,7 +12,7 @@ import DigiCharacter from '@/components/digi/DigiCharacter'
 // described paper twin in the teacher notes for the no device room.
 
 const eyebrow: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
   letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)',
 }
 
@@ -59,7 +59,7 @@ function VerdictSort({ config }: { config: { verdicts?: string[]; posts?: SortPo
       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '18px', flexWrap: 'wrap' }}>
         {verdicts.map((v, i) => (
           <span key={v} style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
             color: 'var(--ink)', background: 'var(--stage-1)', border: '1.5px solid var(--stage-1-bold)',
             borderRadius: '100px', padding: '6px 14px',
           }}>
@@ -72,7 +72,7 @@ function VerdictSort({ config }: { config: { verdicts?: string[]; posts?: SortPo
         <div style={{ padding: '30px 0' }}>
           <div style={{ fontSize: '38px', marginBottom: '8px' }}>🕵️</div>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: '4px' }}>Feed sorted!</p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-soft)' }}>Every card got a verdict and a reason. That is the whole skill.</p>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-soft)' }}>Every card got a verdict and a reason. That is the whole skill.</p>
         </div>
       ) : (
         <>
@@ -82,16 +82,16 @@ function VerdictSort({ config }: { config: { verdicts?: string[]; posts?: SortPo
             boxShadow: '0 6px 0 var(--border)', textAlign: 'left',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-              <span style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>{post.avatar}</span>
-              <span style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)' }}>{post.handle}</span>
-              <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)' }}>{index + 1} of {posts.length}</span>
+              <span style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>{post.avatar}</span>
+              <span style={{ fontFamily: 'var(--font-body)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>{post.handle}</span>
+              <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)' }}>{index + 1} of {posts.length}</span>
             </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55 }}>{post.text}</p>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.55 }}>{post.text}</p>
           </div>
           <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
             {verdicts.map((v, i) => (
               <button key={v} onClick={() => pick(i)} disabled={picked !== null} style={{
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', cursor: 'pointer',
                 color: '#fff', background: i === 0 ? 'var(--green-dark)' : i === verdicts.length - 1 ? 'var(--coral, #D4600A)' : 'var(--terracotta)',
                 border: 'none', borderRadius: '14px', padding: '12px 18px',
                 boxShadow: '0 4px 0 rgba(0,0,0,0.18)', opacity: picked !== null ? 0.5 : 1,
@@ -139,17 +139,17 @@ function SignalMeter({ config }: { config: { actions?: SignalAction[]; caption?:
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px', maxWidth: '440px', margin: '0 auto' }}>
         {actions.map(a => (
           <button key={a.label} onClick={() => tap(a.weight)} style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', cursor: 'pointer',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', cursor: 'pointer',
             color: 'var(--ink)', background: '#fff', border: '2px solid var(--border)', borderRadius: '16px',
             padding: '14px 12px', display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center',
           }}>
             <span style={{ fontSize: '22px' }}>{a.emoji}</span>
             {a.label}
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)' }}>+{a.weight} signal</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)' }}>+{a.weight} signal</span>
           </button>
         ))}
       </div>
-      {config.caption && <p style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '420px', margin: '18px auto 0' }}>{config.caption}</p>}
+      {config.caption && <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '420px', margin: '18px auto 0' }}>{config.caption}</p>}
     </div>
   )
 }
@@ -179,7 +179,7 @@ function StarBreath({ config }: { config: { seconds?: number } }) {
       <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 3.4vw, 1.8rem)', color: 'var(--terracotta)', letterSpacing: '-0.01em' }}>
         {phase}
       </p>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', marginTop: '6px' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', marginTop: '6px' }}>
         Follow the star. In as it grows, out as it shrinks.
       </p>
     </div>
@@ -264,8 +264,8 @@ function FeedLoop({ config }: { config: { laps?: number } }) {
             background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px',
             padding: '8px 10px', width: '108px',
           }}>
-            <div style={{ fontSize: '18px' }}>{n.emoji}</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '10.5px', color: 'var(--ink)', lineHeight: 1.25 }}>{n.label}</div>
+            <div style={{ fontSize: '20px' }}>{n.emoji}</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12.5px', color: 'var(--ink)', lineHeight: 1.25 }}>{n.label}</div>
           </div>
         ))}
       </div>
@@ -274,16 +274,16 @@ function FeedLoop({ config }: { config: { laps?: number } }) {
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--coral, #D4600A)', marginBottom: '4px' }}>
             The bubble just closed.
           </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-soft)', maxWidth: '380px', margin: '0 auto 14px', lineHeight: 1.6 }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', maxWidth: '380px', margin: '0 auto 14px', lineHeight: 1.6 }}>
             Four laps, each faster than the last, and now the feed only shows more of the same. Knowing the recipe is how you open it back up.
           </p>
-          <button onClick={reset} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', cursor: 'pointer', color: 'var(--ink)', background: '#fff', border: '2px solid var(--border)', borderRadius: '14px', padding: '11px 20px' }}>
+          <button onClick={reset} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', cursor: 'pointer', color: 'var(--ink)', background: '#fff', border: '2px solid var(--border)', borderRadius: '14px', padding: '11px 20px' }}>
             Run it again
           </button>
         </>
       ) : (
         <button onClick={start} disabled={running} style={{
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', cursor: 'pointer',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', cursor: 'pointer',
           color: 'var(--ink)', background: 'var(--terracotta)', border: 'none', borderRadius: '14px',
           padding: '12px 24px', boxShadow: '0 4px 0 var(--terracotta-dark, #C99A28)', opacity: running ? 0.6 : 1,
         }}>
@@ -336,40 +336,40 @@ function SpreadRace({ config }: { config: { calm?: boolean } }) {
       <div style={{ maxWidth: '460px', margin: '0 auto 14px', textAlign: 'left' }}>
         <div style={lane}>
           <div ref={outrageRef} style={racer}>
-            <span style={{ fontSize: '20px' }}>😡</span>
+            <span style={{ fontSize: '22px' }}>😡</span>
             <span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px', color: 'var(--ink)' }}>THEY are lying to you!!</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--coral, #D4600A)', fontWeight: 700 }}>↻ {shares.outrage.toLocaleString()}</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>THEY are lying to you!!</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--coral, #D4600A)', fontWeight: 700 }}>↻ {shares.outrage.toLocaleString()}</span>
             </span>
           </div>
         </div>
         <div style={lane}>
           <div ref={honestRef} style={racer}>
-            <span style={{ fontSize: '20px' }}>📰</span>
+            <span style={{ fontSize: '22px' }}>📰</span>
             <span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px', color: 'var(--ink)' }}>Careful, sourced report</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--green-dark, #2E7D5A)', fontWeight: 700 }}>↻ {shares.honest.toLocaleString()}</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>Careful, sourced report</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--green-dark, #2E7D5A)', fontWeight: 700 }}>↻ {shares.honest.toLocaleString()}</span>
             </span>
           </div>
         </div>
       </div>
       {phase === 'ready' && (
-        <button onClick={() => run(false)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', cursor: 'pointer', color: 'var(--ink)', background: 'var(--terracotta)', border: 'none', borderRadius: '14px', padding: '12px 24px', boxShadow: '0 4px 0 var(--terracotta-dark, #C99A28)' }}>
+        <button onClick={() => run(false)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', cursor: 'pointer', color: 'var(--ink)', background: 'var(--terracotta)', border: 'none', borderRadius: '14px', padding: '12px 24px', boxShadow: '0 4px 0 var(--terracotta-dark, #C99A28)' }}>
           Run the race
         </button>
       )}
       {phase === 'done' && (
         <>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', maxWidth: '400px', margin: '0 auto 12px', lineHeight: 1.6 }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', maxWidth: '400px', margin: '0 auto 12px', lineHeight: 1.6 }}>
             <strong>The outrage post wins by miles.</strong> Not because it is true, because reactions are the fuel. Now calm the reactions: what if people paused instead of raging?
           </p>
-          <button onClick={() => run(true)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', cursor: 'pointer', color: '#fff', background: 'var(--green-dark, #2E7D5A)', border: 'none', borderRadius: '14px', padding: '12px 24px', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}>
+          <button onClick={() => run(true)} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', cursor: 'pointer', color: '#fff', background: 'var(--green-dark, #2E7D5A)', border: 'none', borderRadius: '14px', padding: '12px 24px', boxShadow: '0 4px 0 rgba(0,0,0,0.2)' }}>
             Calm the reactions, race again
           </button>
         </>
       )}
       {dampened && (
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink)', maxWidth: '400px', margin: '0 auto', lineHeight: 1.6 }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', maxWidth: '400px', margin: '0 auto', lineHeight: 1.6 }}>
           <strong>Look at the race now.</strong> When people pause instead of react, the fake loses its engine. Your pause is not nothing, it is the brake.
         </p>
       )}
@@ -400,22 +400,22 @@ function ClassTally({ config }: { config: { question?: string; options?: string[
           const pct = total > 0 ? (counts[i] / total) * 100 : 0
           return (
             <div key={opt} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <button onClick={() => bump(i, -1)} aria-label={`One fewer for ${opt}`} style={{ width: '34px', height: '34px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontWeight: 900, fontSize: '16px', cursor: 'pointer', color: 'var(--ink-muted)', flexShrink: 0 }}>−</button>
+              <button onClick={() => bump(i, -1)} aria-label={`One fewer for ${opt}`} style={{ width: '34px', height: '34px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontWeight: 900, fontSize: '18px', cursor: 'pointer', color: 'var(--ink-muted)', flexShrink: 0 }}>−</button>
               <div style={{ flex: 1, textAlign: 'left' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)' }}>{opt}</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)' }}>{counts[i]}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>{opt}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink-muted)' }}>{counts[i]}</span>
                 </div>
                 <div style={{ height: '12px', borderRadius: '100px', background: 'var(--border)', overflow: 'hidden' }}>
                   <div style={{ height: '100%', width: `${pct}%`, borderRadius: '100px', background: 'linear-gradient(90deg, var(--terracotta), var(--coral, #D4600A))', transition: 'width 0.45s cubic-bezier(0.22,1,0.36,1)' }} />
                 </div>
               </div>
-              <button onClick={() => bump(i, 1)} aria-label={`One more for ${opt}`} style={{ width: '44px', height: '44px', borderRadius: '12px', border: 'none', background: 'var(--terracotta)', fontWeight: 900, fontSize: '20px', cursor: 'pointer', color: 'var(--ink)', boxShadow: '0 3px 0 var(--terracotta-dark, #C99A28)', flexShrink: 0 }}>+</button>
+              <button onClick={() => bump(i, 1)} aria-label={`One more for ${opt}`} style={{ width: '44px', height: '44px', borderRadius: '12px', border: 'none', background: 'var(--terracotta)', fontWeight: 900, fontSize: '22px', cursor: 'pointer', color: 'var(--ink)', boxShadow: '0 3px 0 var(--terracotta-dark, #C99A28)', flexShrink: 0 }}>+</button>
             </div>
           )
         })}
       </div>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', marginTop: '14px' }}>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)', marginTop: '14px' }}>
         {total} hand{total === 1 ? '' : 's'} counted
       </p>
     </div>
@@ -436,12 +436,12 @@ export default function Interactive({ component, config, caption }: { component:
   const Comp = INTERACTIVES[component]
   if (!Comp) {
     // Unknown key: degrade to the caption so an ahead of deploy database never breaks a lesson.
-    return caption ? <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', textAlign: 'center', padding: '20px' }}>{caption}</p> : null
+    return caption ? <p style={{ fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', textAlign: 'center', padding: '20px' }}>{caption}</p> : null
   }
   return (
     <div>
       <Comp config={config ?? {}} />
-      {caption && <p style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.6, maxWidth: '420px', margin: '18px auto 0' }}>{caption}</p>}
+      {caption && <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.6, maxWidth: '420px', margin: '18px auto 0' }}>{caption}</p>}
     </div>
   )
 }

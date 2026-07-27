@@ -4,6 +4,8 @@ import { hasFullAccess } from '@/lib/access'
 import { freeLessonIds } from '@/lib/content/lesson-access'
 import { getParentLessons, getCompletionsForChild, durationLabel } from '@/lib/lessons/parent-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { keyStageFor, strandFor } from '@/lib/content/curriculum-badges'
+import { lessonCoverForTitle, lessonCoverForAiCategory } from '@/lib/content/lesson-covers'
 import { PRINTABLES } from '@/lib/printables/registry'
 import LessonsBrowser, { type WatchItem, type LibraryItem } from './LessonsBrowser'
 
@@ -30,9 +32,47 @@ const AUDIENCE_TO_STAGE: Record<string, string> = {
   age_7: 'foundation', age_9: 'builder', age_11: 'explorer', age_13: 'shaper', age_16: 'independent',
 }
 
-type LessonRow = { id: string; stageKey: string; category: string; title: string; key_message: string; sort_order: number; source: 'lesson' | 'ai' }
+// The Social Media Ready module: the dedicated spine for the one topic parents
+// worry about most, pulled from across the stages into a single ramp from ages
+// 8 to 16 and beyond. Curated by title so it gathers the deep social media
+// lessons wherever they sit (the algorithm lives under AI, group chats under
+// safety), not just the ones tagged 'social media'. Ordered by stage on the
+// module page, so it reads as concepts before accounts, then settings, then
+// dangers, then safe use and the handover at 16.
+const SOCIAL_MEDIA_MODULE = new Set([
+  'what social media really is',
+  'the feed is built to hold you',
+  'before you make an account',
+  'real life is not a highlight reel',
+  'followers are not friends',
+  'when the group chat turns',
+  'built to be bottomless',
+  'the settings that keep you private',
+  'the footprint test',
+  'when someone asks for a photo',
+  'the honest check on your mood',
+  'take back your notifications',
+  'your accounts, your locks',
+  'the money machine behind the feed',
+  'taking the wheel at 16',
+])
+const normaliseTitle = (t: string) => t.trim().toLowerCase().replace(/’/g, "'")
 
-export default async function LessonsPage() {
+// deep = the full seven beat Rosenshine deck (five or more slides). These are
+// the qualifying route for a stage's stamp; the thinner lessons and the AI
+// modules ride along as linked bonus. coverUrl is resolved here, where the raw
+// title and AI category are both to hand, so every tile shows a real drawn
+// badge rather than the fallback emoji.
+type LessonRow = { id: string; stageKey: string; category: string; title: string; key_message: string; sort_order: number; source: 'lesson' | 'ai'; coverUrl: string | null; deep: boolean }
+
+export default async function LessonsPage({ searchParams }: { searchParams: Promise<{ stage?: string }> }) {
+  // A ?stage=<1..5> deep link (from the passport rows and the road) opens the
+  // library straight on that stage's route, so "Watch the lessons" lands
+  // exactly where the work is, not on a generic all ages grid.
+  const { stage: stageParam } = await searchParams
+  const stageNum = Number(stageParam)
+  const initialStage = Number.isInteger(stageNum) && stageNum >= 1 && stageNum <= 5 ? stageNum : null
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -44,9 +84,9 @@ export default async function LessonsPage() {
 
   const [{ data: profile }, { data: lessonsData }, { data: aiLessonsData }, { data: completionsData }, watch, watchCompletions] = await Promise.all([
     supabase.from('profiles').select('full_name, subscription_status, trial_ends_at').eq('id', user.id).maybeSingle(),
-    supabase.from('lessons').select('id, stage_id, category, title, key_message, sort_order').eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
+    supabase.from('lessons').select('id, stage_id, category, title, key_message, sort_order, slides').eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, audience, category, title, key_message, sort_order').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']).order('sort_order', { ascending: true }),
-    supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', user.id).in('lesson_source', ['lesson', 'ai_lesson']),
+    supabase.from('lesson_completions').select('lesson_id, lesson_source, score, passed').eq('user_id', user.id).in('lesson_source', ['lesson', 'ai_lesson']),
     getParentLessons(supabase),
     child ? getCompletionsForChild(supabase, child.id) : Promise.resolve(new Map()),
   ])
@@ -54,25 +94,48 @@ export default async function LessonsPage() {
   const isPaid = hasFullAccess(profile, user.email)
 
   // ── Interactive library, flattened for the browser ──
-  const generalLessons: LessonRow[] = (lessonsData ?? []).map(l => ({ id: l.id, stageKey: l.stage_id, category: l.category, title: l.title, key_message: l.key_message, sort_order: l.sort_order, source: 'lesson' as const }))
-  const aiLessons: LessonRow[] = (aiLessonsData ?? []).map(l => ({ id: l.id, stageKey: AUDIENCE_TO_STAGE[l.audience], category: 'ai_literacy', title: l.title, key_message: l.key_message, sort_order: l.sort_order, source: 'ai' as const }))
+  const generalLessons: LessonRow[] = (lessonsData ?? []).map(l => {
+    const slides = (l as { slides?: unknown }).slides
+    const deep = Array.isArray(slides) && slides.length >= 5
+    return { id: l.id, stageKey: l.stage_id, category: l.category, title: l.title, key_message: l.key_message, sort_order: l.sort_order, source: 'lesson' as const, coverUrl: lessonCoverForTitle(l.title), deep }
+  })
+  const aiLessons: LessonRow[] = (aiLessonsData ?? []).map(l => ({ id: l.id, stageKey: AUDIENCE_TO_STAGE[l.audience], category: 'ai_literacy', title: l.title, key_message: l.key_message, sort_order: l.sort_order, source: 'ai' as const, coverUrl: lessonCoverForAiCategory(l.category) ?? lessonCoverForTitle(l.title), deep: false }))
   const allLessons = [...generalLessons, ...aiLessons]
   const freeIds = freeLessonIds(generalLessons.map(l => ({ ...l, stage_id: l.stageKey })))
+  // A lesson shows as done once its end of lesson check was passed; a failed
+  // run stays open to retake. Any completion, passed or not, keeps a lesson
+  // unlocked so a near miss never re-locks a lesson already opened.
   const completedLessonIds = new Set((completionsData ?? []).filter(c => c.lesson_source === 'lesson').map(c => c.lesson_id))
-  const completedAiIds = new Set((completionsData ?? []).filter(c => c.lesson_source === 'ai_lesson').map(c => c.lesson_id))
+  const passedScore = (src: 'lesson' | 'ai_lesson') =>
+    new Map((completionsData ?? []).filter(c => c.lesson_source === src && c.passed !== false).map(c => [c.lesson_id, c.score as number | null]))
+  const passedLessons = passedScore('lesson')
+  const passedAi = passedScore('ai_lesson')
+  // A genuine attempt that did not pass: the lesson reads as "attempted, retake"
+  // rather than fresh, so a near miss is honest and inviting.
+  const attemptedSet = (src: 'lesson' | 'ai_lesson') =>
+    new Set((completionsData ?? []).filter(c => c.lesson_source === src && c.passed === false).map(c => c.lesson_id))
+  const attemptedLessons = attemptedSet('lesson')
+  const attemptedAi = attemptedSet('ai_lesson')
 
   const libraryItems: LibraryItem[] = allLessons
     .sort((a, b) => a.sort_order - b.sort_order)
     .map(l => {
       const meta = STAGE_META[l.stageKey]
-      const done = l.source === 'ai' ? completedAiIds.has(l.id) : completedLessonIds.has(l.id)
+      const passMap = l.source === 'ai' ? passedAi : passedLessons
+      const attemptedSetForSrc = l.source === 'ai' ? attemptedAi : attemptedLessons
+      const done = passMap.has(l.id)
+      const attempted = !done && attemptedSetForSrc.has(l.id)
       const locked = l.source === 'lesson' && !isPaid && !freeIds.has(l.id) && !completedLessonIds.has(l.id)
       return {
         id: `${l.source}-${l.id}`,
         href: l.source === 'ai' ? `/dashboard/ai-module/${l.id}` : `/dashboard/lessons/${l.id}`,
         stageNum: meta?.num ?? 2, stageLabel: meta?.label ?? '', stageAges: meta?.ages ?? '',
         categoryLabel: CATEGORY_LABEL[l.category] ?? l.category,
-        title: l.title, keyMessage: l.key_message, locked, done,
+        title: l.title, keyMessage: l.key_message, locked, done, attempted,
+        score: done ? passMap.get(l.id) ?? null : null,
+        ks: keyStageFor(l.stageKey), strand: strandFor(l.category),
+        coverUrl: l.coverUrl, deep: l.deep,
+        module: l.source === 'lesson' && SOCIAL_MEDIA_MODULE.has(normaliseTitle(l.title)),
       }
     })
     .filter(l => l.stageNum)
@@ -90,8 +153,8 @@ export default async function LessonsPage() {
     <div style={{ maxWidth: '760px', margin: '0 auto', padding: '20px 20px 48px' }}>
       <div style={{ marginBottom: '4px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Every lesson, one place</p>
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>Lessons</h1>
-        <p style={{ color: 'var(--ink-soft)', fontSize: '15px', lineHeight: 1.6, marginBottom: '14px' }}>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>Lessons</h1>
+        <p style={{ color: 'var(--ink-soft)', fontSize: '17px', lineHeight: 1.6, marginBottom: '14px' }}>
           Films to watch with {childName}, lessons you lead, and sheets to print. Switch between them below.
         </p>
       </div>
@@ -104,6 +167,8 @@ export default async function LessonsPage() {
         libraryItems={libraryItems}
         printables={PRINTABLES}
         isPaid={isPaid}
+        initialStage={initialStage}
+        initialView={initialStage ? 'library' : undefined}
       />
     </div>
   )

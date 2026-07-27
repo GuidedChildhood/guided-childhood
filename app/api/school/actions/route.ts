@@ -74,14 +74,27 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  const { id, status } = await req.json()
-  if (!id || !['done', 'dismissed'].includes(status)) {
-    return NextResponse.json({ error: 'missing or invalid id / status' }, { status: 400 })
-  }
+  const { id, status, clear_today } = await req.json()
+  if (!id) return NextResponse.json({ error: 'missing id' }, { status: 400 })
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
+  // Clear a weekly routine for today only: it stays open and comes back on its
+  // next day, rather than being marked done or removed. The date is stamped
+  // server side so a client clock can never fake it.
+  if (clear_today === true) {
+    const today = new Date().toISOString().slice(0, 10)
+    const { error } = await supabase
+      .from('school_actions').update({ cleared_on: today }).eq('id', id).eq('user_id', user.id)
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    return NextResponse.json({ ok: true })
+  }
+
+  if (!['done', 'dismissed'].includes(status)) {
+    return NextResponse.json({ error: 'missing or invalid id / status' }, { status: 400 })
+  }
   const { error } = await supabase
     .from('school_actions').update({ status }).eq('id', id).eq('user_id', user.id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

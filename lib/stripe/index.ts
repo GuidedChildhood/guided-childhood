@@ -25,10 +25,16 @@ export const STRIPE_PRICES = {
 
 export const FOUNDER_CAP = 50
 
+// The authoritative founder seat count, read from Stripe itself so the public
+// counter and the checkout cap gate share one source and can never drift. A
+// founder holds their seat while active OR trialing: the card is collected at
+// checkout, so a trial founder has genuinely claimed a place. Only canceled or
+// past due subscriptions free a seat back up. Counting active only used to let
+// extra founders slip in during their trials.
 export async function getFounderCount(): Promise<number> {
   const result = await client().subscriptions.search({
-    query: `status:'active' AND metadata['tier']:'founder'`,
+    query: `metadata['tier']:'founder'`,
     limit: 100,
   })
-  return result.data.length
+  return result.data.filter(s => s.status === 'active' || s.status === 'trialing').length
 }

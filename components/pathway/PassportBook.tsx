@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Stamp, StampStatus } from './PassportStamps'
+import { characterForStage } from '@/lib/content/stage-characters'
 
 // The passport as a little book. A teal cover with the gold crest, then
 // one page per stage in that stage's colour, each carrying a big progress
@@ -19,6 +21,8 @@ const STAGE_THEME: Record<number, { bg: string; bold: string; text: string }> = 
   4: { bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)' },
   5: { bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)' },
 }
+
+const STAGE_SLUGS = ['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const
 
 const R = 52
 const C = 2 * Math.PI * R
@@ -96,18 +100,21 @@ export default function PassportBook({
 
   const stamp = page >= 1 ? stamps[page - 1] : null
   const theme = stamp ? STAGE_THEME[stamp.id] ?? STAGE_THEME[1] : null
+  // The Planet Friend earned at this stage, so each passport page carries the
+  // character who grows up alongside the child there.
+  const friend = stamp ? characterForStage(stamp.id) : undefined
 
   return (
     <div style={{ marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
           {childName === 'your child' ? 'The' : `${childName}'s`} digital passport
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
           {earnedCount}/{stamps.length} pages stamped
         </span>
       </div>
-      <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
+      <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
         One page per stage. The circle fills as you complete the stage, and a full circle stamps the page. Flip through to catch up or peek ahead.
       </p>
 
@@ -141,7 +148,7 @@ export default function PassportBook({
               }}
             >
               <div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.34em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.34em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
                   Digital Passport
                 </div>
                 <div style={{ width: '46px', height: '1.5px', background: 'rgba(237,195,95,0.55)', margin: '10px auto 0' }} />
@@ -163,11 +170,11 @@ export default function PassportBook({
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--terracotta)', letterSpacing: '0.02em', lineHeight: 1.15 }}>
                   {childName === 'your child' ? 'Our family' : childName}
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', marginTop: '8px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', marginTop: '8px' }}>
                   The journey to 16
                 </div>
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.5)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.5)' }}>
                 Tap to open
               </div>
             </div>
@@ -186,10 +193,10 @@ export default function PassportBook({
               <div onClick={() => page < stamps.length && goTo(page + 1)} aria-hidden style={{ position: 'absolute', inset: '0 0 0 50%', cursor: page < stamps.length ? 'pointer' : 'default', zIndex: 2 }} />
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: theme.text, opacity: 0.75 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: theme.text, opacity: 0.75 }}>
                   Digital Passport · Stage {stamp.id}
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, color: theme.text, opacity: 0.55 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: theme.text, opacity: 0.55 }}>
                   P{stamp.id} of {stamps.length}
                 </span>
               </div>
@@ -233,11 +240,25 @@ export default function PassportBook({
               </div>
 
               <div style={{ textAlign: 'center', marginBottom: '14px' }}>
+                {friend && (
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '9px' }}>
+                    <span style={{
+                      width: 62, height: 62, borderRadius: '50%', overflow: 'hidden',
+                      border: `2.5px solid ${friend.colour}`, background: '#fff',
+                      boxShadow: '0 3px 0 rgba(26,26,46,0.10)', position: 'relative', flexShrink: 0,
+                    }}>
+                      <Image src={friend.img} alt={friend.name} fill sizes="62px" style={{ objectFit: 'cover' }} />
+                    </span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.8, marginTop: '6px' }}>
+                      {stamp.status === 'earned' || stamp.status === 'current' ? `With ${friend.name}` : `Meet ${friend.name}`}
+                    </span>
+                  </div>
+                )}
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
                   {stamp.name}
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, marginTop: '4px' }}>
-                  Ages {stamp.ages}
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, marginTop: '4px' }}>
+                  {stamp.ages}
                 </div>
               </div>
 
@@ -245,21 +266,99 @@ export default function PassportBook({
                   stage. Each task shows a tick when it is done and how much is
                   left when it is not, so the page always says exactly what to
                   do next. Lessons lead, they are the process. */}
-              <div style={{ borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
-                  {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page'}
+              {/* This whole panel rides above the flip tap zones (zIndex 3) so
+                  every row is tappable and takes the parent straight to the
+                  exact thing that fills it: the stage lessons, the scripts, the
+                  device setup, the daily habit. Nobody is left guessing the
+                  next step. */}
+              <div style={{ position: 'relative', zIndex: 3, borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
+                  {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page · tap any one to do it'}
                 </div>
-                {(() => {
+                {stamp.sections && stamp.sections.length > 0 ? (
+                  (() => {
+                    const secs = stamp.sections
+                    // One number for the page: the same reading as the big
+                    // circle, so a stage still ahead reads a true zero here too
+                    // instead of averaging today's live rows back in.
+                    const runningPct = stamp.pct
+                    return (
+                      <>
+                        {secs.map(sec => {
+                          const done = sec.pct >= 100
+                          return (
+                            <Link key={sec.key} href={sec.href} style={{ display: 'block', textDecoration: 'none', marginBottom: '8px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
+                                <span style={{
+                                  width: 17, height: 17, borderRadius: '6px', flexShrink: 0,
+                                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                  background: done ? theme.bold : 'transparent',
+                                  border: done ? 'none' : `1.5px solid ${theme.bold}`,
+                                }}>
+                                  {done && (
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={theme.text} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
+                                  )}
+                                </span>
+                                <span style={{ flex: 1, fontSize: '16px', fontWeight: 700, color: 'var(--ink)', opacity: done ? 0.55 : 1 }}>
+                                  <span aria-hidden style={{ marginRight: 5 }}>{sec.emoji}</span>{sec.label}
+                                </span>
+                                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: theme.text, opacity: 0.85, whiteSpace: 'nowrap' }}>
+                                  {sec.detail}{done ? '' : ' ›'}
+                                </span>
+                              </div>
+                              {/* How it actually goes green. This was already
+                                  written on every row and never rendered, which
+                                  is why the page could only ever say WHAT was
+                                  left and never HOW. */}
+                              <div style={{ marginTop: 3, marginLeft: 26, display: 'flex', alignItems: 'flex-start', gap: 6, flexWrap: 'wrap' }}>
+                                {sec.ongoing && (
+                                  <span style={{
+                                    flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+                                    letterSpacing: '0.06em', textTransform: 'uppercase', color: theme.text,
+                                    background: 'rgba(26,26,46,0.08)', borderRadius: 100, padding: '2px 8px',
+                                  }}>
+                                    Kept up, not ticked off
+                                  </span>
+                                )}
+                                <span style={{ flex: '1 1 160px', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>
+                                  {sec.help}
+                                </span>
+                              </div>
+                              {sec.alert && (
+                                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginTop: 5, marginLeft: 26, background: '#FDECEC', borderRadius: '9px', padding: '6px 9px' }}>
+                                  <span aria-hidden style={{ fontSize: 14, lineHeight: 1.3 }}>⚠️</span>
+                                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#B93B3F', lineHeight: 1.35 }}>{sec.alert}</span>
+                                </div>
+                              )}
+                            </Link>
+                          )
+                        })}
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px', paddingTop: '9px', borderTop: '1px solid rgba(26,26,46,0.12)' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, opacity: 0.7 }}>
+                            This stage
+                          </span>
+                          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: 'var(--ink)' }}>
+                            {runningPct}%
+                          </span>
+                        </div>
+                        <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '8px 0 0' }}>
+                          Tap any row to go straight to it. Two of these are kept up across the stage rather than ticked off, so they can move both ways.
+                        </p>
+                      </>
+                    )
+                  })()
+                ) : (() => {
                   const lt = stamp.lessonsTotal ?? 0
                   const ld = stamp.lessonsDone ?? 0
-                  const tasks: { label: string; done: boolean; detail: string }[] = [
-                    { label: 'Watch the lessons', done: (stamp.lessonsPct ?? 0) >= 100, detail: lt > 0 ? `${ld} of ${lt} done` : `${stamp.lessonsPct ?? 0}%` },
-                    { label: 'Read the scripts', done: (stamp.scriptsPct ?? 0) >= 100, detail: `${stamp.scriptsPct ?? 0}%` },
-                    { label: 'Set up the devices', done: (stamp.devicesPct ?? 0) >= 100, detail: `${stamp.devicesPct ?? 0}%` },
-                    { label: 'Keep the daily habit', done: (stamp.streakPct ?? 0) >= 100, detail: `${stamp.streakPct ?? 0}%` },
+                  const slug = STAGE_SLUGS[stamp.id - 1] ?? 'foundation'
+                  const tasks: { label: string; done: boolean; detail: string; href: string }[] = [
+                    { label: 'Watch the lessons', done: (stamp.lessonsPct ?? 0) >= 100, detail: lt > 0 ? `${ld} of ${lt} done` : `${stamp.lessonsPct ?? 0}%`, href: `/dashboard/lessons?stage=${stamp.id}` },
+                    { label: 'Read the scripts', done: (stamp.scriptsPct ?? 0) >= 100, detail: `${stamp.scriptsPct ?? 0}%`, href: `/dashboard/scripts?stage=${slug}` },
+                    { label: 'Set up the devices', done: (stamp.devicesPct ?? 0) >= 100, detail: `${stamp.devicesPct ?? 0}%`, href: '/dashboard/devices' },
+                    { label: 'Keep the daily habit', done: (stamp.streakPct ?? 0) >= 100, detail: `${stamp.streakPct ?? 0}%`, href: '/dashboard' },
                   ]
                   return tasks.map(t => (
-                    <div key={t.label} style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '7px' }}>
+                    <Link key={t.label} href={t.href} style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '7px', textDecoration: 'none' }}>
                       <span style={{
                         width: 17, height: 17, borderRadius: '6px', flexShrink: 0,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -270,26 +369,25 @@ export default function PassportBook({
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={theme.text} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
                         )}
                       </span>
-                      <span style={{ flex: 1, fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', opacity: t.done ? 0.5 : 1, textDecoration: t.done ? 'line-through' : 'none' }}>
+                      <span style={{ flex: 1, fontSize: '14.5px', fontWeight: 700, color: 'var(--ink)', opacity: t.done ? 0.5 : 1, textDecoration: t.done ? 'line-through' : 'none' }}>
                         {t.label}
                       </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: theme.text, opacity: 0.75 }}>
-                        {t.detail}
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: theme.text, opacity: 0.85, whiteSpace: 'nowrap' }}>
+                        {t.detail}{t.done ? '' : ' ›'}
                       </span>
-                    </div>
+                    </Link>
                   ))
                 })()}
                 <Link
-                  href={stamp.href}
+                  href={`/dashboard/lessons?stage=${stamp.id}`}
                   style={{
-                    position: 'relative', zIndex: 3,
                     display: 'block', textAlign: 'center', marginTop: '11px',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
                     color: 'var(--ink)', textDecoration: 'none',
                     background: theme.bold, borderRadius: '12px', padding: '10px 14px',
                   }}
                 >
-                  {stamp.status === 'earned' ? 'Look back at this stage' : stamp.status === 'catchup' ? 'Catch this page up →' : 'Fill this page →'}
+                  {stamp.status === 'earned' ? 'Look back at this stage' : stamp.status === 'catchup' ? 'Catch this page up →' : 'Start the next step →'}
                 </Link>
               </div>
             </div>
@@ -306,7 +404,7 @@ export default function PassportBook({
           style={{
             background: '#fff', border: '1.5px solid var(--border)', borderRadius: '10px',
             width: 34, height: 34, cursor: page === 0 ? 'default' : 'pointer',
-            opacity: page === 0 ? 0.4 : 1, fontSize: '15px', color: 'var(--ink)',
+            opacity: page === 0 ? 0.4 : 1, fontSize: '17px', color: 'var(--ink)',
           }}
         >
           ←
@@ -336,7 +434,7 @@ export default function PassportBook({
           style={{
             background: '#fff', border: '1.5px solid var(--border)', borderRadius: '10px',
             width: 34, height: 34, cursor: page === stamps.length ? 'default' : 'pointer',
-            opacity: page === stamps.length ? 0.4 : 1, fontSize: '15px', color: 'var(--ink)',
+            opacity: page === stamps.length ? 0.4 : 1, fontSize: '17px', color: 'var(--ink)',
           }}
         >
           →
@@ -348,11 +446,11 @@ export default function PassportBook({
           marginTop: '14px', background: 'var(--deep-teal)', borderRadius: '14px',
           padding: '14px 16px', textAlign: 'center',
         }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: '#fff' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: '#fff' }}>
             🎉 Passport complete
           </div>
-          <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, marginTop: '3px' }}>
-            Every page stamped, all the way to 16. {childName === 'your child' ? 'Your child is' : `${childName} is`} prepared, educated and safe.
+          <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, marginTop: '3px' }}>
+            Every page stamped, all the way to 16. {childName === 'your child' ? 'Your child has' : `${childName} has`} grown up online with the habits, the know how and the judgement built stage by stage.
           </div>
         </div>
       )}
@@ -393,26 +491,49 @@ export default function PassportBook({
                 animation: 'gcSeal 0.6s cubic-bezier(0.34,1.56,0.64,1) both',
               }}>
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: '4px' }}>Stamped</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: '4px' }}>Stamped</span>
               </div>
             </div>
             <div style={{ textAlign: 'center', marginTop: '22px', maxWidth: '320px', animation: 'gcCelebFade 0.4s ease 0.25s both' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
                 Page {celebrating.id} earned
               </div>
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: '#fff', marginTop: '8px', lineHeight: 1.15 }}>
                 {celebrating.name} complete
               </div>
-              <div style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.55, marginTop: '8px' }}>
-                {childName === 'your child' ? 'Your family' : `${childName}`} finished a whole stage of the journey to 16. That page is stamped for good.
+              <div style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.55, marginTop: '8px' }}>
+                {childName === 'your child' ? 'Your child' : childName} has the {celebrating.name} habits in place for their age now. A real step on the road to a confident, capable 16.
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginTop: '18px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginTop: '18px' }}>
                 Tap to see the page
               </div>
             </div>
           </div>
         )
       })()}
+
+      {/* The physical end of the same passport, attached to the passport
+          itself rather than to one page that happens to show it. A parent
+          looking at the stamps their child actually earned is precisely the
+          parent who would like a copy they can hold, and they should not have
+          to find the shop and then find the product inside it, so the link
+          names the passport and lands on it. */}
+      <Link href="/dashboard/keepsakes#p-passport_printed" style={{
+        display: 'flex', alignItems: 'center', gap: '14px', textDecoration: 'none',
+        background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+        borderRadius: '18px', padding: '16px 18px', margin: '18px 0 0',
+      }}>
+        <span style={{ fontSize: '34px', lineHeight: 1 }} aria-hidden>🛂</span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+            Have this passport printed
+          </span>
+          <span style={{ display: 'block', fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
+            A real booklet with {childName === 'your child' ? 'their' : `${childName}\u2019s`} name on the cover and every stamp actually earned inside. Made to order, so no two are the same.
+          </span>
+        </span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', color: 'var(--terracotta-dark)' }} aria-hidden>&rsaquo;</span>
+      </Link>
 
       <style>{`
         @keyframes gcStampIn {

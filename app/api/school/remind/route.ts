@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
+import { schoolReminderEmail } from '@/lib/email/templates'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -39,7 +41,7 @@ export async function GET(req: NextRequest) {
 
   const { data: dueTomorrow } = await supabase
     .from('school_actions')
-    .select('user_id, title')
+    .select('user_id, title, kind')
     .eq('status', 'open')
     .eq('due_date', tomorrow)
 
@@ -63,7 +65,16 @@ export async function GET(req: NextRequest) {
 
   let sent = 0
   let childSent = 0
+  let emailed = 0
   const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
+
+  // The parents' emails, for the belt and braces email channel alongside push.
+  const emailById = new Map<string, string>()
+  if (emailConfigured() && byUser.size > 0) {
+    const { data: profs } = await supabase
+      .from('profiles').select('id, email').in('id', [...byUser.keys()])
+    for (const p of profs ?? []) if (p.email) emailById.set(p.id as string, p.email as string)
+  }
 
   for (const [userId, titles] of byUser) {
     const body = titles.length === 1
@@ -77,6 +88,44 @@ export async function GET(req: NextRequest) {
       })
       const result = await res.json()
       if (result.sent > 0) sent++
+    } catch { /* best effort */ }
+
+    // The same reminder by email, with a strong subject and a fix it link.
+    const email = emailById.get(userId)
+    if (email) {
+      try {
+        const { ok } = await sendEmail({
+          to: email,
+          ...schoolReminderEmail({ titles, adjustUrl: `${origin}/dashboard/school`, unsubscribe: unsubscribeUrl(userId) }),
+        })
+        if (ok) emailed++
+      } catch { /* best effort */ }
+    }
+  }
+
+  // Child appropriate one offs reach the child's phone the night before too,
+  // so packing the kit becomes their job, not only the parent's memory.
+  // Payments, deadlines and plain notices stay with the parent only.
+  const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
+  const childByUser = new Map<string, string[]>()
+  for (const a of dueTomorrow ?? []) {
+    if (!a.kind || !CHILD_KINDS.has(a.kind)) continue
+    const list = childByUser.get(a.user_id) ?? []
+    list.push(a.title)
+    childByUser.set(a.user_id, list)
+  }
+  for (const [userId, titles] of childByUser) {
+    const body = titles.length === 1
+      ? `Tomorrow: ${titles[0]}. Get it ready tonight ⭐`
+      : `Tomorrow: ${titles.slice(0, 3).join(', ')}. Get them ready tonight ⭐`
+    try {
+      const res = await fetch(`${origin}/api/push/send`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
+        body: JSON.stringify({ userId, audience: 'kids', title: 'From school 🎒', body, url: '/' }),
+      })
+      const result = await res.json()
+      if (result.sent > 0) childSent++
     } catch { /* best effort */ }
   }
 
@@ -124,5 +173,5 @@ export async function GET(req: NextRequest) {
     } catch { /* best effort, next week tries again */ }
   }
 
-  return NextResponse.json({ families: byUser.size, sent, childSent, dueDate: tomorrow, weekday })
+  return NextResponse.json({ families: byUser.size, sent, childSent, emailed, dueDate: tomorrow, weekday })
 }

@@ -3,6 +3,11 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { DEVICES, type DeviceKey, minutesToStars, deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
+import DevicePickerChips, { type DevicePick } from '@/components/devices/DevicePickerChips'
+import type { FamilyDevice } from '@/lib/devices/family'
+import { dailyGuide, wouldExceedGuide } from '@/lib/quests/daily-guide'
+import { bandLabelFor } from '@/lib/quests/screen-balance'
+import PushPrompt from '@/components/push/PushPrompt'
 
 // The parent's screen time control, one card per child. When a child has time
 // running it shows the same countdown the child sees, and warns the parent
@@ -10,15 +15,58 @@ import { DEVICES, type DeviceKey, minutesToStars, deviceLabel, deviceEmoji } fro
 // the next quests. When nothing is running the parent can grant time on any
 // device, spending the child's earned stars by default, or a bonus for a treat.
 
-type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string }
-type DeviceRequest = { id: string; device: DeviceKey; minutes: number }
-type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null }
+type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string; deviceName?: string | null }
+type DeviceRequest = { id: string; device: DeviceKey; minutes: number; deviceName?: string | null }
+type DeviceWeek = { device: DeviceKey; minutes: number; sessions: number }
+type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number; giftOwed?: number; agreedAt?: string | null }
+
+// How a grant pays for itself: their earned stars (the default), a gift that
+// jobs pay back later, or a free bonus with no strings at all.
+const GRANT_MODES: { key: 'stars' | 'gift' | 'bonus'; label: string; hint: string }[] = [
+  { key: 'stars', label: 'Spend their stars', hint: 'The default. Earned time, the deal as agreed.' },
+  { key: 'gift', label: 'Gift it', hint: 'Starts now, no stars spent. Jobs pay it back later, framed as saying thanks.' },
+  { key: 'bonus', label: 'Free bonus', hint: 'A treat with no strings. Spends nothing, owes nothing.' },
+]
 
 const TRUST_LEVELS: { key: string; label: string; hint: string }[] = [
-  { key: 'ask', label: 'Ask first', hint: 'They ask, you say yes before the timer runs.' },
-  { key: 'watch', label: 'Start, I watch', hint: 'They start freely, you get the ping and countdown.' },
-  { key: 'trusted', label: 'Trusted', hint: 'They start freely, a lighter touch, no ping each time.' },
+  { key: 'ask', label: 'Ask first', hint: 'They ask with one tap, you get a ping, and your yes starts their timer. The default.' },
+  { key: 'watch', label: 'They start, you watch', hint: 'They start it themselves, you get the ping and the live countdown.' },
+  { key: 'trusted', label: 'Trusted', hint: 'They start it themselves, a lighter touch, no ping each time.' },
 ]
+
+// The pending ask, answered in one tap: device and minutes named, yes or not
+// yet. Shared by the screen time card and the locked banner on the quests
+// page, so the answer is always one tap from wherever the parent is looking.
+export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprove, onDecline }: {
+  childName: string
+  request: { device: DeviceKey; minutes: number; deviceName?: string | null }
+  exceedsGuide: boolean
+  busy: boolean
+  onApprove: () => void
+  onDecline: () => void
+}) {
+  return (
+    <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', marginBottom: '2px' }}>
+        {deviceEmoji(request.device)} {childName} is asking for {request.minutes} minutes
+      </div>
+      <div style={{ fontSize: '14px', color: 'var(--ink-soft)', marginBottom: '9px' }}>
+        That is {minutesToStars(request.minutes)} star{minutesToStars(request.minutes) === 1 ? '' : 's'} on {request.deviceName ?? `the ${deviceLabel(request.device)}`}. Your yes lets {childName} tap Start on their screen.
+      </div>
+      {/* Saying yes here past the day's guide is a treat, named warmly
+          before the tap so the parent grants it knowingly. Never a block. */}
+      {exceedsGuide && (
+        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
+          This takes {childName} past today&apos;s healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.
+        </p>
+      )}
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <button onClick={onApprove} disabled={busy} style={{ flex: 1, padding: '10px', borderRadius: '12px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes, start it</button>
+        <button onClick={onDecline} disabled={busy} style={{ flexShrink: 0, padding: '10px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px', color: 'var(--ink-soft)' }}>Not yet</button>
+      </div>
+    </div>
+  )
+}
 
 const MINUTE_PRESETS = [15, 30, 45, 60]
 
@@ -27,9 +75,21 @@ function fmt(ms: number): string {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
 }
 
-export default function ParentDeviceTime() {
+export default function ParentDeviceTime({ userId }: { userId?: string }) {
   const [kids, setKids] = useState<Kid[] | null>(null)
   const audioRef = useRef<AudioContext | null>(null)
+  // The rising tone is best effort, so the reliable end of timer signal is the
+  // push. If notifications are not on yet, offer to turn them on right here
+  // where the timer lives, so a parent watching TV across the room still hears
+  // the alarm. Cleared once granted, so a set up parent never sees it.
+  const [alarmOff, setAlarmOff] = useState(false)
+  useEffect(() => {
+    try {
+      if (typeof Notification !== 'undefined' && 'serviceWorker' in navigator) {
+        setAlarmOff(Notification.permission !== 'granted')
+      }
+    } catch { /* no notifications api on this browser */ }
+  }, [])
 
   async function load() {
     try {
@@ -40,7 +100,9 @@ export default function ParentDeviceTime() {
   }
   useEffect(() => {
     load()
-    const t = setInterval(load, 20000)
+    // Poll often enough that a child stopping early clears the parent's live
+    // timer within a few seconds, not up to twenty, so both sides agree.
+    const t = setInterval(load, 8000)
     return () => clearInterval(t)
   }, [])
 
@@ -75,11 +137,19 @@ export default function ParentDeviceTime() {
         <span style={{ fontSize: '1.1rem' }}>⏱️</span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>Screen time</span>
       </div>
-      <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
+      <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
         Set device time for each child. It spends their stars, or give a bonus for a treat. You both get the alarm when it is up.
       </p>
+      {userId && alarmOff && (
+        <div style={{ marginBottom: '14px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 6px' }}>
+            Turn on the timer alarm
+          </p>
+          <PushPrompt userId={userId} />
+        </div>
+      )}
       <details style={{ marginBottom: '16px' }}>
-        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           How does screen time work? ›
         </summary>
         <ol style={{ margin: '10px 0 0', padding: '0 0 0 4px', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -89,7 +159,7 @@ export default function ParentDeviceTime() {
             ['📱', 'The countdown runs on their phone and yours at the same time, so you both see it ticking down.'],
             ['⏰', 'When it reaches zero, both phones get the alarm. Then it is time to agree the next quests.'],
           ].map(([icon, text]) => (
-            <li key={text} style={{ display: 'flex', gap: '9px', alignItems: 'flex-start', fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            <li key={text} style={{ display: 'flex', gap: '9px', alignItems: 'flex-start', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
               <span style={{ flexShrink: 0 }}>{icon}</span>
               <span>{text}</span>
             </li>
@@ -97,28 +167,88 @@ export default function ParentDeviceTime() {
         </ol>
       </details>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {kids.map(k => (
-          <ChildRow key={k.id} kid={k} onChange={load} onAlarm={alarm} />
-        ))}
+        {/* A child asking for time pops to the top, then a child with a timer
+            running, so the thing that needs the parent is always first. */}
+        {[...kids]
+          .sort((a, b) => (b.request ? 2 : b.session ? 1 : 0) - (a.request ? 2 : a.session ? 1 : 0))
+          .map(k => (
+            <ChildRow key={k.id} kid={k} onChange={load} onAlarm={alarm} />
+          ))}
       </div>
     </div>
   )
 }
 
 function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; onAlarm: () => void }) {
-  const [device, setDevice] = useState<DeviceKey>('tablet')
+  // The screens this family actually owns, so the grant names one rather than
+  // picking an emoji out of four categories. Empty falls back to the four.
+  const [pick, setPick] = useState<DevicePick>({ kind: 'tablet', familyDeviceId: null })
+  const [homeDevices, setHomeDevices] = useState<FamilyDevice[]>([])
+  const device = pick.kind
   const [minutes, setMinutes] = useState(30)
-  const [bonus, setBonus] = useState(false)
+  const [mode, setMode] = useState<'stars' | 'gift' | 'bonus'>('stars')
   const [busy, setBusy] = useState(false)
   const [err, setErr] = useState<string | null>(null)
   const [remaining, setRemaining] = useState<number | null>(null)
   const [finished, setFinished] = useState(false)
   const firedRef = useRef(false)
+  // The last running session we were counting down, so when it vanishes from a
+  // poll we can tell whether the child handed it back early or the clock simply
+  // ran out.
+  const lastRunRef = useRef<{ endsAt: number; startedAt: number; planned: number; device: DeviceKey; deviceName?: string | null } | null>(null)
+  // A calm note when the child stopped early, shown on the open board so a
+  // parent looking at it is told, not just the push when the app is closed.
+  const [stoppedNote, setStoppedNote] = useState<{ mins: number; device: DeviceKey; deviceName?: string | null } | null>(null)
+
+  // The house's screens. The first tablet is preselected because that is what
+  // this picker always defaulted to; with a list it is now a particular one.
+  useEffect(() => {
+    let on = true
+    fetch('/api/devices/family')
+      .then(r => r.json())
+      .then((d: { devices?: FamilyDevice[] }) => {
+        if (!on) return
+        const live = (d.devices ?? []).filter(x => !x.retiredAt)
+        setHomeDevices(live)
+        const first = live.find(x => x.kind === 'tablet') ?? live[0]
+        if (first) setPick({ kind: first.kind, familyDeviceId: first.id })
+      })
+      .catch(() => {})
+    return () => { on = false }
+  }, [])
+
+  // "on the tablet" but "on Ella's iPad": a named screen takes no article.
+  const namedScreen = pick.familyDeviceId
+    ? homeDevices.find(d => d.id === pick.familyDeviceId) ?? null
+    : null
+  const grantScreen = namedScreen ? namedScreen.label : `the ${deviceLabel(device)}`
 
   // Live countdown from the running session, ticking every second, alarming
   // once when it reaches zero.
   useEffect(() => {
-    if (!kid.session) { setRemaining(null); setFinished(false); firedRef.current = false; return }
+    if (!kid.session) {
+      // A running timer just disappeared. If its planned end is still in the
+      // future, the child stopped watching early, so surface it here too. When
+      // the end has already passed the clock ran out and the time up flow and
+      // the push have that covered.
+      const last = lastRunRef.current
+      if (last && Date.now() < last.endsAt - 1500) {
+        const used = Math.max(1, Math.min(Math.round(last.planned), Math.ceil((Date.now() - last.startedAt) / 60000)))
+        setStoppedNote({ mins: used, device: last.device, deviceName: last.deviceName ?? null })
+      }
+      lastRunRef.current = null
+      setRemaining(null); setFinished(false); firedRef.current = false
+      return
+    }
+    // A fresh timer is running: remember it and clear any old stopped note.
+    lastRunRef.current = {
+      endsAt: new Date(kid.session.ends_at).getTime(),
+      startedAt: new Date(kid.session.started_at).getTime(),
+      planned: kid.session.minutes,
+      device: kid.session.device,
+      deviceName: kid.session.deviceName ?? null,
+    }
+    setStoppedNote(null)
     const end = new Date(kid.session.ends_at).getTime()
     firedRef.current = false
     const tick = () => {
@@ -136,8 +266,8 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
     return () => clearInterval(t)
   }, [kid.session, onAlarm, onChange])
 
-  const cost = bonus ? 0 : minutesToStars(minutes)
-  const tooPoor = !bonus && kid.balance < cost
+  const cost = mode === 'stars' ? minutesToStars(minutes) : 0
+  const tooPoor = mode === 'stars' && kid.balance < cost
 
   async function start() {
     if (busy || tooPoor) return
@@ -145,7 +275,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
     try {
       const r = await fetch('/api/quests/time/parent-start', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ childId: kid.id, device, minutes, bonus }),
+        body: JSON.stringify({ childId: kid.id, device, familyDeviceId: pick.familyDeviceId, minutes, bonus: mode === 'bonus', gift: mode === 'gift' }),
       })
       const d = await r.json()
       if (!r.ok) { setErr(d.error === 'not enough stars' ? 'Not enough stars for that' : 'Could not start, try again'); setBusy(false); return }
@@ -154,21 +284,22 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
     setBusy(false)
   }
 
-  // Ask first: approve starts the timer with what the child asked for, decline
-  // just clears the ask.
+  // Ask first: the yes marks the ask approved and pings the child, whose own
+  // Start button begins the timer, so minutes never tick away on a screen
+  // nobody is looking at. Not yet declines it warmly.
+  const [answered, setAnswered] = useState<'yes' | null>(null)
+  const [jobsLeftAfterYes, setJobsLeftAfterYes] = useState(0)
   async function approveRequest() {
     if (!kid.request || busy) return
     setBusy(true); setErr(null)
     try {
-      const r = await fetch('/api/quests/time/parent-start', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ childId: kid.id, device: kid.request.device, minutes: kid.request.minutes, bonus: false }),
-      })
-      const d = await r.json()
-      if (!r.ok) { setErr(d.error === 'not enough stars' ? 'Not enough stars for that' : 'Could not start, try again'); setBusy(false); return }
-      await fetch('/api/quests/time/request', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: kid.request.id, status: 'approved' }) })
+      const r = await fetch('/api/quests/time/request', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: kid.request.id, status: 'approved' }) })
+      const d = await r.json().catch(() => ({}))
+      if (!r.ok) { setErr('Could not send the yes, try again'); setBusy(false); return }
+      setJobsLeftAfterYes(Number(d.jobsLeft) || 0)
+      setAnswered('yes')
       onChange()
-    } catch { setErr('Could not start, try again') }
+    } catch { setErr('Could not send the yes, try again') }
     setBusy(false)
   }
   async function declineRequest() {
@@ -195,7 +326,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
     return (
       <div style={{ border: `1.5px solid ${up ? '#E5484D' : 'var(--terracotta)'}`, background: up ? '#FDECEC' : 'var(--terracotta-lt)', borderRadius: '16px', padding: '14px 16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>
             {deviceEmoji(kid.session.device)} {kid.name}
           </span>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: up ? '15px' : '1.4rem', color: up ? '#B93B3F' : 'var(--ink)' }}>
@@ -207,7 +338,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
             <div style={{ height: '100%', borderRadius: '100px', background: 'var(--terracotta)', width: `${pct}%`, transition: 'width 1s linear' }} />
           </div>
         ) : (
-          <Link href="#quest-board" onClick={onChange} style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: '#B93B3F', textDecoration: 'none' }}>
+          <Link href="#quest-board" onClick={onChange} style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: '#B93B3F', textDecoration: 'none' }}>
             Set {kid.name}&apos;s next quests →
           </Link>
         )}
@@ -219,28 +350,80 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
   return (
     <div style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 16px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '10px' }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{kid.name}</span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐ {kid.balance}</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>{kid.name}</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐ {kid.balance}</span>
       </div>
 
-      {/* Ask first: the child is waiting on a yes. */}
-      {kid.request && (
+      {/* The child handed the device back before the time was up. Their timer
+          stopped, and so did this one, so a parent watching the board is told
+          the same thing the push says, with the minutes that were recorded. */}
+      {stoppedNote && (
         <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)', marginBottom: '2px' }}>
-            {deviceEmoji(kid.request.device)} {kid.name} is asking for {kid.request.minutes} minutes
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '8px' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>
+              ⏹️ {kid.name} has stopped watching
+            </span>
+            <button onClick={() => setStoppedNote(null)} style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)' }}>
+              OK
+            </button>
           </div>
-          <div style={{ fontSize: '12px', color: 'var(--ink-soft)', marginBottom: '9px' }}>That is {minutesToStars(kid.request.minutes)} stars on the {deviceLabel(kid.request.device)}.</div>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button onClick={approveRequest} disabled={busy} style={{ flex: 1, padding: '9px', borderRadius: '11px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes, start it</button>
-            <button onClick={declineRequest} disabled={busy} style={{ flexShrink: 0, padding: '9px 14px', borderRadius: '11px', border: '1.5px solid var(--border)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px', color: 'var(--ink-soft)' }}>Not now</button>
+          <div style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
+            {stoppedNote.mins} minute{stoppedNote.mins === 1 ? '' : 's'} on {stoppedNote.deviceName ?? `the ${deviceLabel(stoppedNote.device)}`} recorded, on today&apos;s balance. The rest of the stars went back.
           </div>
         </div>
       )}
 
-      {/* Trust level: how much this child can do alone, more as they grow. */}
-      <details style={{ marginBottom: '11px' }}>
-        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-          Trust: {TRUST_LEVELS.find(l => l.key === kid.trust)?.label ?? 'Start, I watch'} ›
+      {/* A gift still being paid back, quietly. A gift is a gift: this is a
+          note of the thank you on its way, never a debt collector. */}
+      {(kid.giftOwed ?? 0) > 0 && (
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--terracotta-dark)', margin: '0 0 9px' }}>
+          💛 Gifted, {kid.giftOwed} star{kid.giftOwed === 1 ? '' : 's'} owed in jobs
+        </p>
+      )}
+
+      {/* The timer rule this child agreed on their first run, locked in and
+          visible on both sides. */}
+      {kid.agreedAt && (
+        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', margin: '0 0 9px' }}>
+          {kid.name} agreed the timer rule on {new Date(kid.agreedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.{' '}
+          <Link href="/dashboard/agreement" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>
+            See the agreement →
+          </Link>
+        </p>
+      )}
+
+      {/* Today's guide: how much this child has already had against the age
+          banded recommendation, so a grant is made with the day in view. A
+          soft steer, never a block. */}
+      <DailyGuideLine name={kid.name} usedToday={kid.usedToday ?? 0} recommended={kid.recommended ?? 0} ageBand={kid.ageBand ?? null} addingMinutes={minutes} sessionsToday={kid.sessionsToday ?? 0} />
+
+      {/* Ask first: the child is waiting on a yes. */}
+      {kid.request && (
+        <PendingAskBox
+          childName={kid.name}
+          request={kid.request}
+          exceedsGuide={wouldExceedGuide(kid.ageBand ?? null, kid.usedToday ?? 0, kid.request.minutes)}
+          busy={busy}
+          onApprove={approveRequest}
+          onDecline={declineRequest}
+        />
+      )}
+      {/* The yes is away: one calm line while the child taps Start. When jobs
+          are still to do today, the same soft nudge the child gets shows here,
+          so both sides are told to finish those first. Never a block. */}
+      {!kid.request && answered === 'yes' && !kid.session && (
+        <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ink-soft)', background: 'var(--tint-sage)', borderRadius: '11px', padding: '9px 12px', margin: '0 0 11px', lineHeight: 1.45 }}>
+          {jobsLeftAfterYes > 0
+            ? `✅ Yes sent. ${kid.name} still has ${jobsLeftAfterYes} job${jobsLeftAfterYes === 1 ? '' : 's'} to do today, so we have asked them to finish those first, then tap Start.`
+            : `✅ Yes sent. ${kid.name} taps Start on their screen and the countdown shows here too.`}
+        </p>
+      )}
+
+      {/* Who starts the timer: how much this child does alone, more as they
+          grow. Easy to find, one plain line per option. */}
+      <details style={{ marginBottom: '11px', background: 'var(--cream)', borderRadius: '12px', padding: '9px 12px' }}>
+        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)' }}>
+          Who starts the timer? <span style={{ fontWeight: 700, color: 'var(--terracotta-dark)' }}>{TRUST_LEVELS.find(l => l.key === kid.trust)?.label ?? 'Ask first'} ›</span>
         </summary>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '9px' }}>
           {TRUST_LEVELS.map(l => (
@@ -249,28 +432,22 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
               background: kid.trust === l.key ? 'var(--terracotta-lt)' : '#fff',
               border: kid.trust === l.key ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
             }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--ink)' }}>{l.label}</span>
-              <span style={{ display: 'block', fontSize: '11.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{l.hint}</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{l.label}</span>
+              <span style={{ display: 'block', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{l.hint}</span>
             </button>
           ))}
         </div>
       </details>
 
-      <div style={{ display: 'flex', gap: '6px', marginBottom: '9px' }}>
-        {DEVICES.map(d => (
-          <button key={d.key} onClick={() => setDevice(d.key)} aria-pressed={device === d.key} style={{
-            flex: 1, padding: '8px 4px', borderRadius: '11px', cursor: 'pointer', fontSize: '17px',
-            background: device === d.key ? 'var(--terracotta-lt)' : '#fff',
-            border: device === d.key ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
-          }}>{d.emoji}</button>
-        ))}
+      <div style={{ marginBottom: '9px' }}>
+        <DevicePickerChips devices={homeDevices} fallback={DEVICES} value={pick} onChange={setPick} />
       </div>
 
       <div style={{ display: 'flex', gap: '6px', marginBottom: '10px' }}>
         {MINUTE_PRESETS.map(m => (
           <button key={m} onClick={() => setMinutes(m)} aria-pressed={minutes === m} style={{
             flex: 1, padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',
-            fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
             background: minutes === m ? 'var(--terracotta-lt)' : '#fff',
             color: minutes === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
             border: minutes === m ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
@@ -278,25 +455,126 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
         ))}
       </div>
 
-      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '11px', cursor: 'pointer' }}>
-        <input type="checkbox" checked={bonus} onChange={e => setBonus(e.target.checked)} style={{ width: 16, height: 16, accentColor: 'var(--terracotta)' }} />
-        <span style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--ink-soft)' }}>Give as a free bonus (no stars)</span>
-      </label>
+      {/* How this grant pays: stars, a gift with a pay back, or a free bonus. */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '11px' }}>
+        {GRANT_MODES.map(m => (
+          <button key={m.key} onClick={() => setMode(m.key)} aria-pressed={mode === m.key} style={{
+            textAlign: 'left', padding: '8px 11px', borderRadius: '11px', cursor: 'pointer',
+            background: mode === m.key ? 'var(--terracotta-lt)' : '#fff',
+            border: mode === m.key ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+          }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{m.label}</span>
+            <span style={{ display: 'block', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{m.hint}</span>
+          </button>
+        ))}
+      </div>
 
-      {err && <p style={{ fontSize: '12px', color: '#B93B3F', margin: '0 0 8px' }}>{err}</p>}
+      {err && <p style={{ fontSize: '14px', color: '#B93B3F', margin: '0 0 8px' }}>{err}</p>}
 
       <button onClick={start} disabled={busy || tooPoor} style={{
         width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
         cursor: busy || tooPoor ? 'default' : 'pointer', opacity: tooPoor ? 0.55 : 1,
         background: 'var(--terracotta)', color: 'var(--ink)',
-        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
+        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px',
         boxShadow: busy || tooPoor ? 'none' : '0 4px 0 var(--terracotta-dark)',
       }}>
         {busy ? 'Starting…'
           : tooPoor ? `Needs ${cost} stars`
-          : bonus ? `Give ${minutes} min on the ${deviceLabel(device)} 🎁`
+          : mode === 'gift' ? `Gift ${minutes} min on ${grantScreen} 💛`
+          : mode === 'bonus' ? `Give ${minutes} min on ${grantScreen} 🎁`
           : `Start ${minutes} min · ${cost} stars`}
       </button>
+      {mode === 'gift' && (
+        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
+          The gift starts now and {minutesToStars(minutes)} star{minutesToStars(minutes) === 1 ? '' : 's'} of jobs pay it back later. The next approved job settles it by itself.
+        </p>
+      )}
+
+      <WhereTheTimeGoes name={kid.name} ageBand={kid.ageBand ?? null} week={kid.week ?? []} />
+    </div>
+  )
+}
+
+// The week's screen time by device, heaviest first, so a parent can see at a
+// glance where the time actually goes. Under the heaviest device sits one age
+// calibrated line in the balance philosophy: what screens displace matters
+// more than the clock, and jobs on the quest board earn the time. One line,
+// one link, never a lecture.
+function WhereTheTimeGoes({ name, ageBand, week }: { name: string; ageBand: string | null; week: DeviceWeek[] }) {
+  if (week.length === 0) return null
+  const heaviest = week[0]
+  const band = bandLabelFor(ageBand)
+  const advice: Record<DeviceKey, string> = {
+    console: `Gaming carries most of ${name}'s screen time. At age ${band} what the sessions displace matters more than the clock, so keep sleep, movement and real mates first, and let jobs on the quest board earn the play.`,
+    tv: `TV carries most of ${name}'s screen time. At age ${band} what the watching displaces matters more than the clock, so keep play and sleep in first place, and let jobs on the quest board earn the sittings.`,
+    phone: `The phone carries most of ${name}'s screen time. At age ${band} shorter sittings with real breaks work best, so let jobs on the quest board earn each one.`,
+    tablet: `The tablet carries most of ${name}'s screen time. At age ${band} the balance matters more than the clock, so keep making and moving around it, and let jobs on the quest board earn the sittings.`,
+    computer: `The computer carries most of ${name}'s screen time. At age ${band} it is worth knowing how much of it is making and how much is watching, so keep the sittings earned on the quest board either way.`,
+  }
+  return (
+    <div style={{ marginTop: '12px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 13px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
+        Where the time goes · last 7 days
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+        {week.map(w => (
+          <div key={w.device} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontSize: '17px', flexShrink: 0 }}>{deviceEmoji(w.device)}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', flexShrink: 0 }}>{deviceLabel(w.device)}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)', marginLeft: 'auto' }}>
+              {w.minutes} min this week · {w.sessions} session{w.sessions === 1 ? '' : 's'}
+            </span>
+          </div>
+        ))}
+      </div>
+      <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
+        {advice[heaviest.device]}{' '}
+        <Link href="/dashboard/lessons" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>
+          Healthy balance lessons →
+        </Link>
+      </p>
+    </div>
+  )
+}
+
+// The day's recommended viewing at a glance: a slim bar of used against the
+// age banded guide, the day's sittings, one plain line, and a warm treat note
+// when the minutes about to be granted would take the child past the guide for
+// the day. Always a soft steer, never a limit that blocks the parent.
+function DailyGuideLine({ name, usedToday, recommended, ageBand, addingMinutes, sessionsToday }: {
+  name: string; usedToday: number; recommended: number; ageBand: string | null; addingMinutes: number; sessionsToday: number
+}) {
+  const g = dailyGuide(ageBand, usedToday)
+  if (recommended <= 0) return null
+  const willTreat = wouldExceedGuide(ageBand, usedToday, addingMinutes)
+  const accent = g.status === 'over' ? '#C0533E' : g.status === 'reached' ? 'var(--terracotta-dark)' : 'var(--retro-green)'
+  return (
+    <div style={{ marginBottom: '11px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: '4px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+          Today, age {g.bandLabel}
+        </span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: accent }}>
+          {g.used} of ~{recommended} min
+        </span>
+      </div>
+      <div style={{ height: 6, borderRadius: 100, background: 'rgba(26,26,46,0.08)', overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${g.pct}%`, borderRadius: 100, background: accent, transition: 'width 0.4s ease' }} />
+      </div>
+      {sessionsToday > 0 && (
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '4px' }}>
+          {sessionsToday} session{sessionsToday === 1 ? '' : 's'} today
+        </div>
+      )}
+      {(g.status !== 'under' || willTreat) && (
+        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
+          {g.status === 'over'
+            ? `That is ${g.overBy} min over today's guide. Anything more is a treat, your call.`
+            : g.status === 'reached'
+            ? `They have had their recommended time today. More is a treat, your call.`
+            : `This takes ${name} past today's healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.`}
+        </p>
+      )}
     </div>
   )
 }

@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react'
-import Link from 'next/link'
 
 export default function AnnouncementBar() {
   const [visible, setVisible] = useState(true)
@@ -27,30 +26,11 @@ export default function AnnouncementBar() {
         minWidth: 0,
         textAlign: 'center',
       }}>
-        The UK under-16 social media ban was announced. Spring 2027.{' '}
+        The UK under 16 social media ban was announced. Spring 2027.{' '}
         <strong>Your child's preparation is yours to build.</strong>
       </span>
-      <Link
-        href="/starter-pack"
-        className="ann-cta"
-        style={{
-          background: 'rgba(255,255,255,.2)',
-          color: '#fff',
-          fontFamily: 'var(--font-body)',
-          fontWeight: 700,
-          fontSize: '.72rem',
-          padding: '6px 14px',
-          borderRadius: '100px',
-          whiteSpace: 'nowrap',
-          textDecoration: 'none',
-          flexShrink: 0,
-          display: 'inline-flex',
-          alignItems: 'center',
-          border: '1px solid rgba(255,255,255,.35)',
-        }}
-      >
-        Start here
-      </Link>
+      {/* No CTA up here: the header underneath already carries Log in and Get
+          Started, so the top strip just states the law and can be dismissed. */}
       <button
         onClick={() => setVisible(false)}
         style={{

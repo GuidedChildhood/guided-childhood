@@ -19,6 +19,19 @@ export function freeLessonIds(lessons: LessonLite[]): Set<string> {
   return new Set([...best.values()].map(l => l.id))
 }
 
+// The child's next lesson in a stage is always open to them, even on the free
+// tier, so the fortnightly drip never stalls behind the paywall: they can
+// always take the single next step in order. Everything past it still waits
+// for membership. Returns the id of the first stage lesson the child has not
+// yet passed, or null when they have passed them all.
+export function nextOpenLessonId(
+  stageLessons: LessonLite[],
+  passedIds: Set<string>,
+): string | null {
+  const ordered = [...stageLessons].sort((a, b) => a.sort_order - b.sort_order)
+  return ordered.find(l => !passedIds.has(l.id))?.id ?? null
+}
+
 // Detail page check: is this single parent lesson the free taste for its
 // stage? True when no other parent lesson in the stage has a lower sort_order.
 export async function isParentLessonFree(

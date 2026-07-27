@@ -33,7 +33,7 @@ export default function MarkLessonDone({
       onClick={toggle}
       disabled={pending}
       className={done ? 'btn btn-outline' : 'btn btn-gold'}
-      style={{ width: '100%', justifyContent: 'center', fontSize: '13px', marginBottom: '16px' }}
+      style={{ width: '100%', justifyContent: 'center', fontSize: '15px', marginBottom: '16px' }}
     >
       {done ? 'Completed ✓' : 'Mark as done'}
     </button>

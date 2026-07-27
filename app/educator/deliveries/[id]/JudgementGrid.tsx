@@ -31,7 +31,7 @@ export default function JudgementGrid({
           background: 'var(--warm)', border: '1.5px solid var(--border)', borderRadius: '16px',
           padding: '12px 16px', flexWrap: 'wrap',
         }}>
-          <span style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '14.5px', color: 'var(--ink)' }}>
+          <span style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '16.5px', color: 'var(--ink)' }}>
             {row.name}
           </span>
           <span style={{ display: 'flex', gap: '6px' }}>
@@ -46,7 +46,7 @@ export default function JudgementGrid({
                   })}
                   style={{
                     padding: '7px 12px', borderRadius: '10px', cursor: 'pointer',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '12px',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
                     border: active ? `2px solid ${l.fg}` : '1.5px solid var(--border)',
                     background: active ? l.bg : '#fff',
                     color: active ? l.fg : 'var(--ink-muted)',

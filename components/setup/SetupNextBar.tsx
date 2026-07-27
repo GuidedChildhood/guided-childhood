@@ -21,6 +21,17 @@ export default function SetupNextBar() {
   // Counted in sessionStorage, so it starts fresh on their next visit.
   const MAX_SHOWS = 2
   const SESSION_KEY = 'gc_setupbar_shows'
+  // Following the bar retires it for the visit, so it guides once and then
+  // trusts the parent to get on with it.
+  const WENT_KEY = 'gc_setupbar_went'
+  const [goneForSession, setGoneForSession] = useState(false)
+  useEffect(() => {
+    try { if (sessionStorage.getItem(WENT_KEY) === '1') setGoneForSession(true) } catch { /* private mode */ }
+  }, [])
+  const followed = useCallback(() => {
+    try { sessionStorage.setItem(WENT_KEY, '1') } catch { /* private mode */ }
+    setGoneForSession(true)
+  }, [])
   const [showThis, setShowThis] = useState(false)
   const shownFlag = useRef(false)
 
@@ -78,12 +89,19 @@ export default function SetupNextBar() {
     }
   }, [eligible])
 
-  if (!eligible || !showThis) return null
+  // Tapped Go: the bar has done its job and leaves for the rest of the visit.
+  // Without this, walking to the step's page counts as a route change, which
+  // un-hides the bar, so the parent who followed it politely gets it thrown at
+  // them again on arrival. That is the nag.
+  if (!eligible || !showThis || goneForSession) return null
 
   return (
     <div style={{
       position: 'fixed', left: '50%', transform: 'translateX(-50%)',
-      bottom: 'calc(80px + env(safe-area-inset-bottom, 0px))',
+      // Sit clear above the Help now button, which floats at bottom 78px and
+      // stands 60px tall on its right. Sharing that line hid the Go button
+      // behind it, so the bar rides above the whole stack instead.
+      bottom: 'calc(150px + env(safe-area-inset-bottom, 0px))',
       width: 'calc(100% - 24px)', maxWidth: '440px', zIndex: 60,
     }}>
       <div style={{
@@ -92,25 +110,26 @@ export default function SetupNextBar() {
         display: 'flex', alignItems: 'center', gap: '12px',
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '2px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '2px' }}>
             Next step
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: '#fff', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: '#fff', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
             {next.title}
           </div>
         </div>
         <button
           onClick={() => setHidden(true)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.6)', padding: '6px 4px', flexShrink: 0 }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.6)', padding: '6px 4px', flexShrink: 0 }}
         >
           Not now
         </button>
         <Link
           href={next.href}
+          onClick={followed}
           style={{
             flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: '12px', padding: '11px 18px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
             boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}
         >

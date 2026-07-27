@@ -73,7 +73,7 @@ export default function LessonStep({
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '1.1rem' }}>{step.icon}</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{step.label}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{step.label}</span>
         </div>
       </div>
 
@@ -91,7 +91,7 @@ export default function LessonStep({
               {emoji}
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color, marginBottom: '6px' }}>{name} says</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color, marginBottom: '6px' }}>{name} says</div>
               <p style={{ fontSize: '.9rem', lineHeight: 1.6, color: 'var(--ink)', margin: 0, fontStyle: 'italic', fontWeight: 500 }}>
                 &ldquo;{characterSays}&rdquo;
               </p>

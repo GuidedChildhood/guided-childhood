@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Guided Childhood Starter Pack</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --butter:#EDC35F; --butter-dark:#C99A28;
+    --butter-lt:#FEF7E0; --coral:#D4600A; --green:#2F8F6B; --green-dark:#236F52;
+    --tint-blue:#D8E8F8; --tint-sage:#E8F0EE; --pink:#FBCFE8; --gold:#F5CD3A;
+    --paper:#FBF6EA;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:13mm 13mm 12mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--butter-dark);}
+  h1{font-weight:900;font-size:34pt;line-height:1.03;letter-spacing:-0.5px;}
+  h2{font-weight:900;font-size:19pt;line-height:1.1;}
+  h3{font-weight:800;font-size:12.5pt;line-height:1.15;}
+  p{font-size:10.5pt;line-height:1.5;color:var(--ink-soft);}
+  strong{color:var(--ink);}
+  .footer{position:absolute;bottom:7mm;left:13mm;right:13mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .badge{display:inline-flex;align-items:center;gap:2mm;background:var(--butter-lt);
+    border:2px solid var(--butter-dark);border-radius:999px;padding:1.5mm 4mm;
+    font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--butter-dark);}
+  .rule{height:2.5px;background:var(--ink);border-radius:2px;}
+  .rule-thin{height:1px;background:var(--border);}
+  .art{display:block;}
+
+  /* ---------- MASTHEAD COVER ---------- */
+  .masthead{border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);
+    padding:5mm 0 4mm;text-align:center;position:relative;}
+  .masthead .kicker{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8pt;
+    letter-spacing:4px;text-transform:uppercase;color:var(--ink-soft);}
+  .masthead .title{font-weight:900;font-size:44pt;line-height:0.98;letter-spacing:-1.5px;margin:2mm 0;}
+  .dateline{display:flex;justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7.5pt;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--ink-muted);border-top:1px solid var(--ink);
+    border-bottom:1px solid var(--ink);padding:1.5mm 0;margin-top:3mm;}
+  .lede{text-align:center;margin:6mm 0;}
+  .lede h2{font-size:24pt;letter-spacing:-0.5px;}
+  .cols{display:flex;gap:6mm;margin-top:auto;}
+  .col{flex:1;font-size:9pt;line-height:1.5;color:var(--ink-soft);}
+  .col .ch{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:7.5pt;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--butter-dark);margin-bottom:1.5mm;
+    border-bottom:2px solid var(--ink);padding-bottom:1mm;display:block;}
+  .drop{font-weight:900;font-size:15pt;color:var(--ink);float:left;line-height:0.8;margin:1mm 1.5mm 0 0;}
+
+
+
+
+  /* ---------- CUT OUT STARS + THE PLANET FRIEND BOARD ---------- */
+  /* Colouring a star is lovely and some children will never do it. Sticking
+     something on is faster, more satisfying and survives a busy Tuesday, so
+     the same chart works either way. Stars are sized to the chart cell. */
+  .stargrid{display:flex;flex-wrap:wrap;gap:1.6mm;margin-top:3mm;}
+  /* 8mm, which is the chart cell. Sized in millimetres rather than stretched
+     to the column so the claim on the page stays true: these really do fit. */
+  .cutstar{width:8mm;height:8mm;flex:none;fill:var(--gold);stroke:var(--butter-dark);
+    stroke-width:1.1;stroke-linejoin:round;}
+  .cutstar.g{fill:var(--tint-sage);stroke:var(--green);}
+  .cutrow{display:flex;gap:3mm;margin-top:3mm;}
+  .cutfriend{flex:1;border:1.6px dashed var(--ink-muted);border-radius:10px;
+    background:var(--white);padding:2mm 1mm 2.5mm;text-align:center;}
+  .cutfriend img{width:16mm;height:16mm;object-fit:contain;display:block;margin:0 auto;}
+  .cutfriend .fname{font-weight:900;font-size:8.5pt;color:var(--ink);margin-top:0.5mm;}
+  .cutfriend .fmins{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7.5pt;
+    letter-spacing:1px;color:var(--butter-dark);}
+
+  /* The ladder: three rungs, said once, biggest type on the page. */
+  .ladder{display:flex;align-items:stretch;gap:3mm;margin:4mm 0;}
+  .rung{flex:1;background:var(--white);border:2.5px solid var(--ink);border-radius:14px;
+    box-shadow:0 5px 0 var(--ink);padding:4mm 3mm;text-align:center;}
+  .rung .top{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7pt;
+    letter-spacing:1.4px;text-transform:uppercase;color:var(--butter-dark);}
+  .rung .mid{font-weight:900;font-size:15pt;color:var(--ink);line-height:1.1;margin:1.5mm 0 1mm;}
+  .rung .bot{font-size:8.5pt;color:var(--ink-soft);line-height:1.35;}
+  .rung.win{background:var(--tint-sage);border-color:var(--green);box-shadow:0 5px 0 var(--green);}
+  .arrow{align-self:center;font-weight:900;font-size:16pt;color:var(--ink-muted);flex:none;}
+
+  /* Five landing pads, one per Friend, in stage order so the board is the
+     same road as the app. */
+  .pads{display:flex;gap:3mm;margin-top:2mm;}
+  .pad{flex:1;background:var(--white);border:2.5px dashed var(--ink);border-radius:14px;
+    min-height:62mm;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;padding:3mm 2mm;}
+  .pad .pnum{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7pt;
+    letter-spacing:1.4px;color:var(--ink-muted);}
+  .pad .pname{font-weight:900;font-size:11pt;color:var(--ink);margin-top:auto;}
+  .pad .pmins{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7.5pt;
+    letter-spacing:1px;color:var(--butter-dark);}
+  .pad .stick{font-size:8pt;color:var(--ink-light,#AEAEC0);font-weight:700;text-align:center;line-height:1.3;}
+  body.ink .cutstar{fill:none!important;stroke:var(--ink-muted)!important;}
+  body.ink .cutstar.g{fill:none!important;}
+
+
+  /* ---------- THE AGREE SHEET (print this FIRST) ---------- */
+  /* A chart a child had no say in is a chart a parent has to enforce. So the
+     first thing out of the printer is not the chart, it is the conversation:
+     both of you at the table, going down a list of everything that actually
+     happens in a day, ticking the ones that are theirs. Then the chart gets
+     built from what was agreed rather than handed down.
+     Laid out in the order a day happens, not by how much a job is worth,
+     because that is the order a family recognises and it is how you spot the
+     three minutes in the morning that are causing all the arguments. */
+  .rhythm{display:flex;flex-wrap:wrap;gap:3mm;}
+  .slot{flex:1 1 46%;background:var(--white);border:2px solid var(--ink);
+    border-radius:12px;padding:2.5mm 3mm 3mm;}
+  .slot .sh{display:flex;align-items:center;gap:2mm;border-bottom:2px solid var(--ink);
+    padding-bottom:1.5mm;margin-bottom:2mm;}
+  .slot .sh .em{font-size:12pt;line-height:1;}
+  .slot .sh .tt{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7pt;
+    letter-spacing:1.2px;text-transform:uppercase;color:var(--butter-dark);}
+  .slot .row{display:flex;align-items:center;gap:1.6mm;padding:0.9mm 0;}
+  .slot .bx{width:3.8mm;height:3.8mm;border:1.6px solid var(--ink);border-radius:3px;
+    flex:none;background:var(--white);}
+  .slot .lb{font-size:8pt;font-weight:700;color:var(--ink);line-height:1.15;}
+  .slot .wr{flex:1;border-bottom:1.3px dashed var(--ink-muted);height:4mm;}
+  .agreesign{display:flex;gap:4mm;margin-top:3.5mm;}
+  .agreesign .sg{flex:1;background:var(--butter-lt);border:2.5px solid var(--butter-dark);
+    border-radius:12px;padding:3mm 4mm;}
+  .agreesign .sg .cap{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7pt;
+    letter-spacing:1.2px;text-transform:uppercase;color:var(--butter-dark);}
+  .agreesign .sg .ln{border-bottom:1.6px solid var(--ink);height:8mm;margin-top:2mm;}
+  .stepstrip{display:flex;gap:3mm;margin:3mm 0 4mm;}
+  .stepbox{flex:1;background:var(--white);border:2.5px solid var(--ink);border-radius:12px;
+    box-shadow:0 4px 0 var(--ink);padding:3mm 3.5mm;}
+  .stepbox .n{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7pt;
+    letter-spacing:1.2px;text-transform:uppercase;color:var(--butter-dark);}
+  .stepbox .t{font-weight:900;font-size:11pt;color:var(--ink);line-height:1.15;margin-top:1mm;}
+  .stepbox .b{font-size:8.5pt;color:var(--ink-soft);line-height:1.35;margin-top:1mm;}
+  .stepbox.now{background:var(--butter-lt);border-color:var(--butter-dark);box-shadow:0 4px 0 var(--butter-dark);}
+
+  /* ---------- THE JOB MENU (page 3) ---------- */
+  /* Etsy reviews of every top selling chart say the same thing in different
+     words: they want it to be THEIR list. So this is a menu to tick, not a
+     list to obey, and it ends in blank lines. */
+  .menu{display:flex;gap:4mm;}
+  .menucol{flex:1;background:var(--white);border:2.5px solid var(--ink);border-radius:14px;
+    box-shadow:0 4px 0 var(--ink);padding:3mm 3mm 3.5mm;}
+  .menuhead{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7pt;
+    letter-spacing:1.2px;text-transform:uppercase;color:var(--butter-dark);
+    border-bottom:2px solid var(--ink);padding-bottom:1.5mm;margin-bottom:2mm;}
+  .menuitem{display:flex;align-items:center;gap:1.8mm;padding:1.3mm 0;}
+  .mtick{width:4.2mm;height:4.2mm;border:1.8px solid var(--ink);border-radius:4px;flex:none;background:var(--white);}
+  .mic{font-size:11pt;line-height:1;flex:none;width:6mm;text-align:center;}
+  .mname{font-size:8.5pt;font-weight:700;color:var(--ink);line-height:1.15;}
+  .menublank{margin-top:3.5mm;background:var(--butter-lt);border:2.5px dashed var(--butter-dark);
+    border-radius:14px;padding:3mm 4mm;}
+  .blanklines{display:flex;flex-wrap:wrap;gap:2mm 4mm;margin-top:2.5mm;}
+  .bl{flex:1 1 46%;border-bottom:1.4px dashed var(--ink-muted);height:6mm;}
+
+  /* ---------- STAR CHART (page 2), rebuilt ---------- */
+  /* The format every best selling chart on Etsy and Pinterest converges on:
+     one row per job, one column per day, a STAR to colour in rather than a
+     tick box, and the days colour coded so a four year old can find today
+     without reading. What none of them have is the exchange rate, which is
+     the whole point of ours, so that gets its own band under the grid. */
+  .sc{width:100%;border-collapse:separate;border-spacing:0;}
+  .sc th,.sc td{border:1.2px solid var(--border);padding:0;text-align:center;}
+  .sc thead th{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7.5pt;
+    letter-spacing:1.2px;text-transform:uppercase;color:var(--ink);padding:2mm 0;}
+  .sc thead th.jobhead{background:var(--ink);color:var(--white);text-align:left;
+    padding-left:3mm;width:60mm;letter-spacing:1.8px;}
+  .sc thead th.tothead{background:var(--butter);color:var(--ink);width:14mm;}
+  .sc td.job{text-align:left;padding:1.2mm 2mm 1.2mm 2.5mm;background:var(--white);}
+  .sc td.job .jrow{display:flex;align-items:center;gap:2.2mm;}
+  .sc td.job .ji{font-size:13pt;line-height:1;flex:none;width:7mm;text-align:center;}
+  .sc td.job .jn{font-weight:800;font-size:9.5pt;color:var(--ink);line-height:1.15;}
+  .sc td.job .js{font-size:7pt;color:var(--ink-muted);line-height:1.15;}
+  .sc td.cel{height:8.5mm;background:var(--white);}
+  .sc td.tot{background:var(--butter-lt);}
+  .sc tr.alt td.job,.sc tr.alt td.cel{background:var(--cream);}
+  /* Write your own. Dashed and pale, so it reads as an invitation rather than
+     a row somebody forgot to fill in. */
+  .sc tr.own td.job{background:var(--white);}
+  .sc tr.own td.job .jn{color:var(--ink-light,#AEAEC0);font-weight:700;}
+  .sc tr.own td.job .writeline{flex:1;border-bottom:1.4px dashed var(--ink-muted);height:4.6mm;}
+  .sc tr.bonus td.job{background:var(--tint-sage);}
+  .sc tr.bonus td.cel{background:var(--tint-sage);}
+  .sc tr.total td{background:var(--butter);border-color:var(--butter-dark);}
+  .sc tr.total td.job .jn{font-size:10pt;}
+  .sk{width:6.1mm;height:6.1mm;fill:none;stroke:currentColor;stroke-width:1.7;
+    stroke-linejoin:round;vertical-align:middle;}
+  /* Each day its own colour, taken from the Planet Friends so the chart and the
+     app are visibly the same family. */
+  .sc td.cel:nth-child(2),.sc thead th:nth-child(2){color:#C99A28;}
+  .sc thead th:nth-child(2){background:#FDF3D8;}
+  .sc td.cel:nth-child(3),.sc thead th:nth-child(3){color:#5C9433;}
+  .sc thead th:nth-child(3){background:#E9F3DF;}
+  .sc td.cel:nth-child(4),.sc thead th:nth-child(4){color:#3C82B4;}
+  .sc thead th:nth-child(4){background:#DCEBF7;}
+  .sc td.cel:nth-child(5),.sc thead th:nth-child(5){color:#7E56B4;}
+  .sc thead th:nth-child(5){background:#EAE1F6;}
+  .sc td.cel:nth-child(6),.sc thead th:nth-child(6){color:#C96C25;}
+  .sc thead th:nth-child(6){background:#FBE7D8;}
+  .sc td.cel:nth-child(7),.sc thead th:nth-child(7){color:#C4477E;}
+  .sc thead th:nth-child(7){background:#FBE0EC;}
+  .sc td.cel:nth-child(8),.sc thead th:nth-child(8){color:#2E8C84;}
+  .sc thead th:nth-child(8){background:#DDF0EE;}
+  .sc td.tot .sk{color:var(--butter-dark);}
+  /* The maths, said once, in the biggest type on the page. */
+  .swap{display:flex;align-items:center;gap:3mm;background:var(--butter-lt);
+    border:2.5px solid var(--butter-dark);border-radius:14px;padding:2.5mm 5mm;margin-top:3mm;}
+  .swap .big{font-weight:900;font-size:13pt;color:var(--ink);line-height:1.1;white-space:nowrap;}
+  .swap .box{display:inline-block;min-width:13mm;height:7mm;background:var(--white);
+    border:2px solid var(--ink);border-radius:7px;vertical-align:middle;}
+  body.ink .sc thead th.jobhead{background:var(--white);color:var(--ink);}
+  body.ink .sc thead th{background:var(--white)!important;color:var(--ink)!important;}
+  body.ink .sc td.cel,body.ink .sc td.job,body.ink .sc td.tot{background:var(--white)!important;}
+  body.ink .sk{color:var(--ink-muted)!important;}
+
+  /* ---------- STAR / GRID ---------- */
+  .star{width:16px;height:16px;flex:none;}
+  .starbox{width:8mm;height:8mm;border:2px solid var(--ink);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;background:var(--white);}
+  .deal{display:flex;align-items:center;gap:4mm;background:var(--butter-lt);
+    border:2.5px solid var(--butter-dark);border-radius:14px;padding:4mm 5mm;}
+  .name-field{flex:1;border:2.5px dashed var(--ink);border-radius:12px;background:var(--white);
+    padding:3mm 5mm;min-height:15mm;display:flex;flex-direction:column;justify-content:center;}
+
+  table.chart{width:100%;border-collapse:separate;border-spacing:0;margin-top:3mm;}
+  table.chart th,table.chart td{border:1.5px solid var(--ink);padding:0;text-align:center;}
+  table.chart thead th{background:var(--ink);color:var(--white);font-family:'IBM Plex Mono',monospace;
+    font-weight:600;font-size:7.5pt;letter-spacing:1px;text-transform:uppercase;padding:2mm 0;}
+  table.chart thead th.tasklabel{background:var(--butter);color:var(--ink);text-align:left;padding-left:3mm;width:44mm;}
+  table.chart td.task{text-align:left;padding:2.5mm 3mm;background:var(--white);}
+  table.chart td.task .tname{font-weight:800;font-size:10pt;color:var(--ink);}
+  table.chart td.task .tsub{font-size:7.5pt;color:var(--ink-muted);}
+  table.chart td.cell{height:12mm;background:var(--white);}
+  table.chart td.cell .dot{width:7mm;height:7mm;border:2px solid var(--ink-muted);border-radius:50%;
+    display:inline-block;}
+  table.chart tr:nth-child(even) td.task,table.chart tr:nth-child(even) td.cell{background:var(--cream);}
+  .spend{display:flex;gap:3mm;margin-top:3mm;}
+  .spend .opt{flex:1;border:2.5px solid var(--ink);border-radius:14px;background:var(--white);
+    box-shadow:0 4px 0 var(--ink);padding:3mm;text-align:center;}
+  .spend .opt .ic{font-size:20pt;line-height:1;}
+  .spend .opt .lab{font-weight:800;font-size:10pt;margin-top:1mm;}
+  .spend .opt .mins{font-family:'IBM Plex Mono',monospace;font-size:7.5pt;color:var(--butter-dark);letter-spacing:0.5px;}
+
+  /* ---------- JOBS LIST ---------- */
+  .joblist{width:100%;border-collapse:separate;border-spacing:0 2mm;}
+  .joblist td{padding:0;}
+  .jobrow{display:flex;align-items:center;gap:3mm;background:var(--white);border:2px solid var(--ink);
+    border-radius:12px;box-shadow:0 3px 0 var(--ink);padding:2.5mm 4mm;margin-bottom:2mm;}
+  .jobrow .jic{width:9mm;height:9mm;flex:none;}
+  .jobrow .jname{flex:1;font-weight:800;font-size:11pt;color:var(--ink);}
+  .jobrow .jstars{display:flex;gap:1mm;}
+  .steps{counter-reset:step;display:flex;flex-direction:column;gap:2.5mm;}
+  .step{display:flex;gap:3mm;align-items:flex-start;}
+  .step .num{counter-increment:step;flex:none;width:8mm;height:8mm;border-radius:50%;background:var(--green);
+    color:var(--white);font-weight:900;font-size:11pt;display:flex;align-items:center;justify-content:center;}
+  .step .num::before{content:counter(step);}
+  .step .body{font-size:10pt;line-height:1.45;color:var(--ink-soft);padding-top:0.5mm;}
+  .step .body b{color:var(--ink);}
+
+  /* ---------- SECTION HEADER (newspaper kicker) ---------- */
+  .kicker-row{display:flex;align-items:center;gap:3mm;border-bottom:3px solid var(--ink);
+    padding-bottom:2mm;margin-bottom:4mm;}
+  .kicker-row .sec{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--white);background:var(--ink);
+    padding:1.5mm 3mm;border-radius:6px;}
+  .kicker-row h2{flex:1;font-size:20pt;}
+  .kicker-row .pg{font-family:'IBM Plex Mono',monospace;font-size:7.5pt;color:var(--ink-muted);letter-spacing:1.5px;}
+  .kfriend{height:15mm;width:auto;object-fit:contain;flex:none;margin-right:3mm;}
+  .friendcheer{display:flex;align-items:center;justify-content:center;gap:2.5mm;}
+  .friendcheer img{height:15mm;width:auto;object-fit:contain;}
+
+  /* ---------- HOW TO GUIDE CARDS ---------- */
+  .guide{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);padding:4mm 4.5mm;flex:1;display:flex;flex-direction:column;}
+  .guide .gh{display:flex;align-items:center;gap:2.5mm;margin-bottom:2.5mm;}
+  .guide .gh .gemoji{font-size:20pt;line-height:1;}
+  .guide .gh .gt{font-weight:900;font-size:12pt;color:var(--ink);line-height:1.05;}
+  .guide .gh .gstar{font-family:'IBM Plex Mono',monospace;font-size:7pt;color:var(--butter-dark);letter-spacing:1px;}
+  .ministeps{counter-reset:ms;display:flex;flex-direction:column;gap:2mm;}
+  .ministep{display:flex;gap:2.5mm;align-items:flex-start;}
+  .ministep .n{counter-increment:ms;flex:none;width:6mm;height:6mm;border-radius:50%;
+    background:var(--butter);color:var(--ink);font-weight:900;font-size:8.5pt;
+    display:flex;align-items:center;justify-content:center;}
+  .ministep .n::before{content:counter(ms);}
+  .ministep .t{font-size:9pt;line-height:1.35;color:var(--ink-soft);}
+  .ministep .t b{color:var(--ink);}
+
+  /* ---------- MOVES / SKILLS GRID ---------- */
+  .movegrid{display:grid;grid-template-columns:1fr 1fr;gap:3.5mm;flex:1;}
+  .move{background:var(--white);border:2.5px solid var(--ink);border-radius:14px;
+    box-shadow:0 4px 0 var(--ink);padding:3.5mm 4mm;display:flex;gap:3mm;align-items:center;}
+  .move .mnum{flex:none;width:10mm;height:10mm;border-radius:50%;background:var(--coral);color:var(--white);
+    font-weight:900;font-size:13pt;display:flex;align-items:center;justify-content:center;}
+  .move .mtitle{font-weight:900;font-size:11pt;color:var(--ink);line-height:1.05;}
+  .move .mdo{font-family:'IBM Plex Mono',monospace;font-size:7pt;color:var(--coral);letter-spacing:0.5px;text-transform:uppercase;margin-top:0.5mm;}
+  .move .mbody{font-size:8.5pt;line-height:1.3;color:var(--ink-soft);margin-top:1mm;}
+
+  /* ---------- ART SLOT (Happy News illustration drops in) ---------- */
+  .artslot{background:var(--butter-lt);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);display:flex;flex-direction:column;align-items:center;
+    justify-content:center;gap:2mm;overflow:hidden;position:relative;}
+  .artslot img{width:100%;height:100%;object-fit:cover;}
+  .artslot .ph{display:flex;flex-direction:column;align-items:center;gap:2mm;padding:4mm;text-align:center;}
+  .artslot .ph .pi{width:26mm;height:26mm;opacity:0.9;}
+  .artslot .ph .pl{font-family:'IBM Plex Mono',monospace;font-size:7.5pt;letter-spacing:1.5px;
+    text-transform:uppercase;color:var(--butter-dark);}
+
+  /* ---------- BREAKFAST PLATE ---------- */
+  .plate{width:76mm;height:76mm;border-radius:50%;border:3px solid var(--ink);background:var(--white);
+    box-shadow:0 5px 0 var(--ink);position:relative;overflow:hidden;margin:0 auto;}
+  .plate .slice{position:absolute;width:50%;height:50%;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:9pt;text-align:center;color:var(--ink);padding:3mm;line-height:1.1;}
+  .buildrow{display:flex;align-items:center;gap:3mm;background:var(--white);border:2px solid var(--ink);
+    border-radius:12px;box-shadow:0 3px 0 var(--ink);padding:2.5mm 4mm;margin-bottom:2.5mm;}
+  .buildrow .bnum{flex:none;width:8mm;height:8mm;border-radius:50%;background:var(--green);color:var(--white);
+    font-weight:900;font-size:10pt;display:flex;align-items:center;justify-content:center;}
+  .buildrow .btext{font-size:9.5pt;line-height:1.3;color:var(--ink-soft);}
+  .buildrow .btext b{color:var(--ink);}
+
+  /* ---------- TICK LIST (read together) ---------- */
+  .tick{display:flex;align-items:center;gap:3mm;padding:2.5mm 0;border-bottom:1.5px dashed var(--border);}
+  .tick .tbox{flex:none;width:7mm;height:7mm;border:2.5px solid var(--ink);border-radius:5px;background:var(--white);}
+  .tick .tlab{flex:1;font-weight:700;font-size:10.5pt;color:var(--ink);}
+  .tick .tby{font-family:'IBM Plex Mono',monospace;font-size:7.5pt;color:var(--ink-muted);letter-spacing:1px;}
+
+  /* ---------- CELEBRATIONS ---------- */
+  .celeb{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3.5mm;}
+  .celeb .cc{background:var(--white);border:2.5px solid var(--ink);border-radius:14px;box-shadow:0 4px 0 var(--ink);
+    padding:3.5mm;text-align:center;}
+  .celeb .cc .ce{font-size:24pt;line-height:1;}
+  .celeb .cc .cn{font-weight:900;font-size:11pt;margin-top:1.5mm;color:var(--ink);}
+  .celeb .cc .cd{font-size:8.5pt;line-height:1.3;color:var(--ink-soft);margin-top:1mm;}
+
+  /* ---------- GAME BOARD ---------- */
+  .board{display:grid;grid-template-columns:repeat(6,1fr);gap:2mm;flex:1;}
+  .board .sq{border:2px solid var(--ink);border-radius:10px;background:var(--white);padding:2mm 2mm 9mm;
+    display:flex;flex-direction:column;position:relative;min-height:22mm;}
+  .board .sq .sn{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8pt;color:var(--ink-muted);}
+  .board .sq .si{position:absolute;bottom:2mm;left:0;right:0;text-align:center;font-size:15pt;line-height:1;}
+  .board .sq .sc{font-size:7pt;line-height:1.1;color:var(--ink-soft);text-align:center;font-weight:700;margin-top:1mm;}
+  .board .sq.gold{background:var(--butter-lt);border-color:var(--butter-dark);}
+  .board .sq.up{background:var(--tint-sage);border-color:var(--green);}
+  .board .sq.down{background:var(--pink);border-color:var(--coral);}
+
+  /* ---------- COLOURING ---------- */
+  .colour-line{fill:var(--white);stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round;}
+  .colour-line.thin{stroke-width:1.6;}
+
+  /* ---------- CUT OUT STAR TOKENS ---------- */
+  .cutline{border:2px dashed var(--ink-muted);}
+  .scissors{font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--ink-muted);display:flex;align-items:center;gap:2mm;}
+  .tokgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:3mm;}
+  .tok{aspect-ratio:1;border:2px dashed var(--ink-muted);border-radius:12px;background:var(--white);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1mm;padding:2mm;}
+  .tok svg{width:15mm;height:15mm;}
+  .tok .m{font-family:'IBM Plex Mono',monospace;font-size:6pt;letter-spacing:0.5px;color:var(--butter-dark);font-weight:600;}
+  /* parent tracker that feeds the app */
+  .tracker{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:4.5mm 5mm;}
+  .tracker .wkrow{display:flex;gap:2mm;margin-top:2mm;}
+  .tracker .wk{flex:1;text-align:center;}
+  .tracker .wk .d{font-family:'IBM Plex Mono',monospace;font-size:7pt;color:var(--ink-muted);text-transform:uppercase;}
+  .tracker .wk .box{height:11mm;border:2px solid var(--ink);border-radius:8px;margin-top:1mm;background:var(--cream);}
+  .totalrow{display:flex;gap:3mm;margin-top:3mm;align-items:stretch;}
+  .totalrow .tt{flex:1;background:var(--butter-lt);border:2.5px solid var(--butter-dark);border-radius:12px;
+    padding:3mm 4mm;display:flex;align-items:center;gap:3mm;}
+  .totalrow .tt .big{font-weight:900;font-size:16pt;color:var(--ink);}
+  .appnote{background:var(--tint-sage);border:2.5px solid var(--green);border-radius:12px;padding:3mm 4mm;
+    display:flex;align-items:center;gap:3mm;}
+  .appnote .ph{font-size:22pt;}
+
+  /* ---------- CHARACTER CUT OUTS + BUBBLES ---------- */
+  .charcut{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;}
+  .charcard{border:2px dashed var(--ink-muted);border-radius:16px;background:var(--white);padding:3.5mm;
+    display:flex;flex-direction:column;align-items:center;gap:2mm;text-align:center;}
+  .charcard .cimg{width:32mm;height:32mm;object-fit:contain;}
+  .charcard .cname{font-weight:900;font-size:12.5pt;line-height:1;}
+  .charcard .crole{font-family:'IBM Plex Mono',monospace;font-size:6.5pt;letter-spacing:1px;text-transform:uppercase;color:var(--butter-dark);}
+  .bub{position:relative;background:var(--white);border:2.5px solid var(--ink);border-radius:12px;
+    padding:2.5mm 3mm;font-weight:800;font-size:8.5pt;line-height:1.15;color:var(--ink);box-shadow:0 3px 0 var(--ink);}
+  .bub .amt{color:var(--coral);}
+  .bubgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm;margin-top:4mm;}
+  .bubwrap{border:2px dashed var(--ink-muted);border-radius:14px;padding:4mm 3mm;display:flex;align-items:center;justify-content:center;}
+
+  /* ---------- INK FRIENDLY MODE ---------- */
+  body.ink .sheet{background:var(--white);}
+  body.ink .card,body.ink .deal,body.ink .spend .opt,body.ink .jobrow,body.ink .name-field{box-shadow:none;}
+  body.ink .deal{background:var(--white);}
+  body.ink table.chart thead th{background:var(--white);color:var(--ink);}
+  body.ink table.chart thead th.tasklabel{background:var(--white);}
+  body.ink .step .num{background:var(--white);color:var(--ink);border:2px solid var(--ink);}
+  body.ink .art .fill{fill:var(--white)!important;stroke:var(--ink)!important;stroke-width:2.5!important;}
+  body.ink .guide,body.ink .move,body.ink .buildrow,body.ink .celeb .cc,body.ink .artslot,body.ink .plate{box-shadow:none;}
+  body.ink .kicker-row .sec{background:var(--white);color:var(--ink);border:2px solid var(--ink);}
+  body.ink .ministep .n,body.ink .move .mnum,body.ink .buildrow .bnum{background:var(--white);color:var(--ink);border:2px solid var(--ink);}
+  body.ink .artslot{background:var(--white);}
+  body.ink .board .sq.gold,body.ink .board .sq.up,body.ink .board .sq.down{background:var(--white);}
+  body.ink .tracker,body.ink .bub,body.ink .charcard{box-shadow:none;}
+  body.ink .tracker .wk .box{background:var(--white);}
+  body.ink .totalrow .tt,body.ink .appnote{background:var(--white);}
+  body.ink .tok .fill{fill:var(--white)!important;stroke:var(--ink)!important;stroke-width:1.4!important;}
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 · MASTHEAD COVER ============ -->
+<div class="sheet">
+  <div class="masthead">
+    <span class="kicker">Print · play · earn · balance</span>
+    <div class="title">The Guided Childhood Weekly</div>
+    <div class="dateline">
+      <span>Ages 4 and up</span>
+      <span>The screen time starter pack</span>
+      <span>Free with your printable</span>
+    </div>
+  </div>
+
+  <div class="lede">
+    <span class="eyebrow">The family edition</span>
+    <h2 style="margin-top:3mm;">Screen time, earned<br>not fought over</h2>
+    <p style="max-width:150mm;margin:4mm auto 0;font-size:11pt;">
+      One friendly system your whole family can see on the fridge. Real jobs earn stars,
+      stars turn into screen time, and the daily battle turns into a deal you both already made.
+      Cut it out, colour it in, and start today.
+    </p>
+  </div>
+
+  <!-- Hero art slot: Happy News style family illustration (synced via Drive). -->
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;">
+    <div class="hero-slot" style="width:150mm;height:78mm;border-radius:18px;overflow:hidden;
+      background:var(--butter-lt);border:2.5px solid var(--ink);box-shadow:0 5px 0 var(--ink);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2mm;position:relative;">
+      <!-- Happy News hero illustration drops in here (images/cover-hero.png), synced via Drive. -->
+      <img src="images/DiGi-star.svg" alt="DiGi the golden star" style="width:40mm;height:40mm;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:8pt;letter-spacing:1.5px;text-transform:uppercase;color:var(--butter-dark);">DiGi, your family guide</div>
+    </div>
+  </div>
+
+  <div class="cols">
+    <div class="col"><span class="ch">Inside</span><span class="drop">A</span> star reward chart the whole family reads at a glance, plus the jobs that earn the stars.</div>
+    <div class="col"><span class="ch">The deal</span><span class="drop">1</span> star is five minutes of screen. Earn them from real jobs, spend them on games, device or telly.</div>
+    <div class="col"><span class="ch">Also inside</span><span class="drop">H</span>ow to guides, moves, football, dance, a healthy breakfast plate and pages to colour.</div>
+  </div>
+
+  <div style="display:flex;gap:3mm;justify-content:center;margin-top:5mm;">
+    <span class="badge">Print and play</span>
+    <span class="badge">Fridge ready</span>
+    <span class="badge">Ages 4 up</span>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Guided Childhood Weekly · Cover</span></div>
+</div>
+
+<!-- ============ PAGE 2 · AGREE THE JOBS FIRST ============ -->
+<div class="sheet">
+  <span class="eyebrow">Print this one first</span>
+  <h1 style="font-size:29pt;margin-top:1.5mm;">Let us agree the jobs</h1>
+  <p style="margin:2.5mm 0 0;max-width:174mm;">A chart a child had no say in is a chart you have to enforce every single day. So this comes out of the printer before the chart does. Sit down together, go through the day, and tick the ones that are theirs. What you both agree here is what goes on the chart.</p>
+
+  <div class="stepstrip">
+    <div class="stepbox now">
+      <div class="n">Step one, now</div>
+      <div class="t">Agree it together</div>
+      <div class="b">Tick down this page with them. Their choice on at least a few is the whole point.</div>
+    </div>
+    <div class="stepbox">
+      <div class="n">Step two</div>
+      <div class="t">Build the chart</div>
+      <div class="b">Type the agreed jobs into the star chart builder in the app, or write them on the blank rows.</div>
+    </div>
+    <div class="stepbox">
+      <div class="n">Step three</div>
+      <div class="t">On the fridge</div>
+      <div class="b">Print it, stick it up at their height, and colour a star the moment a job is done.</div>
+    </div>
+  </div>
+
+  <p style="font-size:9.5pt;margin-bottom:2.5mm;background:var(--tint-sage);border:1.5px solid var(--green);border-radius:10px;padding:2.5mm 3.5mm;">
+    <strong>Pick five or six, not twenty.</strong> Four jobs done is a good day and earns a Planet Friend. A list nobody can finish stops being a list and starts being a telling off, so leave most of these unticked on purpose.
+  </p>
+
+  <div class="rhythm">
+    <div class="slot"><div class="sh"><span class="em">🌅</span><span class="tt">First thing</span></div><div class="row"><span class="bx"></span><span class="lb">Get up when I am called</span></div><div class="row"><span class="bx"></span><span class="lb">Make my bed</span></div><div class="row"><span class="bx"></span><span class="lb">Two minute floor tidy</span></div><div class="row"><span class="bx"></span><span class="lb">Brush my teeth</span></div><div class="row"><span class="bx"></span><span class="lb">Get dressed</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+    <div class="slot"><div class="sh"><span class="em">🥣</span><span class="tt">Breakfast</span></div><div class="row"><span class="bx"></span><span class="lb">Choose from the healthy list</span></div><div class="row"><span class="bx"></span><span class="lb">Help make it</span></div><div class="row"><span class="bx"></span><span class="lb">Lay the table</span></div><div class="row"><span class="bx"></span><span class="lb">Clear my plate away</span></div><div class="row"><span class="bx"></span><span class="lb">Wipe the table</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+    <div class="slot"><div class="sh"><span class="em">🎒</span><span class="tt">Out the door</span></div><div class="row"><span class="bx"></span><span class="lb">Bag packed the night before</span></div><div class="row"><span class="bx"></span><span class="lb">Shoes and coat on</span></div><div class="row"><span class="bx"></span><span class="lb">Water bottle filled</span></div><div class="row"><span class="bx"></span><span class="lb">Help make my packed lunch</span></div><div class="row"><span class="bx"></span><span class="lb">Choose school dinner</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+    <div class="slot"><div class="sh"><span class="em">🏠</span><span class="tt">Home from school</span></div><div class="row"><span class="bx"></span><span class="lb">Shoes, coat and bag away</span></div><div class="row"><span class="bx"></span><span class="lb">Snack from the list</span></div><div class="row"><span class="bx"></span><span class="lb">Lunchbox emptied</span></div><div class="row"><span class="bx"></span><span class="lb">Homework out on the desk</span></div><div class="row"><span class="bx"></span><span class="lb">Tell one thing about my day</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+    <div class="slot"><div class="sh"><span class="em">🍽️</span><span class="tt">Teatime</span></div><div class="row"><span class="bx"></span><span class="lb">Help choose from the list</span></div><div class="row"><span class="bx"></span><span class="lb">Lay the table</span></div><div class="row"><span class="bx"></span><span class="lb">Help cook one bit</span></div><div class="row"><span class="bx"></span><span class="lb">Clear the table</span></div><div class="row"><span class="bx"></span><span class="lb">Load the dishwasher</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+    <div class="slot"><div class="sh"><span class="em">🌙</span><span class="tt">Wind down</span></div><div class="row"><span class="bx"></span><span class="lb">Ten minutes with screens off</span></div><div class="row"><span class="bx"></span><span class="lb">Bath or shower</span></div><div class="row"><span class="bx"></span><span class="lb">Tomorrow clothes out</span></div><div class="row"><span class="bx"></span><span class="lb">Dirty clothes in the basket</span></div><div class="row"><span class="bx"></span><span class="lb">Read or be read to</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+  </div>
+
+  <div class="agreesign">
+    <div class="sg"><span class="cap">Agreed by</span><div class="ln"></div></div>
+    <div class="sg"><span class="cap">And by</span><div class="ln"></div></div>
+    <div class="sg" style="flex:0.6;"><span class="cap">Date</span><div class="ln"></div></div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Agree the jobs &middot; Then build the chart</span></div>
+</div>
+
+<!-- ============ PAGE 2 · THE STAR REWARD CHART ============ -->
+<div class="sheet">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="st" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></symbol></svg>
+
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:4mm;">
+    <div>
+      <span class="eyebrow">The star reward chart</span>
+      <h1 style="font-size:30pt;margin-top:1.5mm;">My star chart</h1>
+    </div>
+    <div class="name-field" style="flex:none;width:74mm;min-height:13mm;padding:2.5mm 4mm;">
+      <span class="eyebrow" style="color:var(--ink-muted);">This chart belongs to</span>
+      <div style="height:6mm;"></div>
+      <div class="rule-thin"></div>
+    </div>
+  </div>
+
+  <p style="margin:2mm 0 2.5mm;max-width:172mm;font-size:9.5pt;">Write in the jobs you agreed together on the sheet before this one, then colour a star every time one is done. Stars are not points for a chart nobody spends, they buy real screen time, so the deal is plain to everyone in the house.</p>
+
+  <table class="sc">
+    <thead><tr><th class="jobhead">My jobs</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th class="tothead">Week</th></tr></thead>
+    <tbody>
+      <tr><td class="job"><div class="jrow"><span class="ji">👕</span><span><span class="jn">Get dressed and ready</span><br><span class="js">Before breakfast</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="alt"><td class="job"><div class="jrow"><span class="ji">🧸</span><span><span class="jn">Tidy my things away</span><br><span class="js">Toys, books, shoes</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr><td class="job"><div class="jrow"><span class="ji">🍽️</span><span><span class="jn">Help at the table</span><br><span class="js">Lay it or clear it</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own alt"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own alt"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own alt"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="bonus"><td class="job"><div class="jrow"><span class="ji">💛</span><span><span class="jn">A kind thing, unasked</span><br><span class="js">Bonus star</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="bonus"><td class="job"><div class="jrow"><span class="ji">🤝</span><span><span class="jn">Helped without asking</span><br><span class="js">Bonus star</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="total"><td class="job"><div class="jrow"><span class="ji">⭐</span><span><span class="jn">Stars today</span><br><span class="js">Add up the column</span></span></div></td><td class="cel"></td><td class="cel"></td><td class="cel"></td><td class="cel"></td><td class="cel"></td><td class="cel"></td><td class="cel"></td><td class="cel tot"></td></tr>
+    </tbody>
+  </table>
+
+  <div class="swap">
+    <svg class="art star" viewBox="0 0 24 24" style="width:11mm;height:11mm;flex:none;">
+      <path d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.4" stroke-linejoin="round"/>
+    </svg>
+    <div style="flex:1;">
+      <div class="big">1 star = 5 minutes of screen time</div>
+      <p style="font-size:9pt;margin-top:1mm;">Stars this week <span class="box"></span> &times; 5 = <span class="box"></span> minutes to spend on games, the device or the telly.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:3mm;"><span class="eyebrow">Spend your stars on</span></div>
+  <div class="spend">
+    <div class="opt"><div class="ic">🎮</div><div class="lab">Games</div><div class="mins">5 min a star</div></div>
+    <div class="opt"><div class="ic">📱</div><div class="lab">Device</div><div class="mins">5 min a star</div></div>
+    <div class="opt"><div class="ic">📺</div><div class="lab">Telly</div><div class="mins">5 min a star</div></div>
+    <div class="opt" style="background:var(--tint-sage);border-color:var(--green);box-shadow:0 4px 0 var(--green);"><div class="ic">🌟</div><div class="lab" style="color:var(--green-dark);">Save up</div><div class="mins" style="color:var(--green-dark);">for a big treat</div></div>
+  </div>
+
+  <div style="margin-top:auto;padding-top:2mm;">
+    <div class="friendcheer">
+      <span class="eyebrow" style="color:var(--butter-dark);margin-right:1mm;">You are doing brilliantly</span>
+      <img src="images/friends/pebble.png" alt="Pebble">
+      <img src="images/friends/bloop.png" alt="Bloop">
+      <img src="images/friends/orbit.png" alt="Orbit">
+      <img src="images/friends/nova.png" alt="Nova">
+      <img src="images/friends/cosmo.png" alt="Cosmo">
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>My star chart &middot; Colour a star for every job</span></div>
+</div>
+
+<!-- ============ PAGE 3 · JOBS LIST + HOW TO MAKE THE CHART ============ -->
+<div class="sheet">
+  <span class="eyebrow">The jobs that earn stars</span>
+  <h2 style="margin-top:2mm;margin-bottom:3mm;">Pick your jobs, then write your own</h2>
+
+  <p style="margin-bottom:3.5mm;max-width:172mm;">Tick the ones that fit your family, write them onto the chart, and ignore the rest. A chart works when it is <strong>your</strong> list, not ours. There are four blank rows on the chart waiting for the jobs only your house has.</p>
+
+  <div class="menu">
+      <div class="menucol">
+        <div class="menuhead">Every day, worth 1 star</div>
+        <div class="menuitem"><span class="mtick"></span><span class="mic">👕</span><span class="mname">Get dressed on my own</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🛏️</span><span class="mname">Make my bed</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🪥</span><span class="mname">Brush my teeth, no fuss</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🧸</span><span class="mname">Tidy my toys away</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">👟</span><span class="mname">Shoes and coat away</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🧺</span><span class="mname">Dirty clothes in the basket</span></div>
+      </div>
+      <div class="menucol">
+        <div class="menuhead">A bit more, worth 2 stars</div>
+        <div class="menuitem"><span class="mtick"></span><span class="mic">🍽️</span><span class="mname">Lay or clear the table</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🍴</span><span class="mname">Help load the dishwasher</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🐕</span><span class="mname">Feed the pet</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🗑️</span><span class="mname">Take the bins out</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🛒</span><span class="mname">Help put the shopping away</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🧹</span><span class="mname">Sweep or hoover one room</span></div>
+      </div>
+      <div class="menucol">
+        <div class="menuhead">The big ones, worth 3 stars</div>
+        <div class="menuitem"><span class="mtick"></span><span class="mic">🏃</span><span class="mname">Play outside for half an hour</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">📚</span><span class="mname">Read with a grown up</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🎨</span><span class="mname">Make something with my hands</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🍲</span><span class="mname">Help cook a whole meal</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🧑‍🤝‍🧑</span><span class="mname">A job for someone else in the family</span></div><div class="menuitem"><span class="mtick"></span><span class="mic">🌱</span><span class="mname">Water the plants or the garden</span></div>
+      </div>
+  </div>
+
+  <div class="menublank">
+    <span class="eyebrow" style="color:var(--butter-dark);">Jobs only your house has</span>
+    <div class="blanklines">
+      <div class="bl"></div><div class="bl"></div><div class="bl"></div>
+      <div class="bl"></div><div class="bl"></div><div class="bl"></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:5mm;margin-top:4mm;flex:1;">
+    <p style="flex:1;font-size:9pt;background:var(--tint-sage);border:1.5px solid var(--green);border-radius:10px;padding:3mm 3.5mm;align-self:flex-start;">
+      Play and outside jobs pay the <strong>most</strong> stars on purpose. Screens are brilliant, but bodies and brains grow strongest running about and making things.
+    </p>
+    <div style="flex:1.15;background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:4mm 5mm;">
+      <span class="eyebrow" style="color:var(--green-dark);">How to make your chart</span>
+      <h3 style="margin:1.5mm 0 2.5mm;">Five minutes, then it runs itself</h3>
+      <div class="steps">
+        <div class="step"><span class="num"></span><span class="body"><b>Print</b> the chart page and this list. Card stock lasts longer.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Choose</b> the jobs above that fit, and write them into the chart with the blanks for your own.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Laminate</b> it, or slide it in a wallet, so a dry wipe pen makes it last all year.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Stick</b> both pages on the fridge at their eye height.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Colour a star</b> the moment a job is done. Naming the good thing is half the reward.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Add up</b> on Sunday and spend the minutes.</span></div>
+      </div>
+      <div style="margin-top:3mm;background:var(--butter-lt);border:2px solid var(--butter-dark);border-radius:12px;padding:2.5mm 3.5mm;">
+        <p style="font-size:8.5pt;color:var(--ink);"><strong>DiGi says:</strong> never take a star back. The chart only ever pays out. Consequences live somewhere else, this is where the good gets seen.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The jobs list · Make your chart</span></div>
+</div>
+
+<!-- ============ PAGE 4 · STARS AND FRIENDS TO CUT OUT ============ -->
+<div class="sheet">
+  <span class="eyebrow">Cut these out</span>
+  <h2 style="margin-top:2mm;margin-bottom:2mm;">Stars to stick, Friends to earn</h2>
+  <p style="margin-bottom:1mm;max-width:172mm;">Colouring a star is lovely, and some children will never do it. Sticking one on is faster, and it survives a busy Tuesday. Print this page on sticker paper if you have it, otherwise cut and use a glue stick. The stars are cut to fit the chart squares exactly.</p>
+
+  <div class="stargrid">
+    <svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg>
+  </div>
+
+  <div style="margin-top:5mm;"><span class="eyebrow">Green stars for the bonus rows</span></div>
+  <div class="stargrid" style="margin-top:2mm;">
+    <svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg><svg class="cutstar g" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></svg>
+  </div>
+
+  <div style="margin-top:5mm;"><span class="eyebrow">The Planet Friends &middot; one for every day of four stars</span></div>
+  <div class="cutrow"><div class="cutfriend"><img src="images/friends/pebble.png" alt="Pebble"><div class="fname">Pebble</div><div class="fmins">20 MINS</div></div><div class="cutfriend"><img src="images/friends/bloop.png" alt="Bloop"><div class="fname">Bloop</div><div class="fmins">20 MINS</div></div><div class="cutfriend"><img src="images/friends/orbit.png" alt="Orbit"><div class="fname">Orbit</div><div class="fmins">20 MINS</div></div><div class="cutfriend"><img src="images/friends/nova.png" alt="Nova"><div class="fname">Nova</div><div class="fmins">20 MINS</div></div><div class="cutfriend"><img src="images/friends/cosmo.png" alt="Cosmo"><div class="fname">Cosmo</div><div class="fmins">20 MINS</div></div></div>
+  <div class="cutrow"><div class="cutfriend"><img src="images/friends/pebble.png" alt="Pebble"><div class="fname">Pebble</div><div class="fmins">20 MINS</div></div><div class="cutfriend"><img src="images/friends/bloop.png" alt="Bloop"><div class="fname">Bloop</div><div class="fmins">20 MINS</div></div><div class="cutfriend"><img src="images/friends/orbit.png" alt="Orbit"><div class="fname">Orbit</div><div class="fmins">20 MINS</div></div><div class="cutfriend"><img src="images/friends/nova.png" alt="Nova"><div class="fname">Nova</div><div class="fmins">20 MINS</div></div><div class="cutfriend"><img src="images/friends/cosmo.png" alt="Cosmo"><div class="fname">Cosmo</div><div class="fmins">20 MINS</div></div></div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Cut out stars &middot; Cut out Planet Friends</span></div>
+</div>
+
+<!-- ============ PAGE 5 · THE PLANET FRIEND BOARD ============ -->
+<div class="sheet">
+  <span class="eyebrow">The Planet Friend board</span>
+  <h1 style="font-size:28pt;margin-top:1.5mm;">Four stars in a day earns a Planet Friend</h1>
+  <p style="margin:3mm 0 1mm;max-width:174mm;">This is the whole deal in one line, and it is the same deal as the app. Stars buy minutes. A day where four jobs get done is a good day, and a good day brings a Planet Friend home. Five good days and the whole family is here.</p>
+
+  <div class="ladder">
+    <div class="rung">
+      <div class="top">One job</div>
+      <div class="mid">1 star</div>
+      <div class="bot">5 minutes of screen time</div>
+    </div>
+    <span class="arrow">&rarr;</span>
+    <div class="rung">
+      <div class="top">A good day</div>
+      <div class="mid">4 stars</div>
+      <div class="bot">20 minutes, and one Planet Friend comes home</div>
+    </div>
+    <span class="arrow">&rarr;</span>
+    <div class="rung win">
+      <div class="top">A good week</div>
+      <div class="mid">5 Friends</div>
+      <div class="bot" style="color:var(--green-dark);">The whole family, and something to celebrate</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1mm;"><span class="eyebrow">Stick a Friend here for every day of four stars</span></div>
+  <div class="pads"><div class="pad"><span class="pnum">Day 1</span><div class="stick">Stick<br>Pebble<br>here</div><span class="pname">Pebble</span><span class="pmins">20 mins</span></div><div class="pad"><span class="pnum">Day 2</span><div class="stick">Stick<br>Bloop<br>here</div><span class="pname">Bloop</span><span class="pmins">20 mins</span></div><div class="pad"><span class="pnum">Day 3</span><div class="stick">Stick<br>Orbit<br>here</div><span class="pname">Orbit</span><span class="pmins">20 mins</span></div><div class="pad"><span class="pnum">Day 4</span><div class="stick">Stick<br>Nova<br>here</div><span class="pname">Nova</span><span class="pmins">20 mins</span></div><div class="pad"><span class="pnum">Day 5</span><div class="stick">Stick<br>Cosmo<br>here</div><span class="pname">Cosmo</span><span class="pmins">20 mins</span></div></div>
+
+  <div style="display:flex;gap:4mm;margin-top:5mm;">
+    <div style="flex:1;background:var(--butter-lt);border:2.5px solid var(--butter-dark);border-radius:14px;padding:4mm 5mm;">
+      <h3 style="margin-bottom:2mm;">Why four and not ten</h3>
+      <p style="font-size:9.5pt;">Four is a real day, not a perfect one. A target a child misses every week stops being a target and starts being proof they are failing. Four jobs is reachable on an ordinary Tuesday with school, tea and a bath in it, which is the only kind of target that lasts.</p>
+    </div>
+    <div style="flex:1;background:var(--white);border:2.5px solid var(--ink);border-radius:14px;box-shadow:0 5px 0 var(--ink);padding:4mm 5mm;">
+      <h3 style="margin-bottom:2mm;">Twenty minutes, on purpose</h3>
+      <p style="font-size:9.5pt;">Twenty minutes is one episode, or one proper go on a game. Small enough that a whole day of jobs is not traded for an afternoon gone, big enough to be worth getting up for. Stack the days if they would rather save.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:auto;padding-top:4mm;">
+    <div class="friendcheer">
+      <span class="eyebrow" style="color:var(--butter-dark);margin-right:1mm;">The whole family is waiting</span>
+      <img src="images/friends/pebble.png" alt="Pebble">
+      <img src="images/friends/bloop.png" alt="Bloop">
+      <img src="images/friends/orbit.png" alt="Orbit">
+      <img src="images/friends/nova.png" alt="Nova">
+      <img src="images/friends/cosmo.png" alt="Cosmo">
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>The Planet Friend board &middot; 4 stars = 1 Friend = 20 minutes</span></div>
+</div>
+
+<!-- ============ PAGE 4 · HOW TO GUIDES (JOB SKILLS) ============ -->
+<div class="sheet">
+  <div class="kicker-row">
+    <span class="sec">How to</span>
+    <h2>The jobs, shown step by step</h2>
+    <img class="kfriend" src="images/friends/pebble.png" alt=""><span class="pg">No. 4</span>
+  </div>
+  <p style="margin-bottom:4mm;max-width:165mm;">A star is easier to earn when a child knows exactly what the job looks like. Cut these out, pop them by the sink or the table, and let them follow along until it is second nature.</p>
+
+  <div style="display:flex;gap:4mm;align-items:stretch;">
+    <div class="guide">
+      <div class="gh"><span class="gemoji">🍽️</span><div><div class="gt">Lay the table</div><div class="gstar">Worth ★★</div></div></div>
+      <div class="ministeps">
+        <div class="ministep"><span class="n"></span><span class="t"><b>Count</b> the people eating. One of everything each.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Mats</b> down first, one in front of every chair.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Fork</b> on the left, <b>spoon and knife</b> on the right.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Cup</b> above the knife. Napkin folded on the plate.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Step back</b> and check every seat matches. Star earned.</span></div>
+      </div>
+    </div>
+
+    <div class="guide">
+      <div class="gh"><span class="gemoji">🧸</span><div><div class="gt">Tidy your room</div><div class="gstar">Worth ★</div></div></div>
+      <div class="ministeps">
+        <div class="ministep"><span class="n"></span><span class="t"><b>Bed first.</b> Pull the cover up flat, pillow on top. The room looks half done already.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>One home each.</b> Books to the shelf, toys to the box, teddies on the bed.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Clothes</b> in the basket if dirty, folded on the chair if clean.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Floor sweep</b> with your eyes. Anything left has a home. Put it there.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Doorway check.</b> Stand at the door. Tidy from here? Star earned.</span></div>
+      </div>
+    </div>
+
+    <div class="guide">
+      <div class="gh"><span class="gemoji">🫧</span><div><div class="gt">Load the dishwasher</div><div class="gstar">Worth ★★</div></div></div>
+      <div class="ministeps">
+        <div class="ministep"><span class="n"></span><span class="t"><b>Scrape</b> the big bits into the bin or the food caddy first.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Plates and bowls</b> on the bottom, all facing the middle.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Cups and glasses</b> on the top, upside down so they fill up with water.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Cutlery</b> handles down in the basket. Ask a grown up for anything sharp.</span></div>
+        <div class="ministep"><span class="n"></span><span class="t"><b>Tablet in, door shut,</b> press start with a grown up. Star earned.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:auto;display:flex;align-items:center;gap:4mm;background:var(--tint-sage);border:2.5px solid var(--green);border-radius:16px;padding:4mm 5mm;">
+    <span style="font-size:22pt;">🌟</span>
+    <p style="font-size:10pt;color:var(--ink);"><strong>DiGi says:</strong> do the job with them the first few times, not for them. Show, then watch, then let go. A child who knows the steps earns the star on their own, and that is the whole point.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>How to guides · Lay the table, tidy up, load the dishwasher</span></div>
+</div>
+
+<!-- ============ PAGE 5 · MOVE YOUR BODY ============ -->
+<div class="sheet">
+  <div class="kicker-row">
+    <span class="sec">Move</span>
+    <h2>The five minute wake up workout</h2>
+    <img class="kfriend" src="images/friends/bloop.png" alt=""><span class="pg">No. 5</span>
+  </div>
+  <p style="margin-bottom:4mm;max-width:165mm;">Six moves, one after the other. Do the whole round twice and that is a star earned. No kit, no space needed, brilliant before school or to break up a screen.</p>
+
+  <div style="display:flex;gap:5mm;flex:1;">
+    <div style="flex:1.35;">
+      <div class="movegrid">
+        <div class="move"><span class="mnum">1</span><div><div class="mtitle">Star jumps</div><div class="mdo">Ten of them</div><div class="mbody">Arms and legs out like a big star, then back in.</div></div></div>
+        <div class="move"><span class="mnum">2</span><div><div class="mtitle">Bear walk</div><div class="mdo">Across the room</div><div class="mbody">Hands and feet on the floor, bottom in the air, walk like a bear.</div></div></div>
+        <div class="move"><span class="mnum">3</span><div><div class="mtitle">Frog jumps</div><div class="mdo">Eight big hops</div><div class="mbody">Crouch down low, then spring up high with a ribbit.</div></div></div>
+        <div class="move"><span class="mnum">4</span><div><div class="mtitle">Tall tree</div><div class="mdo">Hold to ten</div><div class="mbody">Stand on one leg, arms up like branches. Swap legs.</div></div></div>
+        <div class="move"><span class="mnum">5</span><div><div class="mtitle">Speedy runs</div><div class="mdo">On the spot</div><div class="mbody">Run as fast as you can without moving, knees up high.</div></div></div>
+        <div class="move"><span class="mnum">6</span><div><div class="mtitle">Slow breaths</div><div class="mdo">Three big ones</div><div class="mbody">Breathe in for a smell the flower, out for a blow the candle.</div></div></div>
+      </div>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:4mm;">
+      <div class="artslot" style="flex:1;">
+        <!-- Happy News art: a child mid star jump (images/move-hero.png), synced via Drive. -->
+        <div class="ph"><img class="pi" src="images/DiGi-star.svg" alt=""><span class="pl">Star jump illustration</span></div>
+      </div>
+      <div style="background:var(--butter-lt);border:2.5px solid var(--butter-dark);border-radius:14px;padding:4mm;">
+        <span class="eyebrow" style="color:var(--butter-dark);">Why it pays big</span>
+        <p style="font-size:9pt;margin-top:2mm;">Moving first thing wakes the brain up better than any screen. That is why a good run about is worth <strong>three stars</strong> on the chart.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Move your body · The five minute wake up workout</span></div>
+</div>
+
+<!-- ============ PAGE 6 · FOOTBALL + DANCE ============ -->
+<div class="sheet">
+  <div class="kicker-row">
+    <span class="sec">Skills</span>
+    <h2>Football to practise, dances to learn</h2>
+    <img class="kfriend" src="images/friends/orbit.png" alt=""><span class="pg">No. 6</span>
+  </div>
+
+  <div style="display:flex;gap:5mm;flex:1;">
+    <div style="flex:1;">
+      <div style="display:flex;align-items:center;gap:2.5mm;margin-bottom:3mm;">
+        <span style="font-size:20pt;">⚽</span>
+        <div><div style="font-weight:900;font-size:13pt;">Four football skills</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:7.5pt;color:var(--butter-dark);letter-spacing:1px;">TEN GO IS ONE ROUND. SPACE OR GARDEN.</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:3mm;">
+        <div class="move"><span class="mnum" style="background:var(--green);">1</span><div><div class="mtitle">Toe taps</div><div class="mbody" style="margin-top:0.5mm;">Ball still, tap the top with each foot, quick as you can. Count to twenty.</div></div></div>
+        <div class="move"><span class="mnum" style="background:var(--green);">2</span><div><div class="mtitle">Dribble the line</div><div class="mbody" style="margin-top:0.5mm;">Little touches, keep the ball close, walk it heel to wall and back.</div></div></div>
+        <div class="move"><span class="mnum" style="background:var(--green);">3</span><div><div class="mtitle">Stop it dead</div><div class="mbody" style="margin-top:0.5mm;">Roll the ball, then trap it still under your foot. Both feet.</div></div></div>
+        <div class="move"><span class="mnum" style="background:var(--green);">4</span><div><div class="mtitle">Aim and pass</div><div class="mbody" style="margin-top:0.5mm;">Pick a target, pass with the inside of your foot, hit it five times.</div></div></div>
+      </div>
+    </div>
+
+    <div style="width:1px;background:var(--ink);opacity:0.15;"></div>
+
+    <div style="flex:1;">
+      <div style="display:flex;align-items:center;gap:2.5mm;margin-bottom:3mm;">
+        <span style="font-size:20pt;">💃</span>
+        <div><div style="font-weight:900;font-size:13pt;">Six dance moves</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:7.5pt;color:var(--coral);letter-spacing:1px;">PUT A SONG ON. STRING THEM TOGETHER.</div></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2.5mm;">
+        <div class="buildrow"><span class="bnum" style="background:var(--coral);">1</span><span class="btext"><b>The reach.</b> Reach up high to the left, then the right, like picking stars.</span></div>
+        <div class="buildrow"><span class="bnum" style="background:var(--coral);">2</span><span class="btext"><b>The stomp.</b> Stomp left, stomp right, clap in the middle.</span></div>
+        <div class="buildrow"><span class="bnum" style="background:var(--coral);">3</span><span class="btext"><b>The spin.</b> One slow turn all the way round, arms out wide.</span></div>
+        <div class="buildrow"><span class="bnum" style="background:var(--coral);">4</span><span class="btext"><b>The wiggle.</b> Wiggle down low, then wiggle all the way back up.</span></div>
+        <div class="buildrow"><span class="bnum" style="background:var(--coral);">5</span><span class="btext"><b>The robot.</b> Stiff arms, little steps, beep like a robot.</span></div>
+        <div class="buildrow"><span class="bnum" style="background:var(--coral);">6</span><span class="btext"><b>The freeze.</b> Dance mad, then freeze like a statue when the music stops.</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Skills · Four football skills, six dance moves</span></div>
+</div>
+
+<!-- ============ PAGE 7 · HEALTHY BREAKFAST ============ -->
+<div class="sheet">
+  <div class="kicker-row">
+    <span class="sec">Fuel</span>
+    <h2>Build a breakfast that lasts till lunch</h2>
+    <img class="kfriend" src="images/friends/nova.png" alt=""><span class="pg">No. 7</span>
+  </div>
+  <p style="margin-bottom:4mm;max-width:165mm;">A good breakfast is three parts on one plate. Get all three and a child stays full, calm and focused for the whole morning, no mid morning meltdown, no snack begging.</p>
+
+  <div style="display:flex;gap:6mm;flex:1;align-items:center;">
+    <div style="flex:1;">
+      <div class="plate">
+        <div class="slice" style="top:0;left:0;background:var(--tint-sage);border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);border-radius:0 0 0 0;">Slow energy<br>oats, toast, cereal</div>
+        <div class="slice" style="top:0;right:0;background:var(--butter-lt);border-bottom:2px solid var(--ink);">Building blocks<br>egg, yoghurt, beans</div>
+        <div class="slice" style="bottom:0;left:0;width:100%;background:var(--pink);">Colour and water<br>fruit, veg, milk or water</div>
+      </div>
+      <p style="text-align:center;font-family:'IBM Plex Mono',monospace;font-size:7.5pt;color:var(--ink-muted);letter-spacing:1px;margin-top:3mm;">FILL ALL THREE PARTS OF THE PLATE</p>
+    </div>
+
+    <div style="flex:1;">
+      <span class="eyebrow" style="color:var(--green-dark);">The child science, plainly</span>
+      <div style="margin-top:3mm;">
+        <div class="buildrow"><span class="bnum">1</span><span class="btext"><b>Slow energy</b> burns steady, so there is no sugar crash and grumpy hour before lunch.</span></div>
+        <div class="buildrow"><span class="bnum">2</span><span class="btext"><b>Building blocks</b> keep a child full for hours and help a growing body do its growing.</span></div>
+        <div class="buildrow"><span class="bnum">3</span><span class="btext"><b>Colour and water</b> wake up the brain and top up the water they lost overnight.</span></div>
+      </div>
+      <div style="margin-top:3mm;background:var(--butter-lt);border:2px solid var(--butter-dark);border-radius:12px;padding:3mm 4mm;">
+        <p style="font-size:9pt;color:var(--ink);"><strong>Make it a job:</strong> let them build their own plate from the three parts. A breakfast they built is a breakfast they eat, and that is a star earned.</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Healthy breakfast · Build a plate that lasts till lunch</span></div>
+</div>
+
+<!-- ============ PAGE 8 · READ TOGETHER + CELEBRATIONS ============ -->
+<div class="sheet">
+  <div class="kicker-row">
+    <span class="sec">Together</span>
+    <h2>Read with a grown up, then celebrate</h2>
+    <img class="kfriend" src="images/friends/cosmo.png" alt=""><span class="pg">No. 8</span>
+  </div>
+
+  <div style="display:flex;gap:6mm;flex:1;">
+    <div style="flex:1.1;">
+      <span class="eyebrow" style="color:var(--green-dark);">Seven stories, seven nights</span>
+      <p style="font-size:9.5pt;margin:2mm 0 3mm;">Tick a box each time you read one together. Read with daddy, mummy, a nana, a big brother, anyone. A full week of ticks is worth a whole handful of stars.</p>
+      <div class="tick"><span class="tbox"></span><span class="tlab">Monday story</span><span class="tby">READ WITH</span></div>
+      <div class="tick"><span class="tbox"></span><span class="tlab">Tuesday story</span><span class="tby">READ WITH</span></div>
+      <div class="tick"><span class="tbox"></span><span class="tlab">Wednesday story</span><span class="tby">READ WITH</span></div>
+      <div class="tick"><span class="tbox"></span><span class="tlab">Thursday story</span><span class="tby">READ WITH</span></div>
+      <div class="tick"><span class="tbox"></span><span class="tlab">Friday story</span><span class="tby">READ WITH</span></div>
+      <div class="tick"><span class="tbox"></span><span class="tlab">Saturday story</span><span class="tby">READ WITH</span></div>
+      <div class="tick" style="border-bottom:none;"><span class="tbox"></span><span class="tlab">Sunday story</span><span class="tby">READ WITH</span></div>
+    </div>
+
+    <div style="flex:1;">
+      <span class="eyebrow" style="color:var(--coral);">The done it dance</span>
+      <p style="font-size:9.5pt;margin:2mm 0 3mm;">When a job is done, do the celebration together. Naming the good thing out loud is what makes it stick.</p>
+      <div class="celeb">
+        <div class="cc"><div class="ce">🙌</div><div class="cn">High ten</div><div class="cd">Both hands, big smack, big grin.</div></div>
+        <div class="cc"><div class="ce">🚀</div><div class="cn">Countdown</div><div class="cd">Three, two, one, jump up like a rocket.</div></div>
+        <div class="cc"><div class="ce">🎉</div><div class="cn">Star shout</div><div class="cd">Shout the job you did, nice and proud.</div></div>
+        <div class="cc"><div class="ce">🥁</div><div class="cn">Drum roll</div><div class="cd">Drum your knees, then colour the star in.</div></div>
+        <div class="cc"><div class="ce">💃</div><div class="cn">Wiggle</div><div class="cd">A five second wiggle dance, any style.</div></div>
+        <div class="cc"><div class="ce">🤝</div><div class="cn">Proud nod</div><div class="cd">Look them in the eye, I saw that, well done.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Together · Read with a grown up, celebrate every star</span></div>
+</div>
+
+<!-- ============ PAGE 11 · TIPS + ASSEMBLY + BONUS ============ -->
+<div class="sheet">
+  <div class="kicker-row">
+    <span class="sec">Tips</span>
+    <h2>Put your pack together, make it last</h2>
+    <span class="pg">No. 11</span>
+  </div>
+
+  <div style="display:flex;gap:6mm;flex:1;">
+    <div style="flex:1;">
+      <span class="eyebrow" style="color:var(--green-dark);">Assemble the booklet</span>
+      <div class="steps" style="margin-top:3mm;">
+        <div class="step"><span class="num"></span><span class="body"><b>Print the lot</b> on plain A4, or card for the chart and jobs list so they live on the fridge all year.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Fridge pages:</b> the star chart and the jobs list. Laminate them or use a wallet, then a dry wipe pen resets every week.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Cut out</b> the how to cards and pop them where the job happens, by the sink, the table, the toy box.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Booklet the rest:</b> stack the move, skills, breakfast, read and game pages, fold in half and staple the spine. A little newspaper of their own.</span></div>
+        <div class="step"><span class="num"></span><span class="body"><b>Start small.</b> Pick three jobs for week one. Add more once the habit sticks. The chart only ever pays out.</span></div>
+      </div>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;gap:4mm;">
+      <div style="background:var(--white);border:2.5px solid var(--ink);border-radius:16px;box-shadow:0 5px 0 var(--ink);padding:5mm;">
+        <span class="eyebrow" style="color:var(--butter-dark);">The deal, one more time</span>
+        <div style="display:flex;align-items:center;gap:3mm;margin-top:3mm;">
+          <svg class="art star" viewBox="0 0 24 24" style="width:12mm;height:12mm;flex:none;">
+            <path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+          <div><div style="font-weight:900;font-size:14pt;">1 star = 5 minutes</div>
+          <p style="font-size:9pt;">Earned from real jobs, spent on games, device or telly. Never a battle, always a deal.</p></div>
+        </div>
+      </div>
+
+      <!-- BONUS SLOT · Etsy edition keeps this, app edition strips it (build-app-editions.mjs) -->
+      <div class="etsy-bonus" style="background:var(--butter-lt);border:2.5px solid var(--butter-dark);border-radius:16px;padding:5mm;text-align:center;">
+        <span class="eyebrow" style="color:var(--butter-dark);">Your free bonus</span>
+        <h3 style="margin:2mm 0;font-size:14pt;">The whole app, free to try</h3>
+        <p style="font-size:9.5pt;">This chart is the paper version of what the Guided Childhood app does every day: sets the jobs, counts the stars, releases the screen time on its own. Scan or visit the page to try it free.</p>
+        <div style="margin-top:3mm;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:11pt;letter-spacing:0.5px;color:var(--ink);background:var(--white);border:2px solid var(--ink);border-radius:10px;padding:2.5mm;">guidedchildhood.com/etsy-bonus</div>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Made with love by Guided Childhood · Screen time, earned not fought over</span></div>
+</div>
+
+<!-- ============ PAGE 12 · CUT OUT STAR TOKENS + PARENT TRACKER ============ -->
+<div class="sheet">
+  <div class="kicker-row">
+    <span class="sec">Stars</span>
+    <h2>Cut out your stars, keep the tracker</h2>
+    <span class="pg">No. 12</span>
+  </div>
+  <p style="margin-bottom:3mm;max-width:170mm;">Print these on card, cut them out, and hand a real gold star over the moment a job is done. Little ones love holding the star before they stick it on the chart. Each one is worth five minutes of screen time.</p>
+
+  <div class="scissors" style="margin-bottom:2mm;">✂ Cut along the dashed lines</div>
+  <div class="tokgrid">
+    <!-- 18 star tokens -->
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+    <div class="tok"><svg viewBox="0 0 24 24"><path class="fill" d="M12 2 l2.9 6.3 6.9 .7 -5.2 4.6 1.5 6.8 -6.1 -3.6 -6.1 3.6 1.5 -6.8 -5.2 -4.6 6.9 -.7z" fill="var(--gold)" stroke="var(--ink)" stroke-width="1.2" stroke-linejoin="round"/></svg><span class="m">5 min</span></div>
+  </div>
+
+  <div class="tracker" style="margin-top:auto;">
+    <span class="eyebrow" style="color:var(--green-dark);">Parent tracker · feeds the app</span>
+    <h3 style="margin:1.5mm 0 1mm;">Write the stars earned each day, then add the week to the app</h3>
+    <div class="wkrow">
+      <div class="wk"><span class="d">Mon</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Tue</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Wed</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Thu</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Fri</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Sat</span><div class="box"></div></div>
+      <div class="wk"><span class="d">Sun</span><div class="box"></div></div>
+    </div>
+    <div class="totalrow">
+      <div class="tt"><span class="big">▢ stars</span><span style="font-size:9pt;color:var(--ink-soft);">this week, added up from the boxes above</span></div>
+      <div class="appnote"><span class="ph">📱</span><p style="font-size:9pt;color:var(--ink);"><strong>Open Guided Childhood</strong> and add the week's stars to the time bank, so the offline chart and the app balance always match.</p></div>
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>Cut out your stars · Parent tracker feeds the app</span></div>
+</div>
+
+</body>
+</html>

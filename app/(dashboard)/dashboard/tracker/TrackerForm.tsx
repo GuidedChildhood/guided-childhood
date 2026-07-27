@@ -92,7 +92,7 @@ export default function TrackerForm({
       <div style={{ maxWidth: '560px', margin: '0 auto', padding: '40px 20px', textAlign: 'center' }}>
         <div style={{ fontSize: '40px', marginBottom: '16px' }}>✓</div>
         <h2 style={{ fontSize: '1.5rem', marginBottom: '12px' }}>Check in saved</h2>
-        <p style={{ color: 'var(--ink)', marginBottom: '24px', fontSize: '15px' }}>
+        <p style={{ color: 'var(--ink)', marginBottom: '24px', fontSize: '17px' }}>
           {avgScore && avgScore >= 4
             ? 'Scores are looking solid this week. Keep the rhythm going.'
             : avgScore && avgScore <= 2
@@ -105,7 +105,7 @@ export default function TrackerForm({
           </Link>
         )}
         <div style={{ display: 'block' }}>
-          <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink)', textDecoration: 'none' }}>
+          <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)', textDecoration: 'none' }}>
             Back to dashboard
           </Link>
         </div>
@@ -118,7 +118,7 @@ export default function TrackerForm({
       <div style={{ marginBottom: '20px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Weekly check in</p>
         <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>Wellbeing tracker</h1>
-        <p style={{ color: 'var(--ink)', fontSize: '15px' }}>
+        <p style={{ color: 'var(--ink)', fontSize: '17px' }}>
           Five minutes, once a week. Over time this becomes the most useful thing in your dashboard.
         </p>
       </div>
@@ -126,12 +126,12 @@ export default function TrackerForm({
       {/* Daily streak, ties completed cards back to this page */}
       {streakWeeks > 0 && (
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px 18px', marginBottom: '18px' }}>
-          <span style={{ fontSize: '20px' }}>🔥</span>
+          <span style={{ fontSize: '22px' }}>🔥</span>
           <div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>
               {streakWeeks} week streak, {actionsThisWeek} actions done this week
             </div>
-            <div style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>
+            <div style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>
               From your daily practice cards. Keep it going and it shows up here.
             </div>
           </div>
@@ -141,7 +141,7 @@ export default function TrackerForm({
       {/* Recent weeks trend */}
       {history.length > 0 && (
         <div style={{ marginBottom: '24px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
             Your recent weeks
           </div>
           <div style={{ display: 'flex', gap: '6px', alignItems: 'flex-end' }}>
@@ -161,7 +161,7 @@ export default function TrackerForm({
       )}
 
       {currentWeekCheck && (
-        <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '12px 16px', marginBottom: '20px', fontSize: '13px', color: 'var(--ink)' }}>
+        <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '12px 16px', marginBottom: '20px', fontSize: '15px', color: 'var(--ink)' }}>
           You already checked in this week. Answers below are pre filled, update and save to change them.
         </div>
       )}
@@ -169,7 +169,7 @@ export default function TrackerForm({
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
         {QUESTIONS.map(q => (
           <div key={q.id}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '16px', color: 'var(--ink)', marginBottom: '14px', lineHeight: 1.4 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '18px', color: 'var(--ink)', marginBottom: '14px', lineHeight: 1.4 }}>
               {q.label}
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
@@ -186,7 +186,7 @@ export default function TrackerForm({
                     background: scores[q.id] === n ? 'var(--stage-2)' : 'var(--cream)',
                     fontFamily: 'var(--font-display)',
                     fontWeight: 700,
-                    fontSize: '18px',
+                    fontSize: '20px',
                     color: scores[q.id] === n ? 'var(--terracotta)' : 'var(--ink-light)',
                     cursor: 'pointer',
                     transition: 'all 0.15s',
@@ -198,14 +198,14 @@ export default function TrackerForm({
               ))}
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)' }}>{q.low}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)' }}>{q.high}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)' }}>{q.low}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)' }}>{q.high}</span>
             </div>
           </div>
         ))}
 
         <div>
-          <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+          <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
             Notes (optional)
           </label>
           <textarea
@@ -214,7 +214,7 @@ export default function TrackerForm({
             placeholder="Anything specific that happened this week..."
             rows={3}
             className="input"
-            style={{ resize: 'vertical', fontFamily: 'var(--font-body)', fontSize: '15px' }}
+            style={{ resize: 'vertical', fontFamily: 'var(--font-body)', fontSize: '17px' }}
           />
         </div>
 

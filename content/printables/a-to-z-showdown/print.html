@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DiGi's A to Z Showdown</title>
+<link href="fonts/local-fonts.css" rel="stylesheet">
+<style>
+  :root{
+    --white:#FFFFFF; --cream:#F9F8F6; --ink:#1A1A2E; --ink-soft:#52526A;
+    --ink-muted:#8888A0; --border:#EAEAF0; --terracotta:#EDC35F;
+    --terracotta-dark:#C99A28; --terracotta-lt:#FEF7E0; --coral:#D4600A;
+    --green:#2F8F6B; --green-dark:#236F52; --tint-blue:#D8E8F8;
+    --tint-sage:#E8F0EE; --pink:#FBCFE8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{font-family:'Nunito',sans-serif;color:var(--ink);background:#ddd;}
+  .sheet{width:210mm;height:296mm;background:var(--cream);position:relative;overflow:hidden;
+    page-break-after:always;padding:14mm 14mm 12mm;display:flex;flex-direction:column;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:8.5pt;
+    letter-spacing:2.5px;text-transform:uppercase;color:var(--coral);}
+  h1{font-weight:900;font-size:34pt;line-height:1.04;}
+  h2{font-weight:900;font-size:20pt;line-height:1.1;}
+  p{font-size:10.5pt;line-height:1.55;color:var(--ink-soft);}
+  .footer{position:absolute;bottom:7mm;left:14mm;right:14mm;display:flex;
+    justify-content:space-between;align-items:center;
+    font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;
+    color:var(--ink-muted);text-transform:uppercase;}
+  .card{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 5px 0 var(--ink);}
+  .bubble{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:5mm 6mm;position:relative;
+    font-weight:700;font-size:11pt;line-height:1.4;color:var(--ink);}
+  .bubble:after{content:'';position:absolute;left:-4.5mm;top:50%;transform:translateY(-50%);
+    width:0;height:0;border-top:3.5mm solid transparent;border-bottom:3.5mm solid transparent;
+    border-right:4.5mm solid var(--ink);}
+  .chip{background:var(--white);border:2.5px solid var(--ink);border-radius:16px;
+    box-shadow:0 4px 0 var(--ink);padding:3mm 6mm;font-weight:800;font-size:10.5pt;}
+  /* ── wheel ─────────────────────────────────────────────── */
+  .wheel-badge-a{fill:var(--terracotta-lt);}
+  .wheel-badge-b{fill:var(--tint-blue);}
+  .wheel-shadow{fill:var(--ink);}
+  .wheel-letter{fill:var(--ink);font-family:'Nunito',sans-serif;font-weight:900;}
+  .wheel-ring{fill:none;stroke:var(--terracotta);stroke-width:4;stroke-dasharray:14 12;}
+  .wheel-label{fill:var(--ink-muted);font-family:'IBM Plex Mono',monospace;letter-spacing:6px;}
+  .wheel-star-ink{display:none;fill:none;stroke:var(--ink);stroke-width:10;stroke-linejoin:round;}
+  /* ── clue cards ────────────────────────────────────────── */
+  .clue-grid{flex:1;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;
+    gap:2.5mm;margin-top:4mm;margin-bottom:6mm;}
+  .clue-card{background:var(--white);border:2px solid var(--ink);border-radius:12px;
+    padding:2mm 2.3mm;display:flex;flex-direction:column;overflow:hidden;}
+  .clue-card .top{display:flex;align-items:center;justify-content:space-between;}
+  .clue-card .badge{width:7.5mm;height:7.5mm;border:2px solid var(--ink);border-radius:2.6mm;
+    display:flex;align-items:center;justify-content:center;font-weight:900;font-size:10.5pt;}
+  .badge-a{background:var(--terracotta-lt);}
+  .badge-b{background:var(--tint-blue);}
+  .clue-card .tag{font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:1px;
+    text-transform:uppercase;color:var(--ink-muted);}
+  .clue-card .clue{font-weight:700;font-size:7pt;line-height:1.3;color:var(--ink);
+    margin-top:1.4mm;flex:1;}
+  .clue-card .ans{font-family:'IBM Plex Mono',monospace;font-size:5.8pt;letter-spacing:0.5px;
+    color:var(--ink-muted);text-transform:uppercase;transform:rotate(180deg);text-align:center;}
+  .extra-card{background:var(--terracotta-lt);}
+  .extra-card .xtitle{font-weight:900;font-size:7.5pt;color:var(--ink);}
+  .extra-card .clue{font-weight:600;}
+  /* ── blank template ────────────────────────────────────── */
+  .blank-line{border-bottom:1.5px dashed var(--ink-muted);height:3.6mm;}
+  /* ── score table ───────────────────────────────────────── */
+  table.score{width:100%;border-collapse:separate;border-spacing:0;background:var(--white);
+    border:2.5px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:0 5px 0 var(--ink);}
+  table.score th{background:var(--coral);color:var(--white);font-weight:800;font-size:9.5pt;
+    padding:3mm 1.5mm;border-bottom:2.5px solid var(--ink);}
+  table.score th:first-child{background:var(--ink);text-align:left;padding-left:4mm;}
+  table.score td{border-top:1.5px solid var(--border);text-align:center;height:13mm;
+    font-weight:800;font-size:10pt;}
+  table.score td.name{text-align:left;padding-left:4mm;color:var(--ink-muted);}
+  /* ── ink friendly mode ─────────────────────────────────── */
+  .ink-only{display:none !important;}
+  body.ink .sheet{background:var(--white);}
+  body.ink .colour-only{display:none !important;}
+  body.ink .ink-only{display:flex !important;}
+  body.ink .wheel-badge-a,body.ink .wheel-badge-b{fill:var(--white);}
+  body.ink .wheel-shadow{display:none;}
+  body.ink .wheel-ring{stroke:var(--ink-muted);}
+  body.ink .wheel-star-img{display:none;}
+  body.ink .wheel-star-ink{display:block;}
+  body.ink .badge-a,.ink .badge-b{background:var(--white);}
+  body.ink .badge-b{background:var(--white);}
+  body.ink .extra-card{background:var(--white);}
+  body.ink table.score th{background:var(--white);color:var(--ink);}
+  body.ink table.score th:first-child{background:var(--white);}
+  body.ink .card,body.ink .bubble,body.ink .chip,body.ink table.score{box-shadow:none;}
+  body.ink .tinted{background:var(--white) !important;}
+  @page{size:A4;margin:0;}
+  @media print{body{background:none;}}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 · COVER -->
+<div class="sheet" style="align-items:center;text-align:center;justify-content:flex-start;">
+  <div style="margin-top:6mm;" class="eyebrow">Guided Childhood · Print and Play</div>
+  <h1 style="margin-top:5mm;font-size:40pt;">DiGi's A to Z<br>Showdown</h1>
+  <p style="margin-top:4mm;font-weight:700;color:var(--ink);font-size:13.5pt;">
+    The quiz where you race the alphabet.
+  </p>
+  <div class="wheel" data-size="332" style="margin-top:6mm;"></div>
+  <div style="display:flex;gap:4mm;margin-top:7mm;">
+    <div class="chip">78 clues · 3 rounds</div>
+    <div class="chip">Ages 7 to 11</div>
+    <div class="chip">Solo or versus</div>
+  </div>
+  <p style="margin-top:6mm;font-size:10pt;max-width:150mm;">
+    One wheel, 26 letters, and a host with a golden glow. Read the clue, race the
+    clock, colour your letters green. The whole family plays in round three.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>DiGi · Your quiz host</span></div>
+</div>
+
+<!-- PAGE 2 · HOW TO PLAY -->
+<div class="sheet">
+  <div class="eyebrow">Two minutes before you play</div>
+  <h2 style="margin-top:2.5mm;">How to play, in five easy steps</h2>
+  <div style="display:flex;flex-direction:column;gap:3mm;margin-top:4.5mm;">
+    <div class="card" style="padding:3.5mm 5mm;display:flex;gap:4mm;align-items:flex-start;">
+      <div style="min-width:8mm;height:8mm;border:2.5px solid var(--ink);border-radius:50%;background:var(--terracotta-lt);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11pt;" class="tinted">1</div>
+      <p style="font-size:9.8pt;"><strong style="color:var(--ink);">Set the table.</strong> Print the wheel, cut out the round one cards, and stack them A to Z. One player is the host and holds the cards. Everyone else races.</p>
+    </div>
+    <div class="card" style="padding:3.5mm 5mm;display:flex;gap:4mm;align-items:flex-start;">
+      <div style="min-width:8mm;height:8mm;border:2.5px solid var(--ink);border-radius:50%;background:var(--terracotta-lt);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11pt;" class="tinted">2</div>
+      <p style="font-size:9.8pt;"><strong style="color:var(--ink);">Read the clue.</strong> The host starts at A and reads the clue aloud. Every answer begins with the letter on the card. X is the sneaky one: its answer just has an X hiding inside.</p>
+    </div>
+    <div class="card" style="padding:3.5mm 5mm;display:flex;gap:4mm;align-items:flex-start;">
+      <div style="min-width:8mm;height:8mm;border:2.5px solid var(--ink);border-radius:50%;background:var(--terracotta-lt);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11pt;" class="tinted">3</div>
+      <p style="font-size:9.8pt;"><strong style="color:var(--ink);">Colour the wheel.</strong> Right answer: colour that letter <strong style="color:var(--green);">green</strong>. Wrong answer: colour it <strong style="color:var(--coral);">coral</strong>. Stuck? Say pass, and that letter waits for you at the end of the lap.</p>
+    </div>
+    <div class="card" style="padding:3.5mm 5mm;display:flex;gap:4mm;align-items:flex-start;">
+      <div style="min-width:8mm;height:8mm;border:2.5px solid var(--ink);border-radius:50%;background:var(--terracotta-lt);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11pt;" class="tinted">4</div>
+      <p style="font-size:9.8pt;"><strong style="color:var(--ink);">Finish the lap.</strong> Keep circling the wheel until every letter is green or coral. Passed letters come back round in order, as many laps as it takes.</p>
+    </div>
+    <div class="card" style="padding:3.5mm 5mm;display:flex;gap:4mm;align-items:flex-start;">
+      <div style="min-width:8mm;height:8mm;border:2.5px solid var(--ink);border-radius:50%;background:var(--terracotta-lt);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11pt;" class="tinted">5</div>
+      <p style="font-size:9.8pt;"><strong style="color:var(--ink);">Count the greens.</strong> That is your score out of 26. Write it on the score sheet, then swap hosts for the next round.</p>
+    </div>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:4.5mm;">
+    <div class="card" style="flex:1;padding:4mm 5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">Way one · Solo</div>
+      <p style="margin-top:1.5mm;font-size:9.3pt;"><strong style="color:var(--ink);">Beat the clock.</strong> Set a timer for six minutes and race the wheel alone. Tomorrow, race your own record. The wheel never gets tired of a rematch.</p>
+    </div>
+    <div class="card" style="flex:1;padding:4mm 5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">Way two · Versus</div>
+      <p style="margin-top:1.5mm;font-size:9.3pt;"><strong style="color:var(--ink);">Beat your sibling.</strong> Take turns, one letter each, or print a wheel per player and race the same clues. Most greens wins. Best of three rounds takes the crown.</p>
+    </div>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:4.5mm;align-items:center;">
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:20mm;height:21.5mm;flex-shrink:0;">
+    <div class="bubble" style="flex:1;font-size:9.8pt;">
+      Host tips from me, DiGi! Read every clue twice, nice and slow. Never mouth the
+      answer. Cheer the passes too, because a pass is just a letter saving its moment.
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>A to Z Showdown · How to Play</span></div>
+</div>
+
+<!-- PAGE 3 · THE WHEEL -->
+<div class="sheet" style="align-items:center;">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;width:100%;">
+    <div>
+      <div class="eyebrow">The famous wheel</div>
+      <h2 style="margin-top:2mm;">Race the alphabet</h2>
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:7.5pt;letter-spacing:1.5px;color:var(--ink-muted);text-transform:uppercase;">Start at A · Go clockwise</div>
+  </div>
+  <div class="wheel" data-size="640" style="margin-top:3mm;"></div>
+  <div style="display:flex;gap:4mm;margin-top:3mm;width:100%;justify-content:center;">
+    <div class="chip" style="display:flex;align-items:center;gap:2.5mm;font-size:9pt;padding:2.5mm 4.5mm;">
+      <span style="width:6mm;height:6mm;border:2px solid var(--ink);border-radius:2mm;background:var(--green);display:inline-block;"></span>Green means got it
+    </div>
+    <div class="chip" style="display:flex;align-items:center;gap:2.5mm;font-size:9pt;padding:2.5mm 4.5mm;">
+      <span style="width:6mm;height:6mm;border:2px solid var(--ink);border-radius:2mm;background:var(--coral);display:inline-block;"></span>Coral means missed it
+    </div>
+    <div class="chip" style="display:flex;align-items:center;gap:2.5mm;font-size:9pt;padding:2.5mm 4.5mm;">
+      <span style="width:6mm;height:6mm;border:2px dashed var(--ink);border-radius:2mm;background:var(--white);display:inline-block;"></span>Blank means passed
+    </div>
+  </div>
+  <div class="card tinted" style="margin-top:4mm;padding:3.5mm 5mm;background:var(--tint-sage);width:100%;">
+    <p style="font-size:9.3pt;"><strong style="color:var(--ink);">Laminate me and I last forever.</strong>
+    Pop this page through a laminator, colour the letters with a dry wipe pen, and the wheel
+    wipes clean for the next round, the next sibling and the next rematch.</p>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>A to Z Showdown · The Wheel</span></div>
+</div>
+
+<!-- PAGES 4 TO 6 · CLUE ROUNDS (built by script) -->
+<div id="round-pages"></div>
+
+<!-- PAGE 7 · SCORE SHEET -->
+<div class="sheet">
+  <div class="eyebrow">Best of three rounds</div>
+  <h2 style="margin-top:2.5mm;">The score sheet</h2>
+  <p style="margin-top:2mm;">One row per player. After each round, write your greens out of 26.
+  Most greens across all three rounds takes the crown.</p>
+  <table class="score" style="margin-top:4.5mm;">
+    <tr><th style="width:34%;">Player</th><th>Round 1<br>Starter</th><th>Round 2<br>Challenger</th><th>Round 3<br>Showdown</th><th>Total</th></tr>
+    <tr><td class="name">Name:</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="name">Name:</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="name">Name:</td><td></td><td></td><td></td><td></td></tr>
+    <tr><td class="name">Name:</td><td></td><td></td><td></td><td></td></tr>
+  </table>
+  <div style="display:flex;gap:4mm;margin-top:5mm;">
+    <div class="card" style="flex:3;padding:4mm 5mm;">
+      <div class="eyebrow" style="color:var(--green-dark);">My solo record</div>
+      <table style="width:100%;border-collapse:collapse;margin-top:2mm;">
+        <tr>
+          <td style="font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1px;text-transform:uppercase;color:var(--ink-muted);padding:1.5mm 0;">Date</td>
+          <td style="font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1px;text-transform:uppercase;color:var(--ink-muted);">Greens</td>
+          <td style="font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1px;text-transform:uppercase;color:var(--ink-muted);">Time</td>
+        </tr>
+        <tr><td style="border-bottom:1.5px dashed var(--border);height:8mm;"></td><td style="border-bottom:1.5px dashed var(--border);"></td><td style="border-bottom:1.5px dashed var(--border);"></td></tr>
+        <tr><td style="border-bottom:1.5px dashed var(--border);height:8mm;"></td><td style="border-bottom:1.5px dashed var(--border);"></td><td style="border-bottom:1.5px dashed var(--border);"></td></tr>
+        <tr><td style="border-bottom:1.5px dashed var(--border);height:8mm;"></td><td style="border-bottom:1.5px dashed var(--border);"></td><td style="border-bottom:1.5px dashed var(--border);"></td></tr>
+        <tr><td style="border-bottom:1.5px dashed var(--border);height:8mm;"></td><td style="border-bottom:1.5px dashed var(--border);"></td><td style="border-bottom:1.5px dashed var(--border);"></td></tr>
+        <tr><td style="border-bottom:1.5px dashed var(--border);height:8mm;"></td><td style="border-bottom:1.5px dashed var(--border);"></td><td style="border-bottom:1.5px dashed var(--border);"></td></tr>
+      </table>
+    </div>
+    <div style="flex:2;display:flex;flex-direction:column;gap:4mm;">
+      <div class="card tinted" style="padding:4mm 5mm;background:var(--terracotta-lt);flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center;">
+        <div class="eyebrow" style="color:var(--terracotta-dark);">Champion of the alphabet</div>
+        <div style="font-weight:900;font-size:14pt;margin-top:3mm;border-bottom:2.5px solid var(--ink);padding-bottom:2mm;">&nbsp;</div>
+        <p style="margin-top:2mm;font-size:8.5pt;">Write the winner's name in glory. Loser hosts the rematch.</p>
+      </div>
+      <div class="card" style="padding:4mm 5mm;">
+        <div class="eyebrow">Tie breaker</div>
+        <p style="margin-top:1.5mm;font-size:8.8pt;">Tied on greens? Fewest corals wins. Still tied?
+        Sudden death: one letter each until somebody slips.</p>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:4mm;margin-top:5mm;align-items:center;">
+    <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:16mm;height:17mm;flex-shrink:0;">
+    <div class="bubble" style="flex:1;font-size:9.3pt;">
+      Keep old score sheets in the box. In a month you will see your greens grow,
+      and that is my favourite kind of winning.
+    </div>
+  </div>
+  <div class="footer"><span>guidedchildhood.com</span><span>A to Z Showdown · Score Sheet</span></div>
+</div>
+
+<!-- PAGE 8 · WRITE YOUR OWN ROUND (built by script) -->
+<div id="blank-page"></div>
+
+<!-- PAGE 9 · BONUS / FUNNEL -->
+<div class="sheet" style="align-items:center;text-align:center;">
+  <div style="margin-top:14mm;" class="eyebrow">A free gift for your family</div>
+  <h1 style="margin-top:5mm;font-size:30pt;">You raced the alphabet.<br>Now race it in the snow.</h1>
+  <img class="colour-only" src="images/DiGi-star.svg" alt="DiGi" style="width:44mm;height:47mm;margin-top:8mm;">
+  <div class="ink-only" style="width:44mm;height:47mm;margin-top:8mm;border:2.5px solid var(--ink);border-radius:16px;align-items:center;justify-content:center;font-weight:900;font-size:14pt;">DIGI</div>
+  <p style="margin-top:7mm;max-width:142mm;font-size:11.5pt;">
+    As a thank you for playing, DiGi has wrapped up a whole extra round:
+    <strong style="color:var(--ink);">the Christmas Edition</strong>, 26 festive clues from
+    Advent to Zzz on Christmas night. Print it when the tree goes up and the showdown
+    becomes a family tradition.
+  </p>
+  <div class="card tinted" style="margin-top:8mm;padding:5mm 10mm;background:var(--terracotta-lt);">
+    <div style="font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13pt;letter-spacing:1px;">guidedchildhood.com/etsy-bonus</div>
+  </div>
+  <p style="margin-top:10mm;font-size:9.5pt;max-width:130mm;">
+    Made by Guided Childhood, the UK platform helping families raise confident kids in a
+    digital world. If this game brought your table together, a kind review on Etsy helps
+    another family find it.
+  </p>
+  <div class="footer"><span>guidedchildhood.com</span><span>Thank you · Justin and the squad</span></div>
+</div>
+
+<script>
+/* ── Data: three rounds of 26 clues each ─────────────────────────────── */
+const ROUNDS = [
+  { num: 1, name: 'Starter', tag: 'R1', sub: 'Easy clues for ages 7 to 9',
+    intro: 'Warm up laps. Every answer begins with the letter on the card.',
+    clues: [
+      ['A','A squirrel buries this nut, and it can grow into an oak tree','Acorn'],
+      ['B','The bendy yellow fruit monkeys love to peel','Banana'],
+      ['C','The farm animal that says moo and gives us milk','Cow'],
+      ['D','A huge reptile like T rex that lived millions of years ago','Dinosaur'],
+      ['E','The biggest land animal, with big ears and a trunk','Elephant'],
+      ['F','The orange bushy tailed animal that visits UK gardens at night','Fox'],
+      ['G','The tallest animal in the world, with a very long neck','Giraffe'],
+      ['H','The prickly British garden animal that rolls into a ball','Hedgehog'],
+      ['I','The frozen treat you lick from a cone on a sunny day','Ice cream'],
+      ['J','The wobbly fruity pudding you find at birthday parties','Jelly'],
+      ['K','The Australian animal that carries its baby in a pouch','Kangaroo'],
+      ['L','The big cat known as the king of the jungle','Lion'],
+      ['M','You pour it on your cereal, and it comes from cows','Milk'],
+      ['N','A bird builds this twiggy home and lays its eggs in it','Nest'],
+      ['O','The sea creature with eight arms','Octopus'],
+      ['P','The black and white bird that slides on ice and cannot fly','Penguin'],
+      ['Q','The sound a duck makes','Quack'],
+      ['R','The little bird with a red breast on Christmas cards','Robin'],
+      ['S','The slow garden creature that carries its home on its back','Snail'],
+      ['T','The big cat with orange and black stripes','Tiger'],
+      ['U','You put this up over your head when it rains','Umbrella'],
+      ['V','Carrots, peas and broccoli are all this kind of food','Vegetables'],
+      ['W','The biggest animal in the whole ocean, the blue one','Whale'],
+      ['X','The instrument with wooden bars that you hit with beaters','Xylophone'],
+      ['Y','The colour of bananas, custard and the sun','Yellow'],
+      ['Z','The animal like a horse in black and white stripes','Zebra'],
+    ],
+    extras: [
+      ['The pass rule','Stuck? Just say pass. The wheel keeps turning and your letter comes back at the end of the lap.'],
+      ['DiGi says','Read each clue twice, nice and slow. No letter hints, not even a tiny one!'],
+    ]},
+  { num: 2, name: 'Challenger', tag: 'R2', sub: 'Trickier clues for ages 9 to 11',
+    intro: 'Faster laps. Watch out for X, its answer just hides an X inside.',
+    clues: [
+      ['A','The frozen continent at the South Pole','Antarctica'],
+      ['B','The capital city of Germany','Berlin'],
+      ['C','The capital city of Wales','Cardiff'],
+      ['D','The famous flightless bird from Mauritius, now extinct','Dodo'],
+      ['E','The tallest mountain in the world','Everest'],
+      ['F','The country you visit to see the Eiffel Tower','France'],
+      ['G','The force that pulls everything down towards the ground','Gravity'],
+      ['H','Harry Potter’s snowy owl','Hedwig'],
+      ['I','The boot shaped country famous for pizza and pasta','Italy'],
+      ['J','The biggest planet in our solar system','Jupiter'],
+      ['K','The chess piece shaped like a horse','Knight'],
+      ['L','The capital city of England','London'],
+      ['M','The planet known as the red planet','Mars'],
+      ['N','Florence, the famous nurse called the lady with the lamp','Nightingale'],
+      ['O','The five ring sporting event held every four years','Olympics'],
+      ['P','The largest ocean on Earth','Pacific'],
+      ['Q','The most powerful piece on a chess board','Queen'],
+      ['R','The capital city of Italy','Rome'],
+      ['S','The planet famous for its beautiful rings','Saturn'],
+      ['T','The famous ship that sank on its first voyage in 1912','Titanic'],
+      ['U','The name of the United Kingdom’s flag','Union Jack'],
+      ['V','A mountain that can erupt with hot lava','Volcano'],
+      ['W','The London home of the famous tennis championships','Wimbledon'],
+      ['X','Contains an X: the photo a doctor takes to see your bones','X ray'],
+      ['Y','The northern English city famous for Vikings and its Minster','York'],
+      ['Z','The number that means nothing at all','Zero'],
+    ],
+    extras: [
+      ['Host card','Every answer starts with the letter on the card. For X only, the X hides somewhere inside the answer.'],
+      ['DiGi says','A pass is not a fail. It is a letter saving its best moment for the final lap.'],
+    ]},
+  { num: 3, name: 'Family Showdown', tag: 'R3', sub: 'Hard clues, parents play too',
+    intro: 'The big one. Team a child with a grown up and let the table roar.',
+    clues: [
+      ['A','Neil, the first person to walk on the Moon','Armstrong'],
+      ['B','The composer who kept writing symphonies after going deaf','Beethoven'],
+      ['C','The capital city of Denmark','Copenhagen'],
+      ['D','The scientist who wrote On the Origin of Species','Darwin'],
+      ['E','The scientist behind E equals mc squared','Einstein'],
+      ['F','Alexander, the Scottish scientist who discovered penicillin','Fleming'],
+      ['G','The vast Arizona canyon carved by the Colorado River','Grand Canyon'],
+      ['H','The Tudor king who had six wives','Henry the Eighth'],
+      ['I','The land of ice and fire, capital Reykjavik','Iceland'],
+      ['J','The month named after a Roman god with two faces','January'],
+      ['K','The tallest mountain in Africa','Kilimanjaro'],
+      ['L','The Italian genius who painted the Mona Lisa','Leonardo da Vinci'],
+      ['M','The sea between Europe and Africa','Mediterranean'],
+      ['N','The admiral on the column in Trafalgar Square','Nelson'],
+      ['O','The capital city of Norway','Oslo'],
+      ['P','Pablo, the Spanish artist who painted Guernica','Picasso'],
+      ['Q','The feather pen people wrote with before fountain pens','Quill'],
+      ['R','The sea between Egypt and Saudi Arabia, named after a colour','Red Sea'],
+      ['S','The playwright who wrote Romeo and Juliet','Shakespeare'],
+      ['T','The river that flows through London','Thames'],
+      ['U','The planet that spins on its side','Uranus'],
+      ['V','The Italian city built on canals','Venice'],
+      ['W','The 1815 battle where Napoleon was finally defeated','Waterloo'],
+      ['X','Contains an X: the country just south of the United States','Mexico'],
+      ['Y','The longest river in Asia','Yangtze'],
+      ['Z','The giant German airship named after a count','Zeppelin'],
+    ],
+    extras: [
+      ['Team up rule','Pair a child with a grown up and battle the other pair. Whisper before you answer. One answer per team.'],
+      ['DiGi says','Grown ups get no help from phones. Fair is fair, even for the tall ones!'],
+    ]},
+];
+
+/* ── Wheel builder: 26 badges on a circle, DiGi in the middle ───────── */
+function buildWheel(px){
+  const N = 26, C = 500, R = 420, B = 88, RX = 22;
+  let shadows = '', badges = '', letters = '';
+  for (let i = 0; i < N; i++){
+    const ang = -Math.PI / 2 + (i * 2 * Math.PI / N);
+    const x = C + R * Math.cos(ang), y = C + R * Math.sin(ang);
+    const cls = i % 2 === 0 ? 'wheel-badge-a' : 'wheel-badge-b';
+    shadows += `<rect class="wheel-shadow" x="${(x-B/2).toFixed(1)}" y="${(y-B/2+7).toFixed(1)}" width="${B}" height="${B}" rx="${RX}"/>`;
+    badges  += `<rect class="${cls}" x="${(x-B/2).toFixed(1)}" y="${(y-B/2).toFixed(1)}" width="${B}" height="${B}" rx="${RX}" stroke="#1A1A2E" stroke-width="6"/>`;
+    letters += `<text class="wheel-letter" x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="50" text-anchor="middle" dominant-baseline="central">${String.fromCharCode(65+i)}</text>`;
+  }
+  const star = '200,62 238,165 345,165 263,228 293,338 200,272 107,338 137,228 55,165 162,165';
+  const inkStar = star.split(' ').map(p => {
+    const [sx, sy] = p.split(',').map(Number);
+    return `${(350 + sx * 0.75).toFixed(0)},${(330 + sy * 0.7).toFixed(0)}`;
+  }).join(' ');
+  return `<svg width="${px}" height="${px}" viewBox="0 0 1000 1000">
+    <circle class="wheel-ring" cx="500" cy="500" r="330"/>
+    ${shadows}${badges}${letters}
+    <image class="wheel-star-img" href="images/DiGi-star.svg" x="355" y="330" width="290" height="312"/>
+    <polygon class="wheel-star-ink" points="${inkStar}"/>
+    <text class="wheel-label" x="500" y="715" font-size="26" text-anchor="middle">RACE THE ALPHABET</text>
+  </svg>`;
+}
+document.querySelectorAll('.wheel').forEach(el => {
+  el.innerHTML = buildWheel(parseInt(el.dataset.size, 10));
+});
+
+/* ── Clue round pages ───────────────────────────────────────────────── */
+function clueCard(letter, clue, answer, i, tag){
+  const cls = i % 2 === 0 ? 'badge-a' : 'badge-b';
+  return `<div class="clue-card">
+    <div class="top"><div class="badge ${cls}">${letter}</div><div class="tag">${tag}</div></div>
+    <div class="clue">${clue}</div>
+    <div class="ans">${answer}</div>
+  </div>`;
+}
+function extraCard(title, text){
+  return `<div class="clue-card extra-card">
+    <div class="xtitle">${title}</div>
+    <div class="clue">${text}</div>
+  </div>`;
+}
+let roundHTML = '';
+for (const r of ROUNDS){
+  let cards = r.clues.map((c, i) => clueCard(c[0], c[1], c[2], i, r.tag)).join('');
+  cards += r.extras.map(e => extraCard(e[0], e[1])).join('');
+  roundHTML += `<div class="sheet">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+      <div>
+        <div class="eyebrow">Round ${r.num} of 3 · ${r.sub}</div>
+        <h2 style="margin-top:2mm;">Round ${r.num}: ${r.name}</h2>
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;color:var(--ink-muted);text-transform:uppercase;">Cut along the card edges</div>
+    </div>
+    <p style="margin-top:1.5mm;font-size:9pt;">${r.intro} Answers hide upside down at the bottom of each card, host eyes only.</p>
+    <div class="clue-grid">${cards}</div>
+    <div class="footer"><span>guidedchildhood.com</span><span>A to Z Showdown · Round ${r.num} · ${r.name}</span></div>
+  </div>`;
+}
+document.getElementById('round-pages').outerHTML = roundHTML;
+
+/* ── Blank template page ────────────────────────────────────────────── */
+function blankCard(i){
+  const letter = String.fromCharCode(65 + i);
+  const cls = i % 2 === 0 ? 'badge-a' : 'badge-b';
+  return `<div class="clue-card">
+    <div class="top"><div class="badge ${cls}">${letter}</div><div class="tag">MY R</div></div>
+    <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:1.6mm;">
+      <div class="blank-line"></div><div class="blank-line"></div>
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:5.5pt;letter-spacing:0.5px;color:var(--ink-muted);text-transform:uppercase;">Answer:</div>
+  </div>`;
+}
+let blankCards = '';
+for (let i = 0; i < 26; i++) blankCards += blankCard(i);
+blankCards += extraCard('My round is called', 'Give your round a name and a theme. Football. Dinosaurs. Our family. Then quiz the grown ups.');
+blankCards += extraCard('DiGi says', 'Write clues about your own people. Grandma’s famous pudding begins with T!');
+document.getElementById('blank-page').outerHTML = `<div class="sheet">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+    <div>
+      <div class="eyebrow">Round 4 is yours</div>
+      <h2 style="margin-top:2mm;">Write your own round</h2>
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:7pt;letter-spacing:1.5px;color:var(--ink-muted);text-transform:uppercase;">Print as many as you like</div>
+  </div>
+  <p style="margin-top:1.5mm;font-size:9pt;">Fill every card with your own clue, write the answer at the bottom, then host the family. Being the quiz master is the best seat at the table.</p>
+  <div class="clue-grid">${blankCards}</div>
+  <div class="footer"><span>guidedchildhood.com</span><span>A to Z Showdown · Write Your Own</span></div>
+</div>`;
+</script>
+</body>
+</html>

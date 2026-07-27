@@ -5,14 +5,48 @@ import { STAR_MINUTES } from './templates'
 // able to watch the same countdown. Minutes buy in whole star blocks (one
 // star is STAR_MINUTES minutes) so the maths is always clean.
 
-export type DeviceKey = 'phone' | 'tablet' | 'tv' | 'console'
+// The KIND of a device, not its identity. Which iPad, and whose, is
+// family_devices' job (lib/devices/family); this is the four (now five) word
+// bucket that every session, request and weekly breakdown has always been
+// keyed on, so it stays exactly as it was and simply gained computer, the one
+// real device a child uses that the four words could not describe.
+export type DeviceKind = 'phone' | 'tablet' | 'tv' | 'console' | 'computer'
+
+/** @deprecated The older name for DeviceKind, kept so nothing has to churn. */
+export type DeviceKey = DeviceKind
+
+// The device rule in child words, said the same way everywhere a device
+// could be used: the Use my time tile, the timer card, and the quiet line
+// under the Today list. A child should always know what using any device
+// means here.
+export const TIMER_RULE = 'Any screen goes through my timer. Do jobs, earn stars, start the timer.'
 
 export const DEVICES: { key: DeviceKey; label: string; emoji: string }[] = [
   { key: 'phone', label: 'Phone', emoji: '📱' },
   { key: 'tablet', label: 'Tablet', emoji: '📲' },
   { key: 'tv', label: 'TV', emoji: '📺' },
   { key: 'console', label: 'Console', emoji: '🎮' },
+  { key: 'computer', label: 'Computer', emoji: '💻' },
 ]
+
+// The same four devices in the child's own picker: TV first because that is
+// the most common ask, and the phone in their hands relabelled so the tile
+// reads as the thing they are actually holding. Same keys, same engine.
+export const KID_DEVICES: { key: DeviceKey; label: string; emoji: string }[] = [
+  { key: 'tv', label: 'TV', emoji: '📺' },
+  { key: 'phone', label: 'Stay on this phone', emoji: '📱' },
+  { key: 'tablet', label: 'Tablet', emoji: '📲' },
+  { key: 'console', label: 'Console', emoji: '🎮' },
+  { key: 'computer', label: 'Computer', emoji: '💻' },
+]
+
+export type TrustLevel = 'ask' | 'watch' | 'trusted'
+
+// Unset or unknown trust reads as ask first: the calibrated default for
+// everyone, which the parent can loosen in "Who starts the timer?".
+export function readTrust(v: unknown): TrustLevel {
+  return v === 'watch' || v === 'trusted' ? v : 'ask'
+}
 
 export function deviceLabel(key: string): string {
   return DEVICES.find(d => d.key === key)?.label ?? 'device'
@@ -22,6 +56,17 @@ export function deviceEmoji(key: string): string {
 }
 export function isDeviceKey(v: unknown): v is DeviceKey {
   return typeof v === 'string' && DEVICES.some(d => d.key === v)
+}
+
+// Is a screen time ask still worth showing the child? A pending or declined ask
+// goes stale after twelve hours so yesterday's answer never greets them, but an
+// approved ask stays startable for a full day, so a yes given near the twelve
+// hour edge never disappears before the child taps Start. One rule, used by the
+// child banner (server render and live poll) so both agree.
+export function isAskLive(status: string, createdAtIso: string): boolean {
+  const ageMs = Date.now() - new Date(createdAtIso).getTime()
+  if (Number.isNaN(ageMs) || ageMs < 0) return true
+  return status === 'approved' ? ageMs < 24 * 3600000 : ageMs < 12 * 3600000
 }
 
 // Minutes cost one star per STAR_MINUTES, rounded up: a part block still
@@ -40,6 +85,9 @@ export type ActiveSession = {
   stars: number
   endsAt: string
   startedAt: string
+  // The parent knowingly granted this block beyond the day's healthy guide.
+  // A treat runs its full length untouched by the guide crossing divert.
+  treat: boolean
 }
 
 type SessionClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
@@ -51,7 +99,7 @@ type SessionClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'
 export async function getActiveSession(supabase: SessionClient, childId: string): Promise<ActiveSession | null> {
   const { data } = await supabase
     .from('device_sessions')
-    .select('id, device, minutes, stars, ends_at, started_at, status')
+    .select('id, device, minutes, stars, ends_at, started_at, status, treat')
     .eq('child_id', childId)
     .eq('status', 'active')
     .order('started_at', { ascending: false })
@@ -66,5 +114,6 @@ export async function getActiveSession(supabase: SessionClient, childId: string)
     stars: data.stars as number,
     endsAt: data.ends_at as string,
     startedAt: data.started_at as string,
+    treat: Boolean((data as { treat?: boolean }).treat),
   }
 }

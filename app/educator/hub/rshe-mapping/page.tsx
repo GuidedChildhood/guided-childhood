@@ -8,8 +8,8 @@ import { CURRICULUM, RSHE_2025_TOPICS, KEY_STAGE_ORDER } from '@/lib/content/sch
 // 2026 statutory switchover. Renders live from the curriculum manifest so
 // it can never drift from what the modules actually teach.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6 }
 
 export default async function RsheMappingPage() {
   const supabase = await createClient()
@@ -40,7 +40,7 @@ export default async function RsheMappingPage() {
           it substantively teaches, including the newly named content: harms of pornography, misogynistic
           online cultures and incel groups, deepfakes, online gambling, and illegal online behaviours.
         </p>
-        <p style={{ ...body, fontSize: '12px', color: 'var(--ink-muted)', marginBottom: '20px' }}>
+        <p style={{ ...body, fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '20px' }}>
           Honesty note: a module is marked only where it substantively teaches the topic. This scheme is a
           digital literacy and online safety programme designed to sit inside your wider PSHE provision,
           not to replace it. Each lesson additionally carries its KCSIE 2025 hooks and Education for a
@@ -48,12 +48,12 @@ export default async function RsheMappingPage() {
         </p>
 
         <div style={{ overflowX: 'auto', marginBottom: '28px' }}>
-          <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '11.5px', fontFamily: 'var(--font-body)' }}>
+          <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: '13.5px', fontFamily: 'var(--font-body)' }}>
             <thead>
               <tr>
-                <th style={{ textAlign: 'left', padding: '6px 8px', borderBottom: '2px solid var(--ink)', fontFamily: 'var(--font-display)', fontSize: '12px' }}>Module</th>
+                <th style={{ textAlign: 'left', padding: '6px 8px', borderBottom: '2px solid var(--ink)', fontFamily: 'var(--font-display)', fontSize: '14px' }}>Module</th>
                 {RSHE_2025_TOPICS.map(t => (
-                  <th key={t.key} style={{ padding: '6px 4px', borderBottom: '2px solid var(--ink)', fontWeight: 700, fontSize: '10px', lineHeight: 1.3, maxWidth: '76px' }}>
+                  <th key={t.key} style={{ padding: '6px 4px', borderBottom: '2px solid var(--ink)', fontWeight: 700, fontSize: '12px', lineHeight: 1.3, maxWidth: '76px' }}>
                     {t.label}
                   </th>
                 ))}
@@ -63,11 +63,11 @@ export default async function RsheMappingPage() {
               {KEY_STAGE_ORDER.flatMap(ks => CURRICULUM.filter(m => m.keyStage === ks)).map(m => (
                 <tr key={m.moduleId}>
                   <td style={{ padding: '6px 8px', borderBottom: '1px solid var(--border)', fontWeight: 700 }}>
-                    <span style={{ ...mono, fontSize: '9px', display: 'block' }}>{m.keyStage} · M{String(m.n).padStart(2, '0')}</span>
+                    <span style={{ ...mono, fontSize: '11px', display: 'block' }}>{m.keyStage} · M{String(m.n).padStart(2, '0')}</span>
                     {m.title}
                   </td>
                   {RSHE_2025_TOPICS.map(t => (
-                    <td key={t.key} style={{ textAlign: 'center', borderBottom: '1px solid var(--border)', color: 'var(--green-dark)', fontWeight: 900, fontSize: '14px' }}>
+                    <td key={t.key} style={{ textAlign: 'center', borderBottom: '1px solid var(--border)', color: 'var(--green-dark)', fontWeight: 900, fontSize: '16px' }}>
                       {m.rshe?.includes(t.key) ? '✓' : ''}
                     </td>
                   ))}
@@ -82,7 +82,7 @@ export default async function RsheMappingPage() {
           {CURRICULUM.map(m => {
             const db = dbByModule.get(m.moduleId)
             return (
-              <p key={m.moduleId} style={{ ...body, fontSize: '12px' }}>
+              <p key={m.moduleId} style={{ ...body, fontSize: '14px' }}>
                 <strong>M{String(m.n).padStart(2, '0')} {m.title}:</strong>{' '}
                 {(db?.statutory_hooks ?? []).join(' · ') || 'Statutory hooks load when the module row is live.'}
                 {db?.efcw_strands?.length ? ` · EfCW strand${db.efcw_strands.length === 1 ? '' : 's'} ${db.efcw_strands.join(', ')}` : ''}
@@ -91,7 +91,7 @@ export default async function RsheMappingPage() {
           })}
         </div>
 
-        <p style={{ ...body, fontSize: '11.5px', color: 'var(--ink-muted)', marginTop: '24px' }}>
+        <p style={{ ...body, fontSize: '13.5px', color: 'var(--ink-muted)', marginTop: '24px' }}>
           Generated live from the curriculum data on {new Date().toLocaleDateString('en-GB')}. This document
           regenerates automatically whenever a module changes, so the printed copy in your file is always
           reproducible from the page.

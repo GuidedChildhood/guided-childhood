@@ -1,3 +1,4 @@
+import { createClient } from '@/lib/supabase/server'
 import CraftPack from './CraftPack'
 
 // The Game Pack: big quality, screen free, star earning printables.
@@ -6,6 +7,14 @@ import CraftPack from './CraftPack'
 
 export const metadata = { title: 'The Game Pack — Guided Childhood' }
 
-export default function CraftsPage() {
-  return <CraftPack />
+export default async function CraftsPage() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  let childName: string | null = null
+  if (user) {
+    const { data: child } = await supabase
+      .from('children').select('name').eq('parent_id', user.id).eq('is_primary', true).maybeSingle()
+    childName = child?.name && child.name !== 'Your child' ? child.name : null
+  }
+  return <CraftPack childName={childName} />
 }

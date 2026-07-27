@@ -1,6 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import SchoolSetup from '@/components/school/SchoolSetup'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 
 // The school section: your live alerts first (the things you need to know,
@@ -16,7 +15,7 @@ export default async function SchoolPage() {
   const [actionsResult, childResult] = await Promise.all([
     supabase
       .from('school_actions')
-      .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child')
+      .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child, cleared_on')
       .eq('user_id', user.id)
       .eq('status', 'open')
       .order('due_date', { ascending: true, nullsFirst: false })
@@ -30,10 +29,10 @@ export default async function SchoolPage() {
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 48px' }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '10px' }}>School</p>
-      <h1 style={{ fontSize: 'clamp(1.5rem, 5vw, 1.9rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.15, marginBottom: '8px' }}>
+      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }}>
         School alerts and reminders
       </h1>
-      <p style={{ color: 'var(--ink-soft)', fontSize: '15px', lineHeight: 1.6, marginBottom: '18px' }}>
+      <p style={{ color: 'var(--ink-soft)', fontSize: '18.5px', lineHeight: 1.6, marginBottom: '20px', maxWidth: '46ch' }}>
         Everything from school in one place. Tick a thing off to clear it, or add your own weekly routine so the PE kit never gets forgotten again.
       </p>
 
@@ -42,8 +41,20 @@ export default async function SchoolPage() {
         <SchoolActionsCard actions={actions} childName={childName} />
       </div>
 
-      {/* The connection and setup */}
-      <SchoolSetup />
+      {/* Email forwarding is coming soon: the automatic pull from school emails
+          is being finished alongside the app wrap for Apple. The manual weekly
+          routines above are live and do the everyday job now. */}
+      <div style={{ background: '#fff', border: '1.5px dashed var(--border)', borderRadius: '18px', padding: '20px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 8px' }}>
+          Forward your school emails · coming soon
+        </p>
+        <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.25, margin: '0 0 8px' }}>
+          Automatic school email reminders are on the way
+        </h3>
+        <p style={{ color: 'var(--ink-soft)', fontSize: '16.5px', lineHeight: 1.6, margin: 0 }}>
+          Soon you will forward your school&apos;s emails to a private address and DiGi will pull out the kit days, trips, payments and homework for you, no typing. We are finishing it off alongside the phone app. For now, add your weekly routines above and they will remind you and your child every week.
+        </p>
+      </div>
     </div>
   )
 }

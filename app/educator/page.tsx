@@ -10,7 +10,7 @@ import { CURRICULUM } from '@/lib/content/schools-curriculum'
 // a repair notice. All three states stay, the happy path goes luxe.
 
 const eyebrow: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 const card: React.CSSProperties = {
@@ -20,13 +20,13 @@ const card: React.CSSProperties = {
 const input: React.CSSProperties = {
   width: '100%', padding: '12px 14px', borderRadius: '12px',
   border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)',
-  fontSize: '15px', background: '#fff', color: 'var(--ink)',
+  fontSize: '17px', background: '#fff', color: 'var(--ink)',
 }
 const chunkyButton: React.CSSProperties = {
   display: 'inline-block', padding: '12px 22px', borderRadius: '16px',
   background: 'var(--gold)', color: 'var(--ink)', border: 'none',
   boxShadow: '0 5px 0 var(--gold-hover, #E3B53A)', cursor: 'pointer',
-  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
 }
 const panel: React.CSSProperties = {
   background: '#fff', border: '1px solid var(--border)', borderRadius: '24px',
@@ -39,7 +39,7 @@ function ErrorBox({ message }: { message?: string }) {
     <div style={{
       background: 'var(--coral-lt)', border: '2px solid var(--coral)', borderRadius: '16px',
       padding: '14px 18px', marginBottom: '20px', fontFamily: 'var(--font-body)',
-      fontSize: '14px', color: 'var(--coral-dark, #8F3F04)', lineHeight: 1.6, overflowWrap: 'anywhere',
+      fontSize: '16px', color: 'var(--coral-dark, #8F3F04)', lineHeight: 1.6, overflowWrap: 'anywhere',
     }}>
       <strong style={{ display: 'block', marginBottom: '4px' }}>Something went wrong</strong>
       {message}
@@ -112,16 +112,16 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '8px 0 10px' }}>
             Set up your school
           </h1>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '24px' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '24px' }}>
             Two fields and you are in. You become the school lead; colleagues can be added later.
           </p>
           <ErrorBox message={combinedError || undefined} />
           <form action={createSchool} style={{ ...card, display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
+            <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '15.5px', color: 'var(--ink)' }}>
               School name
               <input name="name" required placeholder="St Example Primary" style={{ ...input, marginTop: '6px' }} />
             </label>
-            <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
+            <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '15.5px', color: 'var(--ink)' }}>
               Phase
               <select name="phase" style={{ ...input, marginTop: '6px' }}>
                 <option value="primary">Primary</option>
@@ -225,7 +225,7 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
               <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 4.5vw, 2.3rem)', letterSpacing: '-0.02em', margin: '10px 0 8px' }}>
                 Hi {greetName} 👋
               </h1>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, maxWidth: '440px', marginBottom: '20px' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: '17px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, maxWidth: '440px', marginBottom: '20px' }}>
                 {classCoverage.length === 0
                   ? 'Add your first class below and the whole programme opens up: teach, print and record in one place.'
                   : classCoverage[0]?.next
@@ -241,7 +241,7 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
                 <Link href="/educator/curriculum" style={{
                   display: 'inline-block', padding: '12px 22px', borderRadius: '16px',
                   background: 'rgba(255,255,255,0.12)', color: '#fff', border: '1.5px solid rgba(255,255,255,0.28)',
-                  textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                  textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
                 }}>
                   See the curriculum
                 </Link>
@@ -252,7 +252,7 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
           <div style={{ ...panel, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
             <div style={{ ...eyebrow, alignSelf: 'flex-start' }}>Programme coverage</div>
             <CoverageDonut pct={overallPct} />
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.5 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.5 }}>
               Average across {classCoverage.length || 'your'} class{classCoverage.length === 1 ? '' : 'es'}, of {liveCount} live module{liveCount === 1 ? '' : 's'}
             </p>
           </div>
@@ -277,8 +277,8 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
             <Link key={q.href} href={q.href} style={{ ...panel, padding: '18px 20px', textDecoration: 'none', display: 'flex', gap: '12px', alignItems: 'center' }}>
               <span style={{ fontSize: '24px', flexShrink: 0 }}>{q.emoji}</span>
               <span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{q.title}</span>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '12.5px', color: 'var(--ink-muted)' }}>{q.sub}</span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>{q.title}</span>
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-muted)' }}>{q.sub}</span>
               </span>
             </Link>
           ))}
@@ -290,7 +290,7 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
           <div style={panel}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <div style={{ ...eyebrow, color: 'var(--green-dark)' }}>Your classes</div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)' }}>Ranked by coverage</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)' }}>Ranked by coverage</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {classCoverage.map((c, i) => (
@@ -302,14 +302,14 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
                     width: '28px', height: '28px', borderRadius: '9px', flexShrink: 0,
                     background: i === 0 ? 'var(--gold)' : 'var(--cream)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px', color: 'var(--ink)',
+                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '15px', color: 'var(--ink)',
                   }}>{i + 1}</span>
                   <span style={{ flex: 1, minWidth: 0 }}>
                     <span style={{ display: 'flex', justifyContent: 'space-between', gap: '8px' }}>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)' }}>
-                        {c.name} <span style={{ fontWeight: 600, color: 'var(--ink-muted)', fontSize: '12.5px' }}>{c.year_group}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)' }}>
+                        {c.name} <span style={{ fontWeight: 600, color: 'var(--ink-muted)', fontSize: '14.5px' }}>{c.year_group}</span>
                       </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, color: 'var(--green-dark)' }}>{c.taught}/{liveCount}</span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: 'var(--green-dark)' }}>{c.taught}/{liveCount}</span>
                     </span>
                     <span style={{ display: 'block', height: '6px', borderRadius: '6px', background: 'var(--border)', overflow: 'hidden', marginTop: '6px' }}>
                       <span style={{ display: 'block', height: '100%', width: `${Math.round(c.pct * 100)}%`, borderRadius: '6px', background: 'linear-gradient(90deg, var(--gold), var(--coral))' }} />
@@ -318,25 +318,25 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
                 </Link>
               ))}
               {classCoverage.length === 0 && (
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)' }}>No classes yet. Add your first below.</p>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-muted)' }}>No classes yet. Add your first below.</p>
               )}
             </div>
 
             <details style={{ marginTop: '16px' }}>
-              <summary style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--green-dark)', cursor: 'pointer' }}>+ Add a class</summary>
+              <summary style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--green-dark)', cursor: 'pointer' }}>+ Add a class</summary>
               <form action={createClass} style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <input type="hidden" name="school_id" value={membership.school_id} />
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                  <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '13px', color: 'var(--ink)' }}>
+                  <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)' }}>
                     Class name
                     <input name="name" required placeholder="8B" style={{ ...input, marginTop: '6px' }} />
                   </label>
-                  <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '13px', color: 'var(--ink)' }}>
+                  <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)' }}>
                     Year group
                     <input name="year_group" required placeholder="Year 8" style={{ ...input, marginTop: '6px' }} />
                   </label>
                 </div>
-                <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '13px', color: 'var(--ink)' }}>
+                <label style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)' }}>
                   Pupils, one per line, first name and initial only
                   <textarea name="pupils" rows={5} placeholder={'Amara K\nBen T\nChloe M'} style={{ ...input, marginTop: '6px', resize: 'vertical' }} />
                 </label>
@@ -352,22 +352,22 @@ export default async function EducatorHome({ searchParams }: { searchParams: Pro
               {(lessons ?? []).map(l => (
                 <div key={l.id} style={{ padding: '14px 16px', borderRadius: '16px', border: '1px solid var(--border)', background: 'var(--warm)' }}>
                   <div style={{ ...eyebrow, marginBottom: '5px' }}>{l.key_stage} · {l.year_band}</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', marginBottom: '10px', lineHeight: 1.3 }}>{l.title}</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '10px', lineHeight: 1.3 }}>{l.title}</div>
                   <span style={{ display: 'flex', gap: '16px' }}>
-                    <Link href={`/educator/teach/${l.module_id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--green-dark)', textDecoration: 'none' }}>
+                    <Link href={`/educator/teach/${l.module_id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--green-dark)', textDecoration: 'none' }}>
                       Teach →
                     </Link>
-                    <Link href={`/educator/print/${l.module_id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
+                    <Link href={`/educator/print/${l.module_id}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--gold-dark)', textDecoration: 'none' }}>
                       Print pack →
                     </Link>
                   </span>
                 </div>
               ))}
               {(lessons ?? []).length === 0 && (
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '13.5px', color: 'var(--ink-muted)' }}>Run the migrations and the lessons appear here.</p>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-muted)' }}>Run the migrations and the lessons appear here.</p>
               )}
             </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink-light)', marginTop: '14px', lineHeight: 1.55 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-light)', marginTop: '14px', lineHeight: 1.55 }}>
               {liveCount} of {CURRICULUM.length} modules live. The rest are on the curriculum map and light up as each ships.
             </p>
           </div>

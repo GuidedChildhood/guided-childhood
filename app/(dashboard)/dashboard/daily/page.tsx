@@ -36,7 +36,13 @@ export default async function DailyPage() {
   const alreadyDone = !!sessionResult.data?.completed_at
   const streak = child?.streak_weeks ?? 0
   const yesterdayMoments: string[] = (yesterdaySession.data?.moment_feedback as string[] | null) ?? []
-  const checkIns = (concernsResult.data ?? []) as { slug: string; label: string; times_flagged: number; last_flagged_at: string }[]
+  // The generic Something else catch all is a picker, not a real moment, so it
+  // is never a rateable check in row: only the specific moment a parent lands
+  // on is tracked. Guard it out of the list defensively even if an old row
+  // exists.
+  const GENERIC_CONCERN_SLUGS = new Set(['something-else', 'something_else', 'other'])
+  const checkIns = ((concernsResult.data ?? []) as { slug: string; label: string; times_flagged: number; last_flagged_at: string }[])
+    .filter(c => c.slug && !GENERIC_CONCERN_SLUGS.has(c.slug) && (c.label ?? '').trim().toLowerCase() !== 'something else')
 
   const stage = STAGES.find(s => s.ageBand === (child?.age_band as AgeBand)) ?? STAGES[2]
 

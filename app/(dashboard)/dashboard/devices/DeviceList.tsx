@@ -36,16 +36,22 @@ export default function DeviceList({
   devices,
   childAge,
   completed,
+  notOwned,
   pending,
   onToggle,
+  onNotOwned,
+  onRestore,
   openKey,
   setOpenKey,
 }: {
   devices: DeviceGuide[]
   childAge: number
   completed: Set<string>
+  notOwned: Set<string>
   pending: string | null
   onToggle: (key: string) => void
+  onNotOwned: (key: string) => void
+  onRestore: (key: string) => void
   openKey: string | null
   setOpenKey: (key: string | null) => void
 }) {
@@ -61,7 +67,7 @@ export default function DeviceList({
 
   return (
     <div>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
         Every guide, step by step
       </div>
 
@@ -88,7 +94,7 @@ export default function DeviceList({
               border: `1.5px solid ${activeCategory === cat ? 'var(--terracotta)' : 'var(--border)'}`,
               background: activeCategory === cat ? 'var(--terracotta)' : '#fff',
               color: activeCategory === cat ? '#fff' : 'var(--ink)',
-              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
+              fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600,
               cursor: 'pointer', whiteSpace: 'nowrap',
             }}
           >
@@ -98,7 +104,7 @@ export default function DeviceList({
       </div>
 
       {filtered.length === 0 && (
-        <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--ink-muted)', fontSize: '14px' }}>
+        <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--ink-muted)', fontSize: '16px' }}>
           <strong style={{ display: 'block', color: 'var(--ink)', marginBottom: '6px', fontWeight: 700 }}>No device found</strong>
           Try a brand or type, like iPad, console, or TV.
         </div>
@@ -109,6 +115,7 @@ export default function DeviceList({
         {filtered.map(d => {
           const isOpen = openKey === d.device_key
           const isDone = completed.has(d.device_key)
+          const isNotOwned = notOwned.has(d.device_key)
           const ageReady = childAge >= d.min_age
 
           return (
@@ -129,17 +136,22 @@ export default function DeviceList({
                   padding: '14px 16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
                 }}
               >
-                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px', flexShrink: 0 }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>
                   {d.emoji}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)' }}>{d.name}</span>
-                    {isDone && <span style={{ fontSize: '13px', color: 'var(--terracotta)' }}>✓</span>}
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '17px', color: 'var(--ink)' }}>{d.name}</span>
+                    {isDone && <span style={{ fontSize: '15px', color: 'var(--terracotta)' }}>✓</span>}
+                    {isNotOwned && (
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '2px 8px' }}>
+                        Not in our home
+                      </span>
+                    )}
                   </div>
-                  <div style={{ fontSize: '12px', color: 'var(--ink-muted)' }}>{d.subtitle}</div>
+                  <div style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>{d.subtitle}</div>
                 </div>
-                <span style={{ fontSize: '14px', color: 'var(--ink-light)', flexShrink: 0, transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
+                <span style={{ fontSize: '16px', color: 'var(--ink-light)', flexShrink: 0, transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
               </button>
 
               {isOpen && (
@@ -148,29 +160,29 @@ export default function DeviceList({
                     display: 'inline-flex', alignItems: 'center', gap: '6px',
                     background: ageReady ? 'var(--stage-2)' : 'var(--stage-5)',
                     color: ageReady ? 'var(--stage-2-text)' : 'var(--stage-5-text)',
-                    fontSize: '12px', fontWeight: 600, padding: '6px 12px', borderRadius: '10px', marginBottom: '14px',
+                    fontSize: '14px', fontWeight: 600, padding: '6px 12px', borderRadius: '10px', marginBottom: '14px',
                   }}>
                     {ageReady ? `✓ Suitable to set up now` : `Most families introduce this around age ${d.min_age} plus, here is how, for when you are ready`}
                   </div>
 
-                  <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.65, marginBottom: '16px' }}>
+                  <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.65, marginBottom: '16px' }}>
                     {d.why}
                   </p>
 
                   <ol style={{ listStyle: 'none', margin: 0, padding: 0, marginBottom: '16px' }}>
                     {d.steps.map((step, i) => (
                       <li key={i} style={{ display: 'flex', gap: '12px', padding: '11px 0', borderBottom: i < d.steps.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                        <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--ink)', color: 'var(--terracotta-lt)', fontSize: '11px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                        <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: 'var(--ink)', color: 'var(--terracotta-lt)', fontSize: '13px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
                           {i + 1}
                         </div>
-                        <span style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.65 }}>
+                        <span style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.65 }}>
                           {renderStep(step)}
                         </span>
                       </li>
                     ))}
                   </ol>
 
-                  <div style={{ background: 'var(--stage-5)', borderLeft: '2.5px solid var(--terracotta)', borderRadius: '10px', padding: '12px 14px', fontSize: '13px', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '14px' }}>
+                  <div style={{ background: 'var(--stage-5)', borderLeft: '2.5px solid var(--terracotta)', borderRadius: '10px', padding: '12px 14px', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6, marginBottom: '14px' }}>
                     <strong style={{ color: 'var(--terracotta)', fontWeight: 700 }}>Pathway note: </strong>
                     {d.note}
                   </div>
@@ -180,18 +192,33 @@ export default function DeviceList({
                       onClick={() => onToggle(d.device_key)}
                       disabled={pending === d.device_key}
                       className={isDone ? 'btn btn-outline' : 'btn btn-gold'}
-                      style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '13px' }}
+                      style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '15px' }}
                     >
                       {isDone ? 'Marked as set up ✓' : 'Mark as set up'}
                     </button>
                     <Link
                       href={`/dashboard/digi?device=${d.device_key}&q=${encodeURIComponent(`Can you walk me through setting up ${d.name} step by step?`)}`}
                       className="btn btn-outline"
-                      style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '13px' }}
+                      style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '15px' }}
                     >
                       DiGi can walk me through it
                     </Link>
                   </div>
+
+                  {/* The escape from saying yes to a device you do not own. It
+                      drops off the checklist and the ring, but stays here to
+                      find again the day it arrives. */}
+                  <button
+                    onClick={() => (isNotOwned ? onRestore(d.device_key) : onNotOwned(d.device_key))}
+                    disabled={pending === d.device_key}
+                    style={{
+                      marginTop: '10px', background: 'none', border: 'none', cursor: 'pointer',
+                      fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 600,
+                      color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px', padding: '2px 0',
+                    }}
+                  >
+                    {isNotOwned ? 'We have this now, put it back on the list' : 'We do not have this yet'}
+                  </button>
                 </div>
               )}
             </div>

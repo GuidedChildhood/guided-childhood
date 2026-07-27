@@ -97,10 +97,10 @@ export default function InstallPrompt() {
           </span>
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: '#fff', lineHeight: 1.25 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: '#fff', lineHeight: 1.25 }}>
             Put Guided Childhood on your Home Screen
           </span>
-          <span style={{ display: 'block', fontSize: '11.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4, marginTop: '2px' }}>
+          <span style={{ display: 'block', fontSize: '13.5px', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4, marginTop: '2px' }}>
             Full screen, one tap away, and check ins can reach you.
           </span>
         </span>
@@ -109,7 +109,7 @@ export default function InstallPrompt() {
           style={{
             background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px',
             padding: '10px 14px', cursor: 'pointer', flexShrink: 0,
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
             boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}
         >
@@ -118,7 +118,7 @@ export default function InstallPrompt() {
         <button
           onClick={snooze}
           aria-label="Not now"
-          style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '15px', cursor: 'pointer', padding: '4px', flexShrink: 0 }}
+          style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '17px', cursor: 'pointer', padding: '4px', flexShrink: 0 }}
         >
           ✕
         </button>
@@ -146,26 +146,26 @@ export default function InstallPrompt() {
         <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', letterSpacing: '-0.02em', margin: '0 0 6px' }}>
           Two taps and it is an app
         </h2>
-        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+        <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
           Apple does not let websites do this automatically, so here is exactly where to tap in Safari:
         </p>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '18px' }}>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'var(--cream)', borderRadius: '14px', padding: '14px 16px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '13px', color: 'var(--terracotta-dark)', flexShrink: 0 }}>1</span>
-            <span style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55 }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '15px', color: 'var(--terracotta-dark)', flexShrink: 0 }}>1</span>
+            <span style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.55 }}>
               Tap the <strong>Share</strong> button <ShareGlyph /> in the bar at the bottom of Safari (the square with the arrow pointing up).
             </span>
           </div>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'var(--cream)', borderRadius: '14px', padding: '14px 16px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '13px', color: 'var(--terracotta-dark)', flexShrink: 0 }}>2</span>
-            <span style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55 }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '15px', color: 'var(--terracotta-dark)', flexShrink: 0 }}>2</span>
+            <span style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.55 }}>
               Scroll down the list and tap <strong>Add to Home Screen</strong> <span style={{ fontWeight: 700 }}>⊞</span>, then <strong>Add</strong>.
             </span>
           </div>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start', background: 'var(--tint-sage)', borderRadius: '14px', padding: '14px 16px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '13px', color: 'var(--terracotta-dark)', flexShrink: 0 }}>✓</span>
-            <span style={{ fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55 }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '15px', color: 'var(--terracotta-dark)', flexShrink: 0 }}>✓</span>
+            <span style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.55 }}>
               Open it from your Home Screen and turn on check ins when it asks. That is the whole setup.
             </span>
           </div>
@@ -177,7 +177,7 @@ export default function InstallPrompt() {
             style={{
               flex: 1, padding: '14px', background: 'var(--terracotta)', color: 'var(--ink)',
               border: 'none', borderRadius: '14px', cursor: 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
           >
@@ -188,7 +188,7 @@ export default function InstallPrompt() {
             style={{
               padding: '14px 16px', background: 'none', border: '1.5px solid var(--border)',
               borderRadius: '14px', cursor: 'pointer', fontFamily: 'var(--font-body)',
-              fontSize: '13px', color: 'var(--ink-muted)',
+              fontSize: '15px', color: 'var(--ink-muted)',
             }}
           >
             Later

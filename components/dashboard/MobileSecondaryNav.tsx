@@ -18,7 +18,7 @@ const TABS = [
   { href: '/dashboard/lessons', label: 'Lessons' },
   { href: '/dashboard/school', label: 'School' },
   { href: '/dashboard/scripts', label: 'Scripts' },
-  { href: '/dashboard/tracker', label: 'Progress' },
+  { href: '/dashboard/tracker', label: 'Passport' },
 ]
 
 export default function MobileSecondaryNav() {
@@ -49,7 +49,7 @@ export default function MobileSecondaryNav() {
               aria-current={on ? 'page' : undefined}
               style={{
                 flexShrink: 0, textDecoration: 'none',
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13px',
+                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px',
                 padding: '8px 15px', borderRadius: '100px', whiteSpace: 'nowrap',
                 background: on ? 'var(--deep-teal)' : 'var(--cream)',
                 color: on ? '#fff' : 'var(--ink-soft)',

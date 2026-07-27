@@ -9,23 +9,34 @@
 // Emoji emblems are stand ins until the Higgsfield character stills land
 // (blocked on credits); the colour is the character's canonical accent.
 
+import { characterByKey } from '@/lib/content/stage-characters'
+
 export type KeyStage = 'EYFS' | 'KS1' | 'KS2' | 'KS3' | 'KS4' | 'KS5'
 
-export type CharacterKey = 'sofia' | 'zara' | 'oliver' | 'digi' | 'vix' | 'brock'
+export type CharacterKey = 'pebble' | 'bloop' | 'orbit' | 'digi' | 'nova' | 'cosmo'
 
+// The Planet Friends carry the school curriculum too, so one cast runs across
+// the whole platform. Each owns a strand of digital life and, roughly, an age
+// that tracks the key stages: Pebble the first safe steps, Bloop the habits,
+// Orbit the checks and big questions, Nova the choices, Cosmo the readiness
+// years. DiGi, the golden star, closes every lesson. Names and art come from
+// the one stage-characters source; the soft band and ink are the school card
+// tints. The emblem is a small stand in on the tightest chips where the art
+// would be too small to read.
 export const CHARACTERS: Record<CharacterKey, {
   name: string
   emblem: string
+  img: string    // the real Planet Friend art, used where there is room
   accent: string // border, ring, chips
   soft: string   // card header band
   ink: string    // text on the soft band
 }> = {
-  sofia: { name: 'Sofia', emblem: '🛡️', accent: '#2E7D5A', soft: '#DDEDE4', ink: '#1F5940' },
-  zara: { name: 'Zara', emblem: '🔎', accent: '#E3B53A', soft: '#FBEEC9', ink: '#7A5A0E' },
-  oliver: { name: 'Oliver', emblem: '⏳', accent: '#D4600A', soft: '#F7DFC9', ink: '#8F3F04' },
-  digi: { name: 'DiGi', emblem: '⭐', accent: '#F2C94C', soft: '#FDF4D9', ink: '#7A5A0E' },
-  vix: { name: 'Vix', emblem: '🦊', accent: '#B4530A', soft: '#F3DCC9', ink: '#7C3806' },
-  brock: { name: 'Brock', emblem: '🦡', accent: '#5C6B73', soft: '#E4EAED', ink: '#3B4A52' },
+  pebble: { name: 'Pebble', emblem: '🌱', img: characterByKey('pebble')?.cutout ?? '', accent: '#C99A28', soft: '#FBEED0', ink: '#7A5A0E' },
+  bloop: { name: 'Bloop', emblem: '🧩', img: characterByKey('bloop')?.cutout ?? '', accent: '#6C9E38', soft: '#E4F0D4', ink: '#3F5E1E' },
+  orbit: { name: 'Orbit', emblem: '🔭', img: characterByKey('orbit')?.cutout ?? '', accent: '#3E86BC', soft: '#DCEBF7', ink: '#1F4E6E' },
+  digi: { name: 'DiGi', emblem: '⭐', img: '/digi-squad/DiGi-star.svg', accent: '#C99A28', soft: '#FDF4D9', ink: '#7A5A0E' },
+  nova: { name: 'Nova', emblem: '🧭', img: characterByKey('nova')?.cutout ?? '', accent: '#7E5AB0', soft: '#ECE3F7', ink: '#4A2F73' },
+  cosmo: { name: 'Cosmo', emblem: '🚀', img: characterByKey('cosmo')?.cutout ?? '', accent: '#CE7328', soft: '#FBE4D0', ink: '#8F4A12' },
 }
 
 // The named topics of the DfE RSHE statutory guidance published 15 July
@@ -81,7 +92,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Screens and kindness, real and not real',
     outcome: 'I can ask a grown up if something on a screen is real.',
     blurb: 'Co viewing, gentle routines, and the very first seed of AI literacy.',
-    character: 'sofia', castLine: 'Sofia with DiGi Junior',
+    character: 'pebble', castLine: 'Pebble with DiGi Junior',
     rshe: ['online_safety', 'mental_wellbeing'],
   },
   {
@@ -89,7 +100,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Kind screens, calm bodies',
     outcome: 'I can name how I feel after screen time and tell a grown up.',
     blurb: 'How screens make my body and mood feel, being kind, and who to tell.',
-    character: 'sofia', castLine: 'Sofia',
+    character: 'pebble', castLine: 'Pebble',
     rshe: ['online_safety', 'mental_wellbeing', 'respectful_relationships'],
   },
   {
@@ -97,7 +108,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Real, pretend, or made by a computer',
     outcome: 'I can spot that a picture might not be real.',
     blurb: 'Photos and videos can be changed or made up, and AI can make pictures.',
-    character: 'zara', castLine: 'Zara with DiGi Junior',
+    character: 'orbit', castLine: 'Orbit with DiGi Junior',
     rshe: ['online_safety', 'deepfakes_ai'],
   },
   {
@@ -105,7 +116,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Screen routines that work',
     outcome: 'One routine the child sets tonight.',
     blurb: 'After school, bedtime, mealtimes and homework, without the daily fight.',
-    character: 'oliver', castLine: 'Oliver',
+    character: 'bloop', castLine: 'Bloop',
     rshe: ['mental_wellbeing', 'online_safety'],
   },
   {
@@ -113,7 +124,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Gaming: time, intensity and spend',
     outcome: 'I can spot when a game is trying to get me to spend.',
     blurb: 'Loot boxes, in game spend, and the free that costs.',
-    character: 'oliver', castLine: 'Oliver',
+    character: 'bloop', castLine: 'Bloop',
     rshe: ['gambling', 'scams_financial', 'online_safety'],
   },
   {
@@ -129,7 +140,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Privacy and digital reputation',
     outcome: 'I can decide what not to share.',
     blurb: 'What is private, what lasts, and your digital footprint.',
-    character: 'sofia', castLine: 'Sofia',
+    character: 'pebble', castLine: 'Pebble',
     rshe: ['online_safety'],
   },
   {
@@ -137,7 +148,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Being kind and safe with others online',
     outcome: 'I know three things to do if someone is unkind online.',
     blurb: 'Group chats, fallout, and never being a bystander to online bullying.',
-    character: 'sofia', castLine: 'Sofia with Zara',
+    character: 'pebble', castLine: 'Pebble with Orbit',
     rshe: ['respectful_relationships', 'online_safety', 'mental_wellbeing'],
   },
   {
@@ -145,7 +156,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'My work and other people’s work',
     outcome: 'I can credit work that is not mine.',
     blurb: 'Owning what you make, using what others made, and where AI content comes from.',
-    character: 'zara', castLine: 'Zara',
+    character: 'orbit', castLine: 'Orbit',
     rshe: ['online_safety', 'deepfakes_ai'],
   },
   {
@@ -153,7 +164,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Mood and screens',
     outcome: 'One honest self check the pupil runs for a week.',
     blurb: 'The honest, mixed evidence on screens and mood, and agency over habits.',
-    character: 'brock', castLine: 'Brock with DiGi',
+    character: 'nova', castLine: 'Nova with DiGi',
     rshe: ['mental_wellbeing', 'online_safety'],
   },
   {
@@ -161,7 +172,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Social media, group chats and the workarounds',
     outcome: 'I can explain the risk behind a workaround I might be tempted by.',
     blurb: 'How platforms work, VPNs and borrowed accounts, and why the rules exist.',
-    character: 'vix', castLine: 'Vix',
+    character: 'cosmo', castLine: 'Cosmo',
     rshe: ['online_safety', 'illegal_online', 'respectful_relationships'],
   },
   {
@@ -169,7 +180,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Misinformation, deepfakes and AI content',
     outcome: 'I can run three checks before I believe or share something.',
     blurb: 'Spotting manufactured content with three checks that take under a minute.',
-    character: 'zara', castLine: 'Zara with a Vix cameo',
+    character: 'orbit', castLine: 'Orbit with a Cosmo cameo',
     rshe: ['deepfakes_ai', 'online_safety'],
   },
   {
@@ -177,7 +188,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Scams, fraud and money online',
     outcome: 'I can spot a scam’s three tells.',
     blurb: 'Phishing, fake offers, get rich hype and account theft.',
-    character: 'vix', castLine: 'Vix',
+    character: 'cosmo', castLine: 'Cosmo',
     rshe: ['scams_financial', 'illegal_online', 'online_safety'],
   },
   {
@@ -193,7 +204,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Manipulation and persuasion',
     outcome: 'I can name the technique being used on me.',
     blurb: 'Dark patterns, engineered outrage, and who profits.',
-    character: 'vix', castLine: 'Vix',
+    character: 'cosmo', castLine: 'Cosmo',
     rshe: ['online_safety', 'mental_wellbeing', 'gambling'],
   },
   {
@@ -225,7 +236,7 @@ export const CURRICULUM: CurriculumModule[] = [
     title: 'Readiness at 16: the ban world',
     outcome: 'I can plan how I will handle full access when it arrives.',
     blurb: 'The ban removes the apps, it does not build judgement. This module does.',
-    character: 'vix', castLine: 'Vix with DiGi', crown: true,
+    character: 'cosmo', castLine: 'Cosmo with DiGi', crown: true,
     rshe: ['online_safety', 'mental_wellbeing', 'illegal_online'],
   },
   {

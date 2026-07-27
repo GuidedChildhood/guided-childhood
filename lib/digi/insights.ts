@@ -67,12 +67,39 @@ export async function runDigiInsights(daysRaw: number): Promise<InsightPayload> 
     }
   }
 
-  const [scriptsRes, lessonsRes, guidesRes, knowledgeRes] = await Promise.all([
-    admin.from('scripts').select('title, situation, stage_id'),
+  const [scriptsRes, lessonsRes, guidesRes, knowledgeRes, requestsRes, completionsRes] = await Promise.all([
+    admin.from('scripts').select('sort_order, title, situation, stage_id'),
     admin.from('ai_lessons').select('title, strand'),
     admin.from('device_guides').select('name, category'),
     admin.from('expert_knowledge').select('source_name, topics'),
+    // Parents who told DiGi in plain words they could not find a script. The
+    // most direct demand signal there is.
+    admin.from('script_requests').select('problem').eq('status', 'new').gte('created_at', since).limit(120),
+    // How each script scored on did it help, so scripts that keep failing rise
+    // as candidates to rewrite, not just gaps to fill.
+    admin.from('script_completions').select('script_sort_order, worked'),
   ])
+
+  // Direct requests, de-duplicated lightly so repeated asks read as demand.
+  const directRequests = [...new Set((requestsRes.data ?? []).map(r => clip(String(r.problem), 160)).filter(Boolean))].slice(0, 40)
+
+  // Failing scripts: at least three ratings and half or more said it did not
+  // help. Titled from the inventory so the recommendation names the script.
+  const titleByOrder = new Map((scriptsRes.data ?? []).map(s => [s.sort_order as number, s.title as string]))
+  const tally = new Map<number, { no: number; total: number }>()
+  for (const c of completionsRes.data ?? []) {
+    const so = c.script_sort_order as number
+    if (!c.worked) continue
+    const t = tally.get(so) ?? { no: 0, total: 0 }
+    t.total += 1
+    if (c.worked === 'no') t.no += 1
+    tally.set(so, t)
+  }
+  const failingScripts = [...tally.entries()]
+    .filter(([, t]) => t.total >= 3 && t.no / t.total >= 0.5)
+    .sort((a, b) => b[1].no - a[1].no)
+    .slice(0, 15)
+    .map(([so, t]) => `${titleByOrder.get(so) ?? `script ${so}`}: ${t.no} of ${t.total} parents said it did not help`)
 
   const inventory = {
     scripts: (scriptsRes.data ?? []).map(s => `${s.title} (${s.stage_id})`),
@@ -91,11 +118,13 @@ Scripts (${inventory.scripts.length}): ${inventory.scripts.join('; ')}
 Lessons (${inventory.lessons.length}): ${inventory.lessons.join('; ')}
 Device guides (${inventory.deviceGuides.length}): ${inventory.deviceGuides.join('; ')}
 Research base topics: ${inventory.research.join(' | ')}
+${directRequests.length ? `\nSCRIPTS PARENTS ASKED FOR BY NAME (they searched and found no fit, the most direct demand there is):\n${directRequests.map(r => `- ${r}`).join('\n')}` : ''}
+${failingScripts.length ? `\nSCRIPTS THAT ARE FAILING (parents opened them and said they did not help, strong candidates to rewrite):\n${failingScripts.map(f => `- ${f}`).join('\n')}` : ''}
 
 Do this:
 1. Theme the questions into the recurring things parents are dealing with, with a rough count and which stages they cluster in.
 2. Find the gaps: themes that come up but that our scripts, lessons, guides or research do not cover well. Mark whether we have nothing or only partial coverage.
-3. Recommend concrete additions, ranked by how often the need came up and how load bearing it is. Each recommendation is a specific thing to build: a named script, a named lesson, a device guide, a research addition, or a philosophy or voice adjustment.
+3. Recommend concrete additions, ranked by how often the need came up and how load bearing it is. Each recommendation is a specific thing to build: a named script, a named lesson, a device guide, a research addition, or a philosophy or voice adjustment. Weight the direct script requests heavily, they are demand we can see. Where a script is failing, recommend rewriting it by name rather than adding a new one.
 
 Guardrails: never suggest anything that would have DiGi allow or deny rather than give a calibrated pathway. Justin's voice is warm, plain, direct, no dashes. Ground every gap in the actual questions above, never invent demand.
 

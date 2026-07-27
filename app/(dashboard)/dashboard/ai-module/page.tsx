@@ -56,8 +56,8 @@ export default async function AiModulePage() {
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
       <div style={{ marginBottom: '24px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Understanding AI</p>
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>The AI Module</h1>
-        <p style={{ color: 'var(--ink-muted)', fontSize: '15px' }}>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>The AI Module</h1>
+        <p style={{ color: 'var(--ink-muted)', fontSize: '17px' }}>
           How AI really works, and how to use it wisely. Calm, plain explanations for every age, plus you and the classroom.
         </p>
       </div>
@@ -71,7 +71,7 @@ export default async function AiModulePage() {
       )}
 
       {groups.length === 0 && (
-        <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: '14px' }}>
+        <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: '16px' }}>
           The AI lessons are being prepared. Check back soon.
         </div>
       )}
@@ -80,7 +80,7 @@ export default async function AiModulePage() {
         <section key={group.aud} style={{ marginBottom: '28px' }}>
           <div style={{ marginBottom: '12px' }}>
             <span style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600,
+              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
               letterSpacing: '0.1em', textTransform: 'uppercase',
               color: 'var(--ink)', background: group.meta.bg,
               padding: '4px 10px', borderRadius: '100px',
@@ -102,14 +102,14 @@ export default async function AiModulePage() {
                 }}
               >
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)', marginBottom: '3px' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '17px', color: 'var(--ink)', marginBottom: '3px' }}>
                     {lesson.title}
                   </div>
-                  <div style={{ fontSize: '12px', color: 'var(--ink-muted)', fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  <div style={{ fontSize: '14px', color: 'var(--ink-muted)', fontStyle: 'italic', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {lesson.key_message}
                   </div>
                 </div>
-                <span style={{ fontSize: '16px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
+                <span style={{ fontSize: '18px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
               </Link>
             ))}
           </div>

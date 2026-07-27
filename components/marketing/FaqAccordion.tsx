@@ -4,7 +4,7 @@ import { useState } from 'react'
 const FAQS = [
   {
     q: 'What exactly do I get?',
-    a: 'The stage pathway from age 4 to 16, built for the moment social media arrives at 16. Daily moments with the exact words for the friction points of the day: the morning routine, homework, the gaming handover, bedtime. 160 scripts for the hard conversations. 100 lessons for digital home schooling. The digital passport your child fills stage by stage, weighted toward the lessons they complete. Family quests where real jobs earn stars and stars buy the screen time you agree, with a printable contract you both sign. Printable bucket lists and crafts in English and Spanish, every finished sheet worth stars. 24 age gated learning games. DiGi, the AI parenting advisor trained on the research, available at 11pm. Device setting checklists per device and per age. The wellbeing tracker with weekly check ins. The family agreement builder. And school reminders: forward the school\'s emails and the dates appear as alerts.',
+    a: 'The stage pathway from age 4 to 16, built for the moment social media arrives at 16. Daily moments with the exact words for the friction points of the day: the morning routine, homework, the gaming handover, bedtime. 160 scripts for the hard conversations. 100 lessons for digital home schooling. The digital passport your child fills stage by stage, weighted toward the lessons they complete. Family quests where real jobs earn stars and stars buy the screen time you agree, with a printable contract you both sign. Printable bucket lists and crafts in English and Spanish, every finished sheet worth stars. 24 age gated learning games. DiGi, your evidence led guide trained on the research, available at 11pm. Device setting checklists per device and per age. The wellbeing tracker with weekly check ins. The family agreement builder. And school reminders: forward the school\'s emails and the dates appear as alerts.',
   },
   {
     q: 'Does this prepare my child for the under 16 social media ban?',
@@ -23,12 +23,16 @@ const FAQS = [
     a: 'No. The research is clear: structure and timing protect children more than restriction. We give you the system to guide your child through the digital world, not to remove it from them.',
   },
   {
+    q: 'How does DiGi work and stay safe?',
+    a: 'DiGi draws on a knowledge bank built from the work of named researchers, and its answers are checked against the science every week. Every reply passes a safety check before it reaches you, and DiGi never simply allows or denies, it guides. It is a guide for everyday family life, not a crisis line: for anything serious it will always point you to real people who can help.',
+  },
+  {
     q: 'My child is already a teenager. Is it too late?',
-    a: 'No. There are more evenings, more car journeys, and more pickups ahead of you than behind you. The pathway starts from wherever you are. Stage 3 and 4 are specifically designed for parents who are starting mid-journey.',
+    a: 'No. There are more evenings, more car journeys, and more pickups ahead of you than behind you. The pathway starts from wherever you are. Stage 3 and 4 are specifically designed for parents who are starting mid journey.',
   },
   {
     q: 'My partner is not on board yet.',
-    a: 'Very common. Many members start on their own. The framework is evidence-based not fear-based, and most partners engage with that. Seeing it in action usually brings them around.',
+    a: 'Very common. Many members start on their own. The framework is evidence based not fear based, and most partners engage with that. Seeing it in action usually brings them around.',
   },
 ]
 

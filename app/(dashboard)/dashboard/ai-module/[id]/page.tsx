@@ -4,6 +4,12 @@ import Link from 'next/link'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 import LessonPlayer from '@/components/lessons/LessonPlayer'
 import { parseSlides, autoSlidesFromLesson } from '@/lib/content/lesson-slides'
+import { badgesFor } from '@/lib/content/curriculum-badges'
+
+// The stage a lesson audience sits in, for the honest Key Stage chip.
+const AUDIENCE_STAGE: Record<string, string> = {
+  age_7: 'foundation', age_9: 'builder', age_11: 'explorer', age_13: 'shaper', age_16: 'independent',
+}
 
 const AUDIENCE_LABEL: Record<string, { label: string; bg: string }> = {
   age_7:   { label: 'Age 7',    bg: 'var(--stage-1)' },
@@ -63,7 +69,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
         <div style={{ marginBottom: '20px' }}>
           <Link
             href="/dashboard/ai-module"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
           >
             ← All lessons
           </Link>
@@ -74,6 +80,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
           slides={slides}
           backHref="/dashboard/ai-module"
           digiPrompt={lesson.digi_prompt}
+          badges={badgesFor(AUDIENCE_STAGE[lesson.audience], 'ai_literacy')}
         />
       </div>
     )
@@ -96,7 +103,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
       <div style={{ marginBottom: '24px' }}>
         <Link
           href="/dashboard/ai-module"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
         >
           ← All lessons
         </Link>
@@ -106,7 +113,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
       <div style={{ marginBottom: '28px' }}>
         <div style={{ marginBottom: '12px' }}>
           <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
+            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
             letterSpacing: '0.1em', textTransform: 'uppercase',
             color: 'var(--ink)', background: audience.bg,
             padding: '4px 10px', borderRadius: '100px',
@@ -130,16 +137,16 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
               width: '36px', height: '36px', borderRadius: '50%',
               background: 'var(--terracotta)', color: 'var(--ink)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '16px', fontWeight: 800, flexShrink: 0, fontFamily: 'var(--font-display)',
+              fontSize: '18px', fontWeight: 800, flexShrink: 0, fontFamily: 'var(--font-display)',
             }}>
               {section.num}
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
                 {section.label}
               </div>
               <p style={{
-                fontSize: '15px', color: 'var(--ink)', lineHeight: 1.65,
+                fontSize: '17px', color: 'var(--ink)', lineHeight: 1.65,
                 ...(section.key === 'key_message' ? { fontWeight: 600 } : {}),
               }}>
                 {lesson[section.key]}
@@ -154,17 +161,17 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
       {/* DiGi CTA */}
       <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi
           </div>
-          <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
             Want to take this further? Ask DiGi.
           </p>
         </div>
         <Link
           href={`/dashboard/digi?q=${encodeURIComponent(lesson.digi_prompt)}`}
           className="btn btn-gold"
-          style={{ flexShrink: 0, padding: '11px 20px', fontSize: '12px' }}
+          style={{ flexShrink: 0, padding: '11px 20px', fontSize: '14px' }}
         >
           Ask DiGi about this
         </Link>
@@ -175,8 +182,8 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
         href="/dashboard/ai-module"
         style={{ display: 'flex', padding: '14px 18px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', textDecoration: 'none', flexDirection: 'column', gap: '4px', textAlign: 'center' }}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>The AI module</span>
-        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--terracotta)' }}>Back to all lessons</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>The AI module</span>
+        <span style={{ fontSize: '15px', fontWeight: 600, color: 'var(--terracotta)' }}>Back to all lessons</span>
       </Link>
     </div>
   )

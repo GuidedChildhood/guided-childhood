@@ -37,15 +37,19 @@ type Palette = { header: string; body: string; text: string }
 
 const BUTTER: Palette = {
   header: '#E3A93C',
-  body: '#FBF0D7',
+  body: '#FDF9EE',
   text: '#fff',
 }
 
+// Body backgrounds sit near white so the text reads BBC clear, ink on a
+// barely there tint of the header colour keeping each card's identity.
+// No dark espresso headers: speech and reflection stay in the DiGi blues
+// and greens, never a near black band.
 const PALETTES: Palette[] = [
-  { header: '#3D739A', body: '#D8E8F8', text: '#fff' },
-  { header: '#2F8F6B', body: '#DEF0E7', text: '#fff' },
-  { header: '#173C46', body: '#DCE9EC', text: '#fff' },
-  { header: '#3D739A', body: '#E8F0EE', text: '#fff' },
+  { header: '#3D739A', body: '#F6FAFD', text: '#fff' },
+  { header: '#2F8F6B', body: '#F5FBF8', text: '#fff' },
+  { header: '#3D739A', body: '#F5F9FA', text: '#fff' },
+  { header: '#2F8F6B', body: '#F7FAF9', text: '#fff' },
 ]
 
 function paletteFor(card: DailyCard, index: number): Palette {
@@ -54,6 +58,41 @@ function paletteFor(card: DailyCard, index: number): Palette {
 }
 
 const CARD_SHADOW = '0 10px 40px rgba(26,26,46,0.14), 0 2px 8px rgba(26,26,46,0.08)'
+
+// ── BBC CLARITY ──────────────────────────────────────────────────────────────
+// Card bodies read like a news piece: short paragraphs with real space
+// between them, never one wall. Split at the \n\n the writers already put
+// in, then break any block that still runs past three sentences into
+// groups of two, the way a subeditor would.
+function splitSentences(block: string): string[] {
+  const parts = block.match(/[^.!?]+[.!?]+["')”’]*\s*|[^.!?]+$/g)
+  const cleaned = parts?.map(s => s.trim()).filter(Boolean)
+  return cleaned && cleaned.length > 0 ? cleaned : [block.trim()]
+}
+
+function toParagraphs(body: string): string[] {
+  const blocks = body.split(/\n{2,}/).map(b => b.trim()).filter(Boolean)
+  const out: string[] = []
+  for (const block of blocks) {
+    const sentences = splitSentences(block)
+    if (sentences.length <= 3) { out.push(block); continue }
+    for (let i = 0; i < sentences.length; i += 2) {
+      out.push(sentences.slice(i, i + 2).join(' '))
+    }
+  }
+  return out.length > 0 ? out : [body]
+}
+
+// The bold standfirst: the opening sentence leads in bold. When the piece
+// opens on a short greeting, the greeting alone is not a standfirst, so
+// the next sentence rides along with it.
+function splitLead(first: string): [string, string] {
+  const sentences = splitSentences(first)
+  const take = sentences.length > 1 && sentences[0].length < 40 ? 2 : 1
+  const lead = sentences.slice(0, take).join(' ')
+  const rest = sentences.slice(take).join(' ')
+  return [lead, rest]
+}
 
 // blank renders the same card shape with its text invisible: the deck
 // shows the EDGE of the card waiting beneath, never its writing.
@@ -80,81 +119,75 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
       display: 'flex',
       flexDirection: 'column',
     }}>
-      {/* Curved header band */}
+      {/* The coloured band carries only the label, and its bottom edge curves
+          down in the middle so the card reads as one piece rather than a block
+          sat on a box. The headline belongs in the body, big, where the eye
+          lands after the colour. */}
       <div style={{
         background: palette.header,
-        padding: '22px 24px 26px',
-        borderRadius: '0 0 32px 32px',
-        display: 'flex', alignItems: 'flex-start', gap: '12px',
+        padding: '18px 22px 22px',
+        borderRadius: '0 0 50% 50% / 0 0 30px 30px',
+        display: 'flex', alignItems: 'center', gap: '12px',
       }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
-            letterSpacing: '.18em', textTransform: 'uppercase',
-            color: palette.text, opacity: 0.85, marginBottom: '6px',
-            ...hide,
-          }}>
-            {card.eyebrow}
-          </div>
-          <div style={{
-            fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 'clamp(1.35rem, 5.2vw, 1.75rem)',
-            color: palette.text, lineHeight: 1.12, letterSpacing: '-0.02em',
-            ...hide,
-          }}>
-            {card.headline}
-          </div>
+        <div style={{
+          flex: 1, minWidth: 0,
+          fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
+          letterSpacing: '.16em', textTransform: 'uppercase',
+          color: palette.text, ...hide,
+        }}>
+          {card.eyebrow}
         </div>
         <button
           onClick={shareCard}
           aria-label="Share this card"
           style={{
-            width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
-            border: `1.5px solid ${palette.text}`, opacity: 0.7,
+            width: 38, height: 38, borderRadius: '50%', flexShrink: 0,
+            border: `1.8px solid ${palette.text}`,
             background: 'transparent', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             ...hide,
           }}
         >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M12 3v12M12 3l-4.5 4.5M12 3l4.5 4.5M5 13v6h14v-6" stroke={palette.text} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
       </div>
 
-      {/* Card body */}
-      <div style={{ padding: '28px 24px 30px', background: palette.body, flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <p style={{
-          fontSize: 'clamp(18px, 4.6vw, 21px)',
-          lineHeight: 1.62,
-          color: 'var(--ink)',
-          margin: 0,
-          fontWeight: 500,
-          fontFamily: 'var(--font-body)',
-          ...hide,
-        }}>
-          {card.body}
-        </p>
-        {card.action && (
-          <a
-            href={card.action.href}
-            onClick={e => e.stopPropagation()}
-            style={{
-              marginTop: 'auto', paddingTop: '22px',
-              display: 'block', ...hide,
-            }}
-          >
-            <span style={{
-              display: 'inline-block', width: '100%', textAlign: 'center',
-              background: 'var(--terracotta)', color: 'var(--ink)',
-              borderRadius: '14px', padding: '14px 18px',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
-              boxShadow: '0 4px 0 var(--terracotta-dark)',
-            }}>
-              {card.action.label}
-            </span>
-          </a>
-        )}
+      {/* Card body: the headline first, the biggest type on the screen, then
+          the words at a size a parent reads at arm's length on a phone in a
+          hallway. Big and calm beats dense and tidy. */}
+      <div style={{ padding: '26px 24px 28px', background: palette.body, flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ maxWidth: '620px', ...hide }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)', fontWeight: 900,
+            fontSize: 'clamp(26px, 7.2vw, 32px)',
+            lineHeight: 1.12, letterSpacing: '-0.02em',
+            color: 'var(--ink)', margin: '0 0 18px',
+          }}>
+            {card.headline}
+          </h2>
+          {toParagraphs(card.body).map((para, i, all) => {
+            const [lead, rest] = i === 0 ? splitLead(para) : ['', para]
+            return (
+              <p key={i} style={{
+                fontSize: 'clamp(20px, 5vw, 21px)',
+                lineHeight: 1.5,
+                color: 'var(--ink)',
+                margin: i === all.length - 1 ? 0 : '0 0 18px',
+                fontWeight: 500,
+                fontFamily: 'var(--font-body)',
+              }}>
+                {i === 0 ? (
+                  <>
+                    <strong style={{ fontWeight: 800 }}>{lead}</strong>
+                    {rest ? ' ' + rest : ''}
+                  </>
+                ) : para}
+              </p>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
@@ -178,7 +211,7 @@ function DoneFace() {
         fontSize: '34px', color: 'var(--ink)',
       }}>✓</div>
       <div style={{
-        fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+        fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700,
         letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)',
       }}>
         Done
@@ -328,7 +361,7 @@ export default function DailyDeckViewer({
           }}>
             Done for today
           </h2>
-          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '260px', margin: '0 auto' }}>
+          <p style={{ fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '260px', margin: '0 auto' }}>
             Come back tomorrow and keep the streak going.
           </p>
         </div>
@@ -339,10 +372,10 @@ export default function DailyDeckViewer({
             background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: '20px', padding: '22px', marginBottom: '16px',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '10px' }}>
               Quick tracker check in
             </div>
-            <p style={{ fontSize: '16.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, marginBottom: '16px' }}>
+            <p style={{ fontSize: '18.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, marginBottom: '16px' }}>
               How is your child doing with screens this week?
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
@@ -361,7 +394,7 @@ export default function DailyDeckViewer({
                     padding: '14px 12px', borderRadius: '14px',
                     border: '2px solid var(--border)',
                     background: '#fff',
-                    fontFamily: 'var(--font-display)', fontSize: '15px',
+                    fontFamily: 'var(--font-display)', fontSize: '17px',
                     fontWeight: 800, color: 'var(--ink)',
                     cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
                   }}
@@ -375,7 +408,7 @@ export default function DailyDeckViewer({
           <div style={{
             background: 'var(--stage-2)', border: '1.5px solid var(--border)',
             borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
-            fontFamily: 'var(--font-body)', fontSize: '14.5px', fontWeight: 600, color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-body)', fontSize: '16.5px', fontWeight: 600, color: 'var(--ink-soft)',
           }}>
             ✓ Added to your tracker
           </div>
@@ -387,10 +420,10 @@ export default function DailyDeckViewer({
             background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: '20px', padding: '22px', marginBottom: '16px',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '8px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '8px' }}>
               What came up today?
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '18px' }}>
+            <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '18px' }}>
               Tap anything that happened. We will show you the right scripts tomorrow.
             </p>
             <div style={{ marginBottom: '18px' }}>
@@ -400,12 +433,13 @@ export default function DailyDeckViewer({
               onClick={saveMoments}
               style={{
                 width: '100%', padding: '12px',
-                background: selectedMoments.length > 0 ? 'var(--deep-teal)' : 'var(--cream)',
+                background: selectedMoments.length > 0 ? 'var(--terracotta)' : 'var(--cream)',
                 border: selectedMoments.length > 0 ? 'none' : '1.5px solid var(--border)',
                 borderRadius: '12px',
-                fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
                 letterSpacing: '.08em', textTransform: 'uppercase',
-                color: selectedMoments.length > 0 ? '#fff' : 'var(--ink)',
+                color: 'var(--ink)',
+                boxShadow: selectedMoments.length > 0 ? '0 3px 0 var(--terracotta-dark)' : 'none',
                 cursor: 'pointer',
                 transition: 'all 0.5s ease',
               }}
@@ -417,7 +451,7 @@ export default function DailyDeckViewer({
           <div style={{
             background: 'var(--stage-2)', border: '1.5px solid var(--border)',
             borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
-            fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink-soft)',
           }}>
             ✓ Got it. Tomorrow we will cover what came up today.
           </div>
@@ -428,7 +462,7 @@ export default function DailyDeckViewer({
           style={{
             width: '100%', padding: '16px', background: 'var(--terracotta)',
             border: 'none', borderRadius: 'var(--radius-btn)',
-            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700,
             letterSpacing: '.08em', textTransform: 'uppercase',
             color: 'var(--ink)', cursor: 'pointer',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
@@ -442,7 +476,7 @@ export default function DailyDeckViewer({
           style={{
             width: '100%', marginTop: '10px', padding: '12px', background: 'none',
             border: 'none', cursor: 'pointer',
-            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
             letterSpacing: '0.06em', color: 'var(--terracotta-dark)',
           }}
         >
@@ -456,7 +490,7 @@ export default function DailyDeckViewer({
             style={{
               flex: 1, padding: '13px', background: 'var(--white)',
               border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
-              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
               letterSpacing: '.06em', textTransform: 'uppercase',
               color: 'var(--ink-soft)', cursor: 'pointer',
             }}
@@ -468,7 +502,7 @@ export default function DailyDeckViewer({
             style={{
               flex: 1, padding: '13px', background: 'var(--white)',
               border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
-              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
               letterSpacing: '.06em', textTransform: 'uppercase',
               color: 'var(--ink-soft)', cursor: 'pointer',
             }}
@@ -476,7 +510,7 @@ export default function DailyDeckViewer({
             Family quests
           </button>
         </div>
-        <p style={{ textAlign: 'center', fontSize: '12px', color: 'var(--ink-muted)', marginTop: '12px', marginBottom: 0 }}>
+        <p style={{ textAlign: 'center', fontSize: '16px', color: 'var(--ink-muted)', marginTop: '12px', marginBottom: 0 }}>
           Something kicking off? The Help now button is always there, even after your day is done.
         </p>
       </div>
@@ -505,25 +539,28 @@ export default function DailyDeckViewer({
             width: 36, height: 36, borderRadius: '50%',
             background: 'var(--border)', border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '18px', color: 'var(--ink)',
+            fontSize: '20px', color: 'var(--ink)',
           }}
         >
           ×
         </button>
 
-        {/* Progress dots */}
-        <div style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-          {cards.map((_, i) => (
-            <div key={i} style={{
-              width: i === cardIndex ? 20 : 7,
-              height: 7, borderRadius: '100px',
-              background: i <= cardIndex ? 'var(--stage-2-text)' : 'var(--border)',
-              transition: 'width 0.5s ease, background 0.5s ease',
-            }} />
-          ))}
+        {/* One filling bar rather than a row of dots: with a long deck the dots
+            shrink to specks, and a bar reads as how far through you are at any
+            length. */}
+        <div style={{
+          flex: 1, height: 8, borderRadius: '100px', margin: '0 14px',
+          background: 'var(--border)', overflow: 'hidden',
+        }}>
+          <div style={{
+            width: `${((cardIndex + 1) / Math.max(1, cards.length)) * 100}%`,
+            height: '100%', borderRadius: '100px',
+            background: 'var(--stage-2-text)',
+            transition: 'width 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+          }} />
         </div>
 
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', minWidth: 36, textAlign: 'right' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)', minWidth: 36, textAlign: 'right' }}>
           {cardIndex + 1}/{cards.length}
         </div>
       </div>
@@ -585,6 +622,11 @@ export default function DailyDeckViewer({
             }}>
               <DoneFace />
             </div>
+            {/* No Tap to continue pill here. There used to be one, sitting a
+                few pixels above a full width NEXT button that did exactly the
+                same job, which reads as two decisions where there is only one.
+                The card stays tappable, it just no longer announces itself:
+                Next is the instruction, tapping the card is the shortcut. */}
           </div>
         </div>
       </div>
@@ -597,7 +639,7 @@ export default function DailyDeckViewer({
             style={{
               padding: '14px 18px', background: 'var(--cream)',
               border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
-              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
+              fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600,
               letterSpacing: '.06em', color: 'var(--ink)',
               cursor: 'pointer', flexShrink: 0,
             }}
@@ -611,7 +653,7 @@ export default function DailyDeckViewer({
             flex: 1, padding: '15px 20px',
             background: 'var(--terracotta)',
             border: 'none', borderRadius: 'var(--radius-btn)',
-            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700,
             letterSpacing: '.08em', textTransform: 'uppercase',
             color: 'var(--ink)', cursor: 'pointer',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
@@ -620,6 +662,24 @@ export default function DailyDeckViewer({
           {isLast && done ? 'Back to home' : isLast ? 'Done for today ✓' : 'Next →'}
         </button>
       </div>
+
+      {/* The script sits under Next as a quiet link, never a rival button.
+          Good Inside style: one thing to do, and a soft way through if you
+          want the deeper read. Next always leads. */}
+      {card.action && (
+        <a
+          href={card.action.href}
+          onClick={e => e.stopPropagation()}
+          style={{
+            display: 'block', textAlign: 'center', marginTop: '16px',
+            fontFamily: 'var(--font-body)', fontSize: '16px', fontWeight: 600,
+            color: 'var(--ink-soft)', textDecoration: 'underline',
+            textUnderlineOffset: '3px', textDecorationColor: 'var(--border)',
+          }}
+        >
+          {card.action.label}
+        </a>
+      )}
 
       </div>
     </div>

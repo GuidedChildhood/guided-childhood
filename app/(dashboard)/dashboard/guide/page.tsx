@@ -52,10 +52,10 @@ export default function GuidePage() {
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px 48px' }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '4px' }}>Your guide</p>
-      <h1 style={{ fontSize: 'clamp(1.6rem, 4.5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '10px' }}>
+      <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         How Guided Childhood works
       </h1>
-      <p style={{ color: 'var(--ink-soft)', fontSize: '15.5px', lineHeight: 1.6, marginBottom: '28px' }}>
+      <p style={{ color: 'var(--ink-soft)', fontSize: '19px', lineHeight: 1.7, marginBottom: '28px', maxWidth: '62ch' }}>
         Ten minutes a day, and a childhood ready for the phone rather than broken by it. Here is everything you have, what each part is for, and where to start.
       </p>
 
@@ -64,12 +64,12 @@ export default function GuidePage() {
         {HOW_IT_WORKS.map((step, i) => (
           <div key={step.title} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '18px 20px', boxShadow: '0 5px 20px rgba(46,40,24,0.06)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-              <span style={{ width: 40, height: 40, borderRadius: '11px', flexShrink: 0, background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>{step.emoji}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', color: 'var(--ink-muted)' }}>Step {i + 1}</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', letterSpacing: '-0.01em' }}>{step.title}</span>
+              <span style={{ width: 40, height: 40, borderRadius: '11px', flexShrink: 0, background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>{step.emoji}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', color: 'var(--ink-muted)' }}>Step {i + 1}</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', letterSpacing: '-0.01em' }}>{step.title}</span>
             </div>
-            <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>{step.body}</p>
-            <Link href={step.href} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px', color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+            <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>{step.body}</p>
+            <Link href={step.href} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
               {step.cta} →
             </Link>
           </div>
@@ -78,13 +78,13 @@ export default function GuidePage() {
 
       {/* The lesson map, the whole journey 4 to 16 */}
       <div style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '22px', marginBottom: '20px' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
           The lesson map
         </div>
         <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', letterSpacing: '-0.02em', color: '#fff', margin: '0 0 6px' }}>
           Every lesson, 4 to 16
         </h2>
-        <p style={{ fontSize: '13.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.55, margin: 0 }}>
           The whole journey, mapped to your child’s stage. Co watched at the start, on their own as they grow, each one building the judgement that makes independence at 16 a step, not a fall.
         </p>
       </div>
@@ -93,14 +93,14 @@ export default function GuidePage() {
         {LESSON_MAP.map(band => (
           <div key={band.stage} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px' }}>{band.stage}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)' }}>{band.ages}</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px' }}>{band.stage}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)' }}>{band.ages}</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
               {band.lessons.map(l => (
                 <div key={l} style={{ display: 'flex', alignItems: 'flex-start', gap: '9px' }}>
                   <span style={{ color: 'var(--terracotta)', flexShrink: 0, marginTop: '1px' }}>✦</span>
-                  <span style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.45 }}>{l}</span>
+                  <span style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.45 }}>{l}</span>
                 </div>
               ))}
             </div>
@@ -113,10 +113,10 @@ export default function GuidePage() {
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', letterSpacing: '-0.02em', marginBottom: '6px' }}>
           Not sure where to start?
         </div>
-        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+        <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
           Start with today’s ten minute practice. Everything else grows from there.
         </p>
-        <Link href="/dashboard/daily" style={{ display: 'inline-block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '14px', padding: '13px 24px', textDecoration: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+        <Link href="/dashboard/daily" style={{ display: 'inline-block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '14px', padding: '13px 24px', textDecoration: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
           Start today’s practice
         </Link>
       </div>

@@ -29,13 +29,13 @@ export default async function SetupPage() {
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 48px' }}>
       <div style={{ marginBottom: '18px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>One time setup</p>
-        <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', marginBottom: '8px' }}>Set up</h1>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>Set up</h1>
         {/* Progress: one clear bar, not a wall of words */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{ flex: 1, height: '10px', borderRadius: '100px', background: 'var(--border)', overflow: 'hidden' }}>
             <div style={{ width: `${Math.round((doneCount / Math.max(1, total)) * 100)}%`, height: '100%', borderRadius: '100px', background: 'var(--terracotta)', transition: 'width 0.4s ease' }} />
           </div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
             {doneCount}/{total}
           </span>
         </div>
@@ -46,7 +46,7 @@ export default async function SetupPage() {
           <span style={{ fontSize: '1.8rem' }}>🎉</span>
           <div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: 'var(--ink)' }}>You are all set up</div>
-            <div style={{ fontSize: '13px', color: 'var(--ink-soft)', marginTop: '2px' }}>Everything below is ready. Change any of it any time.</div>
+            <div style={{ fontSize: '15px', color: 'var(--ink-soft)', marginTop: '2px' }}>Everything below is ready. Change any of it any time.</div>
           </div>
         </div>
       )}
@@ -66,8 +66,8 @@ export default async function SetupPage() {
                   {STEP_ICON[s.key] ?? '•'}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.25 }}>{s.title}</div>
-                  <div style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>{shortWhat(s.key)}</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.25 }}>{s.title}</div>
+                  <div style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>{shortWhat(s.key)}</div>
                 </div>
                 <ButtonLink href={s.href} variant="primary" size="md" style={{ flexShrink: 0 }}>
                   {i === 0 ? 'Start' : 'Set up'}
@@ -87,11 +87,11 @@ export default async function SetupPage() {
                 display: 'flex', alignItems: 'center', gap: '13px', textDecoration: 'none',
                 background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '13px 16px',
               }}>
-                <span style={{ flexShrink: 0, width: 36, height: 36, borderRadius: '10px', background: '#fff', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '17px' }}>
+                <span style={{ flexShrink: 0, width: 36, height: 36, borderRadius: '10px', background: '#fff', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '19px' }}>
                   {STEP_ICON[s.key] ?? '•'}
                 </span>
-                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)' }}>{s.title}</span>
-                <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#1F7A54', background: '#D4EDDF', borderRadius: '100px', padding: '3px 9px' }}>✓ Done</span>
+                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)' }}>{s.title}</span>
+                <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#1F7A54', background: '#D4EDDF', borderRadius: '100px', padding: '3px 9px' }}>✓ Done</span>
               </Link>
             ))}
           </div>

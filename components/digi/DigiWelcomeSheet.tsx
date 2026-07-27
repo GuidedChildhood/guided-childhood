@@ -10,6 +10,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import DigiCharacter from './DigiCharacter'
+import { POPUP_DELAY, openPopup, closePopup } from '@/lib/ui/popupQueue'
+import { socialInsightFor, type SocialInsight } from '@/lib/content/social-insights'
+import { MiniRoad, StrandPills } from '@/components/pathway/StageRoad'
+
+type ChildInfo = { name: string; ageBand: string | null }
 
 function joinNames(names: string[]): string {
   const clean = names.filter(n => n && n !== 'Your child')
@@ -19,33 +24,94 @@ function joinNames(names: string[]): string {
   return `${clean.slice(0, -1).join(', ')} and ${clean[clean.length - 1]}`
 }
 
-export default function DigiWelcomeSheet({ childNames }: { childNames: string[] }) {
+// The once a day guided walk: DiGi greets, then shows where the child is on
+// the road, then today's one thing, then lets Home breathe. Each step is one
+// thought, so the parent is led rather than met by a wall.
+export type WelcomeGuide = {
+  stageNum: number
+  stageName: string
+  childName: string
+  nextTask: { label: string; href: string } | null
+  strands: { name: string; tone: 'green' | 'red' | 'grey' }[]
+  // The lessons that move the progress report right now: the child's own
+  // stage set, with the live passed count, so DiGi can say exactly which
+  // lessons to send and why. Null when the stage has no lessons yet.
+  stageLessons?: { total: number; passed: number } | null
+}
+
+export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo: ChildInfo[]; guide?: WelcomeGuide | null }) {
+  const [step, setStep] = useState(0)
   const router = useRouter()
   const [show, setShow] = useState(false)
   const [entered, setEntered] = useState(false)
   const [text, setText] = useState('')
+  // The occasional age relevant social media insight, named to one child, shown
+  // only after the first few visits and only now and then, so it is a gentle
+  // check, never a lecture.
+  const [insight, setInsight] = useState<{ childName: string; body: SocialInsight } | null>(null)
   // Swipe down to peek it away, the native feel Justin asked for.
   const startY = useRef<number | null>(null)
   const [dragY, setDragY] = useState(0)
   const [dragging, setDragging] = useState(false)
 
   useEffect(() => {
-    // Once a day. The key is the local date, so a new day brings DiGi back
-    // but the same day never does.
+    // DiGi greets at most once a day, and never on every login. The session
+    // guard stops an in app navigation firing it twice; the day guard caps it
+    // to once a day; then the cadence eases it right back so a settled family
+    // sees DiGi now and then, not every time they land.
+    const sessionKey = 'gc_digi_welcome_session'
+    if (sessionStorage.getItem(sessionKey)) return
     const today = new Date().toISOString().slice(0, 10)
-    const key = `gc_digi_welcome_${today}`
-    if (localStorage.getItem(key)) return
-    localStorage.setItem(key, '1')
-    setShow(true)
-    requestAnimationFrame(() => requestAnimationFrame(() => setEntered(true)))
+    const dayKey = `gc_digi_welcome_${today}`
+    if (localStorage.getItem(dayKey)) return
+    // One DiGi prompt a day, never two: if the flash up already claimed today,
+    // the welcome sheet stays quiet, and the other way round (claimed below).
+    const promptKey = `gc_digi_prompt_${today}`
+    if (localStorage.getItem(promptKey)) return
+
+    const count = Number(localStorage.getItem('gc_welcome_count') || '0')
+    const lastShown = localStorage.getItem('gc_welcome_lastshown')
+    const daysSince = lastShown ? Math.floor((Date.parse(today) - Date.parse(lastShown)) / 86400000) : Infinity
+    // The warm front door for the first couple of visits, then it eases right
+    // back: weekly while they settle, then monthly, so DiGi returns now and
+    // then rather than every login. Never a pop up they have to dismiss daily.
+    const cadenceDays = count < 2 ? 0 : count < 5 ? 7 : 30
+    if (count >= 2 && daysSince < cadenceDays) return
+
+    // Claim the day for DiGi now, before the delay, so the flash up yields to
+    // the welcome sheet and only one DiGi prompt ever shows in a day.
+    try { localStorage.setItem(promptKey, 'welcome') } catch { /* private mode */ }
+
+    const delay = count < 2 ? POPUP_DELAY.welcome : POPUP_DELAY.welcomeSettled
+    const id = setTimeout(() => {
+      sessionStorage.setItem(sessionKey, '1')
+      localStorage.setItem(dayKey, '1')
+      localStorage.setItem('gc_welcome_lastshown', today)
+      // Count the greetings, and only after the first few, and only now and
+      // then, add one age relevant social media insight for one named child, so
+      // it stays a gentle check rather than a lecture every day.
+      const seen = count + 1
+      localStorage.setItem('gc_welcome_count', String(seen))
+      if (seen > 3 && seen % 3 === 0 && childrenInfo.length > 0) {
+        const child = childrenInfo[Math.floor(seen / 3) % childrenInfo.length]
+        const body = socialInsightFor(child.ageBand, child.name, Math.floor(seen / 3))
+        if (body) setInsight({ childName: child.name, body })
+      }
+      openPopup('welcome')
+      setShow(true)
+      requestAnimationFrame(() => requestAnimationFrame(() => setEntered(true)))
+    }, delay)
+    return () => clearTimeout(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   if (!show) return null
 
-  const names = joinNames(childNames)
+  const names = joinNames(childrenInfo.map(c => c.name))
 
   function close() {
     setEntered(false)
+    closePopup('welcome')
     setTimeout(() => setShow(false), 320)
   }
 
@@ -119,19 +185,107 @@ export default function DigiWelcomeSheet({ childNames }: { childNames: string[] 
           fontSize: 'clamp(1.9rem, 7vw, 2.4rem)', lineHeight: 1.08, letterSpacing: '-0.03em',
           margin: '0 0 16px',
         }}>
-          Hey, it&apos;s DiGi.<br />Welcome back.
+          {step === 0 && <>Hey, it&apos;s DiGi.<br />Welcome back.</>}
+          {step === 1 && <>Here is where<br />{guide?.childName ?? 'we'} stand{guide ? 's' : ''}.</>}
+          {step === 2 && <>Today, one thing.</>}
         </h2>
 
+        {step === 0 && (
         <p style={{
           fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)',
-          fontSize: '17px', lineHeight: 1.55, margin: 0,
+          fontSize: '19px', lineHeight: 1.55, margin: 0,
         }}>
           I know life does not pause for {names}. What is on your mind today? Bring me up to speed and I will point us at the next small thing.
         </p>
+        )}
+
+        {step === 1 && guide && (
+          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 18px' }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: 'var(--ink)', margin: '0 0 14px' }}>
+              Stage {guide.stageNum} of 5, {guide.stageName}. On the road to 16.
+            </p>
+            {/* The same road, the same pills, as Home and the pathway page:
+                one grammar, so the walk and the app tell one story. */}
+            <div style={{ marginBottom: 14 }}>
+              <MiniRoad currentStage={guide.stageNum} showDigi={false} />
+            </div>
+            <StrandPills strands={guide.strands.map(s => ({ key: s.name, name: s.name, tone: s.tone }))} />
+            {/* Which lessons to send for progress: DiGi names the child's own
+                stage set with the live count, one tap to the hub. The same set
+                the child sees on their page, so nothing age wrong ever goes. */}
+            {guide.stageLessons && guide.stageLessons.total > 0 && (
+              <button
+                onClick={() => { close(); router.push('/dashboard/lessons') }}
+                style={{
+                  display: 'block', width: '100%', textAlign: 'left', marginTop: 14, cursor: 'pointer',
+                  background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+                  borderRadius: 12, padding: '11px 13px',
+                }}
+              >
+                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 3 }}>
+                  Lessons that move this
+                </span>
+                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 16, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.45 }}>
+                  {guide.stageLessons.passed < guide.stageLessons.total
+                    ? <>Send {guide.childName} the {guide.stageName} lessons, {guide.stageLessons.passed} of {guide.stageLessons.total} passed. Each pass ticks the report. <strong style={{ fontWeight: 800 }}>Open lessons →</strong></>
+                    : <>All {guide.stageLessons.total} {guide.stageName} lessons passed. The report shows the full tick for this stage.</>}
+                </span>
+              </button>
+            )}
+          </div>
+        )}
+
+        {step === 2 && (
+          <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)', fontSize: '19px', lineHeight: 1.55, margin: 0 }}>
+            {guide?.nextTask
+              ? <>Just this: <strong style={{ color: 'var(--ink)', fontWeight: 800 }}>{guide.nextTask.label}</strong>. A few minutes, then everything else can wait its turn.</>
+              : <>Today is already done. Lovely. Everything else is there when you want it.</>}
+          </p>
+        )}
+
+        {step === 0 && insight && (
+          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 16px', marginTop: 18 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
+              A quiet thought on {insight.childName}
+            </div>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{insight.body.text}</p>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', marginTop: 7 }}>{insight.body.source}</div>
+          </div>
+        )}
 
         <div style={{ flex: 1 }} />
 
+        {/* The guided walk forward: greeting to where we are, to today's one
+            thing, to Home. One tap each, always skippable. */}
+        {guide && step < 2 && (
+          <button
+            onClick={() => setStep(s => s + 1)}
+            style={{
+              width: '100%', marginTop: 20, padding: '15px', borderRadius: 16, border: 'none',
+              background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+            }}
+          >
+            {step === 0 ? `Next: where ${guide.childName} is →` : 'Next: today →'}
+          </button>
+        )}
+        {guide && step === 2 && guide.nextTask && (
+          <button
+            onClick={() => { close(); router.push(guide.nextTask!.href) }}
+            style={{
+              width: '100%', marginTop: 20, padding: '15px', borderRadius: 16, border: 'none',
+              background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+            }}
+          >
+            Take me there →
+          </button>
+        )}
+
         {/* The input, primed to open the DiGi chat */}
+        {step === 0 && (
         <form
           onSubmit={e => { e.preventDefault(); bringUpToSpeed() }}
           style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 20 }}
@@ -144,7 +298,7 @@ export default function DigiWelcomeSheet({ childNames }: { childNames: string[] 
             style={{
               flex: 1, minWidth: 0, padding: '15px 18px', borderRadius: 16,
               background: '#fff', border: '1.5px solid var(--border)',
-              fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
+              fontFamily: 'var(--font-body)', fontSize: '18px', color: 'var(--ink)', outline: 'none',
             }}
           />
           <button
@@ -154,18 +308,19 @@ export default function DigiWelcomeSheet({ childNames }: { childNames: string[] 
               flexShrink: 0, width: 52, height: 52, borderRadius: '50%', border: 'none',
               background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
             }}
           >
             ↑
           </button>
         </form>
+        )}
 
         <button
           onClick={close}
           style={{
             background: 'none', border: 'none', cursor: 'pointer', margin: '18px auto 0',
-            fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '15px',
+            fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '17px',
             color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3,
           }}
         >

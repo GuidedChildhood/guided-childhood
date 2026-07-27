@@ -1,6 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
+
+// Tell the bell to recount the moment a school item is cleared, settled or
+// added right here, so the number on the bell never lags behind the card.
+function notifsChanged() {
+  try { window.dispatchEvent(new Event(NOTIFS_CHANGED_EVENT)) } catch { /* SSR safety */ }
+}
 
 // Things you need to know: the open school_actions DiGi extracted from
 // forwarded school emails, plus anything the parent typed in by hand
@@ -25,6 +32,7 @@ export type SchoolAction = {
   sent_to_child?: boolean
   recurs_weekday?: number | null
   auto_send_to_child?: boolean
+  cleared_on?: string | null
 }
 
 const KIND_STYLE: Record<string, { label: string; bg: string; color: string }> = {
@@ -116,11 +124,30 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
     return () => clearInterval(t)
   }, [])
 
+  // Due springs to the top. Weekly routines sort by how soon their day comes
+  // round (today first, one cleared for today drops to the back until next
+  // week), one offs by due date and time with no date last. Sorted only once
+  // the clock has ticked in, so the server and first client render still agree.
+  const todayDow = nowMs === null ? null : new Date(nowMs).getDay()
+  const daysUntil = (a: { recurs_weekday?: number | null; cleared_on?: string | null }) => {
+    if (todayDow === null || a.recurs_weekday == null) return 0
+    const d = (a.recurs_weekday - todayDow + 7) % 7
+    const clearedToday = String(a.cleared_on ?? '') === new Date(nowMs!).toISOString().slice(0, 10)
+    return d === 0 && clearedToday ? 7 : d
+  }
   const recurring = actions.filter(a => a.recurs_weekday != null)
+    .sort((a, b) => daysUntil(a) - daysUntil(b))
   const oneOff = actions.filter(a => a.recurs_weekday == null)
+    .sort((a, b) => {
+      if (nowMs === null) return 0
+      const ka = a.due_date ? `${a.due_date}T${(a.due_time ?? '23:59').slice(0, 5)}` : '9999'
+      const kb = b.due_date ? `${b.due_date}T${(b.due_time ?? '23:59').slice(0, 5)}` : '9999'
+      return ka < kb ? -1 : ka > kb ? 1 : 0
+    })
 
   const settle = async (id: string, status: 'done' | 'dismissed') => {
     setActions(a => a.filter(x => x.id !== id))
+    notifsChanged()
     try {
       await fetch('/api/school/actions', {
         method: 'PATCH',
@@ -128,6 +155,33 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         body: JSON.stringify({ id, status }),
       })
     } catch { /* non blocking */ }
+  }
+
+  // A weekly routine cleared for today: it stays in the list (it is coming back
+  // next week) but steps back from today's reminders, so clearing PE kit does
+  // not delete the routine. Delete (Remove) is the way to end it for good.
+  const todayStr = nowMs != null ? new Date(nowMs).toISOString().slice(0, 10) : ''
+  // Which weekday falls tomorrow, so a routine coming round then gets a quiet
+  // day before heads up on screen, matching the push that goes out tonight.
+  const tomorrowWeekday = nowMs != null ? (new Date(nowMs).getDay() + 1) % 7 : -1
+  const [clearedIds, setClearedIds] = useState<Set<string>>(new Set())
+  // Seed from the server once the client clock is in: a routine whose cleared_on
+  // is today is already cleared for today.
+  useEffect(() => {
+    if (!todayStr) return
+    const seed = initial.filter(a => a.recurs_weekday != null && String(a.cleared_on ?? '') === todayStr).map(a => a.id)
+    if (seed.length) setClearedIds(s => { const n = new Set(s); seed.forEach(id => n.add(id)); return n })
+  }, [todayStr, initial])
+  const clearForToday = async (id: string) => {
+    setClearedIds(s => { const n = new Set(s); n.add(id); return n })
+    notifsChanged()
+    try {
+      await fetch('/api/school/actions', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, clear_today: true }),
+      })
+    } catch { /* non blocking, it still holds for this view */ }
   }
 
   const addReminder = async () => {
@@ -148,6 +202,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       const data = await res.json()
       if (data.action) {
         setActions(a => [...a, data.action].sort((x, y) => (x.due_date ?? '9999').localeCompare(y.due_date ?? '9999')))
+        notifsChanged()
         setTitle('')
         setDueDate('')
         setDueTime('')
@@ -180,13 +235,19 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       const res = await fetch('/api/school/remind/test', { method: 'POST' })
       const data = await res.json()
       if (data.sent > 0) {
-        setTestResult(
-          data.childHasDevice
-            ? `Sent. Check your phone, and ${childName ?? 'your child'}'s.`
-            : 'Sent. It should reach your phone within seconds.'
-        )
+        // Push is per device, so say plainly where it actually landed. If no
+        // phone (Apple push) is subscribed, the ping went to another device
+        // like the laptop you set it up on, and the phone in your hand needs
+        // turning on before it will ever buzz.
+        const where = (data.platforms ?? []).join(' and ')
+        const landed = where ? `Sent to ${where}.` : 'Sent.'
+        const childLine = data.childHasDevice ? ` ${childName ?? 'Your child'}'s phone got theirs too.` : ''
+        const phoneHint = data.hasApple
+          ? ''
+          : ' If the phone in your hand stayed quiet, that phone is not turned on yet. Open this page on the phone itself, tap Turn on check ins, and on iPhone add it to your home screen first, then test again.'
+        setTestResult(landed + childLine + phoneHint)
       } else if (data.reason) {
-        setTestResult('Turn on notifications first. Open your home page, tap Turn on check ins, then come back and test again.')
+        setTestResult('No device is set up to get these yet. On the phone you want the reminders on, open this page, tap Turn on check ins, then test again. On iPhone, add the app to your home screen first, then turn them on.')
       } else {
         setTestResult(data.error ?? 'Something went wrong, try again.')
       }
@@ -206,13 +267,13 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
           card gets your eye exactly when the time is close. */}
       <style>{`@keyframes gcSchoolPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(229,72,77,0.0) } 50% { box-shadow: 0 0 0 4px rgba(229,72,77,0.12) } }`}</style>
       <div style={{ marginBottom: '14px' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
           From school
         </div>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
           Things you need to know
         </div>
-        <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
           Kit days, payments and deadlines DiGi pulls from your forwarded school emails, plus anything you add. They show here every time you open the app, and as a reminder on your phone if notifications are on.
         </p>
       </div>
@@ -223,7 +284,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
           style={{
             background: showAdd ? 'var(--cream)' : 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
             borderRadius: '100px', padding: '8px 16px', cursor: 'pointer',
-            fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, color: 'var(--terracotta-dark)',
+            fontFamily: 'var(--font-display)', fontSize: '14.5px', fontWeight: 800, color: 'var(--terracotta-dark)',
           }}
         >
           {showAdd ? 'Cancel' : '+ Add reminder'}
@@ -234,28 +295,28 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
           style={{
             background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
             padding: '8px 16px', cursor: testing ? 'wait' : 'pointer',
-            fontFamily: 'var(--font-display)', fontSize: '12.5px', fontWeight: 800, color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-display)', fontSize: '14.5px', fontWeight: 800, color: 'var(--ink-soft)',
           }}
         >
           {testing ? 'Sending...' : 'Send a test'}
         </button>
       </div>
       {testResult && (
-        <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '-8px 0 14px' }}>
+        <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '-8px 0 14px' }}>
           {testResult}
         </p>
       )}
 
       {showAdd && (
         <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px', marginBottom: '14px' }}>
-          <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '10px' }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '10px' }}>
             School does not email you, or this one is off your own radar? Add it here, it works exactly the same either way.
           </p>
 
           {/* One tap routines: the classics parents forget. Tapping fills the
               name and sets it to every week, so a PE kit reminder is two taps. */}
           <div style={{ marginBottom: '10px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
               Quick add a weekly routine
             </div>
             <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
@@ -265,7 +326,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   onClick={() => { setTitle(r.label); setKind(r.kind); setRepeats(true); setWeekday(r.weekday) }}
                   style={{
                     padding: '7px 12px', borderRadius: '100px', cursor: 'pointer',
-                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '12px',
+                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px',
                     background: title === r.label ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
                     border: title === r.label ? 'none' : '1.5px solid var(--border)',
                   }}
@@ -283,7 +344,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
             style={{
               width: '100%', padding: '11px 14px', borderRadius: '12px', marginBottom: '8px',
               border: '1.5px solid var(--border)', background: '#fff',
-              fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink)', outline: 'none',
+              fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
             }}
             maxLength={140}
           />
@@ -296,7 +357,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                 onClick={() => setRepeats(val as boolean)}
                 style={{
                   padding: '8px 14px', borderRadius: '100px', cursor: 'pointer',
-                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '12.5px',
+                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14.5px',
                   background: repeats === val ? 'var(--terracotta)' : '#fff',
                   color: 'var(--ink)', border: repeats === val ? 'none' : '1.5px solid var(--border)',
                 }}
@@ -315,7 +376,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                     onClick={() => setWeekday(d.n)}
                     style={{
                       padding: '7px 11px', borderRadius: '10px', cursor: 'pointer',
-                      fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '11px',
+                      fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '13px',
                       background: weekday === d.n ? 'var(--deep-teal)' : '#fff',
                       color: weekday === d.n ? '#fff' : 'var(--ink-soft)',
                       border: weekday === d.n ? 'none' : '1.5px solid var(--border)',
@@ -336,11 +397,11 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   width: 20, height: 20, borderRadius: '6px', flexShrink: 0,
                   background: autoSend ? 'var(--terracotta)' : '#fff',
                   border: autoSend ? 'none' : '1.5px solid var(--border)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', color: '#fff',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', color: '#fff',
                 }}>
                   {autoSend ? '✓' : ''}
                 </span>
-                <span style={{ fontSize: '12.5px', color: 'var(--ink-soft)' }}>
+                <span style={{ fontSize: '14.5px', color: 'var(--ink-soft)' }}>
                   Also remind {childName ?? 'them'} automatically, every week
                 </span>
               </button>
@@ -352,7 +413,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   type="date"
                   value={dueDate}
                   onChange={e => setDueDate(e.target.value)}
-                  style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink)' }}
+                  style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)' }}
                 />
                 <input
                   type="time"
@@ -360,10 +421,10 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   onChange={e => setDueTime(e.target.value)}
                   disabled={!dueDate}
                   title="Optional. A time makes it go red as it nears, like a dentist at 09:00."
-                  style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: dueDate ? '#fff' : 'var(--cream)', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink)', opacity: dueDate ? 1 : 0.5 }}
+                  style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: dueDate ? '#fff' : 'var(--cream)', fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)', opacity: dueDate ? 1 : 0.5 }}
                 />
               </div>
-              <p style={{ fontSize: '11.5px', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '6px 0 0' }}>
+              <p style={{ fontSize: '13.5px', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '6px 0 0' }}>
                 Add a time for a set appointment (dentist, assembly). It turns red as it nears. Leave it off for a seen by today reminder.
               </p>
             </div>
@@ -373,7 +434,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
             <select
               value={kind}
               onChange={e => setKind(e.target.value)}
-              style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink)' }}
+              style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)' }}
             >
               {KIND_OPTIONS.map(([key, meta]) => <option key={key} value={key}>{meta.label}</option>)}
             </select>
@@ -383,7 +444,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
               style={{
                 marginLeft: 'auto', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
                 borderRadius: '10px', padding: '10px 18px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
                 boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: saving ? 0.7 : 1,
               }}
             >
@@ -396,7 +457,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       {/* Weekly routines: permanent, never done or dismissed the way a one off is */}
       {recurring.length > 0 && (
         <div style={{ marginBottom: '16px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
             Every week
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -406,24 +467,47 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                 borderRadius: '12px', background: 'var(--tint-sage)', border: '1px solid var(--border)',
               }}>
                 <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
                   background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
                 }}>
                   {WEEKDAY_NAME[a.recurs_weekday ?? 0]}
                 </span>
-                <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)' }}>
+                <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px', color: 'var(--ink)' }}>
                   {a.title}
                 </span>
+                {a.recurs_weekday === tomorrowWeekday && !clearedIds.has(a.id) && (
+                  <span style={{
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                    background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', border: '1px solid var(--terracotta)',
+                    borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
+                  }}>
+                    Tomorrow
+                  </span>
+                )}
                 {a.auto_send_to_child && (
-                  <span style={{ fontSize: '10.5px', color: 'var(--ink-soft)', flexShrink: 0 }}>
+                  <span style={{ fontSize: '12.5px', color: 'var(--ink-soft)', flexShrink: 0 }}>
                     → {childName ?? 'them'} weekly
                   </span>
                 )}
+                {/* A routine can be cleared just for today: it stays in this
+                    list for next week and only steps back from today's
+                    reminders (and the notifications bell on its day). Delete
+                    ends it for good. */}
+                {clearedIds.has(a.id) ? (
+                  <span style={{ fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>Cleared for today ✓</span>
+                ) : (
+                  <button
+                    onClick={() => clearForToday(a.id)}
+                    style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '5px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '13.5px', fontWeight: 800, color: 'var(--terracotta-dark)', flexShrink: 0 }}
+                  >
+                    Clear for today ✓
+                  </button>
+                )}
                 <button
                   onClick={() => settle(a.id, 'dismissed')}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '11px', color: 'var(--ink-muted)', flexShrink: 0 }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '13px', color: 'var(--ink-muted)', flexShrink: 0 }}
                 >
-                  Remove
+                  Delete
                 </button>
               </div>
             ))}
@@ -433,7 +517,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
 
       {oneOff.length === 0 ? (
         recurring.length === 0 && (
-          <p style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '15px', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
             Nothing open right now. Forward a school email, or add a reminder by hand above.
           </p>
         )
@@ -454,7 +538,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '5px' }}>
                   <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                     background: kindMeta.bg, color: kindMeta.color,
                     padding: '2px 8px', borderRadius: '100px',
@@ -464,43 +548,43 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   {due && (
                     <span style={{
                       display: 'inline-flex', alignItems: 'center', gap: '4px',
-                      fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, color: dueColor,
+                      fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: dueColor,
                     }}>
                       {hot && <span style={{ width: 6, height: 6, borderRadius: '100px', background: 'var(--danger)', display: 'inline-block' }} />}
                       {due.text}
                     </span>
                   )}
                 </div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', marginBottom: a.detail ? '3px' : '8px' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: a.detail ? '3px' : '8px' }}>
                   {a.title}
                 </div>
                 {a.detail && (
-                  <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '8px' }}>
+                  <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '8px' }}>
                     {a.detail}
                   </p>
                 )}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
                   <button
                     onClick={() => settle(a.id, 'done')}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--terracotta-dark)', padding: 0 }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)', padding: 0 }}
                   >
                     Got it, clear ✓
                   </button>
                   <button
                     onClick={() => settle(a.id, 'dismissed')}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', padding: 0 }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)', padding: 0 }}
                   >
                     Dismiss
                   </button>
                   <a
                     href={`/api/school/${a.id}/ics`}
                     title="Add this to your phone calendar"
-                    style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: 'var(--ink-soft)', textDecoration: 'none' }}
+                    style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)', textDecoration: 'none' }}
                   >
                     📅 Calendar
                   </a>
                   {a.sent_to_child ? (
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', marginLeft: 'auto' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)', marginLeft: 'auto' }}>
                       Sent to {childName ?? 'them'} ✓
                     </span>
                   ) : (
@@ -510,7 +594,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                       style={{
                         marginLeft: 'auto', background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)',
                         borderRadius: '100px', padding: '5px 12px', cursor: 'pointer',
-                        fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, color: 'var(--terracotta-dark)',
+                        fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--terracotta-dark)',
                       }}
                     >
                       {sendingId === a.id ? 'Sending...' : `Send to ${childName ?? 'them'} ⭐`}

@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { stripe, STRIPE_PRICES, FOUNDER_CAP } from '@/lib/stripe'
+import { stripe, STRIPE_PRICES, FOUNDER_CAP, getFounderCount } from '@/lib/stripe'
 import { TRIAL_DAYS } from '@/lib/access'
 import { NextResponse } from 'next/server'
 
@@ -23,15 +23,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid tier' }, { status: 400 })
   }
 
-  // Enforce founder cap
+  // Enforce founder cap. Count seats held in Stripe (active or trialing), the
+  // same source the public counter reads, so the two can never drift and a
+  // founder still in their trial already counts against the 50. Fail open on a
+  // transient Stripe error so a blip never blocks a paying customer; exceeding
+  // by one during an outage is the lesser harm than a lost sale.
   if (tier === 'founder') {
-    const { count } = await supabase
-      .from('profiles')
-      .select('id', { count: 'exact', head: true })
-      .eq('is_founder', true)
-      .eq('subscription_status', 'active')
-
-    if ((count ?? 0) >= FOUNDER_CAP) {
+    const held = await getFounderCount().catch(() => 0)
+    if (held >= FOUNDER_CAP) {
       return NextResponse.redirect(
         `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/upgrade?error=founder_sold_out`,
         { status: 302 }
@@ -80,6 +79,14 @@ export async function POST(request: Request) {
     success_url: successUrl,
     cancel_url: `${origin}/dashboard/upgrade`,
     payment_method_collection: 'always',
+    // Make the member tick that they accept the Terms at checkout. This
+    // tightens the trial to charge consent and helps win any card dispute.
+    // Requires a Terms of service URL set in the Stripe Dashboard (Settings,
+    // Public details), else Stripe rejects the session, so it is behind a
+    // flag that stays off until that URL is set.
+    ...(process.env.STRIPE_TOS_CONSENT === 'on'
+      ? { consent_collection: { terms_of_service: 'required' as const } }
+      : {}),
     metadata: { tier, user_id: user.id },
     subscription_data: {
       metadata: { tier, user_id: user.id },

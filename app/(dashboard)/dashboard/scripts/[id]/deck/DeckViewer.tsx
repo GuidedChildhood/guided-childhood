@@ -88,13 +88,13 @@ function ScriptCardFace({ card, script }: { card: CardDef; script: ScriptData })
         padding: '22px 26px 26px',
         borderRadius: '0 0 32px 32px',
       }}>
-        <div style={{ color: card.text, opacity: 0.75, fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '6px' }}>
+        <div style={{ color: card.text, opacity: 0.75, fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '6px' }}>
           Step {card.step} of {CARDS.length}
         </div>
         <div style={{ color: card.text, fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '4px' }}>
           {card.label}
         </div>
-        <div style={{ color: card.text, opacity: 0.85, fontFamily: 'var(--font-body)', fontSize: '13px', fontWeight: 600 }}>
+        <div style={{ color: card.text, opacity: 0.85, fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 600 }}>
           {card.tip}
         </div>
       </div>
@@ -102,7 +102,7 @@ function ScriptCardFace({ card, script }: { card: CardDef; script: ScriptData })
       {/* Card body */}
       <div style={{ padding: '30px 26px 34px', background: card.bg }}>
         <p style={{
-          fontSize: 'clamp(16px, 3.8vw, 19px)',
+          fontSize: 'clamp(18px, 3.8vw, 21px)',
           fontWeight: 500,
           lineHeight: 1.6,
           color: 'var(--ink)',
@@ -135,7 +135,7 @@ function DoneFace() {
         fontSize: '34px', color: 'var(--ink)',
       }}>✓</div>
       <div style={{
-        fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+        fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700,
         letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)',
       }}>
         Done
@@ -265,7 +265,7 @@ export default function DeckViewer({
       <div style={{ marginBottom: '24px' }}>
         <Link
           href={backHref}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: '20px', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: '20px', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
         >
           ← Back
         </Link>
@@ -273,7 +273,7 @@ export default function DeckViewer({
         <h1 style={{ fontSize: 'clamp(1.1rem, 3.5vw, 1.4rem)', lineHeight: 1.2, letterSpacing: '-0.01em', marginBottom: '6px' }}>
           {script.title}
         </h1>
-        <p style={{ fontSize: '13px', color: 'var(--ink-muted)', fontStyle: 'italic', margin: 0 }}>
+        <p style={{ fontSize: '15px', color: 'var(--ink-muted)', fontStyle: 'italic', margin: 0 }}>
           {script.situation}
         </p>
       </div>
@@ -288,7 +288,7 @@ export default function DeckViewer({
             transition: 'width 0.5s ease, background 0.5s ease',
           }} />
         ))}
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', marginLeft: '8px', letterSpacing: '0.06em' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)', marginLeft: '8px', letterSpacing: '0.06em' }}>
           {isCompletionCard ? '✓ Done' : `${cardIndex + 1} of ${CARDS.length}`}
         </span>
       </div>
@@ -375,7 +375,7 @@ export default function DeckViewer({
                 border: '1.5px solid var(--border)',
                 borderRadius: 'var(--radius-btn)',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '12px',
+                fontSize: '14px',
                 fontWeight: 600,
                 letterSpacing: '0.06em',
                 color: 'var(--ink)',
@@ -395,7 +395,7 @@ export default function DeckViewer({
               border: 'none',
               borderRadius: 'var(--radius-btn)',
               fontFamily: 'var(--font-mono)',
-              fontSize: '12px',
+              fontSize: '14px',
               fontWeight: 700,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
@@ -428,7 +428,7 @@ export default function DeckViewer({
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '28px', color: '#fff', marginBottom: '8px', letterSpacing: '-0.02em' }}>
             Script complete
           </div>
-          <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.8)', textAlign: 'center', maxWidth: '280px', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.8)', textAlign: 'center', maxWidth: '280px', lineHeight: 1.5 }}>
             You now know what to say, what not to say, and why it works.
           </p>
           <style>{`
@@ -488,17 +488,17 @@ function CompletionCard({
             width: '36px', height: '36px', borderRadius: '50%',
             background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '18px', color: 'var(--ink)',
+            fontSize: '20px', color: 'var(--ink)',
           }}>✓</div>
           <div style={{ color: 'var(--ink)', fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
             Script complete
           </div>
         </div>
         <div style={{ padding: '30px 26px', background: 'var(--tint-sage)' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--stage-2-text)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '10px', fontWeight: 700 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--stage-2-text)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '10px', fontWeight: 700 }}>
             Keep this in mind
           </div>
-          <p style={{ fontSize: 'clamp(17px, 4vw, 20px)', fontWeight: 700, lineHeight: 1.5, color: 'var(--ink)', margin: 0, letterSpacing: '-0.01em' }}>
+          <p style={{ fontSize: 'clamp(19px, 4vw, 22px)', fontWeight: 700, lineHeight: 1.5, color: 'var(--ink)', margin: 0, letterSpacing: '-0.01em' }}>
             {script.why_it_works}
           </p>
         </div>
@@ -507,12 +507,12 @@ function CompletionCard({
       {/* Did this work feedback — feeds DiGi so it knows what has actually helped */}
       <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px', marginBottom: '16px' }}>
         {worked ? (
-          <div style={{ fontSize: '13px', color: 'var(--ink)', fontWeight: 600 }}>
+          <div style={{ fontSize: '15px', color: 'var(--ink)', fontWeight: 600 }}>
             ✓ Thanks, saved. DiGi will remember this next time.
           </div>
         ) : (
           <>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
               Did this work for you?
             </div>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -527,7 +527,7 @@ function CompletionCard({
                   style={{
                     padding: '9px 14px', borderRadius: '100px',
                     border: '1.5px solid var(--border)', background: 'var(--cream)',
-                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
+                    fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600,
                     color: 'var(--ink)', cursor: 'pointer', letterSpacing: '.02em',
                   }}
                 >
@@ -543,14 +543,14 @@ function CompletionCard({
         <Link
           href={backHref}
           className="btn btn-outline"
-          style={{ flex: 1, textAlign: 'center', padding: '13px 18px', fontSize: '12px' }}
+          style={{ flex: 1, textAlign: 'center', padding: '13px 18px', fontSize: '14px' }}
         >
           ← Back to list
         </Link>
         <Link
           href={`/dashboard/digi?q=${encodeURIComponent(`I just read the script: ${script.title}. I want to adapt it for my situation.`)}`}
           className="btn btn-gold"
-          style={{ flex: 1, textAlign: 'center', padding: '13px 18px', fontSize: '12px' }}
+          style={{ flex: 1, textAlign: 'center', padding: '13px 18px', fontSize: '14px' }}
         >
           Ask DiGi about this
         </Link>
@@ -558,7 +558,7 @@ function CompletionCard({
           href="/dashboard/tracker"
           style={{
             flexBasis: '100%', textAlign: 'center', padding: '11px 0', textDecoration: 'none',
-            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
             letterSpacing: '0.06em', color: 'var(--terracotta-dark)',
           }}
         >

@@ -15,7 +15,7 @@ export default function EducatorError({
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '48px 20px' }}>
       <div style={{ maxWidth: '520px', margin: '0 auto' }}>
         <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
           letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px',
         }}>
           Guided Childhood Schools
@@ -29,7 +29,7 @@ export default function EducatorError({
         <div style={{
           background: 'var(--coral-lt)', border: '2px solid var(--coral)', borderRadius: '16px',
           padding: '14px 18px', marginBottom: '20px', fontFamily: 'var(--font-body)',
-          fontSize: '14px', color: 'var(--coral-dark)', lineHeight: 1.6, overflowWrap: 'anywhere',
+          fontSize: '16px', color: 'var(--coral-dark)', lineHeight: 1.6, overflowWrap: 'anywhere',
         }}>
           {error.message && error.message !== 'An error occurred in the Server Components render.'
             ? error.message
@@ -41,7 +41,7 @@ export default function EducatorError({
           style={{
             padding: '12px 22px', borderRadius: '16px', background: 'var(--gold)',
             color: 'var(--ink)', border: 'none', boxShadow: '0 5px 0 var(--gold-hover)',
-            cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+            cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
           }}
         >
           Try again

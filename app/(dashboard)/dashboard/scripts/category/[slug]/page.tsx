@@ -71,7 +71,7 @@ export default async function CategoryPage({
 
       <Link
         href="/dashboard/scripts"
-        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: '24px', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
+        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: '24px', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
       >
         ← All topics
       </Link>
@@ -90,8 +90,8 @@ export default async function CategoryPage({
           </h1>
         </div>
         <div style={{ padding: '16px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
-          <p style={{ fontSize: '14px', color: 'var(--ink-muted)', margin: 0 }}>{meta.description}</p>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: meta.accent, letterSpacing: '0.06em' }}>
+          <p style={{ fontSize: '16px', color: 'var(--ink-muted)', margin: 0 }}>{meta.description}</p>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: meta.accent, letterSpacing: '0.06em' }}>
             {completedCount} of {scripts.length} done
           </span>
         </div>
@@ -129,7 +129,7 @@ export default async function CategoryPage({
             >
               <div style={{ display: 'flex', gap: '8px', marginBottom: '10px', flexWrap: 'wrap', alignItems: 'center' }}>
                 <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
+                  fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
                   letterSpacing: '0.1em', textTransform: 'uppercase',
                   color: stageColor.color, background: stageColor.bg,
                   padding: '3px 8px', borderRadius: '100px',
@@ -138,7 +138,7 @@ export default async function CategoryPage({
                 </span>
                 {isDone && (
                   <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600,
+                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                     color: 'var(--terracotta)', background: 'var(--stage-2)',
                     padding: '3px 8px', borderRadius: '100px', border: '1px solid var(--stage-2)',
@@ -148,7 +148,7 @@ export default async function CategoryPage({
                 )}
                 {isLocked && (
                   <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '9px',
+                    fontFamily: 'var(--font-mono)', fontSize: '11px',
                     letterSpacing: '0.08em', textTransform: 'uppercase',
                     color: 'var(--ink-light)', background: 'var(--cream)',
                     padding: '3px 8px', borderRadius: '100px', border: '1px solid var(--border)',
@@ -158,10 +158,10 @@ export default async function CategoryPage({
                 )}
               </div>
 
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)', marginBottom: '6px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px', color: 'var(--ink)', marginBottom: '6px' }}>
                 {script.title}
               </div>
-              <p style={{ fontSize: '13px', color: 'var(--ink-muted)', fontStyle: 'italic', margin: '0 0 14px' }}>
+              <p style={{ fontSize: '15px', color: 'var(--ink-muted)', fontStyle: 'italic', margin: '0 0 14px' }}>
                 {script.situation}
               </p>
 
@@ -169,7 +169,7 @@ export default async function CategoryPage({
                 <Link
                   href="/dashboard/upgrade"
                   className="btn btn-gold"
-                  style={{ display: 'inline-flex', padding: '9px 18px', fontSize: '11px' }}
+                  style={{ display: 'inline-flex', padding: '9px 18px', fontSize: '13px' }}
                 >
                   Unlock
                 </Link>
@@ -178,7 +178,7 @@ export default async function CategoryPage({
                   <Link
                     href={`/dashboard/scripts/${script.sort_order}/deck`}
                     className="btn btn-green"
-                    style={{ padding: '9px 18px', fontSize: '11px' }}
+                    style={{ padding: '9px 18px', fontSize: '13px' }}
                   >
                     {isDone ? 'Read again' : 'Start deck'}
                   </Link>
@@ -186,7 +186,7 @@ export default async function CategoryPage({
                     href={`/dashboard/digi?q=${encodeURIComponent(`Help me with: ${script.title}`)}`}
                     style={{
                       padding: '9px 18px',
-                      fontSize: '11px',
+                      fontSize: '13px',
                       fontFamily: 'var(--font-mono)',
                       letterSpacing: '0.05em',
                       textTransform: 'uppercase',
