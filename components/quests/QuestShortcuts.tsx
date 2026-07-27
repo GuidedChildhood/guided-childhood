@@ -39,6 +39,14 @@ const TILES: Tile[] = [
     href: '/dashboard/quests/deal', label: 'Our family deal', sub: 'Print it for the fridge',
     icon: 'deal', bg: 'var(--tint-sage)', iconBg: 'rgba(255,255,255,0.72)',
   },
+  {
+    // Lessons had no way in from here at all, which is how a whole strand of
+    // the product goes quiet: jobs and stars are the daily loop a parent opens
+    // this board for, and the learning is the thing the loop is FOR. A board
+    // that offers games but not lessons quietly says which one matters.
+    href: '/dashboard/lessons', label: 'Lessons', sub: 'Watch together, pass the stage',
+    icon: 'lessons', bg: 'var(--tint-amber)', iconBg: 'rgba(255,255,255,0.72)',
+  },
 ]
 
 // Same outlined tile as the passport page now, so the two read as one product.
@@ -48,6 +56,7 @@ const ACCENT: Record<string, string> = {
   'var(--tint-blue)': '#A9C8E4',
   'var(--tint-green)': '#9CC3B4',
   'var(--tint-sage)': '#9CC3B4',
+  'var(--tint-amber)': '#D6BE8A',
 }
 
 export default function QuestShortcuts() {

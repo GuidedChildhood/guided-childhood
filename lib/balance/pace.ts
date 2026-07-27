@@ -42,9 +42,29 @@ export type Pace = {
   line: string
 }
 
-/** Monday is day 1, Sunday is day 7, which is how a UK week reads. */
+/** Monday is day 1, Sunday is day 7, which is how a UK week reads.
+ *
+ *  Asked of Intl directly rather than by formatting a date and parsing the
+ *  string back. The old version did the latter and was wrong every day of the
+ *  month: en-GB formats 27 July as "27/07/2026", which Date cannot parse at
+ *  all, so it returned NaN and the stats page printed "NaN minutes a day".
+ *  Worse, on the first twelve days it DID parse, as American mm/dd, so it
+ *  quietly returned the wrong weekday and every number downstream was
+ *  plausible and wrong. A loud NaN for nineteen days a month was the only
+ *  reason anybody noticed. */
+const UK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
 export function ukWeekday(now = new Date()): number {
-  const d = new Date(now.toLocaleString('en-GB', { timeZone: 'Europe/London' })).getDay()
+  try {
+    const short = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/London', weekday: 'short',
+    }).format(now)
+    const idx = UK_DAYS.indexOf(short.slice(0, 3))
+    if (idx >= 0) return idx + 1
+  } catch { /* fall through to the local weekday below */ }
+  // No Intl, or a name we do not recognise. The local weekday is close enough
+  // for a UK product and infinitely better than a NaN on the screen.
+  const d = now.getDay()
   return d === 0 ? 7 : d
 }
 
@@ -64,10 +84,17 @@ export function buildPace(input: {
    *  week rather than the one in progress. */
   daysSoFar?: number
 }): Pace {
-  const dailyGuide = Math.max(0, Math.round(input.dailyGuide))
-  const daysSoFar = Math.min(7, Math.max(1, input.daysSoFar ?? ukWeekday()))
+  // Every input is forced to a real number before any division happens. A
+  // single NaN anywhere in here reaches the parent as "NaN minutes a day",
+  // which is the sort of thing that makes someone doubt every other number we
+  // have ever shown them.
+  const num = (v: unknown, fallback: number) =>
+    typeof v === 'number' && Number.isFinite(v) ? v : fallback
+
+  const dailyGuide = Math.max(0, Math.round(num(input.dailyGuide, 0)))
+  const daysSoFar = Math.min(7, Math.max(1, Math.round(num(input.daysSoFar, ukWeekday()))))
   const daysLeft = 7 - daysSoFar
-  const used = Math.max(0, Math.round(input.usedThisWeek))
+  const used = Math.max(0, Math.round(num(input.usedThisWeek, 0)))
   const weekAllowance = dailyGuide * 7
   const average = Math.round(used / daysSoFar)
   const remaining = weekAllowance - used
@@ -100,7 +127,10 @@ export function buildPace(input: {
       case 'a_little_high':
         return `${average} minutes a day so far, a little above the ${dailyGuide} minute guide. Around ${suggestTomorrow} minutes tomorrow brings the week back level.`
       case 'well_over':
-        return remaining > 0
+        // suggestTomorrow is null on the last day of the week, and "about null
+        // a day from here" is exactly what a parent saw when the weekday maths
+        // broke. Never interpolate it without checking it is a number.
+        return remaining > 0 && suggestTomorrow !== null
           ? `${average} minutes a day so far, well above the ${dailyGuide} minute guide. There are ${remaining} minutes left in the week, so about ${suggestTomorrow} a day from here.`
           : `${average} minutes a day so far, well above the ${dailyGuide} minute guide, and the week's allowance is already spent. Nothing is broken, but the rest of the week wants to be quiet.`
     }
@@ -147,9 +177,11 @@ export function buildMonthPace(input: {
   usedPreviousMonth?: number | null
   previousDays?: number | null
 }): MonthPace {
-  const dailyGuide = Math.max(0, Math.round(input.dailyGuide))
-  const days = Math.max(1, Math.round(input.days))
-  const used = Math.max(0, Math.round(input.usedThisMonth))
+  const n = (v: unknown, fallback: number) =>
+    typeof v === 'number' && Number.isFinite(v) ? v : fallback
+  const dailyGuide = Math.max(0, Math.round(n(input.dailyGuide, 0)))
+  const days = Math.max(1, Math.round(n(input.days, 1)))
+  const used = Math.max(0, Math.round(n(input.usedThisMonth, 0)))
   const average = Math.round(used / days)
 
   const prevDays = input.previousDays && input.previousDays > 0 ? input.previousDays : null

@@ -71,7 +71,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
               research it draws on is listed below, open on the page not a hover,
               so a parent on a phone can see exactly where it comes from. */}
           <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-            For age {bandLabel}, the health guidance lands on about <b style={{ color: 'var(--ink)' }}>{fmtMins(dailyGuideMins)} a day</b> of recreational screen, which is around <b style={{ color: 'var(--ink)' }}>{fmtMins(healthyWeekMins)} a week</b>. The dashed line marks it on each bar, and the coloured bar is what we have recorded. It is an average to aim at, not a limit: a day over is fine when the week balances out.
+            For age {bandLabel} we steer at about <b style={{ color: 'var(--ink)' }}>{fmtMins(dailyGuideMins)} a day</b> of recreational screen, around <b style={{ color: 'var(--ink)' }}>{fmtMins(healthyWeekMins)} a week</b>. That is our number, drawn from the bodies below and set at the cautious end of them, not a figure they all agree on. The dashed line marks it on each bar, and the coloured bar is what we have recorded. It is an average to aim at, not a limit: a day over is fine when the week balances out.
           </p>
           <details style={{ marginTop: 9 }}>
             <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>

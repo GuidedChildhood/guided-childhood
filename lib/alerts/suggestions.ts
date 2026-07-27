@@ -133,7 +133,7 @@ export async function getSuggestions(
     key: `win:${win.slug}`, kind: 'win', urgency: 4, emoji: '🎉',
     title: win.status === 'resolved' ? `You turned ${win.label.toLowerCase()} around` : `${win.label} is getting better`,
     body: 'That is a real win, and you earned it. See it land on the passport, and the next stamp waiting.',
-    cta: 'See your passport', href: '/dashboard/tracker',
+    cta: 'See your passport', href: '/dashboard/pathway',
   })
 
   return s.sort((a, b) => b.urgency - a.urgency)
