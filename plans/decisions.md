@@ -2060,3 +2060,29 @@ Fixing a typo should not cost a child their run.
 
 Saves on blur and on enter, and only when the name has actually changed, so
 opening the panel to change the stars never writes a pointless update.
+
+## 27 Jul 2026: a page that answers whether the emails are actually sending
+Justin wants the email programme live. The code and the eight o'clock cron have
+been ready for a while, so going live is environment, not build. The problem is
+that you cannot tell from outside whether it worked.
+
+With no Resend key the cron returns skipped and stops. No error, no alert,
+nothing recorded that it ran. That is indistinguishable from a morning where
+nobody happened to be due an email, so a dead programme and a quiet one look
+identical and you find out weeks later when a parent says they never got
+anything.
+
+`/dashboard/admin/email`, founder only, settles it with the two things that
+actually decide it: what the environment is missing, and when an email last
+genuinely went out. Every send writes its log row before the email leaves, so
+the most recent row across email_log and lead_email_log is an honest heartbeat
+rather than an intention.
+
+Three states rather than two, because a binary would lie. Not sending (a fatal
+setting missing), configured but nothing has ever sent, and configured but quiet
+for more than twenty six hours. That last one is deliberately not called broken:
+on a small list a silent day is genuinely possible, and crying wolf on a status
+page is how people stop reading it.
+
+Only whether each setting is present is shown, never its value. The verdict is
+pure and lives in lib/email/health.ts, tested across all five states.
