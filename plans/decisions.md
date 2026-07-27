@@ -2044,3 +2044,16 @@ deliberately absent rather than written from memory.
 
 Two ways forward: allow those hosts through egress, or paste the programmes of
 study in. Either unblocks the long pole. The machinery does not need to change.
+
+## 27 Jul 2026: jobs can be renamed, which they already could server side
+The edit panel offered stars, days and the before screens gate, but never the
+name. The PATCH route has always accepted a title patch, so this was a hole in
+the panel rather than the API.
+
+It mattered more than it sounds. A parent who typed a job wrong, or wanted
+"tidy bedroom" instead of "clean my room", had to delete it and add it again,
+which takes every tick with it and resets the child's streak on that job.
+Fixing a typo should not cost a child their run.
+
+Saves on blur and on enter, and only when the name has actually changed, so
+opening the panel to change the stars never writes a pointless update.

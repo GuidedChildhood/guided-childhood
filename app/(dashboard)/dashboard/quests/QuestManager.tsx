@@ -154,7 +154,7 @@ export default function QuestManager() {
     } catch { /* the optimistic tick stands, next load reconciles */ }
   }
 
-  async function editQuest(questId: string, patch: { stars?: number; schedule?: string; schedule_days?: number[] | null; blocks_screens?: boolean }) {
+  async function editQuest(questId: string, patch: { title?: string; stars?: number; schedule?: string; schedule_days?: number[] | null; blocks_screens?: boolean }) {
     setQuests(prev => prev.map(q => q.id === questId ? { ...q, ...patch } as Quest : q))
     try {
       await fetch('/api/quests', {
@@ -1301,7 +1301,34 @@ export default function QuestManager() {
                     </div>
 
                     {editing && (
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
+                      <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid var(--border)' }}>
+                        {/* Rename. The API has always accepted a title patch, the
+                            panel simply never offered one, so a parent who typed
+                            a job wrong had to delete it and add it again, losing
+                            every tick and the streak with it. Fixing a typo
+                            should not cost a child their run. */}
+                        <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
+                          <input
+                            defaultValue={q.title}
+                            onBlur={e => {
+                              const next = e.target.value.trim()
+                              if (next && next !== q.title) editQuest(q.id, { title: next })
+                            }}
+                            onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
+                            aria-label="Job name"
+                            style={{
+                              flex: 1, minWidth: 0, padding: '11px 13px', borderRadius: '12px',
+                              border: '1.5px solid var(--border)', background: '#fff',
+                              fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none',
+                            }}
+                            maxLength={120}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {editing && (
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
                           <button onClick={() => editQuest(q.id, { stars: q.stars - 1 })} disabled={q.stars <= 1} style={{ width: 30, height: 30, borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontWeight: 800 }}>−</button>
                           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700, minWidth: '42px', textAlign: 'center' }}>⭐ {q.stars}</span>
