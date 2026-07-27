@@ -12,6 +12,8 @@ import { printablesForStage } from '@/lib/printables/registry'
 import { quizForBand } from '@/lib/content/school-quizzes'
 import { tipsForStage, interestTipFor } from '@/lib/content/path-tips'
 import KidPath, { type PathLesson, type PathGame, type PathJob, type PathPrintable } from '@/components/kid/KidPath'
+import { getStickerBook } from '@/lib/stickers/book'
+import { stickerArt } from '@/lib/stickers/catalog'
 
 // My path: the child's own Duolingo style trail for their stage, opened from
 // the My road tile. Token scoped like every kid surface; the reads mirror the
@@ -193,9 +195,27 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
   const interestTip = interestTipFor(interest)
   const tips = interestTip ? [interestTip, ...tipsForStage(stage.id, dayIdx)] : tipsForStage(stage.id, dayIdx)
 
+  // The child's sticker book, reconciled on read from the same star bank and
+  // printable loop the rest of the app uses, plus the earned but not yet
+  // celebrated set so the path can pop the new ones once. Fails soft before
+  // migration 109.
+  const stickerBook = await getStickerBook(supabase, link.user_id, { id: link.child_id, age_band: ageBand })
+  const kidStickers = stickerBook.stickers.map(s => ({
+    key: s.key, name: s.name, emoji: s.emoji, art: stickerArt(s), colour: s.colour, earned: s.earned,
+  }))
+  let celebrateKeys: string[] = []
+  {
+    const { data, error } = await supabase
+      .from('earned_stickers').select('sticker_key')
+      .eq('child_id', link.child_id).eq('celebrated', false)
+    if (!error) celebrateKeys = (data ?? []).map(r => String(r.sticker_key))
+  }
+
   return (
     <KidPath
       token={token}
+      stickers={kidStickers}
+      celebrate={celebrateKeys}
       childName={child?.name ?? 'Superstar'}
       stageId={stage.id}
       stageName={stage.name}

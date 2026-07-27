@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import KidStickers, { type KidSticker } from '@/components/kid/KidStickers'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { PATH_CHARACTERS, challengeFor, type PathChallenge, type PathCharacter } from '@/lib/content/path-challenges'
 import { STAR_MINUTES } from '@/lib/quests/templates'
@@ -47,6 +48,7 @@ export default function KidPath({
   stampsEarned = 0, stampsTotal = 0, quiz, dayIndex,
   chestClaimed: chestClaimedInitial, quizClaimed: quizClaimedInitial,
   usedTodayMinutes, guideMinutes, balanceStars, needsMigration = false,
+  stickers = [], celebrate = [],
 }: {
   token: string
   childName: string
@@ -72,6 +74,9 @@ export default function KidPath({
   guideMinutes: number
   balanceStars: number
   needsMigration?: boolean
+  // The child's sticker collection and any newly earned keys to celebrate.
+  stickers?: KidSticker[]
+  celebrate?: string[]
 }) {
   const [jobs, setJobs] = useState(jobsInitial)
   const [printables, setPrintables] = useState(printablesInitial)
@@ -795,6 +800,12 @@ export default function KidPath({
           </p>
         </div>
       </div>
+
+      {/* The child's own sticker book at the foot of the trail, and the pop the
+          first time a new one lands. */}
+      {stickers.length > 0 && (
+        <KidStickers token={token} stickers={stickers} celebrate={celebrate} />
+      )}
 
       {/* The whole path done: the big one. Three bonus stars, a quarter hour
           when they want it, and the stamp stone glowing gold behind it. */}
