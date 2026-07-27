@@ -2393,3 +2393,31 @@ touches them: swapping voice is one Higgsfield batch plus a rewrite of that map
 to choose: Imogen, Tamsin, Mabel. Note these wav files are still hotlinked to
 the generation CDN, the same one the vendored images came off, so the
 regeneration should land them in public/ at the same time.
+
+## 27 Jul 2026: the demo children have birthdays, chosen as a test set
+Every account so far is demo data, so rather than guess at real birthdays the 39
+children were given a deliberate spread: ages 4 to 16, three at every age, all
+39 names distinct. Names, dates, bands and stage ids all set together, so
+nothing in the platform disagrees with itself about how old a child is.
+
+**The dates are a fixture, not filler.** Three shapes at each age. One born 12
+March, well clear of the cutoff. One born 30 August. One born 1 September, and
+crucially with the SAME birth year as the 30 August one.
+
+That last pair is the whole point. Two children born two days apart are the same
+age today and a full school year apart at school, which is the single thing the
+sheet logic has to get right and the easiest to get quietly wrong. Sonny, born
+30 August 2016, is Year 5. Flora, born 1 September 2016, is Year 4. Both are 9.
+If a later change ever starts placing children by their age today instead of
+their age on 31 August, those two collapse onto the same year and the fixture
+says so immediately.
+
+Verified by running the real `sheetTarget` from lib/learning/term.ts over all 39
+dates rather than by reasoning about them: every year group 1 to 6 comes back
+with exactly three children, and the 21 outside years 1 to 6 exercise the "not
+this age yet" path at both ends. All 18 combinations of year group and subject
+have objectives, so no sheet in the range says "not written yet" any more.
+
+Deliberately NOT saved as a runnable seed script. It rewrites every child row on
+the account, which is exactly right for demo data today and catastrophic once
+real families are on it. The reasoning is here, the SQL is not.
