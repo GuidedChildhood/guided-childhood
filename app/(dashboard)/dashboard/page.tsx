@@ -22,6 +22,7 @@ import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
+import { allBirthdaysIn } from '@/lib/setup/flags'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SocialMediaHeadsUp from '@/components/pathway/SocialMediaHeadsUp'
@@ -35,7 +36,6 @@ import ChildAppNudge from '@/components/home/ChildAppNudge'
 import CommunityBite from '@/components/community/CommunityBite'
 import DealReviewNudge from '@/components/quests/DealReviewNudge'
 import HomeRows from '@/components/home/HomeRows'
-import BirthdayNudge from '@/components/home/BirthdayNudge'
 import LiveTimerChip from '@/components/home/LiveTimerChip'
 import ExploreGrid from '@/components/home/ExploreGrid'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
@@ -126,19 +126,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
 
-  // Children still missing the growing up switch (their birthday). Offered
-  // later in the journey, not at setup: the card waits until day three, and
-  // the read fails soft to nobody before migration 083.
-  let birthdayMissing: string[] = []
-  if (accountAgeDays >= 3) {
-    const { data: dobRows, error: dobErr } = await supabase
-      .from('children').select('name, date_of_birth').eq('parent_id', user.id)
-    if (!dobErr) {
-      birthdayMissing = (dobRows ?? [])
-        .filter(r => !r.date_of_birth)
-        .map(r => (r.name && r.name !== 'Your child' ? String(r.name) : 'your child'))
-    }
-  }
+  // The birthday is a setup step now, not a welcome card and not a day three
+  // reveal. It is the parent's job and setup is where a parent looks for what
+  // is missing, so it goes in the checklist with a flag and a tick like
+  // everything else. The read fails soft to done before migration 083, so a
+  // deploy without the column never shows a step nobody can finish.
+  const birthdays = await supabase.from('children').select('date_of_birth').eq('parent_id', user.id)
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
   const hasSchoolConnection = !!schoolConnectionResult.data
   // The child phone link step only belongs once a child is old enough to
@@ -160,6 +153,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     push: !!pushSubResult.data,
     daily: !!anySessionResult.data,
     childLink: hasKidLink,
+    birthday: allBirthdaysIn(birthdays),
   }
 
   // DiGi brings a lesson to Home: one age relevant film the child has not
@@ -465,10 +459,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           stageLessons,
         }}
       />
-      {/* The growing up switch, offered once the family is settled: children
-          without a birthday get one warm card naming the benefit. */}
-      <BirthdayNudge kidNames={birthdayMissing} />
-
       {/* Trial status: warm and forgiving during, a gentle offer after, never
           a lockout. The everyday habit stays free either way. */}
       {showTrial && (
@@ -508,8 +498,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         flags={setupFlags}
         phoneAge={phoneAge}
         handoverChild={handoverChild}
-        child={child?.id ? { id: child.id, name: child.name ?? null } : null}
-        needsBirthday={birthdayMissing.length > 0}
       />
 
       {/* Half the product is on the child's phone. Until they have opened it,

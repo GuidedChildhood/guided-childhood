@@ -3,13 +3,19 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-// One nav, phone and laptop the same: the five core destinations in one order,
-// so the app never reads differently on a bigger screen. Lessons and School
-// reach from Home and the Passport rather than a top level tab, and the old
-// Pathway tab folded into the Passport (it is the same journey now).
+// One nav, phone and laptop the same: the six core destinations in one order,
+// so the app never reads differently on a bigger screen. School reaches from
+// Home and the Passport rather than a top level tab, and the old Pathway tab
+// folded into the Passport (it is the same journey now).
+//
+// Lessons sits before Quests because it is the thing the quests are for. It had
+// no desktop tab at all until now, only a chip in the mobile secondary strip,
+// which meant the one part of the product that actually teaches a child was the
+// one part with no way in on a laptop.
 const NAV_TABS = [
   { href: '/dashboard', label: 'Home' },
   { href: '/dashboard/digi', label: 'DiGi' },
+  { href: '/dashboard/lessons', label: 'Lessons' },
   { href: '/dashboard/quests', label: 'Quests' },
   { href: '/dashboard/scripts', label: 'Scripts' },
   { href: '/dashboard/tracker', label: 'Passport' },

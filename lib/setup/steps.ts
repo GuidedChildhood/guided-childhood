@@ -1,9 +1,18 @@
 // The setup path steps, in one place so both the dashboard UI (SetupPath, a
 // client component) and the server side that computes the next step (the
 // SetupNextBar API) share exactly the same list and order. Foundations first:
-// the two minute daily habit, then check ins so the nudges land, then quests,
-// then school routines, then the child's own phone link once they are old
-// enough, then the family agreement when ready.
+// the two minute daily habit, then the birthday, then check ins so the nudges
+// land, then quests, then school routines, then the child's own phone link once
+// they are old enough, then the family agreement when ready.
+//
+// The birthday used to live only as a welcome card, which was the wrong home
+// for it. It is one missing fact that the parent, and only the parent, can
+// supply, and setup is where a parent goes to find out what is still missing.
+// As a card it was something the app said in passing; as a step it is something
+// with a tick, a place in the sequence, and a nudge that comes back. Second in
+// the order because it is the shortest job on the list and the only one whose
+// absence leaves a service the family has already paid for saying "not written
+// yet" on every page it touches.
 
 export type SetupFlags = {
   agreement: boolean
@@ -12,6 +21,7 @@ export type SetupFlags = {
   push: boolean
   daily: boolean
   childLink: boolean
+  birthday: boolean
 }
 
 export type SetupStep = {
@@ -23,6 +33,7 @@ export type SetupStep = {
 
 export const STEPS: SetupStep[] = [
   { key: 'daily',     title: 'Do your first daily practice', what: 'Two minutes: the moment, the words, the check in. This is the habit everything else hangs on.', href: '/dashboard/daily' },
+  { key: 'birthday',  title: "Add your child's birthday",    what: 'One date, and the shortest step here. School places a child by their age on 31 August, so without it we cannot say which school year they are in, and we will not guess. It is what puts the real curriculum for their year in front of you.', href: '/dashboard/settings' },
   { key: 'push',      title: 'Turn on check ins',          what: 'Three gentle nudges a day at the moments your child faces screens.', href: '/dashboard#turn-on-check-ins' },
   { key: 'quests',    title: 'Set up Family Quests',       what: 'Their everyday jobs earn stars, stars buy the screen time you agree. They tick, you approve. Two minutes to set up, and the kids love it.', href: '/dashboard/quests' },
   { key: 'school',    title: 'Set up school routines',      what: 'Add PE kit, library day or a Saturday activity by hand, once, and it reminds you and your child every week from then on. Forwarding school email is there too if you want it.', href: '/dashboard/school' },

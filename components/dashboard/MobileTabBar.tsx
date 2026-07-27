@@ -4,12 +4,18 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-// The mobile bottom bar: Home, DiGi, Quests, Scripts, Passport. The two most
-// asked for destinations, Scripts and Quests, are real tabs rather than cards
-// buried down Home. The Right Now help action lives on a floating button
-// (rendered in the dashboard layout) so crisis words stay one tap away without
-// taking a nav slot. Active is decided from the real route by longest matching
-// prefix, so a script or quest sub page still lights its parent tab.
+// The mobile bottom bar: Home, DiGi, Lessons, Quests, Scripts, Passport. The
+// two most asked for destinations, Scripts and Quests, are real tabs rather
+// than cards buried down Home. The Right Now help action lives on a floating
+// button (rendered in the dashboard layout) so crisis words stay one tap away
+// without taking a nav slot. Active is decided from the real route by longest
+// matching prefix, so a script or quest sub page still lights its parent tab.
+//
+// Six, not five, since Lessons joined. Six across a 360px phone is genuinely
+// tight, so it was measured rather than assumed: at 12px "Passport" is wider
+// than a sixth of the bar, which pushes the row past the viewport and clips the
+// last tab. The narrow screen rules in globals.css (search bottom-tab-bar) drop
+// the label a size and let the items shrink. Checked at 360 and at 320.
 //
 // Readability first, the way the best parent apps do it: proper drawn icons
 // rather than thin text glyphs, sentence case labels big enough to read at a
@@ -47,6 +53,17 @@ const NAV_TABS: Tab[] = [
         {a
           ? <circle cx="12" cy="11.6" r="2.5" fill="#fff" stroke="none" />
           : <circle cx="12" cy="11.6" r="2.5" />}
+      </svg>
+    ),
+  },
+  {
+    // A film in a frame, because that is what a lesson is here: five minutes to
+    // watch together, then the stage moves on.
+    href: '/dashboard/lessons', label: 'Lessons', colour: '#A8475C', tint: '#FBE7EC',
+    icon: a => (
+      <svg {...S} stroke="currentColor">
+        <rect x="3" y="5" width="18" height="14" rx="3.2" fill={a ? 'currentColor' : 'none'} />
+        <path d="M10.4 9.4 15 12l-4.6 2.6V9.4Z" fill={a ? '#fff' : 'currentColor'} stroke="none" />
       </svg>
     ),
   },
