@@ -9,8 +9,10 @@ import Link from 'next/link'
 // every reprint forever.
 //
 // So this is the same chart, typed. Pick from the menu, add your own, put their
-// name on it, print. What comes out has your jobs printed in, and the blank rows
-// only appear for whatever is left over.
+// name on it, print. What comes out is two pages: the chart with your jobs
+// printed in, then a sheet of gold stars to cut out and the Planet Family with
+// the deal written on it. The Sticker Book "print stars" button lands here too,
+// so one press prints the chart and the stickers together.
 //
 // Deliberately not gated. The Starter Pack is the free lead magnet, and a
 // builder for a free product that is not itself free is a door with no room
@@ -62,10 +64,34 @@ const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
 const DAY_INK = ['#C99A28', '#5C9433', '#3C82B4', '#7E56B4', '#C96C25', '#C4477E', '#2E8C84']
 const DAY_BG = ['#FDF3D8', '#E9F3DF', '#DCEBF7', '#EAE1F6', '#FBE7D8', '#FBE0EC', '#DDF0EE']
 
+// The Planet Family, one row on the cut-out sheet so the deal reads off the
+// page. Names, accent and soft tokens match the schools cast and the app.
+const FRIENDS = [
+  { key: 'pebble', name: 'Pebble', accent: '#C99A28', soft: '#FBEED0' },
+  { key: 'bloop', name: 'Bloop', accent: '#6C9E38', soft: '#E4F0D4' },
+  { key: 'orbit', name: 'Orbit', accent: '#3E86BC', soft: '#DCEBF7' },
+  { key: 'nova', name: 'Nova', accent: '#7E5AB0', soft: '#ECE3F7' },
+  { key: 'cosmo', name: 'Cosmo', accent: '#CE7328', soft: '#FBE4D0' },
+] as const
+
+// The star cell outline on the chart, drawn with a pen.
 function Star({ colour }: { colour: string }) {
   return (
     <svg viewBox="0 0 24 24" style={{ width: 18, height: 18, fill: 'none', stroke: colour, strokeWidth: 1.7, strokeLinejoin: 'round' }}>
       <path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z" />
+    </svg>
+  )
+}
+
+// The DiGi star, filled gold, for the cut-out tokens. Sized to sit in a chart
+// cell once it is snipped out.
+function GoldStar({ size = 46 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 24 24" style={{ width: size, height: size, display: 'block' }}>
+      <path
+        d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"
+        fill="#EDC35F" stroke="#C99A28" strokeWidth={1.3} strokeLinejoin="round"
+      />
     </svg>
   )
 }
@@ -98,13 +124,17 @@ export default function StarChartBuilder() {
   const name = childName.trim()
 
   return (
-    <div style={{ maxWidth: 860, margin: '0 auto', padding: '24px 20px 60px' }}>
+    <div style={{ maxWidth: 820, margin: '0 auto', padding: '24px 20px 120px' }}>
       <style>{`
         @media print {
-          .no-print { display: none !important; }
+          /* Tidy: nothing from the app frame lands on the sheet, only the
+             chart and the cut-out page. */
+          header, .bottom-tab-bar, .rightnow-desktop, .no-print { display: none !important; }
           @page { size: A4 portrait; margin: 10mm; }
           .print-sheet { box-shadow: none !important; border: none !important; margin: 0 !important; padding: 0 !important; }
+          .cut-page { page-break-before: always; }
         }
+        .chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
       `}</style>
 
       <div className="no-print">
@@ -115,73 +145,78 @@ export default function StarChartBuilder() {
         <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 10 }}>
           Put your own jobs on it, then print
         </h1>
-        <p style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: 20, maxWidth: 560 }}>
-          The printed chart has blank rows for a pen, which is fine once it is on the fridge and no help before it. Choose your jobs here and they print properly, every time you reprint.
+        <p style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 26, maxWidth: 560 }}>
+          One press prints two pages: the chart with your jobs on it, and a sheet of gold stars to cut out. Choose the jobs here and they print properly every time.
         </p>
 
+        {/* Their name, its own tidy field with a label above it. */}
+        <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 8 }}>
+          Whose chart is it?
+        </label>
         <input
           value={childName}
           onChange={e => setChildName(e.target.value)}
           maxLength={20}
           placeholder="Their name (optional)"
-          style={{ width: '100%', maxWidth: 320, padding: '12px 15px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 17, color: 'var(--ink)', outline: 'none', marginBottom: 20 }}
+          style={{ width: '100%', maxWidth: 340, padding: '13px 16px', borderRadius: 14, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 17, color: 'var(--ink)', outline: 'none', marginBottom: 26 }}
         />
 
-        {POOL.map(group => (
-          <div key={group.group} style={{ marginBottom: 14 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 8 }}>
-              {group.group}
+        {/* The menu, each worth band in its own soft card so the three groups
+            read cleanly instead of running together. */}
+        <div style={{ display: 'grid', gap: 12, marginBottom: 12 }}>
+          {POOL.map(group => (
+            <div key={group.group} style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '15px 16px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 11 }}>
+                {group.group}
+              </div>
+              <div className="chip-row">
+                {group.jobs.map(job => {
+                  const on = pickedText.has(job.text)
+                  return (
+                    <button
+                      key={job.text}
+                      onClick={() => toggle(job)}
+                      aria-pressed={on}
+                      style={{
+                        padding: '9px 14px', borderRadius: 100, cursor: 'pointer',
+                        border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                        background: on ? 'var(--terracotta-lt)' : '#fff',
+                        fontFamily: 'var(--font-body)', fontSize: 15.5, fontWeight: 600, color: 'var(--ink)',
+                        display: 'inline-flex', alignItems: 'center', gap: 7,
+                      }}
+                    >
+                      <span aria-hidden>{job.emoji}</span>
+                      <span>{job.text}</span>
+                      {on && <span aria-hidden style={{ color: 'var(--terracotta-dark)', fontWeight: 800 }}>✓</span>}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap' }}>
-              {group.jobs.map(job => {
-                const on = pickedText.has(job.text)
-                return (
-                  <button
-                    key={job.text}
-                    onClick={() => toggle(job)}
-                    style={{
-                      padding: '9px 14px', borderRadius: 100, cursor: 'pointer',
-                      border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
-                      background: on ? 'var(--terracotta-lt)' : '#fff',
-                      fontFamily: 'var(--font-body)', fontSize: 15.5, fontWeight: 600, color: 'var(--ink)',
-                    }}
-                  >
-                    {job.emoji} {job.text}{on ? ' ✓' : ''}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        ))}
-
-        <div style={{ display: 'flex', gap: 8, margin: '18px 0 22px' }}>
-          <input
-            value={custom}
-            onChange={e => setCustom(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') addCustom() }}
-            maxLength={40}
-            placeholder="Or write a job only your house has…"
-            style={{ flex: 1, minWidth: 0, padding: '12px 15px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink)', outline: 'none' }}
-          />
-          <button
-            onClick={addCustom}
-            style={{ padding: '12px 18px', borderRadius: 12, border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700 }}
-          >
-            Add
-          </button>
+          ))}
         </div>
 
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 26 }}>
-          <button
-            onClick={() => window.print()}
-            className="btn btn-gold"
-            style={{ padding: '13px 22px', fontSize: 16 }}
-          >
-            🖨️ Print my chart ({picked.length}/{MAX_ROWS})
-          </button>
-          <span style={{ fontSize: 15.5, color: 'var(--ink-muted)' }}>
-            {blanks > 0 ? `${blanks} blank ${blanks === 1 ? 'row' : 'rows'} left for a pen` : 'Full chart, no blanks left'}
-          </span>
+        {/* Add your own, matched to the same card look. */}
+        <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '15px 16px', marginBottom: 24 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 11 }}>
+            One only your house has
+          </div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <input
+              value={custom}
+              onChange={e => setCustom(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') addCustom() }}
+              maxLength={40}
+              placeholder="Write a job and add it…"
+              style={{ flex: 1, minWidth: 0, padding: '12px 15px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--ink)', outline: 'none' }}
+            />
+            <button
+              onClick={addCustom}
+              style={{ padding: '12px 20px', borderRadius: 12, border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700 }}
+            >
+              Add
+            </button>
+          </div>
         </div>
       </div>
 
@@ -257,8 +292,88 @@ export default function StarChartBuilder() {
         </table>
 
         <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 12, textAlign: 'center' }}>
-          Colour a star for every job done. Four stars in a day brings a Planet Friend home, worth twenty minutes of screen time.
+          Colour a star for every job done, or stick a gold star on from the next page. Four stars in a day brings a Planet Friend home, worth twenty minutes of screen time.
         </p>
+      </div>
+
+      {/* Page two: the gold stars to cut out, then the Planet Family with the
+          deal written on it. Prints on its own sheet after the chart. */}
+      <div className="print-sheet cut-page" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: 22, marginTop: 24 }}>
+        <div style={{ textAlign: 'center', marginBottom: 4 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            Cut out and keep
+          </div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 26, letterSpacing: '-0.02em', color: 'var(--ink)', lineHeight: 1.1 }}>
+            {name ? `${name}'s gold stars` : 'Gold stars to cut out'}
+          </div>
+          <p style={{ fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px auto 0', maxWidth: 440 }}>
+            Snip along the dashes. Stick one on the chart for every job done. Each one fits a day square.
+          </p>
+        </div>
+
+        {/* The grid of cut-out stars, dashed guides around each so a child can
+            cut them cleanly. Sized to drop into a chart cell. */}
+        <div style={{
+          display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 0,
+          border: '1.3px dashed var(--ink-muted)', borderRadius: 6, overflow: 'hidden',
+          margin: '16px 0 20px',
+        }}>
+          {Array.from({ length: 36 }, (_, i) => (
+            <div key={i} style={{
+              aspectRatio: '1 / 1', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              borderRight: '1.3px dashed var(--ink-muted)', borderBottom: '1.3px dashed var(--ink-muted)',
+            }}>
+              <GoldStar />
+            </div>
+          ))}
+        </div>
+
+        {/* The Planet Family and the deal, written plainly so a family reads it
+            straight off the sheet. */}
+        <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 16px 18px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', textAlign: 'center', marginBottom: 3 }}>
+            1 star = 5 minutes of screen time
+          </div>
+          <div style={{ fontSize: 13.5, color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.5, marginBottom: 14 }}>
+            Four stars in a day brings one Planet Friend home, worth twenty minutes. Collect the whole family.
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
+            {FRIENDS.map(f => (
+              <div key={f.key} style={{ textAlign: 'center', width: 96 }}>
+                <div style={{
+                  width: 84, height: 84, margin: '0 auto', borderRadius: '50%',
+                  background: f.soft, border: `2px solid ${f.accent}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
+                }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`/printables/friends/${f.key}.png`} alt={f.name} style={{ width: '92%', height: '92%', objectFit: 'contain' }} />
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13.5, color: f.accent, marginTop: 5 }}>{f.name}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* One tidy action bar, fixed low on the screen the Mobbin way, so the
+          print button is always in reach however far the menu runs. */}
+      <div className="no-print" style={{
+        position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 20,
+        background: 'rgba(249,248,246,0.94)', backdropFilter: 'blur(8px)',
+        borderTop: '1.5px solid var(--border)', padding: '12px 20px',
+      }}>
+        <div style={{ maxWidth: 820, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.4 }}>
+            {picked.length}/{MAX_ROWS} jobs on the chart{blanks > 0 ? `, ${blanks} blank ${blanks === 1 ? 'row' : 'rows'} for a pen` : ', full chart'}
+          </span>
+          <button
+            onClick={() => window.print()}
+            className="btn btn-gold"
+            style={{ padding: '13px 24px', fontSize: 16 }}
+          >
+            🖨️ Print the chart and stickers
+          </button>
+        </div>
       </div>
     </div>
   )
