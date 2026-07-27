@@ -7,8 +7,9 @@ import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { trialEndsFromNow } from '@/lib/access'
 import Celebration from '@/components/ui/Celebration'
+import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
 
-type Screen = 'init' | 'welcome' | 'children' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task' | 'notifications'
+type Screen = 'init' | 'welcome' | 'children' | 'devices' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task' | 'notifications'
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
@@ -94,12 +95,12 @@ const ANIM = `
   @keyframes spin { to { transform: rotate(360deg) } }
 `
 
-function ProgressBar({ step }: { step: 1 | 2 | 3 }) {
+function ProgressBar({ step }: { step: 1 | 2 | 3 | 4 }) {
   return (
     <div style={{ height: '4px', background: 'var(--cream)', flexShrink: 0 }}>
       <div style={{
         height: '100%', background: 'var(--terracotta)',
-        width: `${(step / 3) * 100}%`,
+        width: `${(step / 4) * 100}%`,
         transition: 'width 0.4s ease',
         borderRadius: '0 2px 2px 0',
       }} />
@@ -162,6 +163,12 @@ export default function OnboardingPage() {
   // active one the app follows for now; these are saved so the account feels
   // complete, ready for full multi child later.
   const [siblings, setSiblings] = useState<{ name: string; ageBand: AgeBand }[]>([])
+  // The screens actually in this house, by suggestion label. Asked here rather
+  // than left to be discovered, because every device number in the app (the
+  // passport percentage, the timer picker, the setup guides worth showing) is
+  // measured against this list, and an empty list means measuring them against
+  // our whole catalogue instead of their home.
+  const [homeDevices, setHomeDevices] = useState<string[]>([])
   const [challenges, setChallenges] = useState<string[]>([])
   const [timeCommitment, setTimeCommitment] = useState<StarterAnswers['timeCommitment']>(undefined)
   const [digiData, setDigiData] = useState<DigiData | null>(null)
@@ -274,6 +281,23 @@ export default function OnboardingPage() {
         }))
       if (rows.length) await supabase.from('children').insert(rows)
     }
+
+    // The house's screens. An empty list is still an answer worth recording,
+    // because markAsked is what stops the app asking again and switches the
+    // passport from counting our catalogue to counting their home.
+    try {
+      await fetch('/api/devices/family', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          markAsked: true,
+          devices: homeDevices
+            .map(label => DEVICE_SUGGESTIONS.find(s => s.label === label))
+            .filter((s): s is (typeof DEVICE_SUGGESTIONS)[number] => Boolean(s))
+            .map(s => ({ label: s.label, kind: s.kind, guideKey: s.guideKey })),
+        }),
+      })
+    } catch { /* the rest of setup matters more, and Devices can be told later */ }
 
     localStorage.removeItem('gc_starter_answers')
 
@@ -388,7 +412,7 @@ export default function OnboardingPage() {
         nameInputRef.current?.focus()
         return
       }
-      if (prefilled) completePersonalisation(); else setScreen('challenges')
+      setScreen('devices')
     }
     const addSibling = () => setSiblings(prev => [...prev, { name: '', ageBand: '8-10' }])
     const updateSibling = (i: number, patch: Partial<{ name: string; ageBand: AgeBand }>) =>
@@ -401,7 +425,7 @@ export default function OnboardingPage() {
     return (
       <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
         <style>{ANIM}</style>
-        <ProgressBar step={prefilled ? 3 : 2} />
+        <ProgressBar step={2} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
           <div style={{ maxWidth: 480, width: '100%' }}>
             <DigiSpeech text="Who are we setting up for?" />
@@ -487,11 +511,92 @@ export default function OnboardingPage() {
             </button>
 
             <button style={{ ...BTN, opacity: saving ? 0.7 : 1 }} onClick={continueOn} disabled={saving}>
-              {saving ? 'One moment...' : nameNudge && !firstName ? 'Continue without a name' : prefilled ? 'Show me the pathway' : 'Next'}
+              {saving ? 'One moment...' : nameNudge && !firstName ? 'Continue without a name' : 'Next'}
             </button>
             <button onClick={() => setScreen('welcome')} style={BACK_BTN}>
               ← Back
             </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ── DEVICES ───────────────────────────────────────────────────────────────
+  // What is actually in this house. One tap each, no naming, no detail: the
+  // naming and the adding of a second iPad belong on the Devices page, and a
+  // setup screen that asks for them is a setup screen people leave.
+
+  if (screen === 'devices') {
+    const firstName = childName.trim()
+    const toggle = (label: string) =>
+      setHomeDevices(prev => prev.includes(label) ? prev.filter(l => l !== label) : [...prev, label])
+    const onward = () => { if (prefilled) completePersonalisation(); else setScreen('challenges') }
+
+    return (
+      <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
+        <style>{ANIM}</style>
+        <ProgressBar step={prefilled ? 4 : 3} />
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
+          <div style={{ maxWidth: 480, width: '100%' }}>
+            <DigiSpeech text="What screens are in your home?" />
+            <p style={{ fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+              Tap everything you have. It is how we know which setup guides to show you, and it lets a timer run on the actual iPad rather than on the word tablet. Nothing is shared with anyone.
+            </p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '18px' }}>
+              {DEVICE_SUGGESTIONS.map(d => {
+                const on = homeDevices.includes(d.label)
+                return (
+                  <button
+                    key={d.label}
+                    onClick={() => toggle(d.label)}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 9,
+                      padding: '13px 12px',
+                      border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                      borderRadius: 14,
+                      background: on ? 'var(--terracotta-lt)' : '#fff',
+                      cursor: 'pointer', textAlign: 'left',
+                      fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 15.5,
+                      color: on ? 'var(--terracotta)' : 'var(--ink)',
+                      transition: 'border-color 0.12s, background 0.12s, color 0.12s',
+                    }}
+                  >
+                    <span aria-hidden style={{ fontSize: 19, lineHeight: 1, flexShrink: 0 }}>{d.emoji}</span>
+                    <span style={{ minWidth: 0 }}>{d.label}</span>
+                  </button>
+                )
+              })}
+            </div>
+
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13.5, color: 'var(--ink-light)', letterSpacing: '0.03em', margin: '0 0 18px' }}>
+              {homeDevices.length === 0
+                ? 'Missing something, or two of the same? Name them all in Devices afterwards.'
+                : `${homeDevices.length} ${homeDevices.length === 1 ? 'device' : 'devices'}. You can name them, and add a second one, in Devices afterwards.`}
+            </p>
+
+            <button style={{ ...BTN, opacity: saving ? 0.7 : 1 }} onClick={onward} disabled={saving}>
+              {saving ? 'One moment...' : prefilled ? 'Show me the pathway' : 'Next'}
+            </button>
+            <button onClick={() => setScreen('children')} style={BACK_BTN}>
+              ← Back
+            </button>
+            {/* Skipping is honest and allowed: it just means the setup guides
+                stay a catalogue until they tell us. Said plainly rather than
+                hidden, since a forced answer is a wrong answer. */}
+            <button
+              type="button"
+              onClick={() => { setHomeDevices([]); onward() }}
+              style={{ ...BACK_BTN, marginTop: 2 }}
+            >
+              I will do this later
+            </button>
+            {firstName && (
+              <p style={{ fontSize: 14.5, color: 'var(--ink-light)', textAlign: 'center', lineHeight: 1.5, margin: '12px 0 0' }}>
+                Every device here gets an age matched settings guide for {firstName}.
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -504,7 +609,7 @@ export default function OnboardingPage() {
     return (
       <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column' }}>
         <style>{ANIM}</style>
-        <ProgressBar step={3} />
+        <ProgressBar step={4} />
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
           <div style={{ maxWidth: 480, width: '100%' }}>
             <DigiSpeech text="What's the main challenge right now?" />
@@ -541,7 +646,7 @@ export default function OnboardingPage() {
             >
               {saving ? 'One moment...' : 'Show me the pathway'}
             </button>
-            <button onClick={() => setScreen('children')} style={BACK_BTN}>
+            <button onClick={() => setScreen('devices')} style={BACK_BTN}>
               ← Back
             </button>
           </div>

@@ -109,6 +109,106 @@ export function buildPace(input: {
   return { dailyGuide, weekAllowance, used, daysSoFar, daysLeft, average, remaining, suggestTomorrow, verdict, line }
 }
 
+// ── The month, for the review email ──────────────────────────────────
+//
+// Same maths, one month of it, plus the only thing a month can say that a week
+// cannot: which direction this is going. A parent who went from 95 minutes a
+// day to 78 has done something real, and being told "a little high" without
+// that is both discouraging and untrue to what happened.
+//
+// It deliberately does not suggest a number for tomorrow. A monthly email lands
+// in an inbox days after the fact, and telling someone what Tuesday should have
+// looked like is the kind of advice that gets an email unsubscribed from. One
+// verdict, one direction, one plain nudge.
+
+export type MonthPace = {
+  dailyGuide: number
+  /** Screen minutes across the month. */
+  used: number
+  /** Days the month actually had, or has had so far. */
+  days: number
+  average: number
+  /** Last month's daily average, when there is a last month to compare with. */
+  previousAverage: number | null
+  /** How the average moved. Steady covers anything inside five minutes a day,
+   *  which is noise rather than a change worth naming. */
+  direction: 'down' | 'steady' | 'up' | null
+  verdict: PaceVerdict
+  /** The subject line's worth of it: on track, a little high. */
+  headline: string
+  /** Two or three sentences, the whole body of the email. */
+  line: string
+}
+
+export function buildMonthPace(input: {
+  usedThisMonth: number
+  dailyGuide: number
+  days: number
+  usedPreviousMonth?: number | null
+  previousDays?: number | null
+}): MonthPace {
+  const dailyGuide = Math.max(0, Math.round(input.dailyGuide))
+  const days = Math.max(1, Math.round(input.days))
+  const used = Math.max(0, Math.round(input.usedThisMonth))
+  const average = Math.round(used / days)
+
+  const prevDays = input.previousDays && input.previousDays > 0 ? input.previousDays : null
+  const previousAverage = prevDays != null && input.usedPreviousMonth != null
+    ? Math.round(Math.max(0, input.usedPreviousMonth) / prevDays)
+    : null
+
+  const direction: MonthPace['direction'] = previousAverage == null
+    ? null
+    : Math.abs(average - previousAverage) <= 5 ? 'steady'
+    : average < previousAverage ? 'down' : 'up'
+
+  const verdict = verdictFor(average, dailyGuide)
+  const headline = VERDICT_LABEL[verdict]
+
+  const line = (() => {
+    if (dailyGuide <= 0) return `${fmtMins(used)} of screen time across the month.`
+    // The average is not repeated here. The email prints it three times the
+    // size directly above this sentence, and a paragraph that opens by saying
+    // the number again reads as filler rather than as an explanation of it.
+    const opener = `Against a healthy guide of ${dailyGuide} minutes a day for their age.`
+
+    const move = (() => {
+      if (previousAverage == null || direction == null) return ''
+      if (direction === 'steady') return ` About the same as last month.`
+      const gap = Math.abs(average - previousAverage)
+      return direction === 'down'
+        ? ` Down ${gap} minutes a day on last month, which is a real change and worth knowing you made it.`
+        : ` Up ${gap} minutes a day on last month.`
+    })()
+
+    // The gap is stated as the real number rather than a round one. Saying
+    // "ten minutes a day brings it level" to a family nineteen minutes over is
+    // the sort of small wrongness that makes every other number here suspect.
+    const over = Math.max(0, average - dailyGuide)
+    const nudge = (() => {
+      switch (verdict) {
+        case 'plenty': return ' There is room here. Nothing to do.'
+        case 'on_track': return ' That is where it should be. Nothing to do.'
+        case 'a_little_high':
+          return ` ${over} minutes a day off it brings the month level, which is one shorter sitting, not a fight.`
+        case 'well_over':
+          return ` Worth a look at where the time goes. Not a telling off, and not ${over} minutes to claw back tomorrow: pick the heaviest day of the week and make just that one lighter.`
+      }
+    })()
+
+    return opener + move + nudge
+  })()
+
+  return { dailyGuide, used, days, average, previousAverage, direction, verdict, headline, line }
+}
+
+function fmtMins(mins: number): string {
+  if (mins < 60) return `${mins} minutes`
+  const h = Math.floor(mins / 60)
+  const m = mins % 60
+  return m === 0 ? `${h} hour${h === 1 ? '' : 's'}` : `${h}h ${m}m`
+}
+
 /** The headline, for the stats card and the monthly email. */
 export const VERDICT_LABEL: Record<PaceVerdict, string> = {
   plenty: 'Plenty of room',

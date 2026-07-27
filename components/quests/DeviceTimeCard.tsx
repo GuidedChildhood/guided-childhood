@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
 import { KID_DEVICES, TIMER_RULE, deviceEmoji, deviceLabel, type ActiveSession, type TrustLevel } from '@/lib/quests/device-time'
+import { deviceIcon, type FamilyDevice } from '@/lib/devices/family'
 import { screenTipFor } from '@/lib/content/screen-tips'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import Celebration from '@/components/ui/Celebration'
@@ -52,7 +53,7 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
 export default function DeviceTimeCard({
   token, balanceStars, initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
   deviceTrust = 'ask', onAsked, onSessionChange, startPicking = false,
-  onPrintables, onGames, ageBand = null,
+  onPrintables, onGames, ageBand = null, familyDevices = [],
   outstandingJobs = [], outstandingMinutes = 0,
 }: {
   token: string
@@ -99,6 +100,11 @@ export default function DeviceTimeCard({
   // minutes waiting to be earned are a number they can see.
   outstandingJobs?: string[]
   outstandingMinutes?: number
+  // The screens this family owns, passed down from the server render since the
+  // child app has a token rather than a session and cannot ask for them. With
+  // a list the picker offers the actual iPad; without one it offers the four
+  // kinds, exactly as it always did.
+  familyDevices?: FamilyDevice[]
 }) {
   const router = useRouter()
   const [session, setSession] = useState<ActiveSession | null>(initialSession)
@@ -109,6 +115,10 @@ export default function DeviceTimeCard({
   useEffect(() => { onSessionChangeRef.current = onSessionChange }, [onSessionChange])
   const [phase, setPhase] = useState<'idle' | 'picking' | 'up'>(startPicking && !initialSession ? 'picking' : 'idle')
   const [device, setDevice] = useState<string>('tv')
+  // Which named screen, when there is a list. The kind still rides along,
+  // because that is what the session and the ask are keyed on.
+  const homeDevices = familyDevices.filter(d => !d.retiredAt)
+  const [homeDeviceId, setHomeDeviceId] = useState<string | null>(null)
   const [minutes, setMinutes] = useState<number>(Math.min(30, balanceStars * STAR_MINUTES))
   const [remaining, setRemaining] = useState<number>(0)
   const [busy, setBusy] = useState(false)
@@ -309,7 +319,7 @@ export default function DeviceTimeCard({
     try {
       const res = await fetch('/api/quests/time/start', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, device, minutes }),
+        body: JSON.stringify({ token, device, familyDeviceId: homeDeviceId, minutes }),
       })
       const data = await res.json().catch(() => ({}))
       if (res.ok && data.pending) {
@@ -505,12 +515,15 @@ export default function DeviceTimeCard({
           </p>
         )}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '9px', marginBottom: '16px' }}>
-          {KID_DEVICES.map(d => {
-            const on = device === d.key
+          {(homeDevices.length > 0
+            ? homeDevices.map(d => ({ key: d.id, label: d.label, emoji: deviceIcon(d), kind: d.kind, homeId: d.id }))
+            : KID_DEVICES.map(d => ({ key: d.key, label: d.label, emoji: d.emoji, kind: d.key, homeId: null }))
+          ).map(d => {
+            const on = d.homeId ? homeDeviceId === d.homeId : device === d.key
             return (
               <button
                 key={d.key}
-                onClick={() => setDevice(d.key)}
+                onClick={() => { setDevice(d.kind); setHomeDeviceId(d.homeId) }}
                 aria-pressed={on}
                 style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '5px',

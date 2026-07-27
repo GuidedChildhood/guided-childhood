@@ -117,6 +117,7 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
   let jobsStatus: 'on_track' | 'pending' | 'none' = 'none'
   let jobsStreakDays = 0
   let aheadNames: string[] = []
+  let homeDeviceCount = 0
   // Section five, the screen balance and limits view, from the mobbin session's
   // parent report: this week's screen minutes per device against the healthy
   // amount for the child's age, with the off screen effort beside it.
@@ -125,13 +126,18 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
     const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
     const AGE_BAND_UPPER: Record<string, number> = { '4-7': 7, '8-10': 10, '11-13': 13, '13-15': 15, '16+': 99 }
     const childUpper = primary.age_band ? (AGE_BAND_UPPER[primary.age_band] ?? 99) : 99
-    const [jqRes, jtRes, dgRes, dpRes, dsRes] = await Promise.all([
+    const [jqRes, jtRes, dgRes, dpRes, dsRes, fdRes] = await Promise.all([
       supabase.from('family_quests').select('id, schedule, schedule_days, created_at').eq('user_id', user.id).eq('child_id', primary.id).eq('active', true),
       supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', primary.id).gte('tick_date', sinceJobs),
       supabase.from('device_guides').select('device_key, name, min_age'),
       supabase.from('device_setup_progress').select('device_key, status').eq('user_id', user.id),
       supabase.from('device_sessions').select('device, minutes').eq('user_id', user.id).eq('child_id', primary.id).gte('started_at', weekAgo),
+      supabase.from('family_devices').select('id').eq('user_id', user.id).is('retired_at', null),
     ])
+    // Has this family told us what is actually in the house? Until they do, the
+    // devices row is measured against our whole catalogue, and the row should
+    // say so rather than quietly show a percentage of the wrong thing.
+    homeDeviceCount = (fdRes.data ?? []).length
     const jq = (jqRes.data ?? []) as StreakQuest[]
     const jt = (jtRes.data ?? []) as StreakTick[]
     jobsStatus = jobsTodayStatus(jq, jt)
@@ -216,7 +222,9 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
             pct: reached ? prog.devicesPct : 0,
             detail: !reached ? 'Ahead' : prog.devicesPct >= 100 ? 'All set' : prog.devicesPct === 0 ? 'To set up' : `${prog.devicesPct}%`,
             href: '/dashboard/devices',
-            help: 'Work through the setup guide for each device you actually have. Mark the ones you do not own as not in our home and they stop counting.',
+            help: homeDeviceCount > 0
+              ? `Measured against the ${homeDeviceCount} screen${homeDeviceCount === 1 ? '' : 's'} you listed as yours. Work through the setup guide for each one, and add anything new the day it arrives.`
+              : 'List the screens you actually have first, on the Devices page. Until you do this counts every guide we publish rather than your house.',
             ...(isCurrent && aheadNames.length > 0
               ? { alert: `${aheadNames.join(', ')} is set up ahead of their age. Worth a look together.` }
               : {}),

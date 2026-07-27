@@ -3,6 +3,7 @@
 // throughout. No dashes in any copy.
 
 import type { WeeklyReview } from '@/lib/digi/weekly-review'
+import type { MonthPace } from '@/lib/balance/pace'
 
 const INK = '#1A1A2E'
 const INK_SOFT = '#52526A'
@@ -465,6 +466,61 @@ export function weeklyReviewEmail(params: {
         : '') +
       button('See the full week', `${APP}/dashboard`) +
       p(`These numbers are ${childLabel}'s own. Nothing here is shared or set against another family, it is just your week, read back to you.`),
+      unsubscribe
+    ),
+  }
+}
+
+// The monthly screen time review.
+//
+// One number, one verdict, one thing to do, and nothing else. The weekly review
+// is the rich one with jobs and stars and lessons; this is deliberately the
+// opposite. A parent skimming an inbox should get the whole answer from the
+// subject line, and the body should confirm it in about eight seconds.
+//
+// The verdict wording is the same VERDICT_LABEL the stats page uses, so the
+// email and the app never disagree about whether a month was alright. Anything
+// else would make the email untrustworthy, and an untrustworthy monthly email
+// is worse than no monthly email.
+//
+// The colour follows the verdict rather than the brand, because a green block
+// saying "well over the guide" is a mixed message, and this is the one email
+// where the parent needs to read the temperature before the words.
+export function monthlyBalanceEmail(params: {
+  childLabel: string
+  monthLabel: string
+  pace: MonthPace
+  /** The heaviest device of the month, when there was one. */
+  heaviest?: { label: string; minutes: number } | null
+  unsubscribe: string
+}): EmailContent {
+  const { childLabel, monthLabel, pace, heaviest, unsubscribe } = params
+
+  const tone = pace.verdict === 'well_over'
+    ? { bg: '#FDECEC', border: '#F3C9C9', ink: '#A33A3A' }
+    : pace.verdict === 'a_little_high'
+    ? { bg: '#FBF0E6', border: '#E8C9A8', ink: '#A65D2E' }
+    : { bg: '#EDF5F1', border: '#D6E5DF', ink: '#236F52' }
+
+  const arrow = pace.direction === 'down' ? '↓' : pace.direction === 'up' ? '↑' : null
+
+  return {
+    subject: `${childLabel}'s screen time in ${monthLabel}: ${pace.headline.toLowerCase()}`,
+    html: wrapper(
+      heading(`${monthLabel}, in one number`) +
+      `<div style="background:${tone.bg};border:1px solid ${tone.border};border-radius:16px;padding:20px 22px;margin:0 0 20px">
+         <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:${tone.ink};margin-bottom:10px">${pace.headline}</div>
+         <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:42px;font-weight:800;line-height:1;color:${INK};letter-spacing:-0.02em">${pace.average} <span style="font-size:19px;font-weight:800">minutes a day</span></div>
+         ${pace.previousAverage != null
+           ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT};margin-top:8px">${arrow ? `${arrow} ` : ''}last month was ${pace.previousAverage}</div>`
+           : ''}
+       </div>` +
+      p(pace.line) +
+      (heaviest
+        ? p(`Most of it was on ${heaviest.label}, at ${fmtMinsEmail(heaviest.minutes)} across the month.`)
+        : '') +
+      button('See the full picture', `${APP}/dashboard/stats`) +
+      p(`This is a budget, not a rule. A heavy weekend does not break anything, it just makes the next few days a little lighter. Nothing here is compared against another family.`),
       unsubscribe
     ),
   }

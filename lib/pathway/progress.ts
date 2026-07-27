@@ -1,4 +1,5 @@
 import type { createClient } from '@/lib/supabase/server'
+import { stageDevicePct } from '@/lib/devices/family'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -20,6 +21,15 @@ function deviceAgeToStage(minAge: number): StageId {
   if (minAge <= 13) return 'explorer'
   if (minAge <= 15) return 'shaper'
   return 'independent'
+}
+
+/** Which stage a family device belongs to, via the guide that covers it. */
+function guideStageLookup(guides: { device_key: string; min_age: number }[] | null) {
+  const byKey = new Map((guides ?? []).map(g => [g.device_key, g.min_age]))
+  return (guideKey: string): string | null => {
+    const minAge = byKey.get(guideKey)
+    return minAge === undefined ? null : deviceAgeToStage(minAge)
+  }
 }
 
 export interface StageProgress {
@@ -58,6 +68,7 @@ export async function getStageProgress(
     { data: lessonsForStage },
     { data: aiLessonsAll },
     { data: lessonCompletions },
+    { data: familyDevices },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order').eq('stage_id', stageId),
     supabase.from('script_completions').select('script_sort_order').eq('user_id', userId),
@@ -66,6 +77,10 @@ export async function getStageProgress(
     supabase.from('lessons').select('id').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub'),
     supabase.from('ai_lessons').select('id, audience').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']),
     supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
+    // The family's own device list, from migration 106. Before that migration,
+    // or before they have told us, this comes back empty and the catalogue
+    // reading below is used exactly as it was.
+    supabase.from('family_devices').select('guide_key, retired_at').eq('user_id', userId),
   ])
 
   // Scripts: how many of this stage's scripts has this user actually completed.
@@ -78,14 +93,26 @@ export async function getStageProgress(
   const streakPct = Math.min(Math.round((streakWeeks / 4) * 100), 100)
 
   // Devices: bucket each guide to a stage by its minimum age, then read against
-  // only the devices the family actually has. A device marked not in our home
-  // drops out, so the passport never counts all nineteen guides, only theirs.
+  // only the devices the family actually has.
+  //
+  // Their own list wins when they have given us one, because that is the whole
+  // point of asking at setup: a house with an iPad and a Switch is measured
+  // against an iPad and a Switch, not against nineteen published guides four of
+  // which are social apps. Without a list we fall back to the catalogue minus
+  // anything they marked not in our home, which is how this always read.
   const notOwnedDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status === 'not_owned').map(d => d.device_key))
   const doneDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
-  const guidesInStage = (stageDeviceGuides ?? []).filter(d => deviceAgeToStage(d.min_age) === stageId)
-  const ownedInStage = guidesInStage.filter(d => !notOwnedDeviceKeys.has(d.device_key))
-  const devicesDoneInStage = ownedInStage.filter(d => doneDeviceKeys.has(d.device_key)).length
-  const devicesPct = ownedInStage.length > 0 ? Math.round((devicesDoneInStage / ownedInStage.length) * 100) : 100
+  const stageOfGuide = guideStageLookup(stageDeviceGuides)
+  const homeDevices = (familyDevices ?? []).filter(d => !d.retired_at).map(d => ({ guideKey: d.guide_key as string | null }))
+
+  const devicesPct = homeDevices.length > 0
+    ? stageDevicePct({ homeDevices, stageOfGuide, stageId, doneGuideKeys: doneDeviceKeys }).pct
+    : (() => {
+        const guidesInStage = (stageDeviceGuides ?? []).filter(d => deviceAgeToStage(d.min_age) === stageId)
+        const ownedInStage = guidesInStage.filter(d => !notOwnedDeviceKeys.has(d.device_key))
+        const done = ownedInStage.filter(d => doneDeviceKeys.has(d.device_key)).length
+        return ownedInStage.length > 0 ? Math.round((done / ownedInStage.length) * 100) : 100
+      })()
 
   // Lessons: combine the general lessons table (already stage scoped) with
   // ai_lessons (audience scoped, mapped to stage), then check completion.
@@ -131,6 +158,7 @@ export async function getAllStagesProgress(
     { data: lessons },
     { data: aiLessons },
     { data: lessonCompletions },
+    { data: familyDevices },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order, stage_id'),
     supabase.from('script_completions').select('script_sort_order').eq('user_id', userId),
@@ -139,6 +167,7 @@ export async function getAllStagesProgress(
     supabase.from('lessons').select('id, stage_id').eq('audience', 'parent').neq('status', 'stub'),
     supabase.from('ai_lessons').select('id, audience'),
     supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
+    supabase.from('family_devices').select('guide_key, retired_at').eq('user_id', userId),
   ])
 
   const completedScriptOrders = new Set((completedScripts ?? []).map(c => c.script_sort_order))
@@ -149,6 +178,9 @@ export async function getAllStagesProgress(
   const doneDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
   const completedLessonKeys = new Set((lessonCompletions ?? []).map(c => `${c.lesson_source}:${c.lesson_id}`))
   const streakPct = Math.min(Math.round((streakWeeks / 4) * 100), 100)
+  // Their own list of what is in the house, when they have given us one.
+  const stageOfGuide = guideStageLookup(deviceGuides)
+  const homeDevices = (familyDevices ?? []).filter(d => !d.retired_at).map(d => ({ guideKey: d.guide_key as string | null }))
 
   const out = {} as Record<StageId, StageProgress>
   for (const stageId of STAGE_ORDER) {
@@ -156,12 +188,18 @@ export async function getAllStagesProgress(
     const scriptsDone = stageScripts.filter(s => completedScriptOrders.has(s.sort_order)).length
     const scriptsPct = stageScripts.length > 0 ? Math.round((scriptsDone / stageScripts.length) * 100) : 0
 
-    const guidesInStage = (deviceGuides ?? []).filter(d => deviceAgeToStage(d.min_age) === stageId)
-    const ownedInStage = guidesInStage.filter(d => !notOwnedDeviceKeys.has(d.device_key))
-    const devicesDone = ownedInStage.filter(d => doneDeviceKeys.has(d.device_key)).length
-    // No owned devices for this stage means nothing to set up here, so that part
-    // of the ring is full rather than stuck at zero.
-    const devicesPct = ownedInStage.length > 0 ? Math.round((devicesDone / ownedInStage.length) * 100) : 100
+    // Their real devices when we know them, the catalogue minus not owned when
+    // we do not. Either way, no owned devices for this stage means nothing to
+    // set up here, so that part of the ring is full rather than stuck at zero.
+    let devicesPct: number
+    if (homeDevices.length > 0) {
+      devicesPct = stageDevicePct({ homeDevices, stageOfGuide, stageId, doneGuideKeys: doneDeviceKeys }).pct
+    } else {
+      const guidesInStage = (deviceGuides ?? []).filter(d => deviceAgeToStage(d.min_age) === stageId)
+      const ownedInStage = guidesInStage.filter(d => !notOwnedDeviceKeys.has(d.device_key))
+      const devicesDone = ownedInStage.filter(d => doneDeviceKeys.has(d.device_key)).length
+      devicesPct = ownedInStage.length > 0 ? Math.round((devicesDone / ownedInStage.length) * 100) : 100
+    }
 
     const stageLessons = (lessons ?? []).filter(l => l.stage_id === stageId)
     const aiInStage = (aiLessons ?? []).filter(l => AUDIENCE_TO_STAGE[l.audience] === stageId)

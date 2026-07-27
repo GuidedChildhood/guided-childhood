@@ -35,6 +35,9 @@ export type RehearseFixture = {
 }
 
 type Props = {
+  /** Recording which lines the parent took away, so the Did this help prompt
+   *  can ask which of their own lines worked. Absent on the fixture page. */
+  sortOrder?: number
   scriptTitle: string
   situation: string
   sayThis: string
@@ -44,7 +47,7 @@ type Props = {
   fixture?: RehearseFixture
 }
 
-export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notThis, childName, isPaid, fixture }: Props) {
+export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sayThis, notThis, childName, isPaid, fixture }: Props) {
   const [open, setOpen] = useState(fixture?.open ?? false)
   const [messages, setMessages] = useState<Msg[]>(fixture?.messages ?? [])
   const [input, setInput] = useState('')
@@ -168,6 +171,15 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   // through here, into the exact same rehearse call.
   function sendText(text: string) {
     if (!text.trim() || busy) return
+    // A line the parent took away, remembered with no question attached.
+    // The question comes later, after they have used it on a real child.
+    // Silent and best effort: a failed record must never interrupt a rehearsal.
+    if (sortOrder != null) {
+      fetch('/api/scripts/lines', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sortOrder, line: text.trim() }),
+      }).catch(() => {})
+    }
     const next: Msg[] = [...messages, { role: 'user', content: text.trim() }]
     setMessages(next)
     setInput('')
@@ -190,7 +202,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
     try {
       const res = await fetch('/api/scripts/rehearse', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode: 'suggest', scriptTitle, situation, sayThis, notThis, messages: messages.map(m => ({ role: m.role, content: m.content })) }),
+        body: JSON.stringify({ mode: 'suggest', sortOrder, scriptTitle, situation, sayThis, notThis, messages: messages.map(m => ({ role: m.role, content: m.content })) }),
       })
       const d = await res.json()
       const opts = Array.isArray(d.options) ? d.options.filter((x: unknown) => typeof x === 'string') : []

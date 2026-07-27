@@ -155,6 +155,7 @@ export default function ScriptDetailView({
 
         {/* Rehearse the words with DiGi before the real conversation */}
         <RehearseWithDigi
+          sortOrder={sortOrder}
           scriptTitle={script.title}
           situation={script.situation}
           sayThis={script.say_this}

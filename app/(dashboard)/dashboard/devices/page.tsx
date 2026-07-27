@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import type { AgeBand } from '@/lib/content/stages'
 import DeviceHub from './DeviceHub'
 import DeviceSweepCard from '@/components/devices/DeviceSweepCard'
+import YourHome from '@/components/devices/YourHome'
 import type { DeviceGuide } from './DeviceList'
 
 const STAGE_MAP: Record<string, { id: string; label: string }> = {
@@ -83,6 +84,11 @@ export default async function DevicesPage() {
           </div>
         </div>
       )}
+
+      {/* Their house, before our catalogue. Everything below is a guide we
+          publish; this is the list of things they actually own, and it is what
+          the passport counts and what a timer runs against. */}
+      <YourHome childName={child?.name ?? null} />
 
       <DeviceSweepCard />
 
