@@ -2219,3 +2219,18 @@ gone to Justin to establish whether that editor can handle chr(59), dollar
 quoting, or plain semicolons in literals, and the file gets regenerated with
 whichever works. Until then the live curriculum_objectives table is empty and
 every learning sheet says not written yet.
+
+**Never put a doubled quote in a migration (27 Jul, the real cause):** 115
+failed to paste with relation "phonemes" does not exist and it took most of an
+afternoon to pin down. Something between the file and the database collapses the
+doubled quote in I''m back to a single one. That closes the string literal early,
+flips quote parity for every row after it, and the parser eventually reads the
+words "into phonemes" as insert into phonemes. Size was never the problem, which
+is why splitting the file into ever smaller parts changed nothing, and why a
+three line probe of chr(59), dollar quoting and plain semicolons all passed: the
+probe had no apostrophes in it.
+
+The rule now, alongside the 3 July semicolon rule: NO doubled quotes in any
+migration. Apostrophes come from chr(39) and semicolons from chr(59). The
+statutory text keeps every character it is meant to have and nothing in the
+paste path has an escape left to mangle. 114 and 115 are rewritten this way.
