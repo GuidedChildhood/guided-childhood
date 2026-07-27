@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { canBuy, characterForKey, formatPence, lockedReason, MAX_QTY, type Product } from '@/lib/shop/catalogue'
@@ -193,10 +193,28 @@ function Card({
   // fallback for anything added without one.
   const photo = shopArt(product.key, product.image_url)
 
+  // Arrived from the passport or the sticker book, which name the product they
+  // are sending you to. Landing on the shop and having to find it again is the
+  // moment a parent gives up, so the card is scrolled to and briefly ringed.
+  // The ring fades rather than sticking, because a permanent highlight on one
+  // card reads as a state rather than as an answer to where am I.
+  const [flash, setFlash] = useState(false)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    if (window.location.hash !== `#p-${product.key}`) return
+    setFlash(true)
+    const t = setTimeout(() => setFlash(false), 2400)
+    return () => clearTimeout(t)
+  }, [product.key])
+
   return (
-    <div style={{
-      background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
-      boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 20, marginBottom: 14,
+    <div id={`p-${product.key}`} style={{
+      background: '#fff',
+      border: `1.5px solid ${flash ? 'var(--terracotta)' : 'var(--border)'}`,
+      borderRadius: 20,
+      boxShadow: flash ? '0 0 0 4px var(--terracotta-lt)' : '0 4px 22px rgba(26,26,46,0.06)',
+      padding: 20, marginBottom: 14, scrollMarginTop: 84,
+      transition: 'border-color 0.5s ease, box-shadow 0.5s ease',
       opacity: buyable ? 1 : 0.72,
     }}>
       <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>

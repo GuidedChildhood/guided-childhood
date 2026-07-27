@@ -122,7 +122,7 @@ export default function StickerBook({ book, childName }: { book: Book; childName
         <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink-muted)' }}>›</span>
       </Link>
       <Link
-        href="/dashboard/keepsakes"
+        href="/dashboard/keepsakes#p-sticker_sheet"
         style={{
           display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px',
           background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
@@ -135,7 +135,7 @@ export default function StickerBook({ book, childName }: { book: Book; childName
             Get these as real stickers
           </span>
           <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
-            One printed sheet, DiGi and all five Planet Friends, for the fridge or the bedroom door.
+            One printed sheet, DiGi and all five Planet Friends plus the five stage stamps, for the fridge or the bedroom door. Four pounds.
           </span>
         </span>
         <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--terracotta-dark)' }}>›</span>
