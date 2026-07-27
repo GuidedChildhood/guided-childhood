@@ -19,6 +19,7 @@ import MeetTheFriends from '@/components/pathway/MeetTheFriends'
 import StageReadiness from '@/components/pathway/StageReadiness'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { READINESS } from '@/lib/content/readiness'
+import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -134,6 +135,30 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     .order('times_flagged', { ascending: false }).limit(1).maybeSingle()
   const concernSlug = (topConcern as { slug?: string } | null)?.slug as ChallengeId | undefined
   const concernLabel = (topConcern as { label?: string } | null)?.label ?? null
+  const kidLabel = primaryChild?.name && primaryChild.name !== 'Your child' ? primaryChild.name : 'your child'
+
+  // The page in six doors, in the order a parent actually wants them: is this
+  // working, then the passport itself, then this week, then the road, then the
+  // four things, then what we are on right now.
+  //
+  // It used to be one long scroll with everything equally loud, so a parent
+  // who came to check one thing read all of it or gave up. These are anchors
+  // rather than routes: nothing moved, it can just be reached now.
+  const SECTIONS: SectionTile[] = [
+    { href: '#is-it-working', label: 'Is it working', sub: 'The honest read on where you are',
+      icon: '📈', bg: 'var(--tint-sage)', accent: '#9CC3B4' },
+    { href: '#passport', label: 'View passport', sub: 'One page per stage, tap to fill it',
+      icon: '🛂', bg: 'var(--terracotta-lt)', accent: 'var(--terracotta)' },
+    { href: '/dashboard/stats', label: `${kidLabel}'s week`, sub: 'Screen balance and what to aim for',
+      icon: '⚖️', bg: 'var(--tint-blue)', accent: '#A9C8E4' },
+    { href: '#the-road', label: 'The pathway to 16', sub: 'All five stages on one road',
+      icon: '🗺️', bg: 'var(--stage-5)', accent: '#C4B5E8' },
+    { href: '#four-things', label: `The four we build for ${kidLabel}`, sub: 'Safe, balanced, AI aware, social ready',
+      icon: '🧭', bg: 'var(--stage-3)', accent: '#F0B9AE' },
+    { href: '#working-on', label: 'What we are working on', sub: 'This stage, right now',
+      icon: '🎯', bg: 'var(--stage-1)', accent: '#E8CE7A' },
+  ]
+
   const tailoredAction = concernSlug && currentStageContent
     ? currentStageContent.challengeActions[concernSlug] ?? null
     : null
@@ -145,10 +170,35 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         <ChildSwitcher kids={children} selectedId={primaryChild?.id ?? null} basePath="/dashboard/pathway" />
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Your journey</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>The pathway to 16</h1>
-        <p style={{ color: 'var(--ink-soft)', fontSize: '18px', lineHeight: 1.6, maxWidth: '560px' }}>
-          This is your child’s social media passport. The plan that turns 16 from a cliff edge into a gentle ramp, earned one stage at a time, all the way to independence. Your next step is always here.
+        <p style={{ color: 'var(--ink)', fontSize: '20px', lineHeight: 1.55, maxWidth: '580px', fontWeight: 600 }}>
+          A passport that proves {kidLabel} can actually handle the internet, earned one stage at a time, so 16 arrives as a gentle ramp instead of a cliff edge.
         </p>
-        <Link href="/passport" style={{ display: 'inline-block', marginTop: '8px', fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--terracotta)', textDecoration: 'none', letterSpacing: '0.03em' }}>
+
+        {/* What it proves, and what we do about it. This page is the whole
+            promise of the product and it never once said what the promise was:
+            a parent read a road, five circles and a percentage, and had to
+            infer the rest. Four lines, the biggest supporting type on the page,
+            and it is said. */}
+        <ul style={{ listStyle: 'none', padding: 0, margin: '14px 0 0', maxWidth: '580px' }}>
+          {[
+            ['🛡️', 'Safe online', 'Spotting what is not right, and always telling someone.'],
+            ['⚖️', 'A healthy balance', 'Screen time earned from real world jobs, never just handed over.'],
+            ['🤖', 'AI and what is real', 'Knowing when something is made up, sold to them, or a bot.'],
+            ['💬', 'Ready for social media', 'Judgement built years before the account, not the week they ask.'],
+          ].map(([em, t, b]) => (
+            <li key={t} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', marginBottom: 9 }}>
+              <span aria-hidden style={{ fontSize: 20, lineHeight: 1.2, flexShrink: 0 }}>{em}</span>
+              <span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17.5, color: 'var(--ink)' }}>{t}</span>
+                <span style={{ display: 'block', fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.45 }}>{b}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p style={{ color: 'var(--ink)', fontSize: '17px', lineHeight: 1.55, maxWidth: '580px', margin: '4px 0 0', fontWeight: 600 }}>
+          We tell you what to do, how to do it, and the research it comes from. You just do today.
+        </p>
+        <Link href="/passport" style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-mono)', fontSize: '15px', color: 'var(--terracotta-dark)', textDecoration: 'underline', textUnderlineOffset: '3px', letterSpacing: '0.03em' }}>
           Why we call it a passport →
         </Link>
         {children.length > 1 && (
@@ -156,6 +206,11 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
             {children.length} children, one account.
           </p>
         )}
+      </div>
+
+      {/* Six doors into a page that used to be one long equally loud scroll. */}
+      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 8px' }}>
+        <SectionTiles tiles={SECTIONS} />
       </div>
 
       {/* Reassurance before the map. The five stages can look like a lot at a
@@ -180,7 +235,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           winding trail, Duolingo sized, DiGi on the current one, the sticky
           position card riding along as you scroll, live progress and the
           stage detail folded in. */}
-      <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
+      <div id="the-road" style={{ scrollMarginTop: '84px', padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
         <StageRoad
           currentStageNum={currentStageNum}
           progressPct={currentStageProgress?.overallPct ?? null}
@@ -193,7 +248,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           stage, so a parent looking at the road can see exactly what it builds
           towards and watch the stamps land as they go. */}
       {passportStamps.length > 0 && (
-        <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
+        <div id="passport" style={{ scrollMarginTop: '84px', padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
           {/* Meet the family, where the five point star used to sit: DiGi and the
               Planet Friends the child grows up with, an introduction not a score. */}
           <MeetTheFriends childName={primaryChild?.name ?? null} />
@@ -205,11 +260,13 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           from the family's real week: the jobs and screen balance, open
           worries, and lessons done per strand. Green means on track, red means
           worth a look, the same readings the rest of the app uses. */}
+      <div id="four-things" style={{ scrollMarginTop: '84px' }} />
       <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={litStatuses} />
 
       {/* The end of stage readiness check, DiGi's voice: as the family nears the
           end of a stage, DiGi reads where they are, names what is left, and when
           nothing is, offers the short passport quiz that earns the stamp. */}
+      <div id="is-it-working" style={{ scrollMarginTop: '84px' }} />
       {nearStageEnd && currentStageContent && (
         <div style={{ marginTop: 4 }}>
           <StageReadiness
@@ -247,7 +304,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
 
       {/* The journey: one spine, three strands, the single next step */}
       {journey && currentStageContent && (
-        <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 32px' }}>
+        <div id="working-on" style={{ scrollMarginTop: '84px', padding: '0 20px', maxWidth: '720px', margin: '0 auto 32px' }}>
           <PathwayJourney
             journey={journey}
             childName={primaryChild?.name ?? 'your child'}
