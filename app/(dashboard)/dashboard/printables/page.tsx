@@ -2,10 +2,11 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { PRINTABLES, printablesForStage } from '@/lib/printables/registry'
+import { LIBRARY_PRINTABLES, printablesForStage } from '@/lib/printables/registry'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { hasFullAccess } from '@/lib/access'
 import PrintableActions from './PrintableActions'
+import FridgeChartLog from '@/components/quests/FridgeChartLog'
 
 // The Printables library: the offline pathway. Beautiful colouring book
 // sheets a family prints and completes away from screens, each worth
@@ -23,10 +24,13 @@ export default async function PrintablesPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: child }, { data: profile }] = await Promise.all([
+  const [{ data: child }, { data: kids }, { data: profile }] = await Promise.all([
     supabase.from('children').select('name, age_band').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    supabase.from('children').select('id, name, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     supabase.from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle(),
   ])
+  // The named children, for the log a week card under the star chart builder.
+  const logKids = (kids ?? []).filter(k => k.name && k.name !== 'Your child').map(k => ({ id: k.id as string, name: k.name as string }))
   // Previews always show (they are the sell); downloads and the builder
   // are a member feature. The founder and trial parents get full access.
   const isPaid = hasFullAccess(profile, user.email)
@@ -34,7 +38,7 @@ export default async function PrintablesPage() {
   const stageId = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
   const forChild = printablesForStage(stageId)
   const forChildKeys = new Set(forChild.map(p => p.key))
-  const others = PRINTABLES.filter(p => !forChildKeys.has(p.key))
+  const others = LIBRARY_PRINTABLES.filter(p => !forChildKeys.has(p.key))
   const childName = child?.name && child.name !== 'Your child' ? child.name : null
 
   const card: React.CSSProperties = {
@@ -43,7 +47,7 @@ export default async function PrintablesPage() {
     boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
   }
 
-  function Section({ title, sub, items }: { title: string; sub: string; items: typeof PRINTABLES }) {
+  function Section({ title, sub, items }: { title: string; sub: string; items: typeof LIBRARY_PRINTABLES }) {
     if (items.length === 0) return null
     return (
       <section style={{ marginBottom: '34px' }}>
@@ -98,8 +102,9 @@ export default async function PrintablesPage() {
         Print it, put the crayons out, and the screens look after themselves. Every finished sheet is worth stars: add it to the quest list, they hand the page back, you approve, the stars land in their bank.
       </p>
 
-      {/* The star chart, typed before it is printed. Free, like the Starter Pack
-          it belongs to, and first because it is the one every family uses. */}
+      {/* The star chart, typed before it is printed. This is the starter pack
+          now: the old multi page booklet was retired into this tidier builder,
+          and it stays first because it is the one every family uses. */}
       <Link
         href="/dashboard/printables/star-chart"
         style={{
@@ -114,13 +119,22 @@ export default async function PrintablesPage() {
             Build your star chart
           </span>
           <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, marginTop: '3px' }}>
-            Put your own jobs on it before you print, so you are not writing them in by hand on every reprint.
+            Put your own jobs on it, then print the chart and a sheet of gold stars to cut out. One star is five minutes.
           </span>
         </span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
           Open →
         </span>
       </Link>
+
+      {/* Ran the printed chart on paper this week? Log the stars straight into
+          the bank, right under the builder that made the chart, so build, print
+          and log read as one thing. Moved here from the Quests page. */}
+      {logKids.length > 0 && (
+        <div style={{ marginBottom: '34px' }}>
+          <FridgeChartLog kids={logKids} />
+        </div>
+      )}
 
       {/* The builder: pick from the idea pool or write your own, then print.
           A member feature; free parents see it and are pointed to upgrade. */}

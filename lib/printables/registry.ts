@@ -55,6 +55,13 @@ export type Printable = {
    * including us, could open it to check it.
    */
   free?: boolean
+  /**
+   * Retired from the app library. The card no longer shows in the printables
+   * grid or the child's stage rotation, but getPrintable still resolves it so
+   * old completions and the separate marketing lead magnet keep working. Used
+   * to fold the old multi page Starter Pack into the tidier star chart builder.
+   */
+  retired?: boolean
 }
 
 export const PRINTABLES: Printable[] = [
@@ -314,6 +321,11 @@ export const PRINTABLES: Printable[] = [
     // whole marketing site hands out at /starter-pack, so locking it inside the
     // app was giving it away to strangers and charging members for it.
     free: true,
+    // Retired from the app library: the star chart builder is the tidier in app
+    // version now, so the old multi page booklet no longer shows as a card. The
+    // marketing lead magnet at /starter-pack is a separate registry and is left
+    // exactly as it was.
+    retired: true,
     blurb: 'The whole deal on paper. A star reward chart for the fridge, the jobs that earn stars, how to guides, a wake up workout, football, dance, a healthy breakfast plate, a print and play game and pages to colour. One star is five minutes of screen time.',
     sheetUrl: '/printables/starter-pack-colour.pdf',
     previewUrl: '/printables/starter-pack.png',
@@ -428,5 +440,10 @@ export function getPrintable(key: string): Printable | null {
 
 export function printablesForStage(stageId: number | null | undefined): Printable[] {
   const stage = stageId && stageId >= 1 && stageId <= 5 ? stageId : 2
-  return PRINTABLES.filter(p => p.stages.includes(stage))
+  return PRINTABLES.filter(p => p.stages.includes(stage) && !p.retired)
 }
+
+// The app library: every printable still on show, retired ones dropped. The
+// grid on the printables page builds from this, so a retired sheet leaves the
+// library in one place without touching getPrintable and the completion loop.
+export const LIBRARY_PRINTABLES: Printable[] = PRINTABLES.filter(p => !p.retired)
