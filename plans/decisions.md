@@ -2180,3 +2180,42 @@ dashboard splits statements naively (the 3 July lesson). Splicing them with
 chr(59) keeps the house rule intact while the stored value stays byte for byte
 the published text. No literal semicolon sits inside any string literal in
 either migration.
+
+**DiGi knows where a child is at school (27 Jul):** lib/learning/digi-context.ts
+is wired into the DiGi route. It is a per message lookup, not a system prompt
+addition: 448 objectives in every call would cost a fortune, bury the parenting
+guidance under statutory text, and still leave the model free to paraphrase it
+into something plausible and wrong. Instead a keyword check decides whether the
+parent is even asking about school, and only then do we fetch the objectives for
+that one child, one subject and one term, plus the objectives that child has
+personally flagged as tricky.
+
+Three rules travel with the facts and they matter more than the facts do. Never
+tell a parent their child is behind, because we have no assessment and the
+curriculum describes a year, not a child. Quote rather than paraphrase, which is
+the entire reason verbatim and source are columns. And never claim the school is
+teaching this now, because the term is our own ordering and their school may
+sequence differently. Nothing is added at all unless we are certain: no
+birthday, an age outside years 1 to 6, or an empty curriculum map all mean DiGi
+answers exactly as it did before.
+
+The detector is deliberately keyword based and requires BOTH a school word and a
+subject word, so "he keeps reading on his tablet at midnight" does not drag the
+Year 4 reading curriculum into a bedtime conversation. Being wrong is cheap in
+one direction only: a missed question just means yesterday's behaviour.
+
+Season awareness is in seasonFor, because worry about school is seasonal and
+sharp: September for a new year, June for the Year 4 tables check, May for Year
+6 SATs, June for Year 1 phonics.
+
+**The Supabase editor cannot take the curriculum migrations in one paste
+(27 Jul, unresolved):** 115 fails with relation "phonemes" does not exist, which
+is what you get when a string literal is broken mid text and "into phonemes" is
+read as insert into phonemes. The SQL itself is valid and applies clean to
+Postgres 16, and splitting the file into four 20 KB parts did NOT fix it, so it
+is not size. Working theory is that the editor turns our chr(59) splices back
+into real semicolons inside the literals and then splits on them. A probe has
+gone to Justin to establish whether that editor can handle chr(59), dollar
+quoting, or plain semicolons in literals, and the file gets regenerated with
+whichever works. Until then the live curriculum_objectives table is empty and
+every learning sheet says not written yet.
