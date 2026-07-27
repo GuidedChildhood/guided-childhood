@@ -1,6 +1,6 @@
 # Posting Queue, In Proportion and Founder Story, alternating order
 
-Post these in this order, one In Proportion then one Founder Story, alternating. In Proportion Post 1 is already posted. Only the two final posts carry a CTA. Each block below is the exact text to paste. No em dashes in the post copy.
+Post in this order, one In Proportion then one Founder Story, alternating. In Proportion Post 1 is already posted. Only the two final posts carry a CTA. Post text only, ready to paste. No em dashes in the copy.
 
 ## 1. In Proportion, post 1: The reframe  [ALREADY POSTED]
 
@@ -32,7 +32,7 @@ When your child named something they were feeling, did it sound like a performan
 
 ## 2. Founder Story, post 1: The rule that DiGi can never say yes or no
 
-I built an AI to help parents with screens. Then I made it break the one rule every other parenting tool is built on.
+I built an AI to help parents with screens. I built it for my own family first, then I made it break the one rule every other parenting tool is built on.
 
 It cannot tell you what to do.
 
@@ -95,6 +95,8 @@ The first is no invented statistics. Ever. DiGi represents real researchers at t
 The second is the one people find strange. I deliberately left the scariest, most viral research out of the brain. The work that says phones are rewiring a generation, the stuff that goes viral precisely because it frightens you, is not what DiGi reaches for. Not because I am hiding it, but because our whole approach is education, not alarm. The brain is built from the honest, careful, often boring middle of the evidence, where the truth actually lives.
 
 The result is a guide that speaks the research as if it simply knows it, not as a bibliography it is reading off. Calm, sourced, and honest about how much is still uncertain, because most of it is.
+
+And it is built to get better the more we feed it. Every solid finding we add, every real moment it helps a family through, sharpens what it knows. That is the whole bet. A brain that learns instead of a script that goes stale, and tech used, quietly, to help children use tech better.
 
 Anyone can bolt a chatbot onto a parenting website. The hard part, and the part I lost weeks to, was making sure that when it speaks, it is standing on something real.
 
@@ -225,6 +227,10 @@ Have you seen a young person get stuck inside a label, and what, if anything, he
 ---
 
 ## 10. Founder Story, post 5: Why I am building this [carries the soft CTA]  [CTA to /starter-pack]
+
+I did not set out to build a company. I built this for my own family first.
+
+I hit the same wall every parent hits with my own children. Stop them, or guide them. And I was worn out by the argument the whole country was stuck in, ban or no ban, as if those were the only two doors in the room. Neither one teaches a child a single thing. I wanted a third way, a literacy way forward, something that dealt with the actual moments, the device at the dinner table, the meltdown when it goes off, the question I did not know how to answer, and took some of the weight off me while it did. So I started building it, for us, and it turned into this.
 
 Everyone is banning. The UK has confirmed an under 16 social media ban. And I am building the thing the ban forgets.
 
