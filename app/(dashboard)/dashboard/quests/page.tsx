@@ -4,7 +4,6 @@ import QuestManager from './QuestManager'
 import QuestBoard from '@/components/quests/QuestBoard'
 import ParentDeviceTime from '@/components/quests/ParentDeviceTime'
 import NoPhoneButton from '@/components/quests/NoPhoneButton'
-import FridgeChartLog from '@/components/quests/FridgeChartLog'
 import SpotSomethingGood from '@/components/quests/SpotSomethingGood'
 import PrintablesToConfirm from '@/components/quests/PrintablesToConfirm'
 import QuestShortcuts from '@/components/quests/QuestShortcuts'
@@ -101,9 +100,9 @@ export default async function QuestsPage() {
           could only hold two of them, so the rest were buried down the page. */}
       <QuestShortcuts />
 
-      {/* The paper fridge chart, folded into the app: a family who ran the week
-          on the Starter Pack chart adds those stars to the bank in one go. */}
-      <FridgeChartLog kids={spotKids} />
+      {/* The log a week card that used to sit here moved to the Printables page,
+          under the star chart builder that makes the chart, so build, print and
+          log the week live together. */}
 
       {/* Asked for first, because it is the thing a parent opens this page to
           answer. A child waiting on a timer request is waiting on a person, and
