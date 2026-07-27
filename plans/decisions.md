@@ -2019,3 +2019,28 @@ Known and deliberate: from August 2027 the last question repeats every month,
 because falling back to the most recent poll is what stops a missing month
 breaking the feature. Noted at the top of the migration so it is found. Seed the
 next twelve before summer 2027.
+
+## 27 Jul 2026: curriculum spine built, and the sources are blocked by egress policy
+Migration 108 lays the spine for the learning printables: objectives keyed by
+curriculum, year group, subject, term and strand, so a sheet can be assembled
+for one year at one point in the school year. Term is a column because what a
+Year 4 should know is useless in September and true in June.
+
+`source` is NOT NULL on purpose, and that is the load bearing decision. Accuracy
+is the whole product: a sheet testing the wrong thing for the year is worse than
+no sheet, because a parent believes it and acts on it. An objective nobody can
+trace cannot be inserted at all. `verbatim` records whether the text is the
+published statutory wording or our paraphrase, because those are different
+promises and only one can be quoted to a parent. Both proven against a real
+Postgres, including that the gate rejects an untraceable row.
+
+**The blocker, which needs Justin.** The statutory sources cannot be reached
+from this workspace. `assets.publishing.service.gov.uk`, `gov.uk` and
+`ncetm.org.uk` all return 403 at the egress proxy, which is an organisation
+policy denial and not something to route around. Search still returns published
+wording, so eighteen Year 4 maths objectives are seeded and every one is
+verbatim and traced, but the rest of Year 4 and all of Years 1 to 3, 5 and 6 are
+deliberately absent rather than written from memory.
+
+Two ways forward: allow those hosts through egress, or paste the programmes of
+study in. Either unblocks the long pole. The machinery does not need to change.
