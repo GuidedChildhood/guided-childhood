@@ -6,6 +6,7 @@ import Image from 'next/image'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { card, cardPad, eyebrow } from '@/components/scripts/card-system'
 import { characterByKey } from '@/lib/content/stage-characters'
+import { ladderStep, STEP_NOTE, BOUNDARY_LINES, CLOSE_LINES, AFTER_THE_STANDOFF } from '@/lib/content/refusal-ladder'
 
 // The child is played by Pebble, the youngest Planet Friend, so a parent is
 // rehearsing with what feels like a real little person rather than a chat
@@ -220,9 +221,27 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   // The ready made replies under the conversation: the script's own line
   // first, then two warm openers, until DiGi's calibrated suggestions
   // replace them. Client side only, every chip sends the same call.
-  const quickChips = suggestions.length > 0
-    ? suggestions
-    : [sayThis, 'I hear you. Tell me more about that.', 'I can see this feels really unfair to you.']
+  //
+  // Anything already said drops out. A line the parent has just used sitting
+  // there offering itself again is the tell that nothing is listening, and
+  // saying the same sentence twice to a child who did not accept it the first
+  // time is the exact move the script exists to replace. What is left is the
+  // options they have NOT tried, which is the only useful list.
+  const said = new Set(messages.filter(m => m.role === 'user').map(m => m.content.trim()))
+
+  // Which move the standoff needs now. Three warm lines is the right opening
+  // and the wrong ending: a child who wants the tablet still wants it after
+  // the third 'I hear you', and offering a fourth reads as a parent with no
+  // answer. So the ladder changes what is on offer rather than repeating.
+  // See lib/content/refusal-ladder.ts for the reasoning and the sources.
+  const step = ladderStep(parentTurns)
+  const baseLines =
+    step === 'connect' ? [sayThis, 'I hear you. Tell me more about that.', 'I can see this feels really unfair to you.']
+    : step === 'boundary' ? [...BOUNDARY_LINES]
+    : [...CLOSE_LINES]
+
+  const quickChips = (suggestions.length > 0 ? suggestions : baseLines)
+    .filter(c => !said.has(c.trim()))
 
   // Locked for free accounts: still show the value, route to upgrade.
   if (!isPaid) {
@@ -408,10 +427,30 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
             {/* Ready made replies, Cleo style: tap one and it is said. The
                 script's own line always leads until DiGi's calibrated
                 suggestions take their place. */}
+            {/* Nothing left to offer once every line has been used, so the
+                label goes too rather than heading an empty list. The free text
+                bar below is always there. */}
+            {quickChips.length > 0 && (
             <div style={{ marginBottom: 10 }}>
               <div style={{ ...eyebrow, fontSize: 11.5, letterSpacing: '0.08em', color: 'var(--ink-muted)', marginBottom: 7 }}>
-                {suggestions.length > 0 ? 'Lines from DiGi · tap one to say it' : 'Tap a line to say it, or try your own'}
+                {suggestions.length > 0
+                  ? 'Lines from DiGi · tap one to say it'
+                  : step === 'connect' ? 'Tap a line to say it, or try your own'
+                  : step === 'boundary' ? 'Say what you will do · tap one'
+                  : 'End it warmly · tap one'}
               </div>
+              {/* Why the lines just changed. Without this the parent sees a
+                  different set and no reason, and the reason IS the teaching. */}
+              {suggestions.length === 0 && step !== 'connect' && (
+                <p style={{
+                  display: 'flex', gap: 8, alignItems: 'flex-start',
+                  background: 'var(--tint-blue)', borderRadius: 12, padding: '10px 12px',
+                  margin: '0 0 8px', fontSize: 15, lineHeight: 1.45, color: 'var(--ink)', fontWeight: 600,
+                }}>
+                  <span aria-hidden style={{ flexShrink: 0 }}>💡</span>
+                  <span>{STEP_NOTE[step]}</span>
+                </p>
+              )}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {quickChips.map((s, i) => (
                   <button
@@ -430,6 +469,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
                 ))}
               </div>
             </div>
+            )}
             {suggMsg && (
               <p style={{ fontSize: 16, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '0 0 10px' }}>{suggMsg}</p>
             )}
@@ -464,9 +504,32 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
             </div>
           </>
         ) : (
-          <button onClick={reset} disabled={busy} className="btn btn-green" style={{ width: '100%', padding: '12px', fontSize: 15, cursor: 'pointer' }}>
-            Practise it again
-          </button>
+          <>
+            {/* The rehearsal ends with something to DO, not just a well done.
+                A parent who has just practised a standoff and been told they
+                did fine still has the standoff waiting for them at six. */}
+            <div style={{ background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF', borderRadius: 16, padding: '14px 16px', marginBottom: 10 }}>
+              <div style={{ ...eyebrow, fontSize: 11.5, color: 'var(--ink-soft)', marginBottom: 8 }}>
+                {AFTER_THE_STANDOFF.heading}
+              </div>
+              {AFTER_THE_STANDOFF.points.map(pt => (
+                <div key={pt.title} style={{ marginBottom: 9 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)', lineHeight: 1.3 }}>
+                    {pt.title}
+                  </div>
+                  <div style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 1 }}>
+                    {pt.body}
+                  </div>
+                </div>
+              ))}
+              <Link href="/dashboard/agreement" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, color: 'var(--ink)' }}>
+                Write the rule down together →
+              </Link>
+            </div>
+            <button onClick={reset} disabled={busy} className="btn btn-green" style={{ width: '100%', padding: '12px', fontSize: 15, cursor: 'pointer' }}>
+              Practise it again
+            </button>
+          </>
         )}
       </div>
 

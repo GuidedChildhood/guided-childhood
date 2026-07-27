@@ -4,6 +4,7 @@ import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
+import { ladderStep, STEP_NOTE } from '@/lib/content/refusal-ladder'
 import { getExpertKnowledge } from '@/lib/digi/brain'
 
 // Rehearse with DiGi: a safe place to practise the words before the real
@@ -136,6 +137,7 @@ Give feedback in 3 to 4 short chat messages separated by blank lines:
 - One genuine thing that landed well in how they spoke.
 - One small adjustment, specific to a thing they actually said, phrased as encouragement not correction.
 - One sentence they could try if the real conversation gets stuck.
+If the parent said three or more things and the child never budged, make one of your messages the ladder itself, because it is the thing they most need and almost nobody knows it: warmth is the opening and not the ending, and what actually finishes a standoff is a boundary in Becky Kennedy's sense, something the PARENT will do rather than something the child must do, since that needs no agreement to work. Add that a child who is still cross but heard, with the rule intact, is the good outcome rather than a failed conversation, and that the repair happens afterwards when you are both calm.
 If the rehearsal involved something upsetting the child saw online, warmly praise any parent line that made clear the child is not in trouble, and never suggest taking the device away, since confiscation ends future telling.
 Warm, plain, direct. Never shame. No bullet points. No dashes anywhere. End on belief that they can do this.`
     : `You are role-playing a child so a parent can practise a hard conversation. Stay fully in character as the child. Do NOT give advice, do NOT break character, do NOT speak as an assistant.
@@ -167,6 +169,10 @@ If the situation involves an online game, you cannot pause a live match and your
       bankKnowledge = await getExpertKnowledge(supabase, child?.age_band ?? null, `${scriptTitle} ${situation} ${recentChildWords}`)
     } catch { /* the canon below still grounds the lines */ }
 
+    // How many times the parent has already tried. Past three, more empathy is
+    // the wrong tool and DiGi should be handing over a boundary instead.
+    const suggestStep = ladderStep(messages.filter(m => m.role === 'user').length)
+
     const suggestSystem = `You are DiGi, a sharp, evidence led parenting guide coaching a parent mid rehearsal. Your job is to hand them the exact words to say next to ${childName} (${stage.ages}) about: ${situation}.${bankKnowledge ? `\n\nRelevant findings from our research bank, use them to shape the lines where they fit:\n${bankKnowledge}` : ''}
 
 Draw on the actual playbook the leading child and parent wellbeing experts teach:
@@ -180,6 +186,12 @@ Draw on the actual playbook the leading child and parent wellbeing experts teach
 Never offer a line that: bribes the child to comply, says because I said so, compares them to a sibling, uses sarcasm or mockery, threatens to take the device away in a disclosure moment, labels them addicted, or minimises with it is just a game. Each of these is documented to make the moment worse.
 
 Each line should do one of these well: name and validate what ${childName} is feeling, hold the limit warmly WITH the empathy rather than instead of it, or offer a choice or a way to solve it together. Never a flat no, never a lecture, never shame, never sarcasm.
+
+WHERE THIS STANDOFF HAS GOT TO: ${suggestStep === 'connect'
+  ? 'Early. Validation is the right move: name what the child feels.'
+  : suggestStep === 'boundary'
+    ? 'The parent has already validated three times and the child is STILL refusing. Do NOT offer another validating line, it now reads as a parent with no answer. Offer the boundary instead, and use Becky Kennedy\'s definition exactly: a boundary is what the PARENT will do, never what the child must do. "I am going to come and take it at six" works because it needs no compliance. "Turn it off now" does not, because it can be refused. Each line must be something the parent can carry out alone, and must leave the child free to be furious about it.'
+    : 'This has gone on long enough and now needs ENDING, not winning. Offer lines that close it warmly and leave the relationship intact: the limit holds, the child is allowed to be angry, the parent is not withdrawing love, and it gets picked up when everyone is calm. Never a parting shot, never a lecture, never a fresh demand.'}
 
 Suggest exactly 3 short lines the parent could say next, each ONE natural spoken British sentence a real parent would actually say out loud in this moment, responding to what the child just said. Lean towards the spirit of: "${sayThis}". Steer clear of the spirit of: "${notThis}". Return ONLY a JSON array of 3 strings, nothing else. Never use a dash of any kind.`
 

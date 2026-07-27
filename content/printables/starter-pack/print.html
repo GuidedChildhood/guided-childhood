@@ -103,6 +103,44 @@
   body.ink .cutstar{fill:none!important;stroke:var(--ink-muted)!important;}
   body.ink .cutstar.g{fill:none!important;}
 
+
+  /* ---------- THE AGREE SHEET (print this FIRST) ---------- */
+  /* A chart a child had no say in is a chart a parent has to enforce. So the
+     first thing out of the printer is not the chart, it is the conversation:
+     both of you at the table, going down a list of everything that actually
+     happens in a day, ticking the ones that are theirs. Then the chart gets
+     built from what was agreed rather than handed down.
+     Laid out in the order a day happens, not by how much a job is worth,
+     because that is the order a family recognises and it is how you spot the
+     three minutes in the morning that are causing all the arguments. */
+  .rhythm{display:flex;flex-wrap:wrap;gap:3mm;}
+  .slot{flex:1 1 46%;background:var(--white);border:2px solid var(--ink);
+    border-radius:12px;padding:2.5mm 3mm 3mm;}
+  .slot .sh{display:flex;align-items:center;gap:2mm;border-bottom:2px solid var(--ink);
+    padding-bottom:1.5mm;margin-bottom:2mm;}
+  .slot .sh .em{font-size:12pt;line-height:1;}
+  .slot .sh .tt{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7pt;
+    letter-spacing:1.2px;text-transform:uppercase;color:var(--butter-dark);}
+  .slot .row{display:flex;align-items:center;gap:1.6mm;padding:0.9mm 0;}
+  .slot .bx{width:3.8mm;height:3.8mm;border:1.6px solid var(--ink);border-radius:3px;
+    flex:none;background:var(--white);}
+  .slot .lb{font-size:8pt;font-weight:700;color:var(--ink);line-height:1.15;}
+  .slot .wr{flex:1;border-bottom:1.3px dashed var(--ink-muted);height:4mm;}
+  .agreesign{display:flex;gap:4mm;margin-top:3.5mm;}
+  .agreesign .sg{flex:1;background:var(--butter-lt);border:2.5px solid var(--butter-dark);
+    border-radius:12px;padding:3mm 4mm;}
+  .agreesign .sg .cap{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7pt;
+    letter-spacing:1.2px;text-transform:uppercase;color:var(--butter-dark);}
+  .agreesign .sg .ln{border-bottom:1.6px solid var(--ink);height:8mm;margin-top:2mm;}
+  .stepstrip{display:flex;gap:3mm;margin:3mm 0 4mm;}
+  .stepbox{flex:1;background:var(--white);border:2.5px solid var(--ink);border-radius:12px;
+    box-shadow:0 4px 0 var(--ink);padding:3mm 3.5mm;}
+  .stepbox .n{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:7pt;
+    letter-spacing:1.2px;text-transform:uppercase;color:var(--butter-dark);}
+  .stepbox .t{font-weight:900;font-size:11pt;color:var(--ink);line-height:1.15;margin-top:1mm;}
+  .stepbox .b{font-size:8.5pt;color:var(--ink-soft);line-height:1.35;margin-top:1mm;}
+  .stepbox.now{background:var(--butter-lt);border-color:var(--butter-dark);box-shadow:0 4px 0 var(--butter-dark);}
+
   /* ---------- THE JOB MENU (page 3) ---------- */
   /* Etsy reviews of every top selling chart say the same thing in different
      words: they want it to be THEIR list. So this is a menu to tick, not a
@@ -419,6 +457,52 @@
   <div class="footer"><span>guidedchildhood.com</span><span>The Guided Childhood Weekly · Cover</span></div>
 </div>
 
+<!-- ============ PAGE 2 · AGREE THE JOBS FIRST ============ -->
+<div class="sheet">
+  <span class="eyebrow">Print this one first</span>
+  <h1 style="font-size:29pt;margin-top:1.5mm;">Let us agree the jobs</h1>
+  <p style="margin:2.5mm 0 0;max-width:174mm;">A chart a child had no say in is a chart you have to enforce every single day. So this comes out of the printer before the chart does. Sit down together, go through the day, and tick the ones that are theirs. What you both agree here is what goes on the chart.</p>
+
+  <div class="stepstrip">
+    <div class="stepbox now">
+      <div class="n">Step one, now</div>
+      <div class="t">Agree it together</div>
+      <div class="b">Tick down this page with them. Their choice on at least a few is the whole point.</div>
+    </div>
+    <div class="stepbox">
+      <div class="n">Step two</div>
+      <div class="t">Build the chart</div>
+      <div class="b">Type the agreed jobs into the star chart builder in the app, or write them on the blank rows.</div>
+    </div>
+    <div class="stepbox">
+      <div class="n">Step three</div>
+      <div class="t">On the fridge</div>
+      <div class="b">Print it, stick it up at their height, and colour a star the moment a job is done.</div>
+    </div>
+  </div>
+
+  <p style="font-size:9.5pt;margin-bottom:2.5mm;background:var(--tint-sage);border:1.5px solid var(--green);border-radius:10px;padding:2.5mm 3.5mm;">
+    <strong>Pick five or six, not twenty.</strong> Four jobs done is a good day and earns a Planet Friend. A list nobody can finish stops being a list and starts being a telling off, so leave most of these unticked on purpose.
+  </p>
+
+  <div class="rhythm">
+    <div class="slot"><div class="sh"><span class="em">🌅</span><span class="tt">First thing</span></div><div class="row"><span class="bx"></span><span class="lb">Get up when I am called</span></div><div class="row"><span class="bx"></span><span class="lb">Make my bed</span></div><div class="row"><span class="bx"></span><span class="lb">Two minute floor tidy</span></div><div class="row"><span class="bx"></span><span class="lb">Brush my teeth</span></div><div class="row"><span class="bx"></span><span class="lb">Get dressed</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+    <div class="slot"><div class="sh"><span class="em">🥣</span><span class="tt">Breakfast</span></div><div class="row"><span class="bx"></span><span class="lb">Choose from the healthy list</span></div><div class="row"><span class="bx"></span><span class="lb">Help make it</span></div><div class="row"><span class="bx"></span><span class="lb">Lay the table</span></div><div class="row"><span class="bx"></span><span class="lb">Clear my plate away</span></div><div class="row"><span class="bx"></span><span class="lb">Wipe the table</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+    <div class="slot"><div class="sh"><span class="em">🎒</span><span class="tt">Out the door</span></div><div class="row"><span class="bx"></span><span class="lb">Bag packed the night before</span></div><div class="row"><span class="bx"></span><span class="lb">Shoes and coat on</span></div><div class="row"><span class="bx"></span><span class="lb">Water bottle filled</span></div><div class="row"><span class="bx"></span><span class="lb">Help make my packed lunch</span></div><div class="row"><span class="bx"></span><span class="lb">Choose school dinner</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+    <div class="slot"><div class="sh"><span class="em">🏠</span><span class="tt">Home from school</span></div><div class="row"><span class="bx"></span><span class="lb">Shoes, coat and bag away</span></div><div class="row"><span class="bx"></span><span class="lb">Snack from the list</span></div><div class="row"><span class="bx"></span><span class="lb">Lunchbox emptied</span></div><div class="row"><span class="bx"></span><span class="lb">Homework out on the desk</span></div><div class="row"><span class="bx"></span><span class="lb">Tell one thing about my day</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+    <div class="slot"><div class="sh"><span class="em">🍽️</span><span class="tt">Teatime</span></div><div class="row"><span class="bx"></span><span class="lb">Help choose from the list</span></div><div class="row"><span class="bx"></span><span class="lb">Lay the table</span></div><div class="row"><span class="bx"></span><span class="lb">Help cook one bit</span></div><div class="row"><span class="bx"></span><span class="lb">Clear the table</span></div><div class="row"><span class="bx"></span><span class="lb">Load the dishwasher</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+    <div class="slot"><div class="sh"><span class="em">🌙</span><span class="tt">Wind down</span></div><div class="row"><span class="bx"></span><span class="lb">Ten minutes with screens off</span></div><div class="row"><span class="bx"></span><span class="lb">Bath or shower</span></div><div class="row"><span class="bx"></span><span class="lb">Tomorrow clothes out</span></div><div class="row"><span class="bx"></span><span class="lb">Dirty clothes in the basket</span></div><div class="row"><span class="bx"></span><span class="lb">Read or be read to</span></div><div class="row"><span class="bx"></span><span class="wr"></span></div></div>
+  </div>
+
+  <div class="agreesign">
+    <div class="sg"><span class="cap">Agreed by</span><div class="ln"></div></div>
+    <div class="sg"><span class="cap">And by</span><div class="ln"></div></div>
+    <div class="sg" style="flex:0.6;"><span class="cap">Date</span><div class="ln"></div></div>
+  </div>
+
+  <div class="footer"><span>guidedchildhood.com</span><span>Agree the jobs &middot; Then build the chart</span></div>
+</div>
+
 <!-- ============ PAGE 2 · THE STAR REWARD CHART ============ -->
 <div class="sheet">
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="st" viewBox="0 0 24 24"><path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"/></symbol></svg>
@@ -435,7 +519,7 @@
     </div>
   </div>
 
-  <p style="margin:2mm 0 2.5mm;max-width:172mm;font-size:9.5pt;">Colour a star every time a job is done. Stars are not points for a chart nobody spends, they buy real screen time, so the deal is plain to everyone in the house.</p>
+  <p style="margin:2mm 0 2.5mm;max-width:172mm;font-size:9.5pt;">Write in the jobs you agreed together on the sheet before this one, then colour a star every time one is done. Stars are not points for a chart nobody spends, they buy real screen time, so the deal is plain to everyone in the house.</p>
 
   <table class="sc">
     <thead><tr><th class="jobhead">My jobs</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th><th class="tothead">Week</th></tr></thead>
@@ -443,10 +527,10 @@
       <tr><td class="job"><div class="jrow"><span class="ji">👕</span><span><span class="jn">Get dressed and ready</span><br><span class="js">Before breakfast</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
       <tr class="alt"><td class="job"><div class="jrow"><span class="ji">🧸</span><span><span class="jn">Tidy my things away</span><br><span class="js">Toys, books, shoes</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
       <tr><td class="job"><div class="jrow"><span class="ji">🍽️</span><span><span class="jn">Help at the table</span><br><span class="js">Lay it or clear it</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
-      <tr class="alt"><td class="job"><div class="jrow"><span class="ji">🏃</span><span><span class="jn">Move my body</span><br><span class="js">Outside or a workout card</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
-      <tr><td class="job"><div class="jrow"><span class="ji">📚</span><span><span class="jn">Read with a grown up</span><br><span class="js">One story together</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
       <tr class="own alt"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
       <tr class="own"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
+      <tr class="own alt"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
       <tr class="own alt"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
       <tr class="own"><td class="job"><div class="jrow"><span class="ji">✏️</span><span class="writeline"></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
       <tr class="bonus"><td class="job"><div class="jrow"><span class="ji">💛</span><span><span class="jn">A kind thing, unasked</span><br><span class="js">Bonus star</span></span></div></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel"><svg class="sk"><use href="#st"/></svg></td><td class="cel tot"><svg class="sk"><use href="#st"/></svg></td></tr>
@@ -814,97 +898,6 @@
   <div class="footer"><span>guidedchildhood.com</span><span>Together · Read with a grown up, celebrate every star</span></div>
 </div>
 
-<!-- ============ PAGE 9 · PRINT AND PLAY GAME ============ -->
-<div class="sheet">
-  <div class="kicker-row">
-    <span class="sec">Play</span>
-    <h2>The Star Run, a print and play game</h2>
-    <span class="pg">No. 9</span>
-  </div>
-  <p style="margin-bottom:3.5mm;max-width:170mm;">A dice, a button each for counters, and this page. Land on a star, take one. Land on a slide, follow it. First to the finish with the most stars wins the round. A brilliant no screen thing to earn on the chart.</p>
-
-  <div class="board">
-    <div class="sq"><span class="sn">1</span><span class="sc">Start here</span><span class="si">🏁</span></div>
-    <div class="sq gold"><span class="sn">2</span><span class="sc">Tidied up</span><span class="si" style="color:#E0A419;">★</span></div>
-    <div class="sq"><span class="sn">3</span><span class="si">🙂</span></div>
-    <div class="sq up"><span class="sn">4</span><span class="sc">Ran outside, climb up</span><span class="si">🪜</span></div>
-    <div class="sq"><span class="sn">5</span><span class="si">🙂</span></div>
-    <div class="sq gold"><span class="sn">6</span><span class="sc">Helped cook</span><span class="si" style="color:#E0A419;">★</span></div>
-
-    <div class="sq"><span class="sn">12</span><span class="si">🙂</span></div>
-    <div class="sq down"><span class="sn">11</span><span class="sc">Too much screen, slide</span><span class="si">🛝</span></div>
-    <div class="sq"><span class="sn">10</span><span class="si">🙂</span></div>
-    <div class="sq gold"><span class="sn">9</span><span class="sc">Read a story</span><span class="si" style="color:#E0A419;">★</span></div>
-    <div class="sq"><span class="sn">8</span><span class="si">🙂</span></div>
-    <div class="sq"><span class="sn">7</span><span class="si">🙂</span></div>
-
-    <div class="sq gold"><span class="sn">13</span><span class="sc">Kind to a friend</span><span class="si" style="color:#E0A419;">★</span></div>
-    <div class="sq"><span class="sn">14</span><span class="si">🙂</span></div>
-    <div class="sq up"><span class="sn">15</span><span class="sc">Big helper, climb up</span><span class="si">🪜</span></div>
-    <div class="sq"><span class="sn">16</span><span class="si">🙂</span></div>
-    <div class="sq gold"><span class="sn">17</span><span class="sc">Brushed teeth</span><span class="si" style="color:#E0A419;">★</span></div>
-    <div class="sq"><span class="sn">18</span><span class="si">🙂</span></div>
-
-    <div class="sq"><span class="sn">24</span><span class="sc">Finish</span><span class="si">🏆</span></div>
-    <div class="sq gold"><span class="sn">23</span><span class="sc">Said thank you</span><span class="si" style="color:#E0A419;">★</span></div>
-    <div class="sq"><span class="sn">22</span><span class="si">🙂</span></div>
-    <div class="sq down"><span class="sn">21</span><span class="sc">Grumpy, slide down</span><span class="si">🛝</span></div>
-    <div class="sq"><span class="sn">20</span><span class="si">🙂</span></div>
-    <div class="sq gold"><span class="sn">19</span><span class="sc">Moved your body</span><span class="si" style="color:#E0A419;">★</span></div>
-  </div>
-
-  <div style="display:flex;gap:3mm;margin-top:3.5mm;">
-    <span class="badge">⭐ Star, take one</span>
-    <span class="badge" style="background:var(--tint-sage);border-color:var(--green);color:var(--green-dark);">🪜 Ladder, climb up</span>
-    <span class="badge" style="background:var(--pink);border-color:var(--coral);color:var(--coral);">🛝 Slide, go down</span>
-  </div>
-  <div class="footer"><span>guidedchildhood.com</span><span>The Star Run · Print, grab a dice, play</span></div>
-</div>
-
-<!-- ============ PAGE 10 · COLOURING ============ -->
-<div class="sheet colourin">
-  <div class="kicker-row">
-    <span class="sec">Colour</span>
-    <h2>Colour in DiGi and the family</h2>
-    <span class="pg">No. 10</span>
-  </div>
-  <p style="margin-bottom:3mm;max-width:170mm;">DiGi is the golden star who guides your family. Give the star its gold, then colour the whole scene however you like. A calm, no screen wind down for after a busy day.</p>
-
-  <div style="flex:1;display:flex;align-items:center;justify-content:center;">
-    <svg viewBox="0 0 360 300" style="width:170mm;height:auto;max-height:180mm;">
-      <!-- ground -->
-      <path class="colour-line thin" d="M10 250 q80 -22 170 -6 q100 12 170 -4" fill="none"/>
-      <!-- big DiGi star, outline only to colour -->
-      <path class="colour-line" d="M180 60 l22 46 51 5 -39 34 12 51 -46 -27 -46 27 12 -51 -39 -34 51 -5z" fill="#fff"/>
-      <!-- face on the star -->
-      <circle class="colour-line thin" cx="168" cy="120" r="4" fill="#fff"/>
-      <circle class="colour-line thin" cx="192" cy="120" r="4" fill="#fff"/>
-      <path class="colour-line thin" d="M166 133 q14 12 28 0" fill="none"/>
-      <!-- two little friends (simple round characters) -->
-      <g>
-        <circle class="colour-line" cx="70" cy="210" r="34" fill="#fff"/>
-        <circle class="colour-line thin" cx="60" cy="205" r="4" fill="#fff"/>
-        <circle class="colour-line thin" cx="80" cy="205" r="4" fill="#fff"/>
-        <path class="colour-line thin" d="M58 218 q12 10 24 0" fill="none"/>
-        <path class="colour-line thin" d="M44 188 q-8 -12 4 -18" fill="none"/>
-        <path class="colour-line thin" d="M96 188 q8 -12 -4 -18" fill="none"/>
-      </g>
-      <g>
-        <rect class="colour-line" x="262" y="182" width="60" height="60" rx="16" fill="#fff"/>
-        <circle class="colour-line thin" cx="282" cy="205" r="4" fill="#fff"/>
-        <circle class="colour-line thin" cx="302" cy="205" r="4" fill="#fff"/>
-        <path class="colour-line thin" d="M280 220 q12 8 24 0" fill="none"/>
-        <path class="colour-line thin" d="M292 182 l0 -12 8 6" fill="none"/>
-      </g>
-      <!-- little stars floating -->
-      <path class="colour-line thin" d="M120 70 l5 10 11 1 -8 8 2 11 -10 -6 -10 6 2 -11 -8 -8 11 -1z" fill="#fff"/>
-      <path class="colour-line thin" d="M270 90 l4 8 9 1 -6 6 1 9 -8 -5 -8 5 1 -9 -6 -6 9 -1z" fill="#fff"/>
-      <path class="colour-line thin" d="M300 140 l4 8 9 1 -7 6 2 9 -8 -5 -8 5 1 -9 -6 -6 9 -1z" fill="#fff"/>
-    </svg>
-  </div>
-  <div class="footer"><span>guidedchildhood.com</span><span>Colouring · DiGi and the family</span></div>
-</div>
-
 <!-- ============ PAGE 11 · TIPS + ASSEMBLY + BONUS ============ -->
 <div class="sheet">
   <div class="kicker-row">
@@ -1000,37 +993,6 @@
     </div>
   </div>
   <div class="footer"><span>guidedchildhood.com</span><span>Cut out your stars · Parent tracker feeds the app</span></div>
-</div>
-
-<!-- ============ PAGE 13 · FAMILY CUT OUTS + ACHIEVEMENT BUBBLES ============ -->
-<div class="sheet">
-  <div class="kicker-row">
-    <span class="sec">Family</span>
-    <h2>Cut out the family and the well done bubbles</h2>
-    <span class="pg">No. 13</span>
-  </div>
-  <p style="margin-bottom:3mm;max-width:170mm;">Colour the Planet Friends, cut them out, and pop one on the chart for the week. Then cut out a well done bubble and stick it up when your child hits the stars. A little moment of proud, made real.</p>
-
-  <div class="scissors" style="margin-bottom:2mm;">✂ Cut along the dashed lines</div>
-  <div class="charcut">
-    <div class="charcard"><img class="cimg" src="images/DiGi-star.svg" alt=""><div class="cname">DiGi</div><div class="crole">Your family guide</div></div>
-    <div class="charcard"><img class="cimg" src="images/friends/pebble.png" alt=""><div class="cname">Pebble</div><div class="crole">Stage 1 · curious</div></div>
-    <div class="charcard"><img class="cimg" src="images/friends/bloop.png" alt=""><div class="cname">Bloop</div><div class="crole">Stage 2 · creative</div></div>
-    <div class="charcard"><img class="cimg" src="images/friends/orbit.png" alt=""><div class="cname">Orbit</div><div class="crole">Stage 3 · explorer</div></div>
-    <div class="charcard"><img class="cimg" src="images/friends/nova.png" alt=""><div class="cname">Nova</div><div class="crole">Stage 4 · kind</div></div>
-    <div class="charcard"><img class="cimg" src="images/friends/cosmo.png" alt=""><div class="cname">Cosmo</div><div class="crole">Stage 5 · leader</div></div>
-  </div>
-
-  <div style="margin-top:5mm;"><span class="eyebrow" style="color:var(--coral);">Well done bubbles · cut and stick on the chart</span></div>
-  <div class="bubgrid">
-    <div class="bubwrap"><div class="bub">I did <span class="amt">5 stars</span>, that is <span class="amt">25 minutes</span> of screen. Well done me.</div></div>
-    <div class="bubwrap"><div class="bub">I did <span class="amt">10 stars</span>, that is <span class="amt">50 minutes</span> of screen. Well done me.</div></div>
-    <div class="bubwrap"><div class="bub">I did <span class="amt">15 stars</span>, that is <span class="amt">75 minutes</span> of screen. Amazing.</div></div>
-    <div class="bubwrap"><div class="bub">I did <span class="amt">20 stars</span>, that is <span class="amt">100 minutes</span> of screen. Superstar.</div></div>
-    <div class="bubwrap"><div class="bub">I am <span class="amt">saving my stars</span> for a big treat. So proud.</div></div>
-    <div class="bubwrap"><div class="bub" style="background:var(--butter-lt);">I did <span style="border-bottom:1.5px solid var(--ink-muted);padding:0 8mm;">&nbsp;</span> stars. Write your own.</div></div>
-  </div>
-  <div class="footer"><span>guidedchildhood.com</span><span>Cut out the family · Well done bubbles</span></div>
 </div>
 
 </body>

@@ -12,6 +12,8 @@ import ParentStartTimer from '@/components/balance/ParentStartTimer'
 // empty week still renders, it just says so.
 
 import { buildOffscreen } from '@/lib/balance/offscreen'
+import { buildPace } from '@/lib/balance/pace'
+import PaceCard from '@/components/balance/PaceCard'
 
 export const metadata = { title: 'Balance and stats — Guided Childhood' }
 
@@ -93,6 +95,15 @@ export default async function StatsPage() {
     offscreen,
   })
 
+  // The pace: the same weekly total and the same age matched guide the report
+  // already works out, turned into a daily average and one number for tomorrow.
+  // A parent reads this and knows what to do. The graph below is for the parent
+  // who then wants to know why.
+  const pace = buildPace({
+    usedThisWeek: report.totalWeekMins,
+    dailyGuide: Math.round(report.healthyWeekMins / 7),
+  })
+
   return (
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '24px 20px 48px' }}>
       <Link href="/dashboard/quests" style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
@@ -103,6 +114,7 @@ export default async function StatsPage() {
         {child?.name && child.name !== 'Your child' ? `${child.name}'s week` : 'This week'}
       </h1>
       {child?.id && <ParentStartTimer childId={child.id} childName={child.name} />}
+      <PaceCard pace={pace} childName={child?.name} />
       <BalanceReport report={report} />
     </div>
   )

@@ -1,14 +1,30 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { DEVICES } from '@/lib/quests/device-time'
+import Link from 'next/link'
+import { DEVICES, deviceEmoji, deviceLabel } from '@/lib/quests/device-time'
 
 // Start screen time from the parent side, for a child who has no phone of their
 // own. The parent picks the device and how long, and it starts the same shared
 // countdown the timer uses and records the minutes to the week, so a phone free
 // child's screen time still shows in the balance graph below. A gift by default
 // (no stars spent), because this is about seeing the real picture, not gating.
+//
+// It also has to know when a timer is ALREADY running. It used to flash Started
+// for four seconds and then go back to asking for a device and a length, while
+// the countdown it had just begun ticked away invisibly. A parent looking at
+// this card had no way to tell whether their child had twenty minutes left or
+// none, and the only thing on offer was to start another one on top. So the
+// card now reads the same live session everything else reads, and while one is
+// running the form is not the point: the countdown is.
+
+type Live = { device: string; minutes: number; ends_at: string }
+
+function mmss(ms: number): string {
+  const s = Math.max(0, Math.ceil(ms / 1000))
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
+}
 
 const MINUTE_CHOICES = [15, 30, 45, 60, 90]
 
@@ -20,6 +36,37 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
   const [busy, setBusy] = useState(false)
   const [done, setDone] = useState(false)
   const [error, setError] = useState('')
+  const [live, setLive] = useState<Live | null>(null)
+  const [now, setNow] = useState(() => Date.now())
+
+  // The same feed the Home chip and the child app read, so all three agree
+  // about whether time is running rather than each guessing.
+  useEffect(() => {
+    let on = true
+    const load = () => {
+      fetch('/api/quests/time/active')
+        .then(r => r.json())
+        .then(d => {
+          if (!on) return
+          const mine = (d.children ?? []).find((c: { id: string }) => c.id === childId)
+          setLive(mine?.session ?? null)
+        })
+        .catch(() => {})
+    }
+    load()
+    const id = setInterval(load, 20000)
+    return () => { on = false; clearInterval(id) }
+  }, [childId, done])
+
+  // Ticks only while something is actually running.
+  useEffect(() => {
+    if (!live) return
+    const id = setInterval(() => setNow(Date.now()), 1000)
+    return () => clearInterval(id)
+  }, [live])
+
+  const left = live ? new Date(live.ends_at).getTime() - now : 0
+  const running = !!live && left > 0
 
   async function start() {
     if (busy) return
@@ -38,7 +85,6 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
       }
       setDone(true)
       router.refresh()
-      setTimeout(() => setDone(false), 4000)
     } catch {
       setError('Could not start it, try again.')
     } finally {
@@ -53,6 +99,41 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
     fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15,
     color: 'var(--ink)', flexShrink: 0,
   })
+
+  // Time is running: the countdown IS the card. Nothing here asks for another
+  // one, because starting a second timer over a live one is never the thing a
+  // parent wanted, and the number they came to see is how long is left.
+  if (running) {
+    return (
+      <div style={{ background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF', borderRadius: 20, boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 18, marginBottom: 16 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--retro-green-dark, #236F52)', marginBottom: 8 }}>
+          Screen time running
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          <span aria-hidden style={{ fontSize: 32, lineHeight: 1, flexShrink: 0 }}>{deviceEmoji(live!.device)}</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 30, color: 'var(--ink)', lineHeight: 1, letterSpacing: '-0.02em' }}>
+              {mmss(left)}
+            </div>
+            <div style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 3 }}>
+              left of {live!.minutes} minutes on the {deviceLabel(live!.device).toLowerCase()}. {name === 'your child' ? 'They are' : `${name} is`} watching the same countdown.
+            </div>
+          </div>
+        </div>
+        <Link
+          href="/dashboard/quests"
+          style={{
+            display: 'block', textAlign: 'center', marginTop: 14,
+            background: '#fff', border: '1.5px solid var(--border)', borderRadius: 12,
+            padding: '11px', textDecoration: 'none',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)',
+          }}
+        >
+          Open the timer
+        </Link>
+      </div>
+    )
+  }
 
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 18, marginBottom: 16 }}>
@@ -92,7 +173,6 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
         {busy ? 'Starting…' : done ? 'Started ✓' : `Start ${minutes} minutes`}
       </button>
       {error && <p style={{ fontSize: 14, color: '#B93B3F', margin: '9px 0 0', fontWeight: 600 }}>{error}</p>}
-      {done && <p style={{ fontSize: 14, color: 'var(--retro-green-dark, #2F8F6B)', margin: '9px 0 0', fontWeight: 600 }}>Counting down now. It will show in the week below.</p>}
     </div>
   )
 }

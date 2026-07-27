@@ -32,6 +32,11 @@ interface Props {
   stageLabel: string
   saved: SavedAgreement | null
   childPhone: string | null
+  /** Has the child ever opened their app. Decides whether the agreement can
+   *  honestly be described as already on their side. */
+  childAppLive?: boolean
+  /** The last end of week check, so Friday can point back at last Friday. */
+  lastCheck?: { date: string; stars: number } | null
   isPaid: boolean
 }
 
@@ -45,7 +50,7 @@ function defaultReviewDate(): string {
 
 const CUSTOM = '__custom__'
 
-export default function AgreementBuilder({ childName, stageId, stageLabel, saved, childPhone, isPaid }: Props) {
+export default function AgreementBuilder({ childName, stageId, stageLabel, saved, childPhone, isPaid, childAppLive = false, lastCheck = null }: Props) {
   const recommended = recommendedType(stageId)
   const [step, setStep] = useState<Step>(saved ? 'done' : 'type')
   const [typeKey, setTypeKey] = useState<string>(saved?.agreement_type ?? recommended)
@@ -379,6 +384,18 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
 
           {error && <p style={{ fontSize: '16px', color: 'var(--danger, #C0533E)', margin: '10px 0' }}>{error}</p>}
 
+          {/* Said before the button, not after. Saving this puts it in front of
+              a child, and a parent should know that while they can still change
+              their mind, not once it has already happened. */}
+          <p style={{
+            display: 'flex', alignItems: 'center', gap: '9px', marginTop: '16px',
+            background: 'var(--tint-blue)', borderRadius: '14px', padding: '12px 14px',
+            fontSize: '16px', color: 'var(--ink)', lineHeight: 1.5, fontWeight: 600,
+          }}>
+            <span aria-hidden style={{ fontSize: '19px', lineHeight: 1, flexShrink: 0 }}>📲</span>
+            <span>Saving this shares it on {childName}&apos;s app, under Our family deal. They will see it exactly as written here.</span>
+          </p>
+
           <div style={{ display: 'flex', gap: '10px', marginTop: '14px' }}>
             <button onClick={() => setStep('clauses')} style={{ ...bigBtn, width: 'auto', flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--border)', boxShadow: '0 3px 0 var(--border)' }}>
               ← Back
@@ -445,7 +462,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
             </p>
           </div>
 
-          <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '14px' }}>
             <Link href="/dashboard/agreement/print" style={{ ...bigBtn, textDecoration: 'none', textAlign: 'center', display: 'block' }}>
               Print the fridge copy
             </Link>
@@ -454,14 +471,57 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
             </button>
           </div>
 
-          {/* End of week check: ask the child, give the verdict, pay the stars */}
-          <div style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '22px' }}>
-            <div style={{ ...mono, fontSize: '12px', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>
+          {/* Where the agreement already is.
+              There is deliberately no Send to their phone button, because there
+              is nothing to send: the child app reads the agreement straight from
+              the same row this page saves, so it is on their side the moment it
+              is saved and it stays in step every time it changes. A Send button
+              would be a button that does nothing and then claims it worked.
+              What a parent actually needs to know is whether their child can see
+              it, which is a different question, and has a different answer
+              depending on whether they ever opened their app. */}
+          {childAppLive ? (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px',
+              background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF',
+              borderRadius: '16px', padding: '14px 16px',
+            }}>
+              <span aria-hidden style={{ fontSize: '22px', lineHeight: 1, flexShrink: 0 }}>📲</span>
+              <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.5, margin: 0, fontWeight: 600 }}>
+                This is already on {childName}&apos;s app, under Our family deal. Every change you make here lands there straight away, so there is nothing to send.
+              </p>
+            </div>
+          ) : (
+            <Link href="/dashboard/quests?tab=share" style={{
+              display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px',
+              background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+              borderRadius: '16px', padding: '14px 16px', textDecoration: 'none',
+            }}>
+              <span aria-hidden style={{ fontSize: '22px', lineHeight: 1, flexShrink: 0 }}>📲</span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>
+                  {childName} cannot see this yet
+                </span>
+                <span style={{ display: 'block', fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>
+                  It is waiting on their app, they just have not opened it. Share the QR code and it is there.
+                </span>
+              </span>
+              <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--terracotta-dark)' }}>›</span>
+            </Link>
+          )}
+
+          {/* End of week check: ask the child, give the verdict, pay the stars.
+              This used to be white on near black, which is neither our palette
+              nor easy to read: pale grey text on a dark panel is the hardest
+              combination on the page, and this is the block asking a parent to
+              make a judgement. Ink on a soft blue instead, and every size up. */}
+          <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--tint-blue)', borderRadius: '20px', padding: '22px' }}>
+            <div style={{ ...mono, fontSize: '12.5px', color: 'var(--ink-soft)', marginBottom: '8px' }}>
               End of week check
             </div>
             {isCheckWindow ? (
               <>
-                <p style={{ fontSize: '18px', fontWeight: 600, color: '#fff', lineHeight: 1.55, margin: '0 0 14px' }}>
+                <p style={{ fontSize: '19px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 14px' }}>
                   How did the agreement go this week? Ask {childName} first, then call it.
                 </p>
                 {childPhone && (
@@ -469,9 +529,9 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                     href={`sms:${childPhone.replace(/\s/g, '')}?&body=${encodeURIComponent(`End of week check! How did our family agreement go this week, marks out of 10? And one thing we should change?`)}`}
                     style={{
                       display: 'block', textAlign: 'center', marginBottom: '10px',
-                      background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.35)',
+                      background: '#fff', border: '1.5px solid var(--border)',
                       borderRadius: '14px', padding: '14px', textDecoration: 'none',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: '#fff',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17.5px', color: 'var(--ink)',
                     }}
                   >
                     Text {childName} the check first
@@ -494,15 +554,36 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                   ))}
                 </div>
                 {weekResult && (
-                  <p style={{ fontSize: '16.5px', fontWeight: 600, color: '#fff', lineHeight: 1.5, margin: '12px 0 0' }}>
+                  <p style={{ fontSize: '17px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.5, margin: '12px 0 0' }}>
                     {weekResult}
                   </p>
                 )}
               </>
             ) : (
-              <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.55, margin: 0 }}>
+              <p style={{ fontSize: '18px', color: 'var(--ink)', lineHeight: 1.55, margin: 0, fontWeight: 600 }}>
                 Opens every Friday: ask {childName} how the week went against the agreement, give it your verdict, and a kept week pays 3 stars straight into their bank.
               </p>
+            )}
+
+            {/* Last Friday, so the check reads as a running thing rather than
+                a cold question every week. Silent until there is one. */}
+            {lastCheck && (
+              <Link
+                href="/dashboard/quests"
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
+                  marginTop: '14px', paddingTop: '13px', borderTop: '1.5px solid var(--tint-blue)',
+                  textDecoration: 'none',
+                }}
+              >
+                <span style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+                  Last check {new Date(lastCheck.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}
+                  {lastCheck.stars > 0 ? `, ${lastCheck.stars} stars paid` : ''}
+                </span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
+                  See it →
+                </span>
+              </Link>
             )}
           </div>
         </>

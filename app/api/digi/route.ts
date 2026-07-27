@@ -153,7 +153,12 @@ export async function POST(request: Request) {
     getWhatWorked(supabase, user.id),
     supabase
       .from('family_agreements')
-      .select('signed_by_parent, signed_by_child, agreed_date, review_date')
+      // The actual terms, not only whether one exists. DiGi used to know a
+      // family had an agreement and nothing about what was in it, which meant
+      // it could cheerfully advise something the family had already written
+      // down the opposite of. Undermining a parent's own signed rule is the
+      // single worst thing this product can do, so DiGi reads the deal.
+      .select('signed_by_parent, signed_by_child, agreed_date, review_date, family_values, bedroom_rule_time, bedroom_rule_location, social_media_terms, when_things_go_wrong, extra_agreements')
       .eq('user_id', user.id)
       .maybeSingle(),
     supabase
@@ -305,12 +310,40 @@ export async function POST(request: Request) {
       : !(agreement.signed_by_parent && agreement.signed_by_child)
         ? 'A family media agreement was started but is not yet signed by both sides.'
         : `A family media agreement is in place, signed by both sides${agreement.review_date ? `, next review ${agreement.review_date}` : ''}.`
+
+    // What the family actually agreed, in their own words, so advice can be
+    // held against it.
+    const agreementTerms = agreement
+      ? ([
+          ['What matters to us', agreement.family_values],
+          ['Where devices sleep', [agreement.bedroom_rule_time, agreement.bedroom_rule_location].filter(Boolean).join(', ')],
+          ['Apps and social media', agreement.social_media_terms],
+          ['When something goes wrong', agreement.when_things_go_wrong],
+          ['Also agreed', agreement.extra_agreements],
+        ] as [string, string | null][])
+          .filter(([, v]) => typeof v === 'string' && v.trim())
+          .map(([k, v]) => `- ${k}: ${(v as string).trim()}`)
+          .join('\n')
+      : ''
     const trust = (child as { device_trust?: string } | null)?.device_trust ?? 'watch'
     screenLifeKnowledge = `\n\nTHIS FAMILY'S SCREEN LIFE (use whenever the question touches a device, a console like a Switch or Xbox, TV, gaming, or how long on screens):
 - Healthy daily guide for this child's age: about ${recommendedDailyMinutes(child?.age_band ?? null)} minutes of recreational screen a day. Always a calibrated guide, never a hard cap.
 - Screen time through the family timer in the last 7 days: ${usageLine || 'none logged, which likely means screen time is happening without the timer'}.
 - Device trust level: ${trust} (ask means the child asks first, watch means they start freely and the parent gets a ping, trusted means a lighter touch).
 - ${agreementLine}
+${agreementTerms ? `
+THIS FAMILY'S OWN AGREEMENT, IN THEIR WORDS:
+${agreementTerms}
+
+Treat these as settled decisions this family already made together, not as
+suggestions. Never advise something that cuts across a term above. If what a
+parent is asking about is already covered, say so plainly and quote their own
+wording back before anything else, because the most useful thing you can do is
+remind them they already decided this and it is written down. If they want to
+change a term, that is completely fine, but it is a change they make together
+at [our family deal](/dashboard/agreement), not something you overrule in a
+chat. If holding to a term is genuinely going wrong for them, say that too and
+point them at reviewing it, rather than quietly advising around it.` : ''}
 When a parent asks whether or for how long their child should use any device, do two things beyond the advice itself. First, ground the answer in this family's own numbers above rather than only general figures. Second, check what is missing and add ONE warm sentence for it: if the agreement is missing or unsigned, suggest writing the deal down together while it is topical and link it exactly as [our family deal](/dashboard/agreement); if the timer shows nothing for the device being discussed, remind them every screen session, TV and consoles included, can run through the star timer on [the quests board](/dashboard/quests) so the time is earned, visible to both of them, and winds up on its own at the healthy amount. Never both sentences if only one is missing, never either if both are in place, and never a lecture.`
   } catch { /* screen life context is a bonus, never blocks the reply */ }
 

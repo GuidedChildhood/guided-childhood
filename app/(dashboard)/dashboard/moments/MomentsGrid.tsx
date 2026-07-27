@@ -82,12 +82,12 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
       {suggestedMoment && suggestReason && activeCategory === 'All' && (
         <div style={{
           display: 'flex', gap: 12, alignItems: 'flex-start',
-          background: 'var(--deep-teal)', borderRadius: 16,
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 16,
           padding: '14px 16px', marginBottom: 14,
         }}>
-          <span style={{ fontSize: '1.3rem', flexShrink: 0 }} aria-hidden>✨</span>
-          <p style={{ margin: 0, fontSize: '15.5px', lineHeight: 1.55, color: 'rgba(255,255,255,0.9)' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', display: 'block', marginBottom: 3 }}>
+          <span style={{ fontSize: '1.5rem', flexShrink: 0 }} aria-hidden>✨</span>
+          <p style={{ margin: 0, fontSize: '17.5px', lineHeight: 1.5, color: 'var(--ink)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', display: 'block', marginBottom: 3 }}>
               DiGi&apos;s pick
             </span>
             <strong>{suggestedMoment.title}</strong>, {suggestReason}. It is the first card below.
@@ -108,11 +108,11 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
               style={{
                 padding: '7px 14px',
                 borderRadius: '100px',
-                border: scope === key ? 'none' : '1px solid var(--border)',
-                background: scope === key ? 'var(--deep-teal)' : 'var(--white)',
-                color: scope === key ? '#fff' : 'var(--ink-soft)',
+                border: scope === key ? '1.5px solid var(--terracotta-dark)' : '1.5px solid var(--border)',
+                background: scope === key ? 'var(--terracotta)' : 'var(--white)',
+                color: 'var(--ink)',
                 fontFamily: 'var(--font-mono)',
-                fontSize: '13.5px',
+                fontSize: '15px',
                 fontWeight: 700,
                 letterSpacing: '0.03em',
                 cursor: 'pointer',
