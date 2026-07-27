@@ -2045,6 +2045,9 @@ deliberately absent rather than written from memory.
 Two ways forward: allow those hosts through egress, or paste the programmes of
 study in. Either unblocks the long pole. The machinery does not need to change.
 
+## 25 Jul 2026 — New KS2 AI lesson is module 22
+The UC Irvine panel additions add one new child lesson, Let AI help you not do it for you (KS2, host DiGi, teaches stay-the-maker and explain-it-back). Decided it is module 22, a clean addition, no renumbering of the existing 21. module_id ks2-22-ai-maker. Source script content/lesson-scripts/ai-panel-additions.md, wiring in plans/handoff-ai-lessons-to-app.md. KS3 Lesson 12 and KS4/KS5 Lesson 20 get cognitive-offload uplifts, plus a parent lesson on connection over control.
+
 ## 27 Jul 2026: jobs can be renamed, which they already could server side
 The edit panel offered stars, days and the before screens gate, but never the
 name. The PATCH route has always accepted a title patch, so this was a hole in
