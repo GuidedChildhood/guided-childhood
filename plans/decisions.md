@@ -2086,3 +2086,40 @@ page is how people stop reading it.
 
 Only whether each setting is present is shown, never its value. The verdict is
 pure and lives in lib/email/health.ts, tested across all five states.
+
+## 27 Jul 2026: which sheet a child gets today, and what comes back from it
+Two pieces of the learning printables that were not blocked by the curriculum
+sources being unreachable.
+
+**Choosing the sheet** (`lib/learning/term.ts`). Two things here are easy to get
+quietly wrong in a way a parent would never spot but would act on.
+
+England places a child by their age on 31 August, not their age today. Using
+today's age would move a child up a year in the middle of their birthday week
+and test them on work they have not been taught. Two children born a day apart
+either side of the cutoff are a year apart at school, and the code has to agree.
+
+And August. A parent printing in the summer holidays gets the year their child
+has just FINISHED, not the one starting in September. Testing a child in August
+on work they have never met is the exact failure this feature exists to avoid,
+and August is when a worried parent is most likely to reach for it. The sheet
+says "looking back over the year" so it never implies current work.
+
+Easter moves, so spring and summer split on 15 April. Wrong for a fortnight, in
+a term whose content overlaps anyway, and the alternative is a moveable feast
+calculation to pick between two sets of objectives that both apply.
+
+**What comes back** (migration 113). The sheet itself is never stored: it is
+assembled on the day from curriculum_objectives, so a corrected objective
+improves every sheet printed after it rather than leaving old copies wrong. What
+is kept is the tricky flags, as objective ids rather than free text, so a parent
+summary can always name the exact statutory line.
+
+Restated in the migration because a later change could undo it without noticing:
+the child is never shown a number. A score turns a warm shared thing into a test
+that judges them, and a judged child stops flagging what they found hard, which
+is the entire mechanism.
+
+Verified: the term logic across nine dates, the 31 August cutoff, and out of
+range returning nothing. Both migrations against a real Postgres, including
+storing a result and joining the flags back to their objectives.
