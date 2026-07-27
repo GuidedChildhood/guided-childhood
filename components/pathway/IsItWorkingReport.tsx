@@ -233,7 +233,16 @@ export default async function IsItWorkingReport({ childParam }: { childParam?: s
           {
             key: 'devices', emoji: '🔧', label: 'Devices set up',
             pct: reached ? prog.devicesPct : 0,
-            detail: !reached ? 'Ahead' : prog.devicesPct >= 100 ? 'All set' : prog.devicesPct === 0 ? 'To set up' : `${prog.devicesPct}%`,
+            // With no screens listed the percentage reads full, because there is
+            // nothing yet to be short against. That is still a pass, so the bar
+            // stays where it is, but the label nudges rather than saying all set:
+            // an empty home is the one case where all set and the help line
+            // underneath (list your screens first) plainly contradicted.
+            detail: !reached ? 'Ahead'
+              : homeDeviceCount === 0 ? 'Add yours'
+              : prog.devicesPct >= 100 ? 'All set'
+              : prog.devicesPct === 0 ? 'To set up'
+              : `${prog.devicesPct}%`,
             href: '/dashboard/devices',
             help: homeDeviceCount > 0
               ? `Measured against the ${homeDeviceCount} screen${homeDeviceCount === 1 ? '' : 's'} you listed as yours. Work through the setup guide for each one, and add anything new the day it arrives.`
