@@ -162,13 +162,13 @@ When your child hands you something heavy, do you find yourself ruling on it, or
 
 **Post text:**
 
-There is a group in this study I am not going to soften, because they deserve better than that. For a minority of young people, the clinicians said, a self-diagnosis stops being a doorway and becomes a cell. The word one of them used was prison-like. The label hardens into a fixed identity, and the young person cannot see a way out of it.
+There is a group in this study I will not soften, because they deserve better. For a minority of young people, the clinicians said, a self-diagnosis stops being a doorway and becomes a cell. The word one of them used was prison-like. The label hardens into a fixed identity, and the young person cannot see a way out of it.
 
 This is In Proportion, continued.
 
 This is the last theme in Katie Cunningham-Rowe and Lucy Foulkes, 16 UK clinicians, published on the 15th of July 2026 in Child and Adolescent Mental Health. In most cases, they said, the self-diagnosis did not matter much, or it helped. But in a minority it becomes a barrier to change, and the way it works is grim. The label stops being something the young person has and becomes the whole of who they are, a self-fulfilling prophecy where a young person who expects to be unwell behaves in ways that keep them unwell. Peer groups can lock it in place, until their whole social world is arranged around being the ill one. The clinicians said it can make symptoms worse.
 
-I have spent four posts arguing for calm against the panic. This is the post where I turn that around. This minority is real, and it is serious, and pretending the whole thing is harmless would be its own kind of lie. Proportion is not the same as calm. It means calm where the fear is bigger than the evidence, and serious where the harm is real. This is the serious part, and it gets the alarm.
+I have spent four posts arguing for calm against the panic. This is where I turn that around. This minority is real, and it is serious, and pretending the whole thing is harmless would be its own kind of lie. Proportion is not the same as calm. It means calm where the fear is bigger than the evidence, and serious where the harm is real. This is the serious part, and it gets the alarm.
 
 Let me stay honest about the limits. This is 16 clinicians, all White, no psychiatrists and no GPs, recruited partly through the senior author's own network. It is qualitative, so it can tell you this minority exists but not how big it is. And there are no guidelines yet for clinicians on handling self-diagnosis, which tells you how new this is.
 
