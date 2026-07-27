@@ -29,7 +29,7 @@ import KidTodayList from '@/components/kid/KidTodayList'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
-import KidSquadIntro, { squadIntroSeen } from '@/components/kid/KidSquadIntro'
+import KidSquadIntro, { squadIntroSeen, squadIntroDue } from '@/components/kid/KidSquadIntro'
 import StreakBar from '@/components/kid/StreakBar'
 import { streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 import Image from 'next/image'
@@ -384,12 +384,14 @@ export default function KidQuestScreen({
   // long way to the sheet you wanted, so it filters by the kind already in the
   // registry rather than a new grouping invented for the child app.
   const [printKind, setPrintKind] = useState<string>('all')
-  // The squad welcome: DiGi and the Planet Friends introduced one at a time,
-  // every open. The first meeting is a gentle tap through; every open after
-  // auto plays like a short splash. squadIntroSeen still marks the first open so
-  // the component knows which of the two to run.
+  // The squad welcome: DiGi and the Planet Friends introduced one at a time.
+  // Once a week, not every open. Six cards is nearly half a minute of splash
+  // standing between a child and their jobs, and however lovely it is, the
+  // third time in a day it is just in the way. The first meeting is a gentle
+  // tap through; the weekly replay auto plays like a short splash, and
+  // squadIntroSeen still marks the first open so the component knows which.
   const [showIntro, setShowIntro] = useState(false)
-  useEffect(() => { setShowIntro(true) }, [])
+  useEffect(() => { if (squadIntroDue()) setShowIntro(true) }, [])
 
   // A new Planet Friend just unlocked: celebrate it once. The first ever load
   // records the baseline quietly so already earned Friends are not celebrated

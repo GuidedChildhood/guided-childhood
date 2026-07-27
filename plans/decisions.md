@@ -1922,3 +1922,25 @@ There is now an add a job button in the header of the child's own quest list,
 opening an inline composer in place. Set tasks and Manage jobs land there with
 it already open. The ideas grid stays where it is, for a parent who wants to
 browse rather than type.
+
+## 26 Jul 2026: the child app squad intro plays once a week, not every open
+Six cards at four and a half seconds each is nearly half a minute of splash
+standing between a child and their jobs, and it ran on every single open. A
+thing that lovely stops being lovely the third time in a day.
+
+It now plays once a week. Often enough that the family they are collecting
+stays in mind, rare enough that it is a treat rather than a toll gate. The first
+open for a new child always gets it. The clock is stamped when the intro
+appears, not when it finishes, so a child who wanders off halfway through is not
+met by the whole thing again on the next open.
+
+One trap worth recording, because it is easy to walk back into. The gate cannot
+re-read the raw timestamp on every mount: playing the intro stamps the clock, so
+the next read within the same open says "not due" and the intro vanishes from
+under the child. Anything that remounts the screen triggers it, and React strict
+mode in development does exactly that, which is how it was caught. The answer is
+worked out once per app open and held in sessionStorage, so every mount within
+one open agrees.
+
+Verified across five simulated app opens: new child yes, same day no, next day
+no, a week later yes, straight after that no.
