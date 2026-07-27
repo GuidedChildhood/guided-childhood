@@ -20,6 +20,13 @@ import type { SetupFlags } from '@/lib/setup/steps'
 // And every card says what we do with what they tell it, because that is the
 // part parents actually want to know.
 
+// The hello is not every open. Justin's call after seeing it land, and he is
+// right: a card every single time you open the app stops being a welcome and
+// becomes a toll gate. So it appears on Mondays, Wednesdays and Saturdays only.
+// Monday sets the week up, Wednesday catches it mid week, Saturday is when a
+// family actually has time. Four days a week it says nothing at all.
+const GREET_DAYS = [1, 3, 6]
+
 // One app open is exactly a session: a fresh launch or a new tab greets them
 // again, moving around inside the app does not.
 const OPEN_KEY = 'gc_mission_welcome_open'
@@ -91,6 +98,13 @@ export default function MissionWelcome({
       return
     }
 
+    // Quiet days end it here, before the open is even counted, so a Tuesday
+    // never eats the card that Wednesday was going to show.
+    if (!GREET_DAYS.includes(new Date().getDay())) {
+      openDecision = { cards: null, handover: false, dismissed: true }
+      return
+    }
+
     let greeted = false
     try { greeted = sessionStorage.getItem(OPEN_KEY) === '1' } catch { /* private mode, greet them */ }
     if (greeted) { openDecision = { cards: null, handover: false, dismissed: true }; return }
@@ -106,7 +120,10 @@ export default function MissionWelcome({
     // its turn, and the service card takes it every other time.
     let asked = 0
     try { asked = Number(localStorage.getItem(HANDOVER_ASKS_KEY) ?? 0) } catch { /* counted server side only */ }
-    if (handoverChild && opens >= 2 && asked < MAX_HANDOVER_ASKS) {
+    // After three opens, not two. The first few visits are already carrying the
+    // welcome and the onboarding, and the ask lands far better once the parent
+    // has actually seen what the child's side is for.
+    if (handoverChild && opens > 3 && asked < MAX_HANDOVER_ASKS) {
       try { localStorage.setItem(HANDOVER_ASKS_KEY, String(asked + 1)) } catch { /* server side cap still holds */ }
       openDecision = { cards: null, handover: true, dismissed: false }
       setHandover(true)
@@ -114,7 +131,7 @@ export default function MissionWelcome({
     }
 
     const seen = readSeen()
-    const pick = pickWelcomeCards(flags ?? {}, seen, phoneAge, needsBirthday)
+    const pick = pickWelcomeCards(flags ?? {}, seen, phoneAge, needsBirthday, 1)
     try {
       localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, ...pick.map(c => c.key)].slice(-SEEN_MAX)))
     } catch { /* private mode, the rotation resets each time, still fine */ }
@@ -192,9 +209,7 @@ export default function MissionWelcome({
               {name ? `Welcome back, ${name}` : 'Welcome back'}
             </div>
             <div style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
-              {cards.length > 1
-                ? `While we get today ready, ${cards.length} quick things we do`
-                : 'While we get today ready, here is one thing we do'}
+              While we get today ready, here is one thing we do
             </div>
           </div>
         </div>
