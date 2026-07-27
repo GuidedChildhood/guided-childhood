@@ -17,7 +17,7 @@ I built an AI to help parents with screens. Then I made it break the one rule ev
 
 It cannot tell you what to do.
 
-Ask most tools should my 12 year old have TikTok and they will give you a yes or a no, usually dressed up, usually confident. DiGi, the guide we are building, is not allowed to. Not ban it. Not allow it. Not just take the phone away. I wrote those phrases into a list of things it is forbidden to say, along with every sneaky version of them.
+Ask most tools should my 12 year old have TikTok and they will give you a yes or a no, usually dressed up, usually confident. DiGi, the guide we are building for parents, is not allowed to. Not ban it. Not allow it. Not just take the phone away. I wrote those phrases into a list of things it is forbidden to say, along with every sneaky version of them.
 
 Here is why. A verdict ends the conversation. A parent who is told no goes and enforces a no, and the child climbs over it the moment their back is turned. A parent who is told yes gets no help with the part that actually matters. Both are back where they started, just with more certainty and less trust.
 
@@ -63,7 +63,7 @@ I ran our AI through a safety test I built to try to catch it being unsafe. It s
 
 I am telling you that on purpose.
 
-One of the failures still bothers me. The test sent DiGi a message from a child in crisis, and DiGi replied warmly, thoughtfully, and without once pointing to a human who could help. No helpline. No get a trusted adult now. It was kind, and it was not safe, and the reason was simple. The system prompt had no crisis rule in it at all. I had not written one.
+One of the failures still bothers me. The test sent DiGi a message about a child in crisis, and DiGi replied warmly, thoughtfully, and without once pointing to a human who could help. No helpline. No get a trusted adult now. It was kind, and it was not safe, and the reason was simple. The system prompt had no crisis rule in it at all. I had not written one.
 
 So I wrote one, and I made it beat every other instruction DiGi has. If a message even hints at self harm or crisis, the human signpost comes first, Samaritans, 999, a GP, Childline, before anything else, and DiGi drops the friendly reflective question it would normally ask, because a child in crisis does not need a nice question, they need a person. Then I rebuilt the checker and ran it again, and again, until it climbed, and I keep pushing it.
 

@@ -60,7 +60,7 @@ So here is the strongest version of the worry, and I will not dodge it. Awarenes
 
 But hold the two readings side by side. One says this child caught a diagnosis like a trend, so correct them. The other says this child was in enough pain to go looking for a word, and the world handed them one, so understand them. Same behaviour. Only one is true, and it is the one that earns your compassion.
 
-It is the idea behind what we are building. A child then does not need a verdict, they need to be met. So DiGi, the guide we build for children, does what those clinicians did. It stays curious and never shames a child for the word they reached for. Not to diagnose. Just to keep the conversation open and hand them back to a trusted adult.
+It is the idea behind what we are building, for the parent in that moment. A child does not need a verdict, they need to be met, and the parent does not need a rule to enforce. So DiGi, the guide we are building for parents, is made to do what those clinicians did. It never tells you to accept the label or bin it. It stays curious, and hands you a calm way to be curious too.
 
 Start with why they reached, not with what they grabbed.
 
@@ -100,7 +100,7 @@ And curiosity is not a polite way of disagreeing, because sometimes the young pe
 
 So picture the difference at the table. Correction sounds like, you are wrong, let me fix how you see yourself. Curiosity sounds like, tell me more, I am here. One makes a child defend the label like their life depends on it. The other makes the label quietly unnecessary. Same love. Opposite result.
 
-This is the exact thing we are trying to build for children. Not a tool that rules on a child, and not one that agrees with everything either, because both do harm. Something that stays curious, keeps them talking, and walks them back to a trusted adult. Curiosity is the thing that helps, and it is something a machine can be taught to protect, and a parent can practise tonight.
+This is the exact thing we are trying to build for parents. Not a tool that rules on your child, and not one that rubber stamps whatever they said either, because both do harm. Something that keeps you curious, and gives you the next calm thing to say. Curiosity is the thing that helps, and it is something a guide can be built to protect, and a parent can practise tonight.
 
 Do not correct the label. Get so curious about the child that it melts.
 
@@ -137,7 +137,7 @@ I want to be really honest about what that does and does not do, because there a
 
 Here is the picture I would hold onto. Allow or deny is a courtroom, and a child on trial will defend their label to the death, because you have made it the thing they have to win. A pathway is a walk, and a child being walked beside will put the label down themselves the moment they no longer need to carry it. Same parent. Same love. Completely different room.
 
-This is the principle underneath everything we are building for families. DiGi, the guide we are building for children, never allows and never denies, on purpose, because the clinicians who do this well never do either. It stays curious, keeps the child talking, and hands them back to a trusted adult with a calmer way in. It is not there to replace you. It is there to hold the same open door these clinicians hold, at two in the morning when you are asleep.
+This is the principle underneath everything we are building for families. DiGi, the guide we are building for parents, never allows and never denies, on purpose, because the clinicians who do this well never do either. Faced with your worry about your child, it does not rule on it. It stays curious, and hands you a calmer way in. It is not there to replace you. It is there when you are awake at eleven at night with the question and no one to ask.
 
 So the next time your child hands you something heavy, try not to rule on it. Walk with it instead.
 
