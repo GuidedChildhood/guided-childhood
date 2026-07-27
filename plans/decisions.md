@@ -2433,3 +2433,26 @@ have objectives, so no sheet in the range says "not written yet" any more.
 Deliberately NOT saved as a runnable seed script. It rewrites every child row on
 the account, which is exactly right for demo data today and catastrophic once
 real families are on it. The reasoning is here, the SQL is not.
+
+**The passport's five section checklist was rendered nowhere, and is back (27
+Jul).** An adversarial review of the tracker into pathway merge found it. The Is
+it working report still built the five rows and the stamps that carried them but
+never rendered PassportBook, and the pathway page built its own thinner stamps
+with no sections at all, so PassportBook silently took its fallback branch and
+showed the old four task list. Gone with it: every row's how it goes green line,
+the kept up not ticked off chip, the this stage footer, and the amber warning
+that a device is set up ahead of the child's age, which is a safety signal, not
+decoration. Nothing typechecked as broken because sections is optional.
+
+The fix puts the rows in lib/pathway/passport-sections.ts, so the page that
+renders the passport is the page that builds them, and deletes the dead chain
+from the report (about a hundred lines, plus a getAllStagesProgress call the
+pathway page was already making). The week's balance is assembled once in
+lib/balance/week-report.ts and handed to both the passport's balance row and the
+balance report below it, so one page can never quote two totals for one week.
+The current stage's ring now reads the flat average of its five rows rather than
+the blend, so the circle and the rows under it are the same number.
+
+app/dev/passport-sections is a no auth harness for it. The lesson is that an
+optional field is a silent contract: this needed a page you can open in one
+click, because nothing else would ever have shown it.
