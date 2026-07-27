@@ -192,6 +192,8 @@ function Card({
   // the product shot wins where one exists and the character art is the
   // fallback for anything added without one.
   const photo = shopArt(product.key, product.image_url)
+  const [photoBroken, setPhotoBroken] = useState(false)
+  const shownPhoto = photoBroken ? null : photo
 
   // Arrived from the passport or the sticker book, which name the product they
   // are sending you to. Landing on the shop and having to find it again is the
@@ -219,20 +221,24 @@ function Card({
     }}>
       <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
         <span style={{
-          flexShrink: 0, width: photo ? 84 : 62, height: photo ? 84 : 62, borderRadius: 16,
+          flexShrink: 0, width: shownPhoto ? 84 : 62, height: shownPhoto ? 84 : 62, borderRadius: 16,
           background: 'var(--cream)',
           // A photo carries its own edge, so it takes the quiet border. Only
           // character art gets the Friend's colour ring.
-          border: photo ? '1.5px solid var(--border)' : `2px solid ${character?.colour ?? 'var(--border)'}`,
+          border: shownPhoto ? '1.5px solid var(--border)' : `2px solid ${character?.colour ?? 'var(--border)'}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
           fontSize: 30, lineHeight: 1,
           // A charm nobody has earned is shown in grey, so the colour arriving
           // is itself the reward.
           filter: buyable ? 'none' : 'grayscale(1)',
-        }} aria-hidden={!character && !photo}>
-          {photo
+        }} aria-hidden={!character && !shownPhoto}>
+          {shownPhoto
+            // A remote photo that fails takes the card down to the character
+            // art rather than leaving a broken image on a page that sells
+            // things. The vendored ones cannot fail, this covers the coming
+            // soon items still served from the generator's CDN.
             // eslint-disable-next-line @next/next/no-img-element
-            ? <img src={photo} alt={product.name} width={84} height={84} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ? <img src={shownPhoto} alt={product.name} width={84} height={84} onError={() => setPhotoBroken(true)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             : character
             // eslint-disable-next-line @next/next/no-img-element
             ? <img src={character.cutout} alt={character.name} width={52} height={52} style={{ objectFit: 'contain' }} />
