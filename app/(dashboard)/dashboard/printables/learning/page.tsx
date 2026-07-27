@@ -83,18 +83,28 @@ export default async function LearningSheetPage({
     ))
   }
 
+  // Two shapes of objective live in this table. Maths is sequenced by term, so
+  // it is read for the term the child is actually in. English is not: the
+  // programmes of study set reading and writing out for the whole year and
+  // there is no honest way to say which term a school teaches handwriting in,
+  // so those rows carry the term 'all' and come back whatever the date is.
   const { data: rows } = await supabase
     .from('curriculum_objectives')
-    .select('id, strand, objective')
+    .select('id, strand, objective, term')
     .eq('curriculum', 'england')
     .eq('year_group', target.yearGroup)
     .eq('subject', subject)
-    .eq('term', target.term)
+    .in('term', [target.term, 'all'])
     .order('sort_order', { ascending: true })
 
   const objectives: SheetObjective[] = (rows ?? []).map(r => ({
     id: r.id as string, strand: r.strand as string, objective: r.objective as string,
   }))
+
+  // When nothing on the sheet is term specific, the heading must not claim a
+  // term. It says Year 4, not Year 4 autumn term, because the second one would
+  // be a claim about the school's plan that we have no basis for.
+  const wholeYear = objectives.length > 0 && (rows ?? []).every(r => r.term === 'all')
 
   const tabs = (
     <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
@@ -131,7 +141,13 @@ export default async function LearningSheetPage({
   return shell(
     <>
       {tabs}
-      {target.lookingBack && (
+      {wholeYear ? (
+        <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', borderRadius: 16, padding: '13px 15px', marginBottom: 14 }}>
+          <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
+            Reading and writing are set out for the whole school year rather than term by term, so this is everything Year {target.yearGroup} covers, not just this term.
+          </p>
+        </div>
+      ) : target.lookingBack && (
         <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 16, padding: '13px 15px', marginBottom: 14 }}>
           <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
             School is out, so this looks back over the year {child.name} has just finished rather than the one starting in September.
@@ -144,7 +160,7 @@ export default async function LearningSheetPage({
         yearGroup={target.yearGroup}
         subject={subject}
         term={target.term}
-        label={sheetLabel(target)}
+        label={wholeYear ? `Year ${target.yearGroup}` : sheetLabel(target)}
         objectives={objectives}
       />
     </>

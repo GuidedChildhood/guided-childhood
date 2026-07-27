@@ -2152,3 +2152,31 @@ Caught while building: the children column is date_of_birth, not dob. Reading
 the wrong name would have failed at runtime on a page that only appears for
 families who have filled a birthday in, which is exactly the kind of thing that
 sits broken for weeks.
+
+**The curriculum map is complete (27 Jul, migrations 114 and 115):** Justin
+supplied the national curriculum programmes of study directly after
+assets.publishing.service.gov.uk stayed blocked at the egress proxy on every
+route (curl and WebFetch both 403). Maths years 1 to 6 is 228 rows, English is
+113 statutory requirements landing as 220 rows. Migration 108's 18 Year 4 rows
+are deleted and reinserted complete, because some carried trimmed wording that
+would have shown on a sheet as a near duplicate.
+
+Three decisions worth keeping. FIRST, verbatim means wording only. The
+programmes of study are set out year by year and say nothing about terms, so
+maths term placement is our own sequencing and English does not get a term at
+all: reading and writing rows carry the term 'all' and the sheet reads them
+whatever the date, with a line on the page telling the parent so. SECOND,
+English key stage 2 is written two yearly, one programme for years 3 and 4 and
+one for years 5 and 6, so those rows are inserted against both years and the
+source string says which pair it came from. A Year 3 and a Year 4 English sheet
+are the same sheet, correctly. THIRD, two published versions were read together:
+the current GOV.UK text for wording, the September 2013 PDF as the control on
+structure. That caught four requirements the 2021 web rendering nests one level
+too deep, two in Year 1 measurement and two in Year 5 geometry, which would
+otherwise have been swallowed into the requirement above them.
+
+Also learned: the statutory text is full of semicolons and the Supabase
+dashboard splits statements naively (the 3 July lesson). Splicing them with
+chr(59) keeps the house rule intact while the stored value stays byte for byte
+the published text. No literal semicolon sits inside any string literal in
+either migration.

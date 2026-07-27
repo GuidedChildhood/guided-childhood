@@ -48,10 +48,13 @@ export async function POST(req: NextRequest) {
   // their child struggles with, which is worse than losing the flag.
   let valid: string[] = []
   if (tricky.length > 0) {
+    // 'all' is the term for objectives the curriculum sets out year wide rather
+    // than term by term, which is every reading and writing one. They are on
+    // the sheet whatever the date, so they have to be valid to flag.
     const { data: onSheet } = await supabase
       .from('curriculum_objectives')
       .select('id')
-      .eq('year_group', yearGroup).eq('subject', subject).eq('term', term)
+      .eq('year_group', yearGroup).eq('subject', subject).in('term', [term, 'all'])
       .in('id', tricky.slice(0, 100))
     valid = (onSheet ?? []).map(o => o.id as string)
   }
