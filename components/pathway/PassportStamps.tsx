@@ -26,6 +26,14 @@ export interface ChecklistSection {
   href: string
   help: string
   alert?: string
+  /**
+   * True when this is not a job you can finish today. Jobs and screen balance
+   * are judged across the stage, so they go green by keeping something up
+   * rather than by ticking something off, and they can go amber again. Saying
+   * so is the difference between a checklist a parent can act on and one that
+   * looks broken because two rows never complete.
+   */
+  ongoing?: boolean
 }
 
 export interface Stamp {

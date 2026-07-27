@@ -272,7 +272,7 @@ export default function PassportBook({
                   device setup, the daily habit. Nobody is left guessing the
                   next step. */}
               <div style={{ position: 'relative', zIndex: 3, borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
                   {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page · tap any one to do it'}
                 </div>
                 {stamp.sections && stamp.sections.length > 0 ? (
@@ -299,11 +299,29 @@ export default function PassportBook({
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={theme.text} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
                                   )}
                                 </span>
-                                <span style={{ flex: 1, fontSize: '14.5px', fontWeight: 700, color: 'var(--ink)', opacity: done ? 0.55 : 1 }}>
+                                <span style={{ flex: 1, fontSize: '16px', fontWeight: 700, color: 'var(--ink)', opacity: done ? 0.55 : 1 }}>
                                   <span aria-hidden style={{ marginRight: 5 }}>{sec.emoji}</span>{sec.label}
                                 </span>
-                                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: theme.text, opacity: 0.75, whiteSpace: 'nowrap' }}>
+                                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: theme.text, opacity: 0.85, whiteSpace: 'nowrap' }}>
                                   {sec.detail}{done ? '' : ' ›'}
+                                </span>
+                              </div>
+                              {/* How it actually goes green. This was already
+                                  written on every row and never rendered, which
+                                  is why the page could only ever say WHAT was
+                                  left and never HOW. */}
+                              <div style={{ marginTop: 3, marginLeft: 26, display: 'flex', alignItems: 'flex-start', gap: 6, flexWrap: 'wrap' }}>
+                                {sec.ongoing && (
+                                  <span style={{
+                                    flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+                                    letterSpacing: '0.06em', textTransform: 'uppercase', color: theme.text,
+                                    background: 'rgba(26,26,46,0.08)', borderRadius: 100, padding: '2px 8px',
+                                  }}>
+                                    Kept up, not ticked off
+                                  </span>
+                                )}
+                                <span style={{ flex: '1 1 160px', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>
+                                  {sec.help}
                                 </span>
                               </div>
                               {sec.alert && (
@@ -323,8 +341,8 @@ export default function PassportBook({
                             {runningPct}%
                           </span>
                         </div>
-                        <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.4, margin: '6px 0 0' }}>
-                          Tap any row for exactly how. We have got them, one step at a time.
+                        <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '8px 0 0' }}>
+                          Tap any row to go straight to it. Two of these are kept up across the stage rather than ticked off, so they can move both ways.
                         </p>
                       </>
                     )
@@ -354,7 +372,7 @@ export default function PassportBook({
                       <span style={{ flex: 1, fontSize: '14.5px', fontWeight: 700, color: 'var(--ink)', opacity: t.done ? 0.5 : 1, textDecoration: t.done ? 'line-through' : 'none' }}>
                         {t.label}
                       </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: theme.text, opacity: 0.75, whiteSpace: 'nowrap' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: theme.text, opacity: 0.85, whiteSpace: 'nowrap' }}>
                         {t.detail}{t.done ? '' : ' ›'}
                       </span>
                     </Link>

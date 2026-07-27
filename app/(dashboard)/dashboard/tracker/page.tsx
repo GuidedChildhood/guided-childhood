@@ -216,7 +216,7 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
             pct: reached ? prog.devicesPct : 0,
             detail: !reached ? 'Ahead' : prog.devicesPct >= 100 ? 'All set' : prog.devicesPct === 0 ? 'To set up' : `${prog.devicesPct}%`,
             href: '/dashboard/devices',
-            help: 'Set up the devices you have for their age.',
+            help: 'Work through the setup guide for each device you actually have. Mark the ones you do not own as not in our home and they stop counting.',
             ...(isCurrent && aheadNames.length > 0
               ? { alert: `${aheadNames.join(', ')} is set up ahead of their age. Worth a look together.` }
               : {}),
@@ -226,28 +226,30 @@ export default async function ProgressPage({ searchParams }: { searchParams: Pro
             pct: isCurrent ? momentsPct : 0,
             detail: !isCurrent ? 'Later' : openMoments > 0 ? `${openMoments} to resolve` : 'All clear',
             href: '/dashboard/moments',
-            help: 'Work through any open worries together.',
+            help: 'Open a moment, use the words it gives you, and mark it resolved when it is done.',
           },
           {
             key: 'lessons', emoji: '📚', label: 'Lessons and tests',
             pct: prog.lessonsPct,
             detail: prog.lessonsTotal > 0 ? `${prog.lessonsDone} of ${prog.lessonsTotal}` : 'None yet',
             href: `/dashboard/lessons?stage=${s.id}`,
-            help: 'Do the age matched lessons and pass the check.',
+            help: 'Watch or lead each lesson for this stage, then pass its check. A failed run does not count, so it can be retaken.',
           },
           {
             key: 'jobs', emoji: '⭐', label: 'Jobs and routines',
             pct: isCurrent ? jobsPct : 0,
             detail: !isCurrent ? 'Later' : jobsStreakDays > 0 ? `${jobsStreakDays} day streak` : jobsStatus === 'pending' ? 'Jobs to do' : 'Set a job',
             href: '/dashboard/quests',
-            help: 'Keep the daily jobs going, all done on time.',
+            help: 'Goes green once the jobs are set and being done on time, and stays green while that keeps up.',
+            ongoing: true,
           },
           {
             key: 'balance', emoji: '⚖️', label: 'Screen balance',
             pct: isCurrent ? balancePct : 0,
             detail: !isCurrent ? 'Later' : balanceDetail,
             href: '/dashboard/tracker#screen-balance',
-            help: 'The healthy screen amount for their age, across the week.',
+            help: 'Goes green when the week averages at or under the healthy amount for their age. Judged across the whole week, so one big Saturday is fine.',
+            ongoing: true,
           },
         ]
         // The headline circle reads this stage only. The stamp when earned, the
