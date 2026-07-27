@@ -21,6 +21,8 @@ import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { READINESS } from '@/lib/content/readiness'
 import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 import IsItWorkingReport from '@/components/pathway/IsItWorkingReport'
+import { buildPassportSections } from '@/lib/pathway/passport-sections'
+import { getWeekParentReport } from '@/lib/balance/week-report'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -64,6 +66,25 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       stageStatus[stageIdToNum[slug]] = { pct: allStagesProgress[slug].overallPct, complete: allStagesProgress[slug].contentComplete }
     }
   }
+
+  // What the passport's five section checklist needs beyond the per stage
+  // blend: how many moments are open against how many this family has already
+  // sorted, and this week's balance. The balance report is built here rather
+  // than inside the report component below, and handed to both, so one page can
+  // never quote two different totals for the same week.
+  const [openMomentsRes, solvedMomentsRes, weekReport] = await Promise.all([
+    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).in('status', ['open', 'improving']),
+    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('status', 'resolved'),
+    getWeekParentReport(supabase, user.id, primaryChild ?? null),
+  ])
+  const stageSections = await buildPassportSections(
+    supabase, user.id, primaryChild ?? null, allStagesProgress, currentStageNum,
+    {
+      openMoments: openMomentsRes.count ?? 0,
+      solvedMoments: solvedMomentsRes.count ?? 0,
+      parentReport: weekReport,
+    },
+  )
 
   const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
 
@@ -114,13 +135,23 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         // A stage still ahead reads a true zero, never the blend's free credit
         // from the global streak or empty device list. Earned shows the stamp,
         // the current and catch up stages show their real reading.
-        const pct = status === 'earned' ? 100 : status === 'upcoming' ? 0 : prog.overallPct
+        //
+        // The stage the child is actually on reads the flat average of the five
+        // checklist rows rather than the blend, so the ring and the rows under
+        // it are the same number. A parent who adds up five rows and gets a
+        // different figure from the circle above them stops trusting both.
+        const sections = stageSections[s.id]
+        const pct = status === 'earned' ? 100
+          : status === 'upcoming' ? 0
+          : s.id === currentStageNum && sections ? sections.blended
+          : prog.overallPct
         return {
           id: s.id, name: s.name, ages: s.ages, pct, status,
           href: '/dashboard/lessons',
           lessonsDone: prog.lessonsDone, lessonsTotal: prog.lessonsTotal,
           scriptsPct: prog.scriptsPct, streakPct: prog.streakPct,
           devicesPct: prog.devicesPct, lessonsPct: prog.lessonsPct,
+          ...(sections ? { sections: sections.sections } : {}),
         }
       })
     : []
@@ -274,7 +305,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           above them, because the question "is it working" only means something
           once you have seen what it is measuring. */}
       <div id="is-it-working" style={{ scrollMarginTop: '84px' }} />
-      <IsItWorkingReport childParam={childParam} />
+      <IsItWorkingReport childParam={childParam} parentReport={weekReport} />
 
       {/* The end of stage readiness check, DiGi's voice: as the family nears the
           end of a stage, DiGi reads where they are, names what is left, and when

@@ -3,24 +3,17 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { getDailyStreak } from '@/lib/pathway/streak'
-import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
 import WorkingOn from '@/components/tracker/WorkingOn'
-import StageRoad from '@/components/pathway/StageRoad'
-import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import LiteracyCheckIn from '@/components/pathway/LiteracyCheckIn'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
-import PassportBook from '@/components/pathway/PassportBook'
 import StickerBook from '@/components/pathway/StickerBook'
 import { getStickerBook } from '@/lib/stickers/book'
 import StaggerReveal from '@/components/pathway/StaggerReveal'
-import { type Stamp, type StampStatus, type ChecklistSection } from '@/components/pathway/PassportStamps'
-import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
 import ToolCard, { type Tool } from '@/components/tools/ToolCard'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
 import BalanceReport from '@/components/balance/BalanceReport'
-import { buildOffscreen } from '@/lib/balance/offscreen'
-import { buildParentReport, type ParentReport } from '@/lib/balance/parent-report'
+import { type ParentReport } from '@/lib/balance/parent-report'
 
 // The Progress page: the answer to the only question that matters, is it
 // working. One honest generated sentence at the top, then the evidence:
@@ -65,7 +58,9 @@ function avg(c: Check): number | null {
 // four literacy strands and the working on list. Everything else, the verdict
 // sentence, the friends, the sticker book, the screen balance, the streak, the
 // week in numbers, the check in and the mission, is exactly as it was.
-export default async function IsItWorkingReport({ childParam }: { childParam?: string }) {
+export default async function IsItWorkingReport(
+  { childParam, parentReport }: { childParam?: string; parentReport?: ParentReport | null },
+) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -109,210 +104,16 @@ export default async function IsItWorkingReport({ childParam }: { childParam?: s
   const quests = questsRes.data ?? []
   const ticks = ticksRes.data ?? []
 
-  const stage = primary?.age_band ? getStageFromAgeBand(primary.age_band as AgeBand) : null
+  // The screen balance reading comes from the page above, which builds it once
+  // and gives the same object to the passport's balance row and to the report
+  // below, so one page can never quote two different totals for one week.
 
-  // The passport, live. Real progress for all five stages, mapped to stamps:
-  // earned at 100 percent, in progress on the current stage, catch up for an
-  // earlier stage not yet filled, ahead for one still to come. Each links to
-  // its stage so the passport doubles as a map and a catch up plan.
-  const STAGE_SLUGS: StageId[] = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
-  const allProgress = stage ? await getAllStagesProgress(supabase, user.id, primary?.streak_weeks ?? 0) : null
-
-  // The five section checklist reads. Devices and lessons vary per stage (from
-  // the blend); moments, jobs and the ahead of age heads up read for the child
-  // now, the current readiness picture, so they are the same on every page.
-  // Section five (screen balance and limits) is the mobbin session's stats
-  // dashboard and slots in when it lands, so it is not built here.
-  const openMoments = concerns.length
-  const momentsTotal = openMoments + solvedCount
-  const momentsPct = momentsTotal > 0 ? Math.round((solvedCount / momentsTotal) * 100) : 100
-
-  let jobsStatus: 'on_track' | 'pending' | 'none' = 'none'
-  let jobsStreakDays = 0
-  let aheadNames: string[] = []
-  let homeDeviceCount = 0
-  // Section five, the screen balance and limits view, from the mobbin session's
-  // parent report: this week's screen minutes per device against the healthy
-  // amount for the child's age, with the off screen effort beside it.
-  let parentReport: ParentReport | null = null
-  if (primary?.id) {
-    const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
-    const AGE_BAND_UPPER: Record<string, number> = { '4-7': 7, '8-10': 10, '11-13': 13, '13-15': 15, '16+': 99 }
-    const childUpper = primary.age_band ? (AGE_BAND_UPPER[primary.age_band] ?? 99) : 99
-    const [jqRes, jtRes, dgRes, dpRes, dsRes, fdRes] = await Promise.all([
-      supabase.from('family_quests').select('id, schedule, schedule_days, created_at').eq('user_id', user.id).eq('child_id', primary.id).eq('active', true),
-      supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', primary.id).gte('tick_date', sinceJobs),
-      supabase.from('device_guides').select('device_key, name, min_age'),
-      supabase.from('device_setup_progress').select('device_key, status').eq('user_id', user.id),
-      supabase.from('device_sessions').select('device, minutes').eq('user_id', user.id).eq('child_id', primary.id).gte('started_at', weekAgo),
-      supabase.from('family_devices').select('id').eq('user_id', user.id).is('retired_at', null),
-    ])
-    // Has this family told us what is actually in the house? Until they do, the
-    // devices row is measured against our whole catalogue, and the row should
-    // say so rather than quietly show a percentage of the wrong thing.
-    homeDeviceCount = (fdRes.data ?? []).length
-    const jq = (jqRes.data ?? []) as StreakQuest[]
-    const jt = (jtRes.data ?? []) as StreakTick[]
-    jobsStatus = jobsTodayStatus(jq, jt)
-    jobsStreakDays = computeJobsStreak(jq, jt).streakDays
-    // A device counts as ahead only when it is actually set up (owned) and its
-    // minimum age is above the child's band, like a smartphone for a young one.
-    const doneKeys = new Set((dpRes.data ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
-    aheadNames = (dgRes.data ?? [])
-      .filter(d => doneKeys.has(d.device_key) && (d.min_age as number) > childUpper)
-      .map(d => d.name as string)
-
-    // The off screen effort this week, from approved jobs, so the report weighs
-    // real life against screen. Stars carry the minutes at the family rate.
-    const childTicks = ticks.filter(t => t.child_id === primary.id)
-    const offStars = childTicks.reduce((sum, t) => sum + ((quests.find(q => q.id === t.quest_id)?.stars as number | undefined) ?? 1), 0)
-
-    // Confirmed printables count too: a page coloured at the table is off screen
-    // effort in the plainest sense, whether the child ticked it or the parent
-    // recorded it. Fails soft before migration 087.
-    let sheetCount = 0
-    let sheetStars = 0
-    try {
-      const { data: sheets } = await supabase
-        .from('printable_completions')
-        .select('stars')
-        .eq('child_id', primary.id).eq('status', 'confirmed')
-        .gte('created_at', weekAgo)
-      sheetCount = (sheets ?? []).length
-      sheetStars = (sheets ?? []).reduce((sum, s) => sum + (Number(s.stars) || 0), 0)
-    } catch { /* pre 087, jobs only */ }
-
-    parentReport = buildParentReport({
-      childName: primary.name,
-      ageBand: primary.age_band ?? null,
-      deviceMinutes: (dsRes.data ?? []).map(d => ({ device: d.device as string, minutes: d.minutes as number })),
-      // The same shared estimate the stats page uses, so a parent never sees two
-      // different off screen totals for one week.
-      offscreen: buildOffscreen({
-        jobs: childTicks.map(t => ({ title: (quests.find(q => q.id === t.quest_id)?.title as string | undefined) ?? '' })),
-        jobStars: offStars,
-        sheets: sheetCount, sheetStars,
-      }),
-    })
-  }
   // The child's sticker book: earned from the same star bank and printable
   // loop the rest of this page reads, so the collection can never disagree with
   // the numbers. Reconciled and made permanent on read, fails soft pre 101.
   const stickerBook = primary?.id
     ? await getStickerBook(supabase, user.id, { id: primary.id, age_band: primary.age_band ?? null })
     : null
-
-  const jobsPct = jobsStatus === 'on_track' ? 100 : jobsStatus === 'pending' ? 40 : 0
-  // Balance section reading: healthy or a light week is full, over is a nudge,
-  // well over is the clear to do. Never a lock, just the honest heads up.
-  const balancePct = !parentReport ? 100
-    : parentReport.status === 'well_over' ? 0
-    : parentReport.status === 'over' ? 50 : 100
-  const balanceDetail = !parentReport ? 'No screens logged'
-    : parentReport.status === 'under' ? 'Light week'
-    : parentReport.status === 'healthy' ? 'Healthy'
-    : parentReport.status === 'over' ? 'A bit over' : 'Well over'
-
-  const stamps: Stamp[] = stage && allProgress
-    ? STAGES.map(s => {
-        const slug = STAGE_SLUGS[s.id - 1]
-        const prog = allProgress[slug]
-        const status: StampStatus =
-          prog.contentComplete ? 'earned'
-          : s.id === stage.id ? 'current'
-          : s.id < stage.id ? 'catchup'
-          : 'upcoming'
-        const isCurrent = s.id === stage.id
-        const reached = isCurrent || status === 'earned' || status === 'catchup'
-        // The live now reads, moments, jobs and screen balance, belong to the
-        // stage the child is actually on. On any other page they show as later,
-        // so a stage still ahead never borrows today's wellbeing and reads a
-        // true zero. Devices and lessons stay per stage, naturally zero for a
-        // stage the child has not reached yet.
-        const sections: ChecklistSection[] = [
-          {
-            key: 'devices', emoji: '🔧', label: 'Devices set up',
-            pct: reached ? prog.devicesPct : 0,
-            // With no screens listed the percentage reads full, because there is
-            // nothing yet to be short against. That is still a pass, so the bar
-            // stays where it is, but the label nudges rather than saying all set:
-            // an empty home is the one case where all set and the help line
-            // underneath (list your screens first) plainly contradicted.
-            detail: !reached ? 'Ahead'
-              : homeDeviceCount === 0 ? 'Add yours'
-              : prog.devicesPct >= 100 ? 'All set'
-              : prog.devicesPct === 0 ? 'To set up'
-              : `${prog.devicesPct}%`,
-            href: '/dashboard/devices',
-            help: homeDeviceCount > 0
-              ? `Measured against the ${homeDeviceCount} screen${homeDeviceCount === 1 ? '' : 's'} you listed as yours. Work through the setup guide for each one, and add anything new the day it arrives.`
-              : 'List the screens you actually have first, on the Devices page. Until you do this counts every guide we publish rather than your house.',
-            ...(isCurrent && aheadNames.length > 0
-              ? { alert: `${aheadNames.join(', ')} is set up ahead of their age. Worth a look together.` }
-              : {}),
-          },
-          {
-            key: 'moments', emoji: '💬', label: 'Moments to resolve',
-            pct: isCurrent ? momentsPct : 0,
-            detail: !isCurrent ? 'Later' : openMoments > 0 ? `${openMoments} to resolve` : 'All clear',
-            href: '/dashboard/moments',
-            help: 'Open a moment, use the words it gives you, and mark it resolved when it is done.',
-          },
-          {
-            key: 'lessons', emoji: '📚', label: 'Lessons and tests',
-            pct: prog.lessonsPct,
-            detail: prog.lessonsTotal > 0 ? `${prog.lessonsDone} of ${prog.lessonsTotal}` : 'None yet',
-            href: `/dashboard/lessons?stage=${s.id}`,
-            help: 'Watch or lead each lesson for this stage, then pass its check. A failed run does not count, so it can be retaken.',
-          },
-          {
-            key: 'jobs', emoji: '⭐', label: 'Jobs and routines',
-            pct: isCurrent ? jobsPct : 0,
-            detail: !isCurrent ? 'Later' : jobsStreakDays > 0 ? `${jobsStreakDays} day streak` : jobsStatus === 'pending' ? 'Jobs to do' : 'Set a job',
-            href: '/dashboard/quests',
-            help: 'Goes green once the jobs are set and being done on time, and stays green while that keeps up.',
-            ongoing: true,
-          },
-          {
-            key: 'balance', emoji: '⚖️', label: 'Screen balance',
-            pct: isCurrent ? balancePct : 0,
-            detail: !isCurrent ? 'Later' : balanceDetail,
-            href: '#screen-balance',
-            help: 'Goes green when the week averages at or under the healthy amount for their age. Judged across the whole week, so one big Saturday is fine.',
-            ongoing: true,
-          },
-        ]
-        // The headline circle reads this stage only. The stamp when earned, the
-        // live blend on the stage the child is on, that stage's own content when
-        // catching up an earlier page, and a true zero for any stage still
-        // ahead. So the passport never shows progress on a stage not reached.
-        const blended = Math.round(sections.reduce((sum, x) => sum + x.pct, 0) / sections.length)
-        const contentPct = Math.round(prog.lessonsPct * 0.55 + prog.scriptsPct * 0.3 + prog.devicesPct * 0.15)
-        const pct = status === 'earned' ? 100
-          : isCurrent ? blended
-          : status === 'catchup' ? contentPct
-          : 0
-        return {
-          id: s.id, name: s.name, ages: s.ages, pct, status,
-          href: `/dashboard/lessons`,
-          lessonsDone: prog.lessonsDone, lessonsTotal: prog.lessonsTotal,
-          scriptsPct: prog.scriptsPct, streakPct: prog.streakPct,
-          devicesPct: prog.devicesPct, lessonsPct: prog.lessonsPct,
-          sections,
-        }
-      })
-    : []
-
-  // Road readings: the same per stage blend the passport uses, keyed by stage
-  // number, so the map and the stamps always tell one story. This is what
-  // brings the pathway road onto the Digital Passport, beside the stamps.
-  const stageStatus: Record<number, { pct: number; complete: boolean }> = {}
-  if (allProgress) {
-    STAGE_SLUGS.forEach((slug, i) => {
-      stageStatus[i + 1] = { pct: allProgress[slug].overallPct, complete: allProgress[slug].contentComplete }
-    })
-  }
-  const currentStagePct = stage ? stamps[stage.id - 1]?.pct ?? null : null
 
   const starsByQuest = new Map(quests.map(q => [q.id, q.stars]))
   const weekStars = ticks.reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
