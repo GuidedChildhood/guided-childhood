@@ -20,6 +20,7 @@ import StageReadiness from '@/components/pathway/StageReadiness'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { READINESS } from '@/lib/content/readiness'
 import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
+import IsItWorkingReport from '@/components/pathway/IsItWorkingReport'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -263,10 +264,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       <div id="four-things" style={{ scrollMarginTop: '84px' }} />
       <LiteracyAreas stageId={currentStageNum ?? 1} childName={primaryChild?.name ?? undefined} statuses={litStatuses} />
 
+      {/* Is it working: the honest read, which used to be a page of its own at
+          /dashboard/tracker. Two pages both calling themselves the passport is
+          how a parent ends up unsure which one is real, so the report lives
+          here now, under the tile that has always pointed at it, and the old
+          URL redirects to this anchor.
+          
+          It sits below the passport, the road and the four strands rather than
+          above them, because the question "is it working" only means something
+          once you have seen what it is measuring. */}
+      <div id="is-it-working" style={{ scrollMarginTop: '84px' }} />
+      <IsItWorkingReport childParam={childParam} />
+
       {/* The end of stage readiness check, DiGi's voice: as the family nears the
           end of a stage, DiGi reads where they are, names what is left, and when
           nothing is, offers the short passport quiz that earns the stamp. */}
-      <div id="is-it-working" style={{ scrollMarginTop: '84px' }} />
       {nearStageEnd && currentStageContent && (
         <div style={{ marginTop: 4 }}>
           <StageReadiness

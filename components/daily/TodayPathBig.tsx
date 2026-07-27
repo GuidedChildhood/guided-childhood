@@ -382,7 +382,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
         </div>
       ) : allDone ? (
         <Link
-          href="/dashboard/tracker"
+          href="/dashboard/pathway"
           style={{
             display: 'block', marginTop: '16px', textAlign: 'center', textDecoration: 'none',
             fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)',
