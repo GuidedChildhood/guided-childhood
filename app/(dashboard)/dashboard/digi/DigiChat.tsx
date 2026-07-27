@@ -444,6 +444,25 @@ export default function DigiChat({
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
+            {/* The way back, always there.
+                A question to DiGi is a detour, not a destination. The pathway
+                on Home is what decides what to do next, so a parent who has
+                just had their answer should never have to hunt for the road
+                back to it or reach for the browser's back button. It sits in
+                the header rather than under the answer so it is there while
+                they are still typing, and while DiGi is still thinking. */}
+            <Link
+              href="/dashboard"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 5,
+                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 14,
+                color: 'var(--ink)', textDecoration: 'none',
+                background: 'var(--cream)', border: '1.5px solid var(--border)',
+                borderRadius: 100, padding: '6px 13px', whiteSpace: 'nowrap',
+              }}
+            >
+              <span aria-hidden>←</span> Today&apos;s pathway
+            </Link>
             {!isPaid && (
               <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-muted)' }}>
                 {dailyCount}/{FREE_LIMIT} today
@@ -635,6 +654,30 @@ export default function DigiChat({
             never mid stream, and easy to ignore, so it never distracts. */}
         {messages.length > 0 && messages[messages.length - 1].role === 'assistant' && !streamingReply && !loading && (
           <div style={{ marginBottom: '26px' }}>
+            {/* Answered, so the useful next move is almost never another
+                question. It is going back and doing the thing. The pathway
+                already knows what today needs, so this hands them back to it
+                rather than leaving them sat in a chat box wondering. */}
+            <Link
+              href="/dashboard"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none',
+                background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+                borderRadius: 16, padding: '13px 15px', marginBottom: 18,
+              }}
+            >
+              <span aria-hidden style={{ fontSize: 21, lineHeight: 1, flexShrink: 0 }}>🧭</span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5, color: 'var(--ink)' }}>
+                  Back to today&apos;s pathway
+                </span>
+                <span style={{ display: 'block', fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
+                  It picks up where you left off and says what to do next.
+                </span>
+              </span>
+              <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--terracotta-dark)' }}>›</span>
+            </Link>
+
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '9px' }}>
               More that might help
             </div>

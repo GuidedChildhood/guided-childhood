@@ -41,16 +41,63 @@ export async function GET(req: NextRequest) {
 
   try {
     const since = new Date(Date.now() - 30 * 86_400_000).toISOString()
-    const [reqRes, scriptsRes, bankRes] = await Promise.all([
+    // Three demand signals, not one.
+    //
+    // script_requests is a parent explicitly saying they looked for a script
+    // and could not find it. It is the clearest signal and also the rarest,
+    // because it needs someone to stop and fill in a form.
+    //
+    // The questions parents actually put to DiGi are the loudest signal we
+    // have and we were throwing them away here. A question asked forty times
+    // with no script behind it is a script we owe people, and nobody had to
+    // fill in anything to tell us.
+    //
+    // And a flagged answer is the only place a parent tells us we got it
+    // wrong. Those were being written to a table nothing read, which is a
+    // suggestion box nailed shut. Now they steer the next drafting round.
+    const [reqRes, scriptsRes, bankRes, askedRes, flagRes] = await Promise.all([
       admin.from('script_requests').select('problem').eq('status', 'new').gte('created_at', since).limit(120),
       admin.from('scripts').select('title, stage_id'),
       admin.from('expert_knowledge').select('source_name, finding').limit(400),
+      admin.from('digi_questions').select('question').gte('created_at', since).limit(400),
+      admin.from('digi_answer_flags').select('question, note').gte('created_at', since).limit(60),
     ])
     const requests = [...new Set((reqRes.data ?? []).map(r => String(r.problem).trim()).filter(Boolean))].slice(0, 40)
+
+    // Real questions, in parents' own words. Deduplicated loosely on the first
+    // few words so twenty near identical bedtime questions count once, and
+    // trimmed, since the phrasing matters more than the length.
+    const seenStart = new Set<string>()
+    const asked: string[] = []
+    for (const row of askedRes.data ?? []) {
+      const q = String(row.question ?? '').trim()
+      if (q.length < 12) continue
+      const key = q.toLowerCase().replace(/[^a-z ]/g, '').split(/\s+/).slice(0, 5).join(' ')
+      if (seenStart.has(key)) continue
+      seenStart.add(key)
+      asked.push(q.slice(0, 180))
+      if (asked.length >= 60) break
+    }
+
+    const misses = (flagRes.data ?? [])
+      .map(f => `asked: ${String(f.question ?? '').slice(0, 140)} | what was wrong: ${String(f.note ?? '').slice(0, 200)}`)
+      .filter(l => l.length > 30)
+      .slice(0, 25)
     const haveTitles = (scriptsRes.data ?? []).map(s => `${s.title} (${s.stage_id})`)
     const research = (bankRes.data ?? []).slice(0, 60).map(r => `${r.source_name}: ${String(r.finding).slice(0, 180)}`)
 
-    const userMsg = `Parents asked for scripts and could not find them (the demand to serve first)${requests.length ? ':\n' + requests.map(r => `- ${r}`).join('\n') : ' (none logged, so fill obvious gaps in the pathway instead)'}\n\nScripts we already have (never duplicate a title):\n${haveTitles.join('; ') || 'none yet'}\n\nResearch you may ground the why it works in (name the source inside the sentence):\n${research.join('\n')}\n\nDraft the new scripts now.`
+    const userMsg = [
+      `Parents asked for scripts and could not find them (the demand to serve first)${requests.length ? ':\n' + requests.map(r => `- ${r}`).join('\n') : ' (none logged, so fill obvious gaps in the pathway instead)'}`,
+      asked.length
+        ? `\nWhat parents actually asked DiGi in the last month, in their own words. This is the real demand. Where a question comes up and no script answers it, that is the script to write, and the situation should read the way they said it rather than the way we would tidy it up:\n${asked.map(q => `- ${q}`).join('\n')}`
+        : '',
+      misses.length
+        ? `\nAnswers parents told us were wrong, with what they said was off. Do not repeat these mistakes, and where one of these is really a missing script, write it:\n${misses.map(m => `- ${m}`).join('\n')}`
+        : '',
+      `\nScripts we already have (never duplicate a title):\n${haveTitles.join('; ') || 'none yet'}`,
+      `\nResearch you may ground the why it works in (name the source inside the sentence):\n${research.join('\n')}`,
+      `\nDraft the new scripts now.`,
+    ].join('\n')
 
     const resp = await anthropic.messages.create({
       model: DIGI_MODEL, max_tokens: 3000, system: SYSTEM,
@@ -107,7 +154,12 @@ export async function GET(req: NextRequest) {
       } catch { /* email is best effort */ }
     }
 
-    return NextResponse.json({ ok: true, drafted: parsed.length, inserted })
+    // The signal counts go back with the result, so a run that drafts nothing
+    // can be told apart from a run that had nothing to work from.
+    return NextResponse.json({
+      ok: true, drafted: parsed.length, inserted,
+      from: { requests: requests.length, questionsAsked: asked.length, flaggedAnswers: misses.length },
+    })
   } catch (err) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Refresh failed' }, { status: 502 })
   }
