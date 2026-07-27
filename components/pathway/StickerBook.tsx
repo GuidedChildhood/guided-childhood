@@ -100,10 +100,31 @@ export default function StickerBook({ book, childName }: { book: Book; childName
           have these as real ones. The shop sheet is DiGi and all five Friends
           plus the stage stamps, so what is on screen and what goes on the
           bedroom door are the same set. */}
+      {/* Free first, posted second: a parent who wants stickers tonight should
+          not have to wait on the post to get any. */}
+      <Link
+        href="/dashboard/printables/star-chart"
+        style={{
+          display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px',
+          background: 'var(--cream)', border: '1.5px solid var(--border)',
+          borderRadius: '16px', padding: '13px 15px', textDecoration: 'none',
+        }}
+      >
+        <span aria-hidden style={{ fontSize: '22px', lineHeight: 1, flexShrink: 0 }}>🖨️</span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)' }}>
+            Print stars at home tonight
+          </span>
+          <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
+            A whole sheet of cut out stars in the Starter Pack, free, sized to fit the chart.
+          </span>
+        </span>
+        <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink-muted)' }}>›</span>
+      </Link>
       <Link
         href="/dashboard/keepsakes"
         style={{
-          display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px',
+          display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px',
           background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
           borderRadius: '16px', padding: '13px 15px', textDecoration: 'none',
         }}
