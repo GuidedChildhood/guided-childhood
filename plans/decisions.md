@@ -2393,3 +2393,15 @@ touches them: swapping voice is one Higgsfield batch plus a rewrite of that map
 to choose: Imogen, Tamsin, Mabel. Note these wav files are still hotlinked to
 the generation CDN, the same one the vendored images came off, so the
 regeneration should land them in public/ at the same time.
+
+**Printables is core, and the star chart has its own door (27 Jul).** Justin
+could not find the star chart builder. Nothing had removed it: it was two taps
+down inside Printables, and the Printables card on Home was gated behind the
+day six lessons reveal, so on a newer account the only route to it was through
+the Quests board. Printables is the offline half of the product and the one
+thing a parent can use on the first evening with no setup, so its Home tile is
+now reveal core. The day six DiGi card no longer announces printables with the
+lessons, since a parent has had them for a week by then. And Build your star
+chart is now its own tile on the Quests board, next to Manage jobs and in the
+same terracotta, because they are one idea in two places: the jobs on the
+screen and the same jobs on the fridge.
