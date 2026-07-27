@@ -651,6 +651,11 @@ h1, h2, h3 { text-wrap: balance; }
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
+/* A swipe rail: a horizontal snap strip where the bar would be noise, because
+   the dots underneath already say where you are. */
+.swipe-rail { scrollbar-width: none; }
+.swipe-rail::-webkit-scrollbar { display: none; height: 0; }
+
 /* ── FOOTER GRID ── */
 @media (max-width: 768px) {
   footer .footer-grid { grid-template-columns: 1fr 1fr !important; }

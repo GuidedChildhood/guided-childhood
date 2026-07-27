@@ -769,7 +769,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle', reveal: 'moments' },
           { href: '/dashboard/scripts', external: false, bg: 'var(--stage-1)', icon: '❝', title: 'Scripts', sub: 'What to say, word for word', reveal: 'moments' },
           { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Watch together, five minutes', reveal: 'lessons' },
-          { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'The offline pathway', reveal: 'lessons' },
+          // Printables is core, not a day six unlock. It is the offline half of
+          // the product and the one thing a parent can use on the first evening
+          // with no setup at all: print the star chart, stick it on the fridge,
+          // done. Holding it back for six days while Lessons arrives on day six
+          // had it the wrong way round, and left the star chart reachable only
+          // through Quests on a new account.
+          { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'Star chart, charts to print', reveal: 'core' },
           { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Pathway', sub: 'The whole road to 16', reveal: 'pathway' },
           { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet', reveal: 'wellbeing' },
           { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership', reveal: 'wellbeing' },

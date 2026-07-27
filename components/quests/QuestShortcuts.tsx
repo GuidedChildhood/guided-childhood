@@ -28,7 +28,16 @@ const TILES: Tile[] = [
     icon: 'jobs', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
   },
   {
-    href: '/dashboard/printables', label: 'Printables', sub: 'Charts to print',
+    // The star chart is the starter pack, the one printable every family uses,
+    // and it was two taps down inside Printables where a parent had to know it
+    // existed to find it. It sits next to Manage jobs, in the same terracotta,
+    // because they are one idea in two places: the jobs on the screen and the
+    // same jobs on the fridge.
+    href: '/dashboard/printables/star-chart', label: 'Build your star chart', sub: 'Type the jobs, then print it',
+    icon: 'star', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
+  },
+  {
+    href: '/dashboard/printables', label: 'Printables', sub: 'Every other sheet',
     icon: 'printables', bg: 'var(--tint-blue)', iconBg: 'rgba(255,255,255,0.72)',
   },
   {
