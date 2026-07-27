@@ -1,16 +1,8 @@
-# In Proportion — Adolescent Self Diagnosis. A five post LinkedIn series.
+# Posting Queue, In Proportion and Founder Story, alternating order
 
-Five posts. Longer, plainer versions (posts 2 to 5 rewritten July 2026, Post 1 already posted). Series branding throughout. Each follows the proven anatomy: cold open on a finding or a quoted line, dense readable fill, named researchers and the study, the honest pivot conceding the strongest opposing point, one vivid contrast, series branding, engagement mechanics, a question to close. A quiet thread about what we are building (DiGi, the calibrated pathway) runs through 2 to 4 as belief, not a pitch. The single direct CTA sits on Post 5 only, routed to /starter-pack. Every other post uses the soft comment keyword only. UK English. Qualitative framing kept throughout. No em dashes.
+Post these in this order, one In Proportion then one Founder Story, alternating. In Proportion Post 1 is already posted. Only the two final posts carry a CTA. Each block below is the exact text to paste. No em dashes in the post copy.
 
-Source: Cunningham-Rowe K and Foulkes L, "Adolescents' self-diagnosis of mental disorders: a qualitative study of mental health clinicians' perspectives," Child and Adolescent Mental Health, 15 July 2026, DOI 10.1111/camh.70102.
-
----
-
-## POST 1 — The reframe
-**Angle:** The researchers expected clinicians to hate it. Most said it usually does not matter, and is often useful.
-**Best posting day:** Monday, research reframe slot. ALREADY POSTED, unchanged.
-
-**Post text:**
+## 1. In Proportion, post 1: The reframe  [ALREADY POSTED]
 
 The researchers went in expecting the clinicians to be worried. Every headline had told them a teenager naming their own depression or anxiety was a problem. Then they interviewed 16 clinicians, and most said the same surprising thing. Most of the time, it just did not matter. And often it was useful.
 
@@ -38,11 +30,27 @@ When your child named something they were feeling, did it sound like a performan
 
 ---
 
-## POST 2 — Why they do it
-**Angle:** The need to be understood. Compassion, not blame. Longer, plainer, subtle DiGi thread, soft keyword REACH, no CTA.
-**Best posting day:** Tuesday.
+## 2. Founder Story, post 1: The rule that DiGi can never say yes or no
 
-**Post text:**
+I built an AI to help parents with screens. Then I made it break the one rule every other parenting tool is built on.
+
+It cannot tell you what to do.
+
+Ask most tools should my 12 year old have TikTok and they will give you a yes or a no, usually dressed up, usually confident. DiGi, the guide we are building for parents, is not allowed to. Not ban it. Not allow it. Not just take the phone away. I wrote those phrases into a list of things it is forbidden to say, along with every sneaky version of them.
+
+Here is why. A verdict ends the conversation. A parent who is told no goes and enforces a no, and the child climbs over it the moment their back is turned. A parent who is told yes gets no help with the part that actually matters. Both are back where they started, just with more certainty and less trust.
+
+So DiGi does something harder. It names the conditions. Not should they have it, but what structure, at what time, with what agreed between you, reviewed together in a week. It hands you a pathway you can walk, instead of a ruling you have to police.
+
+It was the very first non negotiable I wrote down, before a single feature. Everything else in the product bends. This one does not.
+
+People assume the clever part of an AI is how much it knows. I think the clever part is knowing what it must never do. A parenting guide that refuses to parent for you, and instead makes you a bit more able to do it yourself, is the whole idea.
+
+What is the last piece of parenting advice that actually helped, a verdict, or a way through?
+
+---
+
+## 3. In Proportion, post 2: Why they do it
 
 The researchers found something I did not expect. When a teenager reaches for a label like anxiety or depression, most of the time they are not copying a trend. They are reaching for a word because the thing underneath it is frightening, and a word makes it smaller.
 
@@ -72,19 +80,29 @@ Follow Justin Phillips for the rest of the series.
 
 What is the word your child used, and what were they actually trying to tell you underneath it.
 
-**Claims used and sources:**
-- Theme one, self-diagnosis stems from an inherent need to be understood; the clinician quote that the alternative is more frightening, like being uniquely mad or miserable. Cunningham-Rowe and Foulkes 2026.
-- Drivers named by the clinicians, social media, TikTok, algorithms, schools and awareness campaigns; escalation to bigger labels; prevalence inflation hypothesis. Cunningham-Rowe and Foulkes 2026, Foulkes and Andrews.
-- Rising waiting lists push young people to self-diagnose while they wait. Cunningham-Rowe and Foulkes 2026.
-- DiGi framed as a calibrated pathway, no allow or deny, no CTA.
+---
+
+## 4. Founder Story, post 2: Building the brain
+
+Most AI parenting tools are a nice prompt sitting on top of a guess. I did not want to build that. So before DiGi could answer a single parent, I gave it a library.
+
+There is a table in our database called expert knowledge. It holds real findings from the actual researchers in this field, Candace Odgers, Amy Orben, Andrew Przybylski, Sonia Livingstone, Becky Kennedy, the NHS, the Royal College of Psychiatrists, and more. When a parent messages DiGi, an engine scores every one of those findings against what the parent actually asked, by the child's age and the topic, and hands the best ones to DiGi with one instruction. Cite the source by name when you use it.
+
+Two rules sit on top of that, and I care about them more than any feature.
+
+The first is no invented statistics. Ever. DiGi represents real researchers at the level of their real position, and if it does not know, it says so. It will never hand you a made up study to sound sure.
+
+The second is the one people find strange. I deliberately left the scariest, most viral research out of the brain. The work that says phones are rewiring a generation, the stuff that goes viral precisely because it frightens you, is not what DiGi reaches for. Not because I am hiding it, but because our whole approach is education, not alarm. The brain is built from the honest, careful, often boring middle of the evidence, where the truth actually lives.
+
+The result is a guide that speaks the research as if it simply knows it, not as a bibliography it is reading off. Calm, sourced, and honest about how much is still uncertain, because most of it is.
+
+Anyone can bolt a chatbot onto a parenting website. The hard part, and the part I lost weeks to, was making sure that when it speaks, it is standing on something real.
+
+If an AI gave you parenting advice, what would you need before you trusted it?
 
 ---
 
-## POST 3 — It fades when they feel heard
-**Angle:** Validation, not correction. The label melts away. Longer, plainer, subtle DiGi thread, soft keyword HEARD, no CTA.
-**Best posting day:** Wednesday.
-
-**Post text:**
+## 5. In Proportion, post 3: It fades when they feel heard
 
 Here is the finding from this study that could change a hard night in a lot of houses. When a young person genuinely feels heard, the label they arrived clutching often just loosens on its own. Nobody has to argue them out of it. In the clinicians' own words, it melts away.
 
@@ -112,18 +130,29 @@ Follow Justin Phillips for the rest of the series.
 
 Think of the last time your child felt truly heard by you. What did you do differently that day.
 
-**Claims used and sources:**
-- Theme four, when adolescents feel validated self-diagnosis often fades, melts away. Validation means staying curious, not accepting the label uncritically. Cunningham-Rowe and Foulkes 2026.
-- Theme three, many self-diagnoses are accurate, so curiosity is how you find out. Cunningham-Rowe and Foulkes 2026.
-- DiGi framed as a calibrated pathway, curious not ruling, no allow or deny, no CTA.
+---
+
+## 6. Founder Story, post 3: The night it failed its own safety test
+
+I ran our AI through a safety test I built to try to catch it being unsafe. It scored two out of seven.
+
+I am telling you that on purpose.
+
+One of the failures still bothers me. The test sent DiGi a message about a child in crisis, and DiGi replied warmly, thoughtfully, and without once pointing to a human who could help. No helpline. No get a trusted adult now. It was kind, and it was not safe, and the reason was simple. The system prompt had no crisis rule in it at all. I had not written one.
+
+So I wrote one, and I made it beat every other instruction DiGi has. If a message even hints at self harm or crisis, the human signpost comes first, Samaritans, 999, a GP, Childline, before anything else, and DiGi drops the friendly reflective question it would normally ask, because a child in crisis does not need a nice question, they need a person. Then I rebuilt the checker and ran it again, and again, until it climbed, and I keep pushing it.
+
+Now a test runs every Monday and emails me the score whether I look or not. A safety check for the thing I am asking parents to trust.
+
+Here is what I have learned building with AI. It will be confidently wrong, and it will be wrong in exactly the places that matter most, unless you go looking for those places on purpose and force it to do better. The work is not making it sound helpful. Sounding helpful is easy. The work is catching the moment it is helpful and wrong.
+
+I would rather tell you it scored two out of seven and what I did next than show you a demo where everything works. Trust is built in the failures you are honest about.
+
+Would you trust a tool more, or less, if the person building it told you where it broke?
 
 ---
 
-## POST 4 — Take it seriously, stay curious
-**Angle:** A pathway, not a verdict. Longer, plainer, subtle DiGi thread, soft keyword PATHWAY, no CTA (moved to Post 5).
-**Best posting day:** Thursday.
-
-**Post text:**
+## 7. In Proportion, post 4: Take it seriously, stay curious
 
 Watch what the clinicians in this study did not do, because it is the whole thing. When a young person handed them a label, they did not say, no, you do not have that. And they did not say, yes, you clearly do. They took it seriously, and they stayed curious about it. That is the entire move, and it has a shape you can copy.
 
@@ -149,18 +178,25 @@ Follow Justin Phillips for the rest of the series.
 
 When your child hands you something heavy, do you find yourself ruling on it, or walking with it.
 
-**Claims used and sources:**
-- Clinicians took the label seriously and stayed curious, neither allowing nor denying. Cunningham-Rowe and Foulkes 2026, themes three and four.
-- The practice as pathway, mapped to DiGi's calibrated pathway design, no allow or deny.
-- No developmental outcome claim, limited to a calmer conversation and a next step. Compliance guardrail. No CTA on this post.
+---
+
+## 8. Founder Story, post 4: I deleted my own social proof
+
+I took the numbers off my own homepage. On purpose. And they were working.
+
+Join 200 families. A row of five star reviews. The little badge that says other people already trust this. All the things you are told convert. I wrote them, put them live, and then one morning deleted every one, because not a single one was true. There were not 200 families. Those reviews were invented. It was social proof for a thing that had not earned it yet.
+
+So now there is a rule, written into how we build. No number in our marketing comes from anywhere but real data. If it is not true today, it does not go on the page today. Our founder rate is capped at 50, and that cap is enforced in the code, not just promised in the copy, because a promise you can quietly break is not a promise.
+
+I know the growth playbook says fake it till the numbers are real. I understand why it works. I just could not build a company whose entire pitch is protect your children online on a homepage that was quietly lying to their parents. The product is trust. You cannot sell trust dishonestly and have anything left worth selling.
+
+It is slower this way. I have watched the honest version of a page convert worse than the dishonest one would have. I have made my peace with that. I would rather grow slowly on things that are true than quickly on things that are not, because the parents I want are the ones who can tell the difference.
+
+Have you ever removed something from your own marketing because it was working, but it was not honest?
 
 ---
 
-## POST 5 — The real risk, kept in proportion
-**Angle:** The inflexible minority. Prison-like, self-fulfilling. Severe, but a minority. Longer, plainer. CARRIES THE SINGLE CTA.
-**Best posting day:** Sunday, the closing landing of the series.
-
-**Post text:**
+## 9. In Proportion, post 5: The real risk, kept in proportion  [CTA to /starter-pack]
 
 There is a group in this study I will not soften, because they deserve better. For a minority of young people, the clinicians said, a self-diagnosis stops being a doorway and becomes a cell. The word one of them used was prison-like. The label hardens into a fixed identity, and the young person cannot see a way out of it.
 
@@ -186,12 +222,24 @@ Follow Justin Phillips. That is the series. Thank you for reading it in proporti
 
 Have you seen a young person get stuck inside a label, and what, if anything, helped them out.
 
-**Claims used and sources:**
-- Theme five, in a minority self-diagnosis becomes a barrier to change when inflexible, prison-like, self-fulfilling prophecy, peer reinforcement, can worsen symptoms. Cunningham-Rowe and Foulkes 2026.
-- Most cases did not matter or helped; the minority is where harm sits. Cunningham-Rowe and Foulkes 2026.
-- Honest limits, 16 clinicians, all White, no psychiatrists or GPs, snowball through senior author's network, qualitative, no guidelines exist yet. Cunningham-Rowe and Foulkes 2026.
-- The single CTA, guidedchildhood.com/starter-pack, framed as the quiet through line of the series.
-
 ---
 
-**Series compliance notes:** Longer, plainer versions for readers. Qualitative framing kept throughout, clinicians in this study, in most cases, a minority. Proportionality both ways, calm on the panic across Posts 1 to 4, serious on the real minority harm in Post 5. Connection over control, validate and stay curious. DiGi woven subtly through Posts 2 to 4 as belief, framed as a calibrated pathway, never allow or deny, never a hard sell. No developmental outcome claims anywhere. Single CTA now on Post 5 only, all other posts use the soft comment keyword. Autism and ADHD explicitly excluded. Author names correct, Katie Cunningham-Rowe and Lucy Foulkes. No em dashes.
+## 10. Founder Story, post 5: Why I am building this [carries the soft CTA]  [CTA to /starter-pack]
+
+Everyone is banning. The UK has confirmed an under 16 social media ban. And I am building the thing the ban forgets.
+
+Here is the quiet part I believe. A ban removes one visible thing from a child's life and leaves every hard thing exactly where it was. It delays the apps. It prepares no one. The day a sixteenth birthday arrives, a young person walks into all of it at once, with rules they never practised and habits they never built.
+
+So we build the preparation. Guided Childhood is a pathway from age 4 to 16, for parents and for schools, that treats readiness as something you grow slowly, one stage at a time, long before any account exists. The ban takes the apps. We build the judgement.
+
+And underneath all of it is a belief I do not shout, because the evidence has to earn it, not the volume. The loudest story says the phones did this to our children. I think the honest story is harder and less shareable. The biggest drivers of the crisis in children's mental health are poverty, the things that happen to a child at home, and a parent's own mental health carried with too little support. Social media gets the blame because it is visible, and because it is rich. The real drivers sit in the dark because they are old, and expensive, and awkward to film.
+
+I cannot fix poverty from a parenting app. But I can refuse to build one more thing that points the finger at a tired parent and calls it a solution. What I can build is connection, because connection is the protection. A child who trusts you is safer than a child with every parental control ever made.
+
+That is the whole of it. Not panic, and not a ban. Preparation, and trust, built early, at the age your child is now.
+
+If you want to see what that looks like, we made a free place to start, at guidedchildhood.com/starter-pack.
+
+What is the one thing you wish someone had prepared you for, before your child got their first screen?
+
+---
