@@ -1981,3 +1981,41 @@ and seeded on the live session.
 Checked while there: the server is not the problem. `/api/quests/time/start`
 already closes any open session before opening a new one, so two rows can never
 run at once, and the parent side polls every eight seconds.
+
+## 27 Jul 2026: the community poll gets a year of questions, and they rotate register
+Justin asked whether the poll should vary and what the variations should be. Yes,
+plainly: 099 seeded one question, which proves the feature and does not keep it.
+A poll that never changes is answered once and then it is furniture.
+
+Migration 106 seeds twelve, August 2026 to July 2027. Three rules shaped them,
+and they matter more than the questions.
+
+**The register rotates.** The point of the bite is the reassurance of the crowd,
+not a monthly audit of everything going wrong. So these are not twelve versions
+of what is hardest: some ask what is working, some what is coming, the last asks
+what has actually changed in a year. A product whose whole pitch is warmth
+cannot ask a worried parent to rank their failures twelve times running.
+
+**No option is an admission of failure.** There is always a way to answer
+honestly when it is going badly without it reading as a confession: honestly I
+stopped counting weeks ago, nothing reliably and that is why I am here. A poll
+with an obviously right answer teaches parents to lie to it, and then both the
+aggregate and what DiGi remembers are worthless.
+
+**The answer has to be diagnostic.** Every vote lands in digi_memory so next
+month DiGi can pick the thread up. A question whose answer tells DiGi nothing is
+entertainment, and this is not an entertainment feature.
+
+Anchored to the UK year on purpose: six week holidays in August, the Christmas
+list in November, secondary transition in June. Written for the moment rather
+than pulled from a bank, which is most of the difference between a bite and a
+survey.
+
+Ran 099 then 106 against a real Postgres 16 rather than reading them: both
+execute clean, 106 is idempotent on a second run, and the API selection query
+returns the right question for each of the thirteen months.
+
+Known and deliberate: from August 2027 the last question repeats every month,
+because falling back to the most recent poll is what stops a missing month
+breaking the feature. Noted at the top of the migration so it is found. Seed the
+next twelve before summer 2027.
