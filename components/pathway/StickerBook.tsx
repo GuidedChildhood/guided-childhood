@@ -1,5 +1,7 @@
+import Link from 'next/link'
 import { stickerArt, type Sticker } from '@/lib/stickers/catalog'
 import type { StickerState, StickerBook as Book } from '@/lib/stickers/book'
+import StickerBadge from './StickerBadge'
 
 // The sticker book on the Passport. Earned stickers show in full colour, the
 // Planet Friend art or a badge on its own coloured ring; locked ones are a soft
@@ -17,9 +19,11 @@ function Tile({ s }: { s: StickerState }) {
           position: 'relative',
           width: 64, height: 64, borderRadius: '50%',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: s.earned ? '#fff' : 'var(--cream)',
-          border: s.earned ? `2.5px solid ${s.colour}` : '2px dashed var(--border)',
-          boxShadow: s.earned ? `0 3px 0 ${s.colour}` : 'none',
+          // A badge draws its own ring, so the tile does not add a second one
+          // around it. Only the character art needs the frame.
+          background: art ? (s.earned ? '#fff' : 'var(--cream)') : 'transparent',
+          border: art ? (s.earned ? `2.5px solid ${s.colour}` : '2px dashed var(--border)') : 'none',
+          boxShadow: art && s.earned ? `0 3px 0 ${s.colour}` : 'none',
           overflow: 'hidden',
         }}
       >
@@ -32,9 +36,7 @@ function Tile({ s }: { s: StickerState }) {
             style={{ width: 54, height: 54, objectFit: 'contain', filter: s.earned ? 'none' : 'grayscale(1)', opacity: s.earned ? 1 : 0.35 }}
           />
         ) : (
-          <span aria-hidden style={{ fontSize: '30px', lineHeight: 1, filter: s.earned ? 'none' : 'grayscale(1)', opacity: s.earned ? 1 : 0.32 }}>
-            {s.emoji}
-          </span>
+          <StickerBadge s={s} size={54} />
         )}
         {s.earned && (
           <span
@@ -49,10 +51,10 @@ function Tile({ s }: { s: StickerState }) {
           </span>
         )}
       </div>
-      <span style={{ fontSize: '13px', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.15 }}>
+      <span style={{ fontSize: '14.5px', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.15 }}>
         {s.name}
       </span>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.02em', color: 'var(--ink-light)', lineHeight: 1 }}>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', letterSpacing: '0.02em', color: 'var(--ink-light)', lineHeight: 1.2 }}>
         {s.earned ? 'Earned' : showCount ? `${s.have} of ${s.need}` : s.earn}
       </span>
     </div>
@@ -70,10 +72,10 @@ export default function StickerBook({ book, childName }: { book: Book; childName
       }}
     >
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           Sticker book
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)' }}>
           {earnedCount} of {total}
         </span>
       </div>
@@ -93,6 +95,30 @@ export default function StickerBook({ book, childName }: { book: Book; childName
       <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '16px 0 0' }}>
         Stickers are earned from real stars, finished printables and growing through the stages. Once earned they are kept for good.
       </p>
+
+      {/* The obvious next question, answered on the same card: yes, you can
+          have these as real ones. The shop sheet is DiGi and all five Friends
+          plus the stage stamps, so what is on screen and what goes on the
+          bedroom door are the same set. */}
+      <Link
+        href="/dashboard/keepsakes"
+        style={{
+          display: 'flex', alignItems: 'center', gap: '12px', marginTop: '14px',
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          borderRadius: '16px', padding: '13px 15px', textDecoration: 'none',
+        }}
+      >
+        <span aria-hidden style={{ fontSize: '22px', lineHeight: 1, flexShrink: 0 }}>✨</span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)' }}>
+            Get these as real stickers
+          </span>
+          <span style={{ display: 'block', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
+            One printed sheet, DiGi and all five Planet Friends, for the fridge or the bedroom door.
+          </span>
+        </span>
+        <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--terracotta-dark)' }}>›</span>
+      </Link>
     </section>
   )
 }
