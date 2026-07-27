@@ -167,7 +167,11 @@ export async function POST(request: Request) {
     await admin.from('orders').update({ stripe_session_id: session.id }).eq('id', order.id)
 
     return NextResponse.json({ url: session.url, total: formatPence(totalPence) })
-  } catch {
+  } catch (err) {
+    // The real reason a basket never reached Stripe lands here and used to be
+    // swallowed, so a missing STRIPE_SECRET_KEY read as the same generic line
+    // as a network blip. Log it so the cause is one look in the deploy logs.
+    console.error('[shop/checkout] Stripe checkout session failed', err)
     await admin.from('orders').update({ status: 'cancelled' }).eq('id', order.id)
     return NextResponse.json({ error: 'We could not reach the payment page' }, { status: 502 })
   }
