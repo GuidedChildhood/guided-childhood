@@ -24,6 +24,9 @@ import { readFile, writeFile, mkdir, readdir, stat, access } from 'node:fs/promi
 import { join, extname } from 'node:path'
 
 const CDN = 'https://d8j0ntlcm91z4.cloudfront.net/'
+// The bucket prefix every generated image sits under, needed to rebuild a full
+// address from a bare filename found in a data array.
+const BUCKET = 'user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
 const OUT = 'public/art'
 const ROOTS = ['lib', 'components', 'app']
 const CODE = new Set(['.ts', '.tsx', '.mjs', '.js'])
@@ -47,12 +50,31 @@ const exists = async p => access(p).then(() => true, () => false)
 
 const files = (await Promise.all(ROOTS.map(r => walk(r)))).flat()
 
-// Pass one: collect every distinct URL and the file it appears in.
-const urls = new Map() // url -> filename on disk
+// Pass one: collect every distinct image.
+//
+// Two shapes to catch, and missing either one leaves a broken picture:
+//
+//   1. A whole URL written out, which is most of them.
+//   2. A bare generated filename sitting in a data array, joined onto the host
+//      at render time. The homepage does this for its six category tiles. A
+//      first version of this script only looked for whole URLs, rewrote the
+//      host to /art, and would have left those six pointing at files that were
+//      never downloaded.
+//
+// A URL containing a ${} placeholder is not a real address, it is the join
+// itself. It gets rewritten like any other so the runtime concatenation still
+// works, but there is nothing there to download.
+const BARE_RE = /['"`](hf_[0-9]{8}_[0-9]{6}_[0-9a-f-]{36}\.(?:png|jpg|jpeg|webp))['"`]/g
+
+const urls = new Map() // download url -> filename on disk
 for (const file of files) {
   const text = await readFile(file, 'utf8')
   for (const url of text.match(URL_RE) ?? []) {
+    if (url.includes('${')) continue
     urls.set(url, url.split('/').pop())
+  }
+  for (const m of text.matchAll(BARE_RE)) {
+    urls.set(CDN + BUCKET + m[1], m[1])
   }
 }
 
@@ -106,6 +128,9 @@ for (const file of files) {
     // The base constants end in a slash and now resolve to bare "/art/", which
     // is exactly right, but leaves a doubled slash where a filename follows.
     .replaceAll('/art//', '/art/')
+    // A bare filename in a data array is left exactly as it is: the host it
+    // gets joined onto has just become /art/, so the join still lands right.
+
   if (after !== before) { await writeFile(file, after); changed++ }
 }
 
