@@ -1252,10 +1252,21 @@ export default function KidQuestScreen({
           </button>
           {deviceOpen && (
             <div id="my-timer" style={{ padding: '0 18px 18px', scrollMarginTop: '72px' }}>
+              {/* Driven by the live session, not the one the page happened to
+                  load with. Keyed and seeded on a snapshot from page load, this
+                  card could not see a block that started or ended anywhere
+                  else: a grown up starting time from their side left it sitting
+                  idle, and the rest of the screen went on believing a stopped
+                  clock was still running. onSessionChange closes the other half
+                  of that, telling the screen the instant a block starts or
+                  stops rather than leaving it to the next poll. */}
               <DeviceTimeCard
-                key={`${activeSession?.id ?? 'idle'}-${pickNow ? 'pick' : 'view'}`}
+                key={`${liveSession?.id ?? 'idle'}-${pickNow ? 'pick' : 'view'}`}
                 startPicking={pickNow}
-                token={token} balanceStars={bankBalance} initialSession={activeSession}
+                token={token} balanceStars={bankBalance} initialSession={liveSession}
+                onSessionChange={setLiveSession}
+                outstandingJobs={[...new Set(quests.filter(q => !ticks[q.id]).map(q => q.title))]}
+                outstandingMinutes={quests.filter(q => !ticks[q.id]).reduce((n, q) => n + q.stars * STAR_MINUTES, 0)}
                 usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}
                 ageBand={(['4-7', '8-10', '11-13', '13-15', '16+'] as const)[Math.min(4, Math.max(0, stageId - 1))]}
                 deviceTrust={trust}

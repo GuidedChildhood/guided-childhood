@@ -1944,3 +1944,40 @@ one open agrees.
 
 Verified across five simulated app opens: new child yes, same day no, next day
 no, a week later yes, straight after that no.
+
+## 27 Jul 2026: outstanding jobs get a reminder when the timer ends, not a block
+Justin asked whether to refuse screen time while jobs are outstanding, or remind
+them once the timer finishes. The reminder, and not narrowly.
+
+A blanket block is the wrong tool. At four in the afternoon every daily job is
+outstanding, bedtime ones included, so it would fire almost always and the child
+would learn the deal is rigged rather than earned. It also puts the app in the
+chair saying no, which is the opposite of non negotiable 1: never allow or deny,
+always a calibrated pathway.
+
+The gate already exists for families who want one, and it is the calibrated
+version: `blocks_screens` per job, set by the parent, enforced at
+`/api/quests/time/start` with a "chores first" answer naming what is blocking.
+
+So the timer end screen now names the jobs still waiting and what the lot is
+worth in minutes. It is the strongest moment there is: the fun has just
+finished, they are being handed back to the room anyway, and the next block of
+time is sitting right there in the jobs.
+
+## 27 Jul 2026: the child's timer card is driven by the live session, not page load
+Justin: pressed stop, and it was still ticking somewhere else. Two faults, both
+the same shape, a snapshot standing in for live state.
+
+The card was keyed and seeded on the session the page happened to load with, so
+it could not see a block that started or ended anywhere else. A grown up
+starting time from their side left the card sitting idle until a full reload.
+
+And stopping cleared the card's own state but told the screen around it nothing,
+so for up to twelve seconds, until the next poll, the rest of the app still
+believed the clock was running. `onSessionChange` now reports a start, a stop
+and a countdown reaching zero the instant each happens, and the card is keyed
+and seeded on the live session.
+
+Checked while there: the server is not the problem. `/api/quests/time/start`
+already closes any open session before opening a new one, so two rows can never
+run at once, and the parent side polls every eight seconds.
