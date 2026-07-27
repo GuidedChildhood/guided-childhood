@@ -220,9 +220,17 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
   // The ready made replies under the conversation: the script's own line
   // first, then two warm openers, until DiGi's calibrated suggestions
   // replace them. Client side only, every chip sends the same call.
-  const quickChips = suggestions.length > 0
+  //
+  // Anything already said drops out. A line the parent has just used sitting
+  // there offering itself again is the tell that nothing is listening, and
+  // saying the same sentence twice to a child who did not accept it the first
+  // time is the exact move the script exists to replace. What is left is the
+  // options they have NOT tried, which is the only useful list.
+  const said = new Set(messages.filter(m => m.role === 'user').map(m => m.content.trim()))
+  const quickChips = (suggestions.length > 0
     ? suggestions
     : [sayThis, 'I hear you. Tell me more about that.', 'I can see this feels really unfair to you.']
+  ).filter(c => !said.has(c.trim()))
 
   // Locked for free accounts: still show the value, route to upgrade.
   if (!isPaid) {
@@ -408,6 +416,10 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
             {/* Ready made replies, Cleo style: tap one and it is said. The
                 script's own line always leads until DiGi's calibrated
                 suggestions take their place. */}
+            {/* Nothing left to offer once every line has been used, so the
+                label goes too rather than heading an empty list. The free text
+                bar below is always there. */}
+            {quickChips.length > 0 && (
             <div style={{ marginBottom: 10 }}>
               <div style={{ ...eyebrow, fontSize: 11.5, letterSpacing: '0.08em', color: 'var(--ink-muted)', marginBottom: 7 }}>
                 {suggestions.length > 0 ? 'Lines from DiGi · tap one to say it' : 'Tap a line to say it, or try your own'}
@@ -430,6 +442,7 @@ export default function RehearseWithDigi({ scriptTitle, situation, sayThis, notT
                 ))}
               </div>
             </div>
+            )}
             {suggMsg && (
               <p style={{ fontSize: 16, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '0 0 10px' }}>{suggMsg}</p>
             )}
