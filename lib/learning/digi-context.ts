@@ -1,5 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sheetTarget, sheetLabel, type SheetTarget } from '@/lib/learning/term'
+import { nextEvent, aroundWhen, type SchoolEventKey } from '@/lib/learning/calendar'
 
 // What DiGi is allowed to say about where a child is at school.
 //
@@ -85,32 +86,28 @@ export type LearningContext = {
 }
 
 export type Season = {
-  key: 'new_year' | 'tables_check' | 'sats' | 'phonics' | 'year_end' | 'ordinary'
+  key: SchoolEventKey | 'ordinary'
   // One line DiGi can lead with, if it fits what the parent actually asked.
   note: string
 }
 
-// The primary calendar, by month. Deliberately conservative: these are the
-// dates the checks genuinely sit in, and nothing is claimed about a particular
-// school's own timetable.
+// What time of year it is for this child, read from the one school calendar in
+// lib/learning/calendar.ts rather than from its own copy of the months.
+//
+// This used to be a second, thinner list of the same dates written by month, and
+// two lists of the same facts is one list waiting to disagree with the other. The
+// calendar knows its own lead times, so a Year 6 parent now hears about the 31
+// October application deadline as well, which the month version missed entirely
+// and which is the only genuinely immovable date in primary school.
 export function seasonFor(yearGroup: number, on: Date): Season {
-  const m = on.getUTCMonth() + 1
-  if (m === 9 || m === 10) {
-    return { key: 'new_year', note: `A new school year has just started, so Year ${yearGroup} is fresh and most parents have no idea yet what it expects.` }
+  const next = nextEvent(yearGroup, on)
+  if (!next) return { key: 'ordinary', note: '' }
+  const when = aroundWhen(next)
+  const timing = next.phase === 'this_week' ? 'is this week' : `is coming, ${when}`
+  return {
+    key: next.event.key,
+    note: `${next.event.title} ${timing}. ${next.event.what}`,
   }
-  if (yearGroup === 4 && (m === 4 || m === 5 || m === 6)) {
-    return { key: 'tables_check', note: 'The multiplication tables check sits in June of Year 4. It is the thing Year 4 parents worry about most, and it is one specific, practisable skill.' }
-  }
-  if (yearGroup === 6 && (m === 3 || m === 4 || m === 5)) {
-    return { key: 'sats', note: 'Year 6 SATs sit in May and cover the whole of key stage 2, so no short list of objectives is a revision plan for them.' }
-  }
-  if (yearGroup === 1 && (m === 5 || m === 6)) {
-    return { key: 'phonics', note: 'The Year 1 phonics screening check sits in June.' }
-  }
-  if (m === 7 || m === 8) {
-    return { key: 'year_end', note: 'School is out, so this looks back at the year just finished rather than forward.' }
-  }
-  return { key: 'ordinary', note: '' }
 }
 
 // The instruction block that travels with the facts. Written as rules for DiGi

@@ -23,6 +23,11 @@ import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import { allBirthdaysIn } from '@/lib/setup/flags'
+import { nextEventForChild, aroundWhen } from '@/lib/learning/calendar'
+import { academicYearStart } from '@/lib/learning/term'
+import { transitionFor, transitionAsk } from '@/lib/learning/transition'
+import SchoolAheadCard from '@/components/home/SchoolAheadCard'
+import PhoneBridgeCard from '@/components/home/PhoneBridgeCard'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SocialMediaHeadsUp from '@/components/pathway/SocialMediaHeadsUp'
@@ -131,7 +136,41 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // is missing, so it goes in the checklist with a flag and a tick like
   // everything else. The read fails soft to done before migration 083, so a
   // deploy without the column never shows a step nobody can finish.
-  const birthdays = await supabase.from('children').select('date_of_birth').eq('parent_id', user.id)
+  const birthdays = await supabase.from('children').select('date_of_birth, name').eq('parent_id', user.id)
+
+  // What school is about to throw at this family, and the one moment that
+  // matters more than any other. Both read from the birthday and the fixed
+  // England calendar, so neither knows anything about how the child is doing
+  // and neither can be read as a verdict. No birthday means both stay quiet.
+  const dobRows = (birthdays.data ?? []) as { date_of_birth: string | null; name: string | null }[]
+  const bridgeRow = dobRows.map(r => ({ r, state: transitionFor(r.date_of_birth) })).find(x => x.state)
+  const phoneBridge = bridgeRow?.state
+    ? {
+        phase: bridgeRow.state.phase,
+        headline: bridgeRow.state.headline,
+        line: bridgeRow.state.line,
+        ask: transitionAsk(bridgeRow.state),
+        childName: bridgeRow.r.name,
+      }
+    : null
+
+  // Only when the transition card is not already there. Both at once is two
+  // school cards on one screen, and the phone conversation outranks the
+  // calendar every time.
+  const upcoming = phoneBridge ? null : dobRows.map(r => nextEventForChild(r.date_of_birth)).find(Boolean) ?? null
+  const schoolAhead = upcoming
+    ? {
+        eventKey: upcoming.event.key,
+        title: upcoming.event.title,
+        what: upcoming.event.what,
+        doThis: upcoming.event.doThis,
+        when: aroundWhen(upcoming),
+        ask: upcoming.event.ask,
+        academicYear: academicYearStart(new Date()),
+        thisWeek: upcoming.phase === 'this_week',
+      }
+    : null
+
   const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
   const hasSchoolConnection = !!schoolConnectionResult.data
   // The child phone link step only belongs once a child is old enough to
@@ -505,6 +544,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           not know it, so this says what is missing and where the QR code is.
           It goes for good the moment the child opens their app. */}
       {!childAppLive && <ChildAppNudge childName={child?.name ?? null} childId={child?.id ?? null} />}
+
+      {/* Year 6 into Year 7. The one card that earns a place near the top
+          without being asked for: it happens once, and what a family decides in
+          these few weeks sets the next five years. */}
+      {phoneBridge && <PhoneBridgeCard bridge={phoneBridge} />}
+
+      {/* Otherwise, whatever school has coming, four to six weeks out. Early
+          enough to be a head start rather than a warning. */}
+      {schoolAhead && <SchoolAheadCard ahead={schoolAhead} />}
 
       {/* Every couple of weeks, DiGi asks whether the deal still fits. A deal
           set in week one quietly stops matching the family by week six, so this
