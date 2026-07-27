@@ -143,11 +143,62 @@ export const WELCOME_CARDS: WelcomeCard[] = [
   },
 ]
 
+// The birthday card is deliberately NOT in the deck above. It is not a service
+// we are introducing, it is one missing fact that switches a service on, so it
+// only ever appears when it is actually missing and it always leads. Without a
+// birthday we cannot place a child in a school year, and we refuse to guess,
+// because a learning sheet for the wrong year is worse than no sheet at all.
+export const BIRTHDAY_CARD: WelcomeCard = {
+  key: 'birthday',
+  emoji: '🎂',
+  title: 'We can show you where they are at school',
+  line: 'Add their birthday and we can put the real curriculum for their school year in front of you, the actual things their year is expected to know.',
+  trust: 'The birthday is only ever used to work out their school year. School places a child by their age on 31 August, so without it we would be guessing, and we will not guess about this.',
+  href: '/dashboard/settings',
+  cta: 'Add their birthday',
+}
+
 // The phone link card has no business showing to a family with a five year
 // old. Asking them to link a device reads as us pushing phones onto little
 // children, which is the opposite of what we stand for.
 export function availableCards(phoneAge: boolean): WelcomeCard[] {
   return WELCOME_CARDS.filter(c => c.key !== 'childLink' || phoneAge)
+}
+
+// Three cards for this open, in order. A parent flicks through three quick
+// things far more happily than they sit through a tour, and three still covers
+// the product inside a week of hellos rather than a fortnight.
+//
+// Order is not decoration. A missing birthday leads, because it is the one
+// thing blocking a service they have already paid for. Then anything unset,
+// then the least seen insights. Nothing repeats inside one open, and the card
+// that greeted them last time never leads this time.
+export function pickWelcomeCards(
+  flags: Partial<SetupFlags>,
+  seen: string[],
+  phoneAge: boolean,
+  needsBirthday = false,
+  count = 3,
+): WelcomeCard[] {
+  const last = seen[seen.length - 1]
+  const times = (k: string) => seen.filter(s => s === k).length
+  const cards = availableCards(phoneAge)
+
+  const todo = cards.filter(c => c.setup && flags[c.setup] === false)
+  const rest = cards.filter(c => !c.setup || flags[c.setup] !== false)
+
+  // Least seen first inside each band, and last time's card pushed back so the
+  // hello never opens on the same face twice.
+  const rank = (a: WelcomeCard, b: WelcomeCard) =>
+    (a.key === last ? 1 : 0) - (b.key === last ? 1 : 0) || times(a.key) - times(b.key)
+
+  const ordered = [...todo].sort(rank).concat([...rest].sort(rank))
+  const out = needsBirthday ? [BIRTHDAY_CARD] : []
+  for (const c of ordered) {
+    if (out.length >= count) break
+    if (!out.some(o => o.key === c.key)) out.push(c)
+  }
+  return out
 }
 
 // What to greet them with this open. Anything they have not set up leads, so
