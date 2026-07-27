@@ -512,6 +512,29 @@ export default function PassportBook({
         )
       })()}
 
+      {/* The physical end of the same passport, attached to the passport
+          itself rather than to one page that happens to show it. A parent
+          looking at the stamps their child actually earned is precisely the
+          parent who would like a copy they can hold, and they should not have
+          to find the shop and then find the product inside it, so the link
+          names the passport and lands on it. */}
+      <Link href="/dashboard/keepsakes#p-passport_printed" style={{
+        display: 'flex', alignItems: 'center', gap: '14px', textDecoration: 'none',
+        background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+        borderRadius: '18px', padding: '16px 18px', margin: '18px 0 0',
+      }}>
+        <span style={{ fontSize: '34px', lineHeight: 1 }} aria-hidden>🛂</span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+            Have this passport printed
+          </span>
+          <span style={{ display: 'block', fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
+            A real booklet with {childName === 'your child' ? 'their' : `${childName}\u2019s`} name on the cover and every stamp actually earned inside. Made to order, so no two are the same.
+          </span>
+        </span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', color: 'var(--terracotta-dark)' }} aria-hidden>&rsaquo;</span>
+      </Link>
+
       <style>{`
         @keyframes gcStampIn {
           0% { transform: scale(0.4) rotate(-30deg); opacity: 0; }
