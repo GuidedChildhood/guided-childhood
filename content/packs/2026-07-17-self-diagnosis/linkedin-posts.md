@@ -54,13 +54,13 @@ The study is Katie Cunningham-Rowe and Lucy Foulkes, published on the 15th of Ju
 
 Once you see it that way, the blame drains out of the whole thing. A teenager who says I think I have anxiety is usually not performing for attention. They are trying to pass you their experience in a word small enough to fit across a kitchen table.
 
-I am not going to pretend the words come from nowhere. The clinicians were honest about where kids pick them up. Social media, TikTok, the algorithm that keeps serving more of whatever you paused on. Schools and awareness campaigns too. And they noticed something uncomfortable, that as anxiety and depression become everyday words, a few young people reach for bigger, rarer labels just to be taken seriously.
+I am not going to pretend the words come from nowhere. The clinicians were honest about where kids pick them up. Social media, TikTok, the algorithm that keeps serving more of whatever you paused on. Schools and awareness campaigns too, which hand young people the vocabulary.
 
 So here is the strongest version of the worry, and I will not dodge it. Awareness really does put labels in a child's hands they might never have found alone, and long waiting lists push them to name it themselves while they wait months for anyone qualified. Both are real.
 
 But hold the two readings side by side. One says this child caught a diagnosis like a trend, so correct them. The other says this child was in enough pain to go looking for a word, and the world handed them one, so understand them. Same behaviour. Only one is true, and it is the one that earns your compassion.
 
-It is the whole idea behind what we are building. A child in that moment does not need a verdict, they need to be met. So DiGi, the guide we are building for children, is made to do what those clinicians did, stay curious, and never shame a child for the word they reached for. Not to diagnose. Just to keep the conversation open and hand them back to a trusted adult.
+It is the idea behind what we are building. A child then does not need a verdict, they need to be met. So DiGi, the guide we build for children, does what those clinicians did. It stays curious and never shames a child for the word they reached for. Not to diagnose. Just to keep the conversation open and hand them back to a trusted adult.
 
 Start with why they reached, not with what they grabbed.
 
@@ -166,15 +166,15 @@ There is a group in this study I am not going to soften, because they deserve be
 
 This is In Proportion, continued.
 
-This is the last theme in Katie Cunningham-Rowe and Lucy Foulkes, 16 UK clinicians, published on the 15th of July 2026 in Child and Adolescent Mental Health. In most cases, they said, the self-diagnosis did not matter much, or it helped. But in a minority it becomes a barrier to change, and the way it works is grim. The label stops being something the young person has and becomes the whole of who they are. It turns into a self-fulfilling prophecy, so a young person who expects to be unwell behaves, and reads themselves, in ways that keep them unwell. Peer groups can lock it in place, until their whole social world is arranged around being the ill one. The clinicians said this can actually make symptoms worse.
+This is the last theme in Katie Cunningham-Rowe and Lucy Foulkes, 16 UK clinicians, published on the 15th of July 2026 in Child and Adolescent Mental Health. In most cases, they said, the self-diagnosis did not matter much, or it helped. But in a minority it becomes a barrier to change, and the way it works is grim. The label stops being something the young person has and becomes the whole of who they are, a self-fulfilling prophecy where a young person who expects to be unwell behaves in ways that keep them unwell. Peer groups can lock it in place, until their whole social world is arranged around being the ill one. The clinicians said it can make symptoms worse.
 
 I have spent four posts arguing for calm against the panic. This is the post where I turn that around. This minority is real, and it is serious, and pretending the whole thing is harmless would be its own kind of lie. Proportion is not the same as calm. It means calm where the fear is bigger than the evidence, and serious where the harm is real. This is the serious part, and it gets the alarm.
 
-Let me stay honest about the limits. This is 16 clinicians, all White, no psychiatrists and no GPs, recruited partly through the senior author's own network. It is qualitative, so it can tell you this stuck minority exists but not how big it is. And there are, right now, no guidelines at all for clinicians on how to handle self-diagnosis, which tells you how new this ground is.
+Let me stay honest about the limits. This is 16 clinicians, all White, no psychiatrists and no GPs, recruited partly through the senior author's own network. It is qualitative, so it can tell you this minority exists but not how big it is. And there are no guidelines yet for clinicians on handling self-diagnosis, which tells you how new this is.
 
 So here is the contrast to carry out of the whole series, because it is the same move for both children. For most, a label is a doorway, and the kindest thing you can do is walk through it with them until they no longer need it. For a few it becomes a cell, and the kindest thing is to keep the door unlocked, stay curious, and never let the identity harden. One posture, curiosity, does both jobs. It walks most through, and keeps a few from getting stuck.
 
-That, really, is the whole of it. Not panic. Not a shrug. Take the label seriously enough to stay curious about it, every time, and you are ready for both children, the one who will be fine and the one at real risk.
+That is the whole of it. Not panic, not a shrug. Take the label seriously enough to stay curious, every time, and you are ready for both children.
 
 If you want the shape of that conversation before you ever need it, we built a free place to start, and it is what all five of these posts have quietly been about. It is at guidedchildhood.com/starter-pack.
 
