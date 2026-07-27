@@ -67,14 +67,29 @@ const files = (await Promise.all(ROOTS.map(r => walk(r)))).flat()
 const BARE_RE = /['"`](hf_[0-9]{8}_[0-9]{6}_[0-9a-f-]{36}\.(?:png|jpg|jpeg|webp))['"`]/g
 
 const urls = new Map() // download url -> filename on disk
+// Where each image is referenced, so a failure names a line of code rather
+// than a hash. "hf_20260720_103442_dff20e6b.png (HTTP 403)" tells you nothing
+// you can act on; "lib/content/lesson-covers.ts:13" tells you everything.
+const seenAt = new Map() // filename -> "file:line"
+
+function note(name, file, text, needle) {
+  if (seenAt.has(name)) return
+  const upTo = text.indexOf(needle)
+  const line = upTo < 0 ? 1 : text.slice(0, upTo).split('\n').length
+  seenAt.set(name, `${file}:${line}`)
+}
+
 for (const file of files) {
   const text = await readFile(file, 'utf8')
   for (const url of text.match(URL_RE) ?? []) {
     if (url.includes('${')) continue
-    urls.set(url, url.split('/').pop())
+    const name = url.split('/').pop()
+    urls.set(url, name)
+    note(name, file, text, name)
   }
   for (const m of text.matchAll(BARE_RE)) {
     urls.set(CDN + BUCKET + m[1], m[1])
+    note(m[1], file, text, m[1])
   }
 }
 
@@ -96,12 +111,12 @@ for (const [url, name] of urls) {
   if (await exists(dest)) { skipped++; continue }
   try {
     const res = await fetch(url)
-    if (!res.ok) { failed.push(`${name} (HTTP ${res.status})`); continue }
+    if (!res.ok) { failed.push(`${seenAt.get(name) ?? '?'}  ${name}  (HTTP ${res.status})`); continue }
     await writeFile(dest, Buffer.from(await res.arrayBuffer()))
     fetched++
     process.stdout.write('.')
   } catch (err) {
-    failed.push(`${name} (${err.message})`)
+    failed.push(`${seenAt.get(name) ?? '?'}  ${name}  (${err.message})`)
   }
 }
 process.stdout.write('\n')
@@ -112,7 +127,11 @@ process.stdout.write('\n')
 if (failed.length > 0) {
   console.error(`\n${failed.length} failed, so no source files were changed:`)
   for (const f of failed) console.error('  ' + f)
-  console.error('\nFix the failures and run again. Nothing has been half done.')
+  console.error('')
+  console.error('A 403 on a real filename means that image is GONE from the CDN,')
+  console.error('which is the whole reason for doing this. It is already broken in')
+  console.error('the live app. Replace it at the line above, then run again.')
+  console.error('Nothing has been half done.')
   process.exit(1)
 }
 
