@@ -622,19 +622,11 @@ export default function DailyDeckViewer({
             }}>
               <DoneFace />
             </div>
-            {/* Tap to continue: a soft pill on the card so it is obvious the
-                whole card moves you on, not only the Next button below. */}
-            {!isLast && phase === 'rest' && (
-              <div aria-hidden style={{
-                position: 'absolute', left: '50%', bottom: 12, transform: 'translateX(-50%)',
-                display: 'flex', alignItems: 'center', gap: 6, pointerEvents: 'none',
-                background: 'rgba(26,26,46,0.06)', borderRadius: 100, padding: '5px 12px',
-                fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.06em',
-                color: 'var(--ink-soft)', backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden',
-              }}>
-                Tap to continue →
-              </div>
-            )}
+            {/* No Tap to continue pill here. There used to be one, sitting a
+                few pixels above a full width NEXT button that did exactly the
+                same job, which reads as two decisions where there is only one.
+                The card stays tappable, it just no longer announces itself:
+                Next is the instruction, tapping the card is the shortcut. */}
           </div>
         </div>
       </div>
