@@ -11,6 +11,7 @@ import { getExpertKnowledge, getFamilyMemory, getWhatWorked, getPathwayPosition 
 import { getAggregateWisdom } from '@/lib/digi/wisdom'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
+import { schoolSubjectFor, learningContextFor, learningRules } from '@/lib/learning/digi-context'
 import { deviceLabel } from '@/lib/quests/device-time'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -347,6 +348,27 @@ point them at reviewing it, rather than quietly advising around it.` : ''}
 When a parent asks whether or for how long their child should use any device, do two things beyond the advice itself. First, ground the answer in this family's own numbers above rather than only general figures. Second, check what is missing and add ONE warm sentence for it: if the agreement is missing or unsigned, suggest writing the deal down together while it is topical and link it exactly as [our family deal](/dashboard/agreement); if the timer shows nothing for the device being discussed, remind them every screen session, TV and consoles included, can run through the star timer on [the quests board](/dashboard/quests) so the time is earned, visible to both of them, and winds up on its own at the healthy amount. Never both sentences if only one is missing, never either if both are in place, and never a lecture.`
   } catch { /* screen life context is a bonus, never blocks the reply */ }
 
+  // Where this child actually is at school, but only when school is what the
+  // parent is asking about. Fetched per message rather than held in the system
+  // prompt: 448 objectives sitting in every call would cost a fortune, bury the
+  // parenting guidance, and still leave the model free to paraphrase statutory
+  // wording into something plausible and wrong.
+  //
+  // The rules that travel with it matter more than the facts. They live in
+  // learningRules and the short version is: never tell a parent their child is
+  // behind, quote rather than paraphrase, and never claim the school is
+  // teaching this now. Nothing is added at all unless we are certain, so no
+  // birthday, an age outside years 1 to 6, or an empty curriculum map all mean
+  // DiGi answers exactly as it did before.
+  let schoolKnowledge = ''
+  try {
+    const subject = schoolSubjectFor(message)
+    if (subject) {
+      const learning = await learningContextFor(user.id, subject)
+      if (learning) schoolKnowledge = `\n\n${learningRules(learning)}`
+    }
+  } catch { /* school context is a bonus, never blocks the reply */ }
+
   const familyContext = buildSystemPrompt(
     stage,
     child,
@@ -354,7 +376,7 @@ When a parent asks whether or for how long their child should use any device, do
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory,
+    pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:

@@ -41,6 +41,36 @@ import { sheetTarget, sheetLabel, type SheetTarget } from '@/lib/learning/term'
 
 export type CurriculumLine = { objective: string; strand: string; source: string }
 
+// Is this parent asking about school, and if so about what? Deliberately a
+// keyword match rather than a model call: it runs on every message, it has to
+// be instant and free, and being wrong is cheap in one direction only. A missed
+// question just means DiGi answers without the curriculum, which is how it
+// behaved yesterday. A false positive would waste a query and add a block of
+// statutory text to a conversation about bedtime, so the words here are ones
+// that rarely turn up in a screen time question by accident.
+//
+// Reading is checked before english because "reading" is the word a parent
+// actually uses, and it is its own tab.
+const SUBJECT_WORDS: Array<[('maths' | 'english' | 'reading'), RegExp]> = [
+  ['reading', /\b(reading|read to|reads?|phonics|decoding|book band|comprehension)\b/i],
+  ['maths', /\b(maths|math|number|times table|multiplication|division|fractions?|arithmetic|sums?|counting|numeracy)\b/i],
+  ['english', /\b(english|writing|spelling|spell|handwriting|grammar|punctuation|literacy|vocabulary)\b/i],
+]
+
+// A school flavoured question, not just any mention of a subject word. Both
+// halves have to be present, so "he keeps reading on his tablet at midnight"
+// does not pull in the Year 4 reading curriculum.
+const SCHOOL_WORDS = /\b(school|teacher|class|classroom|year [1-6]|yr ?[1-6]|homework|curriculum|sats?|behind|struggling|keeping up|falling behind|report|parents evening|expected|learning|study|studying|revis)/i
+
+export function schoolSubjectFor(message: string): 'maths' | 'english' | 'reading' | null {
+  if (!SCHOOL_WORDS.test(message)) return null
+  for (const [subject, re] of SUBJECT_WORDS) if (re.test(message)) return subject
+  // School is clearly the topic but no subject named. Maths is the safest
+  // default: it is the one with term by term sequencing and the one carrying
+  // the statutory check parents actually ask about.
+  return 'maths'
+}
+
 export type LearningContext = {
   childName: string
   target: SheetTarget
