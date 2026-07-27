@@ -7,7 +7,7 @@
 export type KidIconName =
   | 'jobs' | 'time' | 'newjob' | 'deal'
   | 'star' | 'flame' | 'lessons' | 'printables'
-  | 'watch' | 'games'
+  | 'watch' | 'games' | 'keepsakes'
 
 export default function KidIcon({
   name, size = 26, color = 'currentColor',
@@ -111,6 +111,17 @@ export default function KidIcon({
           <rect x="7" y="13.4" width="10" height="6" rx="1.6" fill="#fff" stroke="none" />
           <path d="M9 15.4h6M9 17.2h4" stroke={color} strokeWidth="1.5" />
           <circle cx="17" cy="11.2" r="1" fill="#fff" stroke="none" />
+        </svg>
+      )
+    // A gift box with a bow: the keepsakes shop, the rewards you can hold.
+    case 'keepsakes':
+      return (
+        <svg {...common}>
+          <circle cx="9.5" cy="6" r="2" fill={color} stroke="#fff" strokeWidth="1.2" />
+          <circle cx="14.5" cy="6" r="2" fill={color} stroke="#fff" strokeWidth="1.2" />
+          <rect x="4" y="7.6" width="16" height="3.6" rx="1.4" fill={color} stroke="none" />
+          <rect x="5.4" y="11.2" width="13.2" height="8.6" rx="2" fill={color} stroke="none" />
+          <path d="M12 8v11.8" stroke="#fff" strokeWidth="2" />
         </svg>
       )
   }

@@ -8,6 +8,8 @@
 // against the on screen time. Presentational only: it takes a ParentReport
 // (built by lib/balance/parent-report) so any surface can drop it in.
 
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
 import { fmtMins, BUCKET_META, type ParentReport } from '@/lib/balance/parent-report'
 import { SCREEN_GUIDE_SOURCES, type ScreenStatus } from '@/lib/quests/screen-balance'
 
@@ -43,6 +45,39 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   const over = status === 'over' || status === 'well_over'
   const dailyGuideMins = Math.round(healthyWeekMins / 7)
   const totalDailyAvg = Math.round(totalWeekMins / 7)
+
+  // On track is the quiet win a parent rarely gets told they earned: a week
+  // inside the guide. When it lands, the closing star gives a small, warm
+  // celebration, a pop and a ring of sparkles, so the good week feels like one
+  // rather than reading the same as an over week in a different colour. Only
+  // then, and never for an over week, and never against reduced motion.
+  const onTrack = !over
+  const starRef = useRef<HTMLSpanElement>(null)
+  const glowRef = useRef<HTMLSpanElement>(null)
+  const sparkRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!onTrack) return
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const ctx = gsap.context(() => {
+      if (starRef.current) {
+        gsap.fromTo(starRef.current, { scale: 0.5, rotate: -14 },
+          { scale: 1, rotate: 0, duration: 0.8, ease: 'elastic.out(1, 0.55)', delay: 0.1 })
+      }
+      if (glowRef.current) {
+        gsap.fromTo(glowRef.current, { scale: 0.6, opacity: 0.7 },
+          { scale: 2, opacity: 0, duration: 1.1, ease: 'power2.out', delay: 0.1, repeat: 1, repeatDelay: 0.15 })
+      }
+      const sparks = sparkRef.current ? Array.from(sparkRef.current.children) : []
+      sparks.forEach((el, i) => {
+        const angle = (i / sparks.length) * Math.PI * 2 - Math.PI / 2
+        const dist = 24
+        gsap.set(el, { x: 0, y: 0, scale: 0, opacity: 1 })
+        gsap.to(el, { x: Math.cos(angle) * dist, y: Math.sin(angle) * dist, scale: 1, duration: 0.5, ease: 'power2.out', delay: 0.22 + i * 0.03 })
+        gsap.to(el, { opacity: 0, scale: 0.3, duration: 0.45, ease: 'power1.in', delay: 0.55 + i * 0.03 })
+      })
+    })
+    return () => ctx.revert()
+  }, [onTrack])
 
   const card: React.CSSProperties = {
     background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
@@ -169,9 +204,24 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
         </div>
       </div>
 
-      {/* One line of guidance */}
+      {/* One line of guidance. On an on track week the star pops with a ring of
+          sparkles, so the good week is celebrated rather than just noted. */}
       <div style={{ ...card, marginBottom: 0, background: 'var(--terracotta-lt)', border: '1.5px solid #F1E4BE', display: 'flex', gap: 11, alignItems: 'flex-start' }}>
-        <span style={{ width: 40, height: 40, flexShrink: 0, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #FFE9A8, #EDC35F)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: '0 3px 0 var(--terracotta-dark)' }}>⭐</span>
+        <span style={{ position: 'relative', width: 40, height: 40, flexShrink: 0 }}>
+          {/* The soft glow behind the star, and the sparkles that fly out, both
+              only present on an on track week so an over week stays calm. */}
+          {onTrack && (
+            <>
+              <span ref={glowRef} aria-hidden style={{ position: 'absolute', inset: -6, borderRadius: '50%', background: 'radial-gradient(circle, rgba(237,195,95,0.55), rgba(237,195,95,0))', opacity: 0, pointerEvents: 'none' }} />
+              <div ref={sparkRef} aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <span key={i} style={{ position: 'absolute', left: '50%', top: '50%', width: 6, height: 6, marginLeft: -3, marginTop: -3, borderRadius: '50%', background: '#EDC35F', opacity: 0 }} />
+                ))}
+              </div>
+            </>
+          )}
+          <span ref={starRef} style={{ position: 'relative', zIndex: 1, width: 40, height: 40, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #FFE9A8, #EDC35F)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: '0 3px 0 var(--terracotta-dark)' }}>⭐</span>
+        </span>
         <p style={{ fontSize: 16, lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>{guidance}</p>
       </div>
     </div>

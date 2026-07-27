@@ -9,7 +9,7 @@
 
 import { STAGE_CHARACTERS, type StageCharacter } from '@/lib/content/stage-characters'
 
-export type ProductKind = 'passport' | 'stickers' | 'charm' | 'charm_set' | 'bracelet' | 'plush'
+export type ProductKind = 'passport' | 'stickers' | 'charm' | 'charm_set' | 'bracelet' | 'plush' | 'chart'
 
 export type Product = {
   key: string
