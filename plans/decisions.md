@@ -2123,3 +2123,32 @@ is the entire mechanism.
 Verified: the term logic across nine dates, the 31 August cutoff, and out of
 range returning nothing. Both migrations against a real Postgres, including
 storing a result and joining the flags back to their objectives.
+
+## 27 Jul 2026: the learning sheet, and the tick that is the whole product
+The sheet a family works through, at /dashboard/printables/learning. Assembled
+on the day from the child's birthday and today's date, never stored, so a
+corrected objective improves every sheet after it.
+
+One control on the page: found this tricky. No score, no mark, no percentage,
+and the copy says so out loud so a child is not waiting for one. Ticking is the
+positive action, warm rather than red, and the summary thanks them for the
+honesty instead of totting it up. A judged child stops flagging what they found
+hard, and that flag is the entire mechanism.
+
+Where there is nothing for a child's year it says so plainly rather than falling
+back to the nearest year. "Not written yet, deliberately blank rather than
+filled in from memory" is a better thing for a parent to read than a sheet for
+the wrong year, which they would believe and act on.
+
+Flags are posted as objective ids and revalidated server side against the sheet
+that was asked for. An id for another year's objective would otherwise surface
+in the parent summary as something their child struggles with, which is worse
+than losing the flag. The client is a form, not an authority.
+
+Five stars through the same star_bonuses ledger jobs and printables use, so a
+sheet counts on the off screen total like everything else.
+
+Caught while building: the children column is date_of_birth, not dob. Reading
+the wrong name would have failed at runtime on a page that only appears for
+families who have filled a birthday in, which is exactly the kind of thing that
+sits broken for weeks.
