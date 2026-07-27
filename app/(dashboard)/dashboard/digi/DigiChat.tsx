@@ -123,6 +123,16 @@ export default function DigiChat({
 
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  // Opening the DiGi tab is always a fresh start. Whatever was said before is
+  // still there, it is just above the fold: we scroll the line marking today's
+  // opening to the top, so the parent lands on a clean page and finds the old
+  // conversation by scrolling up, rather than arriving at the tail of a wall of
+  // text they have already read. How many messages existed when the tab opened
+  // never changes for this visit, so it is a ref, not state.
+  const historyCount = useRef(initialMessages.length).current
+  const freshRef = useRef<HTMLDivElement>(null)
+  const openedRef = useRef(false)
+  const wantOpenScroll = useRef(false)
   // The scrolling messages column, and whether the reader is currently pinned
   // to the bottom. While pinned, new text keeps the latest line in view as it
   // streams. The moment the reader scrolls up to re-read, we release, so the
@@ -229,6 +239,33 @@ export default function DigiChat({
   useEffect(() => {
     const el = scrollRef.current
     if (!el) return
+    // The first pass of this effect is the tab opening. With history behind us
+    // we put the fresh start line at the top instead of dropping to the bottom,
+    // and release the bottom pin so nothing drags them back down to the old
+    // conversation. Everything after this behaves exactly as before.
+    if (!openedRef.current && historyCount > 0) {
+      // Two passes. First lay a viewport of space below the line, because
+      // without it the line is the last thing on the page and cannot physically
+      // reach the top. The tail is the same one a new question uses, and it is
+      // trimmed the same way once a real answer fills the space.
+      openedRef.current = true
+      stickRef.current = false
+      setTailSpace(el.clientHeight)
+      wantOpenScroll.current = true
+      return
+    }
+    openedRef.current = true
+    if (wantOpenScroll.current) {
+      const fresh = freshRef.current
+      if (fresh) {
+        wantOpenScroll.current = false
+        stickRef.current = false
+        const top = el.scrollTop + (fresh.getBoundingClientRect().top - el.getBoundingClientRect().top) - PIN_PAD
+        selfScroll.current = top
+        el.scrollTop = top
+        return
+      }
+    }
     if (pinRef.current) { pinToTop(); return }
     if (stickRef.current) { selfScroll.current = el.scrollHeight; el.scrollTop = el.scrollHeight }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -628,7 +665,32 @@ export default function DigiChat({
               </div>
             </div>
           )
-        })}
+        }).flatMap((el, i) => (
+          // The fresh start line, dropped in at the point the tab was opened.
+          // Nothing is deleted and nothing is hidden: everything above is one
+          // scroll away. It only appears when there is history to sit above it.
+          i === historyCount && historyCount > 0
+            ? [
+                <div key="gc-fresh-start" ref={freshRef} style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '4px 0 26px' }}>
+                  <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
+                    Earlier chat above
+                  </span>
+                  <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+                </div>,
+                el,
+              ]
+            : [el]
+        ))}
+        {historyCount > 0 && messages.length === historyCount && (
+          <div ref={freshRef} style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '4px 0 20px' }}>
+            <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
+              Earlier chat above
+            </span>
+            <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+          </div>
+        )}
 
         {/* Between chats, a quiet drop in: a couple of places that help with what
             they just asked, the Good Inside feel. Only once the answer is settled,
