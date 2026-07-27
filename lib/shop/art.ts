@@ -29,7 +29,21 @@ export const SHOP_ART: Record<string, string> = {
   plush_pebble:     BASE + 'hf_20260726_161406_b63515b9-fb95-4de5-8769-f1e54ab7f6e2.png',
 }
 
+// The ones we serve ourselves, from /public/shop.
+//
+// Anything a customer can actually buy has to be here. Hotlinking a third
+// party CDN for the photograph on a page that takes money means someone
+// else's housekeeping can put a broken image on our checkout, and we would
+// find out from a customer rather than from a build.
+//
+// The coming soon items are still remote. They are not purchasable, nothing
+// is charged against them, and the fallback below means the worst case is a
+// character illustration rather than a broken box. They get vendored as they
+// go on sale.
+const VENDORED = new Set(['passport_printed', 'sticker_sheet'])
+
 /** The picture to show for a product, or null to fall back to character art. */
 export function shopArt(key: string, imageUrl?: string | null): string | null {
+  if (VENDORED.has(key)) return `/shop/${key}.webp`
   return SHOP_ART[key] ?? imageUrl ?? null
 }
