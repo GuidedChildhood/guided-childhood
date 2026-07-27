@@ -18,6 +18,14 @@ import type { DeviceGuide } from './DeviceList'
 const NETWORK_KEY = 'network'
 const APP_KEYS = new Set(['roblox', 'youtube', 'tiktok', 'snapchat', 'instagram', 'whatsapp'])
 
+// The baseline layers almost every home has, shown by default the way the
+// network row is, whatever the child's age. Google safe search sits under every
+// search a household does, and a smart TV with YouTube is in most living rooms,
+// so a young child's board should not hide them just because their own devices
+// are fewer. A family can still say they do not have the TV and it drops to the
+// not owned pile, exactly like any other device.
+const DEFAULT_KEYS = new Set(['google_safesearch', 'smarttv', 'youtube'])
+
 type LayerItem = {
   key: string
   name: string
@@ -61,8 +69,11 @@ export default function DeviceCoverageBoard({
 
   // Age ready devices the family actually has, split into the device layer
   // and the app layer. Not owned devices drop out of both, so they never
-  // count against coverage.
-  const ready = devices.filter(d => childAge >= d.min_age && !notOwned.has(d.device_key))
+  // count against coverage. The default household layers (Google safe search,
+  // the smart TV and YouTube) come in whatever the age, so they show by
+  // default like the network row rather than waiting on the age gate.
+  const ready = devices.filter(d =>
+    (childAge >= d.min_age || DEFAULT_KEYS.has(d.device_key)) && !notOwned.has(d.device_key))
   const deviceItems: LayerItem[] = ready
     .filter(d => !APP_KEYS.has(d.device_key))
     .map(d => ({ key: d.device_key, name: d.name, emoji: d.emoji, why: d.subtitle }))
