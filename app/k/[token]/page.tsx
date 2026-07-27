@@ -15,6 +15,7 @@ import { getPrintable } from '@/lib/printables/registry'
 import { getAllStagesProgress } from '@/lib/pathway/progress'
 import { earnedFriends } from '@/lib/pathway/streak-unlock'
 import KidQuestScreen from './KidQuestScreen'
+import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
 
 // The kid's own screen. Opened from the private link their parent sends,
 // no account, no login, nothing to install. Today's quests, big ticks,
@@ -470,8 +471,23 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     sheetStars = (sheets ?? []).reduce((sum, r) => sum + (Number(r.stars) || 0), 0)
   } catch { sheetsDone = 0; sheetStars = 0 }
 
+  // The screens this family owns, for the timer picker. Fails soft: before
+  // migration 106 there is no table, and the picker falls back to the four
+  // kinds exactly as it did before.
+  let familyDevices: FamilyDevice[] = []
+  try {
+    const { data } = await supabase
+      .from('family_devices')
+      .select('id, label, kind, guide_key, shared, retired_at')
+      .eq('user_id', link.user_id)
+      .is('retired_at', null)
+      .order('created_at', { ascending: true })
+    familyDevices = ((data ?? []) as FamilyDeviceRow[]).map(toFamilyDevice)
+  } catch { familyDevices = [] }
+
   return (
     <KidQuestScreen
+      familyDevices={familyDevices}
       sheetsDone={sheetsDone}
       sheetStars={sheetStars}
       earnedStages={earnedStages}

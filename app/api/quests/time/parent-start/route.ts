@@ -16,7 +16,7 @@ import { pushToChild } from '@/lib/quests/kid-push'
 // check keep it to their own children.
 
 export async function POST(req: NextRequest) {
-  const { childId, device, minutes, bonus, gift } = await req.json().catch(() => ({}))
+  const { childId, device, familyDeviceId, minutes, bonus, gift } = await req.json().catch(() => ({}))
   if (!childId || typeof childId !== 'string') {
     return NextResponse.json({ error: 'bad request' }, { status: 400 })
   }
@@ -36,6 +36,24 @@ export async function POST(req: NextRequest) {
   const { data: child } = await supabase
     .from('children').select('id, name, age_band').eq('id', childId).eq('parent_id', user.id).maybeSingle()
   if (!child) return NextResponse.json({ error: 'unknown child' }, { status: 404 })
+
+  // Which actual screen this is for, when the family has listed theirs. The
+  // row is read back rather than trusted, both because it must be one of this
+  // parent's own devices and because its name is what every message about this
+  // block will use. Unknown or missing simply falls back to the kind, which is
+  // how every session before migration 106 reads.
+  let homeDevice: { id: string; label: string } | null = null
+  if (typeof familyDeviceId === 'string' && familyDeviceId) {
+    const { data } = await supabase
+      .from('family_devices').select('id, label')
+      .eq('id', familyDeviceId).eq('user_id', user.id).maybeSingle()
+    homeDevice = (data as { id: string; label: string } | null) ?? null
+  }
+  // "on the tablet" but "on Ella's iPad": a named device does not take the
+  // article, and reading "on the Ella's iPad" in a push notification is the
+  // kind of thing that makes a product feel machine written.
+  const screenName = homeDevice?.label ?? deviceLabel(device)
+  const onScreen = homeDevice ? screenName : `the ${screenName.toLowerCase()}`
 
   // A gift starts the block without spending stars, like a bonus, but it
   // records a debt of jobs to do later: the pay back is saying thanks. The
@@ -71,7 +89,7 @@ export async function POST(req: NextRequest) {
   if (!isBonus) {
     const { data: spend, error: spendError } = await supabase.from('star_spends').insert({
       user_id: user.id, child_id: childId, stars, minutes: mins,
-      note: `Device time: ${deviceLabel(device)} (set by grown up)`,
+      note: `Device time: ${screenName} (set by grown up)`,
     }).select('id').single()
     if (spendError) return NextResponse.json({ error: spendError.message }, { status: 500 })
     spendId = spend.id
@@ -81,6 +99,7 @@ export async function POST(req: NextRequest) {
   const { data: session, error: sessionError } = await supabase.from('device_sessions').insert({
     user_id: user.id, child_id: childId, device, minutes: mins, stars,
     spend_id: spendId, ends_at: endsAt, treat,
+    ...(homeDevice ? { family_device_id: homeDevice.id } : {}),
   }).select('id, device, minutes, stars, ends_at, started_at, treat').single()
   if (sessionError) return NextResponse.json({ error: sessionError.message }, { status: 500 })
 
@@ -91,7 +110,7 @@ export async function POST(req: NextRequest) {
     await supabase.from('gift_debts').insert({
       user_id: user.id, child_id: childId, minutes: mins,
       stars_owed: minutesToStars(mins),
-      note: `Gifted device time: ${deviceLabel(device)}`,
+      note: `Gifted device time: ${screenName}`,
     })
   }
 
@@ -101,14 +120,18 @@ export async function POST(req: NextRequest) {
     const admin = createAdminClient()
     await pushToChild(
       admin, user.id, childId,
-      isGift ? `A gift: ${mins} minutes on the ${deviceLabel(device)} 💛`
-        : isBonus ? `${mins} bonus minutes on the ${deviceLabel(device)} 🎁`
-        : `${mins} minutes on the ${deviceLabel(device)} ⏱️`,
+      isGift ? `A gift: ${mins} minutes on ${onScreen} 💛`
+        : isBonus ? `${mins} bonus minutes on ${onScreen} 🎁`
+        : `${mins} minutes on ${onScreen} ⏱️`,
       isGift ? 'From your grown up, no stars spent. Do a job later to say thanks!'
         : isBonus ? 'A treat from your grown up. Open to start the timer.'
         : 'Your grown up set your screen time. Open to see the countdown.',
     )
   } catch { /* push is best effort */ }
 
-  return NextResponse.json({ ok: true, session, bonus: isBonus })
+  return NextResponse.json({
+    ok: true,
+    session: { ...session, family_device_id: homeDevice?.id ?? null },
+    bonus: isBonus,
+  })
 }

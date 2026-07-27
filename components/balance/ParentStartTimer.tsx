@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { DEVICES, deviceEmoji, deviceLabel } from '@/lib/quests/device-time'
+import DevicePickerChips, { pickedDeviceLabel, type DevicePick } from '@/components/devices/DevicePickerChips'
+import { deviceIcon, type FamilyDevice } from '@/lib/devices/family'
 
 // Start screen time from the parent side, for a child who has no phone of their
 // own. The parent picks the device and how long, and it starts the same shared
@@ -19,7 +21,7 @@ import { DEVICES, deviceEmoji, deviceLabel } from '@/lib/quests/device-time'
 // card now reads the same live session everything else reads, and while one is
 // running the form is not the point: the countdown is.
 
-type Live = { device: string; minutes: number; ends_at: string }
+type Live = { device: string; minutes: number; ends_at: string; family_device_id?: string | null }
 
 function mmss(ms: number): string {
   const s = Math.max(0, Math.ceil(ms / 1000))
@@ -31,7 +33,8 @@ const MINUTE_CHOICES = [15, 30, 45, 60, 90]
 export default function ParentStartTimer({ childId, childName }: { childId: string; childName?: string | null }) {
   const router = useRouter()
   const name = childName && childName !== 'Your child' ? childName : 'your child'
-  const [device, setDevice] = useState<string>('tv')
+  const [pick, setPick] = useState<DevicePick>({ kind: 'tv', familyDeviceId: null })
+  const [homeDevices, setHomeDevices] = useState<FamilyDevice[]>([])
   const [minutes, setMinutes] = useState<number>(30)
   const [busy, setBusy] = useState(false)
   const [done, setDone] = useState(false)
@@ -58,6 +61,25 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
     return () => { on = false; clearInterval(id) }
   }, [childId, done])
 
+  // The screens in this house, so the picker offers Ella's iPad rather than the
+  // word tablet, and the first one is chosen for them.
+  useEffect(() => {
+    let on = true
+    fetch('/api/devices/family')
+      .then(r => r.json())
+      .then((d: { devices?: FamilyDevice[] }) => {
+        if (!on) return
+        const live = (d.devices ?? []).filter(x => !x.retiredAt)
+        setHomeDevices(live)
+        // Prefer the TV, which is what a parent starting time for a child
+        // without a phone is almost always starting.
+        const first = live.find(x => x.kind === 'tv') ?? live[0]
+        if (first) setPick({ kind: first.kind, familyDeviceId: first.id })
+      })
+      .catch(() => {})
+    return () => { on = false }
+  }, [])
+
   // Ticks only while something is actually running.
   useEffect(() => {
     if (!live) return
@@ -67,6 +89,9 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
 
   const left = live ? new Date(live.ends_at).getTime() - now : 0
   const running = !!live && left > 0
+  const runningDevice = live?.family_device_id
+    ? homeDevices.find(d => d.id === live.family_device_id) ?? null
+    : null
 
   async function start() {
     if (busy) return
@@ -76,7 +101,7 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // bonus: no stars spent, since this is logging a phone free child's time
-        body: JSON.stringify({ childId, device, minutes, bonus: true }),
+        body: JSON.stringify({ childId, device: pick.kind, familyDeviceId: pick.familyDeviceId, minutes, bonus: true }),
       })
       if (!res.ok) {
         const data = await res.json().catch(() => ({} as { error?: string }))
@@ -110,13 +135,17 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
           Screen time running
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <span aria-hidden style={{ fontSize: 32, lineHeight: 1, flexShrink: 0 }}>{deviceEmoji(live!.device)}</span>
+          <span aria-hidden style={{ fontSize: 32, lineHeight: 1, flexShrink: 0 }}>
+            {runningDevice ? deviceIcon(runningDevice) : deviceEmoji(live!.device)}
+          </span>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 30, color: 'var(--ink)', lineHeight: 1, letterSpacing: '-0.02em' }}>
               {mmss(left)}
             </div>
             <div style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 3 }}>
-              left of {live!.minutes} minutes on the {deviceLabel(live!.device).toLowerCase()}. {name === 'your child' ? 'They are' : `${name} is`} watching the same countdown.
+              {/* Named when we know which one, so a house with two tablets is
+                  told which tablet is counting down. */}
+              left of {live!.minutes} minutes on {runningDevice ? runningDevice.label : `the ${deviceLabel(live!.device).toLowerCase()}`}. {name === 'your child' ? 'They are' : `${name} is`} watching the same countdown.
             </div>
           </div>
         </div>
@@ -144,12 +173,8 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
         No phone of their own? Start {name}&apos;s screen time here and it still counts in the balance below, on the same countdown you both watch.
       </p>
 
-      <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 10 }}>
-        {DEVICES.map(d => (
-          <button key={d.key} type="button" onClick={() => setDevice(d.key)} style={chip(device === d.key)}>
-            {d.emoji} {d.label}
-          </button>
-        ))}
+      <div style={{ marginBottom: 10 }}>
+        <DevicePickerChips devices={homeDevices} fallback={DEVICES} value={pick} onChange={setPick} />
       </div>
       <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 14 }}>
         {MINUTE_CHOICES.map(m => (

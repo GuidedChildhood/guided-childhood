@@ -16,6 +16,7 @@ import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
 import { gamesForStage, type QuestGame } from '@/lib/quest-games/registry'
 import QuestGamePlayer from '@/components/quest-games/QuestGamePlayer'
 import DeviceTimeCard from '@/components/quests/DeviceTimeCard'
+import type { FamilyDevice } from '@/lib/devices/family'
 import { TIMER_RULE, readTrust, type ActiveSession } from '@/lib/quests/device-time'
 import { contractRule, type ContractLevel } from '@/lib/content/kid-contract'
 import KidAskBanner, { type KidAskState, type KidNudge } from '@/components/kid/KidAskBanner'
@@ -121,7 +122,7 @@ export default function KidQuestScreen({
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
-  earnedStages = 0, completedStreaks = 0, sheetsDone = 0, sheetStars = 0,
+  earnedStages = 0, completedStreaks = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
 }: {
   token: string
   childName: string
@@ -172,6 +173,10 @@ export default function KidQuestScreen({
   requests?: KidAsk[]
   printablesUnlocked?: boolean
   activeSession?: ActiveSession | null
+  // The screens this family owns, so the timer picker names one instead of
+  // offering four categories. Read on the server, since the child app is token
+  // authed and cannot ask for them itself.
+  familyDevices?: FamilyDevice[]
   weekChart?: { label: string; count: number; today: boolean }[]
   schoolToday?: KidSchoolToday[]
   notes?: { id: string; kind: string; title: string; body: string; read: boolean }[]
@@ -1265,6 +1270,7 @@ export default function KidQuestScreen({
                 startPicking={pickNow}
                 token={token} balanceStars={bankBalance} initialSession={liveSession}
                 onSessionChange={setLiveSession}
+                familyDevices={familyDevices}
                 outstandingJobs={[...new Set(quests.filter(q => !ticks[q.id]).map(q => q.title))]}
                 outstandingMinutes={quests.filter(q => !ticks[q.id]).reduce((n, q) => n + q.stars * STAR_MINUTES, 0)}
                 usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}

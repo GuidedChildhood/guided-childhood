@@ -28,17 +28,32 @@ export async function GET() {
   const dayStartIso = new Date(new Date().toISOString().slice(0, 10) + 'T00:00:00.000Z').toISOString()
   const [banks, { data: sessions }, { data: requests }, usedToday, { data: weekSessions }] = await Promise.all([
     getStarBanks(supabase, user.id, ids),
+    // family_device_id arrives with migration 106. Asked for optimistically and
+    // retried without it on an older database, so the timer keeps working
+    // whether or not the migration has been run yet.
     supabase.from('device_sessions')
-      .select('id, child_id, device, minutes, stars, ends_at, started_at')
-      .eq('user_id', user.id).eq('status', 'active').gt('ends_at', nowIso),
+      .select('id, child_id, device, family_device_id, minutes, stars, ends_at, started_at')
+      .eq('user_id', user.id).eq('status', 'active').gt('ends_at', nowIso)
+      .then(res => res.error
+        ? supabase.from('device_sessions')
+            .select('id, child_id, device, minutes, stars, ends_at, started_at')
+            .eq('user_id', user.id).eq('status', 'active').gt('ends_at', nowIso)
+        : res),
     // Only asks from the last twelve hours, the same freshness window the
     // child's banner uses. A stale overnight ask is no longer offered for
     // approval, so a parent can never approve one the child can no longer see.
     supabase.from('device_requests')
-      .select('id, child_id, device, minutes, created_at')
+      .select('id, child_id, device, family_device_id, minutes, created_at')
       .eq('user_id', user.id).eq('status', 'pending')
       .gte('created_at', new Date(Date.now() - 12 * 3600000).toISOString())
-      .order('created_at', { ascending: false }),
+      .order('created_at', { ascending: false })
+      .then(res => res.error
+        ? supabase.from('device_requests')
+            .select('id, child_id, device, minutes, created_at')
+            .eq('user_id', user.id).eq('status', 'pending')
+            .gte('created_at', new Date(Date.now() - 12 * 3600000).toISOString())
+            .order('created_at', { ascending: false })
+        : res),
     getMinutesUsedToday(supabase, user.id, ids),
     // The last seven days of timer blocks, for the where the time goes read:
     // which devices carry the time, how many sittings, and how many today.
@@ -69,6 +84,23 @@ export async function GET() {
     if (!error) {
       for (const l of links ?? []) agreedBy.set(String(l.child_id), String(l.agreed_at))
     }
+  }
+
+  // The family's own device names, so a running block and a waiting ask both
+  // say which screen rather than which category. Fails soft before migration
+  // 106, where every name simply resolves to null and the kind is used.
+  const deviceNameById = new Map<string, string>()
+  {
+    const { data: fam, error } = await supabase
+      .from('family_devices').select('id, label').eq('user_id', user.id)
+    if (!error) for (const d of fam ?? []) deviceNameById.set(String(d.id), String(d.label))
+  }
+  // The row shape depends on whether the optimistic select above kept its
+  // family_device_id, so this reads it off loosely rather than claiming a type
+  // the fallback query does not have.
+  const nameOf = (row: object | null | undefined): string | null => {
+    const id = (row as { family_device_id?: string | null } | null | undefined)?.family_device_id
+    return id ? deviceNameById.get(String(id)) ?? null : null
   }
 
   const bankBy = new Map(banks.map(b => [b.child_id, b.balance]))
@@ -102,8 +134,14 @@ export async function GET() {
         name: c.name,
         trust: readTrust((c as { device_trust?: string }).device_trust),
         balance: bankBy.get(c.id as string) ?? 0,
-        session: sessionBy.get(c.id as string) ?? null,
-        request: requestBy.get(c.id as string) ?? null,
+        session: (() => {
+          const sess = sessionBy.get(c.id as string)
+          return sess ? { ...sess, deviceName: nameOf(sess) } : null
+        })(),
+        request: (() => {
+          const rq = requestBy.get(c.id as string)
+          return rq ? { ...rq, deviceName: nameOf(rq) } : null
+        })(),
         ageBand,
         usedToday: usedToday.get(c.id as string) ?? 0,
         recommended: recommendedDailyMinutes(ageBand),

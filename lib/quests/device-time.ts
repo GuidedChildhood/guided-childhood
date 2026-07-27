@@ -5,7 +5,15 @@ import { STAR_MINUTES } from './templates'
 // able to watch the same countdown. Minutes buy in whole star blocks (one
 // star is STAR_MINUTES minutes) so the maths is always clean.
 
-export type DeviceKey = 'phone' | 'tablet' | 'tv' | 'console'
+// The KIND of a device, not its identity. Which iPad, and whose, is
+// family_devices' job (lib/devices/family); this is the four (now five) word
+// bucket that every session, request and weekly breakdown has always been
+// keyed on, so it stays exactly as it was and simply gained computer, the one
+// real device a child uses that the four words could not describe.
+export type DeviceKind = 'phone' | 'tablet' | 'tv' | 'console' | 'computer'
+
+/** @deprecated The older name for DeviceKind, kept so nothing has to churn. */
+export type DeviceKey = DeviceKind
 
 // The device rule in child words, said the same way everywhere a device
 // could be used: the Use my time tile, the timer card, and the quiet line
@@ -18,6 +26,7 @@ export const DEVICES: { key: DeviceKey; label: string; emoji: string }[] = [
   { key: 'tablet', label: 'Tablet', emoji: '📲' },
   { key: 'tv', label: 'TV', emoji: '📺' },
   { key: 'console', label: 'Console', emoji: '🎮' },
+  { key: 'computer', label: 'Computer', emoji: '💻' },
 ]
 
 // The same four devices in the child's own picker: TV first because that is
@@ -28,6 +37,7 @@ export const KID_DEVICES: { key: DeviceKey; label: string; emoji: string }[] = [
   { key: 'phone', label: 'Stay on this phone', emoji: '📱' },
   { key: 'tablet', label: 'Tablet', emoji: '📲' },
   { key: 'console', label: 'Console', emoji: '🎮' },
+  { key: 'computer', label: 'Computer', emoji: '💻' },
 ]
 
 export type TrustLevel = 'ask' | 'watch' | 'trusted'

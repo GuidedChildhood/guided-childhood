@@ -14,7 +14,7 @@ import { jobsTodayCount } from '@/lib/pathway/jobs-streak'
 // the countdown both sides watch. The parent's phone gets a heads up.
 
 export async function POST(req: NextRequest) {
-  const { token, device: rawDevice, minutes, requestId } = await req.json()
+  const { token, device: rawDevice, familyDeviceId, minutes, requestId } = await req.json()
   if (!token || typeof token !== 'string' || !/^[0-9a-f]{18}$/.test(token)) {
     return NextResponse.json({ error: 'bad request' }, { status: 400 })
   }
@@ -33,6 +33,19 @@ export async function POST(req: NextRequest) {
   const trust = readTrust(childRow?.device_trust)
   const childName = childRow?.name ?? 'Your child'
 
+  // Which actual screen, when the family has listed theirs. Read back against
+  // this family rather than trusted from the child's device, and its name is
+  // what the parent's ping and the spend note will say. Missing, unknown or on
+  // a database still short of migration 106 all fall back to the kind, which
+  // is how every session read before this existed.
+  let homeDevice: { id: string; label: string } | null = null
+  if (typeof familyDeviceId === 'string' && familyDeviceId) {
+    const { data } = await supabase
+      .from('family_devices').select('id, label')
+      .eq('id', familyDeviceId).eq('user_id', link.user_id).maybeSingle()
+    homeDevice = (data as { id: string; label: string } | null) ?? null
+  }
+
   // The child taps Start on an ask their grown up already said yes to: the
   // approved request itself carries the device and minutes, so nothing the
   // client sends can stretch what was agreed.
@@ -47,12 +60,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'ask not approved' }, { status: 400 })
     }
     approvedAsk = { id: reqRow.id as string, device: reqRow.device as string, minutes: Number(reqRow.minutes) }
+    // The ask already named a screen when it was sent. That is the one the
+    // parent said yes to, so it wins over anything the client sends now.
+    const { data: askDevice } = await supabase
+      .from('device_requests').select('family_device_id').eq('id', requestId).maybeSingle()
+    const askDeviceId = (askDevice as { family_device_id?: string | null } | null)?.family_device_id
+    if (askDeviceId) {
+      const { data } = await supabase
+        .from('family_devices').select('id, label')
+        .eq('id', askDeviceId).eq('user_id', link.user_id).maybeSingle()
+      if (data) homeDevice = data as { id: string; label: string }
+    }
   }
 
   const device = approvedAsk ? approvedAsk.device : rawDevice
   if (!isDeviceKey(device)) {
     return NextResponse.json({ error: 'bad device' }, { status: 400 })
   }
+  // "on the tablet" but "on Ella's iPad": a named screen takes no article, and
+  // "on the Ella's iPad" in a push notification reads as machine written.
+  const screenName = homeDevice?.label ?? deviceLabel(device)
+  const onScreen = homeDevice ? screenName : `the ${screenName.toLowerCase()}`
   const mins = approvedAsk ? approvedAsk.minutes : Number(minutes)
   if (!Number.isFinite(mins) || mins < STAR_MINUTES || mins > 600 || mins % STAR_MINUTES !== 0) {
     return NextResponse.json({ error: 'bad minutes' }, { status: 400 })
@@ -98,6 +126,7 @@ export async function POST(req: NextRequest) {
       .eq('child_id', link.child_id).in('status', ['pending', 'approved'])
     const { data: askRow } = await supabase.from('device_requests').insert({
       user_id: link.user_id, child_id: link.child_id, device, minutes: mins, status: 'pending',
+      ...(homeDevice ? { family_device_id: homeDevice.id } : {}),
     }).select('id, device, minutes').single()
 
     // The jobs picture, so the yes is an informed one: never a gate, just the
@@ -125,7 +154,7 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           userId: link.user_id,
           title: `${childName} is asking for screen time ⏳`,
-          body: `${mins} minutes on the ${deviceLabel(device)}, that is ${stars} star${stars === 1 ? '' : 's'}.${jobsLine} Tap to say yes on your board.`,
+          body: `${mins} minutes on ${onScreen}, that is ${stars} star${stars === 1 ? '' : 's'}.${jobsLine} Tap to say yes on your board.`,
           url: '/dashboard/quests',
         }),
       })
@@ -155,7 +184,7 @@ export async function POST(req: NextRequest) {
   // session that points back at it, so stopping early can trim it.
   const { data: spend, error: spendError } = await supabase.from('star_spends').insert({
     user_id: link.user_id, child_id: link.child_id, stars, minutes: mins,
-    note: `Device time: ${deviceLabel(device)}`,
+    note: `Device time: ${screenName}`,
   }).select('id').single()
   if (spendError) return NextResponse.json({ error: spendError.message }, { status: 500 })
 
@@ -163,6 +192,7 @@ export async function POST(req: NextRequest) {
   const { data: session, error: sessionError } = await supabase.from('device_sessions').insert({
     user_id: link.user_id, child_id: link.child_id, device, minutes: mins, stars,
     spend_id: spend.id, ends_at: endsAt, treat,
+    ...(homeDevice ? { family_device_id: homeDevice.id } : {}),
   }).select('id, device, minutes, stars, ends_at, started_at, treat').single()
   if (sessionError) return NextResponse.json({ error: sessionError.message }, { status: 500 })
 

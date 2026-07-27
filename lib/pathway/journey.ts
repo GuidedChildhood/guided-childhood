@@ -1,5 +1,6 @@
 import type { createClient } from '@/lib/supabase/server'
 import type { StageId } from './progress'
+import { homeSetupCount, toFamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -37,20 +38,45 @@ export async function getJourney(
     { data: stageLessons },
     { data: aiLessons },
     { data: lessonCompletions },
+    { data: familyDevices },
   ] = await Promise.all([
     supabase.from('device_guides').select('device_key, name, min_age').order('min_age', { ascending: true }),
-    supabase.from('device_setup_progress').select('device_key').eq('user_id', userId),
+    supabase.from('device_setup_progress').select('device_key, status').eq('user_id', userId),
     supabase.from('concerns').select('label, times_flagged').eq('user_id', userId).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(1),
     supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, title, audience').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']).order('sort_order', { ascending: true }),
     supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
+    supabase.from('family_devices').select('id, label, kind, guide_key, shared, retired_at').eq('user_id', userId),
   ])
 
-  // Devices for this stage, by age bucket
-  const devicesInStage = (deviceGuides ?? []).filter(d => deviceAgeToStage(d.min_age) === stageId)
-  const doneKeys = new Set((deviceProgress ?? []).map(d => d.device_key))
-  const devicesDone = devicesInStage.filter(d => doneKeys.has(d.device_key))
-  const nextDevice = devicesInStage.find(d => !doneKeys.has(d.device_key))
+  // Devices.
+  //
+  // When the family has told us what is in the house, this counts their house:
+  // every device they listed, not bucketed by stage, because "2 of 3 set up"
+  // about their own iPad, Switch and Smart TV is a sentence a parent can act on
+  // and "2 of 11 guides for ages 11 to 13" is not.
+  //
+  // Without a list it falls back to the age bucketed catalogue, minus anything
+  // marked not in our home, which is what this row always showed.
+  const doneKeys = new Set((deviceProgress ?? []).filter(d => (d.status ?? 'done') === 'done').map(d => d.device_key))
+  const notOwnedKeys = new Set((deviceProgress ?? []).filter(d => d.status === 'not_owned').map(d => d.device_key))
+  const home = ((familyDevices ?? []) as FamilyDeviceRow[]).map(toFamilyDevice)
+  const homeCount = homeSetupCount(home, doneKeys)
+
+  let devicesDoneCount: number
+  let devicesTotal: number
+  let nextDeviceName: string | null
+  if (homeCount.total > 0) {
+    devicesDoneCount = homeCount.done
+    devicesTotal = homeCount.total
+    nextDeviceName = homeCount.next?.label ?? null
+  } else {
+    const devicesInStage = (deviceGuides ?? [])
+      .filter(d => deviceAgeToStage(d.min_age) === stageId && !notOwnedKeys.has(d.device_key))
+    devicesDoneCount = devicesInStage.filter(d => doneKeys.has(d.device_key)).length
+    devicesTotal = devicesInStage.length
+    nextDeviceName = devicesInStage.find(d => !doneKeys.has(d.device_key))?.name ?? null
+  }
 
   // Moments, the live concerns
   const openConcerns = concerns ?? []
@@ -73,9 +99,9 @@ export async function getJourney(
 
   return {
     devices: {
-      done: devicesDone.length,
-      total: devicesInStage.length,
-      nextName: nextDevice?.name ?? null,
+      done: devicesDoneCount,
+      total: devicesTotal,
+      nextName: nextDeviceName,
       href: '/dashboard/devices',
     },
     moments: {

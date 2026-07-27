@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { DEVICES, type DeviceKey, minutesToStars, deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
+import DevicePickerChips, { type DevicePick } from '@/components/devices/DevicePickerChips'
+import type { FamilyDevice } from '@/lib/devices/family'
 import { dailyGuide, wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { bandLabelFor } from '@/lib/quests/screen-balance'
 import PushPrompt from '@/components/push/PushPrompt'
@@ -13,8 +15,8 @@ import PushPrompt from '@/components/push/PushPrompt'
 // the next quests. When nothing is running the parent can grant time on any
 // device, spending the child's earned stars by default, or a bonus for a treat.
 
-type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string }
-type DeviceRequest = { id: string; device: DeviceKey; minutes: number }
+type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string; deviceName?: string | null }
+type DeviceRequest = { id: string; device: DeviceKey; minutes: number; deviceName?: string | null }
 type DeviceWeek = { device: DeviceKey; minutes: number; sessions: number }
 type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number; giftOwed?: number; agreedAt?: string | null }
 
@@ -37,7 +39,7 @@ const TRUST_LEVELS: { key: string; label: string; hint: string }[] = [
 // page, so the answer is always one tap from wherever the parent is looking.
 export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprove, onDecline }: {
   childName: string
-  request: { device: DeviceKey; minutes: number }
+  request: { device: DeviceKey; minutes: number; deviceName?: string | null }
   exceedsGuide: boolean
   busy: boolean
   onApprove: () => void
@@ -49,7 +51,7 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
         {deviceEmoji(request.device)} {childName} is asking for {request.minutes} minutes
       </div>
       <div style={{ fontSize: '14px', color: 'var(--ink-soft)', marginBottom: '9px' }}>
-        That is {minutesToStars(request.minutes)} star{minutesToStars(request.minutes) === 1 ? '' : 's'} on the {deviceLabel(request.device)}. Your yes lets {childName} tap Start on their screen.
+        That is {minutesToStars(request.minutes)} star{minutesToStars(request.minutes) === 1 ? '' : 's'} on {request.deviceName ?? `the ${deviceLabel(request.device)}`}. Your yes lets {childName} tap Start on their screen.
       </div>
       {/* Saying yes here past the day's guide is a treat, named warmly
           before the tap so the parent grants it knowingly. Never a block. */}
@@ -178,7 +180,11 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
 }
 
 function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; onAlarm: () => void }) {
-  const [device, setDevice] = useState<DeviceKey>('tablet')
+  // The screens this family actually owns, so the grant names one rather than
+  // picking an emoji out of four categories. Empty falls back to the four.
+  const [pick, setPick] = useState<DevicePick>({ kind: 'tablet', familyDeviceId: null })
+  const [homeDevices, setHomeDevices] = useState<FamilyDevice[]>([])
+  const device = pick.kind
   const [minutes, setMinutes] = useState(30)
   const [mode, setMode] = useState<'stars' | 'gift' | 'bonus'>('stars')
   const [busy, setBusy] = useState(false)
@@ -189,10 +195,33 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
   // The last running session we were counting down, so when it vanishes from a
   // poll we can tell whether the child handed it back early or the clock simply
   // ran out.
-  const lastRunRef = useRef<{ endsAt: number; startedAt: number; planned: number; device: DeviceKey } | null>(null)
+  const lastRunRef = useRef<{ endsAt: number; startedAt: number; planned: number; device: DeviceKey; deviceName?: string | null } | null>(null)
   // A calm note when the child stopped early, shown on the open board so a
   // parent looking at it is told, not just the push when the app is closed.
-  const [stoppedNote, setStoppedNote] = useState<{ mins: number; device: DeviceKey } | null>(null)
+  const [stoppedNote, setStoppedNote] = useState<{ mins: number; device: DeviceKey; deviceName?: string | null } | null>(null)
+
+  // The house's screens. The first tablet is preselected because that is what
+  // this picker always defaulted to; with a list it is now a particular one.
+  useEffect(() => {
+    let on = true
+    fetch('/api/devices/family')
+      .then(r => r.json())
+      .then((d: { devices?: FamilyDevice[] }) => {
+        if (!on) return
+        const live = (d.devices ?? []).filter(x => !x.retiredAt)
+        setHomeDevices(live)
+        const first = live.find(x => x.kind === 'tablet') ?? live[0]
+        if (first) setPick({ kind: first.kind, familyDeviceId: first.id })
+      })
+      .catch(() => {})
+    return () => { on = false }
+  }, [])
+
+  // "on the tablet" but "on Ella's iPad": a named screen takes no article.
+  const namedScreen = pick.familyDeviceId
+    ? homeDevices.find(d => d.id === pick.familyDeviceId) ?? null
+    : null
+  const grantScreen = namedScreen ? namedScreen.label : `the ${deviceLabel(device)}`
 
   // Live countdown from the running session, ticking every second, alarming
   // once when it reaches zero.
@@ -205,7 +234,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
       const last = lastRunRef.current
       if (last && Date.now() < last.endsAt - 1500) {
         const used = Math.max(1, Math.min(Math.round(last.planned), Math.ceil((Date.now() - last.startedAt) / 60000)))
-        setStoppedNote({ mins: used, device: last.device })
+        setStoppedNote({ mins: used, device: last.device, deviceName: last.deviceName ?? null })
       }
       lastRunRef.current = null
       setRemaining(null); setFinished(false); firedRef.current = false
@@ -217,6 +246,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
       startedAt: new Date(kid.session.started_at).getTime(),
       planned: kid.session.minutes,
       device: kid.session.device,
+      deviceName: kid.session.deviceName ?? null,
     }
     setStoppedNote(null)
     const end = new Date(kid.session.ends_at).getTime()
@@ -245,7 +275,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
     try {
       const r = await fetch('/api/quests/time/parent-start', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ childId: kid.id, device, minutes, bonus: mode === 'bonus', gift: mode === 'gift' }),
+        body: JSON.stringify({ childId: kid.id, device, familyDeviceId: pick.familyDeviceId, minutes, bonus: mode === 'bonus', gift: mode === 'gift' }),
       })
       const d = await r.json()
       if (!r.ok) { setErr(d.error === 'not enough stars' ? 'Not enough stars for that' : 'Could not start, try again'); setBusy(false); return }
@@ -338,7 +368,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
             </button>
           </div>
           <div style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
-            {stoppedNote.mins} minute{stoppedNote.mins === 1 ? '' : 's'} on the {deviceLabel(stoppedNote.device)} recorded, on today&apos;s balance. The rest of the stars went back.
+            {stoppedNote.mins} minute{stoppedNote.mins === 1 ? '' : 's'} on {stoppedNote.deviceName ?? `the ${deviceLabel(stoppedNote.device)}`} recorded, on today&apos;s balance. The rest of the stars went back.
           </div>
         </div>
       )}
@@ -409,14 +439,8 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
         </div>
       </details>
 
-      <div style={{ display: 'flex', gap: '6px', marginBottom: '9px' }}>
-        {DEVICES.map(d => (
-          <button key={d.key} onClick={() => setDevice(d.key)} aria-pressed={device === d.key} style={{
-            flex: 1, padding: '8px 4px', borderRadius: '11px', cursor: 'pointer', fontSize: '19px',
-            background: device === d.key ? 'var(--terracotta-lt)' : '#fff',
-            border: device === d.key ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
-          }}>{d.emoji}</button>
-        ))}
+      <div style={{ marginBottom: '9px' }}>
+        <DevicePickerChips devices={homeDevices} fallback={DEVICES} value={pick} onChange={setPick} />
       </div>
 
       <div style={{ display: 'flex', gap: '6px', marginBottom: '10px' }}>
@@ -456,8 +480,8 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
       }}>
         {busy ? 'Starting…'
           : tooPoor ? `Needs ${cost} stars`
-          : mode === 'gift' ? `Gift ${minutes} min on the ${deviceLabel(device)} 💛`
-          : mode === 'bonus' ? `Give ${minutes} min on the ${deviceLabel(device)} 🎁`
+          : mode === 'gift' ? `Gift ${minutes} min on ${grantScreen} 💛`
+          : mode === 'bonus' ? `Give ${minutes} min on ${grantScreen} 🎁`
           : `Start ${minutes} min · ${cost} stars`}
       </button>
       {mode === 'gift' && (
@@ -485,6 +509,7 @@ function WhereTheTimeGoes({ name, ageBand, week }: { name: string; ageBand: stri
     tv: `TV carries most of ${name}'s screen time. At age ${band} what the watching displaces matters more than the clock, so keep play and sleep in first place, and let jobs on the quest board earn the sittings.`,
     phone: `The phone carries most of ${name}'s screen time. At age ${band} shorter sittings with real breaks work best, so let jobs on the quest board earn each one.`,
     tablet: `The tablet carries most of ${name}'s screen time. At age ${band} the balance matters more than the clock, so keep making and moving around it, and let jobs on the quest board earn the sittings.`,
+    computer: `The computer carries most of ${name}'s screen time. At age ${band} it is worth knowing how much of it is making and how much is watching, so keep the sittings earned on the quest board either way.`,
   }
   return (
     <div style={{ marginTop: '12px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 13px' }}>
