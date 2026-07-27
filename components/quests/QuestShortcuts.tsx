@@ -47,6 +47,14 @@ const TILES: Tile[] = [
     href: '/dashboard/lessons', label: 'Lessons', sub: 'Watch together, pass the stage',
     icon: 'lessons', bg: 'var(--tint-amber)', iconBg: 'rgba(255,255,255,0.72)',
   },
+  {
+    // The keepsake shop had no way in from here: it sat behind the passport and
+    // the sticker book, so a parent who never opened those never found it. It
+    // is the physical end of the same pathway, the star chart and the Planet
+    // Friends as things you can hold, so it earns a tile of its own.
+    href: '/dashboard/keepsakes', label: 'Keepsakes', sub: 'Rewards you can hold',
+    icon: 'keepsakes', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
+  },
 ]
 
 // Same outlined tile as the passport page now, so the two read as one product.
