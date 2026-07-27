@@ -97,12 +97,36 @@ for (const file of files) {
   }
 }
 
-if (urls.size === 0) {
-  console.log('Nothing left on the CDN. Already vendored.')
+// What is actually left to do, as opposed to what is merely referenced.
+//
+// A bare filename in a data array stays a bare filename after vendoring: it is
+// the base constant beside it that changes to /art/, so the join still lands
+// right. Which means this list keeps its full length forever, and a finished
+// repo was being greeted with "227 images to bring in", reading like work
+// outstanding when there was none left.
+//
+// So the count that gets announced is the count of files not already on disk,
+// and a run with nothing to fetch and nothing to rewrite says so.
+const missing = []
+for (const [url, name] of urls) {
+  if (!(await exists(join(OUT, name)))) missing.push([url, name])
+}
+
+// A plain substring, deliberately not URL_RE. A global regex keeps its
+// lastIndex between calls, so .test() across a list of files answers about
+// where the previous file left off rather than about this one.
+const stillRemote = (await Promise.all(
+  files.map(async f => (await readFile(f, 'utf8')).includes(CDN))
+)).some(Boolean)
+
+if (missing.length === 0 && !stillRemote) {
+  console.log(`Already vendored. ${urls.size} images in ${OUT}, nothing pointing at the CDN.`)
   process.exit(0)
 }
 
-console.log(`${urls.size} images to bring in.`)
+console.log(missing.length > 0
+  ? `${missing.length} images to bring in (${urls.size - missing.length} already here).`
+  : `Everything is downloaded. Rewriting the source now.`)
 await mkdir(OUT, { recursive: true })
 
 // Pass two: download, skipping anything already here.
