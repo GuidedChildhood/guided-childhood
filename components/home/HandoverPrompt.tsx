@@ -126,8 +126,6 @@ export default function HandoverPrompt({
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
             {reason('✅', 'They tick their own jobs', 'You stop being the one chasing and checking. They do their side, you just approve.')}
             {reason('⏳', 'They ask for screen time', 'Instead of arguing for it. The stars they have earned decide the answer, not the mood in the room.')}
-            {reason('🖨️', 'Sheets and lessons land with them', 'Straight onto their device, at the age they are actually at.')}
-            {reason('⭐', 'They can see their stars', 'A bank that goes up is the whole reason a child keeps doing the jobs.')}
           </ul>
         </div>
 
