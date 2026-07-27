@@ -65,6 +65,9 @@ function expertFallbackLines(childName: string, situation: string, sayThis: stri
 
 type Body = {
   mode: 'child' | 'coach' | 'suggest'
+  /** Which script this is, so DiGi can lead with a line that has already
+   *  worked for this family. Optional: the fixture page sends none. */
+  sortOrder?: number
   scriptTitle: string
   situation: string
   sayThis: string
@@ -87,7 +90,7 @@ export async function POST(request: Request) {
   }
 
   const body = (await request.json()) as Body
-  const { mode, scriptTitle, situation, sayThis, notThis } = body
+  const { mode, sortOrder, scriptTitle, situation, sayThis, notThis } = body
   if (!scriptTitle || !Array.isArray(body.messages)) {
     return NextResponse.json({ error: 'Bad request' }, { status: 400 })
   }
@@ -173,6 +176,20 @@ If the situation involves an online game, you cannot pause a live match and your
     // the wrong tool and DiGi should be handing over a boundary instead.
     const suggestStep = ladderStep(messages.filter(m => m.role === 'user').length)
 
+    // A line this family has already told us worked, on this script, after a
+    // real moment with their real child. It leads rather than replaces: it is
+    // one family's single data point, so it earns first place and nothing more.
+    // Only while DiGi is still connecting, since a line that worked at the
+    // start of a conversation is not the line for a fourth refusal.
+    let provenLine = ''
+    if (typeof sortOrder === 'number' && suggestStep === 'connect') {
+      const { data } = await supabase
+        .from('script_completions').select('worked_line')
+        .eq('user_id', user.id).eq('script_sort_order', sortOrder).maybeSingle()
+      const won = (data as { worked_line?: string | null } | null)?.worked_line
+      if (won && won.trim()) provenLine = won.trim()
+    }
+
     const suggestSystem = `You are DiGi, a sharp, evidence led parenting guide coaching a parent mid rehearsal. Your job is to hand them the exact words to say next to ${childName} (${stage.ages}) about: ${situation}.${bankKnowledge ? `\n\nRelevant findings from our research bank, use them to shape the lines where they fit:\n${bankKnowledge}` : ''}
 
 Draw on the actual playbook the leading child and parent wellbeing experts teach:
@@ -193,7 +210,7 @@ WHERE THIS STANDOFF HAS GOT TO: ${suggestStep === 'connect'
     ? 'The parent has already validated three times and the child is STILL refusing. Do NOT offer another validating line, it now reads as a parent with no answer. Offer the boundary instead, and use Becky Kennedy\'s definition exactly: a boundary is what the PARENT will do, never what the child must do. "I am going to come and take it at six" works because it needs no compliance. "Turn it off now" does not, because it can be refused. Each line must be something the parent can carry out alone, and must leave the child free to be furious about it.'
     : 'This has gone on long enough and now needs ENDING, not winning. Offer lines that close it warmly and leave the relationship intact: the limit holds, the child is allowed to be angry, the parent is not withdrawing love, and it gets picked up when everyone is calm. Never a parting shot, never a lecture, never a fresh demand.'}
 
-Suggest exactly 3 short lines the parent could say next, each ONE natural spoken British sentence a real parent would actually say out loud in this moment, responding to what the child just said. Lean towards the spirit of: "${sayThis}". Steer clear of the spirit of: "${notThis}". Return ONLY a JSON array of 3 strings, nothing else. Never use a dash of any kind.`
+${provenLine ? `This parent has already told us that "${provenLine}" worked with this child in this exact situation. Make your FIRST suggestion that line, or the closest natural version of it that fits what the child just said. The other two stay fresh.\n\n` : ''}Suggest exactly 3 short lines the parent could say next, each ONE natural spoken British sentence a real parent would actually say out loud in this moment, responding to what the child just said. Lean towards the spirit of: "${sayThis}". Steer clear of the spirit of: "${notThis}". Return ONLY a JSON array of 3 strings, nothing else. Never use a dash of any kind.`
 
     // Build our own single user turn so the model always answers as the coach.
     // Passing the rehearsal messages straight through ends on the child's line,
