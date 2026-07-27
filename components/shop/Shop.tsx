@@ -27,6 +27,7 @@ const ART: Record<string, string> = {
   passport: '🛂',
   bracelet: '🧷',
   plush: '🧸',
+  chart: '🧲',
 }
 
 export default function Shop({
@@ -122,7 +123,7 @@ export default function Shop({
             Coming soon
           </h2>
           <p style={{ fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
-            Anything a child can hold and chew is a toy in law, so the charms and the plush go through proper safety testing before we sell one. Tell us which you want and you will hear first.
+            Anything a child can hold and chew is a toy in law, so the magnetic chart, the charms and the plush go through proper safety testing before we sell one. Tell us which you want and you will hear first.
           </p>
           {soon.map(p => (
             <Card key={p.key} product={p} qty={0} onAdd={add} childName={childName} earned={earned} />
@@ -187,7 +188,7 @@ function Card({
 }) {
   const buyable = canBuy(product, earned)
   const character = characterForKey(product.character_key)
-  const showsWholeFamily = product.kind === 'stickers' || product.kind === 'charm_set'
+  const showsWholeFamily = product.kind === 'stickers' || product.kind === 'charm_set' || product.kind === 'chart'
   // A picture of the actual thing beats a picture of the character on it, so
   // the product shot wins where one exists and the character art is the
   // fallback for anything added without one.
