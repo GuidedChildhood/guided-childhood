@@ -25,7 +25,8 @@
 // later and running it again fetches only the new one.
 
 import { readFile, writeFile, mkdir, readdir, access } from 'node:fs/promises'
-import { join, extname } from 'node:path'
+import { join, extname, basename } from 'node:path'
+import sharp from 'sharp'
 
 const CDN = 'https://d8j0ntlcm91z4.cloudfront.net/'
 // The bucket prefix every generated image sits under, needed to rebuild a full
@@ -107,9 +108,17 @@ for (const file of files) {
 //
 // So the count that gets announced is the count of files not already on disk,
 // and a run with nothing to fetch and nothing to rewrite says so.
+// Every image is stored as webp. A Higgsfield png is one to three megabytes;
+// the same picture as webp is nearer a hundred kilobytes. Across a hundred odd
+// images that is the difference between adding ten megabytes to the repo and
+// adding a hundred and fifty, and it is also simply faster for a parent on a
+// phone. So the name on disk is the original name with a webp extension, and
+// the rewrite below uses that name rather than the one the CDN used.
+const webpName = name => (extname(name).toLowerCase() === '.webp' ? name : basename(name, extname(name)) + '.webp')
+
 const missing = []
 for (const [url, name] of urls) {
-  if (!(await exists(join(OUT, name)))) missing.push([url, name])
+  if (!(await exists(join(OUT, webpName(name))))) missing.push([url, name])
 }
 
 // A plain substring, deliberately not URL_RE. A global regex keeps its
@@ -135,12 +144,16 @@ let skipped = 0
 const failed = []
 
 for (const [url, name] of urls) {
-  const dest = join(OUT, name)
+  const dest = join(OUT, webpName(name))
   if (await exists(dest)) { skipped++; continue }
   try {
     const res = await fetch(url)
     if (!res.ok) { failed.push(`${seenAt.get(name) ?? '?'}  ${name}  (HTTP ${res.status})`); continue }
-    await writeFile(dest, Buffer.from(await res.arrayBuffer()))
+    const raw = Buffer.from(await res.arrayBuffer())
+    // Quality 82 at up to 1600 wide: past that nothing in this app renders any
+    // bigger, and the eye cannot tell 82 from lossless on illustrated artwork.
+    const out = await sharp(raw).resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 82 }).toBuffer()
+    await writeFile(dest, out)
     fetched++
     process.stdout.write('.')
   } catch (err) {
@@ -171,12 +184,14 @@ console.log(`Downloaded ${fetched}, already had ${skipped}.`)
 let changed = 0
 for (const file of files) {
   const before = await readFile(file, 'utf8')
-  const after = before.replace(URL_RE, m => `/art/${m.split('/').pop()}`)
+  const after = before.replace(URL_RE, m => `/art/${webpName(m.split('/').pop())}`)
     // The base constants end in a slash and now resolve to bare "/art/", which
     // is exactly right, but leaves a doubled slash where a filename follows.
     .replaceAll('/art//', '/art/')
-    // A bare filename in a data array is left exactly as it is: the host it
-    // gets joined onto has just become /art/, so the join still lands right.
+    // A bare filename in a data array gets its extension swapped, because the
+    // file on disk is webp now. The host it joins onto has already become
+    // /art/, so the join still lands right.
+    .replace(BARE_RE, (m, f) => m.replace(f, webpName(f)))
 
   if (after !== before) { await writeFile(file, after); changed++ }
 }
