@@ -62,7 +62,12 @@ export async function POST() {
   const parentPayload = JSON.stringify({ title: 'Test: from school, due tomorrow', body, url: '/dashboard/school' })
   let sent = 0
   const errors: string[] = []
+  const details: string[] = []
   const delivered = new Set<string>()
+  // Endpoints the push service has told us are permanently dead. Collected
+  // here and deleted after, so the next test is not dragged down by devices
+  // that stopped existing weeks ago.
+  const gone: string[] = []
   await Promise.allSettled(
     parentSubs.map(async sub => {
       try {
@@ -70,10 +75,29 @@ export async function POST() {
         sent++
         delivered.add(platformLabel(sub.endpoint))
       } catch (err: unknown) {
-        errors.push(err && typeof err === 'object' && 'statusCode' in err ? String(err.statusCode) : 'unknown')
+        const e = err as { statusCode?: number; body?: string; message?: string }
+        errors.push(e?.statusCode != null ? String(e.statusCode) : 'unknown')
+        // The push service puts the real reason in the body. Keep it: it is
+        // the difference between a fixable setup problem and a server one.
+        const why = (e?.body || e?.message || '').toString().replace(/\s+/g, ' ').trim().slice(0, 300)
+        if (why) details.push(why)
+        // 404 and 410 mean this subscription is gone for good, not busy. The
+        // spec is explicit, and keeping the row only guarantees the same
+        // failure every morning the cron runs.
+        if (e?.statusCode === 404 || e?.statusCode === 410) gone.push(sub.endpoint)
       }
     })
   )
+
+  // A subscription rots when a browser clears its data, or when an iPhone PWA
+  // is removed and added again: the row survives, the endpoint does not. They
+  // pile up, and once every live one has been replaced the test looks broken
+  // when it is only stale. Clearing them is what makes it self healing.
+  if (gone.length > 0) {
+    try {
+      await admin.from('push_subscriptions').delete().in('endpoint', gone).is('child_id', null).eq('user_id', user.id)
+    } catch { /* the answer below is still honest without it */ }
+  }
   const platforms = [...delivered]
   const hasApple = parentSubs.some(s => s.endpoint.includes('push.apple.com'))
 
@@ -100,5 +124,14 @@ export async function POST() {
     )
   }
 
-  return NextResponse.json({ sent, devices: parentSubs.length, platforms, hasApple, errors, childSent, childHasDevice: (child ? childSent > 0 : null) })
+  return NextResponse.json({
+    sent, devices: parentSubs.length, platforms, hasApple, errors, details,
+    // How many rows were dropped as dead, so the card can say the retry is
+    // worth making rather than leaving a parent to guess.
+    removed: gone.length,
+    // Every device on file refused. Not the same as having none, and it was
+    // this gap that made a real setup problem read as "something went wrong".
+    allFailed: sent === 0 && parentSubs.length > 0,
+    childSent, childHasDevice: (child ? childSent > 0 : null),
+  })
 }

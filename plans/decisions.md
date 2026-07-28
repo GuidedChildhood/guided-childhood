@@ -2579,3 +2579,35 @@ deep in Home's Explore grid, labelled School tasks, which is not the words a
 parent searches for. It is a tile on the Quests board now, named School
 reminders, because a school reminder is a job the week puts on the family,
 and the Explore tile is renamed to match.
+
+## 28 Jul 2026: "Something went wrong" was hiding a setup problem
+Justin tapped Send a test on the school card and got "Something went wrong, try
+again." It was not a fault. It was the one outcome the card had no words for.
+
+The route has three answers and the card only understood two. No subscription at
+all returns a `reason` and gets a good message. A send that works returns `sent`.
+But when devices ARE on file and every one of them refuses, `sent` is 0, there is
+no `reason`, and there is no `error`, so it fell through to the generic line. The
+status codes were already in the response as `errors` and the card threw them
+away.
+
+**And the account has plenty of devices: 19 parent subscriptions, 6 Apple and 13
+Chrome, going back to 4 July.** That is not 19 phones. A subscription rots when a
+browser clears its data, and an iPhone home screen app that is deleted and added
+back comes home with a new endpoint while the old row stays. They accumulate on
+every re-subscribe and nothing ever removed them, so once every live endpoint had
+been replaced the test could only fail, and it failed in the one way the card
+could not explain.
+
+Three changes. The card now says what actually happened and what to do about it,
+naming how many devices refused, because "notifications got turned off again, or
+this app was removed from the home screen and added back" covers nearly every
+real case and a parent fixes it in twenty seconds. Any other refusal shows the
+push service code rather than swallowing it, matching what /api/push/test and
+PushPrompt already did. And 404 or 410 responses now delete the row: the spec
+says those are permanently gone, and keeping them guarantees the same failure
+every morning the cron runs. The test is self healing from here.
+
+The general lesson, which is the one worth keeping: an error message that cannot
+tell "you have not set this up" apart from "we are broken" will always be read as
+the second one, and the user stops trusting the feature rather than fixing it.
