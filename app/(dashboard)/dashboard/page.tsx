@@ -27,6 +27,7 @@ import { nextEventForChild, aroundWhen } from '@/lib/learning/calendar'
 import { academicYearStart } from '@/lib/learning/term'
 import { transitionFor, transitionAsk } from '@/lib/learning/transition'
 import SchoolAheadCard from '@/components/home/SchoolAheadCard'
+import DayCheckup from '@/components/home/DayCheckup'
 import PhoneBridgeCard from '@/components/home/PhoneBridgeCard'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
@@ -439,6 +440,22 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const noQuestsYet = (questsCountResult.count ?? 0) === 0
   const stageLessonsLeft = stageLessons ? stageLessons.total - stageLessons.passed : 0
 
+  // The four strands, worked out once and read by both the after day check up
+  // and whatever else wants them. The href comes from literacyStatuses, which
+  // already decides where each strand is actually fixed: devices, quests or
+  // lessons depending on what is wrong. It used to be dropped on the way to
+  // the walk, which is the whole reason "fix this" did nothing. Only carried
+  // while the strand is live, so a grey one never offers a tap.
+  const literacyStrands = (['safe', 'balance', 'ai', 'social'] as const).map(k => {
+    const live = stage.id >= (k === 'ai' || k === 'social' ? 3 : 1)
+    return {
+      key: k,
+      name: k === 'safe' ? 'Safe online' : k === 'balance' ? 'Healthy balance' : k === 'ai' ? 'AI and chatbots' : 'Social media ready',
+      tone: (live ? (literacyStatuses[k]?.tone ?? 'green') : 'grey') as 'green' | 'red' | 'grey',
+      href: live ? literacyStatuses[k]?.href : undefined,
+    }
+  })
+
   const nextUp: { eyebrow: string; title: string; line: string; href: string; icon: string } =
     jobsStatus === 'pending'
       ? {
@@ -489,21 +506,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           nextTask: !childAppLive
             ? { label: 'Share the QR code with them', href: '/dashboard/quests?tab=share' }
             : (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
-          // The href comes from literacyStatuses, which already works out where
-          // each strand is actually fixed: devices, quests or lessons depending
-          // on what is wrong. It used to be dropped here, which is the whole
-          // reason "fix this" in DiGi's walk did nothing. Only carried while
-          // the strand is live, so a grey one never offers a tap.
-          strands: (['safe', 'balance', 'ai', 'social'] as const).map(k => {
-            const live = stage.id >= (k === 'ai' || k === 'social' ? 3 : 1)
-            return {
-              key: k,
-              name: k === 'safe' ? 'Safe online' : k === 'balance' ? 'Healthy balance' : k === 'ai' ? 'AI and chatbots' : 'Social media ready',
-              tone: live ? (literacyStatuses[k]?.tone ?? 'green') : 'grey' as const,
-              href: live ? literacyStatuses[k]?.href : undefined,
-            }
-          }),
-          stageLessons,
+          strands: literacyStrands,
         }}
       />
       {/* Trial status: warm and forgiving during, a gentle offer after, never
@@ -630,6 +633,22 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '12px 20px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
           </div>
         </Link>
+      )}
+
+      {/* And then the wider check on the child, which used to be step one of
+          DiGi's morning walk. It came before the day's one thing, which is the
+          wrong way round: follow the path first, check on the child after.
+          Silent unless a strand is red or lessons are waiting, so silence
+          honestly means checked and fine. */}
+      {dayComplete && (
+        <DayCheckup
+          childName={child?.name ?? null}
+          stageNum={stage.id}
+          stageName={stage.name}
+          strands={literacyStrands}
+          lessonsLeft={stageLessonsLeft}
+          lessonsTotal={stageLessons?.total ?? 0}
+        />
       )}
 
       {/* The hero of Home while the day is still open: today's loop as the big

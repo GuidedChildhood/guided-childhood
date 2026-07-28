@@ -170,7 +170,9 @@ export function MiniRoad({ currentStage, showDigi = true }: { currentStage: numb
                 </div>
               )}
               <StageDot n={stage.id} state={state} size={36} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.02em', color: state === 'here' ? 'var(--ink)' : 'var(--ink-muted)', textAlign: 'center', whiteSpace: 'nowrap' }}>
+              {/* Sizing lives in globals.css: five nowrap labels do not fit a
+                  390px phone, and the widest ran into its neighbour. */}
+              <span className="mini-road-age" style={{ color: state === 'here' ? 'var(--ink)' : 'var(--ink-muted)' }}>
                 {ages}
               </span>
             </div>
