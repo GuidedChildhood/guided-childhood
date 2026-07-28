@@ -31,6 +31,9 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
   const title = typeof body?.title === 'string' ? body.title.trim().slice(0, 140) : ''
   if (!title) return NextResponse.json({ error: 'title required' }, { status: 400 })
+  // One stray character is a slip, not a reminder. Two is the floor rather
+  // than three because PE is a real thing a parent types.
+  if (title.length < 2) return NextResponse.json({ error: 'title too short' }, { status: 400 })
 
   const kind = KINDS.includes(body.kind) ? body.kind : 'notice'
   const detail = typeof body.detail === 'string' ? body.detail.trim().slice(0, 400) || null : null
@@ -42,6 +45,37 @@ export async function POST(req: NextRequest) {
     ? body.recurs_weekday
     : null
   const autoSendToChild = recursWeekday !== null && body.auto_send_to_child === true
+
+  // Already on the list? Then this is the same reminder being typed again, not
+  // a second one. Justin's Thursday had PE kit, PE, Pe and Pr all open at once,
+  // every one of them a fresh insert of a thing already there.
+  //
+  // Matched case insensitively on the same day, because Pe and PE are one
+  // reminder and the database is the only place that can know it. A weekly
+  // routine collides on its weekday, a one off on its date, and two undated
+  // notices with the same title collide outright.
+  //
+  // It returns the row that already exists rather than erroring. The parent
+  // wanted this reminder on this day, and it is: saying so is a better answer
+  // than a red message, and it makes the save idempotent, which is what stops
+  // a double tap on a slow phone leaving two behind.
+  const { data: clash } = await supabase
+    .from('school_actions')
+    .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child')
+    .eq('user_id', user.id)
+    .eq('status', 'open')
+    // Escaped, because ilike reads % and _ as wildcards and a title is free
+    // text: "50% day" unescaped would collide with half the list.
+    .ilike('title', title.replace(/[\\%_]/g, (c: string) => `\\${c}`))
+    .limit(20)
+  const dupe = (clash ?? []).find(r =>
+    recursWeekday !== null
+      ? r.recurs_weekday === recursWeekday
+      : dueDate !== null
+        ? r.due_date === dueDate
+        : r.recurs_weekday === null && r.due_date === null,
+  )
+  if (dupe) return NextResponse.json({ action: dupe, alreadyThere: true })
 
   const { data, error } = await supabase
     .from('school_actions')
