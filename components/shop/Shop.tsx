@@ -62,6 +62,10 @@ export default function Shop({
   const total = lines.reduce((sum, l) => sum + l.product.price_pence * l.qty, 0)
   const count = lines.reduce((sum, l) => sum + l.qty, 0)
 
+  // A basket the parent has emptied cannot still be failing to check out, and
+  // the bar it lived in has gone, so the message goes with it.
+  useEffect(() => { if (count === 0) setError(null) }, [count])
+
   function add(key: string, by: number) {
     setError(null)
     setBasket(b => {
@@ -132,12 +136,6 @@ export default function Shop({
         </>
       )}
 
-      {error && (
-        <p role="alert" style={{ fontSize: 16, fontWeight: 700, color: 'var(--terracotta-dark)', margin: '14px 0 0', lineHeight: 1.5 }}>
-          {error}
-        </p>
-      )}
-
       {/* The basket only appears once there is something in it, so an empty
           shop is not covered by a bar saying nothing. */}
       {count > 0 && (
@@ -168,9 +166,20 @@ export default function Shop({
               {busy ? 'Opening…' : 'Checkout'}
             </button>
           </div>
-          <p style={{ maxWidth: 600, margin: '8px auto 0', fontSize: 14, color: 'var(--ink-muted)', textAlign: 'center' }}>
-            Posted within the UK. Payment handled by Stripe.
-          </p>
+          {/* A checkout failure belongs to the Checkout button, not to the
+              page. It used to render at the foot of the shop, directly under
+              the notify me form, so a successful You are on the list sat above
+              We could not reach the payment page and read as that form having
+              failed. It is here now, attached to the thing that failed. */}
+          {error ? (
+            <p role="alert" style={{ maxWidth: 600, margin: '10px auto 0', fontSize: 15, fontWeight: 700, color: 'var(--terracotta-dark)', textAlign: 'center', lineHeight: 1.5 }}>
+              {error}
+            </p>
+          ) : (
+            <p style={{ maxWidth: 600, margin: '8px auto 0', fontSize: 14, color: 'var(--ink-muted)', textAlign: 'center' }}>
+              Posted within the UK. Payment handled by Stripe.
+            </p>
+          )}
         </div>
       )}
     </div>
