@@ -5,8 +5,8 @@ import QuestShortcuts from '@/components/quests/QuestShortcuts'
 // Both states, because the badges are only half the design: the quiet board is
 // what most families see most days, and it has to look finished rather than
 // unloaded. Seeing them side by side is the only way to check that.
-const BUSY = { ticksToConfirm: 4, printablesToConfirm: 2, schoolOpen: 1, agreementSigned: false, starsToSpend: 40 }
-const QUIET = { ticksToConfirm: 0, printablesToConfirm: 0, schoolOpen: 0, agreementSigned: true, starsToSpend: 0 }
+const BUSY = { ticksToConfirm: 4, printablesToConfirm: 2, schoolOpen: 1, agreementSigned: false, starsToSpend: 40, starChartPrinted: false }
+const QUIET = { ticksToConfirm: 0, printablesToConfirm: 0, schoolOpen: 0, agreementSigned: true, starsToSpend: 0, starChartPrinted: true }
 
 export default function Page() {
   return (
