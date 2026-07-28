@@ -46,7 +46,10 @@ function groups(scriptHref: string): Group[] {
         { href: '/dashboard/quests', label: 'Family quests', sub: 'Jobs earn stars', icon: 'jobs' },
         { href: '/dashboard/quests#screen-time', label: 'Screen timer', sub: 'Stars buy the minutes', icon: 'time' },
         { href: '/dashboard/agreement', label: 'Our family deal', sub: 'Signed by everyone', icon: 'deal' },
-        { href: '/dashboard/school', label: 'School tasks', sub: 'PE kit, library day, sorted', emoji: '🎒' },
+        // Named for what a parent goes looking for. School tasks is our word
+        // for it, school reminders is theirs, and this tile was unfindable
+        // because it answered a question nobody asks in those words.
+        { href: '/dashboard/school', label: 'School reminders', sub: 'PE kit, library day, trips', emoji: '🎒' },
       ],
     },
     {

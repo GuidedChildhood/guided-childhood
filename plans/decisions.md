@@ -2553,3 +2553,29 @@ star chart tile, which is plenty of front doors. Lessons is two views again,
 Watch together and Lessons, which is what the page is actually for. Nothing is
 lost: the printables library page carries the identical card and the same add to
 quests action, and nothing in the app deep linked to the removed view.
+
+**Manage jobs answers on the second tap, and a routine is no longer all or
+nothing (28 Jul).** Four things JP hit in one pass on the Quests board.
+
+The Manage jobs tile is an anchor link to #my-todo. A plain hash link only
+moves the page when the hash CHANGES, so once the URL already said #my-todo
+the second tap did nothing: scroll down, scroll back to the tiles, tap, and
+the page sat exactly where it was. SectionTiles now scrolls hash targets
+itself, which fixes every hash tile on both the Quests board and the passport.
+
+Manage jobs also landed straight in the list with Done as the only visible
+action. It opens on a row of the three things a parent actually came for:
+confirm the outstanding jobs (counted), add a routine, and school reminders.
+
+Routines were a bundle nobody could look inside: five jobs landed sight
+unseen and a parent who wanted four had to add the lot and delete one. Each
+routine now opens to its jobs, every one ticked to start with, anything
+already on the board ticked and locked, and the button counts what will
+actually land. A parent who never opens the list gets the old one tap
+behaviour exactly.
+
+**School reminders had a page and no door.** The only tile pointed at it from
+deep in Home's Explore grid, labelled School tasks, which is not the words a
+parent searches for. It is a tile on the Quests board now, named School
+reminders, because a school reminder is a job the week puts on the family,
+and the Explore tile is renamed to match.

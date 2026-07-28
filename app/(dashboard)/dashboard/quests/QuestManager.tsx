@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
@@ -333,14 +333,35 @@ export default function QuestManager() {
     await load()
   }
 
-  // Add a whole routine at once: each of its quests that is not already set,
-  // one summary ping to the child, one reload. Tapping twice never doubles up
-  // because anything already on the list is skipped.
+  // Add a routine, but not necessarily all of it.
+  //
+  // A routine is a bundle, and adding it used to be all or nothing: five jobs
+  // landed on the child's board sight unseen and a parent who wanted four had
+  // to add the lot and then delete one. So the jobs are listed before they are
+  // added, each with a tick, all ticked to start with. Untick the school bag if
+  // your school bag is not a battle, and the routine lands as the four you
+  // actually meant.
+  const [openRoutine, setOpenRoutine] = useState<string | null>(null)
+  // Which jobs are ticked, per pack. Absent means every job is ticked, so a
+  // parent who never opens the list gets exactly the old one tap behaviour.
+  const [routinePicks, setRoutinePicks] = useState<Record<string, string[]>>({})
+  const pickedTitles = (pack: RoutinePack): string[] => routinePicks[pack.key] ?? pack.tasks.map(t => t.title)
+  const togglePick = (pack: RoutinePack, title: string) => {
+    setRoutinePicks(prev => {
+      const current = prev[pack.key] ?? pack.tasks.map(t => t.title)
+      const next = current.includes(title) ? current.filter(t => t !== title) : [...current, title]
+      return { ...prev, [pack.key]: next }
+    })
+  }
+
   const [addingRoutine, setAddingRoutine] = useState<string | null>(null)
   async function addRoutine(pack: RoutinePack) {
     if (!activeChild || addingRoutine) return
+    const picked = pickedTitles(pack)
+    if (picked.length === 0) return
     setAddingRoutine(pack.key)
-    const fresh = pack.tasks.filter(t => !childQuests.some(q => q.title === t.title))
+    // Ticked, and not already on the board. Tapping twice never doubles up.
+    const fresh = pack.tasks.filter(t => picked.includes(t.title) && !childQuests.some(q => q.title === t.title))
     for (const t of fresh) {
       await fetch('/api/quests', {
         method: 'POST',
@@ -1143,6 +1164,42 @@ export default function QuestManager() {
               </button>
             </div>
 
+            {/* The three things a parent opens Manage jobs to do, said once,
+                at the top, where they land. Before this the card opened
+                straight into the list and the routines lived two screens
+                further down, so the only visible action was Done. */}
+            {(() => {
+              const outstanding = childQuests.filter(q => !approvedTodayIds.has(q.id) && ticked !== q.id).length
+              const pill: CSSProperties = {
+                display: 'inline-flex', alignItems: 'center', gap: '6px',
+                background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
+                padding: '8px 14px', cursor: 'pointer', textDecoration: 'none',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
+                color: 'var(--ink)', whiteSpace: 'nowrap',
+              }
+              const go = (id: string) => {
+                try {
+                  const el = document.getElementById(id)
+                  if (!el) return
+                  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+                  el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+                } catch { /* no target */ }
+              }
+              return (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
+                  <button type="button" onClick={() => go('jobs-list')} style={pill}>
+                    ✅ {outstanding > 0 ? `Confirm ${outstanding} done` : 'All done today'}
+                  </button>
+                  <button type="button" onClick={() => go('routines')} style={pill}>
+                    🌅 Add a routine
+                  </button>
+                  <Link href="/dashboard/school" style={pill}>
+                    🎒 School reminders
+                  </Link>
+                </div>
+              )
+            })()}
+
             {addOpen && (
               <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '12px', marginBottom: '12px' }}>
                 {/* Add a job means add a job, not only write one from scratch.
@@ -1230,7 +1287,7 @@ export default function QuestManager() {
                 No quests yet. Press add a job, or pick from the ideas below.
               </p>
             )}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div id="jobs-list" style={{ display: 'flex', flexDirection: 'column', gap: '8px', scrollMarginTop: '80px' }}>
               {/* Still to do first, done today sinks to the bottom and dims,
                   so the live list is always what is left. A stable sort keeps
                   the order within each group, and a freshly added quest, being
@@ -1445,18 +1502,21 @@ export default function QuestManager() {
             </div>
           </div>
 
-          {/* Routines: a whole moment of the week added in one tap */}
-          <div style={card}>
+          {/* Routines: a whole moment of the week, jobs shown before they land */}
+          <div id="routines" style={{ ...card, scrollMarginTop: '80px' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
               Routines
             </div>
             <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 12px' }}>
-              Add a whole moment of the week in one tap: the school morning, the bedtime wind down, the weekend reset. Each drops in its jobs on the right days. You can edit or remove any of them after.
+              Add a whole moment of the week: the school morning, the bedtime wind down, the weekend reset. Open one to see its jobs and untick anything you do not want, then add the rest. Each lands on the right days, and you can edit or remove any of them after.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '10px' }}>
               {ROUTINE_PACKS.map(pack => {
                 const already = pack.tasks.filter(t => childQuests.some(q => q.title === t.title)).length
                 const allIn = already === pack.tasks.length
+                const open = openRoutine === pack.key
+                const picked = pickedTitles(pack)
+                const toAdd = pack.tasks.filter(t => picked.includes(t.title) && !childQuests.some(q => q.title === t.title)).length
                 return (
                   <div key={pack.key} style={{ border: '1.5px solid var(--border)', borderRadius: '15px', padding: '13px 14px', background: '#fff', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
@@ -1467,6 +1527,58 @@ export default function QuestManager() {
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: allIn ? 'var(--retro-green-dark, #2F8F6B)' : 'var(--ink-muted)' }}>
                       {allIn ? `On · ${pack.tasks.length} jobs` : `${pack.tasks.length} jobs${already > 0 ? ` · ${already} already set` : ''}`}
                     </div>
+
+                    {/* See the jobs before they land. A bundle nobody can look
+                        inside is a bundle a parent has to undo afterwards. */}
+                    {!allIn && (
+                      <button
+                        onClick={() => setOpenRoutine(open ? null : pack.key)}
+                        aria-expanded={open}
+                        style={{
+                          background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left',
+                          fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
+                          color: 'var(--terracotta-dark)',
+                        }}
+                      >
+                        {open ? 'Hide the jobs ▲' : `See the ${pack.tasks.length} jobs ▼`}
+                      </button>
+                    )}
+
+                    {!allIn && open && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', borderTop: '1px solid var(--border)', paddingTop: '8px' }}>
+                        {pack.tasks.map(t => {
+                          const onBoard = childQuests.some(q => q.title === t.title)
+                          const ticked = onBoard || picked.includes(t.title)
+                          return (
+                            <label
+                              key={t.title}
+                              style={{
+                                display: 'flex', alignItems: 'flex-start', gap: '9px',
+                                padding: '6px 2px', cursor: onBoard ? 'default' : 'pointer',
+                                opacity: onBoard ? 0.6 : 1,
+                              }}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={ticked}
+                                disabled={onBoard}
+                                onChange={() => togglePick(pack, t.title)}
+                                style={{ width: 18, height: 18, marginTop: 2, flexShrink: 0, accentColor: 'var(--terracotta-dark)' }}
+                              />
+                              <span style={{ flex: 1, minWidth: 0 }}>
+                                <span style={{ display: 'block', fontSize: '14.5px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
+                                  {t.emoji} {t.title}
+                                </span>
+                                <span style={{ fontSize: '12.5px', color: 'var(--ink-muted)' }}>
+                                  {onBoard ? 'Already set' : `${SCHEDULE_LABELS[t.schedule] ?? t.schedule} · ⭐ ${t.stars}`}
+                                </span>
+                              </span>
+                            </label>
+                          )
+                        })}
+                      </div>
+                    )}
+
                     {allIn ? (
                       <button
                         onClick={() => removeRoutine(pack)}
@@ -1483,16 +1595,22 @@ export default function QuestManager() {
                     ) : (
                       <button
                         onClick={() => addRoutine(pack)}
-                        disabled={addingRoutine === pack.key}
+                        disabled={addingRoutine === pack.key || toAdd === 0}
                         style={{
                           width: '100%', padding: '10px', borderRadius: '12px', border: 'none',
-                          cursor: addingRoutine === pack.key ? 'default' : 'pointer',
-                          background: 'var(--terracotta)',
-                          color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
-                          boxShadow: '0 3px 0 var(--terracotta-dark)',
+                          cursor: addingRoutine === pack.key || toAdd === 0 ? 'default' : 'pointer',
+                          background: toAdd === 0 ? 'var(--border)' : 'var(--terracotta)',
+                          color: toAdd === 0 ? 'var(--ink-muted)' : 'var(--ink)',
+                          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                          boxShadow: toAdd === 0 ? 'none' : '0 3px 0 var(--terracotta-dark)',
                         }}
                       >
-                        {addingRoutine === pack.key ? 'Adding…' : already > 0 ? 'Finish adding' : 'Add this routine'}
+                        {/* The button counts what will actually land, so a
+                            parent who unticked two can see it before tapping. */}
+                        {addingRoutine === pack.key ? 'Adding…'
+                          : toAdd === 0 ? 'Tick at least one'
+                          : open || already > 0 ? `Add ${toAdd} job${toAdd === 1 ? '' : 's'}`
+                          : 'Add this routine'}
                       </button>
                     )}
                   </div>
