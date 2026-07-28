@@ -3123,3 +3123,106 @@ which is mobile data and VPNs. A guide that does not say where it stops is how a
 parent ends up confidently wrong.
 
 Migrations 117 and 118 are both APPLIED to the live database as of tonight.
+
+**Device guides now have a review date and a monthly check (28 Jul).** JP: the
+guides go out of date constantly, especially apps like WhatsApp, so research
+them, run a monthly check, and get the steps age specific where possible.
+
+The guides are the most perishable thing in the product. Apple, Google and Meta
+move menus and rename toggles continuously. A stale guide is worse than no
+guide, because a parent follows it, cannot find the setting or finds it does
+nothing, and walks away believing the house is covered. Nothing recorded when a
+guide was last looked at, so there was no way to know which had drifted.
+
+Migration 119 adds last_reviewed_at (backfilled to now, so the first run has a
+starting line rather than 25 overdue at once) and device_guide_candidates, the
+review queue. /api/cron/device-guide-refresh runs monthly on the 2nd, takes the
+six least recently reviewed, asks what has changed and what is missing, and
+files everything as PENDING.
+
+It NEVER edits a live guide. Same human gate as knowledge-refresh, and the
+reason is stronger here: these are safety instructions, and a confidently wrong
+step is the failure mode that actually hurts a family. The prompt is told
+explicitly that returning nothing is a good answer, and a candidate without a
+source URL is dropped before it reaches the queue, because a claim that cannot
+be checked is not reviewable.
+
+The batch is marked reviewed whether or not anything came back, since a guide
+checked and found correct HAS been reviewed. Without that the same six would be
+re-checked forever.
+
+Age specific steps: the candidate rows carry age_notes keyed by band, and the
+prompt is told to fill it only where the guidance genuinely differs rather than
+where the wording would just be softer. The live guides do not render age notes
+yet, so this collects the material first and the rendering follows once there is
+something real to show.
+
+Applied to the live database tonight. WHAT THIS DOES NOT DO: verify the current
+25 guides. It schedules that work and routes it to JP for approval, it does not
+retrospectively check them. The first run on 2 August covers the first six.
+
+**The DiGi learning loop plan, and the one thing already right (28 Jul).** JP
+asked for the full plan with the legal requirements step by step. Written to
+plans/digi-learning-loop-plan.md.
+
+The finding that changed the plan: the loop is already running. digi_wisdom (45
+rows), digi_memory with embeddings, expert_knowledge with a human gated
+candidate queue, wellbeing_checks, community_polls, digi_insights, all live, and
+brain.ts and wisdom.ts already feed aggregateWisdom and whatWorked into every
+prompt. What is missing is only the front door: nothing offers the parent three
+replies, and nothing captures the one they write instead. So this is closing a
+loop, not building one.
+
+And digi_wisdom is already the SAFE shape, by accident rather than design:
+topic, age_band, what_works, evidence_count, with no user_id and no child_id. It
+learns which ADVICE works for an age, not what a child is like. That distinction
+is the whole legal position. Protect it.
+
+The mental health line, stated precisely, because JP was right to be cautious.
+Helping a parent respond is unregulated. Screening a child is not: claiming to
+detect, screen for, diagnose or predict a condition can make the product
+Software as a Medical Device under UK MDR 2002, which is MHRA registration and a
+different company. The line is drawn by the CLAIM. So: DiGi describes what the
+family logged and what helped other families, and never characterises a child.
+The feed assessment gets framed as what is this feed showing them, a content
+question about the platform, not what is wrong with this child.
+
+Also flagged: wellbeing_checks already holds mood, sleep and concern level
+against named children. The Article 9 special category question is live TODAY,
+not when the new work ships. A DPIA is mandatory rather than advisable, and the
+ICO expects it before processing, so it is genuinely blocking rather than
+paperwork to catch up on.
+
+The Children's Code standard most often missed and most relevant here: if a
+parent can monitor a child, the CHILD has to be told, age appropriately. That
+applies to the kid app, the timer and the check ins as they already exist.
+
+Position taken on pricing: the loop itself should never be a paid tier, because
+gating it starves the thing that makes it work. Sell depth, history and the
+school aggregate, which is de-identified by nature and therefore the part that
+can be sold ethically at all.
+
+**Two device counts on one screen, neither explained (28 Jul).** JP: it says 3
+devices and I can see those, but underneath it says device coverage 2 out of 13.
+
+Both numbers were right and they count different things. The list at the top is
+family_devices, the screens this family has told us they own. The ring is SETUP
+GUIDES filtered to the child's age, plus the network row and the app rows, which
+is a different set and a bigger one. Nothing on the page said so, so a parent
+who has listed three devices and then reads 2 of 13 has no way to reconcile
+them, and the natural reading is that we have lost track of their house.
+
+Fixed by saying what the number counts, in the parent's words and with the age
+in it, rather than by changing either number. Both were accurate; the page was
+just silent about the difference.
+
+Worth generalising: a bare fraction is only legible when the denominator is
+obvious. 2/13 next to a list of 3 things is an invitation to distrust the whole
+screen. Any ratio in this product should be able to finish the sentence "2 of 13
+WHAT".
+
+Also added a back link to the Device Safety Hub. It is reached from Home, the
+passport and DiGi and had no exit of its own, leaving a parent to the browser
+back button. Same pattern the phone setup and lesson pages already use. JP's
+wider point stands and is in plans/digi-device-settings-plan.md: a way back to
+the page that led here is good practice everywhere, not just here.
