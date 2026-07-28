@@ -2812,3 +2812,40 @@ The pattern worth keeping: when something can only be seen after a long wait, it
 is not really checkable, and anything not checkable will eventually break
 quietly. app/dev/passport-sections exists for the same reason and caught the same
 class of bug.
+
+**Section five went missing through a silent fallback, not a missing feature
+(28 Jul).** JP said to fix the passport, and picked section five missing off the
+list. The row was there the whole time: lib/pathway/passport-sections.ts builds
+all five, the pathway page passes them, and PassportBook renders them. Driving
+app/dev/passport-sections in Chromium showed all five present, screen balance
+included.
+
+The hole was one line earlier. buildPassportSections returned an empty record
+when currentStageNum was null, and an empty record does not hide the checklist,
+it changes which one renders: stamp.sections is optional, so PassportBook takes
+its old FOUR task fallback. Nothing errors, nothing typechecks as wrong, and the
+passport simply shows four rows with screen balance the one that is gone. That
+is the same class of bug the file's own header describes, and it came back
+through a different door.
+
+Stage one is the honest default when a family's current stage has not been
+worked out, and every row that reads live still says Later until it genuinely
+belongs to them, so nothing borrows progress it has not earned.
+
+The wider lesson: an optional prop with a silent fallback is a trapdoor. The
+fallback should be loud, or there should not be one.
+
+**DiGi is spelled Didgee for speech, not Dijee (28 Jul).** JP: "digi as sounding
+in the english word digee tal", so the target is the first two syllables of
+digital, DIJ ee.
+
+Two things have to be right and the old spelling only had one. Dijee wins the
+soft g, but a single consonant between two vowels is the English cue for a long
+first vowel, the rule that separates dinner from diner, so an engine reading
+Dijee is being told to say DYE jee or DEE jee. Doubling the consonant closes the
+syllable and forces the short i. That is exactly why didgeridoo is spelt as it
+is: didge is already the English spelling of this sound.
+
+Still one string in lib/voice/english-voice.ts, applied by sayable() to every
+line the browser speaks. It cannot be verified from a sandbox with no speakers,
+so it wants JP's ear on a real device before it is called done.
