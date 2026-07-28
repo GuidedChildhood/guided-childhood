@@ -59,7 +59,12 @@ export function RoadPulseStyle() {
 
 // ── The one way to draw the four strand pills ───────────────────────────────
 export type StrandTone = 'green' | 'red' | 'grey'
-export type Strand = { key: string; name: string; tone: StrandTone }
+// href is where a parent goes to actually fix this strand. getLiteracyStatuses
+// has always worked one out per area, pointing at devices, quests or lessons
+// depending on what is actually wrong, and it used to be dropped on the floor
+// right here. A pill that says "fix this" and does nothing is worse than a
+// pill that says nothing.
+export type Strand = { key: string; name: string; tone: StrandTone; href?: string }
 
 // Each strand starts at a stage; before it, the dot stays quietly grey rather
 // than pretending progress. The single copy of this rule.
@@ -73,6 +78,7 @@ export function strandsFor(currentStage: number, statuses: Partial<Record<string
       key: k,
       name: LITERACY_AREAS[k].name,
       tone: live ? live.tone : active ? 'green' : 'grey',
+      href: live?.href,
     }
   })
 }
@@ -83,28 +89,58 @@ const TONE_DOT: Record<StrandTone, string> = {
   grey: 'var(--border)',
 }
 
-export function StrandPills({ strands }: { strands: Strand[] }) {
+// A red strand is a problem we have raised, so it has to carry the way out of
+// itself. Anything else is a scoreboard: it tells a parent they are failing at
+// something and leaves them to go and find the page that fixes it.
+//
+// onNavigate is for callers that live in an overlay. The DiGi welcome sheet
+// sits over Home, so following a link has to close the sheet first or the
+// parent lands on the right page with the sheet still covering it.
+export function StrandPills({ strands, onNavigate }: { strands: Strand[]; onNavigate?: () => void }) {
   const anyRed = strands.some(s => s.tone === 'red')
+  const anyFixable = strands.some(s => s.tone === 'red' && s.href)
   return (
     <div>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
         {strands.map(s => {
           const red = s.tone === 'red'
-          return (
-            <span key={s.key} style={{ display: 'inline-flex', alignItems: 'center', gap: 7, background: red ? '#FDF0EE' : 'var(--cream)', border: `1.5px solid ${red ? '#E8C4BC' : 'var(--border)'}`, borderRadius: 100, padding: '7px 14px', opacity: s.tone === 'grey' ? 0.55 : 1 }}>
+          // Only a red strand with somewhere to go becomes a link. A red one
+          // without an href keeps its old look and, crucially, loses the "fix
+          // this" arrow, because promising a tap that does nothing is the
+          // thing being fixed here.
+          const linked = red && !!s.href
+          const inner = (
+            <>
               <span aria-hidden style={{ width: 10, height: 10, borderRadius: '50%', background: TONE_DOT[s.tone], flexShrink: 0, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 7, fontWeight: 900 }}>{s.tone === 'green' ? '✓' : ''}</span>
               <span style={{ fontFamily: 'var(--font-display)', fontSize: '15.5px', fontWeight: 800, color: red ? '#93392A' : 'var(--ink)', whiteSpace: 'nowrap' }}>{s.name}</span>
-              {red && (
+              {linked && (
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: '#93392A', whiteSpace: 'nowrap' }}>· fix this →</span>
               )}
-            </span>
+            </>
+          )
+          const shell: React.CSSProperties = {
+            display: 'inline-flex', alignItems: 'center', gap: 7,
+            background: red ? '#FDF0EE' : 'var(--cream)',
+            border: `1.5px solid ${red ? '#E8C4BC' : 'var(--border)'}`,
+            borderRadius: 100, padding: '7px 14px',
+            opacity: s.tone === 'grey' ? 0.55 : 1,
+          }
+          return linked ? (
+            <Link key={s.key} href={s.href!} onClick={onNavigate} style={{ ...shell, textDecoration: 'none' }}>
+              {inner}
+            </Link>
+          ) : (
+            <span key={s.key} style={shell}>{inner}</span>
           )
         })}
       </div>
-      {/* One quiet line so the dots explain themselves at a glance */}
+      {/* One quiet line so the dots explain themselves at a glance. It only
+          offers the tap when there is genuinely one to make. */}
       <p style={{ margin: '8px 2px 0', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
-        {anyRed
-          ? 'A red one needs one thing doing. Tap through to see it and fix it together.'
+        {anyFixable
+          ? 'A red one needs one thing doing. Tap it to go straight to the fix.'
+          : anyRed
+          ? 'A red one needs one thing doing.'
           : 'Green means on track for their age. Grey comes later, at the right age.'}
       </p>
     </div>
@@ -134,7 +170,9 @@ export function MiniRoad({ currentStage, showDigi = true }: { currentStage: numb
                 </div>
               )}
               <StageDot n={stage.id} state={state} size={36} />
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.02em', color: state === 'here' ? 'var(--ink)' : 'var(--ink-muted)', textAlign: 'center', whiteSpace: 'nowrap' }}>
+              {/* Sizing lives in globals.css: five nowrap labels do not fit a
+                  390px phone, and the widest ran into its neighbour. */}
+              <span className="mini-road-age" style={{ color: state === 'here' ? 'var(--ink)' : 'var(--ink-muted)' }}>
                 {ages}
               </span>
             </div>

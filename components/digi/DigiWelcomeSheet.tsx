@@ -12,7 +12,6 @@ import { useRouter } from 'next/navigation'
 import DigiCharacter from './DigiCharacter'
 import { POPUP_DELAY, openPopup, closePopup } from '@/lib/ui/popupQueue'
 import { socialInsightFor, type SocialInsight } from '@/lib/content/social-insights'
-import { MiniRoad, StrandPills } from '@/components/pathway/StageRoad'
 
 type ChildInfo = { name: string; ageBand: string | null }
 
@@ -24,19 +23,24 @@ function joinNames(names: string[]): string {
   return `${clean.slice(0, -1).join(', ')} and ${clean[clean.length - 1]}`
 }
 
-// The once a day guided walk: DiGi greets, then shows where the child is on
-// the road, then today's one thing, then lets Home breathe. Each step is one
-// thought, so the parent is led rather than met by a wall.
+// The once a day guided walk: DiGi greets, then today's one thing, then lets
+// Home breathe. Each step is one thought, so the parent is led rather than met
+// by a wall.
+//
+// It used to carry a third step, where the child stands on the road, sitting
+// between the greeting and today. That put an audit of the child BEFORE the
+// two minute habit the whole product runs on, which is the wrong way round.
+// It lives in DayCheckup on Home now, after the path is cleared.
 export type WelcomeGuide = {
   stageNum: number
   stageName: string
   childName: string
   nextTask: { label: string; href: string } | null
-  strands: { name: string; tone: 'green' | 'red' | 'grey' }[]
-  // The lessons that move the progress report right now: the child's own
-  // stage set, with the live passed count, so DiGi can say exactly which
-  // lessons to send and why. Null when the stage has no lessons yet.
-  stageLessons?: { total: number; passed: number } | null
+  // key and href travel with the strand now. They were dropped here, which is
+  // why "fix this" in the walk went nowhere: the sheet was never given a
+  // destination to send anyone to, and the key was filled in from the display
+  // name so there was nothing to route on either.
+  strands: { key: string; name: string; tone: 'green' | 'red' | 'grey'; href?: string }[]
 }
 
 export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo: ChildInfo[]; guide?: WelcomeGuide | null }) {
@@ -186,8 +190,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
           margin: '0 0 16px',
         }}>
           {step === 0 && <>Hey, it&apos;s DiGi.<br />Welcome back.</>}
-          {step === 1 && <>Here is where<br />{guide?.childName ?? 'we'} stand{guide ? 's' : ''}.</>}
-          {step === 2 && <>Today, one thing.</>}
+          {step === 1 && <>Today, one thing.</>}
         </h2>
 
         {step === 0 && (
@@ -199,43 +202,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
         </p>
         )}
 
-        {step === 1 && guide && (
-          <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 18px' }}>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: 'var(--ink)', margin: '0 0 14px' }}>
-              Stage {guide.stageNum} of 5, {guide.stageName}. On the road to 16.
-            </p>
-            {/* The same road, the same pills, as Home and the pathway page:
-                one grammar, so the walk and the app tell one story. */}
-            <div style={{ marginBottom: 14 }}>
-              <MiniRoad currentStage={guide.stageNum} showDigi={false} />
-            </div>
-            <StrandPills strands={guide.strands.map(s => ({ key: s.name, name: s.name, tone: s.tone }))} />
-            {/* Which lessons to send for progress: DiGi names the child's own
-                stage set with the live count, one tap to the hub. The same set
-                the child sees on their page, so nothing age wrong ever goes. */}
-            {guide.stageLessons && guide.stageLessons.total > 0 && (
-              <button
-                onClick={() => { close(); router.push('/dashboard/lessons') }}
-                style={{
-                  display: 'block', width: '100%', textAlign: 'left', marginTop: 14, cursor: 'pointer',
-                  background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-                  borderRadius: 12, padding: '11px 13px',
-                }}
-              >
-                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.09em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 3 }}>
-                  Lessons that move this
-                </span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 16, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.45 }}>
-                  {guide.stageLessons.passed < guide.stageLessons.total
-                    ? <>Send {guide.childName} the {guide.stageName} lessons, {guide.stageLessons.passed} of {guide.stageLessons.total} passed. Each pass ticks the report. <strong style={{ fontWeight: 800 }}>Open lessons →</strong></>
-                    : <>All {guide.stageLessons.total} {guide.stageName} lessons passed. The report shows the full tick for this stage.</>}
-                </span>
-              </button>
-            )}
-          </div>
-        )}
-
-        {step === 2 && (
+        {step === 1 && (
           <p style={{ fontFamily: 'var(--font-body)', fontWeight: 500, color: 'var(--ink-soft)', fontSize: '19px', lineHeight: 1.55, margin: 0 }}>
             {guide?.nextTask
               ? <>Just this: <strong style={{ color: 'var(--ink)', fontWeight: 800 }}>{guide.nextTask.label}</strong>. A few minutes, then everything else can wait its turn.</>
@@ -257,7 +224,7 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
 
         {/* The guided walk forward: greeting to where we are, to today's one
             thing, to Home. One tap each, always skippable. */}
-        {guide && step < 2 && (
+        {guide && step < 1 && (
           <button
             onClick={() => setStep(s => s + 1)}
             style={{
@@ -267,10 +234,10 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
           >
-            {step === 0 ? `Next: where ${guide.childName} is →` : 'Next: today →'}
+            Next: today →
           </button>
         )}
-        {guide && step === 2 && guide.nextTask && (
+        {guide && step === 1 && guide.nextTask && (
           <button
             onClick={() => { close(); router.push(guide.nextTask!.href) }}
             style={{

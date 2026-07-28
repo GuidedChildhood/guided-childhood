@@ -2676,3 +2676,29 @@ Both are fixed. The Mon, Wed, Sat cadence is deliberately KEPT: it was JP's own
 call after seeing a card on every open read as a toll gate, and reversing a
 decision because a bug hid its effect would be the wrong order. He sees it
 properly first, then decides.
+
+**Path first, then check on the child (28 Jul).** JP: "we should alwasy ask to
+follow path first tehn check on child aftet that so that needs to live in check
+up after day clears along with check quests check kessons etc so any diig check
+up needs to have inke t solve the probems it rasieses."
+
+Three decisions, and the ordering one is the load bearing one.
+
+The stand block was step one of DiGi's morning walk, so a parent was shown an
+audit of where their child is falling short BEFORE being asked to do the two
+minute habit the whole product runs on. Wrong order twice over: it front loads
+the least appealing screen, and it treats the audit as the point when the daily
+habit is the point. The walk is now greet, then today, then Home. The wider
+look moved to Home, appearing only once the day is cleared.
+
+It renders NOTHING when no strand is red and no lesson waits. A check up that
+says everything is fine every day is one nobody reads by week three, and then
+it is worthless on the day it matters. Silence means checked and fine, and it
+can only carry that meaning because the card is genuinely able to speak up.
+
+Quiet days stay quiet: JP's call was stay silent, not a softer card. The four
+non greeting days get no check up at all.
+
+And the standing rule from the last line of his message: any DiGi check up must
+LINK to what fixes what it raises. Naming a problem and leaving the parent to
+find the page is a scoreboard, and this product does not do scoreboards.
