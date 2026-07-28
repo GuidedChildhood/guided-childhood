@@ -2782,3 +2782,33 @@ Also learned in passing: several seed files reuse the same sort_order for
 different scripts, so sort_order alone does not identify a script. The titles in
 the trailing comments of script-voice.ts are what disambiguate, and matching on
 them resolved all 100 cleanly.
+
+**The countdown was silent unless you started it yourself (28 Jul).** JP: "i
+have never heard or seen teh countdown i dont tink it works". He was right on
+both halves, and they have different causes.
+
+Never heard is a real bug. The blips and the finish jingle need an AudioContext,
+and a browser only opens one on a user gesture. DeviceTimeCard opened it in
+start(), which covers exactly one child: the one who taps Start and stays on the
+screen. Every other route into a live block reaches the card through
+initialSession and never runs start() at all: a reload mid block, a child coming
+back to the tab, and any block a grown up granted from their own phone. All of
+those counted down in complete silence, and the finish landed with no jingle.
+Now, while a block is live, the first touch anywhere on the page opens the audio.
+Still a real gesture, which is all the autoplay rules ask, and a child watching
+their own timer has always already made one.
+
+Never seen is a testability problem, and it is why the silence survived. A block
+is at least STAR_MINUTES long, five by default, so seeing the last ten seconds
+means starting a real block on a real child account and then sitting in front of
+it for the best part of five minutes. Nobody does that. app/dev/countdown runs
+the whole thing in fifteen seconds with no auth: the rising blips, the spoken ten
+second line, the three two one, the confetti and the big terracotta number, then
+the jingle. Checked in Chromium at 390 wide, all three states render and the only
+console error is the fixture token's stop call returning 400, which the card
+already ignores.
+
+The pattern worth keeping: when something can only be seen after a long wait, it
+is not really checkable, and anything not checkable will eventually break
+quietly. app/dev/passport-sections exists for the same reason and caught the same
+class of bug.

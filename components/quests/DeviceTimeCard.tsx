@@ -157,6 +157,39 @@ export default function DeviceTimeCard({
   useEffect(() => { setMinutes(m => Math.min(m, maxMinutes)) }, [maxMinutes])
   const costStars = Math.ceil(minutes / STAR_MINUTES)
 
+  // A browser only lets an AudioContext open on a user gesture, so the blips
+  // and the finish jingle both need one before they can make a sound.
+  const openAudio = useCallback(async () => {
+    try {
+      type WithWebkit = typeof window & { webkitAudioContext?: typeof AudioContext }
+      const Ctx = window.AudioContext || (window as WithWebkit).webkitAudioContext
+      if (Ctx && !audioRef.current) audioRef.current = new Ctx()
+      await audioRef.current?.resume()
+    } catch { /* audio optional */ }
+  }, [])
+
+  // Opening it only on the Start tap covered exactly one child: the one who
+  // taps Start and then stays put. Every other way a block reaches this screen
+  // arrived with no audio at all, so its countdown and its finish were silent.
+  // A reload mid block, a child coming back to the tab, and any block a grown
+  // up granted from their own phone all land here through initialSession, and
+  // none of them ever ran start().
+  //
+  // So while a block is live, the first touch anywhere on the page opens the
+  // audio instead. That is still a real gesture, which is all the autoplay
+  // rules ask for, and a child watching their own timer has always already
+  // made one. Once open it stays open, so this listens only until it is.
+  useEffect(() => {
+    if (!session || audioRef.current) return
+    const open = () => { void openAudio() }
+    window.addEventListener('pointerdown', open, { once: true, passive: true })
+    window.addEventListener('keydown', open, { once: true, passive: true })
+    return () => {
+      window.removeEventListener('pointerdown', open)
+      window.removeEventListener('keydown', open)
+    }
+  }, [session, openAudio])
+
   // A fun, unmistakable Duolingo style jingle: a bright bouncing arpeggio that
   // runs up and lands on a cheeky little "ta da", with a happy buzz on phones.
   // Warm triangle tones so it lifts rather than jars, the way a good app rewards
@@ -304,14 +337,9 @@ export default function DeviceTimeCard({
   async function start() {
     if (busy || minutes < STAR_MINUTES || minutes > maxMinutes) return
     setBusy(true)
-    // Create the audio context on this tap (a user gesture) so the alarm is
-    // allowed to sound later when the time is up.
-    try {
-      type WithWebkit = typeof window & { webkitAudioContext?: typeof AudioContext }
-      const Ctx = window.AudioContext || (window as WithWebkit).webkitAudioContext
-      if (Ctx && !audioRef.current) audioRef.current = new Ctx()
-      await audioRef.current?.resume()
-    } catch { /* audio optional */ }
+    // Open the audio on this tap (a user gesture) so the alarm is allowed to
+    // sound later when the time is up.
+    await openAudio()
     try {
       const res = await fetch('/api/quests/time/start', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
