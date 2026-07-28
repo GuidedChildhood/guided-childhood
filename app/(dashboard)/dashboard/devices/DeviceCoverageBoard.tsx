@@ -280,7 +280,11 @@ function Row({ item, isDone, isNext, busy, onToggle, onOpen }: {
     return (
       <div style={{ ...shell, cursor: 'default' }}>
         <Link
-          href={`/dashboard/digi?q=${encodeURIComponent('Can you walk me through setting up parental filtering on my home broadband and Wifi router step by step?')}`}
+          // device=broadband, so DiGi loads the real guide (migration 118) and
+          // walks the actual steps. Without it the route loads no guide at all
+          // and DiGi answers from whatever was last in the conversation, which
+          // is how asking about home WiFi produced another TikTok walkthrough.
+          href={`/dashboard/digi?device=broadband&q=${encodeURIComponent('Can you walk me through setting up parental filtering on my home broadband and Wifi router step by step?')}`}
           style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, minWidth: 0, textDecoration: 'none' }}
         >
           {body}

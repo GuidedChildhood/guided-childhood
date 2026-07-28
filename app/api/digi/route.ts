@@ -294,7 +294,19 @@ export async function POST(request: Request) {
       .map(s => s.replace(/\*\*/g, ''))
       .map((s, i) => `  ${i + 1}. ${s}`)
       .join('\n')
-    deviceGuideKnowledge = `\n\nDEVICE SETUP GUIDE — the parent is asking about ${deviceGuide.name} (${deviceGuide.subtitle}). Walk them through this step by step, one step at a time, checking in before moving to the next rather than dumping all steps at once. Why this matters: ${deviceGuide.why}\nSteps:\n${steps}\nClosing note: ${deviceGuide.note}`
+    deviceGuideKnowledge = `\n\nDEVICE SETUP GUIDE — the parent is asking about ${deviceGuide.name} (${deviceGuide.subtitle}). Walk them through this step by step, one step at a time, checking in before moving to the next rather than dumping all steps at once. Why this matters: ${deviceGuide.why}\nSteps:\n${steps}\nClosing note: ${deviceGuide.note}
+IMPORTANT: this guide is the ONLY device the parent is asking about right now. If you were discussing a different device or app earlier in this conversation, that topic is finished. Do not mention it, and do not offer its steps.`
+  } else if (typeof message === 'string' && /\b(set ?up|settings|parental control|filter|walk me through)\b/i.test(message)) {
+    // The parent is clearly asking how to set something up and we have no
+    // guide for it.
+    //
+    // Without this DiGi filled the silence from earlier in the conversation: a
+    // parent who had asked about TikTok and then asked about their home WiFi
+    // got TikTok's steps a second time, confidently. Improvising steps for a
+    // real device is worse than saying we do not have that one, because a
+    // parent following invented settings believes their house is covered when
+    // it is not.
+    deviceGuideKnowledge = `\n\nNO DEVICE GUIDE IS LOADED for what this parent is asking to set up. Do NOT invent step by step settings, and do NOT reuse the steps of a different device or app from earlier in this conversation, which is a different question that is now finished. Give the honest general principle in a sentence or two, say plainly that we do not have a written guide for that one yet, and offer to help them think it through. Never present improvised steps as if they were our guide.`
   }
 
   let concernsKnowledge = ''

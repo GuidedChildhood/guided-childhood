@@ -3066,3 +3066,31 @@ JP's larger asks from the same session (walk a parent through device settings
 and hand them back, settings strength that scales with age, defaults on, a feed
 assessment for worried parents) are written up in
 plans/digi-device-settings-plan.md rather than half built here.
+
+**DiGi answered about TikTok when asked about home WiFi, because the WiFi guide
+did not exist (28 Jul).** JP tapped "DiGi can walk me through it" on home
+broadband and got the TikTok walkthrough again plus the agreements line. On the
+Fire tablet the same button worked.
+
+Both halves of that are explained by one fact: there are 24 rows in
+device_guides and not one is a router. firetablet is a real row, so that button
+grounded properly. broadband was never a row at all, and the button did not even
+pass a device key, so the route loaded no guide and DiGi filled the silence from
+earlier in the conversation.
+
+Three changes. Migration 118 adds the home broadband guide, first in the list at
+sort_order 5, because router filtering is the only layer covering every screen
+in the house at once including the ones with no controls of their own. The
+button now passes device=broadband. And when a parent clearly asks how to set
+something up and no guide is loaded, DiGi is told to say we do not have that one
+written yet rather than improvise, because a parent following invented settings
+believes the house is covered when it is not. The loaded guide also now states
+that any earlier device topic is finished.
+
+min_age 4 on the router row so it never trips the passport's ahead of age
+warning. A router is not something a child owns too early, it is the house.
+
+The content names the real UK providers and, more importantly, names the gap:
+this covers WiFi only, so a phone on mobile data is unfiltered and needs the
+network's own content lock. A guide that does not say what it fails to cover is
+how a parent ends up confidently wrong.
