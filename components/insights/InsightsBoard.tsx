@@ -146,6 +146,33 @@ export default function InsightsBoard() {
     } catch { /* leave it in the list to try again */ } finally { setReviewing(null) }
   }
 
+  // The quarterly legal watch. Things that may have changed in the law this
+  // product sits on, filed for a human to go and check. Never advice, and it
+  // never says we are compliant, so closing a row is a decision the founder
+  // makes and can leave a reason for.
+  type LegalItem = { id: string; area: string; headline: string; summary: string; impact: string | null; confidence: string; effective_on: string | null; url: string | null }
+  const [legal, setLegal] = useState<LegalItem[] | null>(null)
+  const [legalBusy, setLegalBusy] = useState<string | null>(null)
+  useEffect(() => {
+    fetch('/api/admin/legal-watch')
+      .then(r => r.json())
+      .then(d => { if (d && !d.error) setLegal(d.items ?? []) })
+      .catch(() => setLegal([]))
+  }, [])
+  async function closeLegal(id: string, action: 'actioned' | 'dismissed') {
+    setLegalBusy(id)
+    try {
+      const note = window.prompt(action === 'actioned'
+        ? 'What did you do? (optional, but future you will thank present you)'
+        : 'Why does this not apply? (optional)') ?? ''
+      const res = await fetch('/api/admin/legal-watch', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, action, note }),
+      })
+      if (res.ok) setLegal(l => (l ?? []).filter(x => x.id !== id))
+    } catch { /* leave it listed so it can be tried again */ } finally { setLegalBusy(null) }
+  }
+
   // What parents asked DiGi for and could not find a script for. The pipeline
   // for writing the next scripts from real demand. Mark handled once written.
   type ScriptReq = { id: string; problem: string; created_at: string; closest: string | null }
@@ -277,6 +304,42 @@ export default function InsightsBoard() {
                   </button>
                   <button onClick={() => reviewDraft(d.id, 'reject')} disabled={draftBusy === d.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15 }}>
                     Reject
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {legal && legal.length > 0 && (
+        <section style={{ marginBottom: 26 }}>
+          <h2 style={sectionH}>Legal watch · {legal.length}</h2>
+          <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 12 }}>
+            Checked every quarter. These are prompts to go and read the source, not advice, and none of them says you are compliant. Anything with a date is sorted soonest first.
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {legal.map(l => (
+              <div key={l.id} style={{ background: '#fff', border: `1.5px solid ${l.confidence === 'high' ? 'var(--terracotta)' : 'var(--border)'}`, borderRadius: 14, padding: '15px 16px' }}>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 6, alignItems: 'center' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>{l.area}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)' }}>{l.confidence} confidence</span>
+                  {l.effective_on && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink)' }}>from {l.effective_on}</span>}
+                </div>
+                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19, color: 'var(--ink)', margin: '0 0 4px' }}>{l.headline}</p>
+                <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 6px' }}>{l.summary}</p>
+                {l.impact && <p style={{ fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 8px' }}><strong>Worth checking:</strong> {l.impact}</p>}
+                {l.url && (
+                  <a href={l.url} target="_blank" rel="noreferrer" style={{ fontFamily: 'var(--font-mono)', fontSize: 13.5, fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'underline' }}>
+                    Read the source
+                  </a>
+                )}
+                <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+                  <button onClick={() => closeLegal(l.id, 'actioned')} disabled={legalBusy === l.id} style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 11, padding: '9px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: legalBusy === l.id ? 0.6 : 1 }}>
+                    {legalBusy === l.id ? '…' : 'Done, dealt with'}
+                  </button>
+                  <button onClick={() => closeLegal(l.id, 'dismissed')} disabled={legalBusy === l.id} style={{ background: '#fff', color: 'var(--ink-soft)', border: '1.5px solid var(--border)', borderRadius: 11, padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15 }}>
+                    Not for us
                   </button>
                 </div>
               </div>

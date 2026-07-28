@@ -44,10 +44,25 @@ export default function PrivacyPage() {
         Children do not have accounts and never log in. When you share a quest link with your child it is a private code that opens only their quests, with no way back to your account or anyone else’s. We hold the minimum about a child, a first name and an age band, and only because you chose to add it. You are always in control of it and can remove it at any time.
       </p>
 
+      <h2 style={H2}>How your child is doing, and why we ask</h2>
+      <p style={P}>
+        If you use the weekly check in, you tell us how your child seems: their mood, their sleep, how they are with friends, how they are after screens, and whether they are talking to you. You can add a note in your own words.
+      </p>
+      <p style={P}>
+        This is the most personal thing we hold, and the law treats it that way too. It counts as health information, which means we only keep it if you have said yes to it specifically, separately from signing up. You will be asked plainly, before anything is saved, and nothing is written down until you have.
+      </p>
+      <p style={P}>
+        We use it for one thing: so DiGi understands what your week has actually been like, and gives you advice that fits it rather than advice for a family you are not. It is never sold, never shared, and never used to make a judgement about your child. DiGi will tell you what you have logged and what has helped other families. It will not tell you what is wrong with your child, because that is not something an app should do and not something we would trust one to.
+      </p>
+      <p style={P}>
+        Change your mind whenever you like. Turning it off stops us keeping any more, and asking us to delete what is there means it goes, properly. If you are worried about your child, please talk to your GP, and if it is urgent, NHS 111 or Childline on 0800 1111.
+      </p>
+
       <h2 style={H2}>Why we use it, and our lawful bases</h2>
       <ul>
         <li style={LI}>To provide the service you signed up for (our contract with you).</li>
         <li style={LI}>To personalise DiGi and your pathway from what you have told us (your consent, which you can withdraw).</li>
+        <li style={LI}>To keep what you record about how your child is doing, which is health information, we rely on your explicit consent, given separately and withdrawable at any time.</li>
         <li style={LI}>To send you service and lifecycle emails, which every email lets you unsubscribe from (legitimate interests).</li>
         <li style={LI}>To keep the service safe and improve it using aggregated, non identifying patterns (legitimate interests).</li>
       </ul>
@@ -65,7 +80,7 @@ export default function PrivacyPage() {
 
       <h2 style={H2}>How long we keep it</h2>
       <p style={P}>
-        We keep your information while your account is open. If you close your account or ask us to delete your data, we remove it, other than anything we must keep for a short period by law, such as payment records.
+        We keep your information while your account is open. Weekly check in entries are kept for two years and then removed, because guidance built on a week three years ago is not guidance, it is clutter. You can delete your account yourself at any time from Settings, and when you do it goes for good, your children's records with it, other than payment records we have to keep for six years because HMRC says so.
       </p>
 
       <h2 style={H2}>Your rights</h2>
