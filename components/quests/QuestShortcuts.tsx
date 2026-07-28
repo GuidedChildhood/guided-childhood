@@ -1,5 +1,6 @@
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
+import type { BoardStatus } from '@/lib/quests/board-status'
 
 // The top of the Quests page: the four places a parent actually goes, as flat
 // coloured tiles. Built the way the calmest parent apps do a browse grid (Good
@@ -9,6 +10,14 @@ import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 // This replaces the pair of buttons that used to sit at the very top. Two
 // buttons could not hold the four real destinations, so the extras were buried
 // further down the page where nobody found them.
+//
+// The tiles carry live state now. Eight labels with no state filled the first
+// screen of the page and told a parent nothing: whether anything needed them at
+// all took scrolling through thirty six sections to find out. A tile with a
+// number is a job to do, a tile without one is quietly done, which is how
+// GoHenry and Greenlight both open. Only the tiles with a real outstanding
+// action get a badge; inventing one so that every tile has something is how a
+// parent learns the numbers do not mean anything.
 
 type Tile = {
   href: string
@@ -17,6 +26,8 @@ type Tile = {
   icon: KidIconName
   bg: string
   iconBg: string
+  /** Reads the live status into the badge, or null for a tile with no state. */
+  badge?: (s: BoardStatus) => string | null
 }
 
 const TILES: Tile[] = [
@@ -26,6 +37,7 @@ const TILES: Tile[] = [
     // ideas, which is not what a parent pressing manage jobs came to do.
     href: '#my-todo', label: 'Manage jobs', sub: 'Add, agree and send',
     icon: 'jobs', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
+    badge: s => s.ticksToConfirm > 0 ? `${s.ticksToConfirm} waiting` : null,
   },
   {
     // The star chart is the starter pack, the one printable every family uses,
@@ -39,6 +51,7 @@ const TILES: Tile[] = [
   {
     href: '/dashboard/printables', label: 'Printables', sub: 'Every other sheet',
     icon: 'printables', bg: 'var(--tint-blue)', iconBg: 'rgba(255,255,255,0.72)',
+    badge: s => s.printablesToConfirm > 0 ? `${s.printablesToConfirm} waiting` : null,
   },
   {
     href: '/dashboard/quests/play', label: 'Learning games', sub: 'Play and earn stars',
@@ -47,6 +60,7 @@ const TILES: Tile[] = [
   {
     href: '/dashboard/quests/deal', label: 'Our family deal', sub: 'Print it for the fridge',
     icon: 'deal', bg: 'var(--tint-sage)', iconBg: 'rgba(255,255,255,0.72)',
+    badge: s => s.agreementSigned ? null : 'Not made',
   },
   {
     // Lessons had no way in from here at all, which is how a whole strand of
@@ -72,6 +86,7 @@ const TILES: Tile[] = [
     // puts on the family, which is exactly what this board is for.
     href: '/dashboard/school', label: 'School reminders', sub: 'PE kit, library day, trips',
     icon: 'jobs', bg: 'var(--tint-green)', iconBg: 'rgba(255,255,255,0.72)',
+    badge: s => s.schoolOpen > 0 ? `${s.schoolOpen} open` : null,
   },
 ]
 
@@ -85,11 +100,15 @@ const ACCENT: Record<string, string> = {
   'var(--tint-amber)': '#D6BE8A',
 }
 
-export default function QuestShortcuts() {
-  const tiles: SectionTile[] = TILES.map(t => ({
-    href: t.href, label: t.label, sub: t.sub,
-    icon: <KidIcon name={t.icon} size={23} />,
-    bg: t.bg, accent: ACCENT[t.bg] ?? 'var(--border)',
-  }))
+export default function QuestShortcuts({ status }: { status?: BoardStatus }) {
+  const tiles: SectionTile[] = TILES.map(t => {
+    const badge = status && t.badge ? t.badge(status) : null
+    return {
+      href: t.href, label: t.label, sub: t.sub,
+      icon: <KidIcon name={t.icon} size={23} />,
+      bg: t.bg, accent: ACCENT[t.bg] ?? 'var(--border)',
+      ...(badge ? { badge } : {}),
+    }
+  })
   return <SectionTiles tiles={tiles} />
 }

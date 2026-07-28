@@ -47,7 +47,10 @@ export default function SectionTiles({
   return (
     <div style={{
       display: 'grid',
-      gridTemplateColumns: columns === 2 ? '1fr 1fr' : '1fr',
+      // minmax(0, 1fr) rather than 1fr: a grid column's default min width is
+      // auto, so a badge that will not wrap makes the column wider than its
+      // share and pushes the whole row off the right of a phone screen.
+      gridTemplateColumns: columns === 2 ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
       gap: 12, marginBottom: 18,
     }}>
       {tiles.map(t => (
@@ -92,6 +95,9 @@ export default function SectionTiles({
                 borderRadius: 100, padding: '3px 10px',
                 fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
                 color: 'var(--ink)', whiteSpace: 'nowrap',
+                // And if a badge is still too long for its tile, it clips
+                // rather than dragging the layout with it.
+                minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis',
               }}>
                 {t.badge}
               </span>
