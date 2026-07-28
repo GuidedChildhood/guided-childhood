@@ -42,10 +42,9 @@ function SlimRow({ href, emoji, title, meta, badge, urgent }: {
   )
 }
 
-export default function HomeRows({ stageName, stageNum, handoverChildName, isSunday, criticalWindow = false, initialToApprove }: {
+export default function HomeRows({ stageName, stageNum, isSunday, criticalWindow = false, initialToApprove }: {
   stageName: string
   stageNum: number
-  handoverChildName?: string | null
   isSunday: boolean
   criticalWindow?: boolean
   // Fixture only, for the reference pages: skips the live fetch.
@@ -90,25 +89,13 @@ export default function HomeRows({ stageName, stageNum, handoverChildName, isSun
         urgent={toApprove > 0}
       />
 
-      {/* The handover moment: an eight year old can run their own side.
-          Shown only while no kid link exists, then it steps back for good. */}
-      {handoverChildName && (
-        <Link href="/dashboard/quests?tab=share" style={{ textDecoration: 'none', display: 'block' }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: '12px',
-            background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-            borderRadius: '14px', padding: '11px 14px', marginTop: '-4px',
-          }}>
-            <span aria-hidden style={{ fontSize: '22px', flexShrink: 0 }}>📲</span>
-            <span style={{ flex: 1, fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.45 }}>
-              {handoverChildName} can tick their own jobs now. Share the QR code to hand them their side.
-            </span>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
-              Share →
-            </span>
-          </div>
-        </Link>
-      )}
+      {/* The child app handover used to have a row here. It has gone, because
+          it could never be anything but a second copy: it showed while no kid
+          link existed, and ChildAppNudge higher up the same page shows while
+          the child has not OPENED their app, which no-link always satisfies. So
+          the two were never alternatives, they were the same message twice on
+          one screen, plus a third time in DiGi's one next thing. ChildAppNudge
+          owns it, which is what page.tsx already said it did. */}
 
       <SlimRow
         href="/dashboard/pathway"

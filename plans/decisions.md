@@ -2927,3 +2927,27 @@ for print unless generated very large. The real artwork question is the
 CHARACTER stickers, which are images, and that waits on Higgsfield credits.
 
 /dev/stickers shows earned, locked and print size together.
+
+**The child app handover said itself three times on one Home screen (28 Jul).**
+Phase 3, the duplication. The audit counted six handover entry points; the ones
+that actually hurt were the three stacked on a single screen.
+
+A family with an unlinked, named child aged 8 or over saw, all at once:
+ChildAppNudge (page.tsx:557), DiGi's one next thing overridden to "Share the QR
+code with them" (page.tsx:506), and a handover row inside HomeRows (:674).
+
+Neither of the extra two could ever have been an alternative to the nudge, and
+the gates prove it rather than suggest it. hasKidLink is a link row existing;
+childAppLive is a link row that has been OPENED. So !hasKidLink strictly implies
+!childAppLive, and ChildAppNudge is gated on exactly !childAppLive. Whenever
+either duplicate showed, the nudge was already on screen saying the same thing.
+They were not three states, they were one message three times.
+
+The best part: page.tsx line 438 already carried the rule, in its own words,
+that the handover stays out of the one next thing "because ChildAppNudge above
+already owns that and saying it twice on one screen is nagging". The rule was
+written and then broken twice, twelve lines below itself. A comment is not an
+enforcement mechanism.
+
+ChildAppNudge is now the only one that speaks. HomeRows lost the row and the
+handoverChildName prop; nextTask always reads the daily loop.
