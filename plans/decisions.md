@@ -2749,6 +2749,38 @@ And the standing rule from the last line of his message: any DiGi check up must
 LINK to what fixes what it raises. Naming a problem and leaving the parent to
 find the page is a scoreboard, and this product does not do scoreboards.
 
+**The passport leads its own page (28 Jul).** JP asked for the passport to sit
+beside the opening text "as passport kind of drive it", for its links to go to
+the task that earns the stamp, and for green when done with another colour for
+to do.
+
+It was three screens down, under a road, a reassurance card and six tiles. The
+page is called the pathway and the passport is what the pathway is FOR, so it
+now sits in the header: copy left, passport right on a desk, stacked on a
+phone with the words first so the passport is explained before it is handed
+over. Measured at 560 plus 340 on desktop, one column at 390, no horizontal
+scroll at either.
+
+Green and amber replace the stage colour on every row. The tick, the detail and
+the ongoing chip all used the stage's own shade, which meant done and to do
+were the same colour as each other AND a different colour on each of the five
+pages. A checklist whose only job is showing what is left could not show what
+was left. The two colours are the ones this page already names out loud further
+down: green is doing its job, amber comes with one clear next step. Amber here
+is the butter gold, not red, which also happens to survive red green colour
+blindness better than the obvious choice.
+
+The balance row was wrong in three ways at once and all three had the same
+root: nobody had logged a week. It read 100 per cent with a green tick and the
+words "No screens logged", it dragged the stage average up with it, and it
+linked to #screen-balance, an anchor that only renders once a report EXISTS.
+So in the one case where there was definitely something to do, the row claimed
+to be done and tapping it did nothing. It now reads zero, says "Log a week",
+explains that nothing is logged yet, and links to /dashboard/stats, which is
+the page a parent can actually act on.
+
+Rule, same as the DiGi check up rule from earlier today: a passport row names a
+problem and links to the thing that fixes it, or it does not name it.
 **DiGi reads a little slower, at speech_rate -10 (28 Jul).** JP asked for the
 Imogen read to be a little bit slower, then asked the right question before any
 credits were spent: will it still fit the timing of the images.

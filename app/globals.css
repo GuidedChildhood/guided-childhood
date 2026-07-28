@@ -347,6 +347,26 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 }
 .tab-item svg { width: 24px; height: 24px; }
 
+/* The pathway header: the words and the passport side by side.
+
+   One column on a phone, so the copy explains the passport before the passport
+   arrives. Two from 900px, where there is genuinely room for a 340px book
+   beside a 580px paragraph without either being squeezed. The passport column
+   is fixed at the book's own width rather than a fraction, so it never
+   stretches into a shape the book was not drawn for. */
+.pathway-hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 26px;
+  align-items: start;
+}
+@media (min-width: 900px) {
+  .pathway-hero {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 40px;
+  }
+}
+
 /* MiniRoad age labels. Same squeeze as the tab bar and measured the same way:
    five stages share the card width, so at 390px the widest label ("11 to 13")
    was 58px in a 60px column and ran into its neighbour, reading as one word.

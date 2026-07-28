@@ -112,10 +112,16 @@ export async function buildPassportSections(
   const jobsPct = jobsStatus === 'on_track' ? 100 : jobsStatus === 'pending' ? 40 : 0
   // Balance reading: healthy or a light week is full, over is a nudge, well
   // over is the clear to do. Never a lock, just the honest heads up.
-  const balancePct = !parentReport ? 100
+  //
+  // No report at all is NOT full. It used to read 100 with the words "No
+  // screens logged", so the row showed a green tick for a week nobody had
+  // measured, and it dragged the stage percentage up with it. An unmeasured
+  // week is the one case where there is definitely something to do, so it
+  // reads zero and asks for the week.
+  const balancePct = !parentReport ? 0
     : parentReport.status === 'well_over' ? 0
     : parentReport.status === 'over' ? 50 : 100
-  const balanceDetail = !parentReport ? 'No screens logged'
+  const balanceDetail = !parentReport ? 'Log a week'
     : parentReport.status === 'under' ? 'Light week'
     : parentReport.status === 'healthy' ? 'Healthy'
     : parentReport.status === 'over' ? 'A bit over' : 'Well over'
@@ -174,9 +180,14 @@ export async function buildPassportSections(
         key: 'balance', emoji: '⚖️', label: 'Screen balance',
         pct: isCurrent ? balancePct : 0,
         detail: !isCurrent ? 'Later' : balanceDetail,
-        // The balance report is further down the same page the passport is on.
-        href: '#screen-balance',
-        help: 'Goes green when the week averages at or under the healthy amount for their age. Judged across the whole week, so one big Saturday is fine.',
+        // The page a parent can actually DO balance on, not the anchor further
+        // down this one. That anchor renders only when a week has already been
+        // logged, so in the exact case where there is work to do, tapping the
+        // row did nothing at all.
+        href: '/dashboard/stats',
+        help: !parentReport
+          ? 'Nothing logged yet, so there is no week to judge. Start the timer on the balance page, or log the screens by hand, and this reads for real from then on.'
+          : 'Goes green when the week averages at or under the healthy amount for their age. Judged across the whole week, so one big Saturday is fine.',
         ongoing: true,
       },
     ]
