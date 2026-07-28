@@ -2657,3 +2657,22 @@ try/catch around it caught nothing, and notified was being set from
 emailConfigured(), which only says a key is present. A send Resend rejected, an
 unverified from domain being the usual cause, read as a success all the way
 back to the parent. The result is read now and the reason logged.
+
+**Why the welcome never showed (28 Jul).** JP could not see the first run
+welcome at all. An audit of every gate found the cause is not one thing but
+two, and neither is the three day cadence itself.
+
+MissionWelcome and DigiWelcomeSheet have NO server side gating: both render
+unconditionally from page.tsx, so every reason it stays hidden is inside the
+component. First, the session flag stored a bare '1' with no date, and
+sessionStorage survives reloads and browser session restore, so a parent who
+keeps the app in one pinned tab was greeted once and then never again. Monday's
+flag was still set on Wednesday. On a phone that is almost everyone. Second,
+the greeting day was read from the browser's own clock rather than
+Europe/London, unlike every other date on that page, so a device on another
+zone greeted on the wrong days.
+
+Both are fixed. The Mon, Wed, Sat cadence is deliberately KEPT: it was JP's own
+call after seeing a card on every open read as a toll gate, and reversing a
+decision because a bug hid its effect would be the wrong order. He sees it
+properly first, then decides.

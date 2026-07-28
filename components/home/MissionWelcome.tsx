@@ -37,7 +37,34 @@ const GREET_DAYS = [1, 3, 6]
 
 // One app open is exactly a session: a fresh launch or a new tab greets them
 // again, moving around inside the app does not.
+//
+// The flag stores the DAY it was set, not a bare '1'. It used to store '1' with
+// no date, and sessionStorage survives reloads and is restored on browser
+// session restore, so a parent who keeps the app in one pinned tab was greeted
+// once and then never again: Monday's flag was still set on Wednesday. That on
+// its own reproduces "I never see a welcome" for anyone who does not close
+// their tab, which on a phone is almost everyone.
 const OPEN_KEY = 'gc_mission_welcome_open'
+
+// The greeting day is read in London, like every other date on this page
+// (page.tsx uses an explicit Europe/London timeZone). This one used the
+// browser's own clock, so a device set to another zone greeted on the wrong
+// days, and near midnight a UK parent could miss theirs entirely.
+const UK_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+function londonToday(): { day: number; stamp: string } {
+  try {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/London', weekday: 'short', year: 'numeric', month: '2-digit', day: '2-digit',
+    })
+    const parts = fmt.formatToParts(new Date())
+    const get = (t: string) => parts.find(p => p.type === t)?.value ?? ''
+    const day = UK_DAYS.indexOf(get('weekday').slice(0, 3))
+    const stamp = `${get('year')}-${get('month')}-${get('day')}`
+    if (day >= 0 && stamp.length === 10) return { day, stamp }
+  } catch { /* fall through to the device clock */ }
+  const d = new Date()
+  return { day: d.getDay(), stamp: d.toISOString().slice(0, 10) }
+}
 // Which cards they have met, oldest first, so the rotation carries across
 // logins. Trimmed so it can never grow without end.
 const SEEN_KEY = 'gc_welcome_seen'
@@ -100,15 +127,16 @@ export default function MissionWelcome({
 
     // Quiet days end it here, before the open is even counted, so a Tuesday
     // never eats the card that Wednesday was going to show.
-    if (!GREET_DAYS.includes(new Date().getDay())) {
+    const today = londonToday()
+    if (!GREET_DAYS.includes(today.day)) {
       openDecision = { cards: null, handover: false, dismissed: true }
       return
     }
 
     let greeted = false
-    try { greeted = sessionStorage.getItem(OPEN_KEY) === '1' } catch { /* private mode, greet them */ }
+    try { greeted = sessionStorage.getItem(OPEN_KEY) === today.stamp } catch { /* private mode, greet them */ }
     if (greeted) { openDecision = { cards: null, handover: false, dismissed: true }; return }
-    try { sessionStorage.setItem(OPEN_KEY, '1') } catch { /* private mode, greeted every Home view */ }
+    try { sessionStorage.setItem(OPEN_KEY, today.stamp) } catch { /* private mode, greeted every Home view */ }
 
     let opens = 1
     try {
