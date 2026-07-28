@@ -32,11 +32,11 @@ Anyone else stopped counting minutes and started watching the mood instead?
 
 **Post text:**
 
-Quick one for anyone with a child in Year 6.
+There is one date every Year 6 parent misses. It is 31 October.
 
-The secondary school application deadline is 31 October. It is the one date in
-primary school that genuinely does not move, and it is the one I see parents find
-out about a week too late every single year.
+The secondary school application deadline. It is the one date in primary school
+that genuinely does not move, and it is the one I see parents find out about a
+week too late every single year.
 
 I am building a little thing that just watches the school calendar for you and
 gives you a nudge a few weeks before the moments that matter. Not a screen time
@@ -56,9 +56,10 @@ What is the parenting thing you wish someone had warned you about a month early?
 
 **Post text:**
 
-We talk so much about why kids should put the phone down that we forget to teach
-them why it is sometimes good to pick it up. And honestly, that is the bit that
-keeps them safer.
+We teach our kids why to put the phone down. We forget the bit that keeps them
+safer. Why to pick it up.
+
+And honestly, that second half is the one that has changed the most in our house.
 
 A child who only ever hears no will ignore you the first time a screen is
 genuinely good to them, and one day it will be. A friendship kept alive. A group
