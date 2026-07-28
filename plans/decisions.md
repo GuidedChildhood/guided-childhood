@@ -2748,3 +2748,37 @@ non greeting days get no check up at all.
 And the standing rule from the last line of his message: any DiGi check up must
 LINK to what fixes what it raises. Naming a problem and leaving the parent to
 find the page is a scoreboard, and this product does not do scoreboards.
+
+**DiGi reads a little slower, at speech_rate -10 (28 Jul).** JP asked for the
+Imogen read to be a little bit slower, then asked the right question before any
+credits were spent: will it still fit the timing of the images.
+
+It will, because nothing is timed to these recordings. SCRIPT_VOICE has two
+consumers, the script reader and the Right Now rescue, and in both it is a Hear
+it button beside the say this text. useReadAloud builds an Audio and plays or
+pauses it. No timeupdate, no onEnded sequencing, no image swapping. A longer
+clip is just a longer clip. The place where audio does have to fit pictures is
+the lesson explainer pipeline, one clip per beat, which is a different set of
+assets and none are built yet.
+
+Pace is a parameter, not a rewrite. seed_audio takes speech_rate from -50 to
++100. Measured on script 1: 12.18s at 0, 14.53s at -10, 14.76s at -20, 25.47s
+at -40. So -10 and -20 land in the same place and -40 is more than double.
+JP picked -10.
+
+The lesson worth keeping is about cost. The generator's own get_cost preflight
+quoted 0.2 credits a line, which made 100 lines look like 20 credits against a
+balance of 42.27. The real charge was about 1.2 a line and the workspace ran
+dry after 31. Do not budget a Higgsfield audio batch from get_cost. Measure the
+balance across a few real generations and scale from that.
+
+The map still serves all 100 at the original pace. A map that was 31 slow and
+69 normal would trade one inconsistency for another, and one consistent voice
+is the whole reason the Imogen batch exists. The 31 URLs are parked in
+plans/digi-voice-slower-progress.md so the spend survives, and the batch
+finishes in one go once there are credits.
+
+Also learned in passing: several seed files reuse the same sort_order for
+different scripts, so sort_order alone does not identify a script. The titles in
+the trailing comments of script-voice.ts are what disambiguate, and matching on
+them resolved all 100 cleanly.
