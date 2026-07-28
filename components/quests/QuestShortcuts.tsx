@@ -64,6 +64,15 @@ const TILES: Tile[] = [
     href: '/dashboard/keepsakes', label: 'Keepsakes', sub: 'Rewards you can hold',
     icon: 'keepsakes', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
   },
+  {
+    // School reminders had a page and effectively no door. It sat in the Explore
+    // grid far down Home labelled School tasks, which is not the words a parent
+    // searches for, so the honest answer to where are the school reminders was
+    // nowhere findable. It belongs here: a school reminder is a job the week
+    // puts on the family, which is exactly what this board is for.
+    href: '/dashboard/school', label: 'School reminders', sub: 'PE kit, library day, trips',
+    icon: 'jobs', bg: 'var(--tint-green)', iconBg: 'rgba(255,255,255,0.72)',
+  },
 ]
 
 // Same outlined tile as the passport page now, so the two read as one product.

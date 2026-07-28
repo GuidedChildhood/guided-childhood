@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link'
 
 // The pastel section tile, in one place, used by the Quests shortcuts and the
@@ -15,6 +17,12 @@ import Link from 'next/link'
 // tiles side by side still read as six different places rather than six copies
 // of one component. It is the same border plus 0 5px 0 language as our buttons,
 // so nothing new is introduced to the design system, it is just applied here.
+//
+// A tile pointing at an anchor on the same page scrolls there itself rather
+// than leaving it to the browser. A plain #hash link only moves the page when
+// the hash CHANGES, so the second tap on Manage jobs, once the URL already
+// said #my-todo, did nothing at all: a parent scrolled down, scrolled back up
+// to the tiles, tapped, and the page sat exactly where it was.
 
 export type SectionTile = {
   href: string
@@ -46,6 +54,17 @@ export default function SectionTiles({
         <Link
           key={t.href + t.label}
           href={t.href}
+          onClick={t.href.startsWith('#') ? e => {
+            e.preventDefault()
+            try {
+              const el = document.getElementById(t.href.slice(1))
+              if (!el) return
+              const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+              el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+              // Keep the address bar honest without asking it to do the moving.
+              history.replaceState(null, '', t.href)
+            } catch { /* no target, leave the page alone */ }
+          } : undefined}
           style={{
             display: 'block', textDecoration: 'none',
             background: t.bg,

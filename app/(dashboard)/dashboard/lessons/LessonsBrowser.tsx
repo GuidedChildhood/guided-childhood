@@ -2,17 +2,14 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import BrowseTile from '@/components/ui/BrowseTile'
 import { literacyAreaFor } from '@/lib/content/literacy'
 import { sceneCoverForStage } from '@/lib/content/lesson-scene-covers'
 import LessonSendButton from './together/LessonSendButton'
-import PrintableActions from '../printables/PrintableActions'
-import type { Printable } from '@/lib/printables/registry'
 
 // The Lessons browser. The old page was one long scroll of every lesson at
 // every stage; this splits it into three tidy views with a segmented
-// control at the top (Watch together, Lessons, Printables) and a stage
+// control at the top (Watch together, Lessons) and a stage
 // chip row that defaults to the child's own stage, so a parent lands on a
 // short, relevant shelf they can act on, not a wall of forty cards. Every
 // card leads with a thumbnail and carries its two real actions.
@@ -43,7 +40,7 @@ export type LibraryItem = {
   module: boolean
 }
 
-type View = 'together' | 'library' | 'printables'
+type View = 'together' | 'library'
 
 const STAGE_LIST = [
   { num: 1, label: 'Foundation', ages: '4 to 7' },
@@ -73,7 +70,7 @@ function categoryEmoji(category: string): string {
 }
 
 export default function LessonsBrowser({
-  childId, childName, childStageNum, watchItems, libraryItems, printables, isPaid,
+  childId, childName, childStageNum, watchItems, libraryItems,
   initialStage = null, initialView,
 }: {
   childId: string | null
@@ -81,8 +78,6 @@ export default function LessonsBrowser({
   childStageNum: number
   watchItems: WatchItem[]
   libraryItems: LibraryItem[]
-  printables: Printable[]
-  isPaid: boolean
   // A deep link (from the passport) can open a specific stage's route straight
   // away, otherwise the browser opens on its usual Watch together, All ages view.
   initialStage?: number | null
@@ -114,7 +109,6 @@ export default function LessonsBrowser({
   const watchFallback = watchForStage.length === 0 && watchItems.length > 0
   const watchShown = watchFallback ? watchItems : watchForStage
   const libForStage = libraryItems.filter(l => inStage(l.stageNum))
-  const printForStage = printables.filter(p => p.stages.some(inStage))
 
   // Group stage keyed items (videos, lessons) by stage for the All ages
   // view, so everything is on screen at once under clear age headers; a
@@ -128,16 +122,13 @@ export default function LessonsBrowser({
   // Stage chips only offer stages that hold something in the current view,
   // plus All ages at the front.
   const stagesWith = new Set(
-    (view === 'together' ? watchItems.map(w => w.stageNum)
-      : view === 'library' ? libraryItems.map(l => l.stageNum)
-      : printables.flatMap(p => p.stages))
+    view === 'together' ? watchItems.map(w => w.stageNum) : libraryItems.map(l => l.stageNum)
   )
   const stageChips = STAGE_LIST.filter(s => stagesWith.has(s.num))
 
   const TABS: { key: View; icon: string; label: string; count: number }[] = [
     { key: 'together', icon: '🎬', label: 'Watch together', count: watchItems.length },
     { key: 'library', icon: '📚', label: 'Lessons', count: libraryItems.length },
-    { key: 'printables', icon: '🖨️', label: 'Printables', count: printables.length },
   ]
 
   return (
@@ -380,36 +371,6 @@ export default function LessonsBrowser({
           </>
         )}
 
-        {/* ── Printables ── the paper sheets, every one a real thumbnail with
-            print and add to quests right on the card. */}
-        {view === 'printables' && (
-          <>
-            <p style={{ fontSize: '17.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
-              Colouring sheets to print and finish away from screens. Print it, or add it to {childName}&apos;s quests so the finished page pays stars.
-            </p>
-            {printForStage.length === 0 ? (
-              <Empty>No printables at this stage yet. Try another stage above.</Empty>
-            ) : (
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '14px' }}>
-                {printForStage.map(p => (
-                  <div key={p.key} style={{ display: 'flex', flexDirection: 'column', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', overflow: 'hidden', boxShadow: '0 4px 18px rgba(26,26,46,0.06)' }}>
-                    <div style={{ position: 'relative', aspectRatio: '16 / 11', overflow: 'hidden', background: '#EFE9DD' }}>
-                      <Image src={p.previewUrl} alt="" fill sizes="(max-width: 640px) 100vw, 240px" style={{ objectFit: 'cover' }} />
-                      <span style={{ position: 'absolute', top: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.85)', borderRadius: '100px', padding: '3px 9px' }}>⭐ {p.stars}</span>
-                    </div>
-                    <div style={{ padding: '13px 15px 15px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '3px' }}>{p.emoji} {p.title}</div>
-                        <div style={{ fontSize: '16px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>{p.skill} · {p.minutes}</div>
-                      </div>
-                      <PrintableActions printable={p} isPaid={isPaid} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
       </div>
     </div>
   )
