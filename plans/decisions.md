@@ -3123,3 +3123,40 @@ which is mobile data and VPNs. A guide that does not say where it stops is how a
 parent ends up confidently wrong.
 
 Migrations 117 and 118 are both APPLIED to the live database as of tonight.
+
+**Device guides now have a review date and a monthly check (28 Jul).** JP: the
+guides go out of date constantly, especially apps like WhatsApp, so research
+them, run a monthly check, and get the steps age specific where possible.
+
+The guides are the most perishable thing in the product. Apple, Google and Meta
+move menus and rename toggles continuously. A stale guide is worse than no
+guide, because a parent follows it, cannot find the setting or finds it does
+nothing, and walks away believing the house is covered. Nothing recorded when a
+guide was last looked at, so there was no way to know which had drifted.
+
+Migration 119 adds last_reviewed_at (backfilled to now, so the first run has a
+starting line rather than 25 overdue at once) and device_guide_candidates, the
+review queue. /api/cron/device-guide-refresh runs monthly on the 2nd, takes the
+six least recently reviewed, asks what has changed and what is missing, and
+files everything as PENDING.
+
+It NEVER edits a live guide. Same human gate as knowledge-refresh, and the
+reason is stronger here: these are safety instructions, and a confidently wrong
+step is the failure mode that actually hurts a family. The prompt is told
+explicitly that returning nothing is a good answer, and a candidate without a
+source URL is dropped before it reaches the queue, because a claim that cannot
+be checked is not reviewable.
+
+The batch is marked reviewed whether or not anything came back, since a guide
+checked and found correct HAS been reviewed. Without that the same six would be
+re-checked forever.
+
+Age specific steps: the candidate rows carry age_notes keyed by band, and the
+prompt is told to fill it only where the guidance genuinely differs rather than
+where the wording would just be softer. The live guides do not render age notes
+yet, so this collects the material first and the rendering follows once there is
+something real to show.
+
+Applied to the live database tonight. WHAT THIS DOES NOT DO: verify the current
+25 guides. It schedules that work and routes it to JP for approval, it does not
+retrospectively check them. The first run on 2 August covers the first six.
