@@ -2951,3 +2951,23 @@ enforcement mechanism.
 
 ChildAppNudge is now the only one that speaks. HomeRows lost the row and the
 handoverChildName prop; nextTask always reads the daily loop.
+
+**The saving goal bar was drawn twice, the balance line only looked like it
+was (28 Jul).** JP's call, and the right one. QuestBoard and StarSummary both
+sat on the Quests page drawing a star balance and a Saving for bar.
+
+Only the goal bar was a genuine duplicate, and StarSummary's is the better of
+the two: it carries the goal reached celebration and the redeem button, which
+QuestBoard's copy never had. Two bars for one goal, one of them a dead end.
+QuestBoard's is gone.
+
+The BALANCE line stays, because it is not a duplicate however much it looks
+like one. QuestBoard lists every child; StarSummary only ever shows the
+selected one. For a family with two children that row is the only place both
+balances appear at once, so removing it would have quietly cost multi child
+families their only side by side view to make a single child page tidier.
+
+Worth keeping as a rule: identical looking output is not evidence of
+duplication until the SCOPES match. The handover fix earlier the same day was
+safe to make because the gates proved redundancy; this one was not, and the
+difference was worth asking about rather than guessing.
