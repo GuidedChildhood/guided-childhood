@@ -367,7 +367,18 @@ export default function StarChartBuilder() {
             {picked.length}/{MAX_ROWS} jobs on the chart{blanks > 0 ? `, ${blanks} blank ${blanks === 1 ? 'row' : 'rows'} for a pen` : ', full chart'}
           </span>
           <button
-            onClick={() => window.print()}
+            // Record the print, then print. Fire and forget, and never awaited:
+            // the chart has to open the dialog whether or not the write lands,
+            // so a slow or failed save can never stand between a parent and
+            // their paper. Worst case the board's badge is out by one print.
+            onClick={() => {
+              fetch('/api/printables/star-chart-print', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({}),
+              }).catch(() => { /* the chart still prints */ })
+              window.print()
+            }}
             className="btn btn-gold"
             style={{ padding: '13px 24px', fontSize: 16 }}
           >

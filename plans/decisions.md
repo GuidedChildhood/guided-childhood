@@ -2903,3 +2903,27 @@ number. It needs a column that actually knows, so it waits for one.
 /dev/quest-tiles now renders BOTH states side by side. The quiet board is what
 most families see most days and it has to look finished rather than unloaded,
 which is not something you can check from the busy state alone.
+
+**Stickers read as objects, and would have printed blank (28 Jul).** JP: if the
+stars are going to be printable they need to render better and be better
+images. Two separate things inside that.
+
+Rendering: an earned sticker now has a white die cut rim, a soft lift off the
+page and a highlight across the top, which is the difference between a status
+dot and a sticker, and is what the Planet Friends beside them already had. A
+locked one deliberately gets none of it and stays flat, because an unearned
+sticker should look like it is waiting rather than like something you own.
+
+The print bug found on the way: browsers strip background colours when printing
+unless told not to, so every one of these would have gone to the printer as a
+white circle with a number in it. On a sheet whose entire purpose is to be cut
+out and stuck on a chart that is the difference between a printable and a blank
+page. print-color-adjust: exact now set.
+
+Worth keeping: these are SVG and CSS, not raster, so they are already the right
+call for print. They scale losslessly to any size, which is why the harness
+renders them at 150px as well as 54. New raster artwork would be a downgrade
+for print unless generated very large. The real artwork question is the
+CHARACTER stickers, which are images, and that waits on Higgsfield credits.
+
+/dev/stickers shows earned, locked and print size together.

@@ -47,6 +47,10 @@ const TILES: Tile[] = [
     // same jobs on the fridge.
     href: '/dashboard/printables/star-chart', label: 'Build your star chart', sub: 'Type the jobs, then print it',
     icon: 'star', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
+    // Real, since migration 117: the print button writes a row, so this is a
+    // fact rather than a guess. Goes quiet on the first print and stays quiet,
+    // because a reprint is a nice to have, never a chase.
+    badge: s => s.starChartPrinted ? null : 'Not printed yet',
   },
   {
     href: '/dashboard/printables', label: 'Printables', sub: 'Every other sheet',

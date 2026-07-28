@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
 import JobBalance from '@/components/quests/JobBalance'
+import JobComposer from '@/components/quests/JobComposer'
+import SaveChip, { type SaveState } from '@/components/quests/SaveChip'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
 import QrHandoverModal from '@/components/quests/QrHandoverModal'
 import StarSummary from '@/components/quests/StarSummary'
@@ -65,6 +67,9 @@ const card: React.CSSProperties = {
 
 export default function QuestManager() {
   const [children, setChildren] = useState<Child[]>([])
+  // Per job: saving, saved (clears itself) or failed. Keyed by quest id so
+  // two jobs edited quickly never show each other's tick.
+  const [saveState, setSaveState] = useState<Record<string, SaveState>>({})
   const [quests, setQuests] = useState<Quest[]>([])
   const [goals, setGoals] = useState<Goal[]>([])
   // Finished goals the parent has cleared off the panel. The reward stays
@@ -76,7 +81,6 @@ export default function QuestManager() {
   const [links, setLinks] = useState<KidLink[]>([])
   const [activeChild, setActiveChild] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
-  const [customTitle, setCustomTitle] = useState('')
   // The add a job composer that sits at the top of the child's own list. The
   // only way to write a job used to be a lone input far below the ideas grid,
   // so a parent who arrived wanting to add one thing had to scroll past two
@@ -154,15 +158,43 @@ export default function QuestManager() {
     } catch { /* the optimistic tick stands, next load reconciles */ }
   }
 
+  // Editing a job saves as you go, and now says so.
+  //
+  // It always saved on its own, but silently, so a parent moving a job off an
+  // overloaded Tuesday tapped a day, saw the chip change, and had nothing at
+  // all telling them it had stuck. The change looked identical whether it
+  // reached the server or not.
+  //
+  // Which mattered more than it sounds, because the failure was invisible by
+  // construction: the optimistic update went in first and only a thrown fetch
+  // was caught, so a 401 or a 500 came back as a perfectly ordinary response,
+  // nothing reverted, and the parent was left looking at a change that did not
+  // exist. Every save now checks the response, puts the old job back when it
+  // did not land, and says which happened.
   async function editQuest(questId: string, patch: { title?: string; stars?: number; schedule?: string; schedule_days?: number[] | null; blocks_screens?: boolean }) {
+    const before = quests.find(q => q.id === questId)
     setQuests(prev => prev.map(q => q.id === questId ? { ...q, ...patch } as Quest : q))
+    setSaveState(s => ({ ...s, [questId]: 'saving' }))
     try {
-      await fetch('/api/quests', {
+      const res = await fetch('/api/quests', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quest_id: questId, ...patch }),
       })
-    } catch { load() }
+      if (!res.ok) throw new Error('not saved')
+      setSaveState(s => ({ ...s, [questId]: 'saved' }))
+      // The tick is a confirmation, not a label, so it clears itself and the
+      // row goes back to being quiet.
+      window.setTimeout(() => {
+        setSaveState(s => (s[questId] === 'saved' ? { ...s, [questId]: null } : s))
+      }, 2200)
+    } catch {
+      // Put the job back exactly as it was, so the screen and the database
+      // agree again, then say so rather than leaving a change that is not real.
+      if (before) setQuests(prev => prev.map(q => q.id === questId ? before : q))
+      else load()
+      setSaveState(s => ({ ...s, [questId]: 'failed' }))
+    }
   }
 
   async function pickContact() {
@@ -1248,37 +1280,11 @@ export default function QuestManager() {
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
                   Or write your own
                 </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <input
-                    autoFocus
-                    value={customTitle}
-                    onChange={e => setCustomTitle(e.target.value)}
-                    onKeyDown={e => { if (e.key === 'Enter' && customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
-                    placeholder="Make your bed, feed the cat..."
-                    style={{
-                      flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
-                      border: '1.5px solid var(--border)', background: '#fff',
-                      fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none',
-                    }}
-                    maxLength={120}
-                  />
-                  <button
-                    onClick={() => { if (customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
-                    disabled={!customTitle.trim()}
-                    style={{
-                      flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-                      borderRadius: '12px', padding: '12px 20px',
-                      cursor: customTitle.trim() ? 'pointer' : 'default',
-                      fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
-                      boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: customTitle.trim() ? 1 : 0.5,
-                    }}
-                  >
-                    Add
-                  </button>
-                </div>
-                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
-                  Lands as a daily job worth one star. Change the days or the stars on the job itself once it is in, or pick from the ready made ideas further down.
-                </p>
+                <JobComposer
+                  autoFocus
+                  onAdd={t => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: 'daily' })}
+                  help="Lands as a daily job worth one star. Change the days or the stars on the job itself once it is in, or pick from the ready made ideas further down."
+                />
               </div>
             )}
 
@@ -1448,6 +1454,7 @@ export default function QuestManager() {
                             )
                           })}
                         </span>
+                        <SaveChip state={saveState[q.id] ?? null} />
                         <button
                           onClick={() => editQuest(q.id, { blocks_screens: !q.blocks_screens })}
                           title="Screens wait until this one is done and approved"
@@ -1693,29 +1700,12 @@ export default function QuestManager() {
                   </button>
                 ))}
               </div>
-              <div style={{ display: 'flex', gap: '8px', marginTop: '14px' }}>
-                <input
-                  value={customTitle}
-                  onChange={e => setCustomTitle(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter' && customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
+              <div style={{ marginTop: '14px' }}>
+                <JobComposer
+                  tone="cream"
                   placeholder="Or write your own quest"
-                  style={{
-                    flex: 1, padding: '11px 14px', borderRadius: '12px',
-                    border: '1.5px solid var(--border)', background: 'var(--cream)',
-                    fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
-                  }}
-                  maxLength={120}
+                  onAdd={t => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: 'daily' })}
                 />
-                <button
-                  onClick={() => { if (customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
-                  style={{
-                    background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px',
-                    padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
-                    boxShadow: '0 3px 0 var(--terracotta-dark)',
-                  }}
-                >
-                  Add
-                </button>
               </div>
             </div>
           )}

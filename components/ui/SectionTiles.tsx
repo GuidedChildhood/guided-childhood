@@ -91,12 +91,19 @@ export default function SectionTiles({
                 than make a parent open it to find out. */}
             {t.badge && (
               <span style={{
-                flexShrink: 0, background: '#fff', border: `1.5px solid ${t.accent}`,
+                background: '#fff', border: `1.5px solid ${t.accent}`,
                 borderRadius: 100, padding: '3px 10px',
                 fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
                 color: 'var(--ink)', whiteSpace: 'nowrap',
-                // And if a badge is still too long for its tile, it clips
-                // rather than dragging the layout with it.
+                // If a badge is too long for its tile it clips rather than
+                // dragging the layout with it.
+                //
+                // This needs flexShrink left at its default of 1. It used to be
+                // pinned to 0, which quietly disabled the whole guard below it:
+                // a flex item that refuses to shrink cannot ellipsis, it just
+                // pushes, so the first badge longer than half a phone screen
+                // (Not printed yet, at 413px against a 390 viewport) took the
+                // row off the edge. The clip was written and could never fire.
                 minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis',
               }}>
                 {t.badge}
