@@ -14,11 +14,14 @@ screen time counter.
 
 ## We have been counting the wrong thing
 
-For years, every one of us has been counting the same number. Screen time.
-Hours and minutes. The figure the phone hands you on a Sunday morning, the one
-the school newsletter quotes, the one that fills the news each time a report
-lands. We have organised the whole worry around it. And the best recent evidence
-quietly says that number barely predicts anything at all.
+We are all counting screen time. It is the one number that barely matters.
+
+That is not me being provocative for the sake of it. It is where the best recent
+evidence has quietly landed, and almost nobody has updated. For years, every one
+of us has counted the same figure. Hours and minutes. The number the phone hands
+you on a Sunday morning, the one the school newsletter quotes, the one that fills
+the news each time a report lands. We have organised the whole worry around it.
+And it predicts far less than you would think.
 
 I want to walk through why, because it changed how I parent, and it is the reason
 I am building what I am building instead of the obvious thing everyone expects.

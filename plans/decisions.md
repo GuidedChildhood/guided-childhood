@@ -2677,6 +2677,52 @@ call after seeing a card on every open read as a toll gate, and reversing a
 decision because a bug hid its effect would be the wrong order. He sees it
 properly first, then decides.
 
+**The Quests tiles carry state, they are not a menu (28 Jul).** An audit of the
+Quests page found 36 sections and a measurable frequency inversion: the most
+frequent action, landing a tick, sits about 1300 lines down behind a tab, while
+one time setup occupies the largest always rendered block above it. Eight
+navigation tiles filled the first screen before a single piece of information.
+
+JP's call, and the right one, was to KEEP all eight rather than cut them: they
+are the page's status board, not clutter. So they carry live state now. A tile
+with a number is a job to do, a tile without one is quietly done, which is how
+GoHenry and Greenlight both open. Manage jobs says how many ticks are waiting,
+Printables how many finished sheets need confirming, School how many reminders
+are open, and Our family deal says Not made until there is one.
+
+Deliberately not every tile. A badge invented so a tile has one teaches a parent
+that the numbers mean nothing, so only the four with a real outstanding action
+get one, and every read fails soft to silence. The agreement in particular
+defaults to signed on a failed read, so a broken query can never nag a family
+who have already done it.
+
+Also gone in the same pass: the Lessons signpost that closed the page, which
+duplicated the Lessons tile that opens it plus a permanent bottom tab, and the
+job balance card, which rendered in full for a family with nothing due today.
+SectionTiles uses minmax(0, 1fr) now, because a grid column's default min width
+is auto and the first badge pushed the whole right column off a phone screen.
+
+**DiGi speaks English now (28 Jul).** All 100 script recordings were generated
+on the Skye preset, which is American. JP's ear caught it on the name itself:
+Skye says DiGi with an American vowel, and it is not how the name sounds here.
+Every line was regenerated on Imogen, a warm English female voice, and
+lib/content/script-voice.ts rewritten to point at the new files.
+
+That lines up the two halves of the platform's voice. lib/voice/english-voice.ts
+already forces en-GB and asks the browser for a warm English female when there
+is no recording to play; until now the recordings themselves disagreed with it,
+so a parent heard an American read a script and an English voice read the next
+thing. One accent now, whether the words come from a file or the device.
+
+The say this lines contain no literal "DiGi", so the Dijee respelling that
+english-voice.ts applies to browser speech was not needed in the prompts.
+
+Still hotlinked to the generation CDN. These recordings are the only assets left
+pointing outside the repo now the art is vendored into public/art, and they want
+the same treatment: about 50 MB as wav, closer to 9 MB as 64k mono mp3, which is
+a repo sized problem rather than a git sized one. Needs ffmpeg and a decision on
+where they live before it is worth doing.
+
 **Path first, then check on the child (28 Jul).** JP: "we should alwasy ask to
 follow path first tehn check on child aftet that so that needs to live in check
 up after day clears along with check quests check kessons etc so any diig check
@@ -2735,3 +2781,125 @@ the page a parent can actually act on.
 
 Rule, same as the DiGi check up rule from earlier today: a passport row names a
 problem and links to the thing that fixes it, or it does not name it.
+**DiGi reads a little slower, at speech_rate -10 (28 Jul).** JP asked for the
+Imogen read to be a little bit slower, then asked the right question before any
+credits were spent: will it still fit the timing of the images.
+
+It will, because nothing is timed to these recordings. SCRIPT_VOICE has two
+consumers, the script reader and the Right Now rescue, and in both it is a Hear
+it button beside the say this text. useReadAloud builds an Audio and plays or
+pauses it. No timeupdate, no onEnded sequencing, no image swapping. A longer
+clip is just a longer clip. The place where audio does have to fit pictures is
+the lesson explainer pipeline, one clip per beat, which is a different set of
+assets and none are built yet.
+
+Pace is a parameter, not a rewrite. seed_audio takes speech_rate from -50 to
++100. Measured on script 1: 12.18s at 0, 14.53s at -10, 14.76s at -20, 25.47s
+at -40. So -10 and -20 land in the same place and -40 is more than double.
+JP picked -10.
+
+The lesson worth keeping is about cost. The generator's own get_cost preflight
+quoted 0.2 credits a line, which made 100 lines look like 20 credits against a
+balance of 42.27. The real charge was about 1.2 a line and the workspace ran
+dry after 31. Do not budget a Higgsfield audio batch from get_cost. Measure the
+balance across a few real generations and scale from that.
+
+The map still serves all 100 at the original pace. A map that was 31 slow and
+69 normal would trade one inconsistency for another, and one consistent voice
+is the whole reason the Imogen batch exists. The 31 URLs are parked in
+plans/digi-voice-slower-progress.md so the spend survives, and the batch
+finishes in one go once there are credits.
+
+Also learned in passing: several seed files reuse the same sort_order for
+different scripts, so sort_order alone does not identify a script. The titles in
+the trailing comments of script-voice.ts are what disambiguate, and matching on
+them resolved all 100 cleanly.
+
+**The countdown was silent unless you started it yourself (28 Jul).** JP: "i
+have never heard or seen teh countdown i dont tink it works". He was right on
+both halves, and they have different causes.
+
+Never heard is a real bug. The blips and the finish jingle need an AudioContext,
+and a browser only opens one on a user gesture. DeviceTimeCard opened it in
+start(), which covers exactly one child: the one who taps Start and stays on the
+screen. Every other route into a live block reaches the card through
+initialSession and never runs start() at all: a reload mid block, a child coming
+back to the tab, and any block a grown up granted from their own phone. All of
+those counted down in complete silence, and the finish landed with no jingle.
+Now, while a block is live, the first touch anywhere on the page opens the audio.
+Still a real gesture, which is all the autoplay rules ask, and a child watching
+their own timer has always already made one.
+
+Never seen is a testability problem, and it is why the silence survived. A block
+is at least STAR_MINUTES long, five by default, so seeing the last ten seconds
+means starting a real block on a real child account and then sitting in front of
+it for the best part of five minutes. Nobody does that. app/dev/countdown runs
+the whole thing in fifteen seconds with no auth: the rising blips, the spoken ten
+second line, the three two one, the confetti and the big terracotta number, then
+the jingle. Checked in Chromium at 390 wide, all three states render and the only
+console error is the fixture token's stop call returning 400, which the card
+already ignores.
+
+The pattern worth keeping: when something can only be seen after a long wait, it
+is not really checkable, and anything not checkable will eventually break
+quietly. app/dev/passport-sections exists for the same reason and caught the same
+class of bug.
+
+**Section five went missing through a silent fallback, not a missing feature
+(28 Jul).** JP said to fix the passport, and picked section five missing off the
+list. The row was there the whole time: lib/pathway/passport-sections.ts builds
+all five, the pathway page passes them, and PassportBook renders them. Driving
+app/dev/passport-sections in Chromium showed all five present, screen balance
+included.
+
+The hole was one line earlier. buildPassportSections returned an empty record
+when currentStageNum was null, and an empty record does not hide the checklist,
+it changes which one renders: stamp.sections is optional, so PassportBook takes
+its old FOUR task fallback. Nothing errors, nothing typechecks as wrong, and the
+passport simply shows four rows with screen balance the one that is gone. That
+is the same class of bug the file's own header describes, and it came back
+through a different door.
+
+Stage one is the honest default when a family's current stage has not been
+worked out, and every row that reads live still says Later until it genuinely
+belongs to them, so nothing borrows progress it has not earned.
+
+The wider lesson: an optional prop with a silent fallback is a trapdoor. The
+fallback should be loud, or there should not be one.
+
+**DiGi is spelled Didgee for speech, not Dijee (28 Jul).** JP: "digi as sounding
+in the english word digee tal", so the target is the first two syllables of
+digital, DIJ ee.
+
+Two things have to be right and the old spelling only had one. Dijee wins the
+soft g, but a single consonant between two vowels is the English cue for a long
+first vowel, the rule that separates dinner from diner, so an engine reading
+Dijee is being told to say DYE jee or DEE jee. Doubling the consonant closes the
+syllable and forces the short i. That is exactly why didgeridoo is spelt as it
+is: didge is already the English spelling of this sound.
+
+Still one string in lib/voice/english-voice.ts, applied by sayable() to every
+line the browser speaks. It cannot be verified from a sandbox with no speakers,
+so it wants JP's ear on a real device before it is called done.
+
+**Quests tiles: the fifth badge is the star bank, and the star chart stays
+quiet (28 Jul).** JP approved the restructure. Phase 1 turned out half built
+already: four tiles carried live badges and page.tsx really does pass the
+status, so those were working.
+
+Added the fifth, on Keepsakes: stars banked and not yet spent across every
+child, from getStarBanks. It is a balance rather than a queue, and it still
+earns a badge on this board's own test, because the child has earned those
+stars and not been given anything for them. Something is owed, it is just the
+parent's to give rather than to confirm.
+
+Did NOT add "Not printed yet" to the star chart, which JP also asked for.
+StarChartBuilder persists nothing, so there is no record of any family ever
+having printed it. The only way to show that badge today is to infer it from
+something adjacent, which is precisely the invented badge board-status.ts
+already rules out: a number a parent learns to distrust is worse than no
+number. It needs a column that actually knows, so it waits for one.
+
+/dev/quest-tiles now renders BOTH states side by side. The quiet board is what
+most families see most days and it has to look finished rather than unloaded,
+which is not something you can check from the busy state alone.

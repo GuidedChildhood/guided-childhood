@@ -11,29 +11,25 @@ Note: everything here is grounded in the repo. Anything about Justin's personal 
 ## FOUNDER POST 1 — The rule that DiGi can never say yes or no
 **Best posting slot:** after In Proportion Post 1 (already posted).
 
-**Image:** Justin in a square in Budapest, on a football tour, arms up, holding up a giant model of the moon.
+**Image:** Justin in a square in Budapest, on a football tour, arms up, holding up a giant model of the moon. A real personal brand photo, not an illustration of the post.
+
+**Suggested caption (nod to the image, not woven into the body):** Photo, me holding up the moon in Budapest last week. Felt about the size of the average parenting screens question.
 
 **Post text:**
 
-That is me in Budapest, on a football tour, holding up the moon.
-
-Someone had put a giant model of it in the middle of a square, so of course I stopped and got the photo, arms up, taking the whole weight of it. And standing there with something that size balanced over my head, I thought, this is more or less what parenting screens feels like. One person, asked to hold up something far too big to hold, on their own.
-
-I built an AI to help with that weight. I built it for my own family first. Then I made it break the one rule every other parenting tool is built on.
+I built an AI to help parents with screens. I built it for my own family first, then I made it break the one rule every other parenting tool is built on.
 
 It cannot tell you what to do.
 
-Ask most tools should my 12 year old have TikTok and they hand you a yes or a no, usually dressed up, usually confident. Here, take the moon, off you go. DiGi, the guide we are building for parents, is not allowed to. Not ban it. Not allow it. Not just take the phone away. I wrote those phrases into a list of things it is forbidden to say, along with every sneaky version of them.
+Ask most tools should my 12 year old have TikTok and they will give you a yes or a no, usually dressed up, usually confident. DiGi, the guide we are building for parents, is not allowed to. Not ban it. Not allow it. Not just take the phone away. I wrote those phrases into a list of things it is forbidden to say, along with every sneaky version of them.
 
-Here is why. A verdict ends the conversation. A parent who is told no goes and enforces a no, and the child climbs over it the moment their back is turned. A parent who is told yes gets no help with the part that actually matters. Both are back where they started, holding the same moon, just with more certainty and less trust.
+Here is why. A verdict ends the conversation. A parent who is told no goes and enforces a no, and the child climbs over it the moment their back is turned. A parent who is told yes gets no help with the part that actually matters. Both are back where they started, just with more certainty and less trust.
 
-So DiGi does something harder. It names the conditions. Not should they have it, but what structure, at what time, with what agreed between you, reviewed together in a week. It does not hand you the moon and walk off. It helps you carry it, and shows you where to set it down.
+So DiGi does something harder. It names the conditions. Not should they have it, but what structure, at what time, with what agreed between you, reviewed together in a week. It hands you a pathway you can walk, instead of a ruling you have to police.
 
 It was the very first non negotiable I wrote down, before a single feature. Everything else in the product bends. This one does not.
 
 People assume the clever part of an AI is how much it knows. I think the clever part is knowing what it must never do. A parenting guide that refuses to parent for you, and instead makes you a bit more able to do it yourself, is the whole idea.
-
-Nobody should have to hold the moon up on their own.
 
 What is the last piece of parenting advice that actually helped, a verdict, or a way through?
 
@@ -48,7 +44,7 @@ Most AI parenting tools are a nice prompt sitting on top of a guess. I did not w
 
 Researchers in. DiGi answers from a library of findings from the actual people who study this, Amy Orben, Candice Odgers, Andrew Przybylski, Sonia Livingstone, Lucy Foulkes, Chris Ferguson, Catherine Knibbs, Jacqueline Nesi, Patti Valkenburg, and Jean Twenge held honestly as the concern side. When a parent asks something, an engine scores every finding against their exact question, by the child's age and the topic, and hands DiGi the best ones with one instruction. Cite the source by name.
 
-Principles on. On top of the research sit ten principles it cannot break. No verdicts only pathways. Evidence before opinion. Child before platform. Relationship first. Sleep matters. Privacy and safeguarding by design. Those are not slogans, they are rules the guide runs inside.
+Principles on. On top of the research sit seven principles it cannot break, and a hard safety line above all of them. No verdicts only pathways. Evidence before opinion. Child before platform. Relationship first. Sleep matters. Privacy and safeguarding by design. Those are not slogans, they are rules the guide runs inside.
 
 No verdicts out. This is the one that matters most. DiGi will never hand you a yes or a no. It gives you the best next step and leaves the deciding to you.
 
