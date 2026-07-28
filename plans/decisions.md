@@ -2782,3 +2782,70 @@ Also learned in passing: several seed files reuse the same sort_order for
 different scripts, so sort_order alone does not identify a script. The titles in
 the trailing comments of script-voice.ts are what disambiguate, and matching on
 them resolved all 100 cleanly.
+
+**The countdown was silent unless you started it yourself (28 Jul).** JP: "i
+have never heard or seen teh countdown i dont tink it works". He was right on
+both halves, and they have different causes.
+
+Never heard is a real bug. The blips and the finish jingle need an AudioContext,
+and a browser only opens one on a user gesture. DeviceTimeCard opened it in
+start(), which covers exactly one child: the one who taps Start and stays on the
+screen. Every other route into a live block reaches the card through
+initialSession and never runs start() at all: a reload mid block, a child coming
+back to the tab, and any block a grown up granted from their own phone. All of
+those counted down in complete silence, and the finish landed with no jingle.
+Now, while a block is live, the first touch anywhere on the page opens the audio.
+Still a real gesture, which is all the autoplay rules ask, and a child watching
+their own timer has always already made one.
+
+Never seen is a testability problem, and it is why the silence survived. A block
+is at least STAR_MINUTES long, five by default, so seeing the last ten seconds
+means starting a real block on a real child account and then sitting in front of
+it for the best part of five minutes. Nobody does that. app/dev/countdown runs
+the whole thing in fifteen seconds with no auth: the rising blips, the spoken ten
+second line, the three two one, the confetti and the big terracotta number, then
+the jingle. Checked in Chromium at 390 wide, all three states render and the only
+console error is the fixture token's stop call returning 400, which the card
+already ignores.
+
+The pattern worth keeping: when something can only be seen after a long wait, it
+is not really checkable, and anything not checkable will eventually break
+quietly. app/dev/passport-sections exists for the same reason and caught the same
+class of bug.
+
+**Section five went missing through a silent fallback, not a missing feature
+(28 Jul).** JP said to fix the passport, and picked section five missing off the
+list. The row was there the whole time: lib/pathway/passport-sections.ts builds
+all five, the pathway page passes them, and PassportBook renders them. Driving
+app/dev/passport-sections in Chromium showed all five present, screen balance
+included.
+
+The hole was one line earlier. buildPassportSections returned an empty record
+when currentStageNum was null, and an empty record does not hide the checklist,
+it changes which one renders: stamp.sections is optional, so PassportBook takes
+its old FOUR task fallback. Nothing errors, nothing typechecks as wrong, and the
+passport simply shows four rows with screen balance the one that is gone. That
+is the same class of bug the file's own header describes, and it came back
+through a different door.
+
+Stage one is the honest default when a family's current stage has not been
+worked out, and every row that reads live still says Later until it genuinely
+belongs to them, so nothing borrows progress it has not earned.
+
+The wider lesson: an optional prop with a silent fallback is a trapdoor. The
+fallback should be loud, or there should not be one.
+
+**DiGi is spelled Didgee for speech, not Dijee (28 Jul).** JP: "digi as sounding
+in the english word digee tal", so the target is the first two syllables of
+digital, DIJ ee.
+
+Two things have to be right and the old spelling only had one. Dijee wins the
+soft g, but a single consonant between two vowels is the English cue for a long
+first vowel, the rule that separates dinner from diner, so an engine reading
+Dijee is being told to say DYE jee or DEE jee. Doubling the consonant closes the
+syllable and forces the short i. That is exactly why didgeridoo is spelt as it
+is: didge is already the English spelling of this sound.
+
+Still one string in lib/voice/english-voice.ts, applied by sayable() to every
+line the browser speaks. It cannot be verified from a sandbox with no speakers,
+so it wants JP's ear on a real device before it is called done.

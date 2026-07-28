@@ -60,7 +60,17 @@ export async function buildPassportSections(
   opts: { openMoments: number; solvedMoments: number; parentReport: ParentReport | null },
 ): Promise<Record<number, StageSections>> {
   const out: Record<number, StageSections> = {}
-  if (!allProgress || !currentStageNum) return out
+  // Without any stage progress there is nothing to build rows from, and the
+  // page does not render a passport at all in that case.
+  if (!allProgress) return out
+  // A missing current stage used to bail here and return nothing, which did not
+  // hide the checklist: PassportBook takes its old four task fallback when
+  // sections are absent, so the passport quietly showed four rows instead of
+  // five and screen balance was the one that vanished. Nothing looked broken,
+  // it just looked like a four row checklist. Stage one is the honest default
+  // for a family whose current stage has not been worked out yet, and every
+  // row that reads live still says Later until it is genuinely theirs.
+  const currentNum = currentStageNum ?? 1
 
   const { openMoments, solvedMoments, parentReport } = opts
 
@@ -113,8 +123,8 @@ export async function buildPassportSections(
   for (let id = 1; id <= 5; id++) {
     const prog = allProgress[STAGE_SLUGS[id - 1]]
     if (!prog) continue
-    const isCurrent = id === currentStageNum
-    const reached = isCurrent || prog.contentComplete || id < currentStageNum
+    const isCurrent = id === currentNum
+    const reached = isCurrent || prog.contentComplete || id < currentNum
 
     const sections: ChecklistSection[] = [
       {

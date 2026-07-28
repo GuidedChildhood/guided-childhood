@@ -68,9 +68,17 @@ export function pickEnglishVoice(
 
 // How DiGi's name is said out loud. Written as DiGi everywhere a parent or a
 // child reads it, spelled for the engine only here, so the speech layer says
-// it the English way (soft g, as in digital) rather than the hard American
-// one. Changing the sound is changing this one string.
-const DIGI_SPOKEN = 'Dijee'
+// it the English way rather than the hard American one. Changing the sound is
+// changing this one string.
+//
+// The target is the first two syllables of "digital": DIJ ee. Two things have
+// to be right, and the earlier spelling only got one of them. Dijee wins the
+// soft g, but a single consonant between two vowels is the English cue for a
+// long first vowel, the same rule that separates dinner from diner, so an
+// engine reading Dijee is being told to say DYE jee or DEE jee. Doubling it
+// closes the syllable and forces the short i, which is why didgeridoo is spelt
+// the way it is: didge is already the English spelling of exactly this sound.
+const DIGI_SPOKEN = 'Didgee'
 
 /** The same sentence, respelled so a speech engine says our names properly. */
 export function sayable(text: string): string {
