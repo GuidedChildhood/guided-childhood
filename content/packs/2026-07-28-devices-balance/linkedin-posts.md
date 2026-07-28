@@ -10,11 +10,14 @@ on the Thread 3 close, to /starter-pack.
 
 **Post text:**
 
-For years we have all been counting the wrong thing.
+We are all counting screen time. It is the one number that barely matters.
 
-Screen time. Hours and minutes. The number every app puts in front of you on a
-Sunday, the number schools quote, the number that fills the news. And the best
-recent evidence quietly says that number barely predicts anything.
+That is not me being provocative. It is where the best recent evidence has quietly
+landed, and almost nobody has updated.
+
+Hours and minutes. The number every app puts in front of you on a Sunday, the
+number schools quote, the number that fills the news. And it predicts far less
+than you would think.
 
 The clearest example. A study in JAMA last year followed more than four thousand
 young people for four years. Total screen time was not associated with the harm
@@ -50,11 +53,11 @@ What do you actually watch for, the minutes, or how they seem when they stop.
 
 **Post text:**
 
-Everyone building in this space builds the same thing first. A screen time
-counter. A dashboard of hours. A number that goes red.
+Every app in this space builds a screen time counter. I built the opposite.
 
-I built a calendar instead, and I want to explain why, because the choice says
-everything about what I think this job actually is.
+A dashboard of hours. A number that goes red. That is the obvious thing, and I
+went the other way on purpose, because the choice says everything about what I
+think this job actually is.
 
 Here is the insight the calendar runs on. A child's birthday gives you their
 exact school year. The England school calendar is fixed, and identical for every
@@ -92,8 +95,10 @@ which one would you pick.
 
 **Post text:**
 
-We spend so long on why to put the phone down that we almost never teach the
-thing that actually keeps a child safe. Why to pick it up.
+We teach children why to put the phone down. We never teach the thing that keeps
+them safest of all.
+
+Why to pick it up.
 
 Because there are good reasons, and a child who knows them is far harder to
 catch out than a child who has only ever been told no. In our curriculum we teach

@@ -67,7 +67,7 @@ If an AI gave you parenting advice, what would you need before you trusted it?
 
 **Post text:**
 
-I ran our AI through a safety test I built to try to catch it being unsafe. It scored two out of seven.
+I built a safety test to catch our own AI being unsafe. It scored two out of seven.
 
 I am telling you that on purpose.
 
