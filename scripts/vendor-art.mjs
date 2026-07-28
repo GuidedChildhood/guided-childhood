@@ -114,11 +114,17 @@ for (const file of files) {
 // adding a hundred and fifty, and it is also simply faster for a parent on a
 // phone. So the name on disk is the original name with a webp extension, and
 // the rewrite below uses that name rather than the one the CDN used.
-const webpName = name => (extname(name).toLowerCase() === '.webp' ? name : basename(name, extname(name)) + '.webp')
+// Only pictures get converted. The same CDN also hosts DiGi's hundred recorded
+// script lines, and handing a wav to sharp fails a hundred times over with
+// "unsupported image format", which the all or nothing guard below then read as
+// a hundred dead files. Audio is vendored too, it simply comes across as it is.
+const CONVERTIBLE = new Set(['.png', '.jpg', '.jpeg'])
+const isImage = name => CONVERTIBLE.has(extname(name).toLowerCase())
+const localName = name => (isImage(name) ? basename(name, extname(name)) + '.webp' : name)
 
 const missing = []
 for (const [url, name] of urls) {
-  if (!(await exists(join(OUT, webpName(name))))) missing.push([url, name])
+  if (!(await exists(join(OUT, localName(name))))) missing.push([url, name])
 }
 
 // A plain substring, deliberately not URL_RE. A global regex keeps its
@@ -144,7 +150,7 @@ let skipped = 0
 const failed = []
 
 for (const [url, name] of urls) {
-  const dest = join(OUT, webpName(name))
+  const dest = join(OUT, localName(name))
   if (await exists(dest)) { skipped++; continue }
   try {
     const res = await fetch(url)
@@ -152,7 +158,10 @@ for (const [url, name] of urls) {
     const raw = Buffer.from(await res.arrayBuffer())
     // Quality 82 at up to 1600 wide: past that nothing in this app renders any
     // bigger, and the eye cannot tell 82 from lossless on illustrated artwork.
-    const out = await sharp(raw).resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 82 }).toBuffer()
+    // Anything that is not a picture, the wav recordings, goes across untouched.
+    const out = isImage(name)
+      ? await sharp(raw).resize({ width: 1600, withoutEnlargement: true }).webp({ quality: 82 }).toBuffer()
+      : raw
     await writeFile(dest, out)
     fetched++
     process.stdout.write('.')
@@ -184,14 +193,14 @@ console.log(`Downloaded ${fetched}, already had ${skipped}.`)
 let changed = 0
 for (const file of files) {
   const before = await readFile(file, 'utf8')
-  const after = before.replace(URL_RE, m => `/art/${webpName(m.split('/').pop())}`)
+  const after = before.replace(URL_RE, m => `/art/${localName(m.split('/').pop())}`)
     // The base constants end in a slash and now resolve to bare "/art/", which
     // is exactly right, but leaves a doubled slash where a filename follows.
     .replaceAll('/art//', '/art/')
     // A bare filename in a data array gets its extension swapped, because the
     // file on disk is webp now. The host it joins onto has already become
     // /art/, so the join still lands right.
-    .replace(BARE_RE, (m, f) => m.replace(f, webpName(f)))
+    .replace(BARE_RE, (m, f) => m.replace(f, localName(f)))
 
   if (after !== before) { await writeFile(file, after); changed++ }
 }
