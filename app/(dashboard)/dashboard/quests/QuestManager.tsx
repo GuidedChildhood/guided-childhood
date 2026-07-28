@@ -1205,7 +1205,20 @@ export default function QuestManager() {
                 straight into the list and the routines lived two screens
                 further down, so the only visible action was Done. */}
             {(() => {
-              const outstanding = childQuests.filter(q => !approvedTodayIds.has(q.id) && ticked !== q.id).length
+              // Jobs the child has actually ticked and that are waiting on the
+              // parent's yes. Nothing else.
+              //
+              // This used to count every quest not yet approved today, which is
+              // a completely different set: it swept in jobs nobody had
+              // touched, one off games never played, everything. So the pill
+              // read "Confirm 18 done" while five were genuinely waiting, and
+              // tapping it dropped a parent into a long list where most rows
+              // needed nothing from them. A number that promises a queue has to
+              // BE the queue, or it teaches a parent to ignore it.
+              //
+              // Same source the star summary already uses for its waiting
+              // count, so the two agree by construction rather than by luck.
+              const outstanding = ticks.filter(t => t.child_id === activeChild && t.status === 'pending').length
               const pill: CSSProperties = {
                 display: 'inline-flex', alignItems: 'center', gap: '6px',
                 background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
@@ -1224,7 +1237,11 @@ export default function QuestManager() {
               return (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
                   <button type="button" onClick={() => go('jobs-list')} style={pill}>
-                    ✅ {outstanding > 0 ? `Confirm ${outstanding} done` : 'All done today'}
+                    {/* Not "All done today" when the queue is empty: a family
+                        can have nothing waiting on them and still have a whole
+                        day's jobs untouched, and telling them it is all done
+                        would be a plain untruth. */}
+                    ✅ {outstanding > 0 ? `Confirm ${outstanding} done` : 'Nothing to confirm'}
                   </button>
                   <button type="button" onClick={() => go('routines')} style={pill}>
                     🌅 Add a routine

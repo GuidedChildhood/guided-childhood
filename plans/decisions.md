@@ -2994,3 +2994,44 @@ to hear the rest. title and aria-label now carry the full line.
 Noted against house rule 6 (scripts live in the database): these nine are quick
 action button labels rather than DiGi pathway scripts, so they stay in code for
 now. If they ever need editing without a deploy they want a table.
+
+**Four from JP's phone, 28 Jul evening.** All four were real.
+
+1. NO PRINT BUTTON on the star chart builder. Its action bar was pinned to
+bottom 0, so on a phone it sat UNDER the global tab bar, and because the count
+line is long the row wrapped and the Print button was the half pushed out of
+sight. The one button the entire page exists for was unreachable on mobile
+while the page still looked finished. The .above-tab-bar class already existed
+for exactly this (the shop basket uses it); this bar had never adopted it. Also
+flipped to wrap-reverse so the button leads and the count follows.
+
+2. THE BADGE CLIPPED to "Not prin...". Two errors, one after the other, both
+mine. First flexShrink 0 meant a long badge pushed the row off a 390 screen.
+Then flexShrink 1 fixed the overflow and made every badge collapse to four
+characters: "4 wai...", "Not m...". That is worse, because a badge that says
+"Not m..." has lost the only thing it was for. The answer was neither: the row
+WRAPS, so a badge that will not fit beside the icon drops under it and reads in
+full. Copy shortened to "To print" as well, matching the devices tile's "To set
+up".
+
+3. "CONFIRM 18 DONE" was counting the wrong set. It counted every quest not
+approved today, which sweeps in jobs nobody has touched and one off games never
+played. So it read 18 while five were genuinely waiting, and tapping it dropped
+a parent into a long list where most rows needed nothing from them. Now counts
+pending ticks, the same source the star summary already uses, so the two agree
+by construction. Empty state says "Nothing to confirm" rather than "All done
+today", which was a plain untruth when the day's jobs were untouched.
+
+4. THE PUSH TEST NEVER CLEANED UP. A 410 from a push service means that
+endpoint is dead forever; nothing ever deleted it. iOS mints a new endpoint
+every time the app is removed from the home screen and added back, so the row
+count only grew and every stale one counted towards "every device refused" —
+the message got more alarming the longer an account had been used. Now deletes
+on 404 and 410 and returns removed and allFailed.
+
+That last one is the fourth guard found this week that was written and could
+never fire: SchoolActionsCard already had the "we have cleared the devices that
+had gone for good" sentence and already read data.removed, and the route never
+sent one. Same shape as the passport fallback, the badge clip guard and the
+countdown audio. The pattern to distrust: handling written for a signal that
+nothing upstream actually raises.

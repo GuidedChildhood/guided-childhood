@@ -357,12 +357,20 @@ export default function StarChartBuilder() {
 
       {/* One tidy action bar, fixed low on the screen the Mobbin way, so the
           print button is always in reach however far the menu runs. */}
-      <div className="no-print" style={{
-        position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 20,
+      {/* above-tab-bar, not bottom: 0. Pinned to the floor, this bar sat UNDER
+          the global tab bar on a phone, and the count line is long enough that
+          the row wrapped, so the Print button was the part pushed out of sight.
+          The one button the whole page exists for was unreachable on mobile
+          while the page still looked finished. The class for this already
+          existed for the shop basket; this bar had just never adopted it. */}
+      <div className="no-print above-tab-bar" style={{
         background: 'rgba(249,248,246,0.94)', backdropFilter: 'blur(8px)',
         borderTop: '1.5px solid var(--border)', padding: '12px 20px',
       }}>
-        <div style={{ maxWidth: 820, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+        {/* The button leads on a phone and the count follows, so the action is
+            never the thing that wraps away. Side by side again once there is
+            room for both. */}
+        <div style={{ maxWidth: 820, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap-reverse' }}>
           <span style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.4 }}>
             {picked.length}/{MAX_ROWS} jobs on the chart{blanks > 0 ? `, ${blanks} blank ${blanks === 1 ? 'row' : 'rows'} for a pen` : ', full chart'}
           </span>
