@@ -73,14 +73,33 @@ function stampBrand(page: PDFPage, font: PDFFont) {
   })
 }
 
+// Every Print button on the platform opens this route in a new tab, so a
+// refusal here is a whole browser page, not a fetch a component can catch. It
+// used to answer that page with {"error":"members only"} in raw monospace on
+// white, which is the worst version of a paywall: it reads as the app breaking
+// rather than as an upgrade, and it leaves the parent on a dead tab with no way
+// back. So a browser navigation is answered with a page a person can use, and
+// only a programmatic caller still gets the JSON and the status code.
+function wantsHtml(req: NextRequest): boolean {
+  return (req.headers.get('accept') ?? '').includes('text/html')
+}
+
 export async function GET(req: NextRequest, ctx: { params: Promise<{ key: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+  if (!user) {
+    return wantsHtml(req)
+      ? NextResponse.redirect(new URL(`/login?next=${encodeURIComponent(req.nextUrl.pathname + req.nextUrl.search)}`, req.url))
+      : NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+  }
 
   const { key } = await ctx.params
   const printable = getPrintable(key)
-  if (!printable) return NextResponse.json({ error: 'unknown printable' }, { status: 404 })
+  if (!printable) {
+    return wantsHtml(req)
+      ? NextResponse.redirect(new URL('/dashboard/printables', req.url))
+      : NextResponse.json({ error: 'unknown printable' }, { status: 404 })
+  }
 
   // Printables are a member feature: the download is gated server side so
   // the paywall holds even against a direct link to this route. The sheet is
@@ -92,7 +111,11 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ key: string
     const { data: profile } = await supabase
       .from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
     if (!hasFullAccess(profile, user.email)) {
-      return NextResponse.json({ error: 'members only' }, { status: 402 })
+      // The sheet rides along so the upgrade page can name what they were
+      // reaching for rather than being a generic wall.
+      return wantsHtml(req)
+        ? NextResponse.redirect(new URL(`/dashboard/upgrade?sheet=${encodeURIComponent(key)}`, req.url))
+        : NextResponse.json({ error: 'members only' }, { status: 402 })
     }
   }
 

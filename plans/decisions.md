@@ -2522,3 +2522,24 @@ never the tables check, the 31 October deadline appears for Year 6 only, and the
 30 August against 1 September pair proves the phone card follows the school year
 rather than the age. Both new Home cards and the decoder checked in Chromium at
 390 and 1280: no horizontal overflow, no console errors.
+
+**A paywall is a page, not a JSON blob (28 Jul).** Justin scrolled the Manage
+jobs list, tapped Print on a printable job and got a white screen reading
+{"error":"members only"} in raw monospace. The gate itself was right: the
+printables PDF route is member only and holds against a direct link. What was
+wrong is that every Print button on the platform opens that route in a new tab,
+so a refusal is a whole browser page rather than a fetch a component can catch,
+and the parent was left on a dead tab with no way back and no idea whether the
+app had broken. A browser navigation now redirects instead: to /login when
+signed out, to the printables library for an unknown sheet, and to
+/dashboard/upgrade?sheet=<key> when the account has no access, where the wall
+names the sheet they were reaching for. A programmatic caller still gets the
+JSON and the status code, so nothing that reads the response changes.
+
+**The same row was crushing its own title.** Three buttons and an emoji take
+about 300px, so on a 390px phone the title column was left 56px and broke one
+word per line, with the Print button sitting on top of the words. The row wraps
+now: the title asks for at least 180px and the three actions travel as one
+block, so they drop to their own line the moment there is not room for both.
+Measured before and after at 390 wide: 56px to 298px. No media query, which
+matters in a codebase of inline styles.

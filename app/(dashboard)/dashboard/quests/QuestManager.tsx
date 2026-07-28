@@ -1249,55 +1249,66 @@ export default function QuestManager() {
                     borderRadius: '14px', background: doneToday ? 'var(--cream)' : '#fff', border: '1.5px solid var(--border)',
                     padding: '12px 14px', opacity: doneToday ? 0.72 : 1, transition: 'opacity 0.3s',
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    {/* The row wraps rather than crushes. Three buttons and an
+                        emoji take about 300px, so on a phone the title was left
+                        roughly forty pixels and broke one word per line, with
+                        the Print button sitting on top of the words. Asking the
+                        title for at least 180px means the button group drops to
+                        its own line the moment there is not room for both,
+                        which needs no media query in an inline style world. */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
                       <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{q.emoji}</span>
-                      <span style={{ flex: 1, minWidth: 0 }}>
-                        <span style={{ display: 'block', fontSize: '16px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{q.title}</span>
+                      <span style={{ flex: '1 1 180px', minWidth: 0 }}>
+                        <span style={{ display: 'block', fontSize: '16px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3, overflowWrap: 'anywhere' }}>{q.title}</span>
                         <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}>
                           {SCHEDULE_LABELS[q.schedule] ?? q.schedule} · ⭐ {q.stars}{q.blocks_screens ? ' · 📵 before screens' : ''}
                         </span>
                       </span>
-                      {/* A print quest carries a real print link, so the sheet
-                          is one tap away whenever the parent is ready. */}
-                      {sheet && (
-                        <a
-                          href={`/api/printables/${sheet.key}/pdf`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title={`Open ${sheet.title} to print`}
+                      {/* The actions travel together, so they wrap as one block
+                          and never split across two lines. */}
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, marginLeft: 'auto' }}>
+                        {/* A print quest carries a real print link, so the sheet
+                            is one tap away whenever the parent is ready. */}
+                        {sheet && (
+                          <a
+                            href={`/api/printables/${sheet.key}/pdf`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title={`Open ${sheet.title} to print`}
+                            style={{
+                              background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
+                              border: 'none', borderRadius: '10px',
+                              padding: '7px 12px', flexShrink: 0, boxShadow: '0 2px 0 var(--terracotta-dark)',
+                              fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, whiteSpace: 'nowrap',
+                            }}
+                          >
+                            🖨️ Print
+                          </a>
+                        )}
+                        <button
+                          onClick={() => !doneToday && tickForThem(q.id)}
+                          disabled={doneToday}
+                          title={doneToday ? 'Done and stars landed' : 'Check they did it, then tap to land the stars'}
                           style={{
-                            background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-                            border: 'none', borderRadius: '10px',
-                            padding: '7px 12px', flexShrink: 0, boxShadow: '0 2px 0 var(--terracotta-dark)',
-                            fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800,
+                            background: doneToday ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
+                            border: '1.5px solid var(--terracotta)', borderRadius: '10px',
+                            padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
+                            fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)', whiteSpace: 'nowrap',
                           }}
                         >
-                          🖨️ Print
-                        </a>
-                      )}
-                      <button
-                        onClick={() => !doneToday && tickForThem(q.id)}
-                        disabled={doneToday}
-                        title={doneToday ? 'Done and stars landed' : 'Check they did it, then tap to land the stars'}
-                        style={{
-                          background: doneToday ? 'var(--tint-sage)' : 'var(--terracotta-lt)',
-                          border: '1.5px solid var(--terracotta)', borderRadius: '10px',
-                          padding: '7px 12px', cursor: doneToday ? 'default' : 'pointer', flexShrink: 0,
-                          fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)',
-                        }}
-                      >
-                        {doneToday ? 'Done ✓' : 'Done?'}
-                      </button>
-                      <button
-                        onClick={() => setEditingId(editing ? null : q.id)}
-                        style={{
-                          background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
-                          padding: '7px 10px', cursor: 'pointer', flexShrink: 0,
-                          fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)',
-                        }}
-                      >
-                        {editing ? 'Close' : 'Edit'}
-                      </button>
+                          {doneToday ? 'Done ✓' : 'Done?'}
+                        </button>
+                        <button
+                          onClick={() => setEditingId(editing ? null : q.id)}
+                          style={{
+                            background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
+                            padding: '7px 10px', cursor: 'pointer', flexShrink: 0,
+                            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)', whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {editing ? 'Close' : 'Edit'}
+                        </button>
+                      </span>
                     </div>
 
                     {editing && (

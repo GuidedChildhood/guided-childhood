@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PlanChooser from '@/components/upgrade/PlanChooser'
 import { hasFullAccess } from '@/lib/access'
+import { getPrintable } from '@/lib/printables/registry'
 
 async function getFounderCount(): Promise<number> {
   try {
@@ -18,7 +19,15 @@ async function getFounderCount(): Promise<number> {
   }
 }
 
-export default async function UpgradePage() {
+export default async function UpgradePage(
+  { searchParams }: { searchParams: Promise<{ sheet?: string }> },
+) {
+  // Which sheet sent them here, when a Print button did. The printables route
+  // redirects a signed in parent without access to this page rather than
+  // answering a whole browser tab with raw JSON, and it names the sheet so the
+  // wall says what they were reaching for instead of being generic.
+  const { sheet } = await searchParams
+  const wantedSheet = sheet ? getPrintable(sheet)?.title ?? null : null
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -73,6 +82,15 @@ export default async function UpgradePage() {
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }}>
           Unlock the full pathway
         </h1>
+        {wantedSheet && (
+          <p style={{
+            display: 'inline-block', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+            borderRadius: '14px', padding: '10px 16px', margin: '0 0 14px',
+            fontSize: '16px', color: 'var(--ink)', lineHeight: 1.5, fontWeight: 600,
+          }}>
+            🖨️ {wantedSheet} is a member sheet. Unlock below and it prints straight away.
+          </p>
+        )}
         <p style={{ color: 'var(--ink-muted)', fontSize: '18px', maxWidth: '440px', margin: '0 auto' }}>
           All five stages, unlimited DiGi, 100 plus expert scripts grounded in the research, the wellbeing tracker, and the family agreement builder.
         </p>
