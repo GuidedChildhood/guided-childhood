@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { sendEmail } from '@/lib/email'
+import { sendEmail, emailConfigured } from '@/lib/email'
 
 // A parent registering interest in a real world keepsake: a printed passport, a
 // set of Planet Friend charms, or both. Best effort, exactly like the starter
@@ -36,38 +36,65 @@ export async function POST(req: NextRequest) {
   const childName = typeof body.childName === 'string' ? body.childName.slice(0, 80) : null
   const note = typeof body.note === 'string' ? body.note.slice(0, 500) : null
 
+  // Whether the interest actually survived this request, in either of the two
+  // places it can live. A signup that lands in neither is lost, and the parent
+  // must not be told they are on a list that does not have them on it.
+  let stored = false
+  let notified = false
+
   try {
     const supabase = await createClient()
     const { data: { user } } = await supabase.auth.getUser()
-    await supabase.from('keepsake_interest').insert({
+    const { error } = await supabase.from('keepsake_interest').insert({
       user_id: user?.id ?? null,
       email,
       item,
       child_name: childName,
       note,
     })
-    // A missing table or any write error is a quiet no op for the parent. It
-    // does not stop the email below, which is the copy that actually reaches
-    // someone.
-  } catch { /* the row is best effort, the email is the real notification */ }
+    if (error) {
+      // Almost always a missing table before migration 097. Logged rather than
+      // swallowed, because until now this failed in total silence.
+      console.error('[keepsakes/interest] row not stored', error.message)
+    } else {
+      stored = true
+    }
+  } catch (err) {
+    console.error('[keepsakes/interest] row not stored', err)
+  }
 
-  // Tell the founder, always. This is the notification that was missing: an
-  // interest used to land only in a table nobody opens, so a coming soon
-  // signup never reached a person. Best effort, so a mail failure never turns
-  // the parent's warm confirmation into an error.
+  // Tell the founder. An interest that lands only in a table nobody opens is
+  // an interest nobody acts on.
   const founder = process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com'
-  try {
-    await sendEmail({
-      to: founder,
-      subject: `Keepsake interest: ${ITEM_LABEL[item] ?? item}`,
-      html: `<div style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6;color:#1A1A2E">
-        <p>A family registered interest in a coming soon keepsake.</p>
-        <p><strong>Wants:</strong> ${ITEM_LABEL[item] ?? item}<br/>
-        <strong>Email:</strong> ${email}${childName ? `<br/><strong>Child:</strong> ${childName}` : ''}${note ? `<br/><strong>Note:</strong> ${note}` : ''}</p>
-        <p style="color:#8a8a9a;font-size:13px">Sent from the keepsakes coming soon form.</p>
-      </div>`,
-    })
-  } catch { /* never block the parent on our own notification */ }
+  if (!emailConfigured()) {
+    // No RESEND_API_KEY means no email leaves this deployment, at all, for
+    // anything. Worth saying out loud here: a keepsake signup that reaches
+    // nobody looks identical to one that worked.
+    console.error('[keepsakes/interest] RESEND_API_KEY is not set, so no notification was sent')
+  }
+  // sendEmail never throws: it RETURNS { ok, error }. So a try/catch around it
+  // catches nothing, and treating a set API key as proof of delivery is how a
+  // send that Resend rejected (an unverified from domain is the usual one) has
+  // been reading as a success. Read the result instead, and log the reason.
+  const sent = await sendEmail({
+    to: founder,
+    subject: `Keepsake interest: ${ITEM_LABEL[item] ?? item}`,
+    html: `<div style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6;color:#1A1A2E">
+      <p>A family registered interest in a coming soon keepsake.</p>
+      <p><strong>Wants:</strong> ${ITEM_LABEL[item] ?? item}<br/>
+      <strong>Email:</strong> ${email}${childName ? `<br/><strong>Child:</strong> ${childName}` : ''}${note ? `<br/><strong>Note:</strong> ${note}` : ''}</p>
+      <p style="color:#8a8a9a;font-size:13px">Sent from the keepsakes coming soon form.</p>
+    </div>`,
+  })
+  notified = sent.ok
+  if (!sent.ok) console.error('[keepsakes/interest] notification not sent:', sent.error)
 
-  return NextResponse.json({ ok: true })
+  // Stored or notified is enough: either one means someone can act on it. If
+  // both failed the interest is genuinely gone, so say so rather than show a
+  // warm confirmation for something that did not happen.
+  if (!stored && !notified) {
+    return NextResponse.json({ error: 'not recorded' }, { status: 502 })
+  }
+
+  return NextResponse.json({ ok: true, stored, notified })
 }

@@ -14,20 +14,37 @@ type Item = 'printed_passport' | 'charm_set' | 'both'
 export default function Keepsakes({ email = '', childName = null }: { email?: string; childName?: string | null }) {
   const [item, setItem] = useState<Item>('both')
   const [value, setValue] = useState(email)
-  const [state, setState] = useState<'idle' | 'sending' | 'done'>('idle')
+  const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle')
+  // The failure a parent can read. Saying "you are on the list" whether or not
+  // anything was recorded is the worst version of this form: it costs them the
+  // one chance to try again, and it costs us the signup.
+  const [error, setError] = useState<string | null>(null)
 
   async function register() {
     if (state === 'sending' || state === 'done') return
     const clean = value.trim().toLowerCase()
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) return
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
+      setError('That email does not look right. Check it and try again.')
+      return
+    }
     setState('sending')
+    setError(null)
     try {
-      await fetch('/api/keepsakes/interest', {
+      const res = await fetch('/api/keepsakes/interest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: clean, item, childName }),
       })
-    } catch { /* best effort */ }
+      if (!res.ok) {
+        setState('error')
+        setError('We could not save that just now. Try again in a moment, or email hello@guidedchildhood.com and we will add you by hand.')
+        return
+      }
+    } catch {
+      setState('error')
+      setError('No connection, so that did not send. Try again when you are back online.')
+      return
+    }
     setState('done')
   }
 
@@ -123,9 +140,14 @@ export default function Keepsakes({ email = '', childName = null }: { email?: st
                 onClick={register} disabled={state === 'sending'}
                 style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 12, padding: '13px 22px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, boxShadow: '0 4px 0 var(--terracotta-dark)' }}
               >
-                {state === 'sending' ? 'Sending…' : 'Notify me'}
+                {state === 'sending' ? 'Sending…' : state === 'error' ? 'Try again' : 'Notify me'}
               </button>
             </div>
+            {error && (
+              <p role="alert" style={{ fontSize: 15, color: '#B93B3F', lineHeight: 1.5, margin: '10px 0 0' }}>
+                {error}
+              </p>
+            )}
           </>
         )}
       </div>
