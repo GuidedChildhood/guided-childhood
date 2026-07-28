@@ -2927,3 +2927,170 @@ for print unless generated very large. The real artwork question is the
 CHARACTER stickers, which are images, and that waits on Higgsfield credits.
 
 /dev/stickers shows earned, locked and print size together.
+
+**The child app handover said itself three times on one Home screen (28 Jul).**
+Phase 3, the duplication. The audit counted six handover entry points; the ones
+that actually hurt were the three stacked on a single screen.
+
+A family with an unlinked, named child aged 8 or over saw, all at once:
+ChildAppNudge (page.tsx:557), DiGi's one next thing overridden to "Share the QR
+code with them" (page.tsx:506), and a handover row inside HomeRows (:674).
+
+Neither of the extra two could ever have been an alternative to the nudge, and
+the gates prove it rather than suggest it. hasKidLink is a link row existing;
+childAppLive is a link row that has been OPENED. So !hasKidLink strictly implies
+!childAppLive, and ChildAppNudge is gated on exactly !childAppLive. Whenever
+either duplicate showed, the nudge was already on screen saying the same thing.
+They were not three states, they were one message three times.
+
+The best part: page.tsx line 438 already carried the rule, in its own words,
+that the handover stays out of the one next thing "because ChildAppNudge above
+already owns that and saying it twice on one screen is nagging". The rule was
+written and then broken twice, twelve lines below itself. A comment is not an
+enforcement mechanism.
+
+ChildAppNudge is now the only one that speaks. HomeRows lost the row and the
+handoverChildName prop; nextTask always reads the daily loop.
+
+**The saving goal bar was drawn twice, the balance line only looked like it
+was (28 Jul).** JP's call, and the right one. QuestBoard and StarSummary both
+sat on the Quests page drawing a star balance and a Saving for bar.
+
+Only the goal bar was a genuine duplicate, and StarSummary's is the better of
+the two: it carries the goal reached celebration and the redeem button, which
+QuestBoard's copy never had. Two bars for one goal, one of them a dead end.
+QuestBoard's is gone.
+
+The BALANCE line stays, because it is not a duplicate however much it looks
+like one. QuestBoard lists every child; StarSummary only ever shows the
+selected one. For a family with two children that row is the only place both
+balances appear at once, so removing it would have quietly cost multi child
+families their only side by side view to make a single child page tidier.
+
+Worth keeping as a rule: identical looking output is not evidence of
+duplication until the SCOPES match. The handover fix earlier the same day was
+safe to make because the gates proved redundancy; this one was not, and the
+difference was worth asking about rather than guessing.
+
+**The daily buzz was filed under one time setup (28 Jul).** Last of the Quests
+duplication pass. The nine ping buttons sat at line 2109 of a 2283 line file,
+inside the Share tab, which is the tab a parent opens once to hand the phone
+link over and then never needs again.
+
+Read the nine and the misfiling is obvious: dinner in ten minutes, time to come
+off the screen, time for bed, please come downstairs. Not one is a setup task.
+They are the most ordinary daily thing on the whole board and they were behind
+a job you do once. Now on Manage, with the rest of the daily loop.
+
+Its own component, so /dev/child-ping can show it without a login. That matters
+here specifically: being unreachable without auth is a large part of how it sat
+misplaced and unexamined for as long as it did.
+
+Small accessibility fix carried along: the button labels are clipped at 34
+characters with an ellipsis, and the clipped text was also the accessible name,
+so a screen reader announced "Quest check! A few ticks and the..." with no way
+to hear the rest. title and aria-label now carry the full line.
+
+Noted against house rule 6 (scripts live in the database): these nine are quick
+action button labels rather than DiGi pathway scripts, so they stay in code for
+now. If they ever need editing without a deploy they want a table.
+
+**Four from JP's phone, 28 Jul evening.** All four were real.
+
+1. NO PRINT BUTTON on the star chart builder. Its action bar was pinned to
+bottom 0, so on a phone it sat UNDER the global tab bar, and because the count
+line is long the row wrapped and the Print button was the half pushed out of
+sight. The one button the entire page exists for was unreachable on mobile
+while the page still looked finished. The .above-tab-bar class already existed
+for exactly this (the shop basket uses it); this bar had never adopted it. Also
+flipped to wrap-reverse so the button leads and the count follows.
+
+2. THE BADGE CLIPPED to "Not prin...". Two errors, one after the other, both
+mine. First flexShrink 0 meant a long badge pushed the row off a 390 screen.
+Then flexShrink 1 fixed the overflow and made every badge collapse to four
+characters: "4 wai...", "Not m...". That is worse, because a badge that says
+"Not m..." has lost the only thing it was for. The answer was neither: the row
+WRAPS, so a badge that will not fit beside the icon drops under it and reads in
+full. Copy shortened to "To print" as well, matching the devices tile's "To set
+up".
+
+3. "CONFIRM 18 DONE" was counting the wrong set. It counted every quest not
+approved today, which sweeps in jobs nobody has touched and one off games never
+played. So it read 18 while five were genuinely waiting, and tapping it dropped
+a parent into a long list where most rows needed nothing from them. Now counts
+pending ticks, the same source the star summary already uses, so the two agree
+by construction. Empty state says "Nothing to confirm" rather than "All done
+today", which was a plain untruth when the day's jobs were untouched.
+
+4. THE PUSH TEST NEVER CLEANED UP. A 410 from a push service means that
+endpoint is dead forever; nothing ever deleted it. iOS mints a new endpoint
+every time the app is removed from the home screen and added back, so the row
+count only grew and every stale one counted towards "every device refused" —
+the message got more alarming the longer an account had been used. Now deletes
+on 404 and 410 and returns removed and allFailed.
+
+That last one is the fourth guard found this week that was written and could
+never fire: SchoolActionsCard already had the "we have cleared the devices that
+had gone for good" sentence and already read data.removed, and the route never
+sent one. Same shape as the passport fallback, the badge clip guard and the
+countdown audio. The pattern to distrust: handling written for a signal that
+nothing upstream actually raises.
+
+**DiGi called Ada by the wrong name because it only ever knew one child
+(28 Jul).** JP saw DiGi say "one sentence to Alma" about a child called Ada.
+Alma is one of our own DiGi Squad characters, so the first read was a leaked
+character name. It was not.
+
+The children query asked for is_primary and nothing else, so DiGi genuinely did
+not know a family's other children existed. In a house with more than one it
+answered about the primary child whatever the parent meant.
+
+The guard made it worse rather than better. A previous wrong name report had
+added a rule naming that one child and forbidding every other name "not even
+once". That does stop an invented name, but with several children it converts a
+wrong name into a locked in one: DiGi was explicitly instructed not to switch
+even when the parent said the other child's name themselves. It could not take
+the correction.
+
+Now DiGi is given every child on the account and told those are the only names
+it may use, that the parent's own words decide which child is meant, and that if
+a parent names a child mid conversation it follows them. Unclear means say your
+child or ask, never pick one and hope.
+
+The lesson is about the shape of the first fix, not the model. A rule that
+pins one value and forbids all others looks like a tightening and is actually a
+narrowing: it removes the ability to be right later. Constrain the SET of
+allowed answers, then let the evidence choose within it.
+
+JP's larger asks from the same session (walk a parent through device settings
+and hand them back, settings strength that scales with age, defaults on, a feed
+assessment for worried parents) are written up in
+plans/digi-device-settings-plan.md rather than half built here.
+
+**DiGi answered about TikTok when asked about home WiFi, because the WiFi guide
+did not exist (28 Jul).** JP tapped "DiGi can walk me through it" on home
+broadband and got the TikTok walkthrough again plus the agreements line. On the
+Fire tablet the same button worked.
+
+Both halves of that are explained by one fact: there are 24 rows in
+device_guides and not one is a router. firetablet is a real row, so that button
+grounded properly. broadband was never a row at all, and the button did not even
+pass a device key, so the route loaded no guide and DiGi filled the silence from
+earlier in the conversation.
+
+Three changes. Migration 118 adds the home broadband guide, first in the list at
+sort_order 5, because router filtering is the only layer covering every screen
+in the house at once including the ones with no controls of their own. The
+button now passes device=broadband. And when a parent clearly asks how to set
+something up and no guide is loaded, DiGi is told to say we do not have that one
+written yet rather than improvise, because a parent following invented settings
+believes the house is covered when it is not. The loaded guide also now states
+that any earlier device topic is finished.
+
+min_age 4 on the router row so it never trips the passport's ahead of age
+warning. A router is not something a child owns too early, it is the house.
+
+The content names the real UK providers and, more importantly, names the gap:
+this covers WiFi only, so a phone on mobile data is unfiltered and needs the
+network's own content lock. A guide that does not say what it fails to cover is
+how a parent ends up confidently wrong.

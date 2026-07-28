@@ -62,6 +62,8 @@ export async function POST() {
   const errors: string[] = []
   const details: string[] = []
   const hosts = new Set<string>()
+  // Endpoints the push service says are gone for good.
+  const dead: string[] = []
   await Promise.allSettled(
     subs.map(async sub => {
       try { hosts.add(new URL(sub.endpoint).host) } catch { /* ignore */ }
@@ -74,6 +76,9 @@ export async function POST() {
       } catch (err: unknown) {
         const e = err as { statusCode?: number; body?: string; message?: string }
         errors.push(e?.statusCode != null ? String(e.statusCode) : 'unknown')
+        // 404 and 410 are the push service telling us this endpoint is dead
+        // and will never work again. Anything else might be temporary.
+        if (e?.statusCode === 404 || e?.statusCode === 410) dead.push(sub.endpoint)
         // The push service puts the real reason in the body, which is the
         // thing that actually tells us what is wrong with a 400 or 403.
         const reason = (e?.body || e?.message || '').toString().replace(/\s+/g, ' ').trim().slice(0, 300)
@@ -82,5 +87,38 @@ export async function POST() {
     })
   )
 
-  return NextResponse.json({ sent, devices: subs.length, errors, details, hosts: [...hosts] })
+  // Delete the dead ones.
+  //
+  // Nothing ever did, which is why a phone that has had the app removed from
+  // the home screen and added back a few times ends up with a pile of devices
+  // on file that all refuse: iOS mints a brand new endpoint each time and the
+  // old row just sat there forever. The count only ever grew, and every one of
+  // them counted towards "every device refused", so the message got more
+  // alarming the longer the account had been used.
+  //
+  // The card that shows this already reads a removed count and already has the
+  // sentence for it. It could just never fire, because this route never sent
+  // one. Same shape of bug as the passport fallback and the badge clip guard:
+  // the handling was written, the thing that triggers it was not.
+  let removed = 0
+  if (dead.length > 0) {
+    const { error } = await admin
+      .from('push_subscriptions')
+      .delete()
+      .eq('user_id', user.id)
+      .in('endpoint', dead)
+    if (!error) removed = dead.length
+  }
+
+  return NextResponse.json({
+    sent,
+    devices: subs.length,
+    // The card branches on this to explain a total refusal rather than
+    // reporting a vague fault. It was reading a field nobody sent.
+    allFailed: sent === 0,
+    removed,
+    errors,
+    details,
+    hosts: [...hosts],
+  })
 }

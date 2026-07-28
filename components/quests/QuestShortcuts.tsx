@@ -50,7 +50,12 @@ const TILES: Tile[] = [
     // Real, since migration 117: the print button writes a row, so this is a
     // fact rather than a guess. Goes quiet on the first print and stays quiet,
     // because a reprint is a nice to have, never a chase.
-    badge: s => s.starChartPrinted ? null : 'Not printed yet',
+    //
+    // "To print", not "Not printed yet". These tiles are half a phone screen
+    // wide and the badge shares its row with the icon, so fifteen characters
+    // clipped to "Not prin...", which tells a parent nothing at all. Same
+    // shape as the devices tile's "To set up", and it fits.
+    badge: s => s.starChartPrinted ? null : 'To print',
   },
   {
     href: '/dashboard/printables', label: 'Printables', sub: 'Every other sheet',

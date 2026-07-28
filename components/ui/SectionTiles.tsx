@@ -77,7 +77,14 @@ export default function SectionTiles({
             padding: '15px 16px 16px',
           }}
         >
-          <span style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
+          {/* Wraps. Two of these tiles sit side by side on a phone, so after
+              the card padding and the 42px icon plate there is under 90px left
+              on the row, and most badges are wider than that. Held on one line
+              they either shoved the row off the screen (when they refused to
+              shrink) or collapsed to "4 wai..." and "Not m..." (when they did).
+              Neither is a badge. Given permission to wrap, a badge that does
+              not fit beside the icon drops under it and reads in full. */}
+          <span style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
             <span aria-hidden style={{
               width: 42, height: 42, borderRadius: 13, background: '#fff',
               border: `1.5px solid ${t.accent}`,
@@ -95,16 +102,15 @@ export default function SectionTiles({
                 borderRadius: 100, padding: '3px 10px',
                 fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
                 color: 'var(--ink)', whiteSpace: 'nowrap',
-                // If a badge is too long for its tile it clips rather than
-                // dragging the layout with it.
+                // Never shrink, and never clip. The row wraps instead, so a
+                // badge always reads in full at whatever width it needs.
                 //
-                // This needs flexShrink left at its default of 1. It used to be
-                // pinned to 0, which quietly disabled the whole guard below it:
-                // a flex item that refuses to shrink cannot ellipsis, it just
-                // pushes, so the first badge longer than half a phone screen
-                // (Not printed yet, at 413px against a 390 viewport) took the
-                // row off the edge. The clip was written and could never fire.
-                minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis',
+                // Both other ways round were tried and both were wrong. Pinned
+                // at flexShrink 0 with no wrap, a long badge pushed the row off
+                // a 390 screen. Allowed to shrink, every badge collapsed to
+                // four characters and an ellipsis, which is worse: a badge that
+                // says "Not m..." has lost the only thing it was for.
+                flexShrink: 0,
               }}>
                 {t.badge}
               </span>
