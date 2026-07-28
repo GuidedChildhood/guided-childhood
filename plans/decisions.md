@@ -3265,3 +3265,32 @@ who tapped past it had no way back to the answer. It says what a grown up CANNOT
 see as plainly as what they can, and carries Childline.
 
 Migration 120 applied to the live database.
+
+**A quarterly legal watch on the insights board (28 Jul).** JP asked for it and
+it is the right instinct: this product sits on law that moves, UK GDPR, the
+Children's Code, the Online Safety Act and its phased duties, age assurance, and
+the MHRA line between a guide and a medical device. None of them writes to tell
+you.
+
+The realistic failure is not a breach, it is drift. A duty commences in March,
+nobody is watching, and you find out from a school's procurement questionnaire
+or a journalist. Four reminders a year is cheap against that.
+
+Migration 121 adds legal_watch_items. /api/cron/legal-watch runs on the 3rd of
+January, April, July and October, reports what may have changed, and files it
+PENDING. The insights board shows it first, sorted by commencement date, because
+a duty landing next month outranks one that might arrive some day.
+
+Built with harder limits than any other cron here, because being confidently
+wrong about the law is worse than knowing you have not looked:
+  - it files rows and does nothing else, never edits a policy or a setting
+  - it is instructed NEVER to state that the platform is or is not compliant
+  - an item with no source URL is dropped before the queue
+  - confidence is recorded honestly and low is the expected answer
+  - the email says in bold that it is not legal advice
+
+Closing a row takes an optional note. In six months the useful thing is not
+that an item was dismissed but WHY, and that is exactly what nobody writes down
+and everybody later wishes they had.
+
+Applied to the live database.
