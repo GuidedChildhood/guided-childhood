@@ -6,6 +6,7 @@ import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templ
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
 import JobBalance from '@/components/quests/JobBalance'
 import JobComposer from '@/components/quests/JobComposer'
+import SaveChip, { type SaveState } from '@/components/quests/SaveChip'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
 import QrHandoverModal from '@/components/quests/QrHandoverModal'
 import StarSummary from '@/components/quests/StarSummary'
@@ -68,7 +69,7 @@ export default function QuestManager() {
   const [children, setChildren] = useState<Child[]>([])
   // Per job: saving, saved (clears itself) or failed. Keyed by quest id so
   // two jobs edited quickly never show each other's tick.
-  const [saveState, setSaveState] = useState<Record<string, 'saving' | 'saved' | 'failed' | null>>({})
+  const [saveState, setSaveState] = useState<Record<string, SaveState>>({})
   const [quests, setQuests] = useState<Quest[]>([])
   const [goals, setGoals] = useState<Goal[]>([])
   // Finished goals the parent has cleared off the panel. The reward stays
@@ -1453,29 +1454,7 @@ export default function QuestManager() {
                             )
                           })}
                         </span>
-                        {/* Says what just happened to this job. Sits with the
-                            day chips because the days are what a parent comes
-                            here to change, and a silent change is the one they
-                            cannot trust. Nothing shows when there is nothing to
-                            say, so the row stays quiet at rest. */}
-                        {saveState[q.id] && (
-                          <span
-                            role="status"
-                            style={{
-                              display: 'inline-flex', alignItems: 'center', gap: '5px',
-                              padding: '6px 11px', borderRadius: '100px', whiteSpace: 'nowrap',
-                              fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
-                              border: `1.5px solid ${saveState[q.id] === 'failed' ? 'var(--terracotta-dark)' : 'var(--retro-green)'}`,
-                              background: saveState[q.id] === 'failed' ? 'var(--terracotta-lt)' : 'rgba(255,255,255,0.9)',
-                              color: saveState[q.id] === 'failed' ? 'var(--terracotta-dark)' : 'var(--retro-green)',
-                              opacity: saveState[q.id] === 'saving' ? 0.65 : 1,
-                            }}
-                          >
-                            {saveState[q.id] === 'saving' ? 'Saving'
-                              : saveState[q.id] === 'saved' ? '✓ Saved'
-                              : 'Not saved, try again'}
-                          </span>
-                        )}
+                        <SaveChip state={saveState[q.id] ?? null} />
                         <button
                           onClick={() => editQuest(q.id, { blocks_screens: !q.blocks_screens })}
                           title="Screens wait until this one is done and approved"
