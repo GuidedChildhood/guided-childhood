@@ -32,7 +32,11 @@ export type WelcomeGuide = {
   stageName: string
   childName: string
   nextTask: { label: string; href: string } | null
-  strands: { name: string; tone: 'green' | 'red' | 'grey' }[]
+  // key and href travel with the strand now. They were dropped here, which is
+  // why "fix this" in the walk went nowhere: the sheet was never given a
+  // destination to send anyone to, and the key was filled in from the display
+  // name so there was nothing to route on either.
+  strands: { key: string; name: string; tone: 'green' | 'red' | 'grey'; href?: string }[]
   // The lessons that move the progress report right now: the child's own
   // stage set, with the live passed count, so DiGi can say exactly which
   // lessons to send and why. Null when the stage has no lessons yet.
@@ -209,7 +213,10 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
             <div style={{ marginBottom: 14 }}>
               <MiniRoad currentStage={guide.stageNum} showDigi={false} />
             </div>
-            <StrandPills strands={guide.strands.map(s => ({ key: s.name, name: s.name, tone: s.tone }))} />
+            {/* Closing the sheet on the way out matters: it sits over Home, so
+                without this a parent lands on the fix page with the walk still
+                covering it. */}
+            <StrandPills strands={guide.strands} onNavigate={close} />
             {/* Which lessons to send for progress: DiGi names the child's own
                 stage set with the live count, one tap to the hub. The same set
                 the child sees on their page, so nothing age wrong ever goes. */}

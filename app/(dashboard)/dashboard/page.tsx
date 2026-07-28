@@ -489,12 +489,20 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           nextTask: !childAppLive
             ? { label: 'Share the QR code with them', href: '/dashboard/quests?tab=share' }
             : (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
-          strands: (['safe', 'balance', 'ai', 'social'] as const).map(k => ({
-            name: k === 'safe' ? 'Safe online' : k === 'balance' ? 'Healthy balance' : k === 'ai' ? 'AI and chatbots' : 'Social media ready',
-            tone: (stage.id >= (k === 'ai' || k === 'social' ? 3 : 1))
-              ? (literacyStatuses[k]?.tone ?? 'green')
-              : 'grey' as const,
-          })),
+          // The href comes from literacyStatuses, which already works out where
+          // each strand is actually fixed: devices, quests or lessons depending
+          // on what is wrong. It used to be dropped here, which is the whole
+          // reason "fix this" in DiGi's walk did nothing. Only carried while
+          // the strand is live, so a grey one never offers a tap.
+          strands: (['safe', 'balance', 'ai', 'social'] as const).map(k => {
+            const live = stage.id >= (k === 'ai' || k === 'social' ? 3 : 1)
+            return {
+              key: k,
+              name: k === 'safe' ? 'Safe online' : k === 'balance' ? 'Healthy balance' : k === 'ai' ? 'AI and chatbots' : 'Social media ready',
+              tone: live ? (literacyStatuses[k]?.tone ?? 'green') : 'grey' as const,
+              href: live ? literacyStatuses[k]?.href : undefined,
+            }
+          }),
           stageLessons,
         }}
       />
