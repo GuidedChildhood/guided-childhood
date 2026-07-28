@@ -6,6 +6,7 @@ import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templ
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
 import JobBalance from '@/components/quests/JobBalance'
 import JobComposer from '@/components/quests/JobComposer'
+import ChildPing from '@/components/quests/ChildPing'
 import SaveChip, { type SaveState } from '@/components/quests/SaveChip'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
 import QrHandoverModal from '@/components/quests/QrHandoverModal'
@@ -963,6 +964,9 @@ export default function QuestManager() {
 
           {tab === 'manage' && (
           <>
+              {/* The daily buzz, on the tab a parent actually returns to,
+                  rather than buried in the hand it over tab. */}
+              {child && link && <ChildPing childName={child.name} onSend={sendPing} result={pingResult} />}
           {/* Device time in progress: a live countdown next to the child who
               is on their screen right now, tracking the same clock they see. */}
           {sessions.filter(s => s.child_id === activeChild).map(s => (
@@ -2087,65 +2091,10 @@ export default function QuestManager() {
               )
             })()}
 
-            {/* Ping their phone right now, through the quest page reminders */}
-            <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-                Ping {child.name}&apos;s phone now
-              </div>
-              <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
-                One tap and it buzzes on their phone. Works once they have opened their quest link and turned on reminders.
-              </p>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['You can watch now, you earned it ⭐', 'Please finish your chores first', 'Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Turn the TV off please', 'Time to start your homework', 'Dinner in 10 minutes, start wrapping up', 'Please come downstairs', 'Time for bed now please'].map(msg => (
-                  <button
-                    key={msg}
-                    onClick={() => sendPing(msg)}
-                    style={{
-                      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
-                      padding: '9px 14px', cursor: 'pointer', fontFamily: 'var(--font-body)',
-                      fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)', textAlign: 'left',
-                    }}
-                  >
-                    {msg.length > 34 ? msg.slice(0, 31) + '...' : msg}
-                  </button>
-                ))}
-              </div>
-              {/* Type any quick message of your own */}
-              <form
-                onSubmit={e => { e.preventDefault(); const m = pingDraft.trim(); if (m) { sendPing(m); setPingDraft('') } }}
-                style={{ display: 'flex', gap: '8px', marginTop: '10px' }}
-              >
-                <input
-                  value={pingDraft}
-                  onChange={e => setPingDraft(e.target.value)}
-                  maxLength={140}
-                  placeholder="Or type your own quick message"
-                  style={{
-                    flex: 1, minWidth: 0, padding: '10px 12px', borderRadius: '12px',
-                    border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)',
-                    fontSize: '15px', color: 'var(--ink)', background: '#fff',
-                  }}
-                />
-                <button
-                  type="submit"
-                  disabled={!pingDraft.trim()}
-                  style={{
-                    flexShrink: 0, background: pingDraft.trim() ? 'var(--terracotta)' : 'var(--border)',
-                    color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '10px 16px',
-                    cursor: pingDraft.trim() ? 'pointer' : 'default',
-                    fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
-                    boxShadow: pingDraft.trim() ? '0 3px 0 var(--terracotta-dark)' : 'none',
-                  }}
-                >
-                  Send
-                </button>
-              </form>
-              {pingResult && (
-                <p style={{ fontSize: '14.5px', color: pingResult.startsWith('Ping sent') ? 'var(--terracotta-dark)' : 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.55, margin: '10px 0 0' }}>
-                  {pingResult}
-                </p>
-              )}
-            </div>
+            {/* The ping buttons used to be here. They have moved to the
+                Manage tab, where the rest of the daily loop is. Dinner in ten
+                minutes and time for bed are not setup, and this is the tab a
+                parent opens once to hand the link over. */}
           </div>
 
           </>

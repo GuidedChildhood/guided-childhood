@@ -2971,3 +2971,26 @@ Worth keeping as a rule: identical looking output is not evidence of
 duplication until the SCOPES match. The handover fix earlier the same day was
 safe to make because the gates proved redundancy; this one was not, and the
 difference was worth asking about rather than guessing.
+
+**The daily buzz was filed under one time setup (28 Jul).** Last of the Quests
+duplication pass. The nine ping buttons sat at line 2109 of a 2283 line file,
+inside the Share tab, which is the tab a parent opens once to hand the phone
+link over and then never needs again.
+
+Read the nine and the misfiling is obvious: dinner in ten minutes, time to come
+off the screen, time for bed, please come downstairs. Not one is a setup task.
+They are the most ordinary daily thing on the whole board and they were behind
+a job you do once. Now on Manage, with the rest of the daily loop.
+
+Its own component, so /dev/child-ping can show it without a login. That matters
+here specifically: being unreachable without auth is a large part of how it sat
+misplaced and unexamined for as long as it did.
+
+Small accessibility fix carried along: the button labels are clipped at 34
+characters with an ellipsis, and the clipped text was also the accessible name,
+so a screen reader announced "Quest check! A few ticks and the..." with no way
+to hear the rest. title and aria-label now carry the full line.
+
+Noted against house rule 6 (scripts live in the database): these nine are quick
+action button labels rather than DiGi pathway scripts, so they stay in code for
+now. If they ever need editing without a deploy they want a table.
