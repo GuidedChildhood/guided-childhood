@@ -10,7 +10,9 @@ Four full length LinkedIn posts (maxed for depth and insight) carrying the hidde
 
 **Post text:**
 
-A new EU study followed the thread almost everyone in this debate skips. It did not ask what social media does to you. It asked what you bring to it. And the answer should change how we talk about all of this.
+One EU study, all 27 member states, and it points the finger away from the phone.
+
+It did not ask what social media does to you. It asked what you bring to it. And the answer should change how we talk about all of this.
 
 The study is Kovacic and Orso, published this year in the Review of Economics of the Household and run through the European Commission's Joint Research Centre. It is the first survey of its kind, individuals across all 27 EU member states, matching how people actually use social media as adults against what they lived through as children. Not a headline. Not a small lab study. A serious, EU wide look at the whole chain.
 
@@ -30,7 +32,9 @@ What did you carry into your own scrolling that had nothing to do with the app.
 
 **Post text:**
 
-The same EU study found the thing sitting in the middle, the bit between a hard childhood and a harmful adult habit. And once you see it, it changes what you would actually do about any of this.
+One thing sits between a hard childhood and a harmful phone habit. An EU study just named it.
+
+And once you see it, it changes what you would actually do about any of this. The bit in the middle, the thing that carries an old wound across the years.
 
 Kovacic and Orso did not stop at the link between growing up around a relative's drinking or mental illness and overusing social media decades later. They asked the harder question. What carries it across all those years? What is the bridge? Their answer was loneliness.
 
@@ -50,7 +54,9 @@ Who made you feel less alone as a teenager, and what did they actually do.
 
 **Post text:**
 
-The EU study drew a line that most of this debate flatly refuses to draw. Not how much time on the screen, but how it is used, and by whom. And that second question is the one that quietly breaks the whole ban argument open.
+The harm was never how much time on the screen. It was who was holding it, and why.
+
+That is the line most of this debate flatly refuses to draw, and it is the one that quietly breaks the whole ban argument open.
 
 The harm in Kovacic and Orso was not simply screen time, the number everyone loves to quote. It was passive use, the silent scroll where nothing is created and no one is really met. And crucially, it did not fall evenly across everyone. It clustered, tightly, in specific people. Adults who grew up with a relative's drinking or serious mental illness. Men more than women, at least for that childhood illness link. Those aged 35 and under far more than older cohorts. There were even regional patterns, alcohol in the family driving overuse across Nordic and Eastern Europe, while emotional closeness to a mother mattered most in the south.
 
@@ -68,7 +74,9 @@ If the risk is not spread evenly, why do we keep reaching for solutions that are
 
 **Post text:**
 
-So what do you actually do with a finding like this. Because it is easy to nod at a study and then change nothing.
+It is easy to nod at a study like this and then change absolutely nothing.
+
+So here is what a finding like this should actually change, if we let it.
 
 The Kovacic and Orso paper opens, pointedly, on the Australian under 16 social media ban and the European rules that followed it. Then it spends forty careful pages quietly explaining why, on their own, they will not be enough. If the harm concentrates in the people already carrying a childhood wound, and travels across the years through loneliness, then a rule that simply removes the app removes the symptom and leaves the cause sitting exactly where it always was.
 

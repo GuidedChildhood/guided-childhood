@@ -346,6 +346,23 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   .tab-item { font-size: 10px; letter-spacing: -0.012em; }
 }
 .tab-item svg { width: 24px; height: 24px; }
+
+/* MiniRoad age labels. Same squeeze as the tab bar and measured the same way:
+   five stages share the card width, so at 390px the widest label ("11 to 13")
+   was 58px in a 60px column and ran into its neighbour, reading as one word.
+   Measured, not guessed. At 10px with tighter tracking it is 51px, which sits
+   on one line at 360 and 390, and wraps to two rather than colliding at 320. */
+.mini-road-age {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  white-space: nowrap;
+}
+@media (max-width: 420px) {
+  .mini-road-age { font-size: 10px; letter-spacing: -0.01em; white-space: normal; }
+}
 /* Hover only for real pointers: on touch, :hover can stick after a tap
    and leave the wrong tab looking active until another tap clears it,
    which is exactly what made Home look current while on another page. */
