@@ -248,6 +248,24 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         setTestResult(landed + childLine + phoneHint)
       } else if (data.reason) {
         setTestResult('No device is set up to get these yet. On the phone you want the reminders on, open this page, tap Turn on check ins, then test again. On iPhone, add the app to your home screen first, then turn them on.')
+      } else if (data.allFailed) {
+        // The case that used to read as "something went wrong". There ARE
+        // devices on file, every one of them refused, and that is almost
+        // always a setup fact rather than a fault: notifications were turned
+        // off again, the browser data was cleared, or an iPhone home screen
+        // app was deleted and re added, which quietly replaces the endpoint.
+        // A parent can fix all three in about twenty seconds once told.
+        const cleaned = data.removed > 0
+          ? ` We have cleared ${data.removed === 1 ? 'the one device' : `the ${data.removed} devices`} that had gone for good, so turning them on again on this phone will stick.`
+          : ''
+        setTestResult(
+          `Nothing accepted it. We have ${data.devices === 1 ? 'one device' : `${data.devices} devices`} on file for you and every one refused, which usually means notifications got turned off again, or this app was removed from the home screen and added back.${cleaned} On the phone you want them on, tap Turn on check ins, then test again.`
+        )
+      } else if (data.errors?.length) {
+        // Anything else the push service said. Shown rather than swallowed,
+        // because the code is the only thing that tells us which of us has
+        // the problem.
+        setTestResult(`The push service refused (code ${data.errors[0]})${data.details?.[0] ? `: ${data.details[0]}` : ''}. Tell Claude this whole message.`)
       } else {
         setTestResult(data.error ?? 'Something went wrong, try again.')
       }
