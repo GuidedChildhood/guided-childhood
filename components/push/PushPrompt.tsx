@@ -22,11 +22,35 @@ function sameBytes(a: Uint8Array, b: Uint8Array) {
   return true
 }
 
+// Dismissed by hand. The big card is an important step, not a permanent
+// fixture, and a parent who has read it and decided not now should not be told
+// again every single visit on every single page it renders on.
+const HIDDEN_KEY = 'gc_push_prompt_hidden'
+
 export default function PushPrompt({ userId, stage }: Props) {
   const [status, setStatus] = useState<'idle' | 'asking' | 'granted' | 'denied' | 'unsupported'>('idle')
   const [testResult, setTestResult] = useState<string | null>(null)
   const [resetting, setResetting] = useState(false)
   const [enableError, setEnableError] = useState<string | null>(null)
+  // How many devices this ACCOUNT has, which is the question the card was
+  // never asking. null means we have not heard back yet, or could not tell.
+  const [accountDevices, setAccountDevices] = useState<number | null>(null)
+  const [hidden, setHidden] = useState(false)
+
+  useEffect(() => {
+    try { setHidden(localStorage.getItem(HIDDEN_KEY) === '1') } catch { /* private mode, show it */ }
+    let live = true
+    fetch('/api/push/status')
+      .then(r => r.ok ? r.json() : null)
+      .then(d => { if (live && d && typeof d.devices === 'number') setAccountDevices(d.devices) })
+      .catch(() => { /* unknown, and unknown is not none */ })
+    return () => { live = false }
+  }, [])
+
+  const dismiss = () => {
+    setHidden(true)
+    try { localStorage.setItem(HIDDEN_KEY, '1') } catch { /* gone on the next load, fine */ }
+  }
 
   async function sendTest() {
     setTestResult('Sending...')
@@ -204,6 +228,44 @@ export default function PushPrompt({ userId, stage }: Props) {
     )
   }
 
+  // Dismissed by hand, so say nothing. The granted branch above still runs
+  // first, because once check ins are actually on this device the slot picker
+  // is a control a parent came looking for, not a nag.
+  if (hidden) return null
+
+  // Already on somewhere else. Notification.permission only ever answers for
+  // the browser asking, so a parent who set this up in the installed app on
+  // their phone was being told to do it again, in a bordered IMPORTANT STEP
+  // card, on their laptop, forever. One quiet line instead, which still offers
+  // this device if they want it.
+  if (accountDevices !== null && accountDevices > 0) {
+    return (
+      <div style={{
+        background: 'var(--stage-2)', borderRadius: '14px', padding: '12px 16px',
+        display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap',
+        fontSize: '.82rem', color: 'var(--ink-soft)', fontWeight: 600,
+      }}>
+        <span aria-hidden style={{ fontSize: '1rem' }}>✓</span>
+        <span style={{ flex: 1, minWidth: '180px' }}>
+          Check ins are on, on {accountDevices === 1 ? 'another device' : `${accountDevices} of your devices`}. Nothing more to do.
+        </span>
+        {status !== 'denied' && status !== 'unsupported' && (
+          <button
+            onClick={enable}
+            disabled={status === 'asking'}
+            style={{
+              background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px',
+              padding: '7px 14px', cursor: status === 'asking' ? 'wait' : 'pointer', flexShrink: 0,
+              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)',
+            }}
+          >
+            {status === 'asking' ? 'Turning on…' : 'Add this one too'}
+          </button>
+        )}
+      </div>
+    )
+  }
+
   // When blocked or unsupported, stay quiet unless we captured a reason
   // worth showing so the parent knows why the button did nothing.
   if ((status === 'denied' || status === 'unsupported') && !enableError) return null
@@ -228,8 +290,26 @@ export default function PushPrompt({ userId, stage }: Props) {
       border: '2px solid var(--terracotta)',
       boxShadow: '0 6px 20px rgba(224,122,63,0.16)',
     }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
-        Important step
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
+          Important step
+        </div>
+        {/* Not now. An important step a parent has read and decided against is
+            not made more important by saying it again on every visit. */}
+        <button
+          type="button"
+          onClick={dismiss}
+          aria-label="Not now, hide this"
+          title="Not now, hide this"
+          style={{
+            flexShrink: 0, width: 28, height: 28, borderRadius: 9,
+            border: '1px solid var(--border)', background: 'transparent',
+            color: 'var(--ink-muted)', fontSize: 15, lineHeight: 1,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+          }}
+        >
+          ✕
+        </button>
       </div>
       <p style={{
         fontFamily: 'var(--font-display)',

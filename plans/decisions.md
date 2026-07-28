@@ -2677,6 +2677,52 @@ call after seeing a card on every open read as a toll gate, and reversing a
 decision because a bug hid its effect would be the wrong order. He sees it
 properly first, then decides.
 
+**The Quests tiles carry state, they are not a menu (28 Jul).** An audit of the
+Quests page found 36 sections and a measurable frequency inversion: the most
+frequent action, landing a tick, sits about 1300 lines down behind a tab, while
+one time setup occupies the largest always rendered block above it. Eight
+navigation tiles filled the first screen before a single piece of information.
+
+JP's call, and the right one, was to KEEP all eight rather than cut them: they
+are the page's status board, not clutter. So they carry live state now. A tile
+with a number is a job to do, a tile without one is quietly done, which is how
+GoHenry and Greenlight both open. Manage jobs says how many ticks are waiting,
+Printables how many finished sheets need confirming, School how many reminders
+are open, and Our family deal says Not made until there is one.
+
+Deliberately not every tile. A badge invented so a tile has one teaches a parent
+that the numbers mean nothing, so only the four with a real outstanding action
+get one, and every read fails soft to silence. The agreement in particular
+defaults to signed on a failed read, so a broken query can never nag a family
+who have already done it.
+
+Also gone in the same pass: the Lessons signpost that closed the page, which
+duplicated the Lessons tile that opens it plus a permanent bottom tab, and the
+job balance card, which rendered in full for a family with nothing due today.
+SectionTiles uses minmax(0, 1fr) now, because a grid column's default min width
+is auto and the first badge pushed the whole right column off a phone screen.
+
+**DiGi speaks English now (28 Jul).** All 100 script recordings were generated
+on the Skye preset, which is American. JP's ear caught it on the name itself:
+Skye says DiGi with an American vowel, and it is not how the name sounds here.
+Every line was regenerated on Imogen, a warm English female voice, and
+lib/content/script-voice.ts rewritten to point at the new files.
+
+That lines up the two halves of the platform's voice. lib/voice/english-voice.ts
+already forces en-GB and asks the browser for a warm English female when there
+is no recording to play; until now the recordings themselves disagreed with it,
+so a parent heard an American read a script and an English voice read the next
+thing. One accent now, whether the words come from a file or the device.
+
+The say this lines contain no literal "DiGi", so the Dijee respelling that
+english-voice.ts applies to browser speech was not needed in the prompts.
+
+Still hotlinked to the generation CDN. These recordings are the only assets left
+pointing outside the repo now the art is vendored into public/art, and they want
+the same treatment: about 50 MB as wav, closer to 9 MB as 64k mono mp3, which is
+a repo sized problem rather than a git sized one. Needs ffmpeg and a decision on
+where they live before it is worth doing.
+
 **Path first, then check on the child (28 Jul).** JP: "we should alwasy ask to
 follow path first tehn check on child aftet that so that needs to live in check
 up after day clears along with check quests check kessons etc so any diig check

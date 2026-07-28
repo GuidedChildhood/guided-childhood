@@ -24,6 +24,11 @@ export default function JobBalance({
   jobsDueToday: JobLite[]
   onReview?: () => void
 }) {
+  // Nothing due today means there is no load to read, and a card reading DiGi's
+  // verdict on an empty list says nothing while taking a full card of height.
+  // Every other conditional block on this page already bails this way.
+  if (jobsDueToday.length === 0) return null
+
   const name = childName && childName !== 'Your child' ? childName : 'your child'
   const a = assessJobLoad(ageBand, jobsDueToday)
   const t = TONE[a.status]

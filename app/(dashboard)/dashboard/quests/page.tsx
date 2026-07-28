@@ -10,6 +10,7 @@ import QuestShortcuts from '@/components/quests/QuestShortcuts'
 import StreakRewards, { type StreakReward } from '@/components/quests/StreakRewards'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
+import { getBoardStatus, type BoardStatus } from '@/lib/quests/board-status'
 
 // Family Quests: the whole deal on one page now. The board leads (it moved
 // here from Home when the daily screen narrowed): the approve queue, every
@@ -33,7 +34,11 @@ export default async function QuestsPage() {
   let tuning: { name: string; earnMins: number; guideMins: number; tone: 'tuned' | 'light' | 'rich' }[] = []
   // Completed jobs streaks waiting for the parent to send a reward.
   let streakRewards: StreakReward[] = []
+  // What is actually waiting, so the tiles at the top can say so rather than
+  // being eight labels a parent has to scroll past to find out.
+  let boardStatus: BoardStatus | undefined
   if (user) {
+    boardStatus = await getBoardStatus(supabase, user.id)
     const [{ data: kids }, { data: links }, { data: quests }] = await Promise.all([
       supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
       supabase.from('kid_links').select('child_id').eq('user_id', user.id),
@@ -98,7 +103,7 @@ export default async function QuestsPage() {
       {/* The four places a parent actually goes from here, as flat coloured
           tiles with real drawn icons. The pair of buttons that used to sit here
           could only hold two of them, so the rest were buried down the page. */}
-      <QuestShortcuts />
+      <QuestShortcuts status={boardStatus} />
 
       {/* The log a week card that used to sit here moved to the Printables page,
           under the star chart builder that makes the chart, so build, print and
@@ -192,25 +197,11 @@ export default async function QuestsPage() {
       </div>
 
 
-      <Link href="/dashboard/lessons" style={{ textDecoration: 'none', display: 'block', marginTop: '28px' }}>
-        <div style={{
-          background: 'var(--stage-3)', border: '1.5px solid var(--stage-3)', borderRadius: '16px',
-          padding: '18px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px',
-        }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '4px' }}>
-              Looking for star lessons?
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>
-              Send a lesson to their device
-            </div>
-            <div style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '4px' }}>
-              Lessons now live in one place. Open Lessons and tap Send to your child. It still lands as a quest.
-            </div>
-          </div>
-          <span style={{ fontSize: '20px', color: 'var(--ink-light)', flexShrink: 0 }}>→</span>
-        </div>
-      </Link>
+      {/* The Lessons signpost that used to close this page is gone. It was a
+          card explaining that lessons had moved elsewhere, sitting below the
+          fold, duplicating the Lessons tile at the very top of this same page
+          and a permanent bottom tab. The page both opened and closed on the
+          same destination. */}
     </div>
   )
 }
