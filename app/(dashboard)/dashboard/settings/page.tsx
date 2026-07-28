@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import SchoolLink from '@/components/digi/SchoolLink'
+import DeleteAccount from '@/components/settings/DeleteAccount'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -428,6 +429,8 @@ export default function SettingsPage() {
       <section style={{ marginTop: '24px' }}>
         <SchoolLink />
       </section>
+
+      <DeleteAccount />
     </div>
   )
 }

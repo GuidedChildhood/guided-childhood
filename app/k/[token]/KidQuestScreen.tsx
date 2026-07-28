@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
 import { useRouter } from 'next/navigation'
 
 function urlBase64ToUint8Array(base64String: string) {
@@ -2196,6 +2197,11 @@ export default function KidQuestScreen({
         >
           How does this page work?
         </button>
+
+        {/* Always here, never dismissed. The welcome shows once and is gone for
+            good, so it cannot be the only place a child is told what their
+            grown up can see. */}
+        <KidPrivacyNote />
 
         <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '11.5px', letterSpacing: '0.08em', color: 'var(--ink-light)', marginTop: '14px' }}>
           GUIDED CHILDHOOD QUESTS

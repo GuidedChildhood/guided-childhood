@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import TrackerForm, { type WellbeingCheck } from '../TrackerForm'
+import { type WellbeingCheck } from '../TrackerForm'
+import CheckinGate from './CheckinGate'
 
 // The weekly check in form, moved to its own route: the ritual, not the
 // destination. The Progress page is what the tab opens.
@@ -9,6 +10,15 @@ export default async function CheckinPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
+
+  // Has this parent said yes to us keeping wellbeing data? Article 9 consent,
+  // asked separately from signing up, so it lives on its own column rather than
+  // being assumed from having an account.
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('wellbeing_consent_at')
+    .eq('id', user.id)
+    .maybeSingle()
 
   const { data: child } = await supabase
     .from('children')
@@ -32,7 +42,8 @@ export default async function CheckinPage() {
   const currentWeekCheck = checks.find(c => c.week_start === weekStartStr) ?? null
 
   return (
-    <TrackerForm
+    <CheckinGate
+      hasConsent={!!profile?.wellbeing_consent_at}
       history={checks}
       currentWeekCheck={currentWeekCheck}
       streakWeeks={child?.streak_weeks ?? 0}

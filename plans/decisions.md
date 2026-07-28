@@ -3226,3 +3226,42 @@ passport and DiGi and had no exit of its own, leaving a parent to the browser
 back button. Same pattern the phone setup and lesson pages already use. JP's
 wider point stands and is in plans/digi-device-settings-plan.md: a way back to
 the page that led here is good practice everywhere, not just here.
+
+**Go-live items 2 to 5 built, and item 5 did not exist (28 Jul).**
+
+CHECKING 5 WAS THE FIND. There is no account deletion route and no button, and
+the privacy policy has always said "if you close your account or ask us to
+delete your data, we remove it". A written promise with nothing behind it, on
+the one right people actually exercise, with a one month statutory deadline
+attached. Honouring it meant Justin going into the Supabase dashboard by hand.
+
+The cascades were already right, which is why this is a small fix: auth.users
+to profiles to children, and wellbeing_checks.parent_id to profiles. Deleting
+the auth user always would have taken the family with it. Nothing could ask.
+
+The related defect: child_id on wellbeing_checks, digi_feedback and digi_memory
+was ON DELETE SET NULL. Removing one child from a family that stays left the
+health rows behind with the id nulled. For ordinary data that is tidy history.
+For special category data it is the worst case: the rows survive, cannot be
+attributed, cannot be produced for a subject access request, and have no lawful
+basis left. Orphaned health data is not anonymised data, it is data you can no
+longer account for. Migration 120 makes all three CASCADE and clears what was
+already orphaned.
+
+2. Privacy policy has a section on the check in written in JP's voice, saying
+what it is, that it counts as health information, that consent is asked
+separately, and that DiGi will tell you what you logged but never what is wrong
+with your child. Retention is now stated: two years for check in entries, six
+for payment records because HMRC.
+
+3. Consent gate in front of the check in. Unticked by default, since a
+pre-ticked box is not consent. Stores the wording VERSION as well as the time,
+because consent is to a specific promise and a bare boolean cannot say which
+one. Withdrawal deletes rather than flipping a flag.
+
+4. KidPrivacyNote, permanently in the child's app. The welcome already
+mentioned it, but the welcome shows once and is dismissed forever, so a child
+who tapped past it had no way back to the answer. It says what a grown up CANNOT
+see as plainly as what they can, and carries Childline.
+
+Migration 120 applied to the live database.
