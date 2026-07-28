@@ -34,6 +34,10 @@ function groups(scriptHref: string): Group[] {
         { href: '/dashboard/lessons', label: 'Lessons', sub: 'Watch together, five minutes', icon: 'lessons' },
         { href: '/dashboard/printables', label: 'Printables', sub: 'The offline pathway', icon: 'printables' },
         { href: '/dashboard/quests/play', label: 'Learning games', sub: 'Play and earn stars', icon: 'games' },
+        // The decoder needs a door or it does not exist. It sits under Learn
+        // rather than Family because a parent looking for it is looking for
+        // help with the work, not with the week.
+        { href: '/dashboard/homework', label: 'Homework', sub: 'What is it actually asking for', emoji: '📐' },
       ],
     },
     {

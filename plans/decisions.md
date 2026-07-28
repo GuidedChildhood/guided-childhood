@@ -2456,3 +2456,69 @@ the blend, so the circle and the rows under it are the same number.
 app/dev/passport-sections is a no auth harness for it. The lesson is that an
 optional field is a silent contract: this needed a page you can open in one
 click, because nothing else would ever have shown it.
+
+## 27 Jul 2026: the calendar is worth more than the quiz
+Three things built on the 448 curriculum rows, and none of them tests a child.
+
+The insight that made them possible: a birthday gives an exact year group, and
+the England statutory calendar is fixed and identical for every family. That is
+a prediction engine that needs no assessment at all. Knowing a child is in Year
+4 in April is enough to know the tables check is six weeks away, without knowing
+one single thing about how that child is doing.
+
+**Why not "is my child on track".** It was the obvious ask and we cannot answer
+it. The curriculum says what a year covers, not where one child sits in it. Our
+term ordering is ours, not the law's. And scoring the child would kill the one
+signal we have, because a judged child stops flagging what they found hard. The
+valuable thing was never the score.
+
+**One calendar, not two (lib/learning/calendar.ts).** seasonFor in digi-context
+already held a thinner copy of the same dates written by month, and two lists of
+the same facts is one list waiting to disagree. seasonFor now reads the calendar
+and keeps its contract, so the DiGi route is untouched. The rewire immediately
+paid for itself: Year 6 parents now hear about the 31 October secondary
+application deadline, which the month version missed entirely and which is the
+only genuinely immovable date in primary school.
+
+Every date is stored as approximate and every line of copy says "around" or "the
+week of". The checks are set by the week and move a few days a year, and a
+precise date a parent plans around and we got wrong is worse than a vague one
+that is right.
+
+**Year 6 into Year 7 is the highest value moment this product has.** Secondary
+transfer is when a child gets their first phone, and until the curriculum landed
+we had no reliable way to know a family was in that window. The trigger is the
+school year, not the age: two children the same age, one in Year 6 and one in
+Year 7, are in completely different situations, and only the year group can tell
+them apart. Sonny, born 30 August, gets the card. Flora, born 1 September and
+the same age to the day, does not, and that is correct.
+
+The page never says whether to get the phone, and says so out loud rather than
+implying it, because a parent arriving there from a screen time app reasonably
+expects to be told what to do. What we have that nobody else does is the ORDER,
+and the order is the part that cannot be redone. Rules added to a phone a child
+already owns are experienced as something taken away. The same rules agreed a
+fortnight earlier are just how it works.
+
+Dismissal is per phase rather than once. Waving it away in May means "not yet",
+and July is a different question from May.
+
+**The homework decoder is a lookup, start to finish.** Paste the homework, get
+the statutory line behind it, what that line is for, and one thing to do
+tonight. It ships while "on track" cannot precisely because it needs nothing
+about the child, only their year group and the curriculum.
+
+Two disciplines carried straight over from the sheet. DiGi only ever sees the
+objectives for that one child's year, because handing it all 448 would let it
+match a Year 6 line to a Year 2 worksheet and sound certain doing it. And the
+ids it returns are revalidated against the set we sent: a model is no more an
+authority than a client is, and an invented statutory line is the one thing this
+must never put in front of a parent. No match is a real answer and it says so.
+
+**Verified by running the real code, not by reasoning about it.** 24 checks over
+the compiled calendar and transition: every lead window opens and closes on the
+right date, the academic year rolls over on 1 September, Year 1 gets phonics and
+never the tables check, the 31 October deadline appears for Year 6 only, and the
+30 August against 1 September pair proves the phone card follows the school year
+rather than the age. Both new Home cards and the decoder checked in Chromium at
+390 and 1280: no horizontal overflow, no console errors.
