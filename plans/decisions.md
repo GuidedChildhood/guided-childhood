@@ -3201,3 +3201,28 @@ Position taken on pricing: the loop itself should never be a paid tier, because
 gating it starves the thing that makes it work. Sell depth, history and the
 school aggregate, which is de-identified by nature and therefore the part that
 can be sold ethically at all.
+
+**Two device counts on one screen, neither explained (28 Jul).** JP: it says 3
+devices and I can see those, but underneath it says device coverage 2 out of 13.
+
+Both numbers were right and they count different things. The list at the top is
+family_devices, the screens this family has told us they own. The ring is SETUP
+GUIDES filtered to the child's age, plus the network row and the app rows, which
+is a different set and a bigger one. Nothing on the page said so, so a parent
+who has listed three devices and then reads 2 of 13 has no way to reconcile
+them, and the natural reading is that we have lost track of their house.
+
+Fixed by saying what the number counts, in the parent's words and with the age
+in it, rather than by changing either number. Both were accurate; the page was
+just silent about the difference.
+
+Worth generalising: a bare fraction is only legible when the denominator is
+obvious. 2/13 next to a list of 3 things is an invitation to distrust the whole
+screen. Any ratio in this product should be able to finish the sentence "2 of 13
+WHAT".
+
+Also added a back link to the Device Safety Hub. It is reached from Home, the
+passport and DiGi and had no exit of its own, leaving a parent to the browser
+back button. Same pattern the phone setup and lesson pages already use. JP's
+wider point stands and is in plans/digi-device-settings-plan.md: a way back to
+the page that led here is good practice everywhere, not just here.

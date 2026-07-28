@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import type { AgeBand } from '@/lib/content/stages'
@@ -56,6 +57,14 @@ export default async function DevicesPage() {
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px 48px' }}>
+      {/* A way back. This page is reached from Home, the passport and DiGi, and
+          had no exit of its own, so a parent who scrolled the whole hub was
+          left to the browser's back button or the tab bar. Same pattern as the
+          phone setup page and the lesson pages. */}
+      <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: '18px' }}>
+        ← Home
+      </Link>
+
       <div style={{ marginBottom: '20px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Device Safety Hub</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>

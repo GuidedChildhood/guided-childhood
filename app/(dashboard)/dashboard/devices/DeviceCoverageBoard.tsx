@@ -132,10 +132,20 @@ export default function DeviceCoverageBoard({
           </div>
         </div>
       </div>
-      <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+      <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 6px' }}>
         {allDone
           ? 'Settings are in place across the network, the devices and the apps. Come back whenever a new device arrives.'
           : 'Protection works in layers. Set the network first, then each device, then the apps on them.'}
+      </p>
+      {/* What the number actually counts.
+          Without this the page showed two different device counts and explained
+          neither: the list above is the screens this family has told us they
+          own, and this ring is SETUP GUIDES for the child's age, which is a
+          different set and a bigger one. A parent who has listed three devices
+          and then reads 2 of 13 has no way to reconcile them, and the natural
+          reading is that we have lost track of their house. */}
+      <p style={{ fontSize: '13.5px', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 18px' }}>
+        {done} of {total} {total === 1 ? 'setup' : 'setups'} done. This counts the guides worth doing for a {childAge} year old, the network and the apps included, not the number of screens in your house.
       </p>
 
       {/* Layers */}
