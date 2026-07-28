@@ -3160,3 +3160,44 @@ something real to show.
 Applied to the live database tonight. WHAT THIS DOES NOT DO: verify the current
 25 guides. It schedules that work and routes it to JP for approval, it does not
 retrospectively check them. The first run on 2 August covers the first six.
+
+**The DiGi learning loop plan, and the one thing already right (28 Jul).** JP
+asked for the full plan with the legal requirements step by step. Written to
+plans/digi-learning-loop-plan.md.
+
+The finding that changed the plan: the loop is already running. digi_wisdom (45
+rows), digi_memory with embeddings, expert_knowledge with a human gated
+candidate queue, wellbeing_checks, community_polls, digi_insights, all live, and
+brain.ts and wisdom.ts already feed aggregateWisdom and whatWorked into every
+prompt. What is missing is only the front door: nothing offers the parent three
+replies, and nothing captures the one they write instead. So this is closing a
+loop, not building one.
+
+And digi_wisdom is already the SAFE shape, by accident rather than design:
+topic, age_band, what_works, evidence_count, with no user_id and no child_id. It
+learns which ADVICE works for an age, not what a child is like. That distinction
+is the whole legal position. Protect it.
+
+The mental health line, stated precisely, because JP was right to be cautious.
+Helping a parent respond is unregulated. Screening a child is not: claiming to
+detect, screen for, diagnose or predict a condition can make the product
+Software as a Medical Device under UK MDR 2002, which is MHRA registration and a
+different company. The line is drawn by the CLAIM. So: DiGi describes what the
+family logged and what helped other families, and never characterises a child.
+The feed assessment gets framed as what is this feed showing them, a content
+question about the platform, not what is wrong with this child.
+
+Also flagged: wellbeing_checks already holds mood, sleep and concern level
+against named children. The Article 9 special category question is live TODAY,
+not when the new work ships. A DPIA is mandatory rather than advisable, and the
+ICO expects it before processing, so it is genuinely blocking rather than
+paperwork to catch up on.
+
+The Children's Code standard most often missed and most relevant here: if a
+parent can monitor a child, the CHILD has to be told, age appropriately. That
+applies to the kid app, the timer and the check ins as they already exist.
+
+Position taken on pricing: the loop itself should never be a paid tier, because
+gating it starves the thing that makes it work. Sell depth, history and the
+school aggregate, which is de-identified by nature and therefore the part that
+can be sold ethically at all.
