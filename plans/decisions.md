@@ -3035,3 +3035,34 @@ had gone for good" sentence and already read data.removed, and the route never
 sent one. Same shape as the passport fallback, the badge clip guard and the
 countdown audio. The pattern to distrust: handling written for a signal that
 nothing upstream actually raises.
+
+**DiGi called Ada by the wrong name because it only ever knew one child
+(28 Jul).** JP saw DiGi say "one sentence to Alma" about a child called Ada.
+Alma is one of our own DiGi Squad characters, so the first read was a leaked
+character name. It was not.
+
+The children query asked for is_primary and nothing else, so DiGi genuinely did
+not know a family's other children existed. In a house with more than one it
+answered about the primary child whatever the parent meant.
+
+The guard made it worse rather than better. A previous wrong name report had
+added a rule naming that one child and forbidding every other name "not even
+once". That does stop an invented name, but with several children it converts a
+wrong name into a locked in one: DiGi was explicitly instructed not to switch
+even when the parent said the other child's name themselves. It could not take
+the correction.
+
+Now DiGi is given every child on the account and told those are the only names
+it may use, that the parent's own words decide which child is meant, and that if
+a parent names a child mid conversation it follows them. Unclear means say your
+child or ask, never pick one and hope.
+
+The lesson is about the shape of the first fix, not the model. A rule that
+pins one value and forbids all others looks like a tightening and is actually a
+narrowing: it removes the ability to be right later. Constrain the SET of
+allowed answers, then let the evidence choose within it.
+
+JP's larger asks from the same session (walk a parent through device settings
+and hand them back, settings strength that scales with age, defaults on, a feed
+assessment for worried parents) are written up in
+plans/digi-device-settings-plan.md rather than half built here.
