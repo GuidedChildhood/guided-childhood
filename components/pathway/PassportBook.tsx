@@ -24,6 +24,18 @@ const STAGE_THEME: Record<number, { bg: string; bold: string; text: string }> = 
 
 const STAGE_SLUGS = ['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const
 
+// Done and to do, in the two colours this page already names out loud further
+// down: "Green means that part of the plan is doing its job. Anything amber
+// comes with one clear next step."
+//
+// The rows used to tick and label in the STAGE's colour, which meant done and
+// to do were the same shade as each other and a different shade on every page.
+// A parent could not scan the list and see what was left, which is the one job
+// a checklist has. Fixed colours, so five pages read the same way and green
+// always means the same thing.
+const DONE = 'var(--retro-green)'
+const TODO = 'var(--terracotta-dark)'
+
 const R = 52
 const C = 2 * Math.PI * R
 
@@ -282,6 +294,7 @@ export default function PassportBook({
                     // circle, so a stage still ahead reads a true zero here too
                     // instead of averaging today's live rows back in.
                     const runningPct = stamp.pct
+                    const greenRows = secs.filter(s => s.pct >= 100).length
                     return (
                       <>
                         {secs.map(sec => {
@@ -292,17 +305,21 @@ export default function PassportBook({
                                 <span style={{
                                   width: 17, height: 17, borderRadius: '6px', flexShrink: 0,
                                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                  background: done ? theme.bold : 'transparent',
-                                  border: done ? 'none' : `1.5px solid ${theme.bold}`,
+                                  background: done ? DONE : 'transparent',
+                                  border: done ? 'none' : `1.5px solid ${TODO}`,
                                 }}>
                                   {done && (
-                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={theme.text} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
                                   )}
                                 </span>
                                 <span style={{ flex: 1, fontSize: '16px', fontWeight: 700, color: 'var(--ink)', opacity: done ? 0.55 : 1 }}>
                                   <span aria-hidden style={{ marginRight: 5 }}>{sec.emoji}</span>{sec.label}
                                 </span>
-                                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: theme.text, opacity: 0.85, whiteSpace: 'nowrap' }}>
+                                <span style={{
+                                  fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700,
+                                  whiteSpace: 'nowrap',
+                                  color: done ? DONE : TODO,
+                                }}>
                                   {sec.detail}{done ? '' : ' ›'}
                                 </span>
                               </div>
@@ -311,13 +328,20 @@ export default function PassportBook({
                                   is why the page could only ever say WHAT was
                                   left and never HOW. */}
                               <div style={{ marginTop: 3, marginLeft: 26, display: 'flex', alignItems: 'flex-start', gap: 6, flexWrap: 'wrap' }}>
+                                {/* An ongoing row can go back to amber, so its chip
+                                    says which way it is currently running rather
+                                    than only that it never completes. Balance and
+                                    jobs are the two, and they are exactly the two
+                                    a parent otherwise reads as broken. */}
                                 {sec.ongoing && (
                                   <span style={{
                                     flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
-                                    letterSpacing: '0.06em', textTransform: 'uppercase', color: theme.text,
-                                    background: 'rgba(26,26,46,0.08)', borderRadius: 100, padding: '2px 8px',
+                                    letterSpacing: '0.06em', textTransform: 'uppercase',
+                                    color: done ? DONE : TODO,
+                                    background: done ? 'var(--tint-green)' : 'var(--terracotta-lt)',
+                                    borderRadius: 100, padding: '2px 8px',
                                   }}>
-                                    Kept up, not ticked off
+                                    {done ? 'Keeping it up' : 'Kept up, not ticked off'}
                                   </span>
                                 )}
                                 <span style={{ flex: '1 1 160px', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>
@@ -333,16 +357,27 @@ export default function PassportBook({
                             </Link>
                           )
                         })}
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '10px', paddingTop: '9px', borderTop: '1px solid rgba(26,26,46,0.12)' }}>
+                        {/* Green count first, percentage second. "3 of 5 green"
+                            is the number a parent can act on; the percentage is
+                            the one they compare against last week. */}
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginTop: '10px', paddingTop: '9px', borderTop: '1px solid rgba(26,26,46,0.12)' }}>
                           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, opacity: 0.7 }}>
                             This stage
                           </span>
-                          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: 'var(--ink)' }}>
-                            {runningPct}%
+                          <span style={{ display: 'flex', alignItems: 'baseline', gap: 9, minWidth: 0 }}>
+                            <span style={{
+                              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                              color: greenRows === secs.length ? DONE : TODO, whiteSpace: 'nowrap',
+                            }}>
+                              {greenRows} of {secs.length} green
+                            </span>
+                            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: 'var(--ink)' }}>
+                              {runningPct}%
+                            </span>
                           </span>
                         </div>
                         <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '8px 0 0' }}>
-                          Tap any row to go straight to it. Two of these are kept up across the stage rather than ticked off, so they can move both ways.
+                          <span style={{ color: DONE, fontWeight: 800 }}>Green</span> is doing its job. <span style={{ color: TODO, fontWeight: 800 }}>Amber</span> is the next step, and tapping it goes straight there. Jobs and screen balance are kept up across the stage rather than ticked off, so those two can move both ways.
                         </p>
                       </>
                     )
@@ -362,17 +397,17 @@ export default function PassportBook({
                       <span style={{
                         width: 17, height: 17, borderRadius: '6px', flexShrink: 0,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        background: t.done ? theme.bold : 'transparent',
-                        border: t.done ? 'none' : `1.5px solid ${theme.bold}`,
+                        background: t.done ? DONE : 'transparent',
+                        border: t.done ? 'none' : `1.5px solid ${TODO}`,
                       }}>
                         {t.done && (
-                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke={theme.text} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
                         )}
                       </span>
                       <span style={{ flex: 1, fontSize: '14.5px', fontWeight: 700, color: 'var(--ink)', opacity: t.done ? 0.5 : 1, textDecoration: t.done ? 'line-through' : 'none' }}>
                         {t.label}
                       </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: theme.text, opacity: 0.85, whiteSpace: 'nowrap' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: t.done ? DONE : TODO, whiteSpace: 'nowrap' }}>
                         {t.detail}{t.done ? '' : ' ›'}
                       </span>
                     </Link>
@@ -521,7 +556,8 @@ export default function PassportBook({
       <Link href="/dashboard/keepsakes#p-passport_printed" style={{
         display: 'flex', alignItems: 'center', gap: '14px', textDecoration: 'none',
         background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-        borderRadius: '18px', padding: '16px 18px', margin: '18px 0 0',
+        borderRadius: '16px', padding: '16px 18px', margin: '18px 0 0',
+        boxShadow: '0 5px 0 var(--terracotta)',
       }}>
         <span style={{ fontSize: '34px', lineHeight: 1 }} aria-hidden>🛂</span>
         <span style={{ flex: 1, minWidth: 0 }}>

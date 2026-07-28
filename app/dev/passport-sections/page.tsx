@@ -51,7 +51,7 @@ const stamps: Stamp[] = [1, 2, 3, 4, 5].map(id => ({
     {
       key: 'balance', emoji: '⚖️', label: 'Screen balance',
       pct: id === 3 ? 50 : 0, detail: id === 3 ? 'A bit over' : 'Later',
-      href: '#screen-balance',
+      href: '/dashboard/stats',
       help: 'Goes green when the week averages at or under the healthy amount.',
       ongoing: true,
     },
