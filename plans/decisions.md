@@ -2611,3 +2611,29 @@ every morning the cron runs. The test is self healing from here.
 The general lesson, which is the one worth keeping: an error message that cannot
 tell "you have not set this up" apart from "we are broken" will always be read as
 the second one, and the user stops trusting the feature rather than fixing it.
+**Home is five tiles and one door (28 Jul).** JP: super simple, they complete
+the path, then family quests, road to sixteen, ask DiGi, and we could add the
+shop and the school routine, then tidy the rest into categories behind a button.
+
+Home was carrying eighty eight render points: today's path, then a Keep going
+grid of nine tiles, then an Explore everything grid of sixteen more, plus a
+sticky strip of jump chips to navigate its own length. Two grids doing the same
+job, one under the other, which is most of why a parent could not find the star
+chart or the school reminders. A screen that needs a table of contents is too
+long.
+
+Mobbin first, per CLAUDE.md. Life Reset, Reminders, Wabi and Evernote all do the
+same thing on iOS: today's one thing at the top, a small fixed grid of four to
+six destinations, and everything deeper behind a single door. None of them list
+the whole product on Home.
+
+So Home is now today's path (untouched), then five pastel SectionTiles (family
+quests, road to sixteen, ask DiGi, school reminders, visit the shop) and one
+Everything else row. The rest lives at /dashboard/explore, the same ExploreGrid
+that was on Home, grouped, with a back to home button. Nothing is removed, and
+the DiGi reveal cards and flash ups sit above the tiles exactly as they were, so
+the day 3, 6, 9 and 12 schedule is untouched.
+
+School reminders takes lavender rather than the sage beside it, because
+tint-green and tint-sage share an accent and DiGi and School were reading as one
+colour repeated rather than two different places.

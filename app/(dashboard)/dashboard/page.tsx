@@ -42,7 +42,7 @@ import CommunityBite from '@/components/community/CommunityBite'
 import DealReviewNudge from '@/components/quests/DealReviewNudge'
 import HomeRows from '@/components/home/HomeRows'
 import LiveTimerChip from '@/components/home/LiveTimerChip'
-import ExploreGrid from '@/components/home/ExploreGrid'
+import HomeMain from '@/components/home/HomeMain'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
@@ -775,66 +775,17 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         <PushPrompt userId={user.id} stage={`Stage ${stage.id}`} />
       </div>
 
-      {/* See everything we do: the whole platform as grouped big icon tiles
-          (the Explore section), then every quieter card Home used to stack,
-          all one tap behind one calm row so the daily screen keeps one shape
-          and the next action above stays dominant. */}
-      {/* Everything we do, no longer buried behind one tap: a sticky row of
-          section tabs jumps straight to the group you want, so the whole
-          platform is organised and reachable while the daily flow above still
-          leads. Each group keeps its own clear subheading below. */}
-      <div style={{ marginBottom: '20px' }}>
-        <div style={{ position: 'sticky', top: 0, zIndex: 4, display: 'flex', gap: '8px', overflowX: 'auto', padding: '10px 0', marginBottom: '6px', background: 'var(--cream)', borderBottom: '1px solid var(--border)' }}>
-          {[
-            { href: '#dash-explore', label: '🧭 Explore' },
-            { href: '#dash-keepgoing', label: '📚 Every part' },
-            { href: '#dash-more', label: '💛 DiGi and alerts' },
-          ].map(t => (
-            <a key={t.href} href={t.href} style={{ flexShrink: 0, textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px', padding: '8px 14px', boxShadow: '0 2px 0 rgba(26,26,46,0.05)' }}>
-              {t.label}
-            </a>
-          ))}
-        </div>
-        <div id="dash-explore" style={{ paddingTop: '10px', scrollMarginTop: '64px' }}>
-          <p className="eyebrow" style={{ margin: '0 0 10px 2px', fontSize: 12 }}>Explore everything</p>
-
-        {/* The Explore grid: grouped big icons, every tile an existing page */}
-        <ExploreGrid scriptHref={todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts'} />
-
-        <p className="eyebrow" style={{ margin: '4px 0 10px 2px', fontSize: 12 }}>Your cards and prompts</p>
-
-      {/* The lesson nudge now rides through the DiGi flash up rotation above,
-          so lessons stay reachable on mobile without stacking a second DiGi
-          card on Home. */}
-
-      {/* Keep going: the rest of the membership as a quiet grid of tiles, so
-          every part is one tap away without a wall of full width cards. */}
-      <p id="dash-keepgoing" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 12, scrollMarginTop: '64px' }}>Keep going, every part one tap</p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '22px' }}>
-        {([
-          { href: '/dashboard/digi', external: false, bg: 'var(--stage-5)', icon: '◎', title: 'Ask DiGi', sub: 'Anything about their world', reveal: 'core' },
-          { href: '/dashboard/setup', external: false, bg: 'var(--cream)', icon: '🧭', title: 'Set up', sub: 'Quests, school, devices', reveal: 'core' },
-          { href: '/dashboard/moments', external: false, bg: 'var(--terracotta-lt)', icon: '⚡', title: 'Moments', sub: 'The words for any battle', reveal: 'moments' },
-          { href: '/dashboard/scripts', external: false, bg: 'var(--stage-1)', icon: '❝', title: 'Scripts', sub: 'What to say, word for word', reveal: 'moments' },
-          { href: '/dashboard/lessons', external: false, bg: 'var(--stage-3)', icon: '📚', title: 'Lessons', sub: 'Watch together, five minutes', reveal: 'lessons' },
-          // Printables is core, not a day six unlock. It is the offline half of
-          // the product and the one thing a parent can use on the first evening
-          // with no setup at all: print the star chart, stick it on the fridge,
-          // done. Holding it back for six days while Lessons arrives on day six
-          // had it the wrong way round, and left the star chart reachable only
-          // through Quests on a new account.
-          { href: '/dashboard/printables', external: false, bg: 'var(--tint-sage)', icon: '🖨️', title: 'Printables', sub: 'Star chart, charts to print', reveal: 'core' },
-          { href: '/dashboard/pathway', external: false, bg: 'var(--tint-blue)', icon: '🗺️', title: 'Pathway', sub: 'The whole road to 16', reveal: 'pathway' },
-          { href: '/dashboard/agreement', external: false, bg: 'var(--stage-1)', icon: '🤝', title: 'Family agreement', sub: 'Five talks, one signed sheet', reveal: 'wellbeing' },
-          { href: 'https://www.guidedchildhood.com/digitalwellbeing', external: true, bg: 'var(--stage-2)', icon: '🩺', title: 'Health report', sub: 'One free with membership', reveal: 'wellbeing' },
-        ] as const).filter(t => revealed.has(t.reveal)).map(t => (
-          <Link key={t.href} href={t.href} {...(t.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})} style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '6px', background: t.bg, border: `1.5px solid ${t.bg}`, borderRadius: '16px', padding: '15px' }}>
-            <span style={{ fontSize: '22px', lineHeight: 1 }}>{t.icon}</span>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.2 }}>{t.title}</span>
-            <span style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{t.sub}</span>
-          </Link>
-        ))}
+      {/* The five places a parent actually goes, then one door to the rest.
+          Home carried two grids of tiles under each other, sixteen and nine,
+          plus a sticky strip of jump chips to navigate its own length. A screen
+          that needs a table of contents is too long. Both grids are gone and
+          every tile that was in them is on /dashboard/explore, grouped, with a
+          way back. Today's path above this is untouched. */}
+      <div id="dash-explore" style={{ paddingTop: '10px', scrollMarginTop: '64px' }}>
+        <HomeMain />
       </div>
+
+      <p className="eyebrow" style={{ margin: '4px 0 10px 2px', fontSize: 12 }}>Your cards and prompts</p>
 
       {/* Below the daily flow, quieter: the streak card, DiGi's proactive
           prompts, the ranked alerts and the age gate. */}
@@ -1141,8 +1092,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       )}
 
         </div>
-      </div>
-    </div>
   )
 }
 
