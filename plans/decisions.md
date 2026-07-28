@@ -2849,3 +2849,25 @@ is: didge is already the English spelling of this sound.
 Still one string in lib/voice/english-voice.ts, applied by sayable() to every
 line the browser speaks. It cannot be verified from a sandbox with no speakers,
 so it wants JP's ear on a real device before it is called done.
+
+**Quests tiles: the fifth badge is the star bank, and the star chart stays
+quiet (28 Jul).** JP approved the restructure. Phase 1 turned out half built
+already: four tiles carried live badges and page.tsx really does pass the
+status, so those were working.
+
+Added the fifth, on Keepsakes: stars banked and not yet spent across every
+child, from getStarBanks. It is a balance rather than a queue, and it still
+earns a badge on this board's own test, because the child has earned those
+stars and not been given anything for them. Something is owed, it is just the
+parent's to give rather than to confirm.
+
+Did NOT add "Not printed yet" to the star chart, which JP also asked for.
+StarChartBuilder persists nothing, so there is no record of any family ever
+having printed it. The only way to show that badge today is to infer it from
+something adjacent, which is precisely the invented badge board-status.ts
+already rules out: a number a parent learns to distrust is worse than no
+number. It needs a column that actually knows, so it waits for one.
+
+/dev/quest-tiles now renders BOTH states side by side. The quiet board is what
+most families see most days and it has to look finished rather than unloaded,
+which is not something you can check from the busy state alone.

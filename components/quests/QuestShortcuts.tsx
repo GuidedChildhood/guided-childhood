@@ -77,6 +77,10 @@ const TILES: Tile[] = [
     // Friends as things you can hold, so it earns a tile of its own.
     href: '/dashboard/keepsakes', label: 'Keepsakes', sub: 'Rewards you can hold',
     icon: 'keepsakes', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
+    // Stars banked and not yet spent, across every child. A balance rather
+    // than a queue, but it is still something owed: the child has earned these
+    // and not been given anything for them. It falls as rewards are taken.
+    badge: s => s.starsToSpend > 0 ? `${s.starsToSpend} stars` : null,
   },
   {
     // School reminders had a page and effectively no door. It sat in the Explore
