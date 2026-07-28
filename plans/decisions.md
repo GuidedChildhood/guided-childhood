@@ -2637,3 +2637,23 @@ the day 3, 6, 9 and 12 schedule is untouched.
 School reminders takes lavender rather than the sage beside it, because
 tint-green and tint-sage share an accent and DiGi and School were reading as one
 colour repeated rather than two different places.
+
+**Notify me told everyone it worked, including when it did not (28 Jul).** JP:
+the notify button does not come through to me, is it wired in. It was wired in,
+and lying in three places.
+
+The client set state to done inside a catch that swallowed everything, so You
+are on the list showed whether the POST succeeded, failed or never left the
+phone, and an invalid email made the button do nothing at all with no message.
+Both keepsake forms now carry a real error state a parent can read and retry.
+
+The route treated a missing table as a silent no op and returned ok regardless.
+It now tracks whether the interest survived in either place, the row or the
+email, logs the reason when it did not, and returns 502 only when BOTH failed,
+because that is the only case where the signup is genuinely lost.
+
+The real one: sendEmail never throws, it RETURNS { ok, error }. So the route's
+try/catch around it caught nothing, and notified was being set from
+emailConfigured(), which only says a key is present. A send Resend rejected, an
+unverified from domain being the usual cause, read as a success all the way
+back to the parent. The result is read now and the reason logged.
