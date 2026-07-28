@@ -2543,3 +2543,13 @@ now: the title asks for at least 180px and the three actions travel as one
 block, so they drop to their own line the moment there is not room for both.
 Measured before and after at 390 wide: 56px to 298px. No media query, which
 matters in a codebase of inline styles.
+
+**Printables leaves the Lessons tabs (28 Jul).** JP: we do not need Printables
+on the Lessons tab. It was a third segmented view there, showing the same cards
+with the same PrintableActions as the real library at /dashboard/printables, so
+a parent had two places to look for one thing. That library is now reachable
+from Home (core from day one), from the Quests board, and from the Build your
+star chart tile, which is plenty of front doors. Lessons is two views again,
+Watch together and Lessons, which is what the page is actually for. Nothing is
+lost: the printables library page carries the identical card and the same add to
+quests action, and nothing in the app deep linked to the removed view.

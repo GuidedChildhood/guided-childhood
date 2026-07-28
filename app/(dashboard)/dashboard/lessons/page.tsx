@@ -6,14 +6,16 @@ import { getParentLessons, getCompletionsForChild, durationLabel } from '@/lib/l
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { keyStageFor, strandFor } from '@/lib/content/curriculum-badges'
 import { lessonCoverForTitle, lessonCoverForAiCategory } from '@/lib/content/lesson-covers'
-import { PRINTABLES } from '@/lib/printables/registry'
 import LessonsBrowser, { type WatchItem, type LibraryItem } from './LessonsBrowser'
 
-// The Lessons hub: one place for every lesson type, split into three tidy
-// views (Watch together films, the interactive Lessons library, and the
-// paper Printables) so it never reads as one endless list. This page does
-// the reads and hands flat, display ready arrays to the browser, which
-// owns the segmented control and the stage filter.
+// The Lessons hub: one place for every lesson type, split into two tidy
+// views (Watch together films and the interactive Lessons library) so it
+// never reads as one endless list. The paper sheets are not here: they have
+// their own library at /dashboard/printables, reached from Quests and from
+// Home, and a third tab of them made Lessons the second place a parent had
+// to look for the same thing. This page does the reads and hands flat,
+// display ready arrays to the browser, which owns the segmented control and
+// the stage filter.
 
 export const metadata = { title: 'Lessons — Guided Childhood' }
 
@@ -155,7 +157,7 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Every lesson, one place</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>Lessons</h1>
         <p style={{ color: 'var(--ink-soft)', fontSize: '17px', lineHeight: 1.6, marginBottom: '14px' }}>
-          Films to watch with {childName}, lessons you lead, and sheets to print. Switch between them below.
+          Films to watch with {childName}, and lessons you lead. Switch between them below.
         </p>
       </div>
 
@@ -165,8 +167,6 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
         childStageNum={childStageNum}
         watchItems={watchItems}
         libraryItems={libraryItems}
-        printables={PRINTABLES}
-        isPaid={isPaid}
         initialStage={initialStage}
         initialView={initialStage ? 'library' : undefined}
       />
