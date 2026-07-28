@@ -27,6 +27,13 @@ runs and before any route handler loads, so:
 
 It is a project setting, changed in the Vercel dashboard, nowhere else.
 
+**Check which project.** This repo deploys to two Vercel projects,
+`guided-childhood` and `guided-childhood-app`. Deployment Protection is set per
+project, so changing it in one leaves the other still refusing. Read the project
+name out of the deployment URL before opening a settings page: a host ending
+`-guided-childhood.vercel.app` that starts `guided-childhood-app-` is the app
+project, anything else starting `guided-childhood-` is the main one.
+
 Standard Protection covers every preview deployment and every generated
 `*.vercel.app` deployment URL. It does not cover a custom production domain.
 That is why a link that works in the browser can 401 from the terminal: the
