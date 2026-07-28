@@ -3094,3 +3094,32 @@ The content names the real UK providers and, more importantly, names the gap:
 this covers WiFi only, so a phone on mobile data is unfiltered and needs the
 network's own content lock. A guide that does not say what it fails to cover is
 how a parent ends up confidently wrong.
+
+**The home broadband guide existed all along, and I nearly shipped a second one
+(28 Jul).** The WiFi bug was real: the Devices button asked DiGi to walk a
+parent through home broadband without naming a guide, so the route loaded none
+and DiGi answered from whatever was last in the conversation. That is the TikTok
+answer JP saw. The fix is one word, device=home_broadband.
+
+The diagnosis around it was wrong. I checked migration 014, which seeds 24
+devices with no router among them, and concluded the catalogue had none. The
+router guide arrived later in 077 under home_broadband. Reading the first seed
+file and concluding what the whole catalogue holds is the same error as reading
+one branch of an if and concluding what the function does. Migration 118 as
+first written would have inserted a rival guide under the key 'broadband', and
+the app would have carried two competing home broadband guides with whichever
+the button named being the one a parent saw. Nothing would have looked broken.
+
+Caught by checking the live database before applying rather than after. Worth
+keeping as the habit: the repo tells you what was intended, only the database
+tells you what is there.
+
+118 is now an update rather than an insert, and does the part still worth doing.
+The guide was three steps and stopped before the two that decide whether the
+filter holds: the router's own admin password, which is printed on the box and
+lets an older child switch everything off in a minute, and testing it before
+trusting it. Five steps now, and the note names what the filter does not cover,
+which is mobile data and VPNs. A guide that does not say where it stops is how a
+parent ends up confidently wrong.
+
+Migrations 117 and 118 are both APPLIED to the live database as of tonight.
