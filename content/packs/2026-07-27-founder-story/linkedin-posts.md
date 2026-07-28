@@ -48,7 +48,7 @@ Most AI parenting tools are a nice prompt sitting on top of a guess. I did not w
 
 Researchers in. DiGi answers from a library of findings from the actual people who study this, Amy Orben, Candice Odgers, Andrew Przybylski, Sonia Livingstone, Lucy Foulkes, Chris Ferguson, Catherine Knibbs, Jacqueline Nesi, Patti Valkenburg, and Jean Twenge held honestly as the concern side. When a parent asks something, an engine scores every finding against their exact question, by the child's age and the topic, and hands DiGi the best ones with one instruction. Cite the source by name.
 
-Principles on. On top of the research sit ten principles it cannot break. No verdicts only pathways. Evidence before opinion. Child before platform. Relationship first. Sleep matters. Privacy and safeguarding by design. Those are not slogans, they are rules the guide runs inside.
+Principles on. On top of the research sit seven principles it cannot break, and a hard safety line above all of them. No verdicts only pathways. Evidence before opinion. Child before platform. Relationship first. Sleep matters. Privacy and safeguarding by design. Those are not slogans, they are rules the guide runs inside.
 
 No verdicts out. This is the one that matters most. DiGi will never hand you a yes or a no. It gives you the best next step and leaves the deciding to you.
 
