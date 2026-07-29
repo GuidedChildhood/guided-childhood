@@ -74,7 +74,18 @@ export async function POST(req: NextRequest) {
 
   await supabase.from('kid_links').update({ last_seen_at: new Date().toISOString() }).eq('token', token)
 
-  // Nudge the parent's phone, best effort
+  // Nudge the parent's phone, straight to the decision.
+  //
+  // This used to land on /dashboard/quests, the whole quests page, so a parent
+  // tapping "a quest is ready for your ok" arrived at a menu and had to go
+  // looking for the thing they had just been told about. Justin: "when we click
+  // on notifications it should, to approve, take straight to approve page not
+  // quests general menu."
+  //
+  // /dashboard/quests/manage leads with Waiting on you, so the tap lands on the
+  // Done button. Every push that needs a DECISION from a parent now points
+  // here. The ones that are only news (a timer started, a goal redeemed) still
+  // go to the quests page, because there is nothing to decide.
   try {
     const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
     await fetch(`${origin}/api/push/send`, {
@@ -84,7 +95,7 @@ export async function POST(req: NextRequest) {
         userId: link.user_id,
         title: 'A quest is ready for your ok',
         body: `${quest.title} was just ticked off. One tap to approve and the stars land.`,
-        url: '/dashboard/quests',
+        url: '/dashboard/quests/manage',
       }),
     })
   } catch { /* push is best effort */ }

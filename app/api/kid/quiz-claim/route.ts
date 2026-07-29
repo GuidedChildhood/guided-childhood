@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
         userId: link.user_id,
         title: `${name} passed today's school quiz 🏆`,
         body: `${right} of ${total} on ${quiz.title} (${quiz.yearNote}). 2 bonus stars banked.`,
-        url: '/dashboard/quests',
+        url: '/dashboard/quests/manage',
       }),
     })
   } catch { /* push is best effort */ }

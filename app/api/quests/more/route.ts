@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
         userId: link.user_id,
         title: `${name} wants more quests ⭐`,
         body: `Everything on today's list is done and ${name} is asking for more. Add one or two?`,
-        url: '/dashboard/quests',
+        url: '/dashboard/quests/manage',
       }),
     })
   } catch { /* push is best effort */ }

@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
         userId: link.user_id,
         title: `${name} finished a printable 🖍️`,
         body: `${printable.emoji} ${printable.title}. Have a look and confirm it to land their ${printable.stars} stars.`,
-        url: '/dashboard/quests',
+        url: '/dashboard/quests/manage',
       }),
     })
   } catch { /* best effort */ }

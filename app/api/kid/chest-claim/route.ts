@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
         userId: link.user_id,
         title: `${name} opened today's path chest 🎁`,
         body: `A job ticked and 1 bonus star banked on the pathway. The loop is working.`,
-        url: '/dashboard/quests',
+        url: '/dashboard/quests/manage',
       }),
     })
   } catch { /* push is best effort */ }

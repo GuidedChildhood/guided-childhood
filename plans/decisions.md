@@ -3855,3 +3855,31 @@ Worth generalising: a dismissible warning about something BROKEN is not the same
 as a dismissible offer. Dismissing an offer means no thanks. Dismissing a
 warning means not now, and treating the two the same is how a product ends up
 silently not working for somebody who once tapped a cross.
+
+---
+
+## 29 July 2026 — notifications landed on a menu, not the decision
+
+Justin: "when we click on notifications it should, to approve, take straight to
+approve page not quests general menu."
+
+Every parent push sent url: '/dashboard/quests'. So "a quest is ready for your
+ok" landed on the whole quests page and the parent had to go hunting for the
+thing they had just been told about. The notification did its job and then
+abandoned them one step short.
+
+Split by whether there is a DECISION to make. Seven now point at
+/dashboard/quests/manage, which leads with Waiting on you, so the tap lands on
+the Done button: a child ticking a job, finishing a path, a printable, a quiz, a
+chest, asking for a job, asking for more. The rest still go to the quests page,
+because a timer starting or a goal being redeemed is news rather than a
+decision, and sending news to a decision screen is the same mistake backwards.
+
+Only possible because Manage jobs became a real page earlier today. Before that
+there was nowhere to send them: the approve queue was a card halfway down the
+page they were already landing on.
+
+Worth keeping: a notification is a promise about where you are about to arrive.
+Landing somewhere that merely CONTAINS the answer is a broken promise, and it is
+the kind that never gets reported as a bug because the parent assumes they
+misread it.
