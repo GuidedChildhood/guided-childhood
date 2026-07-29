@@ -92,3 +92,84 @@ What unused minutes turn into. The candidates already in the product are
 keepsakes and the sticker book. Both persist, both are collectable, neither is
 screen time. Needs his call before the conversion is built, because it is the
 part a child will care about most.
+
+---
+
+# Decided: unused minutes become sticker book
+
+29 July, JP: "Let's get unused minutes to convert to sticker book and make the
+maths realistic to take a month or so."
+
+That settles the open question. Two findings from wiring it up, one of which
+changes the shape.
+
+## Finding 1: a weekly reset would break the sticker book
+
+lib/stickers/book.ts earns stickers from `banks[0].earned`, which is the SAME
+cumulative lifetime total that produced 342. So if stars reset on Monday, a
+child loses sticker progress every week. The reset cannot ship on its own.
+
+The fix is a split the code does not currently make:
+
+- **Spendable stars** — weekly, reset Monday, capped at the band's recommended
+  minutes. Buys screen time. This is the number on the child's balance.
+- **Sticker credit** — never resets. Feeds the sticker book.
+
+That split is also what makes JP's idea work, and it is a better rule than the
+one there now. Today stickers come from EARNING, which is the same thing the
+star chart already rewards, so the book is a second scoreboard for one
+behaviour. Under this, stickers come from NOT SPENDING. The star chart pays
+doing the jobs; the book pays restraint. Two currencies, two different lessons,
+and the second one is the one the product exists to teach.
+
+## Finding 2: the current thresholds finish in under three weeks
+
+Sticker star rules today are 1, 10, 25, 50, 100. At a realistic 42 stars a week
+(three jobs a day at two stars):
+
+| Sticker | Reached after |
+| --- | --- |
+| First Star (1) | 0.2 days |
+| Ten Stars (10) | 1.7 days |
+| Twenty Five (25) | 4.2 days |
+| Fifty Stars (50) | 8.3 days |
+| Star Champion (100) | 16.7 days |
+
+The whole star set is done inside seventeen days, and that is before the
+conversion adds anything. "A month or so" needs the thresholds re-cut against
+the new currency, not the old one.
+
+## The maths, to land at about a month
+
+Unused minutes a week, realistically: a child earns roughly half the band guide
+and spends most of it, so call it 60 to 150 minutes left over.
+
+Proposal, to be sanity checked by JP rather than assumed:
+
+- **1 sticker credit = 30 unused minutes**, awarded at Monday rollover.
+- That is 2 to 5 credits a week for a typical child.
+- Re-cut the five star stickers onto credits at **3, 8, 15, 25, 40**.
+- At ~3 credits a week: first at day 7, last at about week 13.
+- At ~5 credits a week: last at about week 8.
+
+That is longer than a month for the full set, which is right, because the set
+should outlast the first month rather than finish in it. The FIRST few land in
+week one and week three, so the loop is felt early and the book still has
+somewhere to go. If JP wants the whole book inside a month, halve the top two.
+
+## Build order, none of it started
+
+1. Migration: a sticker_credits store and a star week boundary.
+2. Split getStarBanks into spendable (weekly, capped) and lifetime.
+3. Point the sticker rules at credits rather than cumulative stars.
+4. Monday rollover that converts unused minutes and writes the credits.
+5. Fix the stats page "aim for tomorrow 210 min", which spreads the unused
+   weekly budget forward and tells a parent to aim at nearly double the daily
+   guide. Same logic, same change.
+
+## Separately requested, not started
+
+PWA re-engagement pushes: an "are you there, it only takes ten minutes to check
+in" for parents who have not started the pathway, then Duolingo style escalating
+reminders (two days, then wider). Needs its own plan: cadence, the opt out, and
+the line where encouragement becomes nagging a parent who is already struggling.
