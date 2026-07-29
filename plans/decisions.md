@@ -3419,3 +3419,44 @@ Also: my first pass at the suggestion rows put a "We have this" text button
 beside a subtitle, which left the subtitle about ninety pixels to wrap into and
 made every suggestion four lines tall. Caught it on the 390 screenshot before it
 went near JP. The row is now the tap target with a plus at the end.
+
+---
+
+## 29 July 2026 — tidy up after PR 592 merged
+
+Three loose ends, one of them mine.
+
+**DeviceList still had its own copy of the guide panel.** I extracted GuideBody
+in the devices restructure precisely so the steps panel could not be written
+twice and drift, then left the original copy sitting in DeviceList. Sixty lines
+of duplicate that would have diverged the first time anyone edited one of them.
+Now deleted, with the not owned escape passed in as the footer.
+
+Worth noticing: extracting a shared component is only half the job. It is not
+finished until every old copy is gone, and a green typecheck will happily tell
+you the duplicate is fine.
+
+**All seventeen dev harnesses were live on the public site.** /dev/your-screens
+would have served a real page on guidedchildhood.co.uk, and robots.txt never
+disallowed /dev, so they were crawlable too. Nothing leaks, they all render fake
+props, but they are half finished looking pages under our own branding, and a
+parent or a school finding one reads "broken", not "test harness".
+
+app/dev/layout.tsx now returns notFound() when VERCEL_ENV is production.
+Deliberately NOT NODE_ENV, which is production on preview builds too and would
+have killed the harnesses exactly where they are most useful, on the preview
+attached to a PR. /dev added to robots disallow as well.
+
+Verified rather than assumed: built with VERCEL_ENV=production, served it, and
+curled. The harnesses 404 while /join still returns 200. Given how many times
+this session the bug has been a guard that could never fire, checking that this
+guard fires seemed like the minimum.
+
+**ICO registration written up properly** in the go live checklist. It was one
+vague line saying "about £52 a year". It now says what the single registration
+actually is (the data protection fee, tier 1, £47 by direct debit), the one
+question on the form needing a decision (no DPO, because we are not yet large
+scale, review as we grow), and the four things people assume are registrations
+and are not: the DPIA, the Children's Code, the ROPA and the privacy policy. The
+ROPA one matters most, because the under 250 staff exemption falls away as soon
+as you touch special category data, which we do.
