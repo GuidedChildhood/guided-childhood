@@ -1278,10 +1278,10 @@ export default function KidQuestScreen({
           const earnedWeekMins = weekStars * STAR_MINUTES
           const healthy = usedWeekMinutes <= earnedWeekMins || usedWeekMinutes === 0
           const balanceMsg = streakDays >= 2
-            ? `${streakDays} day streak of jobs, amazing! ${healthy ? 'And a lovely balance too.' : 'Do one job to keep your balance healthy.'}`
+            ? `${streakDays} day streak of jobs, amazing! ${healthy ? 'And a lovely balance too.' : 'Do a job or make something to keep your balance healthy.'}`
             : healthy
               ? 'Lovely balance. You have earned more than you have watched.'
-              : 'Screen has run a little ahead. Do a job to bring your balance back.'
+              : 'Screen has run a little ahead. Do a job or make something to bring your balance back.'
           return (
         <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', overflow: 'hidden' }}>
           <button onClick={() => { setDeviceOpen(o => !o); setPickNow(false); playKidSound('tap') }} aria-expanded={deviceOpen} style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
