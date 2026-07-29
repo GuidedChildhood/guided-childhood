@@ -3821,3 +3821,37 @@ tomorrow". Fourteen cases now pass.
 Cron times are UTC, so these drift an hour against BST. 07:15 UTC is 08:15 in
 summer, which is late for before school. Worth fixing properly with a per family
 local time rather than by nudging the numbers.
+
+---
+
+## 29 July 2026 — the parent's push prompt could be silenced for ever
+
+Justin: "why am I not getting pwa from Yusuf's jobs on parent's platform, and if
+not set up this will stay broken, so how can in app check auto prompt parent?"
+
+Both halves right, and the second half is the diagnosis.
+
+Push to the parent IS wired. A child ticking a job posts to /api/push/send with
+the parent's user id. But with no subscription that call is a silent no-op, and
+the ONLY thing that would ever have told the parent was the PushPrompt card,
+which line 234 hid permanently the moment it was dismissed once.
+
+So: tap it away on day one, and never again be told your child has done
+anything, with no way of finding out why. The approve loop, which is the spine
+of the whole star economy, silently does not work and nothing says so.
+
+Seventh instance of the family today, in a new flavour. The others were guards
+that could never fire. This is a warning that could be permanently switched off,
+which is the same failure seen from the other end: a signal that cannot reach
+the person who needs it.
+
+Fixed by making the dismissal expire after a fortnight rather than for ever.
+Long enough not to nag, short enough that a family cannot spend a term wondering
+why the app is silent. The old permanent '1' flag reads as an expired dismissal,
+so existing families get asked once more rather than staying broken because of a
+tap they made weeks ago. Verified across four states.
+
+Worth generalising: a dismissible warning about something BROKEN is not the same
+as a dismissible offer. Dismissing an offer means no thanks. Dismissing a
+warning means not now, and treating the two the same is how a product ends up
+silently not working for somebody who once tapped a cross.
