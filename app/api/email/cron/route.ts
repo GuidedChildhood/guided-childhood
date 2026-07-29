@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl } from '@/lib/email'
 import { monthlyBalanceEmail } from '@/lib/email/templates'
 import { buildMonthPace } from '@/lib/balance/pace'
+import { getWeekParentReport } from '@/lib/balance/week-report'
 import { deviceLabel } from '@/lib/quests/device-time'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail } from '@/lib/email/templates'
@@ -345,7 +346,7 @@ export async function GET(req: NextRequest) {
       if (daysSince(profile.created_at) < 7) continue
 
       const [{ data: child }, { data: completions }] = await Promise.all([
-        supabase.from('children').select('name, age_band').eq('parent_id', profile.id).eq('is_primary', true).maybeSingle(),
+        supabase.from('children').select('id, name, age_band').eq('parent_id', profile.id).eq('is_primary', true).maybeSingle(),
         supabase.from('script_completions').select('completed_at').eq('user_id', profile.id),
       ])
       const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
@@ -354,8 +355,21 @@ export async function GET(req: NextRequest) {
       const total = (completions ?? []).length
       const thisWeek = (completions ?? []).filter(c => new Date(c.completed_at).getTime() >= weekAgo).length
 
+      // The one balance signal worth reaching a parent who has not opened the
+      // app: the young age phone flag. Deliberately the only screen time line in
+      // the weekly digest (the monthly review carries the routine verdict), so a
+      // parent is never marked on the clock every week. Fail soft, a balance
+      // read that errors must never block the digest.
+      let balanceNote: string | null = null
+      if (child?.id) {
+        const report = await getWeekParentReport(supabase, profile.id, { id: child.id, name: child.name, age_band: child.age_band }).catch(() => null)
+        if (report?.topState.key === 'phone') {
+          balanceNote = `One thing from ${childName}'s balance this week. Phone and social time showed up, and at this age we keep that near zero. It is the type of screen, not the total, so there is no need for alarm. A quick hands on swap sets it right.`
+        }
+      }
+
       await deliver(profile.id, profile.email, key, weeklyDigestEmail({
-        childName, stageName: stage.name, scriptsDoneTotal: total, scriptsDoneThisWeek: thisWeek, unsubscribe: unsubscribeUrl(profile.id),
+        childName, stageName: stage.name, scriptsDoneTotal: total, scriptsDoneThisWeek: thisWeek, unsubscribe: unsubscribeUrl(profile.id), balanceNote,
       }), 'digest')
     }
   }

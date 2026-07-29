@@ -273,8 +273,13 @@ export function weeklyDigestEmail(params: {
   scriptsDoneTotal: number
   scriptsDoneThisWeek: number
   unsubscribe: string
+  // The one balance signal worth reaching a parent who has not opened the app:
+  // the young age phone flag. Optional, and deliberately the only screen time
+  // line in the weekly digest, so the parent is never marked on the clock every
+  // week. Rendered as a calm note with its own link when present.
+  balanceNote?: string | null
 }): EmailContent {
-  const { childName, stageName, scriptsDoneTotal, scriptsDoneThisWeek, unsubscribe } = params
+  const { childName, stageName, scriptsDoneTotal, scriptsDoneThisWeek, unsubscribe, balanceNote } = params
   const weekLine = scriptsDoneThisWeek > 0
     ? `You used ${scriptsDoneThisWeek === 1 ? 'one script' : `${scriptsDoneThisWeek} scripts`} this week. That is ${scriptsDoneThisWeek === 1 ? 'a real conversation' : 'real conversations'} that went differently because you had the words.`
     : `No scripts this week. No guilt about that, life happens. One two minute script tonight puts the week back on track.`
@@ -284,6 +289,7 @@ export function weeklyDigestEmail(params: {
       heading(`Your week with ${childName}.`) +
       p(weekLine) +
       p(`All together you have completed <strong>${scriptsDoneTotal === 1 ? 'one script' : `${scriptsDoneTotal} scripts`}</strong> on the ${stageName} stage. Every one of them is a pattern ${childName} will carry into the next stage.`) +
+      (balanceNote ? p(balanceNote) + button('See the balance', `${APP}/dashboard/stats`) : '') +
       button('Open this week’s script', `${APP}/dashboard/scripts/recommended`) +
       p(`Ten minutes this week. That is the whole ask.`),
       unsubscribe
