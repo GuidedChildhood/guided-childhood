@@ -3550,3 +3550,94 @@ the clamp alone saves 400px, before counting the two prompt cards that no longer
 render at all.
 
 A quieter Home does not mean less thinking. It means less of it shouted at once.
+
+---
+
+## 29 July 2026 — the child app was installing the parent app, and Manage jobs
+
+**The PWA bug, which was real and old.** Justin: "the pwa to child phone did not
+happen". It never could have.
+
+app/layout.tsx hardcoded `<link rel="manifest" href="/manifest.json">` and
+`<link rel="apple-touch-icon">` into the head, immediately below a metadata
+export that already emitted both. Duplicates, and being hardcoded meant they
+appeared on EVERY route and no nested segment could override them.
+
+/manifest.json says `start_url: /dashboard`, `scope: /`. So a child who followed
+our own on screen instructions and tapped Add to Home Screen installed the
+PARENT app: the icon opened /dashboard, which has no session for them, and
+bounced them to a login they cannot pass. Android offered the same install under
+the name Guided Childhood.
+
+The same hardcoding beat app/k/[token]/apple-icon.tsx, whose own comment says
+Add to Home Screen picks it up automatically. It could not, and the DiGi star
+icon has never once appeared on a child's phone.
+
+Seventh instance this session of the pattern. New wrinkle worth noting: here the
+thing that could never fire was defeated not by a bad condition but by a
+DUPLICATE sitting higher up the tree. Overriding inherited config only works if
+nothing hardcodes the same tag above you, and a hardcoded tag and a metadata tag
+do not merge, the first one wins.
+
+Fix: head is metadata only, /k/[token] gets a manifest per token with start_url
+and scope on the child's own page. Verified by serving a production build and
+curling: kid page points at its own manifest and star icon, marketing points at
+ours, exactly one manifest link on each.
+
+No child name in that manifest, deliberately. It lands in the phone's app list
+and in backups, and "My Jobs" is something a child can own without their name
+printed on a device that may be shared or handed on.
+
+**Manage jobs.** Three asks, and one of them dissolved on inspection.
+
+Landing: addOpen now defaults true. Manage jobs exists to add a job and it was
+landing on the list with Done as the only visible action.
+
+Used before: DELETE sets active false, and GET only ever read active true. So
+the app has been holding every job each family ever used and never offered one
+back. A parent who took reading off over the summer had to retype it in
+September. The API now returns them, deduped by title, and the add panel leads
+with them, above our own templates.
+
+"Run the same as yesterday" dissolved: jobs are recurring with schedules, so the
+board ALREADY runs the same as yesterday unless somebody turned something off.
+The only real version of that ask is putting back what was turned off, which is
+the used before list plus a "put all N back". Worth saying rather than building
+a second thing that silently means the first.
+
+---
+
+## 29 July 2026 — the child app's welcome intro looped
+
+Justin: tapping the Quests chip in a lesson "drops back to welcome intro", and
+the all characters welcome should only run once a week.
+
+Once a week was already the intent and the weekly gate was already written. It
+held across DAYS and failed completely inside a single visit.
+
+squadIntroDue caches this open's answer in sessionStorage so that a REMOUNT
+mid play cannot yank the intro out from under the child, which is a real bug
+somebody already hit and fixed. But it only ever wrote '1'. Nothing ever wrote
+'0'. So once an open was marked due it stayed due for the whole session: open
+the app, watch the intro, tap into a lesson, tap Quests to come back, and the
+entire squad plays again. And again.
+
+Fixed with squadIntroFinished(), called from finish() and from pagehide. NOT
+from markPlayed at the start, because that is precisely the remount case the
+cache exists to protect, and settling on the first frame would reintroduce the
+older bug. '1' while playing, '0' once it has finished or the child has left the
+page.
+
+Proved rather than assumed: replayed the gate logic against a fake storage over
+four screen visits. Before, intro, intro, intro, intro. After, intro, quests,
+quests, quests.
+
+The second half of Justin's ask turned out to already exist. KidSplash is the
+one buddy hello, gated once per session, so the shape he described (full squad
+weekly, single character every other open) is what the app does as soon as the
+weekly one stops looping.
+
+Pattern worth keeping: a cache with one writer. Anything that decides once and
+stores the answer needs a path that stores the OTHER answer, or the first
+decision becomes permanent. Same family as the six guards that could never fire,
+but the reverse: this one always fired.
