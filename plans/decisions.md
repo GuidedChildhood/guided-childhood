@@ -3883,3 +3883,61 @@ Worth keeping: a notification is a promise about where you are about to arrive.
 Landing somewhere that merely CONTAINS the answer is a broken promise, and it is
 the kind that never gets reported as a bug because the parent assumes they
 misread it.
+
+---
+
+## 29 July 2026 — DiGi said two children because there were two children
+
+Justin: "digi says I have 2 children where is it getting that from ... this was
+my daughter Alma but changed to Ada now. Is it because we ran an update giving
+new in database?"
+
+Two questions, one answer. Not a database update, and not a stale memory. The
+children table has two rows on his account, and DiGi was reading it correctly.
+PR 592 had already made the prompt rules airtight about names, and those rules
+explicitly forbid inventing a sibling or claiming more children than the list
+shows, so a model saying "two" meant the list said two.
+
+How the second row got there: three separate paths create a child. Onboarding
+and the starter pack both guard on "no existing children", but the add a child
+form on Quests inserts unconditionally, which is right for a real second child
+and is also what happens when a parent means to RENAME one. Alma became Ada by
+addition rather than edit.
+
+And then nothing could undo it. Nothing anywhere in the product could delete a
+child row. Three creators, no remover, so an account could only ever accumulate.
+Every screen that counts children kept counting, honestly, forever.
+
+The database half of the fix had been sitting finished since this morning:
+migration 120 moved child_id to CASCADE on the sensitive tables, and most others
+were CASCADE from the day they were written. So removal was fully supported and
+completely unreachable. The eighth instance today of a capability with no way to
+ask for it, and the first where the missing path was itself the reported bug.
+
+Now in Settings, per child, once there is more than one: type the child's name to
+confirm, the main child hands over if it was them, and a line above says how many
+children the account holds, because a parent had no other way to check the number
+DiGi is reading.
+
+Migration 122 closes the one table that would have kept talking: digi_prompts was
+SET NULL, so a removed child's cards would keep arriving by name with nothing
+able to stop them. A card is not a record, it is something shown, so it goes with
+the child.
+
+Two things I nearly got wrong, both caught by checking rather than reasoning:
+
+- I wrote the obvious orphan cleanup, "delete prompts where child_id is null",
+  copying migration 120's shape. On digi_prompts that would have deleted every
+  school notification on every account, because the school inbox inserts cards
+  with no child_id by design. Null means orphaned OR perfectly normal, and the
+  row cannot tell you which. 120's cleanup was safe because a wellbeing check
+  with no child is meaningless; the same line one table over is data loss.
+- quest_ticks.child_id has no foreign key at all, which reads as the gap that
+  would leave orphans. It is not: a tick only exists against a family_quest, and
+  that cascades from the child.
+
+Worth keeping: when a count looks wrong, check whether the number is wrong before
+deciding the reporting is wrong. The prompt rules got two rounds of hardening for
+a name problem that was real, and this second complaint on top of them was not a
+regression at all, it was the data. Also: the same migration pattern is not safe
+in two places just because it worked in one. Ask what null MEANS in this table.

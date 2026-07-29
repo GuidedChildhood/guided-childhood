@@ -19,6 +19,11 @@ const TABS = [
   { href: '/dashboard/school', label: 'School' },
   { href: '/dashboard/scripts', label: 'Scripts' },
   { href: '/dashboard/pathway', label: 'Passport' },
+  // Settings was reachable on the laptop and nowhere on a phone. Justin: "I can
+  // only see settings access on laptop version of app not the mobile version."
+  // It holds sign out, the children, what you have agreed to and the delete
+  // account route, so a phone only parent could not reach any of it.
+  { href: '/dashboard/settings', label: 'Settings' },
 ]
 
 export default function MobileSecondaryNav() {
