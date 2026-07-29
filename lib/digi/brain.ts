@@ -223,14 +223,30 @@ export interface ProactiveTrigger {
 // stars. The route matches on this to deep link the prompt straight there.
 export const SHARE_NUDGE_REASON = 'Routine cadence: nudge to share a printable or lesson so the child earns stars.'
 
+// The verbatim reason for the young age phone flag: the balance report saw
+// phone and social time this week for a child at an age where the guide keeps
+// it near zero. The same signal the family wall and the passport now raise, so
+// DiGi raises it in conversation too. The route matches on this to deep link
+// straight to the balance page and to steer a warm, type not total framing.
+export const PHONE_FLAG_REASON = 'The balance report saw phone and social time this week at an age where the guide is to keep it near zero. It is the type of screen, not the total, and it is worth a calm word.'
+
 // Rules over real family data. Deliberately simple and inspectable: each
 // returns the reason a prompt should exist, generation happens elsewhere.
 export function findTriggers(
   checks: { week_start: string; mood_score: number | null; sleep_score: number | null; concern_level: string }[],
   streakWeeks: number,
-  lastPromptAt: string | null
+  lastPromptAt: string | null,
+  opts?: { phoneFlag?: boolean }
 ): ProactiveTrigger[] {
   const triggers: ProactiveTrigger[] = []
+
+  // The young age phone flag leads, because a child on the phone at an age we
+  // keep near zero is the one balance signal worth raising ahead of the routine
+  // cadence. Same signal as the family wall and the passport.
+  if (opts?.phoneFlag) {
+    triggers.push({ kind: 'watch_for', reason: PHONE_FLAG_REASON })
+  }
+
   const recent = [...checks].sort((a, b) => b.week_start.localeCompare(a.week_start))
 
   if (recent.length >= 2) {
