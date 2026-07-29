@@ -247,3 +247,27 @@ the per day step model from `plans/child-app-five-a-day-plan.md`, because a
 records that yet. `WEEKEND_BONUS_MINUTES = 30` and `STREAKS_PER_REWARD = 5` are in
 `lib/quests/star-week.ts` waiting for it, deliberately as named constants rather
 than numbers buried in a component.
+
+## The naming decision, which was the real risk
+
+A late check found the thing that would have made the whole change pointless. The
+child's screen reads `bank.balance`, and while that still meant the LIFETIME
+unspent total, Yusuf's app would have gone on promising "1,710 minutes ready to
+use" while the server refused every spend against the week. That is worse than the
+number it replaced: the child is told they have it and then blocked.
+
+The first instinct was to point that one line at `weekBalance`. Wrong instinct.
+About a dozen screens and routes read `balance` and `minutes` to answer "what can
+be spent", so every one of them would have stayed quietly wrong until somebody
+remembered it, one at a time, exactly the class of bug this whole change exists to
+remove.
+
+So `balance` and `minutes` KEEP their names and change their meaning: they are the
+weekly spendable figure. Every reader is correct without being touched. The
+exception is explicit instead: `lifetimeBalance` exists for the two goal
+redemption routes, which are the only thing that should legitimately save up.
+
+Worth keeping: when a field's meaning changes, the safer move is usually to keep
+the name that describes what callers WANT ("what can be spent") and rename the
+exception, rather than add a new correct field beside an old wrong one and go
+hunting for readers. The default should be right; the special case should be loud.

@@ -32,8 +32,8 @@ export async function POST(req: NextRequest) {
     // would make any goal costing more than one week's cap unreachable for ever.
   const cost = goal.stars_needed
   const [bank] = await getStarBanks(supabase, link.user_id, [link.child_id])
-  if (!bank || bank.balance < cost) {
-    return NextResponse.json({ error: 'not enough stars', balance: bank?.balance ?? 0 }, { status: 400 })
+  if (!bank || bank.lifetimeBalance < cost) {
+    return NextResponse.json({ error: 'not enough stars', balance: bank?.lifetimeBalance ?? 0 }, { status: 400 })
   }
 
   // Spend the stars (a reward has no minutes) and mark the goal redeemed.
@@ -61,5 +61,5 @@ export async function POST(req: NextRequest) {
     })
   } catch { /* best effort */ }
 
-  return NextResponse.json({ ok: true, balance: bank.balance - cost })
+  return NextResponse.json({ ok: true, balance: bank.lifetimeBalance - cost })
 }

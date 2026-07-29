@@ -76,8 +76,8 @@ export async function POST(req: NextRequest) {
     // This week's balance, like /api/quests/spend. Screen time comes out of the
     // current star week only, so a long unspent run cannot be cashed in at once.
     const [bank] = await getStarBanks(supabase, user.id, [childId], { [childId]: (child as { age_band?: string | null }).age_band ?? null })
-    if (!bank || bank.weekBalance < stars) {
-      return NextResponse.json({ error: 'not enough stars this week', balance: bank?.weekBalance ?? 0 }, { status: 400 })
+    if (!bank || bank.balance < stars) {
+      return NextResponse.json({ error: 'not enough stars this week', balance: bank?.balance ?? 0 }, { status: 400 })
     }
   }
 

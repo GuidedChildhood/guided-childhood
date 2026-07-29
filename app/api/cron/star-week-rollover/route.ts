@@ -78,8 +78,10 @@ export async function GET(request: Request) {
 
     for (const bank of banks) {
       const child = list.find(c => c.id === bank.child_id)
-      // What was earned that week and never spent, in minutes.
-      const unused = bank.weekBalance * STAR_MINUTES
+      // What was earned that week and never spent, in minutes. bank.balance is
+      // the weekly spendable figure, and asked for a past week it is that week's
+      // leftover, which is exactly what converts.
+      const unused = bank.balance * STAR_MINUTES
       const credits = Math.floor(unused / MINUTES_PER_STICKER_CREDIT)
       if (credits < 1) { skipped++; continue }
       rows.push({

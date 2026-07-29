@@ -781,6 +781,11 @@ export default function KidQuestScreen({
   // The bank is what is really there to spend: earned ever, minus the
   // screen time already used. Falls back to the week count until the
   // family has run migration 047.
+  // bank.balance is the SPENDABLE weekly figure now (lib/quests/bank.ts), so this
+  // line is correct without change. Worth knowing it was the load bearing one:
+  // while balance meant lifetime, this screen promised Yusuf "1,710 minutes ready
+  // to use" while the server refused every spend against the week, which is worse
+  // than the old number because the child is told they have it and then blocked.
   const bankBalance = bank ? bank.balance : weekStars
 
   // ── The Daily Three ── the home habit at the top of the screen: Learn (the

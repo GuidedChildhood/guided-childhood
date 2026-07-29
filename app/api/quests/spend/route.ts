@@ -28,12 +28,12 @@ export async function POST(req: NextRequest) {
   // save up eight weeks of unspent time and then spend 28 hours of it. What they
   // did not use converts to sticker credits instead, so restraint still pays.
   const [bank] = await getStarBanks(supabase, user.id, [child_id], { [child_id]: (child as { age_band?: string | null }).age_band ?? null })
-  if (!bank || bank.weekBalance <= 0) {
+  if (!bank || bank.balance <= 0) {
     return NextResponse.json({ error: 'Nothing left this week' }, { status: 400 })
   }
 
   // Round the ask to whole stars and never spend more than is there
-  const stars = Math.min(bank.weekBalance, Math.max(1, Math.round(mins / STAR_MINUTES)))
+  const stars = Math.min(bank.balance, Math.max(1, Math.round(mins / STAR_MINUTES)))
   const { error } = await supabase.from('star_spends').insert({
     user_id: user.id,
     child_id,
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   // What is left THIS WEEK, matching what was just gated on. Returning the
   // lifetime figure here would have the screen say a child still has hours left
   // immediately after telling them the week was spent.
-  const balance = bank.weekBalance - stars
+  const balance = bank.balance - stars
   return NextResponse.json({
     ok: true,
     spent_stars: stars,

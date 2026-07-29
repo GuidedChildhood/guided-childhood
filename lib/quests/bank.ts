@@ -15,19 +15,35 @@ export type StarBank = {
   // can they spend tonight".
   earned: number
   spent: number
+  /**
+   * SPENDABLE NOW: this star week only, Monday to Monday in London, capped at the
+   * age band's recommended minutes.
+   *
+   * This used to be the lifetime unspent total, which is how a test child came to
+   * be holding 342 stars and 1,710 minutes. Nothing was broken; eight weeks of
+   * ordinary earning had simply never been reset.
+   *
+   * The names deliberately did NOT change when the meaning did, and that is the
+   * safer way round. Roughly a dozen screens and routes read `balance` and
+   * `minutes` to answer "what can be spent", and every one of them is now correct
+   * without being touched. Adding weekBalance alongside a lifetime `balance` would
+   * have left each of those sites quietly wrong until someone remembered it, which
+   * is exactly the class of bug this whole change exists to remove.
+   */
   balance: number
   minutes: number
-  // This star week only, Monday to Monday in London, capped at the age band's
-  // recommended minutes. THIS is the spendable number a child sees.
-  //
-  // The two used to be one thing, which is how a test child came to be holding
-  // 342 stars and 1,710 minutes. Nothing was broken: eight weeks of ordinary
-  // earning had simply never been reset, and a lifetime total is the wrong
-  // number to hand a child as an allowance.
+  /**
+   * Lifetime unspent stars, for the one thing that legitimately saves up: goals.
+   *
+   * A cinema trip at 40 stars is a save up mechanic, so gating it on the week
+   * would make any goal costing more than one week's cap unreachable for ever.
+   * Hoarding SCREEN TIME is what the reset prevents; saving towards a real world
+   * reward is what we want. Only the two goal redemption routes should read this.
+   */
+  lifetimeBalance: number
+  lifetimeMinutes: number
   weekEarned: number
   weekSpent: number
-  weekBalance: number
-  weekMinutes: number
   // The ceiling for this child's band, so a screen can say 12 of 84 rather than
   // a bare number with nothing to measure it against.
   weekCap: number
@@ -130,7 +146,7 @@ export async function getStarBanks(
 
     const life = totals(false)
     const week = totals(true)
-    const balance = Math.max(0, life.earned - life.spent)
+    const lifetimeBalance = Math.max(0, life.earned - life.spent)
 
     // Capped on what was EARNED this week, then spending comes off that. Capping
     // the balance instead would quietly refund a child: spend down to the cap and
@@ -143,12 +159,14 @@ export async function getStarBanks(
       child_id: childId,
       earned: life.earned,
       spent: life.spent,
-      balance,
-      minutes: balance * STAR_MINUTES,
+      // balance IS the weekly spendable figure. See the type above for why the
+      // name kept its meaning to callers while the number underneath changed.
+      balance: weekBalance,
+      minutes: weekBalance * STAR_MINUTES,
+      lifetimeBalance,
+      lifetimeMinutes: lifetimeBalance * STAR_MINUTES,
       weekEarned,
       weekSpent: week.spent,
-      weekBalance,
-      weekMinutes: weekBalance * STAR_MINUTES,
       weekCap,
     }
   })
