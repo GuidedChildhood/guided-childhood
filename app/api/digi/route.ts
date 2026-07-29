@@ -715,10 +715,12 @@ ${aiKnowledge}` : ''
   const nameRule = realNames.length === 0
     ? `No child name has been given. Always say "your child". Never invent or use a made up name.`
     : realNames.length === 1
-      ? `The child's name is ${realNames[0]}. Use only this name. Never invent, guess, shorten, or use any other name for the child.`
+      ? `The child's name is ${realNames[0]}, and this family has ONE child. Use only this name. Never invent, guess, shorten, or use any other name for the child.
+The memory and history below come from past conversations and CAN BE OUT OF DATE. Any other child's name in them belongs to a child no longer on this account. Ignore it entirely, and never tell this parent they have more than one child.`
       : `This family has ${realNames.length} children: ${realNames.join(', ')}. These are the ONLY names you may ever use for a child. Never invent, guess or shorten a name, and never use a name that is not on that list, including any name from our own lessons or characters.
 Work out which child the parent means from what they have just said, and if they name one, that is the child, even if you were talking about a different one a moment ago. Follow the parent, always.
-If it is genuinely unclear which child they mean, say "your child" or ask which one. Do not pick one and hope. When nothing points either way, assume ${realNames[0]}.`
+If it is genuinely unclear which child they mean, say "your child" or ask which one. Do not pick one and hope. When nothing points either way, assume ${realNames[0]}.
+The memory and history below are written from past conversations and CAN BE OUT OF DATE. A child's name appearing there that is not on the list above belongs to a child who is no longer on this account. Ignore it entirely: never use it, never treat it as a sibling, and never tell this parent they have more children than the list shows.`
 
   return `RIGHT NOW: it is ${daypart} on ${weekday}, UK time. Match every time reference to this. Do not say tonight, this evening, or an evening off unless it is actually evening or night. If it is morning or afternoon and you want them to wait, say later today or this evening, never tonight.
 

@@ -3294,3 +3294,128 @@ that an item was dismissed but WHY, and that is exactly what nobody writes down
 and everybody later wishes they had.
 
 Applied to the live database.
+
+**The "two children from different accounts" report was not a breach, and the
+bug underneath it is real (29 Jul).** JP opened the app on his phone and saw a
+notification about "the device fights between Yusuf and Teo". He called it a
+security breach and was right to.
+
+It is not one, and the evidence is specific. The digi_prompts row containing
+that text belongs to user 77ed6daa, which is j31phillips+qw@gmail.com, one of
+JP's own Gmail alias test accounts, whose child IS called Yusuf. His main
+account 674f6e8c has one child, Gus, and no row under it mentions Yusuf. Every
+query in prompts/route.ts is scoped with eq('user_id', user.id). His phone was
+signed into the test account and was shown that account's own data. Nothing
+crossed between accounts.
+
+What IS real: that account has ONE child, and the notification said two, naming
+Teo alongside Yusuf. Teo comes from stale digi_memory rows written in earlier
+test chats. DiGi read a name out of conversation history and treated it as a
+second, current child.
+
+Same root cause as the Alma bug the night before, in a route I did not fix.
+prompts/route.ts still loaded is_primary only and had NO name rule at all, so
+last night's fix covered the chat and left the notifications wide open. Worth
+remembering: when a bug is "the model was given the wrong facts", fix every
+place the facts are assembled, not the one where it was reported.
+
+Both routes now state the complete list of children AND that memory can be out
+of date, so a name in history that is not on the list is a child no longer on
+the account and must be ignored rather than treated as a sibling. Naming the
+staleness explicitly matters, because the model's natural reading of an old note
+about Teo is that Teo exists.
+
+Still worth doing separately: JP's test accounts carry years of stale memory
+that will keep producing this. Offered to clear the orphaned rows.
+
+---
+
+## 29 July 2026 — the Next step bar, and Settings grows up
+
+Two of JP's phone notes, plus one thing found while doing them.
+
+**The bar colour.** It used --deep-teal (#2E2818). That token is a warm
+espresso and it works on a full width marketing panel, but in a small floating
+bar over the cream dashboard it reads as a flat black brick, which is why JP
+called it black. Moved to --retro-green, which the token block already
+describes as the friendlier dark panel. Lesson worth keeping: a dark token that
+looks warm at section scale can read as pure black at component scale, so
+"which token" is not the whole question, "at what size, over what background"
+is the rest of it.
+
+**The bar repetition.** It allowed two appearances per session in
+sessionStorage, which resets every visit, so the same nudge arrived every day.
+Now one appearance per step, ever, in localStorage, recorded the moment it
+lands rather than when the parent acts, so Not now, Go and walking away all
+retire it equally.
+
+**Settings.** JP asked for a Duolingo shaped place holding log out, children
+and birthdays, terms signed, devices and a control panel link. Profile,
+children, sign out, school and delete already existed. Added the links block
+(devices, notifications, quests and the child app) and a What you have agreed
+to section.
+
+Terms and Privacy are agreed by creating an account, and signup says so in as
+many words, so the join date IS the agreement date. No new column, no second
+tick box pretending to be more meaningful than the first.
+
+**The thing found on the way.** The wellbeing consent wording promises "You can
+stop any time in Settings, and when you do, what we hold is deleted". The route
+to do it has existed since migration 120. Nothing in the product ever called
+it. That is the same pattern as the passport fallback, the badge clip guard,
+the push test cleanup and the privacy policy deletion promise: a handler
+written correctly that could never fire. Under UK GDPR withdrawing Article 9
+consent has to be as easy as giving it, so a withdrawal only Justin could
+perform by hand was not a withdrawal. There is now a button.
+
+Running count of that pattern: six. It is the most common defect in this
+codebase by some distance, and it never shows up in a typecheck or a build. The
+check that catches it is asking, of any guard or promise, what would have to be
+true for this to run, and then whether that is ever true.
+
+---
+
+## 29 July 2026 — devices: one list, not two
+
+JP: *"Still a bit unclear on devices it's confusing have 2 lists should it just
+have suggested list of devices by age ave add devices and then they add and set
+settings so it's marked as set then returns to updated list of devices?"*
+
+He was right, and the loop he described is the one the whole category uses.
+
+The page had three things counting devices: his own two screens in one card,
+our twenty six published guides in another, and a coverage ring reading 3 of 26
+that counted a third set again. He had already reported the count mismatch once
+("it says 3 devices sbd cdn see thst but underneath it has device cuversge 2
+out of 13"). Explaining the ring in small print, which is what I did last time,
+treated the symptom. The disease was three lists.
+
+Mobbin first, per CLAUDE.md. Google Home, SmartThings, Roku and Alexa all show
+ONE list, your devices, plus a single add control. Not one shelves a catalogue
+beside it. Alexa puts the suggestions inside the same list as dashed rows, which
+is exactly JP's "suggested list of devices by age". Chime, Deel and Revolut
+answer the other half: status on the row, so you tap it, do it, and come back to
+a row that has changed.
+
+Built: YourScreens. The family's own screens, each with its status on the row
+and its guide inside the row. Mark as set up flips the row, collapses the guide
+and moves the count. Dashed suggestions underneath, age matched, capped at
+three, each addable with a plus and dismissible with a cross. One add control
+carrying the search. The catalogue folded away behind Browse every guide.
+Coverage board keeps only the layers the list cannot show: the network under the
+screens and the apps on top.
+
+The important part: NONE of this needed a migration. family_devices.guide_key
+has pointed at device_guides.device_key all along, and homeSetupCount already
+counted the family's own list. The passport was already honest. Only the devices
+page was telling a different story from its own data.
+
+Worth keeping: when a screen and its data disagree, check which one is wrong
+before building anything. Twice now the fix has been presentation, and twice the
+first instinct was to add explanatory copy. Explaining a confusing screen is a
+tell that the screen is wrong.
+
+Also: my first pass at the suggestion rows put a "We have this" text button
+beside a subtitle, which left the subtitle about ninety pixels to wrap into and
+made every suggestion four lines tall. Caught it on the 390 screenshot before it
+went near JP. The row is now the tap target with a plus at the end.
