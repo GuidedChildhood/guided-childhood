@@ -663,7 +663,13 @@ export default function KidPath({
               node = (
                 <button onClick={() => { if (st === 'todo') { setActivePrintable(p); playKidSound('tap') } }} disabled={busy || st !== 'todo'} style={column}>
                   <span style={shell({ bg: st === 'confirmed' ? 'var(--tint-sage)' : st === 'pending' ? '#FFF7E0' : 'var(--cream)', border: st === 'pending' ? '3px dashed var(--terracotta)' : undefined, dim: st === 'confirmed', pulse: isCurrent })}>
-                    <span style={{ fontSize: 34, lineHeight: 1 }}>{st === 'confirmed' ? '✓' : st === 'pending' ? '❓' : '🖍️'}</span>
+                    {/* Waiting is an hourglass, not a question mark. A ❓ on a
+                        child's own work reads as something being wrong with it,
+                        or as a thing they have failed to answer, when all it
+                        means is that a grown up has not looked yet. The today
+                        list already used ⏳ for exactly this state, so the two
+                        screens now say the same thing the same way. */}
+                    <span style={{ fontSize: 34, lineHeight: 1 }}>{st === 'confirmed' ? '✓' : st === 'pending' ? '⏳' : '🖍️'}</span>
                   </span>
                   <span style={label}>{p.title}</span>
                   <span style={sub}>

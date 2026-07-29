@@ -501,16 +501,35 @@ export default function KidQuestScreen({
     }
     setAskBusy(true)
     setAskText('')
-    setAsks(prev => [{ id: `local-${Date.now()}`, title: clean, emoji, status: 'pending' }, ...prev])
+    const localId = `local-${Date.now()}`
+    setAsks(prev => [{ id: localId, title: clean, emoji, status: 'pending' }, ...prev])
     setToast('Quest idea sent to your grown up! ⭐')
     setTimeout(() => setToast(null), 3500)
     try {
-      await fetch('/api/quests/request', {
+      const res = await fetch('/api/quests/request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, title: clean, emoji }),
       })
-    } catch { /* best effort, the next load reconciles */ }
+      // The optimistic row is a promise to the child that it landed, so a
+      // refusal has to take it back. Without this the daily cap would be the
+      // worst kind of bug: the child is told it was sent, sees it in the list,
+      // and it is simply not there tomorrow.
+      if (!res.ok) {
+        setAsks(prev => prev.filter(a => a.id !== localId))
+        const d = await res.json().catch(() => null)
+        setToast(d?.reason === 'daily_limit'
+          ? 'That is plenty of ideas for today. Have another think tomorrow!'
+          : 'That one did not send. Try again in a minute.')
+        setTimeout(() => setToast(null), 3500)
+      }
+    } catch {
+      // Offline or a dropped connection. Same rule: do not leave a row the
+      // child believes in when nothing was saved.
+      setAsks(prev => prev.filter(a => a.id !== localId))
+      setToast('That one did not send. Try again in a minute.')
+      setTimeout(() => setToast(null), 3500)
+    }
     setAskBusy(false)
   }
 
