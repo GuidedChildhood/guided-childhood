@@ -1,83 +1,88 @@
 'use client'
 
-// The parent balance graph. A calm, glanceable read on the week: screen time
-// grouped by what the device is for (social, gaming, watching, creating and
-// learning), and for each type the healthy guide for this age marked right on
-// its own bar, so a parent sees used against acceptable for every type, not one
-// number for the whole week. Then the week total, and the off screen report set
-// against the on screen time. Presentational only: it takes a ParentReport
-// (built by lib/balance/parent-report) so any surface can drop it in.
+// The parent balance graph, redesigned as a family wall: one glanceable state
+// for the child at the top (read in a second), then the screen types split into
+// two honest groups, the ones to keep in check and the ones to build up, then
+// the week total and the off screen effort beside it. When the week needs a
+// nudge it offers one tap to a real world activity, so the wall does not just
+// report, it guides the child back toward balance. Presentational only: it takes
+// a ParentReport (built by lib/balance/parent-report) so any surface drops it in.
 
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { fmtMins, BUCKET_META, type ParentReport } from '@/lib/balance/parent-report'
-import { SCREEN_GUIDE_SOURCES, type ScreenStatus } from '@/lib/quests/screen-balance'
+import { fmtMins, BUCKET_META, type ParentReport, type TypeGuide, type BucketSummary, type TopState } from '@/lib/balance/parent-report'
+import { SCREEN_GUIDE_SOURCES, type BucketStatus } from '@/lib/quests/screen-balance'
 
 const GOOD = '#4C9F6B'
 const OVER = '#D98B45'
+const FLAG = '#C4574D'
+const GROW = '#B67A2E'
 
-// Each type reads as under, on track or over on its own line, with a calm
-// colour a parent can scan. Under and on track are both green (a light week is
-// never a problem); over warms to amber, well over a shade deeper.
-const TYPE_STATUS: Record<ScreenStatus, { label: string; bg: string; fg: string }> = {
-  under:     { label: 'Under guide', bg: '#EAF3EC', fg: GOOD },
-  healthy:   { label: 'On track',    bg: '#EAF3EC', fg: GOOD },
-  over:      { label: 'Over',        bg: '#FBEEDF', fg: OVER },
-  well_over: { label: 'Well over',   bg: '#F7E3D6', fg: '#C0603A' },
+// The look of the one top state, keyed to its tone. Calm greens for a good or
+// quiet week, warm amber for a watch or a grow nudge, a clear warm red for the
+// flag a parent should actually act on.
+const TOP_TONE: Record<TopState['tone'], { bg: string; border: string; fg: string; emoji: string }> = {
+  good:  { bg: '#EAF3EC', border: '#CFE6D6', fg: GOOD, emoji: '⭐' },
+  quiet: { bg: 'var(--cream)', border: 'var(--border)', fg: 'var(--ink-soft)', emoji: '🌱' },
+  grow:  { bg: '#FBF3E3', border: '#F1E4BE', fg: GROW, emoji: '✏️' },
+  watch: { bg: '#FBEEDF', border: '#F1E0C6', fg: OVER, emoji: '👀' },
+  flag:  { bg: '#F9E1DB', border: '#EFC9BF', fg: FLAG, emoji: '📱' },
+}
+
+// The pill on each bucket row. Builders and keepers read differently: a builder
+// under its aim is an invitation (room to grow), never a green pass.
+function pillFor(tg: TypeGuide): { label: string; bg: string; fg: string } {
+  const s: BucketStatus = tg.status
+  if (tg.kind === 'build') {
+    return s === 'good'
+      ? { label: 'Building well', bg: '#EAF3EC', fg: GOOD }
+      : { label: 'Room to grow', bg: '#FBF3E3', fg: GROW }
+  }
+  if (s === 'good') return { label: 'Good', bg: '#EAF3EC', fg: GOOD }
+  if (s === 'watch') return { label: 'Watch', bg: '#FBEEDF', fg: OVER }
+  return { label: 'Needs a look', bg: '#F9E1DB', fg: FLAG }
+}
+
+// The bar fill colour for a row, from its status and kind.
+function fillFor(tg: TypeGuide): string {
+  if (tg.status === 'flag') return FLAG
+  if (tg.status === 'watch') return OVER
+  if (tg.kind === 'build') return tg.status === 'good' ? GOOD : BUCKET_META[tg.bucket].tone
+  return BUCKET_META[tg.bucket].tone
 }
 
 export default function BalanceReport({ report }: { report: ParentReport }) {
-  const { childName, bandLabel, totalWeekMins, healthyWeekMins, status, buckets, offscreen, guidance } = report
+  const { childName, bandLabel, totalWeekMins, healthyWeekMins, status, topState, buckets, offscreen } = report
   const name = childName && childName !== 'Your child' ? childName : 'Your child'
 
-  // One row per type, always all four, each carrying its own used total and the
-  // healthy guide for this age, so a type not used yet still shows its limit.
   const usedByBucket = new Map(buckets.map(b => [b.bucket, b]))
   const rows = report.typeGuides.map(tg => ({ tg, summary: usedByBucket.get(tg.bucket) ?? null }))
+  const keepRows = rows.filter(r => r.tg.kind === 'keep')
+  const buildRows = rows.filter(r => r.tg.kind === 'build')
 
-  // Shared scale across every bar: the biggest of any type's used or guide, so
-  // the used fill and the guide marker are comparable line to line.
-  const scale = Math.max(
-    1,
-    ...rows.map(r => Math.max(r.tg.recommendedWeekMins, r.summary?.minutes ?? 0)),
-  ) * 1.08
+  // Shared scale across every bar, so the used fill and the guide marker are
+  // comparable line to line.
+  const scale = Math.max(1, ...rows.map(r => Math.max(r.tg.recommendedWeekMins, r.summary?.minutes ?? 0))) * 1.08
 
   const over = status === 'over' || status === 'well_over'
   const dailyGuideMins = Math.round(healthyWeekMins / 7)
   const totalDailyAvg = Math.round(totalWeekMins / 7)
+  const showAction = topState.tone === 'flag' || topState.tone === 'watch' || topState.tone === 'grow'
 
-  // On track is the quiet win a parent rarely gets told they earned: a week
-  // inside the guide. When it lands, the closing star gives a small, warm
-  // celebration, a pop and a ring of sparkles, so the good week feels like one
-  // rather than reading the same as an over week in a different colour. Only
-  // then, and never for an over week, and never against reduced motion.
-  const onTrack = !over
+  // On a good week the top state emblem gives a small, warm pop, so a balanced
+  // week feels earned rather than reading the same as a flagged one in another
+  // colour. Never against reduced motion.
+  const good = topState.tone === 'good'
   const starRef = useRef<HTMLSpanElement>(null)
-  const glowRef = useRef<HTMLSpanElement>(null)
-  const sparkRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    if (!onTrack) return
+    if (!good || !starRef.current) return
     if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const el = starRef.current
     const ctx = gsap.context(() => {
-      if (starRef.current) {
-        gsap.fromTo(starRef.current, { scale: 0.5, rotate: -14 },
-          { scale: 1, rotate: 0, duration: 0.8, ease: 'elastic.out(1, 0.55)', delay: 0.1 })
-      }
-      if (glowRef.current) {
-        gsap.fromTo(glowRef.current, { scale: 0.6, opacity: 0.7 },
-          { scale: 2, opacity: 0, duration: 1.1, ease: 'power2.out', delay: 0.1, repeat: 1, repeatDelay: 0.15 })
-      }
-      const sparks = sparkRef.current ? Array.from(sparkRef.current.children) : []
-      sparks.forEach((el, i) => {
-        const angle = (i / sparks.length) * Math.PI * 2 - Math.PI / 2
-        const dist = 24
-        gsap.set(el, { x: 0, y: 0, scale: 0, opacity: 1 })
-        gsap.to(el, { x: Math.cos(angle) * dist, y: Math.sin(angle) * dist, scale: 1, duration: 0.5, ease: 'power2.out', delay: 0.22 + i * 0.03 })
-        gsap.to(el, { opacity: 0, scale: 0.3, duration: 0.45, ease: 'power1.in', delay: 0.55 + i * 0.03 })
-      })
+      gsap.fromTo(el, { scale: 0.5, rotate: -14 }, { scale: 1, rotate: 0, duration: 0.8, ease: 'elastic.out(1, 0.55)', delay: 0.1 })
     })
     return () => ctx.revert()
-  }, [onTrack])
+  }, [good])
 
   const card: React.CSSProperties = {
     background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
@@ -85,144 +90,142 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   }
   const cardTitle: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.13em',
-    textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 14,
+    textTransform: 'uppercase', color: 'var(--ink-muted)',
+  }
+  const groupTitle: React.CSSProperties = {
+    fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 800, letterSpacing: '0.1em',
+    textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '4px 0 12px',
+  }
+
+  const top = TOP_TONE[topState.tone]
+
+  const renderRow = ({ tg, summary }: { tg: TypeGuide; summary: BucketSummary | null }) => {
+    const used = summary?.minutes ?? 0
+    const guideWeek = tg.recommendedWeekMins
+    const usedDaily = Math.round(used / 7)
+    const guideDaily = tg.recommendedDailyMins
+    const usedPct = Math.min(100, (used / scale) * 100)
+    const guidePct = guideWeek > 0 ? Math.min(100, (guideWeek / scale) * 100) : 0
+    const pill = pillFor(tg)
+    const fill = fillFor(tg)
+
+    const guideText = tg.kind === 'build'
+      ? `aim ${fmtMins(Math.max(1, guideDaily))} a day plus`
+      : guideDaily > 0 ? `guide ${fmtMins(guideDaily)} a day` : `keep near zero at this age`
+
+    let foot: string
+    if (tg.kind === 'build') {
+      foot = tg.status === 'good' ? `${fmtMins(used)} this week` : `Only ${fmtMins(used)} this week. A quick win is one making or learning thing.`
+    } else if (guideDaily <= 0) {
+      foot = used > 0 ? `${fmtMins(used)} this week, best kept near zero for ${bandLabel}` : `None this week, which is right for ${bandLabel}`
+    } else {
+      foot = `${fmtMins(used)} of ${fmtMins(guideWeek)} this week`
+    }
+
+    return (
+      <div key={tg.bucket} style={{ marginBottom: 16 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, marginBottom: 5 }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, color: 'var(--ink)' }}>{tg.emoji} {tg.label}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: pill.fg, background: pill.bg, padding: '4px 8px', borderRadius: 100, flexShrink: 0 }}>{pill.label}</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8, marginBottom: 6, fontFamily: 'var(--font-mono)', fontSize: 13.5, fontWeight: 700 }}>
+          <span style={{ color: pill.fg }}>{name}: {fmtMins(usedDaily)} a day</span>
+          <span style={{ color: 'var(--ink-muted)' }}>{guideText}</span>
+        </div>
+        <div style={{ position: 'relative', height: 18, background: 'var(--cream)', borderRadius: 8 }}>
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.max(used > 0 ? 3 : 0, usedPct)}%`, borderRadius: 8, background: fill }} />
+          {guidePct > 0 && <div style={{ position: 'absolute', top: -3, bottom: -3, left: `${guidePct}%`, width: 0, borderLeft: `2px dashed ${OVER}`, zIndex: 2 }} />}
+        </div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ink-muted)', fontWeight: 700, marginTop: 5 }}>
+          {foot}
+          {summary && summary.devices.length > 1 && (
+            <span style={{ color: 'var(--ink-soft)' }}>{'  ·  '}{summary.devices.map(d => `${d.device} ${fmtMins(d.minutes)}`).join('  ·  ')}</span>
+          )}
+        </div>
+      </div>
+    )
   }
 
   return (
     <div>
-      {/* Per type: used against the healthy guide for this age, marked on each bar */}
-      <div style={card}>
-        <div style={cardTitle}>{name}&apos;s screen time this week</div>
-
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 8, flexWrap: 'wrap' }}>
-            <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--ink-soft)', fontWeight: 700 }}>
-              <i style={{ width: 16, height: 0, borderTop: `2px dashed ${OVER}`, display: 'inline-block' }} /> Healthy guide
-            </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ink-muted)', fontWeight: 700 }}>Ages {bandLabel}</span>
-          </div>
-          {/* The number in plain words, day and week, why it is a guide not a
-              cap, and that the average across the week is what matters. The
-              research it draws on is listed below, open on the page not a hover,
-              so a parent on a phone can see exactly where it comes from. */}
-          <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-            For age {bandLabel} we steer at about <b style={{ color: 'var(--ink)' }}>{fmtMins(dailyGuideMins)} a day</b> of recreational screen, around <b style={{ color: 'var(--ink)' }}>{fmtMins(healthyWeekMins)} a week</b>. That is our number, drawn from the bodies below and set at the cautious end of them, not a figure they all agree on. The dashed line marks it on each bar, and the coloured bar is what we have recorded. It is an average to aim at, not a limit: a day over is fine when the week balances out.
-          </p>
-          <details style={{ marginTop: 9 }}>
-            <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-              Where this guide comes from ›
-            </summary>
-            <ul style={{ margin: '9px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
-              {SCREEN_GUIDE_SOURCES.map(src => (
-                <li key={src.body} style={{ fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.45 }}>
-                  <b style={{ color: 'var(--ink)' }}>{src.body}</b> ({src.year}): {src.note}
-                </li>
-              ))}
-            </ul>
-            <p style={{ fontSize: 13, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0' }}>
-              The bodies stop short of one universal number for school age and up, so this is a calibrated steer for the age, not a hard rule. What screens crowd out, sleep, movement and real play, matters more than the clock.
-            </p>
-          </details>
+      {/* One glanceable state for the whole child, read before any bars. */}
+      <div style={{ ...card, background: top.bg, border: `1.5px solid ${top.border}`, display: 'flex', gap: 13, alignItems: 'flex-start' }}>
+        <span ref={starRef} style={{ width: 44, height: 44, flexShrink: 0, borderRadius: 14, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, boxShadow: '0 2px 0 rgba(26,26,46,0.06)' }}>{top.emoji}</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, color: 'var(--ink)', lineHeight: 1.25 }}>{topState.label}</div>
+          <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 0' }}>{topState.sub}</p>
         </div>
-
-        {rows.map(({ tg, summary }) => {
-          const used = summary?.minutes ?? 0
-          const guide = tg.recommendedWeekMins
-          const usedDaily = Math.round(used / 7)
-          const guideDaily = tg.recommendedDailyMins
-          const usedPct = Math.min(100, (used / scale) * 100)
-          const guidePct = Math.min(100, (guide / scale) * 100)
-          const s = TYPE_STATUS[tg.status]
-          const barOver = used > guide
-          return (
-            <div key={tg.bucket} style={{ marginBottom: 18 }}>
-              {/* Type header: name on the left, the status for the age on the right */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, marginBottom: 6 }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)' }}>
-                  {tg.emoji} {tg.label}
-                </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: s.fg, background: s.bg, padding: '4px 8px', borderRadius: 100, flexShrink: 0 }}>
-                  {s.label}
-                </span>
-              </div>
-
-              {/* The plain daily read, the one a parent grasps at a glance: what
-                  the child averaged a day set beside the recommended a day. */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8, marginBottom: 6, fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700 }}>
-                <span style={{ color: s.fg }}>{name}: {fmtMins(usedDaily)} a day</span>
-                <span style={{ color: 'var(--ink-muted)' }}>guide {fmtMins(guideDaily)} a day</span>
-              </div>
-
-              {/* The bar: this week's minutes under the dashed weekly guide marker */}
-              <div style={{ position: 'relative', height: 20, background: 'var(--cream)', borderRadius: 8 }}>
-                <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.max(used > 0 ? 3 : 0, usedPct)}%`, borderRadius: 8, background: barOver ? OVER : BUCKET_META[tg.bucket].tone }} />
-                <div style={{ position: 'absolute', top: -3, bottom: -3, left: `${guidePct}%`, width: 0, borderLeft: `2px dashed ${OVER}`, zIndex: 2 }} />
-              </div>
-
-              {/* The full week: recorded against the recommended week, and the per
-                  device split when a type has more than one device in it. */}
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, color: 'var(--ink-muted)', fontWeight: 700, marginTop: 5 }}>
-                This week {fmtMins(used)} of {fmtMins(guide)} recommended
-                {summary && summary.devices.length > 1 && (
-                  <span style={{ color: 'var(--ink-soft)' }}>
-                    {'  ·  '}
-                    {summary.devices.map(d => `${d.device} ${fmtMins(d.minutes)}`).join('  ·  ')}
-                  </span>
-                )}
-              </div>
-            </div>
-          )
-        })}
-
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 4, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
-          <b style={{ fontSize: 16.5, fontWeight: 900, color: 'var(--ink)' }}>Total this week</b>
-          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 14.5, color: over ? OVER : GOOD }}>
-            {fmtMins(totalWeekMins)} of {fmtMins(healthyWeekMins)} healthy
-          </span>
-        </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, color: 'var(--ink-muted)', textAlign: 'right', marginTop: 3 }}>
-          about {fmtMins(totalDailyAvg)} a day of {fmtMins(dailyGuideMins)} a day recommended
-        </div>
-        <p style={{ fontSize: 14, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '10px 0 0' }}>
-          A steer for their age, never a hard cap. What screens crowd out, sleep, movement and real play, matters more than the clock.
-        </p>
       </div>
+
+      {/* The detail: screen types split into keep in check and build up. */}
+      <div style={card}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
+          <div style={cardTitle}>{name}&apos;s week by type</div>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, color: 'var(--ink-muted)', fontWeight: 700 }}>Ages {bandLabel} · about {fmtMins(dailyGuideMins)} a day</span>
+        </div>
+
+        <div style={groupTitle}>Keep in balance</div>
+        {keepRows.map(renderRow)}
+
+        <div style={{ ...groupTitle, marginTop: 18 }}>Build up</div>
+        {buildRows.map(renderRow)}
+
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 6, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
+          <b style={{ fontSize: 16, fontWeight: 900, color: 'var(--ink)' }}>Total this week</b>
+          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 14, color: over ? OVER : GOOD }}>{fmtMins(totalWeekMins)} of {fmtMins(healthyWeekMins)} healthy</span>
+        </div>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', textAlign: 'right', marginTop: 3 }}>
+          about {fmtMins(totalDailyAvg)} a day of {fmtMins(dailyGuideMins)} a day guide
+        </div>
+
+        <details style={{ marginTop: 12 }}>
+          <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            Where this guide comes from ›
+          </summary>
+          <ul style={{ margin: '9px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
+            {SCREEN_GUIDE_SOURCES.map(src => (
+              <li key={src.body} style={{ fontSize: 13, color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+                <b style={{ color: 'var(--ink)' }}>{src.body}</b> ({src.year}): {src.note}
+              </li>
+            ))}
+          </ul>
+          <p style={{ fontSize: 12.5, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0' }}>
+            A steer for the age, never a hard cap. What screens crowd out, sleep, movement and real play, matters more than the clock.
+          </p>
+        </details>
+      </div>
+
+      {/* Guide the child onward: one tap to a real world activity, shown only
+          when the week actually needs a nudge. */}
+      {showAction && (
+        <div style={{ ...card, background: 'var(--terracotta-lt)', border: '1.5px solid #F1E4BE' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, color: 'var(--ink)', marginBottom: 4 }}>
+            {topState.tone === 'grow' ? `A quick way to top up ${name}'s making time` : `Bring the week back into balance`}
+          </div>
+          <p style={{ fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+            The steadiest fix is not less screen, it is more of the other thing. Point {name} at one real world win and the balance follows.
+          </p>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <a href="/dashboard/quests" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14, color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '9px 14px', textDecoration: 'none', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Set a quest</a>
+            <a href="/dashboard/quests/crafts" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14, color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '9px 14px', textDecoration: 'none', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Print something to make</a>
+          </div>
+        </div>
+      )}
 
       {/* Off screen against on screen: the real world total for the week set
           beside the screen total, so the balance reads at a glance. */}
-      <div style={{ ...card, background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF' }}>
+      <div style={{ ...card, marginBottom: 0, background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF' }}>
         <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
           <span style={{ width: 42, height: 42, flexShrink: 0, borderRadius: 12, background: 'var(--stage-1, #FFFBEE)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>🌟</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: 16.5, lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>
+            <p style={{ fontSize: 16, lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>
               {name} put in <b>{fmtMins(offscreen.minutes)} on jobs, printables and getting outside</b> this week, against <b>{fmtMins(totalWeekMins)} on screen</b>, earning <b>{offscreen.stars} {offscreen.stars === 1 ? 'star' : 'stars'}</b> across <b>{offscreen.activities}</b> real world {offscreen.activities === 1 ? 'win' : 'wins'}.
             </p>
-            <p style={{ fontSize: 14, lineHeight: 1.5, color: 'var(--ink-soft)', margin: '6px 0 0' }}>
+            <p style={{ fontSize: 13.5, lineHeight: 1.5, color: 'var(--ink-soft)', margin: '6px 0 0' }}>
               This counts the offline things that got recorded, jobs done, printables finished and time outside, not their whole day away from a screen.
             </p>
           </div>
         </div>
-      </div>
-
-      {/* One line of guidance. On an on track week the star pops with a ring of
-          sparkles, so the good week is celebrated rather than just noted. */}
-      <div style={{ ...card, marginBottom: 0, background: 'var(--terracotta-lt)', border: '1.5px solid #F1E4BE', display: 'flex', gap: 11, alignItems: 'flex-start' }}>
-        <span style={{ position: 'relative', width: 40, height: 40, flexShrink: 0 }}>
-          {/* The soft glow behind the star, and the sparkles that fly out, both
-              only present on an on track week so an over week stays calm. */}
-          {onTrack && (
-            <>
-              <span ref={glowRef} aria-hidden style={{ position: 'absolute', inset: -6, borderRadius: '50%', background: 'radial-gradient(circle, rgba(237,195,95,0.55), rgba(237,195,95,0))', opacity: 0, pointerEvents: 'none' }} />
-              <div ref={sparkRef} aria-hidden style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <span key={i} style={{ position: 'absolute', left: '50%', top: '50%', width: 6, height: 6, marginLeft: -3, marginTop: -3, borderRadius: '50%', background: '#EDC35F', opacity: 0 }} />
-                ))}
-              </div>
-            </>
-          )}
-          <span ref={starRef} style={{ position: 'relative', zIndex: 1, width: 40, height: 40, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #FFE9A8, #EDC35F)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: '0 3px 0 var(--terracotta-dark)' }}>⭐</span>
-        </span>
-        <p style={{ fontSize: 16, lineHeight: 1.55, color: 'var(--ink)', margin: 0 }}>{guidance}</p>
       </div>
     </div>
   )

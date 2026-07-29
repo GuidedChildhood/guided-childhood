@@ -9,14 +9,14 @@
 // device maps to one of four buckets, inferred from its name for now, with room
 // for a parent set override later.
 
-import { recommendedDailyMinutes, bandLabelFor, screenStatusForAge, statusForGuide, bucketDailyGuide, type ScreenStatus } from '@/lib/quests/screen-balance'
+import { recommendedDailyMinutes, bandLabelFor, screenStatusForAge, bucketDailyGuide, bucketBalanceStatus, BUCKET_KIND, type ScreenStatus, type BucketKind, type BucketStatus } from '@/lib/quests/screen-balance'
 
 export type Bucket = 'gaming' | 'watching' | 'social' | 'learning'
 
 export const BUCKET_META: Record<Bucket, { label: string; emoji: string; tone: string }> = {
   gaming: { label: 'Gaming', emoji: '🎮', tone: '#7CB342' },
   watching: { label: 'Watching', emoji: '📺', tone: '#4C9FD6' },
-  social: { label: 'Social and phone', emoji: '📱', tone: '#9B72CF' },
+  social: { label: 'Social and phone', emoji: '📱', tone: '#C4574D' },
   learning: { label: 'Creating and learning', emoji: '✏️', tone: '#E6B93E' },
 }
 
@@ -45,10 +45,22 @@ export type TypeGuide = {
   bucket: Bucket
   label: string
   emoji: string
+  kind: BucketKind
   recommendedDailyMins: number
   recommendedWeekMins: number
   actualWeekMins: number
-  status: ScreenStatus
+  status: BucketStatus
+}
+
+// The one glanceable state for the whole child, so a parent reads the level in
+// a second before any bars. Priority order, most worth their eye first: a young
+// child on the phone, then over the healthy guide, then a calm week with room
+// to make more, then in balance, then a quiet week.
+export type TopState = {
+  key: 'phone' | 'over' | 'grow' | 'balanced' | 'quiet'
+  label: string
+  tone: 'flag' | 'watch' | 'grow' | 'good' | 'quiet'
+  sub: string
 }
 
 export type ParentReport = {
@@ -57,6 +69,8 @@ export type ParentReport = {
   totalWeekMins: number
   healthyWeekMins: number
   status: ScreenStatus
+  // The single family wall state for the child, read before any detail.
+  topState: TopState
   buckets: BucketSummary[]
   // The recommended amount per device type for this age, all four always
   // present so a parent sees the full picture even for a type not used yet.
@@ -83,6 +97,44 @@ function guidanceFor(status: ScreenStatus, busiest: BucketSummary | null, name: 
   const b = busiest ? busiest.label.toLowerCase() : 'screen time'
   if (status === 'over') return `Screen time is a little over the healthy level, with ${b} the busiest. One screen free evening brings the week back into the green.`
   return `Screen time is well over the healthy level this week, mostly ${b}. A calmer plan for a few days will help ${who} find the balance again.`
+}
+
+// The one glanceable line for the child. Order matters: a young child on the
+// phone is the thing a parent should see first, ahead of a merely busy week.
+function deriveTopState(o: {
+  name: string
+  bandLabel: string
+  weekStatus: ScreenStatus
+  typeGuides: TypeGuide[]
+  totalWeekMins: number
+  offscreenActivities: number
+  busiest: BucketSummary | null
+}): TopState {
+  const who = o.name && o.name !== 'Your child' ? o.name : 'Your child'
+  const social = o.typeGuides.find(t => t.bucket === 'social')
+  const phoneCreeping = !!social && social.recommendedDailyMins <= 0 && social.actualWeekMins > 0
+  const anyKeeperFlag = o.typeGuides.some(t => t.kind === 'keep' && t.status === 'flag')
+  const weekOver = o.weekStatus === 'over' || o.weekStatus === 'well_over'
+  const lowBuilder = o.typeGuides.find(t => t.kind === 'build' && t.status === 'grow')
+
+  if (o.totalWeekMins === 0 && o.offscreenActivities === 0) {
+    return { key: 'quiet', tone: 'quiet', label: 'A quiet week', sub: `Nothing recorded yet this week for ${who}. The balance builds itself again as the quests and screen check ins start flowing.` }
+  }
+  if (phoneCreeping) {
+    return {
+      key: 'phone', tone: 'flag',
+      label: 'Phone is creeping in for their age',
+      sub: `${who} had ${fmtMins(social!.actualWeekMins)} on phone and social this week. At ${o.bandLabel} we keep this near zero, so a quick swap to something hands on is worth it.`,
+    }
+  }
+  if (anyKeeperFlag || weekOver) {
+    const b = o.busiest ? o.busiest.label.toLowerCase() : 'screen time'
+    return { key: 'over', tone: 'watch', label: 'Worth a look this week', sub: `Screen time ran ahead of the healthy guide, mostly ${b}. One swap for a real world thing brings the week back into balance.` }
+  }
+  if (lowBuilder) {
+    return { key: 'grow', tone: 'grow', label: 'In balance, room to make more', sub: `Screen time is healthy for ${o.bandLabel}. ${who} did little making or learning this week, so that is the easy thing to grow.` }
+  }
+  return { key: 'balanced', tone: 'good', label: 'In balance', sub: `A nicely balanced week for ${who}, screen time inside the healthy level for their age with real world time around it.` }
 }
 
 export function buildParentReport(input: ParentReportInput): ParentReport {
@@ -119,19 +171,31 @@ export function buildParentReport(input: ParentReportInput): ParentReport {
   // reads the full picture. Actual weekly minutes come from the bucketed total,
   // and the status compares the daily average of each type to its own guide.
   const typeDaily = bucketDailyGuide(input.ageBand)
-  const typeGuides = BUCKET_ORDER.map(b => {
+  const typeGuides: TypeGuide[] = BUCKET_ORDER.map(b => {
     const meta = BUCKET_META[b]
     const actualWeekMins = byBucket.get(b)?.minutes ?? 0
     const recommendedDailyMins = typeDaily[b]
+    const kind = BUCKET_KIND[b]
     return {
       bucket: b,
       label: meta.label,
       emoji: meta.emoji,
+      kind,
       recommendedDailyMins,
       recommendedWeekMins: recommendedDailyMins * 7,
       actualWeekMins,
-      status: statusForGuide(recommendedDailyMins, Math.round(actualWeekMins / 7)),
+      status: bucketBalanceStatus(kind, recommendedDailyMins, Math.round(actualWeekMins / 7)),
     }
+  })
+
+  const topState = deriveTopState({
+    name,
+    bandLabel: bandLabelFor(input.ageBand),
+    weekStatus: status,
+    typeGuides,
+    totalWeekMins: total,
+    offscreenActivities: Math.max(0, Math.round(input.offscreen?.activities ?? 0)),
+    busiest,
   })
 
   return {
@@ -140,6 +204,7 @@ export function buildParentReport(input: ParentReportInput): ParentReport {
     totalWeekMins: total,
     healthyWeekMins,
     status,
+    topState,
     buckets,
     typeGuides,
     offscreen: {
