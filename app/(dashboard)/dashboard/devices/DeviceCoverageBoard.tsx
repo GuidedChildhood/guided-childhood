@@ -67,16 +67,15 @@ export default function DeviceCoverageBoard({
     isNetwork: true,
   }
 
-  // Age ready devices the family actually has, split into the device layer
-  // and the app layer. Not owned devices drop out of both, so they never
-  // count against coverage. The default household layers (Google safe search,
-  // the smart TV and YouTube) come in whatever the age, so they show by
-  // default like the network row rather than waiting on the age gate.
+  // The apps worth setting at this age. Not owned drops out, so nothing counts
+  // against a family for an app they do not use. The default household layers
+  // (Google safe search, the smart TV and YouTube) come in whatever the age, so
+  // they show like the network row rather than waiting on the age gate.
+  //
+  // The devices themselves used to be built here too. They are now the list
+  // above, which is the whole point of the change.
   const ready = devices.filter(d =>
     (childAge >= d.min_age || DEFAULT_KEYS.has(d.device_key)) && !notOwned.has(d.device_key))
-  const deviceItems: LayerItem[] = ready
-    .filter(d => !APP_KEYS.has(d.device_key))
-    .map(d => ({ key: d.device_key, name: d.name, emoji: d.emoji, why: d.subtitle }))
   const appItems: LayerItem[] = ready
     .filter(d => APP_KEYS.has(d.device_key))
     .map(d => ({ key: d.device_key, name: d.name, emoji: d.emoji, why: d.subtitle }))
@@ -87,10 +86,18 @@ export default function DeviceCoverageBoard({
     .filter(d => notOwned.has(d.device_key))
     .map(d => ({ key: d.device_key, name: d.name, emoji: d.emoji, why: d.subtitle }))
 
+  // The two layers the list of screens above cannot show.
+  //
+  // This used to carry a Your devices layer as well, which meant the page had
+  // the family's own screens in one card, our catalogue in another, and a third
+  // list of the same devices in here, each counting something slightly
+  // different. That is the confusion Justin reported twice. The devices now
+  // live in exactly one place, and this covers what sits under them and on top
+  // of them: the router that protects every screen at once, and the apps that
+  // need their own settings whichever device they are opened on.
   const layers: { label: string; blurb: string; items: LayerItem[] }[] = [
     { label: 'Your home network', blurb: 'Set this first. It protects every screen at once.', items: [network] },
-    { label: 'Your devices', blurb: 'Every screen your family uses, set for their age.', items: deviceItems },
-    { label: 'The apps on them', blurb: 'The apps that need their own settings on top.', items: appItems },
+    { label: 'The apps on them', blurb: 'These need their own settings, on whichever screen they are opened.', items: appItems },
   ].filter(l => l.items.length > 0)
 
   // Coverage across everything shown, and the single next thing to do.
@@ -111,10 +118,10 @@ export default function DeviceCoverageBoard({
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '6px' }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-            Device coverage
+            The other two layers
           </span>
           <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.25rem, 4vw, 1.5rem)', letterSpacing: '-0.03em', lineHeight: 1.12, margin: '3px 0 0' }}>
-            {allDone ? 'Every screen is covered' : 'Every screen, covered'}
+            {allDone ? 'The network and the apps are done' : 'Under your screens, and on top'}
           </h2>
         </div>
         <div style={{ position: 'relative', flexShrink: 0, width: 64, height: 64 }}>
@@ -134,18 +141,16 @@ export default function DeviceCoverageBoard({
       </div>
       <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 6px' }}>
         {allDone
-          ? 'Settings are in place across the network, the devices and the apps. Come back whenever a new device arrives.'
-          : 'Protection works in layers. Set the network first, then each device, then the apps on them.'}
+          ? 'The router is set and the apps have their own settings. Come back whenever a new app turns up.'
+          : 'Protection works in layers. The router underneath every screen at once, and the apps that need setting whichever screen they are opened on.'}
       </p>
-      {/* What the number actually counts.
-          Without this the page showed two different device counts and explained
-          neither: the list above is the screens this family has told us they
-          own, and this ring is SETUP GUIDES for the child's age, which is a
-          different set and a bigger one. A parent who has listed three devices
-          and then reads 2 of 13 has no way to reconcile them, and the natural
-          reading is that we have lost track of their house. */}
+      {/* What the number counts, said plainly.
+          The old version of this card also listed the family's devices, so the
+          page carried two counts that never matched: three screens above and
+          "2 of 13" here. The devices now live in one place, so this ring counts
+          only what is in this card, and says so. */}
       <p style={{ fontSize: '13.5px', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 18px' }}>
-        {done} of {total} {total === 1 ? 'setup' : 'setups'} done. This counts the guides worth doing for a {childAge} year old, the network and the apps included, not the number of screens in your house.
+        {done} of {total} done here. Your screens themselves are the list above, counted separately. These are the {total === 1 ? 'one worth doing' : 'ones worth doing'} for a {childAge} year old.
       </p>
 
       {/* Layers */}

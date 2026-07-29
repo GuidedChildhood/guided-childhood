@@ -3372,3 +3372,50 @@ Running count of that pattern: six. It is the most common defect in this
 codebase by some distance, and it never shows up in a typecheck or a build. The
 check that catches it is asking, of any guard or promise, what would have to be
 true for this to run, and then whether that is ever true.
+
+---
+
+## 29 July 2026 — devices: one list, not two
+
+JP: *"Still a bit unclear on devices it's confusing have 2 lists should it just
+have suggested list of devices by age ave add devices and then they add and set
+settings so it's marked as set then returns to updated list of devices?"*
+
+He was right, and the loop he described is the one the whole category uses.
+
+The page had three things counting devices: his own two screens in one card,
+our twenty six published guides in another, and a coverage ring reading 3 of 26
+that counted a third set again. He had already reported the count mismatch once
+("it says 3 devices sbd cdn see thst but underneath it has device cuversge 2
+out of 13"). Explaining the ring in small print, which is what I did last time,
+treated the symptom. The disease was three lists.
+
+Mobbin first, per CLAUDE.md. Google Home, SmartThings, Roku and Alexa all show
+ONE list, your devices, plus a single add control. Not one shelves a catalogue
+beside it. Alexa puts the suggestions inside the same list as dashed rows, which
+is exactly JP's "suggested list of devices by age". Chime, Deel and Revolut
+answer the other half: status on the row, so you tap it, do it, and come back to
+a row that has changed.
+
+Built: YourScreens. The family's own screens, each with its status on the row
+and its guide inside the row. Mark as set up flips the row, collapses the guide
+and moves the count. Dashed suggestions underneath, age matched, capped at
+three, each addable with a plus and dismissible with a cross. One add control
+carrying the search. The catalogue folded away behind Browse every guide.
+Coverage board keeps only the layers the list cannot show: the network under the
+screens and the apps on top.
+
+The important part: NONE of this needed a migration. family_devices.guide_key
+has pointed at device_guides.device_key all along, and homeSetupCount already
+counted the family's own list. The passport was already honest. Only the devices
+page was telling a different story from its own data.
+
+Worth keeping: when a screen and its data disagree, check which one is wrong
+before building anything. Twice now the fix has been presentation, and twice the
+first instinct was to add explanatory copy. Explaining a confusing screen is a
+tell that the screen is wrong.
+
+Also: my first pass at the suggestion rows put a "We have this" text button
+beside a subtitle, which left the subtitle about ninety pixels to wrap into and
+made every suggestion four lines tall. Caught it on the 390 screenshot before it
+went near JP. The row is now the tap target with a plus at the end.
