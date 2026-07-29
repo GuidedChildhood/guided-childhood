@@ -554,7 +554,14 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           the parent is running one side of a two sided thing and usually does
           not know it, so this says what is missing and where the QR code is.
           It goes for good the moment the child opens their app. */}
-      {!childAppLive && <ChildAppNudge childName={child?.name ?? null} childId={child?.id ?? null} />}
+      {/* A family who has chosen the paper chart is not a family with one
+          thing left to set up. handover_choice already retired the overlay
+          and never reached here, so this card kept asking for ever: the
+          only thing that ends it is the child opening an app they have
+          decided not to give them. */}
+      {!childAppLive && handoverChoice !== 'paper' && (
+        <ChildAppNudge childName={child?.name ?? null} childId={child?.id ?? null} />
+      )}
 
       {/* Year 6 into Year 7. The one card that earns a place near the top
           without being asked for: it happens once, and what a family decides in

@@ -46,7 +46,7 @@ const DOCS = [
   {
     href: '/educator/hub/year-plan', emoji: '🗓️', accent: 'var(--green-dark)',
     title: 'The year at a glance',
-    body: 'Every key stage&rsquo;s modules spread across the three terms. For the staffroom wall and the subject lead&rsquo;s long term plan.',
+    body: 'Every key stage’s modules spread across the three terms. For the staffroom wall and the subject lead’s long term plan.',
   },
   {
     href: '/educator/hub/vocabulary', emoji: '🔤', accent: 'var(--gold-dark)',
