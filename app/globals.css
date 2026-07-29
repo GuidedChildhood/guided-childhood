@@ -8,6 +8,13 @@
   /* ── NEUTRALS ── */
   --white:             #FFFFFF;
   --cream:             #F9F8F6;
+  /* The app page behind white cards. A real step greyer than cream, which at
+     #F9F8F6 is so close to white that a white tile on it has no edge at all.
+     Warm rather than the cool grey FamilyWall uses, so it still sits in our
+     butter palette. Its own token rather than a change to --cream, because
+     cream is the FILL of 300 odd cards and darkening those too would take the
+     contrast straight back out again. */
+  --app-bg:            #F1EFEA;
   --ink:               #1A1A2E;
   --ink-soft:          #52526A;
   --ink-muted:         #8888A0;

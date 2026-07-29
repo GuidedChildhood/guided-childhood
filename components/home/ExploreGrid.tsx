@@ -15,12 +15,20 @@ type Tile = {
   emoji?: string
 }
 
-type Group = { eyebrow: string; tiles: Tile[] }
+type Group = {
+  eyebrow: string
+  tiles: Tile[]
+  /** The drawn icon's colour for this section. */
+  ink: string
+  /** The plate behind it, a pale relative of ink. */
+  plate: string
+}
 
 function groups(scriptHref: string): Group[] {
   return [
     {
       eyebrow: 'Every day',
+      ink: '#C0603A', plate: '#FBEEDF',
       tiles: [
         { href: '/dashboard/moments', label: 'Moments', sub: 'The words for any battle', emoji: '⚡' },
         { href: scriptHref, label: 'Tonight’s script', sub: 'Picked for you today', emoji: '💬' },
@@ -30,6 +38,7 @@ function groups(scriptHref: string): Group[] {
     },
     {
       eyebrow: 'Learn',
+      ink: '#A8475C', plate: '#FBE7EC',
       tiles: [
         { href: '/dashboard/lessons', label: 'Lessons', sub: 'Watch together, five minutes', icon: 'lessons' },
         { href: '/dashboard/printables', label: 'Printables', sub: 'The offline pathway', icon: 'printables' },
@@ -42,6 +51,7 @@ function groups(scriptHref: string): Group[] {
     },
     {
       eyebrow: 'Family',
+      ink: '#2F8F6B', plate: 'var(--tint-green)',
       tiles: [
         { href: '/dashboard/quests', label: 'Family quests', sub: 'Jobs earn stars', icon: 'jobs' },
         { href: '/dashboard/quests#screen-time', label: 'Screen timer', sub: 'Stars buy the minutes', icon: 'time' },
@@ -54,6 +64,7 @@ function groups(scriptHref: string): Group[] {
     },
     {
       eyebrow: 'DiGi and reports',
+      ink: '#2E6F8E', plate: 'var(--tint-blue)',
       tiles: [
         { href: '/dashboard/digi', label: 'Ask DiGi', sub: 'Knows your whole setup', emoji: '⭐' },
         { href: '/dashboard/insights', label: 'DiGi insights', sub: 'What is actually working', emoji: '🔍' },
@@ -73,6 +84,7 @@ function groups(scriptHref: string): Group[] {
       // Justin asked where it was twice, which is the whole answer: if the
       // person who built it cannot find it on his own phone, nobody can.
       eyebrow: 'Your account',
+      ink: '#7A5CC0', plate: '#F1ECFB',
       tiles: [
         { href: '/dashboard/settings', label: 'Settings', sub: 'Your account and your plan', emoji: '⚙️' },
         { href: '/dashboard/settings#children', label: 'Your children', sub: 'Names, ages and birthdays', emoji: '👧' },
@@ -103,11 +115,11 @@ export default function ExploreGrid({ scriptHref = '/dashboard/scripts' }: { scr
                 }}
               >
                 <span style={{
-                  width: 58, height: 58, borderRadius: '13px', background: 'var(--terracotta-lt)',
+                  width: 58, height: 58, borderRadius: '13px', background: g.plate,
                   display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '27px', flexShrink: 0,
                 }}>
                   {t.icon
-                    ? <KidIcon name={t.icon} size={30} color="var(--terracotta-dark)" />
+                    ? <KidIcon name={t.icon} size={30} color={g.ink} />
                     : <span aria-hidden>{t.emoji}</span>}
                 </span>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.2 }}>
