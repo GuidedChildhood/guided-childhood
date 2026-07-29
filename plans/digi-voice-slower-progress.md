@@ -1,4 +1,8 @@
-# DiGi read a little slower: 31 of 100 done, out of credits
+# DiGi read a little slower: DONE, all 100 at -10
+
+Finished 29 July. `lib/content/script-voice.ts` now serves all 100 at
+`speech_rate: -10`. The notes below are kept because the two corrections and
+the real credit rate are worth having the next time a voice batch is run.
 
 JP asked for the Imogen read to be a little bit slower. `seed_audio` takes a
 `speech_rate`, so the pace is a number in the batch rather than a rewrite of
