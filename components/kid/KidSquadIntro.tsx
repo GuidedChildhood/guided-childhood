@@ -66,6 +66,23 @@ function markPlayed(): void {
   } catch { /* private mode, squadIntroDue already says no */ }
 }
 
+// Done: settle this open's answer to no.
+//
+// This is the missing half of the sessionStorage cache above, and without it
+// the intro looped. squadIntroDue writes '1' on the first read of an open and
+// nothing ever wrote '0', so the answer stayed "due" for the whole session. The
+// weekly gate held across DAYS and failed completely within a single visit: a
+// child who opened their app, watched the intro, tapped into a lesson and then
+// tapped Quests to come back got the whole thing again. And again.
+//
+// It has to be here, at the end, rather than in markPlayed at the start. The
+// cache exists precisely so a remount mid play does not yank the intro out from
+// under the child, and marking it done on the first frame would do exactly that.
+// So: '1' while it is playing, '0' once it has finished.
+export function squadIntroFinished(): void {
+  try { sessionStorage.setItem(OPEN_KEY, '0') } catch { /* private mode */ }
+}
+
 type Card = { kind: 'digi' } | { kind: 'friend'; index: number }
 
 export default function KidSquadIntro({
@@ -96,9 +113,25 @@ export default function KidSquadIntro({
   // The week starts the moment it appears.
   useEffect(() => { markPlayed() }, [])
 
+  // Leaving the page counts as done too.
+  //
+  // Otherwise a child who taps away mid intro leaves this open still marked
+  // due, and gets the whole squad again the moment they come back, which is
+  // the same loop by a slightly different road. pagehide rather than unmount,
+  // because a React remount is exactly the case the cache is protecting and
+  // must not settle it.
+  useEffect(() => {
+    const settle = () => squadIntroFinished()
+    window.addEventListener('pagehide', settle)
+    return () => window.removeEventListener('pagehide', settle)
+  }, [])
+
   function finish() {
     if (timer.current) clearTimeout(timer.current)
     try { localStorage.setItem(SEEN_KEY, '1') } catch { /* private mode */ }
+    // Settle this open, so coming back to the home screen from a lesson does
+    // not play the whole squad again. See squadIntroFinished.
+    squadIntroFinished()
     onDone()
   }
   function advance() {
