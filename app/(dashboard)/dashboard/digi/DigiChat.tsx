@@ -244,14 +244,14 @@ export default function DigiChat({
     // and release the bottom pin so nothing drags them back down to the old
     // conversation. Everything after this behaves exactly as before.
     if (!openedRef.current && historyCount > 0) {
-      // Two passes. First lay a viewport of space below the line, because
-      // without it the line is the last thing on the page and cannot physically
-      // reach the top. The tail is the same one a new question uses, and it is
-      // trimmed the same way once a real answer fills the space.
+      // Open on the welcome. This used to lay a whole viewport of empty space
+      // below the last message so a fresh start line could reach the top, which
+      // meant the first thing a parent saw on tapping DiGi was a blank screen.
+      // The hero is the top of this column now, so landing at the top IS the
+      // greeting, and no manufactured space is needed to get there.
       openedRef.current = true
       stickRef.current = false
-      setTailSpace(el.clientHeight)
-      wantOpenScroll.current = true
+      el.scrollTop = 0
       return
     }
     openedRef.current = true
@@ -517,17 +517,30 @@ export default function DigiChat({
       {/* Messages */}
       <div ref={scrollRef} onScroll={onMessagesScroll} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: '#fff' }}>
 
+        {/* The front door, every time the tab is opened, not only on a first
+            ever visit.
+
+            It used to render only when there were NO messages, so the moment a
+            family had any history at all, opening DiGi dropped them into an old
+            conversation with no greeting and no idea what to do. Worse, the
+            open behaviour laid a full viewport of blank space below the last
+            message to push a fresh start line to the top, so what a parent
+            actually met was a blank screen. Justin: "this is confusing, it
+            should welcome and give instructions like the first page does."
+
+            So the hero sits above the thread now. Open DiGi and you are
+            greeted and told what this is for; the conversation is underneath,
+            where a conversation belongs. */}
+        <div style={{ margin: '0 -20px 24px' }}>
+          <DigiHero
+            title={<>Let&apos;s make today a little easier.</>}
+            subtitle="I am trained on the research and I get more useful the more you tell me. What is on your mind?"
+            curved={false}
+          />
+        </div>
+
         {messages.length === 0 && (
           <div style={{ paddingTop: '4px' }}>
-            {/* The premium DiGi front door: the same warm hero DiGi opens with
-                everywhere, in our butter and ink. */}
-            <div style={{ margin: '0 -20px 24px' }}>
-              <DigiHero
-                title={<>Let&apos;s make today a little easier.</>}
-                subtitle="I am trained on the research and I get more useful the more you tell me. What is on your mind?"
-                curved={false}
-              />
-            </div>
 
             {stageId && stageName && !deviceSetupDismissed && (
               <div style={{
