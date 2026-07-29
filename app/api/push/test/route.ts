@@ -8,10 +8,29 @@ import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 // so a parent (or Justin) can verify the whole push chain in one tap.
 // Auth is the session, and it can only ever notify the caller.
 
-export async function POST() {
+export async function POST(request: Request) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
+
+  // Which device to test.
+  //
+  // This used to fire at every subscription on the account and the card then
+  // said "Sent. It should appear on this device within seconds." Those are two
+  // different claims. A parent testing on their phone, subscribed only on their
+  // laptop, was told the test had been sent to the phone in their hand while it
+  // actually went to the laptop upstairs. A false pass is worse than a failure
+  // here, because it ends the investigation: push looks proven and the pings
+  // still never come.
+  //
+  // So the caller names its own endpoint and we test only that. No endpoint
+  // still means the whole account, which is what Justin wants when he is
+  // checking the chain end to end rather than one phone.
+  let only: string | null = null
+  try {
+    const body = await request.json().catch(() => null)
+    if (body && typeof body.endpoint === 'string' && body.endpoint) only = body.endpoint
+  } catch { /* no body is fine, that means test everything */ }
 
   // Name exactly which vars are missing so the Vercel fix is unambiguous.
   // Never leak the values, only whether each is present. The public key is
@@ -43,13 +62,23 @@ export async function POST() {
   )
 
   const admin = createAdminClient()
-  const { data: subs } = await admin
+  // Scoped to this user either way, so naming an endpoint can only ever reach a
+  // device that is already this parent's own.
+  let query = admin
     .from('push_subscriptions')
     .select('endpoint, p256dh, auth')
     .eq('user_id', user.id)
+  if (only) query = query.eq('endpoint', only)
+  const { data: subs } = await query
 
   if (!subs?.length) {
-    return NextResponse.json({ sent: 0, reason: 'no subscription on this account yet' })
+    return NextResponse.json({
+      sent: 0,
+      // Distinguished, because the two need completely different advice: turn
+      // it on here, versus turn it on at all.
+      reason: only ? 'this device is not subscribed' : 'no subscription on this account yet',
+      scope: only ? 'device' : 'account',
+    })
   }
 
   const payload = JSON.stringify({

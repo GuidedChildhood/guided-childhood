@@ -51,6 +51,12 @@ export default function PushPrompt({ userId, stage }: Props) {
   // How many devices this ACCOUNT has, which is the question the card was
   // never asking. null means we have not heard back yet, or could not tell.
   const [accountDevices, setAccountDevices] = useState<number | null>(null)
+  // Is THIS browser subscribed? The account count cannot answer it, and it is
+  // the only thing that decides whether this device ever hears a ping.
+  const [thisDevice, setThisDevice] = useState<boolean | null>(null)
+  // This browser's own endpoint, so a test can be aimed at this device rather
+  // than at every device on the account.
+  const [endpoint, setEndpoint] = useState<string | null>(null)
   const [hidden, setHidden] = useState(false)
 
   useEffect(() => {
@@ -62,11 +68,29 @@ export default function PushPrompt({ userId, stage }: Props) {
       const until = raw && raw !== '1' ? Number(raw) : 0
       setHidden(Number.isFinite(until) && until > Date.now())
     } catch { /* private mode, show it */ }
+
     let live = true
-    fetch('/api/push/status')
-      .then(r => r.ok ? r.json() : null)
-      .then(d => { if (live && d && typeof d.devices === 'number') setAccountDevices(d.devices) })
-      .catch(() => { /* unknown, and unknown is not none */ })
+    ;(async () => {
+      // Find this browser's subscription first, so the status question can be
+      // asked about this device and not just about the account.
+      let ep: string | null = null
+      try {
+        if ('serviceWorker' in navigator && 'PushManager' in window) {
+          const reg = await navigator.serviceWorker.getRegistration()
+          const sub = await reg?.pushManager.getSubscription()
+          ep = sub?.endpoint ?? null
+        }
+      } catch { /* no worker yet, which reads as not subscribed here */ }
+      if (!live) return
+      setEndpoint(ep)
+      try {
+        const res = await fetch(`/api/push/status${ep ? `?endpoint=${encodeURIComponent(ep)}` : ''}`)
+        const d = res.ok ? await res.json() : null
+        if (!live || !d) return
+        if (typeof d.devices === 'number') setAccountDevices(d.devices)
+        if (typeof d.thisDevice === 'boolean') setThisDevice(d.thisDevice)
+      } catch { /* unknown, and unknown is not none */ }
+    })()
     return () => { live = false }
   }, [])
 
@@ -75,13 +99,27 @@ export default function PushPrompt({ userId, stage }: Props) {
     try { localStorage.setItem(HIDDEN_KEY, String(Date.now() + HIDDEN_DAYS * 86400000)) } catch { /* gone on the next load, fine */ }
   }
 
-  async function sendTest() {
+  // An explicit endpoint wins over state, because the reset flow subscribes and
+  // tests in one go and the state from that render is still the old value.
+  async function sendTest(target?: string) {
+    const aimed = target ?? endpoint
     setTestResult('Sending...')
     try {
-      const res = await fetch('/api/push/test', { method: 'POST' })
+      // Aimed at THIS device when we know its endpoint, so the sentence below is
+      // true. Without this the test fired at every device on the account and
+      // then claimed the result for the one in your hand.
+      const res = await fetch('/api/push/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(aimed ? { endpoint: aimed } : {}),
+      })
       const data = await res.json()
-      if (data.sent > 0) setTestResult('Sent. It should appear on this device within seconds.')
-      else if (data.reason) setTestResult('No subscription found for this account on any device yet. Tap Turn on check ins first, inside the installed app.')
+      if (data.sent > 0) setTestResult(aimed
+        ? 'Sent to this device. It should appear within seconds.'
+        : 'Sent to every device you have turned this on for. It should appear within seconds.')
+      else if (data.reason) setTestResult(data.scope === 'device'
+        ? 'This device is not turned on yet, so nothing was sent to it. Tap Turn on check ins here.'
+        : 'No subscription found for this account on any device yet. Tap Turn on check ins first, inside the installed app.')
       else if (data.errors?.length) setTestResult(`The push service refused (code ${data.errors[0]})${data.details?.[0] ? `: ${data.details[0]}` : ''}. Tell Claude this whole message.`)
       else setTestResult(data.error ?? 'Something went wrong, try again.')
     } catch {
@@ -165,7 +203,13 @@ export default function PushPrompt({ userId, stage }: Props) {
         return
       }
 
+      // This device is now genuinely subscribed, so record both facts. Without
+      // this the screen would keep showing "on another device, not this one"
+      // immediately after successfully turning it on here.
+      setEndpoint(sub.endpoint)
+      setThisDevice(true)
       setStatus('granted')
+      return sub.endpoint
     } catch (err) {
       // Never die silently: show what actually went wrong so it is fixable
       // rather than a dead button.
@@ -197,8 +241,10 @@ export default function PushPrompt({ userId, stage }: Props) {
         } catch { /* best effort */ }
         await existing.unsubscribe()
       }
-      await enable()
-      setTimeout(sendTest, 600)
+      // Test the endpoint we just minted, not the one from the render that
+      // scheduled this, which is the subscription we deleted a moment ago.
+      const fresh = await enable()
+      setTimeout(() => sendTest(fresh ?? undefined), 600)
     } catch {
       setStatus('denied')
     } finally {
@@ -206,7 +252,16 @@ export default function PushPrompt({ userId, stage }: Props) {
     }
   }
 
-  if (status === 'granted') {
+  // Granted AND actually subscribed on the server.
+  //
+  // The browser saying granted is not the same as us holding a subscription for
+  // it: a reinstall, a cleared cache or an old service worker leaves permission
+  // on with nothing registered, which is the "says on but nothing ever arrives"
+  // state. Showing this branch then claims check ins are working on a device
+  // that no send can reach. thisDevice === false is the only case we exclude,
+  // because null means the lookup did not answer and a failed lookup must not
+  // take a working setup away from a parent.
+  if (status === 'granted' && thisDevice !== false) {
     return (
       <div style={{
         background: 'var(--stage-2)',
@@ -220,7 +275,7 @@ export default function PushPrompt({ userId, stage }: Props) {
           <span style={{ fontSize: '1rem' }}>✓</span>
           <span style={{ flex: 1, minWidth: '180px' }}>Check ins are on. Pick the moments that suit your day.</span>
           <button
-            onClick={sendTest}
+            onClick={() => sendTest()}
             style={{
               background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px',
               padding: '7px 14px', cursor: 'pointer', flexShrink: 0,
@@ -256,34 +311,52 @@ export default function PushPrompt({ userId, stage }: Props) {
   // is a control a parent came looking for, not a nag.
   if (hidden) return null
 
-  // Already on somewhere else. Notification.permission only ever answers for
-  // the browser asking, so a parent who set this up in the installed app on
-  // their phone was being told to do it again, in a bordered IMPORTANT STEP
-  // card, on their laptop, forever. One quiet line instead, which still offers
-  // this device if they want it.
-  if (accountDevices !== null && accountDevices > 0) {
+  // On somewhere else, and NOT here.
+  //
+  // This branch used to end with "Nothing more to do." It was the whole reason
+  // Justin's pings never arrived. Push is per device, so a parent subscribed on
+  // their laptop gets nothing on their phone, and on the phone this card was
+  // confidently telling them the setup was finished. The account count was
+  // right; the conclusion drawn from it was false, and it closed down the one
+  // question that would have found the problem.
+  //
+  // Now it says what is actually true of the device being held, and leads with
+  // turning it on here rather than offering it as an afterthought. Note this
+  // sits BELOW the granted branch, so a device that is properly on still gets
+  // the slot picker and the test rather than this.
+  if (accountDevices !== null && accountDevices > 0 && thisDevice !== true) {
+    const blocked = status === 'denied' || status === 'unsupported'
     return (
       <div style={{
-        background: 'var(--stage-2)', borderRadius: '14px', padding: '12px 16px',
-        display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap',
+        background: 'var(--stage-4)', borderRadius: '14px', padding: '14px 16px',
+        border: '1.5px solid var(--terracotta)',
         fontSize: '.82rem', color: 'var(--ink-soft)', fontWeight: 600,
       }}>
-        <span aria-hidden style={{ fontSize: '1rem' }}>✓</span>
-        <span style={{ flex: 1, minWidth: '180px' }}>
-          Check ins are on, on {accountDevices === 1 ? 'another device' : `${accountDevices} of your devices`}. Nothing more to do.
-        </span>
-        {status !== 'denied' && status !== 'unsupported' && (
+        <p style={{ margin: '0 0 10px', lineHeight: 1.55 }}>
+          Check ins are on for {accountDevices === 1 ? 'another device' : `${accountDevices} of your devices`}, but not this one. Notifications only reach the devices you turn them on for, so this one will stay silent until you do.
+        </p>
+        {!blocked ? (
           <button
             onClick={enable}
             disabled={status === 'asking'}
             style={{
-              background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px',
-              padding: '7px 14px', cursor: status === 'asking' ? 'wait' : 'pointer', flexShrink: 0,
-              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)',
+              background: 'var(--stage-4-bold)', color: 'var(--stage-4-text)', border: 'none',
+              borderRadius: '10px', padding: '9px 16px', cursor: status === 'asking' ? 'wait' : 'pointer',
+              fontFamily: 'var(--font-display)', fontSize: '.78rem', fontWeight: 700,
+              boxShadow: '0 3px 0 rgba(0,0,0,0.12)',
             }}
           >
-            {status === 'asking' ? 'Turning on…' : 'Add this one too'}
+            {status === 'asking' ? 'Turning on...' : 'Turn them on here too'}
           </button>
+        ) : (
+          <p style={{ margin: 0, fontSize: '.76rem', lineHeight: 1.5 }}>
+            {enableError ?? 'Notifications are blocked for this app on this device. Open your phone settings for Guided Childhood and allow notifications, then try again. On iPhone the app has to be added to your Home Screen first.'}
+          </p>
+        )}
+        {enableError && !blocked && (
+          <p style={{ margin: '10px 0 0', fontSize: '.76rem', fontWeight: 600, color: 'var(--terracotta-dark, #a44)', lineHeight: 1.5 }}>
+            {enableError}
+          </p>
         )}
       </div>
     )
