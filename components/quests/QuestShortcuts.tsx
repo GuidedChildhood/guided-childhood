@@ -34,10 +34,13 @@ type Tile = {
 
 const TILES: Tile[] = [
   {
-    // Straight to the child's own list, which is where the add a job button
-    // lives. It used to land at the top of the manager, above two screens of
-    // ideas, which is not what a parent pressing manage jobs came to do.
-    href: '#my-todo', label: 'Manage jobs', sub: 'Add, agree and send',
+    // Its own page now, not a scroll target.
+    //
+    // This was '#my-todo', so pressing Manage jobs scrolled the parent down a
+    // long Quests page to a panel that then had a Close button on it. Justin
+    // twice: "it should clearly goto a new page not scroll". A thing you
+    // navigate to should be somewhere you have gone.
+    href: '/dashboard/quests/manage', label: 'Manage jobs', sub: 'Add, agree and send',
     icon: 'jobs', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#C0603A',
     badge: s => s.ticksToConfirm > 0 ? `${s.ticksToConfirm} waiting` : null,
   },
