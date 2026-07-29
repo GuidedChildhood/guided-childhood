@@ -201,7 +201,12 @@ export default function DeviceList({
                       className="btn btn-outline"
                       style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '15px' }}
                     >
-                      DiGi can walk me through it
+                      {/* Short enough to keep its padding. The full sentence
+                          needed about 190px of the 115px a half width button
+                          leaves after .btn's 28px sides, so the words ran to
+                          the edges and the pair stopped looking like a pair.
+                          The question it sends is still the full one. */}
+                      Ask DiGi to help
                     </Link>
                   </div>
 
