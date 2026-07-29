@@ -7,6 +7,8 @@ import RightNowButton from '@/components/rightnow/RightNowButton'
 import InstallPrompt from '@/components/pwa/InstallPrompt'
 import AppBadge from '@/components/pwa/AppBadge'
 import SetupNextBar from '@/components/setup/SetupNextBar'
+import BackToToday from '@/components/home/BackToToday'
+import { Suspense } from 'react'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -81,6 +83,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Clear the fixed bottom bar and the phone's own home indicator, so the
           last card on a page is never tucked under the tabs. */}
       <main style={{ flex: 1, paddingBottom: 'calc(88px + env(safe-area-inset-bottom))' }}>
+        {/* The way back from a welcome card action, above the page it sent them
+            to. One place for every destination. useSearchParams needs the
+            boundary, and the bar is nothing until the param is there anyway. */}
+        <Suspense fallback={null}><BackToToday /></Suspense>
         {children}
       </main>
 

@@ -1,4 +1,9 @@
-import type { StickerState } from '@/lib/stickers/book'
+import type { StickerRule } from '@/lib/stickers/catalog'
+
+// Typed to the three fields this actually reads rather than the whole
+// StickerState, so the child's book can render the same badge without carrying
+// the parent's progress counters. StickerState still satisfies it.
+export type BadgeShape = { rule: StickerRule; earned: boolean; colour: string }
 
 // The badge stickers, drawn rather than borrowed.
 //
@@ -25,7 +30,7 @@ function Star({ size, fill, stroke }: { size: number; fill: string; stroke: stri
   )
 }
 
-export default function StickerBadge({ s, size = 54 }: { s: StickerState; size?: number }) {
+export default function StickerBadge({ s, size = 54 }: { s: BadgeShape; size?: number }) {
   const n = s.rule.n
   const earned = s.earned
   // Earned is the colour filled in. Locked is the same shape in outline, so the

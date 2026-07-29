@@ -201,7 +201,7 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
   // migration 109.
   const stickerBook = await getStickerBook(supabase, link.user_id, { id: link.child_id, age_band: ageBand })
   const kidStickers = stickerBook.stickers.map(s => ({
-    key: s.key, name: s.name, emoji: s.emoji, art: stickerArt(s), colour: s.colour, earned: s.earned,
+    key: s.key, name: s.name, emoji: s.emoji, art: stickerArt(s), colour: s.colour, earned: s.earned, rule: s.rule,
   }))
   let celebrateKeys: string[] = []
   {

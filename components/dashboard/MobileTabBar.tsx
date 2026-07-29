@@ -123,7 +123,20 @@ export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number
             key={tab.href}
             href={tab.href}
             prefetch
-            onClick={() => setPending(tab.href)}
+            onClick={e => {
+              // Tapping the tab you are already on scrolls back to the top,
+              // the way every app with a tab bar behaves. Next does nothing at
+              // all for a link to the current route, so Home was a dead tap
+              // once a parent had scrolled down, which is exactly when they
+              // reach for it.
+              if (tab.href === active) {
+                e.preventDefault()
+                const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+                window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })
+                return
+              }
+              setPending(tab.href)
+            }}
             className={`tab-item${isActive ? ' active' : ''}`}
             style={{ textDecoration: 'none' }}
             aria-current={isActive ? 'page' : undefined}

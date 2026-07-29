@@ -27,12 +27,40 @@ serves the full set of 100 at the original pace, because a map that was 31 slow
 and 69 normal would trade one inconsistency for another, and consistency of
 voice is the whole reason the Imogen batch was made in the first place.
 
+## Two corrections, found the hard way on the resume
+
+**Imogen is a `preset`, not an `element`.** The id below is right, but the first
+resume call passed `voice_type: 'element'` as this file implied and got back a
+flat `400 Voice not found`. `list_voices` is the authority: Imogen is
+`voice_type: 'preset'`, id `3811e986-0891-47cf-a1f5-78a1d62a547a`.
+
+**The real rate is 1.70 credits a line, not 1.2.** Measured on the resume by
+reading the balance either side of a single generation: 200.87 to 199.17. So
+the preflight quote of 0.2 is out by roughly EIGHT times, not six, and the full
+69 costs about 117 credits rather than the 85 estimated below. Budget from 1.70
+and check the balance before starting.
+
+**It rate limits harder than four at a time suggests.** Firing back to back
+without pauses returned `429 rate_limit_reached` after about twenty lines. Leave
+a real gap between batches rather than relying on the concurrency number.
+
 ## Resuming
 
 The 31 below are generated, paid for and live on the CDN. Top the workspace up,
 generate the sort orders listed under Still to generate at Imogen
-(`voice_id` 3811e986-0891-47cf-a1f5-78a1d62a547a) with `speech_rate: -10` and
-`format: wav`, then replace the whole map in one go.
+(`voice_id` 3811e986-0891-47cf-a1f5-78a1d62a547a, `voice_type: 'preset'`) with
+`speech_rate: -10` and `format: wav`, then replace the whole map in one go.
+
+To find out what a part finished run already did, call `show_generations` with
+`type: 'audio'` and match on the prompt text. Every generation carries its
+prompt back, and the prompt is the `say_this` column, so nothing needs to be
+tracked by hand while a batch is in flight.
+
+The `say_this` text is best read from the DATABASE rather than the seed files:
+`select sort_order, title, say_this from scripts`. Checked on 28 July, there are
+ZERO duplicate sort_orders in the live table, so the warning below about
+matching on title rather than sort_order no longer applies to current data.
+Matching on sort_order is safe.
 
 The generator rate limits at about four concurrent, so batch four at a time with
 roughly twenty seconds between.

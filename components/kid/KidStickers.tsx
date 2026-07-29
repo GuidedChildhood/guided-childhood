@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { playKidSound } from '@/lib/sound/kidSounds'
+import StickerBadge from '@/components/pathway/StickerBadge'
+import type { StickerRule } from '@/lib/stickers/catalog'
 
 // The child's own sticker book, at the foot of their path. The collection fills
 // up as they earn stars, finish printables and grow, earned bright and locked
@@ -17,6 +19,10 @@ export type KidSticker = {
   art?: string | null
   colour: string
   earned: boolean
+  // What the badge draws. The parent book stopped using emoji for these and the
+  // child book did not, so the person the stickers are actually FOR was the one
+  // still getting them.
+  rule: StickerRule
 }
 
 function Tile({ s }: { s: KidSticker }) {
@@ -32,10 +38,14 @@ function Tile({ s }: { s: KidSticker }) {
         {s.earned && s.art ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={s.art} alt={s.name} width={60} height={60} style={{ width: 60, height: 60, objectFit: 'contain' }} />
-        ) : s.earned ? (
-          <span aria-hidden style={{ fontSize: '34px', lineHeight: 1 }}>{s.emoji}</span>
+        ) : s.art ? (
+          // A locked Planet Friend keeps its shape, greyed, so a child can see
+          // WHO is waiting for them rather than a question mark that could be
+          // anybody. The mystery was hiding the reason to carry on.
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={s.art} alt="" aria-hidden width={60} height={60} style={{ width: 60, height: 60, objectFit: 'contain', filter: 'grayscale(1)', opacity: 0.35 }} />
         ) : (
-          <span aria-hidden style={{ fontSize: '28px', lineHeight: 1, color: 'var(--ink-muted)', fontWeight: 900 }}>?</span>
+          <StickerBadge s={s} size={56} />
         )}
       </div>
       <span style={{ fontSize: '13px', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.1 }}>

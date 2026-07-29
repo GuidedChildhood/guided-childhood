@@ -267,6 +267,9 @@ export default function SettingsPage() {
       {/* Children: every child in the family, each with their own details.
           The birthday is the growing up switch: once set, the band and stage
           derive from it daily and the hand picked band below steps back. */}
+      {/* Anchored so Everything else can land straight on the children,
+          which is what a parent means by "child details". */}
+      <div id="children" style={{ scrollMarginTop: 84 }} />
       {kids.map(kid => {
         const form = forms[kid.id]
         if (!form) return null
@@ -437,7 +440,7 @@ export default function SettingsPage() {
       <YourAgreements joinedAt={profile?.created_at ?? null} consentAt={profile?.wellbeing_consent_at ?? null} />
 
       {/* Sign out */}
-      <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
+      <section id="sign-out" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
         <h2 style={{ fontSize: '1rem', marginBottom: '6px', color: 'var(--ink)' }}>Sign out</h2>
         <p style={{ fontSize: '16px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
           You will be signed out on this device.

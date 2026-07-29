@@ -52,6 +52,16 @@ export const STICKERS: Sticker[] = [
 ]
 
 // The full colour art for a Planet Friend sticker, or null for a badge.
+//
+// The CUTOUT, not the img. A sticker is a thing peeled off a sheet and stuck
+// down, so it has to float with no background of its own. img is the character
+// standing on a finished scene, and dropping that into a 64px circle put a
+// rectangle of background inside a round frame on every Planet Friend sticker,
+// in the parent book and the child one.
+//
+// cutout exists for exactly this and every other child facing surface already
+// uses it: KidRoad, KidSquadIntro, StreakBar, CoinsView, KidQuestScreen and
+// BalanceInsight. The sticker book was the only one that did not.
 export function stickerArt(s: Sticker): string | null {
-  return s.friendKey ? (characterByKey(s.friendKey)?.img ?? null) : null
+  return s.friendKey ? (characterByKey(s.friendKey)?.cutout ?? null) : null
 }

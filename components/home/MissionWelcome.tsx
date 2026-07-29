@@ -5,7 +5,7 @@ import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import HandoverPrompt, { type HandoverChild } from '@/components/home/HandoverPrompt'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
-import { pickWelcomeCards, type WelcomeCard } from '@/lib/home/welcome-cards'
+import { pickWelcomeCards, cardAction, type WelcomeCard } from '@/lib/home/welcome-cards'
 import type { SetupFlags } from '@/lib/setup/steps'
 
 // The welcome when the app opens. Duolingo does this right: welcome back, one
@@ -193,6 +193,8 @@ export default function MissionWelcome({
   if (!cards || cards.length === 0) return null
   const card = cards[step]
   const isLast = step === cards.length - 1
+  // Where this card's doing button goes, or null if it has no destination.
+  const action = cardAction(card)
 
   const close = () => {
     if (openDecision) openDecision.dismissed = true
@@ -281,6 +283,34 @@ export default function MissionWelcome({
           </p>
         </div>
 
+        {/* Do it, ask about it, or move on.
+
+            The hello used to offer the conversation and nothing else, which is
+            right for understanding a service and useless for actually having
+            one. A parent who reads "add PE kit once and the week reminds you
+            both" wants to add PE kit, and was being handed a chat about it.
+
+            So the doing leads, and it carries ?from=welcome, which is what the
+            Back to today bar in the dashboard layout reads. Set the thing up,
+            then one tap returns to the day rather than leaving a parent parked
+            on a settings page wondering where the pathway went. */}
+        {action && (
+          <div style={{ padding: '12px 18px 0' }}>
+            <Link
+              href={`${action}${action.includes('?') ? '&' : '?'}from=welcome`}
+              onClick={close}
+              style={{
+                display: 'block', textAlign: 'center', padding: '13px 10px', textDecoration: 'none',
+                background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 16,
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+                boxShadow: '0 4px 0 var(--terracotta-dark)',
+              }}
+            >
+              {card.setup ? 'Set this up now' : 'Take me there'}
+            </Link>
+          </div>
+        )}
+
         {/* One tap in, one tap past, and the way past is never hidden. */}
         <div style={{ display: 'flex', gap: 8, padding: '12px 18px 18px' }}>
           <Link
@@ -288,9 +318,11 @@ export default function MissionWelcome({
             onClick={close}
             style={{
               flex: 1, textAlign: 'center', padding: '13px 10px', textDecoration: 'none',
-              background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 16,
+              background: action ? '#fff' : 'var(--terracotta)',
+              color: 'var(--ink)', borderRadius: 16,
+              border: action ? '1.5px solid var(--border)' : 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
-              boxShadow: '0 4px 0 var(--terracotta-dark)',
+              boxShadow: action ? 'none' : '0 4px 0 var(--terracotta-dark)',
             }}
           >
             Ask DiGi this
