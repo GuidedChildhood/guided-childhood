@@ -72,6 +72,9 @@ export default function QuestManager() {
   // two jobs edited quickly never show each other's tick.
   const [saveState, setSaveState] = useState<Record<string, SaveState>>({})
   const [quests, setQuests] = useState<Quest[]>([])
+  // Jobs this family has used before and turned off. Their own history, so
+  // putting one back is a tap rather than typing it out from memory.
+  const [previous, setPrevious] = useState<Quest[]>([])
   const [goals, setGoals] = useState<Goal[]>([])
   // Finished goals the parent has cleared off the panel. The reward stays
   // recorded server side (DiGi still remembers it), this just stops the earned
@@ -86,7 +89,11 @@ export default function QuestManager() {
   // only way to write a job used to be a lone input far below the ideas grid,
   // so a parent who arrived wanting to add one thing had to scroll past two
   // screens of suggestions to find the box. The obvious button is up here now.
-  const [addOpen, setAddOpen] = useState(false)
+  // Open. Manage jobs exists to add a job, and it used to land on the list
+  // with the only visible action being Done, so adding one meant finding and
+  // pressing a button first. Justin: "should they goto first add a job or
+  // routine". The list is still right underneath.
+  const [addOpen, setAddOpen] = useState(true)
   const [goalTitle, setGoalTitle] = useState('')
   const [goalStars, setGoalStars] = useState('20')
   const [dailyStars, setDailyStars] = useState('')
@@ -280,6 +287,7 @@ export default function QuestManager() {
       const data = await res.json()
       setChildren(data.children ?? [])
       setQuests(data.quests ?? [])
+      setPrevious(data.previous ?? [])
       setGoals(data.goals ?? [])
       setTicks(data.ticks ?? [])
       setLinks(data.links ?? [])
@@ -1243,6 +1251,13 @@ export default function QuestManager() {
                         would be a plain untruth. */}
                     ✅ {outstanding > 0 ? `Confirm ${outstanding} done` : 'Nothing to confirm'}
                   </button>
+                  {/* The whole list, named and counted. It has always been
+                      down there, but the only pill that reached it was the
+                      confirm queue, so "show me every job we have" had no
+                      button of its own. */}
+                  <button type="button" onClick={() => go('jobs-list')} style={pill}>
+                    📋 All {childQuests.length} job{childQuests.length === 1 ? '' : 's'}
+                  </button>
                   <button type="button" onClick={() => go('routines')} style={pill}>
                     🌅 Add a routine
                   </button>
@@ -1260,10 +1275,61 @@ export default function QuestManager() {
                     out "one hour of outside play" when we already have it is
                     work we invented. Play first, because play pays the most
                     stars and is the job families most often forget counts. */}
+                {/* Their own jobs first, before our ideas.
+                    Removing a job only sets active false, so the app was
+                    already holding every job this family has ever used and
+                    never once offered them back. A parent who took reading off
+                    over the summer had to retype it in September. Nothing here
+                    is new data, it is data we were sitting on.
+                    This is also the honest version of "run the same as
+                    yesterday": the board already repeats daily on its own
+                    schedule, so the only thing that ever needs putting back is
+                    what somebody turned off. */}
+                {(() => {
+                  const mine = previous.filter(q => q.child_id === activeChild || q.child_id === null)
+                  if (mine.length === 0) return null
+                  return (
+                    <>
+                      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: '8px', flexWrap: 'wrap' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+                          You have used these before
+                        </span>
+                        {mine.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => { mine.forEach(q => addQuest({ title: q.title, emoji: q.emoji, stars: q.stars, schedule: q.schedule })) }}
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)' }}
+                          >
+                            Put all {mine.length} back
+                          </button>
+                        )}
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '7px', marginBottom: '12px' }}>
+                        {mine.slice(0, 10).map(q => (
+                          <button
+                            key={q.id}
+                            onClick={() => addQuest({ title: q.title, emoji: q.emoji, stars: q.stars, schedule: q.schedule })}
+                            style={{
+                              display: 'flex', alignItems: 'center', gap: '7px',
+                              border: '1.5px solid var(--border)', borderRadius: 100, background: '#fff',
+                              padding: '8px 13px', cursor: 'pointer',
+                              fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: '14.5px', color: 'var(--ink)',
+                            }}
+                          >
+                            <span aria-hidden style={{ fontSize: '15px', lineHeight: 1 }}>{q.emoji}</span>
+                            {q.title}
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐{q.stars}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )
+                })()}
+
                 {templatesUnused.length > 0 && (
                   <>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
-                      Tap one to add it
+                      {previous.some(q => q.child_id === activeChild || q.child_id === null) ? 'Or start from an idea' : 'Tap one to add it'}
                     </div>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: '7px', marginBottom: '12px' }}>
                       {[...templatesUnused].sort((a, b) => Number(!!b.play) - Number(!!a.play)).slice(0, 6).map(t => (

@@ -3550,3 +3550,57 @@ the clamp alone saves 400px, before counting the two prompt cards that no longer
 render at all.
 
 A quieter Home does not mean less thinking. It means less of it shouted at once.
+
+---
+
+## 29 July 2026 — the child app was installing the parent app, and Manage jobs
+
+**The PWA bug, which was real and old.** Justin: "the pwa to child phone did not
+happen". It never could have.
+
+app/layout.tsx hardcoded `<link rel="manifest" href="/manifest.json">` and
+`<link rel="apple-touch-icon">` into the head, immediately below a metadata
+export that already emitted both. Duplicates, and being hardcoded meant they
+appeared on EVERY route and no nested segment could override them.
+
+/manifest.json says `start_url: /dashboard`, `scope: /`. So a child who followed
+our own on screen instructions and tapped Add to Home Screen installed the
+PARENT app: the icon opened /dashboard, which has no session for them, and
+bounced them to a login they cannot pass. Android offered the same install under
+the name Guided Childhood.
+
+The same hardcoding beat app/k/[token]/apple-icon.tsx, whose own comment says
+Add to Home Screen picks it up automatically. It could not, and the DiGi star
+icon has never once appeared on a child's phone.
+
+Seventh instance this session of the pattern. New wrinkle worth noting: here the
+thing that could never fire was defeated not by a bad condition but by a
+DUPLICATE sitting higher up the tree. Overriding inherited config only works if
+nothing hardcodes the same tag above you, and a hardcoded tag and a metadata tag
+do not merge, the first one wins.
+
+Fix: head is metadata only, /k/[token] gets a manifest per token with start_url
+and scope on the child's own page. Verified by serving a production build and
+curling: kid page points at its own manifest and star icon, marketing points at
+ours, exactly one manifest link on each.
+
+No child name in that manifest, deliberately. It lands in the phone's app list
+and in backups, and "My Jobs" is something a child can own without their name
+printed on a device that may be shared or handed on.
+
+**Manage jobs.** Three asks, and one of them dissolved on inspection.
+
+Landing: addOpen now defaults true. Manage jobs exists to add a job and it was
+landing on the list with Done as the only visible action.
+
+Used before: DELETE sets active false, and GET only ever read active true. So
+the app has been holding every job each family ever used and never offered one
+back. A parent who took reading off over the summer had to retype it in
+September. The API now returns them, deduped by title, and the add panel leads
+with them, above our own templates.
+
+"Run the same as yesterday" dissolved: jobs are recurring with schedules, so the
+board ALREADY runs the same as yesterday unless somebody turned something off.
+The only real version of that ask is putting back what was turned off, which is
+the used before list plus a "put all N back". Worth saying rather than building
+a second thing that silently means the first.
