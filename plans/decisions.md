@@ -3941,3 +3941,70 @@ deciding the reporting is wrong. The prompt rules got two rounds of hardening fo
 a name problem that was real, and this second complaint on top of them was not a
 regression at all, it was the data. Also: the same migration pattern is not safe
 in two places just because it worked in one. Ask what null MEANS in this table.
+
+---
+
+## 29 July 2026 — the child could not say what job they wanted
+
+Justin, on the child app: "here on child's app you should be able to suggest
+quest to parent, there is a page that should open." And separately: "I added
+Yuseuf child app to Home Screen but it's not asking me to set up notifications
+PWA?"
+
+Two reports, one cause underneath: both features were finished and both were
+somewhere a child would never find them.
+
+### The ask
+
+The New job tile called /api/quests/more, which sends a bare "wants more quests"
+push and stores nothing. There was no way for the child to say WHAT they had in
+mind. Then, having sent it, the tile flipped to "Asked, grown up knows" and its
+onClick did nothing at all, so the one thing a child would press became a dead
+end that looked like a status light.
+
+Meanwhile /api/quests/request has always done the real thing: the ask lands as a
+row with a title, capped at five open and five a day counted from UK midnight,
+the parent's phone names the actual idea, and one tap on Manage jobs turns it
+into a real job with stars. The UI for it existed too, inline at line 1630 of a
+2,842 line screen, under the printables and the coming up list.
+
+So the tile pointed at the weaker of two routes and the better one was buried.
+Now it is /k/<token>/suggest, its own page, reached from the tile and from a
+lead in card where the panel used to be. One implementation, extracted so the
+page and the screen cannot drift.
+
+The page also shows what happened to each idea, which the ping never could:
+WAITING, IT IS ON, NOT THIS TIME. A child who asks and then has no way of
+finding out is being managed, not included.
+
+### The reminders
+
+The offer was there. It was a quiet white button 2,150 lines down, below
+everything. Justin added the app to the Home Screen and was never asked, because
+nobody scrolls to the bottom of their own jobs list looking for a settings
+button. Moved to the top, above the jobs, in butter.
+
+This one is worse than an ordinary missed button. The timely job nudges built
+this morning push to the CHILD's device and nowhere else, on purpose, because
+chasing a parent about their child's bed is the nagging this product replaces. A
+child who never turned reminders on does not get a quieter version of the
+feature, they get none of it, and three crons run every day and send nothing.
+
+So it has a Not now that comes back in three days rather than a cross that
+silences it. Refusing has to be allowed, but this is an offer whose refusal
+switches a feature off, and "never again" on one mis-tap is how a feature ends up
+permanently dead for a family who would have wanted it. Sits between the two
+rules recorded earlier today: not a warning dressed as an offer, not a nag.
+
+### Caught by looking, not by reasoning
+
+The extracted component put three lines of text outside the white card, directly
+on the dark kid background, still using ink colours. Almost invisible in both
+states. The screenshot showed it immediately and no amount of reading the diff
+would have. Worth keeping: the kid app has a dark background and the parent app
+does not, so ink coloured text is safe in one and unreadable in the other, and
+moving a component between them is exactly when that bites.
+
+Also, again: `pkill -f "next start"` killed my own shell, second time today, and
+this time it did not even kill the server, so the next page load served a stale
+build and looked like a 500 in my new code. Kill by PID.
