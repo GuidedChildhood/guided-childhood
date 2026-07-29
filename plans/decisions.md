@@ -3777,3 +3777,47 @@ and a banner saying seven new jobs is just the list again in a box.
 
 Simulated across six visits before committing: first open 0, quiet reopen 0, one
 added 1, reopen 0, two added 2, reopen 0.
+
+---
+
+## 29 July 2026 — timely job reminders on the child's phone
+
+Justin: "jobs still outstanding but around job time, either before school or
+after school, so clever enough that bed not made before, clothes ready for
+tomorrow, so looks at job type and works out timely reminder."
+
+The signal was already there. Our own templates and routine packs were written
+around the shape of a school day, so the words carry the hour: bed made, teeth,
+shoes on are morning; homework, reading, outside are after school; tomorrow,
+tonight, charge downstairs are evening. Keyword matching against language we
+wrote ourselves, not free text guessing.
+
+Three crons, one per band, at 07:15, 16:30 and 18:45. A parent's own wording
+falls through to after school, which is the safest default because it is the
+longest stretch of a child's own time and the hour they can actually act.
+
+The restraint is the design, not a limitation:
+- ONE push per child per band however many jobs are outstanding. Five things
+  left is one message, not five.
+- Nothing at all when nothing is outstanding. Being quiet when there is nothing
+  to say is what makes the message mean something when it arrives.
+- Anything ticked today counts as handled, PENDING included. The child has done
+  their part and is waiting on a grown up, so chasing them would read as us not
+  noticing.
+- Linked children only. No fallback to the parent, because chasing a parent
+  about their child's bed is the nagging this product exists to replace.
+
+Children's Code point, worth writing down: this is a plain factual reminder
+about a thing the child agreed to. No streaks at risk, no countdowns, nothing
+built to pull them back into the app. A reminder that a job is undone and a
+reminder that we miss them are different things, and only the first one is
+allowed.
+
+Caught by the test rather than by reading: "School bag packed tonight" landed in
+morning, because the morning rule matched "school bag packed" and tonight was
+not in the evening list. Exactly the case Justin named with "clothes ready for
+tomorrow". Fourteen cases now pass.
+
+Cron times are UTC, so these drift an hour against BST. 07:15 UTC is 08:15 in
+summer, which is late for before school. Worth fixing properly with a per family
+local time rather than by nudging the numbers.
