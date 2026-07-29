@@ -131,14 +131,57 @@ export default function NotificationCard({ n }: { n: Notification }) {
     } catch { /* clearing is best effort, the link still opens */ }
   }
 
+  // Not for me.
+  //
+  // A DiGi nudge only ever cleared by being TAPPED, which marks it acted. So
+  // the only way to make one go away was to open it, and a parent who read the
+  // card and decided it was not for them had no way of saying so. Justin: "we
+  // should also have an option to dismiss these notifications."
+  //
+  // The route has taken status 'dismissed' since it was written and nothing on
+  // this screen ever sent it. Same shape as the six other things found today:
+  // the capability existed and had no way to be reached.
+  //
+  // Dismissed, not acted, so the two stay distinguishable in the data. A parent
+  // waving one away is useful signal about what DiGi should raise next, and
+  // recording it as acted would quietly teach it the opposite lesson.
+  const dismiss = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (busy) return
+    setBusy(true)
+    setCleared(true)
+    notifsChanged()
+    try {
+      await fetch('/api/digi/prompts', {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: n.id.replace(/^digi-/, ''), status: 'dismissed' }),
+      })
+    } catch { /* gone locally, reconciles on reload */ }
+  }
+
   return (
-    <Link href={n.href} onClick={onClick} style={cardStyle(n)}>
-      <CardShell n={n}>
-        <span style={pill(n)}>
-          {ctaLabel(n)}
-          <span style={{ fontSize: '17px' }} aria-hidden>→</span>
-        </span>
-      </CardShell>
-    </Link>
+    <div style={{ position: 'relative' }}>
+      <Link href={n.href} onClick={onClick} style={cardStyle(n)}>
+        <CardShell n={n}>
+          <span style={pill(n)}>
+            {ctaLabel(n)}
+            <span style={{ fontSize: '17px' }} aria-hidden>→</span>
+          </span>
+        </CardShell>
+      </Link>
+      {isDigi && (
+        <button
+          onClick={dismiss}
+          aria-label="Not for me, hide this"
+          style={{
+            position: 'absolute', top: 10, right: 12, background: 'none', border: 'none',
+            cursor: 'pointer', color: 'var(--ink-light)', fontSize: 15, padding: '6px 8px', lineHeight: 1,
+          }}
+        >
+          ✕
+        </button>
+      )}
+    </div>
   )
 }
