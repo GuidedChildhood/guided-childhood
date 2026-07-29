@@ -3294,3 +3294,36 @@ that an item was dismissed but WHY, and that is exactly what nobody writes down
 and everybody later wishes they had.
 
 Applied to the live database.
+
+**The "two children from different accounts" report was not a breach, and the
+bug underneath it is real (29 Jul).** JP opened the app on his phone and saw a
+notification about "the device fights between Yusuf and Teo". He called it a
+security breach and was right to.
+
+It is not one, and the evidence is specific. The digi_prompts row containing
+that text belongs to user 77ed6daa, which is j31phillips+qw@gmail.com, one of
+JP's own Gmail alias test accounts, whose child IS called Yusuf. His main
+account 674f6e8c has one child, Gus, and no row under it mentions Yusuf. Every
+query in prompts/route.ts is scoped with eq('user_id', user.id). His phone was
+signed into the test account and was shown that account's own data. Nothing
+crossed between accounts.
+
+What IS real: that account has ONE child, and the notification said two, naming
+Teo alongside Yusuf. Teo comes from stale digi_memory rows written in earlier
+test chats. DiGi read a name out of conversation history and treated it as a
+second, current child.
+
+Same root cause as the Alma bug the night before, in a route I did not fix.
+prompts/route.ts still loaded is_primary only and had NO name rule at all, so
+last night's fix covered the chat and left the notifications wide open. Worth
+remembering: when a bug is "the model was given the wrong facts", fix every
+place the facts are assembled, not the one where it was reported.
+
+Both routes now state the complete list of children AND that memory can be out
+of date, so a name in history that is not on the list is a child no longer on
+the account and must be ignored rather than treated as a sibling. Naming the
+staleness explicitly matters, because the model's natural reading of an old note
+about Teo is that Teo exists.
+
+Still worth doing separately: JP's test accounts carry years of stale memory
+that will keep producing this. Offered to clear the orphaned rows.
