@@ -3706,3 +3706,38 @@ other rather than leaving them to find their own way.
 The pick before you add behaviour came across intact: jobs already on the board
 show greyed and ticked and disabled, and the button counts only the fresh ones,
 so tapping twice can never double up.
+
+---
+
+## 29 July 2026 — how a job reaches the child, and two more pages
+
+Justin: "as I have downloaded this child's app how do we deal with this, when
+adult adds they need to know. Should it prompt scan this code on child's phone
+to get it added, and show QR code or manage yourself here". Plus two more
+buttons, screen timer and balance and stats, as separate pages.
+
+**The handover.** Everything needed already existed: QrHandoverModal and
+ShareQrButton, which creates the link on demand. What was missing was any of it
+appearing where a parent ADDS a job. So a parent could add six jobs on their own
+phone with no idea whether any of it landed anywhere.
+
+Manage jobs now says which of the two worlds this family is in, at the top,
+before the adding. With an app: anything you add appears on their phone straight
+away, and the code is there again if they need it. Without: this child has no
+app yet, scan a code on their phone, or carry on and mark jobs off yourself
+here. Both are legitimate and the copy says so rather than making the no phone
+route feel like a failure.
+
+**Two more pages.** /dashboard/quests/timer now hosts the timer on its own.
+Justin is right that it did not belong at the top of Balance and stats: starting
+twenty minutes of TV is something you do in the moment with a child next to you,
+and reading the week is something you do sitting down. Balance and stats already
+existed at /dashboard/stats and just needed a button.
+
+**Spotted while in there, not fixed.** The stats page says "AIM FOR TOMORROW 210
+min" for a 13 to 15 year old, because it spreads the unused weekly budget across
+the days remaining. 840 minutes over 4 days is 210, which is three and a half
+hours, and the copy underneath says tomorrow "can be up to 210 minutes without a
+second thought". A page built to encourage balance is telling a parent to aim at
+nearly double the daily guide. It is arithmetically correct and behaviourally
+backwards. Same family as the weekly reset work, so worth deciding together.
