@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import type { SetupStep } from '@/lib/setup/steps'
@@ -8,32 +8,47 @@ import type { SetupStep } from '@/lib/setup/steps'
 // The guided rail. While setup is not finished, this floats a quiet Next step
 // bar on any dashboard page that is not the step's own page, so a parent who
 // has just finished one step is walked straight to the next instead of being
-// left on a feature page wondering what to do. Not now hides it for this page,
-// and it returns as they move on, so it guides without trapping. The home page
-// already has the full setup card, so the bar stays out of its way there.
+// left on a feature page wondering what to do. The home page already has the
+// full setup card, so the bar stays out of its way there.
+//
+// It says each step once and then shuts up. See the seen list below.
 export default function SetupNextBar() {
   const pathname = usePathname()
   const [next, setNext] = useState<SetupStep | null>(null)
   const [hidden, setHidden] = useState(false)
 
-  // Do not nag. The bar appears at most twice in a session, so a parent who
-  // taps Not now sees it return just once more, then it leaves them alone.
-  // Counted in sessionStorage, so it starts fresh on their next visit.
-  const MAX_SHOWS = 2
-  const SESSION_KEY = 'gc_setupbar_shows'
-  // Following the bar retires it for the visit, so it guides once and then
-  // trusts the parent to get on with it.
-  const WENT_KEY = 'gc_setupbar_went'
-  const [goneForSession, setGoneForSession] = useState(false)
+  // Once per step, for good.
+  //
+  // This used to allow two appearances per session, counted in sessionStorage,
+  // which reset on every visit. So a parent who opened the app on Monday,
+  // Tuesday and Wednesday got the same bar thrown at them three times, and it
+  // stopped reading as a helpful rail and started reading as a nag.
+  //
+  // Now each step gets exactly one appearance, ever, remembered in
+  // localStorage. Set up Family Quests says its piece once. If they do not act
+  // on it, the home setup card and the passport still carry it, so nothing is
+  // lost by the bar going quiet. A later step, when they get to it, gets its
+  // own single nudge.
+  const SEEN_KEY = 'gc_setupbar_seen'
+  const [seen, setSeen] = useState<string[] | null>(null)
   useEffect(() => {
-    try { if (sessionStorage.getItem(WENT_KEY) === '1') setGoneForSession(true) } catch { /* private mode */ }
+    try {
+      const raw = localStorage.getItem(SEEN_KEY)
+      const parsed = raw ? JSON.parse(raw) : []
+      setSeen(Array.isArray(parsed) ? parsed.filter(k => typeof k === 'string') : [])
+    } catch { setSeen([]) /* private mode, or somebody edited the key by hand */ }
   }, [])
-  const followed = useCallback(() => {
-    try { sessionStorage.setItem(WENT_KEY, '1') } catch { /* private mode */ }
-    setGoneForSession(true)
+  const markSeen = useCallback((key: string) => {
+    setSeen(prev => {
+      const list = prev ?? []
+      if (list.includes(key)) return list
+      const next = [...list, key]
+      try { localStorage.setItem(SEEN_KEY, JSON.stringify(next)) } catch { /* private mode */ }
+      return next
+    })
   }, [])
-  const [showThis, setShowThis] = useState(false)
-  const shownFlag = useRef(false)
+  // The step the bar is showing right now. See the latch note below.
+  const [showingKey, setShowingKey] = useState<string | null>(null)
 
   const refetch = useCallback(async () => {
     try {
@@ -60,40 +75,36 @@ export default function SetupNextBar() {
     }
   }, [refetch])
 
-  // Whether this appearance is eligible at all. The first step, the daily
-  // practice, is driven by the home card and runs across several pages, so the
-  // bar never nags it. The home page owns the full setup card, and the bar
-  // never points a parent at the page they are already on.
+  // Whether this place and moment could carry the bar at all. The first step,
+  // the daily practice, is driven by the home card and runs across several
+  // pages, so the bar never nags it. The home page owns the full setup card,
+  // and the bar never points a parent at the page they are already on. seen is
+  // null until localStorage has been read, which keeps the bar off the first
+  // paint rather than flashing it at somebody who has already dismissed it.
   const base = next ? next.href.split('#')[0].split('?')[0] : ''
-  const eligible =
-    !!next && !hidden &&
+  const candidate =
+    !!next && !hidden && seen !== null &&
     next.key !== 'daily' &&
     pathname !== '/dashboard' &&
     pathname !== base
 
-  // Count each fresh appearance and stop after two in a session, so the bar
-  // guides without turning into a repeated reminder.
+  // Showing it IS the one appearance, recorded the moment it lands rather than
+  // when they act on it, so Not now, Go and simply walking away all cost the
+  // same thing: the bar has said its piece about this step and will not say it
+  // again.
+  //
+  // The latch matters. Writing to seen is what retires the step, so without
+  // holding the key we are currently showing, that write would make the bar
+  // ineligible in the same tick and it would vanish before it was read.
   useEffect(() => {
-    if (eligible && !shownFlag.current) {
-      shownFlag.current = true
-      const n = typeof window !== 'undefined' ? Number(sessionStorage.getItem(SESSION_KEY) || '0') : MAX_SHOWS
-      if (n < MAX_SHOWS) {
-        try { sessionStorage.setItem(SESSION_KEY, String(n + 1)) } catch { /* private mode */ }
-        setShowThis(true)
-      } else {
-        setShowThis(false)
-      }
-    } else if (!eligible) {
-      shownFlag.current = false
-      setShowThis(false)
-    }
-  }, [eligible])
+    if (!candidate || !next || !seen) { setShowingKey(null); return }
+    if (showingKey === next.key) return
+    if (seen.includes(next.key)) { setShowingKey(null); return }
+    setShowingKey(next.key)
+    markSeen(next.key)
+  }, [candidate, next, seen, showingKey, markSeen])
 
-  // Tapped Go: the bar has done its job and leaves for the rest of the visit.
-  // Without this, walking to the step's page counts as a route change, which
-  // un-hides the bar, so the parent who followed it politely gets it thrown at
-  // them again on arrival. That is the nag.
-  if (!eligible || !showThis || goneForSession) return null
+  if (!candidate || !next || showingKey !== next.key) return null
 
   return (
     <div style={{
@@ -104,9 +115,15 @@ export default function SetupNextBar() {
       bottom: 'calc(150px + env(safe-area-inset-bottom, 0px))',
       width: 'calc(100% - 24px)', maxWidth: '440px', zIndex: 60,
     }}>
+      {/* Retro green, not espresso. --deep-teal is #2E2818, which is a warm
+          brown on a big marketing panel but reads as a flat black brick in a
+          small floating bar on a phone, and a black brick over a cream
+          dashboard looks like a system alert rather than a friendly hand on the
+          shoulder. --retro-green is in the tokens for exactly this, described
+          there as the friendlier dark panel. */}
       <div style={{
-        background: 'var(--deep-teal)', borderRadius: '18px',
-        boxShadow: '0 12px 32px rgba(0,0,0,0.22)', padding: '12px 12px 12px 18px',
+        background: 'var(--retro-green)', borderRadius: '18px',
+        boxShadow: '0 10px 26px rgba(35,111,82,0.28)', padding: '12px 12px 12px 18px',
         display: 'flex', alignItems: 'center', gap: '12px',
       }}>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -119,13 +136,12 @@ export default function SetupNextBar() {
         </div>
         <button
           onClick={() => setHidden(true)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.6)', padding: '6px 4px', flexShrink: 0 }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', color: 'rgba(255,255,255,0.72)', padding: '6px 4px', flexShrink: 0 }}
         >
           Not now
         </button>
         <Link
           href={next.href}
-          onClick={followed}
           style={{
             flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: '12px', padding: '11px 18px', textDecoration: 'none',
