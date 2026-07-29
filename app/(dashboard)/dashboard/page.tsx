@@ -812,9 +812,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         <HomeMain />
       </div>
 
-      <p className="eyebrow" style={{ margin: '4px 0 10px 2px', fontSize: 12 }}>Your cards and prompts</p>
+      {/* There were TWO eyebrows here, back to back, with nothing at all
+          between them: "Your cards and prompts" labelled no content and was
+          immediately followed by the one below. On a phone that reads as a
+          heading whose section failed to load. One heading, for the section
+          that actually exists.
 
-      {/* Below the daily flow, quieter: the streak card, DiGi's proactive
+          Below the daily flow, quieter: the streak card, DiGi's proactive
           prompts, the ranked alerts and the age gate. */}
       <p id="dash-more" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 12, scrollMarginTop: '64px' }}>DiGi, your streak and alerts</p>
       <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
