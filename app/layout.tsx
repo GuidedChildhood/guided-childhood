@@ -50,6 +50,10 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1 },
   },
   manifest: '/manifest.json',
+  // Was a hardcoded <link> in the head, which meant it also applied to the
+  // child's own pages and beat their DiGi star icon. Here it is inherited
+  // metadata, so a nested segment can replace it.
+  icons: { apple: '/icons/icon-192.png' },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -67,12 +71,19 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${nunito.variable} ${plexMono.variable}`}>
-      <head>
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-      </head>
+      {/* No hardcoded manifest or icon links here.
+          Every one of these was already emitted by the metadata export above,
+          so they were duplicates, and being hardcoded into the root head meant
+          they appeared on EVERY route and could not be overridden by a nested
+          one. That quietly broke the child app: /k/[token] served the parent
+          manifest, whose start_url is /dashboard, so a child adding their jobs
+          to their Home Screen got an icon that opened the parent dashboard and
+          bounced them to a login screen. The DiGi star icon in
+          app/k/[token]/apple-icon.tsx lost to the hardcoded apple-touch-icon
+          the same way, despite its own comment saying Add to Home Screen would
+          pick it up automatically.
+          Metadata only from here, so a segment can say something different. */}
+      <head />
       <body>
         <PwaRegister />
         <UpdateBanner />
