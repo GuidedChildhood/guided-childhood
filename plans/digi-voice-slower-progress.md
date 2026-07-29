@@ -1,4 +1,8 @@
-# DiGi read a little slower: 31 of 100 done, out of credits
+# DiGi read a little slower: DONE, all 100 at -10
+
+Finished 29 July. `lib/content/script-voice.ts` now serves all 100 at
+`speech_rate: -10`. The notes below are kept because the two corrections and
+the real credit rate are worth having the next time a voice batch is run.
 
 JP asked for the Imogen read to be a little bit slower. `seed_audio` takes a
 `speech_rate`, so the pace is a number in the batch rather than a rewrite of
@@ -69,6 +73,91 @@ The say this text comes from the seed SQL, and several seed files reuse the same
 sort_order for different scripts. Match on the title in the trailing comment of
 `script-voice.ts`, not on sort_order alone, or some recordings will be made for
 the wrong script.
+
+
+## All 69 remaining generated on 29 July
+
+Every one of the sort orders under Still to generate has now been generated at
+Imogen, `speech_rate: -10`, `format: wav`. 88 credits for the first 57, so about
+1.54 a line in practice.
+
+The finished file for a job is `results.rawUrl` from `show_generations`, and the
+FILENAME CONTAINS THE JOB ID, so these ids are all that is needed to rebuild the
+map: fetch the audio generations, then match each rawUrl to a sort order by the
+uuid inside it. No prompt matching required.
+
+```
+sort_order  job_id
+115 07aaeafa-7b66-406b-a8a8-2e8ed10d9ac8
+116 701cd5fe-1c01-4e3a-96af-6db299ebeb58
+117 8711c608-f243-48de-b28c-355057f9b2cf
+201 caa7ac39-4324-4319-8c09-a4e481d01319
+202 86e549bd-e3b0-4356-b53f-88749fc75267
+203 51218bcf-648b-4175-9411-7d6cdd60c553
+204 8d3f5fce-a474-489c-a1d6-5ba5480a0c0a
+205 10cc9777-6975-49e0-85ae-196a02e5b3e2
+206 56f6a4fb-36b2-4346-bea0-bbf53a8bc8ae
+207 f6fccfde-98a4-486b-ae3f-f6257af0c9bf
+208 62cf8754-9dd6-45df-86ed-e4e640a6bf49
+209 ce54ffa3-7ac0-4d09-97e8-a7c83860951b
+210 3199a48b-c93e-4358-a8e8-7c6d88d07e72
+211 81c5b329-34a4-499e-a467-1656bb2a8319
+212 2dd865ce-404b-4c24-89f6-337f251a7055
+213 4385fa64-3c5e-41a1-a413-53fcc0fc22b0
+214 f0c7328b-ea4d-4484-bb92-5cd92e8d40a2
+215 a8b4e97a-2b75-4128-addc-2e408ff829e5
+216 0a857c63-688a-4584-81d6-d5567f6a989b
+217 868e6917-c08b-4826-b9b2-e4e4ac67fe61
+301 cacdfcc4-85c7-4c52-9014-507e9f6a9203
+302 d6d2af7b-e507-4115-a2cc-171b9fe141be
+303 6065ef64-280d-4c5c-bdff-9a59af235047
+304 abe92bb1-2059-4fd0-ac0c-5b22a69e3d6c
+305 c71fe85c-c1b9-405b-9e9b-dc5186bd26e0
+306 96ec54e6-0096-4792-82b4-aea0400ced06
+307 3338e749-ca56-4957-95ac-5b2ec27daff3
+308 0bc5ac79-bb8e-44f8-925a-e9fc5bfec2c2
+309 4a6fa0a9-bcdd-410a-8841-ffa510ffe564
+310 6b564844-dc97-44df-9b3d-d716751f92d2
+311 7213c969-482f-4924-9192-5d9720256973
+312 a50025f3-755d-45ec-855f-0c39774f3b58
+313 fad3f94d-3ac8-44ce-88c6-9c4d1916da00
+314 e36d6f8b-b87a-4874-b965-2349c2dcd7df
+315 97a3dfd3-54ed-458b-ac5c-fbc9e01a0aea
+316 b22cec85-9d06-47bc-849c-44f66fafb64a
+317 5d4949e5-8d80-4aff-bf58-b55091ccbfe5
+318 5a58c192-5a90-4105-9f00-7a1ccf0cb789
+319 63f96249-f1a9-46af-a74b-2b959d4e19f9
+320 f5667235-4e6b-4b18-8325-7e631ee3d270
+401 873f72af-72bc-466c-bbce-9d8a0141366b
+402 56c0fe68-736d-49c4-a140-d9802a6729e6
+403 41320eb5-ab63-4e82-bc44-13cdca195061
+404 1a45b6ed-9b63-435c-848e-c10d18f4d7c2
+405 cc23cb5d-4027-47cf-99df-50133175b725
+406 bd07bf28-2edf-4e1d-b0c1-1e88fb0a2be0
+407 cd85c1ab-6442-41d9-9d40-df4e3282a192
+408 95b97c21-38b5-4390-93d9-1cd1531e4725
+409 10df4d17-f1f8-462d-b557-264767009bf2
+410 f67ac8fc-0bf5-452a-93a4-3ea74953cb17
+411 73f32aff-ebae-44c2-b53a-04b30c01af91
+412 0be6e327-ec1b-45b5-85d1-850d557c1cdc
+413 712165b7-2d28-43fd-b49b-6d622b0021a9
+414 e5521041-132e-4b45-827f-07de434ca7d0
+415 daa347a5-5314-4373-8ba9-028e1f0045af
+416 4bc38267-d322-47ab-b1a1-7aef0da033d6
+417 4d30e21f-cb7b-4900-bf4b-9c7006d24531
+501 8b1d3514-9d8f-4cfd-a16c-256d97306b67
+502 0f08897e-fd4c-469f-af27-ee63f0872318
+503 83e5276b-931a-4762-bbe9-09b73233143a
+504 814a31d7-faff-4e92-b596-21ad7c985485
+505 2554a293-d08f-4f73-a710-aa5e48c89e09
+506 6ad5bbd4-a06e-458d-a273-1030ae92ad7f
+507 2613459d-2e2a-4780-9235-262eb89d2099
+508 c4c76ea8-0c11-47e6-8c07-828712b0e923
+509 372bba42-8594-40ef-a7cd-80db09365aea
+510 2729ef71-c8fd-422f-9546-38dfa8d9aea6
+511 14b5fce2-d708-4d47-a926-13bf5bed40ea
+512 896f875d-59ac-4c59-ae6c-88381ddc1ce7
+```
 
 ## Generated at -10
 

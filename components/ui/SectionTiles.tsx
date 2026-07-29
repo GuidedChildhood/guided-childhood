@@ -36,6 +36,44 @@ export type SectionTile = {
   accent: string
   /** Live state, when the tile has something worth saying up front. */
   badge?: string | null
+  /** Overrides the icon colour worked out from accent. Rarely needed. */
+  iconColor?: string
+}
+
+// The icon colour, worked out from the tile's accent.
+//
+// Justin held us up against FamilyWall and he is right. Their grid puts the
+// COLOUR IN THE ICON, an amber list, a purple calendar, blue cutlery, a pink
+// camera, all on plain tiles. Ours did the reverse: a pastel tile carrying a
+// monochrome ink glyph on a white plate, because this component hard coded
+// color: var(--ink) on the plate and KidIcon draws in currentColor. Every icon
+// on the site was therefore the same grey, whatever tile it sat on.
+//
+// The accent itself cannot be the icon colour: those are pastels chosen to sit
+// as a 2px edge, and at 23px on white they read as smudges. So each pastel maps
+// to the saturated sibling we already use elsewhere, mostly the tab bar
+// palette, which keeps the whole product in one set of colours rather than
+// inventing a second.
+//
+// Anything already saturated passes straight through, so a caller that hands us
+// a real colour keeps it.
+const ICON_INK: Record<string, string> = {
+  'var(--terracotta)': 'var(--terracotta-dark)',
+  'var(--terracotta-lt)': 'var(--terracotta-dark)',
+  '#A9C8E4': '#2E6F8E',   // blue tint    to the Scripts blue
+  '#9CC3B4': '#2F8F6B',   // sage, green  to the DiGi green
+  '#D6BE8A': '#B8860B',   // amber        to the Home gold
+  '#E8CE7A': '#B8860B',   // gold
+  '#F0B9AE': '#C0603A',   // coral        to the Quests terracotta
+  '#C4B5E8': '#7A5CC0',   // lavender     to the Nova purple
+  '#B6ADE0': '#7A5CC0',   // deeper lavender, same purple
+  'var(--border)': 'var(--ink-soft)',
+  'var(--ink-muted)': 'var(--ink-soft)',
+}
+
+function iconColorFor(accent: string, override?: string): string {
+  if (override) return override
+  return ICON_INK[accent] ?? accent
 }
 
 export default function SectionTiles({
@@ -52,6 +90,11 @@ export default function SectionTiles({
       // share and pushes the whole row off the right of a phone screen.
       gridTemplateColumns: columns === 2 ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
       gap: 12, marginBottom: 18,
+      // Stretch makes cards fill THEIR row; 1fr auto rows makes every row the
+      // same height as each other, which is the half that was missing. Without
+      // it a grid of eight tiles came out at three different heights.
+      alignItems: 'stretch',
+      gridAutoRows: '1fr',
     }}>
       {tiles.map(t => (
         <Link
@@ -69,27 +112,45 @@ export default function SectionTiles({
             } catch { /* no target, leave the page alone */ }
           } : undefined}
           style={{
-            display: 'block', textDecoration: 'none',
-            background: t.bg,
-            border: `2px solid ${t.accent}`,
+            textDecoration: 'none',
+            // White card on the cream page, with the colour carried by the icon
+            // rather than the fill. Justin's call after holding us against
+            // FamilyWall: "white tabs on grey and the actual images coloured".
+            // A wall of pastel blocks makes six places read as one soft mass;
+            // a white card with one saturated mark reads as six distinct doors,
+            // and it matches what our own Explore grid was already doing.
+            background: '#fff',
+            border: '1.5px solid var(--border)',
             borderRadius: 18,
-            boxShadow: `0 4px 0 ${t.accent}`,
+            boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
             padding: '15px 16px 16px',
+            // Every tile the same height, whatever its copy does. Grid stretches
+            // a ROW to its tallest card, but rows are sized independently, so a
+            // two line label on row one and a one line label on row three gave
+            // tiles of visibly different heights down the page. Justin asked for
+            // identical size, and identical means down the whole grid, not just
+            // across a pair.
+            height: '100%',
+            display: 'flex', flexDirection: 'column',
           }}
         >
           {/* Wraps. Two of these tiles sit side by side on a phone, so after
-              the card padding and the 42px icon plate there is under 90px left
-              on the row, and most badges are wider than that. Held on one line
+              the card padding and the icon plate there is under 90px left on
+              the row, and most badges are wider than that. Held on one line
               they either shoved the row off the screen (when they refused to
               shrink) or collapsed to "4 wai..." and "Not m..." (when they did).
               Neither is a badge. Given permission to wrap, a badge that does
               not fit beside the icon drops under it and reads in full. */}
           <span style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
+            {/* The pastel moved here off the tile. It is the plate behind the
+                icon now, which is where every app that does this well puts it. */}
             <span aria-hidden style={{
-              width: 42, height: 42, borderRadius: 13, background: '#fff',
-              border: `1.5px solid ${t.accent}`,
+              width: 46, height: 46, borderRadius: 13, background: t.bg,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexShrink: 0, color: 'var(--ink)', fontSize: 21, lineHeight: 1,
+              flexShrink: 0, fontSize: 22, lineHeight: 1,
+              // KidIcon draws in currentColor, so setting it here colours the
+              // whole icon set without touching a single call site.
+              color: iconColorFor(t.accent, t.iconColor),
             }}>
               {t.icon}
             </span>
@@ -98,7 +159,10 @@ export default function SectionTiles({
                 than make a parent open it to find out. */}
             {t.badge && (
               <span style={{
-                background: '#fff', border: `1.5px solid ${t.accent}`,
+                // Pastel, not white. The tile itself went white in this
+                // same change, so a white badge on it had no edge at all.
+                // No flexShrink, so it can still drop under the icon.
+                background: t.bg, border: `1.5px solid ${t.accent}`,
                 borderRadius: 100, padding: '3px 10px',
                 fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
                 color: 'var(--ink)', whiteSpace: 'nowrap',
@@ -119,7 +183,7 @@ export default function SectionTiles({
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18.5, color: 'var(--ink)', lineHeight: 1.15 }}>
             {t.label}
           </span>
-          <span style={{ display: 'block', fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 3 }}>
+          <span style={{ display: 'block', fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 3, flex: 1 }}>
             {t.sub}
           </span>
         </Link>

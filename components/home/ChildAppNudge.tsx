@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import ShareQrButton from '@/components/quests/ShareQrButton'
 
 // The half set up family. A parent can run the whole parent side and never
@@ -64,6 +65,24 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
 
   const railRef = useRef<HTMLDivElement | null>(null)
   const [active, setActive] = useState(0)
+
+  // Recording the paper choice, then landing on the thing that replaces the
+  // child's app. The write is awaited rather than fired and forgotten, because
+  // if it fails this card comes back tomorrow and the parent has told us twice.
+  const [saving, setSaving] = useState(false)
+  const router = useRouter()
+  async function onPaper() {
+    if (saving) return
+    setSaving(true)
+    try {
+      await fetch('/api/handover', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'paper' }),
+      })
+    } catch { /* the star chart is still the right place to land */ }
+    router.push('/dashboard/printables/star-chart')
+  }
 
   // Which panel is under the thumb, read from the scroll position rather than
   // driven by it, so a flick and a dot tap agree with each other.
@@ -230,6 +249,39 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
               Share the QR code
             </Link>
           )}
+          {/* The other real answer, and it was missing.
+
+              Plenty of families will never give this child a phone, and for
+              them the whole card was unanswerable: the only controls were share
+              a code they do not want and fold it down, and folding is not
+              deciding, so it came back for ever. The one thing that genuinely
+              retires this card, the child opening their app, is the one thing
+              they have chosen not to do.
+
+              So "We use the paper chart" is offered as an equal choice, the
+              same wording and the same weight as the overlay already uses. It
+              records the decision on the family, which stops this card AND the
+              overlay for good, then goes straight to the star chart builder so
+              the choice ends somewhere useful rather than just making a card
+              disappear.
+
+              Nothing is lost by choosing it. The jobs, the stars and the timer
+              all work from the parent's own phone, and the Share tab in Quests
+              is still there for the day the child does get a device. */}
+          <button
+            type="button"
+            onClick={onPaper}
+            disabled={saving}
+            style={{
+              display: 'block', width: '100%', marginTop: 12, cursor: saving ? 'default' : 'pointer',
+              background: 'transparent', border: '1.5px solid var(--border)', borderRadius: 16,
+              padding: '13px 16px', textAlign: 'center',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5,
+              color: 'var(--ink)', opacity: saving ? 0.6 : 1,
+            }}
+          >
+            {saving ? 'Saving that' : 'We use the paper chart'}
+          </button>
           <p style={{ fontSize: 14.5, color: 'var(--ink-muted)', margin: '12px 0 0', lineHeight: 1.5 }}>
             <Link href="/dashboard/quests?tab=share" style={{ color: 'var(--ink-muted)' }}>
               The jobs, the code and the printables all live in Quests

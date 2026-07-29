@@ -81,7 +81,7 @@ export default function LoginForm() {
             <p style={{ color: 'var(--ink-muted)', fontSize: '17px' }}>
               {path === 'school'
                 ? 'Back to your classes, the curriculum map and the print room.'
-                : 'Continue your family&rsquo;s pathway.'}
+                : 'Continue your family’s pathway.'}
             </p>
           </div>
 

@@ -123,6 +123,20 @@ ${(knowledge ?? []).map(k => `- ${k.source_name}: ${k.finding}`).join('\n')}
 NORMAL MOMENTS the parent may be feeling bad about (ground any parent_care prompt in one of these: name the everyday moment plainly, say what the research below shows is normal and cite the source name, then offer one small permission giving thing to do. The job is to stand beside them, never to guilt them):
 ${(norms ?? []).map(k => `- ${k.source_name}: ${k.finding}`).join('\n') || '- (none seeded yet)'}
 
+GROUNDING, and this outranks being warm or insightful:
+Only ever describe this family's situation using what is actually listed above,
+which is the concerns they raised as moments, what you remember from DiGi, and
+the pathway facts. Never infer a situation from the child's age, the number of
+children, or anything else, and never state it as fact that something is going
+on unless it appears above. If nothing is listed, write the prompt WITHOUT any
+claim about their circumstances rather than inventing one.
+
+A sentence like "raising two children at very different stages, with device
+conflicts still live" is only allowed if BOTH halves came from the lists above.
+A parent reading a confident description of a problem they never mentioned stops
+believing the ones you get right, so an ungrounded observation costs more than
+it adds.
+
 Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts describe one concrete thing to notice this week and one gentle action. tip prompts give one small daily life improvement (school run conversations, mealtimes, bedtime handover). If a tip trigger reason is about sharing a printable or lesson, write a short warm nudge to open Printables and send ${child.name} a printable so they earn stars (a real page of ready to print sheets), and make it feel like a treat not a task. parent_care prompts are about the parent's own wellbeing, grounded in a NORMAL MOMENT above, permission giving in tone, and they gently point to giving yourself space or letting the child be bored or play alone when it fits. celebration prompts are short and genuinely warm. If anything suggests crisis, the action is always a human: GP, NHS 111, Childline 0800 1111. No dashes in the text. Return ONLY a JSON array: [{"kind":"...","title":"max 8 words","body":"2 to 3 sentences","reason":"the trigger reason verbatim"}]`,
       }],
     })

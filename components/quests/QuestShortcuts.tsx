@@ -26,6 +26,8 @@ type Tile = {
   icon: KidIconName
   bg: string
   iconBg: string
+  /** The icon's own colour, so eight tiles read as eight places. */
+  iconColor: string
   /** Reads the live status into the badge, or null for a tile with no state. */
   badge?: (s: BoardStatus) => string | null
 }
@@ -36,7 +38,7 @@ const TILES: Tile[] = [
     // lives. It used to land at the top of the manager, above two screens of
     // ideas, which is not what a parent pressing manage jobs came to do.
     href: '#my-todo', label: 'Manage jobs', sub: 'Add, agree and send',
-    icon: 'jobs', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
+    icon: 'jobs', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#C0603A',
     badge: s => s.ticksToConfirm > 0 ? `${s.ticksToConfirm} waiting` : null,
   },
   {
@@ -46,7 +48,7 @@ const TILES: Tile[] = [
     // because they are one idea in two places: the jobs on the screen and the
     // same jobs on the fridge.
     href: '/dashboard/printables/star-chart', label: 'Build your star chart', sub: 'Type the jobs, then print it',
-    icon: 'star', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
+    icon: 'star', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#B8860B',
     // Real, since migration 117: the print button writes a row, so this is a
     // fact rather than a guess. Goes quiet on the first print and stays quiet,
     // because a reprint is a nice to have, never a chase.
@@ -59,16 +61,16 @@ const TILES: Tile[] = [
   },
   {
     href: '/dashboard/printables', label: 'Printables', sub: 'Every other sheet',
-    icon: 'printables', bg: 'var(--tint-blue)', iconBg: 'rgba(255,255,255,0.72)',
+    icon: 'printables', bg: 'var(--tint-blue)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#2E6F8E',
     badge: s => s.printablesToConfirm > 0 ? `${s.printablesToConfirm} waiting` : null,
   },
   {
     href: '/dashboard/quests/play', label: 'Learning games', sub: 'Play and earn stars',
-    icon: 'games', bg: 'var(--tint-green)', iconBg: 'rgba(255,255,255,0.72)',
+    icon: 'games', bg: 'var(--tint-green)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#7A5CC0',
   },
   {
     href: '/dashboard/quests/deal', label: 'Our family deal', sub: 'Print it for the fridge',
-    icon: 'deal', bg: 'var(--tint-sage)', iconBg: 'rgba(255,255,255,0.72)',
+    icon: 'deal', bg: 'var(--tint-sage)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#2F8F6B',
     badge: s => s.agreementSigned ? null : 'Not made',
   },
   {
@@ -77,7 +79,7 @@ const TILES: Tile[] = [
     // this board for, and the learning is the thing the loop is FOR. A board
     // that offers games but not lessons quietly says which one matters.
     href: '/dashboard/lessons', label: 'Lessons', sub: 'Watch together, pass the stage',
-    icon: 'lessons', bg: 'var(--tint-amber)', iconBg: 'rgba(255,255,255,0.72)',
+    icon: 'lessons', bg: 'var(--tint-amber)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#A8475C',
   },
   {
     // The keepsake shop had no way in from here: it sat behind the passport and
@@ -85,7 +87,7 @@ const TILES: Tile[] = [
     // is the physical end of the same pathway, the star chart and the Planet
     // Friends as things you can hold, so it earns a tile of its own.
     href: '/dashboard/keepsakes', label: 'Keepsakes', sub: 'Rewards you can hold',
-    icon: 'keepsakes', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)',
+    icon: 'keepsakes', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#D4600A',
     // Stars banked and not yet spent, across every child. A balance rather
     // than a queue, but it is still something owed: the child has earned these
     // and not been given anything for them. It falls as rewards are taken.
@@ -98,7 +100,7 @@ const TILES: Tile[] = [
     // nowhere findable. It belongs here: a school reminder is a job the week
     // puts on the family, which is exactly what this board is for.
     href: '/dashboard/school', label: 'School reminders', sub: 'PE kit, library day, trips',
-    icon: 'jobs', bg: 'var(--tint-green)', iconBg: 'rgba(255,255,255,0.72)',
+    icon: 'jobs', bg: 'var(--tint-green)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#1F6F8B',
     badge: s => s.schoolOpen > 0 ? `${s.schoolOpen} open` : null,
   },
 ]
@@ -119,7 +121,7 @@ export default function QuestShortcuts({ status }: { status?: BoardStatus }) {
     return {
       href: t.href, label: t.label, sub: t.sub,
       icon: <KidIcon name={t.icon} size={23} />,
-      bg: t.bg, accent: ACCENT[t.bg] ?? 'var(--border)',
+      bg: t.bg, accent: ACCENT[t.bg] ?? 'var(--border)', iconColor: t.iconColor,
       ...(badge ? { badge } : {}),
     }
   })
