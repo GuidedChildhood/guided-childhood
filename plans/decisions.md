@@ -3327,3 +3327,48 @@ about Teo is that Teo exists.
 
 Still worth doing separately: JP's test accounts carry years of stale memory
 that will keep producing this. Offered to clear the orphaned rows.
+
+---
+
+## 29 July 2026 — the Next step bar, and Settings grows up
+
+Two of JP's phone notes, plus one thing found while doing them.
+
+**The bar colour.** It used --deep-teal (#2E2818). That token is a warm
+espresso and it works on a full width marketing panel, but in a small floating
+bar over the cream dashboard it reads as a flat black brick, which is why JP
+called it black. Moved to --retro-green, which the token block already
+describes as the friendlier dark panel. Lesson worth keeping: a dark token that
+looks warm at section scale can read as pure black at component scale, so
+"which token" is not the whole question, "at what size, over what background"
+is the rest of it.
+
+**The bar repetition.** It allowed two appearances per session in
+sessionStorage, which resets every visit, so the same nudge arrived every day.
+Now one appearance per step, ever, in localStorage, recorded the moment it
+lands rather than when the parent acts, so Not now, Go and walking away all
+retire it equally.
+
+**Settings.** JP asked for a Duolingo shaped place holding log out, children
+and birthdays, terms signed, devices and a control panel link. Profile,
+children, sign out, school and delete already existed. Added the links block
+(devices, notifications, quests and the child app) and a What you have agreed
+to section.
+
+Terms and Privacy are agreed by creating an account, and signup says so in as
+many words, so the join date IS the agreement date. No new column, no second
+tick box pretending to be more meaningful than the first.
+
+**The thing found on the way.** The wellbeing consent wording promises "You can
+stop any time in Settings, and when you do, what we hold is deleted". The route
+to do it has existed since migration 120. Nothing in the product ever called
+it. That is the same pattern as the passport fallback, the badge clip guard,
+the push test cleanup and the privacy policy deletion promise: a handler
+written correctly that could never fire. Under UK GDPR withdrawing Article 9
+consent has to be as easy as giving it, so a withdrawal only Justin could
+perform by hand was not a withdrawal. There is now a button.
+
+Running count of that pattern: six. It is the most common defect in this
+codebase by some distance, and it never shows up in a typecheck or a build. The
+check that catches it is asking, of any guard or promise, what would have to be
+true for this to run, and then whether that is ever true.
