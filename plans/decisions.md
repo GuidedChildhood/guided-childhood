@@ -3681,3 +3681,28 @@ Two things caught by measuring rather than looking:
 Worth keeping: "make it a page" and "make it not scroll" are the same request
 twice, and the second one is easy to satisfy on paper and lose in the details.
 The page is only better than the panel if the page itself is short.
+
+---
+
+## 29 July 2026 — Add a routine gets its own page too
+
+Justin, on the new Manage jobs page: "button for add routine of jobs needs to be
+bigger and at the moment just takes to quest home page but needs to goto add
+routine separate page which then needs a bottom back to add a job".
+
+All three fair. The link was small mono text, which read as a footnote, and it
+pointed at #routines on the Quests page, so pressing it dumped a parent back
+into the middle of the page they had just left. Exactly the same fault the
+Manage jobs tile had before this morning, one level down. Worth noting: fixing a
+navigation pattern in one place leaves every link that USED the old pattern
+still pointing at it.
+
+/dashboard/quests/routines now exists, the link is a full width button, and the
+new page carries a back at the top to Manage jobs and a full width "Back to add
+a job" at the bottom. The bottom one is the point: adding a routine and adding a
+job are the same errand in a parent's head, so finishing one should offer the
+other rather than leaving them to find their own way.
+
+The pick before you add behaviour came across intact: jobs already on the board
+show greyed and ticked and disabled, and the button counts only the fresh ones,
+so tapping twice can never double up.

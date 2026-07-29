@@ -375,7 +375,16 @@ export default function ManageJobs() {
         )}
       </section>
 
-      <Link href="/dashboard/quests#routines" style={{ display: 'block', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--terracotta)', textDecoration: 'none', padding: '6px 0' }}>
+      {/* A real button, and it goes to a real page.
+          It was a small mono text link pointing at a hash on the Quests page,
+          so it read as a footnote and then dumped a parent back into the middle
+          of the page they had just left. Justin: the button "needs to be bigger"
+          and "needs to goto add routine separate page". */}
+      <Link
+        href="/dashboard/quests/routines"
+        className="btn btn-outline"
+        style={{ display: 'flex', justifyContent: 'center', marginTop: 6, padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}
+      >
         Add a whole week routine →
       </Link>
     </div>
