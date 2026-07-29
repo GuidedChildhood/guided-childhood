@@ -1573,7 +1573,27 @@ export default function KidQuestScreen({
             three segments, the chosen one filled butter with the chunky shadow,
             each with its own drawn icon so a young child reads it at a glance.
             The id lets the wisdom pop's See a fun sheet action scroll here. */}
-        <div id="kid-tabs" style={{ display: 'flex', gap: '4px', background: 'var(--cream)', border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '18px', padding: '4px', marginBottom: '16px', scrollMarginTop: '12px' }}>
+        {/* Pinned to the top of the viewport, not sat in the scroll.
+            Justin: "if we have these tabs here at top we don't need them
+            scrolled down."
+            The tabs already existed. They were 1,570 lines into the page, which
+            is why SIX different places called scrollIntoView on this element to
+            drag a child back up to them. Six workarounds for one placement
+            problem, and each one moved the page under a child's thumb to reach a
+            control that should never have been out of reach. Sticky removes the
+            cause rather than adding a seventh.
+            Opaque background, because a translucent strip over moving content is
+            unreadable, and a shadow so it reads as floating above the list. */}
+        <div
+          id="kid-tabs"
+          style={{
+            position: 'sticky', top: 0, zIndex: 30,
+            display: 'flex', gap: '4px', background: 'var(--cream)',
+            border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '18px',
+            padding: '4px', marginBottom: '16px', scrollMarginTop: '12px',
+            boxShadow: '0 6px 16px rgba(26,26,46,0.10)',
+          }}
+        >
           {([['quests', 'Quests', 'star', 0], ['lessons', 'Lessons', 'lessons', totalNewLessons], ['print', 'Printables', 'printables', newPrint]] as const).map(([key, label, icon, dot]) => {
             const on = tab === key
             return (

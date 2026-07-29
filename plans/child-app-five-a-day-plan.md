@@ -52,22 +52,57 @@ the shape is worth copying almost exactly:
 - [Day six](https://mobbin.com/screens/f6675d16-c6b5-4847-aa9f-fb66a2d61e88) names
   tomorrow: "Tomorrow makes 7 days, let's go."
 
-**Where it disagrees.** Duolingo does not use top tabs. The reason the daily quest
-panel needs no scrolling is not tabs, it is that the list is only three or four
-rows. Five rows of one line each fits one phone screen with room to spare. So the
-five step redesign solves the scrolling problem on its own, and top tabs would add
-a row of chrome to a screen that no longer needs it.
+## Navigation: settled, and JP was right
 
-Navigation to the other places (lessons, printables, stickers, timer, balance)
-still has to exist, and every app in this space puts that in a BOTTOM bar, thumb
-height: Duolingo, GoHenry, Greenlight, Finch. Top tabs on a child's phone sit
-where the thumb cannot reach and compete with the browser chrome in a PWA.
+I first recommended a bottom bar over top tabs, on the strength of Duolingo,
+GoHenry and Finch all using one. JP's reply corrected the question:
 
-Recommendation: five steps on one screen, no scroll, plus a bottom tab bar. That
-delivers what JP asked for ("no need to scroll", "nothing lost", "navigation back
-to menu") using the pattern the evidence supports, rather than the mechanism he
-named. Flagged as a question below rather than assumed, because he asked for tabs
-at the top specifically.
+> "Just checking this is just the child's app, as we have tabs at the top at the
+> moment."
+
+He is right, and it changes the answer. The child app ALREADY has a tab strip
+(`quests`, `lessons`, `printables`). The problem was never that tabs were the
+wrong pattern. It was that this strip sits **1,570 lines into the page**, inside
+the scroll, so a child has to scroll down to reach the thing that navigates.
+
+The proof was already in the code: **six separate places called
+`scrollIntoView` on `#kid-tabs`** to drag a child back up to it. Six workarounds
+for one placement problem, each of them moving the page under a child's thumb to
+reach a control that should never have been out of reach.
+
+So the fix is to pin the existing strip rather than invent a second navigation
+system. Sticky is done (`position: sticky, top: 0`), opaque so it stays readable
+over moving content, with a shadow so it floats above the list. No bottom bar and
+no new pattern for a child to learn.
+
+### But sticky alone does NOT fix it, and this is the number that matters
+
+Measured on the real page at 390px: **the tab strip sits 2,384px down the
+document.** Sticky only engages once a child has scrolled TO it, so it does
+nothing at all for the 2,384px above. Verified: at `tabs+0` the strip is 1,290px
+below the fold, at `tabs+900` it pins at 0.
+
+So the strip being sticky helps a child who is already deep in the page and does
+not help the child Justin is describing, who opens the app and wants to switch
+section. Claiming this as done would have been wrong, and only measuring caught
+it: the CSS is correct and the outcome is still the complaint.
+
+**Why it cannot simply be moved up.** Everything from the header down to the strip
+renders on EVERY tab: the welcome, the streak bar, the Today list, the tile grid,
+the ask card. Only the section BELOW the strip switches. So today the page is one
+long always on stack with a tab controlled tail, and moving the strip above the
+stack would put tabs over content the tabs do not control, which is worse than
+where it is.
+
+The real fix is the restructure in step 3 below: the always on stack becomes the
+content of the Quests tab, so the strip can sit directly under the header and
+genuinely switch between three sections. That is what makes "no need to scroll"
+true rather than nearly true.
+
+Worth keeping two things. When the code contains several workarounds for the same
+inconvenience, the workarounds are the bug report: six `scrollIntoView` calls were
+sat there all day and I read past every one of them. And a correct CSS change is
+not the same as a solved problem, which only a measurement tells you.
 
 ## The five steps
 
@@ -106,16 +141,20 @@ minutes for weekend."
   child's app. Visible proof, not a number in a table.
 - The same 5 also unlock extra weekend minutes.
 
-**This collides with the star economy plan and the collision needs deciding.**
-`plans/star-economy-weekly-reset-plan.md` already has unused minutes converting
-into sticker credits, approved tonight with the stretched thresholds. Now streaks
-also produce stickers. Two earn paths into one book means the maths in that plan
-no longer holds, and a child could fill the book twice as fast as intended.
+This collided with the star economy plan, where unused minutes already convert to
+sticker credits. Two earn paths into one book would have filled it twice as fast
+as the month long pacing assumes.
 
-The clean split, if JP agrees: **unused minutes buy sticker book pages** (restraint,
-the thing the product exists to teach) and **streaks earn the older friends**
-(showing up five days running). Different currencies, different lessons, one book
-with two kinds of thing in it. Named as a question below.
+**Decided, JP, 29 July: split them.**
+
+- **Unused minutes buy sticker book pages.** Rewards restraint, which is the thing
+  the product exists to teach: the child who uses less gets more.
+- **Five streaks earn an older squad friend.** Rewards showing up five days
+  running, and the friend then appears on the app as visible proof.
+
+Two currencies, two different lessons, one book holding two kinds of thing. The
+thresholds in `plans/star-economy-weekly-reset-plan.md` stand unchanged, because
+only the minutes feed them.
 
 ## "Start the best day", and mixing it up
 
@@ -143,25 +182,33 @@ refresh must not reshuffle a half finished list) and different across days.
    claimed at PR time.
 2. **The five step card**, replacing the tile grid and the long stack as the
    first screen. One screen, no scroll, at 390px.
-3. **The bottom tab bar**, carrying every section that exists today so nothing is
-   lost. This is the "nothing is lost" audit, done against the list above.
+3. **The strip to the top, for real.** Fold the always on stack into the Quests
+   tab so the tab strip can sit directly under the header and actually switch
+   sections, then delete the six `scrollIntoView` workarounds. This is also the
+   "nothing is lost" audit, done against the section list above, and it is the
+   step that makes the 2,384px go away.
 4. **The streak takeover**, full screen, week strip, names tomorrow.
 5. **Streak to sticker**, five streaks to an older friend, appearing on the app.
 6. **Weekend minutes** from the same five, once the star economy split is settled.
 
 Steps 1 to 4 are a week. 5 and 6 depend on the currency question.
 
-## Questions for JP
+## A missed day: decided
 
-1. **Top tabs or a bottom bar?** Recommendation above is a bottom bar plus five
-   steps that need no scrolling, because that is what Duolingo, GoHenry and Finch
-   all do and because top tabs sit where a thumb cannot reach.
-2. **Do streaks and unused minutes both feed the sticker book?** Recommendation:
-   unused minutes buy pages, streaks earn the older friends, so the two rewards
-   stay distinguishable and the month long pacing survives.
-3. **How many extra weekend minutes for five streaks?** It has to be small enough
-   that the weekly cap still means something. 30 minutes is my suggestion.
-4. **What happens when a day is missed?** Duolingo resets to zero and sells a
-   freeze. For a product about not manipulating children, my instinct is the run
-   simply starts again with no loss of stickers already earned, and no way to buy
-   it back.
+**JP, 29 July: the run starts again, and everything already earned stays.** No way
+to buy a streak back, no freeze to sell.
+
+Duolingo resets to zero and then sells you a streak freeze, which is the exact
+pressure the ICO Children's Code names and the exact pattern this product exists
+to be the alternative to. A child who misses a Tuesday because they were ill has
+not failed at anything, and a product that makes them feel they have, then offers
+to sell the feeling away, is not one we are building. The stickers are earned and
+they are kept.
+
+## Still open
+
+**How many extra weekend minutes for five streaks?** Needs to be small enough that
+the weekly cap still means something. 30 minutes is my suggestion: noticeable to a
+child, and well inside one week's recommended allowance so it cannot undo the
+guideline the whole balance system is built on. Not a blocker, because it is one
+number and it lands last in the build order.
