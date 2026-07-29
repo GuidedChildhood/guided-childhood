@@ -10,7 +10,7 @@ function urlBase64ToUint8Array(base64String: string) {
   const rawData = atob(base64)
   return Uint8Array.from(rawData, c => c.charCodeAt(0))
 }
-import { STAR_MINUTES, KID_REQUEST_IDEAS } from '@/lib/quests/templates'
+import { STAR_MINUTES } from '@/lib/quests/templates'
 import { printablesForStage } from '@/lib/printables/registry'
 import type { StarBank } from '@/lib/quests/bank'
 import { lessonsForStage, type KidLesson } from '@/lib/quests/kid-lessons'
@@ -28,6 +28,7 @@ import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidTodayList from '@/components/kid/KidTodayList'
+import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
@@ -205,7 +206,6 @@ export default function KidQuestScreen({
   )
   const [burst, setBurst] = useState<string | null>(null)
   const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on' | 'ios'>('hidden')
-  const [showIosSteps, setShowIosSteps] = useState(false)
   const [showWelcome, setShowWelcome] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
   const [askedMore, setAskedMore] = useState(false)
@@ -244,7 +244,9 @@ export default function KidQuestScreen({
   const [qAnswers, setQAnswers] = useState<number[]>([])
   const [qPicked, setQPicked] = useState<number | null>(null)
   const [asks, setAsks] = useState<KidAsk[]>(requests)
-  const [askText, setAskText] = useState('')
+  // Shown on the Ask for a job tile, so a child can see an idea is still with a
+  // grown up without opening the page to find out.
+  const pendingAsks = asks.filter(a => a.status === 'pending').length
   const [askBusy, setAskBusy] = useState(false)
   // The screen time ask and the grown up's nudges, live on the poll. A
   // declined ask the child has tapped away stays away (their own device
@@ -513,14 +515,16 @@ export default function KidQuestScreen({
       const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent)
       const standalone = window.matchMedia('(display-mode: standalone)').matches
         || (navigator as unknown as { standalone?: boolean }).standalone === true
-      if (isIos && !standalone) setRemindState('ios')
+      if (isIos && !standalone && !remindersSnoozed()) setRemindState('ios')
       return
     }
     if (localStorage.getItem('gc_kid_reminders') === '1' || Notification.permission === 'granted') {
       setRemindState(Notification.permission === 'granted' ? 'on' : 'offer')
       return
     }
-    if (Notification.permission !== 'denied') setRemindState('offer')
+    // A recent Not now keeps us quiet for three days. Checked here rather than
+    // inside the prompt so the offer never flashes up and vanish on load.
+    if (Notification.permission !== 'denied' && !remindersSnoozed()) setRemindState('offer')
   }, [])
 
   // The child pitches their own quest: clean my room, wash the car. It
@@ -535,7 +539,6 @@ export default function KidQuestScreen({
       return
     }
     setAskBusy(true)
-    setAskText('')
     const localId = `local-${Date.now()}`
     setAsks(prev => [{ id: localId, title: clean, emoji, status: 'pending' }, ...prev])
     setToast('Quest idea sent to your grown up! ⭐')
@@ -1144,6 +1147,20 @@ export default function KidQuestScreen({
           </div>
         )}
 
+        {/* Reminders, asked ABOVE the jobs rather than below everything. This
+            used to sit at the very bottom of the screen, which is why a child
+            could add the app to their Home Screen and never be asked: the offer
+            was there and nobody scrolls that far. The job nudges push to the
+            child's device and nowhere else, so an unanswered offer here is the
+            difference between the feature working and not existing. */}
+        {(remindState === 'offer' || remindState === 'ios') && (
+          <KidRemindersPrompt
+            state={remindState}
+            onEnable={() => { playKidSound('tap'); enableReminders() }}
+            childName={childName}
+          />
+        )}
+
         {/* The ONE Today list: every job due today, plus Learn and Move, each
             with its stars, ticked in one flow. The buddy's line sits above it
             and the quiet device rule sits under it. When gifted screen time
@@ -1201,7 +1218,17 @@ export default function KidQuestScreen({
             { emoji: '📚', label: 'My lessons', sub: 'Learn it, pass it', tint: 'var(--terracotta-lt)', onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
             { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
             { emoji: '🎨', label: 'Make it mine', sub: 'Buddy, colour, new Friends', tint: 'var(--terracotta-lt)', onClick: () => { setMakeMineOpen(true); playKidSound('tap') } },
-            { icon: 'newjob', iconColor: '#3D739A', label: askedMore ? 'Asked' : 'New job', sub: askedMore ? 'Grown up knows' : 'Ask a grown up', tint: askedMore ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)', onClick: () => { if (!askedMore) { askForMore(); playKidSound('tap') } } },
+            // Opens the ask page, always, in both states. It used to fire a bare
+            // "wants more quests" ping that could not say WHAT the child had in
+            // mind, and then flip to "Asked, grown up knows" and do nothing at
+            // all, so the one tile a child would press became a dead end.
+            {
+              icon: 'newjob', iconColor: '#3D739A',
+              label: 'Ask for a job',
+              sub: pendingAsks > 0 ? `${pendingAsks} waiting on a yes` : 'Pitch your own idea',
+              tint: pendingAsks > 0 ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)',
+              onClick: () => { playKidSound('tap'); window.location.assign(`/k/${token}/suggest`) },
+            },
             // Printables fills the last grid slot: a tap opens the printables
             // tab, where the child does the ones sent to them and asks for more.
             { emoji: '🖍️', label: 'Printables', sub: 'Colour and do', tint: 'var(--tint-sage)', onClick: () => { setTab('print'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } },
@@ -1620,77 +1647,33 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Pitch your own quest: tap an example or write your own, and it goes
-            to the grown up to say yes. Big, clear, tappable, all the same size,
-            so a young child can pick or type easily. */}
-        <div style={{ marginTop: '18px', background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 rgba(26,26,46,0.08)' }}>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', margin: '0 0 4px' }}>
-            Got a quest idea? 💡
-          </p>
-          <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
-            Tap one, or write your own. Your grown up says yes to turn it into a real quest with stars.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '9px', marginBottom: '14px' }}>
-            {KID_REQUEST_IDEAS.filter(idea => !asks.some(a => a.title === idea.title)).map(idea => (
-              <button
-                key={idea.title}
-                onClick={() => { submitAsk(idea.title, idea.emoji); playKidSound('tap') }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left', cursor: 'pointer',
-                  padding: '13px 14px', borderRadius: '14px',
-                  background: 'var(--cream)', border: '1.5px solid rgba(26,26,46,0.08)',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.25,
-                }}
-              >
-                <span style={{ fontSize: '20px', flexShrink: 0 }}>{idea.emoji}</span>
-                <span style={{ minWidth: 0 }}>{idea.title}</span>
-              </button>
-            ))}
-          </div>
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch' }}>
-            <input
-              value={askText}
-              onChange={e => setAskText(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') submitAsk(askText, '⭐') }}
-              placeholder="Write your own idea..."
-              maxLength={60}
-              style={{
-                flex: 1, minWidth: 0, padding: '13px 14px', borderRadius: '14px',
-                border: '1.5px solid rgba(26,26,46,0.12)', background: 'var(--cream)',
-                fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none',
-              }}
-              onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)' }}
-              onBlur={e => { e.currentTarget.style.borderColor = 'rgba(26,26,46,0.12)' }}
-            />
-            <button
-              onClick={() => submitAsk(askText, '⭐')}
-              disabled={askText.trim().length < 3}
-              style={{
-                padding: '13px 20px', borderRadius: '14px', border: 'none', flexShrink: 0,
-                cursor: askText.trim().length < 3 ? 'default' : 'pointer',
-                background: 'var(--terracotta)', color: 'var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
-                boxShadow: askText.trim().length < 3 ? 'none' : '0 4px 0 var(--terracotta-dark)',
-                opacity: askText.trim().length < 3 ? 0.55 : 1,
-              }}
-            >
-              Pitch it
-            </button>
-          </div>
-          {asks.length > 0 && (
-            <div style={{ marginTop: '14px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
-              {asks.slice(0, 6).map(a => (
-                <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'var(--cream)', borderRadius: '12px', padding: '9px 12px' }}>
-                  <span style={{ fontSize: '17px', flexShrink: 0 }}>{a.emoji}</span>
-                  <span style={{ flex: 1, minWidth: 0, fontSize: '16px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{a.title}</span>
-                  <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, color: a.status === 'added' ? 'var(--retro-green-dark, var(--deep-teal))' : 'var(--ink-muted)' }}>
-                    {a.status === 'added' ? 'IT IS ON ⭐' : a.status === 'declined' ? 'NOT THIS TIME' : 'WAITING'}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        {/* Leads to the ask page rather than holding the whole flow here. The
+            ideas grid, the free text box and the list of what happened next all
+            used to live inline at this point, two thirds of the way down the
+            longest screen in the product, which is a fine place for a child who
+            has already scrolled and no place at all for one looking for it. One
+            implementation, on its own page, reached from here and from the tile. */}
+        <button
+          onClick={() => { playKidSound('tap'); window.location.assign(`/k/${token}/suggest`) }}
+          style={{
+            display: 'flex', alignItems: 'center', gap: '13px', width: '100%', textAlign: 'left', cursor: 'pointer',
+            marginTop: '18px', background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)',
+            borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
+          }}
+        >
+          <span style={{ fontSize: '26px', flexShrink: 0 }}>💡</span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.2 }}>
+              Got a quest idea?
+            </span>
+            <span style={{ display: 'block', fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
+              {pendingAsks > 0
+                ? `${pendingAsks === 1 ? 'One idea is' : `${pendingAsks} ideas are`} waiting on your grown up. Tap to see.`
+                : 'Pitch your own and earn stars for it.'}
+            </span>
+          </span>
+          <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink-muted)' }}>›</span>
+        </button>
 
         {/* Quests waiting on other days, so done today never reads as done forever */}
         {laterQuests.length > 0 && (
@@ -2187,58 +2170,13 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {remindState === 'offer' && (
-          <button
-            onClick={enableReminders}
-            style={{
-              width: '100%', marginTop: '20px', padding: '13px 16px',
-              background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)',
-              borderRadius: '14px', cursor: 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)',
-            }}
-          >
-            🔔 Remind me about my quests
-          </button>
-        )}
+        {/* The offer and the iOS how to both moved to the top of the screen, in
+            KidRemindersPrompt. Only the quiet confirmation stays down here,
+            because it is reassurance rather than something to act on. */}
         {remindState === 'on' && (
           <p style={{ textAlign: 'center', fontSize: '16px', color: 'var(--ink-soft)', marginTop: '18px' }}>
             🔔 Reminders on. Morning and after school nudges, never at bedtime.
           </p>
-        )}
-        {remindState === 'ios' && (
-          <>
-            <button
-              onClick={() => setShowIosSteps(v => !v)}
-              style={{
-                width: '100%', marginTop: '20px', padding: '13px 16px',
-                background: '#fff', border: '1.5px solid rgba(26,26,46,0.1)',
-                borderRadius: '14px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)',
-              }}
-            >
-              🔔 Want quest reminders? Add me to your Home Screen
-            </button>
-            {showIosSteps && (
-              <div style={{ marginTop: '10px', background: '#fff', borderRadius: '16px', padding: '16px 18px' }}>
-                {[
-                  <>Tap the <strong>Share</strong> button at the bottom of Safari, the square with the arrow pointing up.</>,
-                  <>Scroll down and tap <strong>Add to Home Screen</strong>, then tap <strong>Add</strong>.</>,
-                  <>Open your quests from the <strong>new icon</strong> on your Home Screen.</>,
-                  <>Tap the <strong>🔔 Remind me</strong> button that appears, and you are set.</>,
-                ].map((step, i) => (
-                  <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', marginBottom: i < 3 ? '9px' : 0 }}>
-                    <span style={{
-                      width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
-                      background: 'var(--terracotta)', color: 'var(--ink)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
-                    }}>{i + 1}</span>
-                    <span style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.55 }}>{step}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
         )}
 
         <button
