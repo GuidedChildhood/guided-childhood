@@ -3510,3 +3510,43 @@ QuestStatusBoard is. Four buckets that are the actual lifecycle: waiting on you
 One accepted quirk: a recurring job with an old unapproved tick appears in both
 waiting on you and on their app. Both statements are true, an unapproved tick
 from before and today's instance still to do, so it stays.
+
+---
+
+## 29 July 2026 — the notification split, and Home's tail
+
+Justin answered the open question: **short factual nudges, plus ONE DiGi
+reflective card.** That decision turned out to also be the fix for Home being
+too long, so both were one job.
+
+**What Home's tail actually was.** DigiStreakWidget, then DigiPrompts, then
+SmartAlerts. DigiPrompts mapped over EVERY live prompt, so a family with three
+of them met three full width cards in a row, each with the same star avatar and
+roughly ten lines of body at 17px and line height 1.68. SmartAlerts then did the
+same thing slightly smaller: emoji tile, title, a line and a half of body, and
+its own button, twice. Two card stacks back to back. That is why Justin was
+scrolling past his own advice.
+
+**Mobbin first, and four apps agree independently.** Withings Health Mate splits
+Highlights, a single big card, from Read, a list of compact rows. Plenty of Fish
+does For you then Latest identically. Apple Store follows its activity cards
+with a compact chevron row. And komoot puts Show more under a long body rather
+than printing all of it. So: one rich card that can be expanded, then rows.
+
+**Built.** DigiPrompts renders ONE prompt, body clamped to two lines with Read
+the rest. The others are not discarded, they are rows in the database with their
+own status, so dismissing brings the next forward and anything untouched is
+there tomorrow, with a quiet "2 more when you want them" so a parent knows the
+thinking exists. SmartAlerts became one line rows: emoji, title, the CTA as a
+mono sub label, whole row is the link, body dropped entirely.
+
+Dropping the body rather than truncating it was the deliberate call. If a fact
+needs a paragraph to make sense it is not a nudge, it is the reflective card
+above. That is the rule the split gives us and it is worth holding to, because
+the failure mode here is every nudge slowly growing a paragraph again.
+
+Measured at 390: the whole tail is 614px, and expanding the card adds 400px. So
+the clamp alone saves 400px, before counting the two prompt cards that no longer
+render at all.
+
+A quieter Home does not mean less thinking. It means less of it shouted at once.

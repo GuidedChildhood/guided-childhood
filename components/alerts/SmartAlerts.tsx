@@ -6,8 +6,15 @@ import type { Suggestion } from '@/lib/alerts/suggestions'
 
 // The home nudge: the ranked suggestions, shown two at a time, calm and
 // dismissable. A dismissed one steps back for three days so it never nags.
-// This is the one proactive layer that surfaces the whole service at the
-// right moment, replacing the old prompts strip.
+//
+// These are the SHORT FACTUAL half of how the notification layer works: many
+// small nudges here, and exactly one reflective card from DiGi above them.
+// That split is Justin's own call, and it is what four apps in the references
+// already do (Withings Highlights then Read, Plenty of Fish For you then
+// Latest, Apple Store, komoot).
+//
+// So a nudge is one line. If a thing needs a paragraph to make sense, it is
+// not a nudge and it belongs in the card above.
 
 const DISMISS_KEY = 'gc_alert_dismiss'
 const COOL_OFF = 3 * 86400000
@@ -54,41 +61,52 @@ export default function SmartAlerts({ suggestions }: { suggestions: Suggestion[]
         )}
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      {/* Rows, not cards.
+          Each of these used to be a card in its own right: emoji tile, title,
+          a line and a half of body, and its own button, stacked under the DiGi
+          prompts which were doing the same thing bigger. Two card stacks in a
+          row is how Home got long enough that Justin was scrolling past his
+          own advice.
+          These are the short factual half of the split: one line each, the
+          whole row is the link, and the body is gone rather than truncated,
+          because a fact that needs a paragraph to explain it is not a nudge,
+          it is the reflective card above. Withings puts its Read rows exactly
+          like this under a single Highlights card, and Plenty of Fish does the
+          same with Latest under For you. */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
         {shown.map((s, i) => (
           <div key={s.key} style={{
-            position: 'relative', display: 'flex', alignItems: 'center', gap: '13px',
+            display: 'flex', alignItems: 'center', gap: 4,
             background: '#fff', border: `1.5px solid ${i === 0 ? 'var(--terracotta)' : 'var(--border)'}`,
-            borderRadius: '16px', padding: '14px 15px',
-            boxShadow: i === 0 ? '0 5px 18px rgba(224,122,63,0.12)' : 'none',
+            borderRadius: '14px', paddingRight: 4,
           }}>
-            <span style={{
-              width: 40, height: 40, borderRadius: '11px', flexShrink: 0,
-              background: i === 0 ? 'var(--terracotta-lt)' : 'var(--cream)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '21px',
-            }}>{s.emoji}</span>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.2 }}>
-                {s.title}
-              </div>
-              <div style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '3px 0 9px' }}>
-                {s.body}
-              </div>
-              <Link href={s.href} style={{
-                display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
-                color: 'var(--ink)', background: i === 0 ? 'var(--terracotta)' : '#fff',
-                border: i === 0 ? 'none' : '1.5px solid var(--border)',
-                borderRadius: '11px', padding: '8px 14px',
-                boxShadow: i === 0 ? '0 3px 0 var(--terracotta-dark)' : 'none',
-              }}>
-                {s.cta} <span aria-hidden="true">→</span>
-              </Link>
-            </div>
+            <Link href={s.href} style={{
+              flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: '11px',
+              textDecoration: 'none', padding: '11px 4px 11px 13px',
+            }}>
+              <span aria-hidden style={{ fontSize: '19px', lineHeight: 1, flexShrink: 0 }}>{s.emoji}</span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{
+                  display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px',
+                  color: 'var(--ink)', lineHeight: 1.25,
+                  whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                }}>
+                  {s.title}
+                </span>
+                <span style={{
+                  display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11.5px',
+                  letterSpacing: '0.05em', textTransform: 'uppercase',
+                  color: i === 0 ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 1,
+                }}>
+                  {s.cta}
+                </span>
+              </span>
+              <span aria-hidden style={{ fontSize: '17px', color: 'var(--ink-light)', flexShrink: 0 }}>›</span>
+            </Link>
             <button
               onClick={() => dismiss(s.key)}
-              aria-label="Not now"
-              style={{ position: 'absolute', top: '8px', right: '10px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-light)', fontSize: '15px', padding: '4px' }}
+              aria-label={`Not now: ${s.title}`}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-light)', fontSize: '14px', padding: '11px 7px', flexShrink: 0, lineHeight: 1 }}
             >
               ✕
             </button>
