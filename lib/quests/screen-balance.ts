@@ -220,15 +220,15 @@ export function expertWeekTip(signal: {
     return { expert: 'Sue Atkins', tip: 'When screen time creeps up, the calm boundary said once beats the long negotiation. Set the offline win first, so screen goes back to being the reward it is meant to be.' }
   }
   if (signal.balanceTone === 'quiet' || signal.questsApproved === 0) {
-    return { expert: 'Dr Becky Kennedy', tip: 'A quiet week is not a failure, it is just a week. Connection comes before any chart, so start next week with one small thing you do together, not one more thing to tick.' }
+    return { expert: 'Our research team', tip: 'A quiet week is not a failure, it is just a week. Connection comes before any chart, so start next week with one small thing you do together, not one more thing to tick.' }
   }
   if (signal.activeDays >= 5) {
     return { expert: 'Emotion coaching', tip: 'Showing up most days is the whole game. Name out loud what your child did well, because a child who feels seen for the effort keeps choosing it.' }
   }
   if (signal.momentsDone >= 2) {
-    return { expert: 'Dr Becky Kennedy', tip: 'You handled the hard moments with warmth this week, which is the real work. The repair matters more than getting it perfect in the moment.' }
+    return { expert: 'Our research team', tip: 'You handled the hard moments with warmth this week, which is the real work. The repair matters more than getting it perfect in the moment.' }
   }
-  return { expert: 'Dr Becky Kennedy', tip: 'Two things are true this week: the routine is working, and it is allowed to be imperfect. Keep the warmth first and the rest follows.' }
+  return { expert: 'Our research team', tip: 'Two things are true this week: the routine is working, and it is allowed to be imperfect. Keep the warmth first and the rest follows.' }
 }
 
 export function screenBalanceInsight(opts: {

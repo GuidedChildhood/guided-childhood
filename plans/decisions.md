@@ -4008,3 +4008,106 @@ moving a component between them is exactly when that bites.
 Also, again: `pkill -f "next start"` killed my own shell, second time today, and
 this time it did not even kill the server, so the next page load served a stale
 build and looked like a 500 in my new code. Kill by PID.
+
+---
+
+## 29 July 2026 — "Nothing more to do" was why the pings never came
+
+Justin: "pings not arriving on either app, and the button that says send test
+[does not work], and not prompting each app to add notifications."
+
+Three symptoms, one wrong idea underneath: the app treated push as a thing an
+ACCOUNT has, when it is a thing a DEVICE has.
+
+/api/push/status counted subscriptions on the account. One row anywhere meant
+setup was done, and the card then said "Check ins are on, on another device.
+Nothing more to do." On the phone in his hand that sentence was false. A
+subscription is one browser on one machine, so a parent subscribed on their
+laptop receives nothing on their phone, and the app was confidently telling them
+the job was finished on the only device where it had never been started. It also
+closed down the one question that would have found the problem.
+
+The account count was not wrong. The conclusion drawn from it was. Worth keeping:
+a true fact and a false reassurance can be the same sentence.
+
+Two more of the same shape, found while fixing it:
+
+- **The test lied on success.** /api/push/test fired at every subscription on the
+  account, and the card said "Sent. It should appear on this device within
+  seconds." Two different claims. Testing on an unsubscribed phone sent the
+  notification to the laptop upstairs and reported it as arriving here. A false
+  pass is worse than a failure, because it ends the investigation: push looks
+  proven and the pings still never come. Now the caller names its own endpoint
+  and only that device is tested.
+
+- **Granted is not subscribed.** The card showed "Check ins are on" on
+  Notification.permission alone. A reinstall, a cleared cache or an old service
+  worker leaves permission granted with nothing registered, which is exactly the
+  "says on but nothing arrives" state the Reset link was built for. The branch
+  now also requires that we actually hold a subscription for this device, with
+  null (lookup failed) deliberately not counting as no, because a failed lookup
+  must not take a working setup away from a parent.
+
+## And the approve link, which I half fixed this morning
+
+Justin: "this is not taking them to approve, it should take to exact page."
+
+Earlier today I moved seven PUSH routes from /dashboard/quests to
+/dashboard/quests/manage so a notification lands on the Done button. I did not
+touch lib/notifications/collect.ts, so every notification IN THE APP still went
+to the whole board. The same notification behaved differently depending on
+whether it arrived on the lock screen or was read in the bell.
+
+This is the exact lesson I wrote down this morning, in the same file, hours
+before repeating it: fixing a navigation pattern in one place leaves every link
+that used the old pattern still pointing at it. Writing the rule down is not the
+same as searching for the other callers.
+
+Not a blanket change, either, which is the second half of the fix. A finished
+PRINTABLE goes to /dashboard/quests#printables-to-confirm, because the confirm
+button lives on the board and nowhere else. Sending it to Manage jobs with the
+ticks would have looked consistent and landed a parent on a page that cannot do
+the thing the notification just promised.
+
+---
+
+## 29 July 2026 — the clinicians come off the advice (migration 123)
+
+Justin, asked whether he had written permission to name Dr Becky Kennedy and
+Catherine Knibbs: "I'd rather not name them, other than we have built a team of
+researchers in the field to draw upon that follow our philosophy."
+
+Settled, and done. The parent facing badges now read "Our research team":
+weekly plan steps, the balance tips, the social insights. Migration 123 strips
+the names from the seeded content a parent reads, which is daily_moments
+expert_note and the lesson slide scripts, and the seed files are updated too so a
+fresh database does not put them back.
+
+The scope was worth asking about, because "do not name them" splits three ways
+and only one of them is the risk:
+
+- **Parent facing badges: removed.** A living clinician's name next to advice
+  inside a paid product reads as endorsement whether it is meant to or not, and a
+  parent who paid partly because of a name they trust has relied on something we
+  never had permission to imply.
+- **Names inside AI system prompts: kept.** A parent never sees them. They steer
+  the model toward connection before correction and the nervous system framing,
+  so stripping them makes the output worse in exchange for no protection.
+- **Published academic citations (Odgers, Orben, Przybylski, Livingstone): kept.**
+  Citing public research is not the same as attaching a clinician to our advice,
+  and the marketing brief is explicit that every one is defensible.
+
+Also kept: expert_knowledge.source_name, which is internal provenance shown only
+on the insights board. Removing a record of where a finding came from would make
+the product LESS accountable while looking more careful.
+
+Worth keeping from the doing of it: I wrote the replacement chain, then ran it
+over the real strings and READ the output. Three defects only visible that way.
+Nested replace evaluates innermost first, so "Knibbs puts the nervous system at
+the centre" fired before the "Catherine Knibbs puts..." variant and produced
+"Catherine The research puts...". Dropping a name mid sentence turned "This is
+Knibbs made practical" into "This is Made practical". And "Knibbs is clear that"
+follows a full stop, so the lower case replacement started a sentence with a
+small letter. A find and replace that looks obviously right is exactly the kind
+that needs its output read, because the pattern matching is never the hard part,
+the surrounding English is.

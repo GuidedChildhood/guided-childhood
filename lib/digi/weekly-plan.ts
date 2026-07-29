@@ -41,11 +41,11 @@ export function fallbackPlan(a: PlanAnswers): PlanStep[] {
   } else if (focus.includes('screen')) {
     steps.push({ title: `Agree the screen off point together before it happens`, why: `Name the stopping point with ${kid} when everyone is calm, not mid game. A limit set with warmth ahead of time lands far better than one enforced in the heat of it.`, expert: 'Sue Atkins' })
   } else if (focus.includes('connect')) {
-    steps.push({ title: `Ten unhurried minutes with ${kid}, their choice`, why: `Let ${kid} lead what you do together, no phones, no agenda. Connection before correction is the thing that makes everything else easier all week.`, expert: 'Dr Becky Kennedy' })
+    steps.push({ title: `Ten unhurried minutes with ${kid}, their choice`, why: `Let ${kid} lead what you do together, no phones, no agenda. Connection before correction is the thing that makes everything else easier all week.`, expert: 'Our research team' })
   } else if (focus.includes('sleep')) {
     steps.push({ title: `Screens down an hour before ${kid}'s bed`, why: `Bank the last of the day's minutes for tomorrow and keep the hour before bed calm. It is one of the clearest levers in the evidence for better sleep.`, expert: 'The evidence' })
   } else {
-    steps.push({ title: `One small warm win with ${kid} each day`, why: `Start next week with connection, not a longer list. A child who feels seen meets you halfway on everything else.`, expert: 'Dr Becky Kennedy' })
+    steps.push({ title: `One small warm win with ${kid} each day`, why: `Start next week with connection, not a longer list. A child who feels seen meets you halfway on everything else.`, expert: 'Our research team' })
   }
 
   if (a.hardest.length > 0) {
@@ -54,7 +54,7 @@ export function fallbackPlan(a: PlanAnswers): PlanStep[] {
   }
 
   if ((a.parentMood ?? 3) <= 2) {
-    steps.push({ title: `One thing this week that is just for you`, why: `You cannot pour from an empty cup, and a steadier you is the biggest thing ${kid} feels. Ten minutes counts.`, expert: 'Dr Becky Kennedy' })
+    steps.push({ title: `One thing this week that is just for you`, why: `You cannot pour from an empty cup, and a steadier you is the biggest thing ${kid} feels. Ten minutes counts.`, expert: 'Our research team' })
   }
 
   return steps.slice(0, 3).map(s => ({ ...s, title: noDashes(s.title), why: noDashes(s.why) }))
@@ -63,7 +63,7 @@ export function fallbackPlan(a: PlanAnswers): PlanStep[] {
 export async function generateWeeklyPlan(a: PlanAnswers): Promise<PlanStep[]> {
   if (!process.env.ANTHROPIC_API_KEY) return fallbackPlan(a)
 
-  const prompt = `You are DiGi, a warm, evidence led parenting guide. A parent has just done their Sunday check in. From their answers, hand back a short agreed plan for the week ahead: one to three small, concrete, doable steps. Ground every step in what the leading child and parent wellbeing experts teach: Dr Becky Kennedy (connection before correction, two things are true), Sue Atkins (the calm confident boundary), emotion coaching (name the feeling first). Warm, plain, British, direct. Never a lecture, never shame, never a rigid rule. Never use a dash of any kind.
+  const prompt = `You are DiGi, a warm, evidence led parenting guide. A parent has just done their Sunday check in. From their answers, hand back a short agreed plan for the week ahead: one to three small, concrete, doable steps. Ground every step in what the leading child and parent wellbeing experts teach: Dr Becky Kennedy (connection before correction, two things are true), Sue Atkins (the calm confident boundary), emotion coaching (name the feeling first). Name the IDEA to the parent, never the person: the expert field is shown on their screen and we do not put a living clinician's name on advice as though they had endorsed it. Warm, plain, British, direct. Never a lecture, never shame, never a rigid rule. Never use a dash of any kind.
 
 Their answers this week:
 - How the parent is feeling (1 low to 5 good): ${a.parentMood ?? 'not said'}
@@ -73,7 +73,7 @@ Their answers this week:
 - Child: ${a.childName}
 
 Return ONLY compact JSON, no prose around it:
-{"steps":[{"title":"a short doable step, a few words","why":"one warm sentence on why it helps, tied to their answer","expert":"the expert or idea it draws on, eg Dr Becky Kennedy, Sue Atkins, Emotion coaching"}]}
+{"steps":[{"title":"a short doable step, a few words","why":"one warm sentence on why it helps, tied to their answer","expert":"the IDEA it draws on, never a person's name, eg Connection before correction, Two things are true, The calm confident boundary, Emotion coaching"}]}
 One to three steps. Keep each title short enough to read at a glance.`
 
   const models = [DIGI_MODEL, ...DIGI_MODEL_FALLBACKS.filter(m => m !== DIGI_MODEL)]
