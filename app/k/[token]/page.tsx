@@ -57,7 +57,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
     supabase.from('children').select('name, age_band, buddy, accent, daily_limit_minutes').eq('id', link.child_id).maybeSingle(),
     supabase.from('family_quests')
-      .select('id, title, emoji, stars, schedule, schedule_days, blocks_screens')
+      .select('id, title, emoji, stars, schedule, schedule_days, blocks_screens, created_at')
       .eq('user_id', link.user_id)
       .eq('active', true)
       .or(`child_id.eq.${link.child_id},child_id.is.null`)

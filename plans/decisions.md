@@ -3681,3 +3681,177 @@ Two things caught by measuring rather than looking:
 Worth keeping: "make it a page" and "make it not scroll" are the same request
 twice, and the second one is easy to satisfy on paper and lose in the details.
 The page is only better than the panel if the page itself is short.
+
+---
+
+## 29 July 2026 — Add a routine gets its own page too
+
+Justin, on the new Manage jobs page: "button for add routine of jobs needs to be
+bigger and at the moment just takes to quest home page but needs to goto add
+routine separate page which then needs a bottom back to add a job".
+
+All three fair. The link was small mono text, which read as a footnote, and it
+pointed at #routines on the Quests page, so pressing it dumped a parent back
+into the middle of the page they had just left. Exactly the same fault the
+Manage jobs tile had before this morning, one level down. Worth noting: fixing a
+navigation pattern in one place leaves every link that USED the old pattern
+still pointing at it.
+
+/dashboard/quests/routines now exists, the link is a full width button, and the
+new page carries a back at the top to Manage jobs and a full width "Back to add
+a job" at the bottom. The bottom one is the point: adding a routine and adding a
+job are the same errand in a parent's head, so finishing one should offer the
+other rather than leaving them to find their own way.
+
+The pick before you add behaviour came across intact: jobs already on the board
+show greyed and ticked and disabled, and the button counts only the fresh ones,
+so tapping twice can never double up.
+
+---
+
+## 29 July 2026 — how a job reaches the child, and two more pages
+
+Justin: "as I have downloaded this child's app how do we deal with this, when
+adult adds they need to know. Should it prompt scan this code on child's phone
+to get it added, and show QR code or manage yourself here". Plus two more
+buttons, screen timer and balance and stats, as separate pages.
+
+**The handover.** Everything needed already existed: QrHandoverModal and
+ShareQrButton, which creates the link on demand. What was missing was any of it
+appearing where a parent ADDS a job. So a parent could add six jobs on their own
+phone with no idea whether any of it landed anywhere.
+
+Manage jobs now says which of the two worlds this family is in, at the top,
+before the adding. With an app: anything you add appears on their phone straight
+away, and the code is there again if they need it. Without: this child has no
+app yet, scan a code on their phone, or carry on and mark jobs off yourself
+here. Both are legitimate and the copy says so rather than making the no phone
+route feel like a failure.
+
+**Two more pages.** /dashboard/quests/timer now hosts the timer on its own.
+Justin is right that it did not belong at the top of Balance and stats: starting
+twenty minutes of TV is something you do in the moment with a child next to you,
+and reading the week is something you do sitting down. Balance and stats already
+existed at /dashboard/stats and just needed a button.
+
+**Spotted while in there, not fixed.** The stats page says "AIM FOR TOMORROW 210
+min" for a 13 to 15 year old, because it spreads the unused weekly budget across
+the days remaining. 840 minutes over 4 days is 210, which is three and a half
+hours, and the copy underneath says tomorrow "can be up to 210 minutes without a
+second thought". A page built to encourage balance is telling a parent to aim at
+nearly double the daily guide. It is arithmetically correct and behaviourally
+backwards. Same family as the weekly reset work, so worth deciding together.
+
+---
+
+## 29 July 2026 — the child could not tell a job was new
+
+Justin, after linking a job to Yusuf's app: "where is the add notification, it
+should be on first glance for child".
+
+Fair, and the gap was total. A parent adds a job on their own phone, the child
+opens their app, and the new job sits in the list looking exactly like the five
+that were already there. Nothing marks it.
+
+/api/quests/ping already fires a push on add, which is why this looked handled.
+But a push needs permission, and a child who never granted it saw nothing at
+all. A notification is not the same as the app telling you something, and only
+one of those works unconditionally.
+
+The kid page was not even selecting created_at, so the screen had no way to know
+which job was new even if it had wanted to. Added, plus a banner above the Today
+list, before the count, which is where "first glance" actually is.
+
+Latched the same way as the setup bar: worked out ONCE on mount, held in state,
+and the clock stamped immediately. Stamping first would clear the answer before
+it rendered; holding without stamping would show "new" for ever. That is the
+third time today the shape has come up (the setup bar, the squad intro loop, and
+now this), so it is worth naming as a rule: anything that decides once and
+stores the answer needs a writer for BOTH answers, and the decision has to be
+read before the write lands.
+
+localStorage rather than the database on purpose. "New since YOU last looked" is
+a fact about the device in the child's hand, not about the account. First ever
+open records the clock and shows nothing, because on day one everything is new
+and a banner saying seven new jobs is just the list again in a box.
+
+Simulated across six visits before committing: first open 0, quiet reopen 0, one
+added 1, reopen 0, two added 2, reopen 0.
+
+---
+
+## 29 July 2026 — timely job reminders on the child's phone
+
+Justin: "jobs still outstanding but around job time, either before school or
+after school, so clever enough that bed not made before, clothes ready for
+tomorrow, so looks at job type and works out timely reminder."
+
+The signal was already there. Our own templates and routine packs were written
+around the shape of a school day, so the words carry the hour: bed made, teeth,
+shoes on are morning; homework, reading, outside are after school; tomorrow,
+tonight, charge downstairs are evening. Keyword matching against language we
+wrote ourselves, not free text guessing.
+
+Three crons, one per band, at 07:15, 16:30 and 18:45. A parent's own wording
+falls through to after school, which is the safest default because it is the
+longest stretch of a child's own time and the hour they can actually act.
+
+The restraint is the design, not a limitation:
+- ONE push per child per band however many jobs are outstanding. Five things
+  left is one message, not five.
+- Nothing at all when nothing is outstanding. Being quiet when there is nothing
+  to say is what makes the message mean something when it arrives.
+- Anything ticked today counts as handled, PENDING included. The child has done
+  their part and is waiting on a grown up, so chasing them would read as us not
+  noticing.
+- Linked children only. No fallback to the parent, because chasing a parent
+  about their child's bed is the nagging this product exists to replace.
+
+Children's Code point, worth writing down: this is a plain factual reminder
+about a thing the child agreed to. No streaks at risk, no countdowns, nothing
+built to pull them back into the app. A reminder that a job is undone and a
+reminder that we miss them are different things, and only the first one is
+allowed.
+
+Caught by the test rather than by reading: "School bag packed tonight" landed in
+morning, because the morning rule matched "school bag packed" and tonight was
+not in the evening list. Exactly the case Justin named with "clothes ready for
+tomorrow". Fourteen cases now pass.
+
+Cron times are UTC, so these drift an hour against BST. 07:15 UTC is 08:15 in
+summer, which is late for before school. Worth fixing properly with a per family
+local time rather than by nudging the numbers.
+
+---
+
+## 29 July 2026 — the parent's push prompt could be silenced for ever
+
+Justin: "why am I not getting pwa from Yusuf's jobs on parent's platform, and if
+not set up this will stay broken, so how can in app check auto prompt parent?"
+
+Both halves right, and the second half is the diagnosis.
+
+Push to the parent IS wired. A child ticking a job posts to /api/push/send with
+the parent's user id. But with no subscription that call is a silent no-op, and
+the ONLY thing that would ever have told the parent was the PushPrompt card,
+which line 234 hid permanently the moment it was dismissed once.
+
+So: tap it away on day one, and never again be told your child has done
+anything, with no way of finding out why. The approve loop, which is the spine
+of the whole star economy, silently does not work and nothing says so.
+
+Seventh instance of the family today, in a new flavour. The others were guards
+that could never fire. This is a warning that could be permanently switched off,
+which is the same failure seen from the other end: a signal that cannot reach
+the person who needs it.
+
+Fixed by making the dismissal expire after a fortnight rather than for ever.
+Long enough not to nag, short enough that a family cannot spend a term wondering
+why the app is silent. The old permanent '1' flag reads as an expired dismissal,
+so existing families get asked once more rather than staying broken because of a
+tap they made weeks ago. Verified across four states.
+
+Worth generalising: a dismissible warning about something BROKEN is not the same
+as a dismissible offer. Dismissing an offer means no thanks. Dismissing a
+warning means not now, and treating the two the same is how a product ends up
+silently not working for somebody who once tapped a cross.

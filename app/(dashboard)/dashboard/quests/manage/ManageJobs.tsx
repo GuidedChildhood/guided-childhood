@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, type QuestTemplate } from '@/lib/quests/templates'
+import ShareQrButton from '@/components/quests/ShareQrButton'
 
 // Manage jobs, on its own page.
 //
@@ -48,6 +49,7 @@ export default function ManageJobs() {
   const [previous, setPrevious] = useState<Quest[]>([])
   const [ticks, setTicks] = useState<Tick[]>([])
   const [asks, setAsks] = useState<Ask[]>([])
+  const [links, setLinks] = useState<{ child_id: string }[]>([])
   const [activeChild, setActiveChild] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [busy, setBusy] = useState(false)
@@ -71,6 +73,7 @@ export default function ManageJobs() {
       setPrevious(d.previous ?? [])
       setTicks(d.ticks ?? [])
       setAsks((d.requests ?? []).filter((r: Ask) => r.status === 'pending'))
+      setLinks(d.links ?? [])
       setActiveChild(prev => prev ?? kids[0]?.id ?? null)
     } catch { /* the page shows what it has */ }
     setLoading(false)
@@ -147,6 +150,7 @@ export default function ManageJobs() {
     .filter(t => !usedTitles.has(t.title.toLowerCase()))
     .sort((a, b) => Number(!!b.play) - Number(!!a.play))
 
+  const hasApp = !!activeChild && links.some(l => l.child_id === activeChild)
   const childName = children.find(c => c.id === activeChild)?.name
   const name = childName && childName !== 'Your child' ? childName : 'your child'
 
@@ -167,6 +171,34 @@ export default function ManageJobs() {
       <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         Add as many as you like. Nothing here closes on you.
       </p>
+
+      {/* How the job actually reaches them.
+          A parent adding jobs on their own phone has no way of knowing whether
+          any of it lands anywhere. Justin: "when adult adds they need to know,
+          should it prompt scan this code on child's phone to get it added, and
+          show QR code or manage yourself here". So the answer sits right where
+          the adding happens, and it says which of the two worlds this family is
+          in rather than making them guess. */}
+      {activeChild && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+          background: hasApp ? 'var(--cream)' : 'var(--terracotta-lt)',
+          border: `1.5px solid ${hasApp ? 'var(--border)' : 'var(--terracotta)'}`,
+          borderRadius: 16, padding: '13px 15px', marginBottom: 16,
+        }}>
+          <span style={{ flex: 1, minWidth: 180, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.5 }}>
+            {hasApp
+              ? <>Anything you add here appears on {name}&apos;s phone straight away.</>
+              : <><strong>{name} has no app yet.</strong> Scan a code on their phone to set it up, or carry on and mark jobs off yourself here.</>}
+          </span>
+          <ShareQrButton
+            childId={activeChild}
+            childName={childName}
+            label={hasApp ? 'Show the code again' : 'Scan on their phone'}
+            style={{ flexShrink: 0 }}
+          />
+        </div>
+      )}
 
       {children.length > 1 && (
         <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 18 }}>
@@ -375,9 +407,26 @@ export default function ManageJobs() {
         )}
       </section>
 
-      <Link href="/dashboard/quests#routines" style={{ display: 'block', textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--terracotta)', textDecoration: 'none', padding: '6px 0' }}>
-        Add a whole week routine →
-      </Link>
+      {/* A real button, and it goes to a real page.
+          It was a small mono text link pointing at a hash on the Quests page,
+          so it read as a footnote and then dumped a parent back into the middle
+          of the page they had just left. Justin: the button "needs to be bigger"
+          and "needs to goto add routine separate page". */}
+      {/* The three other places a parent goes from here, all real pages.
+          Justin asked for the timer and the balance as their own buttons and
+          their own pages, because starting twenty minutes of TV and reading the
+          week are different jobs done at different moments. */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 6 }}>
+        <Link href="/dashboard/quests/routines" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}>
+          Add a whole week routine →
+        </Link>
+        <Link href="/dashboard/quests/timer" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}>
+          Start the screen timer →
+        </Link>
+        <Link href="/dashboard/stats" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}>
+          Balance and stats →
+        </Link>
+      </div>
     </div>
   )
 }

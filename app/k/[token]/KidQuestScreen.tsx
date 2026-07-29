@@ -42,7 +42,7 @@ import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 // for the grown up", approved ones celebrate. No navigation anywhere
 // else: this screen is the whole world of the link.
 
-type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; blocks_screens?: boolean }
+type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; blocks_screens?: boolean; created_at?: string | null }
 type Tick = { quest_id: string; status: string }
 type Goal = { title: string; stars_needed: number; daily_stars: number | null; achieved_at: string | null } | null
 export type KidMission = { id: string; title: string; stars: number; status: string }
@@ -396,6 +396,40 @@ export default function KidQuestScreen({
   // third time in a day it is just in the way. The first meeting is a gentle
   // tap through; the weekly replay auto plays like a short splash, and
   // squadIntroSeen still marks the first open so the component knows which.
+  // Jobs added since this child last opened their app.
+  //
+  // Worked out ONCE on mount and held in state, then the clock is stamped
+  // immediately. That order matters: stamping first would clear the answer
+  // before it was rendered, and holding without stamping would show the same
+  // "new" badge for ever. Same latch as the setup bar, and the same lesson as
+  // the squad intro that looped, which is that a stored decision needs a writer
+  // for both answers.
+  //
+  // localStorage rather than the database on purpose: "new since YOU last
+  // looked" is a fact about this device, and it is the child's own phone.
+  // First ever open records the clock and shows nothing, because everything is
+  // new on day one and a banner saying seven new jobs is just the list again.
+  const [newQuestCount, setNewQuestCount] = useState(0)
+  useEffect(() => {
+    const KEY = 'gc_kid_jobs_seen_at'
+    try {
+      const seen = localStorage.getItem(KEY)
+      const newest = quests.reduce((max, q) => {
+        const t = q.created_at ? Date.parse(q.created_at) : 0
+        return Number.isFinite(t) && t > max ? t : max
+      }, 0)
+      if (seen !== null) {
+        const since = Number(seen) || 0
+        setNewQuestCount(quests.filter(q => {
+          const t = q.created_at ? Date.parse(q.created_at) : 0
+          return Number.isFinite(t) && t > since
+        }).length)
+      }
+      if (newest > 0) localStorage.setItem(KEY, String(newest))
+      else if (seen === null) localStorage.setItem(KEY, String(Date.now()))
+    } catch { /* private mode, no badge rather than a wrong one */ }
+  }, [])
+
   const [showIntro, setShowIntro] = useState(false)
   useEffect(() => { if (squadIntroDue()) setShowIntro(true) }, [])
 
@@ -1115,6 +1149,7 @@ export default function KidQuestScreen({
             and the quiet device rule sits under it. When gifted screen time
             is still owed, the warm pay back row shows here too. */}
         <KidTodayList
+          newQuestCount={newQuestCount}
           childName={childName}
           stageId={stageId}
           buddyName={BUDDY_MAP[chosenBuddy].name}

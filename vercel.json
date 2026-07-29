@@ -41,6 +41,9 @@
     { "path": "/api/cron/device-guide-refresh", "schedule": "0 7 2 * *" },
     { "path": "/api/cron/legal-watch", "schedule": "0 8 3 1,4,7,10 *" },
     { "path": "/api/cron/script-refresh", "schedule": "0 7 1,15 * *" },
-    { "path": "/api/cron/lesson-drip", "schedule": "0 9 1,15 * *" }
+    { "path": "/api/cron/lesson-drip", "schedule": "0 9 1,15 * *" },
+    { "path": "/api/cron/job-reminders?band=morning", "schedule": "15 7 * * *" },
+    { "path": "/api/cron/job-reminders?band=after_school", "schedule": "30 16 * * *" },
+    { "path": "/api/cron/job-reminders?band=evening", "schedule": "45 18 * * *" }
   ]
 }

@@ -26,6 +26,22 @@ function sameBytes(a: Uint8Array, b: Uint8Array) {
 // fixture, and a parent who has read it and decided not now should not be told
 // again every single visit on every single page it renders on.
 const HIDDEN_KEY = 'gc_push_prompt_hidden'
+// Dismissing this used to be permanent, which quietly broke the whole approve
+// loop. Justin: "why am I not getting pwa from Yusuf's jobs on parent's
+// platform, and if not set up this will stay broken, so how can in app check
+// auto prompt parent?"
+//
+// Exactly right. Push to the parent IS wired: a child ticking a job posts to
+// /api/push/send. But with no subscription that call is a silent no-op, and the
+// only thing that would have told the parent was this card, which they had
+// already tapped away once, for ever. So a single dismissal on day one meant
+// never being told a child had done anything, and no way of finding out why.
+//
+// A fortnight instead of for ever. Long enough that it is not a nag, short
+// enough that a family cannot spend a term wondering why the app is silent.
+// Anyone who genuinely does not want notifications simply taps it away again
+// twice a month, which is a fair price for not silently breaking the loop.
+const HIDDEN_DAYS = 14
 
 export default function PushPrompt({ userId, stage }: Props) {
   const [status, setStatus] = useState<'idle' | 'asking' | 'granted' | 'denied' | 'unsupported'>('idle')
@@ -38,7 +54,14 @@ export default function PushPrompt({ userId, stage }: Props) {
   const [hidden, setHidden] = useState(false)
 
   useEffect(() => {
-    try { setHidden(localStorage.getItem(HIDDEN_KEY) === '1') } catch { /* private mode, show it */ }
+    try {
+      const raw = localStorage.getItem(HIDDEN_KEY)
+      // '1' is the old permanent flag. Treat it as a dismissal that has now
+      // expired, so existing families get asked once more rather than staying
+      // silently broken because of a tap they made weeks ago.
+      const until = raw && raw !== '1' ? Number(raw) : 0
+      setHidden(Number.isFinite(until) && until > Date.now())
+    } catch { /* private mode, show it */ }
     let live = true
     fetch('/api/push/status')
       .then(r => r.ok ? r.json() : null)
@@ -49,7 +72,7 @@ export default function PushPrompt({ userId, stage }: Props) {
 
   const dismiss = () => {
     setHidden(true)
-    try { localStorage.setItem(HIDDEN_KEY, '1') } catch { /* gone on the next load, fine */ }
+    try { localStorage.setItem(HIDDEN_KEY, String(Date.now() + HIDDEN_DAYS * 86400000)) } catch { /* gone on the next load, fine */ }
   }
 
   async function sendTest() {
