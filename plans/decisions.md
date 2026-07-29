@@ -3641,3 +3641,43 @@ Pattern worth keeping: a cache with one writer. Anything that decides once and
 stores the answer needs a path that stores the OTHER answer, or the first
 decision becomes permanent. Same family as the six guards that could never fire,
 but the reverse: this one always fired.
+
+---
+
+## 29 July 2026 — Manage jobs is a page now
+
+Justin, twice, and the second time sharper: "it should clearly goto a new page
+not scroll", and "every time job added it give you option to add another not
+scrolling away".
+
+The first pass this morning only opened the panel by default. That missed the
+point. It was still a card expanding inside a long Quests page, with a Close
+button on it, which is not what pressing a tile called Manage jobs should do. A
+thing you navigate TO should be somewhere you have gone, not somewhere you have
+scrolled.
+
+/dashboard/quests/manage now exists and the tile points at it.
+
+Mobbin first. Todoist answers the add another half exactly: adding a task drops
+a small "Task added" pill at the TOP while the composer stays where it is,
+empty, ready for the next. Superlist, Amie and Evernote all do the same, a
+dedicated compose surface where the confirmation never displaces the input.
+
+Three sections, which is what he asked for: mark one done (pending ticks, first,
+because somebody is waiting and the stars are not theirs yet), what the child
+asked for (quest_requests, yes or no), and add. Then the board itself, so "what
+have we got" is answered without going back.
+
+Two things caught by measuring rather than looking:
+
+1. The confirmation pill wrapped to two lines with a long job title and pushed
+   the input down 26px. A confirmation that moves the thing you are about to
+   touch is the exact bug it exists to prevent. Pinned to one line with the
+   title truncating, and the slot is a fixed height. Measured 847 before and 847
+   after, so zero shift.
+2. Printing all 27 ideas made the page 6558px tall, which is the scrolling the
+   page was built to remove. Six, then Show all.
+
+Worth keeping: "make it a page" and "make it not scroll" are the same request
+twice, and the second one is easy to satisfy on paper and lose in the details.
+The page is only better than the panel if the page itself is short.
