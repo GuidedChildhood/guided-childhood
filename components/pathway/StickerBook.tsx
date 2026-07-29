@@ -11,7 +11,7 @@ import StickerBadge from './StickerBadge'
 
 function Tile({ s }: { s: StickerState }) {
   const art = stickerArt(s)
-  const showCount = !s.earned && (s.rule.kind === 'stars' || s.rule.kind === 'sheets' || s.rule.kind === 'streak')
+  const showCount = !s.earned && (s.rule.kind === 'credits' || s.rule.kind === 'sheets' || s.rule.kind === 'streak')
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, textAlign: 'center' }}>
       <div

@@ -173,3 +173,77 @@ PWA re-engagement pushes: an "are you there, it only takes ten minutes to check
 in" for parents who have not started the pathway, then Duolingo style escalating
 reminders (two days, then wider). Needs its own plan: cadence, the opt out, and
 the line where encouragement becomes nagging a parent who is already struggling.
+
+---
+
+# Built, 29 July 2026 (migration 124)
+
+Justin: "Agreed 30 finish building."
+
+## What shipped
+
+1. **`lib/quests/star-week.ts`** — Monday to Monday in London, plus the per band
+   weekly cap from the same BAND table the balance graphs use, so the ceiling
+   stays sourced rather than invented. Seven boundary cases tested including both
+   clock changes and the Sunday into Monday edge.
+2. **`getStarBanks` split** — lifetime figures kept (the passport and stats want
+   them) and `weekEarned / weekSpent / weekBalance / weekMinutes / weekCap` added.
+   Both are computed from the same rows by the same predicate, because two
+   separate passes is how they drift.
+3. **Screen time spends the WEEK** — `/api/quests/spend` and
+   `/api/quests/time/parent-start` now gate on `weekBalance`.
+4. **Sticker book reads credits, not stars** — `lib/stickers/book.ts` no longer
+   touches the star bank at all. Thresholds re-cut to 3, 8, 15, 25, 40.
+5. **Monday rollover** — `/api/cron/star-week-rollover`, 00:10 Monday, converts
+   unused minutes at 30 a credit and pushes the child.
+6. **The stats page 210** — fixed, see below.
+
+## The numbers, verified rather than asserted
+
+| Band | Weekly cap | Cap in minutes |
+| --- | --- | --- |
+| 4 to 7 | 84 stars | 420 |
+| 8 to 10 | 105 | 525 |
+| 11 to 13 | 126 | 630 |
+| 13 to 15 | 168 | 840 |
+
+The test child's 342 stars and 1,710 minutes (28.5 hours) becomes a hard ceiling
+of 525 minutes, 8.8 hours, in any one week. A child earning 200 stars in a week
+is capped at 105. Justin asked to make it "almost impossible" for the 342 to
+happen again; it is now arithmetically impossible.
+
+Credits at a realistic week: 2 to 7. Ladder completion at 2 credits a week is
+weeks 2, 4, 8, 13, 20; at 5 a week it is weeks 1, 2, 3, 5, 8. First sticker inside
+a fortnight, full set outlasting the month, which is what was asked for.
+
+## Four things the build turned up that the plan had not
+
+1. **Goals would have broken.** A cinema trip at 40 stars is a SAVE UP mechanic.
+   Gating it on the weekly balance would make any goal costing more than one
+   week's cap permanently unreachable. So goals still spend the lifetime balance,
+   annotated at both redemption sites so nobody later "fixes" it. Hoarding screen
+   time is the thing we prevent; saving towards a cinema trip is the thing we want.
+2. **Redeeming a goal would have wiped the week's screen time.** Goal redemption
+   writes a `star_spends` row with `minutes: 0`, and the weekly spend originally
+   summed every spend row. So cashing in a saved up reward silently cost a child
+   their screen time that week: a punishment for using the feature. Weekly now
+   counts screen time spends only.
+3. **The rollover needed to read a PAST week.** It runs after midnight, so without
+   a `weekStart` argument it would have read the brand new empty week, found
+   nothing left over, and silently never paid anybody. Both ends of the window are
+   bounded for the same reason.
+4. **The stats page was recommending double the guidance.** `suggestTomorrow` was
+   capped at twice the daily guide, which is where Justin's "aim for tomorrow 210
+   min" came from against a guide of 105. A screen built entirely on age guidance
+   was advising double it. Worse than a wrong number, because a parent following it
+   faithfully ends up over. Capped at the guide now: unspent allowance is not a
+   debt to catch up on, which is the same principle as the weekly reset.
+
+## Not built, and why
+
+**Five streaks to an older squad friend, and the 30 weekend minutes.** Both need
+the per day step model from `plans/child-app-five-a-day-plan.md`, because a
+"streak" under the new design means all five of a day's steps done, and nothing
+records that yet. `WEEKEND_BONUS_MINUTES = 30` and `STREAKS_PER_REWARD = 5` are in
+`lib/quests/star-week.ts` waiting for it, deliberately as named constants rather
+than numbers buried in a component.

@@ -222,6 +222,11 @@ export async function POST(req: NextRequest) {
     if (!goal) return NextResponse.json({ error: 'no goal' }, { status: 404 })
     if (goal.achieved_at) return NextResponse.json({ error: 'already redeemed', already: true }, { status: 400 })
 
+      // Lifetime balance on purpose, NOT the weekly one. A goal is a real world
+      // reward a child saves towards over weeks, so hoarding stars for it is the
+      // behaviour we want. The Monday reset exists to stop screen time being
+      // hoarded, which is a different thing entirely. Switching this to weekBalance
+      // would make any goal costing more than one week's cap unreachable for ever.
     const cost = goal.stars_needed
     const [bank] = await getStarBanks(supabase, user.id, [body.child_id])
     if (!bank || bank.balance < cost) {

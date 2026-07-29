@@ -7,9 +7,19 @@ import { characterByKey } from '@/lib/content/stage-characters'
 // warm and plain, no dashes.
 
 export type StickerRule =
-  // All time stars earned (the star bank), confirmed printables, the stage the
-  // child has grown into, or the family's daily streak.
-  | { kind: 'stars'; n: number }
+  // Sticker credits (screen minutes earned and NOT spent, paid out each Monday),
+  // confirmed printables, the stage the child has grown into, or the daily streak.
+  //
+  // This used to be `stars`, meaning the all time star total. That made the book a
+  // second scoreboard for the one behaviour the star chart already rewards, and it
+  // was also the reason a weekly reset could not ship on its own: sticker progress
+  // came off the same cumulative number the reset was there to clear, so every
+  // Monday would have taken stickers away.
+  //
+  // Credits invert it. The chart pays doing the jobs; the book pays not spending
+  // what you earned. That is the lesson the product exists to teach, in a mechanic
+  // a child can see: the one who uses less gets more.
+  | { kind: 'credits'; n: number }
   | { kind: 'sheets'; n: number }
   | { kind: 'stage'; n: number }
   | { kind: 'streak'; n: number }
@@ -36,12 +46,24 @@ export const STICKERS: Sticker[] = [
   { key: 'friend-nova', name: 'Nova', friendKey: 'nova', colour: '#7A5CC0', earn: 'Reach Stage 4', rule: { kind: 'stage', n: 4 } },
   { key: 'friend-cosmo', name: 'Cosmo', friendKey: 'cosmo', colour: '#D4600A', earn: 'Reach Stage 5', rule: { kind: 'stage', n: 5 } },
 
-  // The star ladder.
-  { key: 'stars-1', name: 'First Star', emoji: '⭐', colour: '#EDC35F', earn: 'Earn your first star', rule: { kind: 'stars', n: 1 } },
-  { key: 'stars-10', name: 'Ten Stars', emoji: '🌟', colour: '#EDC35F', earn: 'Earn 10 stars', rule: { kind: 'stars', n: 10 } },
-  { key: 'stars-25', name: 'Twenty Five', emoji: '✨', colour: '#C99A28', earn: 'Earn 25 stars', rule: { kind: 'stars', n: 25 } },
-  { key: 'stars-50', name: 'Fifty Stars', emoji: '🏅', colour: '#C99A28', earn: 'Earn 50 stars', rule: { kind: 'stars', n: 50 } },
-  { key: 'stars-100', name: 'Star Champion', emoji: '🏆', colour: '#D4600A', earn: 'Earn 100 stars', rule: { kind: 'stars', n: 100 } },
+  // The saving ladder. One credit is half an hour of screen time a child earned
+  // and chose not to use, paid out on a Monday.
+  //
+  // The KEYS are unchanged on purpose, even though the rule behind them is not.
+  // They are persisted in earned_stickers, so keeping them means a child who has
+  // already got one keeps it. Renaming them would have quietly emptied every test
+  // family's book.
+  //
+  // Thresholds re-cut for the new currency. The old 1, 10, 25, 50, 100 were set
+  // against cumulative stars and finished the whole set in about seventeen days,
+  // which is not the "month or so" Justin asked for. At a realistic 2 to 5 credits
+  // a week these land the first inside week two and the last around week ten, so
+  // the book is felt early and still has somewhere to go.
+  { key: 'stars-1', name: 'First Save', emoji: '⭐', colour: '#EDC35F', earn: 'Save 3 half hours you did not use', rule: { kind: 'credits', n: 3 } },
+  { key: 'stars-10', name: 'Good Saver', emoji: '🌟', colour: '#EDC35F', earn: 'Save 8 half hours', rule: { kind: 'credits', n: 8 } },
+  { key: 'stars-25', name: 'Time Keeper', emoji: '✨', colour: '#C99A28', earn: 'Save 15 half hours', rule: { kind: 'credits', n: 15 } },
+  { key: 'stars-50', name: 'Minute Master', emoji: '🏅', colour: '#C99A28', earn: 'Save 25 half hours', rule: { kind: 'credits', n: 25 } },
+  { key: 'stars-100', name: 'Champion Saver', emoji: '🏆', colour: '#D4600A', earn: 'Save 40 half hours', rule: { kind: 'credits', n: 40 } },
 
   // Printables done away from a screen.
   { key: 'sheets-1', name: 'First Sheet', emoji: '🖍️', colour: '#2E6F8E', earn: 'Finish your first printable', rule: { kind: 'sheets', n: 1 } },
