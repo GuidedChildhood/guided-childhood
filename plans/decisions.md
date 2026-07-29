@@ -3741,3 +3741,39 @@ hours, and the copy underneath says tomorrow "can be up to 210 minutes without a
 second thought". A page built to encourage balance is telling a parent to aim at
 nearly double the daily guide. It is arithmetically correct and behaviourally
 backwards. Same family as the weekly reset work, so worth deciding together.
+
+---
+
+## 29 July 2026 — the child could not tell a job was new
+
+Justin, after linking a job to Yusuf's app: "where is the add notification, it
+should be on first glance for child".
+
+Fair, and the gap was total. A parent adds a job on their own phone, the child
+opens their app, and the new job sits in the list looking exactly like the five
+that were already there. Nothing marks it.
+
+/api/quests/ping already fires a push on add, which is why this looked handled.
+But a push needs permission, and a child who never granted it saw nothing at
+all. A notification is not the same as the app telling you something, and only
+one of those works unconditionally.
+
+The kid page was not even selecting created_at, so the screen had no way to know
+which job was new even if it had wanted to. Added, plus a banner above the Today
+list, before the count, which is where "first glance" actually is.
+
+Latched the same way as the setup bar: worked out ONCE on mount, held in state,
+and the clock stamped immediately. Stamping first would clear the answer before
+it rendered; holding without stamping would show "new" for ever. That is the
+third time today the shape has come up (the setup bar, the squad intro loop, and
+now this), so it is worth naming as a rule: anything that decides once and
+stores the answer needs a writer for BOTH answers, and the decision has to be
+read before the write lands.
+
+localStorage rather than the database on purpose. "New since YOU last looked" is
+a fact about the device in the child's hand, not about the account. First ever
+open records the clock and shows nothing, because on day one everything is new
+and a banner saying seven new jobs is just the list again in a box.
+
+Simulated across six visits before committing: first open 0, quiet reopen 0, one
+added 1, reopen 0, two added 2, reopen 0.
