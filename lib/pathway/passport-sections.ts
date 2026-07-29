@@ -118,10 +118,18 @@ export async function buildPassportSections(
   // measured, and it dragged the stage percentage up with it. An unmeasured
   // week is the one case where there is definitely something to do, so it
   // reads zero and asks for the week.
+  // The phone flag is the one case the overall week status misses: a young
+  // child can be well under the healthy total for the week and still have
+  // phone and social time that, at their age, we keep near zero. The report
+  // surfaces that as its top state, so the passport row honours it too rather
+  // than reading a green Healthy over the top of it.
+  const phoneFlag = parentReport?.topState.key === 'phone'
   const balancePct = !parentReport ? 0
     : parentReport.status === 'well_over' ? 0
+    : phoneFlag ? 50
     : parentReport.status === 'over' ? 50 : 100
   const balanceDetail = !parentReport ? 'Log a week'
+    : phoneFlag ? 'Phone for their age'
     : parentReport.status === 'under' ? 'Light week'
     : parentReport.status === 'healthy' ? 'Healthy'
     : parentReport.status === 'over' ? 'A bit over' : 'Well over'
@@ -187,6 +195,8 @@ export async function buildPassportSections(
         href: '/dashboard/stats',
         help: !parentReport
           ? 'Nothing logged yet, so there is no week to judge. Start the timer on the balance page, or log the screens by hand, and this reads for real from then on.'
+          : phoneFlag
+          ? 'Phone and social showed up this week, which at this age we keep near zero. It is not about the total, it is the type. A quick swap to something hands on clears it.'
           : 'Goes green when the week averages at or under the healthy amount for their age. Judged across the whole week, so one big Saturday is fine.',
         ongoing: true,
       },
