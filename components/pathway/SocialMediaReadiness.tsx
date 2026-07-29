@@ -21,12 +21,11 @@ const STAGE_EVIDENCE_INDEX: Record<number, number> = {
   5: 3, // sixteen is a cliff edge, unless you build a ramp
 }
 
-// A warm, brand espresso gradient with a soft butter glow in the top corner.
-// Lifted well off black into a lit cocoa brown, so it reads as a crafted brand
-// panel like the dark surfaces top apps use for an important moment, never a
-// stark black rectangle. The gold glow ties it to the terracotta brand.
-const HEAVY_SURFACE =
-  'radial-gradient(135% 100% at 84% -14%, rgba(237,195,95,0.28), transparent 50%), linear-gradient(157deg, #52462E 0%, #443925 52%, #392F1F 100%)'
+// The heavy stage still carries more visual weight than the others, because
+// the run up to 16 genuinely IS the serious stretch. It just does it in the
+// light now: Justin's call, and he is right that a dark slab in the middle of
+// a cream feed reads as a different app rather than an emphasised card.
+const HEAVY_SURFACE = 'linear-gradient(160deg, #FFF6E4 0%, var(--stage-4) 100%)'
 
 export default function SocialMediaReadiness({
   stageId,
@@ -43,7 +42,9 @@ export default function SocialMediaReadiness({
     PASSPORT_EVIDENCE[STAGE_EVIDENCE_INDEX[stageId] ?? 0]
   const isHeavy = readiness.weight === 'heavy'
   const isEarned = readiness.weight === 'earned'
-  const onDark = isHeavy
+  // Nothing renders on dark any more. Kept as a named flag rather than deleted
+  // inline so the light values below stay readable as a set.
+  const onDark = false
 
   // Apple crisp on dark: a warm near white for headings, a bright but easy
   // body, and raised inner surfaces with a hint more lift so text sits clearly
@@ -56,14 +57,12 @@ export default function SocialMediaReadiness({
   return (
     <div
       style={{
-        background: onDark ? HEAVY_SURFACE : 'var(--stage-4)',
+        background: isHeavy ? HEAVY_SURFACE : 'var(--stage-4)',
         borderRadius: '24px',
         // A faint gold hairline plus an inner top highlight give the panel a
         // crafted, lit edge instead of a flat cutout.
-        border: onDark ? '1px solid rgba(237,195,95,0.18)' : '1.5px solid var(--stage-4)',
-        boxShadow: onDark
-          ? 'inset 0 1px 0 rgba(255,248,236,0.10), 0 20px 46px -20px rgba(40,28,8,0.62)'
-          : 'none',
+        border: isHeavy ? '1.5px solid var(--terracotta)' : '1.5px solid var(--stage-4)',
+        boxShadow: isHeavy ? '0 5px 0 rgba(237,195,95,0.55)' : 'none',
         padding: 'clamp(22px, 5vw, 28px)',
         marginBottom: '20px',
         overflow: 'hidden',

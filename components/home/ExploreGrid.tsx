@@ -61,6 +61,24 @@ function groups(scriptHref: string): Group[] {
         { href: '/dashboard#turn-on-check-ins', label: 'Reminders', sub: 'For you here, and the kid app gently nudges them', emoji: '🔔' },
       ],
     },
+    {
+      // The account, which had NO door on a phone at all.
+      //
+      // The only navigation link to Settings lives in the desktop header, which
+      // is display:none below 768px, and the tab bar is six other places. So on
+      // the device almost every parent actually uses, there was no way to reach
+      // your child's birthday, your plan, or sign out. You could only arrive by
+      // being sent from a page that happened to mention it.
+      //
+      // Justin asked where it was twice, which is the whole answer: if the
+      // person who built it cannot find it on his own phone, nobody can.
+      eyebrow: 'Your account',
+      tiles: [
+        { href: '/dashboard/settings', label: 'Settings', sub: 'Your account and your plan', emoji: '⚙️' },
+        { href: '/dashboard/settings#children', label: 'Your children', sub: 'Names, ages and birthdays', emoji: '👧' },
+        { href: '/dashboard/settings#sign-out', label: 'Sign out', sub: 'On this device', emoji: '🚪' },
+      ],
+    },
   ]
 }
 
