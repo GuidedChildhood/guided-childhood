@@ -69,7 +69,7 @@ function groups(scriptHref: string): Group[] {
         { href: '/dashboard/digi', label: 'Ask DiGi', sub: 'Knows your whole setup', emoji: '⭐' },
         { href: '/dashboard/insights', label: 'DiGi insights', sub: 'What is actually working', emoji: '🔍' },
         { href: '/dashboard/week', label: 'Weekly round up', sub: 'Your week, read back', emoji: '🗞️' },
-        { href: '/dashboard#turn-on-check-ins', label: 'Reminders', sub: 'For you here, and the kid app gently nudges them', emoji: '🔔' },
+        { href: '/dashboard#turn-on-check-ins', label: 'Reminders', sub: 'Gentle nudges for you both', emoji: '🔔' },
       ],
     },
     {
@@ -102,14 +102,27 @@ export default function ExploreGrid({ scriptHref = '/dashboard/scripts' }: { scr
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 8px 2px' }}>
             {g.eyebrow}
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '9px' }}>
+          {/* Same rule as SectionTiles: stretch equalises a card against its
+              own row, auto rows at 1fr equalises the rows against each other.
+              Without both, a three column grid of nineteen tiles comes out at
+              a different height in every row. */}
+          <div style={{
+            display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: '9px',
+            alignItems: 'stretch', gridAutoRows: '1fr',
+          }}>
             {g.tiles.map(t => (
               <Link
                 key={t.label}
                 href={t.href}
                 style={{
                   textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center',
-                  textAlign: 'center', gap: '7px', background: '#fff',
+                  textAlign: 'center', gap: '7px', background: '#fff', height: '100%',
+                  // Each section is its own grid, so 1fr rows only equalise
+                  // WITHIN a section and the shorter groups still came out
+                  // smaller. A floor at the natural tallest makes all nineteen
+                  // match, and because it is a minimum it can only ever grow a
+                  // tile, never clip one.
+                  minHeight: 180,
                   border: '1.5px solid var(--border)', borderRadius: '16px',
                   padding: '13px 6px 11px', boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
                 }}

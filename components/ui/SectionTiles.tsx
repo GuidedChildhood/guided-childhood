@@ -66,6 +66,7 @@ const ICON_INK: Record<string, string> = {
   '#E8CE7A': '#B8860B',   // gold
   '#F0B9AE': '#C0603A',   // coral        to the Quests terracotta
   '#C4B5E8': '#7A5CC0',   // lavender     to the Nova purple
+  '#B6ADE0': '#7A5CC0',   // deeper lavender, same purple
   'var(--border)': 'var(--ink-soft)',
   'var(--ink-muted)': 'var(--ink-soft)',
 }
