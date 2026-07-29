@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
         userId: link.user_id,
         title: `${name} is asking for a quest ⭐`,
         body: `"${cleanTitle}" is their idea. One tap to make it a real quest with stars.`,
-        url: '/dashboard/quests',
+        url: '/dashboard/quests/manage',
       }),
     })
   } catch { /* push is best effort */ }

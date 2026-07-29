@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
         userId: link.user_id,
         title: `${name} completed the whole path today 🏁`,
         body: `Every job, the chest and all the finds. 3 bonus stars banked. That is the daily loop working perfectly.`,
-        url: '/dashboard/quests',
+        url: '/dashboard/quests/manage',
       }),
     })
   } catch { /* push is best effort */ }
