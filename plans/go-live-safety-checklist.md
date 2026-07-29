@@ -67,10 +67,42 @@ Everything else is in decent shape.
 All five are doable this week. None needs a lawyer first.
 
 ### 1. ICO registration
-Legally required as a data controller. About £52 a year at tier 1, done online
-in fifteen minutes at ico.org.uk. **Check whether this is already done.** If not
-it is the single cheapest, fastest item on the list and the first thing anyone
-official asks for.
+
+There is exactly **one** thing to register, and it is a fee. No separate
+children's registration, no special category registration, no app registration.
+
+Pay the **data protection fee** as a **data controller** at
+[ico.org.uk](https://ico.org.uk/for-organisations/data-protection-fee/).
+
+- **Tier 1 (micro)**: 10 or fewer staff, or turnover under £632,000. Comfortably us.
+- **£52 a year, or £47 by direct debit** (there is a £5 discount). Fees rose
+  29.8% on 17 February 2025, which is where £52 comes from. Tier 2 is £78 and
+  tier 3 is £3,763, neither of which applies.
+- Fifteen minutes online. Register **the legal entity that is the controller**.
+  If Guided Childhood trades through a limited company, register the company,
+  not Justin personally.
+- Not paying carries a fixed penalty of up to £4,350. That is the only reason
+  the cheapest item on this list sits at the top of it.
+
+**The one question on the form that needs a decision:** whether we have a Data
+Protection Officer. A DPO is mandatory under Article 37 when core activities
+involve large scale processing of special category data. We do process special
+category data as a core activity, the wellbeing check ins, but at launch we are
+not doing it at large scale. So answer **no**, and name Justin as the data
+protection contact. Review that answer as the user base grows, because it is
+the thing most likely to change first.
+
+**What is NOT registered, and this is where people get confused.** All of these
+matter and none of them get filed with the ICO:
+
+- **The DPIA.** Must be done and kept, because this is special category data
+  about children with profiling. It only goes to the ICO if residual risk stays
+  high after mitigation, which is Article 36 prior consultation and is not us.
+- **The Children's Code.** A code we conform to. Nothing to submit.
+- **The record of processing (ROPA).** Kept internally. Watch this one: the
+  under 250 staff exemption **falls away the moment you process special category
+  data**, so we do need one and small businesses routinely miss that.
+- **The privacy policy.** Published, not filed. Already live.
 
 ### 2. Add a special category section to the privacy policy
 Say plainly: we collect information about your child's mood, sleep and how they

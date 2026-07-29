@@ -3419,3 +3419,94 @@ Also: my first pass at the suggestion rows put a "We have this" text button
 beside a subtitle, which left the subtitle about ninety pixels to wrap into and
 made every suggestion four lines tall. Caught it on the 390 screenshot before it
 went near JP. The row is now the tap target with a plus at the end.
+
+---
+
+## 29 July 2026 — tidy up after PR 592 merged
+
+Three loose ends, one of them mine.
+
+**DeviceList still had its own copy of the guide panel.** I extracted GuideBody
+in the devices restructure precisely so the steps panel could not be written
+twice and drift, then left the original copy sitting in DeviceList. Sixty lines
+of duplicate that would have diverged the first time anyone edited one of them.
+Now deleted, with the not owned escape passed in as the footer.
+
+Worth noticing: extracting a shared component is only half the job. It is not
+finished until every old copy is gone, and a green typecheck will happily tell
+you the duplicate is fine.
+
+**All seventeen dev harnesses were live on the public site.** /dev/your-screens
+would have served a real page on guidedchildhood.co.uk, and robots.txt never
+disallowed /dev, so they were crawlable too. Nothing leaks, they all render fake
+props, but they are half finished looking pages under our own branding, and a
+parent or a school finding one reads "broken", not "test harness".
+
+app/dev/layout.tsx now returns notFound() when VERCEL_ENV is production.
+Deliberately NOT NODE_ENV, which is production on preview builds too and would
+have killed the harnesses exactly where they are most useful, on the preview
+attached to a PR. /dev added to robots disallow as well.
+
+Verified rather than assumed: built with VERCEL_ENV=production, served it, and
+curled. The harnesses 404 while /join still returns 200. Given how many times
+this session the bug has been a guard that could never fire, checking that this
+guard fires seemed like the minimum.
+
+**ICO registration written up properly** in the go live checklist. It was one
+vague line saying "about £52 a year". It now says what the single registration
+actually is (the data protection fee, tier 1, £47 by direct debit), the one
+question on the form needing a decision (no DPO, because we are not yet large
+scale, review as we grow), and the four things people assume are registrations
+and are not: the DPIA, the Children's Code, the ROPA and the privacy policy. The
+ROPA one matters most, because the under 250 staff exemption falls away as soon
+as you touch special category data, which we do.
+
+---
+
+## 29 July 2026 — the quest lifecycle, verified and made visible
+
+Picked up from another session's handover. Justin's line was "I believe the
+logic is right but I cannot see it working", which turned out to be exactly
+right on both halves.
+
+**The logic is right.** Verified against the code rather than taken on trust:
+
+- Minutes come only from approved ticks. bank.ts filters
+  `status === 'approved'` before summing. The child's tap writes `'pending'`
+  (tick/route.ts), so a tap earns nothing until a parent says yes.
+- Rejection sets `'rejected'` and leaves approved_at null. The same filter
+  excludes it, so a no costs nothing and adds nothing.
+- Path B cannot stick in a waiting state, and structurally rather than by luck.
+  Only the child's link token can create a pending row, so a house with no child
+  app has no way to produce one. The parent tick branch writes `'approved'`
+  directly, and it promotes an existing pending tick rather than inserting a
+  duplicate, which is what stops the queue filling with ghosts.
+
+**But there was a real stuck state, in path A, that nobody had asked about.**
+/api/quests loaded ticks with `.gte('tick_date', weekAgo)`. Seven days. A
+pending tick older than that fell out of the window entirely: still pending in
+the database, never rendered, therefore never approvable, therefore never
+counted. A child ticks a job, the parent does not open the app for eight days,
+and the stars are gone with nothing on either screen admitting it.
+
+Fixed by loading every pending tick with no date bound at all and merging it
+with the windowed history, deduped by id. The window is right for history and
+was only ever wrong for the pile that is waiting on a person. There is no
+natural cap on how long a parent takes to say yes.
+
+Worth keeping: a time window on a query is a product decision disguised as a
+performance one. Ask what falls off the end and who pays for it.
+
+**The view.** The states were spread across three cards further down the page,
+so the summary was accurate and invisible. Mobbin first: monday.com's My work
+puts count tiles at the top that ARE the filter, Jobber pairs a selected chip
+with a heading naming the filter, Tiimo groups with a count per group. All three
+agree the count and the filter should be one control, so that is what
+QuestStatusBoard is. Four buckets that are the actual lifecycle: waiting on you
+(pending, the only one that costs anybody anything while it sits), on their app
+(path A, sent, not ticked), to do with you (path B, no child app), done
+(approved). Rejected has no tile, on purpose.
+
+One accepted quirk: a recurring job with an old unapproved tick appears in both
+waiting on you and on their app. Both statements are true, an unapproved tick
+from before and today's instance still to do, so it stays.

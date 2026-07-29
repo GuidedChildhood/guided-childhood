@@ -23,12 +23,26 @@ export async function GET() {
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
   const monthAgoIso = new Date(Date.now() - 30 * 86400000).toISOString()
 
-  const [childrenRes, questsRes, ticksRes, goalsRes, linksRes, requestsRes, spendsRes] = await Promise.all([
+  const [childrenRes, questsRes, ticksRes, pendingRes, goalsRes, linksRes, requestsRes, spendsRes] = await Promise.all([
     // select * so the optional phone column (migration 030) is included
     // when present and its absence never breaks the whole board
     supabase.from('children').select('*').eq('parent_id', user.id).order('created_at'),
     supabase.from('family_quests').select('*').eq('user_id', user.id).eq('active', true).order('created_at'),
     supabase.from('quest_ticks').select('*').eq('user_id', user.id).gte('tick_date', weekAgo),
+    // Pending ticks, with NO date window.
+    //
+    // The seven day window above is right for history: the board shows this
+    // week and nobody needs last month's approved ticks in memory. It was very
+    // wrong for pending ones. A child ticked a job, the parent did not open the
+    // app for eight days, and the tick fell out of the window: still pending in
+    // the database, never rendered, so never approvable, so the stars were gone
+    // with nothing on either screen admitting it. Silently losing a child's
+    // earned stars is about the worst thing this economy can do, because the
+    // whole deal rests on the child believing the stars are real.
+    //
+    // Anything still waiting on a parent is loaded however old it is. There is
+    // no natural cap on how long a parent takes to say yes.
+    supabase.from('quest_ticks').select('*').eq('user_id', user.id).eq('status', 'pending'),
     supabase.from('star_goals').select('*').eq('user_id', user.id),
     supabase.from('kid_links').select('child_id, token').eq('user_id', user.id),
     supabase.from('quest_requests').select('*').eq('user_id', user.id)
@@ -36,6 +50,14 @@ export async function GET() {
     supabase.from('star_spends').select('*').eq('user_id', user.id)
       .order('created_at', { ascending: false }).limit(20),
   ])
+
+  // Merge the windowed history with every still pending tick, deduped by id.
+  // A tick inside the last seven days comes back from both queries.
+  const ticksById = new Map<string, Record<string, unknown>>()
+  for (const t of [...(ticksRes.data ?? []), ...(pendingRes.data ?? [])]) {
+    ticksById.set(t.id as string, t)
+  }
+  const ticks = [...ticksById.values()]
 
   const children = childrenRes.data ?? []
   const banks = await getStarBanks(supabase, user.id, children.map(c => c.id))
@@ -59,7 +81,7 @@ export async function GET() {
   return NextResponse.json({
     children,
     quests: questsRes.data ?? [],
-    ticks: ticksRes.data ?? [],
+    ticks,
     goals: goalsRes.data ?? [],
     links: linksRes.data ?? [],
     requests: requestsRes.data ?? [],

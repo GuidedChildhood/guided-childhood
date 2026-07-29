@@ -8,6 +8,7 @@ import SpotSomethingGood from '@/components/quests/SpotSomethingGood'
 import PrintablesToConfirm from '@/components/quests/PrintablesToConfirm'
 import QuestShortcuts from '@/components/quests/QuestShortcuts'
 import StreakRewards, { type StreakReward } from '@/components/quests/StreakRewards'
+import QuestStatusBoard from '@/components/quests/QuestStatusBoard'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { getBoardStatus, type BoardStatus } from '@/lib/quests/board-status'
@@ -147,6 +148,12 @@ export default async function QuestsPage() {
       {handoverName && handoverId && (
         <NoPhoneButton childId={handoverId} childName={handoverName} />
       )}
+
+      {/* Where every job is, before anything asks the parent to act. The states
+          were already in the data and already correct, they were just spread
+          across three cards further down, so a parent could not tell whether a
+          job had landed. This is the one picture. */}
+      <QuestStatusBoard />
 
       {/* A five day jobs streak, done and confirmed on time, waiting on the
           parent to send its reward. Leads the page when there is one. */}
