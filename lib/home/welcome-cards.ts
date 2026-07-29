@@ -1,4 +1,4 @@
-import type { SetupFlags } from '@/lib/setup/steps'
+import { STEPS, type SetupFlags } from '@/lib/setup/steps'
 
 // One service per app open. A parent who opens the app on a busy Tuesday does
 // not want a tour, and they will never sit through one, but across a fortnight
@@ -31,6 +31,28 @@ export type WelcomeCard = {
   ask: string
   // Setup cards lead when the family has not set them up yet.
   setup?: keyof SetupFlags
+  // Where a parent goes to actually DO this thing, for the cards that are not
+  // setup steps. A setup card does not carry one: its destination is already
+  // written in STEPS and is read from there, so the two can never drift.
+  does?: string
+}
+
+/**
+ * Where the card's action button goes.
+ *
+ * The hello explains a service and then hands over to DiGi to talk about it,
+ * which is right for understanding it and useless for doing it. Justin: the tips
+ * "need to cleverly link to how to action it". So every card now has a real
+ * destination as well as a conversation.
+ *
+ * A setup card reads its href straight out of STEPS rather than repeating it,
+ * for the same reason the passport rows read theirs from getLiteracyStatuses:
+ * two copies of a route is two routes to keep in step, and the one nobody
+ * remembers to update is the one a parent taps.
+ */
+export function cardAction(card: WelcomeCard): string | null {
+  if (card.setup) return STEPS.find(s => s.key === card.setup)?.href ?? null
+  return card.does ?? null
 }
 
 export const WELCOME_CARDS: WelcomeCard[] = [
@@ -95,6 +117,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'Something kicked off? Say what happened and get the words to use, in your voice not a script.',
     trust: 'DiGi keeps it, and brings it back the next time the same thing happens, so you are never starting cold.',
     ask: 'Something kicked off over a screen today. What do I say tonight?',
+    does: '/dashboard/moments',
   },
   {
     key: 'checkins',
@@ -103,6 +126,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'A quick read on your child, and one on you, because a hard week for you is a hard week for them.',
     trust: 'Nobody sees it but you. It shapes what tomorrow opens with, and a rough patch gets a gentler day.',
     ask: 'How do I tell a bad week apart from something I should worry about?',
+    does: '/dashboard/checkin',
   },
   {
     key: 'balance',
@@ -111,6 +135,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'The healthy amount for their age, and the offline hours that earn it.',
     trust: 'Built on the measured research, Orben and Odgers at Cambridge, never on scare stories.',
     ask: 'How long should my child be on a screen each day?',
+    does: '/dashboard/stats',
   },
   {
     key: 'literacy',
@@ -119,6 +144,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'The lessons at the age they actually land, so nothing arrives years too early or too late.',
     trust: 'What they pass moves their stage on, so the next lesson always meets them where they are.',
     ask: 'What should my child understand about being online at their age?',
+    does: '/dashboard/lessons',
   },
   {
     key: 'printables',
@@ -127,6 +153,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'Sheets to print for the afternoons screens have had quite enough of.',
     trust: 'Mark one done and the stars still land, so the off screen hours count the same as the rest.',
     ask: 'What can we do this afternoon that is not a screen?',
+    does: '/dashboard/printables',
   },
   {
     key: 'stages',
@@ -135,6 +162,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'Built in order, so 16 arrives as a gentle ramp and never a cliff edge.',
     trust: 'You never have to hold the plan. We keep the order and hand you today.',
     ask: 'What is coming next for us, and roughly when?',
+    does: '/dashboard/pathway',
   },
 ]
 
