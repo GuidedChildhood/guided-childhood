@@ -5,6 +5,9 @@ import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
 import { ROUTINE_PACKS, type RoutinePack } from '@/lib/quests/routines'
 import JobBalance from '@/components/quests/JobBalance'
+import JobComposer from '@/components/quests/JobComposer'
+import ChildPing from '@/components/quests/ChildPing'
+import SaveChip, { type SaveState } from '@/components/quests/SaveChip'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
 import QrHandoverModal from '@/components/quests/QrHandoverModal'
 import StarSummary from '@/components/quests/StarSummary'
@@ -65,6 +68,9 @@ const card: React.CSSProperties = {
 
 export default function QuestManager() {
   const [children, setChildren] = useState<Child[]>([])
+  // Per job: saving, saved (clears itself) or failed. Keyed by quest id so
+  // two jobs edited quickly never show each other's tick.
+  const [saveState, setSaveState] = useState<Record<string, SaveState>>({})
   const [quests, setQuests] = useState<Quest[]>([])
   const [goals, setGoals] = useState<Goal[]>([])
   // Finished goals the parent has cleared off the panel. The reward stays
@@ -76,7 +82,6 @@ export default function QuestManager() {
   const [links, setLinks] = useState<KidLink[]>([])
   const [activeChild, setActiveChild] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
-  const [customTitle, setCustomTitle] = useState('')
   // The add a job composer that sits at the top of the child's own list. The
   // only way to write a job used to be a lone input far below the ideas grid,
   // so a parent who arrived wanting to add one thing had to scroll past two
@@ -154,15 +159,43 @@ export default function QuestManager() {
     } catch { /* the optimistic tick stands, next load reconciles */ }
   }
 
+  // Editing a job saves as you go, and now says so.
+  //
+  // It always saved on its own, but silently, so a parent moving a job off an
+  // overloaded Tuesday tapped a day, saw the chip change, and had nothing at
+  // all telling them it had stuck. The change looked identical whether it
+  // reached the server or not.
+  //
+  // Which mattered more than it sounds, because the failure was invisible by
+  // construction: the optimistic update went in first and only a thrown fetch
+  // was caught, so a 401 or a 500 came back as a perfectly ordinary response,
+  // nothing reverted, and the parent was left looking at a change that did not
+  // exist. Every save now checks the response, puts the old job back when it
+  // did not land, and says which happened.
   async function editQuest(questId: string, patch: { title?: string; stars?: number; schedule?: string; schedule_days?: number[] | null; blocks_screens?: boolean }) {
+    const before = quests.find(q => q.id === questId)
     setQuests(prev => prev.map(q => q.id === questId ? { ...q, ...patch } as Quest : q))
+    setSaveState(s => ({ ...s, [questId]: 'saving' }))
     try {
-      await fetch('/api/quests', {
+      const res = await fetch('/api/quests', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quest_id: questId, ...patch }),
       })
-    } catch { load() }
+      if (!res.ok) throw new Error('not saved')
+      setSaveState(s => ({ ...s, [questId]: 'saved' }))
+      // The tick is a confirmation, not a label, so it clears itself and the
+      // row goes back to being quiet.
+      window.setTimeout(() => {
+        setSaveState(s => (s[questId] === 'saved' ? { ...s, [questId]: null } : s))
+      }, 2200)
+    } catch {
+      // Put the job back exactly as it was, so the screen and the database
+      // agree again, then say so rather than leaving a change that is not real.
+      if (before) setQuests(prev => prev.map(q => q.id === questId ? before : q))
+      else load()
+      setSaveState(s => ({ ...s, [questId]: 'failed' }))
+    }
   }
 
   async function pickContact() {
@@ -931,6 +964,9 @@ export default function QuestManager() {
 
           {tab === 'manage' && (
           <>
+              {/* The daily buzz, on the tab a parent actually returns to,
+                  rather than buried in the hand it over tab. */}
+              {child && link && <ChildPing childName={child.name} onSend={sendPing} result={pingResult} />}
           {/* Device time in progress: a live countdown next to the child who
               is on their screen right now, tracking the same clock they see. */}
           {sessions.filter(s => s.child_id === activeChild).map(s => (
@@ -1169,7 +1205,20 @@ export default function QuestManager() {
                 straight into the list and the routines lived two screens
                 further down, so the only visible action was Done. */}
             {(() => {
-              const outstanding = childQuests.filter(q => !approvedTodayIds.has(q.id) && ticked !== q.id).length
+              // Jobs the child has actually ticked and that are waiting on the
+              // parent's yes. Nothing else.
+              //
+              // This used to count every quest not yet approved today, which is
+              // a completely different set: it swept in jobs nobody had
+              // touched, one off games never played, everything. So the pill
+              // read "Confirm 18 done" while five were genuinely waiting, and
+              // tapping it dropped a parent into a long list where most rows
+              // needed nothing from them. A number that promises a queue has to
+              // BE the queue, or it teaches a parent to ignore it.
+              //
+              // Same source the star summary already uses for its waiting
+              // count, so the two agree by construction rather than by luck.
+              const outstanding = ticks.filter(t => t.child_id === activeChild && t.status === 'pending').length
               const pill: CSSProperties = {
                 display: 'inline-flex', alignItems: 'center', gap: '6px',
                 background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
@@ -1188,7 +1237,11 @@ export default function QuestManager() {
               return (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '14px' }}>
                   <button type="button" onClick={() => go('jobs-list')} style={pill}>
-                    ✅ {outstanding > 0 ? `Confirm ${outstanding} done` : 'All done today'}
+                    {/* Not "All done today" when the queue is empty: a family
+                        can have nothing waiting on them and still have a whole
+                        day's jobs untouched, and telling them it is all done
+                        would be a plain untruth. */}
+                    ✅ {outstanding > 0 ? `Confirm ${outstanding} done` : 'Nothing to confirm'}
                   </button>
                   <button type="button" onClick={() => go('routines')} style={pill}>
                     🌅 Add a routine
@@ -1248,37 +1301,11 @@ export default function QuestManager() {
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
                   Or write your own
                 </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <input
-                    autoFocus
-                    value={customTitle}
-                    onChange={e => setCustomTitle(e.target.value)}
-                    onKeyDown={e => { if (e.key === 'Enter' && customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
-                    placeholder="Make your bed, feed the cat..."
-                    style={{
-                      flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
-                      border: '1.5px solid var(--border)', background: '#fff',
-                      fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none',
-                    }}
-                    maxLength={120}
-                  />
-                  <button
-                    onClick={() => { if (customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
-                    disabled={!customTitle.trim()}
-                    style={{
-                      flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-                      borderRadius: '12px', padding: '12px 20px',
-                      cursor: customTitle.trim() ? 'pointer' : 'default',
-                      fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
-                      boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: customTitle.trim() ? 1 : 0.5,
-                    }}
-                  >
-                    Add
-                  </button>
-                </div>
-                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
-                  Lands as a daily job worth one star. Change the days or the stars on the job itself once it is in, or pick from the ready made ideas further down.
-                </p>
+                <JobComposer
+                  autoFocus
+                  onAdd={t => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: 'daily' })}
+                  help="Lands as a daily job worth one star. Change the days or the stars on the job itself once it is in, or pick from the ready made ideas further down."
+                />
               </div>
             )}
 
@@ -1448,6 +1475,7 @@ export default function QuestManager() {
                             )
                           })}
                         </span>
+                        <SaveChip state={saveState[q.id] ?? null} />
                         <button
                           onClick={() => editQuest(q.id, { blocks_screens: !q.blocks_screens })}
                           title="Screens wait until this one is done and approved"
@@ -1693,29 +1721,12 @@ export default function QuestManager() {
                   </button>
                 ))}
               </div>
-              <div style={{ display: 'flex', gap: '8px', marginTop: '14px' }}>
-                <input
-                  value={customTitle}
-                  onChange={e => setCustomTitle(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter' && customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
+              <div style={{ marginTop: '14px' }}>
+                <JobComposer
+                  tone="cream"
                   placeholder="Or write your own quest"
-                  style={{
-                    flex: 1, padding: '11px 14px', borderRadius: '12px',
-                    border: '1.5px solid var(--border)', background: 'var(--cream)',
-                    fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
-                  }}
-                  maxLength={120}
+                  onAdd={t => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: 'daily' })}
                 />
-                <button
-                  onClick={() => { if (customTitle.trim()) { addQuest({ title: customTitle.trim(), emoji: '⭐', stars: 1, schedule: 'daily' }); setCustomTitle('') } }}
-                  style={{
-                    background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px',
-                    padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
-                    boxShadow: '0 3px 0 var(--terracotta-dark)',
-                  }}
-                >
-                  Add
-                </button>
               </div>
             </div>
           )}
@@ -2097,65 +2108,10 @@ export default function QuestManager() {
               )
             })()}
 
-            {/* Ping their phone right now, through the quest page reminders */}
-            <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-                Ping {child.name}&apos;s phone now
-              </div>
-              <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
-                One tap and it buzzes on their phone. Works once they have opened their quest link and turned on reminders.
-              </p>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {['You can watch now, you earned it ⭐', 'Please finish your chores first', 'Quest check! A few ticks and the stars are yours ⭐', 'Time to come off the screen now please', 'Turn the TV off please', 'Time to start your homework', 'Dinner in 10 minutes, start wrapping up', 'Please come downstairs', 'Time for bed now please'].map(msg => (
-                  <button
-                    key={msg}
-                    onClick={() => sendPing(msg)}
-                    style={{
-                      background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
-                      padding: '9px 14px', cursor: 'pointer', fontFamily: 'var(--font-body)',
-                      fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)', textAlign: 'left',
-                    }}
-                  >
-                    {msg.length > 34 ? msg.slice(0, 31) + '...' : msg}
-                  </button>
-                ))}
-              </div>
-              {/* Type any quick message of your own */}
-              <form
-                onSubmit={e => { e.preventDefault(); const m = pingDraft.trim(); if (m) { sendPing(m); setPingDraft('') } }}
-                style={{ display: 'flex', gap: '8px', marginTop: '10px' }}
-              >
-                <input
-                  value={pingDraft}
-                  onChange={e => setPingDraft(e.target.value)}
-                  maxLength={140}
-                  placeholder="Or type your own quick message"
-                  style={{
-                    flex: 1, minWidth: 0, padding: '10px 12px', borderRadius: '12px',
-                    border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)',
-                    fontSize: '15px', color: 'var(--ink)', background: '#fff',
-                  }}
-                />
-                <button
-                  type="submit"
-                  disabled={!pingDraft.trim()}
-                  style={{
-                    flexShrink: 0, background: pingDraft.trim() ? 'var(--terracotta)' : 'var(--border)',
-                    color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '10px 16px',
-                    cursor: pingDraft.trim() ? 'pointer' : 'default',
-                    fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
-                    boxShadow: pingDraft.trim() ? '0 3px 0 var(--terracotta-dark)' : 'none',
-                  }}
-                >
-                  Send
-                </button>
-              </form>
-              {pingResult && (
-                <p style={{ fontSize: '14.5px', color: pingResult.startsWith('Ping sent') ? 'var(--terracotta-dark)' : 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.55, margin: '10px 0 0' }}>
-                  {pingResult}
-                </p>
-              )}
-            </div>
+            {/* The ping buttons used to be here. They have moved to the
+                Manage tab, where the rest of the daily loop is. Dinner in ten
+                minutes and time for bed are not setup, and this is the tab a
+                parent opens once to hand the link over. */}
           </div>
 
           </>

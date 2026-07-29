@@ -134,7 +134,14 @@ export default function SectionTiles({
             display: 'flex', flexDirection: 'column',
           }}
         >
-          <span style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
+          {/* Wraps. Two of these tiles sit side by side on a phone, so after
+              the card padding and the icon plate there is under 90px left on
+              the row, and most badges are wider than that. Held on one line
+              they either shoved the row off the screen (when they refused to
+              shrink) or collapsed to "4 wai..." and "Not m..." (when they did).
+              Neither is a badge. Given permission to wrap, a badge that does
+              not fit beside the icon drops under it and reads in full. */}
+          <span style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
             {/* The pastel moved here off the tile. It is the plate behind the
                 icon now, which is where every app that does this well puts it. */}
             <span aria-hidden style={{
@@ -152,13 +159,22 @@ export default function SectionTiles({
                 than make a parent open it to find out. */}
             {t.badge && (
               <span style={{
-                flexShrink: 0, background: t.bg, border: `1.5px solid ${t.accent}`,
+                // Pastel, not white. The tile itself went white in this
+                // same change, so a white badge on it had no edge at all.
+                // No flexShrink, so it can still drop under the icon.
+                background: t.bg, border: `1.5px solid ${t.accent}`,
                 borderRadius: 100, padding: '3px 10px',
                 fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
                 color: 'var(--ink)', whiteSpace: 'nowrap',
-                // And if a badge is still too long for its tile, it clips
-                // rather than dragging the layout with it.
-                minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis',
+                // Never shrink, and never clip. The row wraps instead, so a
+                // badge always reads in full at whatever width it needs.
+                //
+                // Both other ways round were tried and both were wrong. Pinned
+                // at flexShrink 0 with no wrap, a long badge pushed the row off
+                // a 390 screen. Allowed to shrink, every badge collapsed to
+                // four characters and an ellipsis, which is worse: a badge that
+                // says "Not m..." has lost the only thing it was for.
+                flexShrink: 0,
               }}>
                 {t.badge}
               </span>

@@ -105,12 +105,20 @@ export async function POST(request: Request) {
       .select('messages, messages_today, last_message_date')
       .eq('user_id', user.id)
       .single(),
+    // Every child, not only the primary one.
+    //
+    // This asked for is_primary and nothing else, so DiGi genuinely did not
+    // know a family's other children existed. In a house with more than one it
+    // would answer about the primary whatever the parent meant, and the name
+    // rule below then instructed it to use that name and no other, so a parent
+    // typing about Ada was told about Alma and DiGi was forbidden from
+    // correcting itself. The guard written to stop invented names was enforcing
+    // the wrong real one.
     supabase
       .from('children')
-      .select('id, name, age_band, stage_id, streak_weeks, actions_this_week, device_trust')
+      .select('id, name, age_band, stage_id, streak_weeks, actions_this_week, device_trust, is_primary')
       .eq('parent_id', user.id)
-      .eq('is_primary', true)
-      .single(),
+      .order('is_primary', { ascending: false }),
     supabase
       .from('wellbeing_checks')
       .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication, concern_level, notes')
@@ -171,7 +179,14 @@ export async function POST(request: Request) {
 
   const profile = profileResult.data
   const convData = convResult.data
-  const child = childResult.data
+  // The whole family, and the one to assume when the parent has not said.
+  type DigiChild = {
+    id: string; name: string | null; age_band: string | null; stage_id: string | null
+    streak_weeks: number | null; actions_this_week: number | null
+    device_trust: string | null; is_primary: boolean | null
+  }
+  const children = (childResult.data ?? []) as DigiChild[]
+  const child = children.find(c => c.is_primary) ?? children[0] ?? null
 
   const isPaid = hasFullAccess(profile, user.email)
 
@@ -279,7 +294,19 @@ export async function POST(request: Request) {
       .map(s => s.replace(/\*\*/g, ''))
       .map((s, i) => `  ${i + 1}. ${s}`)
       .join('\n')
-    deviceGuideKnowledge = `\n\nDEVICE SETUP GUIDE — the parent is asking about ${deviceGuide.name} (${deviceGuide.subtitle}). Walk them through this step by step, one step at a time, checking in before moving to the next rather than dumping all steps at once. Why this matters: ${deviceGuide.why}\nSteps:\n${steps}\nClosing note: ${deviceGuide.note}`
+    deviceGuideKnowledge = `\n\nDEVICE SETUP GUIDE — the parent is asking about ${deviceGuide.name} (${deviceGuide.subtitle}). Walk them through this step by step, one step at a time, checking in before moving to the next rather than dumping all steps at once. Why this matters: ${deviceGuide.why}\nSteps:\n${steps}\nClosing note: ${deviceGuide.note}
+IMPORTANT: this guide is the ONLY device the parent is asking about right now. If you were discussing a different device or app earlier in this conversation, that topic is finished. Do not mention it, and do not offer its steps.`
+  } else if (typeof message === 'string' && /\b(set ?up|settings|parental control|filter|walk me through)\b/i.test(message)) {
+    // The parent is clearly asking how to set something up and we have no
+    // guide for it.
+    //
+    // Without this DiGi filled the silence from earlier in the conversation: a
+    // parent who had asked about TikTok and then asked about their home WiFi
+    // got TikTok's steps a second time, confidently. Improvising steps for a
+    // real device is worse than saying we do not have that one, because a
+    // parent following invented settings believes their house is covered when
+    // it is not.
+    deviceGuideKnowledge = `\n\nNO DEVICE GUIDE IS LOADED for what this parent is asking to set up. Do NOT invent step by step settings, and do NOT reuse the steps of a different device or app from earlier in this conversation, which is a different question that is now finished. Give the honest general principle in a sentence or two, say plainly that we do not have a written guide for that one yet, and offer to help them think it through. Never present improvised steps as if they were our guide.`
   }
 
   let concernsKnowledge = ''
@@ -372,6 +399,7 @@ When a parent asks whether or for how long their child should use any device, do
   const familyContext = buildSystemPrompt(
     stage,
     child,
+    children,
     profile?.onboarding_answers,
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
@@ -615,6 +643,8 @@ interface FeedbackEntry { feedback_date: string; question: string; parent_respon
 function buildSystemPrompt(
   stage: ReturnType<typeof getStageFromAgeBand>,
   child: Record<string, unknown> | null,
+  /** Every child on the account, so DiGi can follow whichever the parent means. */
+  children: Array<{ name: string | null; age_band: string | null }>,
   onboardingAnswers: Record<string, string> | null,
   trackerHistory: TrackerEntry[],
   feedbackHistory: FeedbackEntry[],
@@ -668,18 +698,36 @@ ${aiKnowledge}` : ''
   const weekday = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'long' }).format(now)
   const daypart = londonHour < 6 ? 'the middle of the night' : londonHour < 12 ? 'the morning' : londonHour < 17 ? 'the afternoon' : londonHour < 21 ? 'the evening' : 'late at night'
 
-  // A hard guard against inventing a child's name, the source of the wrong name
-  // a parent saw. Use only the real name, or "your child", never anything else.
-  const nameRule = childName && childName !== 'Your child'
-    ? `The child's name is ${childName}. Use only this name. Never invent, guess, shorten, or use any other name for the child, not even once.`
-    : `No child name has been given. Always say "your child". Never invent or use a made up name.`
+  // Names DiGi is allowed to say, which is every child on this account and
+  // nothing else.
+  //
+  // The previous rule named one child and forbade every other name "not even
+  // once". That stops an invented name, but in a house with more than one child
+  // it turns a wrong name into a locked in one: a parent asking about Ada was
+  // answered about Alma, and DiGi was explicitly instructed not to switch even
+  // when the parent said the other name themselves. It could not take the
+  // correction. Worse, the only name it knew was whichever row happened to be
+  // primary, so it was not even a guess, it was confidently the wrong child.
+  //
+  // The list plus a default is the honest version: still no invented names,
+  // but the parent's own words decide which real child is meant.
+  const realNames = children.map(c => c.name).filter((n): n is string => !!n && n !== 'Your child')
+  const nameRule = realNames.length === 0
+    ? `No child name has been given. Always say "your child". Never invent or use a made up name.`
+    : realNames.length === 1
+      ? `The child's name is ${realNames[0]}, and this family has ONE child. Use only this name. Never invent, guess, shorten, or use any other name for the child.
+The memory and history below come from past conversations and CAN BE OUT OF DATE. Any other child's name in them belongs to a child no longer on this account. Ignore it entirely, and never tell this parent they have more than one child.`
+      : `This family has ${realNames.length} children: ${realNames.join(', ')}. These are the ONLY names you may ever use for a child. Never invent, guess or shorten a name, and never use a name that is not on that list, including any name from our own lessons or characters.
+Work out which child the parent means from what they have just said, and if they name one, that is the child, even if you were talking about a different one a moment ago. Follow the parent, always.
+If it is genuinely unclear which child they mean, say "your child" or ask which one. Do not pick one and hope. When nothing points either way, assume ${realNames[0]}.
+The memory and history below are written from past conversations and CAN BE OUT OF DATE. A child's name appearing there that is not on the list above belongs to a child who is no longer on this account. Ignore it entirely: never use it, never treat it as a sibling, and never tell this parent they have more children than the list shows.`
 
   return `RIGHT NOW: it is ${daypart} on ${weekday}, UK time. Match every time reference to this. Do not say tonight, this evening, or an evening off unless it is actually evening or night. If it is morning or afternoon and you want them to wait, say later today or this evening, never tonight.
 
 CHILD NAME RULE: ${nameRule}
 
-THE CHILD'S CONTEXT:
-- Name: ${nameRef}
+THE CHILD'S CONTEXT (the child assumed when the parent has not said which):
+- Name: ${nameRef}${children.length > 1 ? `\n- Other children in this family: ${children.filter(c => c.name && c.name !== child?.name).map(c => `${c.name}${c.age_band ? ` (${c.age_band})` : ''}`).join(', ')}. The stage and streak below are for ${nameRef} only, so do not quote them about another child.` : ''}
 - Stage: ${stage.id} (${stage.name}, ${stage.ages})
 - Key Stage: ${stage.keyStage}, ${stage.yearGroup}
 - Main challenge at onboarding: ${onboardingAnswers?.challenge ?? 'not specified'}

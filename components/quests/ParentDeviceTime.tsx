@@ -132,7 +132,9 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
   if (kids === null || kids.length === 0) return null
 
   return (
-    <div id="screen-time" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '20px', marginTop: '24px' }}>
+    // scrollMarginTop so the sticky header does not sit over the card when the
+    // bell's See the timer link lands here.
+    <div id="screen-time" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '20px', marginTop: '24px', scrollMarginTop: '80px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '4px' }}>
         <span style={{ fontSize: '1.1rem' }}>⏱️</span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>Screen time</span>

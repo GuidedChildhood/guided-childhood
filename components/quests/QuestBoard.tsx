@@ -8,9 +8,12 @@ import Button from '@/components/ui/Button'
 
 // The family quest board on Home: every child's day at a glance, big
 // enough to matter. The approve queue leads (kid ticked, one tap lands
-// the stars), then each child shows their quest dots, minutes earned
-// and goal bar, and expands to today's list so a parent can tick any
-// quest right here without leaving Home.
+// the stars), then each child shows their quest dots and minutes earned,
+// and expands to today's list so a parent can tick any quest right here
+// without leaving Home.
+//
+// The saving goal is NOT here. StarSummary owns it, bar and redeem button
+// together, one screen up the same page.
 
 type Child = { id: string; name: string }
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null }
@@ -275,22 +278,16 @@ export default function QuestBoard() {
                       </span>
                     ) : null}
                   </span>
-                  {/* Goal bar */}
-                  {goal && balance < goal.stars_needed && (
-                    <span style={{ display: 'block', marginTop: '8px' }}>
-                      <span style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12.5px', color: 'var(--ink-muted)', marginBottom: '3px' }}>
-                        <span>Saving for {goal.title}</span>
-                        <span>{Math.min(balance, goal.stars_needed)}/{goal.stars_needed}</span>
-                      </span>
-                      <span style={{ display: 'block', height: '8px', borderRadius: '8px', background: 'var(--border)', overflow: 'hidden' }}>
-                        <span style={{
-                          display: 'block', height: '100%', borderRadius: '8px', background: 'var(--terracotta)',
-                          width: `${Math.min(100, (balance / Math.max(1, goal.stars_needed)) * 100)}%`,
-                          transition: 'width 0.5s ease',
-                        }} />
-                      </span>
-                    </span>
-                  )}
+                  {/* The Saving for bar used to be here too. StarSummary a
+                      screen up already draws it, and owns it properly: it
+                      carries the goal reached celebration and the redeem
+                      button, which this copy never had. Two bars for one goal,
+                      one of them a dead end.
+
+                      The balance line above STAYS. That one is not a duplicate:
+                      this board lists every child, StarSummary only ever shows
+                      the selected one, so for a family with two children this
+                      row is the only place both balances appear at once. */}
                 </span>
                 <span style={{ color: 'var(--ink-light)', fontSize: '16px', flexShrink: 0, transform: isOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s ease' }}>
                   →

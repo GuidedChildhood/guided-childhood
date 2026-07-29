@@ -124,7 +124,10 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       id: `device-${se.id}`, kind: 'device', icon: '⏱️', urgent: false,
       title: `${nameOf(se.child_id as string)} is on their screen time`,
       body: 'A device timer is running now',
-      href: '/dashboard/quests', at: new Date().toISOString(),
+      // Straight to the timer card, not the top of a long board. A parent
+      // tapping "See the timer" on a running session wants the countdown, and
+      // landing them at the top left them to find it.
+      href: '/dashboard/quests#screen-time', at: new Date().toISOString(),
     })
   }
 

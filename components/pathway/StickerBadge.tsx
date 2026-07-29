@@ -51,6 +51,26 @@ export default function StickerBadge({ s, size = 54 }: { s: BadgeShape; size?: n
         opacity: earned ? 1 : 0.5,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         gap: 1,
+        position: 'relative',
+        // An earned sticker is a real object: a white die cut rim, a soft lift
+        // off the page, and a highlight across the top so it reads as something
+        // printed and peeled rather than a coloured circle in a grid. That is
+        // the whole difference between a status dot and a sticker, and it is
+        // what the Planet Friends beside them already have.
+        //
+        // A locked one gets none of it, because an unearned sticker should sit
+        // flat on the page waiting rather than pretending to be a thing you own.
+        ...(earned ? {
+          boxShadow: `0 0 0 3px #fff, 0 3px 6px rgba(38,32,28,0.22)`,
+          backgroundImage: 'linear-gradient(160deg, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.10) 42%, rgba(0,0,0,0.07) 100%)',
+        } : {}),
+        // Browsers strip background colours when printing unless told not to,
+        // which would have sent every one of these to the printer as a white
+        // circle with a number in it. On a sheet whose entire purpose is to be
+        // cut out and stuck on a chart, that is the difference between a
+        // printable and a blank.
+        WebkitPrintColorAdjust: 'exact',
+        printColorAdjust: 'exact',
       }}
     >
       {isFirst ? (

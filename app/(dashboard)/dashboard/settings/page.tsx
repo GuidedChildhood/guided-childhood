@@ -1,6 +1,9 @@
 'use client'
 import { useState, useEffect } from 'react'
 import SchoolLink from '@/components/digi/SchoolLink'
+import DeleteAccount from '@/components/settings/DeleteAccount'
+import YourAgreements from '@/components/settings/YourAgreements'
+import SettingsLinks from '@/components/settings/SettingsLinks'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -13,6 +16,14 @@ interface Profile {
   subscription_status: string
   subscription_tier: string | null
   is_founder: boolean
+  // Joining is when the Terms and the Privacy Policy were agreed: signup says
+  // so in as many words, so there is no separate column to keep and no second
+  // tick box to pretend is more meaningful than the first.
+  created_at: string | null
+  // Article 9 consent for the weekly check in, asked separately and shown
+  // separately. Null before migration 120 has run, which reads the same as not
+  // consented and is the safe way round.
+  wellbeing_consent_at: string | null
 }
 
 interface Child {
@@ -72,10 +83,16 @@ export default function SettingsPage() {
       // Cascade the child read so each new column fails soft on its own:
       // first the full set (with birthday and interests), then drop interests
       // if 088 has not run, then drop the birthday too if 083 has not run.
+      // Same fail soft shape as the children read below: ask for the consent
+      // column, and if migration 120 has not run here, drop back to the set
+      // that has always existed rather than blanking the whole page.
       let [profileResult, childrenResult] = await Promise.all([
-        supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder').eq('id', user.id).single(),
+        supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at, wellbeing_consent_at').eq('id', user.id).single(),
         supabase.from('children').select('id, name, age_band, date_of_birth, interests, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
       ])
+      if (profileResult.error) {
+        profileResult = await supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at').eq('id', user.id).single() as typeof profileResult
+      }
       if (childrenResult.error) {
         const withDob = await supabase.from('children').select('id, name, age_band, date_of_birth, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }) as typeof childrenResult
         if (!withDob.error) {
@@ -89,8 +106,17 @@ export default function SettingsPage() {
       }
 
       if (profileResult.data) {
-        setProfile(profileResult.data)
-        setName(profileResult.data.full_name ?? '')
+        const p = profileResult.data as Partial<Profile>
+        setProfile({
+          full_name: p.full_name ?? null,
+          email: p.email ?? null,
+          subscription_status: p.subscription_status ?? 'free',
+          subscription_tier: p.subscription_tier ?? null,
+          is_founder: p.is_founder ?? false,
+          created_at: p.created_at ?? null,
+          wellbeing_consent_at: p.wellbeing_consent_at ?? null,
+        })
+        setName(p.full_name ?? '')
       }
       const loadedKids = ((childrenResult.data ?? []) as Partial<Child>[]).map(k => ({
         id: k.id as string,
@@ -404,6 +430,15 @@ export default function SettingsPage() {
         )}
       </section>
 
+      {/* The way out to devices, notifications and the child app, none of
+          which Settings holds itself and all of which parents come here
+          looking for. */}
+      <SettingsLinks />
+
+      {/* What was agreed, when, and the button that takes the Article 9
+          consent back. */}
+      <YourAgreements joinedAt={profile?.created_at ?? null} consentAt={profile?.wellbeing_consent_at ?? null} />
+
       {/* Sign out */}
       <section id="sign-out" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
         <h2 style={{ fontSize: '1rem', marginBottom: '6px', color: 'var(--ink)' }}>Sign out</h2>
@@ -431,6 +466,8 @@ export default function SettingsPage() {
       <section style={{ marginTop: '24px' }}>
         <SchoolLink />
       </section>
+
+      <DeleteAccount />
     </div>
   )
 }

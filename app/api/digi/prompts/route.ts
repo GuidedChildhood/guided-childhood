@@ -30,11 +30,18 @@ export async function GET() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
-  const [{ data: pending }, { data: child }, { data: lastPrompt }] = await Promise.all([
+  const [{ data: pending }, { data: kids }, { data: lastPrompt }] = await Promise.all([
     supabase.from('digi_prompts').select('id, kind, title, body, href, created_at').eq('user_id', user.id).eq('status', 'pending').order('created_at', { ascending: false }).limit(3),
-    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    // Every child, not only the primary. The prompt needs the full roster so it
+    // can say which names are real, and so a second child is not invented from
+    // a stale memory row.
+    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     supabase.from('digi_prompts').select('created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).maybeSingle(),
   ])
+
+  type PromptChild = { id: string; name: string | null; age_band: string | null; stage_id: string | null; streak_weeks: number | null; is_primary: boolean | null }
+  const children = (kids ?? []) as PromptChild[]
+  const child = children.find(c => c.is_primary) ?? children[0] ?? null
 
   if ((pending ?? []).length > 0 || !child) {
     return NextResponse.json({ prompts: pending ?? [] })
@@ -95,6 +102,11 @@ export async function GET() {
         content: `You are DiGi, the warm and evidence grounded parenting guide inside Guided Childhood. Write ${triggers.length} short proactive prompts for this parent, one per trigger below. Each prompt is a small card the parent sees on their dashboard before they ask anything.
 
 Child: ${child.name}, age band ${child.age_band}.
+${(() => {
+    const names = children.map(c => c.name).filter((n): n is string => !!n && n !== 'Your child')
+    return `CHILD NAME RULE, ABSOLUTE. This family has ${names.length === 1 ? 'ONE child' : `${names.length} children`}: ${names.join(', ')}. That list is complete and it is the only source of truth. Use no other name for a child, ever, and never say or imply the family has more children than are on that list.
+The memory notes below are written from past conversations and CAN BE OUT OF DATE. A name in them that is not on the list above is a child who is no longer on this account, or was never one. Ignore it completely. Do not carry it into a prompt, do not treat it as a sibling, and do not reason about a relationship between it and a real child.`
+  })()}
 
 WHERE THIS FAMILY IS ON THE PATHWAY (you know their road, use it: name the stage, the progress, the concern, or the exact next script by title when it makes the prompt land harder, so the parent feels you genuinely know where they are):
 ${pathwayContext || 'Just getting started.'}

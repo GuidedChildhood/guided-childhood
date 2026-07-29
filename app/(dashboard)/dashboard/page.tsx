@@ -503,9 +503,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           // opened their app, that IS the one thing: nothing else on the loop
           // pays off as much as the side of the product they cannot see yet.
           // Once they are in, it goes back to the normal daily loop.
-          nextTask: !childAppLive
-            ? { label: 'Share the QR code with them', href: '/dashboard/quests?tab=share' }
-            : (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
+          // Always the daily loop, never the handover. This used to jump to
+          // Share the QR code whenever the child had not opened their app,
+          // which is exactly the case where ChildAppNudge is already on screen
+          // saying it, and where HomeRows was saying it a third time. The rule
+          // twelve lines up said the handover stays out of the one next thing
+          // because ChildAppNudge owns it; this is that rule actually applied.
+          nextTask: (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
           strands: literacyStrands,
         }}
       />
@@ -671,14 +675,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           the Progress page. */}
       {(() => {
         const dayName = new Intl.DateTimeFormat('en-GB', { weekday: 'short', timeZone: 'Europe/London' }).format(new Date())
-        const handover = !!child?.age_band && child.age_band !== '4-7' && !hasKidLink
-          && !!child?.name && child.name !== 'Your child'
         return (
           <HomeRows
             stageName={stage.name}
             stageNum={stage.id}
             criticalWindow={stage.isCritical}
-            handoverChildName={handover ? child!.name : null}
             isSunday={dayName === 'Sun'}
           />
         )

@@ -3,20 +3,28 @@
 import { useState } from 'react'
 import DeviceCoverageBoard from './DeviceCoverageBoard'
 import DeviceList, { type DeviceGuide } from './DeviceList'
+import YourScreens from '@/components/devices/YourScreens'
 
 // Owns the one shared truth for the devices page: which devices are set up,
 // which the family does not have yet, which guide is open, and what is mid
-// save. The coverage board reads it for the ring and the layers, the guide
-// list reads it for the ticks, and a board tile opens the matching guide
-// below. One state, three views, always in sync.
+// save.
+//
+// The order here is the point. The family's own screens come first and carry
+// their own guides, because that is the list a parent came to read. The
+// coverage board sits under it for the layers it alone covers, the network and
+// the apps. The full catalogue is last and folded away, so it is still there
+// for the parent who wants to read the Xbox guide without owning an Xbox, and
+// is no longer a second list of devices competing with the first.
 export default function DeviceHub({
   devices,
   childAge,
+  childName,
   initialCompleted,
   initialNotOwned = [],
 }: {
   devices: DeviceGuide[]
   childAge: number
+  childName?: string | null
   initialCompleted: string[]
   initialNotOwned?: string[]
 }) {
@@ -24,6 +32,10 @@ export default function DeviceHub({
   const [notOwned, setNotOwned] = useState<Set<string>>(new Set(initialNotOwned))
   const [pending, setPending] = useState<string | null>(null)
   const [openKey, setOpenKey] = useState<string | null>(null)
+  // The catalogue is shut until asked for. A coverage board tile still opens
+  // it, because that tile's job is to take you to the guide behind it and a
+  // guide inside a collapsed section is a dead link.
+  const [catalogueOpen, setCatalogueOpen] = useState(false)
 
   // Mark set up, or undo it. When a device flips to done its open guide
   // closes, so the row visibly settles into the done group instead of leaving
@@ -94,6 +106,17 @@ export default function DeviceHub({
 
   return (
     <>
+      <YourScreens
+        guides={devices}
+        childAge={childAge}
+        childName={childName}
+        completed={completed}
+        notOwned={notOwned}
+        pending={pending}
+        onToggleGuide={toggle}
+        onNotOwned={markNotOwned}
+      />
+
       <DeviceCoverageBoard
         devices={devices}
         childAge={childAge}
@@ -101,21 +124,54 @@ export default function DeviceHub({
         notOwned={notOwned}
         pending={pending}
         onToggle={toggle}
-        onOpen={openGuide}
+        onOpen={key => { setCatalogueOpen(true); openGuide(key) }}
         onRestore={restore}
       />
-      <DeviceList
-        devices={devices}
-        childAge={childAge}
-        completed={completed}
-        notOwned={notOwned}
-        pending={pending}
-        onToggle={toggle}
-        onNotOwned={markNotOwned}
-        onRestore={restore}
-        openKey={openKey}
-        setOpenKey={setOpenKey}
-      />
+
+      {/* The whole catalogue, folded away. Before this it was a permanent
+          second list of devices sitting under the family's own, which is the
+          two lists Justin could not tell apart. It is still one tap from here,
+          because a parent who wants to read a guide for something they do not
+          own yet should be able to. */}
+      <div style={{ marginTop: 8 }}>
+        <button
+          type="button"
+          onClick={() => setCatalogueOpen(o => !o)}
+          aria-expanded={catalogueOpen}
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            gap: 10, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16,
+            padding: '14px 16px', cursor: 'pointer', textAlign: 'left',
+          }}
+        >
+          <span style={{ minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.25 }}>
+              Browse every guide
+            </span>
+            <span style={{ display: 'block', fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 2 }}>
+              All {devices.length} of them, including things you do not have yet.
+            </span>
+          </span>
+          <span aria-hidden style={{ fontSize: 16, color: 'var(--ink-muted)', flexShrink: 0, transform: catalogueOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
+        </button>
+
+        {catalogueOpen && (
+          <div style={{ marginTop: 16 }}>
+            <DeviceList
+              devices={devices}
+              childAge={childAge}
+              completed={completed}
+              notOwned={notOwned}
+              pending={pending}
+              onToggle={toggle}
+              onNotOwned={markNotOwned}
+              onRestore={restore}
+              openKey={openKey}
+              setOpenKey={setOpenKey}
+            />
+          </div>
+        )}
+      </div>
     </>
   )
 }

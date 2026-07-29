@@ -2903,3 +2903,650 @@ number. It needs a column that actually knows, so it waits for one.
 /dev/quest-tiles now renders BOTH states side by side. The quiet board is what
 most families see most days and it has to look finished rather than unloaded,
 which is not something you can check from the busy state alone.
+
+**Stickers read as objects, and would have printed blank (28 Jul).** JP: if the
+stars are going to be printable they need to render better and be better
+images. Two separate things inside that.
+
+Rendering: an earned sticker now has a white die cut rim, a soft lift off the
+page and a highlight across the top, which is the difference between a status
+dot and a sticker, and is what the Planet Friends beside them already had. A
+locked one deliberately gets none of it and stays flat, because an unearned
+sticker should look like it is waiting rather than like something you own.
+
+The print bug found on the way: browsers strip background colours when printing
+unless told not to, so every one of these would have gone to the printer as a
+white circle with a number in it. On a sheet whose entire purpose is to be cut
+out and stuck on a chart that is the difference between a printable and a blank
+page. print-color-adjust: exact now set.
+
+Worth keeping: these are SVG and CSS, not raster, so they are already the right
+call for print. They scale losslessly to any size, which is why the harness
+renders them at 150px as well as 54. New raster artwork would be a downgrade
+for print unless generated very large. The real artwork question is the
+CHARACTER stickers, which are images, and that waits on Higgsfield credits.
+
+/dev/stickers shows earned, locked and print size together.
+
+**The child app handover said itself three times on one Home screen (28 Jul).**
+Phase 3, the duplication. The audit counted six handover entry points; the ones
+that actually hurt were the three stacked on a single screen.
+
+A family with an unlinked, named child aged 8 or over saw, all at once:
+ChildAppNudge (page.tsx:557), DiGi's one next thing overridden to "Share the QR
+code with them" (page.tsx:506), and a handover row inside HomeRows (:674).
+
+Neither of the extra two could ever have been an alternative to the nudge, and
+the gates prove it rather than suggest it. hasKidLink is a link row existing;
+childAppLive is a link row that has been OPENED. So !hasKidLink strictly implies
+!childAppLive, and ChildAppNudge is gated on exactly !childAppLive. Whenever
+either duplicate showed, the nudge was already on screen saying the same thing.
+They were not three states, they were one message three times.
+
+The best part: page.tsx line 438 already carried the rule, in its own words,
+that the handover stays out of the one next thing "because ChildAppNudge above
+already owns that and saying it twice on one screen is nagging". The rule was
+written and then broken twice, twelve lines below itself. A comment is not an
+enforcement mechanism.
+
+ChildAppNudge is now the only one that speaks. HomeRows lost the row and the
+handoverChildName prop; nextTask always reads the daily loop.
+
+**The saving goal bar was drawn twice, the balance line only looked like it
+was (28 Jul).** JP's call, and the right one. QuestBoard and StarSummary both
+sat on the Quests page drawing a star balance and a Saving for bar.
+
+Only the goal bar was a genuine duplicate, and StarSummary's is the better of
+the two: it carries the goal reached celebration and the redeem button, which
+QuestBoard's copy never had. Two bars for one goal, one of them a dead end.
+QuestBoard's is gone.
+
+The BALANCE line stays, because it is not a duplicate however much it looks
+like one. QuestBoard lists every child; StarSummary only ever shows the
+selected one. For a family with two children that row is the only place both
+balances appear at once, so removing it would have quietly cost multi child
+families their only side by side view to make a single child page tidier.
+
+Worth keeping as a rule: identical looking output is not evidence of
+duplication until the SCOPES match. The handover fix earlier the same day was
+safe to make because the gates proved redundancy; this one was not, and the
+difference was worth asking about rather than guessing.
+
+**The daily buzz was filed under one time setup (28 Jul).** Last of the Quests
+duplication pass. The nine ping buttons sat at line 2109 of a 2283 line file,
+inside the Share tab, which is the tab a parent opens once to hand the phone
+link over and then never needs again.
+
+Read the nine and the misfiling is obvious: dinner in ten minutes, time to come
+off the screen, time for bed, please come downstairs. Not one is a setup task.
+They are the most ordinary daily thing on the whole board and they were behind
+a job you do once. Now on Manage, with the rest of the daily loop.
+
+Its own component, so /dev/child-ping can show it without a login. That matters
+here specifically: being unreachable without auth is a large part of how it sat
+misplaced and unexamined for as long as it did.
+
+Small accessibility fix carried along: the button labels are clipped at 34
+characters with an ellipsis, and the clipped text was also the accessible name,
+so a screen reader announced "Quest check! A few ticks and the..." with no way
+to hear the rest. title and aria-label now carry the full line.
+
+Noted against house rule 6 (scripts live in the database): these nine are quick
+action button labels rather than DiGi pathway scripts, so they stay in code for
+now. If they ever need editing without a deploy they want a table.
+
+**Four from JP's phone, 28 Jul evening.** All four were real.
+
+1. NO PRINT BUTTON on the star chart builder. Its action bar was pinned to
+bottom 0, so on a phone it sat UNDER the global tab bar, and because the count
+line is long the row wrapped and the Print button was the half pushed out of
+sight. The one button the entire page exists for was unreachable on mobile
+while the page still looked finished. The .above-tab-bar class already existed
+for exactly this (the shop basket uses it); this bar had never adopted it. Also
+flipped to wrap-reverse so the button leads and the count follows.
+
+2. THE BADGE CLIPPED to "Not prin...". Two errors, one after the other, both
+mine. First flexShrink 0 meant a long badge pushed the row off a 390 screen.
+Then flexShrink 1 fixed the overflow and made every badge collapse to four
+characters: "4 wai...", "Not m...". That is worse, because a badge that says
+"Not m..." has lost the only thing it was for. The answer was neither: the row
+WRAPS, so a badge that will not fit beside the icon drops under it and reads in
+full. Copy shortened to "To print" as well, matching the devices tile's "To set
+up".
+
+3. "CONFIRM 18 DONE" was counting the wrong set. It counted every quest not
+approved today, which sweeps in jobs nobody has touched and one off games never
+played. So it read 18 while five were genuinely waiting, and tapping it dropped
+a parent into a long list where most rows needed nothing from them. Now counts
+pending ticks, the same source the star summary already uses, so the two agree
+by construction. Empty state says "Nothing to confirm" rather than "All done
+today", which was a plain untruth when the day's jobs were untouched.
+
+4. THE PUSH TEST NEVER CLEANED UP. A 410 from a push service means that
+endpoint is dead forever; nothing ever deleted it. iOS mints a new endpoint
+every time the app is removed from the home screen and added back, so the row
+count only grew and every stale one counted towards "every device refused" —
+the message got more alarming the longer an account had been used. Now deletes
+on 404 and 410 and returns removed and allFailed.
+
+That last one is the fourth guard found this week that was written and could
+never fire: SchoolActionsCard already had the "we have cleared the devices that
+had gone for good" sentence and already read data.removed, and the route never
+sent one. Same shape as the passport fallback, the badge clip guard and the
+countdown audio. The pattern to distrust: handling written for a signal that
+nothing upstream actually raises.
+
+**DiGi called Ada by the wrong name because it only ever knew one child
+(28 Jul).** JP saw DiGi say "one sentence to Alma" about a child called Ada.
+Alma is one of our own DiGi Squad characters, so the first read was a leaked
+character name. It was not.
+
+The children query asked for is_primary and nothing else, so DiGi genuinely did
+not know a family's other children existed. In a house with more than one it
+answered about the primary child whatever the parent meant.
+
+The guard made it worse rather than better. A previous wrong name report had
+added a rule naming that one child and forbidding every other name "not even
+once". That does stop an invented name, but with several children it converts a
+wrong name into a locked in one: DiGi was explicitly instructed not to switch
+even when the parent said the other child's name themselves. It could not take
+the correction.
+
+Now DiGi is given every child on the account and told those are the only names
+it may use, that the parent's own words decide which child is meant, and that if
+a parent names a child mid conversation it follows them. Unclear means say your
+child or ask, never pick one and hope.
+
+The lesson is about the shape of the first fix, not the model. A rule that
+pins one value and forbids all others looks like a tightening and is actually a
+narrowing: it removes the ability to be right later. Constrain the SET of
+allowed answers, then let the evidence choose within it.
+
+JP's larger asks from the same session (walk a parent through device settings
+and hand them back, settings strength that scales with age, defaults on, a feed
+assessment for worried parents) are written up in
+plans/digi-device-settings-plan.md rather than half built here.
+
+**DiGi answered about TikTok when asked about home WiFi, because the WiFi guide
+did not exist (28 Jul).** JP tapped "DiGi can walk me through it" on home
+broadband and got the TikTok walkthrough again plus the agreements line. On the
+Fire tablet the same button worked.
+
+Both halves of that are explained by one fact: there are 24 rows in
+device_guides and not one is a router. firetablet is a real row, so that button
+grounded properly. broadband was never a row at all, and the button did not even
+pass a device key, so the route loaded no guide and DiGi filled the silence from
+earlier in the conversation.
+
+Three changes. Migration 118 adds the home broadband guide, first in the list at
+sort_order 5, because router filtering is the only layer covering every screen
+in the house at once including the ones with no controls of their own. The
+button now passes device=broadband. And when a parent clearly asks how to set
+something up and no guide is loaded, DiGi is told to say we do not have that one
+written yet rather than improvise, because a parent following invented settings
+believes the house is covered when it is not. The loaded guide also now states
+that any earlier device topic is finished.
+
+min_age 4 on the router row so it never trips the passport's ahead of age
+warning. A router is not something a child owns too early, it is the house.
+
+The content names the real UK providers and, more importantly, names the gap:
+this covers WiFi only, so a phone on mobile data is unfiltered and needs the
+network's own content lock. A guide that does not say what it fails to cover is
+how a parent ends up confidently wrong.
+
+**The home broadband guide existed all along, and I nearly shipped a second one
+(28 Jul).** The WiFi bug was real: the Devices button asked DiGi to walk a
+parent through home broadband without naming a guide, so the route loaded none
+and DiGi answered from whatever was last in the conversation. That is the TikTok
+answer JP saw. The fix is one word, device=home_broadband.
+
+The diagnosis around it was wrong. I checked migration 014, which seeds 24
+devices with no router among them, and concluded the catalogue had none. The
+router guide arrived later in 077 under home_broadband. Reading the first seed
+file and concluding what the whole catalogue holds is the same error as reading
+one branch of an if and concluding what the function does. Migration 118 as
+first written would have inserted a rival guide under the key 'broadband', and
+the app would have carried two competing home broadband guides with whichever
+the button named being the one a parent saw. Nothing would have looked broken.
+
+Caught by checking the live database before applying rather than after. Worth
+keeping as the habit: the repo tells you what was intended, only the database
+tells you what is there.
+
+118 is now an update rather than an insert, and does the part still worth doing.
+The guide was three steps and stopped before the two that decide whether the
+filter holds: the router's own admin password, which is printed on the box and
+lets an older child switch everything off in a minute, and testing it before
+trusting it. Five steps now, and the note names what the filter does not cover,
+which is mobile data and VPNs. A guide that does not say where it stops is how a
+parent ends up confidently wrong.
+
+Migrations 117 and 118 are both APPLIED to the live database as of tonight.
+
+**Device guides now have a review date and a monthly check (28 Jul).** JP: the
+guides go out of date constantly, especially apps like WhatsApp, so research
+them, run a monthly check, and get the steps age specific where possible.
+
+The guides are the most perishable thing in the product. Apple, Google and Meta
+move menus and rename toggles continuously. A stale guide is worse than no
+guide, because a parent follows it, cannot find the setting or finds it does
+nothing, and walks away believing the house is covered. Nothing recorded when a
+guide was last looked at, so there was no way to know which had drifted.
+
+Migration 119 adds last_reviewed_at (backfilled to now, so the first run has a
+starting line rather than 25 overdue at once) and device_guide_candidates, the
+review queue. /api/cron/device-guide-refresh runs monthly on the 2nd, takes the
+six least recently reviewed, asks what has changed and what is missing, and
+files everything as PENDING.
+
+It NEVER edits a live guide. Same human gate as knowledge-refresh, and the
+reason is stronger here: these are safety instructions, and a confidently wrong
+step is the failure mode that actually hurts a family. The prompt is told
+explicitly that returning nothing is a good answer, and a candidate without a
+source URL is dropped before it reaches the queue, because a claim that cannot
+be checked is not reviewable.
+
+The batch is marked reviewed whether or not anything came back, since a guide
+checked and found correct HAS been reviewed. Without that the same six would be
+re-checked forever.
+
+Age specific steps: the candidate rows carry age_notes keyed by band, and the
+prompt is told to fill it only where the guidance genuinely differs rather than
+where the wording would just be softer. The live guides do not render age notes
+yet, so this collects the material first and the rendering follows once there is
+something real to show.
+
+Applied to the live database tonight. WHAT THIS DOES NOT DO: verify the current
+25 guides. It schedules that work and routes it to JP for approval, it does not
+retrospectively check them. The first run on 2 August covers the first six.
+
+**The DiGi learning loop plan, and the one thing already right (28 Jul).** JP
+asked for the full plan with the legal requirements step by step. Written to
+plans/digi-learning-loop-plan.md.
+
+The finding that changed the plan: the loop is already running. digi_wisdom (45
+rows), digi_memory with embeddings, expert_knowledge with a human gated
+candidate queue, wellbeing_checks, community_polls, digi_insights, all live, and
+brain.ts and wisdom.ts already feed aggregateWisdom and whatWorked into every
+prompt. What is missing is only the front door: nothing offers the parent three
+replies, and nothing captures the one they write instead. So this is closing a
+loop, not building one.
+
+And digi_wisdom is already the SAFE shape, by accident rather than design:
+topic, age_band, what_works, evidence_count, with no user_id and no child_id. It
+learns which ADVICE works for an age, not what a child is like. That distinction
+is the whole legal position. Protect it.
+
+The mental health line, stated precisely, because JP was right to be cautious.
+Helping a parent respond is unregulated. Screening a child is not: claiming to
+detect, screen for, diagnose or predict a condition can make the product
+Software as a Medical Device under UK MDR 2002, which is MHRA registration and a
+different company. The line is drawn by the CLAIM. So: DiGi describes what the
+family logged and what helped other families, and never characterises a child.
+The feed assessment gets framed as what is this feed showing them, a content
+question about the platform, not what is wrong with this child.
+
+Also flagged: wellbeing_checks already holds mood, sleep and concern level
+against named children. The Article 9 special category question is live TODAY,
+not when the new work ships. A DPIA is mandatory rather than advisable, and the
+ICO expects it before processing, so it is genuinely blocking rather than
+paperwork to catch up on.
+
+The Children's Code standard most often missed and most relevant here: if a
+parent can monitor a child, the CHILD has to be told, age appropriately. That
+applies to the kid app, the timer and the check ins as they already exist.
+
+Position taken on pricing: the loop itself should never be a paid tier, because
+gating it starves the thing that makes it work. Sell depth, history and the
+school aggregate, which is de-identified by nature and therefore the part that
+can be sold ethically at all.
+
+**Two device counts on one screen, neither explained (28 Jul).** JP: it says 3
+devices and I can see those, but underneath it says device coverage 2 out of 13.
+
+Both numbers were right and they count different things. The list at the top is
+family_devices, the screens this family has told us they own. The ring is SETUP
+GUIDES filtered to the child's age, plus the network row and the app rows, which
+is a different set and a bigger one. Nothing on the page said so, so a parent
+who has listed three devices and then reads 2 of 13 has no way to reconcile
+them, and the natural reading is that we have lost track of their house.
+
+Fixed by saying what the number counts, in the parent's words and with the age
+in it, rather than by changing either number. Both were accurate; the page was
+just silent about the difference.
+
+Worth generalising: a bare fraction is only legible when the denominator is
+obvious. 2/13 next to a list of 3 things is an invitation to distrust the whole
+screen. Any ratio in this product should be able to finish the sentence "2 of 13
+WHAT".
+
+Also added a back link to the Device Safety Hub. It is reached from Home, the
+passport and DiGi and had no exit of its own, leaving a parent to the browser
+back button. Same pattern the phone setup and lesson pages already use. JP's
+wider point stands and is in plans/digi-device-settings-plan.md: a way back to
+the page that led here is good practice everywhere, not just here.
+
+**Go-live items 2 to 5 built, and item 5 did not exist (28 Jul).**
+
+CHECKING 5 WAS THE FIND. There is no account deletion route and no button, and
+the privacy policy has always said "if you close your account or ask us to
+delete your data, we remove it". A written promise with nothing behind it, on
+the one right people actually exercise, with a one month statutory deadline
+attached. Honouring it meant Justin going into the Supabase dashboard by hand.
+
+The cascades were already right, which is why this is a small fix: auth.users
+to profiles to children, and wellbeing_checks.parent_id to profiles. Deleting
+the auth user always would have taken the family with it. Nothing could ask.
+
+The related defect: child_id on wellbeing_checks, digi_feedback and digi_memory
+was ON DELETE SET NULL. Removing one child from a family that stays left the
+health rows behind with the id nulled. For ordinary data that is tidy history.
+For special category data it is the worst case: the rows survive, cannot be
+attributed, cannot be produced for a subject access request, and have no lawful
+basis left. Orphaned health data is not anonymised data, it is data you can no
+longer account for. Migration 120 makes all three CASCADE and clears what was
+already orphaned.
+
+2. Privacy policy has a section on the check in written in JP's voice, saying
+what it is, that it counts as health information, that consent is asked
+separately, and that DiGi will tell you what you logged but never what is wrong
+with your child. Retention is now stated: two years for check in entries, six
+for payment records because HMRC.
+
+3. Consent gate in front of the check in. Unticked by default, since a
+pre-ticked box is not consent. Stores the wording VERSION as well as the time,
+because consent is to a specific promise and a bare boolean cannot say which
+one. Withdrawal deletes rather than flipping a flag.
+
+4. KidPrivacyNote, permanently in the child's app. The welcome already
+mentioned it, but the welcome shows once and is dismissed forever, so a child
+who tapped past it had no way back to the answer. It says what a grown up CANNOT
+see as plainly as what they can, and carries Childline.
+
+Migration 120 applied to the live database.
+
+**A quarterly legal watch on the insights board (28 Jul).** JP asked for it and
+it is the right instinct: this product sits on law that moves, UK GDPR, the
+Children's Code, the Online Safety Act and its phased duties, age assurance, and
+the MHRA line between a guide and a medical device. None of them writes to tell
+you.
+
+The realistic failure is not a breach, it is drift. A duty commences in March,
+nobody is watching, and you find out from a school's procurement questionnaire
+or a journalist. Four reminders a year is cheap against that.
+
+Migration 121 adds legal_watch_items. /api/cron/legal-watch runs on the 3rd of
+January, April, July and October, reports what may have changed, and files it
+PENDING. The insights board shows it first, sorted by commencement date, because
+a duty landing next month outranks one that might arrive some day.
+
+Built with harder limits than any other cron here, because being confidently
+wrong about the law is worse than knowing you have not looked:
+  - it files rows and does nothing else, never edits a policy or a setting
+  - it is instructed NEVER to state that the platform is or is not compliant
+  - an item with no source URL is dropped before the queue
+  - confidence is recorded honestly and low is the expected answer
+  - the email says in bold that it is not legal advice
+
+Closing a row takes an optional note. In six months the useful thing is not
+that an item was dismissed but WHY, and that is exactly what nobody writes down
+and everybody later wishes they had.
+
+Applied to the live database.
+
+**The "two children from different accounts" report was not a breach, and the
+bug underneath it is real (29 Jul).** JP opened the app on his phone and saw a
+notification about "the device fights between Yusuf and Teo". He called it a
+security breach and was right to.
+
+It is not one, and the evidence is specific. The digi_prompts row containing
+that text belongs to user 77ed6daa, which is j31phillips+qw@gmail.com, one of
+JP's own Gmail alias test accounts, whose child IS called Yusuf. His main
+account 674f6e8c has one child, Gus, and no row under it mentions Yusuf. Every
+query in prompts/route.ts is scoped with eq('user_id', user.id). His phone was
+signed into the test account and was shown that account's own data. Nothing
+crossed between accounts.
+
+What IS real: that account has ONE child, and the notification said two, naming
+Teo alongside Yusuf. Teo comes from stale digi_memory rows written in earlier
+test chats. DiGi read a name out of conversation history and treated it as a
+second, current child.
+
+Same root cause as the Alma bug the night before, in a route I did not fix.
+prompts/route.ts still loaded is_primary only and had NO name rule at all, so
+last night's fix covered the chat and left the notifications wide open. Worth
+remembering: when a bug is "the model was given the wrong facts", fix every
+place the facts are assembled, not the one where it was reported.
+
+Both routes now state the complete list of children AND that memory can be out
+of date, so a name in history that is not on the list is a child no longer on
+the account and must be ignored rather than treated as a sibling. Naming the
+staleness explicitly matters, because the model's natural reading of an old note
+about Teo is that Teo exists.
+
+Still worth doing separately: JP's test accounts carry years of stale memory
+that will keep producing this. Offered to clear the orphaned rows.
+
+---
+
+## 29 July 2026 — the Next step bar, and Settings grows up
+
+Two of JP's phone notes, plus one thing found while doing them.
+
+**The bar colour.** It used --deep-teal (#2E2818). That token is a warm
+espresso and it works on a full width marketing panel, but in a small floating
+bar over the cream dashboard it reads as a flat black brick, which is why JP
+called it black. Moved to --retro-green, which the token block already
+describes as the friendlier dark panel. Lesson worth keeping: a dark token that
+looks warm at section scale can read as pure black at component scale, so
+"which token" is not the whole question, "at what size, over what background"
+is the rest of it.
+
+**The bar repetition.** It allowed two appearances per session in
+sessionStorage, which resets every visit, so the same nudge arrived every day.
+Now one appearance per step, ever, in localStorage, recorded the moment it
+lands rather than when the parent acts, so Not now, Go and walking away all
+retire it equally.
+
+**Settings.** JP asked for a Duolingo shaped place holding log out, children
+and birthdays, terms signed, devices and a control panel link. Profile,
+children, sign out, school and delete already existed. Added the links block
+(devices, notifications, quests and the child app) and a What you have agreed
+to section.
+
+Terms and Privacy are agreed by creating an account, and signup says so in as
+many words, so the join date IS the agreement date. No new column, no second
+tick box pretending to be more meaningful than the first.
+
+**The thing found on the way.** The wellbeing consent wording promises "You can
+stop any time in Settings, and when you do, what we hold is deleted". The route
+to do it has existed since migration 120. Nothing in the product ever called
+it. That is the same pattern as the passport fallback, the badge clip guard,
+the push test cleanup and the privacy policy deletion promise: a handler
+written correctly that could never fire. Under UK GDPR withdrawing Article 9
+consent has to be as easy as giving it, so a withdrawal only Justin could
+perform by hand was not a withdrawal. There is now a button.
+
+Running count of that pattern: six. It is the most common defect in this
+codebase by some distance, and it never shows up in a typecheck or a build. The
+check that catches it is asking, of any guard or promise, what would have to be
+true for this to run, and then whether that is ever true.
+
+---
+
+## 29 July 2026 — devices: one list, not two
+
+JP: *"Still a bit unclear on devices it's confusing have 2 lists should it just
+have suggested list of devices by age ave add devices and then they add and set
+settings so it's marked as set then returns to updated list of devices?"*
+
+He was right, and the loop he described is the one the whole category uses.
+
+The page had three things counting devices: his own two screens in one card,
+our twenty six published guides in another, and a coverage ring reading 3 of 26
+that counted a third set again. He had already reported the count mismatch once
+("it says 3 devices sbd cdn see thst but underneath it has device cuversge 2
+out of 13"). Explaining the ring in small print, which is what I did last time,
+treated the symptom. The disease was three lists.
+
+Mobbin first, per CLAUDE.md. Google Home, SmartThings, Roku and Alexa all show
+ONE list, your devices, plus a single add control. Not one shelves a catalogue
+beside it. Alexa puts the suggestions inside the same list as dashed rows, which
+is exactly JP's "suggested list of devices by age". Chime, Deel and Revolut
+answer the other half: status on the row, so you tap it, do it, and come back to
+a row that has changed.
+
+Built: YourScreens. The family's own screens, each with its status on the row
+and its guide inside the row. Mark as set up flips the row, collapses the guide
+and moves the count. Dashed suggestions underneath, age matched, capped at
+three, each addable with a plus and dismissible with a cross. One add control
+carrying the search. The catalogue folded away behind Browse every guide.
+Coverage board keeps only the layers the list cannot show: the network under the
+screens and the apps on top.
+
+The important part: NONE of this needed a migration. family_devices.guide_key
+has pointed at device_guides.device_key all along, and homeSetupCount already
+counted the family's own list. The passport was already honest. Only the devices
+page was telling a different story from its own data.
+
+Worth keeping: when a screen and its data disagree, check which one is wrong
+before building anything. Twice now the fix has been presentation, and twice the
+first instinct was to add explanatory copy. Explaining a confusing screen is a
+tell that the screen is wrong.
+
+Also: my first pass at the suggestion rows put a "We have this" text button
+beside a subtitle, which left the subtitle about ninety pixels to wrap into and
+made every suggestion four lines tall. Caught it on the 390 screenshot before it
+went near JP. The row is now the tap target with a plus at the end.
+
+---
+
+## 29 July 2026 — tidy up after PR 592 merged
+
+Three loose ends, one of them mine.
+
+**DeviceList still had its own copy of the guide panel.** I extracted GuideBody
+in the devices restructure precisely so the steps panel could not be written
+twice and drift, then left the original copy sitting in DeviceList. Sixty lines
+of duplicate that would have diverged the first time anyone edited one of them.
+Now deleted, with the not owned escape passed in as the footer.
+
+Worth noticing: extracting a shared component is only half the job. It is not
+finished until every old copy is gone, and a green typecheck will happily tell
+you the duplicate is fine.
+
+**All seventeen dev harnesses were live on the public site.** /dev/your-screens
+would have served a real page on guidedchildhood.co.uk, and robots.txt never
+disallowed /dev, so they were crawlable too. Nothing leaks, they all render fake
+props, but they are half finished looking pages under our own branding, and a
+parent or a school finding one reads "broken", not "test harness".
+
+app/dev/layout.tsx now returns notFound() when VERCEL_ENV is production.
+Deliberately NOT NODE_ENV, which is production on preview builds too and would
+have killed the harnesses exactly where they are most useful, on the preview
+attached to a PR. /dev added to robots disallow as well.
+
+Verified rather than assumed: built with VERCEL_ENV=production, served it, and
+curled. The harnesses 404 while /join still returns 200. Given how many times
+this session the bug has been a guard that could never fire, checking that this
+guard fires seemed like the minimum.
+
+**ICO registration written up properly** in the go live checklist. It was one
+vague line saying "about £52 a year". It now says what the single registration
+actually is (the data protection fee, tier 1, £47 by direct debit), the one
+question on the form needing a decision (no DPO, because we are not yet large
+scale, review as we grow), and the four things people assume are registrations
+and are not: the DPIA, the Children's Code, the ROPA and the privacy policy. The
+ROPA one matters most, because the under 250 staff exemption falls away as soon
+as you touch special category data, which we do.
+
+---
+
+## 29 July 2026 — the quest lifecycle, verified and made visible
+
+Picked up from another session's handover. Justin's line was "I believe the
+logic is right but I cannot see it working", which turned out to be exactly
+right on both halves.
+
+**The logic is right.** Verified against the code rather than taken on trust:
+
+- Minutes come only from approved ticks. bank.ts filters
+  `status === 'approved'` before summing. The child's tap writes `'pending'`
+  (tick/route.ts), so a tap earns nothing until a parent says yes.
+- Rejection sets `'rejected'` and leaves approved_at null. The same filter
+  excludes it, so a no costs nothing and adds nothing.
+- Path B cannot stick in a waiting state, and structurally rather than by luck.
+  Only the child's link token can create a pending row, so a house with no child
+  app has no way to produce one. The parent tick branch writes `'approved'`
+  directly, and it promotes an existing pending tick rather than inserting a
+  duplicate, which is what stops the queue filling with ghosts.
+
+**But there was a real stuck state, in path A, that nobody had asked about.**
+/api/quests loaded ticks with `.gte('tick_date', weekAgo)`. Seven days. A
+pending tick older than that fell out of the window entirely: still pending in
+the database, never rendered, therefore never approvable, therefore never
+counted. A child ticks a job, the parent does not open the app for eight days,
+and the stars are gone with nothing on either screen admitting it.
+
+Fixed by loading every pending tick with no date bound at all and merging it
+with the windowed history, deduped by id. The window is right for history and
+was only ever wrong for the pile that is waiting on a person. There is no
+natural cap on how long a parent takes to say yes.
+
+Worth keeping: a time window on a query is a product decision disguised as a
+performance one. Ask what falls off the end and who pays for it.
+
+**The view.** The states were spread across three cards further down the page,
+so the summary was accurate and invisible. Mobbin first: monday.com's My work
+puts count tiles at the top that ARE the filter, Jobber pairs a selected chip
+with a heading naming the filter, Tiimo groups with a count per group. All three
+agree the count and the filter should be one control, so that is what
+QuestStatusBoard is. Four buckets that are the actual lifecycle: waiting on you
+(pending, the only one that costs anybody anything while it sits), on their app
+(path A, sent, not ticked), to do with you (path B, no child app), done
+(approved). Rejected has no tile, on purpose.
+
+One accepted quirk: a recurring job with an old unapproved tick appears in both
+waiting on you and on their app. Both statements are true, an unapproved tick
+from before and today's instance still to do, so it stays.
+
+---
+
+## 29 July 2026 — the notification split, and Home's tail
+
+Justin answered the open question: **short factual nudges, plus ONE DiGi
+reflective card.** That decision turned out to also be the fix for Home being
+too long, so both were one job.
+
+**What Home's tail actually was.** DigiStreakWidget, then DigiPrompts, then
+SmartAlerts. DigiPrompts mapped over EVERY live prompt, so a family with three
+of them met three full width cards in a row, each with the same star avatar and
+roughly ten lines of body at 17px and line height 1.68. SmartAlerts then did the
+same thing slightly smaller: emoji tile, title, a line and a half of body, and
+its own button, twice. Two card stacks back to back. That is why Justin was
+scrolling past his own advice.
+
+**Mobbin first, and four apps agree independently.** Withings Health Mate splits
+Highlights, a single big card, from Read, a list of compact rows. Plenty of Fish
+does For you then Latest identically. Apple Store follows its activity cards
+with a compact chevron row. And komoot puts Show more under a long body rather
+than printing all of it. So: one rich card that can be expanded, then rows.
+
+**Built.** DigiPrompts renders ONE prompt, body clamped to two lines with Read
+the rest. The others are not discarded, they are rows in the database with their
+own status, so dismissing brings the next forward and anything untouched is
+there tomorrow, with a quiet "2 more when you want them" so a parent knows the
+thinking exists. SmartAlerts became one line rows: emoji, title, the CTA as a
+mono sub label, whole row is the link, body dropped entirely.
+
+Dropping the body rather than truncating it was the deliberate call. If a fact
+needs a paragraph to make sense it is not a nudge, it is the reflective card
+above. That is the rule the split gives us and it is worth holding to, because
+the failure mode here is every nudge slowly growing a paragraph again.
+
+Measured at 390: the whole tail is 614px, and expanding the card adds 400px. So
+the clamp alone saves 400px, before counting the two prompt cards that no longer
+render at all.
+
+A quieter Home does not mean less thinking. It means less of it shouted at once.

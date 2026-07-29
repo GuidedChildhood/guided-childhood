@@ -15,14 +15,12 @@ import { getStarBanks } from '@/lib/quests/bank'
 //
 // Deliberately NOT every tile. A badge invented so that a tile has one is
 // worse than no badge, because it teaches a parent that the numbers do not
-// mean anything. Only the five that represent a real outstanding action get
+// mean anything. Only the six that represent a real outstanding action get
 // one, and each one goes quiet the moment it is dealt with.
 //
-// Star chart is the one Justin asked for that is not here. Not printed yet
-// cannot be answered honestly: StarChartBuilder saves nothing, so there is no
-// record of a family ever having printed it. Rather than guess from something
-// adjacent, which is exactly the invented badge this file rules out, that tile
-// stays quiet until there is a column that actually knows.
+// The star chart badge waited for a column that actually knows. Migration 117
+// is that column: the print button writes a row, so "Not printed yet" is now a
+// fact rather than something inferred from an adjacent signal.
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -46,6 +44,13 @@ export type BoardStatus = {
    * just the parent's to take rather than to confirm.
    */
   starsToSpend: number
+  /**
+   * True once this family has printed their star chart at least once.
+   *
+   * Defaults to printed on a failed read, like the agreement does, so a broken
+   * query is silence rather than a nag at a family who have it on the fridge.
+   */
+  starChartPrinted: boolean
 }
 
 const EMPTY: BoardStatus = {
@@ -54,6 +59,7 @@ const EMPTY: BoardStatus = {
   schoolOpen: 0,
   agreementSigned: true,
   starsToSpend: 0,
+  starChartPrinted: true,
 }
 
 /**
@@ -75,7 +81,7 @@ export async function getBoardStatus(
   // not one per tile.
   const kidsPromise = supabase.from('children').select('id').eq('user_id', userId)
 
-  const [ticks, sheets, school, agreement, kids] = await Promise.all([
+  const [ticks, sheets, school, agreement, kids, chartPrints] = await Promise.all([
     supabase.from('quest_ticks').select('id', { count: 'exact', head: true })
       .eq('user_id', userId).eq('status', 'pending'),
     supabase.from('printable_completions').select('id', { count: 'exact', head: true })
@@ -84,6 +90,7 @@ export async function getBoardStatus(
       .eq('user_id', userId).eq('status', 'open'),
     supabase.from('family_agreements').select('id').eq('user_id', userId).limit(1),
     kidsPromise,
+    supabase.from('star_chart_prints').select('id').eq('user_id', userId).limit(1),
   ])
 
   // Fails soft like the rest: a bank that cannot be read shows no badge rather
@@ -99,6 +106,8 @@ export async function getBoardStatus(
 
   return {
     starsToSpend,
+    // Unknown reads as printed, so a failure is silence rather than a nag.
+    starChartPrinted: chartPrints.error ? true : (chartPrints.data?.length ?? 0) > 0,
     ticksToConfirm: ticks.error ? 0 : (ticks.count ?? 0),
     printablesToConfirm: sheets.error ? 0 : (sheets.count ?? 0),
     schoolOpen: school.error ? 0 : (school.count ?? 0),

@@ -8,7 +8,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/dashboard', '/api', '/auth', '/onboarding'],
+        // /dev is 404 on the live deployment (see app/dev/layout.tsx). Listed
+        // anyway, because belt and braces costs one line and a crawler that
+        // finds a stale link should not go looking.
+        disallow: ['/dashboard', '/api', '/auth', '/onboarding', '/dev'],
       },
     ],
     sitemap: `${BASE_URL}/sitemap.xml`,
