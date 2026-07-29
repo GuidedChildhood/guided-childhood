@@ -4068,3 +4068,46 @@ PRINTABLE goes to /dashboard/quests#printables-to-confirm, because the confirm
 button lives on the board and nowhere else. Sending it to Manage jobs with the
 ticks would have looked consistent and landed a parent on a page that cannot do
 the thing the notification just promised.
+
+---
+
+## 29 July 2026 — the clinicians come off the advice (migration 123)
+
+Justin, asked whether he had written permission to name Dr Becky Kennedy and
+Catherine Knibbs: "I'd rather not name them, other than we have built a team of
+researchers in the field to draw upon that follow our philosophy."
+
+Settled, and done. The parent facing badges now read "Our research team":
+weekly plan steps, the balance tips, the social insights. Migration 123 strips
+the names from the seeded content a parent reads, which is daily_moments
+expert_note and the lesson slide scripts, and the seed files are updated too so a
+fresh database does not put them back.
+
+The scope was worth asking about, because "do not name them" splits three ways
+and only one of them is the risk:
+
+- **Parent facing badges: removed.** A living clinician's name next to advice
+  inside a paid product reads as endorsement whether it is meant to or not, and a
+  parent who paid partly because of a name they trust has relied on something we
+  never had permission to imply.
+- **Names inside AI system prompts: kept.** A parent never sees them. They steer
+  the model toward connection before correction and the nervous system framing,
+  so stripping them makes the output worse in exchange for no protection.
+- **Published academic citations (Odgers, Orben, Przybylski, Livingstone): kept.**
+  Citing public research is not the same as attaching a clinician to our advice,
+  and the marketing brief is explicit that every one is defensible.
+
+Also kept: expert_knowledge.source_name, which is internal provenance shown only
+on the insights board. Removing a record of where a finding came from would make
+the product LESS accountable while looking more careful.
+
+Worth keeping from the doing of it: I wrote the replacement chain, then ran it
+over the real strings and READ the output. Three defects only visible that way.
+Nested replace evaluates innermost first, so "Knibbs puts the nervous system at
+the centre" fired before the "Catherine Knibbs puts..." variant and produced
+"Catherine The research puts...". Dropping a name mid sentence turned "This is
+Knibbs made practical" into "This is Made practical". And "Knibbs is clear that"
+follows a full stop, so the lower case replacement started a sentence with a
+small letter. A find and replace that looks obviously right is exactly the kind
+that needs its output read, because the pattern matching is never the hard part,
+the surrounding English is.

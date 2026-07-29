@@ -15,7 +15,7 @@ with incoming (title, category, age_bands, icon, science_brief, digi_opener, sol
    'A tired brain loses its grip on feelings first: sleep pressure switches off the self regulation a child only just has, so the tears about the wrong cup are really tears about an empty tank. Arguing with the topic misses the cause.',
    'Do the tears tend to come at the same sort of time each day, or after the same sort of day, because the pattern usually points at the tiredness, not the trigger?',
    ARRAY['Respond to the tiredness, not the topic: fewer words, closeness, a calm lap, since a tired brain cannot use reasoning anyway.','Skip the lesson in the moment. Nothing said mid meltdown is remembered, the teaching happens tomorrow when the tank is full.','Quietly bring the next night earlier rather than announcing it as a consequence, so sleep is care, never a punishment.']::text[],
-   'Dr Becky Kennedy: see the hard moment as a child having a hard time, not giving you a hard time.',
+   'see the hard moment as a child having a hard time, not giving you a hard time.',
    370),
 
   ('Saying rude or hurtful things',
@@ -23,7 +23,7 @@ with incoming (title, category, age_bands, icon, science_brief, digi_opener, sol
    'Rude words from a child are usually a feeling too big for their skills leaking out sideways, not their true opinion of you. The most generous interpretation, a good kid having a hard time, keeps you sturdy enough to hold the line without wounding back.',
    'Do the rude words come out in the heat of a moment, or coldly in calm ones, because heat of the moment rudeness is dysregulation and needs a different response?',
    ARRAY['Hold the line on the words without matching them: I will not be spoken to like that, AND I really want to hear what is going on for you.','Let the wave pass before anything else. A child mid storm cannot repair, and demanding an instant sorry usually buys a fake one.','Come back later for the repair, warmly: that was not okay, and I know you are better than those words, what was happening for you?']::text[],
-   'Dr Becky Kennedy: the most generous interpretation of the behaviour is the one that changes it.',
+   'the most generous interpretation of the behaviour is the one that changes it.',
    371),
 
   ('Seems not to care about consequences',
@@ -39,7 +39,7 @@ with incoming (title, category, age_bands, icon, science_brief, digi_opener, sol
    'When an injury or a rule means missing something that cannot be rerun, the end of school party, the bouncy castle everyone else is on, a child grieves, and grief in children often wears anger. The anger lands on the safest person, which is the parent who held the limit.',
    'Is the anger aimed at the limit itself, or is the limit just the nearest place for the heartbreak of missing out to land?',
    ARRAY['Validate the loss at full size, do not shrink it: missing this is genuinely horrible and you are allowed to be furious about it.','Resist fixing and silver linings. There will be other parties is true and useless; feeling it with them is what actually helps.','Hold the safety limit warmly and separately: the no to the bouncy castle protects the foot, it is not a verdict on their fun, and you can be sad together about it.']::text[],
-   'Dr Becky Kennedy: two things are true, the limit stands and the sadness deserves company, not correction.',
+   'two things are true, the limit stands and the sadness deserves company, not correction.',
    373),
 
   ('Angry and will not talk',
@@ -47,7 +47,7 @@ with incoming (title, category, age_bands, icon, science_brief, digi_opener, sol
    'Silence after anger is often a child regulating the only way they know, holding the storm in until it is manageable. Chasing them with questions reads as pressure and extends the shutdown; quiet availability shortens it.',
    'When they go quiet, does space bring them back sooner, or do they need to know you are nearby before they can come out of it?',
    ARRAY['Say one door opening line and then genuinely stop: I am not cross, I am here when you are ready, and let silence be okay.','Stay findable and ordinary, pottering nearby, since presence without pressure is what makes coming back easy.','When they do come back, receive them without a debrief demand. A snack and a normal moment first, the talk often follows on its own.']::text[],
-   'Catherine Knibbs: speak to the nervous system state, not the silence, and stay the safe person to come back to.',
+   'speak to the nervous system state, not the silence, and stay the safe person to come back to.',
    374),
 
   ('End of term burnout',
