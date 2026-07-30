@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl } from '@/lib/email'
-import { monthlyBalanceEmail } from '@/lib/email/templates'
-import { buildMonthPace } from '@/lib/balance/pace'
-import { getWeekParentReport } from '@/lib/balance/week-report'
-import { deviceLabel } from '@/lib/quests/device-time'
-import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
@@ -16,10 +11,13 @@ export const dynamic = 'force-dynamic'
 export const maxDuration = 60
 
 // Daily lifecycle email run, called by Vercel Cron (see vercel.json).
-// Day 2 stage guide, day 4 DiGi nudge, day 7 founder rate, and on
-// Mondays the weekly digest. Every send is recorded in email_log with a
-// unique (user_id, email_key), so re-runs and overlapping windows can
+// Welcome, the day 2 to day 7 sequence, the service reveals, trial ending and
+// win back, plus the pre sign up lead drip. Every send is recorded in email_log
+// with a unique (user_id, email_key), so re-runs and overlapping windows can
 // never double send.
+//
+// The weekly digest and the monthly review are NOT here. They are their own
+// routes, for the reason set out at the foot of this handler.
 
 interface ProfileRow {
   id: string
@@ -34,15 +32,6 @@ interface ProfileRow {
 
 function daysSince(iso: string): number {
   return Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
-}
-
-// ISO week key so each Monday digest has its own idempotency key
-function digestKey(now: Date): string {
-  const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7))
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
-  const week = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7)
-  return `digest-${d.getUTCFullYear()}-${String(week).padStart(2, '0')}`
 }
 
 export async function GET(req: NextRequest) {
@@ -86,7 +75,7 @@ export async function GET(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, trialEnding: 0, winback: 0, leadNurture: 0, leadTeaser: 0, digest: 0, monthlyBalance: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, trialEnding: 0, winback: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -330,125 +319,16 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  // Monday digest, for everyone onboarded (not just the last 30 days)
-  const now = new Date()
-  if (now.getUTCDay() === 1) {
-    const key = digestKey(now)
-    const { data: allProfiles } = await supabase
-      .from('profiles')
-      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete')
-      .eq('onboarding_complete', true)
-      .eq('email_opt_out', false)
-
-    for (const profile of (allProfiles ?? []) as ProfileRow[]) {
-      if (!profile.email || alreadySent(profile.id, key)) continue
-      // Only send a digest once the account is at least a week old
-      if (daysSince(profile.created_at) < 7) continue
-
-      const [{ data: child }, { data: completions }] = await Promise.all([
-        supabase.from('children').select('id, name, age_band').eq('parent_id', profile.id).eq('is_primary', true).maybeSingle(),
-        supabase.from('script_completions').select('completed_at').eq('user_id', profile.id),
-      ])
-      const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
-      const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
-      const weekAgo = Date.now() - 7 * 86400000
-      const total = (completions ?? []).length
-      const thisWeek = (completions ?? []).filter(c => new Date(c.completed_at).getTime() >= weekAgo).length
-
-      // The one balance signal worth reaching a parent who has not opened the
-      // app: the young age phone flag. Deliberately the only screen time line in
-      // the weekly digest (the monthly review carries the routine verdict), so a
-      // parent is never marked on the clock every week. Fail soft, a balance
-      // read that errors must never block the digest.
-      let balanceNote: string | null = null
-      if (child?.id) {
-        const report = await getWeekParentReport(supabase, profile.id, { id: child.id, name: child.name, age_band: child.age_band }).catch(() => null)
-        if (report?.topState.key === 'phone') {
-          balanceNote = `One thing from ${childName}'s balance this week. Phone and social time showed up, and at this age we keep that near zero. It is the type of screen, not the total, so there is no need for alarm. A quick hands on swap sets it right.`
-        }
-      }
-
-      await deliver(profile.id, profile.email, key, weeklyDigestEmail({
-        childName, stageName: stage.name, scriptsDoneTotal: total, scriptsDoneThisWeek: thisWeek, unsubscribe: unsubscribeUrl(profile.id), balanceNote,
-      }), 'digest')
-    }
-  }
-
-  // The monthly screen time review, on the first of the month, for the month
-  // just finished.
+  // The weekly digest and the monthly balance review used to live here, as the
+  // last two blocks of this handler, and that is exactly why neither reached
+  // anybody. Everything above still works because it runs first; those two ran
+  // last and the sixty second budget was gone by the time it got to them. The
+  // digest degraded as the data grew (5 of 12 parents in week 29, then none at
+  // all), and the monthly review never sent a single email in its life.
   //
-  // Sent monthly rather than weekly on purpose. A weekly screen time verdict
-  // makes a parent feel marked every seven days, and a single bad week is
-  // almost always a holiday or an illness rather than a pattern. A month is
-  // long enough to be a pattern and short enough to still be actionable, and it
-  // is the only window where "less than last month" means anything.
-  if (now.getUTCDate() === 1) {
-    const monthEnd = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1))
-    const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1))
-    const prevStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 2, 1))
-    const daysIn = (a: Date, b: Date) => Math.round((b.getTime() - a.getTime()) / 86400000)
-    const key = `balance-${monthStart.getUTCFullYear()}-${String(monthStart.getUTCMonth() + 1).padStart(2, '0')}`
-    const monthLabel = monthStart.toLocaleString('en-GB', { month: 'long', timeZone: 'UTC' })
-
-    const { data: balanceProfiles } = await supabase
-      .from('profiles')
-      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete')
-      .eq('onboarding_complete', true)
-      .eq('email_opt_out', false)
-
-    for (const profile of (balanceProfiles ?? []) as ProfileRow[]) {
-      if (!profile.email || alreadySent(profile.id, key)) continue
-      // A month of data is the point of the email, so an account younger than
-      // that gets nothing rather than a review of nine days.
-      if (daysSince(profile.created_at) < 30) continue
-
-      const { data: child } = await supabase
-        .from('children').select('id, name, age_band').eq('parent_id', profile.id).eq('is_primary', true).maybeSingle()
-      if (!child) continue
-
-      const { data: sessions } = await supabase
-        .from('device_sessions')
-        .select('device, minutes, started_at')
-        .eq('user_id', profile.id).eq('child_id', child.id)
-        .gte('started_at', prevStart.toISOString()).lt('started_at', monthEnd.toISOString())
-
-      const rows = sessions ?? []
-      const inRange = (from: Date, to: Date) => rows.filter(r => {
-        const t = String(r.started_at)
-        return t >= from.toISOString() && t < to.toISOString()
-      })
-      const thisMonth = inRange(monthStart, monthEnd)
-      const lastMonth = inRange(prevStart, monthStart)
-      const sum = (list: typeof rows) => list.reduce((n, r) => n + (Number(r.minutes) || 0), 0)
-
-      // Nothing logged is not a zero minute month, it is a family who has not
-      // used the timer. Reporting "0 minutes a day, on track" to them would be
-      // a lie dressed as praise, so they get no email at all.
-      if (thisMonth.length === 0) continue
-
-      const pace = buildMonthPace({
-        usedThisMonth: sum(thisMonth),
-        dailyGuide: recommendedDailyMinutes((child as { age_band?: string | null }).age_band ?? null),
-        days: daysIn(monthStart, monthEnd),
-        usedPreviousMonth: lastMonth.length > 0 ? sum(lastMonth) : null,
-        previousDays: lastMonth.length > 0 ? daysIn(prevStart, monthStart) : null,
-      })
-
-      // The heaviest device of the month, named where we know its real name.
-      const byDevice = new Map<string, number>()
-      for (const r of thisMonth) {
-        const d = String(r.device)
-        byDevice.set(d, (byDevice.get(d) ?? 0) + (Number(r.minutes) || 0))
-      }
-      const top = [...byDevice.entries()].sort((a, b) => b[1] - a[1])[0]
-      const heaviest = top ? { label: `the ${deviceLabel(top[0]).toLowerCase()}`, minutes: top[1] } : null
-
-      const childLabel = child.name && child.name !== 'Your child' ? child.name : 'your child'
-      await deliver(profile.id, profile.email, key, monthlyBalanceEmail({
-        childLabel, monthLabel, pace, heaviest, unsubscribe: unsubscribeUrl(profile.id),
-      }), 'monthlyBalance')
-    }
-  }
+  // They are their own routes now, /api/email/digest and /api/email/monthly,
+  // each with its own budget and each self healing across the days of its
+  // period. Adding a phase back here would recreate the fault.
 
   return NextResponse.json({ ok: true, ...results })
 }
