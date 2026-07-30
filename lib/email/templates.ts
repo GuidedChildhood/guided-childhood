@@ -278,8 +278,17 @@ export function weeklyDigestEmail(params: {
   // line in the weekly digest, so the parent is never marked on the clock every
   // week. Rendered as a calm note with its own link when present.
   balanceNote?: string | null
+  // One service a week, chosen by lib/email/spotlights.ts. It lives inside this
+  // email rather than in one of its own on purpose: the digest already arrives
+  // weekly, already carries the unsubscribe, and already has the parent's
+  // attention. A second weekly send is how a list starts opting out.
+  //
+  // Absent when a parent has seen them all, and a digest with no spotlight is a
+  // perfectly good digest. Never repeated, or the section teaches itself to be
+  // skipped.
+  spotlight?: { title: string; body: string; cta: string; href: string } | null
 }): EmailContent {
-  const { childName, stageName, scriptsDoneTotal, scriptsDoneThisWeek, unsubscribe, balanceNote } = params
+  const { childName, stageName, scriptsDoneTotal, scriptsDoneThisWeek, unsubscribe, balanceNote, spotlight } = params
   const weekLine = scriptsDoneThisWeek > 0
     ? `You used ${scriptsDoneThisWeek === 1 ? 'one script' : `${scriptsDoneThisWeek} scripts`} this week. That is ${scriptsDoneThisWeek === 1 ? 'a real conversation' : 'real conversations'} that went differently because you had the words.`
     : `No scripts this week. No guilt about that, life happens. One two minute script tonight puts the week back on track.`
@@ -291,7 +300,17 @@ export function weeklyDigestEmail(params: {
       p(`All together you have completed <strong>${scriptsDoneTotal === 1 ? 'one script' : `${scriptsDoneTotal} scripts`}</strong> on the ${stageName} stage. Every one of them is a pattern ${childName} will carry into the next stage.`) +
       (balanceNote ? p(balanceNote) + button('See the balance', `${APP}/dashboard/stats`) : '') +
       button('Open this week’s script', `${APP}/dashboard/scripts/recommended`) +
-      p(`Ten minutes this week. That is the whole ask.`),
+      p(`Ten minutes this week. That is the whole ask.`) +
+      // Set apart from the week's own news by a rule and a tint, so it reads as
+      // one extra thing worth knowing rather than as more of the report.
+      (spotlight
+        ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:32px 0 8px;border-top:1px solid ${BORDER}"><tr><td style="padding:26px 0 0">
+             <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:${BUTTER_DARK};margin-bottom:10px">Something you already have</div>
+             <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:20px;font-weight:800;line-height:1.25;color:${INK};margin:0 0 12px">${spotlight.title}</div>
+             <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.7;color:${INK}">${spotlight.body}</div>
+             ${button(spotlight.cta, spotlight.href)}
+           </td></tr></table>`
+        : ''),
       unsubscribe
     ),
   }

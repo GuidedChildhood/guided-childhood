@@ -42,6 +42,9 @@ export interface ProfileRow {
   trial_ends_at: string | null
   email_opt_out: boolean
   onboarding_complete: boolean | null
+  // Only the digest selects this, for the school spotlight. Optional so the
+  // lifecycle and monthly routes keep the same row type without it.
+  school_id?: string | null
 }
 
 export function daysSince(iso: string): number {

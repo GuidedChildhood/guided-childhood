@@ -168,8 +168,10 @@ Every future feature: one registry entry at ship time.
 
 - The holiday spotlights need the school holiday data the family already has,
   so they land in the right week rather than the wrong hemisphere
-- Star banking is a real product change, not just copy. The spotlight can
-  only describe it once the banking exists, so those two ship together.
+- Star banking was written here as an unbuilt product change. That was wrong:
+  `lib/quests/holiday-bank.ts` already does exactly it, time earned above the
+  weekly cap, spendable only while school is out, never expiring. It needed a
+  spotlight, not a build, and has one.
 - Voice: this is a reason to open the app this week, never a changelog
 
 ## Order to build
