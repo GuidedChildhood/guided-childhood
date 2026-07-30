@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -33,7 +34,7 @@ ABSOLUTE RULES:
 
 Return ONLY a JSON array, no prose, of up to 5 script drafts: {"stage_id":"...","category":"screen-time|social-media|gaming|online-safety|daily-moments|first-device|...","title":"...","situation":"one or two sentences on the moment","say_this":"the words to say","not_this":"the words to avoid","why_it_works":"grounded in named research","tonight":"one concrete step","grounded_in":"which researcher or body it leans on","rationale":"one line on why this belongs, tied to demand"}. If you cannot draft anything solid, return [].`
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   if (req.headers.get('authorization') !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
@@ -164,3 +165,5 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Refresh failed' }, { status: 502 })
   }
 }
+
+export const GET = withHeartbeat('/api/cron/script-refresh', handler)

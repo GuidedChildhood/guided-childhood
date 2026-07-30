@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { sendEmail, emailConfigured } from '@/lib/email'
 import { runDigiInsights, renderInsightsEmail, persistInsights } from '@/lib/digi/insights'
 import { NextResponse } from 'next/server'
@@ -16,7 +17,7 @@ export const dynamic = 'force-dynamic'
 
 const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com').toLowerCase()
 
-export async function GET(request: Request) {
+async function handler(request: Request) {
   const secret = process.env.CRON_SECRET
   const auth = request.headers.get('authorization')
   if (!secret || auth !== `Bearer ${secret}`) {
@@ -42,3 +43,5 @@ export async function GET(request: Request) {
 
   return NextResponse.json({ ok: true, emailed: payload.count > 0, count: payload.count })
 }
+
+export const GET = withHeartbeat('/api/cron/digi-insights', handler)

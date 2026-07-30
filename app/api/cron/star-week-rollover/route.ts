@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
@@ -36,7 +37,7 @@ import {
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(request: Request) {
+async function handler(request: Request) {
   const secret = process.env.CRON_SECRET
   const auth = request.headers.get('authorization')
   if (secret && auth !== `Bearer ${secret}`) {
@@ -179,3 +180,5 @@ export async function GET(request: Request) {
 
   return NextResponse.json({ ok: true, week, paid, skipped, holidayBanked })
 }
+
+export const GET = withHeartbeat('/api/cron/star-week-rollover', handler)

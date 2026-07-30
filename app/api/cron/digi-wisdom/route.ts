@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { rebuildWisdom } from '@/lib/digi/wisdom'
 import { NextResponse } from 'next/server'
 
@@ -9,7 +10,7 @@ import { NextResponse } from 'next/server'
 export const maxDuration = 180
 export const dynamic = 'force-dynamic'
 
-export async function GET(request: Request) {
+async function handler(request: Request) {
   const secret = process.env.CRON_SECRET
   const auth = request.headers.get('authorization')
   if (!secret || auth !== `Bearer ${secret}`) {
@@ -23,3 +24,5 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Wisdom rebuild failed' }, { status: 502 })
   }
 }
+
+export const GET = withHeartbeat('/api/cron/digi-wisdom', handler)

@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -59,7 +60,7 @@ Return ONLY a JSON array, no prose, of up to 8 objects:
 {"device_key":"the existing key, or null for an app we do not cover","kind":"update|new","name":"the device or app","summary":"one or two sentences on what changed","steps":["**Do this.** detail", "..."],"age_notes":{"8-10":"..."},"url":"https://a real source","rationale":"why this matters, and any uncertainty you have"}
 If nothing has meaningfully changed and nothing is missing, return [].`
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   const auth = req.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -154,3 +155,5 @@ ${bank}`,
     return NextResponse.json({ ok: false, error: (err as Error).message }, { status: 500 })
   }
 }
+
+export const GET = withHeartbeat('/api/cron/device-guide-refresh', handler)

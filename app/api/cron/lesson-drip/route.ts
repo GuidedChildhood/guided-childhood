@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -23,7 +24,7 @@ const CATEGORY_EMOJI: Record<string, string> = {
   online_risks: '🔍', ai_safety: '🤖', ai_literacy: '🤖',
 }
 
-export async function GET(request: Request) {
+async function handler(request: Request) {
   const secret = process.env.CRON_SECRET
   const auth = request.headers.get('authorization')
   if (!secret || auth !== `Bearer ${secret}`) {
@@ -103,3 +104,5 @@ export async function GET(request: Request) {
 
   return NextResponse.json({ ok: true, sent })
 }
+
+export const GET = withHeartbeat('/api/cron/lesson-drip', handler)

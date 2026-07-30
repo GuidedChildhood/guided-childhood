@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { runEvals } from '@/lib/digi/evals'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -14,7 +15,7 @@ export const dynamic = 'force-dynamic'
 
 const FOUNDER_EMAIL = process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com'
 
-export async function GET(request: Request) {
+async function handler(request: Request) {
   const secret = process.env.CRON_SECRET
   const auth = request.headers.get('authorization')
   if (!secret || auth !== `Bearer ${secret}`) {
@@ -88,3 +89,5 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'quality check failed' }, { status: 502 })
   }
 }
+
+export const GET = withHeartbeat('/api/cron/digi-quality', handler)

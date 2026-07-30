@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -59,7 +60,7 @@ Rules, absolute:
 Return ONLY a JSON array, up to 8 objects:
 {"area":"GDPR|Children's Code|Online Safety Act|Age assurance|MHRA|AI|Other","headline":"max 12 words","summary":"2 to 3 sentences on what changed or may be changing","impact":"what this could mean for a platform like the one described, and what to go and check","confidence":"low|medium|high","effective_on":"YYYY-MM-DD or null","url":"https://primary source"}`
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   const auth = req.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -130,3 +131,5 @@ What should we be looking at this quarter?`,
     return NextResponse.json({ ok: false, error: (err as Error).message }, { status: 500 })
   }
 }
+
+export const GET = withHeartbeat('/api/cron/legal-watch', handler)

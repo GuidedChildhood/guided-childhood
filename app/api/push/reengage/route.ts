@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { reengageMessageForDay } from '@/lib/content/reengage-messages'
@@ -19,7 +20,7 @@ function daysSince(iso: string): number {
   return Math.floor((Date.now() - new Date(iso).getTime()) / 86400000)
 }
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   const auth = req.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -85,3 +86,5 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ checked: (profiles ?? []).length, sent, message: message.title })
 }
+
+export const GET = withHeartbeat('/api/push/reengage', handler)

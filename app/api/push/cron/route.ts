@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Called by Vercel Cron every 30 minutes — see vercel.json. Vercel cron
@@ -33,7 +34,7 @@ const CHECK_INS = [
   },
 ]
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   const auth = req.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -89,3 +90,5 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ checkin: checkin.title, ukHour, ...result, kids: kidResult })
 }
+
+export const GET = withHeartbeat('/api/push/cron', handler)

@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { deviceLabel } from '@/lib/quests/device-time'
@@ -22,7 +23,7 @@ import { pushToChild } from '@/lib/quests/kid-push'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(request: Request) {
+async function handler(request: Request) {
   const secret = process.env.CRON_SECRET
   const auth = request.headers.get('authorization')
   if (!secret || auth !== `Bearer ${secret}`) {
@@ -182,3 +183,5 @@ export async function GET(request: Request) {
 
   return NextResponse.json({ ok: true, ended: due?.length ?? 0, guideAlerts: alerted })
 }
+
+export const GET = withHeartbeat('/api/cron/device-time', handler)

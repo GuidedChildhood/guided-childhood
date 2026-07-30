@@ -47,6 +47,7 @@
     { "path": "/api/cron/job-reminders?band=morning", "schedule": "15 7 * * *" },
     { "path": "/api/cron/job-reminders?band=after_school", "schedule": "30 16 * * *" },
     { "path": "/api/cron/job-reminders?band=evening", "schedule": "45 18 * * *" },
-    { "path": "/api/cron/star-week-rollover", "schedule": "10 0 * * 1" }
+    { "path": "/api/cron/star-week-rollover", "schedule": "10 0 * * 1" },
+    { "path": "/api/cron/health-alert", "schedule": "15 9 * * *" }
   ]
 }

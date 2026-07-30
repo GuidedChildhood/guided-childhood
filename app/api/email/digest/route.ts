@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { weeklyDigestEmail } from '@/lib/email/templates'
@@ -30,7 +31,7 @@ export const maxDuration = 60
 // left, rather than be killed mid loop with no record of how far it got.
 const BUDGET_MS = 45_000
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   if (!cronAuthorised(req)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
@@ -113,3 +114,5 @@ export async function GET(req: NextRequest) {
     spentMs: clock.spentMs(),
   })
 }
+
+export const GET = withHeartbeat('/api/email/digest', handler)

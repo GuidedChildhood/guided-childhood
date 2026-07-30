@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
@@ -25,7 +26,7 @@ function ukTomorrow(): { dateStr: string; weekday: number } {
   return { dateStr: uk.toISOString().slice(0, 10), weekday: uk.getDay() }
 }
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   const auth = req.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -175,3 +176,5 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ families: byUser.size, sent, childSent, emailed, dueDate: tomorrow, weekday })
 }
+
+export const GET = withHeartbeat('/api/school/remind', handler)
