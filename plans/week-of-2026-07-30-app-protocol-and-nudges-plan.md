@@ -94,6 +94,84 @@ name what they are missing rather than ask them to come back:
 
 Reuse the existing gap and opt out machinery rather than inventing another.
 
+## 6. The weekly spotlight: one service a week, forever
+
+A parent buys the whole thing and meets about a fifth of it. The spotlight
+fixes that by naming one service a week, in Justin's voice, with the reason a
+parent would want it this week rather than a feature announcement.
+
+### It rides inside the weekly digest
+
+Not a second weekly email. The digest already goes weekly, already holds an
+unsubscribe, and already has the parent's attention; a second send the same
+week is how a list starts opting out. The spotlight is a section inside it.
+
+If it ever needs to stand alone, the registry below does not change, only the
+send does.
+
+### A registry, so shipping a feature adds it to the rotation
+
+The point of this is that it never goes stale. Each entry is one service:
+
+```
+{ key, title, body, href, cta, eligible(family), addedAt }
+```
+
+The digest picks the highest priority entry the parent has not been shown,
+records it, and moves on next week. A new feature ships with a registry entry
+and enters the rotation on its own. Nothing to remember, no separate campaign.
+
+Rules that make it stay honest:
+- Never show the same spotlight to the same parent twice, so a table of
+  what has been shown, keyed like the digest already is
+- `eligible` gates on the family: no school spotlight without a school, no
+  holiday spotlight in term time, no passport spotlight before the child is
+  old enough
+- Newest first among unshown, so a feature that just shipped is what a parent
+  hears about next, which is the whole point of the request
+- When everything has been shown, fall back to the highest value ones on a
+  long cycle rather than repeating recent ones or going silent
+
+### The content, as Justin listed it
+
+Services already built:
+- The passport
+- The shop
+- The printables
+- The scripts library
+- The balance tracker
+- The lessons
+- DiGi itself
+
+Schools, once a school is loaded:
+- What the curriculum covers, so a parent knows what is coming
+- Age dependent, what is expected of a child this year
+- SATs timing, and the stressors to watch for before they arrive. The value
+  is being ahead of it rather than reacting.
+- Homework loads, and that we help with them
+- Task reminders tied to the school week: hockey kit, PE day, instrument,
+  trip money
+- Routine reminders more generally
+
+Holidays and stars, which Justin called out specifically:
+- Stars earned above the weekly healthy limit bank rather than expire, and
+  can be spent in the school holidays. It keeps a child enthused through a
+  term, and gives the holiday a reward that was earned rather than given.
+- Extra device time in the holidays is not a failure. Limits can slacken
+  without guilt, and saying so plainly is what keeps a parent sane. This is
+  the pathway thesis applied to the calendar, and it is the opposite of what
+  every other app tells a parent in August.
+
+Every future feature: one registry entry at ship time.
+
+### Watch out for
+
+- The holiday spotlights need the school holiday data the family already has,
+  so they land in the right week rather than the wrong hemisphere
+- Star banking is a real product change, not just copy. The spotlight can
+  only describe it once the banking exists, so those two ship together.
+- Voice: this is a reason to open the app this week, never a changelog
+
 ## Order to build
 
 1. Character art local hosting. A broken face in a child's app is the most
@@ -102,6 +180,9 @@ Reuse the existing gap and opt out machinery rather than inventing another.
    and should be designed together.
 3. Child app welcome. Two clear bugs, then the rotating welcome.
 4. Inactivity email. Smallest, and the machinery is already there.
+5. The weekly spotlight registry and its digest section. Ship it with the
+   services that already exist, then add entries as features land.
+6. Star banking for the holidays, and the spotlight that explains it.
 
 ## Also outstanding from 30 July, not in this file
 
