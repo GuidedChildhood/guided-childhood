@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, type QuestTemplate } from '@/lib/quests/templates'
 import ShareQrButton from '@/components/quests/ShareQrButton'
+import SentToast from '@/components/ui/SentToast'
 
 // Manage jobs, on its own page.
 //
@@ -54,14 +55,11 @@ export default function ManageJobs() {
   const [loading, setLoading] = useState(true)
   const [busy, setBusy] = useState(false)
   const [custom, setCustom] = useState('')
-  // The Todoist pill. What was just added, held briefly, ABOVE the composer so
-  // the composer never moves.
+  // What the bottom confirmation is saying, null when nothing.
   const [justAdded, setJustAdded] = useState<string | null>(null)
   const [allIdeas, setAllIdeas] = useState(false)
-  const addedTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => { load() }, [])
-  useEffect(() => () => { if (addedTimer.current) clearTimeout(addedTimer.current) }, [])
 
   async function load() {
     try {
@@ -79,10 +77,11 @@ export default function ManageJobs() {
     setLoading(false)
   }
 
+  // Names the child, because this page can be pointed at either of them and a
+  // bare "Added Make your bed" does not say whose board it landed on.
   function flash(title: string) {
-    setJustAdded(title)
-    if (addedTimer.current) clearTimeout(addedTimer.current)
-    addedTimer.current = setTimeout(() => setJustAdded(null), 2600)
+    const who = children.find(c => c.id === activeChild)?.name
+    setJustAdded(who ? `${title} sent to ${who}` : `${title} added`)
   }
 
   async function add(t: { title: string; emoji: string; stars: number; schedule: string }) {
@@ -277,29 +276,19 @@ export default function ManageJobs() {
         <h2 style={H2}>Add a job</h2>
         <p style={SUB}>Tap an idea or write your own. It stays open, so add as many as you want.</p>
 
-        {/* The confirmation sits ABOVE the input, which is the whole trick.
-            Todoist does this and it is why you can add six things without your
-            thumb moving: the thing that changes is never the thing you are
-            about to touch. */}
-        {/* Fixed height, and the pill is pinned to ONE line.
-            First pass let the job title wrap, so a long one made the pill two
-            lines tall and pushed the input down 26px, measured. A confirmation
-            that moves the thing you are about to touch is the bug it was meant
-            to prevent, so the title truncates and the slot never changes size. */}
-        <div style={{ height: 38, marginBottom: 10 }}>
-          {justAdded && (
-            <div role="status" style={{
-              display: 'flex', alignItems: 'center', gap: 8, maxWidth: '100%',
-              background: 'var(--retro-green)', color: '#fff', borderRadius: 100,
-              padding: '9px 15px', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 14.5,
-              whiteSpace: 'nowrap', overflow: 'hidden',
-            }}>
-              <span aria-hidden style={{ flexShrink: 0 }}>✓</span>
-              <span style={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis' }}>Added {justAdded}</span>
-              <span style={{ flexShrink: 0, opacity: 0.85, fontWeight: 600 }}>· add another</span>
-            </div>
-          )}
-        </div>
+        {/* The confirmation used to live here, in a fixed height slot directly
+            above the input, so the composer never moved. That was right for
+            half the adds and invisible for the other half.
+
+            The add controls do not stop at the input. Underneath it come the
+            used before chips, six ideas, and a show all toggle, several hundred
+            pixels of tappable things. Tap one of those and the confirmation
+            fired up here, off the top of the screen, which is what Justin saw:
+            a job that appeared to send nothing. So you tap again.
+
+            It is a viewport toast now, pinned near the bottom, so it reaches
+            you wherever on this page you tapped. The old slot goes with it,
+            along with the shift it was there to prevent. */}
 
         <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
           <input
@@ -427,6 +416,7 @@ export default function ManageJobs() {
           Balance and stats →
         </Link>
       </div>
+      <SentToast message={justAdded} onDone={() => setJustAdded(null)} />
     </div>
   )
 }

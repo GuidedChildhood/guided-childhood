@@ -8,6 +8,7 @@ import JobBalance from '@/components/quests/JobBalance'
 import JobComposer from '@/components/quests/JobComposer'
 import ChildPing from '@/components/quests/ChildPing'
 import SaveChip, { type SaveState } from '@/components/quests/SaveChip'
+import SentToast from '@/components/ui/SentToast'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
 import QrHandoverModal from '@/components/quests/QrHandoverModal'
 import StarSummary from '@/components/quests/StarSummary'
@@ -94,6 +95,8 @@ export default function QuestManager() {
   // pressing a button first. Justin: "should they goto first add a job or
   // routine". The list is still right underneath.
   const [addOpen, setAddOpen] = useState(true)
+  // What the bottom confirmation is saying, null when nothing.
+  const [sent, setSent] = useState<string | null>(null)
   const [goalTitle, setGoalTitle] = useState('')
   const [goalStars, setGoalStars] = useState('20')
   const [dailyStars, setDailyStars] = useState('')
@@ -357,20 +360,26 @@ export default function QuestManager() {
   }, [activeChild, youngChild])
 
   async function addQuest(t: { title: string; emoji: string; stars: number; schedule: string }) {
-    await fetch('/api/quests', {
+    const res = await fetch('/api/quests', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...t, child_id: activeChild }),
     })
-    // Ping their phone so a new quest shows up right away, not only next time
-    // they open their page. Best effort, same as the before screens add.
-    if (activeChild) {
-      fetch('/api/quests/ping', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ child_id: activeChild, message: `New quest: ${t.emoji} ${t.title}` }),
-      }).catch(() => {})
-    }
+    // No client side ping any more. The create route pushes the child itself
+    // now, and it does it better: it names the stars and what they are worth in
+    // minutes, where this said only "New quest: 🛏️ Make your bed".
+    //
+    // Leaving both in place meant one job produced TWO notifications on the
+    // child's phone, seconds apart, saying different things. That is my own
+    // breakage from this morning, when the push moved server side and nothing
+    // removed the client half.
+    if (!res.ok) { setSent('That did not send. Have another go'); return }
+    // Say so, where they are. Adding a job from this page used to be completely
+    // silent: no toast, no pill, nothing moved except a row appearing in a list
+    // that is often below the fold. So a parent could not tell an add from a
+    // missed tap, which is exactly how you end up with four copies of a job.
+    const who = children.find(k => k.id === activeChild)?.name
+    setSent(who ? `${t.title} sent to ${who}` : `${t.title} added`)
     await load()
   }
 
@@ -407,7 +416,9 @@ export default function QuestManager() {
       await fetch('/api/quests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...t, child_id: activeChild }),
+        // quiet: the summary ping below speaks for the whole routine. Without
+        // it a five job routine pushed the child six times in a few seconds.
+        body: JSON.stringify({ ...t, child_id: activeChild, quiet: true }),
       }).catch(() => {})
     }
     if (fresh.length > 0) {
@@ -455,11 +466,9 @@ export default function QuestManager() {
     setFirstTask('')
     setFirstMsg('On their list, marked before screens ✓')
     setTimeout(() => setFirstMsg(null), 3500)
-    fetch('/api/quests/ping', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ child_id: activeChild, message: `Before screens today: ${t}` }),
-    }).catch(() => {})
+    // No ping here either. The create route pushes and now names the before
+    // screens part itself, so this second notification only said the same thing
+    // again in worse words.
     await load()
   }
 
@@ -2184,6 +2193,7 @@ export default function QuestManager() {
           )}
         </>
       )}
+      <SentToast message={sent} onDone={() => setSent(null)} />
     </div>
   )
 }

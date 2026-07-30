@@ -75,7 +75,9 @@ export default function AddRoutine() {
     for (const t of fresh) {
       await fetch('/api/quests', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...t, child_id: activeChild }),
+        // quiet: the summary ping below speaks for the whole routine, so the
+        // child gets one notification for one tap rather than one per job.
+        body: JSON.stringify({ ...t, child_id: activeChild, quiet: true }),
       }).catch(() => {})
     }
     if (fresh.length > 0) {
