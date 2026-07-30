@@ -95,6 +95,18 @@ export default function QuestManager() {
   // pressing a button first. Justin: "should they goto first add a job or
   // routine". The list is still right underneath.
   const [addOpen, setAddOpen] = useState(true)
+  // Whether the parent opened the add panel themselves, as opposed to it simply
+  // being open because that is how the card starts.
+  //
+  // This exists because of what autoFocus does on arrival. The panel is open by
+  // default and sits well down the page, so the focused input inside it made
+  // the browser scroll straight to it on load: the page appeared to scroll
+  // itself the moment it opened, past the very summary it leads with, with the
+  // parent not having touched anything.
+  //
+  // Focus is a good idea when someone has just asked for the composer, and a
+  // bad one when they have only just arrived, so it now waits to be asked.
+  const [addOpenedByParent, setAddOpenedByParent] = useState(false)
   // What the bottom confirmation is saying, null when nothing.
   const [sent, setSent] = useState<string | null>(null)
   const [goalTitle, setGoalTitle] = useState('')
@@ -1204,7 +1216,7 @@ export default function QuestManager() {
                   comes to this card to do, and it used to mean scrolling past
                   two screens of ideas to reach a lone input at the bottom. */}
               <button
-                onClick={() => setAddOpen(o => !o)}
+                onClick={() => setAddOpen(o => { if (!o) setAddOpenedByParent(true); return !o })}
                 style={{
                   background: addOpen ? '#fff' : 'var(--terracotta)', color: 'var(--ink)',
                   border: addOpen ? '1.5px solid var(--border)' : 'none', borderRadius: '13px',
@@ -1377,7 +1389,7 @@ export default function QuestManager() {
                   Or write your own
                 </div>
                 <JobComposer
-                  autoFocus
+                  autoFocus={addOpenedByParent}
                   onAdd={(t, when) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when })}
                   help="Worth one star. Pick how often above, and change the stars or the exact days on the job itself once it is in."
                 />

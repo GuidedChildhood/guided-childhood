@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { firstText } from '@/lib/digi/text'
+import { firstText, makeDashStripper } from '@/lib/digi/text'
 import { hasFullAccess } from '@/lib/access'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS, digiModelsFor } from '@/lib/config/digi'
 import { NextResponse, after } from 'next/server'
@@ -596,12 +596,25 @@ When a parent asks whether or for how long their child should use any device, do
   const body = new ReadableStream<Uint8Array>({
     async start(controller) {
       let fullText = ''
+      // The no dashes rule, enforced on the way out. The system prompt asks for
+      // it twice and the model still lands one occasionally, and a dash is the
+      // clearest tell that a machine wrote the reply.
+      const dashes = makeDashStripper()
       try {
         for await (const event of modelStream) {
           if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-            fullText += event.delta.text
-            controller.enqueue(encoder.encode(event.delta.text))
+            const clean = dashes.push(event.delta.text)
+            if (clean) {
+              fullText += clean
+              controller.enqueue(encoder.encode(clean))
+            }
           }
+        }
+        // Anything held back waiting for the next chunk that never came.
+        const tail = dashes.flush()
+        if (tail) {
+          fullText += tail
+          controller.enqueue(encoder.encode(tail))
         }
       } catch {
         // Stream failed. If nothing reached the client yet, send the warm

@@ -241,7 +241,7 @@ export default function OnboardingPage() {
     const stage = getStageFromAgeBand(ageBand)
     const name = childName.trim() || 'Your child'
 
-    const [, existingChildren] = await Promise.all([
+    const [profileUpdate, existingChildren] = await Promise.all([
       supabase.from('profiles').update({
         onboarding_answers: { ageBand, challenge: challenges[0] ?? null, feeling: null, timeCommitment: timeCommitment ?? null },
         onboarding_complete: true,
@@ -250,6 +250,23 @@ export default function OnboardingPage() {
       }).eq('id', user.id),
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),
     ])
+
+    // A parent must never be trapped in setup because one optional column on
+    // this update was unavailable.
+    //
+    // This is not hypothetical. trial_ends_at was missing from the database
+    // between 24 July and 30 July, so this whole statement was rejected every
+    // time. The result of the update was discarded, the child below was created
+    // regardless, and onboarding_complete was left false. Twenty seven families
+    // finished setup, had a child on record, and were sent back to the first
+    // screen on every single visit, with nothing anywhere reporting a problem.
+    //
+    // So the one field that decides whether a parent is finished is retried on
+    // its own. Losing the stored answers is a smaller harm by far than losing
+    // the parent in a loop they cannot get out of.
+    if (profileUpdate.error) {
+      await supabase.from('profiles').update({ onboarding_complete: true }).eq('id', user.id)
+    }
 
     // Store their own limit only if it differs from the age recommendation, so
     // leaving it on the recommended value keeps it adaptive to age changes.
