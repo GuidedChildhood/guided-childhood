@@ -4169,3 +4169,66 @@ priced six weeks of term time at holiday rates on the first Monday of summer and
 banked too little. It takes the week being priced now. Worth remembering as the
 shape of the mistake: a default that is right for "what can be spent today" is
 wrong for anything reaching backwards.
+
+## 30 July 2026 — Inspired by Alma becomes The Guided Digital Childhood
+
+Justin, describing the account: 6,000 followers built since 2015 on customised
+cake toppers, then party supplies, then events, weddings and big birthdays, then
+a shop in Bristol. Now being turned into the family facing social account for
+Guided Childhood.
+
+**The decision: rename in place, keep the craft as the printables line.**
+
+Starting a fresh account throws away the single best cold list available to this
+product, 6,000 people who are already parents and already trust the family.
+Renaming and dropping the craft keeps them on paper and bleeds them slowly.
+Renaming while carrying the craft over as the printables strand keeps them and
+gives them a reason to stay. The bridge line is "It started with Alma. It still
+does." The grid stays up, nothing is deleted, and the bio carries "formerly
+Inspired by Alma" for 90 days.
+
+**The account voice is the mother's, not Justin's, and that is deliberate.** The
+platform copy is Justin throughout, non negotiable 8. This account is not the
+platform. It is "we", the family, narrated by the person the 6,000 already
+follow. Changing an account's name is survivable. Changing its voice is what
+actually loses people. Her name is the one blocker on the pack shipping, marked
+as `[NARRATOR]` throughout `content/brand-story/`.
+
+**Four anchor days, not seven.** Founder Monday, Research Wednesday, Service
+Friday, Happy News Saturday. Read down the week and the thesis is there
+structurally, so no single post has to argue it: why we care, what is true, what
+we built, why it is not doom. Four is what survives three children and a
+business. Tuesday, Thursday and Sunday stay empty on purpose as the buffer that
+keeps the four alive.
+
+This does NOT replace the LinkedIn calendar at
+`content/packs/2026-07-08-posting-calendar/`. That stays, in Justin's voice, on
+LinkedIn and Substack. The overlap is a saving: LinkedIn does founder on Sunday
+and Instagram on Monday, so the same chapter is written once and told twice,
+once as what he learned building it and once as what it was actually like.
+
+### Three things worth keeping from the doing of it
+
+**The guilt is the asset and it is the easiest thing to ruin.** The Covid
+babysitter admission is the line that stops 6,000 parents scrolling. Two ways to
+waste it were written into the canon as banned: resolving it by blaming YouTube,
+which makes us identical to every panic account in the space, and resolving it
+by telling parents they were fine actually, which throws away the reason we built
+anything. The resolution we do use is the product thesis smuggled inside a
+personal story. The tool was fine at the job it was doing. Nobody had built the
+version that also taught anything.
+
+**A marketing calendar's failure mode is describing what does not exist.** So
+every Service Friday in the map carries a route, a component or a migration as
+its proof path, and there is an explicit do not post list: the weekly spotlight,
+parent facing school email forwarding, the inactivity email, semantic script
+matching, keepsake charms and plush, and the two DRAFT marketing pages. School
+email forwarding is the instructive one, because the inbound webhook is complete
+and signature verified while the parent facing card still says coming soon. Built
+backend, closed door, not postable.
+
+**Our children's names are not our characters' names.** Alma, Olga and Teo were
+the original cartoon cast, renamed to Oliver, Zara and Sofia, then superseded by
+DiGi and the Planet Friends. The founding story uses the real children's names
+as real children. A guard rail is written into both the canon and the agent,
+because a parent told to look for Teo in the app will not find him.
