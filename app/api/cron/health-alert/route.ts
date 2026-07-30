@@ -61,11 +61,35 @@ async function alertedToday(): Promise<boolean> {
   }
 }
 
+/**
+ * Drop heartbeats older than ninety days.
+ *
+ * Runs here because this is the only daily job that already exists to look
+ * after the run log, and because device time sync writes 1,440 rows a day on
+ * its own: without a sweep the table reaches a million rows before the autumn
+ * term ends. Ninety days still shows a weekly job failing three times running,
+ * which is the longest pattern anyone needs to see.
+ *
+ * Fail soft. A table that cannot be pruned is untidy; an alert that does not
+ * send because pruning threw is an outage nobody hears about.
+ */
+async function prune(): Promise<void> {
+  const supabase = admin()
+  if (!supabase) return
+  try {
+    await supabase.rpc('prune_cron_runs')
+  } catch {
+    // Deliberately ignored. Housekeeping never outranks the alert.
+  }
+}
+
 async function handler(req: NextRequest) {
   const secret = process.env.CRON_SECRET
   if (!secret || req.headers.get('authorization') !== `Bearer ${secret}`) {
     return NextResponse.json({ error: 'Not authorised' }, { status: 401 })
   }
+
+  await prune()
 
   const health = await readHealth()
   // Spread into every reply below, so `ok` stays the boolean the caller expects
