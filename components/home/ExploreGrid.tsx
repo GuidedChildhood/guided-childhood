@@ -47,6 +47,10 @@ function groups(scriptHref: string): Group[] {
         // rather than Family because a parent looking for it is looking for
         // help with the work, not with the week.
         { href: '/dashboard/homework', label: 'Homework', sub: 'What is it actually asking for', emoji: '📐' },
+        // The front door for the curriculum data. Everything else built on
+        // those 448 objectives was reachable only if you already knew it
+        // existed, which is why the data looked like it did nothing.
+        { href: '/dashboard/learning', label: 'At school', sub: 'What their class is learning now', emoji: '🎒' },
       ],
     },
     {
