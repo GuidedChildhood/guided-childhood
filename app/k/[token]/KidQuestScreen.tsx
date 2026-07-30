@@ -1307,8 +1307,30 @@ export default function KidQuestScreen({
             style nudge to do a job when screen has run ahead. Tap to open and
             actually use the time. */}
         {(() => {
-          const earnedWeekMins = weekStars * STAR_MINUTES
-          const healthy = usedWeekMinutes <= earnedWeekMins || usedWeekMinutes === 0
+          // Healthy means "you still have time you earned", not "this week's
+          // watching is under this week's earning".
+          //
+          // The old rule compared usedWeekMinutes against weekStars, and it
+          // contradicted the number printed directly above it. Justin's screen
+          // showed "16 stars, 80 minutes ready to use" and, one line below,
+          // "Screen has run a little ahead, do a job to bring your balance
+          // back". Both came from the same card.
+          //
+          // Two reasons it was wrong. The obvious one: a child spends from a
+          // BANK, so earning on Monday and spending on Wednesday is using what
+          // they earned, not running ahead. The comparison only makes sense if
+          // earning and spending have to balance inside one window, which is
+          // not what a bank is.
+          //
+          // The quieter one: the two sides were not even the same week.
+          // weekStars is a rolling last seven days, computed on the page, while
+          // bank.balance is the star week, Monday to Monday in London. So the
+          // ratio could tip purely because the two windows disagreed.
+          //
+          // balance already has spending taken off it, so it answers the
+          // question on its own: minutes left means fine, none left and screen
+          // used means do a job. One number, no contradiction possible.
+          const healthy = bankBalance > 0 || usedWeekMinutes === 0
           const balanceMsg = streakDays >= 2
             ? `${streakDays} day streak of jobs, amazing! ${healthy ? 'And a lovely balance too.' : 'Do a job or make something to keep your balance healthy.'}`
             : healthy
