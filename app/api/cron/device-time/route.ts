@@ -44,12 +44,16 @@ export async function GET(request: Request) {
     }
     return kid
   }
-  async function push(userId: string, title: string, body: string) {
+  // urgent keeps the notification on the parent's screen instead of letting it
+  // fade after a few seconds, and asks the push service to deliver now rather
+  // than batching it. Reserved for the timer finishing, which is the only alert
+  // here with a deadline: it is worth nothing if it lands after the argument.
+  async function push(userId: string, title: string, body: string, urgent = false) {
     try {
       await fetch(`${origin}/api/push/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
-        body: JSON.stringify({ userId, title, body, url: '/dashboard/quests#screen-time' }),
+        body: JSON.stringify({ userId, title, body, url: '/dashboard/quests#screen-time', urgent }),
       })
     } catch { /* best effort per session */ }
   }
@@ -93,12 +97,14 @@ export async function GET(request: Request) {
           s.user_id as string,
           `${kid.name} has had their screen time today 🌱`,
           `That is the healthy amount for their age. Their stars keep earning for tomorrow.`,
+          true,
         )
       } else {
         await push(
           s.user_id as string,
           `${kid.name}'s screen time is up ⏰`,
           `The ${deviceLabel(s.device as string)} timer has finished. Time to set the next quests.`,
+          true,
         )
       }
 

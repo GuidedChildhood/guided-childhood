@@ -1,4 +1,8 @@
-const CACHE_NAME = 'gc-v7'
+// Bumped to v8 for the urgent notification options below. The cache name IS
+// the update trigger: a service worker whose bytes change but whose name does
+// not can sit on a phone serving the old logic indefinitely, which is exactly
+// how an app installed before a fix never receives it.
+const CACHE_NAME = 'gc-v8'
 // Only static media is ever cached. Pages, scripts and styles are never stored,
 // so a deploy is picked up the instant the device is online, and the app can
 // never boot an old shell from a stale cache. The v7 bump purges anything the
@@ -68,13 +72,26 @@ self.addEventListener('push', event => {
     payload = { title: 'Guided Childhood', body: event.data.text(), url: '/dashboard' }
   }
 
+  // An urgent alert stays on screen until it is dealt with, and buzzes with a
+  // longer pattern so it is distinguishable from a nudge without looking.
+  //
+  // Everything used to be requireInteraction: false, so the screen timer
+  // finishing appeared for a few seconds and cleared itself. On a parent's
+  // phone, face down on a worktop, that is a notification nobody saw. The one
+  // alert in this product with a deadline attached was the easiest to miss.
+  //
+  // tag plus renotify so a second alert for the same thing replaces the first
+  // rather than stacking, but still re-alerts rather than swapping silently.
+  const urgent = payload.urgent === true
   const options = {
     body: payload.body,
     icon: '/icons/icon-192.png',
     badge: '/icons/icon-192.png',
     data: { url: payload.url ?? '/dashboard' },
-    vibrate: [100, 50, 100],
-    requireInteraction: false,
+    vibrate: urgent ? [200, 100, 200, 100, 200] : [100, 50, 100],
+    requireInteraction: urgent,
+    tag: urgent ? 'gc-urgent' : undefined,
+    renotify: urgent,
   }
 
   event.waitUntil(
