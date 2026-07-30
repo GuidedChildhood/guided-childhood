@@ -189,7 +189,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // failures fall back to empty rather than breaking the page.
   const weekAgoIso = new Date(Date.now() - 7 * 86400000).toISOString()
   const [banks, requestsRes, weekSpendsRes, parentProfileRes] = await Promise.all([
-    getStarBanks(supabase, link.user_id, [link.child_id]),
+    // Age band passed so the weekly ceiling is this child's own guidance.
+    getStarBanks(supabase, link.user_id, [link.child_id], { [link.child_id]: (childRes.data?.age_band as string | null) ?? null }),
     supabase.from('quest_requests')
       .select('id, title, emoji, status, created_at')
       .eq('child_id', link.child_id)
@@ -209,7 +210,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     parentProfileRes.data as { subscription_status?: string | null; trial_ends_at?: string | null } | null,
     (parentProfileRes.data as { email?: string | null } | null)?.email,
   )
-  const bank = banks[0] ?? { child_id: link.child_id, earned: 0, spent: 0, balance: 0, minutes: 0 }
+  const bank = banks[0] ?? { child_id: link.child_id, earned: 0, spent: 0, balance: 0, minutes: 0, weekEarned: 0, weekSpent: 0, weekBalance: 0, weekMinutes: 0, weekCap: 0 }
   const usedWeekMinutes = (weekSpendsRes.data ?? []).reduce((sum, s) => sum + (Number(s.minutes) || 0), 0)
   // A live device time session, if one is running, so the countdown picks
   // up where it left off on a refresh.

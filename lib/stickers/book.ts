@@ -1,16 +1,22 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { getStarBanks } from '@/lib/quests/bank'
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { STICKERS, type Sticker } from './catalog'
 
 // The sticker book, read for one child. Earning is reconciled on read from the
-// real numbers so it can never disagree with the rest of the app: the all time
-// star total from the bank, confirmed printables, the stage the child is on,
-// and the daily streak. Anything newly earned is written to earned_stickers so
-// it becomes permanent, then a broken streak or a spent star never takes it
-// back. Every read fails soft before migration 101 lands, the way the printable
-// loop fails soft before 087.
+// real numbers so it can never disagree with the rest of the app: sticker
+// credits banked, confirmed printables, the stage the child is on, and the daily
+// streak. Anything newly earned is written to earned_stickers so it becomes
+// permanent, then a broken streak or a spent credit never takes it back. Every
+// read fails soft before migration 101 lands, the way the printable loop fails
+// soft before 087.
+//
+// Credits, not the all time star total, since migration 124. The old rule paid
+// the book for EARNING, which is the same thing the star chart already rewards,
+// and it was also why a weekly star reset could not ship on its own: sticker
+// progress hung off the very number the reset clears, so every Monday would have
+// taken stickers away. Credits come from minutes earned and deliberately not
+// spent, so the chart pays doing the jobs and the book pays restraint.
 
 export type StickerState = Sticker & {
   earned: boolean
@@ -26,15 +32,32 @@ export type StickerBook = {
   total: number
 }
 
-type Ctx = { stars: number; sheets: number; stage: number; streak: number }
+type Ctx = { credits: number; sheets: number; stage: number; streak: number }
 
 function progressFor(rule: Sticker['rule'], ctx: Ctx): number {
   switch (rule.kind) {
-    case 'stars': return ctx.stars
+    case 'credits': return ctx.credits
     case 'sheets': return ctx.sheets
     case 'stage': return ctx.stage
     case 'streak': return ctx.streak
   }
+}
+
+/**
+ * Sticker credits banked for this child, all time.
+ *
+ * Fails soft to zero before migration 124 lands, the same way the printable loop
+ * fails soft before 087. Zero is the right answer either way: a child with no
+ * credits row has saved nothing yet, and a missing table cannot take away a
+ * sticker already written to earned_stickers.
+ */
+async function creditsFor(supabase: SupabaseClient, childId: string): Promise<number> {
+  const { data, error } = await supabase
+    .from('sticker_credits')
+    .select('credits')
+    .eq('child_id', childId)
+  if (error || !data) return 0
+  return data.reduce((sum, r) => sum + (Number(r.credits) || 0), 0)
 }
 
 export async function getStickerBook(
@@ -44,13 +67,16 @@ export async function getStickerBook(
 ): Promise<StickerBook> {
   const stage = child.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 1
 
-  const [banks, sheets, streak, owned] = await Promise.all([
-    getStarBanks(supabase, userId, [child.id]),
+  // The star bank is no longer read here at all. It was the cumulative lifetime
+  // total, which is the number the weekly reset exists to stop handing out, and
+  // reading it here is what tied sticker progress to a figure that now resets.
+  const [credits, sheets, streak, owned] = await Promise.all([
+    creditsFor(supabase, child.id),
     countSheets(supabase, userId, child.id),
     dailyStreakCount(supabase, userId),
     ownedKeys(supabase, child.id),
   ])
-  const ctx: Ctx = { stars: banks[0]?.earned ?? 0, sheets, stage, streak }
+  const ctx: Ctx = { credits, sheets, stage, streak }
 
   const toPersist: { user_id: string; child_id: string; sticker_key: string; reason: string }[] = []
   const stickers: StickerState[] = STICKERS.map(s => {

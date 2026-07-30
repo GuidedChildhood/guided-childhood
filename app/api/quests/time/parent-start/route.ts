@@ -73,9 +73,11 @@ export async function POST(req: NextRequest) {
   } catch { /* without the read, the grant simply starts untagged */ }
 
   if (!isBonus) {
-    const [bank] = await getStarBanks(supabase, user.id, [childId])
+    // This week's balance, like /api/quests/spend. Screen time comes out of the
+    // current star week only, so a long unspent run cannot be cashed in at once.
+    const [bank] = await getStarBanks(supabase, user.id, [childId], { [childId]: (child as { age_band?: string | null }).age_band ?? null })
     if (!bank || bank.balance < stars) {
-      return NextResponse.json({ error: 'not enough stars', balance: bank?.balance ?? 0 }, { status: 400 })
+      return NextResponse.json({ error: 'not enough stars this week', balance: bank?.balance ?? 0 }, { status: 400 })
     }
   }
 

@@ -104,10 +104,21 @@ export function buildPace(input: {
   // trims the next few days instead of becoming a telling off.
   //
   // Floored at zero rather than going negative, because "minus twenty minutes
-  // tomorrow" is not an instruction anyone can follow, and capped at twice the
-  // guide so a very quiet week does not suggest a five hour Sunday.
+  // tomorrow" is not an instruction anyone can follow.
+  //
+  // Capped at the DAILY GUIDE, not twice it. Twice was the bug Justin spotted on
+  // the stats page: a quiet week left so much allowance unspent that the maths
+  // suggested 210 minutes tomorrow against a guide of 105, and the card printed it
+  // as advice. A screen built entirely on age guidance was recommending double the
+  // guidance, which is the guidance inverted, and it is worse than a wrong number
+  // because a parent following it faithfully ends up over.
+  //
+  // Unspent allowance is not a debt to catch up on. A child who watched little on
+  // Monday has not banked a Tuesday binge, which is the same principle as the star
+  // week: screen time does not hoard. So the most the card will ever suggest is a
+  // normal day.
   const suggestTomorrow = daysLeft > 0
-    ? Math.max(0, Math.min(dailyGuide * 2, Math.round(remaining / daysLeft)))
+    ? Math.max(0, Math.min(dailyGuide, Math.round(remaining / daysLeft)))
     : null
 
   const verdict = verdictFor(average, dailyGuide)
