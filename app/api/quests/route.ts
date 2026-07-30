@@ -305,6 +305,28 @@ export async function POST(req: NextRequest) {
     blocks_screens: Boolean(blocks_screens),
   }).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // Tell the child a job has landed.
+  //
+  // This was the ONE creation path that did not. Approving a child's own idea
+  // pushes, saying no to it pushes, a gift of screen time pushes, a printable
+  // pushes, a nudge pushes. A parent adding a job from the Quests page, which is
+  // the main way jobs get created, wrote the row and said nothing, so the job
+  // appeared silently on the child's list whenever they next happened to open
+  // their app. Justin saw exactly this: the gift arrived on the phone and the
+  // job did not.
+  //
+  // Only when the job belongs to a child. A quest with no child_id is a family
+  // one and has nobody in particular to tell. Best effort, same as everywhere
+  // else here: a push that fails must never lose the job that was just saved.
+  if (data?.child_id) {
+    const mins = (data.stars ?? 1) * STAR_MINUTES
+    await pushToChild(
+      createAdminClient(), user.id, data.child_id as string,
+      `A new job from your grown up ${data.emoji ?? '⭐'}`,
+      `"${data.title}" is worth ${data.stars} star${data.stars === 1 ? '' : 's'}, that is ${mins} minutes. Tap it done when it is finished.`
+    )
+  }
   return NextResponse.json({ quest: data })
 }
 
