@@ -96,8 +96,19 @@ Carousel, five to seven cards. Real things children made or learned. The genuine
 positives, honestly. Roughly one Saturday in three is a printable or a chart,
 the craft strand.
 
-**Every draft ships in two variants.** Instagram, shorter and warmer, no links.
-Facebook, longer, and a real link in the body where there is an ask.
+**Every draft ships in two variants, and they are not the same post.**
+
+- **Instagram.** Shorter and warmer. No links in the caption, bio only. The
+  carousel is the format.
+- **Facebook.** Longer, warmer still, and a real link in the body, because
+  Facebook does not punish links. **Never a carousel.** A multi photo organic
+  post on Facebook renders as a collage with the order broken, so an Instagram
+  deck arrives as a jumble and the argument is lost. Facebook takes **one tall
+  image plus the full argument in the post text**, either card one on its own or
+  a single card that carries the whole idea, like the three age band card.
+
+See `content/brand-story/visual-system.md` for the sizes, the 3:4 safe zone and
+the card types.
 
 ---
 

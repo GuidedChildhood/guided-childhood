@@ -18,6 +18,7 @@ voice, aimed at parents on LinkedIn and at heads and DSLs.
 | Existing cadence | Mon research, Wed mechanism, Fri school or evidence, Sun founder, Thu Substack | Mon founder, Wed research, Fri service, Sat happy news |
 | Hook style | Cold open on a precise number | Cold open on a moment a parent has lived |
 | Links | Never in the body. First comment only | Instagram: bio only. **Facebook: links allowed in the body** |
+| Carousel | Native PDF carousel | Instagram only. **Facebook has no organic carousel**, it takes one tall image plus long text |
 
 **The useful overlap.** LinkedIn does founder story on Sunday, Instagram does it
 on Monday. That is deliberate and it is a saving, not a clash. The same chapter
