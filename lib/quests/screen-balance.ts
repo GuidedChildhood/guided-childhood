@@ -1,3 +1,4 @@
+import { holidayAdjustedMinutes, type Region } from '@/lib/learning/holidays'
 // The DiGi screen time balance insight for the parent. A calm, evidence led
 // read on how this child's screen time sits for their age, and what a healthy
 // balance looks like around it. Never an allow or deny, never a hard limit:
@@ -136,7 +137,34 @@ function guideFor(ageBand: string | null): BandGuide {
 // The one source of truth for the age banded daily guide, so the timer, the
 // child's screen and the parent's card all read the same number. A soft
 // steer, never a hard cap.
-export function recommendedDailyMinutes(ageBand: string | null): number {
+/**
+ * The healthy daily guide for this child, relaxed if it is the school holidays.
+ *
+ * Holiday awareness is the DEFAULT rather than something each caller opts into,
+ * and that is the important half. Sixteen places read this to answer "what is
+ * healthy today", and an opt in would have left every one of them quietly
+ * holding a term time number through six weeks of summer until somebody
+ * remembered to go back. Same reasoning the star bank used when the weekly reset
+ * landed: change the meaning where it is computed, and every read site is right
+ * without being touched.
+ *
+ * `on` exists so a report about a past week is judged by the calendar that week
+ * actually had, not by today's.
+ *
+ * Region defaults to the UK, which is where the families are today. A US family
+ * gets UK windows until their region is set, and the summer overlap means that
+ * is mostly right and never harmful: the failure mode is a slightly generous
+ * number for a few days, not a wrong one.
+ */
+export function recommendedDailyMinutes(
+  ageBand: string | null,
+  opts: { on?: Date; region?: Region } = {},
+): number {
+  return holidayAdjustedMinutes(guideFor(ageBand).dailyMins, opts.on ?? new Date(), opts.region ?? 'uk')
+}
+
+/** The term time number, for copy that needs to say what normally applies. */
+export function termTimeDailyMinutes(ageBand: string | null): number {
   return guideFor(ageBand).dailyMins
 }
 
