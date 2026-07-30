@@ -52,6 +52,38 @@ export function leadUnsubscribeUrl(email: string): string {
   return `${origin}/api/email/unsubscribe?e=${encodeURIComponent(addr)}&k=${leadUnsubscribeToken(addr)}`
 }
 
+// Signed the same way as the unsubscribe links, and for a sharper reason than
+// tamper proofing. An endpoint that answers "does this address have an account"
+// for any address typed into it is an account checker, and someone would point
+// a list at it. The HMAC means it only ever answers for addresses we already
+// emailed, which is a question the sender can already answer.
+export function starterCtaToken(email: string): string {
+  return createHmac('sha256', process.env.CRON_SECRET ?? 'dev')
+    .update(`cta:${email.trim().toLowerCase()}`)
+    .digest('hex')
+    .slice(0, 32)
+}
+
+/**
+ * The "see the starter pack" link, resolved when it is clicked rather than when
+ * it is sent.
+ *
+ * Send time is the wrong moment to decide. The lead crons do check for an
+ * account first, but only ever on the exact address, so a parent who took a
+ * printable as you+test@gmail.com and then joined as you@gmail.com still reads
+ * as a stranger. And nothing at send time can know about an account made the
+ * following morning, which leaves a live link inviting a paying member to go
+ * and start the thing they already have.
+ *
+ * Click time knows both. The route sends anyone with an account to their
+ * dashboard and everyone else to the pack.
+ */
+export function starterCtaUrl(email: string): string {
+  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+  const addr = email.trim().toLowerCase()
+  return `${origin}/api/go/starter?e=${encodeURIComponent(addr)}&k=${starterCtaToken(addr)}`
+}
+
 export async function sendEmail(params: {
   to: string
   subject: string
