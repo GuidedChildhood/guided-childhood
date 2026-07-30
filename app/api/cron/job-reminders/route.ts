@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
@@ -45,7 +46,7 @@ function dueToday(q: Quest, dow: number): boolean {
   }
 }
 
-export async function GET(request: Request) {
+async function handler(request: Request) {
   const secret = process.env.CRON_SECRET
   const auth = request.headers.get('authorization')
   if (secret && auth !== `Bearer ${secret}`) {
@@ -115,3 +116,10 @@ export async function GET(request: Request) {
 
   return NextResponse.json({ ok: true, band, sent })
 }
+
+// Three cron entries share this route, separated only by ?band=. Each band
+// records under its own name so one going quiet is visible on its own.
+export const GET = withHeartbeat(
+  (req: Request) => `/api/cron/job-reminders?band=${new URL(req.url).searchParams.get('band') ?? 'unknown'}`,
+  handler,
+)

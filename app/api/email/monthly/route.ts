@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { monthlyBalanceEmail } from '@/lib/email/templates'
@@ -48,7 +49,7 @@ const BUDGET_MS = 45_000
 // reviewed is still the one just gone.
 const CATCH_UP_DAYS = 7
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   if (!cronAuthorised(req)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
@@ -160,3 +161,5 @@ export async function GET(req: NextRequest) {
     spentMs: clock.spentMs(),
   })
 }
+
+export const GET = withHeartbeat('/api/email/monthly', handler)

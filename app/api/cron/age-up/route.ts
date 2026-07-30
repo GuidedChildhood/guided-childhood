@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { STAGES } from '@/lib/content/stages'
@@ -27,7 +28,7 @@ type ChildRow = {
   date_of_birth: string | null
 }
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   const secret = process.env.CRON_SECRET
   const auth = req.headers.get('authorization')
   if (!secret || auth !== `Bearer ${secret}`) {
@@ -120,3 +121,5 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ checked, movedUp, pushed })
 }
+
+export const GET = withHeartbeat('/api/cron/age-up', handler)

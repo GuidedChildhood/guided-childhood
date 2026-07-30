@@ -1,3 +1,4 @@
+import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -31,7 +32,7 @@ Your job: propose new, credible findings to add to the bank. Rules, absolute:
 - Prefer findings that fill gaps in what parents are asking about.
 Return ONLY a JSON array, no prose, of up to 6 objects: {"source_type":"researcher|clinician|association|report","source_name":"...","finding":"...","age_bands":["4-7","8-10","11-13","13-15","16+"],"topics":["..."],"url":"https://...","rationale":"one line on why it belongs in our bank"}. Use only the age bands that apply. If you can find nothing solid, return [].`
 
-export async function GET(req: NextRequest) {
+async function handler(req: NextRequest) {
   const auth = req.headers.get('authorization')
   if (auth !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -125,3 +126,5 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: err instanceof Error ? err.message : 'Refresh failed' }, { status: 502 })
   }
 }
+
+export const GET = withHeartbeat('/api/cron/knowledge-refresh', handler)
