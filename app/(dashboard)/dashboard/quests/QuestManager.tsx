@@ -1369,8 +1369,8 @@ export default function QuestManager() {
                 </div>
                 <JobComposer
                   autoFocus
-                  onAdd={t => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: 'daily' })}
-                  help="Lands as a daily job worth one star. Change the days or the stars on the job itself once it is in, or pick from the ready made ideas further down."
+                  onAdd={(t, when) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when })}
+                  help="Worth one star. Pick how often above, and change the stars or the exact days on the job itself once it is in."
                 />
               </div>
             )}
@@ -1791,7 +1791,7 @@ export default function QuestManager() {
                 <JobComposer
                   tone="cream"
                   placeholder="Or write your own quest"
-                  onAdd={t => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: 'daily' })}
+                  onAdd={(t, when) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when })}
                 />
               </div>
             </div>
