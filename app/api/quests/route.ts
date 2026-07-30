@@ -23,11 +23,21 @@ export async function GET() {
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
   const monthAgoIso = new Date(Date.now() - 30 * 86400000).toISOString()
 
-  const [childrenRes, questsRes, ticksRes, pendingRes, goalsRes, linksRes, requestsRes, spendsRes] = await Promise.all([
+  const [childrenRes, questsRes, retiredRes, ticksRes, pendingRes, goalsRes, linksRes, requestsRes, spendsRes] = await Promise.all([
     // select * so the optional phone column (migration 030) is included
     // when present and its absence never breaks the whole board
     supabase.from('children').select('*').eq('parent_id', user.id).order('created_at'),
     supabase.from('family_quests').select('*').eq('user_id', user.id).eq('active', true).order('created_at'),
+    // Jobs this family has used before and turned off.
+    //
+    // Removing a job sets active false rather than deleting it, which is the
+    // right call, but nothing ever read them back. So a parent who took the
+    // reading job off in the holidays had no way to put it back in September
+    // except to type it out again from memory, and the app was quietly sitting
+    // on the answer the whole time. This is the "show ones we added before"
+    // list: their own history, one tap to restore.
+    supabase.from('family_quests').select('*').eq('user_id', user.id).eq('active', false)
+      .order('created_at', { ascending: false }).limit(40),
     supabase.from('quest_ticks').select('*').eq('user_id', user.id).gte('tick_date', weekAgo),
     // Pending ticks, with NO date window.
     //
@@ -81,6 +91,18 @@ export async function GET() {
   return NextResponse.json({
     children,
     quests: questsRes.data ?? [],
+    // Deduped by title per child, because a job added and removed three times
+    // should offer itself back once, not three times.
+    previous: (() => {
+      const live = new Set((questsRes.data ?? []).map(q => `${q.child_id ?? ''}|${String(q.title).toLowerCase()}`))
+      const seen = new Set<string>()
+      return (retiredRes.data ?? []).filter(q => {
+        const key = `${q.child_id ?? ''}|${String(q.title).toLowerCase()}`
+        if (live.has(key) || seen.has(key)) return false
+        seen.add(key)
+        return true
+      })
+    })(),
     ticks,
     goals: goalsRes.data ?? [],
     links: linksRes.data ?? [],
@@ -200,10 +222,15 @@ export async function POST(req: NextRequest) {
     if (!goal) return NextResponse.json({ error: 'no goal' }, { status: 404 })
     if (goal.achieved_at) return NextResponse.json({ error: 'already redeemed', already: true }, { status: 400 })
 
+      // Lifetime balance on purpose, NOT the weekly one. A goal is a real world
+      // reward a child saves towards over weeks, so hoarding stars for it is the
+      // behaviour we want. The Monday reset exists to stop screen time being
+      // hoarded, which is a different thing entirely. Switching this to weekBalance
+      // would make any goal costing more than one week's cap unreachable for ever.
     const cost = goal.stars_needed
     const [bank] = await getStarBanks(supabase, user.id, [body.child_id])
-    if (!bank || bank.balance < cost) {
-      return NextResponse.json({ error: 'not enough stars', balance: bank?.balance ?? 0 }, { status: 400 })
+    if (!bank || bank.lifetimeBalance < cost) {
+      return NextResponse.json({ error: 'not enough stars', balance: bank?.lifetimeBalance ?? 0 }, { status: 400 })
     }
 
     // Spend the stars (a reward has no minutes) and mark the goal redeemed.
@@ -220,7 +247,7 @@ export async function POST(req: NextRequest) {
       'You earned your reward! 🎉',
       `You saved ${cost} star${cost === 1 ? '' : 's'} for "${goal.title}". Enjoy it, then pick a new thing to save for.`
     )
-    return NextResponse.json({ ok: true, balance: bank.balance - cost })
+    return NextResponse.json({ ok: true, balance: bank.lifetimeBalance - cost })
   }
 
   // Decide a child's own quest ask: added turns it into a real quest with

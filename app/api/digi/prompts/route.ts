@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@/lib/supabase/server'
 import { digiModelsFor } from '@/lib/config/digi'
-import { findTriggers, SHARE_NUDGE_REASON } from '@/lib/digi/brain'
+import { findTriggers, SHARE_NUDGE_REASON, PHONE_FLAG_REASON } from '@/lib/digi/brain'
+import { getWeekParentReport } from '@/lib/balance/week-report'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { hasFullAccess } from '@/lib/access'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
@@ -54,7 +55,14 @@ export async function GET() {
     .order('week_start', { ascending: false })
     .limit(4)
 
-  const triggers = findTriggers(checks ?? [], child.streak_weeks ?? 0, lastPrompt?.created_at ?? null)
+  // The same balance signal the family wall and the passport now raise: a young
+  // child with phone and social time this week, where the guide keeps it near
+  // zero. Read once here and handed to the triggers so DiGi leads with it too.
+  // Fail soft, a balance read that errors must never block the routine prompts.
+  const balanceReport = await getWeekParentReport(supabase, user.id, { id: child.id, name: child.name, age_band: child.age_band }).catch(() => null)
+  const phoneFlag = balanceReport?.topState.key === 'phone'
+
+  const triggers = findTriggers(checks ?? [], child.streak_weeks ?? 0, lastPrompt?.created_at ?? null, { phoneFlag })
   if (triggers.length === 0) return NextResponse.json({ prompts: [] })
 
   // DiGi knows the pathway: where this family stands on the road to 16, how
@@ -137,7 +145,7 @@ A parent reading a confident description of a problem they never mentioned stops
 believing the ones you get right, so an ungrounded observation costs more than
 it adds.
 
-Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts describe one concrete thing to notice this week and one gentle action. tip prompts give one small daily life improvement (school run conversations, mealtimes, bedtime handover). If a tip trigger reason is about sharing a printable or lesson, write a short warm nudge to open Printables and send ${child.name} a printable so they earn stars (a real page of ready to print sheets), and make it feel like a treat not a task. parent_care prompts are about the parent's own wellbeing, grounded in a NORMAL MOMENT above, permission giving in tone, and they gently point to giving yourself space or letting the child be bored or play alone when it fits. celebration prompts are short and genuinely warm. If anything suggests crisis, the action is always a human: GP, NHS 111, Childline 0800 1111. No dashes in the text. Return ONLY a JSON array: [{"kind":"...","title":"max 8 words","body":"2 to 3 sentences","reason":"the trigger reason verbatim"}]`,
+Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts describe one concrete thing to notice this week and one gentle action. If a watch_for reason is about phone and social at a young age, write it especially warmly and without alarm: name that at ${child.name}'s age we keep phone and social near zero, say plainly that it is the type of screen and not the total, and suggest one hands on swap to do instead, never a telling off and never a ban. tip prompts give one small daily life improvement (school run conversations, mealtimes, bedtime handover). If a tip trigger reason is about sharing a printable or lesson, write a short warm nudge to open Printables and send ${child.name} a printable so they earn stars (a real page of ready to print sheets), and make it feel like a treat not a task. parent_care prompts are about the parent's own wellbeing, grounded in a NORMAL MOMENT above, permission giving in tone, and they gently point to giving yourself space or letting the child be bored or play alone when it fits. celebration prompts are short and genuinely warm. If anything suggests crisis, the action is always a human: GP, NHS 111, Childline 0800 1111. No dashes in the text. Return ONLY a JSON array: [{"kind":"...","title":"max 8 words","body":"2 to 3 sentences","reason":"the trigger reason verbatim"}]`,
       }],
     })
 
@@ -154,7 +162,9 @@ Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts descr
         // A share nudge deep links straight to the Printables library, a real
         // page of real sheets, so the notification opens exactly what it names
         // and never lands on a hub with nothing to actually print.
-        href: p.reason === SHARE_NUDGE_REASON ? '/dashboard/printables' : null,
+        href: p.reason === SHARE_NUDGE_REASON ? '/dashboard/printables'
+          : p.reason === PHONE_FLAG_REASON ? '/dashboard/stats'
+          : null,
       }))
 
     if (rows.length > 0) await supabase.from('digi_prompts').insert(rows)

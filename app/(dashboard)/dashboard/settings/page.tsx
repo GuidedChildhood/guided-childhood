@@ -4,6 +4,7 @@ import SchoolLink from '@/components/digi/SchoolLink'
 import DeleteAccount from '@/components/settings/DeleteAccount'
 import YourAgreements from '@/components/settings/YourAgreements'
 import SettingsLinks from '@/components/settings/SettingsLinks'
+import RemoveChild from '@/components/settings/RemoveChild'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -270,6 +271,15 @@ export default function SettingsPage() {
       {/* Anchored so Everything else can land straight on the children,
           which is what a parent means by "child details". */}
       <div id="children" style={{ scrollMarginTop: 84 }} />
+      {/* Said out loud, because a parent has no other way to check it and
+          because DiGi counts these rows. When DiGi says "your two children" it
+          is reading this list, so this is where you come to see whether the
+          list is right. */}
+      {kids.length > 1 && (
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 12px' }}>
+          {kids.length} children on this account
+        </p>
+      )}
       {kids.map(kid => {
         const form = forms[kid.id]
         if (!form) return null
@@ -387,6 +397,26 @@ export default function SettingsPage() {
               {form.saved ? 'Saved' : form.saving ? 'Saving...' : 'Save child details'}
             </button>
           </form>
+          {/* Outside the form on purpose: removing a child is not a way of
+              saving one, and a stray Enter must never reach it. */}
+          <RemoveChild
+            childId={kid.id}
+            name={kid.name}
+            isPrimary={kid.is_primary}
+            siblingCount={kids.length}
+            promoteToId={kids.find(k => k.id !== kid.id)?.id ?? null}
+            onRemoved={id => {
+              setKids(ks => {
+                const left = ks.filter(k => k.id !== id)
+                // Whoever we promoted in the database is promoted here too, so
+                // the screen and the row agree without a reload.
+                return kid.is_primary && left.length > 0
+                  ? left.map((k, i) => i === 0 ? { ...k, is_primary: true } : k)
+                  : left
+              })
+              setForms(f => { const { [id]: _gone, ...rest } = f; return rest })
+            }}
+          />
         </section>
         )
       })}

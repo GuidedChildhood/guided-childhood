@@ -78,12 +78,42 @@ export function screenStatusForAge(ageBand: string | null, dailyMins: number): S
 // the same activity buckets the balance report groups devices into (a phone is
 // social, a TV is watching, a console is gaming, an iPad leans watching).
 export type BalanceBucketKey = 'gaming' | 'watching' | 'social' | 'learning'
+// For the youngest bands social and phone is deliberately zero, not a small
+// slice. We do not want the report handing a four year old a "recommended 3m a
+// day" of phone: at these ages any phone or social use is worth a parent's eye,
+// so the freed share goes to making and learning, the thing we do want to grow.
 const BUCKET_SHARE: Record<string, Record<BalanceBucketKey, number>> = {
-  '4-7':   { watching: 0.45, learning: 0.35, gaming: 0.15, social: 0.05 },
-  '8-10':  { watching: 0.35, learning: 0.30, gaming: 0.25, social: 0.10 },
+  '4-7':   { watching: 0.45, learning: 0.40, gaming: 0.15, social: 0.00 },
+  '8-10':  { watching: 0.35, learning: 0.40, gaming: 0.25, social: 0.00 },
   '11-13': { watching: 0.30, learning: 0.25, gaming: 0.25, social: 0.20 },
   '13-15': { watching: 0.25, learning: 0.20, gaming: 0.25, social: 0.30 },
   '16+':   { watching: 0.25, learning: 0.20, gaming: 0.20, social: 0.35 },
+}
+
+// Which buckets we want kept in check (screen that tends to displace real play)
+// and which we want to see grow (making and learning). The family wall treats
+// them differently: an empty builder is an invitation to do more, never a green
+// pass, and a keeper over its guide, or any phone at an age where the guide is
+// zero, is the thing that flags.
+export type BucketKind = 'keep' | 'build'
+export const BUCKET_KIND: Record<BalanceBucketKey, BucketKind> = {
+  social: 'keep', watching: 'keep', gaming: 'keep', learning: 'build',
+}
+
+// The status of one bucket on the family wall. Builders and keepers read on
+// different scales. 'grow' invites a builder upward. 'flag' is the loud one: a
+// keeper well over its guide, or, for the young ages, any phone and social use
+// at all, since the guide there is zero by design.
+export type BucketStatus = 'grow' | 'good' | 'watch' | 'flag'
+
+export function bucketBalanceStatus(kind: BucketKind, guideDaily: number, actualDaily: number): BucketStatus {
+  if (kind === 'build') {
+    return actualDaily >= Math.max(1, guideDaily) ? 'good' : 'grow'
+  }
+  if (guideDaily <= 0) return actualDaily > 0 ? 'flag' : 'good'
+  if (actualDaily <= guideDaily) return 'good'
+  if (actualDaily <= guideDaily * 1.5) return 'watch'
+  return 'flag'
 }
 
 // The recommended daily minutes for each device type at this age. Reads as the
@@ -190,15 +220,15 @@ export function expertWeekTip(signal: {
     return { expert: 'Sue Atkins', tip: 'When screen time creeps up, the calm boundary said once beats the long negotiation. Set the offline win first, so screen goes back to being the reward it is meant to be.' }
   }
   if (signal.balanceTone === 'quiet' || signal.questsApproved === 0) {
-    return { expert: 'Dr Becky Kennedy', tip: 'A quiet week is not a failure, it is just a week. Connection comes before any chart, so start next week with one small thing you do together, not one more thing to tick.' }
+    return { expert: 'Our research team', tip: 'A quiet week is not a failure, it is just a week. Connection comes before any chart, so start next week with one small thing you do together, not one more thing to tick.' }
   }
   if (signal.activeDays >= 5) {
     return { expert: 'Emotion coaching', tip: 'Showing up most days is the whole game. Name out loud what your child did well, because a child who feels seen for the effort keeps choosing it.' }
   }
   if (signal.momentsDone >= 2) {
-    return { expert: 'Dr Becky Kennedy', tip: 'You handled the hard moments with warmth this week, which is the real work. The repair matters more than getting it perfect in the moment.' }
+    return { expert: 'Our research team', tip: 'You handled the hard moments with warmth this week, which is the real work. The repair matters more than getting it perfect in the moment.' }
   }
-  return { expert: 'Dr Becky Kennedy', tip: 'Two things are true this week: the routine is working, and it is allowed to be imperfect. Keep the warmth first and the rest follows.' }
+  return { expert: 'Our research team', tip: 'Two things are true this week: the routine is working, and it is allowed to be imperfect. Keep the warmth first and the rest follows.' }
 }
 
 export function screenBalanceInsight(opts: {

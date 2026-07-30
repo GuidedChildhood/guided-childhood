@@ -55,7 +55,11 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       id: `tick-${t.id}`, kind: 'approve', icon: '✅', urgent: true,
       title: `${nameOf(t.child_id as string)} finished a quest`,
       body: q ? `${q.emoji} ${q.title} · tap to land the stars` : 'Tap to approve the stars',
-      href: '/dashboard/quests', at: String(t.tick_date),
+      // Manage jobs, which leads with Waiting on you, so the tap lands on the
+      // Done button. The push routes were moved here earlier today and this
+      // feed was not, so in the app the same notification still went to the
+      // whole board. Same bug, the other half of it.
+      href: '/dashboard/quests/manage', at: String(t.tick_date),
     })
   }
 
@@ -66,7 +70,11 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       id: `printable-${p.id}`, kind: 'approve', icon: '🖍️', urgent: true,
       title: `${nameOf(p.child_id as string)} finished a printable`,
       body: `${p.emoji ?? '🖍️'} ${p.title} · tap to confirm and land ${p.stars} stars`,
-      href: '/dashboard/quests', at: String(p.created_at),
+      // NOT Manage jobs. The printable confirm card is on the quests board and
+      // only there, so this anchors to it. Sending this one to Manage jobs with
+      // the ticks would look consistent and land a parent on a page that cannot
+      // do the thing the notification just promised.
+      href: '/dashboard/quests#printables-to-confirm', at: String(p.created_at),
     })
   }
 
@@ -78,7 +86,9 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       id: `ask-${a.id}`, kind: 'ask', icon: isPrint ? '🖨️' : '💡', urgent: false,
       title: `${nameOf(a.child_id as string)} asked for something`,
       body: `${a.emoji ?? '⭐'} ${a.title}`,
-      href: '/dashboard/quests', at: String(a.created_at),
+      // Manage jobs renders "<name> asked for this" with the turn it into a job
+      // control, so this is a decision and belongs there with the ticks.
+      href: '/dashboard/quests/manage', at: String(a.created_at),
     })
   }
 

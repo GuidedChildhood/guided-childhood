@@ -3550,3 +3550,564 @@ the clamp alone saves 400px, before counting the two prompt cards that no longer
 render at all.
 
 A quieter Home does not mean less thinking. It means less of it shouted at once.
+
+---
+
+## 29 July 2026 — the child app was installing the parent app, and Manage jobs
+
+**The PWA bug, which was real and old.** Justin: "the pwa to child phone did not
+happen". It never could have.
+
+app/layout.tsx hardcoded `<link rel="manifest" href="/manifest.json">` and
+`<link rel="apple-touch-icon">` into the head, immediately below a metadata
+export that already emitted both. Duplicates, and being hardcoded meant they
+appeared on EVERY route and no nested segment could override them.
+
+/manifest.json says `start_url: /dashboard`, `scope: /`. So a child who followed
+our own on screen instructions and tapped Add to Home Screen installed the
+PARENT app: the icon opened /dashboard, which has no session for them, and
+bounced them to a login they cannot pass. Android offered the same install under
+the name Guided Childhood.
+
+The same hardcoding beat app/k/[token]/apple-icon.tsx, whose own comment says
+Add to Home Screen picks it up automatically. It could not, and the DiGi star
+icon has never once appeared on a child's phone.
+
+Seventh instance this session of the pattern. New wrinkle worth noting: here the
+thing that could never fire was defeated not by a bad condition but by a
+DUPLICATE sitting higher up the tree. Overriding inherited config only works if
+nothing hardcodes the same tag above you, and a hardcoded tag and a metadata tag
+do not merge, the first one wins.
+
+Fix: head is metadata only, /k/[token] gets a manifest per token with start_url
+and scope on the child's own page. Verified by serving a production build and
+curling: kid page points at its own manifest and star icon, marketing points at
+ours, exactly one manifest link on each.
+
+No child name in that manifest, deliberately. It lands in the phone's app list
+and in backups, and "My Jobs" is something a child can own without their name
+printed on a device that may be shared or handed on.
+
+**Manage jobs.** Three asks, and one of them dissolved on inspection.
+
+Landing: addOpen now defaults true. Manage jobs exists to add a job and it was
+landing on the list with Done as the only visible action.
+
+Used before: DELETE sets active false, and GET only ever read active true. So
+the app has been holding every job each family ever used and never offered one
+back. A parent who took reading off over the summer had to retype it in
+September. The API now returns them, deduped by title, and the add panel leads
+with them, above our own templates.
+
+"Run the same as yesterday" dissolved: jobs are recurring with schedules, so the
+board ALREADY runs the same as yesterday unless somebody turned something off.
+The only real version of that ask is putting back what was turned off, which is
+the used before list plus a "put all N back". Worth saying rather than building
+a second thing that silently means the first.
+
+---
+
+## 29 July 2026 — the child app's welcome intro looped
+
+Justin: tapping the Quests chip in a lesson "drops back to welcome intro", and
+the all characters welcome should only run once a week.
+
+Once a week was already the intent and the weekly gate was already written. It
+held across DAYS and failed completely inside a single visit.
+
+squadIntroDue caches this open's answer in sessionStorage so that a REMOUNT
+mid play cannot yank the intro out from under the child, which is a real bug
+somebody already hit and fixed. But it only ever wrote '1'. Nothing ever wrote
+'0'. So once an open was marked due it stayed due for the whole session: open
+the app, watch the intro, tap into a lesson, tap Quests to come back, and the
+entire squad plays again. And again.
+
+Fixed with squadIntroFinished(), called from finish() and from pagehide. NOT
+from markPlayed at the start, because that is precisely the remount case the
+cache exists to protect, and settling on the first frame would reintroduce the
+older bug. '1' while playing, '0' once it has finished or the child has left the
+page.
+
+Proved rather than assumed: replayed the gate logic against a fake storage over
+four screen visits. Before, intro, intro, intro, intro. After, intro, quests,
+quests, quests.
+
+The second half of Justin's ask turned out to already exist. KidSplash is the
+one buddy hello, gated once per session, so the shape he described (full squad
+weekly, single character every other open) is what the app does as soon as the
+weekly one stops looping.
+
+Pattern worth keeping: a cache with one writer. Anything that decides once and
+stores the answer needs a path that stores the OTHER answer, or the first
+decision becomes permanent. Same family as the six guards that could never fire,
+but the reverse: this one always fired.
+
+---
+
+## 29 July 2026 — Manage jobs is a page now
+
+Justin, twice, and the second time sharper: "it should clearly goto a new page
+not scroll", and "every time job added it give you option to add another not
+scrolling away".
+
+The first pass this morning only opened the panel by default. That missed the
+point. It was still a card expanding inside a long Quests page, with a Close
+button on it, which is not what pressing a tile called Manage jobs should do. A
+thing you navigate TO should be somewhere you have gone, not somewhere you have
+scrolled.
+
+/dashboard/quests/manage now exists and the tile points at it.
+
+Mobbin first. Todoist answers the add another half exactly: adding a task drops
+a small "Task added" pill at the TOP while the composer stays where it is,
+empty, ready for the next. Superlist, Amie and Evernote all do the same, a
+dedicated compose surface where the confirmation never displaces the input.
+
+Three sections, which is what he asked for: mark one done (pending ticks, first,
+because somebody is waiting and the stars are not theirs yet), what the child
+asked for (quest_requests, yes or no), and add. Then the board itself, so "what
+have we got" is answered without going back.
+
+Two things caught by measuring rather than looking:
+
+1. The confirmation pill wrapped to two lines with a long job title and pushed
+   the input down 26px. A confirmation that moves the thing you are about to
+   touch is the exact bug it exists to prevent. Pinned to one line with the
+   title truncating, and the slot is a fixed height. Measured 847 before and 847
+   after, so zero shift.
+2. Printing all 27 ideas made the page 6558px tall, which is the scrolling the
+   page was built to remove. Six, then Show all.
+
+Worth keeping: "make it a page" and "make it not scroll" are the same request
+twice, and the second one is easy to satisfy on paper and lose in the details.
+The page is only better than the panel if the page itself is short.
+
+---
+
+## 29 July 2026 — Add a routine gets its own page too
+
+Justin, on the new Manage jobs page: "button for add routine of jobs needs to be
+bigger and at the moment just takes to quest home page but needs to goto add
+routine separate page which then needs a bottom back to add a job".
+
+All three fair. The link was small mono text, which read as a footnote, and it
+pointed at #routines on the Quests page, so pressing it dumped a parent back
+into the middle of the page they had just left. Exactly the same fault the
+Manage jobs tile had before this morning, one level down. Worth noting: fixing a
+navigation pattern in one place leaves every link that USED the old pattern
+still pointing at it.
+
+/dashboard/quests/routines now exists, the link is a full width button, and the
+new page carries a back at the top to Manage jobs and a full width "Back to add
+a job" at the bottom. The bottom one is the point: adding a routine and adding a
+job are the same errand in a parent's head, so finishing one should offer the
+other rather than leaving them to find their own way.
+
+The pick before you add behaviour came across intact: jobs already on the board
+show greyed and ticked and disabled, and the button counts only the fresh ones,
+so tapping twice can never double up.
+
+---
+
+## 29 July 2026 — how a job reaches the child, and two more pages
+
+Justin: "as I have downloaded this child's app how do we deal with this, when
+adult adds they need to know. Should it prompt scan this code on child's phone
+to get it added, and show QR code or manage yourself here". Plus two more
+buttons, screen timer and balance and stats, as separate pages.
+
+**The handover.** Everything needed already existed: QrHandoverModal and
+ShareQrButton, which creates the link on demand. What was missing was any of it
+appearing where a parent ADDS a job. So a parent could add six jobs on their own
+phone with no idea whether any of it landed anywhere.
+
+Manage jobs now says which of the two worlds this family is in, at the top,
+before the adding. With an app: anything you add appears on their phone straight
+away, and the code is there again if they need it. Without: this child has no
+app yet, scan a code on their phone, or carry on and mark jobs off yourself
+here. Both are legitimate and the copy says so rather than making the no phone
+route feel like a failure.
+
+**Two more pages.** /dashboard/quests/timer now hosts the timer on its own.
+Justin is right that it did not belong at the top of Balance and stats: starting
+twenty minutes of TV is something you do in the moment with a child next to you,
+and reading the week is something you do sitting down. Balance and stats already
+existed at /dashboard/stats and just needed a button.
+
+**Spotted while in there, not fixed.** The stats page says "AIM FOR TOMORROW 210
+min" for a 13 to 15 year old, because it spreads the unused weekly budget across
+the days remaining. 840 minutes over 4 days is 210, which is three and a half
+hours, and the copy underneath says tomorrow "can be up to 210 minutes without a
+second thought". A page built to encourage balance is telling a parent to aim at
+nearly double the daily guide. It is arithmetically correct and behaviourally
+backwards. Same family as the weekly reset work, so worth deciding together.
+
+---
+
+## 29 July 2026 — the child could not tell a job was new
+
+Justin, after linking a job to Yusuf's app: "where is the add notification, it
+should be on first glance for child".
+
+Fair, and the gap was total. A parent adds a job on their own phone, the child
+opens their app, and the new job sits in the list looking exactly like the five
+that were already there. Nothing marks it.
+
+/api/quests/ping already fires a push on add, which is why this looked handled.
+But a push needs permission, and a child who never granted it saw nothing at
+all. A notification is not the same as the app telling you something, and only
+one of those works unconditionally.
+
+The kid page was not even selecting created_at, so the screen had no way to know
+which job was new even if it had wanted to. Added, plus a banner above the Today
+list, before the count, which is where "first glance" actually is.
+
+Latched the same way as the setup bar: worked out ONCE on mount, held in state,
+and the clock stamped immediately. Stamping first would clear the answer before
+it rendered; holding without stamping would show "new" for ever. That is the
+third time today the shape has come up (the setup bar, the squad intro loop, and
+now this), so it is worth naming as a rule: anything that decides once and
+stores the answer needs a writer for BOTH answers, and the decision has to be
+read before the write lands.
+
+localStorage rather than the database on purpose. "New since YOU last looked" is
+a fact about the device in the child's hand, not about the account. First ever
+open records the clock and shows nothing, because on day one everything is new
+and a banner saying seven new jobs is just the list again in a box.
+
+Simulated across six visits before committing: first open 0, quiet reopen 0, one
+added 1, reopen 0, two added 2, reopen 0.
+
+---
+
+## 29 July 2026 — timely job reminders on the child's phone
+
+Justin: "jobs still outstanding but around job time, either before school or
+after school, so clever enough that bed not made before, clothes ready for
+tomorrow, so looks at job type and works out timely reminder."
+
+The signal was already there. Our own templates and routine packs were written
+around the shape of a school day, so the words carry the hour: bed made, teeth,
+shoes on are morning; homework, reading, outside are after school; tomorrow,
+tonight, charge downstairs are evening. Keyword matching against language we
+wrote ourselves, not free text guessing.
+
+Three crons, one per band, at 07:15, 16:30 and 18:45. A parent's own wording
+falls through to after school, which is the safest default because it is the
+longest stretch of a child's own time and the hour they can actually act.
+
+The restraint is the design, not a limitation:
+- ONE push per child per band however many jobs are outstanding. Five things
+  left is one message, not five.
+- Nothing at all when nothing is outstanding. Being quiet when there is nothing
+  to say is what makes the message mean something when it arrives.
+- Anything ticked today counts as handled, PENDING included. The child has done
+  their part and is waiting on a grown up, so chasing them would read as us not
+  noticing.
+- Linked children only. No fallback to the parent, because chasing a parent
+  about their child's bed is the nagging this product exists to replace.
+
+Children's Code point, worth writing down: this is a plain factual reminder
+about a thing the child agreed to. No streaks at risk, no countdowns, nothing
+built to pull them back into the app. A reminder that a job is undone and a
+reminder that we miss them are different things, and only the first one is
+allowed.
+
+Caught by the test rather than by reading: "School bag packed tonight" landed in
+morning, because the morning rule matched "school bag packed" and tonight was
+not in the evening list. Exactly the case Justin named with "clothes ready for
+tomorrow". Fourteen cases now pass.
+
+Cron times are UTC, so these drift an hour against BST. 07:15 UTC is 08:15 in
+summer, which is late for before school. Worth fixing properly with a per family
+local time rather than by nudging the numbers.
+
+---
+
+## 29 July 2026 — the parent's push prompt could be silenced for ever
+
+Justin: "why am I not getting pwa from Yusuf's jobs on parent's platform, and if
+not set up this will stay broken, so how can in app check auto prompt parent?"
+
+Both halves right, and the second half is the diagnosis.
+
+Push to the parent IS wired. A child ticking a job posts to /api/push/send with
+the parent's user id. But with no subscription that call is a silent no-op, and
+the ONLY thing that would ever have told the parent was the PushPrompt card,
+which line 234 hid permanently the moment it was dismissed once.
+
+So: tap it away on day one, and never again be told your child has done
+anything, with no way of finding out why. The approve loop, which is the spine
+of the whole star economy, silently does not work and nothing says so.
+
+Seventh instance of the family today, in a new flavour. The others were guards
+that could never fire. This is a warning that could be permanently switched off,
+which is the same failure seen from the other end: a signal that cannot reach
+the person who needs it.
+
+Fixed by making the dismissal expire after a fortnight rather than for ever.
+Long enough not to nag, short enough that a family cannot spend a term wondering
+why the app is silent. The old permanent '1' flag reads as an expired dismissal,
+so existing families get asked once more rather than staying broken because of a
+tap they made weeks ago. Verified across four states.
+
+Worth generalising: a dismissible warning about something BROKEN is not the same
+as a dismissible offer. Dismissing an offer means no thanks. Dismissing a
+warning means not now, and treating the two the same is how a product ends up
+silently not working for somebody who once tapped a cross.
+
+---
+
+## 29 July 2026 — notifications landed on a menu, not the decision
+
+Justin: "when we click on notifications it should, to approve, take straight to
+approve page not quests general menu."
+
+Every parent push sent url: '/dashboard/quests'. So "a quest is ready for your
+ok" landed on the whole quests page and the parent had to go hunting for the
+thing they had just been told about. The notification did its job and then
+abandoned them one step short.
+
+Split by whether there is a DECISION to make. Seven now point at
+/dashboard/quests/manage, which leads with Waiting on you, so the tap lands on
+the Done button: a child ticking a job, finishing a path, a printable, a quiz, a
+chest, asking for a job, asking for more. The rest still go to the quests page,
+because a timer starting or a goal being redeemed is news rather than a
+decision, and sending news to a decision screen is the same mistake backwards.
+
+Only possible because Manage jobs became a real page earlier today. Before that
+there was nowhere to send them: the approve queue was a card halfway down the
+page they were already landing on.
+
+Worth keeping: a notification is a promise about where you are about to arrive.
+Landing somewhere that merely CONTAINS the answer is a broken promise, and it is
+the kind that never gets reported as a bug because the parent assumes they
+misread it.
+
+---
+
+## 29 July 2026 — DiGi said two children because there were two children
+
+Justin: "digi says I have 2 children where is it getting that from ... this was
+my daughter Alma but changed to Ada now. Is it because we ran an update giving
+new in database?"
+
+Two questions, one answer. Not a database update, and not a stale memory. The
+children table has two rows on his account, and DiGi was reading it correctly.
+PR 592 had already made the prompt rules airtight about names, and those rules
+explicitly forbid inventing a sibling or claiming more children than the list
+shows, so a model saying "two" meant the list said two.
+
+How the second row got there: three separate paths create a child. Onboarding
+and the starter pack both guard on "no existing children", but the add a child
+form on Quests inserts unconditionally, which is right for a real second child
+and is also what happens when a parent means to RENAME one. Alma became Ada by
+addition rather than edit.
+
+And then nothing could undo it. Nothing anywhere in the product could delete a
+child row. Three creators, no remover, so an account could only ever accumulate.
+Every screen that counts children kept counting, honestly, forever.
+
+The database half of the fix had been sitting finished since this morning:
+migration 120 moved child_id to CASCADE on the sensitive tables, and most others
+were CASCADE from the day they were written. So removal was fully supported and
+completely unreachable. The eighth instance today of a capability with no way to
+ask for it, and the first where the missing path was itself the reported bug.
+
+Now in Settings, per child, once there is more than one: type the child's name to
+confirm, the main child hands over if it was them, and a line above says how many
+children the account holds, because a parent had no other way to check the number
+DiGi is reading.
+
+Migration 122 closes the one table that would have kept talking: digi_prompts was
+SET NULL, so a removed child's cards would keep arriving by name with nothing
+able to stop them. A card is not a record, it is something shown, so it goes with
+the child.
+
+Two things I nearly got wrong, both caught by checking rather than reasoning:
+
+- I wrote the obvious orphan cleanup, "delete prompts where child_id is null",
+  copying migration 120's shape. On digi_prompts that would have deleted every
+  school notification on every account, because the school inbox inserts cards
+  with no child_id by design. Null means orphaned OR perfectly normal, and the
+  row cannot tell you which. 120's cleanup was safe because a wellbeing check
+  with no child is meaningless; the same line one table over is data loss.
+- quest_ticks.child_id has no foreign key at all, which reads as the gap that
+  would leave orphans. It is not: a tick only exists against a family_quest, and
+  that cascades from the child.
+
+Worth keeping: when a count looks wrong, check whether the number is wrong before
+deciding the reporting is wrong. The prompt rules got two rounds of hardening for
+a name problem that was real, and this second complaint on top of them was not a
+regression at all, it was the data. Also: the same migration pattern is not safe
+in two places just because it worked in one. Ask what null MEANS in this table.
+
+---
+
+## 29 July 2026 — the child could not say what job they wanted
+
+Justin, on the child app: "here on child's app you should be able to suggest
+quest to parent, there is a page that should open." And separately: "I added
+Yuseuf child app to Home Screen but it's not asking me to set up notifications
+PWA?"
+
+Two reports, one cause underneath: both features were finished and both were
+somewhere a child would never find them.
+
+### The ask
+
+The New job tile called /api/quests/more, which sends a bare "wants more quests"
+push and stores nothing. There was no way for the child to say WHAT they had in
+mind. Then, having sent it, the tile flipped to "Asked, grown up knows" and its
+onClick did nothing at all, so the one thing a child would press became a dead
+end that looked like a status light.
+
+Meanwhile /api/quests/request has always done the real thing: the ask lands as a
+row with a title, capped at five open and five a day counted from UK midnight,
+the parent's phone names the actual idea, and one tap on Manage jobs turns it
+into a real job with stars. The UI for it existed too, inline at line 1630 of a
+2,842 line screen, under the printables and the coming up list.
+
+So the tile pointed at the weaker of two routes and the better one was buried.
+Now it is /k/<token>/suggest, its own page, reached from the tile and from a
+lead in card where the panel used to be. One implementation, extracted so the
+page and the screen cannot drift.
+
+The page also shows what happened to each idea, which the ping never could:
+WAITING, IT IS ON, NOT THIS TIME. A child who asks and then has no way of
+finding out is being managed, not included.
+
+### The reminders
+
+The offer was there. It was a quiet white button 2,150 lines down, below
+everything. Justin added the app to the Home Screen and was never asked, because
+nobody scrolls to the bottom of their own jobs list looking for a settings
+button. Moved to the top, above the jobs, in butter.
+
+This one is worse than an ordinary missed button. The timely job nudges built
+this morning push to the CHILD's device and nowhere else, on purpose, because
+chasing a parent about their child's bed is the nagging this product replaces. A
+child who never turned reminders on does not get a quieter version of the
+feature, they get none of it, and three crons run every day and send nothing.
+
+So it has a Not now that comes back in three days rather than a cross that
+silences it. Refusing has to be allowed, but this is an offer whose refusal
+switches a feature off, and "never again" on one mis-tap is how a feature ends up
+permanently dead for a family who would have wanted it. Sits between the two
+rules recorded earlier today: not a warning dressed as an offer, not a nag.
+
+### Caught by looking, not by reasoning
+
+The extracted component put three lines of text outside the white card, directly
+on the dark kid background, still using ink colours. Almost invisible in both
+states. The screenshot showed it immediately and no amount of reading the diff
+would have. Worth keeping: the kid app has a dark background and the parent app
+does not, so ink coloured text is safe in one and unreadable in the other, and
+moving a component between them is exactly when that bites.
+
+Also, again: `pkill -f "next start"` killed my own shell, second time today, and
+this time it did not even kill the server, so the next page load served a stale
+build and looked like a 500 in my new code. Kill by PID.
+
+---
+
+## 29 July 2026 — "Nothing more to do" was why the pings never came
+
+Justin: "pings not arriving on either app, and the button that says send test
+[does not work], and not prompting each app to add notifications."
+
+Three symptoms, one wrong idea underneath: the app treated push as a thing an
+ACCOUNT has, when it is a thing a DEVICE has.
+
+/api/push/status counted subscriptions on the account. One row anywhere meant
+setup was done, and the card then said "Check ins are on, on another device.
+Nothing more to do." On the phone in his hand that sentence was false. A
+subscription is one browser on one machine, so a parent subscribed on their
+laptop receives nothing on their phone, and the app was confidently telling them
+the job was finished on the only device where it had never been started. It also
+closed down the one question that would have found the problem.
+
+The account count was not wrong. The conclusion drawn from it was. Worth keeping:
+a true fact and a false reassurance can be the same sentence.
+
+Two more of the same shape, found while fixing it:
+
+- **The test lied on success.** /api/push/test fired at every subscription on the
+  account, and the card said "Sent. It should appear on this device within
+  seconds." Two different claims. Testing on an unsubscribed phone sent the
+  notification to the laptop upstairs and reported it as arriving here. A false
+  pass is worse than a failure, because it ends the investigation: push looks
+  proven and the pings still never come. Now the caller names its own endpoint
+  and only that device is tested.
+
+- **Granted is not subscribed.** The card showed "Check ins are on" on
+  Notification.permission alone. A reinstall, a cleared cache or an old service
+  worker leaves permission granted with nothing registered, which is exactly the
+  "says on but nothing arrives" state the Reset link was built for. The branch
+  now also requires that we actually hold a subscription for this device, with
+  null (lookup failed) deliberately not counting as no, because a failed lookup
+  must not take a working setup away from a parent.
+
+## And the approve link, which I half fixed this morning
+
+Justin: "this is not taking them to approve, it should take to exact page."
+
+Earlier today I moved seven PUSH routes from /dashboard/quests to
+/dashboard/quests/manage so a notification lands on the Done button. I did not
+touch lib/notifications/collect.ts, so every notification IN THE APP still went
+to the whole board. The same notification behaved differently depending on
+whether it arrived on the lock screen or was read in the bell.
+
+This is the exact lesson I wrote down this morning, in the same file, hours
+before repeating it: fixing a navigation pattern in one place leaves every link
+that used the old pattern still pointing at it. Writing the rule down is not the
+same as searching for the other callers.
+
+Not a blanket change, either, which is the second half of the fix. A finished
+PRINTABLE goes to /dashboard/quests#printables-to-confirm, because the confirm
+button lives on the board and nowhere else. Sending it to Manage jobs with the
+ticks would have looked consistent and landed a parent on a page that cannot do
+the thing the notification just promised.
+
+---
+
+## 29 July 2026 — the clinicians come off the advice (migration 123)
+
+Justin, asked whether he had written permission to name Dr Becky Kennedy and
+Catherine Knibbs: "I'd rather not name them, other than we have built a team of
+researchers in the field to draw upon that follow our philosophy."
+
+Settled, and done. The parent facing badges now read "Our research team":
+weekly plan steps, the balance tips, the social insights. Migration 123 strips
+the names from the seeded content a parent reads, which is daily_moments
+expert_note and the lesson slide scripts, and the seed files are updated too so a
+fresh database does not put them back.
+
+The scope was worth asking about, because "do not name them" splits three ways
+and only one of them is the risk:
+
+- **Parent facing badges: removed.** A living clinician's name next to advice
+  inside a paid product reads as endorsement whether it is meant to or not, and a
+  parent who paid partly because of a name they trust has relied on something we
+  never had permission to imply.
+- **Names inside AI system prompts: kept.** A parent never sees them. They steer
+  the model toward connection before correction and the nervous system framing,
+  so stripping them makes the output worse in exchange for no protection.
+- **Published academic citations (Odgers, Orben, Przybylski, Livingstone): kept.**
+  Citing public research is not the same as attaching a clinician to our advice,
+  and the marketing brief is explicit that every one is defensible.
+
+Also kept: expert_knowledge.source_name, which is internal provenance shown only
+on the insights board. Removing a record of where a finding came from would make
+the product LESS accountable while looking more careful.
+
+Worth keeping from the doing of it: I wrote the replacement chain, then ran it
+over the real strings and READ the output. Three defects only visible that way.
+Nested replace evaluates innermost first, so "Knibbs puts the nervous system at
+the centre" fired before the "Catherine Knibbs puts..." variant and produced
+"Catherine The research puts...". Dropping a name mid sentence turned "This is
+Knibbs made practical" into "This is Made practical". And "Knibbs is clear that"
+follows a full stop, so the lower case replacement started a sentence with a
+small letter. A find and replace that looks obviously right is exactly the kind
+that needs its output read, because the pattern matching is never the hard part,
+the surrounding English is.

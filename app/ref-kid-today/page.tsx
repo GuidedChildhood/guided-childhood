@@ -27,7 +27,7 @@ export default async function RefKidToday({ searchParams }: { searchParams: Prom
       weekStars={14}
       goal={{ title: 'Cinema trip', stars_needed: 40, daily_stars: null, achieved_at: null }}
       streakDays={3}
-      bank={{ child_id: 'fixture-child', earned: 30, spent: 12, balance: 18, minutes: 90 }}
+      bank={{ child_id: 'fixture-child', earned: 30, spent: 12, balance: 8, minutes: 40, lifetimeBalance: 18, lifetimeMinutes: 90, weekEarned: 12, weekSpent: 4, weekCap: 105 }}
       usedWeekMinutes={60}
       usedTodayMinutes={20}
       recommendedMinutes={90}

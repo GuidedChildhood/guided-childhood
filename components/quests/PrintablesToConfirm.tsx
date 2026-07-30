@@ -41,7 +41,10 @@ export default function PrintablesToConfirm() {
   if (items.length === 0) return null
 
   return (
-    <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginTop: '18px' }}>
+    // Anchored so the notification for a finished printable lands on this card
+    // rather than at the top of the board. The confirm button lives here and
+    // nowhere else, so this is the only place that tap can honestly point.
+    <div id="printables-to-confirm" style={{ scrollMarginTop: 84, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginTop: '18px' }}>
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>
         Printables to confirm
       </div>

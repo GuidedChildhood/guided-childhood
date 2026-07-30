@@ -94,6 +94,7 @@ export default function KidTodayList({
   learnTitle, learnEmoji, learnStars, learnDoneLive, allLessonsDone, onLearnTap,
   quests, ticks, onToggleQuest, burstQuestId,
   giftStarsOwed = 0,
+  newQuestCount = 0,
   inkSoft,
   onCelebrate,
 }: {
@@ -113,6 +114,8 @@ export default function KidTodayList({
   onToggleQuest: (quest: TodayQuest) => void
   burstQuestId: string | null
   giftStarsOwed?: number
+  /** Jobs added since this child last opened their app. */
+  newQuestCount?: number
   inkSoft: string
   onCelebrate: () => void
 }) {
@@ -416,6 +419,29 @@ export default function KidTodayList({
           </span>
         </div>
       </div>
+
+      {/* Something new arrived.
+          A parent adding a job on their own phone had no way of telling the
+          child, and the child had no way of noticing: the new job simply
+          appeared in the list looking exactly like the five that were already
+          there. Justin: "where is the add notification, it should be on first
+          glance for child". So it is, above the list, before the count.
+          The push already fires on add, but a push needs permission and a
+          child who never granted it saw nothing at all. This works either way,
+          which is why it lives in the app and not only in the notification. */}
+      {newQuestCount > 0 && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 11,
+          background: 'var(--terracotta)', borderRadius: 16,
+          padding: '13px 15px', marginBottom: 12,
+          boxShadow: '0 4px 0 var(--terracotta-dark)',
+        }}>
+          <span aria-hidden style={{ fontSize: 22, lineHeight: 1, flexShrink: 0 }}>✨</span>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', lineHeight: 1.25 }}>
+            {newQuestCount === 1 ? 'A new job just arrived!' : `${newQuestCount} new jobs just arrived!`}
+          </span>
+        </div>
+      )}
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 10 }}>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: inkSoft }}>
