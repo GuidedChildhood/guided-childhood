@@ -50,6 +50,7 @@ export default function JobComposer({
   tone = 'white',
   autoFocus = false,
   help,
+  countToday,
 }: {
   /**
    * Given the trimmed title and how often it should repeat. The caller still
@@ -61,10 +62,25 @@ export default function JobComposer({
   tone?: 'white' | 'cream'
   autoFocus?: boolean
   help?: string
+  /**
+   * How many jobs this child already has today, so the composer can say when
+   * the list has got long.
+   *
+   * A guide, never a cap. A parent who wants eight jobs can have eight jobs;
+   * they know their family and we do not. But a child who opens the app to a
+   * wall of them does fewer, not more, and the moment to mention that is while
+   * the ninth is being typed rather than in a help page nobody opens.
+   */
+  countToday?: number
 }) {
   const [title, setTitle] = useState('')
   const [when, setWhen] = useState<Schedule>('daily')
   const ready = title.trim().length > 0
+
+  // Five is where a child's list stops reading as a plan and starts reading
+  // as a chore chart. Said once, gently, and never enforced.
+  const COMFORTABLE = 5
+  const many = typeof countToday === 'number' && countToday >= COMFORTABLE
 
   const submit = () => {
     if (!ready) return
@@ -131,6 +147,12 @@ export default function JobComposer({
           )
         })}
       </div>
+      {many && (
+        <p style={{ fontSize: '14px', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '9px 0 0', fontWeight: 600 }}>
+          That is {countToday} jobs today. Plenty of families run three or four and
+          find they get done. Add more if it suits you, this is only a nudge.
+        </p>
+      )}
       {help && (
         <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
           {help}

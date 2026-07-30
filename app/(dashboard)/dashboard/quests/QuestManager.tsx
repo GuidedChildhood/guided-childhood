@@ -1389,6 +1389,7 @@ export default function QuestManager() {
                   Or write your own
                 </div>
                 <JobComposer
+                  countToday={childQuests.length}
                   autoFocus={addOpenedByParent}
                   onAdd={(t, when) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when })}
                   help="Worth one star. Pick how often above, and change the stars or the exact days on the job itself once it is in."
@@ -1810,6 +1811,7 @@ export default function QuestManager() {
               </div>
               <div style={{ marginTop: '14px' }}>
                 <JobComposer
+                  countToday={childQuests.length}
                   tone="cream"
                   placeholder="Or write your own quest"
                   onAdd={(t, when) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when })}

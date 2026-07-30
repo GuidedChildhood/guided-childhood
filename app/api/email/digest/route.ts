@@ -1,6 +1,7 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { pickSpotlight, renderSpotlight } from '@/lib/email/spotlights'
 import { isSchoolHoliday } from '@/lib/learning/holidays'
+import { isRegion, DEFAULT_REGION } from '@/lib/learning/region'
 import { NextRequest, NextResponse } from 'next/server'
 import { emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { weeklyDigestEmail } from '@/lib/email/templates'
@@ -50,7 +51,7 @@ async function handler(req: NextRequest) {
     loadSentKeys(supabase),
     supabase
       .from('profiles')
-      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete, school_id')
+      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete, school_id, school_region')
       .eq('onboarding_complete', true)
       .eq('email_opt_out', false),
   ])
@@ -105,7 +106,10 @@ async function handler(req: NextRequest) {
         ageBand: (child?.age_band as AgeBand | null) ?? null,
         hasSchool: Boolean(profile.school_id),
         scriptsDoneTotal: total,
-        inHolidays: isSchoolHoliday(now),
+        // The family's own term dates. Defaulted to UK only when unset, never
+        // assumed: a family in the US would otherwise be told the holidays
+        // had started on British dates, in the middle of their school term.
+        inHolidays: isSchoolHoliday(now, isRegion(profile.school_region) ? profile.school_region : DEFAULT_REGION),
       }, shown)
       const spotlight = chosen ? renderSpotlight(chosen, childName) : null
 
