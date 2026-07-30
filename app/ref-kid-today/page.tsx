@@ -1,10 +1,17 @@
 import KidQuestScreen from '@/app/k/[token]/KidQuestScreen'
+import { holidayBankLine } from '@/lib/quests/holiday-bank'
 
 // Fixture reference page: the REAL kid screen components with made up props,
 // so the one Today list and the age based contract can be screenshotted
 // without a database. Not linked from anywhere. ?view=contract shows the
 // first run contract gate; the default shows the board with the one list,
 // a waiting job, and a gift still being paid back.
+//
+// ?holiday= picks which holiday bank state to render, since the card has four
+// and three of them cannot be reached on a given day: `banked` is a term time
+// balance, `ready` is a holiday with minutes in it, `empty` is a holiday with
+// none. Anything else renders the silent case, which is a child who has never
+// banked anything in term time and correctly sees no card at all.
 
 export const dynamic = 'force-dynamic'
 
@@ -14,9 +21,18 @@ const QUESTS = [
   { id: 'q3', title: 'Read for ten minutes', emoji: '📚', stars: 2, schedule: 'daily' },
 ]
 
-export default async function RefKidToday({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
-  const { view } = await searchParams
+export default async function RefKidToday({ searchParams }: { searchParams: Promise<{ view?: string; holiday?: string }> }) {
+  const { view, holiday } = await searchParams
   const contract = view === 'contract'
+  // Built through the real holidayBankLine, never hand written here, so this
+  // page cannot drift into showing copy the app does not actually produce.
+  const holidayBank = holiday === 'ready'
+    ? { childId: 'fixture-child', banked: 470, spent: 0, remaining: 470, spendableNow: true, holidayTitle: 'the summer holidays' }
+    : holiday === 'empty'
+    ? { childId: 'fixture-child', banked: 0, spent: 0, remaining: 0, spendableNow: true, holidayTitle: 'the summer holidays' }
+    : holiday === 'banked'
+    ? { childId: 'fixture-child', banked: 90, spent: 0, remaining: 90, spendableNow: false, holidayTitle: null }
+    : { childId: 'fixture-child', banked: 0, spent: 0, remaining: 0, spendableNow: false, holidayTitle: null }
   return (
     <KidQuestScreen
       token="000000000000000000"
@@ -27,7 +43,10 @@ export default async function RefKidToday({ searchParams }: { searchParams: Prom
       weekStars={14}
       goal={{ title: 'Cinema trip', stars_needed: 40, daily_stars: null, achieved_at: null }}
       streakDays={3}
-      bank={{ child_id: 'fixture-child', earned: 30, spent: 12, balance: 8, minutes: 40, lifetimeBalance: 18, lifetimeMinutes: 90, weekEarned: 12, weekSpent: 4, weekCap: 105 }}
+      bank={{ child_id: 'fixture-child', earned: 30, spent: 12, balance: 8, minutes: 40, lifetimeBalance: 18, lifetimeMinutes: 90, weekEarned: 12, weekSpent: 4, weekSurplus: 0, weekCap: 105 }}
+      holidayLine={holidayBankLine(holidayBank)}
+      holidayMinutes={holidayBank.remaining}
+      holidaySpendable={holidayBank.spendableNow}
       usedWeekMinutes={60}
       usedTodayMinutes={20}
       recommendedMinutes={90}

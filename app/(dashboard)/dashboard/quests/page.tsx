@@ -11,6 +11,7 @@ import StreakRewards, { type StreakReward } from '@/components/quests/StreakRewa
 import QuestStatusBoard from '@/components/quests/QuestStatusBoard'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
+import { getFamilyRegion } from '@/lib/learning/region'
 import { getBoardStatus, type BoardStatus } from '@/lib/quests/board-status'
 
 // Family Quests: the whole deal on one page now. The board leads (it moved
@@ -83,6 +84,9 @@ export default async function QuestsPage() {
     // ceiling, not a target, so the only verdicts are inside it (good) or
     // earning past it (worth knowing, the extras bank rather than extend
     // the day).
+    // The family's own school calendar, so the parent's guide and the child's
+    // app cannot disagree about whether it is the holidays.
+    const region = await getFamilyRegion(supabase, user.id)
     tuning = (kids ?? [])
       .filter(k => k.name && k.name !== 'Your child')
       .map(k => {
@@ -90,7 +94,7 @@ export default async function QuestsPage() {
           .filter(q => (q.child_id === null || q.child_id === k.id) && (q.schedule === 'daily' || q.schedule === 'weekdays'))
           .reduce((s, q) => s + (Number(q.stars) || 1), 0)
         const earnMins = dayStars * STAR_MINUTES
-        const guideMins = recommendedDailyMinutes(k.age_band ?? null)
+        const guideMins = recommendedDailyMinutes(k.age_band ?? null, { region })
         return {
           name: k.name as string, earnMins, guideMins,
           tone: (earnMins <= guideMins ? 'tuned' : 'rich') as 'tuned' | 'light' | 'rich',

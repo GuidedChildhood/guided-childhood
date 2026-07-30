@@ -313,6 +313,9 @@ export async function POST(req: NextRequest) {
 
   // Create a quest
   const { title, emoji, stars, schedule, child_id, blocks_screens } = body
+  // Suppress this job's own push. Set by callers adding several at once, which
+  // then send one summary instead. See the note by the push below.
+  const quiet = Boolean(body.quiet)
   if (!title || typeof title !== 'string') {
     return NextResponse.json({ error: 'title required' }, { status: 400 })
   }
@@ -332,6 +335,43 @@ export async function POST(req: NextRequest) {
     blocks_screens: Boolean(blocks_screens),
   }).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // Tell the child a job has landed.
+  //
+  // This was the ONE creation path that did not. Approving a child's own idea
+  // pushes, saying no to it pushes, a gift of screen time pushes, a printable
+  // pushes, a nudge pushes. A parent adding a job from the Quests page, which is
+  // the main way jobs get created, wrote the row and said nothing, so the job
+  // appeared silently on the child's list whenever they next happened to open
+  // their app. Justin saw exactly this: the gift arrived on the phone and the
+  // job did not.
+  //
+  // Only when the job belongs to a child. A quest with no child_id is a family
+  // one and has nobody in particular to tell. Best effort, same as everywhere
+  // else here: a push that fails must never lose the job that was just saved.
+  //
+  // `quiet` is how a bulk add opts out, and it exists because adding the push
+  // here quietly turned every routine into a barrage. A routine is five jobs,
+  // added in a loop, and the caller was already sending one "New routine"
+  // summary afterwards. So a parent tapping Morning routine sent the child SIX
+  // notifications in a few seconds. A child who is buzzed six times for one
+  // action learns to turn notifications off, which costs us every push after it.
+  //
+  // The rule now: this route owns the notification for ONE job. A caller adding
+  // several passes quiet and sends a single summary of its own.
+  if (data?.child_id && !quiet) {
+    const mins = (data.stars ?? 1) * STAR_MINUTES
+    // A before screens job is a different message, because it changes what the
+    // child can do next rather than just adding to the list.
+    const gate = data.blocks_screens
+      ? ' This one comes before screens today.'
+      : ''
+    await pushToChild(
+      createAdminClient(), user.id, data.child_id as string,
+      `A new job from your grown up ${data.emoji ?? '⭐'}`,
+      `"${data.title}" is worth ${data.stars} star${data.stars === 1 ? '' : 's'}, that is ${mins} minutes.${gate} Tap it done when it is finished.`
+    )
+  }
   return NextResponse.json({ quest: data })
 }
 
