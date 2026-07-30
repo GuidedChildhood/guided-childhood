@@ -4111,3 +4111,61 @@ follows a full stop, so the lower case replacement started a sentence with a
 small letter. A find and replace that looks obviously right is exactly the kind
 that needs its output read, because the pattern matching is never the hard part,
 the surrounding English is.
+
+## 30 July 2026 — Holiday screen time is earned, not handed over
+
+Justin: "when they run over, the stars and minutes earned higher than they can
+use in a normal week ... maybe any extra should be used for holiday allowance.
+We do need to let the child app know that any unused stars go towards holiday
+amount, and when we say holiday it is the school holiday period."
+
+**The decision, which he approved: the automatic holiday lift shrinks and the
+earned bank carries the rest.**
+
+The first pass at holidays gave every family a flat 1.6x daily guide in summer
+and 1.4x at Christmas. That was the whole mechanic and it was the wrong one. It
+contradicted the product's own welcome card, which promises screen time is
+"earned from real world jobs, never just handed over": a child who did nothing
+all term got exactly the same August as one who did everything.
+
+The multipliers came down to 1.25 summer, 1.2 Christmas and Easter, 1.15 half
+terms. They did NOT go to 1.0, because part of a holiday genuinely has nothing
+to do with effort: no school run, later mornings, longer wet afternoons. That
+much every family gets. Everything above it is now the holiday bank, which a
+family gets as much of as it did the work for.
+
+**Two rewards for two different behaviours, and they must not be confused.**
+
+- UNUSED is time you had available and chose not to spend. Already pays, in
+  sticker credits (migration 124). Rewards restraint.
+- SURPLUS is work you did that the week had no room for. Pays into the holiday
+  bank (127, 128). Rewards effort.
+
+Neither can be earned by doing the other's behaviour, which is what stops one
+cannibalising the other.
+
+**Spendable only in a school holiday, never expires.** A balance you can see and
+cannot touch yet is the entire mechanic; spendable whenever, it is just a bigger
+weekly cap with extra steps. And it is the counterweight to the weekly reset:
+the reset says you cannot stockpile ordinary screen time, the bank says the
+extra work still counted.
+
+Live before this: Ada had 94 stars binned in one week and Gus 97 across two.
+Roughly twelve hours of earned screen time evaporating with nothing anywhere
+saying it had happened. Backfilled as three real rows.
+
+### Two things worth keeping from the doing of it
+
+**A card that promises what the app cannot deliver is worse than no card.** The
+child app half was quick. It said "90 holiday minutes, ready now" and the timer
+gate read the star balance alone, so a child with an empty week was told the
+minutes were theirs and then refused. Building the telling without the spending
+would have been the worst of the three options.
+
+**Making recommendedDailyMinutes holiday aware by default fixed sixteen call
+sites and broke one.** weeklyStarCap calls it with no date, so the Monday
+rollover, which runs after midnight to pay out the week that ENDED, would have
+priced six weeks of term time at holiday rates on the first Monday of summer and
+banked too little. It takes the week being priced now. Worth remembering as the
+shape of the mistake: a default that is right for "what can be spent today" is
+wrong for anything reaching backwards.

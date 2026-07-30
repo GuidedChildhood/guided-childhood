@@ -63,12 +63,27 @@ export type Holiday = {
   /**
    * How much more relaxed the daily screen guide gets, as a multiplier.
    *
-   * Not unlimited, and the difference between the numbers is the whole point.
-   * A week off in February is a normal week with no school run, so a small
-   * lift. Six weeks of summer with no structure at all is where families
-   * genuinely need permission rather than a target they will miss every day,
-   * so it is the largest. Christmas sits between the two: a fortnight, but a
-   * busy one with a lot going on away from screens anyway.
+   * These used to be much bigger: 1.6 in summer, 1.4 at Christmas. That was
+   * the whole holiday mechanic, and it was the wrong one. It handed every
+   * family the same six weeks of extra screen time whether or not a single job
+   * got done, which is exactly the thing the product's own welcome card says it
+   * does not do: screen time here is "earned from real world jobs, never just
+   * handed over". A child who did nothing all term got the same August as one
+   * who did everything.
+   *
+   * The holiday bank replaced it (migrations 127 and 128). Work beyond what an
+   * ordinary week has room for is saved and spendable in the holidays, so the
+   * extra time in August is EARNED, and a child can point at the June jobs that
+   * paid for it.
+   *
+   * What is left here is the part that is genuinely nothing to do with effort:
+   * a holiday day has a different shape. No school run, later mornings, longer
+   * afternoons indoors when it rains. That is real and it deserves a lift, so
+   * the numbers stayed rather than going to 1.0. They are just small now, and
+   * the bank carries the rest.
+   *
+   * The ordering still holds and still means the same thing. Six unstructured
+   * weeks need more slack than a week off in February.
    */
   relax: number
 }
@@ -145,15 +160,18 @@ function windowsFor(year: number, region: Region): Window[] {
   ]
 }
 
+// A small automatic lift for the shape of the day, and the holiday bank for
+// everything beyond it. See the relax note on the Holiday type for why these
+// came down from 1.6 and 1.4.
 const META: Record<HolidayKey, { title: string; lengthNote: string; relax: number }> = {
-  summer:        { title: 'the summer holidays', lengthNote: 'about six weeks', relax: 1.6 },
-  christmas:     { title: 'the Christmas holidays', lengthNote: 'about two weeks', relax: 1.4 },
-  easter:        { title: 'the Easter holidays', lengthNote: 'about two weeks', relax: 1.4 },
-  spring_break:  { title: 'spring break', lengthNote: 'about a week', relax: 1.4 },
-  autumn_half:   { title: 'half term', lengthNote: 'about a week', relax: 1.25 },
-  spring_half:   { title: 'half term', lengthNote: 'about a week', relax: 1.25 },
-  may_half:      { title: 'half term', lengthNote: 'about a week', relax: 1.25 },
-  thanksgiving:  { title: 'the Thanksgiving break', lengthNote: 'about a week', relax: 1.25 },
+  summer:        { title: 'the summer holidays', lengthNote: 'about six weeks', relax: 1.25 },
+  christmas:     { title: 'the Christmas holidays', lengthNote: 'about two weeks', relax: 1.2 },
+  easter:        { title: 'the Easter holidays', lengthNote: 'about two weeks', relax: 1.2 },
+  spring_break:  { title: 'spring break', lengthNote: 'about a week', relax: 1.2 },
+  autumn_half:   { title: 'half term', lengthNote: 'about a week', relax: 1.15 },
+  spring_half:   { title: 'half term', lengthNote: 'about a week', relax: 1.15 },
+  may_half:      { title: 'half term', lengthNote: 'about a week', relax: 1.15 },
+  thanksgiving:  { title: 'the Thanksgiving break', lengthNote: 'about a week', relax: 1.15 },
 }
 
 /**
@@ -184,6 +202,11 @@ export function isSchoolHoliday(on: Date, region: Region = 'uk'): boolean {
  * the number vanishes for six weeks has learned that the number is not real.
  * The evidence we build on is about the whole shape of a childhood, not one
  * fortnight, so the guide bends rather than breaks.
+ *
+ * This is the AUTOMATIC part only, and it is small. The holiday bank sits on
+ * top of it and is where the real difference in a holiday comes from, because
+ * that part was earned. Two separate things on purpose: this one every family
+ * gets, that one a family gets as much of as it did the work for.
  */
 export function holidayAdjustedMinutes(base: number, on: Date, region: Region = 'uk'): number {
   const h = holidayOn(on, region)

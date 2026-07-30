@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { minutesToStars, deviceLabel, type DeviceKey } from '@/lib/quests/device-time'
+import { deviceLabel, type DeviceKey } from '@/lib/quests/device-time'
+import { planRefund, refundToHolidayBank } from '@/lib/quests/holiday-spend'
 
 // The child stops their device time early, or their app calls this when the
 // countdown hits zero. Either way the session closes and the recorded spend
@@ -27,6 +28,18 @@ export async function POST(req: NextRequest) {
   const { data: session } = await query.order('started_at', { ascending: false }).limit(1).maybeSingle()
   if (!session) return NextResponse.json({ ok: true, alreadyEnded: true })
 
+  // Read separately and best effort, never in the select above. Migration 128
+  // adds this column, and asking for a column that does not exist fails the
+  // whole row read, which would stop every child in the world being able to end
+  // a timer on a deploy that had not run it. Zero is also the honest answer on
+  // an older database: nothing there could have drawn from the bank.
+  let holidayDrawn = 0
+  {
+    const { data, error } = await supabase
+      .from('device_sessions').select('holiday_minutes').eq('id', session.id).maybeSingle()
+    if (!error) holidayDrawn = Number(data?.holiday_minutes) || 0
+  }
+
   const now = Date.now()
   const startedMs = new Date(session.started_at as string).getTime()
   const planned = session.minutes as number
@@ -34,13 +47,32 @@ export async function POST(req: NextRequest) {
   // finished countdown (now past ends_at) simply used the whole block.
   const elapsedMin = Math.max(1, Math.ceil((now - startedMs) / 60000))
   const usedMinutes = Math.min(planned, elapsedMin)
-  const usedStars = minutesToStars(usedMinutes)
+
+  // Unwind the unused part, holiday bank first. Those minutes never expire
+  // while this week's stars are gone on Monday, so putting back the perishable
+  // pocket first would quietly destroy time the child had already earned.
+  // planRefund does the arithmetic; a block that drew nothing behaves exactly
+  // as it did before any of this existed.
+  const refund = planRefund(planned, usedMinutes, holidayDrawn)
+  const usedStars = refund.starCost
+  if (refund.holidayRefund > 0) {
+    await refundToHolidayBank(supabase, link.user_id, link.child_id, refund.holidayRefund)
+  }
 
   // Trim the spend to what was used, refunding the rest to the bank.
-  if (session.spend_id && (usedMinutes < planned)) {
+  if (session.spend_id && !refund.unchanged) {
     await supabase.from('star_spends')
       .update({ minutes: usedMinutes, stars: usedStars })
       .eq('id', session.spend_id)
+  }
+  // And correct the session to what the holiday bank ended up paying, so the
+  // row is a true record of the block rather than of what was booked. The
+  // status filter above is what actually stops a second stop double refunding,
+  // since an ended session is never picked up again.
+  if (refund.holidayRefund > 0) {
+    await supabase.from('device_sessions')
+      .update({ holiday_minutes: refund.holidayKept })
+      .eq('id', session.id)
   }
   const nowIso = new Date().toISOString()
   // Record the minutes actually used on the session too, not just the spend, so

@@ -85,9 +85,17 @@ function addDays(ymd: string, days: number): string {
  * balance graphs use, so the worst case a parent ever faces is one week's worth
  * of screen time rather than 28 hours. Over earning becomes impossible whatever
  * a family does with their board.
+ *
+ * `on` is which week is being priced, and it matters because the guidance is
+ * now holiday aware: a school holiday week has a slightly higher ceiling than a
+ * term time one. Left out it means today, which is right for every screen
+ * asking what a child can spend now. The Monday rollover must pass it, because
+ * it runs just after midnight to pay out the week that has ENDED, and on the
+ * first Monday of the summer holidays it would otherwise price six weeks of
+ * term time at holiday rates and bank too little.
  */
-export function weeklyStarCap(ageBand: string | null): number {
-  const weeklyMinutes = recommendedDailyMinutes(ageBand) * 7
+export function weeklyStarCap(ageBand: string | null, on?: Date): number {
+  const weeklyMinutes = recommendedDailyMinutes(ageBand, on ? { on } : {}) * 7
   return Math.max(1, Math.floor(weeklyMinutes / STAR_MINUTES))
 }
 

@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { questDueToday } from '@/lib/quests/due'
 import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
 import { getStarBanks } from '@/lib/quests/bank'
+import { getHolidayBanks, holidayBankLine } from '@/lib/quests/holiday-bank'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
@@ -210,8 +211,20 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     parentProfileRes.data as { subscription_status?: string | null; trial_ends_at?: string | null } | null,
     (parentProfileRes.data as { email?: string | null } | null)?.email,
   )
-  const bank = banks[0] ?? { child_id: link.child_id, earned: 0, spent: 0, balance: 0, minutes: 0, weekEarned: 0, weekSpent: 0, weekBalance: 0, weekMinutes: 0, weekCap: 0 }
+  const bank = banks[0] ?? { child_id: link.child_id, earned: 0, spent: 0, balance: 0, minutes: 0, weekEarned: 0, weekSpent: 0, weekBalance: 0, weekMinutes: 0, weekCap: 0, weekSurplus: 0 }
   const usedWeekMinutes = (weekSpendsRes.data ?? []).reduce((sum, s) => sum + (Number(s.minutes) || 0), 0)
+
+  // The holiday bank: screen time this child earned beyond what an ordinary
+  // week had room for, saved for the school holidays.
+  //
+  // The child app has to be the place this is said. The Monday rollover pushes
+  // a notification when it banks, but a push is a moment and this is a running
+  // balance: a child who did extra jobs in June needs to be able to look, in
+  // August, and see why there is more time now. Reads soft to zeros before
+  // migration 127, and holidayBankLine returns null in term time with an empty
+  // bank, so a child it has never happened to sees nothing at all.
+  const holidayBank = (await getHolidayBanks(supabase, link.user_id, [link.child_id]))[0] ?? null
+  const holidayLine = holidayBank ? holidayBankLine(holidayBank) : null
   // A live device time session, if one is running, so the countdown picks
   // up where it left off on a refresh.
   const activeSession = await getActiveSession(supabase, link.child_id)
@@ -511,6 +524,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       laterQuests={laterQuests}
       doneLessonKeys={doneLessonKeys}
       bank={bank}
+      holidayLine={holidayLine}
+      holidayMinutes={holidayBank?.remaining ?? 0}
+      holidaySpendable={holidayBank?.spendableNow ?? false}
       usedWeekMinutes={usedWeekMinutes}
       usedTodayMinutes={usedTodayMinutes}
       recommendedMinutes={recommendedMinutes}

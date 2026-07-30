@@ -119,7 +119,8 @@ function knownAccent(a: string | null | undefined): a is string {
 
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
-  adventures = [], bank = null, usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
+  adventures = [], bank = null, holidayLine = null, holidayMinutes = 0, holidaySpendable = false,
+  usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], notes = [], agreementItems = [], agreementSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
@@ -169,6 +170,12 @@ export default function KidQuestScreen({
   missions?: KidMission[]
   adventures?: KidAdventure[]
   bank?: StarBank | null
+  // The holiday bank, already put into words on the server so the copy has one
+  // home. Null means there is nothing worth saying: no minutes saved and no
+  // holiday running, which is most children most of the year.
+  holidayLine?: { title: string; body: string } | null
+  holidayMinutes?: number
+  holidaySpendable?: boolean
   usedWeekMinutes?: number
   usedTodayMinutes?: number
   recommendedMinutes?: number
@@ -1378,6 +1385,7 @@ export default function KidQuestScreen({
                 key={`${liveSession?.id ?? 'idle'}-${pickNow ? 'pick' : 'view'}`}
                 startPicking={pickNow}
                 token={token} balanceStars={bankBalance} initialSession={liveSession}
+                holidayMinutes={holidayMinutes} holidaySpendable={holidaySpendable}
                 onSessionChange={setLiveSession}
                 familyDevices={familyDevices}
                 outstandingJobs={[...new Set(quests.filter(q => !ticks[q.id]).map(q => q.title))]}
@@ -1413,6 +1421,37 @@ export default function KidQuestScreen({
         </div>
           )
         })()}
+
+        {/* Holiday minutes. Sits under the balance rather than inside it, on
+            purpose: the balance card is this week's money, and this is savings.
+            Putting the two numbers in one card would invite a child to add them
+            up and try to spend the lot on a Tuesday in November.
+
+            The server sends null whenever there is nothing to say, so a child
+            with an empty bank in term time never meets a card explaining a
+            thing that has not happened to them. A holiday running is enough on
+            its own, empty bank or not, because that is the moment the whole
+            idea is easiest to understand. */}
+        {holidayLine && (
+          <div style={{ marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', padding: '15px 17px', display: 'flex', alignItems: 'flex-start', gap: 13 }}>
+            <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--tint-amber)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>🌞</span>
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+                {holidaySpendable ? 'Holiday time' : 'Saving up'}
+              </span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2, marginTop: '2px' }}>{holidayLine.title}</span>
+              <span style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '5px' }}>{holidayLine.body}</span>
+              {/* Only while it can actually be spent. In term time the number is
+                  the point and the maths is noise; in a holiday it is the
+                  opposite, because minutes are what the timer takes. */}
+              {holidaySpendable && holidayMinutes > 0 && (
+                <span style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--gold-dark)', background: 'var(--tint-amber)', borderRadius: '9px', padding: '5px 9px' }}>
+                  {holidayMinutes} min on top of your stars
+                </span>
+              )}
+            </span>
+          </div>
+        )}
 
         {dealOpen && (
           <FamilyDeal

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
+import { getHolidayBanks } from '@/lib/quests/holiday-bank'
+import { planSpend, drawFromHolidayBank, refundToHolidayBank } from '@/lib/quests/holiday-spend'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { isDeviceKey, minutesToStars, deviceLabel, readTrust } from '@/lib/quests/device-time'
 import { questDueToday } from '@/lib/quests/due'
@@ -111,8 +113,23 @@ export async function POST(req: NextRequest) {
 
   const stars = minutesToStars(mins)
   const [bank] = await getStarBanks(supabase, link.user_id, [link.child_id])
-  if (!bank || bank.balance < stars) {
-    return NextResponse.json({ error: 'not enough stars', balance: bank?.balance ?? 0 }, { status: 400 })
+
+  // Two pockets pay for a block: this week's stars, and during a school holiday
+  // the minutes banked from weeks the child did more than the cap had room for.
+  // Stars go first and the holiday bank covers only the shortfall, because
+  // stars reset every Monday and holiday minutes never expire.
+  //
+  // Without this the child app was lying. It shows "90 holiday minutes, ready
+  // now" during a holiday and the gate below read the star balance alone, so a
+  // child with an empty week was told the minutes were theirs and then refused.
+  const [holidayBank] = await getHolidayBanks(supabase, link.user_id, [link.child_id])
+  const plan = planSpend(mins, bank?.balance ?? 0, holidayBank?.remaining ?? 0, holidayBank?.spendableNow ?? false)
+  if (!bank || !plan.enough) {
+    return NextResponse.json({
+      error: 'not enough stars',
+      balance: bank?.balance ?? 0,
+      holidayMinutes: plan.holidayMinutes,
+    }, { status: 400 })
   }
 
   // Ask first: record the ask and nudge the parent, but do not start or spend.
@@ -180,21 +197,50 @@ export async function POST(req: NextRequest) {
     .update({ status: 'ended', ended_at: new Date().toISOString() })
     .eq('child_id', link.child_id).eq('status', 'active')
 
+  // Take the holiday minutes first, because that is the draw that can come up
+  // short: another device could have started a block between the read above and
+  // now. A short draw is a failure, never a discount, so whatever was taken goes
+  // straight back and the child is told to try again rather than quietly getting
+  // a block they cannot pay for.
+  let holidayDrawn = 0
+  if (plan.holidayMinutes > 0) {
+    holidayDrawn = await drawFromHolidayBank(supabase, link.user_id, link.child_id, plan.holidayMinutes)
+    if (holidayDrawn < plan.holidayMinutes) {
+      await refundToHolidayBank(supabase, link.user_id, link.child_id, holidayDrawn)
+      return NextResponse.json({ error: 'not enough stars', balance: bank.balance }, { status: 400 })
+    }
+  }
+
   // Record the spend now (the balance drops immediately) then open the
-  // session that points back at it, so stopping early can trim it.
+  // session that points back at it, so stopping early can trim it. Only the
+  // star funded part is charged to the bank; the minutes stay whole, since that
+  // is what the row is a record of.
   const { data: spend, error: spendError } = await supabase.from('star_spends').insert({
-    user_id: link.user_id, child_id: link.child_id, stars, minutes: mins,
-    note: `Device time: ${screenName}`,
+    user_id: link.user_id, child_id: link.child_id, stars: plan.starCost, minutes: mins,
+    note: holidayDrawn > 0
+      ? `Device time: ${screenName} (${holidayDrawn} holiday min)`
+      : `Device time: ${screenName}`,
   }).select('id').single()
-  if (spendError) return NextResponse.json({ error: spendError.message }, { status: 500 })
+  if (spendError) {
+    await refundToHolidayBank(supabase, link.user_id, link.child_id, holidayDrawn)
+    return NextResponse.json({ error: spendError.message }, { status: 500 })
+  }
 
   const endsAt = new Date(Date.now() + mins * 60000).toISOString()
   const { data: session, error: sessionError } = await supabase.from('device_sessions').insert({
-    user_id: link.user_id, child_id: link.child_id, device, minutes: mins, stars,
+    user_id: link.user_id, child_id: link.child_id, device, minutes: mins, stars: plan.starCost,
     spend_id: spend.id, ends_at: endsAt, treat,
+    // Zero on a database still short of migration 128 would silently make every
+    // stop refund the holiday minutes to nowhere, so the column failing to exist
+    // has to undo the draw rather than carry on without it.
+    ...(holidayDrawn > 0 ? { holiday_minutes: holidayDrawn } : {}),
     ...(homeDevice ? { family_device_id: homeDevice.id } : {}),
   }).select('id, device, minutes, stars, ends_at, started_at, treat').single()
-  if (sessionError) return NextResponse.json({ error: sessionError.message }, { status: 500 })
+  if (sessionError) {
+    await supabase.from('star_spends').delete().eq('id', spend.id)
+    await refundToHolidayBank(supabase, link.user_id, link.child_id, holidayDrawn)
+    return NextResponse.json({ error: sessionError.message }, { status: 500 })
+  }
 
   // The ask is now running: mark it started so the child's banner steps back.
   // Fails soft to approved on a database still carrying the old status list.
@@ -218,7 +264,13 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           userId: link.user_id,
           title: `${childName} started ${mins} minutes on the ${deviceLabel(device)} ⏱️`,
-          body: `That is ${stars} star${stars === 1 ? '' : 's'} spent. The timer is running, you can watch it on the quests board.`,
+          // Where it was paid from matters to a parent. Holiday minutes are
+          // last summer's extra jobs being cashed in, not this week's allowance
+          // running down, and a parent reading the balance later needs to know
+          // which one they just watched happen.
+          body: holidayDrawn > 0
+            ? `${plan.starCost} star${plan.starCost === 1 ? '' : 's'} and ${holidayDrawn} minute${holidayDrawn === 1 ? '' : 's'} from their holiday savings. The timer is running, you can watch it on the quests board.`
+            : `That is ${plan.starCost} star${plan.starCost === 1 ? '' : 's'} spent. The timer is running, you can watch it on the quests board.`,
           url: '/dashboard/quests',
         }),
       })

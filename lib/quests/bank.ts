@@ -172,7 +172,10 @@ export async function getStarBanks(
     // Capped on what was EARNED this week, then spending comes off that. Capping
     // the balance instead would quietly refund a child: spend down to the cap and
     // the ceiling hands the stars straight back.
-    const weekCap = weeklyStarCap(ageBands[childId] ?? null)
+    // Priced for the week being read, not for today. Identical for the current
+    // week; the difference only shows when the Monday rollover reaches back for
+    // the week that just ended and that week sat the other side of a holiday.
+    const weekCap = weeklyStarCap(ageBands[childId] ?? null, new Date(`${weekStartDate}T12:00:00Z`))
     const weekEarned = Math.min(week.earned, weekCap)
     const weekBalance = Math.max(0, weekEarned - week.spent)
     // What the cap turned away. Kept rather than discarded so Monday can bank

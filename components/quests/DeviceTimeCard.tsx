@@ -7,6 +7,7 @@ import { deviceIcon, type FamilyDevice } from '@/lib/devices/family'
 import { screenTipFor } from '@/lib/content/screen-tips'
 import { speakEnglish, warmVoices } from '@/lib/voice/english-voice'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import { planSpend } from '@/lib/quests/holiday-spend'
 import Celebration from '@/components/ui/Celebration'
 
 // The child's own device time timer. They have earned stars; here they turn
@@ -52,13 +53,19 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
 }
 
 export default function DeviceTimeCard({
-  token, balanceStars, initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
+  token, balanceStars, holidayMinutes = 0, holidaySpendable = false,
+  initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
   deviceTrust = 'ask', onAsked, onSessionChange, startPicking = false,
   onPrintables, onGames, ageBand = null, familyDevices = [],
   outstandingJobs = [], outstandingMinutes = 0,
 }: {
   token: string
   balanceStars: number
+  // The holiday bank: minutes earned in weeks that went past the cap, and
+  // whether a school holiday is open so they can be spent. Outside one these
+  // change nothing here, which is the whole point of a saving.
+  holidayMinutes?: number
+  holidaySpendable?: boolean
   initialSession: ActiveSession | null
   usedTodayMinutes?: number
   recommendedMinutes?: number
@@ -151,11 +158,20 @@ export default function DeviceTimeCard({
   const asksFirst = deviceTrust === 'ask'
   const dailyLimit = Math.round(recommendedMinutes)
   const remainingToday = dailyLimit > 0 && !asksFirst ? Math.max(0, dailyLimit - Math.round(usedTodayMinutes)) : Number.POSITIVE_INFINITY
-  const maxMinutes = Math.max(0, Math.min(balanceStars * STAR_MINUTES, remainingToday))
+  // During a school holiday the banked minutes pay too, so they raise what can
+  // be picked. Only the star ceiling moves: the day's healthy amount still caps
+  // it, because the bank is about the week having had no room, not about a
+  // single day having no limit.
+  const holidayPot = holidaySpendable ? Math.max(0, Math.round(holidayMinutes)) : 0
+  const maxMinutes = Math.max(0, Math.min(balanceStars * STAR_MINUTES + holidayPot, remainingToday))
   // Keep the chosen minutes inside the cap, so the picker never shows more than
   // is allowed today.
   useEffect(() => { setMinutes(m => Math.min(m, maxMinutes)) }, [maxMinutes])
   const costStars = Math.ceil(minutes / STAR_MINUTES)
+  // How the picked block would actually be paid for, by the same function the
+  // start route uses. Sharing it is the point: the child is never shown a split
+  // the server then works out differently.
+  const { starCost, holidayMinutes: holidayCost } = planSpend(minutes, balanceStars, holidayMinutes, holidaySpendable)
 
   // A browser only lets an AudioContext open on a user gesture, so the blips
   // and the finish jingle both need one before they can make a sound.
@@ -566,7 +582,15 @@ export default function DeviceTimeCard({
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)' }}>How long?</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 700, color: 'var(--ink-muted)' }}>{costStars} of your {balanceStars} stars</span>
+          {/* Once a pick goes past this week's stars, saying "14 of your 6
+              stars" is nonsense. Naming the holiday minutes instead is also the
+              only place a child is told, at the moment of spending, that the
+              extra jobs they did weeks ago are what is paying. */}
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 700, color: holidayCost > 0 ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
+            {holidayCost > 0
+              ? `${starCost} star${starCost === 1 ? '' : 's'} + ${holidayCost} holiday min`
+              : `${costStars} of your ${balanceStars} stars`}
+          </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
           <button
@@ -618,7 +642,10 @@ export default function DeviceTimeCard({
   }
 
   // ── Idle: the invite to spend, with today's healthy amount in view ──
-  const canSpend = balanceStars > 0
+  // Holiday minutes count as something to spend, otherwise a child in August
+  // with a full bank and an empty week is shown the "do a job first" door while
+  // the card above it says their minutes are ready now.
+  const canSpend = balanceStars > 0 || holidayPot > 0
   const recToday = Math.max(0, Math.round(recommendedMinutes))
   const usedToday = Math.max(0, Math.round(usedTodayMinutes))
   const guidePct = recToday > 0 ? Math.min(100, Math.round((usedToday / recToday) * 100)) : 0
@@ -694,7 +721,9 @@ export default function DeviceTimeCard({
               ? (reachedGuide && !asksFirst
                 ? 'Your stars are safe for tomorrow. Do a job to earn more'
                 : asksFirst
-                ? `Pick your screen and ask your grown up. You have ${maxMinutes} minutes of stars`
+                // "minutes of stars" stops being true the moment the holiday
+                // bank is part of the number, so it says where it came from.
+                ? `Pick your screen and ask your grown up. You have ${maxMinutes} minutes ${holidayPot > 0 ? 'ready, holiday savings included' : 'of stars'}`
                 : `You have ${maxMinutes} minutes to use now`)
               : 'Do a job to earn stars, then swap them for time. Tap to see your jobs'}
           </span>
