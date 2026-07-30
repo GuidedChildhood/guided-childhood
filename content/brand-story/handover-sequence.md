@@ -6,9 +6,9 @@ This is the only time the four day rhythm bends. The principle: **explain before
 you change, not after.** People forgive a rename they were told about and resent
 one they were not.
 
-Replace `[NARRATOR]` with the name the 6,000 already know before anything goes
-out. Instagram versions are below; Facebook versions run longer, warmer, and may
-carry a real link in the body.
+Written in Natalia's voice, the name the 6,000 already know. Instagram versions
+are below. Facebook versions run longer, warmer, and may carry a real link in
+the body.
 
 ---
 

@@ -13,7 +13,7 @@ voice, aimed at parents on LinkedIn and at heads and DSLs.
 
 | | LinkedIn and Substack | Instagram and Facebook |
 |---|---|---|
-| Voice | Justin, first person, founder | `[NARRATOR]` and Justin, "we", the family |
+| Voice | Justin, first person, founder | `Natalia` and Justin, "we", the family |
 | Register | Evidence led, long, dense, authority mode | Warm, short, recognition mode |
 | Existing cadence | Mon research, Wed mechanism, Fri school or evidence, Sun founder, Thu Substack | Mon founder, Wed research, Fri service, Sat happy news |
 | Hook style | Cold open on a precise number | Cold open on a moment a parent has lived |

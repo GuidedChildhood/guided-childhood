@@ -54,17 +54,23 @@ standard, same reason.
 ## 2. The voice, and the one thing to settle
 
 The account voice is **we**, the family, and the primary narrator on Founder
-Monday is **the person the 6,000 already follow**: the mother who started
-Inspired by Alma when Alma was born in 2015. Justin is the other half of the we,
-not the host. That is the opposite of the platform copy, where Justin is the
-face, and it is deliberate. Changing the name of an account is survivable.
-Changing the voice of an account is what actually loses people.
+Monday is **Natalia**, the person the 6,000 already follow, who started Inspired
+by Alma when Alma was born in 2015. Justin is the other half of the we, not the
+host. That is the opposite of the platform copy, where Justin is the face, and
+it is deliberate. Changing the name of an account is survivable. Changing the
+voice of an account is what actually loses people.
 
-> **Open question for Justin, and the only thing blocking a full paste ready
-> pack.** Every draft in `content/brand-story/` uses `[NARRATOR]` where the
-> mother's name goes, and `[NARRATOR_HANDLE]` for her tag. Find and replace both
-> and the pack is ready. Confirm also whether she is happy to be the on camera
-> face on Mondays, because the plan leans on it.
+**Natalia is from Valencia and the children are bilingual.** That is texture,
+never a topic. It shows up as a Spanish word because it is the word that fits,
+or a grandmother on a video call, or the five o'clock argument happening in two
+languages. One or two touches a month. It makes the account read as a real
+family rather than a brand, and that is the whole job it does. We do not post
+about bilingual parenting as a subject, because it is not what we sell and it
+would split the audience.
+
+> **Still open.** Whether Natalia is happy to be the on camera face on Mondays,
+> because the plan leans on it. And her personal tag, if she wants one on the
+> account.
 
 The rest of the voice rules are inherited and non negotiable: warm, plain,
 direct, UK English, short sentences, no AI isms, and **no dashes in any copy,
@@ -250,4 +256,4 @@ have spent two years refusing to post.
 4. Service post map, all services, problem first.
 5. Funnel and bio.
 6. The agent.
-7. Justin fills in `[NARRATOR]` and confirms the on camera question.
+7. Justin fills in `Natalia` and confirms the on camera question.

@@ -20,3 +20,6 @@ tsconfig.tsbuildinfo
 .DS_Store
 *.pem
 .claude/settings.local.json
+
+# Rendered social cards, regenerate with tools/social-cards/render.mjs
+tools/social-cards/out/

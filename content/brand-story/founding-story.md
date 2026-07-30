@@ -4,7 +4,7 @@
 here. If a fact is not in this file, it does not go in a caption.**
 
 Written 30 July 2026. No dashes in any copy. Voice is **we**, the family, with
-`[NARRATOR]` as the primary voice on the account.
+`Natalia` as the primary voice on the account.
 
 ---
 
@@ -12,12 +12,28 @@ Written 30 July 2026. No dashes in any copy. Voice is **we**, the family, with
 
 | Token | What goes there |
 |---|---|
-| `[NARRATOR]` | The mother who started Inspired by Alma. The name the 6,000 know. |
-| `[NARRATOR_HANDLE]` | Her personal tag, if she wants one on the account. |
 | `[OLGA_AGE]` | Olga's age. Inferred as 8 from the Covid detail, needs confirming. |
 | `[SHOP_YEARS]` | The years the Bristol shop was open. |
 
 Everything else below is confirmed from Justin's own account of it.
+
+## The narrator
+
+**Natalia.** She started Inspired by Alma when Alma was born in 2015 and she is
+the voice of the account. Justin is the other half of the "we", not the host.
+
+**Natalia is from Valencia.** The children are bilingual, Spanish and English.
+
+**How to use that: as texture, never as a topic.** It is not a bilingual
+parenting account and we never post about raising bilingual children as a
+subject, because it is not what we sell and it would split the audience. It
+shows up the way a real life shows up. A Spanish word in a sentence because it
+is the word that fits. A grandmother on a video call. The fact that the five
+o'clock argument happens in two languages, which is genuinely funnier and truer
+than the English only version.
+
+One or two touches a month. It makes the account feel like a real family rather
+than a brand, and that is the entire job it does.
 
 ---
 
@@ -25,7 +41,7 @@ Everything else below is confirmed from Justin's own account of it.
 
 **2015. Alma.**
 Our first daughter is born. Somewhere in the fog of a first baby,
-`[NARRATOR]` starts making customised cake toppers on a laptop in the bedroom.
+`Natalia` starts making customised cake toppers on a laptop in the bedroom.
 Not a business plan. A thing to make, for people who wanted their child's
 birthday to look like someone had bothered.
 
@@ -55,7 +71,7 @@ pretending otherwise now.
 **The idea.**
 It did not come from a market. It came from sitting there at nine at night,
 after a day like that, wishing something existed that would help us manage the
-devices and not just switch them off. So `[NARRATOR]` and Justin built it. First
+devices and not just switch them off. So `Natalia` and Justin built it. First
 for us, for our own family, on our own kitchen table.
 
 **Then it got harder.**

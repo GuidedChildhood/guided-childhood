@@ -1,0 +1,60 @@
+{
+  "name": "handover-04-what-we-did",
+  "size": "portrait",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "cover",
+      "type": "cover",
+      "tone": "butter",
+      "eyebrow": "Our story · 4 of 6",
+      "headline": "Nine at<br>night, at the<br>kitchen table",
+      "body": "The idea did not arrive as a business plan."
+    },
+    {
+      "name": "manage-not-off",
+      "type": "text",
+      "tone": "blue",
+      "eyebrow": "What we tried",
+      "headline": "We tried to<br>manage the<br>devices",
+      "body": "Not switch them off. A completely different job, and much harder.",
+      "scale": "h-md"
+    },
+    {
+      "name": "then-harder",
+      "type": "text",
+      "tone": "pink",
+      "eyebrow": "Then it got harder",
+      "headline": "Then social<br>media. Then<br>a ban at 16.",
+      "body": "More screens, more accounts, more places to keep half an eye on.",
+      "scale": "h-md"
+    },
+    {
+      "name": "cliff-edge",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "The bit that worries us",
+      "headline": "Nothing,<br>nothing,<br>nothing, then<br>everything.",
+      "body": "That is the cliff edge. Not the screens.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "in-between",
+      "type": "quote",
+      "tone": "green",
+      "eyebrow": "What we built",
+      "quote": "Not a ban. Not no ban. The bit in between.",
+      "attrib": "A little more freedom at each stage, earned."
+    },
+    {
+      "name": "ask",
+      "type": "cta",
+      "tone": "amber",
+      "eyebrow": "Where to start",
+      "headline": "What stage is<br>your child?",
+      "body": "Three questions. Ninety seconds. No sign up.",
+      "pill": "Link in bio",
+      "scale": "h-md"
+    }
+  ]
+}

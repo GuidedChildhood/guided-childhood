@@ -106,7 +106,7 @@ Facebook, longer, and a real link in the body where there is an ask.
 Run every draft against these and fix what fails. Report anything you could not
 fix.
 
-**The voice check.** Would `[NARRATOR]` say this out loud to another parent at
+**The voice check.** Would `Natalia` say this out loud to another parent at
 the school gate. Kill: unlock, dive in, game changer, landscape, delve,
 revolutionary, genuinely, straightforward, the truth is, here is the thing.
 
