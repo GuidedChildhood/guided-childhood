@@ -34,6 +34,29 @@ function admin(): Client | null {
  * the monitor reads the shapes already in use. Unknown shapes record null,
  * which the board shows as "ran, count unknown" rather than a misleading zero.
  */
+/**
+ * Whether a reply that arrived as 200 is actually reporting a failure.
+ *
+ * The status code is not the whole truth in this codebase. The push cron spent
+ * weeks answering 200 with {"error":{"code":"401","message":"Protected
+ * deployment"}} in its body, having delivered nothing at all, and a monitor
+ * reading only the status would have shown it green the entire time. That is
+ * the same false health this subsystem exists to end, so the body gets read.
+ *
+ * Only the singular `error` counts. Several routes report `errors: 0` as an
+ * ordinary tally, and a run that carefully tells you nothing went wrong must
+ * never be marked as having gone wrong.
+ */
+export function bodyReportsFailure(body: unknown): boolean {
+  if (!body || typeof body !== 'object') return false
+  const b = body as Record<string, unknown>
+  const err = b.error
+  if (err === null || err === undefined) return false
+  if (typeof err === 'string') return err.trim().length > 0
+  if (typeof err === 'object') return Object.keys(err as object).length > 0
+  return Boolean(err)
+}
+
 export function processedFrom(body: unknown): number | null {
   if (!body || typeof body !== 'object') return null
   const b = body as Record<string, unknown>
@@ -138,7 +161,7 @@ export function withHeartbeat<T extends unknown[]>(
       } catch {
         body = null
       }
-      await run.finish(body, response.ok)
+      await run.finish(body, response.ok && !bodyReportsFailure(body))
       return response
     } catch (err) {
       if (opened) await run.fail(err)
