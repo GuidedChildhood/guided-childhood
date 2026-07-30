@@ -48,13 +48,12 @@
     },
     {
       "name": "ask",
-      "type": "cta",
+      "type": "ask",
       "tone": "amber",
-      "eyebrow": "Where to start",
-      "headline": "What stage is<br>your child?",
-      "body": "Three questions. Ninety seconds. No sign up.",
-      "pill": "Link in bio",
-      "scale": "h-md"
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the next time the tablet comes off and it turns into a row.",
+      "send": "Send it to the parent who is already dreading the summer."
     }
   ]
 }

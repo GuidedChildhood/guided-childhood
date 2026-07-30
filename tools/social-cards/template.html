@@ -138,6 +138,42 @@ h1{font-weight:900;letter-spacing:-2.6px;line-height:.97;position:relative;z-ind
   z-index:3;
 }
 
+/* say this, not this. The single highest saving format in the category,
+   because the unit is a sentence a parent can use tonight. */
+.script{position:relative;z-index:2;display:flex;flex-direction:column;gap:32px;margin-top:12px;}
+.line{border-radius:34px;padding:40px 42px;border:6px solid var(--ink);}
+.line .tag{
+  font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:24px;
+  letter-spacing:5px;text-transform:uppercase;margin-bottom:18px;display:block;
+}
+.line p{font-weight:800;font-size:46px;line-height:1.2;letter-spacing:-1px;color:var(--ink);}
+.line.not{background:#FDECEC;box-shadow:0 9px 0 rgba(26,26,46,.16);}
+.line.not .tag{color:#B0403A;}
+.line.say{background:#E6F4EE;box-shadow:0 9px 0 var(--ink);}
+.line.say .tag{color:var(--green-dark);}
+
+/* three age bands, one situation. The template is the brand, not the topic. */
+.bands{position:relative;z-index:2;display:flex;flex-direction:column;gap:30px;margin-top:28px;}
+.band{
+  display:flex;gap:26px;align-items:stretch;
+  background:var(--white);border:5px solid var(--ink);border-radius:30px;
+  box-shadow:0 8px 0 var(--ink);overflow:hidden;
+}
+.band .age{
+  flex:none;width:210px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:22px 10px;
+  font-weight:900;font-size:40px;line-height:1;color:var(--ink);text-align:center;
+}
+.band .age small{
+  display:block;font-family:'IBM Plex Mono',monospace;font-weight:600;
+  font-size:19px;letter-spacing:3px;text-transform:uppercase;margin-top:10px;color:var(--ink);
+}
+.band:nth-child(1) .age{background:var(--stage1);}
+.band:nth-child(2) .age{background:var(--stage2);}
+.band:nth-child(3) .age{background:var(--stage3);}
+.band .what{padding:24px 30px 24px 4px;display:flex;align-items:center;}
+.band .what p{font-weight:700;font-size:34px;line-height:1.28;color:var(--ink);}
+
 /* happy news list */
 .items{position:relative;z-index:2;display:flex;flex-direction:column;gap:38px;margin-top:12px;}
 .item{display:flex;gap:28px;align-items:flex-start;}
@@ -225,6 +261,16 @@ const CONFETTI = {
   ink:    () => smiley(840, 160, 104, '#EDC35F', 9) + star(112, 1150, 80, '#F5CD3A', -15) + dot(946, 1052, 44, '#F9A8D4') + squiggle(92, 1010, 148, '#2F8F6B', 4),
 };
 
+/* The reduced set, for cards with a full width panel. */
+const CONFETTI_LIGHT = {
+  butter: () => smiley(834, 150, 108, '#EDC35F', 12),
+  pink:   () => smiley(846, 168, 100, '#FBCFE8', -10),
+  blue:   () => smiley(840, 158, 104, '#BAE6FD', 8),
+  green:  () => smiley(838, 162, 102, '#2F8F6B', -12),
+  amber:  () => smiley(842, 156, 106, '#F0E8D0', 10),
+  ink:    () => smiley(840, 160, 104, '#EDC35F', 9),
+};
+
 function foot(deck, i, total){
   const showCount = total > 1 && deck.numbered !== false;
   return `<div class="foot">
@@ -237,7 +283,16 @@ function cardHTML(c, i, deck){
   const total = deck.cards.length;
   const tone = c.tone || 'cream';
   const size = c.size || deck.size || 'portrait';
-  const confetti = (c.confetti === false) ? '' : (CONFETTI[tone] ? CONFETTI[tone]() : CONFETTI.butter());
+  /* Cards carrying a full width block have no room for floor level stickers,
+     so they get the top corner smiley only. A doodle half hidden behind a
+     panel looks like a mistake, not a flourish. */
+  const DENSE = ['script', 'ages', 'list', 'ask', 'photo'];
+  const light = DENSE.includes(c.type);
+  const confetti = (c.confetti === false)
+    ? ''
+    : light
+      ? (CONFETTI_LIGHT[tone] || CONFETTI_LIGHT.butter)()
+      : (CONFETTI[tone] || CONFETTI.butter)();
 
   let inner = '';
 
@@ -306,6 +361,50 @@ function cardHTML(c, i, deck){
       ${c.headline ? `<h1 class="${c.scale || 'h-sm'}" style="margin-top:36px">${c.headline}</h1>` : ''}
       <div class="items">
         ${(c.items || []).map((t, n) => `<div class="item"><span class="n">${n + 1}</span><span class="t">${t}</span></div>`).join('')}
+      </div>
+      <div class="spacer"></div>`;
+  }
+
+  else if (c.type === 'script') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      ${c.headline ? `<h1 class="${c.scale || 'h-sm'}" style="margin-top:28px">${c.headline}</h1>` : ''}
+      <div class="spacer"></div>
+      <div class="script">
+        <div class="line not"><span class="tag">Not this</span><p>${c.not}</p></div>
+        <div class="line say"><span class="tag">Say this</span><p>${c.say}</p></div>
+      </div>
+      <div class="spacer"></div>`;
+  }
+
+  else if (c.type === 'ages') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="rule"></div>
+      ${c.headline ? `<h1 class="${c.scale || 'h-sm'}" style="margin-top:32px">${c.headline}</h1>` : ''}
+      <div class="spacer"></div>
+      <div class="bands">
+        ${(c.bands || []).map((b) => `<div class="band">
+          <div class="age">${b.age}<small>${b.stage || ''}</small></div>
+          <div class="what"><p>${b.what}</p></div>
+        </div>`).join('')}
+      </div>
+      <div class="spacer"></div>`;
+  }
+
+  /* The last slide of a deck. Instagram ranks on sends per reach and
+     carousels earn their keep on saves, so the final card spends itself on
+     those two and the product ask goes in the caption instead. */
+  else if (c.type === 'ask') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="rule"></div>
+      <h1 class="${c.scale || 'h-sm'}" style="margin-top:36px">${c.headline || 'Keep this one'}</h1>
+      <div class="spacer"></div>
+      <div class="script" style="margin-top:44px">
+        <div class="line say"><span class="tag">Save it</span><p>${c.save}</p></div>
+        <div class="line not" style="background:#FEF7E0;box-shadow:0 9px 0 var(--butter-dark)">
+          <span class="tag" style="color:var(--butter-dark)">Send it</span><p>${c.send}</p></div>
       </div>
       <div class="spacer"></div>`;
   }

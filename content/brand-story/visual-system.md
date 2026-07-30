@@ -37,15 +37,48 @@ card cannot land the cliff edge.
 
 | Use | Pixels | Notes |
 |---|---|---|
-| **Instagram carousel and single post** | **1080 x 1350** | Portrait 4:5. The default. Takes the most vertical space in the feed |
+| **Instagram carousel and single post** | **1080 x 1350** | Portrait 4:5. The default for everything |
 | Instagram square | 1080 x 1080 | Only when a photo is genuinely square |
 | Instagram Story | 1080 x 1920 | Keep text inside the middle 80% or the interface covers it |
-| **Facebook feed** | **1200 x 630** | Landscape. A portrait card gets cropped badly in the feed |
+| **Facebook feed** | **1080 x 1350** | Same file. Facebook moved to portrait in late 2025 |
 
-**Facebook needs its own render, it is not the same image.** This is the mistake
-that makes an account look automated. A 4:5 carousel card posted to Facebook
-gets centre cropped and loses the headline. The renderer has a `size: "fb"`
-variant for exactly this.
+**One artboard serves both.** An earlier draft of this file said Facebook needed
+its own 1200 x 630 landscape render. That was out of date. Build once at
+1080 x 1350.
+
+### The safe zone, which is the part that catches people out
+
+Instagram changed the profile grid from square to **3:4 in 2025**. A 4:5 upload
+is previewed in the grid at roughly 1013px wide, so about **34px is shaved off
+each side**, and it is the sides that go first.
+
+**Keep everything meaningful inside the centre 1013px**, which means nothing
+important in the outer 34px. Our 88px padding clears this comfortably, and the
+sticker positions in `template.html` were set with it in mind. Check it if you
+move anything to the edge.
+
+### Facebook does not have the Instagram carousel
+
+This is the correction that matters most, and it is structural rather than
+cosmetic. **A multi photo organic post on Facebook renders as a collage or grid,
+all visible at once, not a swipeable sequence.** True swipeable carousels are
+effectively an ads format and cannot be built in the normal composer.
+
+So a nine card Instagram carousel does not survive the crossing. It arrives as a
+jumble with the order broken and the argument destroyed.
+
+**What to do instead, one of two things.**
+
+1. Publish **slide one alone as a single tall image**, and put the whole argument
+   in the post text. Facebook rewards long, warm, human text in a way Instagram
+   does not.
+2. Publish **one deliberately built single image that carries the whole idea.**
+   The three age band card is exactly this and needs no swipe to work.
+
+And post it where the parents actually are. In the UK, Facebook carries the
+parents of secondary school age children, which is precisely the phone worry
+audience, and it carries them **inside Groups** rather than on Pages. Group
+reach is a different order of magnitude to Page reach.
 
 ---
 
@@ -94,12 +127,58 @@ photo in.
 
 ### The card types available
 
-`cover`, `text`, `big`, `stat`, `quote`, `photo`, `list`, `cta`.
+`cover`, `text`, `big`, `stat`, `quote`, `photo`, `list`, `script`, `ages`,
+`ask`, `cta`.
 
 Tones: `butter`, `pink`, `blue`, `green`, `amber`, `ink`, or the default cream.
 
-A worked example of each is in the two decks already in
-`tools/social-cards/decks/`.
+Worked examples of all of them are in `tools/social-cards/decks/`.
+
+### The two templates that do the heavy lifting
+
+Borrowed from the two strongest save engines in the parenting category, and both
+happen to fit our thesis exactly.
+
+**`script`, the say this not this card.** Big Little Feelings built a 3M
+following on this unit. The atomic thing is **a sentence a parent can say out
+loud tonight**, not a concept. It is the highest saving format in the category
+because a save means "I will need these words later".
+
+**`ages`, the three age band card.** Solid Starts built 1.4M followers on one
+repeatable diagram: the same food, prepared three ways for three ages. The
+template is the brand, not the topic.
+
+Ours is the same situation at three ages with three calibrated pathways, and it
+is worth noticing why this fits so well. It is **non negotiable 1 rendered as a
+picture**. Never allow or deny, always a calibrated pathway. One layout, endless
+content, and it teaches the whole philosophy without arguing for it.
+
+**A repeatable diagram template beats a content calendar.** Build these two into
+the rotation deliberately rather than treating them as occasional formats.
+
+### Deck length and the last card
+
+**Seven to ten cards** is the working range for an educational carousel. Our
+first decks run to six, which is on the short side and fine for the handover,
+but a Friday teaching post should reach seven or eight.
+
+**The last card is an `ask`, not a `cta`.** Instagram ranks partly on sends per
+reach, and carousels earn their keep on saves rather than likes. So the final
+card spends itself on those two:
+
+- **Save it**, with a stated future use. "Save it for five o'clock today,
+  because that is when you will want the words." A reason to save beats "save
+  this".
+- **Send it**, naming a person. "Send it to the parent who is already dreading
+  the summer." A send is a personal vouch, and it is what opens distribution
+  beyond our own followers.
+
+**The product ask goes in the caption, not on the last card.** The last card is
+too valuable to spend on a link nobody can tap from a carousel anyway.
+
+A post built for likes is a statement. A post built for saves is a tool. A post
+built for sends is a mirror. Friday should be a tool. Saturday should be a
+mirror.
 
 ---
 

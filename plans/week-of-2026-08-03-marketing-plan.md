@@ -41,13 +41,38 @@ standard, same reason.
 
 ### What changes and when
 
-- **Handle and name** change on day one of the first edition, not before.
-- **Bio** carries "formerly Inspired by Alma" for 90 days so people recognise us
-  in their feed, then it comes out.
+- **Handle and name** change on the morning of post 5, not before.
+- **"Formerly Inspired by Alma" goes in the NAME field, not the bio**, for the
+  first 90 days. The name field is what shows in search and in the feed, which
+  is where recognition actually has to happen. Then it comes out.
 - **Grid stays up.** Nothing gets deleted. Ten years of work is proof that we
   finish things.
 - **Highlights** get one new first item called Our Story, holding the handover
   posts, so anyone arriving late gets the whole thing in 60 seconds.
+
+### Two mechanical facts that decide whether this goes smoothly
+
+**Followers are not notified when a handle changes.** Nothing tells them. The
+only signal they get is an unfamiliar name appearing in their feed, which reads
+as an account that was hacked or sold. That is the entire reason the handover
+sequence exists, and it is why posts 1 to 4 run before the switch rather than
+after.
+
+**The old handle is released the instant we drop it, and anyone can take it.**
+So on the morning of the change: **claim `inspiredbyalma` on a second account
+within the hour**, and point it at the new one. Ten years of tags, mentions and
+word of mouth still point there, and letting a stranger pick it up would be an
+avoidable, permanent loss.
+
+### The handle itself
+
+Recommendation: **the person at the brand**. Good Inside runs as
+`drbeckyatgoodinside` for exactly this reason. It keeps the human trust and the
+search recall while the product name gets learned.
+
+Something in the shape of `nataliaatguidedchildhood`, or `guidedchildhood` with
+Natalia's name in the name field. It is the lowest risk structure available for
+a handover, because it never asks the audience to swap a person for a brand.
 
 ---
 

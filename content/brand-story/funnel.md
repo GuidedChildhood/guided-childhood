@@ -103,6 +103,34 @@ Ask DiGi, and The Stages.
 
 ---
 
+## The gap in this plan, named honestly
+
+**Carousels are not the reach format.** They are the save and conversion format.
+Reels reach roughly twice as far, and they are how a cold parent finds this
+account at all. Carousels are what makes them stay and save.
+
+So the four day rhythm as written is a depth engine with no discovery engine
+attached. That is a real hole, and it is worth naming rather than discovering it
+in month three when the numbers are flat.
+
+**The fix is not a fifth posting day.** Four is already the number that survives
+a real week. The fix is that **Monday and Saturday can each be a Reel instead of
+a static post** without changing the rhythm at all. Founder Monday told to
+camera is a Reel. A Happy News item filmed rather than laid out is a Reel. Same
+slot, same job, different format.
+
+**And the honest caveat.** Smartphone Free Childhood, the biggest UK account in
+this space, did not grow on design. It grew on **one founder writing plainly in
+the first person**, which went viral and took the whole movement with it. That
+account is also framed entirely around banning, which is the gap our pathway
+thesis sits in.
+
+Design the system, but do not expect the system to be the growth. The founder
+post is. Which is another reason post 3 matters more than everything else in the
+handover.
+
+---
+
 ## What to measure
 
 Monthly, not weekly, because a rebrand is noisy for the first eight weeks.

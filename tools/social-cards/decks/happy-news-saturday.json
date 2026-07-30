@@ -58,6 +58,15 @@
       "pill": "Link in bio",
       "pillTone": "green",
       "scale": "h-md"
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "tone": "butter",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the Saturday when it has all gone wrong by ten in the morning.",
+      "send": "Send it to the parent who thinks they are the only one."
     }
   ]
 }
