@@ -66,6 +66,11 @@ export async function GET(request: Request) {
   let skipped = 0
   const rows: { user_id: string; child_id: string; credits: number; minutes_unused: number; week_start: string }[] = []
   const tell: { userId: string; childId: string; name: string | null; credits: number }[] = []
+  // Surplus banked towards the school holidays. Separate list, because a child
+  // can have one, both or neither: unused time and extra work are different
+  // things and a week that produced only one of them must still pay that one.
+  const holidayRows: { user_id: string; child_id: string; minutes: number; stars: number; week_start: string }[] = []
+  const tellHoliday: { userId: string; childId: string; minutes: number }[] = []
 
   for (const [userId, list] of byParent) {
     // Asked for the week that has just ended. The weekStart argument exists
@@ -81,6 +86,22 @@ export async function GET(request: Request) {
       // What was earned that week and never spent, in minutes. bank.balance is
       // the weekly spendable figure, and asked for a past week it is that week's
       // leftover, which is exactly what converts.
+      // Work done beyond what the week could hold, banked for the holidays.
+      // Computed before the sticker credit check, because a child who spent
+      // every available minute has no unused time but may still have done far
+      // more jobs than the cap allowed, and that effort must not be lost just
+      // because the other reward did not apply.
+      if (bank.weekSurplus > 0) {
+        holidayRows.push({
+          user_id: userId,
+          child_id: bank.child_id,
+          minutes: bank.weekSurplus * STAR_MINUTES,
+          stars: bank.weekSurplus,
+          week_start: week,
+        })
+        tellHoliday.push({ userId, childId: bank.child_id, minutes: bank.weekSurplus * STAR_MINUTES })
+      }
+
       const unused = bank.balance * STAR_MINUTES
       const credits = Math.floor(unused / MINUTES_PER_STICKER_CREDIT)
       if (credits < 1) { skipped++; continue }
@@ -107,6 +128,16 @@ export async function GET(request: Request) {
     paid = rows.length
   }
 
+  let holidayBanked = 0
+  if (holidayRows.length > 0) {
+    const { error } = await admin
+      .from('holiday_allowance')
+      .upsert(holidayRows, { onConflict: 'child_id,week_start', ignoreDuplicates: true })
+    // A failure here must not lose the sticker credits already written above,
+    // so it is reported rather than thrown.
+    if (!error) holidayBanked = holidayRows.length
+  }
+
   // Tell the child, on their own device, because a reward nobody mentions is not
   // a reward. Only to children who turned reminders on, and only when there is
   // something to say: a week with nothing left over stays silent rather than
@@ -124,5 +155,21 @@ export async function GET(request: Request) {
     } catch { /* one dead subscription never stops the rest */ }
   }
 
-  return NextResponse.json({ ok: true, week, paid, skipped })
+  // And tell them about the holiday bank, which is the half Justin asked for:
+  // "we do need to let the child app know that any unused stars go towards
+  // holiday amount". A saving nobody mentions is not a saving, it is a
+  // deduction, and this one is invisible until the holidays arrive.
+  for (const t of tellHoliday) {
+    try {
+      await pushToChild(
+        admin,
+        t.userId,
+        t.childId,
+        'Saved for the school holidays 🌞',
+        `You did more jobs than this week had room for, so ${t.minutes} minutes are saved for the school holidays. They are yours, waiting.`,
+      )
+    } catch { /* one dead subscription never stops the rest */ }
+  }
+
+  return NextResponse.json({ ok: true, week, paid, skipped, holidayBanked })
 }

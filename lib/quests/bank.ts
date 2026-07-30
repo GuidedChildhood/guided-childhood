@@ -44,6 +44,27 @@ export type StarBank = {
   lifetimeMinutes: number
   weekEarned: number
   weekSpent: number
+  /**
+   * Stars earned ABOVE this week's cap.
+   *
+   * This number existed only as the difference thrown away by a Math.min and
+   * was never surfaced anywhere, so a child doing far more than the guideline
+   * allows simply lost the extra. In the live data that is 180 stars for one
+   * test child across four weeks, fifteen hours of earned screen time that
+   * evaporated with nothing telling anyone it had.
+   *
+   * Justin's call, and it is a better mechanic than the flat holiday lift it
+   * replaces: the extra banks towards the school holidays. Term time keeps the
+   * healthy ceiling, effort beyond it is not wasted, and holiday screen time
+   * stays EARNED rather than handed over, which is what the product says it
+   * does everywhere else.
+   *
+   * Surplus is distinct from unused. Unused is time you had and chose not to
+   * spend, and it already buys sticker credits, which rewards restraint.
+   * Surplus is work you did that the week had no room for, which rewards
+   * effort. Two different behaviours, two different rewards.
+   */
+  weekSurplus: number
   // The ceiling for this child's band, so a screen can say 12 of 84 rather than
   // a bare number with nothing to measure it against.
   weekCap: number
@@ -154,6 +175,9 @@ export async function getStarBanks(
     const weekCap = weeklyStarCap(ageBands[childId] ?? null)
     const weekEarned = Math.min(week.earned, weekCap)
     const weekBalance = Math.max(0, weekEarned - week.spent)
+    // What the cap turned away. Kept rather than discarded so Monday can bank
+    // it towards the holidays.
+    const weekSurplus = Math.max(0, week.earned - weekCap)
 
     return {
       child_id: childId,
@@ -167,6 +191,7 @@ export async function getStarBanks(
       lifetimeMinutes: lifetimeBalance * STAR_MINUTES,
       weekEarned,
       weekSpent: week.spent,
+      weekSurplus,
       weekCap,
     }
   })
