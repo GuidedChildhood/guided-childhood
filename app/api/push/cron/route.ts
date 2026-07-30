@@ -55,7 +55,17 @@ async function handler(req: NextRequest) {
     return NextResponse.json({ skipped: true, reason: 'outside check in window', ukHour, nowMinutes })
   }
 
-  const res = await fetch(`${req.nextUrl.origin}/api/push/send`, {
+  // The canonical domain, never req.nextUrl.origin.
+  //
+  // Vercel Cron invokes the function on the deployment specific host
+  // (guided-childhood-<hash>.vercel.app), and that host sits behind Deployment
+  // Protection, so a call back to ourselves through it answers 401 "Protected
+  // deployment" and not a single push goes out. The route still replied 200
+  // with the failure tucked inside its body, which is why this ran broken
+  // without anybody knowing.
+  const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
+
+  const res = await fetch(`${origin}/api/push/send`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -76,7 +86,7 @@ async function handler(req: NextRequest) {
   let kidResult = null
   if (kidNudge) {
     try {
-      const kidRes = await fetch(`${req.nextUrl.origin}/api/push/send`, {
+      const kidRes = await fetch(`${origin}/api/push/send`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
