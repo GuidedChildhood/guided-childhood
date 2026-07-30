@@ -1,7 +1,7 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl } from '@/lib/email'
+import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl } from '@/lib/email'
 import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
@@ -239,7 +239,7 @@ async function handler(req: NextRequest) {
         .from('starter_leads').update({ nurtured_at: new Date().toISOString() })
         .eq('email', email).is('nurtured_at', null)
       if (stampErr) continue
-      const sent = await sendEmail({ to: email, ...leadNurtureEmail(leadUnsubscribeUrl(email)) })
+      const sent = await sendEmail({ to: email, ...leadNurtureEmail(leadUnsubscribeUrl(email), starterCtaUrl(email)) })
       if (sent.ok) results.leadNurture += 1
       else {
         results.errors += 1
@@ -279,14 +279,14 @@ async function handler(req: NextRequest) {
       // going to, so a parent who has since joined under a different address
       // can end the sequence themselves. The account check below only ever
       // catches the same address, and it always will.
-      const schedule: { day: number; key: string; make: (unsub: string) => EmailContent }[] = [
-        { day: 3, key: 'teaser-digi', make: u => digiTeaserEmail(u) },
-        { day: 5, key: 'teaser-scripts', make: u => scriptsTeaserEmail(u) },
-        { day: 7, key: 'teaser-printables', make: u => printablesTeaserEmail(u) },
-        { day: 9, key: 'teaser-balance', make: u => balanceTeaserEmail(u) },
-        { day: 11, key: 'teaser-mind', make: u => mentalHealthTeaserEmail(u) },
-        { day: 13, key: 'teaser-safety', make: u => safetyTeaserEmail(u) },
-        { day: 15, key: 'teaser-passport', make: u => passportTeaserEmail(u) },
+      const schedule: { day: number; key: string; make: (unsub: string, cta: string) => EmailContent }[] = [
+        { day: 3, key: 'teaser-digi', make: (u, c) => digiTeaserEmail(u, c) },
+        { day: 5, key: 'teaser-scripts', make: (u, c) => scriptsTeaserEmail(u, c) },
+        { day: 7, key: 'teaser-printables', make: (u, c) => printablesTeaserEmail(u, c) },
+        { day: 9, key: 'teaser-balance', make: (u, c) => balanceTeaserEmail(u, c) },
+        { day: 11, key: 'teaser-mind', make: (u, c) => mentalHealthTeaserEmail(u, c) },
+        { day: 13, key: 'teaser-safety', make: (u, c) => safetyTeaserEmail(u, c) },
+        { day: 15, key: 'teaser-passport', make: (u, c) => passportTeaserEmail(u, c) },
       ]
 
       const deliverLead = async (email: string, key: string, content: EmailContent) => {
@@ -309,12 +309,13 @@ async function handler(req: NextRequest) {
         // day rather than a burst all at once.
         const due = schedule.find(s => age >= s.day && !leadSent.has(`${email.toLowerCase()}:${s.key}`))
         const unsub = leadUnsubscribeUrl(email)
+        const cta = starterCtaUrl(email)
         if (due) {
-          await deliverLead(email, due.key, due.make(unsub))
+          await deliverLead(email, due.key, due.make(unsub, cta))
         } else if (age >= 18 && !leadSent.has(`${email.toLowerCase()}:teaser-founder`)) {
           // The founder close, only while places remain.
           const remaining = await getFounderRemaining()
-          if (remaining > 0) await deliverLead(email, 'teaser-founder', founderLeadEmail({ remaining, unsubscribe: unsub }))
+          if (remaining > 0) await deliverLead(email, 'teaser-founder', founderLeadEmail({ remaining, unsubscribe: unsub, cta }))
         }
       }
     }
