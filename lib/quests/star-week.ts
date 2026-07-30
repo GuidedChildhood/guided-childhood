@@ -1,4 +1,5 @@
 import { recommendedDailyMinutes } from './screen-balance'
+import type { Region } from '@/lib/learning/holidays'
 import { STAR_MINUTES } from './templates'
 
 // The star week: Monday morning to Monday morning, in London.
@@ -94,8 +95,8 @@ function addDays(ymd: string, days: number): string {
  * first Monday of the summer holidays it would otherwise price six weeks of
  * term time at holiday rates and bank too little.
  */
-export function weeklyStarCap(ageBand: string | null, on?: Date): number {
-  const weeklyMinutes = recommendedDailyMinutes(ageBand, on ? { on } : {}) * 7
+export function weeklyStarCap(ageBand: string | null, on?: Date, region?: Region): number {
+  const weeklyMinutes = recommendedDailyMinutes(ageBand, { ...(on ? { on } : {}), ...(region ? { region } : {}) }) * 7
   return Math.max(1, Math.floor(weeklyMinutes / STAR_MINUTES))
 }
 

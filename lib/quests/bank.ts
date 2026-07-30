@@ -1,5 +1,6 @@
 import { STAR_MINUTES } from './templates'
 import { starWeekStart, starWeekEnd, londonMidnightIso, weeklyStarCap } from './star-week'
+import type { Region } from '@/lib/learning/holidays'
 
 // The star bank: what a child has earned all time, what has been spent
 // as agreed screen time, and what is left. Earned means approved by the
@@ -92,6 +93,12 @@ export async function getStarBanks(
    * find nothing left over, and silently never pay anybody.
    */
   weekStart?: string,
+  /**
+   * Which school calendar this family keeps, because the weekly ceiling relaxes
+   * in a holiday and a US family's holidays are not England's. Defaults to the
+   * England windows, which is where every family on the platform is today.
+   */
+  region?: Region,
 ): Promise<StarBank[]> {
   if (childIds.length === 0) return []
 
@@ -175,7 +182,7 @@ export async function getStarBanks(
     // Priced for the week being read, not for today. Identical for the current
     // week; the difference only shows when the Monday rollover reaches back for
     // the week that just ended and that week sat the other side of a holiday.
-    const weekCap = weeklyStarCap(ageBands[childId] ?? null, new Date(`${weekStartDate}T12:00:00Z`))
+    const weekCap = weeklyStarCap(ageBands[childId] ?? null, new Date(`${weekStartDate}T12:00:00Z`), region)
     const weekEarned = Math.min(week.earned, weekCap)
     const weekBalance = Math.max(0, weekEarned - week.spent)
     // What the cap turned away. Kept rather than discarded so Monday can bank

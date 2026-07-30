@@ -4,6 +4,7 @@ import { questDueToday } from '@/lib/quests/due'
 import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getHolidayBanks, holidayBankLine } from '@/lib/quests/holiday-bank'
+import { getFamilyRegion } from '@/lib/learning/region'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
@@ -223,7 +224,11 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // August, and see why there is more time now. Reads soft to zeros before
   // migration 127, and holidayBankLine returns null in term time with an empty
   // bank, so a child it has never happened to sees nothing at all.
-  const holidayBank = (await getHolidayBanks(supabase, link.user_id, [link.child_id]))[0] ?? null
+  // Which school calendar this family keeps, read once and used for both the
+  // bank and the daily guide below, so the two can never disagree about whether
+  // it is the holidays.
+  const region = await getFamilyRegion(supabase, link.user_id)
+  const holidayBank = (await getHolidayBanks(supabase, link.user_id, [link.child_id], new Date(), region))[0] ?? null
   const holidayLine = holidayBank ? holidayBankLine(holidayBank) : null
   // A live device time session, if one is running, so the countdown picks
   // up where it left off on a refresh.
@@ -239,7 +244,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const parentLimit = (childRes.data as { daily_limit_minutes?: number | null } | null)?.daily_limit_minutes
   const recommendedMinutes = parentLimit != null && parentLimit > 0
     ? parentLimit
-    : recommendedDailyMinutes(ageBand ?? null)
+    : recommendedDailyMinutes(ageBand ?? null, { region })
 
   // The child's stage library lessons and their passes, the exact same count
   // the parent's progress report uses, so the road's proof and the report can

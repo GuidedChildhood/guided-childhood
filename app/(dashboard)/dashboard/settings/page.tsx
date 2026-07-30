@@ -1,6 +1,8 @@
 'use client'
 import { useState, useEffect } from 'react'
 import SchoolLink from '@/components/digi/SchoolLink'
+import { DEFAULT_REGION, isRegion, REGION_LABEL, REGION_NOTE } from '@/lib/learning/region'
+import type { Region } from '@/lib/learning/holidays'
 import DeleteAccount from '@/components/settings/DeleteAccount'
 import YourAgreements from '@/components/settings/YourAgreements'
 import SettingsLinks from '@/components/settings/SettingsLinks'
@@ -67,6 +69,10 @@ export default function SettingsPage() {
 
   // Profile form
   const [name, setName] = useState('')
+  // Which school holiday calendar this family keeps. Lands with migration 129,
+  // so it fails soft to England and the control hides until the column exists.
+  const [region, setRegion] = useState<Region>(DEFAULT_REGION)
+  const [regionSupported, setRegionSupported] = useState(true)
   const [savingProfile, setSavingProfile] = useState(false)
   const [profileSaved, setProfileSaved] = useState(false)
 
@@ -88,11 +94,20 @@ export default function SettingsPage() {
       // column, and if migration 120 has not run here, drop back to the set
       // that has always existed rather than blanking the whole page.
       let [profileResult, childrenResult] = await Promise.all([
-        supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at, wellbeing_consent_at').eq('id', user.id).single(),
+        supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at, wellbeing_consent_at, school_region').eq('id', user.id).single(),
         supabase.from('children').select('id, name, age_band, date_of_birth, interests, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
       ])
       if (profileResult.error) {
-        profileResult = await supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at').eq('id', user.id).single() as typeof profileResult
+        // school_region lands with 129 and wellbeing_consent_at with 120, so
+        // step back one column at a time rather than blanking the whole page.
+        const withConsent = await supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at, wellbeing_consent_at').eq('id', user.id).single() as typeof profileResult
+        if (!withConsent.error) {
+          profileResult = withConsent
+          setRegionSupported(false)
+        } else {
+          profileResult = await supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at').eq('id', user.id).single() as typeof profileResult
+          setRegionSupported(false)
+        }
       }
       if (childrenResult.error) {
         const withDob = await supabase.from('children').select('id, name, age_band, date_of_birth, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }) as typeof childrenResult
@@ -118,6 +133,8 @@ export default function SettingsPage() {
           wellbeing_consent_at: p.wellbeing_consent_at ?? null,
         })
         setName(p.full_name ?? '')
+        const r = (p as { school_region?: unknown }).school_region
+        if (isRegion(r)) setRegion(r)
       }
       const loadedKids = ((childrenResult.data ?? []) as Partial<Child>[]).map(k => ({
         id: k.id as string,
@@ -149,7 +166,9 @@ export default function SettingsPage() {
     setError('')
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
-    const { error: err } = await supabase.from('profiles').update({ full_name: name.trim() }).eq('id', user.id)
+    const patch: Record<string, unknown> = { full_name: name.trim() }
+    if (regionSupported) patch.school_region = region
+    const { error: err } = await supabase.from('profiles').update(patch).eq('id', user.id)
     if (err) { setError(err.message); setSavingProfile(false); return }
     setProfile(p => p ? { ...p, full_name: name.trim() } : p)
     setProfileSaved(true)
@@ -254,6 +273,43 @@ export default function SettingsPage() {
               To change your email, contact support.
             </p>
           </div>
+          {/* School holidays. Two full sets of windows existed in the code and
+              nothing could pick between them, so a family in the US quietly got
+              English half terms: relaxed in late October while their child was
+              at school, term time through the whole of Thanksgiving week.
+
+              Never guessed from location. A holiday calendar chosen by IP is
+              wrong for anyone travelling, on a VPN or living abroad, and it is
+              wrong in the direction that changes a child's screen time without
+              anybody asking. */}
+          {regionSupported && (
+            <div>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+                School holidays
+              </label>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                {(['uk', 'us'] as const).map(r => (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => setRegion(r)}
+                    aria-pressed={region === r}
+                    style={{
+                      padding: '10px 16px', borderRadius: 100, cursor: 'pointer',
+                      border: `1.5px solid ${region === r ? 'var(--terracotta)' : 'var(--border)'}`,
+                      background: region === r ? 'var(--terracotta-lt)' : '#fff',
+                      fontFamily: 'var(--font-body)', fontSize: '15.5px', fontWeight: 700, color: 'var(--ink)',
+                    }}
+                  >
+                    {REGION_LABEL[r]}
+                  </button>
+                ))}
+              </div>
+              <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginTop: '8px', lineHeight: 1.5 }}>
+                {REGION_NOTE[region]} It sets when the screen guide relaxes, and when saved holiday minutes can be spent.
+              </p>
+            </div>
+          )}
           <button
             type="submit"
             className="btn btn-green"

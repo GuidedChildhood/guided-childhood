@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
+import { getFamilyRegion } from '@/lib/learning/region'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import {
@@ -76,9 +77,14 @@ export async function GET(request: Request) {
     // Asked for the week that has just ended. The weekStart argument exists
     // precisely so a job running after midnight can still see the week it is
     // paying for, rather than reading the empty new one and paying nobody.
+    // This family's own school calendar. The weekly ceiling relaxes in a
+    // holiday, so pricing a US family's Thanksgiving week against the English
+    // term time number would bank the wrong surplus, for ever, with nothing
+    // saying so.
+    const region = await getFamilyRegion(admin, userId)
     let banks
     try {
-      banks = await getStarBanks(admin, userId, list.map(c => c.id), Object.fromEntries(list.map(c => [c.id, c.age_band])), week)
+      banks = await getStarBanks(admin, userId, list.map(c => c.id), Object.fromEntries(list.map(c => [c.id, c.age_band])), week, region)
     } catch { continue }
 
     for (const bank of banks) {
