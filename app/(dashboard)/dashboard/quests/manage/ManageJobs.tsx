@@ -45,6 +45,25 @@ const LINK_BTN: React.CSSProperties = {
 }
 
 export default function ManageJobs() {
+  // The pairing card, once the child actually has the app.
+  //
+  // Justin: "can this be clever enough to know if set up, or only come up once
+  // a week if not, or a dismiss."
+  //
+  // The clever half already worked: hasApp reads kid_links and the card is a
+  // different card entirely when a child has no app, amber and asking to be
+  // dealt with. What it did not do was ever stop. Once a family is set up the
+  // card is pure information, and a permanent banner on the page a parent
+  // opens most is a banner they stop seeing, taking the space with it.
+  //
+  // So it can be put away for a week. A week rather than for ever because a
+  // code is exactly what a parent needs again on the day a phone is replaced
+  // or a second child gets one, and a dismissal that never returns is how they
+  // end up unable to find it.
+  //
+  // Only the settled version can be dismissed. The no app yet card is an
+  // unfinished setup and stays until it is done.
+  const [codeCardHidden, setCodeCardHidden] = useState(false)
   const [children, setChildren] = useState<Child[]>([])
   const [quests, setQuests] = useState<Quest[]>([])
   const [previous, setPrevious] = useState<Quest[]>([])
@@ -150,6 +169,24 @@ export default function ManageJobs() {
     .sort((a, b) => Number(!!b.play) - Number(!!a.play))
 
   const hasApp = !!activeChild && links.some(l => l.child_id === activeChild)
+
+  // Per child, because one child having a phone says nothing about the next.
+  const codeKey = activeChild ? `gc_code_card_hidden_${activeChild}` : null
+  useEffect(() => {
+    if (!codeKey) return
+    try {
+      const until = Number(window.localStorage.getItem(codeKey) ?? 0)
+      setCodeCardHidden(Number.isFinite(until) && until > Date.now())
+    } catch { setCodeCardHidden(false) }
+  }, [codeKey])
+
+  function hideCodeCard() {
+    setCodeCardHidden(true)
+    if (!codeKey) return
+    try {
+      window.localStorage.setItem(codeKey, String(Date.now() + 7 * 86400000))
+    } catch { /* private mode. It stays hidden for this visit, which is enough. */ }
+  }
   const childName = children.find(c => c.id === activeChild)?.name
   const name = childName && childName !== 'Your child' ? childName : 'your child'
 
@@ -178,7 +215,7 @@ export default function ManageJobs() {
           show QR code or manage yourself here". So the answer sits right where
           the adding happens, and it says which of the two worlds this family is
           in rather than making them guess. */}
-      {activeChild && (
+      {activeChild && !(hasApp && codeCardHidden) && (
         <div style={{
           display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
           background: hasApp ? 'var(--cream)' : 'var(--terracotta-lt)',
@@ -196,6 +233,20 @@ export default function ManageJobs() {
             label={hasApp ? 'Show the code again' : 'Scan on their phone'}
             style={{ flexShrink: 0 }}
           />
+          {hasApp && (
+            <button
+              type="button"
+              onClick={hideCodeCard}
+              aria-label="Hide this for a week"
+              title="Hide this for a week"
+              style={{
+                flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer',
+                padding: '4px 6px', fontSize: 17, lineHeight: 1, color: 'var(--ink-muted)',
+              }}
+            >
+              ✕
+            </button>
+          )}
         </div>
       )}
 
