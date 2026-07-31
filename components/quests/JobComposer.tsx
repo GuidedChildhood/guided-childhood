@@ -1,26 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
 
-// Write your own job, in one place.
+// Write your own job, one question at a time.
 //
-// This existed twice in QuestManager with identical behaviour: once in the add
-// panel (QuestManager.tsx:1252) and once under the ideas grid (1697). Same
-// addQuest call, same daily one star default, same 120 character cap, two
-// slightly different looks and two placeholders. Any change to what a written
-// job lands as had to be made in both, and the second one was already drifting:
-// different padding, different background, a mono label on one and a display
-// label on the other.
+// This existed twice in QuestManager with identical behaviour, read and wrote
+// the SAME state on the parent, and any change to what a written job lands as
+// had to be made in both. It is one component now, on both pages, and what a
+// written job becomes lives here: a job worth one star, repeating as chosen.
 //
-// Worse, both read and wrote the SAME customTitle state on the parent. Wherever
-// both were on screen at once, typing into one silently filled the other, and
-// adding from one cleared the box under the other. Giving the composer its own
-// state per instance ends that: two composers are now genuinely two boxes.
-//
-// What a written job lands as lives here now, in one place: a daily job worth
-// one star, which the parent can change on the job itself once it is in.
-
 // The four the API already accepts. Nothing new is invented here: schedule has
 // always been on family_quests and the composer simply never asked.
 export type Schedule = 'daily' | 'weekdays' | 'weekend' | 'once'
@@ -39,9 +28,9 @@ const WHEN: { key: Schedule; label: string }[] = [
 // clocks, they run on before school, after school and before bed, which is
 // exactly what the three reminder crons already fire on.
 //
-// Auto is the default and means what has always happened: work the band out
-// from the words in the title. A parent only overrides it when the guess is
-// wrong for their house.
+// Work it out means what has always happened: the band is read from the words
+// in the title. A parent only overrides it when the guess is wrong for their
+// house.
 const BANDS: { key: JobBand | 'auto'; label: string }[] = [
   { key: 'auto',         label: 'Work it out' },
   { key: 'morning',      label: 'Before school' },
@@ -49,19 +38,40 @@ const BANDS: { key: JobBand | 'auto'; label: string }[] = [
   { key: 'evening',      label: 'Before bed' },
 ]
 
-// When a job repeats, chosen as it is written.
+// One question at a time.
 //
-// Justin: "when we add a job from list it should give us a date or needs to be
-// done by, so easy to say today your room each morning this week, so repeats
-// each morning."
+// Justin, 31 July: "it should be first select the job or type which you have,
+// but then ask the question with options ... every week day, full week, once,
+// weekend, all as questions to user to select, then next question ... before
+// school after school before bed as all questions, then it shows added and
+// asks add more or click to see waiting for you."
 //
-// The behaviour he wanted already existed: every job landed as daily, which IS
-// each morning. What was missing was any way to SEE or CHOOSE it, so a parent
-// adding a one off tidy up had no idea it had just been set to repeat for ever,
-// and only found out when it came back the next day. A default nobody can see
-// is a default nobody agreed to.
+// Everything the wizard asks was already on the screen. The problem was that
+// it was ALL on the screen: a text box, four repeat chips and four band chips,
+// eight tappable things at once, none of them explaining which mattered or in
+// what order. A parent who only wanted to add "feed the cat" had to decide two
+// things they had no opinion about before the button meant anything.
 //
-// Every day stays the default, so nothing a parent does today changes.
+// Asked in turn, each question is one decision with an obvious next step, and
+// the answer to the previous one stays visible above it so nothing has been
+// silently decided. Same three values, same API call, same defaults. Only the
+// order is new.
+type Step = 'what' | 'often' | 'when' | 'added'
+
+const CHIP_BASE: React.CSSProperties = {
+  cursor: 'pointer', borderRadius: 100, padding: '9px 15px',
+  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+  color: 'var(--ink)',
+}
+const QUESTION: React.CSSProperties = {
+  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17,
+  color: 'var(--ink)', margin: '0 0 2px', lineHeight: 1.25,
+}
+const ASIDE: React.CSSProperties = {
+  fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700,
+  letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+}
+
 export default function JobComposer({
   onAdd,
   placeholder = 'Make your bed, feed the cat...',
@@ -69,6 +79,9 @@ export default function JobComposer({
   autoFocus = false,
   help,
   countToday,
+  pendingTitle = null,
+  onPendingUsed,
+  onSeeWaiting,
 }: {
   /**
    * Given the trimmed title and how often it should repeat. The caller still
@@ -90,17 +103,43 @@ export default function JobComposer({
    * the ninth is being typed rather than in a help page nobody opens.
    */
   countToday?: number
+  /**
+   * A title chosen outside this component, which starts the same questions.
+   *
+   * Tapping a suggestion used to add a job outright, so the ideas skipped every
+   * question the typed path asks and landed on whatever the template said. Two
+   * ways to add one job, and the quicker one asked nothing. A chip sets this
+   * instead and joins the queue at question two.
+   */
+  pendingTitle?: string | null
+  /** Called once the pending title has been taken, so the caller can clear it. */
+  onPendingUsed?: () => void
+  /** Offered after an add, when the caller has somewhere to send them. */
+  onSeeWaiting?: () => void
 }) {
+  const [step, setStep] = useState<Step>('what')
   const [title, setTitle] = useState('')
+  const [draft, setDraft] = useState('')
   const [when, setWhen] = useState<Schedule>('daily')
   const [band, setBand] = useState<JobBand | 'auto'>('auto')
-  // What has gone in since the panel opened, newest at the bottom.
-  //
-  // Adding several used to send each job somewhere below and out of view, so
-  // a parent lost their place and could not tell what had actually landed.
-  // Stacking them here, right above the box still holding focus, is what
-  // turns five adds into one action.
-  const [justAdded, setJustAdded] = useState<{ title: string; note: string }[]>([])
+  // The one just added, named back so a parent can see what landed before
+  // deciding whether to add another.
+  const [last, setLast] = useState<{ title: string; note: string } | null>(null)
+  // True once anything has been added, so the repeat and band answers can be
+  // offered as the same as last time rather than asked from cold.
+  const [addedBefore, setAddedBefore] = useState(false)
+
+  // A suggestion tapped outside joins at question two.
+  useEffect(() => {
+    const t = (pendingTitle ?? '').trim()
+    if (!t) return
+    setDraft(t)
+    setTitle('')
+    setStep('often')
+    onPendingUsed?.()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingTitle])
+
   const ready = title.trim().length > 0
 
   // Five is where a child's list stops reading as a plan and starts reading
@@ -108,122 +147,221 @@ export default function JobComposer({
   const COMFORTABLE = 5
   const many = typeof countToday === 'number' && countToday >= COMFORTABLE
 
-  const submit = () => {
-    if (!ready) return
-    const t = title.trim()
-    onAdd(t, when, band === 'auto' ? null : band)
-    setJustAdded(prev => [...prev, {
-      title: t,
-      note: `${WHEN.find(w => w.key === when)?.label ?? ''}${band === 'auto' ? '' : ` · ${BAND_LABEL[band]}`}`,
-    }])
+  function startWith(t: string) {
+    setDraft(t)
     setTitle('')
-    // Neither the schedule nor the band is reset. A parent adding three school
-    // day morning jobs picks both once, not three times, which is the whole
-    // reason adding several in a row feels like one action.
+    setStep('often')
   }
 
-  return (
-    <>
-      {justAdded.length > 0 && (
-        <div style={{ marginBottom: 10 }}>
-          {justAdded.map((j, i) => (
-            <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'baseline', padding: '6px 0' }}>
-              <span aria-hidden style={{ color: 'var(--green-dark)', fontWeight: 800, flexShrink: 0 }}>✓</span>
-              <span style={{ minWidth: 0 }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)' }}>{j.title}</span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 12.5, color: 'var(--ink-muted)', marginTop: 1 }}>{j.note}</span>
-              </span>
-            </div>
-          ))}
+  function finish(chosenBand: JobBand | 'auto') {
+    const t = draft.trim()
+    if (!t) { setStep('what'); return }
+    onAdd(t, when, chosenBand === 'auto' ? null : chosenBand)
+    setLast({
+      title: t,
+      note: `${WHEN.find(w => w.key === when)?.label ?? ''}${chosenBand === 'auto' ? '' : ` · ${BAND_LABEL[chosenBand]}`}`,
+    })
+    setAddedBefore(true)
+    setDraft('')
+    setStep('added')
+    // Neither the schedule nor the band is reset. A parent adding three school
+    // day morning jobs answers both once and taps straight past them after
+    // that, which is the whole reason adding several in a row feels like one
+    // action rather than three.
+  }
+
+  const chip = (on: boolean, accent: 'terracotta' | 'gold'): React.CSSProperties => ({
+    ...CHIP_BASE,
+    background: on ? `var(--${accent})` : '#fff',
+    border: `1.5px solid ${on ? `var(--${accent})` : 'var(--border)'}`,
+    boxShadow: on ? `0 3px 0 var(--${accent}-dark)` : 'none',
+  })
+
+  // ── 1. What is it? ────────────────────────────────────────────
+  if (step === 'what') {
+    return (
+      <>
+        <p style={QUESTION}>What is the job?</p>
+        <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
+          Type it, or tap one of the ideas below.
+        </p>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <input
+            autoFocus={autoFocus}
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter' && ready) startWith(title.trim()) }}
+            placeholder={placeholder}
+            // minWidth 0 so a long placeholder cannot push the button off a
+            // phone screen.
+            style={{
+              flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
+              border: '1.5px solid var(--border)',
+              background: tone === 'cream' ? 'var(--cream)' : '#fff',
+              fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none',
+            }}
+            maxLength={120}
+          />
+          <button
+            onClick={() => ready && startWith(title.trim())}
+            disabled={!ready}
+            style={{
+              flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+              borderRadius: '12px', padding: '12px 20px',
+              cursor: ready ? 'pointer' : 'default',
+              fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
+              boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: ready ? 1 : 0.5,
+            }}
+          >
+            Next
+          </button>
         </div>
-      )}
-      <div style={{ display: 'flex', gap: '8px' }}>
-        <input
-          autoFocus={autoFocus}
-          value={title}
-          onChange={e => setTitle(e.target.value)}
-          onKeyDown={e => { if (e.key === 'Enter') submit() }}
-          placeholder={placeholder}
-          // minWidth 0 so a long placeholder cannot push the Add button off a
-          // phone screen. The second copy of this was missing it.
-          style={{
-            flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
-            border: '1.5px solid var(--border)',
-            background: tone === 'cream' ? 'var(--cream)' : '#fff',
-            fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none',
-          }}
-          maxLength={120}
-        />
-        <button
-          onClick={submit}
-          disabled={!ready}
-          style={{
-            flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-            borderRadius: '12px', padding: '12px 20px',
-            cursor: ready ? 'pointer' : 'default',
-            fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
-            boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: ready ? 1 : 0.5,
-          }}
-        >
-          Add
-        </button>
-      </div>
-      {/* Wraps, because four labels do not fit one phone row. */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 9 }}>
-        {WHEN.map(w => {
-          const on = w.key === when
-          return (
+        {many && (
+          <p style={{ fontSize: '14px', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '9px 0 0', fontWeight: 600 }}>
+            That is {countToday} jobs today. Plenty of families run three or four and
+            find they get done. Add more if it suits you, this is only a nudge.
+          </p>
+        )}
+        {help && (
+          <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
+            {help}
+          </p>
+        )}
+      </>
+    )
+  }
+
+  // The job being built, kept on screen through both questions so nothing has
+  // been decided behind a parent's back, and so the answer to "which job is
+  // this about" is never more than a glance away.
+  const heading = (
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
+      <span style={ASIDE}>Adding</span>
+      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)' }}>
+        {draft}
+      </span>
+      <button
+        type="button"
+        onClick={() => { setStep('what'); setTitle(draft); setDraft('') }}
+        style={{
+          background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px',
+          fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
+          color: 'var(--terracotta)', letterSpacing: '0.04em',
+        }}
+      >
+        Change
+      </button>
+    </div>
+  )
+
+  // ── 2. How often? ─────────────────────────────────────────────
+  if (step === 'often') {
+    return (
+      <>
+        {heading}
+        <p style={QUESTION}>How often?</p>
+        {addedBefore && (
+          <p style={{ ...ASIDE, margin: '0 0 8px' }}>Same as last time is already picked</p>
+        )}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 8 }}>
+          {WHEN.map(w => (
             <button
               key={w.key}
               type="button"
-              onClick={() => setWhen(w.key)}
-              aria-pressed={on}
-              style={{
-                cursor: 'pointer', borderRadius: 100, padding: '7px 13px',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5,
-                background: on ? 'var(--terracotta)' : '#fff',
-                color: 'var(--ink)',
-                border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
-                boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
-              }}
+              aria-pressed={w.key === when}
+              onClick={() => { setWhen(w.key); setStep('when') }}
+              style={chip(w.key === when, 'terracotta')}
             >
               {w.label}
             </button>
-          )
-        })}
-      </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 7 }}>
-        {BANDS.map(b => {
-          const on = b.key === band
-          return (
+          ))}
+        </div>
+      </>
+    )
+  }
+
+  // ── 3. When in the day? ───────────────────────────────────────
+  if (step === 'when') {
+    return (
+      <>
+        {heading}
+        <p style={QUESTION}>When in the day?</p>
+        <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 8px' }}>
+          This is when the reminder lands. Work it out reads it from the words.
+        </p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+          {BANDS.map(b => (
             <button
               key={b.key}
               type="button"
-              onClick={() => setBand(b.key)}
-              aria-pressed={on}
-              style={{
-                cursor: 'pointer', borderRadius: 100, padding: '7px 13px',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5,
-                background: on ? 'var(--gold)' : '#fff',
-                color: 'var(--ink)',
-                border: `1.5px solid ${on ? 'var(--gold)' : 'var(--border)'}`,
-                boxShadow: on ? '0 3px 0 var(--gold-dark)' : 'none',
-              }}
+              aria-pressed={b.key === band}
+              onClick={() => { setBand(b.key); finish(b.key) }}
+              style={chip(b.key === band, 'gold')}
             >
               {b.label}
             </button>
-          )
-        })}
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={() => setStep('often')}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer', marginTop: 10, padding: '4px 2px',
+            fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700,
+            color: 'var(--ink-muted)', letterSpacing: '0.04em',
+          }}
+        >
+          ← How often
+        </button>
+      </>
+    )
+  }
+
+  // ── 4. Added ──────────────────────────────────────────────────
+  return (
+    <>
+      <div style={{ display: 'flex', gap: 9, alignItems: 'baseline', marginBottom: 12 }}>
+        <span aria-hidden style={{ color: 'var(--green-dark)', fontWeight: 800, flexShrink: 0 }}>✓</span>
+        <span style={{ minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', lineHeight: 1.25 }}>
+            {last?.title} is on the board
+          </span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 12.5, color: 'var(--ink-muted)', marginTop: 2 }}>
+            {last?.note}
+          </span>
+        </span>
+      </div>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <button
+          type="button"
+          onClick={() => { setStep('what'); setTitle('') }}
+          style={{
+            flex: 1, minWidth: 130, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+            borderRadius: 12, padding: '12px 16px', cursor: 'pointer',
+            fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 800,
+            boxShadow: '0 3px 0 var(--terracotta-dark)',
+          }}
+        >
+          Add another
+        </button>
+        {onSeeWaiting && (
+          <button
+            type="button"
+            onClick={onSeeWaiting}
+            style={{
+              flex: 1, minWidth: 130, background: '#fff', color: 'var(--ink)',
+              border: '1.5px solid var(--border)', borderRadius: 12, padding: '12px 16px',
+              cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
+            }}
+          >
+            See waiting for you
+          </button>
+        )}
       </div>
       {many && (
-        <p style={{ fontSize: '14px', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '9px 0 0', fontWeight: 600 }}>
+        <p style={{ fontSize: '14px', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '10px 0 0', fontWeight: 600 }}>
           That is {countToday} jobs today. Plenty of families run three or four and
           find they get done. Add more if it suits you, this is only a nudge.
-        </p>
-      )}
-      {help && (
-        <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
-          {help}
         </p>
       )}
     </>

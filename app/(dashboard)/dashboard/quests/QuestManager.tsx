@@ -1392,7 +1392,7 @@ export default function QuestManager() {
                   countToday={childQuests.length}
                   autoFocus={addOpenedByParent}
                   onAdd={(t, when, band) => addQuest({ title: t, emoji: '⭐', stars: 1, schedule: when, band })}
-                  help="Worth one star. Pick how often above, and change the stars or the exact days on the job itself once it is in."
+                  help="Worth one star. Next you will be asked how often and when in the day. The stars and the exact days can be changed on the job itself once it is in."
                 />
               </div>
             )}
