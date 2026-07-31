@@ -81,6 +81,11 @@ export default function QuestStatusBoard() {
     children: Child[]; quests: Quest[]; ticks: Tick[]; links: Link[]
   } | null>(null)
   const [active, setActive] = useState<BucketKey>('waiting')
+  // Whether the parent has picked a tile themselves. Until they do, the board
+  // picks the one with something in it rather than sitting on an empty pile.
+  const [touched, setTouched] = useState(false)
+  // The quiet board, opened by hand. Only reachable when nothing needs them.
+  const [openAnyway, setOpenAnyway] = useState(false)
 
   useEffect(() => {
     let alive = true
@@ -153,7 +158,66 @@ export default function QuestStatusBoard() {
   const nothingAtAll = (['waiting', 'sent', 'withyou', 'done'] as BucketKey[]).every(k => buckets[k].length === 0)
   if (nothingAtAll) return null
 
-  const rows = buckets[active]
+  // Nothing needs the parent when both piles that cost somebody something are
+  // empty. Sent and Done are information: a job on a child's app is not a task
+  // for the grown up, and a job already agreed is a receipt.
+  const needsYou = buckets.waiting.length + buckets.withyou.length
+
+  // The board defaults to Waiting on you, which is right when there IS one and
+  // wrong the rest of the time: with nothing waiting and three jobs sent, a
+  // parent met a selected tile reading 0 above a list that was empty by
+  // construction, under a heading offering to show them what is in it. The
+  // board now opens on a pile that has something in it, and respects the
+  // parent's own choice the moment they make one.
+  const best: BucketKey =
+    buckets.waiting.length ? 'waiting'
+    : buckets.withyou.length ? 'withyou'
+    : buckets.sent.length ? 'sent'
+    : 'done'
+  const shown = touched ? active : best
+  const rows = buckets[shown]
+
+  // Caught up, so say it in a line rather than a card.
+  //
+  // Justin, on opening Quests: can the top two be "smaller or more user
+  // friendly as we can see the tabs below". The screenshot behind that is this
+  // board reading 0, 3, 0, 0 and then "Nothing waiting on you. All caught up."
+  // Four tiles, a heading, a blurb and an empty list, all to report that
+  // nothing needs doing, sitting above the tiles a parent came for.
+  //
+  // Same lesson as the Rocket Money and Monarch setup lists pulled for the
+  // homepage: what is outstanding stays open, what is settled folds away. It
+  // is one line here, still tappable for the parent who does want the detail,
+  // because the information is real and only its size was wrong.
+  if (needsYou === 0 && !openAnyway) {
+    const onApp = buckets.sent.length
+    return (
+      <button
+        onClick={() => setOpenAnyway(true)}
+        style={{
+          width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+          background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
+          padding: '13px 16px', marginBottom: 18, cursor: 'pointer', textAlign: 'left',
+        }}
+      >
+        <span aria-hidden style={{ flexShrink: 0, fontSize: 17 }}>✓</span>
+        <span style={{ flex: 1, minWidth: 0, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.45 }}>
+          <strong>Nothing waiting on you.</strong>{' '}
+          <span style={{ color: 'var(--ink-soft)' }}>
+            {onApp > 0
+              ? `${onApp} job${onApp === 1 ? '' : 's'} on their app.`
+              : 'Every job is done.'}
+          </span>
+        </span>
+        {/* A chevron, not a word. "Where" alone was shorthand for the heading
+            this row replaces and read as a riddle without it, and the chevron
+            is what every other tappable row in this product already wears. */}
+        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink-light)' }}>
+          ›
+        </span>
+      </button>
+    )
+  }
 
   return (
     <div style={{
@@ -173,14 +237,14 @@ export default function QuestStatusBoard() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 7, marginBottom: 15 }}>
         {(['waiting', 'sent', 'withyou', 'done'] as BucketKey[]).map(k => {
           const n = buckets[k].length
-          const on = active === k
+          const on = shown === k
           // Only the waiting pile is ever urgent, because it is the only one
           // where somebody is out of pocket while it sits there.
           const urgent = k === 'waiting' && n > 0
           return (
             <button
               key={k}
-              onClick={() => setActive(k)}
+              onClick={() => { setTouched(true); setActive(k) }}
               aria-pressed={on}
               style={{
                 minWidth: 0, textAlign: 'left', cursor: 'pointer',
@@ -207,12 +271,12 @@ export default function QuestStatusBoard() {
       </div>
 
       <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
-        {BUCKET_BLURB[active]}
+        {BUCKET_BLURB[shown]}
       </p>
 
       {rows.length === 0 ? (
         <p style={{ fontSize: 15, color: 'var(--ink-muted)', lineHeight: 1.5, margin: 0, padding: '6px 0 2px' }}>
-          {EMPTY[active]}
+          {EMPTY[shown]}
         </p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
