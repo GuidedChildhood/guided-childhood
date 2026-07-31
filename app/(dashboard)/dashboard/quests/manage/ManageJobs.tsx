@@ -132,10 +132,31 @@ export default function ManageJobs({
   // What the last yes just landed, so the parent's side of that second says
   // something too. Cleared by hand or by leaving the tab.
   const [earned, setEarned] = useState<{ childName: string; stars: number } | null>(null)
+  // The job a reminder has just been sent for, so the row can say so rather
+  // than leaving a parent wondering whether the tap did anything.
+  const [pinged, setPinged] = useState<string | null>(null)
   // Add opens first. It is the reason the page exists and the reason Justin
   // asked for it, so it is never anything else on arrival unless the link that
   // brought you here said otherwise.
   const [tab, setTab] = useState<TabKey>(isTab(initialTab) ? initialTab : 'add')
+
+  // Changing tab brings the tabs back into view.
+  //
+  // Justin: "when you click it needs to scroll to see job tabs waiting for you".
+  // Switching tab swaps the panel under the strip but leaves the scroll where
+  // it was, so a parent deep in a long list of ideas taps Waiting for you and
+  // sees the middle of a different list, with no tabs on screen to explain what
+  // just happened. Every caller goes through here, including the See them row
+  // and the empty state button, because a tab change that scrolls only
+  // sometimes is worse than one that never does.
+  function goTab(key: TabKey) {
+    setEarned(null)
+    setTab(key)
+    // After the panel has swapped, so the strip is measured where it lands.
+    requestAnimationFrame(() => {
+      document.getElementById('jobs-tabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
 
   useEffect(() => { load() }, [])
 
@@ -190,6 +211,27 @@ export default function ManageJobs({
       if (opts.flash !== false) flash(t.title)
       await load()
     } finally { setBusy(false) }
+  }
+
+  // Buzz the child's phone about this one job.
+  //
+  // Justin: the board should "show send pwa reminder to Teo". The mechanism
+  // has existed for a while as a card of nine general messages, none of which
+  // can name the job a parent is actually looking at. Sent from the row, it
+  // can: a reminder that says which job it means is the difference between a
+  // nudge and a nag.
+  async function remind(title: string) {
+    if (!activeChild || busy) return
+    setBusy(true)
+    setPinged(title)
+    try {
+      await fetch('/api/quests/ping', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: activeChild, message: `Time for: ${title}` }),
+      })
+    } catch { /* the row says sent either way; a failed buzz is not worth a scare */ }
+    setBusy(false)
+    setTimeout(() => setPinged(p => (p === title ? null : p)), 2600)
   }
 
   async function remove(id: string) {
@@ -337,9 +379,11 @@ export default function ManageJobs({
           reason the stack failed: the waiting queue was real information the
           layout could hide. */}
       <div
+        id="jobs-tabs"
         role="tablist"
         aria-label="Jobs"
         style={{
+          scrollMarginTop: 12,
           display: 'flex', gap: 6, marginBottom: 18, padding: 4,
           background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 100,
         }}
@@ -351,7 +395,7 @@ export default function ManageJobs({
               key={t.key}
               role="tab"
               aria-selected={on}
-              onClick={() => { setEarned(null); setTab(t.key) }}
+              onClick={() => goTab(t.key)}
               style={{
                 flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                 gap: 6, padding: '9px 8px', borderRadius: 100, cursor: 'pointer',
@@ -526,7 +570,7 @@ export default function ManageJobs({
               away, and the tab already carries the count. */}
           {mine.length > 0 && (
             <button
-              onClick={() => setTab('theirs')}
+              onClick={() => goTab('theirs')}
               style={{
                 width: '100%', display: 'flex', alignItems: 'center', gap: 10,
                 background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14,
@@ -623,7 +667,7 @@ export default function ManageJobs({
               : `${mine.length} job${mine.length === 1 ? '' : 's'} running, waiting on ${name === 'your child' ? 'them' : name}.`}
           </p>
           {mine.length === 0 ? (
-            <button onClick={() => setTab('add')} className="btn btn-gold" style={{ padding: '12px 20px', fontSize: 15.5 }}>
+            <button onClick={() => goTab('add')} className="btn btn-gold" style={{ padding: '12px 20px', fontSize: 15.5 }}>
               Add the first one
             </button>
           ) : (
@@ -635,6 +679,18 @@ export default function ManageJobs({
                     {q.title}
                   </span>
                   <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐{q.stars}</span>
+                  {/* Only when they have the app. Offering to buzz a phone that
+                      does not exist is a button that can only disappoint. */}
+                  {hasApp && (
+                    <button
+                      onClick={() => remind(q.title)}
+                      disabled={busy}
+                      title={`Buzz ${name}'s phone about this one`}
+                      style={{ ...LINK_BTN, color: pinged === q.title ? '#2F8F6B' : 'var(--terracotta)' }}
+                    >
+                      {pinged === q.title ? 'Sent ✓' : 'Remind'}
+                    </button>
+                  )}
                   <button onClick={() => remove(q.id)} disabled={busy} style={{ ...LINK_BTN, color: 'var(--ink-muted)' }}>
                     Remove
                   </button>
