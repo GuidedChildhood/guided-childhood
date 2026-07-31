@@ -4502,3 +4502,40 @@ stay.
 Revisit only if the evidence base moves. If a body ever publishes a school age
 number above 120 the ceiling changes; until then 150 in August is our call,
 clearly marked as ours.
+
+---
+
+## 31 July 2026 — one way to agree a job, and the button is called Jobs for Teo
+
+Justin, on the Quests page: "we hsve one job waiting fir you but 3 ways to
+cubfurn it".
+
+He counted right. There were three routes to agreeing one job, and the two
+that looked most urgent were the two that did not agree anything.
+
+  Go and say yes    a button that scrolls you down the same page
+  Approve           the only one that agrees, one tap, no navigation
+  Add a job (red)   sends you to the manage page to agree there
+
+Decided, to build next session:
+
+1. Approve in place is the only way to agree. It costs least and it is already
+   on screen.
+2. Go and say yes stops being a button. What it points at is a few hundred
+   pixels below it, and a button whose whole job is to scroll you to another
+   button is the redundant path by definition.
+3. The red count moves off Add a job. Adding and agreeing are different things,
+   and a red count on Add reads as "you have jobs to add".
+4. The two buttons per child row collapse into one. "+ Add a job for Teo" and
+   "Manage" already go to the same page on different tabs, so one button
+   carrying the red count and landing on the add tab by default costs nothing:
+   adding stays one tap and the three tabs handle the rest.
+5. The button is called "Jobs for Teo". Justin's own phrasing was "manage
+   quests add chores and agree", right in substance and too long for a button.
+   Jobs for <name> covers adding and agreeing without pretending to be a menu.
+
+Checkable against the ref-status-board and ref-add-job fixtures already in the
+repo, so this does not need a live account to verify.
+
+Worth keeping as a rule: when one action has three entry points, the one to
+keep is the one that performs the action, not the ones that navigate toward it.
