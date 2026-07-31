@@ -195,3 +195,94 @@ Every future feature: one registry entry at ship time.
   sits behind Deployment Protection. Push notifications still deliver nothing
   because of it, and it also builds unsubscribe links, starter pack resolver
   links and every email button URL.
+
+---
+
+# The quests restructure (31 July, from Justin testing on Chrome)
+
+The single most important surface in the product, in his words: adding a child
+job or chore has to be effortless. It is not, and the reason is structural.
+
+## What is wrong now
+
+**Manage jobs is a tab, not a page.** The quests screen is one very long
+scrolling page with four tabs (manage, rewards, games, share) and manage is
+already the default. Tapping it scrolls half a screen and arrives nowhere,
+because you were already there. What you land on is two screens of idea chips,
+not the thing you came to do.
+
+**The screen time card takes the top of the page** and is not what a parent
+opened quests for.
+
+**Nothing shows what needs the parent.** Jobs waiting to be agreed are the one
+thing with a deadline attached and there is no count anywhere.
+
+## What Justin asked for
+
+Add a job opens its own page, with tabs:
+- Add a job, the new composer, easy
+- Jobs waiting for confirmation, the ones the child has ticked
+- Jobs waiting for the child to do
+
+Plus:
+- Manageable from the board, not only from inside the page
+- The screen time card smaller, off to one side, not competing with the main
+  quest page
+- A red count on the button, like a notification badge, when jobs need agreeing
+
+## Already built, do not rebuild
+
+Checked on 30 and 31 July:
+- Adding several in a row: the schedule and band are kept between adds
+- Repeats: every day, school days, weekends, just once
+- Bands: before school, after school, before bed, now chosen not guessed
+  (migration 133, band column, bandForQuest resolver)
+- Cancel: removeQuest, a button per job
+- schedule_days is an array, so "Tuesday only" is already storable
+- The soft guide at five jobs
+
+So the work is layout and navigation, not the job model. The model is done.
+
+## The reference
+
+Superlist, which Justin picked out himself:
+- https://mobbin.com/screens/56fef9c7-0c74-48e6-8072-929ff3d8ab52 quick add, chips under the input
+- https://mobbin.com/screens/9f3a195c-f97a-465c-b193-260d3a809b4b chip resolves in place, never leaves the card
+- https://mobbin.com/screens/ca834342-5966-435e-ad64-76121031a6a9 added items stack, keyboard stays up
+
+Grok for the live count beside the composer, Tiimo for the value pill per row.
+
+## Two smaller things found alongside
+
+**The star total reads as a runaway number.** "116 = 580 min of screen time
+left" does not separate banked holiday time from this week's allowance. The
+holiday bank is deliberate: stars above the weekly cap survive, spendable only
+while school is out, never expiring. In August that is the feature working, and
+it reads like a bug because the display does not say which is which.
+
+**Holiday jobs.** Justin: chores do not stop in the holidays, they change.
+Different jobs, and device limits loosening on purpose. Needs a holiday job set
+rather than the term time one, and it pairs with the holiday spotlight already
+written.
+
+## The printed passport button belongs on the passport
+
+Justin, 31 July: "maybe this button should be a smaller version in corner of
+actual passport?"
+
+Right, and it fixes something already found. "Have this passport printed" is
+currently a full card competing with the passport beside it, while PassportBook
+itself has no shop link anywhere. Checked on 31 July: once a page is stamped
+the celebration fires, the stamp slams, and then nothing. A parent who has just
+earned a stamp is the most likely person in the product to want the real
+booklet, and we say nothing to them.
+
+So: a small affordance in the corner of the passport itself, and drop the
+separate card. One change, two problems.
+
+Where it matters most is the moment after a stamp is newly earned. PassportBook
+already knows which pages are newly stamped, because that is what drives the
+stamp slam and the buzz, so the hook exists.
+
+Keep it quiet. A booklet offered the instant a child earns something has to
+read as an offer, never as the point of having earned it.
