@@ -266,7 +266,22 @@ export default function KidPath({
     if (s.type === 'character') return s.holdsQuiz ? quizClaimed : Boolean(foundMarks[`char_${s.character.key}`])
     return false
   }
-  const currentIndex = stones.findIndex(s => s.type !== 'finish' && s.type !== 'next' && !stoneDone(s))
+  // What may hold the trail up, and it is only what a child can clear alone.
+  //
+  // A printable cannot be. It needs a printer, a grown up to work it, a trip to
+  // the table and then a grown up again to confirm it, so it can sit un-done
+  // for days through nobody's fault. As a gate it parked the glow on the one
+  // stone in the trail a child has no way to finish, and greyed out everything
+  // below it: Justin's "there is one not able to do and goes onto next without
+  // filling that one". The chest already carried exactly this exemption, in
+  // those words, twenty lines up. A printable is the same shape and never got
+  // it. It still sits in the trail, still tappable, still pays its stars; it
+  // just cannot be the reason a child is stuck.
+  function gates(s: Stone): boolean {
+    return s.type !== 'finish' && s.type !== 'next' && s.type !== 'printable'
+  }
+
+  const currentIndex = stones.findIndex(s => gates(s) && !stoneDone(s))
   // The glow advances past a pending printable (the child did their part), but
   // the "path complete" celebration waits until nothing is still awaiting the
   // grown up, so it never claims "every stone done" while a "?" is on screen.
@@ -608,7 +623,10 @@ export default function KidPath({
             // coloured, and everything ahead of the glowing one greys out and
             // stops responding until the step before it is done. One clear
             // place to tap, never a wall of choices.
-            const locked = stone.type !== 'finish' && stone.type !== 'next' && currentIndex !== -1 && i > currentIndex && !stoneDone(stone)
+            // gates(), so a printable below the glow stays tappable rather than
+            // greyed. A stone that cannot hold the trail up must not be held up
+            // by it either, or it becomes unreachable for the opposite reason.
+            const locked = gates(stone) && currentIndex !== -1 && i > currentIndex && !stoneDone(stone)
             if (stone.type === 'start') {
               // The start cap is always behind the child, so it reads as done,
               // dimmed with a check, and never competes with the one glowing

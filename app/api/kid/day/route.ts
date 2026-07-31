@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { pickDay, dayComplete, ukToday, STEPS, type StepKey } from '@/lib/kid/five-a-day'
+import { grantDayMinutes, MINUTES_PER_COMPLETED_DAY } from '@/lib/quests/holiday-daily'
 
 // The child's five a day: read it, and mark a step done.
 //
@@ -124,13 +125,25 @@ export async function POST(request: NextRequest) {
 
   await link.admin.from('kid_links').update({ last_seen_at: new Date().toISOString() }).eq('token', token)
 
+  // Five minutes of holiday time for finishing the day, on the transition
+  // only. justCompleted below is the same condition, and it is the same
+  // condition on purpose: the reward and the celebration should be true
+  // together or not at all, so a child never sees one without the other.
+  const justCompleted = complete && !row.completed_at
+  if (justCompleted) {
+    await grantDayMinutes(link.admin, link.userId, link.childId, day)
+  }
+
   const streak = await streakCount(link.admin, link.childId)
   return NextResponse.json({
     ok: true,
     done,
+    // What the day just paid into the holiday bank, so the celebration can
+    // name it. Zero on any day that was already finished.
+    holidayMinutes: justCompleted ? MINUTES_PER_COMPLETED_DAY : 0,
     // justCompleted is what the celebration listens for. It is true only on the
     // transition, so a refresh of a finished day does not replay the takeover.
-    justCompleted: complete && !row.completed_at,
+    justCompleted,
     complete,
     streak,
   })

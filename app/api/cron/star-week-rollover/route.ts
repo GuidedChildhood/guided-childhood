@@ -71,7 +71,7 @@ async function handler(request: Request) {
   // Surplus banked towards the school holidays. Separate list, because a child
   // can have one, both or neither: unused time and extra work are different
   // things and a week that produced only one of them must still pay that one.
-  const holidayRows: { user_id: string; child_id: string; minutes: number; stars: number; week_start: string }[] = []
+  const holidayRows: { user_id: string; child_id: string; minutes: number; stars: number; week_start: string; source: string; on_date: string }[] = []
   const tellHoliday: { userId: string; childId: string; minutes: number }[] = []
 
   for (const [userId, list] of byParent) {
@@ -105,6 +105,12 @@ async function handler(request: Request) {
           minutes: bank.weekSurplus * STAR_MINUTES,
           stars: bank.weekSurplus,
           week_start: week,
+          // Both required by the key since migration 137. on_date is the
+          // Monday for a rollover, which is what makes "one rollover per child
+          // per week" the same guarantee it always was, now said in a way that
+          // leaves room for the daily grants beside it.
+          source: 'rollover',
+          on_date: week,
         })
         tellHoliday.push({ userId, childId: bank.child_id, minutes: bank.weekSurplus * STAR_MINUTES })
       }
@@ -137,9 +143,15 @@ async function handler(request: Request) {
 
   let holidayBanked = 0
   if (holidayRows.length > 0) {
+    // The conflict target moved with migration 137, and it HAS to move here in
+    // the same breath. The key is (child_id, source, on_date) now, because a
+    // child can have a rollover row and up to seven daily grant rows in one
+    // week. Left pointing at child_id,week_start this would raise "no unique
+    // constraint matching the ON CONFLICT specification" and quietly bank
+    // nobody, so the rows below set source and on_date and this names them.
     const { error } = await admin
       .from('holiday_allowance')
-      .upsert(holidayRows, { onConflict: 'child_id,week_start', ignoreDuplicates: true })
+      .upsert(holidayRows, { onConflict: 'child_id,source,on_date', ignoreDuplicates: true })
     // A failure here must not lose the sticker credits already written above,
     // so it is reported rather than thrown.
     if (!error) holidayBanked = holidayRows.length
