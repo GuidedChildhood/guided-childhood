@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, type QuestTemplate } from '@/lib/quests/templates'
 import ShareQrButton from '@/components/quests/ShareQrButton'
+import JobComposer from '@/components/quests/JobComposer'
+import type { JobBand } from '@/lib/quests/job-time'
 import SentToast from '@/components/ui/SentToast'
 
 // Add a job, on its own page, with the three jobs of this page split into
@@ -42,6 +44,14 @@ import SentToast from '@/components/ui/SentToast'
 // schedule and band persisting between adds, repeats, bands, cancel,
 // schedule_days and the soft guide at five jobs are all built and all correct.
 // This file is layout and navigation.
+//
+// Which is exactly why writing a job is JobComposer's job and not this file's.
+// Two sessions built either side of the same feature in parallel, and this page
+// had grown a plain input of its own that hardcoded every day and two stars
+// while the shared composer, wired only to the old QuestManager page, already
+// asked for the repeat, asked for the band, stacked what had just gone in and
+// said something at five jobs. So the page built for adding jobs was the one
+// that could not choose when a job repeated. One composer now, on both pages.
 
 type Child = { id: string; name: string }
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null }
@@ -115,7 +125,6 @@ export default function ManageJobs({
   const [activeChild, setActiveChild] = useState<string | null>(initialChild)
   const [loading, setLoading] = useState(true)
   const [busy, setBusy] = useState(false)
-  const [custom, setCustom] = useState('')
   // What the bottom confirmation is saying, null when nothing.
   const [justAdded, setJustAdded] = useState<string | null>(null)
   const [allIdeas, setAllIdeas] = useState(false)
@@ -154,7 +163,19 @@ export default function ManageJobs({
     setJustAdded(who ? `${title} sent to ${who}` : `${title} added`)
   }
 
-  async function add(t: { title: string; emoji: string; stars: number; schedule: string }) {
+  // band rides along now, because the composer asks for it. The API has
+  // accepted it since migration 133 and this page simply never sent one, so
+  // every job written here landed with the band guessed from its title even
+  // when the parent had said otherwise.
+  //
+  // `flash` is off for the composer, which keeps its own list of what it has
+  // just added right above the box. A toast as well would confirm the same add
+  // twice in two places. The chips below still flash, because they have no
+  // confirmation of their own.
+  async function add(
+    t: { title: string; emoji: string; stars: number; schedule: string; band?: JobBand | null },
+    opts: { flash?: boolean } = {},
+  ) {
     if (busy) return
     setBusy(true)
     try {
@@ -162,7 +183,7 @@ export default function ManageJobs({
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...t, child_id: activeChild }),
       })
-      flash(t.title)
+      if (opts.flash !== false) flash(t.title)
       await load()
     } finally { setBusy(false) }
   }
@@ -403,41 +424,39 @@ export default function ManageJobs({
           )}
 
           {/* The composer. It never moves and never closes.
-              The confirmation is a viewport toast pinned near the bottom, not a
-              slot above the input, so it reaches a parent wherever on this card
-              they tapped. The old slot fired off the top of the screen when the
-              tap came from a chip further down, which is what Justin saw: a job
-              that appeared to send nothing, so you tap again. */}
+
+              One composer, shared with the old QuestManager page rather than a
+              second one living here. This page had grown its own plain input
+              that hardcoded every day and two stars, so the same act, writing a
+              job, produced a different job depending on which screen a parent
+              happened to be on, and the whole point of choosing when a job
+              repeats was missing from the page built for adding jobs.
+
+              JobComposer brings what it already had: the repeat chips, the band
+              chips (before school, after school, before bed), the stack of what
+              has just gone in sitting right above the box that still has focus,
+              and the gentle word at five jobs. The schedule and the band both
+              persist between adds, which is what makes adding three school day
+              morning jobs one action rather than three. */}
           <section style={CARD}>
             <h2 style={H2}>Add a job</h2>
             <p style={SUB}>Tap one, or write your own. It stays open, so add as many as you want.</p>
 
-            <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
-              <input
-                className="input"
-                value={custom}
-                onChange={e => setCustom(e.target.value.slice(0, 80))}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' && custom.trim()) {
-                    add({ title: custom.trim(), emoji: '⭐', stars: 2, schedule: 'daily' })
-                    setCustom('')
-                  }
-                }}
-                placeholder="Write your own: feed the dog, violin"
-                style={{ flex: 1, minWidth: 260, fontSize: 16 }}
+            <div style={{ marginBottom: 14 }}>
+              <JobComposer
+                countToday={mine.length}
+                // Short, because the composer's input shares its row with the
+                // Add button and the old wording clipped to "Write your own:
+                // feed th" at 390 wide. The card heading directly above
+                // already says "write your own", so the placeholder only has
+                // to give the example.
+                placeholder="Feed the dog, violin"
+                onAdd={(t, when, band) => add(
+                  { title: t, emoji: '⭐', stars: 1, schedule: when, band },
+                  { flash: false },
+                )}
+                help="Worth one star. Pick how often above, and change the stars or the exact days on the job itself once it is in."
               />
-              <button
-                onClick={() => { if (custom.trim()) { add({ title: custom.trim(), emoji: '⭐', stars: 2, schedule: 'daily' }); setCustom('') } }}
-                disabled={busy || !custom.trim()}
-                className="btn btn-gold"
-                // Grows into whatever the row leaves it. On a phone the input
-                // takes the full width and this drops beneath it, where a
-                // small left aligned button reads as an orphan; letting it
-                // grow makes it the full width action it should be there.
-                style={{ flexGrow: 1, minWidth: 120, padding: '12px 20px', fontSize: 15.5, opacity: custom.trim() ? 1 : 0.5 }}
-              >
-                Add it
-              </button>
             </div>
 
             {/* Chips under the input, both rows of them, which is the Superlist
