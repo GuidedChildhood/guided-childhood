@@ -4232,3 +4232,36 @@ the original cartoon cast, renamed to Oliver, Zara and Sofia, then superseded by
 DiGi and the Planet Friends. The founding story uses the real children's names
 as real children. A guard rail is written into both the canon and the agent,
 because a parent told to look for Teo in the app will not find him.
+
+---
+
+## 30 July 2026 — the ping labels, and the tiles below the loop
+
+Two from the open list, both small and both the same shape: the page was leading
+with the wrong thing.
+
+**The ping buttons were clipped at 34 characters.** Only two of the nine messages
+tripped it, and they were exactly the two nobody can identify from their opening
+words: "Quest check! A few ticks and..." and "Dinner in 10 minutes, start...".
+Worse, the fix already in place was an aria-label carrying the full text, so a
+screen reader heard the real message while a sighted parent chose from a truncated
+one. That is the accessibility fix applied to the wrong half of the problem. These
+buttons SEND a message to a child's phone, so the label has to be the message.
+Unclipped, wrapping to a second line.
+
+**The tiles sat above the daily loop.** QuestShortcuts is navigation, and it led
+the Quests page, so the first thing a parent saw was always four places to go
+rather than the thing waiting for them. A parent with a job to approve scrolled
+past the way out to find the work. The tiles now sit under the loop, and the order
+runs the way a parent actually works: answer what is waiting, then choose where to
+go next. On a quiet day the cards above collapse to almost nothing and the tiles
+are first anyway, which is the right answer for that day too.
+
+Worth keeping: navigation above content is the default a page drifts into, because
+each card gets added at the top by whoever added it. It reads as helpful and it
+costs the parent the one thing they came for.
+
+Not done, and it needs Justin: firing /api/cron/device-guide-refresh and
+/api/cron/legal-watch by hand. There is no CRON_SECRET in this environment, only
+the template, so the request cannot be authorised from here. Vercel's dashboard
+runs both in two clicks.
