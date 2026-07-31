@@ -140,6 +140,12 @@ export default function ManageJobs({
   // meant the quicker of the two ways to add a job was the one that asked
   // nothing and took whatever the template said about repeating.
   const [pending, setPending] = useState<{ title: string; emoji: string; stars: number } | null>(null)
+  // Which question the composer is showing. The ideas below it are a way to
+  // START a job, so they belong on the first question and on the confirmation
+  // that offers another. While a question about the job in hand is open they
+  // are a way to lose it, so they go.
+  const [composerStep, setComposerStep] = useState<'what' | 'often' | 'when' | 'added'>('what')
+  const midQuestion = composerStep === 'often' || composerStep === 'when'
   // Add opens first. It is the reason the page exists and the reason Justin
   // asked for it, so it is never anything else on arrival unless the link that
   // brought you here said otherwise.
@@ -513,6 +519,7 @@ export default function ManageJobs({
                 pendingTitle={pending?.title ?? null}
                 onPendingUsed={() => { /* kept until the add, for its emoji and stars */ }}
                 onSeeWaiting={() => goTab('agree')}
+                onStep={setComposerStep}
                 // Short, because the composer's input shares its row with the
                 // Add button and the old wording clipped to "Write your own:
                 // feed th" at 390 wide. The card heading directly above
@@ -537,7 +544,7 @@ export default function ManageJobs({
                 56px each, so the suggestions alone ran most of a phone screen
                 and the board was pushed off the bottom of it. As chips the same
                 fourteen suggestions fit in the space the six rows took. */}
-            {myPrevious.length > 0 && (
+            {myPrevious.length > 0 && !midQuestion && (
               <>
                 <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 8px' }}>
                   You have used these before
@@ -557,6 +564,8 @@ export default function ManageJobs({
               </>
             )}
 
+            {!midQuestion && (
+            <>
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', margin: '0 0 8px' }}>
               Or tap an idea
             </p>
@@ -577,6 +586,8 @@ export default function ManageJobs({
               <button onClick={() => setAllIdeas(v => !v)} style={{ ...LINK_BTN, marginTop: 10 }}>
                 {allIdeas ? 'Show fewer' : `Show all ${ideas.length} ideas`}
               </button>
+            )}
+            </>
             )}
           </section>
 

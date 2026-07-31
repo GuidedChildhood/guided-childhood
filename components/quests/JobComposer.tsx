@@ -82,6 +82,7 @@ export default function JobComposer({
   pendingTitle = null,
   onPendingUsed,
   onSeeWaiting,
+  onStep,
 }: {
   /**
    * Given the trimmed title and how often it should repeat. The caller still
@@ -116,6 +117,17 @@ export default function JobComposer({
   onPendingUsed?: () => void
   /** Offered after an add, when the caller has somewhere to send them. */
   onSeeWaiting?: () => void
+  /**
+   * Which question is on screen, so the caller can get out of the way.
+   *
+   * The ideas grid lives outside this component, and it sat under every step:
+   * a parent halfway through saying how often "feed the cat" repeats had a
+   * wall of other jobs to tap underneath the question. Tapping one mid answer
+   * would swap the job out from under them. The caller hides it while a
+   * question is open and brings it back for what and added, where it is the
+   * point.
+   */
+  onStep?: (step: Step) => void
 }) {
   const [step, setStep] = useState<Step>('what')
   const [title, setTitle] = useState('')
@@ -128,6 +140,12 @@ export default function JobComposer({
   // True once anything has been added, so the repeat and band answers can be
   // offered as the same as last time rather than asked from cold.
   const [addedBefore, setAddedBefore] = useState(false)
+
+  // Tell the caller which question is showing, so it can hide the ideas grid
+  // while one is open. In an effect rather than at each setStep, because the
+  // step changes from five places and one of them is the pending title effect
+  // below, and a caller told from only four of them is a caller told wrong.
+  useEffect(() => { onStep?.(step) }, [step, onStep])
 
   // A suggestion tapped outside joins at question two.
   useEffect(() => {
