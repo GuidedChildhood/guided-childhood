@@ -26,10 +26,16 @@ const STAMPS: Stamp[] = [
     lessonsDone: 0, lessonsTotal: 6, scriptsPct: 0, streakPct: 0, devicesPct: 0, lessonsPct: 0 },
 ]
 
-export default function RefPassportBookPage() {
+// ?stage=2 opens straight onto Builder, which is what a parent arriving from
+// "See your passport fill" after a lesson gets. Without it the book rests on
+// its cover, which is right for browsing and is the default.
+export default async function RefPassportBookPage({
+  searchParams,
+}: { searchParams: Promise<{ stage?: string }> }) {
+  const { stage } = await searchParams
   return (
     <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 20px 48px' }}>
-      <PassportBook stamps={STAMPS} childName="Teo" />
+      <PassportBook openAtStage={stage ? Number(stage) : null} stamps={STAMPS} childName="Teo" />
     </div>
   )
 }

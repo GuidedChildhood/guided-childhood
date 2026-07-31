@@ -259,7 +259,16 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           {/* The passport itself, the hero of its own page at last. */}
           {passportStamps.length > 0 && (
             <div id="passport" style={{ scrollMarginTop: '84px', minWidth: 0 }}>
-              <PassportBook stamps={passportStamps} childName={primaryChild?.name ?? 'your child'} />
+              {/* Opens on the child's own stage. Landing on the cover is
+                  right when a parent came here to browse, and wrong when they
+                  came from "See your passport fill" after a lesson: the page
+                  that moved is theirs, and the ones either side read as rows
+                  of zeros because those stages are not. */}
+              <PassportBook
+                stamps={passportStamps}
+                childName={primaryChild?.name ?? 'your child'}
+                openAtStage={currentStageNum}
+              />
             </div>
           )}
         </div>
