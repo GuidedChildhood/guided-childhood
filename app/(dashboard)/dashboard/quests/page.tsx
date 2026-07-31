@@ -105,11 +105,6 @@ export default async function QuestsPage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
-      {/* The four places a parent actually goes from here, as flat coloured
-          tiles with real drawn icons. The pair of buttons that used to sit here
-          could only hold two of them, so the rest were buried down the page. */}
-      <QuestShortcuts status={boardStatus} />
-
       {/* The log a week card that used to sit here moved to the Printables page,
           under the star chart builder that makes the chart, so build, print and
           log the week live together. */}
@@ -173,6 +168,22 @@ export default async function QuestsPage() {
       {/* Printables the child finished at home, waiting on one tap to confirm
           and land the stars. */}
       <PrintablesToConfirm />
+
+      {/* The four places a parent goes from here, as flat coloured tiles with
+          real drawn icons.
+
+          Below the daily loop, not above it. These are NAVIGATION, and a parent
+          opening this page has usually come to answer something: a timer
+          request, a job waiting on a yes, a printable to confirm. Putting the
+          way out above the work meant the first thing on the page was always a
+          set of places to go instead of the thing that was waiting, and a parent
+          with something to approve had to scroll past four tiles to find it.
+
+          The order now runs the way a parent actually works: answer what is
+          waiting, then choose where to go next. When nothing is waiting the
+          cards above collapse to almost nothing and the tiles are the first
+          thing on the page anyway, which is the right answer for that day too. */}
+      <QuestShortcuts status={boardStatus} />
 
       {/* The in the moment star: seen kindness or a job done unasked, reward
           it right here and the reason pings the child's own app. */}

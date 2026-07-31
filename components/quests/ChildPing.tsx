@@ -62,18 +62,26 @@ export default function ChildPing({
           <button
             key={msg}
             onClick={() => onSend(msg)}
-            // The full line is the accessible name even when the visible label
-            // is clipped, so a parent using a screen reader hears what they are
-            // actually about to send.
             title={msg}
-            aria-label={msg}
             style={{
               background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
               padding: '9px 14px', cursor: 'pointer', fontFamily: 'var(--font-body)',
               fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)', textAlign: 'left',
+              // Wraps to a second line rather than being cut off. Long labels are
+              // the minority, so the row stays tidy either way.
+              maxWidth: '100%', whiteSpace: 'normal', lineHeight: 1.35,
             }}
           >
-            {msg.length > 34 ? msg.slice(0, 31) + '...' : msg}
+            {/* The whole message, never clipped.
+                It used to cut at 34 characters, and the two that tripped it are
+                exactly the two a parent cannot identify from the opening words:
+                "Quest check! A few ticks and..." and "Dinner in 10 minutes,
+                start...". The aria-label carried the full text, so a screen
+                reader heard the real message while a sighted parent chose from a
+                truncated one, which is the accessibility fix applied to the
+                wrong half of the problem. This is a button that SENDS a message
+                to a child's phone, so the label has to be the message. */}
+            {msg}
           </button>
         ))}
       </div>

@@ -4232,3 +4232,96 @@ the original cartoon cast, renamed to Oliver, Zara and Sofia, then superseded by
 DiGi and the Planet Friends. The founding story uses the real children's names
 as real children. A guard rail is written into both the canon and the agent,
 because a parent told to look for Teo in the app will not find him.
+
+---
+
+## 30 July 2026 — the ping labels, and the tiles below the loop
+
+Two from the open list, both small and both the same shape: the page was leading
+with the wrong thing.
+
+**The ping buttons were clipped at 34 characters.** Only two of the nine messages
+tripped it, and they were exactly the two nobody can identify from their opening
+words: "Quest check! A few ticks and..." and "Dinner in 10 minutes, start...".
+Worse, the fix already in place was an aria-label carrying the full text, so a
+screen reader heard the real message while a sighted parent chose from a truncated
+one. That is the accessibility fix applied to the wrong half of the problem. These
+buttons SEND a message to a child's phone, so the label has to be the message.
+Unclipped, wrapping to a second line.
+
+**The tiles sat above the daily loop.** QuestShortcuts is navigation, and it led
+the Quests page, so the first thing a parent saw was always four places to go
+rather than the thing waiting for them. A parent with a job to approve scrolled
+past the way out to find the work. The tiles now sit under the loop, and the order
+runs the way a parent actually works: answer what is waiting, then choose where to
+go next. On a quiet day the cards above collapse to almost nothing and the tiles
+are first anyway, which is the right answer for that day too.
+
+Worth keeping: navigation above content is the default a page drifts into, because
+each card gets added at the top by whoever added it. It reads as helpful and it
+costs the parent the one thing they came for.
+
+Not done, and it needs Justin: firing /api/cron/device-guide-refresh and
+/api/cron/legal-watch by hand. There is no CRON_SECRET in this environment, only
+the template, so the request cannot be authorised from here. Vercel's dashboard
+runs both in two clicks.
+
+---
+
+## 31 July 2026 — five a day on the child app, and what DiGi says while it thinks
+
+**The five a day.** Justin's design, built: one card, five one line rows, at the
+top of the child screen. Jobs first because a grown up is waiting on it, Ask for
+a job last because the day should end with a child offering to do something
+rather than consuming something. Two of the five rotate from a pool of six so the
+day is not identical, seeded by child and date so a refresh cannot reshuffle a
+half finished day.
+
+Modelled on Duolingo's Daily Quests panel, which is the proven shape. Measured:
+the card is about 500px at 390 wide, so five rows genuinely fit one screen. That
+is what solves "no need to scroll", and it is worth saying plainly that tabs
+never were the fix for it.
+
+Three things deliberately left out, all of them things Duolingo does:
+
+- **No countdown.** A clock on a child's chores turns a habit into an exam, and
+  the ICO Children's Code names engineered urgency directly.
+- **No loss language.** Nothing says a streak is at risk. It shows the run when
+  there is one and is silent when there is not.
+- **No share button.** A child's streak is not marketing.
+
+**Step 4 completes by being READ.** Justin's wording was exact: "when pressed
+will check if balance of jobs and device is good." So it is a mirror, not a task.
+A child cannot be asked to hit a number they do not control, and scoring them on
+one would make the balance something they can fail.
+
+**The offline steps are taken on trust.** Reading, homework and moving about are
+marked done by the child with no grown up approval. Putting a verification gate
+on going outside would make the offline encouragement into another thing to be
+checked on, which defeats it.
+
+**kid_days is a row per child per day** because a streak has to be provable
+against what a child was actually SHOWN, and nothing else records the shape of a
+day. streak_awarded is separate from completed_at so a reward retry cannot double
+count.
+
+## And DiGi's thinking lines
+
+Justin: "we did have some message from DiGi whilst it was thinking, giving
+parents an idea what was happening ... your feedback counts and helps DiGi learn."
+
+It existed (ThinkingReassurance, five rotating lines) and said only research and
+guardrails. It missed the two things that actually separate this from a chatbot:
+what other families found, and what THIS family has told us. Both are real and
+both are already in the same prompt, concatenated at app/api/digi/route.ts line
+407 as aggregateWisdom, expertKnowledge and familyMemory.
+
+Four lines added, each checked against the code rather than written to sound
+good, because a reassurance that overclaims is worse than none:
+
+- "other families" is rebuildWisdom, reading resolved concerns, scripts marked as
+  worked, and parent feedback across accounts.
+- "never who they are" is literally true: child_id and user_id are read only to
+  join an age band and never sent onward.
+- "your feedback goes back in" is true because digi_feedback is one of
+  rebuildWisdom's three sources.
