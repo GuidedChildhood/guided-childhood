@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import QuestManager from './QuestManager'
 import QuestBoard from '@/components/quests/QuestBoard'
-import ParentDeviceTime from '@/components/quests/ParentDeviceTime'
 import NoPhoneButton from '@/components/quests/NoPhoneButton'
 import SpotSomethingGood from '@/components/quests/SpotSomethingGood'
 import PrintablesToConfirm from '@/components/quests/PrintablesToConfirm'
@@ -109,22 +108,6 @@ export default async function QuestsPage() {
           under the star chart builder that makes the chart, so build, print and
           log the week live together. */}
 
-      {/* The screen time card used to open this page, full width, and it was
-          the wrong thing to meet first.
-
-          It is the whole grant control: a device picker, a minute stepper,
-          three ways to pay for it, the daily guide bar and the week's
-          breakdown. That is a screen and a half before a parent reaches
-          anything that was waiting on them, and a parent opening Quests has
-          usually come to answer a job rather than to start a timer. Justin, 31
-          July: smaller, "off to one side, not competing at the top".
-
-          So it moved below the board and shrank. What it does NOT do is go
-          away: a child asking for time is still answered in place and a running
-          timer still keeps its live countdown, because both have somebody
-          waiting at the other end. Only the idle case reduces to a name and a
-          balance, and the full control is one tap away on its own page. */}
-
       {handoverName && (
         <Link href="/dashboard/quests?tab=share" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
           <div style={{
@@ -174,11 +157,19 @@ export default async function QuestsPage() {
         <QuestBoard />
       </div>
 
-      {/* Now the screen time card, small and to one side. Below the approve
-          queue, because agreeing a job the child has already done is the thing
-          with a person waiting on it; above the navigation tiles, because it is
-          still part of today rather than a place to go. */}
-      <ParentDeviceTime userId={user?.id} compact />
+      {/* Screen time is not on this page at all now.
+
+          Making it small and moving it down was not enough. Justin, 31 July:
+          the timer "should be one of those tabs, not taking up quest main page
+          space". He is right, and the tile grid below is where the page keeps
+          the things you go TO. Screen time already had a page of its own at
+          /dashboard/quests/timer and no tile pointing at it, which is why a
+          card kept having to sit on this page to make it reachable at all.
+
+          It has a tile now, and the tile carries the live state: a child asking
+          for time, or a timer running. That is the only part of screen time
+          this page ever genuinely needed to say out loud, and a badge says it
+          in a line rather than in a screen and a half. */}
 
       {/* Printables the child finished at home, waiting on one tap to confirm
           and land the stars. */}

@@ -30,8 +30,15 @@ type Tile = {
   iconColor: string
   /** Reads the live status into the badge, or null for a tile with no state. */
   badge?: (s: BoardStatus) => string | null
-  /** Notification red, for the one count with a person waiting behind it. */
-  badgeTone?: 'quiet' | 'alert'
+  /**
+   * Notification red, for a count with a person waiting behind it.
+   *
+   * A function where one tile's badge can be either. The screen timer says
+   * two different things: a child asking is a question waiting on an answer
+   * and goes red, a timer merely running is worth knowing and is not a job to
+   * do, so it stays quiet. Same tile, same badge slot, two different weights.
+   */
+  badgeTone?: 'quiet' | 'alert' | ((s: BoardStatus) => 'quiet' | 'alert')
 }
 
 const TILES: Tile[] = [
@@ -57,6 +64,31 @@ const TILES: Tile[] = [
     // red is already saying what kind of thing it is.
     badge: s => s.ticksToConfirm > 0 ? `${s.ticksToConfirm}` : null,
     badgeTone: 'alert',
+  },
+  {
+    // Screen time, as a place you go rather than a card on the board.
+    //
+    // The timer has had its own page for a while and no tile pointing at it,
+    // which is why a card kept having to sit on the Quests page to make it
+    // reachable: first full width at the very top, then smaller and further
+    // down, and neither was right. Justin, 31 July: it "should be one of those
+    // tabs, not taking up quest main page space".
+    //
+    // The badge carries the only part a parent needs from the board itself. An
+    // ask goes red, because a child has asked a person a question and cannot
+    // start until it is answered, which is the same test the jobs tile passes.
+    // A running timer is worth saying and is not a job to do, so it stays
+    // quiet, and an idle house says nothing at all.
+    href: '/dashboard/quests/timer', label: 'Screen timer', sub: 'Start it, and watch it together',
+    // 'time', not 'star': the star chart tile two along already draws a star,
+    // and two tiles wearing the same mark read as the same place.
+    icon: 'time', bg: 'var(--tint-blue)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#2E6F8E',
+    badge: s => s.timeAsks > 0
+      ? `${s.timeAsks} asking`
+      : s.timersRunning > 0
+        ? `${s.timersRunning} running`
+        : null,
+    badgeTone: s => s.timeAsks > 0 ? 'alert' : 'quiet',
   },
   {
     // The star chart is the starter pack, the one printable every family uses,
@@ -139,7 +171,7 @@ export default function QuestShortcuts({ status }: { status?: BoardStatus }) {
       href: t.href, label: t.label, sub: t.sub,
       icon: <KidIcon name={t.icon} size={23} />,
       bg: t.bg, accent: ACCENT[t.bg] ?? 'var(--border)', iconColor: t.iconColor,
-      ...(badge ? { badge, badgeTone: t.badgeTone ?? 'quiet' } : {}),
+      ...(badge ? { badge, badgeTone: typeof t.badgeTone === 'function' ? t.badgeTone(status!) : (t.badgeTone ?? 'quiet') } : {}),
     }
   })
   return <SectionTiles tiles={tiles} />
