@@ -2331,6 +2331,7 @@ export default function KidQuestScreen({
       {streakWon !== null && (
         <KidStreakTakeover
           streak={streakWon}
+          completedStreaks={completedStreaks}
           childName={childName}
           onClose={() => setStreakWon(null)}
         />

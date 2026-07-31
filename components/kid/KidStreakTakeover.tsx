@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { STREAKS_PER_REWARD } from '@/lib/quests/star-week'
+import { STREAKS_PER_FRIEND, streaksToNextFriend } from '@/lib/pathway/streak-unlock'
 
 // All five done. The full screen moment.
 //
@@ -24,10 +24,25 @@ import { STREAKS_PER_REWARD } from '@/lib/quests/star-week'
 
 export default function KidStreakTakeover({
   streak,
+  completedStreaks,
   childName,
   onClose,
 }: {
+  /** The run ending today, for the week of dots. Resets on a missed day. */
   streak: number
+  /**
+   * The cumulative count the Friends are actually bought with, which only ever
+   * goes up. The Friend line has to come from THIS and not from the run.
+   *
+   * It used to read the run against STREAKS_PER_REWARD, a five from the star
+   * week rules, while the unlock has always granted a Friend every four. So the
+   * takeover promised a friend on a number that was not the unlocking number,
+   * and promised it off a count that resets. A child who missed a Tuesday was
+   * being told, in the middle of a celebration, that the family had moved
+   * further away. Nothing about a missed day takes anything away, and this is
+   * the one screen where saying otherwise would land hardest.
+   */
+  completedStreaks: number
   childName?: string
   onClose: () => void
 }) {
@@ -52,8 +67,8 @@ export default function KidStreakTakeover({
     }
   })
 
-  const toReward = STREAKS_PER_REWARD - (streak % STREAKS_PER_REWARD)
-  const earnedFriend = streak > 0 && streak % STREAKS_PER_REWARD === 0
+  const toReward = streaksToNextFriend(completedStreaks)
+  const earnedFriend = completedStreaks > 0 && completedStreaks % STREAKS_PER_FRIEND === 0
 
   return (
     <div
@@ -112,7 +127,7 @@ export default function KidStreakTakeover({
 
       <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 6px', maxWidth: '340px', fontWeight: 600 }}>
         {earnedFriend
-          ? `That is ${STREAKS_PER_REWARD} in a row${childName ? `, ${childName}` : ''}. A new friend is on the way to your sticker book.`
+          ? `That is ${STREAKS_PER_FRIEND} streaks${childName ? `, ${childName}` : ''}. A new friend is on the way to your sticker book.`
           : `All five done${childName ? `, ${childName}` : ''}. Every one of them.`}
       </p>
       {!earnedFriend && (
