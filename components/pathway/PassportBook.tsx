@@ -51,14 +51,32 @@ const CELEBRATED_KEY = 'gc_passport_celebrated'
 export default function PassportBook({
   stamps,
   childName,
+  openAtStage = null,
 }: {
   stamps: Stamp[]
   childName: string
+  /**
+   * Open straight onto this stage's page rather than the cover.
+   *
+   * Set when a parent arrives from somewhere that has already told them their
+   * passport moved, "See your passport fill" after a lesson above all. Landing
+   * on the cover after that sentence means flipping blind to find the page it
+   * meant, and the pages either side of the child's own read as rows of zeros
+   * because those stages are not theirs. Justin did exactly that, landed on
+   * Foundation, saw "0 of 13" and reasonably concluded the passport was not
+   * updating. It was, one page over.
+   */
+  openAtStage?: number | null
 }) {
   // Page 0 is the cover; pages 1..5 are the stages. The book rests on its
   // cover and never opens itself: the parent taps to open each page, the way
-  // Justin asked for, so the cover is a real front door.
-  const [page, setPage] = useState(0)
+  // Justin asked for, so the cover is a real front door. Unless a caller has
+  // named a stage, in which case the front door has already been walked
+  // through somewhere else.
+  const openIndex = openAtStage
+    ? Math.max(0, stamps.findIndex(s => s.id === openAtStage)) + 1
+    : 0
+  const [page, setPage] = useState(openIndex)
   const [flipping, setFlipping] = useState<'next' | 'prev' | null>(null)
   const [drawn, setDrawn] = useState(false)
   const [celebrating, setCelebrating] = useState<Stamp | null>(null)
@@ -451,7 +469,7 @@ export default function PassportBook({
             colour. */}
         <Link
           href="/dashboard/keepsakes#p-passport_printed"
-          title="Have this passport printed"
+          title="Order the printed passport and its stickers"
           style={{
             position: 'absolute', right: 10, bottom: 10, zIndex: 3,
             display: 'inline-flex', alignItems: 'center', gap: 5,
@@ -462,8 +480,14 @@ export default function PassportBook({
             letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink)',
           }}
         >
+          {/* "Order", not "Print it". Justin: "should say order your passport
+              and stickers here". Print it reads like a browser command, as
+              though the parent is about to send this page to a printer in the
+              next room and get it on A4. What is actually on the other side of
+              this is a real bound booklet with its sticker sheet, posted, and
+              the word for that is order. */}
           <span aria-hidden style={{ fontSize: 13, lineHeight: 1 }}>🛂</span>
-          Print it
+          Order it
         </Link>
       </div>
 

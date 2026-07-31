@@ -172,7 +172,18 @@ export async function buildPassportSections(
       {
         key: 'lessons', emoji: '📚', label: 'Lessons and tests',
         pct: prog.lessonsPct,
-        detail: prog.lessonsTotal > 0 ? `${prog.lessonsDone} of ${prog.lessonsTotal}` : 'None yet',
+        // "Ahead" on a stage the child has not reached, the same as devices
+        // and the same idea as Later on the three below.
+        //
+        // This was the one row of the five that showed a live looking count on
+        // every page of the book. So a stage years away read "0 of 13" while
+        // its four neighbours read Later and Ahead, and 0 of 13 does not say
+        // "not yours yet", it says "you have done none of yours". Justin
+        // arrived on a page that was not his child's, saw that line, and
+        // concluded the passport was not updating. Every other row on that
+        // page was already telling him it was not his page.
+        detail: !reached ? 'Ahead'
+          : prog.lessonsTotal > 0 ? `${prog.lessonsDone} of ${prog.lessonsTotal}` : 'None yet',
         href: `/dashboard/lessons?stage=${id}`,
         help: 'Watch or lead each lesson for this stage, then pass its check. A failed run does not count, so it can be retaken.',
       },
