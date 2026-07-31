@@ -300,6 +300,28 @@ export default function PushPrompt({ userId, stage }: Props) {
     }
   }
 
+  // Never ask for this on a computer.
+  //
+  // Justin, on Chrome on a laptop: "can we make the pwa reminder not appear if
+  // it is not fixable on laptop but other devices."
+  //
+  // The right rule is stronger than fixability. The alarm's whole purpose is
+  // reaching a parent when they are NOT at the screen, and a banner on a laptop
+  // that may well be shut does not do that. This is a phone feature, and asking
+  // for it on a desktop is asking a parent to turn on something that will
+  // barely work and then wondering why they distrust it when it does not.
+  //
+  // Anyone who has already turned it on here keeps the controls below, because
+  // that is a setting they went looking for rather than a nag. An installed
+  // desktop app also keeps them: adding it to the Dock or the taskbar is a
+  // deliberate act and those notifications do behave.
+  // Gated on whether this device actually holds a subscription, not on the
+  // permission. The card Justin photographed fires in the state where Chrome
+  // has said granted but nothing is registered here, so a check on status
+  // alone would have sailed straight past the very card he was pointing at.
+  const desktopTab = surface === 'desktop-tab' || surface === 'desktop-safari-tab'
+  if (desktopTab && thisDevice !== true) return null
+
   // Granted AND actually subscribed on the server.
   //
   // The browser saying granted is not the same as us holding a subscription for
@@ -378,7 +400,8 @@ export default function PushPrompt({ userId, stage }: Props) {
   // is a control a parent came looking for, not a nag.
   if (hidden) return null
 
-  // On somewhere else, and NOT here.
+  // On somewhere else, and NOT here. Never on a desktop tab: see the note
+  // above, this is a phone feature and that card is the nag it produces.
   //
   // This branch used to end with "Nothing more to do." It was the whole reason
   // Justin's pings never arrived. Push is per device, so a parent subscribed on
