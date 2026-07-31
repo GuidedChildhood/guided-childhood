@@ -369,8 +369,12 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 }
 @media (min-width: 900px) {
   .pathway-hero {
-    grid-template-columns: minmax(0, 1fr) 340px;
-    gap: 40px;
+    /* 300 rather than 340, and a tighter gap, because the hero now shares the
+       page's 720 column instead of running 130px wider than everything below
+       it. At 680 of content that leaves the copy a workable measure beside the
+       passport rather than squeezing it to a ribbon. */
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 28px;
   }
 }
 

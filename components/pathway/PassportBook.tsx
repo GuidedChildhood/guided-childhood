@@ -553,13 +553,19 @@ export default function PassportBook({
           parent who would like a copy they can hold, and they should not have
           to find the shop and then find the product inside it, so the link
           names the passport and lands on it. */}
+      {/* Top aligned, not centre.
+          In a narrow column the heading wraps to two lines and the body runs to
+          three or four, and centring against that left the icon floating in the
+          middle of the card with nothing beside it. Aligning to the top puts the
+          icon next to the words it labels. The chevron stays centred, which is
+          what a row chevron should do. */}
       <Link href="/dashboard/keepsakes#p-passport_printed" style={{
-        display: 'flex', alignItems: 'center', gap: '14px', textDecoration: 'none',
+        display: 'flex', alignItems: 'flex-start', gap: '14px', textDecoration: 'none',
         background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
         borderRadius: '16px', padding: '16px 18px', margin: '18px 0 0',
         boxShadow: '0 5px 0 var(--terracotta)',
       }}>
-        <span style={{ fontSize: '34px', lineHeight: 1 }} aria-hidden>🛂</span>
+        <span style={{ fontSize: '34px', lineHeight: 1, marginTop: '1px' }} aria-hidden>🛂</span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
             Have this passport printed
