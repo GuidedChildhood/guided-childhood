@@ -38,8 +38,13 @@ const PRINTABLES: PathPrintable[] = [
 // trail must not grey out below a stone a child cannot finish alone.
 export default async function RefKidPathPage({
   searchParams,
-}: { searchParams: Promise<{ claimed?: string }> }) {
-  const { claimed } = await searchParams
+}: { searchParams: Promise<{ claimed?: string; jobs?: string }> }) {
+  const { claimed, jobs } = await searchParams
+  // none: a day with no jobs set, where the bar and the Today marker must both
+  // stay silent rather than reading zero of zero. done: every job finished.
+  const shown = jobs === 'none' ? [] : jobs === 'done'
+    ? SORTED.map(j => ({ ...j, state: 'done' as const }))
+    : SORTED
   return (
     <KidPath
       token="ref"
@@ -48,7 +53,7 @@ export default async function RefKidPathPage({
       stageName="Builder"
       ages="8 to 10"
       stamp="🛡️"
-      jobs={SORTED}
+      jobs={shown}
       lessons={LESSONS}
       games={GAMES}
       printables={PRINTABLES}

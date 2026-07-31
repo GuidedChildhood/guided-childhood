@@ -33,6 +33,21 @@ export type PathJob = {
 // (pending -> confirmed), which lands the stars.
 export type PathPrintable = { key: string; title: string; emoji: string; stars: number; sheetUrl: string; status: 'todo' | 'pending' | 'confirmed' }
 
+// The two section markers on the trail. A quiet rule with a mono label in the
+// middle, which is the design system's eyebrow treatment, so they read as
+// signposts on the road and never compete with a stone.
+const SECTION_MARK: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', gap: 10, padding: '2px 4px 10px',
+}
+const SECTION_LINE: React.CSSProperties = {
+  flex: 1, height: 0, borderTop: '1.5px dashed rgba(26,26,46,0.16)',
+}
+const SECTION_TEXT: React.CSSProperties = {
+  fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700,
+  letterSpacing: '0.12em', textTransform: 'uppercase',
+  color: 'var(--terracotta-dark)', whiteSpace: 'nowrap',
+}
+
 type Stone =
   | { type: 'start' }
   | { type: 'job'; job: PathJob }
@@ -147,12 +162,33 @@ export default function KidPath({
   // The trail opens with a start circle, so the journey visibly begins at one
   // clear round marker rather than dropping straight into the first job.
   const stones: Stone[] = [{ type: 'start' }]
+  // Where today ends and the longer road begins.
+  //
+  // Justin: "the pathway on Childs app is not clear for how much each day".
+  // It was not, and there was nothing in here that could have made it clear:
+  // the trail is one unbroken run from the first job to the stamp, and a child
+  // scrolling it has no way to tell which stones are theirs to finish today
+  // and which are the months ahead. It reads as an endless list of homework.
+  //
+  // The boundary already exists in the data and was simply never drawn. The
+  // jobs on this page are TODAY'S jobs, filtered by schedule for this very
+  // day. The lessons are the stage, which is a term's work. So the cut is the
+  // moment the first lesson stone lands, and everything woven among the jobs
+  // before it, the chest, an early tip, a character, belongs to today too.
+  //
+  // Marked as an index rather than a field on every stone, because Stone is a
+  // discriminated union of nine shapes and threading a section through all of
+  // them would touch every branch of the render to say one thing about order.
+  let onwardFrom = -1
   let charIdx = 0
   let gameIdx = 0
   let printIdx = 0
   let tipIdx = 0
   let readingPlaced = false
   baseStones.forEach((s, i) => {
+    // The first stone that is no longer today's. Recorded before the push, so
+    // the marker sits above the lesson rather than below it.
+    if (i === jobs.length && onwardFrom < 0) onwardFrom = stones.length
     stones.push(s)
     if (i === 0) stones.push({ type: 'chest' })
     // DiGi's tips land early and mid trail, so the child meets a nudge or two
@@ -180,6 +216,11 @@ export default function KidPath({
       readingPlaced = true
     }
   })
+  // No lessons left in the stage, so nothing above ever tripped the marker.
+  // Everything from here down is the leftovers and the stamp, which is the
+  // road onward by definition.
+  if (onwardFrom < 0) onwardFrom = stones.length
+
   // A short trail still gets its finds.
   while (charIdx < Math.min(2, PATH_CHARACTERS.length)) {
     stones.push({
@@ -266,6 +307,13 @@ export default function KidPath({
     if (s.type === 'character') return s.holdsQuiz ? quizClaimed : Boolean(foundMarks[`char_${s.character.key}`])
     return false
   }
+  // How much of today is behind them. A job counts once the child has done
+  // their part, waiting on the grown up included, because from where they are
+  // standing that job IS finished and telling them otherwise would make the
+  // count feel stuck through no fault of theirs.
+  const jobsDoneToday = jobs.filter(j => j.state !== 'todo').length
+  const todayAllDone = jobs.length > 0 && jobsDoneToday === jobs.length
+
   // What may hold the trail up, and it is only what a child can clear alone.
   //
   // A printable cannot be. It needs a printer, a grown up to work it, a trip to
@@ -342,10 +390,22 @@ export default function KidPath({
 
   // Trail progress counts every stone the same way the glow does, passes
   // leaping double, so the bar and the path can never disagree.
-  const unitOf = (s: Stone) => (s.type === 'finish' || s.type === 'start' || s.type === 'next') ? 0 : s.type === 'lesson' ? (s.lesson.locked ? 0 : 2) : 1
-  const totalUnits = stones.reduce((sum, s) => sum + unitOf(s), 0)
-  const doneUnits = stones.reduce((sum, s) => sum + (stoneDone(s) ? unitOf(s) : 0), 0)
-  const childFrac = totalUnits > 0 ? Math.min(1, doneUnits / totalUnits) : 0
+  // One number for today, and this bar reports it.
+  //
+  // It counted every stone on the trail and called the total "today's path":
+  // every lesson in the stage, every leftover printable, the lot. A child with
+  // four jobs was told they were 3 of 12 through their day, and the bar sat a
+  // quarter full on a day they had nearly finished. That is the one place on
+  // the screen putting a number on Justin's "not clear how much each day", and
+  // it was putting the wrong one.
+  //
+  // Scoping it to today's STONES was the first fix and it was not enough: the
+  // bar then said 8 while the marker on the trail said 4, which is two numbers
+  // for today on one screen and exactly the seam that made 163 stars and 116
+  // stars sit on two parent screens this morning. It counts jobs, the same
+  // jobs the marker counts, because a child asking how much is left today
+  // means the things they have been asked to do.
+  const childFrac = jobs.length > 0 ? Math.min(1, jobsDoneToday / jobs.length) : 0
 
   // The whole path done pays, once a day: a big celebration and three bonus
   // stars, checked server side against the jobs and the chest so it stays a
@@ -594,16 +654,22 @@ export default function KidPath({
             </div>
           )}
 
-          {/* Today's trail progress, the Duolingo way: one bar filling as
-              jobs, passes and finds land through the day. */}
+          {/* Today's progress, the Duolingo way: one bar filling as the day's
+              jobs land. Silent on a day with no jobs, because a bar that can
+              only ever read zero of zero is not progress, it is a reproach for
+              something the child was never asked to do. */}
+          {jobs.length > 0 && (
           <div style={{ marginTop: 12 }}>
             <div style={{ height: 10, borderRadius: 100, background: 'rgba(26,26,46,0.10)', overflow: 'hidden' }}>
               <div style={{ height: '100%', width: `${Math.round(childFrac * 100)}%`, borderRadius: 100, background: 'var(--terracotta)', transition: 'width 0.5s ease' }} />
             </div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--ink-muted)', marginTop: 5 }}>
-              {doneUnits} of {totalUnits} along today&apos;s path
+              {todayAllDone
+                ? 'All your jobs done today ⭐'
+                : `${jobsDoneToday} of ${jobs.length} jobs done today`}
             </div>
           </div>
+          )}
         </div>
 
         {toast && (
@@ -798,6 +864,32 @@ export default function KidPath({
 
             return (
               <div key={i}>
+                {/* Two markers, drawn into the trail rather than above it, so a
+                    child scrolling meets them in the order they walk. The first
+                    says how much today is and how much of it is left; the
+                    second says the rest is not owed today. */}
+                {i === 1 && jobs.length > 0 && (
+                  <div style={SECTION_MARK}>
+                    <span style={SECTION_LINE} />
+                    <span style={SECTION_TEXT}>
+                      Today · {jobsDoneToday} of {jobs.length}
+                    </span>
+                    <span style={SECTION_LINE} />
+                  </div>
+                )}
+                {/* Only when there was a today to be after. On a day with no
+                    jobs set the whole trail is the road onward, and "after
+                    today" above the first stone of it says a boundary was
+                    crossed that never existed. */}
+                {i === onwardFrom && jobs.length > 0 && (
+                  <div style={{ ...SECTION_MARK, marginTop: 18 }}>
+                    <span style={SECTION_LINE} />
+                    <span style={{ ...SECTION_TEXT, color: 'var(--ink-muted)' }}>
+                      {todayAllDone ? 'Today is done · keep going if you like' : 'After today · no rush'}
+                    </span>
+                    <span style={SECTION_LINE} />
+                  </div>
+                )}
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <div ref={isCurrent ? currentRef : undefined} aria-disabled={locked || undefined} style={{
                     display: 'flex', flexDirection: 'column', alignItems: 'center',
