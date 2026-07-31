@@ -3,7 +3,9 @@ import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand, type StarterAnswers } from '@/lib/content/stages'
-import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
+import { recommendedDailyMinutes, termTimeDailyMinutes, bucketDailyGuide } from '@/lib/quests/screen-balance'
+import { holidayOn } from '@/lib/learning/holidays'
+import { BUCKET_META, BUCKET_ORDER } from '@/lib/balance/parent-report'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { trialEndsFromNow } from '@/lib/access'
 import Celebration from '@/components/ui/Celebration'
@@ -182,17 +184,56 @@ export default function OnboardingPage() {
   const nameInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    async function init() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { router.push('/login'); return }
+    // Two separate faults lived in here, and both hit Justin on 31 July on an
+    // account whose profiles row says onboarding_complete = true.
+    //
+    // ONE: the profile read destructured only `data`. When that read failed
+    // rather than returned, `profile` was null, `profile?.onboarding_complete`
+    // was undefined, the guard fell through, and a family who finished setup
+    // three weeks ago was walked through it again. This is the same shape as
+    // the trial_ends_at outage and the crons that replied 200 while doing
+    // nothing: a failed read treated as a definite answer. The answer to "did
+    // this parent finish onboarding" is yes, no, or WE DO NOT KNOW, and the
+    // third one must never be spent as a no. Being asked to set up an account
+    // that already exists is the single most alarming thing this app can do to
+    // someone, because the obvious reading is that their family is gone.
+    //
+    // TWO: nothing caught a throw. `screen` starts at 'init', which renders a
+    // bare spinner, and `setScreen('welcome')` is the last line of this
+    // function. Any rejection above it, a dropped connection mid request, an
+    // auth call that never settles, and the function dies silently leaving a
+    // white screen and a spinner that turns for ever. That is the frozen page
+    // Justin photographed. A finally block cannot fix a promise that never
+    // settles, so there is a deadline as well.
+    let done = false
+    const goDashboard = () => { if (!done) { done = true; router.replace('/dashboard') } }
 
-      const { data: profile } = await supabase
+    // A read that never comes back is a hang, and a hang here is a white
+    // screen. Eight seconds is far longer than this ever legitimately takes.
+    const deadline = setTimeout(goDashboard, 8000)
+
+    async function init() {
+      const { data: { user }, error: authError } = await supabase.auth.getUser()
+      // Only a POSITIVE no user sends them to login. An auth call that errored
+      // does not know whether they are signed in, and signing out a signed in
+      // parent is its own version of this same bug.
+      if (authError) { goDashboard(); return }
+      if (!user) { done = true; router.push('/login'); return }
+
+      const { data: profile, error: profileError } = await supabase
         .from('profiles').select('onboarding_complete').eq('id', user.id).maybeSingle()
 
-      // Already onboarded: send them to the dashboard. The dashboard only
-      // bounces back here when it positively knows onboarding is not done, so
-      // this can no longer ping pong into the continuous flashing loop.
-      if (profile?.onboarding_complete) { router.push('/dashboard'); return }
+      // Could not read it: assume finished and go to the dashboard.
+      //
+      // Safe in both directions, which is why this is the right default. The
+      // dashboard is null tolerant and only bounces back here when it
+      // POSITIVELY knows onboarding is false, so a genuinely new parent caught
+      // by a blip lands on the dashboard and gets sent straight back the moment
+      // a read succeeds. Nothing ping pongs, and nobody is ever shown a setup
+      // wizard for an account that is already set up.
+      if (profileError) { goDashboard(); return }
+
+      if (profile?.onboarding_complete) { goDashboard(); return }
 
       try {
         // The child's first name is captured at the start of the pathway now,
@@ -222,9 +263,16 @@ export default function OnboardingPage() {
         .then((d: FounderSpots) => setFounderSpots(d))
         .catch(() => setFounderSpots({ remaining: 50, sold_out: false }))
 
-      setScreen('welcome')
+      if (!done) { done = true; setScreen('welcome') }
     }
-    init()
+
+    // Anything that throws on the way lands here rather than leaving the
+    // spinner turning. The dashboard is the safe end for the same reason as
+    // above: it renders for anybody and returns them here only when it knows
+    // for certain that they still need it.
+    init().catch(goDashboard)
+
+    return () => clearTimeout(deadline)
   }, [router])
 
   useEffect(() => {
@@ -484,12 +532,23 @@ export default function OnboardingPage() {
                 counts against and never offers past. */}
             {(() => {
               const rec = recommendedDailyMinutes(ageBand)
+              const term = termTimeDailyMinutes(ageBand)
+              const holiday = holidayOn(new Date())
+              // Both, or it is not true. rec is holiday adjusted, so in August
+              // this said "recommended for this age is 95" when the age figure
+              // is 75 and the extra twenty is our own holiday slack. Naming
+              // only the relaxed one credits our decision to the research, and
+              // leaves September looking like an unexplained cut.
+              const relaxed = !!holiday && rec > term
               const val = dailyLimit ?? rec
+              const split = bucketDailyGuide(ageBand)
               return (
                 <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 15px', marginBottom: '18px' }}>
                   <label style={{ ...lbl, marginBottom: 6 }}>Daily screen time</label>
                   <p style={{ fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
-                    Recommended for this age is <strong style={{ color: 'var(--ink)' }}>{rec} minutes a day</strong>. This is what {firstName || 'their'} app counts against and never goes past. You can change it any time.
+                    Recommended for this age is <strong style={{ color: 'var(--ink)' }}>{term} minutes a day</strong>
+                    {relaxed && <>, relaxed to <strong style={{ color: 'var(--ink)' }}>{rec}</strong> for {holiday!.title}</>}
+                    . This is what {firstName || 'their'} app counts against and never goes past. You can change it any time.
                   </p>
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
                     <input
@@ -506,6 +565,47 @@ export default function OnboardingPage() {
                       </button>
                     )}
                   </div>
+
+                  {/* What the number actually is, folded.
+                      Justin: the setup has to be true about this, because one
+                      daily total reads as a single pot and the product does not
+                      work that way. It splits per device type, the split shifts
+                      with age, and a computer even gets asked what it is being
+                      used for. Saying none of that here makes the app look like
+                      a stopwatch.
+
+                      Folded rather than laid out, because he also said it
+                      should not load a wall of detail onto a setup step. A
+                      parent who wants the answer taps once. The same shape and
+                      the same words as the balance report's own breakdown, so
+                      the promise made here is the screen they meet later. */}
+                  <details style={{ marginTop: 12 }}>
+                    <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+                      How this splits across devices ›
+                    </summary>
+                    <ul style={{ margin: '9px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      {BUCKET_ORDER.map(b => {
+                        const mins = split[b]
+                        return (
+                          <li key={b} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 14, color: 'var(--ink-soft)', lineHeight: 1.4 }}>
+                            <span aria-hidden style={{ flexShrink: 0 }}>{BUCKET_META[b].emoji}</span>
+                            <span style={{ flex: 1, minWidth: 0 }}>{BUCKET_META[b].label}</span>
+                            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: mins > 0 ? 'var(--ink)' : 'var(--ink-muted)' }}>
+                              {/* Zero is the loudest line here, not a gap to
+                                  fill. At the younger ages the phone and social
+                                  share is deliberately none, and a parent
+                                  reading "0 min" would reasonably think we
+                                  simply had no figure. */}
+                              {mins > 0 ? `${mins} min` : 'none at this age'}
+                            </span>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                    <p style={{ fontSize: 12.5, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '9px 0 0' }}>
+                      A TV counts as watching and a console as gaming. A computer could be any of these, so the app asks {firstName || 'them'} what they are doing on it and counts it to the right one. Creating and learning is the one we want to see grow, never a cap.
+                    </p>
+                  </details>
                 </div>
               )
             })()}
