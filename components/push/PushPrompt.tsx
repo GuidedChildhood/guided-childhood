@@ -22,6 +22,41 @@ function sameBytes(a: Uint8Array, b: Uint8Array) {
   return true
 }
 
+
+// What this device can actually show, as opposed to what it will accept.
+//
+// A push can be accepted by the push service, delivered, and then displayed by
+// nobody, and the laptop is where that happens. Two causes, and neither raises
+// an error anywhere we can see:
+//
+//   Safari shows web push only for a site added to the Dock. In an ordinary
+//   tab a parent can grant permission, subscribe, send a test and get a
+//   cheerful "sent", with nothing ever appearing. Apple has worked this way
+//   since Safari 16.4.
+//
+//   Every desktop browser sits behind the operating system's own notification
+//   switch and its Do Not Disturb, either of which swallows the banner in
+//   silence.
+//
+// Phones do not have this problem, which is the reassuring half of the message
+// and worth saying out loud: a parent who cannot make the laptop work should
+// know their phone is fine rather than assume the feature is broken.
+type PushSurface = 'phone' | 'desktop-installed' | 'desktop-safari-tab' | 'desktop-tab'
+
+function pushSurface(): PushSurface {
+  if (typeof window === 'undefined') return 'phone'
+  const ua = navigator.userAgent
+  const phone = /Android|iPhone|iPad|iPod/i.test(ua)
+  if (phone) return 'phone'
+  const installed = window.matchMedia?.('(display-mode: standalone)')?.matches
+    || (window.navigator as { standalone?: boolean }).standalone === true
+  if (installed) return 'desktop-installed'
+  // Chrome and Edge both carry Safari in their UA, so they have to be ruled
+  // out before the Safari test means anything.
+  const safari = /Safari/i.test(ua) && !/Chrome|Chromium|Edg|OPR/i.test(ua)
+  return safari ? 'desktop-safari-tab' : 'desktop-tab'
+}
+
 // Dismissed by hand. The big card is an important step, not a permanent
 // fixture, and a parent who has read it and decided not now should not be told
 // again every single visit on every single page it renders on.
@@ -58,6 +93,10 @@ export default function PushPrompt({ userId, stage }: Props) {
   // than at every device on the account.
   const [endpoint, setEndpoint] = useState<string | null>(null)
   const [hidden, setHidden] = useState(false)
+  // Read once on the client. Doing it in render would differ between the
+  // server pass and the browser and hydrate wrong.
+  const [surface, setSurface] = useState<PushSurface>('phone')
+  useEffect(() => { setSurface(pushSurface()) }, [])
 
   useEffect(() => {
     try {
@@ -114,9 +153,18 @@ export default function PushPrompt({ userId, stage }: Props) {
         body: JSON.stringify(aimed ? { endpoint: aimed } : {}),
       })
       const data = await res.json()
-      if (data.sent > 0) setTestResult(aimed
-        ? 'Sent to this device. It should appear within seconds.'
-        : 'Sent to every device you have turned this on for. It should appear within seconds.')
+      if (data.sent > 0) setTestResult(
+        // Accepted by the push service is not the same as shown to a person,
+        // and on these two surfaces it usually is not. Saying "it should
+        // appear within seconds" for something that cannot appear is the
+        // false success this whole card exists to avoid.
+        surface === 'desktop-safari-tab'
+          ? 'Sent, but Safari only shows these once Guided Childhood is added to your Dock. Use File then Add to Dock, open it from there, and it will work. On your phone it already works with no extra step.'
+          : surface === 'desktop-tab'
+            ? 'Sent. If nothing appears, your computer is holding it back rather than us: check notifications are allowed for this browser in your system settings, and that Do Not Disturb is off. On your phone it works with no extra step.'
+            : aimed
+              ? 'Sent to this device. It should appear within seconds.'
+              : 'Sent to every device you have turned this on for. It should appear within seconds.')
       else if (data.reason) setTestResult(data.scope === 'device'
         ? 'This device is not turned on yet, so nothing was sent to it. Tap Turn on check ins here.'
         : 'No subscription found for this account on any device yet. Tap Turn on check ins first, inside the installed app.')
@@ -252,6 +300,28 @@ export default function PushPrompt({ userId, stage }: Props) {
     }
   }
 
+  // Never ask for this on a computer.
+  //
+  // Justin, on Chrome on a laptop: "can we make the pwa reminder not appear if
+  // it is not fixable on laptop but other devices."
+  //
+  // The right rule is stronger than fixability. The alarm's whole purpose is
+  // reaching a parent when they are NOT at the screen, and a banner on a laptop
+  // that may well be shut does not do that. This is a phone feature, and asking
+  // for it on a desktop is asking a parent to turn on something that will
+  // barely work and then wondering why they distrust it when it does not.
+  //
+  // Anyone who has already turned it on here keeps the controls below, because
+  // that is a setting they went looking for rather than a nag. An installed
+  // desktop app also keeps them: adding it to the Dock or the taskbar is a
+  // deliberate act and those notifications do behave.
+  // Gated on whether this device actually holds a subscription, not on the
+  // permission. The card Justin photographed fires in the state where Chrome
+  // has said granted but nothing is registered here, so a check on status
+  // alone would have sailed straight past the very card he was pointing at.
+  const desktopTab = surface === 'desktop-tab' || surface === 'desktop-safari-tab'
+  if (desktopTab && thisDevice !== true) return null
+
   // Granted AND actually subscribed on the server.
   //
   // The browser saying granted is not the same as us holding a subscription for
@@ -286,6 +356,25 @@ export default function PushPrompt({ userId, stage }: Props) {
           </button>
         </div>
         <NudgeSlots />
+        {/* Said before the test rather than after it fails, so a parent on a
+            laptop knows what to expect and, more importantly, knows their
+            phone is fine. Nothing shown on a phone: there is nothing to
+            explain there and a warning would only invent a worry. */}
+        {surface === 'desktop-safari-tab' && (
+          <p style={{ margin: '10px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            On your phone these work with no extra step. Safari on a Mac is the
+            exception: it only shows them once Guided Childhood is added to your
+            Dock, with File then Add to Dock. Open it from the Dock and test again.
+          </p>
+        )}
+        {surface === 'desktop-tab' && (
+          <p style={{ margin: '10px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            On your phone these work with no extra step. On a computer they also
+            need notifications allowed for this browser in your system settings,
+            and Do Not Disturb switched off, or the message arrives and is never
+            shown.
+          </p>
+        )}
         {testResult && (
           <p style={{ margin: '10px 0 0', fontSize: '.78rem', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
             {testResult}
@@ -311,7 +400,8 @@ export default function PushPrompt({ userId, stage }: Props) {
   // is a control a parent came looking for, not a nag.
   if (hidden) return null
 
-  // On somewhere else, and NOT here.
+  // On somewhere else, and NOT here. Never on a desktop tab: see the note
+  // above, this is a phone feature and that card is the nag it produces.
   //
   // This branch used to end with "Nothing more to do." It was the whole reason
   // Justin's pings never arrived. Push is per device, so a parent subscribed on

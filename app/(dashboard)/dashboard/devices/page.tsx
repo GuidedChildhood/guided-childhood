@@ -14,7 +14,23 @@ const STAGE_MAP: Record<string, { id: string; label: string }> = {
   '16+':   { id: 'independent', label: 'Independent · Ages 16 and above' },
 }
 
-export default async function DevicesPage() {
+export default async function DevicesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ from?: string }>
+}) {
+  // Where the parent came from, so the way out goes back there.
+  //
+  // This page is reached from Home, the passport and DiGi, and the exit always
+  // said Home whichever door was used. A parent working through the passport
+  // tapped "Set up the devices", did it, pressed the only way back and landed
+  // somewhere they had not been, with their place in the passport lost.
+  //
+  // Read from the link rather than the referrer: a referrer is stripped by
+  // enough browsers and privacy settings that the back button would silently
+  // change meaning depending on the reader's setup.
+  const { from } = await searchParams
+  const cameFromPassport = from === 'passport'
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -60,8 +76,8 @@ export default async function DevicesPage() {
           had no exit of its own, so a parent who scrolled the whole hub was
           left to the browser's back button or the tab bar. Same pattern as the
           phone setup page and the lesson pages. */}
-      <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: '18px' }}>
-        ← Home
+      <Link href={cameFromPassport ? '/dashboard/pathway' : '/dashboard'} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: '18px' }}>
+        ← {cameFromPassport ? 'Passport' : 'Home'}
       </Link>
 
       <div style={{ marginBottom: '20px' }}>
