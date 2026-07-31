@@ -51,6 +51,15 @@ export type BoardStatus = {
    * query is silence rather than a nag at a family who have it on the fridge.
    */
   starChartPrinted: boolean
+  /**
+   * A child asking for screen time right now, waiting on a yes.
+   *
+   * This one earns the loud badge for the same reason a ticked job does: a
+   * child has asked a person a question and cannot start until it is answered.
+   */
+  timeAsks: number
+  /** Timers running right now, so the tile can say so rather than stay blank. */
+  timersRunning: number
 }
 
 const EMPTY: BoardStatus = {
@@ -60,6 +69,8 @@ const EMPTY: BoardStatus = {
   agreementSigned: true,
   starsToSpend: 0,
   starChartPrinted: true,
+  timeAsks: 0,
+  timersRunning: 0,
 }
 
 /**
@@ -81,7 +92,8 @@ export async function getBoardStatus(
   // not one per tile.
   const kidsPromise = supabase.from('children').select('id').eq('user_id', userId)
 
-  const [ticks, sheets, school, agreement, kids, chartPrints] = await Promise.all([
+  const nowIso = new Date().toISOString()
+  const [ticks, sheets, school, agreement, kids, chartPrints, timeAsks, timers] = await Promise.all([
     supabase.from('quest_ticks').select('id', { count: 'exact', head: true })
       .eq('user_id', userId).eq('status', 'pending'),
     supabase.from('printable_completions').select('id', { count: 'exact', head: true })
@@ -91,6 +103,14 @@ export async function getBoardStatus(
     supabase.from('family_agreements').select('id').eq('user_id', userId).limit(1),
     kidsPromise,
     supabase.from('star_chart_prints').select('id').eq('user_id', userId).limit(1),
+    // Asks go stale: the child's own screen drops a request after twelve hours
+    // rather than leaving a parent answering yesterday's question, so the badge
+    // counts the same window the answer screen does.
+    supabase.from('device_requests').select('id', { count: 'exact', head: true })
+      .eq('user_id', userId).eq('status', 'pending')
+      .gte('created_at', new Date(Date.now() - 12 * 3600000).toISOString()),
+    supabase.from('device_sessions').select('id', { count: 'exact', head: true })
+      .eq('user_id', userId).eq('status', 'active').gt('ends_at', nowIso),
   ])
 
   // Fails soft like the rest: a bank that cannot be read shows no badge rather
@@ -113,5 +133,7 @@ export async function getBoardStatus(
     schoolOpen: school.error ? 0 : (school.count ?? 0),
     // Unknown reads as signed, so a failure is silence rather than a nag.
     agreementSigned: agreement.error ? true : (agreement.data?.length ?? 0) > 0,
+    timeAsks: timeAsks.error ? 0 : (timeAsks.count ?? 0),
+    timersRunning: timers.error ? 0 : (timers.count ?? 0),
   }
 }
