@@ -7,7 +7,7 @@ Status at 31 July 2026: neither is done.
 
 ---
 
-## 1. Point NEXT_PUBLIC_APP_URL at the real domain
+## 1. Point NEXT_PUBLIC_APP_URL somewhere the cron can actually reach
 
 ### What is wrong
 
@@ -23,26 +23,76 @@ unset it falls back to the protected host, every send 401s, and the route still
 replies 200 with the failure tucked inside the body. Nobody has received a push
 check in.
 
-### The value to set
+This is not one route's problem. There are 36 of these self calls across 30
+files, every one of them reaching code that sits in the same deployment by
+going out to the public internet and coming back.
+
+### Do NOT set this to the real domain yet
+
+The first version of this note said to set it to `https://www.guidedchildhood.com`.
+That is wrong while the app is not live there, and JP caught it. Pointing the
+variable at www only helps if www serves THIS app. Until go live it serves the
+old site, so the self call gets a 404 instead of a 401. Still no pushes, just a
+different line in the log.
+
+Written down because it is a tempting mistake: the variable is named for the
+app URL, so the real domain looks like the obviously correct value, and setting
+it early makes things quietly worse rather than loudly broken.
+
+### The value to set instead, today
+
+The project's stable production alias:
+
+    NEXT_PUBLIC_APP_URL = https://<project>.vercel.app
+
+Read the exact alias off Settings then Domains rather than guessing it. It is
+the short stable one, not the long `git-<branch>-<hash>` preview host.
+
+This works because Vercel's Standard Protection covers preview deployments and
+the per deployment hash hosts, which is precisely what Cron gets invoked on, and
+does NOT cover the project's production alias. So the alias is reachable today
+with no go live and no DNS change.
+
+No trailing slash, whichever value you use. The code builds paths as
+`${origin}/api/push/send`, so a trailing slash produces a double slash and a 404.
+
+At go live this becomes a one line edit to the real domain.
+
+### What the real domain will be, when the time comes
 
     NEXT_PUBLIC_APP_URL = https://www.guidedchildhood.com
 
-No trailing slash. The code builds paths as `${origin}/api/push/send`, so a
-trailing slash produces a double slash and a 404.
+Checked by DNS on 31 July: `www.guidedchildhood.com` resolves to Vercel
+(`vercel-dns-017.com`) and the apex resolves to a Vercel address.
+`app.guidedchildhood.com` does not resolve, which confirms the 17 July decision
+in go-live-domains.md (app on the main domain, not on a subdomain) is the one
+that was actually carried out. Confirm www is serving this app before switching.
 
-Checked on 31 July: `www.guidedchildhood.com` resolves to Vercel
-(`vercel-dns-017.com`) and the apex resolves to a Vercel address, so the domain
-is already attached. `app.guidedchildhood.com` does not resolve, which confirms
-the 17 July decision in go-live-domains.md (app on the main domain, not on a
-subdomain) is the one that was actually carried out.
+### The better fix, which retires this variable entirely
+
+Lift the body of `/api/push/send` into `lib/push/send.ts` and have the 30 files
+call it directly instead of over HTTP. The route stays as a thin wrapper for
+anything outside the deployment.
+
+`/api/push/send` is already a pure function of its JSON body
+(`title`, `body`, `url`, `userId`, `audience`, `slot`, `urgent`), so this is a
+mechanical change rather than a redesign.
+
+Worth doing because it removes the whole class of fault rather than the current
+instance of it. An in process call cannot 401, cannot 404, does not care which
+domain the app is on, does not depend on an environment variable being right,
+and does not break again the next time somebody changes a protection setting.
+It is also faster, since every one of those 36 calls is currently a network
+round trip to reach a function in the same process.
 
 ### Steps
 
 1. Vercel dashboard, open the project that owns `www.guidedchildhood.com`.
    There are two projects, `guided-childhood` and `guided-childhood-app`, and
    both build this repo. Settings then Domains tells you which one holds the
-   real domain. Set the variable on that one, because that is the project whose
-   crons are the live ones.
+   real domain, and gives you that project's stable `.vercel.app` alias at the
+   same time. Set the variable on that project, because that is the one whose
+   crons are the live ones, and use its alias as the value.
 2. Settings, Environment Variables, add `NEXT_PUBLIC_APP_URL` with the value
    above. Tick Production. Tick Preview and Development too if you want preview
    builds to behave the same, though it is not required.
@@ -64,10 +114,16 @@ The push cron only sends inside a ten minute window around 7:30am, 3:30pm and
   protected deployment.
 - Or open `/dashboard/admin/health` and look at the row for `/api/push/cron`.
 
+Verified against `cron_runs` on 31 July at 15:24 London: `/api/push/cron` ran
+`ok false` on every run up to 11:30 and `ok true` from 12:01 onward, which is
+the London fix reaching production. 38 failures in seven days, all of them
+before noon today. The next run that actually attempts a send rather than
+skipping is the 3:30pm window, and it will still 401 until this variable is set.
+
 ### Order matters, and the risky part is already done
 
-Do not do this before the London time fix is on main. That fix has merged, so
-it is now safe.
+Do not do this before the London time fix is on main. That fix has merged and is
+live, confirmed by the run data above, so it is now safe.
 
 The reason: the route used to read the hour off an Invalid Date, so the distance
 from the nearest check in was NaN, and `NaN > WINDOW_MINUTES` is false. It never
@@ -183,3 +239,46 @@ attach, so go back to step 6.
 first is cheap and always fires. The second costs a session and can be wrong,
 which is why its prompt tells it to stop rather than guess whenever a fix is
 ambiguous.
+
+---
+
+## 3. Found while checking the above: the digest still is not firing
+
+Not a manual step. Recorded here because it came out of the same read of
+`cron_runs` and needs someone to pick it up.
+
+`/api/email/digest` is declared in `vercel.json` at `20 8 * * *` and has no row
+in `cron_runs` at all. The heartbeat writes its start row before the work, not
+after, so an absent row does not mean the job crashed. It means Vercel never
+invoked the route.
+
+The jobs either side of it did fire on 31 July:
+
+| Job | Schedule (UTC) | Ran |
+| --- | --- | --- |
+| `/api/email/cron` | `0 8` | yes, 09:00 London |
+| `/api/email/digest` | `20 8` | NO ROW |
+| `/api/email/monthly` | `40 8` | yes, 09:40 London |
+
+So Vercel Cron is working for this project, and is skipping this one path.
+
+The heartbeat has been live since 30 July 15:57 London, which gave the digest
+exactly one scheduled window to hit, 31 July 09:20, and it missed it. The only
+digest shaped rows in `email_log` are the `svc-` and `reveal-` keys at 30 July
+16:24, which is the manual fire from the admin page, not a scheduled run.
+
+Worth checking, in rough order of likelihood:
+
+1. Whether the production deployment serving the crons was built from a commit
+   whose `vercel.json` already carried the digest entry. A deploy landing across
+   the 09:20 window would explain exactly this.
+2. Whether the project is at its cron allowance. `vercel.json` declares 25 jobs.
+   Being over the plan limit registers some and silently drops others, which
+   looks precisely like one path never being invoked while its neighbours run.
+3. Whether both Vercel projects are registering crons, and this path lost a race
+   between them.
+
+Both school crons also show `Invalid time value` on their last runs, at 07:45
+and 19:00, but both of those predate the London fix reaching production at
+noon. They prove out at 19:00 and 07:45 the following morning. No action needed
+unless they fail again after that.
