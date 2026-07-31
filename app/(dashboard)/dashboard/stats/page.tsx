@@ -12,12 +12,18 @@ import ParentStartTimer from '@/components/balance/ParentStartTimer'
 // empty week still renders, it just says so.
 
 import { buildOffscreen } from '@/lib/balance/offscreen'
-import { buildPace } from '@/lib/balance/pace'
+import { buildPace, ukWeekday } from '@/lib/balance/pace'
 import PaceCard from '@/components/balance/PaceCard'
 
 export const metadata = { title: 'Balance and stats — Guided Childhood' }
 
-const WEEK_MS = 7 * 24 * 60 * 60 * 1000
+// One week, the same week. This page used to count a rolling last 7 days
+// while the star bank, the quest board and the rollover cron all count the
+// star week, which starts Monday in London. So the same child read 163 stars
+// here and 116 on the Quests page, and "Total this week" on a Wednesday was
+// quietly reaching back into last Thursday and Friday. Two numbers for one
+// week, neither wrong on its own terms, is the seam this removes.
+import { starWeekStart, starWeekStartIso } from '@/lib/quests/star-week'
 
 export default async function StatsPage() {
   const supabase = await createClient()
@@ -31,8 +37,8 @@ export default async function StatsPage() {
     .eq('is_primary', true)
     .maybeSingle()
 
-  const sinceIso = new Date(Date.now() - WEEK_MS).toISOString()
-  const sinceDay = sinceIso.slice(0, 10)
+  const sinceDay = starWeekStart()
+  const sinceIso = starWeekStartIso()
 
   let deviceMinutes: { device: string; minutes: number }[] = []
   let offscreen = { activities: 0, stars: 0, minutes: 0 }
@@ -93,6 +99,7 @@ export default async function StatsPage() {
     dailyLimitMins: (child?.daily_limit_minutes as number | null) ?? null,
     deviceMinutes,
     offscreen,
+    daysSoFar: ukWeekday(),
   })
 
   // The pace: the same weekly total and the same age matched guide the report

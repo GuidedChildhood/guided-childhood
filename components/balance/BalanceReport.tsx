@@ -52,7 +52,7 @@ function fillFor(tg: TypeGuide): string {
 }
 
 export default function BalanceReport({ report }: { report: ParentReport }) {
-  const { childName, bandLabel, totalWeekMins, healthyWeekMins, status, topState, buckets, offscreen } = report
+  const { childName, bandLabel, totalWeekMins, healthyWeekMins, status, topState, buckets, offscreen, daysSoFar } = report
   const name = childName && childName !== 'Your child' ? childName : 'Your child'
 
   const usedByBucket = new Map(buckets.map(b => [b.bucket, b]))
@@ -65,8 +65,11 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   const scale = Math.max(1, ...rows.map(r => Math.max(r.tg.recommendedWeekMins, r.summary?.minutes ?? 0))) * 1.08
 
   const over = status === 'over' || status === 'well_over'
+  // The guide is a full week's worth however far into the week it is read, so
+  // it stays over 7. What the child actually did is averaged over the days
+  // that have happened, which on a Monday is one day and not a seventh of one.
   const dailyGuideMins = Math.round(healthyWeekMins / 7)
-  const totalDailyAvg = Math.round(totalWeekMins / 7)
+  const totalDailyAvg = Math.round(totalWeekMins / Math.max(1, daysSoFar))
   const showAction = topState.tone === 'flag' || topState.tone === 'watch' || topState.tone === 'grow'
 
   // On a good week the top state emblem gives a small, warm pop, so a balanced
@@ -102,7 +105,7 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   const renderRow = ({ tg, summary }: { tg: TypeGuide; summary: BucketSummary | null }) => {
     const used = summary?.minutes ?? 0
     const guideWeek = tg.recommendedWeekMins
-    const usedDaily = Math.round(used / 7)
+    const usedDaily = Math.round(used / Math.max(1, daysSoFar))
     const guideDaily = tg.recommendedDailyMins
     const usedPct = Math.min(100, (used / scale) * 100)
     const guidePct = guideWeek > 0 ? Math.min(100, (guideWeek / scale) * 100) : 0
