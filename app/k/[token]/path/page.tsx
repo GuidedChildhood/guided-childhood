@@ -12,6 +12,10 @@ import { printablesForStage } from '@/lib/printables/registry'
 import { quizForBand } from '@/lib/content/school-quizzes'
 import { tipsForStage, interestTipFor } from '@/lib/content/path-tips'
 import KidPath, { type PathLesson, type PathGame, type PathJob, type PathPrintable } from '@/components/kid/KidPath'
+import { bandForQuest, type JobBand } from '@/lib/quests/job-time'
+
+// Morning, then after school, then bed: the order of a day.
+const BAND_ORDER: Record<JobBand, number> = { morning: 0, after_school: 1, evening: 2 }
 import { getStickerBook } from '@/lib/stickers/book'
 import { stickerArt } from '@/lib/stickers/catalog'
 
@@ -66,7 +70,7 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
     getStarBanks(supabase, link.user_id, [link.child_id]),
     getMinutesUsedToday(supabase, link.user_id, [link.child_id]),
     supabase.from('family_quests')
-      .select('id, title, emoji, stars, schedule, child_id')
+      .select('id, title, emoji, stars, schedule, child_id, band')
       .eq('user_id', link.user_id).eq('active', true)
       .order('created_at', { ascending: true }),
   ])
@@ -150,9 +154,18 @@ export default async function KidPathPage({ params }: { params: Promise<{ token:
       const st = tickState.get(q.id)
       return {
         id: q.id, title: q.title, emoji: q.emoji, stars: Number(q.stars) || 1,
+        // What the parent chose, or the guess from the title. Same resolver the
+        // reminder crons use, so the hour a child is pinged at and the words on
+        // their own screen can never disagree.
+        band: bandForQuest(q as { band?: string | null; title: string }),
         state: (st === 'approved' ? 'done' : st === 'pending' ? 'waiting' : 'todo') as PathJob['state'],
       }
     })
+    // In the order the day actually happens. The trail is a path a child walks
+    // down, so before school jobs sitting below before bed ones was the list
+    // arguing with its own shape. Sorted by band, and stable within each band,
+    // so the order a parent added them in still holds inside a slot.
+    .sort((a, b) => BAND_ORDER[a.band] - BAND_ORDER[b.band])
 
   // Today's chest and quiz state from the ledger itself; both fail soft to
   // unclaimed (with the not ready flag) before migration 086.

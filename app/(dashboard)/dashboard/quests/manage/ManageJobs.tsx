@@ -7,6 +7,7 @@ import ShareQrButton from '@/components/quests/ShareQrButton'
 import JobComposer from '@/components/quests/JobComposer'
 import type { JobBand } from '@/lib/quests/job-time'
 import SentToast from '@/components/ui/SentToast'
+import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
 
 // Add a job, on its own page, with the three jobs of this page split into
 // three tabs.
@@ -128,6 +129,9 @@ export default function ManageJobs({
   // What the bottom confirmation is saying, null when nothing.
   const [justAdded, setJustAdded] = useState<string | null>(null)
   const [allIdeas, setAllIdeas] = useState(false)
+  // What the last yes just landed, so the parent's side of that second says
+  // something too. Cleared by hand or by leaving the tab.
+  const [earned, setEarned] = useState<{ childName: string; stars: number } | null>(null)
   // Add opens first. It is the reason the page exists and the reason Justin
   // asked for it, so it is never anything else on arrival unless the link that
   // brought you here said otherwise.
@@ -203,6 +207,10 @@ export default function ManageJobs({
 
   async function approve(tickId: string) {
     if (busy) return
+    // Read the job before the tick is dropped from state, because the stars it
+    // is worth are the whole message and they are only reachable through it.
+    const tick = ticks.find(t => t.id === tickId)
+    const quest = tick ? quests.find(q => q.id === tick.quest_id) : undefined
     setBusy(true)
     setTicks(ts => ts.filter(t => t.id !== tickId))
     try {
@@ -213,6 +221,12 @@ export default function ManageJobs({
       // The bell and the red count on the way in both drop at once, so the
       // number a parent just cleared is not still sitting there behind them.
       try { window.dispatchEvent(new Event('gc:notifs-changed')) } catch { /* SSR */ }
+      if (quest) {
+        setEarned({
+          childName: children.find(c => c.id === activeChild)?.name ?? 'Your child',
+          stars: Number(quest.stars) || 1,
+        })
+      }
       await load()
     } finally { setBusy(false) }
   }
@@ -337,7 +351,7 @@ export default function ManageJobs({
               key={t.key}
               role="tab"
               aria-selected={on}
-              onClick={() => setTab(t.key)}
+              onClick={() => { setEarned(null); setTab(t.key) }}
               style={{
                 flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                 gap: 6, padding: '9px 8px', borderRadius: 100, cursor: 'pointer',
@@ -533,6 +547,7 @@ export default function ManageJobs({
       {/* ── Waiting for you to agree ────────────────────────────────── */}
       {tab === 'agree' && (
         <>
+          <TimeEarnedPrompt earned={earned} onDismiss={() => setEarned(null)} />
           {agreeCount === 0 && (
             <section style={CARD}>
               <h2 style={H2}>Nothing waiting</h2>
