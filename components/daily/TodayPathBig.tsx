@@ -67,6 +67,10 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   // The parent's daily budget, same engine as the strip: the day is counted
   // done when the chosen minutes are spent, never when every step is ticked.
   const [minutes, setMinutes] = useState(dailyMinutes)
+  // A parent who wants the finished path back opens it. Not remembered across
+  // loads on purpose: the point of folding it is that the next visit leads
+  // with what is still open.
+  const [openAnyway, setOpenAnyway] = useState(false)
 
   const firstOpen = tasks.findIndex(t => !t.done)
   const allDone = firstOpen === -1
@@ -136,6 +140,49 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
     : investedMinutes > 0
       ? `${investedMinutes} min done today, about ${toBudgetMin} more to your ${minutes}`
       : `about ${toBudgetMin} min to your ${minutes} min`
+
+  // A finished day folds to one line.
+  //
+  // Justin: "one pathway is done on paretns homepage can ti scroll away and
+  // show these in order of doing next". Home already promotes the next real
+  // thing above this card once the day is done. What it did not do was get
+  // the finished thing out of the way: the full vertical path kept its whole
+  // height, budget chips and all, so a parent who had done their day had to
+  // scroll past a column of ticks to reach anything they could still act on.
+  //
+  // Done work is worth one line and a way back in, not the same room it took
+  // while it still needed doing. It is not hidden: the line says what was
+  // finished and opens the whole path again on a tap.
+  if (dayDone && !openAnyway) {
+    return (
+      <button
+        onClick={() => setOpenAnyway(true)}
+        style={{
+          width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
+          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
+          padding: '14px 16px', marginBottom: '20px', cursor: 'pointer', textAlign: 'left',
+          font: 'inherit',
+        }}
+      >
+        <span aria-hidden style={{
+          flexShrink: 0, width: 38, height: 38, borderRadius: '12px',
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '19px',
+        }}>✓</span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.2 }}>
+            Today, sorted
+          </span>
+          <span style={{ display: 'block', fontSize: '14px', color: 'var(--ink-muted)', marginTop: '2px' }}>
+            {doneCount} of {steps.length} done{streakCount > 0 ? ` · ${streakCount} day streak` : ''}
+          </span>
+        </span>
+        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)' }}>
+          Show ›
+        </span>
+      </button>
+    )
+  }
 
   return (
     <div style={{
