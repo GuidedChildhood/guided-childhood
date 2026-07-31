@@ -135,6 +135,11 @@ export default function ManageJobs({
   // The job a reminder has just been sent for, so the row can say so rather
   // than leaving a parent wondering whether the tap did anything.
   const [pinged, setPinged] = useState<string | null>(null)
+  // A suggestion tapped below the composer, waiting to go through the same
+  // questions the typed path asks. Tapping one used to add it outright, which
+  // meant the quicker of the two ways to add a job was the one that asked
+  // nothing and took whatever the template said about repeating.
+  const [pending, setPending] = useState<{ title: string; emoji: string; stars: number } | null>(null)
   // Add opens first. It is the reason the page exists and the reason Justin
   // asked for it, so it is never anything else on arrival unless the link that
   // brought you here said otherwise.
@@ -498,22 +503,32 @@ export default function ManageJobs({
               morning jobs one action rather than three. */}
           <section style={CARD}>
             <h2 style={H2}>Add a job</h2>
-            <p style={SUB}>Tap one, or write your own. It stays open, so add as many as you want.</p>
+            {/* No subtitle. The composer asks one question at a time and writes
+                its own line for each, so a fixed sentence here either repeated
+                question one or contradicted questions two and three. */}
 
             <div style={{ marginBottom: 14 }}>
               <JobComposer
                 countToday={mine.length}
+                pendingTitle={pending?.title ?? null}
+                onPendingUsed={() => { /* kept until the add, for its emoji and stars */ }}
+                onSeeWaiting={() => goTab('agree')}
                 // Short, because the composer's input shares its row with the
                 // Add button and the old wording clipped to "Write your own:
                 // feed th" at 390 wide. The card heading directly above
                 // already says "write your own", so the placeholder only has
                 // to give the example.
                 placeholder="Feed the dog, violin"
-                onAdd={(t, when, band) => add(
-                  { title: t, emoji: '⭐', stars: 1, schedule: when, band },
-                  { flash: false },
-                )}
-                help="Worth one star. Pick how often above, and change the stars or the exact days on the job itself once it is in."
+                onAdd={(t, when, band) => {
+                  // A suggestion keeps its own emoji and stars, because play
+                  // jobs are worth four and a bare star would quietly halve
+                  // them. Anything typed is the plain one star job the help
+                  // text promises.
+                  const meta = pending && pending.title === t ? pending : { emoji: '⭐', stars: 1 }
+                  setPending(null)
+                  add({ title: t, emoji: meta.emoji, stars: meta.stars, schedule: when, band }, { flash: false })
+                }}
+                help="Worth one star. Next you will be asked how often and when in the day. The stars and the exact days can be changed on the job itself once it is in."
               />
             </div>
 
@@ -531,7 +546,7 @@ export default function ManageJobs({
                   {myPrevious.slice(0, 10).map(q => (
                     <button
                       key={q.id}
-                      onClick={() => add({ title: q.title, emoji: q.emoji, stars: q.stars, schedule: q.schedule })}
+                      onClick={() => setPending({ title: q.title, emoji: q.emoji, stars: q.stars })}
                       disabled={busy}
                       style={CHIP}
                     >
@@ -547,7 +562,7 @@ export default function ManageJobs({
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
               {(allIdeas ? ideas : ideas.slice(0, 8)).map((t: QuestTemplate) => (
-                <button key={t.title} onClick={() => add(t)} disabled={busy} style={CHIP}>
+                <button key={t.title} onClick={() => setPending({ title: t.title, emoji: t.emoji, stars: t.stars })} disabled={busy} style={CHIP}>
                   <span aria-hidden>{t.emoji}</span>
                   {t.title}
                   {/* The value pill, from Tiimo. A chip that does not say what
