@@ -357,14 +357,25 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
             </div>
           </div>
 
+          {/* The thing being written, set like the thing being written.
+              Justin: "Writing here needs tu be bigger". It sat at 16px in a
+              thin box, the same size as the help text explaining it, so the
+              one field a parent actually types into was the quietest element
+              in the form. Enter sends, the way it does in every message box a
+              parent has ever used, so the keyboard's own return key finishes
+              the job rather than asking them to go and find a button. */}
           <input
             value={title}
             onChange={e => setTitle(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter' && title.trim() && !saving) { e.preventDefault(); addReminder() }
+            }}
             placeholder="PE kit, reading record due, swimming kit..."
+            enterKeyHint="done"
             style={{
-              width: '100%', padding: '11px 14px', borderRadius: '12px', marginBottom: '8px',
+              width: '100%', padding: '14px 16px', borderRadius: '14px', marginBottom: '8px',
               border: '1.5px solid var(--border)', background: '#fff',
-              fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
+              fontFamily: 'var(--font-body)', fontSize: '17.5px', color: 'var(--ink)', outline: 'none',
             }}
             maxLength={140}
           />
@@ -467,27 +478,33 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
             </div>
           )}
 
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <select
-              value={kind}
-              onChange={e => setKind(e.target.value)}
-              style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)' }}
-            >
-              {KIND_OPTIONS.map(([key, meta]) => <option key={key} value={key}>{meta.label}</option>)}
-            </select>
-            <button
-              onClick={addReminder}
-              disabled={saving || !title.trim()}
-              style={{
-                marginLeft: 'auto', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-                borderRadius: '10px', padding: '10px 18px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
-                boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: saving ? 0.7 : 1,
-              }}
-            >
-              {saving ? 'Adding...' : 'Add'}
-            </button>
-          </div>
+          {/* The kind on its own row, then Add underneath at full width.
+              Justin: "enter button like a mess[age] stick it underneath". It
+              was pinned right of the dropdown with marginLeft auto, so on a
+              phone the one button that finishes the form was a small target in
+              the far corner, sharing a line with a control that is not part of
+              finishing anything. Full width underneath is where a send button
+              lives, and it is thumb sized by being there. */}
+          <select
+            value={kind}
+            onChange={e => setKind(e.target.value)}
+            style={{ width: '100%', padding: '12px 12px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '14.5px', color: 'var(--ink)', marginBottom: '8px' }}
+          >
+            {KIND_OPTIONS.map(([key, meta]) => <option key={key} value={key}>{meta.label}</option>)}
+          </select>
+          <button
+            onClick={addReminder}
+            disabled={saving || !title.trim()}
+            style={{
+              width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+              borderRadius: '14px', padding: '15px 18px', cursor: saving || !title.trim() ? 'default' : 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+              opacity: saving || !title.trim() ? 0.55 : 1,
+            }}
+          >
+            {saving ? 'Adding...' : 'Add reminder'}
+          </button>
         </div>
       )}
 
@@ -497,10 +514,20 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
             Every week
           </div>
+              {/* Wraps, because it could not. Every child here but the title
+                  is flexShrink 0 and the row had no wrap, so a routine with a
+                  day pill, a send to child note, a cleared mark and a delete
+                  ran straight off the right edge of a phone with Delete
+                  hanging outside the card. Visible in Justin's screenshot:
+                  "Cleared for today ✓  Delete" with the word cut in half.
+                  The title takes minWidth 0 so it is the thing that gives
+                  first, and the controls drop to a second line rather than
+                  off the screen. */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {recurring.map(a => (
               <div key={a.id} style={{
                 display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px',
+                flexWrap: 'wrap',
                 borderRadius: '12px', background: 'var(--tint-sage)', border: '1px solid var(--border)',
               }}>
                 <span style={{
@@ -509,7 +536,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                 }}>
                   {WEEKDAY_NAME[a.recurs_weekday ?? 0]}
                 </span>
-                <span style={{ flex: 1, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px', color: 'var(--ink)' }}>
+                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px', color: 'var(--ink)' }}>
                   {a.title}
                 </span>
                 {a.recurs_weekday === tomorrowWeekday && !clearedIds.has(a.id) && (
