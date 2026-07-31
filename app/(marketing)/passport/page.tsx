@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import PassportPageCta from '@/components/marketing/PassportPageCta'
 import { STAGES } from '@/lib/content/stages'
 import {
   PASSPORT_EVIDENCE,
@@ -54,19 +55,27 @@ export default function PassportPage() {
           </p>
         </div>
 
-        {/* Why 16 matters */}
+        {/* Why 16 matters.
+            Pastel, not the deep teal it was. Justin: "has black I would rather
+            pastel to match stages". This is the passport page, every other
+            surface in the product paints a stage in its own soft tint, and a
+            near black slab in the middle of a butter page read as a different
+            product's section dropped in. Stage 5 lavender because 16 is where
+            the pathway lands, so the one card about turning 16 wears the
+            colour of the stage that gets there. */}
         <div style={{
-          background: 'var(--deep-teal)', borderRadius: '28px',
-          padding: 'clamp(32px, 6vw, 48px)', marginBottom: 'clamp(56px, 9vw, 88px)', color: '#fff',
+          background: 'var(--stage-5)', border: '1.5px solid var(--stage-5-bold)',
+          borderRadius: '28px',
+          padding: 'clamp(32px, 6vw, 48px)', marginBottom: 'clamp(56px, 9vw, 88px)', color: 'var(--ink)',
         }}>
-          <p style={{ ...EYEBROW, marginBottom: '18px' }}>Why 16 matters</p>
-          <h2 style={{ ...H2, color: '#fff', marginBottom: '20px' }}>
+          <p style={{ ...EYEBROW, color: 'var(--stage-5-text)', marginBottom: '18px' }}>Why 16 matters</p>
+          <h2 style={{ ...H2, color: 'var(--ink)', marginBottom: '20px' }}>
             A ban is a wall. A wall postpones the problem to 16.
           </h2>
-          <p style={{ ...BODY, color: 'rgba(255,255,255,0.9)', marginBottom: '18px' }}>
+          <p style={{ ...BODY, color: 'var(--ink-soft)', marginBottom: '18px' }}>
             As the UK lowers the voting age to 16, a teenager can meet their first vote and their first social media in the same year. Two of the biggest things they will ever do, arriving together, with no run up. That is the cliff edge.
           </p>
-          <p style={{ ...BODY, color: 'rgba(255,255,255,0.9)', margin: 0 }}>
+          <p style={{ ...BODY, color: 'var(--ink-soft)', margin: 0 }}>
             The passport builds the ramp instead. Gradual, guided exposure through the school years, so by 16 your child already knows the ground under their feet. Preparing, not postponing.
           </p>
         </div>
@@ -197,13 +206,10 @@ export default function PassportPage() {
           background: 'var(--stage-4)', borderRadius: '28px',
           padding: 'clamp(40px, 7vw, 56px) clamp(28px, 5vw, 40px)', textAlign: 'center',
         }}>
-          <h2 style={{ ...H2, marginBottom: '16px' }}>Start building the passport tonight</h2>
-          <p style={{ ...BODY, color: 'var(--ink)', maxWidth: '480px', margin: '0 auto 28px' }}>
-            A couple of minutes to build your child’s pathway, then free access to the platform. No card. The ramp to 16 starts wherever your child is now.
-          </p>
-          <Link href="/starter-pack" className="btn btn-gold" style={{ display: 'inline-flex', fontSize: 'clamp(1rem, 3vw, 1.15rem)', padding: '17px 36px' }}>
-            Start, it is free
-          </Link>
+          {/* Asks a different thing of a parent who already has an account:
+              they are reading the page that explains what their passport IS,
+              so sending them to build one is the one thing they do not need. */}
+          <PassportPageCta />
         </div>
       </div>
     </div>
