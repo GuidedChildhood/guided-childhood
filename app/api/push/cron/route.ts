@@ -1,4 +1,5 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
+import { londonNow } from '@/lib/time/london'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Called by Vercel Cron every 30 minutes — see vercel.json. Vercel cron
@@ -40,9 +41,23 @@ async function handler(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const ukNow = new Date(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }))
-  const ukHour = ukNow.getHours()
-  const nowMinutes = ukHour * 60 + ukNow.getMinutes()
+  // This used to read the hour off an Invalid Date, so ukHour was NaN and
+  // nowMinutes with it, which is why the reply carried "ukHour": null.
+  //
+  // Read the guard below carefully, because the failure is the opposite of the
+  // obvious one. distanceMinutes was also NaN, and NaN > WINDOW_MINUTES is
+  // false, so it never skipped. It fell through and sent on every single run:
+  // a check in every thirty minutes, forty eight times a day, instead of three.
+  // The live runs prove it, replying with a checkin name rather than the
+  // skipped shape.
+  //
+  // Nobody was buried in notifications only because the send was 401ing on the
+  // protected deployment host and every one of them was thrown away. Fixing
+  // NEXT_PUBLIC_APP_URL without fixing this would have turned a silent failure
+  // into forty eight pushes a day to every parent.
+  const uk = londonNow()
+  const ukHour = uk.hour
+  const nowMinutes = ukHour * 60 + uk.minute
 
   const checkin = CHECK_INS.reduce((best, c) => {
     const dist = Math.abs(c.hour * 60 + c.minute - nowMinutes)

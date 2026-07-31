@@ -1,4 +1,5 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
+import { londonNow } from '@/lib/time/london'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
@@ -12,8 +13,8 @@ export const maxDuration = 60
 // message per family, to the parent's phone and to the child's, best effort.
 
 function ukToday(): { dateStr: string; weekday: number } {
-  const uk = new Date(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }))
-  return { dateStr: uk.toISOString().slice(0, 10), weekday: uk.getDay() }
+  const uk = londonNow()
+  return { dateStr: uk.dateStr, weekday: uk.weekday }
 }
 
 async function handler(req: NextRequest) {
