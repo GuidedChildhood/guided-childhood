@@ -30,6 +30,7 @@
     { "path": "/api/push/reengage", "schedule": "0 17 * * *" },
     { "path": "/api/school/remind", "schedule": "0 18 * * *" },
     { "path": "/api/school/morning", "schedule": "45 6 * * *" },
+    { "path": "/api/school/soon", "schedule": "*/15 * * * *" },
     { "path": "/api/email/cron", "schedule": "0 8 * * *" },
     { "path": "/api/email/digest", "schedule": "20 8 * * *" },
     { "path": "/api/email/monthly", "schedule": "40 8 * * *" },
