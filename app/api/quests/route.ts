@@ -3,6 +3,8 @@ import { randomBytes } from 'crypto'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
+import { getHolidayBanks } from '@/lib/quests/holiday-bank'
+import { getFamilyRegion } from '@/lib/learning/region'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { STAR_MINUTES } from '@/lib/quests/templates'
@@ -72,6 +74,20 @@ export async function GET() {
   const children = childrenRes.data ?? []
   const banks = await getStarBanks(supabase, user.id, children.map(c => c.id))
 
+  // The holiday bank, alongside the ordinary star bank rather than folded into
+  // it. The two are different kinds of money and the board was adding them up
+  // into one number: this week's earned stars, which reset, and minutes banked
+  // above the weekly cap, which do not and can only be spent while school is
+  // out. Read together they looked like a runaway total. Read apart they are
+  // the mechanic working. Fails soft to nothing, the same as every other read
+  // on this route, so a family on a deploy without migration 127 sees the
+  // ordinary balance and no holiday line rather than an error.
+  let holidayBanks: Awaited<ReturnType<typeof getHolidayBanks>> = []
+  try {
+    const region = await getFamilyRegion(supabase, user.id)
+    holidayBanks = await getHolidayBanks(supabase, user.id, children.map(c => c.id as string), new Date(), region)
+  } catch { holidayBanks = [] }
+
   // Minutes of screen time each child has actually used today, so the balance
   // insight can show a real, moving level rather than a fixed age guide.
   const usedTodayMap = await getMinutesUsedToday(supabase, user.id, children.map(c => c.id))
@@ -109,6 +125,7 @@ export async function GET() {
     requests: requestsRes.data ?? [],
     spends: spendsRes.data ?? [],
     banks,
+    holidayBanks,
     sessions,
     usage,
   })

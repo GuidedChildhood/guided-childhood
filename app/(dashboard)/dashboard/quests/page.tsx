@@ -109,12 +109,21 @@ export default async function QuestsPage() {
           under the star chart builder that makes the chart, so build, print and
           log the week live together. */}
 
-      {/* Asked for first, because it is the thing a parent opens this page to
-          answer. A child waiting on a timer request is waiting on a person, and
-          this card carries the answer plus what they have already used today
-          against the guide for their age, so the decision is made with the
-          usage in front of you rather than two screens away. */}
-      <ParentDeviceTime userId={user?.id} />
+      {/* The screen time card used to open this page, full width, and it was
+          the wrong thing to meet first.
+
+          It is the whole grant control: a device picker, a minute stepper,
+          three ways to pay for it, the daily guide bar and the week's
+          breakdown. That is a screen and a half before a parent reaches
+          anything that was waiting on them, and a parent opening Quests has
+          usually come to answer a job rather than to start a timer. Justin, 31
+          July: smaller, "off to one side, not competing at the top".
+
+          So it moved below the board and shrank. What it does NOT do is go
+          away: a child asking for time is still answered in place and a running
+          timer still keeps its live countdown, because both have somebody
+          waiting at the other end. Only the idle case reduces to a name and a
+          balance, and the full control is one tap away on its own page. */}
 
       {handoverName && (
         <Link href="/dashboard/quests?tab=share" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
@@ -164,6 +173,12 @@ export default async function QuestsPage() {
       <div id="quest-board" style={{ scrollMarginTop: '80px' }}>
         <QuestBoard />
       </div>
+
+      {/* Now the screen time card, small and to one side. Below the approve
+          queue, because agreeing a job the child has already done is the thing
+          with a person waiting on it; above the navigation tiles, because it is
+          still part of today rather than a place to go. */}
+      <ParentDeviceTime userId={user?.id} compact />
 
       {/* Printables the child finished at home, waiting on one tap to confirm
           and land the stars. */}

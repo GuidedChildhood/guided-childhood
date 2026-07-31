@@ -36,6 +36,22 @@ export type SectionTile = {
   accent: string
   /** Live state, when the tile has something worth saying up front. */
   badge?: string | null
+  /**
+   * How loudly the badge speaks.
+   *
+   * 'quiet' is the default and the right answer for almost everything: a
+   * pastel pill in the tile's own colour, saying there is something here
+   * without insisting. 'alert' is the notification red, and it is reserved
+   * for a count with a PERSON waiting at the other end of it.
+   *
+   * Only one badge on this board qualifies. A job the child has ticked is
+   * theirs the moment a grown up agrees and not a second before, so an
+   * unanswered one is somebody waiting, not a task in a list. Printables to
+   * confirm, stars to spend and an unprinted star chart are all things a
+   * parent gets to in their own time. Making those red too would spend the
+   * colour in a week, and then the one that matters reads like the rest.
+   */
+  badgeTone?: 'quiet' | 'alert'
   /** Overrides the icon colour worked out from accent. Rarely needed. */
   iconColor?: string
 }
@@ -162,10 +178,22 @@ export default function SectionTiles({
                 // Pastel, not white. The tile itself went white in this
                 // same change, so a white badge on it had no edge at all.
                 // No flexShrink, so it can still drop under the icon.
-                background: t.bg, border: `1.5px solid ${t.accent}`,
+                //
+                // Unless it is an alert, which is the notification red every
+                // other app on the parent's phone has already taught them to
+                // read: solid fill, white numerals, no pastel. It has to be
+                // legible across a room and unmistakably different from the
+                // four quiet badges beside it, or it is just another pill.
+                ...(t.badgeTone === 'alert' ? {
+                  background: '#E5484D', border: '1.5px solid #B93B3F',
+                  color: '#fff',
+                } : {
+                  background: t.bg, border: `1.5px solid ${t.accent}`,
+                  color: 'var(--ink)',
+                }),
                 borderRadius: 100, padding: '3px 10px',
                 fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
-                color: 'var(--ink)', whiteSpace: 'nowrap',
+                whiteSpace: 'nowrap',
                 // Never shrink, and never clip. The row wraps instead, so a
                 // badge always reads in full at whatever width it needs.
                 //

@@ -30,6 +30,8 @@ type Tile = {
   iconColor: string
   /** Reads the live status into the badge, or null for a tile with no state. */
   badge?: (s: BoardStatus) => string | null
+  /** Notification red, for the one count with a person waiting behind it. */
+  badgeTone?: 'quiet' | 'alert'
 }
 
 const TILES: Tile[] = [
@@ -40,9 +42,21 @@ const TILES: Tile[] = [
     // long Quests page to a panel that then had a Close button on it. Justin
     // twice: "it should clearly goto a new page not scroll". A thing you
     // navigate to should be somewhere you have gone.
-    href: '/dashboard/quests/manage', label: 'Manage jobs', sub: 'Add, agree and send',
+    // Named for the thing a parent came to do.
+    //
+    // "Manage jobs" is the maintenance word, and adding one is not maintenance,
+    // it is the single most used action on this board. A parent with a job in
+    // their head scans eight tiles for the word they are thinking, and the word
+    // they are thinking is add.
+    href: '/dashboard/quests/manage', label: 'Add a job', sub: 'Add, agree and send',
     icon: 'jobs', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#C0603A',
-    badge: s => s.ticksToConfirm > 0 ? `${s.ticksToConfirm} waiting` : null,
+    // The one red count on the board. A ticked job is a child standing there
+    // with the stars not yet theirs, which is the only thing on this page with
+    // a person waiting on the other end of the number. Bare count, no word:
+    // this badge shares its row with the icon on a half width tile, and the
+    // red is already saying what kind of thing it is.
+    badge: s => s.ticksToConfirm > 0 ? `${s.ticksToConfirm}` : null,
+    badgeTone: 'alert',
   },
   {
     // The star chart is the starter pack, the one printable every family uses,
@@ -125,7 +139,7 @@ export default function QuestShortcuts({ status }: { status?: BoardStatus }) {
       href: t.href, label: t.label, sub: t.sub,
       icon: <KidIcon name={t.icon} size={23} />,
       bg: t.bg, accent: ACCENT[t.bg] ?? 'var(--border)', iconColor: t.iconColor,
-      ...(badge ? { badge } : {}),
+      ...(badge ? { badge, badgeTone: t.badgeTone ?? 'quiet' } : {}),
     }
   })
   return <SectionTiles tiles={tiles} />

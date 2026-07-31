@@ -75,7 +75,7 @@ function fmt(ms: number): string {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`
 }
 
-export default function ParentDeviceTime({ userId }: { userId?: string }) {
+export default function ParentDeviceTime({ userId, compact = false }: { userId?: string; compact?: boolean }) {
   const [kids, setKids] = useState<Kid[] | null>(null)
   const audioRef = useRef<AudioContext | null>(null)
   // The rising tone is best effort, so the reliable end of timer signal is the
@@ -131,6 +131,83 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
 
   if (kids === null || kids.length === 0) return null
 
+  // The small version, for the Quests page.
+  //
+  // Justin, 31 July: the screen time card should be "smaller and off to one
+  // side, not competing at the top of the quests page". He is right about
+  // what it was doing. This card is the full grant control, device picker,
+  // minute stepper, three payment modes, the daily guide bar and the week's
+  // breakdown, and it opened the page. A parent lands on Quests to answer a
+  // job, and met a screen and a half of screen time first.
+  //
+  // A prop rather than a second component, deliberately. The 27 July audit
+  // found screen time spend already built three times over in this product,
+  // and a compact summary that fetched and reasoned about sessions on its own
+  // would have made four. Same state, same poll, same alarm, less of it drawn.
+  //
+  // Two things stay full size even here, because both have a child at the
+  // other end waiting on a person: an ask for time, which is answered in
+  // place, and a timer actually running, which keeps its live countdown. Only
+  // the idle case shrinks to a line, because an idle child is not waiting on
+  // anything and the whole control is one tap away on its own page.
+  if (compact) {
+    const asking = kids.filter(k => k.request)
+    const running = kids.filter(k => !k.request && k.session)
+    const idle = kids.filter(k => !k.request && !k.session)
+    return (
+      <div id="screen-time" style={{
+        // Narrower than the page column and pushed to the right, which is the
+        // "off to one side" ask. On a phone the column is already about this
+        // wide, so it simply reads as a smaller card; on a laptop it sits in
+        // from the right edge and stops competing with the board.
+        width: '100%', maxWidth: 340, marginLeft: 'auto',
+        background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
+        padding: '14px 16px 15px', marginTop: 16, marginBottom: 18, scrollMarginTop: '80px',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+          <span aria-hidden style={{ fontSize: 17 }}>⏱️</span>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, color: 'var(--ink)' }}>
+            Screen time
+          </span>
+          <Link href="/dashboard/quests/timer" style={{
+            flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700,
+            letterSpacing: '0.04em', color: 'var(--terracotta)', textDecoration: 'none',
+          }}>
+            Open →
+          </Link>
+        </div>
+
+        {/* Asked for, and answered right here. Never shrunk, never moved to
+            another page: a child is standing there waiting for a yes. */}
+        {asking.map(k => (
+          <CompactAsk key={k.id} kid={k} onChange={load} />
+        ))}
+
+        {/* Running, with the same live countdown the child is watching. */}
+        {running.map(k => (
+          <CompactRunning key={k.id} kid={k} onChange={load} onAlarm={alarm} />
+        ))}
+
+        {/* Nobody waiting on these. A name and what they have banked, and the
+            way to spend it is the Open link above. */}
+        {idle.length > 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            {idle.map(k => (
+              <div key={k.id} style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {k.name}
+                </span>
+                <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                  ⭐ {k.balance}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return (
     // scrollMarginTop so the sticky header does not sit over the card when the
     // bell's See the timer link lands here.
@@ -177,6 +254,87 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
             <ChildRow key={k.id} kid={k} onChange={load} onAlarm={alarm} />
           ))}
       </div>
+    </div>
+  )
+}
+
+// A child asking for time, on the small card. The ask box itself is the shared
+// one, so the wording, the treat warning and the two buttons are identical to
+// the full card and the locked banner. Only the fetches live here, and they are
+// the same two calls ChildRow makes.
+function CompactAsk({ kid, onChange }: { kid: Kid; onChange: () => void }) {
+  const [busy, setBusy] = useState(false)
+  if (!kid.request) return null
+  const req = kid.request
+
+  async function answer(status: 'approved' | 'declined') {
+    if (busy) return
+    setBusy(true)
+    try {
+      await fetch('/api/quests/time/request', {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: req.id, status }),
+      })
+      onChange()
+    } catch { /* the next poll reconciles */ }
+    setBusy(false)
+  }
+
+  return (
+    <PendingAskBox
+      childName={kid.name}
+      request={req}
+      exceedsGuide={wouldExceedGuide(kid.ageBand ?? null, kid.usedToday ?? 0, req.minutes)}
+      busy={busy}
+      onApprove={() => answer('approved')}
+      onDecline={() => answer('declined')}
+    />
+  )
+}
+
+// A timer actually running, on the small card: the same countdown the child is
+// watching, ticking every second, and the same alarm when it reaches zero. A
+// running timer is the one thing on this card that changes by itself, so it is
+// the one thing that would be wrong to reduce to a static line.
+function CompactRunning({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; onAlarm: () => void }) {
+  const [remaining, setRemaining] = useState<number | null>(null)
+  const firedRef = useRef(false)
+  const session = kid.session
+
+  useEffect(() => {
+    if (!session) return
+    const end = new Date(session.ends_at).getTime()
+    firedRef.current = false
+    const tick = () => {
+      const left = end - Date.now()
+      setRemaining(left)
+      if (left <= 0 && !firedRef.current) {
+        firedRef.current = true
+        onAlarm()
+        setTimeout(onChange, 1500)
+      }
+    }
+    tick()
+    const t = setInterval(tick, 1000)
+    return () => clearInterval(t)
+  }, [session, onAlarm, onChange])
+
+  if (!session || remaining === null) return null
+  const up = remaining <= 0
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 8, marginBottom: 9,
+      border: `1.5px solid ${up ? '#E5484D' : 'var(--terracotta)'}`,
+      background: up ? '#FDECEC' : 'var(--terracotta-lt)',
+      borderRadius: 13, padding: '10px 12px',
+    }}>
+      <span aria-hidden style={{ flexShrink: 0, fontSize: 16 }}>{deviceEmoji(session.device)}</span>
+      <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        {kid.name}
+      </span>
+      <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: up ? 13.5 : 17, color: up ? '#B93B3F' : 'var(--ink)' }}>
+        {up ? 'Time is up' : fmt(remaining)}
+      </span>
     </div>
   )
 }
