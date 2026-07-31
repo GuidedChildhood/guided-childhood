@@ -70,6 +70,13 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
   // that have happened, which on a Monday is one day and not a seventh of one.
   const dailyGuideMins = Math.round(healthyWeekMins / 7)
   const totalDailyAvg = Math.round(totalWeekMins / Math.max(1, daysSoFar))
+  // Which week, said out loud. A parent comparing this against the stars on
+  // the Quests page needs to know both are counting from Monday, and a parent
+  // reading a small total on a Tuesday needs to know it is small because the
+  // week is two days old, not because the week went well.
+  const weekWindowLine = daysSoFar >= 7
+    ? 'The full week, Monday to Sunday.'
+    : `Monday to today, ${daysSoFar} ${daysSoFar === 1 ? 'day' : 'days'} of 7.`
   const showAction = topState.tone === 'flag' || topState.tone === 'watch' || topState.tone === 'grow'
 
   // On a good week the top state emblem gives a small, warm pop, so a balanced
@@ -118,31 +125,44 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
 
     let foot: string
     if (tg.kind === 'build') {
-      foot = tg.status === 'good' ? `${fmtMins(used)} this week` : `Only ${fmtMins(used)} this week. A quick win is one making or learning thing.`
+      foot = tg.status === 'good' ? `${fmtMins(used)} so far` : `Only ${fmtMins(used)} so far. A quick win is one making or learning thing.`
     } else if (guideDaily <= 0) {
-      foot = used > 0 ? `${fmtMins(used)} this week, best kept near zero for ${bandLabel}` : `None this week, which is right for ${bandLabel}`
+      foot = used > 0 ? `${fmtMins(used)} so far, best kept near zero for ${bandLabel}` : `None so far, which is right for ${bandLabel}`
     } else {
-      foot = `${fmtMins(used)} of ${fmtMins(guideWeek)} this week`
+      foot = `${fmtMins(used)} of ${fmtMins(guideWeek)} so far`
     }
 
+    // Three parts to a row, not four. The per day figure used to sit on its
+    // own mono line under the title with the guide opposite it, so every row
+    // spent a whole line on two numbers that the bar underneath was already
+    // drawing. The figure a parent reads first now sits beside the label
+    // where they are looking, and the guide joins the quiet line at the
+    // bottom with the rest of the supporting detail.
     return (
       <div key={tg.bucket} style={{ marginBottom: 16 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, marginBottom: 5 }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, color: 'var(--ink)' }}>{tg.emoji} {tg.label}</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10, marginBottom: 7 }}>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, color: 'var(--ink)' }}>
+            {tg.emoji} {tg.label}
+          </span>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: pill.fg, background: pill.bg, padding: '4px 8px', borderRadius: 100, flexShrink: 0 }}>{pill.label}</span>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 8, marginBottom: 6, fontFamily: 'var(--font-mono)', fontSize: 13.5, fontWeight: 700 }}>
-          <span style={{ color: pill.fg }}>{name}: {fmtMins(usedDaily)} a day</span>
-          <span style={{ color: 'var(--ink-muted)' }}>{guideText}</span>
-        </div>
-        <div style={{ position: 'relative', height: 18, background: 'var(--cream)', borderRadius: 8 }}>
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.max(used > 0 ? 3 : 0, usedPct)}%`, borderRadius: 8, background: fill }} />
+        <div style={{ position: 'relative', height: 14, background: 'var(--cream)', borderRadius: 7 }}>
+          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: `${Math.max(used > 0 ? 3 : 0, usedPct)}%`, borderRadius: 7, background: fill }} />
           {guidePct > 0 && <div style={{ position: 'absolute', top: -3, bottom: -3, left: `${guidePct}%`, width: 0, borderLeft: `2px dashed ${OVER}`, zIndex: 2 }} />}
         </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ink-muted)', fontWeight: 700, marginTop: 5 }}>
-          {foot}
+        {/* A sentence, so it is set like one. Mono is for the labels and the
+            eyebrows on this page, not for the plain English under a bar. */}
+        <div style={{ fontSize: 12.5, color: 'var(--ink-muted)', lineHeight: 1.45, marginTop: 6 }}>
+          {/* The per day figure leads the line rather than sitting up beside
+              the label. Three things on the title row (label, figure, pill)
+              wrapped the longest label mid phrase at 390, "Creating and /
+              learning 0m a day". Down here it is still the first thing read
+              under the bar, still in the row's own colour, and the title row
+              is back to a label and a pill. */}
+          <b style={{ color: pill.fg, fontWeight: 800 }}>{fmtMins(usedDaily)} a day</b>
+          {' · '}{foot} · {guideText}
           {summary && summary.devices.length > 1 && (
-            <span style={{ color: 'var(--ink-soft)' }}>{'  ·  '}{summary.devices.map(d => `${d.device} ${fmtMins(d.minutes)}`).join('  ·  ')}</span>
+            <span style={{ color: 'var(--ink-soft)' }}>{' · '}{summary.devices.map(d => `${d.device} ${fmtMins(d.minutes)}`).join(' · ')}</span>
           )}
         </div>
       </div>
@@ -173,12 +193,37 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
         <div style={{ ...groupTitle, marginTop: 18 }}>Build up</div>
         {buildRows.map(renderRow)}
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 6, paddingTop: 12, borderTop: '1px solid var(--border)' }}>
-          <b style={{ fontSize: 16, fontWeight: 900, color: 'var(--ink)' }}>Total this week</b>
-          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 14, color: over ? OVER : GOOD }}>{fmtMins(totalWeekMins)} of {fmtMins(healthyWeekMins)} healthy</span>
-        </div>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', textAlign: 'right', marginTop: 3 }}>
-          about {fmtMins(totalDailyAvg)} a day of {fmtMins(dailyGuideMins)} a day guide
+        {/* The total, in the shape Apple Health and Opal both use for a week:
+            a small quiet label, then the figure alone at display size, then
+            everything else in one muted line under it. It used to be two
+            right aligned mono lines carrying two ratios, "1h 15m of 11h 5m
+            healthy" over "about 11m a day of 1h 35m a day guide", four
+            numbers at nearly the same weight with nothing saying which one to
+            read. Mono is for labels here, never for the number a parent came
+            to see.
+
+            The window is printed, which is the other half of the fix. Two
+            screens quoting different totals for "this week" is survivable
+            when each says which week it means, and invisible when neither
+            does. */}
+        <div style={{ marginTop: 6, paddingTop: 14, borderTop: '1px solid var(--border)' }}>
+          <div style={cardTitle}>Screen time so far</div>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 9, margin: '7px 0 0', flexWrap: 'wrap' }}>
+            <span style={{
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 34,
+              letterSpacing: '-0.03em', lineHeight: 1, color: over ? OVER : GOOD,
+            }}>
+              {fmtMins(totalWeekMins)}
+            </span>
+            <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-soft)' }}>
+              of {fmtMins(healthyWeekMins)} healthy
+            </span>
+          </div>
+          <div style={{ fontSize: 13.5, color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: 6 }}>
+            About {fmtMins(totalDailyAvg)} a day against a {fmtMins(dailyGuideMins)} a day guide.
+            <br />
+            {weekWindowLine}
+          </div>
         </div>
 
         <details style={{ marginTop: 12 }}>
