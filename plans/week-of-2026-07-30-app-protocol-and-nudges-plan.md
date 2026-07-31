@@ -264,3 +264,25 @@ it reads like a bug because the display does not say which is which.
 Different jobs, and device limits loosening on purpose. Needs a holiday job set
 rather than the term time one, and it pairs with the holiday spotlight already
 written.
+
+## The printed passport button belongs on the passport
+
+Justin, 31 July: "maybe this button should be a smaller version in corner of
+actual passport?"
+
+Right, and it fixes something already found. "Have this passport printed" is
+currently a full card competing with the passport beside it, while PassportBook
+itself has no shop link anywhere. Checked on 31 July: once a page is stamped
+the celebration fires, the stamp slams, and then nothing. A parent who has just
+earned a stamp is the most likely person in the product to want the real
+booklet, and we say nothing to them.
+
+So: a small affordance in the corner of the passport itself, and drop the
+separate card. One change, two problems.
+
+Where it matters most is the moment after a stamp is newly earned. PassportBook
+already knows which pages are newly stamped, because that is what drives the
+stamp slam and the buzz, so the hook exists.
+
+Keep it quiet. A booklet offered the instant a child earns something has to
+read as an offer, never as the point of having earned it.
