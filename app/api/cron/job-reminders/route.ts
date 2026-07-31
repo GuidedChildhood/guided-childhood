@@ -2,7 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
-import { bandForJob, isBand, BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
+import { bandForQuest, isBand, BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
 
 // A nudge on the child's own phone, at the hour the job can still be done.
 //
@@ -34,7 +34,7 @@ import { bandForJob, isBand, BAND_LABEL, type JobBand } from '@/lib/quests/job-t
 
 export const dynamic = 'force-dynamic'
 
-type Quest = { id: string; title: string; user_id: string; child_id: string | null; schedule: string | null; schedule_days: number[] | null }
+type Quest = { id: string; title: string; user_id: string; child_id: string | null; schedule: string | null; schedule_days: number[] | null; band: string | null }
 
 /** Does this quest fall today? Mirrors the board's own rules. */
 function dueToday(q: Quest, dow: number): boolean {
@@ -73,7 +73,7 @@ async function handler(request: Request) {
   const childIds = links.map(l => l.child_id as string)
 
   const [{ data: questRows }, { data: tickRows }, { data: kidRows }] = await Promise.all([
-    admin.from('family_quests').select('id, title, user_id, child_id, schedule, schedule_days').eq('active', true).in('child_id', childIds),
+    admin.from('family_quests').select('id, title, user_id, child_id, schedule, schedule_days, band').eq('active', true).in('child_id', childIds),
     admin.from('quest_ticks').select('quest_id, child_id, status').eq('tick_date', today).in('child_id', childIds),
     admin.from('children').select('id, name').in('id', childIds),
   ])
@@ -93,7 +93,9 @@ async function handler(request: Request) {
     const outstanding = quests.filter(q =>
       q.child_id === childId &&
       dueToday(q, dow) &&
-      bandForJob(q.title) === band &&
+      // The band the family chose, falling back to the guess from the title
+      // for every job written before they could choose.
+      bandForQuest(q) === band &&
       !handled.has(`${childId}|${q.id}`)
     )
     if (outstanding.length === 0) continue

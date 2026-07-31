@@ -1,4 +1,7 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
+import { pickSpotlight, renderSpotlight } from '@/lib/email/spotlights'
+import { isSchoolHoliday } from '@/lib/learning/holidays'
+import { isRegion, DEFAULT_REGION } from '@/lib/learning/region'
 import { NextRequest, NextResponse } from 'next/server'
 import { emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { weeklyDigestEmail } from '@/lib/email/templates'
@@ -48,7 +51,7 @@ async function handler(req: NextRequest) {
     loadSentKeys(supabase),
     supabase
       .from('profiles')
-      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete')
+      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete, school_id, school_region')
       .eq('onboarding_complete', true)
       .eq('email_opt_out', false),
   ])
@@ -70,9 +73,10 @@ async function handler(req: NextRequest) {
     remaining -= 1
 
     try {
-      const [{ data: child }, { data: completions }] = await Promise.all([
+      const [{ data: child }, { data: completions }, { data: shownRows }] = await Promise.all([
         supabase.from('children').select('id, name, age_band').eq('parent_id', profile.id).eq('is_primary', true).maybeSingle(),
         supabase.from('script_completions').select('completed_at').eq('user_id', profile.id),
+        supabase.from('spotlight_shown').select('spotlight_key').eq('user_id', profile.id),
       ])
       const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
       const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
@@ -93,10 +97,35 @@ async function handler(req: NextRequest) {
         }
       }
 
+      // One service a week, newest first among the ones this parent has not had.
+      // Null once they have seen them all, and a digest with no spotlight is a
+      // perfectly good digest.
+      const shown = new Set(((shownRows ?? []) as { spotlight_key: string }[]).map(r => r.spotlight_key))
+      const chosen = pickSpotlight({
+        childName,
+        ageBand: (child?.age_band as AgeBand | null) ?? null,
+        hasSchool: Boolean(profile.school_id),
+        scriptsDoneTotal: total,
+        // The family's own term dates. Defaulted to UK only when unset, never
+        // assumed: a family in the US would otherwise be told the holidays
+        // had started on British dates, in the middle of their school term.
+        inHolidays: isSchoolHoliday(now, isRegion(profile.school_region) ? profile.school_region : DEFAULT_REGION),
+      }, shown)
+      const spotlight = chosen ? renderSpotlight(chosen, childName) : null
+
       const result = await deliverOnce(supabase, profile.id, profile.email!, key, weeklyDigestEmail({
         childName, stageName: stage.name, scriptsDoneTotal: total, scriptsDoneThisWeek: thisWeek,
-        unsubscribe: unsubscribeUrl(profile.id), balanceNote,
+        unsubscribe: unsubscribeUrl(profile.id), balanceNote, spotlight,
       }))
+
+      // Recorded only once the email actually went. A spotlight marked as shown
+      // on a send that failed would be silently skipped forever, which is the
+      // one way this feature could quietly lose a parent a service.
+      if (chosen && result === 'sent') {
+        await supabase.from('spotlight_shown')
+          .insert({ user_id: profile.id, spotlight_key: chosen.key })
+          .then(undefined, () => {}) // already shown, or unreadable. Never block the digest.
+      }
       if (result === 'sent') sent += 1
       else if (result === 'failed') failed += 1
       else skipped += 1

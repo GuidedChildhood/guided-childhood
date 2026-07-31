@@ -332,6 +332,10 @@ export async function POST(req: NextRequest) {
     stars: Math.min(10, Math.max(1, Number(stars) || 1)),
     schedule: ['daily', 'weekdays', 'weekend', 'once'].includes(schedule) ? schedule : 'daily',
     schedule_days: cleanDays(body.schedule_days),
+    // Null when the parent left it on "work it out", which keeps the guess from
+    // the title. Validated here as well as by the column's own check, so a bad
+    // value is a 400 rather than a constraint error the caller cannot read.
+    band: ['morning', 'after_school', 'evening'].includes(body.band) ? body.band : null,
     blocks_screens: Boolean(blocks_screens),
   }).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

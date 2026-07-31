@@ -42,6 +42,13 @@ export interface ProfileRow {
   trial_ends_at: string | null
   email_opt_out: boolean
   onboarding_complete: boolean | null
+  // Only the digest selects this, for the school spotlight. Optional so the
+  // lifecycle and monthly routes keep the same row type without it.
+  school_id?: string | null
+  // Also digest only. Read from the row rather than a lookup per parent,
+  // because the digest runs to a deadline and one extra round trip per
+  // family is the kind of cost that drops the last ones off the end.
+  school_region?: string | null
 }
 
 export function daysSince(iso: string): number {
