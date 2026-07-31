@@ -1,4 +1,5 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
+import { londonDateIn, londonWeekdayIn } from '@/lib/time/london'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
@@ -21,9 +22,7 @@ const KIND_EMOJI: Record<string, string> = {
 }
 
 function ukTomorrow(): { dateStr: string; weekday: number } {
-  const uk = new Date(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' }))
-  uk.setDate(uk.getDate() + 1)
-  return { dateStr: uk.toISOString().slice(0, 10), weekday: uk.getDay() }
+  return { dateStr: londonDateIn(1), weekday: londonWeekdayIn(1) }
 }
 
 async function handler(req: NextRequest) {

@@ -8,6 +8,7 @@ import { getFamilyRegion } from '@/lib/learning/region'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { questDueToday } from '@/lib/quests/due'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import MarkStepOnArrival from '@/components/kid/MarkStepOnArrival'
 
 // Check my balance, as a page that exists.
 //
@@ -95,6 +96,8 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
 
   return (
     <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+      {/* Reading it IS the step. See the note in MarkStepOnArrival. */}
+      <MarkStepOnArrival token={token} step="balance" />
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
         <Link href={`/k/${token}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: 16 }}>
           ← Back

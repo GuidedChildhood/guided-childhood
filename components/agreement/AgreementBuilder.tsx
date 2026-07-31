@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { londonNow } from '@/lib/time/london'
 import Link from 'next/link'
 import { AGREEMENT_TYPES, CLAUSES_BY_TYPE, recommendedType, type Clause } from '@/lib/content/agreement-clauses'
 
@@ -139,7 +140,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
     }
   }
 
-  const ukDay = new Date(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })).getDay()
+  const ukDay = londonNow().weekday
   const isCheckWindow = ukDay === 5 || ukDay === 6 || ukDay === 0
 
   const mono: React.CSSProperties = {
