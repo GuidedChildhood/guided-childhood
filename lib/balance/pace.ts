@@ -131,10 +131,22 @@ export function buildPace(input: {
         : `The week averaged ${average} minutes a day against a guide of ${dailyGuide}. Worth a look at what took the time.`
     }
     switch (verdict) {
+      // Neither of these two offers a number to climb to, and that is the point.
+      //
+      // This used to read "there is room, so tomorrow can be up to 150 minutes
+      // without a second thought", shown to a child averaging eleven. Justin,
+      // 31 July: "should not encourage 150 mins a day if the average is small,
+      // do not try to fill in time as [it] encourages more watching". He is
+      // right, and it is the product inverted. A screen built on age guidance
+      // was reading the gap between a quiet week and the guide as an invitation
+      // to close it.
+      //
+      // The guide is a ceiling, never a target. A family under it has already
+      // won and needs telling that, not offering the difference.
       case 'plenty':
-        return `${average} minutes a day so far against a guide of ${dailyGuide}. There is room, so tomorrow can be up to ${suggestTomorrow} minutes without a second thought.`
+        return `${average} minutes a day so far, well under the ${dailyGuide} minute guide. Nothing to change. Unused minutes do not roll over, so there is nothing here that needs using up.`
       case 'on_track':
-        return `${average} minutes a day so far, right about the ${dailyGuide} minute guide. Around ${suggestTomorrow} minutes tomorrow keeps the week where it should be.`
+        return `${average} minutes a day so far, right about the ${dailyGuide} minute guide. An ordinary day tomorrow keeps it there.`
       case 'a_little_high':
         return `${average} minutes a day so far, a little above the ${dailyGuide} minute guide. Around ${suggestTomorrow} minutes tomorrow brings the week back level.`
       case 'well_over':
