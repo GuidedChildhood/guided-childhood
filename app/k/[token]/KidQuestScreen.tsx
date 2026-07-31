@@ -29,6 +29,8 @@ import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidTodayList from '@/components/kid/KidTodayList'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
+import KidFiveADay from '@/components/kid/KidFiveADay'
+import KidStreakTakeover from '@/components/kid/KidStreakTakeover'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
@@ -784,6 +786,8 @@ export default function KidQuestScreen({
 
   const doneCount = quests.filter(q => ticks[q.id]).length
   const allDone = quests.length > 0 && doneCount === quests.length
+  // The five a day streak takeover, shown once when the fifth step lands.
+  const [streakWon, setStreakWon] = useState<number | null>(null)
   const pendingStars = quests.filter(q => ticks[q.id] === 'pending').reduce((s, q) => s + q.stars, 0)
   // The bank is what is really there to spend: earned ever, minus the
   // screen time already used. Falls back to the week count until the
@@ -1159,6 +1163,20 @@ export default function KidQuestScreen({
           </div>
         )}
 
+        {/* The five a day, first on the screen.
+            Justin: "make it 5 steps per day ... once the system knows they sent
+            a job, a big celebration animation and 1 streak achieved."
+            Above everything, because it IS the day: one card, five one line
+            rows, no scrolling. The list below is still the detail for step one,
+            which is why Your jobs scrolls to it rather than navigating away. */}
+        <KidFiveADay
+          token={token}
+          childName={childName}
+          jobsAllDone={allDone}
+          onOpenJobs={() => document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          onDayComplete={n => { playKidSound('done'); setStreakWon(n) }}
+        />
+
         {/* Reminders, asked ABOVE the jobs rather than below everything. This
             used to sit at the very bottom of the screen, which is why a child
             could add the app to their Home Screen and never be asked: the offer
@@ -1177,6 +1195,7 @@ export default function KidQuestScreen({
             with its stars, ticked in one flow. The buddy's line sits above it
             and the quiet device rule sits under it. When gifted screen time
             is still owed, the warm pay back row shows here too. */}
+        <div id="kid-today" style={{ scrollMarginTop: 96 }} />
         <KidTodayList
           newQuestCount={newQuestCount}
           childName={childName}
@@ -2285,6 +2304,17 @@ export default function KidQuestScreen({
           GUIDED CHILDHOOD QUESTS
         </p>
       </div>
+
+      {/* All five done. Fires once on the transition, never on a refresh of an
+          already finished day, because the API only reports justCompleted when
+          completed_at was previously null. */}
+      {streakWon !== null && (
+        <KidStreakTakeover
+          streak={streakWon}
+          childName={childName}
+          onClose={() => setStreakWon(null)}
+        />
+      )}
     </div>
   )
 }

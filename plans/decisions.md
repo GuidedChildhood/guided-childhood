@@ -4265,3 +4265,63 @@ Not done, and it needs Justin: firing /api/cron/device-guide-refresh and
 /api/cron/legal-watch by hand. There is no CRON_SECRET in this environment, only
 the template, so the request cannot be authorised from here. Vercel's dashboard
 runs both in two clicks.
+
+---
+
+## 31 July 2026 — five a day on the child app, and what DiGi says while it thinks
+
+**The five a day.** Justin's design, built: one card, five one line rows, at the
+top of the child screen. Jobs first because a grown up is waiting on it, Ask for
+a job last because the day should end with a child offering to do something
+rather than consuming something. Two of the five rotate from a pool of six so the
+day is not identical, seeded by child and date so a refresh cannot reshuffle a
+half finished day.
+
+Modelled on Duolingo's Daily Quests panel, which is the proven shape. Measured:
+the card is about 500px at 390 wide, so five rows genuinely fit one screen. That
+is what solves "no need to scroll", and it is worth saying plainly that tabs
+never were the fix for it.
+
+Three things deliberately left out, all of them things Duolingo does:
+
+- **No countdown.** A clock on a child's chores turns a habit into an exam, and
+  the ICO Children's Code names engineered urgency directly.
+- **No loss language.** Nothing says a streak is at risk. It shows the run when
+  there is one and is silent when there is not.
+- **No share button.** A child's streak is not marketing.
+
+**Step 4 completes by being READ.** Justin's wording was exact: "when pressed
+will check if balance of jobs and device is good." So it is a mirror, not a task.
+A child cannot be asked to hit a number they do not control, and scoring them on
+one would make the balance something they can fail.
+
+**The offline steps are taken on trust.** Reading, homework and moving about are
+marked done by the child with no grown up approval. Putting a verification gate
+on going outside would make the offline encouragement into another thing to be
+checked on, which defeats it.
+
+**kid_days is a row per child per day** because a streak has to be provable
+against what a child was actually SHOWN, and nothing else records the shape of a
+day. streak_awarded is separate from completed_at so a reward retry cannot double
+count.
+
+## And DiGi's thinking lines
+
+Justin: "we did have some message from DiGi whilst it was thinking, giving
+parents an idea what was happening ... your feedback counts and helps DiGi learn."
+
+It existed (ThinkingReassurance, five rotating lines) and said only research and
+guardrails. It missed the two things that actually separate this from a chatbot:
+what other families found, and what THIS family has told us. Both are real and
+both are already in the same prompt, concatenated at app/api/digi/route.ts line
+407 as aggregateWisdom, expertKnowledge and familyMemory.
+
+Four lines added, each checked against the code rather than written to sound
+good, because a reassurance that overclaims is worse than none:
+
+- "other families" is rebuildWisdom, reading resolved concerns, scripts marked as
+  worked, and parent feedback across accounts.
+- "never who they are" is literally true: child_id and user_id are read only to
+  join an age band and never sent onward.
+- "your feedback goes back in" is true because digi_feedback is one of
+  rebuildWisdom's three sources.
