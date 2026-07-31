@@ -30,15 +30,22 @@ export default function WeekPage() {
   }, [busy])
 
   useEffect(() => {
-    fetch('/api/digi/weekly-review')
+    // any=1: this page shows the week even after the Home card was dismissed.
+    // Putting the card away is not the same as throwing the week away.
+    fetch('/api/digi/weekly-review?any=1')
       .then(r => r.json())
       .then(d => { setReview(d.review ?? null); setLoaded(true) })
       .catch(() => setLoaded(true))
   }, [])
 
-  // Mark read once seen, so the Sunday nudge on Home settles.
+  // Mark read once seen, so the nudge on Home settles.
+  //
+  // Only from unread. A parent who dismissed the card and then came back here
+  // through the round up row has not asked for the card again, and promoting
+  // dismissed back to read would put it on Home tomorrow morning as though
+  // the cross had never been tapped.
   useEffect(() => {
-    if (review?.id) {
+    if (review?.id && review.status === 'unread') {
       fetch('/api/digi/weekly-review', {
         method: 'PATCH', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: review.id, status: 'read' }),

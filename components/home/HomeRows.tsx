@@ -6,7 +6,7 @@ import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 
 // Everything that is not today's loop, folded to big friendly rows: Family
 // quests (with the live approve count riding as a badge), the road to 16 (with
-// the stamp position), and Ask DiGi. Sundays add the week round up row. Big
+// the stamp position), Ask DiGi, and the week round up. Big
 // icon tiles, chunky borders, one tap each: the folded half of the simplified
 // Home the sample page agreed.
 
@@ -42,10 +42,9 @@ function SlimRow({ href, emoji, title, meta, badge, urgent }: {
   )
 }
 
-export default function HomeRows({ stageName, stageNum, isSunday, criticalWindow = false, initialToApprove }: {
+export default function HomeRows({ stageName, stageNum, criticalWindow = false, initialToApprove }: {
   stageName: string
   stageNum: number
-  isSunday: boolean
   criticalWindow?: boolean
   // Fixture only, for the reference pages: skips the live fetch.
   initialToApprove?: number
@@ -111,16 +110,17 @@ export default function HomeRows({ stageName, stageNum, isSunday, criticalWindow
         meta="He knows your setup, your timer and your week"
       />
 
-      {/* Sunday only: the week round up appears as one extra row, nothing
-          else on this screen changes day to day. */}
-      {isSunday && (
-        <SlimRow
-          href="/dashboard/week"
-          emoji="🗞️"
-          title="Your week, rounded up"
-          meta="The balance, the wins, and one thing to try next"
-        />
-      )}
+      {/* The permanent door to the round up. This was Sunday only, which meant
+          a parent who dismissed the card, or simply looked on a Tuesday, had
+          no way back to a round up that had already been written for them.
+          The card at the top of Home is the nudge and it comes and goes; this
+          row is the door and it stays. */}
+      <SlimRow
+        href="/dashboard/week"
+        emoji="🗞️"
+        title="Your week, rounded up"
+        meta="The balance, the wins, and one thing to try next"
+      />
     </div>
   )
 }
