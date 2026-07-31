@@ -4469,3 +4469,36 @@ getting it wrong either double pays screen time or silently stops banking it, an
 it went to design while Justin was away from the laptop. Worth keeping as a rule:
 additive schema is fine to ship on judgement, but a change to a uniqueness
 guarantee that a money path depends on waits for someone to review it.
+
+---
+
+## 31 July 2026: the holiday uplift stays at 1.25, including the 13 plus band
+
+Raised because the 13 plus band is the one place the uplift pushes past every
+published number we cite, and Justin has decided: leave it.
+
+The numbers. The age table maxes at 120 minutes a day for 13 and over, and that
+ceiling comes from the Canadian 24-Hour Movement Guidelines, the only source in
+SCREEN_GUIDE_SOURCES that names a figure for school age children. WHO and AAP
+cover under fives. RCPCH explicitly declines to set a threshold. Summer relaxes
+by 1.25, so 120 becomes 150.
+
+The younger bands land somewhere defensible when relaxed (60 becomes 75, 75
+becomes 95). The oldest does not, and that was the open question.
+
+Kept because the uplift is a deliberate product judgement rather than a claim
+about evidence: holidays are different, families need the slack, and a guide
+that ignores that gets ignored itself. What was actually wrong was never the
+number, it was the label. The card said "a healthy guide of 150 a day for their
+age" and the setup said "recommended for this age is 95 minutes a day", both
+crediting our own decision to the research and both leaving September looking
+like an unexplained cut.
+
+Fixed in PR 641 and PR 644: every surface now names the term time figure as the
+age guide and the relaxed figure as the holiday, each to its owner. With the
+labels honest the multiplier stops being a claim we cannot support, so it can
+stay.
+
+Revisit only if the evidence base moves. If a body ever publishes a school age
+number above 120 the ceiling changes; until then 150 in August is our call,
+clearly marked as ours.
