@@ -194,7 +194,9 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         body: JSON.stringify({
           title: title.trim(), kind,
           due_date: repeats ? null : (dueDate || null),
-          due_time: repeats ? null : (dueDate && dueTime ? dueTime : null),
+          // A routine has a time of day even though it has no date. Sending
+          // null here is what left Cubs every Tuesday with no when at all.
+          due_time: repeats ? (dueTime || null) : (dueDate && dueTime ? dueTime : null),
           recurs_weekday: repeats ? weekday : null,
           auto_send_to_child: repeats ? autoSend : false,
         }),
@@ -423,6 +425,23 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   Also remind {childName ?? 'them'} automatically, every week
                 </span>
               </button>
+              {/* What time, on that day. Optional, the same as it is for a one
+                  off: some routines are a hand it in by home time, and some are
+                  a be there at 18:15. Without this a weekly routine had a day
+                  and no hour, so the child's card could only ever say the name
+                  of the thing. */}
+              <div style={{ marginTop: '10px' }}>
+                <input
+                  type="time"
+                  value={dueTime}
+                  onChange={e => setDueTime(e.target.value)}
+                  title="Optional. A time lets the reminder land an hour before, and turns it red as it nears."
+                  style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink)' }}
+                />
+                <p style={{ fontSize: '13.5px', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '6px 0 0' }}>
+                  Optional. Add a time for something that starts at one, like Cubs at 18:15. Leave it off for a bring it that day reminder.
+                </p>
+              </div>
             </div>
           ) : (
             <div style={{ marginBottom: '10px' }}>
