@@ -40,6 +40,51 @@ export const KID_DEVICES: { key: DeviceKey; label: string; emoji: string }[] = [
   { key: 'computer', label: 'Computer', emoji: '💻' },
 ]
 
+// ── What they are on, not just what they are holding ─────────────────
+//
+// The whole balance model sorts screen time by activity rather than by object:
+// a guide of 27 minutes watching and 24 learning at 4 to 7, and learning is the
+// one bucket invited upward instead of capped. That only works if the activity
+// can actually be known.
+//
+// For four of the five devices it can be read off the device itself. A console
+// is gaming, a TV is watching, a phone is social. A computer is genuinely all
+// four, and the mapper had no answer: it listed chromebook, laptop, desktop and
+// pc under learning and never listed `computer`, which is the key the app
+// actually stores, so every computer session fell through to watching. A child
+// doing homework had it counted against the watching guide while the learning
+// bucket they were filling stayed empty and kept nudging them to do more.
+//
+// Guessing harder was the wrong fix. The child is sitting there and knows the
+// answer, so this asks them. One tap, only for the device that needs it.
+export type ActivityKey = 'learning' | 'watching' | 'gaming' | 'social'
+
+/** Devices whose bucket cannot be told from the device alone. */
+const ASKS_ACTIVITY: DeviceKey[] = ['computer']
+
+export function asksActivity(device: string): boolean {
+  return (ASKS_ACTIVITY as string[]).includes(device)
+}
+
+// In the child's words, and in the order a computer actually gets used at these
+// ages. Homework leads because it is the answer we most want counted correctly:
+// it is the only one of the four that earns the child credit in a build bucket
+// rather than spending from a keep one.
+export const ACTIVITIES: { key: ActivityKey; label: string; emoji: string }[] = [
+  { key: 'learning', label: 'Homework or learning', emoji: '📚' },
+  { key: 'watching', label: 'Watching something', emoji: '📺' },
+  { key: 'gaming', label: 'Playing a game', emoji: '🎮' },
+  { key: 'social', label: 'Talking to friends', emoji: '💬' },
+]
+
+export function isActivityKey(v: unknown): v is ActivityKey {
+  return v === 'learning' || v === 'watching' || v === 'gaming' || v === 'social'
+}
+
+export function activityLabel(key: string): string {
+  return ACTIVITIES.find(a => a.key === key)?.label ?? 'Screen'
+}
+
 export type TrustLevel = 'ask' | 'watch' | 'trusted'
 
 // Unset or unknown trust reads as ask first: the calibrated default for

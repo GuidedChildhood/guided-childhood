@@ -4,7 +4,7 @@ import { getStarBanks } from '@/lib/quests/bank'
 import { getHolidayBanks } from '@/lib/quests/holiday-bank'
 import { planSpend, drawFromHolidayBank, refundToHolidayBank } from '@/lib/quests/holiday-spend'
 import { STAR_MINUTES } from '@/lib/quests/templates'
-import { isDeviceKey, minutesToStars, deviceLabel, readTrust } from '@/lib/quests/device-time'
+import { isDeviceKey, isActivityKey, asksActivity, minutesToStars, deviceLabel, readTrust } from '@/lib/quests/device-time'
 import { questDueToday } from '@/lib/quests/due'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { wouldExceedGuide } from '@/lib/quests/daily-guide'
@@ -16,7 +16,7 @@ import { jobsTodayCount } from '@/lib/pathway/jobs-streak'
 // the countdown both sides watch. The parent's phone gets a heads up.
 
 export async function POST(req: NextRequest) {
-  const { token, device: rawDevice, familyDeviceId, minutes, requestId } = await req.json()
+  const { token, device: rawDevice, familyDeviceId, minutes, requestId, activity: rawActivity } = await req.json()
   if (!token || typeof token !== 'string' || !/^[0-9a-f]{18}$/.test(token)) {
     return NextResponse.json({ error: 'bad request' }, { status: 400 })
   }
@@ -51,17 +51,23 @@ export async function POST(req: NextRequest) {
   // The child taps Start on an ask their grown up already said yes to: the
   // approved request itself carries the device and minutes, so nothing the
   // client sends can stretch what was agreed.
-  let approvedAsk: { id: string; device: string; minutes: number } | null = null
+  let approvedAsk: { id: string; device: string; minutes: number; activity?: string | null } | null = null
   if (typeof requestId === 'string' && requestId) {
     const { data: reqRow } = await supabase
       .from('device_requests')
-      .select('id, device, minutes, status')
+      .select('id, device, minutes, status, activity')
       .eq('id', requestId).eq('child_id', link.child_id)
       .maybeSingle()
     if (!reqRow || reqRow.status !== 'approved') {
       return NextResponse.json({ error: 'ask not approved' }, { status: 400 })
     }
-    approvedAsk = { id: reqRow.id as string, device: reqRow.device as string, minutes: Number(reqRow.minutes) }
+    approvedAsk = {
+      id: reqRow.id as string, device: reqRow.device as string, minutes: Number(reqRow.minutes),
+      // What the child said when they asked. Without carrying this the child
+      // picks Homework, waits for a yes, and the session that finally starts
+      // has forgotten the answer and falls back to a guess.
+      activity: (reqRow as { activity?: string | null }).activity ?? null,
+    }
     // The ask already named a screen when it was sent. That is the one the
     // parent said yes to, so it wins over anything the client sends now.
     const { data: askDevice } = await supabase
@@ -81,6 +87,24 @@ export async function POST(req: NextRequest) {
   }
   // "on the tablet" but "on Ella's iPad": a named screen takes no article, and
   // "on the Ella's iPad" in a push notification reads as machine written.
+  // What they are actually doing on it, for the one device that cannot say.
+  //
+  // Refused rather than guessed when it is missing. A computer session with no
+  // activity is exactly the row that used to fall through to watching and
+  // charge homework to the wrong guide, so writing one is the bug rather than a
+  // graceful degradation. The child's card will not let them get here without
+  // answering, so this only fires for a stale client or a hand made request.
+  //
+  // An approved ask carries the answer the child gave when they sent it, which
+  // wins: that is what the parent said yes to.
+  const activity = approvedAsk ? (approvedAsk.activity ?? null) : (rawActivity ?? null)
+  if (activity !== null && !isActivityKey(activity)) {
+    return NextResponse.json({ error: 'bad activity' }, { status: 400 })
+  }
+  if (asksActivity(device) && activity === null) {
+    return NextResponse.json({ error: 'activity required for this device' }, { status: 400 })
+  }
+
   const screenName = homeDevice?.label ?? deviceLabel(device)
   const onScreen = homeDevice ? screenName : `the ${screenName.toLowerCase()}`
   const mins = approvedAsk ? approvedAsk.minutes : Number(minutes)
@@ -143,6 +167,7 @@ export async function POST(req: NextRequest) {
       .eq('child_id', link.child_id).in('status', ['pending', 'approved'])
     const { data: askRow } = await supabase.from('device_requests').insert({
       user_id: link.user_id, child_id: link.child_id, device, minutes: mins, status: 'pending',
+      ...(activity ? { activity } : {}),
       ...(homeDevice ? { family_device_id: homeDevice.id } : {}),
     }).select('id, device, minutes').single()
 
@@ -230,6 +255,10 @@ export async function POST(req: NextRequest) {
   const { data: session, error: sessionError } = await supabase.from('device_sessions').insert({
     user_id: link.user_id, child_id: link.child_id, device, minutes: mins, stars: plan.starCost,
     spend_id: spend.id, ends_at: endsAt, treat,
+    // Spread rather than set, so a database still short of migration 138 keeps
+    // taking sessions instead of rejecting every one of them on an unknown
+    // column. Null there simply means infer from the device, as before.
+    ...(activity ? { activity } : {}),
     // Zero on a database still short of migration 128 would silently make every
     // stop refund the holiday minutes to nowhere, so the column failing to exist
     // has to undo the draw rather than carry on without it.

@@ -43,7 +43,7 @@ export async function getWeekParentReport(
   const weekAgo = starWeekStart()
 
   const [sessionsRes, questsRes, ticksRes] = await Promise.all([
-    supabase.from('device_sessions').select('device, minutes').eq('user_id', userId).eq('child_id', child.id).gte('started_at', weekAgo),
+    supabase.from('device_sessions').select('device, minutes, activity').eq('user_id', userId).eq('child_id', child.id).gte('started_at', weekAgo),
     supabase.from('family_quests').select('id, stars, title').eq('user_id', userId).eq('child_id', child.id).eq('active', true),
     supabase.from('quest_ticks').select('quest_id').eq('user_id', userId).eq('child_id', child.id).eq('status', 'approved').gte('tick_date', weekAgo),
   ])
@@ -72,7 +72,14 @@ export async function getWeekParentReport(
   return buildParentReport({
     childName: child.name ?? null,
     ageBand: child.age_band ?? null,
-    deviceMinutes: (sessionsRes.data ?? []).map(d => ({ device: d.device as string, minutes: d.minutes as number })),
+    // activity rides along so a computer lands in the bucket the child named
+    // rather than the one its name implies. Null for every other device, which
+    // is what the mapper wants.
+    deviceMinutes: (sessionsRes.data ?? []).map(d => ({
+      device: d.device as string,
+      minutes: d.minutes as number,
+      activity: (d as { activity?: string | null }).activity ?? null,
+    })),
     offscreen: buildOffscreen({ jobs, jobStars, sheets: sheetCount, sheetStars }),
     daysSoFar: ukWeekday(),
   })
