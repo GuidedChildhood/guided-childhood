@@ -31,6 +31,7 @@ export default function KidFiveADay({
   token,
   childName,
   jobsAllDone,
+  moveJobs,
   onOpenJobs,
   onDayComplete,
 }: {
@@ -38,6 +39,13 @@ export default function KidFiveADay({
   childName?: string
   /** Whether every job due today is ticked, which is step one's own condition. */
   jobsAllDone: boolean
+  /**
+   * The moving about jobs actually on the board today, and whether they are
+   * ticked. Null when this child has none, which is the case that has to keep
+   * the plain self tick: a step that cannot be completed must never be one of
+   * the five, and pointing a child at a job that does not exist is exactly that.
+   */
+  moveJobs: { total: number; done: boolean } | null
   /** Jobs completes on this screen, so the parent scrolls the list into view. */
   onOpenJobs: () => void
   /** Fired once when the fifth step lands, for the celebration. */
@@ -64,6 +72,20 @@ export default function KidFiveADay({
     void mark('jobs', true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, jobsAllDone])
+
+  // Move about, when the board already carries a job that IS moving about.
+  //
+  // It marks itself off the real job rather than asking for a second tick, the
+  // same way jobs does. A child who spent an hour outside and ticked the job
+  // that paid them for it has plainly moved about, and asking them to confirm
+  // it again in a different box is how a list teaches a child that some of its
+  // rows are pretend.
+  useEffect(() => {
+    if (!state || !moveJobs || !moveJobs.done) return
+    if (!state.steps.includes('move') || state.done.includes('move')) return
+    void mark('move', true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, moveJobs])
 
   async function mark(step: StepKey, silent = false) {
     if (busy) return
@@ -148,7 +170,9 @@ export default function KidFiveADay({
                 </span>
                 {!isDone && (
                   <span style={{ display: 'block', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: '1px' }}>
-                    {def.hint}
+                    {key === 'move' && moveJobs
+                      ? `You have ${moveJobs.total === 1 ? 'a job' : `${moveJobs.total} jobs`} for this. Tap to see ${moveJobs.total === 1 ? 'it' : 'them'}`
+                      : def.hint}
                   </span>
                 )}
               </span>
@@ -174,7 +198,11 @@ export default function KidFiveADay({
           // Jobs stays on this screen: it is the list directly below, and sending
           // a child somewhere else to do the thing they can already see would be
           // navigation for its own sake.
-          if (key === 'jobs') {
+          // Move goes the same way when the board carries a job that IS moving
+          // about: it is the same list, a few rows down, so pointing at it beats
+          // asking for a second tick of the same hour outside. With no such job
+          // it falls through to the self tick below, unchanged.
+          if (key === 'jobs' || (key === 'move' && moveJobs)) {
             return (
               <button key={key} onClick={() => { playKidSound('tap'); onOpenJobs() }} style={rowStyle}>
                 {inner}
