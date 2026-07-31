@@ -456,16 +456,36 @@ export default function ManageJobs() {
           Justin asked for the timer and the balance as their own buttons and
           their own pages, because starting twenty minutes of TV and reading the
           week are different jobs done at different moments. */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 6 }}>
-        <Link href="/dashboard/quests/routines" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}>
-          Add a whole week routine →
-        </Link>
-        <Link href="/dashboard/quests/timer" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}>
-          Start the screen timer →
-        </Link>
-        <Link href="/dashboard/stats" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}>
-          Balance and stats →
-        </Link>
+      {/* Chunky, per the design system, and left aligned with the arrow pushed
+          to the edge.
+          btn-outline sets box-shadow: none, so three of them stacked read as
+          three flat rectangles rather than as buttons: the one shape in this
+          product that is meant to look pressable was the one with no depth.
+          The label leads and the arrow sits right, so the eye lands on the
+          words rather than on the middle of an empty box. */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
+        {[
+          { href: '/dashboard/quests/routines', label: 'Add a whole week routine' },
+          { href: '/dashboard/quests/timer', label: 'Start the screen timer' },
+          { href: '/dashboard/stats', label: 'Balance and stats' },
+        ].map(b => (
+          <Link
+            key={b.href}
+            href={b.href}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+              background: '#fff', color: 'var(--ink)',
+              border: '1.5px solid var(--terracotta)',
+              borderRadius: 16,
+              boxShadow: '0 4px 0 var(--terracotta)',
+              padding: '15px 18px', textDecoration: 'none',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+            }}
+          >
+            <span>{b.label}</span>
+            <span aria-hidden style={{ color: 'var(--terracotta-dark)', fontSize: 18 }}>→</span>
+          </Link>
+        ))}
       </div>
       <SentToast message={justAdded} onDone={() => setJustAdded(null)} />
     </div>
