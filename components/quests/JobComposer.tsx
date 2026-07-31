@@ -14,11 +14,11 @@ import { BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
 // always been on family_quests and the composer simply never asked.
 export type Schedule = 'daily' | 'weekdays' | 'weekend' | 'once'
 
-const WHEN: { key: Schedule; label: string }[] = [
-  { key: 'daily',    label: 'Every day' },
-  { key: 'weekdays', label: 'School days' },
-  { key: 'weekend',  label: 'Weekends' },
-  { key: 'once',     label: 'Just once' },
+const WHEN: { key: Schedule; label: string; tint: string }[] = [
+  { key: 'daily',    label: 'Every day',   tint: 'yellow' },
+  { key: 'weekdays', label: 'School days', tint: 'blue' },
+  { key: 'weekend',  label: 'Weekends',    tint: 'coral' },
+  { key: 'once',     label: 'Just once',   tint: 'lavender' },
 ]
 
 // When in the day, in the child's words rather than a clock.
@@ -31,11 +31,11 @@ const WHEN: { key: Schedule; label: string }[] = [
 // Work it out means what has always happened: the band is read from the words
 // in the title. A parent only overrides it when the guess is wrong for their
 // house.
-const BANDS: { key: JobBand | 'auto'; label: string }[] = [
-  { key: 'auto',         label: 'Work it out' },
-  { key: 'morning',      label: 'Before school' },
-  { key: 'after_school', label: 'After school' },
-  { key: 'evening',      label: 'Before bed' },
+const BANDS: { key: JobBand | 'auto'; label: string; tint: string }[] = [
+  { key: 'auto',         label: 'Work it out',   tint: 'pink' },
+  { key: 'morning',      label: 'Before school', tint: 'yellow' },
+  { key: 'after_school', label: 'After school',  tint: 'blue' },
+  { key: 'evening',      label: 'Before bed',    tint: 'lavender' },
 ]
 
 // One question at a time.
@@ -59,9 +59,41 @@ const BANDS: { key: JobBand | 'auto'; label: string }[] = [
 type Step = 'what' | 'often' | 'when' | 'added'
 
 const CHIP_BASE: React.CSSProperties = {
-  cursor: 'pointer', borderRadius: 100, padding: '9px 15px',
+  cursor: 'pointer', borderRadius: 100, padding: '11px 12px',
   fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
-  color: 'var(--ink)',
+  color: 'var(--ink)', textAlign: 'center',
+}
+
+// Two up, equal width, so the answers line up.
+//
+// These were a wrapping flex row, which sizes every chip to its own text, so
+// "Every day" and "School days" set one edge and "Weekends" and "Just once"
+// set another, and four answers to one question came out as a ragged little
+// staircase. A question with four equal answers should look like four equal
+// answers.
+const CHIP_GRID: React.CSSProperties = {
+  display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+  gap: 9, marginTop: 8,
+}
+
+// A pastel each, from the stage palette the rest of the product already uses.
+//
+// Justin: "make them pastel colours to add some intereses like stage colours".
+// Every chip was white and only the chosen one turned gold, so a question
+// looked like a form until it was answered. The tints do the work the gold was
+// doing alone: four options that are visibly four different things.
+//
+// The bands are not decorated in an arbitrary order, they are coloured by
+// what they mean. Morning takes the warm yellow, after school the daylight
+// blue, before bed the lavender. A parent scanning them meets the day in the
+// order the day happens, in the colours it happens in.
+type Tint = { bg: string; bold: string; text: string }
+const TINTS: Record<string, Tint> = {
+  yellow:   { bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)' },
+  blue:     { bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)' },
+  coral:    { bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', text: 'var(--stage-3-text)' },
+  pink:     { bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)' },
+  lavender: { bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)' },
 }
 const QUESTION: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17,
@@ -188,12 +220,22 @@ export default function JobComposer({
     // action rather than three.
   }
 
-  const chip = (on: boolean, accent: 'terracotta' | 'gold'): React.CSSProperties => ({
-    ...CHIP_BASE,
-    background: on ? `var(--${accent})` : '#fff',
-    border: `1.5px solid ${on ? `var(--${accent})` : 'var(--border)'}`,
-    boxShadow: on ? `0 3px 0 var(--${accent}-dark)` : 'none',
-  })
+  // Chosen deepens the chip's OWN colour rather than turning it gold. One gold
+  // for every answer to every question told a parent which one was picked and
+  // nothing else; this says which one was picked AND keeps saying which answer
+  // it was, which matters on the confirmation screen a moment later.
+  const chip = (on: boolean, tintKey: string): React.CSSProperties => {
+    const t = TINTS[tintKey] ?? TINTS.yellow
+    return {
+      ...CHIP_BASE,
+      background: on ? t.bold : t.bg,
+      border: `1.5px solid ${on ? t.bold : 'var(--border)'}`,
+      color: on ? t.text : 'var(--ink)',
+      // The chunky shadow only on the chosen one, so the row stays calm until
+      // a parent has answered and the answer then sits proud of the rest.
+      boxShadow: on ? '0 3px 0 rgba(26,26,46,0.16)' : 'none',
+    }
+  }
 
   // ── 1. What is it? ────────────────────────────────────────────
   if (step === 'what') {
@@ -281,14 +323,14 @@ export default function JobComposer({
         {addedBefore && (
           <p style={{ ...ASIDE, margin: '0 0 8px' }}>Same as last time is already picked</p>
         )}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginTop: 8 }}>
+        <div style={CHIP_GRID}>
           {WHEN.map(w => (
             <button
               key={w.key}
               type="button"
               aria-pressed={w.key === when}
               onClick={() => { setWhen(w.key); setStep('when') }}
-              style={chip(w.key === when, 'terracotta')}
+              style={chip(w.key === when, w.tint)}
             >
               {w.label}
             </button>
@@ -307,14 +349,14 @@ export default function JobComposer({
         <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 8px' }}>
           This is when the reminder lands. Work it out reads it from the words.
         </p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
+        <div style={CHIP_GRID}>
           {BANDS.map(b => (
             <button
               key={b.key}
               type="button"
               aria-pressed={b.key === band}
               onClick={() => { setBand(b.key); finish(b.key) }}
-              style={chip(b.key === band, 'gold')}
+              style={chip(b.key === band, b.tint)}
             >
               {b.label}
             </button>

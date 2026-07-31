@@ -746,22 +746,25 @@ export default function ManageJobs({
           than clipping. At 390 that is about 110px a column, which the shorter
           labels fit in two lines. The arrows go: there is no room for one and a
           centred label reads better without it. */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginTop: 8 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginTop: 8, alignItems: 'stretch' }}>
         {[
-          { href: '/dashboard/quests/routines', label: 'Week routine' },
-          { href: '/dashboard/quests/timer', label: 'Screen timer' },
-          { href: '/dashboard/stats', label: 'Balance and stats' },
+          { href: '/dashboard/quests/routines', label: 'Week routine', bg: 'var(--stage-2)', line: 'var(--stage-2-bold)' },
+          { href: '/dashboard/quests/timer', label: 'Screen timer', bg: 'var(--stage-3)', line: 'var(--stage-3-bold)' },
+          { href: '/dashboard/stats', label: 'Balance and stats', bg: 'var(--stage-5)', line: 'var(--stage-5-bold)' },
         ].map(b => (
           <Link
             key={b.href}
             href={b.href}
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              textAlign: 'center', minHeight: 58,
-              background: '#fff', color: 'var(--ink)',
-              border: '1.5px solid var(--terracotta)',
+              textAlign: 'center', minHeight: 58, height: '100%',
+              // A pastel each, same stage palette as the composer's answers
+              // above. Three identical white boxes with a terracotta line read
+              // as one thing repeated; three tints read as three places to go.
+              background: b.bg, color: 'var(--ink)',
+              border: `1.5px solid ${b.line}`,
               borderRadius: 14,
-              boxShadow: '0 3px 0 var(--terracotta)',
+              boxShadow: `0 3px 0 ${b.line}`,
               padding: '10px 8px', textDecoration: 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13.5,
               lineHeight: 1.25,
