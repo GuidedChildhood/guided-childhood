@@ -62,6 +62,10 @@ export default function PassportBook({
   const [flipping, setFlipping] = useState<'next' | 'prev' | null>(null)
   const [drawn, setDrawn] = useState(false)
   const [celebrating, setCelebrating] = useState<Stamp | null>(null)
+  // A page was stamped THIS visit and the seal has been dismissed. The one
+  // moment the printed booklet is worth mentioning in words rather than
+  // leaving to the mark in the corner of the book.
+  const [justStamped, setJustStamped] = useState(false)
   const pending = useRef<number | null>(null)
 
   const earnedCount = stamps.filter(s => s.status === 'earned').length
@@ -131,7 +135,12 @@ export default function PassportBook({
       </p>
 
       {/* The book */}
-      <div style={{ perspective: '1400px', maxWidth: '340px', margin: '0 auto' }}>
+      {/* position relative so the print mark can sit in the book's corner.
+          It is a SIBLING of the flipping element rather than a child of it,
+          which matters: anything inside that div rotates to the spine and back
+          on every page turn, and a shop link tumbling through 88 degrees each
+          time a parent flips a page is not a quiet affordance. */}
+      <div style={{ position: 'relative', perspective: '1400px', maxWidth: '340px', margin: '0 auto' }}>
         <div
           style={{
             position: 'relative',
@@ -195,7 +204,11 @@ export default function PassportBook({
             <div
               style={{
                 background: theme.bg, borderRadius: '18px',
-                padding: '20px 22px 18px', minHeight: '420px', position: 'relative', overflow: 'hidden',
+                // Bottom padding clears the print mark in the corner. Checked
+                // at 390 wide: without it the stage CTA runs the full width of
+                // the card to the bottom edge and the mark sits on top of the
+                // button, which is a collision rather than a corner.
+                padding: '20px 22px 46px', minHeight: '420px', position: 'relative', overflow: 'hidden',
                 border: '1.5px solid var(--border)',
                 display: 'flex', flexDirection: 'column',
               }}
@@ -428,6 +441,30 @@ export default function PassportBook({
             </div>
           )}
         </div>
+
+        {/* The printed booklet, as a mark in the corner of the book.
+            Small on purpose. This is the permanent way through to the real
+            thing, and a passport is exactly the object that should carry its
+            own printer's mark in the corner rather than have a card shouting
+            about it underneath. White on the burgundy cover and on every
+            coloured page alike, so it reads on all six without a per page
+            colour. */}
+        <Link
+          href="/dashboard/keepsakes#p-passport_printed"
+          title="Have this passport printed"
+          style={{
+            position: 'absolute', right: 10, bottom: 10, zIndex: 3,
+            display: 'inline-flex', alignItems: 'center', gap: 5,
+            background: 'rgba(255,255,255,0.94)', border: '1.5px solid var(--terracotta)',
+            borderRadius: 100, padding: '5px 10px', textDecoration: 'none',
+            boxShadow: '0 2px 8px rgba(26,26,46,0.25)',
+            fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700,
+            letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink)',
+          }}
+        >
+          <span aria-hidden style={{ fontSize: 13, lineHeight: 1 }}>🛂</span>
+          Print it
+        </Link>
       </div>
 
       {/* Page controls */}
@@ -497,7 +534,7 @@ export default function PassportBook({
         const t = STAGE_THEME[celebrating.id] ?? STAGE_THEME[1]
         return (
           <div
-            onClick={() => { const id = celebrating.id; setCelebrating(null); goTo(id) }}
+            onClick={() => { const id = celebrating.id; setCelebrating(null); setJustStamped(true); goTo(id) }}
             role="button"
             aria-label="Continue"
             style={{
@@ -547,35 +584,38 @@ export default function PassportBook({
         )
       })()}
 
-      {/* The physical end of the same passport, attached to the passport
-          itself rather than to one page that happens to show it. A parent
-          looking at the stamps their child actually earned is precisely the
-          parent who would like a copy they can hold, and they should not have
-          to find the shop and then find the product inside it, so the link
-          names the passport and lands on it. */}
-      {/* Top aligned, not centre.
-          In a narrow column the heading wraps to two lines and the body runs to
-          three or four, and centring against that left the icon floating in the
-          middle of the card with nothing beside it. Aligning to the top puts the
-          icon next to the words it labels. The chevron stays centred, which is
-          what a row chevron should do. */}
-      <Link href="/dashboard/keepsakes#p-passport_printed" style={{
-        display: 'flex', alignItems: 'flex-start', gap: '14px', textDecoration: 'none',
-        background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-        borderRadius: '16px', padding: '16px 18px', margin: '18px 0 0',
-        boxShadow: '0 5px 0 var(--terracotta)',
-      }}>
-        <span style={{ fontSize: '34px', lineHeight: 1, marginTop: '1px' }} aria-hidden>🛂</span>
-        <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
-            Have this passport printed
-          </span>
-          <span style={{ display: 'block', fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
-            A real booklet with {childName === 'your child' ? 'their' : `${childName}\u2019s`} name on the cover and every stamp actually earned inside. Made to order, so no two are the same.
-          </span>
-        </span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', color: 'var(--terracotta-dark)' }} aria-hidden>&rsaquo;</span>
-      </Link>
+      {/* The printed booklet, offered once the moment has passed.
+          Justin, 31 July: "maybe this button should be a smaller version in
+          corner of actual passport?" The full card that used to sit here is
+          gone, and it deserved to go: a bordered, shadowed, three line block
+          directly beneath a burgundy passport is a second passport sized
+          object competing with the real one for the same glance.
+
+          What replaces it is the mark in the corner of the book, which is
+          permanent and quiet, plus this line, which appears only in the window
+          after a page has actually been stamped. That window is the whole
+          point of the change. Until now a page was earned, the seal slammed,
+          the buzz went, and then nothing was said at all to the one parent in
+          the product most likely to want the real booklet.
+
+          Words rather than a card, and deliberately AFTER rather than during.
+          Nothing about the booklet appears inside the celebration itself,
+          because an offer landing in the same breath as a child's achievement
+          makes the achievement look like the setup for a sale. It waits until
+          the seal has been dismissed, then says it once. */}
+      {justStamped && (
+        <p style={{
+          fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55,
+          margin: '14px 0 0', textAlign: 'center',
+          animation: 'gcCelebFade 0.5s ease both',
+        }}>
+          That page is stamped for good.{' '}
+          <Link href="/dashboard/keepsakes#p-passport_printed" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'underline' }}>
+            There is a printed booklet
+          </Link>
+          {' '}with every stamp inside, if you would like one you can hold.
+        </p>
+      )}
 
       <style>{`
         @keyframes gcStampIn {

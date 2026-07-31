@@ -21,6 +21,8 @@ type Tick = { id: string; quest_id: string; child_id: string | null; tick_date: 
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
 type Ask = { id: string; child_id: string; title: string; emoji: string; status: string }
 type Bank = { child_id: string; earned: number; spent: number; balance: number; minutes: number }
+// Minutes banked above the weekly cap, spendable only while school is out.
+type HolidayBank = { childId: string; remaining: number; spendableNow: boolean; holidayTitle: string | null }
 
 export default function QuestBoard() {
   const [children, setChildren] = useState<Child[]>([])
@@ -29,6 +31,7 @@ export default function QuestBoard() {
   const [goals, setGoals] = useState<Goal[]>([])
   const [asks, setAsks] = useState<Ask[]>([])
   const [banks, setBanks] = useState<Bank[]>([])
+  const [holidayBanks, setHolidayBanks] = useState<HolidayBank[]>([])
   const [loaded, setLoaded] = useState(false)
   const [openChild, setOpenChild] = useState<string | null>(null)
   const [spendNote, setSpendNote] = useState<string | null>(null)
@@ -44,6 +47,7 @@ export default function QuestBoard() {
       setGoals(data.goals ?? [])
       setAsks(data.requests ?? [])
       setBanks(data.banks ?? [])
+      setHolidayBanks(data.holidayBanks ?? [])
     } catch { /* stays hidden */ } finally { setLoaded(true) }
   }, [])
 
@@ -232,6 +236,8 @@ export default function QuestBoard() {
             .reduce((sum, t) => sum + (questById.get(t.quest_id)?.stars ?? 1), 0)
           const bank = banks.find(b => b.child_id === c.id)
           const balance = bank ? bank.balance : weekStars
+          // Two different kinds of time, and this row used to add them up.
+          const holiday = holidayBanks.find(h => h.childId === c.id)
           const goal = goals.find(g => g.child_id === c.id)
           const todayStars = ticks
             .filter(t => t.tick_date === today && t.status !== 'rejected' && (t.child_id === c.id || t.child_id === null))
@@ -256,10 +262,30 @@ export default function QuestBoard() {
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)' }}>
                       {c.name}
                     </span>
+                    {/* "This week", said out loud. It used to read "⭐ 116 =
+                        580 min of screen time left", which was this week's
+                        earned stars and the holiday bank summed into one
+                        figure with no seam. In August that number climbs past
+                        anything a week could hold and the feature working as
+                        designed reads as a runaway bug. Naming the window is
+                        the whole fix: these stars reset, the banked minutes
+                        below them do not. */}
                     <span style={{ fontSize: '15.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-                      ⭐ {balance} = {balance * STAR_MINUTES} min of screen time left
+                      ⭐ {balance} = {balance * STAR_MINUTES} min this week
                     </span>
                   </span>
+                  {/* The holiday bank, on its own line and never added to the
+                      one above. Minutes earned past the weekly cap, which
+                      survive the reset and can only be spent while school is
+                      out. Silent at zero, because a bank nobody has paid into
+                      is not news. */}
+                  {holiday && holiday.remaining > 0 && (
+                    <span style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginBottom: '6px' }}>
+                      {holiday.spendableNow
+                        ? <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> banked for the holidays, ready to spend{holiday.holidayTitle ? ` this ${holiday.holidayTitle}` : ' now'}</>
+                        : <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> banked, saved for the school holidays</>}
+                    </span>
+                  )}
                   {/* Today's quest dots */}
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                     <span style={{ fontSize: '15.5px', fontWeight: 700, color: 'var(--ink-soft)' }}>
@@ -328,13 +354,39 @@ export default function QuestBoard() {
                       {spendNote}
                     </p>
                   )}
-                  <Link href="/dashboard/quests" style={{
-                    alignSelf: 'flex-end', fontSize: '13.5px', fontWeight: 700,
-                    color: 'var(--terracotta-dark)', textDecoration: 'none',
-                    fontFamily: 'var(--font-mono)', letterSpacing: '0.04em',
-                  }}>
-                    + Add a quest for {c.name}
-                  </Link>
+                  {/* Managed from the board, not only from inside the page.
+                      This was one small mono link pointing at /dashboard/quests,
+                      which is the page the board is already on, so a parent who
+                      wanted to add a job for this particular child was returned
+                      to the top of where they started and had to find the way in
+                      again. Both of these are real buttons now, both land on the
+                      right tab, and both carry the child with them so the page
+                      opens already pointed at the one whose row was tapped. */}
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    <Link
+                      href={`/dashboard/quests/manage?child=${c.id}`}
+                      style={{
+                        flex: 1, minWidth: 150, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        gap: '6px', padding: '11px 14px', borderRadius: '12px', textDecoration: 'none',
+                        background: 'var(--terracotta)', color: 'var(--ink)',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                        boxShadow: '0 3px 0 var(--terracotta-dark)',
+                      }}
+                    >
+                      + Add a job for {c.name}
+                    </Link>
+                    <Link
+                      href={`/dashboard/quests/manage?child=${c.id}&tab=theirs`}
+                      style={{
+                        flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        padding: '11px 14px', borderRadius: '12px', textDecoration: 'none',
+                        background: '#fff', border: '1.5px solid var(--border)', color: 'var(--ink-soft)',
+                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px',
+                      }}
+                    >
+                      Manage
+                    </Link>
+                  </div>
                   {/* What is still to do stays up top, big and tappable. */}
                   {(() => {
                     const todo = dueToday.filter(q => !doneIds.has(q.id))
