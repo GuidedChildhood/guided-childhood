@@ -15,7 +15,7 @@ import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
 import { getAllStagesProgress } from '@/lib/pathway/progress'
-import { earnedFriends } from '@/lib/pathway/streak-unlock'
+import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import KidQuestScreen from './KidQuestScreen'
 import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
 
@@ -462,16 +462,35 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .filter(s => prog[s]?.contentComplete).length
   } catch { stageEarned = 0 }
 
-  // Streaks also unlock Friends: every four completed jobs streaks earns one, so
-  // a child never waits years. The child has whichever is further along.
-  let completedStreaks = 0
+  // Streaks also unlock Friends: every four earns one, so a child never waits
+  // years. The child has whichever route is further along.
+  //
+  // Two counters, combined with max in streakCurrency. The jobs run was the
+  // only one being counted, which is why finishing all five of the five a day
+  // bought a child precisely nothing. Both reads fail soft to zero: a Friend
+  // count is a reward, and a query that cannot answer should hand back the
+  // quiet number rather than take the child's whole page down.
+  let jobStreaks = 0
   try {
     const { count } = await supabase
       .from('job_streaks')
       .select('id', { count: 'exact', head: true })
       .eq('child_id', link.child_id)
-    completedStreaks = count ?? 0
-  } catch { completedStreaks = 0 }
+    jobStreaks = count ?? 0
+  } catch { jobStreaks = 0 }
+
+  // One completed day, one streak. Fails soft before migration 134.
+  let completedDays = 0
+  try {
+    const { count } = await supabase
+      .from('kid_days')
+      .select('id', { count: 'exact', head: true })
+      .eq('child_id', link.child_id)
+      .not('completed_at', 'is', null)
+    completedDays = count ?? 0
+  } catch { completedDays = 0 }
+
+  const completedStreaks = streakCurrency(jobStreaks, completedDays)
   const earnedStages = earnedFriends(stageEarned, completedStreaks)
 
   // Sheets finished away from a screen and confirmed by a grown up. The parent

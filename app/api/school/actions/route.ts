@@ -82,7 +82,12 @@ export async function POST(req: NextRequest) {
     .insert({
       user_id: user.id, kind, title, detail,
       due_date: recursWeekday !== null ? null : dueDate,
-      due_time: recursWeekday !== null ? null : dueTime,
+      // A routine keeps no date, because a weekly thing has no single one. It
+      // does have a time of day, and this used to throw it away: Cubs every
+      // Tuesday stored a weekday and nothing else, so the child's card had no
+      // when to show and no reminder could fire an hour before something whose
+      // hour was never recorded.
+      due_time: dueTime,
       recurs_weekday: recursWeekday,
       auto_send_to_child: autoSendToChild,
       status: 'open',

@@ -81,7 +81,10 @@ function Fixture() {
           </p>
         </div>
       </div>
-      {open && <KidStreakTakeover streak={5} childName="Alfie" onClose={() => setOpen(false)} />}
+      {/* streak is the run of days, completedStreaks the cumulative count the
+          Friends are bought with. Four of them lands one, so this fixture shows
+          the friend earned state. */}
+      {open && <KidStreakTakeover streak={5} completedStreaks={4} childName="Alfie" onClose={() => setOpen(false)} />}
     </div>
   )
 }
