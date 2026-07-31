@@ -45,6 +45,25 @@ const LINK_BTN: React.CSSProperties = {
 }
 
 export default function ManageJobs() {
+  // The pairing card, once the child actually has the app.
+  //
+  // Justin: "can this be clever enough to know if set up, or only come up once
+  // a week if not, or a dismiss."
+  //
+  // The clever half already worked: hasApp reads kid_links and the card is a
+  // different card entirely when a child has no app, amber and asking to be
+  // dealt with. What it did not do was ever stop. Once a family is set up the
+  // card is pure information, and a permanent banner on the page a parent
+  // opens most is a banner they stop seeing, taking the space with it.
+  //
+  // So it can be put away for a week. A week rather than for ever because a
+  // code is exactly what a parent needs again on the day a phone is replaced
+  // or a second child gets one, and a dismissal that never returns is how they
+  // end up unable to find it.
+  //
+  // Only the settled version can be dismissed. The no app yet card is an
+  // unfinished setup and stays until it is done.
+  const [codeCardHidden, setCodeCardHidden] = useState(false)
   const [children, setChildren] = useState<Child[]>([])
   const [quests, setQuests] = useState<Quest[]>([])
   const [previous, setPrevious] = useState<Quest[]>([])
@@ -150,6 +169,24 @@ export default function ManageJobs() {
     .sort((a, b) => Number(!!b.play) - Number(!!a.play))
 
   const hasApp = !!activeChild && links.some(l => l.child_id === activeChild)
+
+  // Per child, because one child having a phone says nothing about the next.
+  const codeKey = activeChild ? `gc_code_card_hidden_${activeChild}` : null
+  useEffect(() => {
+    if (!codeKey) return
+    try {
+      const until = Number(window.localStorage.getItem(codeKey) ?? 0)
+      setCodeCardHidden(Number.isFinite(until) && until > Date.now())
+    } catch { setCodeCardHidden(false) }
+  }, [codeKey])
+
+  function hideCodeCard() {
+    setCodeCardHidden(true)
+    if (!codeKey) return
+    try {
+      window.localStorage.setItem(codeKey, String(Date.now() + 7 * 86400000))
+    } catch { /* private mode. It stays hidden for this visit, which is enough. */ }
+  }
   const childName = children.find(c => c.id === activeChild)?.name
   const name = childName && childName !== 'Your child' ? childName : 'your child'
 
@@ -178,7 +215,7 @@ export default function ManageJobs() {
           show QR code or manage yourself here". So the answer sits right where
           the adding happens, and it says which of the two worlds this family is
           in rather than making them guess. */}
-      {activeChild && (
+      {activeChild && !(hasApp && codeCardHidden) && (
         <div style={{
           display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
           background: hasApp ? 'var(--cream)' : 'var(--terracotta-lt)',
@@ -196,6 +233,20 @@ export default function ManageJobs() {
             label={hasApp ? 'Show the code again' : 'Scan on their phone'}
             style={{ flexShrink: 0 }}
           />
+          {hasApp && (
+            <button
+              type="button"
+              onClick={hideCodeCard}
+              aria-label="Hide this for a week"
+              title="Hide this for a week"
+              style={{
+                flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer',
+                padding: '4px 6px', fontSize: 17, lineHeight: 1, color: 'var(--ink-muted)',
+              }}
+            >
+              ✕
+            </button>
+          )}
         </div>
       )}
 
@@ -405,16 +456,36 @@ export default function ManageJobs() {
           Justin asked for the timer and the balance as their own buttons and
           their own pages, because starting twenty minutes of TV and reading the
           week are different jobs done at different moments. */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginTop: 6 }}>
-        <Link href="/dashboard/quests/routines" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}>
-          Add a whole week routine →
-        </Link>
-        <Link href="/dashboard/quests/timer" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}>
-          Start the screen timer →
-        </Link>
-        <Link href="/dashboard/stats" className="btn btn-outline" style={{ display: 'flex', justifyContent: 'center', padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}>
-          Balance and stats →
-        </Link>
+      {/* Chunky, per the design system, and left aligned with the arrow pushed
+          to the edge.
+          btn-outline sets box-shadow: none, so three of them stacked read as
+          three flat rectangles rather than as buttons: the one shape in this
+          product that is meant to look pressable was the one with no depth.
+          The label leads and the arrow sits right, so the eye lands on the
+          words rather than on the middle of an empty box. */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
+        {[
+          { href: '/dashboard/quests/routines', label: 'Add a whole week routine' },
+          { href: '/dashboard/quests/timer', label: 'Start the screen timer' },
+          { href: '/dashboard/stats', label: 'Balance and stats' },
+        ].map(b => (
+          <Link
+            key={b.href}
+            href={b.href}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+              background: '#fff', color: 'var(--ink)',
+              border: '1.5px solid var(--terracotta)',
+              borderRadius: 16,
+              boxShadow: '0 4px 0 var(--terracotta)',
+              padding: '15px 18px', textDecoration: 'none',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+            }}
+          >
+            <span>{b.label}</span>
+            <span aria-hidden style={{ color: 'var(--terracotta-dark)', fontSize: 18 }}>→</span>
+          </Link>
+        ))}
       </div>
       <SentToast message={justAdded} onDone={() => setJustAdded(null)} />
     </div>
