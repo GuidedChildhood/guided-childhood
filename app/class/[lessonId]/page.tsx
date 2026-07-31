@@ -12,7 +12,7 @@ import LessonPlayer from '@/components/lessons/LessonPlayer'
 // room; the family lesson is the reference point, never the school offer.
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Whole class lesson — Guided Childhood' }
+export const metadata = { title: 'Whole class lesson · Guided Childhood' }
 
 export default async function ClassLessonPage({ params }: { params: Promise<{ lessonId: string }> }) {
   const { lessonId } = await params

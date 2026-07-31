@@ -5,7 +5,7 @@ import { ButtonLink } from '@/components/ui/Button'
 import { getSetupState } from '@/lib/setup/flags'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Set up — Guided Childhood' }
+export const metadata = { title: 'Set up · Guided Childhood' }
 
 // The Setup hub: all the one time setup in one calm place, out of the daily
 // Home. Each step is a plain card, one line of what it does, one button.

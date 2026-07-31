@@ -16,7 +16,7 @@ import type { Product } from '@/lib/shop/catalogue'
 // because the migration is pasted in by hand: the deploy and the schema change
 // do not land at the same minute.
 
-export const metadata = { title: 'Keepsakes — Guided Childhood' }
+export const metadata = { title: 'Keepsakes · Guided Childhood' }
 
 const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com').toLowerCase()
 

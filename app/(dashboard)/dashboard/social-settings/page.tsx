@@ -13,7 +13,7 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 // account rule, never a readiness signal. Additive page, no redesign, same
 // tokens as the rest of the dashboard.
 
-export const metadata = { title: 'Social media settings — Guided Childhood' }
+export const metadata = { title: 'Social media settings · Guided Childhood' }
 
 type Guide = {
   platform_key: string

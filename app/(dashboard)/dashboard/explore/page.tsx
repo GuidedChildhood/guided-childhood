@@ -11,7 +11,7 @@ import ExploreGrid from '@/components/home/ExploreGrid'
 // removed: every tile that was on Home is on this page, grouped, with a way
 // back at the top.
 
-export const metadata = { title: 'Everything else — Guided Childhood' }
+export const metadata = { title: 'Everything else · Guided Childhood' }
 
 export default async function ExplorePage() {
   const supabase = await createClient()

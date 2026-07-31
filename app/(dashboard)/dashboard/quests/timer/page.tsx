@@ -13,7 +13,7 @@ import ParentDeviceTime from '@/components/quests/ParentDeviceTime'
 // They do not belong on the same screen.
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Screen timer — Guided Childhood' }
+export const metadata = { title: 'Screen timer · Guided Childhood' }
 
 export default async function TimerPage() {
   const supabase = await createClient()

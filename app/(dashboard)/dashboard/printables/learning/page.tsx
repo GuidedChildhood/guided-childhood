@@ -16,7 +16,7 @@ import { sheetTarget, sheetLabel } from '@/lib/learning/term'
 // the nearest year, because a sheet testing the wrong year is worse than no
 // sheet: a parent believes it and acts on it.
 
-export const metadata = { title: 'Learning sheet — Guided Childhood' }
+export const metadata = { title: 'Learning sheet · Guided Childhood' }
 export const dynamic = 'force-dynamic'
 
 const SUBJECTS = ['maths', 'english', 'reading'] as const

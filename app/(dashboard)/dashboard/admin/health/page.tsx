@@ -15,7 +15,7 @@ import { readHealth, type Health, type Level } from '@/lib/ops/health'
 // So this board never argues from absence. Each job says it ran, and silence
 // past a job's own schedule is what turns a square red.
 
-export const metadata = { title: 'Service health — Guided Childhood' }
+export const metadata = { title: 'Service health · Guided Childhood' }
 export const dynamic = 'force-dynamic'
 
 const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com').toLowerCase()

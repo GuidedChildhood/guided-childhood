@@ -9,7 +9,7 @@ import { PHONE_LADDER } from '@/lib/content/passport'
 // the phone ladder, the per operating system setup, and the good first apps.
 // Additive page, same tokens, no redesign.
 
-export const metadata = { title: 'The first phone — Guided Childhood' }
+export const metadata = { title: 'The first phone · Guided Childhood' }
 
 type PhoneGuide = {
   os_key: string; name: string; emoji: string; blurb: string

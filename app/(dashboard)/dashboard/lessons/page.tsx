@@ -17,7 +17,7 @@ import LessonsBrowser, { type WatchItem, type LibraryItem } from './LessonsBrows
 // display ready arrays to the browser, which owns the segmented control and
 // the stage filter.
 
-export const metadata = { title: 'Lessons — Guided Childhood' }
+export const metadata = { title: 'Lessons · Guided Childhood' }
 
 const STAGE_META: Record<string, { num: number; label: string; ages: string }> = {
   foundation:  { num: 1, label: 'Foundation',  ages: 'Ages 4 to 7' },

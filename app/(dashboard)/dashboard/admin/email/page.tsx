@@ -16,7 +16,7 @@ import { readEmailConfig, judge, type EmailHealth } from '@/lib/email/health'
 // Read with the service key because email_log and lead_email_log are not a
 // family's own rows to read, and the whole point is the total across everyone.
 
-export const metadata = { title: 'Email health — Guided Childhood' }
+export const metadata = { title: 'Email health · Guided Childhood' }
 export const dynamic = 'force-dynamic'
 
 const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com').toLowerCase()

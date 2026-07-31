@@ -18,7 +18,7 @@ import { holidayOn } from '@/lib/learning/holidays'
 import { getFamilyRegion } from '@/lib/learning/region'
 import PaceCard from '@/components/balance/PaceCard'
 
-export const metadata = { title: 'Balance and stats — Guided Childhood' }
+export const metadata = { title: 'Balance and stats · Guided Childhood' }
 
 // One week, the same week. This page used to count a rolling last 7 days
 // while the star bank, the quest board and the rollover cron all count the

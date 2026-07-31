@@ -13,7 +13,7 @@ import FridgeChartLog from '@/components/quests/FridgeChartLog'
 // stars through the quest approve loop. The child's stage set leads, the
 // whole library follows.
 
-export const metadata = { title: 'Printables — Guided Childhood' }
+export const metadata = { title: 'Printables · Guided Childhood' }
 
 const SETTING_LABEL: Record<string, string> = {
   indoors: 'Indoors', outdoors: 'Outdoors', anywhere: 'Anywhere',
