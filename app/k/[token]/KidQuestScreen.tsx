@@ -1179,6 +1179,18 @@ export default function KidQuestScreen({
             Above everything, because it IS the day: one card, five one line
             rows, no scrolling. The list below is still the detail for step one,
             which is why Your jobs scrolls to it rather than navigating away. */}
+        {/* The run, above everything, including the day that feeds it.
+            Justin: "streak count needs to be at very top."
+
+            It used to render three times, once inside each of the Quests,
+            Lessons and Printables tabs, so that it stayed visible whichever tab
+            a child was on. Above the tabs it is visible on all three by simply
+            being there, which is what the three copies were working around. One
+            bar, one number, and it now counts completed days rather than only
+            the jobs run, so the five a day directly under it is visibly what
+            moves it. */}
+        <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
+
         <KidFiveADay
           token={token}
           childName={childName}
@@ -1728,7 +1740,6 @@ export default function KidQuestScreen({
         {/* The balance insight surface: a bigger, brighter, character led card
             that teaches why balance is worth it, rotating a fresh idea daily,
             grounded in the science bank. Replaces the old single tip line. */}
-        <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
 
         <BalanceInsight stageId={stageId} usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes} balanceStars={bankBalance} streakDays={streakDays} />
 
@@ -1952,7 +1963,6 @@ export default function KidQuestScreen({
                   working toward keeps showing up across the app rather than
                   living on a single tab. Hidden while a lesson is open, so it
                   never competes with the thing they are actually doing. */}
-              <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
               {/* Sub-tabs so the long list stops being a jumble: Watch, Learn,
                   Games, Print. Each wears a red dot the moment a grown up pings
                   something new into it. */}
@@ -2090,7 +2100,6 @@ export default function KidQuestScreen({
             {/* The next Friend rides along on this screen too, so the one they
                 are working toward keeps showing up rather than living on one
                 tab. Seeing who is close is what keeps the streak going. */}
-            <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
 
             {/* Their own off screen tally. The grown up's stats already count
                 every confirmed sheet into the off screen total, and this is the
@@ -2585,7 +2594,13 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
           })}
         </div>
 
-        {/* Exactly how close the next Friend is, in the child's own numbers. */}
+        {/* Exactly how close the next Friend is, in the child's own numbers.
+            This copy stays. The three inside the tabs went to a single bar above
+            them, which covers every tab by sitting over all of them, but this is
+            a modal drawn on top of the screen and nothing behind it shows
+            through. It is also the one place the bar is most earned: a child
+            reading what each locked Friend costs is exactly who wants to know
+            how close the next one is. */}
         <div style={{ marginBottom: '18px' }}>
           <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
         </div>
