@@ -389,7 +389,7 @@ export default function PassportBook({
                   const tasks: { label: string; done: boolean; detail: string; href: string }[] = [
                     { label: 'Watch the lessons', done: (stamp.lessonsPct ?? 0) >= 100, detail: lt > 0 ? `${ld} of ${lt} done` : `${stamp.lessonsPct ?? 0}%`, href: `/dashboard/lessons?stage=${stamp.id}` },
                     { label: 'Read the scripts', done: (stamp.scriptsPct ?? 0) >= 100, detail: `${stamp.scriptsPct ?? 0}%`, href: `/dashboard/scripts?stage=${slug}` },
-                    { label: 'Set up the devices', done: (stamp.devicesPct ?? 0) >= 100, detail: `${stamp.devicesPct ?? 0}%`, href: '/dashboard/devices' },
+                    { label: 'Set up the devices', done: (stamp.devicesPct ?? 0) >= 100, detail: `${stamp.devicesPct ?? 0}%`, href: '/dashboard/devices?from=passport' },
                     { label: 'Keep the daily habit', done: (stamp.streakPct ?? 0) >= 100, detail: `${stamp.streakPct ?? 0}%`, href: '/dashboard' },
                   ]
                   return tasks.map(t => (
