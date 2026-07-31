@@ -26,7 +26,17 @@ export const BUCKET_ORDER: Bucket[] = ['social', 'gaming', 'watching', 'learning
 
 // Infer the bucket from a device name. Deliberately forgiving, and defaults to
 // watching (the most common recreational default) when nothing matches.
-export function bucketForDevice(device: string): Bucket {
+export function bucketForDevice(device: string, activity?: string | null): Bucket {
+  // What the child said wins over what we would have guessed.
+  //
+  // Only the computer asks, so for every other device this is null and the
+  // patterns below decide exactly as they always did. When it is set it is
+  // already one of the four bucket names, checked by a database constraint, so
+  // it maps straight across.
+  if (activity === 'learning' || activity === 'watching' || activity === 'gaming' || activity === 'social') {
+    return activity
+  }
+
   const d = (device || '').toLowerCase()
   if (/(switch|xbox|playstation|\bps[45]\b|nintendo|console|steam|gaming)/.test(d)) return 'gaming'
   if (/(phone|iphone|android|mobile|social|tiktok|snap|insta|whatsapp|messages)/.test(d)) return 'social'
@@ -91,7 +101,8 @@ export type ParentReportInput = {
   // Optional parent set daily limit; falls back to the science based age guide.
   dailyLimitMins?: number | null
   // This week's screen minutes per device (any labels; bucketed here).
-  deviceMinutes: { device: string; minutes: number }[]
+  /** activity is set only for devices that ask, which today is the computer. */
+  deviceMinutes: { device: string; minutes: number; activity?: string | null }[]
   // What the child did away from a screen this week.
   offscreen?: { activities?: number; stars?: number; minutes?: number }
   /** Days of the star week gone, including today. Defaults to a full 7 so a
@@ -160,7 +171,7 @@ export function buildParentReport(input: ParentReportInput): ParentReport {
     const mins = Math.max(0, Math.round(row.minutes || 0))
     if (mins <= 0) continue
     total += mins
-    const bucket = bucketForDevice(row.device)
+    const bucket = bucketForDevice(row.device, row.activity)
     const meta = BUCKET_META[bucket]
     const existing = byBucket.get(bucket) ?? { bucket, label: meta.label, emoji: meta.emoji, tone: meta.tone, minutes: 0, devices: [] }
     existing.minutes += mins

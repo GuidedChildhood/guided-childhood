@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
 import { useRouter } from 'next/navigation'
-import { KID_DEVICES, TIMER_RULE, deviceEmoji, deviceLabel, type ActiveSession, type TrustLevel } from '@/lib/quests/device-time'
+import { KID_DEVICES, TIMER_RULE, ACTIVITIES, asksActivity, deviceEmoji, deviceLabel, type ActiveSession, type ActivityKey, type TrustLevel } from '@/lib/quests/device-time'
 import { deviceIcon, type FamilyDevice } from '@/lib/devices/family'
 import { screenTipFor } from '@/lib/content/screen-tips'
 import { speakEnglish, warmVoices } from '@/lib/voice/english-voice'
@@ -127,6 +127,12 @@ export default function DeviceTimeCard({
   useEffect(() => { warmVoices() }, [])
   const [phase, setPhase] = useState<'idle' | 'picking' | 'up'>(startPicking && !initialSession ? 'picking' : 'idle')
   const [device, setDevice] = useState<string>('tv')
+  // Only ever set for a device that asks. Cleared whenever the device
+  // changes, so picking Computer then TV cannot leave a stale answer
+  // attached to a device that never asked the question.
+  const [activity, setActivity] = useState<ActivityKey | null>(null)
+  // Asked, and not yet answered. Gates the start button below.
+  const needsActivity = asksActivity(device) && activity === null
   // Which named screen, when there is a list. The kind still rides along,
   // because that is what the session and the ask are keyed on.
   const homeDevices = familyDevices.filter(d => !d.retiredAt)
@@ -359,7 +365,7 @@ export default function DeviceTimeCard({
     try {
       const res = await fetch('/api/quests/time/start', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, device, familyDeviceId: homeDeviceId, minutes }),
+        body: JSON.stringify({ token, device, familyDeviceId: homeDeviceId, minutes, activity }),
       })
       const data = await res.json().catch(() => ({}))
       if (res.ok && data.pending) {
@@ -563,7 +569,7 @@ export default function DeviceTimeCard({
             return (
               <button
                 key={d.key}
-                onClick={() => { setDevice(d.kind); setHomeDeviceId(d.homeId) }}
+                onClick={() => { setDevice(d.kind); setHomeDeviceId(d.homeId); setActivity(null) }}
                 aria-pressed={on}
                 style={{
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '5px',
@@ -580,6 +586,55 @@ export default function DeviceTimeCard({
             )
           })}
         </div>
+        {/* What are you doing on it.
+            Only for the computer, because it is the only device that cannot
+            answer for itself. A console is gaming and a TV is watching, and
+            asking a child to confirm the obvious four times a day is how a
+            question stops being read.
+
+            It matters because the four buckets are treated differently:
+            homework counts into learning, the one bucket we want to grow, while
+            the other three are kept in check. Before this, a computer fell
+            through to watching, so homework was charged to the watching guide
+            and the learning bucket stayed empty and kept asking for more.
+
+            No default and no preselection. A guess here is exactly the thing
+            that was wrong, and a child who has to tap once is a child telling us
+            something true. The timer will not start until they do. */}
+        {asksActivity(device) && (
+          <div style={{ marginBottom: '16px' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', marginBottom: '4px' }}>
+              What are you doing on it?
+            </div>
+            <p style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
+              Homework counts differently to watching, so this is worth a tap.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '9px' }}>
+              {ACTIVITIES.map(a => {
+                const on = activity === a.key
+                return (
+                  <button
+                    key={a.key}
+                    onClick={() => setActivity(a.key)}
+                    aria-pressed={on}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: '8px',
+                      minHeight: 56, padding: '10px 12px', borderRadius: '14px', cursor: 'pointer',
+                      border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                      background: on ? 'var(--terracotta-lt)' : 'var(--cream)',
+                      fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
+                      lineHeight: 1.2, textAlign: 'left',
+                    }}
+                  >
+                    <span aria-hidden style={{ fontSize: '1.4rem', lineHeight: 1, flexShrink: 0 }}>{a.emoji}</span>
+                    {a.label}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)' }}>How long?</span>
           {/* Once a pick goes past this week's stars, saying "14 of your 6
@@ -627,13 +682,20 @@ export default function DeviceTimeCard({
             onClick={() => setPhase('idle')}
             style={{ padding: '13px 18px', borderRadius: '14px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 800, color: 'var(--ink-soft)' }}
           >Back</button>
+          {/* Blocked until the question is answered, for the one device that
+              asks it. Starting anyway would write a session we then have to
+              guess the bucket for, which is the bug this whole change exists to
+              remove. The button says what it wants rather than sitting greyed
+              out with no reason, because a dead button with no explanation is
+              the most frustrating thing a child can meet here. */}
           <button
             onClick={start}
-            disabled={busy || minutes < STAR_MINUTES}
-            style={{ flex: 1, padding: '13px', borderRadius: '14px', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: '19px', fontWeight: 800, boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: busy ? 0.6 : 1 }}
+            disabled={busy || minutes < STAR_MINUTES || needsActivity}
+            style={{ flex: 1, padding: '13px', borderRadius: '14px', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', cursor: busy || needsActivity ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: '19px', fontWeight: 800, boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: busy || needsActivity ? 0.6 : 1 }}
           >
             {busy
               ? (asksFirst ? 'Asking...' : 'Starting...')
+              : needsActivity ? 'Pick what you are doing'
               : asksFirst ? `Ask for ${minutes} min 🙋` : `Start ${minutes} min ⏱️`}
           </button>
         </div>

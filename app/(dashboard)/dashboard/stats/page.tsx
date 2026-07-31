@@ -43,7 +43,7 @@ export default async function StatsPage() {
   const sinceDay = starWeekStart()
   const sinceIso = starWeekStartIso()
 
-  let deviceMinutes: { device: string; minutes: number }[] = []
+  let deviceMinutes: { device: string; minutes: number; activity?: string | null }[] = []
   let offscreen = { activities: 0, stars: 0, minutes: 0 }
   // Counted first, totalled once at the end through the shared builder, so this
   // page and the tracker can never drift apart again.
@@ -54,15 +54,26 @@ export default async function StatsPage() {
     try {
       const { data: sessions } = await supabase
         .from('device_sessions')
-        .select('device, minutes')
+        .select('device, minutes, activity')
         .eq('child_id', child.id)
         .gte('started_at', sinceIso)
-      const map = new Map<string, number>()
+      // Grouped by device AND activity, not by device alone.
+      //
+      // One computer is four different things depending on what the child said
+      // they were doing, and those land in four different buckets. Keying on the
+      // device alone would add an hour of homework to an hour of gaming, hand
+      // the pair to bucketForDevice once, and file the lot under whichever
+      // answer happened to come first.
+      const map = new Map<string, { device: string; activity: string | null; minutes: number }>()
       for (const s of sessions ?? []) {
         const d = (s.device as string) || 'Screen'
-        map.set(d, (map.get(d) ?? 0) + (Number(s.minutes) || 0))
+        const a = ((s as { activity?: string | null }).activity as string | null) ?? null
+        const key = `${d}::${a ?? ''}`
+        const cur = map.get(key) ?? { device: d, activity: a, minutes: 0 }
+        cur.minutes += Number(s.minutes) || 0
+        map.set(key, cur)
       }
-      deviceMinutes = [...map.entries()].map(([device, minutes]) => ({ device, minutes }))
+      deviceMinutes = [...map.values()]
     } catch { /* thin week */ }
 
     try {
