@@ -42,6 +42,7 @@ import ChildAppNudge from '@/components/home/ChildAppNudge'
 import CommunityBite from '@/components/community/CommunityBite'
 import DealReviewNudge from '@/components/quests/DealReviewNudge'
 import HomeRows from '@/components/home/HomeRows'
+import WeeklyReviewCard from '@/components/digi/WeeklyReviewCard'
 import LiveTimerChip from '@/components/home/LiveTimerChip'
 import HomeMain from '@/components/home/HomeMain'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
@@ -492,6 +493,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* More than one child: butter pills at the top switch whose day this
           is. Every reading below recomputes for the selected child. */}
       <ChildSwitcher kids={allKids} selectedId={child?.id ?? null} basePath="/dashboard" />
+      {/* The weekly round up, at the top, when there is one waiting. Renders
+          nothing at all otherwise, so it costs the other six days nothing.
+          Above DiGi's welcome because it is the only thing on this screen
+          that expires: it is about a week that has finished, and it stops
+          being the week just gone the moment the next one lands. */}
+      <WeeklyReviewCard />
       {/* DiGi comes up first, once a day, greeting the family by name */}
       <DigiWelcomeSheet
         childrenInfo={welcomeChildren}
@@ -680,7 +687,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             stageName={stage.name}
             stageNum={stage.id}
             criticalWindow={stage.isCritical}
-            isSunday={dayName === 'Sun'}
           />
         )
       })()}

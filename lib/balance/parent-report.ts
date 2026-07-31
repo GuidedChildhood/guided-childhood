@@ -77,6 +77,12 @@ export type ParentReport = {
   typeGuides: TypeGuide[]
   offscreen: { activities: number; stars: number; minutes: number }
   guidance: string
+  /** Days of the star week gone, including today. Divide ACTUAL usage by this,
+   *  never by 7: the week now starts on Monday rather than rolling back seven
+   *  days, so on a Tuesday a flat /7 reports a child at a fifth of the screen
+   *  time they have really been having. The GUIDE stays /7, because a weekly
+   *  guide is seven days' worth whatever day it is read on. */
+  daysSoFar: number
 }
 
 export type ParentReportInput = {
@@ -88,6 +94,9 @@ export type ParentReportInput = {
   deviceMinutes: { device: string; minutes: number }[]
   // What the child did away from a screen this week.
   offscreen?: { activities?: number; stars?: number; minutes?: number }
+  /** Days of the star week gone, including today. Defaults to a full 7 so a
+   *  caller reporting a finished week needs to say nothing. */
+  daysSoFar?: number
 }
 
 function guidanceFor(status: ScreenStatus, busiest: BucketSummary | null, name: string): string {
@@ -142,6 +151,7 @@ export function buildParentReport(input: ParentReportInput): ParentReport {
     ? input.dailyLimitMins
     : recommendedDailyMinutes(input.ageBand)
   const healthyWeekMins = dailyGuide * 7
+  const daysSoFar = Math.min(7, Math.max(1, Math.round(input.daysSoFar ?? 7)))
 
   // Bucket the devices.
   const byBucket = new Map<Bucket, BucketSummary>()
@@ -163,7 +173,7 @@ export function buildParentReport(input: ParentReportInput): ParentReport {
     .filter((b): b is BucketSummary => !!b)
     .map(b => ({ ...b, devices: [...b.devices].sort((a, z) => z.minutes - a.minutes) }))
 
-  const status = screenStatusForAge(input.ageBand, Math.round(total / 7))
+  const status = screenStatusForAge(input.ageBand, Math.round(total / daysSoFar))
   const busiest = buckets.reduce<BucketSummary | null>((top, b) => (!top || b.minutes > top.minutes ? b : top), null)
   const name = input.childName ?? 'Your child'
 
@@ -184,7 +194,7 @@ export function buildParentReport(input: ParentReportInput): ParentReport {
       recommendedDailyMins,
       recommendedWeekMins: recommendedDailyMins * 7,
       actualWeekMins,
-      status: bucketBalanceStatus(kind, recommendedDailyMins, Math.round(actualWeekMins / 7)),
+      status: bucketBalanceStatus(kind, recommendedDailyMins, Math.round(actualWeekMins / daysSoFar)),
     }
   })
 
@@ -212,6 +222,7 @@ export function buildParentReport(input: ParentReportInput): ParentReport {
       stars: Math.max(0, Math.round(input.offscreen?.stars ?? 0)),
       minutes: Math.max(0, Math.round(input.offscreen?.minutes ?? 0)),
     },
+    daysSoFar,
     guidance: guidanceFor(status, busiest, name),
   }
 }

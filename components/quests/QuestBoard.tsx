@@ -294,12 +294,18 @@ export default function QuestBoard() {
                       one above. Minutes earned past the weekly cap, which
                       survive the reset and can only be spent while school is
                       out. Silent at zero, because a bank nobody has paid into
-                      is not news. */}
+                      is not news.
+
+                      "during", not "this". Every title in META carries its
+                      own article already ("the summer holidays", "half term",
+                      "spring break"), so "this ${title}" read as "spend this
+                      the summer holidays" on the one branch a parent sees
+                      most, the holidays actually being open. */}
                   {holiday && holiday.remaining > 0 && (
                     <span style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginBottom: '6px' }}>
                       {holiday.spendableNow
-                        ? <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> banked for the holidays, ready to spend{holiday.holidayTitle ? ` this ${holiday.holidayTitle}` : ' now'}</>
-                        : <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> banked, saved for the school holidays</>}
+                        ? <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> to spend{holiday.holidayTitle ? ` during ${holiday.holidayTitle}` : ' now'}</>
+                        : <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> saved for the school holidays</>}
                     </span>
                   )}
                   {/* Today's quest dots */}

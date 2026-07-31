@@ -1,6 +1,8 @@
 import type { createClient } from '@/lib/supabase/server'
 import { buildOffscreen } from '@/lib/balance/offscreen'
 import { buildParentReport, type ParentReport } from '@/lib/balance/parent-report'
+import { starWeekStart } from '@/lib/quests/star-week'
+import { ukWeekday } from '@/lib/balance/pace'
 
 // This week's balance for one child, assembled once.
 //
@@ -22,7 +24,7 @@ export type WeekReportChild = {
  * child's age, with the off screen effort beside it. Null when there is no
  * child to read for.
  *
- * The window is the last seven days. Confirmed printables count as off screen
+ * The window is the star week. Confirmed printables count as off screen
  * effort beside the approved jobs, and fail soft to jobs alone before migration
  * 087, exactly as this read has always behaved.
  */
@@ -33,7 +35,12 @@ export async function getWeekParentReport(
 ): Promise<ParentReport | null> {
   if (!child?.id) return null
 
-  const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
+  // The star week, Monday in London, the same week the star bank and the quest
+  // board count. This used to roll back seven days, which is how the pathway
+  // page and the stats page came to quote two different totals for "this week"
+  // for the same child. The comment above this function warns about exactly
+  // that, one page quoting two totals; the window was the way it got in.
+  const weekAgo = starWeekStart()
 
   const [sessionsRes, questsRes, ticksRes] = await Promise.all([
     supabase.from('device_sessions').select('device, minutes').eq('user_id', userId).eq('child_id', child.id).gte('started_at', weekAgo),
@@ -67,5 +74,6 @@ export async function getWeekParentReport(
     ageBand: child.age_band ?? null,
     deviceMinutes: (sessionsRes.data ?? []).map(d => ({ device: d.device as string, minutes: d.minutes as number })),
     offscreen: buildOffscreen({ jobs, jobStars, sheets: sheetCount, sheetStars }),
+    daysSoFar: ukWeekday(),
   })
 }

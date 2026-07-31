@@ -37,6 +37,10 @@ export type Review = {
   watch_for: string | null
   suggestion: string | null
   suggestion_routine: string | null
+  /** unread, read or dismissed. Drives whether a screen may mark it read, and
+   *  whether Home still owes the parent the card. Optional because a freshly
+   *  built preview has not been stored with one yet. */
+  status?: string
 }
 
 export default function WeeklyRoundup({ review, onContinue }: { review: Review; onContinue?: () => void }) {

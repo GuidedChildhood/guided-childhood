@@ -9,16 +9,30 @@ import { buildWeeklyReview } from '@/lib/digi/weekly-review'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ review: null })
 
-  const { data } = await supabase
+  // Dismissing is about the card on Home, not about the round up itself.
+  //
+  // It used to be about both: the card's cross set the row to dismissed, this
+  // read filtered dismissed out, and the round up page reads through the same
+  // endpoint, so one tap on Home permanently hid the week from the page built
+  // to show it. The page then offered to build a fresh one, which is how a
+  // written round up came to look like a round up that had never existed.
+  //
+  // The page asks with any=1 and gets the latest week whatever its status. The
+  // card asks without it, so a cross still puts the card away.
+  const includeDismissed = req.nextUrl.searchParams.get('any') === '1'
+
+  let q = supabase
     .from('digi_weekly_reviews')
     .select('id, week_start, stats, summary, watch_for, suggestion, suggestion_routine, status')
     .eq('user_id', user.id)
-    .neq('status', 'dismissed')
+  if (!includeDismissed) q = q.neq('status', 'dismissed')
+
+  const { data } = await q
     .order('week_start', { ascending: false })
     .limit(1)
     .maybeSingle()
