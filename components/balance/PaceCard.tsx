@@ -42,8 +42,18 @@ export default function PaceCard({ pace, childName }: { pace: Pace; childName?: 
           minutes a day
         </span>
       </div>
+      {/* Which number is whose.
+          This read "against a healthy guide of 150 a day for their age", and
+          150 is not their age guide. In the summer a 13 year old's guide of 120
+          is relaxed by a quarter, and calling the result the age figure makes
+          our own holiday slack look like something the research recommends. It
+          does not: 120 is the ceiling of the only source we cite that names a
+          number for school age children, and in September the same card would
+          quietly say 120 with nothing to explain the drop. So both numbers are
+          named, each credited to the right thing. */}
       <div style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.4, marginBottom: 14 }}>
-        {name ? `${name} so far this week` : 'So far this week'}, against a healthy guide of {pace.dailyGuide} a day for their age
+        {name ? `${name} so far this week` : 'So far this week'}, against a guide of {pace.termGuide} a day for their age
+        {pace.relaxed && <>, relaxed to {pace.dailyGuide} for {pace.holidayTitle}</>}
       </div>
 
       {/* Tomorrow, which is the only part anyone can act on.

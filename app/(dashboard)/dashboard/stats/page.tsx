@@ -13,6 +13,9 @@ import ParentStartTimer from '@/components/balance/ParentStartTimer'
 
 import { buildOffscreen } from '@/lib/balance/offscreen'
 import { buildPace, ukWeekday } from '@/lib/balance/pace'
+import { termTimeDailyMinutes } from '@/lib/quests/screen-balance'
+import { holidayOn } from '@/lib/learning/holidays'
+import { getFamilyRegion } from '@/lib/learning/region'
 import PaceCard from '@/components/balance/PaceCard'
 
 export const metadata = { title: 'Balance and stats — Guided Childhood' }
@@ -106,9 +109,19 @@ export default async function StatsPage() {
   // already works out, turned into a daily average and one number for tomorrow.
   // A parent reads this and knows what to do. The graph below is for the parent
   // who then wants to know why.
+  // The term time figure and the holiday travel alongside the live guide, so
+  // the card can say which number came from the child's age and which came from
+  // it being August. Read against the family's own region, because a US family
+  // is on different dates and would otherwise be told about a holiday they are
+  // not having.
+  const region = await getFamilyRegion(supabase, user.id)
+  const holiday = holidayOn(new Date(), region)
+
   const pace = buildPace({
     usedThisWeek: report.totalWeekMins,
     dailyGuide: Math.round(report.healthyWeekMins / 7),
+    termGuide: termTimeDailyMinutes((child?.age_band as string | null) ?? null),
+    holidayTitle: holiday?.title ?? null,
   })
 
   return (
