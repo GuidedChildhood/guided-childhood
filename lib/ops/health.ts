@@ -127,6 +127,91 @@ export function serviceChecks(env: NodeJS.ProcessEnv = process.env): Check[] {
   return checks
 }
 
+
+/**
+ * Columns the code cannot run without.
+ *
+ * This exists because of the worst outage this product has had. trial_ends_at
+ * was added to the repo on 24 July in the same commit as the code that selects
+ * it, and the migration was never applied. Every query naming it failed from
+ * that moment: all three email crons, the DiGi paywall, agreement, rehearse,
+ * rightnow, printables and the kid lesson pages. PostgREST returns an error,
+ * the routes destructure only `data`, and `?? []` turns a broken query into
+ * "nobody was due" and replies 200. It ran silently for five weeks and was
+ * found by hand.
+ *
+ * Config checks could never have caught it. Every key was set. The heartbeat
+ * could not either: the crons ran, and cheerfully reported nothing to do.
+ *
+ * So the board asks the database directly whether the columns exist. Listed by
+ * hand rather than derived from the migrations folder, because the question
+ * that matters is not "is every migration applied" but "can the code that runs
+ * today actually read what it asks for". A column removed by hand in the
+ * dashboard is caught by this and would be missed by a migration count.
+ *
+ * Add a row here whenever a column becomes load bearing. It costs one line and
+ * buys back five weeks.
+ */
+const REQUIRED_COLUMNS: { table: string; column: string; breaks: string }[] = [
+  { table: 'profiles', column: 'trial_ends_at', breaks: 'every email cron, the DiGi paywall, agreement, rehearse, rightnow and printables' },
+  { table: 'profiles', column: 'onboarding_complete', breaks: 'the weekly digest picks nobody' },
+  { table: 'profiles', column: 'email_opt_out', breaks: 'the weekly digest picks nobody' },
+  { table: 'profiles', column: 'school_region', breaks: 'holiday dates fall back to the UK for every family' },
+  { table: 'children', column: 'age_band', breaks: 'the stage a child is on, everywhere' },
+  { table: 'family_quests', column: 'band', breaks: 'job reminders fire at the wrong time of day' },
+  { table: 'family_quests', column: 'schedule_days', breaks: 'jobs set to certain days run every day' },
+  { table: 'email_log', column: 'email_key', breaks: 'emails send twice or not at all' },
+  { table: 'cron_runs', column: 'job', breaks: 'this board' },
+  { table: 'spotlight_shown', column: 'spotlight_key', breaks: 'the weekly spotlight repeats itself' },
+]
+
+/**
+ * Ask the database which of those it actually has.
+ *
+ * One read of information_schema rather than a probe per column, so this stays
+ * cheap enough to run on every page load.
+ */
+export async function schemaChecks(supabase: Client | null = admin()): Promise<Check[]> {
+  if (!supabase) {
+    return [{
+      key: 'schema', label: 'Database schema', level: 'warn',
+      headline: 'Not checked', detail: 'No service key, so the columns could not be read.',
+    }]
+  }
+
+  try {
+    const { data, error } = await supabase.rpc('required_columns_present', {
+      wanted: REQUIRED_COLUMNS.map(c => `${c.table}.${c.column}`),
+    })
+    if (error) throw new Error(error.message)
+
+    const present = new Set((data ?? []) as string[])
+    const missing = REQUIRED_COLUMNS.filter(c => !present.has(`${c.table}.${c.column}`))
+
+    if (missing.length === 0) {
+      return [{
+        key: 'schema', label: 'Database schema', level: 'ok',
+        headline: `All ${REQUIRED_COLUMNS.length} columns present`,
+        detail: 'Every column the running code depends on exists in the database.',
+      }]
+    }
+
+    return missing.map(m => ({
+      key: `schema:${m.table}.${m.column}`,
+      label: `Missing column ${m.table}.${m.column}`,
+      level: 'down' as Level,
+      headline: 'The code asks for this and it is not there',
+      detail: `Breaks ${m.breaks}. Queries naming it fail, and the routes read the failure as an empty result, so it looks like there was nothing to do. Apply the migration that adds it.`,
+    }))
+  } catch (e) {
+    return [{
+      key: 'schema', label: 'Database schema', level: 'warn',
+      headline: 'Could not be checked',
+      detail: e instanceof Error ? e.message : 'The column list could not be read.',
+    }]
+  }
+}
+
 /**
  * Judge each job on its heartbeat.
  *
@@ -195,8 +280,8 @@ export async function jobHealth(supabase: Client | null = admin(), now = Date.no
 }
 
 export async function readHealth(now = Date.now()): Promise<Health> {
-  const services = serviceChecks()
-  const jobs = await jobHealth(admin(), now)
+  const [schema, jobs] = await Promise.all([schemaChecks(), jobHealth(admin(), now)])
+  const services = [...serviceChecks(), ...schema]
   const levels = [...services.map(s => s.level), ...jobs.map(j => j.level)]
 
   return {
