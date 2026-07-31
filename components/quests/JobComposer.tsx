@@ -168,7 +168,9 @@ export default function JobComposer({
   const [band, setBand] = useState<JobBand | 'auto'>('auto')
   // The one just added, named back so a parent can see what landed before
   // deciding whether to add another.
-  const [last, setLast] = useState<{ title: string; note: string } | null>(null)
+  // The answers themselves, not a sentence about them, so the confirmation can
+  // show them back in the colours they were chosen in.
+  const [last, setLast] = useState<{ title: string; when: Schedule; band: JobBand | 'auto' } | null>(null)
   // True once anything has been added, so the repeat and band answers can be
   // offered as the same as last time rather than asked from cold.
   const [addedBefore, setAddedBefore] = useState(false)
@@ -207,10 +209,7 @@ export default function JobComposer({
     const t = draft.trim()
     if (!t) { setStep('what'); return }
     onAdd(t, when, chosenBand === 'auto' ? null : chosenBand)
-    setLast({
-      title: t,
-      note: `${WHEN.find(w => w.key === when)?.label ?? ''}${chosenBand === 'auto' ? '' : ` · ${BAND_LABEL[chosenBand]}`}`,
-    })
+    setLast({ title: t, when, band: chosenBand })
     setAddedBefore(true)
     setDraft('')
     setStep('added')
@@ -386,8 +385,44 @@ export default function JobComposer({
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', lineHeight: 1.25 }}>
             {last?.title} is on the board
           </span>
-          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 12.5, color: 'var(--ink-muted)', marginTop: 2 }}>
-            {last?.note}
+          {/* The answers back in the colours they were chosen in.
+              Justin: "hard to see text you selected ... would be clearer sbd
+              in colours if button as it is bit clear when we press button what
+              was selected". It was one line of grey mono, the quietest type on
+              the card, reporting the two decisions a parent had just made. The
+              chips they tapped were yellow and blue a second earlier, so the
+              confirmation says it in those same two colours and the answer is
+              recognisable rather than merely readable. */}
+          <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
+            {(() => {
+              const w = WHEN.find(x => x.key === last?.when)
+              const b = last && last.band !== 'auto' ? BANDS.find(x => x.key === last.band) : null
+              const pill = (text: string, tintKey: string) => {
+                const t = TINTS[tintKey] ?? TINTS.yellow
+                return (
+                  <span key={text} style={{
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13,
+                    background: t.bold, color: t.text,
+                    borderRadius: 100, padding: '4px 11px',
+                  }}>
+                    {text}
+                  </span>
+                )
+              }
+              return (
+                <>
+                  {w && pill(w.label, w.tint)}
+                  {b && pill(b.label, b.tint)}
+                  {/* Left on work it out, so say what that means rather than
+                      showing nothing where a second answer was given. */}
+                  {last && last.band === 'auto' && (
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ink-muted)', alignSelf: 'center' }}>
+                      time of day worked out from the words
+                    </span>
+                  )}
+                </>
+              )
+            })()}
           </span>
         </span>
       </div>
