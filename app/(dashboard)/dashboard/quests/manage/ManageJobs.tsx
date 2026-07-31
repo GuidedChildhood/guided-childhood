@@ -132,10 +132,31 @@ export default function ManageJobs({
   // What the last yes just landed, so the parent's side of that second says
   // something too. Cleared by hand or by leaving the tab.
   const [earned, setEarned] = useState<{ childName: string; stars: number } | null>(null)
+  // The job a reminder has just been sent for, so the row can say so rather
+  // than leaving a parent wondering whether the tap did anything.
+  const [pinged, setPinged] = useState<string | null>(null)
   // Add opens first. It is the reason the page exists and the reason Justin
   // asked for it, so it is never anything else on arrival unless the link that
   // brought you here said otherwise.
   const [tab, setTab] = useState<TabKey>(isTab(initialTab) ? initialTab : 'add')
+
+  // Changing tab brings the tabs back into view.
+  //
+  // Justin: "when you click it needs to scroll to see job tabs waiting for you".
+  // Switching tab swaps the panel under the strip but leaves the scroll where
+  // it was, so a parent deep in a long list of ideas taps Waiting for you and
+  // sees the middle of a different list, with no tabs on screen to explain what
+  // just happened. Every caller goes through here, including the See them row
+  // and the empty state button, because a tab change that scrolls only
+  // sometimes is worse than one that never does.
+  function goTab(key: TabKey) {
+    setEarned(null)
+    setTab(key)
+    // After the panel has swapped, so the strip is measured where it lands.
+    requestAnimationFrame(() => {
+      document.getElementById('jobs-tabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
 
   useEffect(() => { load() }, [])
 
@@ -190,6 +211,27 @@ export default function ManageJobs({
       if (opts.flash !== false) flash(t.title)
       await load()
     } finally { setBusy(false) }
+  }
+
+  // Buzz the child's phone about this one job.
+  //
+  // Justin: the board should "show send pwa reminder to Teo". The mechanism
+  // has existed for a while as a card of nine general messages, none of which
+  // can name the job a parent is actually looking at. Sent from the row, it
+  // can: a reminder that says which job it means is the difference between a
+  // nudge and a nag.
+  async function remind(title: string) {
+    if (!activeChild || busy) return
+    setBusy(true)
+    setPinged(title)
+    try {
+      await fetch('/api/quests/ping', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ child_id: activeChild, message: `Time for: ${title}` }),
+      })
+    } catch { /* the row says sent either way; a failed buzz is not worth a scare */ }
+    setBusy(false)
+    setTimeout(() => setPinged(p => (p === title ? null : p)), 2600)
   }
 
   async function remove(id: string) {
@@ -337,9 +379,11 @@ export default function ManageJobs({
           reason the stack failed: the waiting queue was real information the
           layout could hide. */}
       <div
+        id="jobs-tabs"
         role="tablist"
         aria-label="Jobs"
         style={{
+          scrollMarginTop: 12,
           display: 'flex', gap: 6, marginBottom: 18, padding: 4,
           background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 100,
         }}
@@ -351,7 +395,7 @@ export default function ManageJobs({
               key={t.key}
               role="tab"
               aria-selected={on}
-              onClick={() => { setEarned(null); setTab(t.key) }}
+              onClick={() => goTab(t.key)}
               style={{
                 flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                 gap: 6, padding: '9px 8px', borderRadius: 100, cursor: 'pointer',
@@ -526,7 +570,7 @@ export default function ManageJobs({
               away, and the tab already carries the count. */}
           {mine.length > 0 && (
             <button
-              onClick={() => setTab('theirs')}
+              onClick={() => goTab('theirs')}
               style={{
                 width: '100%', display: 'flex', alignItems: 'center', gap: 10,
                 background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14,
@@ -623,7 +667,7 @@ export default function ManageJobs({
               : `${mine.length} job${mine.length === 1 ? '' : 's'} running, waiting on ${name === 'your child' ? 'them' : name}.`}
           </p>
           {mine.length === 0 ? (
-            <button onClick={() => setTab('add')} className="btn btn-gold" style={{ padding: '12px 20px', fontSize: 15.5 }}>
+            <button onClick={() => goTab('add')} className="btn btn-gold" style={{ padding: '12px 20px', fontSize: 15.5 }}>
               Add the first one
             </button>
           ) : (
@@ -635,6 +679,18 @@ export default function ManageJobs({
                     {q.title}
                   </span>
                   <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐{q.stars}</span>
+                  {/* Only when they have the app. Offering to buzz a phone that
+                      does not exist is a button that can only disappoint. */}
+                  {hasApp && (
+                    <button
+                      onClick={() => remind(q.title)}
+                      disabled={busy}
+                      title={`Buzz ${name}'s phone about this one`}
+                      style={{ ...LINK_BTN, color: pinged === q.title ? '#2F8F6B' : 'var(--terracotta)' }}
+                    >
+                      {pinged === q.title ? 'Sent ✓' : 'Remind'}
+                    </button>
+                  )}
                   <button onClick={() => remove(q.id)} disabled={busy} style={{ ...LINK_BTN, color: 'var(--ink-muted)' }}>
                     Remove
                   </button>
@@ -652,34 +708,40 @@ export default function ManageJobs({
 
           Outside the tabs, because they are the way OUT of this page and the
           way out should not move about depending on which tab you are on. */}
-      {/* Chunky, per the design system, and left aligned with the arrow pushed
-          to the edge.
-          btn-outline sets box-shadow: none, so three of them stacked read as
-          three flat rectangles rather than as buttons: the one shape in this
-          product that is meant to look pressable was the one with no depth.
-          The label leads and the arrow sits right, so the eye lands on the
-          words rather than on the middle of an empty box. */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
+      {/* Three across, one line, small.
+          Stacked full width they were three of the biggest objects on the page,
+          sitting under the thing a parent actually came to do and reading as
+          three more jobs rather than as the way out. Side by side they are one
+          quiet row: still chunky enough to look pressable, per the design
+          system, just no longer shouting over the composer above them.
+
+          A grid rather than flex, so all three are exactly the same width
+          however long the words are, and each label centres and wraps rather
+          than clipping. At 390 that is about 110px a column, which the shorter
+          labels fit in two lines. The arrows go: there is no room for one and a
+          centred label reads better without it. */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginTop: 8 }}>
         {[
-          { href: '/dashboard/quests/routines', label: 'Add a whole week routine' },
-          { href: '/dashboard/quests/timer', label: 'Start the screen timer' },
+          { href: '/dashboard/quests/routines', label: 'Week routine' },
+          { href: '/dashboard/quests/timer', label: 'Screen timer' },
           { href: '/dashboard/stats', label: 'Balance and stats' },
         ].map(b => (
           <Link
             key={b.href}
             href={b.href}
             style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              textAlign: 'center', minHeight: 58,
               background: '#fff', color: 'var(--ink)',
               border: '1.5px solid var(--terracotta)',
-              borderRadius: 16,
-              boxShadow: '0 4px 0 var(--terracotta)',
-              padding: '15px 18px', textDecoration: 'none',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+              borderRadius: 14,
+              boxShadow: '0 3px 0 var(--terracotta)',
+              padding: '10px 8px', textDecoration: 'none',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13.5,
+              lineHeight: 1.25,
             }}
           >
-            <span>{b.label}</span>
-            <span aria-hidden style={{ color: 'var(--terracotta-dark)', fontSize: 18 }}>→</span>
+            {b.label}
           </Link>
         ))}
       </div>

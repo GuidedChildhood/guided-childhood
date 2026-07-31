@@ -78,6 +78,31 @@ export default function KidAskForJob({
         say(d?.reason === 'daily_limit'
           ? 'That is plenty of ideas for today. Have another think tomorrow!'
           : 'That one did not send. Try again in a minute.')
+      } else {
+        // The fifth of the five a day, ticked by actually asking.
+        //
+        // Nothing anywhere marked this step done, and Ask for a job is one of
+        // the two that are ALWAYS in the five. So no child could finish a day,
+        // which means no streak could ever be earned, no celebration could ever
+        // fire, and the Friends had nothing feeding them. A row that cannot be
+        // completed sitting permanently in a list of five is worse than not
+        // being there at all, and it was quietly holding up the whole economy
+        // behind it.
+        //
+        // On the SUCCESSFUL send, not on arrival. The balance step ticks by
+        // being read because reading it is the whole of that step. This one is
+        // not: the step is pitching an idea, so landing on the page and
+        // wandering off has not done it. A tick has to mean the thing it says.
+        //
+        // Fire and forget. The endpoint refuses a step that is not in today's
+        // five and dedupes the done list, so a repeat costs nothing, and a
+        // child who has just sent their idea should never be interrupted by a
+        // failure to tick a box about it.
+        fetch('/api/kid/day', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token, step: 'ask' }),
+        }).catch(() => { /* the day simply stays as it was */ })
       }
     } catch {
       setAsks(prev => prev.filter(a => a.id !== localId))

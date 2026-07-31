@@ -74,7 +74,14 @@ export const STEPS: Record<StepKey, StepDef> = {
   ask: {
     key: 'ask', emoji: '💡',
     label: 'Ask for a job',
-    hint: 'Pitch your own idea',
+    // For tomorrow, said out loud. Justin: a child already has today's jobs, so
+    // an idea pitched now is one for the next day, and the row reads as a
+    // duplicate of the jobs row unless it says which day it means.
+    //
+    // It is also the better half of the idea. Asking for tomorrow is a child
+    // choosing what their own day looks like before it happens, rather than
+    // adding to a list they are already partway through.
+    hint: 'Pitch your own idea for tomorrow',
     href: t => `/k/${t}/suggest`,
   },
   reading: {
