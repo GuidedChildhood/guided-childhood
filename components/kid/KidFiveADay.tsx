@@ -1,0 +1,217 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { STEPS, type StepKey } from '@/lib/kid/five-a-day'
+import { playKidSound } from '@/lib/sound/kidSounds'
+
+// The five a day card: the whole of a child's day, on one screen, no scrolling.
+//
+// Modelled on Duolingo's Daily Quests panel, which is the proven version of this
+// shape: a short list, one line each, its own progress, and a reward at the end.
+// Five one line rows fit a phone with room to spare, which is what actually
+// solves "no need to scroll". Tabs were never the fix for that.
+//
+// What this deliberately does NOT do:
+//
+//   No countdown. Duolingo puts a timer on the panel because the pressure drives
+//   daily return. A clock on a child's chores turns a habit into an exam, and
+//   the ICO Children's Code names exactly that kind of engineered urgency.
+//
+//   No loss language. Nothing here says a streak is at risk. The run is shown
+//   when it exists and is silent when it does not.
+
+export type DayState = {
+  steps: StepKey[]
+  done: StepKey[]
+  complete: boolean
+  streak: number
+}
+
+export default function KidFiveADay({
+  token,
+  childName,
+  jobsAllDone,
+  onOpenJobs,
+  onDayComplete,
+}: {
+  token: string
+  childName?: string
+  /** Whether every job due today is ticked, which is step one's own condition. */
+  jobsAllDone: boolean
+  /** Jobs completes on this screen, so the parent scrolls the list into view. */
+  onOpenJobs: () => void
+  /** Fired once when the fifth step lands, for the celebration. */
+  onDayComplete?: (streak: number) => void
+}) {
+  const [state, setState] = useState<DayState | null>(null)
+  const [busy, setBusy] = useState<StepKey | null>(null)
+
+  useEffect(() => {
+    let live = true
+    fetch(`/api/kid/day?token=${encodeURIComponent(token)}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => { if (live && d && Array.isArray(d.steps)) setState(d) })
+      .catch(() => { /* the card simply does not show */ })
+    return () => { live = false }
+  }, [token])
+
+  // Jobs is the one step the child does not tick here: it is true when every job
+  // due today is ticked, which the board already knows. Marked through on its
+  // own so a child never has to claim something the app can see for itself.
+  useEffect(() => {
+    if (!state || !jobsAllDone) return
+    if (!state.steps.includes('jobs') || state.done.includes('jobs')) return
+    void mark('jobs', true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, jobsAllDone])
+
+  async function mark(step: StepKey, silent = false) {
+    if (busy) return
+    setBusy(step)
+    // Shown at once. A child who taps and sees nothing assumes it broke.
+    setState(s => (s ? { ...s, done: Array.from(new Set([...s.done, step])) } : s))
+    if (!silent) playKidSound('star')
+    try {
+      const res = await fetch('/api/kid/day', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, step }),
+      })
+      const d = await res.json().catch(() => null)
+      if (!res.ok || !d?.ok) {
+        // Take the optimistic tick back rather than leave a child believing a
+        // step landed when it did not.
+        setState(s => (s ? { ...s, done: s.done.filter(k => k !== step) } : s))
+      } else {
+        setState(s => (s ? { ...s, done: d.done, complete: d.complete, streak: d.streak } : s))
+        if (d.justCompleted) onDayComplete?.(d.streak)
+      }
+    } catch {
+      setState(s => (s ? { ...s, done: s.done.filter(k => k !== step) } : s))
+    }
+    setBusy(null)
+  }
+
+  if (!state || state.steps.length === 0) return null
+
+  const doneCount = state.done.length
+  const total = state.steps.length
+
+  return (
+    <div style={{
+      background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '22px',
+      padding: '16px 16px 12px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)', margin: 0, lineHeight: 1.15 }}>
+          {state.complete ? 'Today is done! 🎉' : 'Your five for today'}
+        </p>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
+          {doneCount} of {total}
+        </span>
+      </div>
+
+      {/* One bar for the whole day. A child reads the row of ticks first and the
+          bar second, so it stays thin and quiet. */}
+      <div style={{ height: 8, borderRadius: 100, background: 'var(--cream)', overflow: 'hidden', margin: '8px 0 14px' }}>
+        <div style={{
+          width: `${Math.round((doneCount / total) * 100)}%`, height: '100%',
+          background: 'var(--terracotta)', borderRadius: 100, transition: 'width 0.35s ease',
+        }} />
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {state.steps.map(key => {
+          const def = STEPS[key]
+          const isDone = state.done.includes(key)
+          const href = def.href ? def.href(token) : null
+
+          const inner = (
+            <>
+              <span style={{
+                width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '18px', lineHeight: 1,
+                background: isDone ? 'var(--tint-sage)' : 'var(--cream)',
+                border: isDone ? '1.5px solid #2F8F6B' : '1.5px solid rgba(26,26,46,0.1)',
+              }}>
+                {isDone ? '✓' : def.emoji}
+              </span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{
+                  display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+                  fontSize: '16.5px', lineHeight: 1.25,
+                  color: isDone ? 'var(--ink-muted)' : 'var(--ink)',
+                  textDecoration: isDone ? 'line-through' : 'none',
+                }}>
+                  {def.label}
+                </span>
+                {!isDone && (
+                  <span style={{ display: 'block', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: '1px' }}>
+                    {def.hint}
+                  </span>
+                )}
+              </span>
+              {!isDone && (
+                <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink-muted)' }}>
+                  ›
+                </span>
+              )}
+            </>
+          )
+
+          const rowStyle: React.CSSProperties = {
+            display: 'flex', alignItems: 'center', gap: '11px', width: '100%',
+            textAlign: 'left', cursor: isDone ? 'default' : 'pointer',
+            background: isDone ? 'transparent' : 'var(--cream)',
+            border: '1.5px solid ' + (isDone ? 'transparent' : 'rgba(26,26,46,0.07)'),
+            borderRadius: '15px', padding: '10px 12px',
+            textDecoration: 'none', opacity: isDone ? 0.72 : 1,
+          }
+
+          if (isDone) return <div key={key} style={rowStyle}>{inner}</div>
+
+          // Jobs stays on this screen: it is the list directly below, and sending
+          // a child somewhere else to do the thing they can already see would be
+          // navigation for its own sake.
+          if (key === 'jobs') {
+            return (
+              <button key={key} onClick={() => { playKidSound('tap'); onOpenJobs() }} style={rowStyle}>
+                {inner}
+              </button>
+            )
+          }
+
+          if (href) {
+            return (
+              <a key={key} href={href} onClick={() => playKidSound('tap')} style={rowStyle}>
+                {inner}
+              </a>
+            )
+          }
+
+          // The offline ones (reading, homework, move) are the child's own word
+          // for it. Deliberately not sent to a grown up to verify: the point is
+          // encouraging time away from the screen, and putting an approval gate
+          // on going outside would make it another thing to be checked on.
+          return (
+            <button key={key} onClick={() => mark(key)} disabled={busy === key} style={rowStyle}>
+              {inner}
+            </button>
+          )
+        })}
+      </div>
+
+      {state.streak > 0 && (
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '12px 2px 2px', textAlign: 'center' }}>
+          🔥 {state.streak} day{state.streak === 1 ? '' : 's'} in a row
+        </p>
+      )}
+      {state.complete && state.streak === 0 && childName && (
+        <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 2px 2px', textAlign: 'center' }}>
+          Every single one, {childName}. Come back tomorrow to start a run.
+        </p>
+      )}
+    </div>
+  )
+}

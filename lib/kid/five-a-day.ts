@@ -1,0 +1,174 @@
+// Five things a day, and the streak that comes from doing them.
+//
+// Justin: "make it 5 steps per day. 1 making sure jobs are done that parent has
+// sent and outstanding. 2 any lessons to do. 3 do age related quiz. 4 when
+// pressed will check if balance of jobs and device is good. 5 is add a new job
+// request to parent ... once the system knows they sent a job, a big celebration
+// animation and 1 streak achieved."
+//
+// The shape is Duolingo's Daily Quests panel, which is the proven version of
+// this: three or four rows, one line each, each with its own progress, and a
+// window. Not a scrolling road. Five one line rows fit a phone screen with room
+// to spare, which is what makes "no need to scroll" true rather than nearly true.
+//
+// Two rules worth stating because they are what keep this a habit rather than a
+// treadmill:
+//
+//   The day is CHOSEN ONCE and stored. If the five were picked fresh on every
+//   render, a child could refresh a half finished day into a different one, and
+//   a streak could never be proved. lib is pure; the storing happens in
+//   /api/kid/day.
+//
+//   Step 4 is not a task. Justin's wording is exact: "when pressed will check if
+//   balance of jobs and device is good." So it completes by being READ. A child
+//   cannot be asked to hit a number they do not control, and scoring them on one
+//   would make the balance a test they can fail rather than a mirror.
+
+export type StepKey =
+  | 'jobs'
+  | 'lesson'
+  | 'quiz'
+  | 'balance'
+  | 'ask'
+  | 'reading'
+  | 'homework'
+  | 'printable'
+  | 'move'
+
+export type StepDef = {
+  key: StepKey
+  /** One line, child facing. Short enough to never wrap on a phone. */
+  label: string
+  /** The nudge under it, shown only until it is done. */
+  hint: string
+  emoji: string
+  /** Where tapping goes. Null means it completes in place on this screen. */
+  href: ((token: string) => string) | null
+}
+
+export const STEPS: Record<StepKey, StepDef> = {
+  jobs: {
+    key: 'jobs', emoji: '✅',
+    label: 'Your jobs',
+    hint: 'Tick off what your grown up sent',
+    href: null,
+  },
+  lesson: {
+    key: 'lesson', emoji: '📚',
+    label: 'A lesson',
+    hint: 'Learn one thing, pass it',
+    href: t => `/k/${t}/lessons`,
+  },
+  quiz: {
+    key: 'quiz', emoji: '🧠',
+    label: "Today's quiz",
+    hint: 'A few questions for your age',
+    href: t => `/k/${t}/lessons?quiz=1`,
+  },
+  balance: {
+    key: 'balance', emoji: '⚖️',
+    label: 'Check my balance',
+    hint: 'See how your jobs and screen time are going',
+    href: t => `/k/${t}/balance`,
+  },
+  ask: {
+    key: 'ask', emoji: '💡',
+    label: 'Ask for a job',
+    hint: 'Pitch your own idea',
+    href: t => `/k/${t}/suggest`,
+  },
+  reading: {
+    key: 'reading', emoji: '📖',
+    label: 'Ten minutes reading',
+    hint: 'Away from a screen',
+    href: null,
+  },
+  homework: {
+    key: 'homework', emoji: '✏️',
+    label: 'Homework done',
+    hint: 'Get it out of the way',
+    href: null,
+  },
+  printable: {
+    key: 'printable', emoji: '🖍️',
+    label: 'A printable',
+    hint: 'Colour and do, away from the screen',
+    href: t => `/k/${t}`,
+  },
+  move: {
+    key: 'move', emoji: '⚽',
+    label: 'Move about',
+    hint: 'Outside if you can, twenty minutes',
+    href: null,
+  },
+}
+
+/**
+ * The three that never change, and the order they sit in.
+ *
+ * Jobs first because that is what a grown up is waiting on. Ask LAST because it
+ * is Justin's design and it is the whole product in one row: the day ends with a
+ * child offering to do something rather than with them consuming something.
+ */
+const FIXED_FIRST: StepKey[] = ['jobs']
+const FIXED_LAST: StepKey[] = ['balance', 'ask']
+
+/** The pool the middle two are drawn from, so the day is not identical. */
+const ROTATING: StepKey[] = ['lesson', 'quiz', 'reading', 'homework', 'printable', 'move']
+
+/**
+ * A small stable hash. Same child and same date always gives the same number, so
+ * the day cannot reshuffle under a child who is halfway through it, and two
+ * children on the same day get different middles.
+ */
+function seed(childId: string, day: string): number {
+  let h = 2166136261
+  const s = `${childId}:${day}`
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i)
+    h = Math.imul(h, 16777619)
+  }
+  return Math.abs(h)
+}
+
+/**
+ * The five steps for one child on one day.
+ *
+ * `available` lets the caller drop what makes no sense today: no lesson left in
+ * the stage, no printable sent. A step that cannot be completed must never be
+ * one of the five, because a child who cannot finish the day can never earn the
+ * streak and has no way of knowing why.
+ */
+export function pickDay(childId: string, day: string, available?: Partial<Record<StepKey, boolean>>): StepKey[] {
+  const can = (k: StepKey) => available?.[k] !== false
+  const pool = ROTATING.filter(can)
+  const n = seed(childId, day)
+
+  const middle: StepKey[] = []
+  if (pool.length > 0) {
+    // Two distinct draws, walking the pool from the seeded start so the pair
+    // moves day to day rather than the same two always pairing up.
+    const start = n % pool.length
+    middle.push(pool[start])
+    if (pool.length > 1) {
+      const step = 1 + (Math.floor(n / pool.length) % (pool.length - 1))
+      middle.push(pool[(start + step) % pool.length])
+    }
+  }
+
+  return [...FIXED_FIRST.filter(can), ...middle, ...FIXED_LAST.filter(can)]
+}
+
+/** Did the whole day land? The streak is this and nothing else. */
+export function dayComplete(steps: StepKey[], done: StepKey[]): boolean {
+  return steps.length > 0 && steps.every(s => done.includes(s))
+}
+
+/** UK date string, matching every other date in the app. */
+export function ukToday(now: Date = new Date()): string {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/London', year: 'numeric', month: '2-digit', day: '2-digit',
+  }).formatToParts(now)
+  const get = (t: string) => parts.find(p => p.type === t)?.value ?? ''
+  return `${get('year')}-${get('month')}-${get('day')}`
+}
