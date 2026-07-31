@@ -1,4 +1,4 @@
-import KidPath, { type PathJob, type PathLesson, type PathGame } from '@/components/kid/KidPath'
+import KidPath, { type PathJob, type PathLesson, type PathGame, type PathPrintable } from '@/components/kid/KidPath'
 import { quizForBand } from '@/lib/content/school-quizzes'
 
 // Fixture reference page: the REAL child path with made up jobs, so the when
@@ -13,8 +13,8 @@ export const dynamic = 'force-dynamic'
 
 const JOBS: PathJob[] = [
   { id: 'j1', title: 'Clothes ready for tomorrow', emoji: '👕', stars: 1, state: 'todo', band: 'evening' },
-  { id: 'j2', title: 'Empty or load the dishwasher', emoji: '🍽️', stars: 2, state: 'todo', band: 'after_school' },
-  { id: 'j3', title: 'Bed made', emoji: '🛏️', stars: 1, state: 'todo', band: 'morning' },
+  { id: 'j2', title: 'Empty or load the dishwasher', emoji: '🍽️', stars: 2, state: 'waiting', band: 'after_school' },
+  { id: 'j3', title: 'Bed made', emoji: '🛏️', stars: 1, state: 'waiting', band: 'morning' },
   { id: 'j4', title: 'Twenty minutes lost in a book', emoji: '📚', stars: 3, state: 'waiting', band: 'after_school' },
 ]
 // Sorted the way the real page sorts them, so this shows the shipped order.
@@ -26,7 +26,20 @@ const LESSONS: PathLesson[] = [
 ]
 const GAMES: PathGame[] = [{ key: 'sort-it', title: 'Sort it out', emoji: '🎮' }]
 
-export default function RefKidPathPage() {
+// A printable sitting untouched, which is the shape of the screen Justin sent:
+// the jobs above it are with the grown up, so the glow lands on the one stone
+// in the trail a child cannot finish by themselves. It must not gate the rest.
+const PRINTABLES: PathPrintable[] = [
+  { key: 'reading-bucket', title: 'My Reading Bucket List', emoji: '🖍️', stars: 5, sheetUrl: '#', status: 'todo' },
+]
+
+// ?claimed=1 claims the chest, which walks the glow forward onto the printable.
+// That is the state Justin's screen was in, and the one worth checking: the
+// trail must not grey out below a stone a child cannot finish alone.
+export default async function RefKidPathPage({
+  searchParams,
+}: { searchParams: Promise<{ claimed?: string }> }) {
+  const { claimed } = await searchParams
   return (
     <KidPath
       token="ref"
@@ -38,9 +51,10 @@ export default function RefKidPathPage() {
       jobs={SORTED}
       lessons={LESSONS}
       games={GAMES}
+      printables={PRINTABLES}
       quiz={quizForBand('8-10')}
       dayIndex={3}
-      chestClaimed={false}
+      chestClaimed={claimed === '1'}
       quizClaimed={false}
       usedTodayMinutes={30}
       guideMinutes={95}
