@@ -76,3 +76,19 @@ export function bandForJob(title: string): JobBand {
 export function isBand(value: unknown): value is JobBand {
   return value === 'morning' || value === 'after_school' || value === 'evening'
 }
+
+/**
+ * The band to actually remind on: what the parent chose, or the guess.
+ *
+ * Every read of a job's band goes through here rather than calling bandForJob
+ * directly, so a family who has said when they do a job is never overruled by
+ * the words in its title. "Feed the cat" reads as after school because it
+ * contains "cat", which is wrong in a house that feeds the cat before school,
+ * and until this column existed there was no way to say so.
+ *
+ * A null band keeps the guess, so every job written before the picker existed
+ * behaves exactly as it always has.
+ */
+export function bandForQuest(quest: { band?: string | null; title: string }): JobBand {
+  return isBand(quest.band) ? quest.band : bandForJob(quest.title)
+}
