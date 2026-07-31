@@ -4,7 +4,7 @@ import NotificationCard from '@/components/notifications/NotificationCard'
 import { getNotifications } from '@/lib/notifications/collect'
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Notifications — Guided Childhood' }
+export const metadata = { title: 'Notifications · Guided Childhood' }
 
 export default async function NotificationsPage() {
   const supabase = await createClient()

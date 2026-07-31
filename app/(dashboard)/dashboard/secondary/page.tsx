@@ -12,7 +12,7 @@ import { TRANSITION_STEPS, transitionFor, transitionAsk } from '@/lib/learning/t
 // The page never tells a parent whether to get the phone. It tells them the
 // order, because the order is the part that cannot be redone.
 
-export const metadata = { title: 'Starting secondary — Guided Childhood' }
+export const metadata = { title: 'Starting secondary · Guided Childhood' }
 export const dynamic = 'force-dynamic'
 
 export default async function SecondaryPage() {

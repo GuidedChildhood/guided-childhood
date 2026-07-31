@@ -20,8 +20,17 @@
 export type PaceVerdict = 'plenty' | 'on_track' | 'a_little_high' | 'well_over'
 
 export type Pace = {
-  /** The age matched healthy daily minutes this is all measured against. */
+  /** The age matched healthy daily minutes this is all measured against.
+   *  During a school holiday this is the RELAXED figure, not the age one. */
   dailyGuide: number
+  /** What the age guide is in term time, before any holiday relaxation.
+   *  Equal to dailyGuide outside the holidays. */
+  termGuide: number
+  /** The holiday currently relaxing the guide, "the summer holidays", or null
+   *  in term time. */
+  holidayTitle: string | null
+  /** True only when the holiday has actually moved the number. */
+  relaxed: boolean
   /** dailyGuide across a full week. */
   weekAllowance: number
   /** Screen minutes used so far in the current week. */
@@ -83,6 +92,18 @@ export function buildPace(input: {
   /** Override for tests and for the monthly email, which reports a finished
    *  week rather than the one in progress. */
   daysSoFar?: number
+  /** The age guide before any holiday relaxation. Defaults to dailyGuide, so a
+   *  caller that does not know about holidays behaves exactly as before.
+   *
+   *  This exists because the card was calling the relaxed number "the guide for
+   *  their age" and it is not. In the summer a 13 year old's age guide of 120
+   *  is relaxed by a quarter to 150, and printing 150 as the age figure makes
+   *  our own holiday slack look like something the evidence recommends. It is
+   *  not: 120 is already the ceiling of the only source we cite that names a
+   *  number for school age children. */
+  termGuide?: number
+  /** The holiday doing the relaxing, for copy that has to say which one. */
+  holidayTitle?: string | null
 }): Pace {
   // Every input is forced to a real number before any division happens. A
   // single NaN anywhere in here reaches the parent as "NaN minutes a day",
@@ -98,6 +119,13 @@ export function buildPace(input: {
   const weekAllowance = dailyGuide * 7
   const average = Math.round(used / daysSoFar)
   const remaining = weekAllowance - used
+
+  const termGuide = Math.max(0, Math.round(num(input.termGuide, dailyGuide)))
+  const holidayTitle = input.holidayTitle?.trim() || null
+  // Both conditions, deliberately. A holiday with a relax factor that rounds to
+  // no change at all would otherwise print "relaxed to 60 for half term" beside
+  // an unchanged 60, which reads as a mistake because it is one.
+  const relaxed = holidayTitle !== null && dailyGuide > termGuide
 
   // What tomorrow should be. Spreading what is left across the days that are
   // left is the whole idea: it self corrects, so one heavy Saturday quietly
@@ -131,10 +159,22 @@ export function buildPace(input: {
         : `The week averaged ${average} minutes a day against a guide of ${dailyGuide}. Worth a look at what took the time.`
     }
     switch (verdict) {
+      // Neither of these two offers a number to climb to, and that is the point.
+      //
+      // This used to read "there is room, so tomorrow can be up to 150 minutes
+      // without a second thought", shown to a child averaging eleven. Justin,
+      // 31 July: "should not encourage 150 mins a day if the average is small,
+      // do not try to fill in time as [it] encourages more watching". He is
+      // right, and it is the product inverted. A screen built on age guidance
+      // was reading the gap between a quiet week and the guide as an invitation
+      // to close it.
+      //
+      // The guide is a ceiling, never a target. A family under it has already
+      // won and needs telling that, not offering the difference.
       case 'plenty':
-        return `${average} minutes a day so far against a guide of ${dailyGuide}. There is room, so tomorrow can be up to ${suggestTomorrow} minutes without a second thought.`
+        return `${average} minutes a day so far, well under the ${dailyGuide} minute guide. Nothing to change. Unused minutes do not roll over, so there is nothing here that needs using up.`
       case 'on_track':
-        return `${average} minutes a day so far, right about the ${dailyGuide} minute guide. Around ${suggestTomorrow} minutes tomorrow keeps the week where it should be.`
+        return `${average} minutes a day so far, right about the ${dailyGuide} minute guide. An ordinary day tomorrow keeps it there.`
       case 'a_little_high':
         return `${average} minutes a day so far, a little above the ${dailyGuide} minute guide. Around ${suggestTomorrow} minutes tomorrow brings the week back level.`
       case 'well_over':
@@ -147,7 +187,10 @@ export function buildPace(input: {
     }
   })()
 
-  return { dailyGuide, weekAllowance, used, daysSoFar, daysLeft, average, remaining, suggestTomorrow, verdict, line }
+  return {
+    dailyGuide, termGuide, holidayTitle, relaxed,
+    weekAllowance, used, daysSoFar, daysLeft, average, remaining, suggestTomorrow, verdict, line,
+  }
 }
 
 // ── The month, for the review email ──────────────────────────────────

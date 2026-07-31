@@ -215,8 +215,14 @@ export default function BalanceReport({ report }: { report: ParentReport }) {
             }}>
               {fmtMins(totalWeekMins)}
             </span>
+            {/* Deliberately NOT "of 17h 30m healthy".
+                A weekly pot with a total beside it reads as a bar to fill, and
+                55m of 17h 30m reads as barely started rather than as a good
+                week. The honest comparison is the daily one directly below,
+                because the guidance this is built on is a daily figure and the
+                weekly number is only ever that figure times seven. */}
             <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--ink-soft)' }}>
-              of {fmtMins(healthyWeekMins)} healthy
+              this week
             </span>
           </div>
           <div style={{ fontSize: 13.5, color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: 6 }}>

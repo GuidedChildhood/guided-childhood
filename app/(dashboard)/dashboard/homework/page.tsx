@@ -11,7 +11,7 @@ import HomeworkDecoder, { type DecoderChild } from './HomeworkDecoder'
 // wrong way will make it worse. Both of those are true and both are fixable
 // with a lookup.
 
-export const metadata = { title: 'Homework — Guided Childhood' }
+export const metadata = { title: 'Homework · Guided Childhood' }
 export const dynamic = 'force-dynamic'
 
 export default async function HomeworkPage() {

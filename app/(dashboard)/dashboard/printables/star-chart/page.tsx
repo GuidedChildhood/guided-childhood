@@ -23,7 +23,7 @@ import StarChartBuilder from './StarChartBuilder'
 // with no phone, whose jobs live in the app only because a parent ticks them.
 // For them the printed chart is the whole interface.
 
-export const metadata = { title: 'Star Chart Builder — Guided Childhood' }
+export const metadata = { title: 'Star Chart Builder · Guided Childhood' }
 
 // Force dynamic: the jobs are per family and read per request, so a cached
 // render would hand one parent another parent's chart.

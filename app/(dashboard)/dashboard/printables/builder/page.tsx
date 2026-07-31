@@ -8,7 +8,7 @@ import BucketBuilder from './BucketBuilder'
 // through the quest approve loop like every other printable. A member
 // feature, so free parents are sent to upgrade rather than the builder.
 
-export const metadata = { title: 'Bucket List Builder — Guided Childhood' }
+export const metadata = { title: 'Bucket List Builder · Guided Childhood' }
 
 export default async function BuilderPage() {
   const supabase = await createClient()

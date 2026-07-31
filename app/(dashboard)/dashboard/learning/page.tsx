@@ -15,7 +15,7 @@ import LearningYear from './LearningYear'
 // One page, no input required. Their year, their term, what the class is being
 // taught, what is coming up at school, and what happens next.
 
-export const metadata = { title: 'What they are learning — Guided Childhood' }
+export const metadata = { title: 'What they are learning · Guided Childhood' }
 export const dynamic = 'force-dynamic'
 
 export default async function LearningPage() {

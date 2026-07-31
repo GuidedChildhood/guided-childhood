@@ -16,7 +16,7 @@ import OrdersBoard, { type OrderRow } from '@/components/shop/OrdersBoard'
 // family that placed it, which is right, and would otherwise hide every order
 // from the one person who has to post them.
 
-export const metadata = { title: 'Keepsake orders — Guided Childhood' }
+export const metadata = { title: 'Keepsake orders · Guided Childhood' }
 export const dynamic = 'force-dynamic'
 
 const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com').toLowerCase()

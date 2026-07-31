@@ -15,7 +15,7 @@ import ManageJobs from './ManageJobs'
 // out of a client tree that would otherwise need a Suspense boundary to build.
 
 export const dynamic = 'force-dynamic'
-export const metadata = { title: 'Add a job — Guided Childhood' }
+export const metadata = { title: 'Add a job · Guided Childhood' }
 
 export default async function ManageJobsPage({
   searchParams,

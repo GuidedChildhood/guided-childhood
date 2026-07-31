@@ -5,7 +5,7 @@ import CraftPack from './CraftPack'
 // Every craft doubles as a quest and maps to a literacy idea, so the
 // curriculum, the chores and the fun are one system (plan section 10).
 
-export const metadata = { title: 'The Game Pack — Guided Childhood' }
+export const metadata = { title: 'The Game Pack · Guided Childhood' }
 
 export default async function CraftsPage() {
   const supabase = await createClient()

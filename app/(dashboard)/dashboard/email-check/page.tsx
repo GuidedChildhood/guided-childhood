@@ -9,7 +9,7 @@ import EmailCheck from '@/components/settings/EmailCheck'
 // console or a Vercel log filter, neither of which is a reasonable thing to
 // ask of the person who needs the answer. This is a URL and a button.
 
-export const metadata = { title: 'Email check — Guided Childhood' }
+export const metadata = { title: 'Email check · Guided Childhood' }
 
 export default async function EmailCheckPage() {
   const supabase = await createClient()
