@@ -966,7 +966,25 @@ export default function LessonPlayer({
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 60, background: 'var(--cream)',
+      // Above the app chrome, because this is a takeover and was not behaving
+      // like one.
+      //
+      // Justin, on a phone mid lesson: "Lessons hsve no way on phone app if
+      // seeing how ti goto next page". There has always been a Continue
+      // button. It was underneath the tab bar.
+      //
+      // The player is fixed inset 0 and clearly means to own the screen, but
+      // it sat at 60 while the bottom tab bar sits at 100 and the Right Now
+      // button at 95. So the tab bar covered the bottom 72px of the deck,
+      // which is exactly where the Back and Continue controls live, and the
+      // only ways left to advance were a swipe nobody had been told about and
+      // an arrow key no phone has.
+      //
+      // 110 puts the deck above both. The tabs going away for the length of a
+      // lesson is right rather than a cost: the header carries its own ×, and
+      // a five minute lesson is the one place in this app that should not be
+      // competing with six other destinations.
+      position: 'fixed', inset: 0, zIndex: 110, background: 'var(--cream)',
       display: 'flex', flexDirection: 'column',
     }}>
       {/* The thin butter progress bar, edge to edge */}
