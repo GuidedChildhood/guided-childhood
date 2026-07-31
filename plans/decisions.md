@@ -4354,3 +4354,118 @@ Worth keeping: when one thing looks out of line, count the containers before
 moving anything. The odd one out is usually a single outlier rather than
 everything else being wrong, and the fix is to bring the exception back to the
 column the page already keeps.
+
+---
+
+## 31 July 2026 — one week, counted one way, on every screen that says "this week"
+
+Justin, on the balance page: "i thin it has aold data why tehre iso many
+minuted".
+
+It was not stale. Checked against the database rather than the screen: 92
+approved ticks in the window, 163 stars, no duplicate rows, no orphaned ticks,
+and buildOffscreen turns those into the 22h 45m exactly as designed. His own
+testing, 38 jobs approved in one sitting on two separate days.
+
+The check found something else. Three places counted "this week" and two of them
+counted a different week: the star bank, the quest board and the rollover cron
+run on the star week (Monday, London), while the stats page and week-report
+rolled back seven days. So on a Friday the balance page was counting the previous
+Thursday and Friday inside "Total this week", and 163 stars there sat beside 116
+on the Quests page for the same child in the same week.
+
+The star week wins because everything a parent can act on already runs on it: the
+cap, the holiday bank overflow, the Monday reset. A rolling seven days cannot
+have a reset, so it can never agree with a bank that does.
+
+The per day figures had to move with it. A rolling window is always seven days
+long, so dividing by seven was right. A star week on a Tuesday is two days long,
+and dividing those two days by seven reported a child at less than a third of the
+screen time they were really having. Actual usage divides by daysSoFar now; the
+guide still divides by seven, because a weekly guide is a full week's worth
+whatever day it is read on. buildPace was already dividing by daysSoFar, which is
+the confirmation the star week was always the intended window here.
+
+Worth keeping: two screens quoting different totals for "this week" is survivable
+when each says which week it means, and invisible when neither does. Every screen
+that reports a window now prints it.
+
+---
+
+## 31 July 2026 — dismissing a card is not the same as throwing the thing away
+
+Justin: "the wekly round up does not go anywhere ... it just dissapears".
+
+WeeklyReviewCard, the component built to put the round up on Home, was imported
+nowhere. It had never rendered for anyone. The two remaining doors both carried a
+Sunday only gate, and the cron writes the round up on a Sunday night, so the one
+day it could be reached from Home was the day it was written.
+
+The worse half: the card's cross set the row to dismissed, the GET filtered
+dismissed out, and the round up PAGE read through that same GET. One tap on Home
+permanently hid the week from the page built to show it, and the page then
+offered to build a fresh one. A round up that had been written came to look like
+one that had never existed.
+
+Dismissing is about the card now, and only the card. The page asks with any=1 and
+gets the latest week whatever its status. The round up row on Home is permanent.
+Dismissal moved from a day keyed localStorage flag to the server row, so the
+answer holds across devices and across days.
+
+Worth keeping two rules. A card is a nudge and may come and go; the door to the
+thing it nudges about must be permanent. And a component nobody imports is not a
+feature, however finished it looks: grep for the import before believing a
+surface exists.
+
+---
+
+## 31 July 2026 — done work is worth one line and a way back in
+
+Applied three times today, and it is the same rule each time.
+
+The quest status board stayed fully open showing four zeroes when nothing waited.
+Today's path on Home kept six hundred pixels of ticked steps above everything a
+parent could still act on. The balance report gave each screen type four text
+elements to say what its bar already drew.
+
+In every case the fix was the same shape: collapse what is finished to a single
+tappable line that says what was finished, and open it again on a tap. Never
+vanish it, because disappearing entirely reads as lost rather than done. Rocket
+Money folds cleared items, Monarch keeps a quiet line rather than nothing, and
+Apple Health sets a total as label, figure, then everything else muted.
+
+The expanded state is deliberately not remembered across loads. The point of
+folding a finished thing is that the next visit leads with what is still open,
+and a preference that survives would quietly undo that.
+
+---
+
+## 31 July 2026 — held: holiday minutes per completed day
+
+Designed, not shipped, and deliberately so.
+
+The reward loop agreed today (a streak per day, four streaks unlock a family
+friend) wants a second source of holiday minutes: a grant per completed day,
+alongside the Monday rollover's grant per week.
+
+holiday_allowance has `unique (child_id, week_start)`, and that constraint is the
+whole safety of the rollover, which upserts with onConflict child_id,week_start
+and ignoreDuplicates so a cron firing twice cannot bank a child twice. A per day
+grant collides with it.
+
+The design that works: add `source` and `on_date`, backfill on_date to week_start
+for existing rollover rows, make it not null, then replace the unique with
+(child_id, source, on_date). The rollover writes source rollover with on_date
+week_start and keeps exactly its current once per week guarantee; a daily grant
+writes source daily with on_date the day and can only ever land once per day.
+Note that a nullable on_date will NOT do, because Postgres treats nulls in a
+unique constraint as distinct and the rollover guard would silently stop working.
+
+Migration 137 is free: 136 is the highest on main and no open PR claims a number.
+
+Not shipped because it changes the idempotency guard on the currency table in
+lockstep with a cron that cannot be run locally without the service key, so
+getting it wrong either double pays screen time or silently stops banking it, and
+it went to design while Justin was away from the laptop. Worth keeping as a rule:
+additive schema is fine to ship on judgement, but a change to a uniqueness
+guarantee that a money path depends on waits for someone to review it.
