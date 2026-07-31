@@ -7,6 +7,7 @@ import KidStickers, { type KidSticker } from '@/components/kid/KidStickers'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { PATH_CHARACTERS, challengeFor, type PathChallenge, type PathCharacter } from '@/lib/content/path-challenges'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import { BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
 import type { SchoolQuiz } from '@/lib/content/school-quizzes'
 import type { PathTip } from '@/lib/content/path-tips'
 
@@ -21,7 +22,12 @@ import type { PathTip } from '@/lib/content/path-tips'
 
 export type PathLesson = { id: string; title: string; emoji: string; done: boolean; score: number | null; locked: boolean }
 export type PathGame = { key: string; title: string; emoji: string }
-export type PathJob = { id: string; title: string; emoji: string; stars: number; state: 'todo' | 'waiting' | 'done' }
+export type PathJob = {
+  id: string; title: string; emoji: string; stars: number
+  state: 'todo' | 'waiting' | 'done'
+  /** When in the day this one belongs to, so the child can see it. */
+  band: JobBand
+}
 // A printable on the path. The child does it at home, taps "show my grown
 // up" (todo -> pending, the "?" state), and the grown up confirms it
 // (pending -> confirmed), which lands the stars.
@@ -625,6 +631,30 @@ export default function KidPath({
                     <span style={{ fontSize: 32, lineHeight: 1 }}>{j.state === 'done' ? '✓' : j.emoji}</span>
                     {j.state === 'waiting' && <span style={{ fontSize: 15, marginTop: 1 }}>⏳</span>}
                   </span>
+                  {/* When, in the child's own words.
+                      The band has always existed and has always fired the
+                      reminder pushes at the right hour, but nothing on this
+                      screen ever said it, so a child looking at their own list
+                      could see what to do and never when. It reads as a small
+                      capsule above the title rather than more grey subtext,
+                      because when is the thing a child scans for once they know
+                      the list, and the run of stones is now in day order so the
+                      capsules climb the trail morning to bedtime.
+
+                      Only while there is still something to do. A job already
+                      done does not need telling when it was for. */}
+                  {!done && (
+                    <span style={{
+                      display: 'inline-block', marginTop: 5,
+                      fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700,
+                      letterSpacing: '0.08em', textTransform: 'uppercase',
+                      color: 'var(--ink-soft)', background: 'var(--cream)',
+                      border: '1.5px solid var(--border)', borderRadius: 100,
+                      padding: '2px 8px',
+                    }}>
+                      {BAND_LABEL[j.band]}
+                    </span>
+                  )}
                   <span style={label}>{j.title}</span>
                   <span style={sub}>
                     {j.state === 'done' ? 'Done! Stars landed' : j.state === 'waiting' ? 'With your grown up ✓' : `Job · ${j.stars} star${j.stars === 1 ? '' : 's'} · tap when done`}

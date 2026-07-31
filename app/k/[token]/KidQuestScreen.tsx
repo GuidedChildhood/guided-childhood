@@ -30,6 +30,7 @@ import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidTodayList from '@/components/kid/KidTodayList'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
+import { isMoveJob } from '@/lib/kid/five-a-day'
 import KidStreakTakeover from '@/components/kid/KidStreakTakeover'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
@@ -786,6 +787,15 @@ export default function KidQuestScreen({
 
   const doneCount = quests.filter(q => ticks[q.id]).length
   const allDone = quests.length > 0 && doneCount === quests.length
+
+  // The jobs on today's board that ARE moving about, so the five a day's Move
+  // row can point at them instead of asking for a second tick of the same hour
+  // outside. Null when there are none, which keeps Move a plain self tick for a
+  // child whose board has nothing physical on it today.
+  const moveQuests = quests.filter(q => isMoveJob(q.title))
+  const moveJobs = moveQuests.length > 0
+    ? { total: moveQuests.length, done: moveQuests.every(q => !!ticks[q.id]) }
+    : null
   // The five a day streak takeover, shown once when the fifth step lands.
   const [streakWon, setStreakWon] = useState<number | null>(null)
   const pendingStars = quests.filter(q => ticks[q.id] === 'pending').reduce((s, q) => s + q.stars, 0)
@@ -1173,6 +1183,7 @@ export default function KidQuestScreen({
           token={token}
           childName={childName}
           jobsAllDone={allDone}
+          moveJobs={moveJobs}
           onOpenJobs={() => document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
           onDayComplete={n => { playKidSound('done'); setStreakWon(n) }}
         />

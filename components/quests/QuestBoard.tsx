@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { questDueToday } from '@/lib/quests/due'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import Button from '@/components/ui/Button'
+import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
 
 // The family quest board on Home: every child's day at a glance, big
 // enough to matter. The approve queue leads (kid ticked, one tap lands
@@ -36,6 +37,9 @@ export default function QuestBoard() {
   const [openChild, setOpenChild] = useState<string | null>(null)
   const [spendNote, setSpendNote] = useState<string | null>(null)
   const [showDone, setShowDone] = useState(false)
+  // What the last yes just landed. The board approves too, so it owes the
+  // parent the same sentence the agree tab does.
+  const [earned, setEarned] = useState<{ childName: string; stars: number } | null>(null)
 
   const load = useCallback(async () => {
     try {
@@ -103,6 +107,16 @@ export default function QuestBoard() {
   }
 
   async function decide(tickId: string, decision: 'approve' | 'reject') {
+    // Read the job and the child before the tick changes state: the stars are
+    // the message, and a rejection has nothing to say here.
+    const tick = ticks.find(t => t.id === tickId)
+    const q = tick ? quests.find(x => x.id === tick.quest_id) : undefined
+    if (decision === 'approve' && q) {
+      setEarned({
+        childName: children.find(c => c.id === tick?.child_id)?.name ?? 'Your child',
+        stars: Number(q.stars) || 1,
+      })
+    }
     setTicks(prev => prev.map(t => t.id === tickId ? { ...t, status: decision === 'approve' ? 'approved' : 'rejected' } : t))
     try {
       await fetch('/api/quests/approve', {
@@ -148,6 +162,8 @@ export default function QuestBoard() {
           Family Quests
         </span>
       </div>
+
+      <TimeEarnedPrompt earned={earned} onDismiss={() => setEarned(null)} />
 
       {/* The kids' own quest ideas: one tap makes it real */}
       {pendingAsks.length > 0 && (

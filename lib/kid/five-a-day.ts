@@ -103,6 +103,34 @@ export const STEPS: Record<StepKey, StepDef> = {
   },
 }
 
+// Which of today's jobs ARE moving about.
+//
+// Justin: the move row "needs to link to the jobs they relate to, so rather
+// than just tick off needs to link to actual things".
+//
+// He is right, and the reason is worse than tidiness. Move sat next to a real
+// job called "One hour of outside play" and asked the child to tick a second,
+// separate box for the same hour outside. One of the two had to be theatre, and
+// a child works out which quickly. Pointed at the real job, the row stops being
+// a box to tick and starts being a pointer at something that already pays.
+//
+// Matched on words rather than on the templates' own play flag, because a job a
+// parent wrote themselves never came from a template and "Walk the dog" has to
+// count. Deliberately narrow: a false positive here marks a step done that the
+// child never did, which is worse than the row simply staying a self tick.
+const MOVE_WORDS = [
+  'outside', 'outdoors', 'fresh air', 'park', 'garden',
+  'bike', 'cycle', 'scoot', 'skate', 'run', 'running', 'jog',
+  'walk', 'swim', 'dance', 'exercise', 'football', 'kickabout',
+  'sport', 'training', 'climb', 'trampoline', 'play out',
+]
+
+/** Is this job the moving about one? */
+export function isMoveJob(title: string): boolean {
+  const t = title.toLowerCase()
+  return MOVE_WORDS.some(w => t.includes(w))
+}
+
 /**
  * The three that never change, and the order they sit in.
  *
