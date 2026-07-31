@@ -4325,3 +4325,32 @@ good, because a reassurance that overclaims is worse than none:
   join an age band and never sent onward.
 - "your feedback goes back in" is true because digi_feedback is one of
   rebuildWisdom's three sources.
+
+---
+
+## 31 July 2026 — the pathway header was the only thing out of line
+
+Justin, on a laptop: "this needs to be tidier display as all a bit out of line."
+
+Counted the containers on the page rather than nudging things by eye. The pathway
+page uses maxWidth 720 six times, 580 and 560 for narrower text blocks, and 980
+exactly once, on the header. So on a desk the header started 130px further left
+than the six tiles and every section beneath them, and the whole page read as
+drifting.
+
+The instinct was to widen the tiles to meet the header. Wrong way round: 720 is
+the page's column, used six times, and 980 was the single outlier. Widening the
+tiles would have moved the majority to match the exception, and 980 of body text
+is a poor measure to read anyway. The header came down to 720 and its passport
+column went 340 to 300 with a tighter gap, which leaves the copy a workable
+measure beside it.
+
+Also the printed passport card: it centred its icon against a block whose heading
+wraps to two lines and whose body runs to four, so the icon floated in the middle
+of the card next to nothing. Top aligned now, chevron still centred, which is what
+a row chevron should do.
+
+Worth keeping: when one thing looks out of line, count the containers before
+moving anything. The odd one out is usually a single outlier rather than
+everything else being wrong, and the fix is to bring the exception back to the
+column the page already keeps.

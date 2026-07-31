@@ -207,7 +207,12 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
 
           Two columns on a desk, stacked on a phone, with the copy first either
           way so the passport is explained before it is handed over. */}
-      <div style={{ padding: '0 20px', maxWidth: '980px', margin: '0 auto', marginBottom: '20px' }}>
+      {/* 720, the same column as every other section on this page.
+          It was 980, the only container here that was, so on a desk the header
+          started 130px further left than the six tiles and everything under
+          them. Justin: "this needs to be tidier, it is all a bit out of line."
+          Nothing was broken, the hero simply did not share the page's column. */}
+      <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto', marginBottom: '20px' }}>
         <ChildSwitcher kids={children} selectedId={primaryChild?.id ?? null} basePath="/dashboard/pathway" />
         <div className="pathway-hero">
           <div style={{ minWidth: 0 }}>
