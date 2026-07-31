@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Guided Childhood social cards</title>
+<style>
+/* Fonts, self hosted, same files the Etsy branding and the app use */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;src:url('../../content/etsy-shop/branding/IBMPlexMono-500.woff2') format('woff2');}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;src:url('../../content/etsy-shop/branding/IBMPlexMono-600.woff2') format('woff2');}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:400;src:url('../../content/etsy-shop/branding/Nunito-400.woff2') format('woff2');}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:600;src:url('../../content/etsy-shop/branding/Nunito-600.woff2') format('woff2');}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:700;src:url('../../content/etsy-shop/branding/Nunito-700.woff2') format('woff2');}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:800;src:url('../../content/etsy-shop/branding/Nunito-800.woff2') format('woff2');}
+@font-face{font-family:'Nunito';font-style:normal;font-weight:900;src:url('../../content/etsy-shop/branding/Nunito-900.woff2') format('woff2');}
+
+:root{
+  /* Live tokens from app/globals.css. Never invent a colour. */
+  --cream:#F9F8F6; --app-bg:#F1EFEA; --white:#fff;
+  --ink:#1A1A2E; --ink-soft:#52526A; --ink-muted:#8888A0;
+  --butter:#EDC35F; --butter-dark:#C99A28; --butter-lt:#FEF7E0;
+  --espresso:#2E2818;
+  --green:#2F8F6B; --green-dark:#236F52;
+  --pink:#FBCFE8; --pink-deep:#F9A8D4;
+  --coral:#D4600A;
+  --tint-blue:#D8E8F8; --tint-sage:#E8F0EE; --tint-amber:#F0E8D0;
+  --stage1:#FEF08A; --stage2:#BAE6FD; --stage3:#FECDD3; --stage4:#FBCFE8; --stage5:#DDD6FE;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+body{background:#777;font-family:'Nunito',sans-serif;color:var(--ink);}
+#sheet{display:flex;flex-direction:column;align-items:flex-start;gap:40px;padding:40px;}
+
+/* ---------------- the card shell ---------------- */
+.card{
+  position:relative;overflow:hidden;background:var(--cream);
+  display:flex;flex-direction:column;
+  padding:96px 88px;
+}
+.card.size-portrait{width:1080px;height:1350px;}
+.card.size-square{width:1080px;height:1080px;}
+.card.size-fb{width:1200px;height:630px;padding:64px 72px;}
+.card.size-story{width:1080px;height:1920px;padding:160px 88px;}
+
+/* Newsprint grain. The Happy News feel comes from paper, not gloss. */
+.card::after{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:5;
+  opacity:.055;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Colour block variants. One accent per card, rotated across a deck. */
+.card[data-tone="butter"]{background:var(--butter-lt);}
+.card[data-tone="pink"]{background:#FEF0F6;}
+.card[data-tone="blue"]{background:#EEF6FE;}
+.card[data-tone="green"]{background:#EDF6F2;}
+.card[data-tone="amber"]{background:#FBF4E2;}
+.card[data-tone="ink"]{background:var(--espresso);color:#FFF9E8;}
+.card[data-tone="ink"] .eyebrow{color:var(--butter);}
+.card[data-tone="ink"] .body{color:#E8DFC8;}
+.card[data-tone="ink"] .rule{background:var(--butter);}
+
+/* ---------------- type ---------------- */
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+  letter-spacing:7px;text-transform:uppercase;color:var(--butter-dark);
+  position:relative;z-index:2;
+}
+.rule{width:112px;height:10px;border-radius:6px;background:var(--ink);margin:28px 0 0;position:relative;z-index:2;}
+
+h1{font-weight:900;letter-spacing:-2.6px;line-height:.97;position:relative;z-index:2;}
+.h-xl{font-size:132px;}
+.h-lg{font-size:104px;}
+.h-md{font-size:82px;}
+.h-sm{font-size:64px;}
+
+.body{
+  font-weight:600;font-size:40px;line-height:1.42;color:var(--ink-soft);
+  position:relative;z-index:2;max-width:19ch;
+}
+.body.wide{max-width:24ch;}
+.spacer{flex:1;}
+
+.kicker{
+  font-weight:800;font-size:34px;line-height:1.3;color:var(--ink);
+  position:relative;z-index:2;
+}
+
+/* the big number card */
+.stat{font-weight:900;font-size:280px;line-height:.85;letter-spacing:-10px;position:relative;z-index:2;}
+.stat-unit{font-size:96px;letter-spacing:-3px;}
+
+/* ---------------- stickers, the Happy News signature ---------------- */
+.sticker{position:absolute;z-index:1;}
+.dot{border-radius:50%;}
+.smiley{position:absolute;z-index:1;}
+
+/* chunky pill, the house button shape scaled up */
+.pill{
+  display:inline-flex;align-items:center;gap:18px;align-self:flex-start;
+  background:var(--butter);color:var(--ink);
+  font-weight:900;font-size:36px;padding:26px 44px;
+  border-radius:26px;box-shadow:0 9px 0 var(--butter-dark);
+  position:relative;z-index:2;
+}
+.pill.green{background:var(--green);color:#fff;box-shadow:0 9px 0 var(--green-dark);}
+.pill.pink{background:var(--pink-deep);color:var(--ink);box-shadow:0 9px 0 #E879B8;}
+
+/* speech bubble for the quote card */
+.bubble{
+  position:relative;z-index:2;background:var(--white);border:7px solid var(--ink);
+  border-radius:44px;padding:56px 52px;box-shadow:0 12px 0 var(--ink);
+}
+.bubble::after{
+  content:"";position:absolute;left:76px;bottom:-46px;width:0;height:0;
+  border:22px solid transparent;border-top-color:var(--ink);border-bottom:0;
+}
+.bubble p{font-weight:800;font-size:52px;line-height:1.22;letter-spacing:-1px;}
+
+/* photo frame with tape, the scrapbook move */
+.frame{
+  position:relative;z-index:2;background:var(--white);padding:26px 26px 96px;
+  box-shadow:0 14px 0 rgba(26,26,46,.16);transform:rotate(-1.6deg);
+}
+.frame .slot{
+  width:100%;aspect-ratio:4/3;background:var(--tint-blue);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+  letter-spacing:4px;text-transform:uppercase;color:#7C93AC;text-align:center;padding:24px;
+}
+.frame .cap{
+  position:absolute;left:26px;right:26px;bottom:26px;
+  font-weight:800;font-size:34px;color:var(--ink);text-align:center;
+}
+.tape{
+  position:absolute;top:-26px;left:50%;transform:translateX(-50%) rotate(-2.5deg);
+  width:220px;height:56px;background:rgba(237,195,95,.62);
+  border-left:3px dashed rgba(255,255,255,.6);border-right:3px dashed rgba(255,255,255,.6);
+  z-index:3;
+}
+
+/* say this, not this. The single highest saving format in the category,
+   because the unit is a sentence a parent can use tonight. */
+.script{position:relative;z-index:2;display:flex;flex-direction:column;gap:32px;margin-top:12px;}
+.line{border-radius:34px;padding:40px 42px;border:6px solid var(--ink);}
+.line .tag{
+  font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:24px;
+  letter-spacing:5px;text-transform:uppercase;margin-bottom:18px;display:block;
+}
+.line p{font-weight:800;font-size:46px;line-height:1.2;letter-spacing:-1px;color:var(--ink);}
+.line.not{background:#FDECEC;box-shadow:0 9px 0 rgba(26,26,46,.16);}
+.line.not .tag{color:#B0403A;}
+.line.say{background:#E6F4EE;box-shadow:0 9px 0 var(--ink);}
+.line.say .tag{color:var(--green-dark);}
+
+/* three age bands, one situation. The template is the brand, not the topic. */
+.bands{position:relative;z-index:2;display:flex;flex-direction:column;gap:30px;margin-top:28px;}
+.band{
+  display:flex;gap:26px;align-items:stretch;
+  background:var(--white);border:5px solid var(--ink);border-radius:30px;
+  box-shadow:0 8px 0 var(--ink);overflow:hidden;
+}
+.band .age{
+  flex:none;width:210px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:22px 10px;
+  font-weight:900;font-size:40px;line-height:1;color:var(--ink);text-align:center;
+}
+.band .age small{
+  display:block;font-family:'IBM Plex Mono',monospace;font-weight:600;
+  font-size:19px;letter-spacing:3px;text-transform:uppercase;margin-top:10px;color:var(--ink);
+}
+.band:nth-child(1) .age{background:var(--stage1);}
+.band:nth-child(2) .age{background:var(--stage2);}
+.band:nth-child(3) .age{background:var(--stage3);}
+.band .what{padding:24px 30px 24px 4px;display:flex;align-items:center;}
+.band .what p{font-weight:700;font-size:34px;line-height:1.28;color:var(--ink);}
+
+/* happy news list */
+.items{position:relative;z-index:2;display:flex;flex-direction:column;gap:38px;margin-top:12px;}
+.item{display:flex;gap:28px;align-items:flex-start;}
+.item .n{
+  flex:none;width:74px;height:74px;border-radius:22px;background:var(--butter);
+  border:5px solid var(--ink);box-shadow:0 6px 0 var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:36px;color:var(--ink);
+}
+.item .t{font-weight:700;font-size:38px;line-height:1.32;color:var(--ink);padding-top:8px;}
+
+/* footer: wordmark and page counter */
+.foot{
+  position:absolute;left:88px;right:88px;bottom:64px;z-index:4;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.size-fb .foot{left:72px;right:72px;bottom:48px;}
+.wordmark{
+  display:flex;align-items:center;gap:16px;
+  font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:24px;
+  letter-spacing:4px;text-transform:uppercase;color:var(--ink-muted);
+}
+.card[data-tone="ink"] .wordmark{color:#9A8F70;}
+.wordmark .star{width:34px;height:34px;}
+.count{
+  font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:24px;
+  letter-spacing:3px;color:var(--ink-muted);
+}
+.card[data-tone="ink"] .count{color:#9A8F70;}
+
+/* swipe cue, cover cards only */
+.swipe{
+  position:absolute;right:88px;bottom:150px;z-index:4;
+  font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:26px;
+  letter-spacing:5px;text-transform:uppercase;color:var(--ink);
+  display:flex;align-items:center;gap:14px;
+}
+</style>
+</head>
+<body>
+<div id="sheet"></div>
+
+<script>
+/* ------------------------------------------------------------------
+   Card renderer. Data in, cards out. The deck is injected as window.DECK
+   by render.mjs, or you can open this file and edit SAMPLE below to
+   design by eye in a browser.
+   ------------------------------------------------------------------ */
+
+const STAR = `<svg class="star" viewBox="0 0 24 24" fill="#EDC35F" stroke="#1A1A2E" stroke-width="1.6" stroke-linejoin="round"><path d="M12 2.6l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.6 6.1 20.8l1.2-6.6L2.5 9.6l6.6-.9z"/></svg>`;
+
+/* Sticker doodles. The Happy News signature is a smiley polka dot, so we
+   keep the smiley and swap her palette for ours. */
+function smiley(x, y, size, fill, rot){
+  return `<svg class="smiley" style="left:${x}px;top:${y}px;transform:rotate(${rot}deg)" width="${size}" height="${size}" viewBox="0 0 40 40">
+    <circle cx="20" cy="20" r="19" fill="${fill}" stroke="#1A1A2E" stroke-width="2.4"/>
+    <circle cx="14" cy="16" r="2.6" fill="#1A1A2E"/><circle cx="26" cy="16" r="2.6" fill="#1A1A2E"/>
+    <path d="M12 24c2.6 3.6 13.4 3.6 16 0" stroke="#1A1A2E" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  </svg>`;
+}
+function star(x, y, size, fill, rot){
+  return `<svg class="sticker" style="left:${x}px;top:${y}px;transform:rotate(${rot}deg)" width="${size}" height="${size}" viewBox="0 0 24 24">
+    <path d="M12 2.6l2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.6 6.1 20.8l1.2-6.6L2.5 9.6l6.6-.9z"
+      fill="${fill}" stroke="#1A1A2E" stroke-width="1.5" stroke-linejoin="round"/></svg>`;
+}
+function squiggle(x, y, w, colour, rot){
+  return `<svg class="sticker" style="left:${x}px;top:${y}px;transform:rotate(${rot}deg)" width="${w}" height="${w*0.32}" viewBox="0 0 100 32">
+    <path d="M3 20c10-18 20 12 30-4s20 14 30-2 12 2 12 2" stroke="${colour}" stroke-width="7"
+      fill="none" stroke-linecap="round"/></svg>`;
+}
+function dot(x, y, size, fill){
+  return `<span class="sticker dot" style="left:${x}px;top:${y}px;width:${size}px;height:${size}px;background:${fill}"></span>`;
+}
+
+/* Per tone, a small confetti set. Deliberately sparse. Happy News is
+   playful, not cluttered, and a busy card kills the headline. */
+/* Kept clear of the swipe cue (bottom right) and the footer, so a sticker
+   never lands on a word. */
+const CONFETTI = {
+  butter: () => smiley(834, 150, 108, '#EDC35F', 12) + star(112, 1146, 84, '#F5CD3A', -14) + dot(946, 1044, 46, '#2F8F6B') + squiggle(92, 1012, 150, '#D4600A', -6),
+  pink:   () => smiley(846, 168, 100, '#FBCFE8', -10) + star(104, 1156, 76, '#F9A8D4', 16) + dot(950, 1060, 44, '#EDC35F') + squiggle(88, 1004, 148, '#2F8F6B', 5),
+  blue:   () => smiley(840, 158, 104, '#BAE6FD', 8) + star(116, 1150, 80, '#EDC35F', -18) + dot(944, 1052, 44, '#D4600A') + squiggle(94, 1016, 146, '#2F8F6B', -4),
+  green:  () => smiley(838, 162, 102, '#2F8F6B', -12) + star(110, 1152, 82, '#EDC35F', 14) + dot(948, 1056, 46, '#F9A8D4') + squiggle(90, 1008, 148, '#D4600A', 6),
+  amber:  () => smiley(842, 156, 106, '#F0E8D0', 10) + star(114, 1148, 80, '#D4600A', -16) + dot(952, 1048, 44, '#2F8F6B') + squiggle(96, 1014, 150, '#EDC35F', -5),
+  ink:    () => smiley(840, 160, 104, '#EDC35F', 9) + star(112, 1150, 80, '#F5CD3A', -15) + dot(946, 1052, 44, '#F9A8D4') + squiggle(92, 1010, 148, '#2F8F6B', 4),
+};
+
+/* The reduced set, for cards with a full width panel. */
+const CONFETTI_LIGHT = {
+  butter: () => smiley(834, 150, 108, '#EDC35F', 12),
+  pink:   () => smiley(846, 168, 100, '#FBCFE8', -10),
+  blue:   () => smiley(840, 158, 104, '#BAE6FD', 8),
+  green:  () => smiley(838, 162, 102, '#2F8F6B', -12),
+  amber:  () => smiley(842, 156, 106, '#F0E8D0', 10),
+  ink:    () => smiley(840, 160, 104, '#EDC35F', 9),
+};
+
+function foot(deck, i, total){
+  const showCount = total > 1 && deck.numbered !== false;
+  return `<div class="foot">
+    <span class="wordmark">${STAR}<span>${deck.wordmark || 'Guided Childhood'}</span></span>
+    ${showCount ? `<span class="count">${i + 1} / ${total}</span>` : '<span></span>'}
+  </div>`;
+}
+
+function cardHTML(c, i, deck){
+  const total = deck.cards.length;
+  const tone = c.tone || 'cream';
+  const size = c.size || deck.size || 'portrait';
+  /* Cards carrying a full width block have no room for floor level stickers,
+     so they get the top corner smiley only. A doodle half hidden behind a
+     panel looks like a mistake, not a flourish. */
+  const DENSE = ['script', 'ages', 'list', 'ask', 'photo'];
+  const light = DENSE.includes(c.type);
+  const confetti = (c.confetti === false)
+    ? ''
+    : light
+      ? (CONFETTI_LIGHT[tone] || CONFETTI_LIGHT.butter)()
+      : (CONFETTI[tone] || CONFETTI.butter)();
+
+  let inner = '';
+
+  if (c.type === 'cover') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="rule"></div>
+      <h1 class="${c.scale || 'h-xl'}" style="margin-top:44px">${c.headline}</h1>
+      ${c.body ? `<p class="body" style="margin-top:44px">${c.body}</p>` : ''}
+      <div class="spacer"></div>
+      ${c.swipe === false ? '' : `<div class="swipe"><span>Swipe</span>&#9656;&#9656;</div>`}`;
+  }
+
+  else if (c.type === 'text') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="rule"></div>
+      <h1 class="${c.scale || 'h-md'}" style="margin-top:40px">${c.headline}</h1>
+      ${c.body ? `<p class="body wide" style="margin-top:40px">${c.body}</p>` : ''}
+      <div class="spacer"></div>
+      ${c.pill ? `<span class="pill ${c.pillTone || ''}">${c.pill}</span>` : ''}`;
+  }
+
+  else if (c.type === 'big') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="spacer"></div>
+      <h1 class="${c.scale || 'h-lg'}">${c.headline}</h1>
+      ${c.body ? `<p class="body wide" style="margin-top:44px">${c.body}</p>` : ''}
+      <div class="spacer"></div>`;
+  }
+
+  else if (c.type === 'stat') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="spacer"></div>
+      <div class="stat">${c.value}${c.unit ? `<span class="stat-unit">${c.unit}</span>` : ''}</div>
+      ${c.body ? `<p class="body wide" style="margin-top:52px">${c.body}</p>` : ''}
+      <div class="spacer"></div>`;
+  }
+
+  else if (c.type === 'quote') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="spacer"></div>
+      <div class="bubble"><p>${c.quote}</p></div>
+      ${c.attrib ? `<p class="kicker" style="margin-top:64px">${c.attrib}</p>` : ''}
+      <div class="spacer"></div>`;
+  }
+
+  else if (c.type === 'photo') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="spacer"></div>
+      <div class="frame"><div class="tape"></div>
+        <div class="slot">${c.slot || 'Drop the photo here'}</div>
+        <div class="cap">${c.caption || ''}</div>
+      </div>
+      <div class="spacer"></div>`;
+  }
+
+  else if (c.type === 'list') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="rule"></div>
+      ${c.headline ? `<h1 class="${c.scale || 'h-sm'}" style="margin-top:36px">${c.headline}</h1>` : ''}
+      <div class="items">
+        ${(c.items || []).map((t, n) => `<div class="item"><span class="n">${n + 1}</span><span class="t">${t}</span></div>`).join('')}
+      </div>
+      <div class="spacer"></div>`;
+  }
+
+  else if (c.type === 'script') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      ${c.headline ? `<h1 class="${c.scale || 'h-sm'}" style="margin-top:28px">${c.headline}</h1>` : ''}
+      <div class="spacer"></div>
+      <div class="script">
+        <div class="line not"><span class="tag">Not this</span><p>${c.not}</p></div>
+        <div class="line say"><span class="tag">Say this</span><p>${c.say}</p></div>
+      </div>
+      <div class="spacer"></div>`;
+  }
+
+  else if (c.type === 'ages') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="rule"></div>
+      ${c.headline ? `<h1 class="${c.scale || 'h-sm'}" style="margin-top:32px">${c.headline}</h1>` : ''}
+      <div class="spacer"></div>
+      <div class="bands">
+        ${(c.bands || []).map((b) => `<div class="band">
+          <div class="age">${b.age}<small>${b.stage || ''}</small></div>
+          <div class="what"><p>${b.what}</p></div>
+        </div>`).join('')}
+      </div>
+      <div class="spacer"></div>`;
+  }
+
+  /* The last slide of a deck. Instagram ranks on sends per reach and
+     carousels earn their keep on saves, so the final card spends itself on
+     those two and the product ask goes in the caption instead. */
+  else if (c.type === 'ask') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="rule"></div>
+      <h1 class="${c.scale || 'h-sm'}" style="margin-top:36px">${c.headline || 'Keep this one'}</h1>
+      <div class="spacer"></div>
+      <div class="script" style="margin-top:44px">
+        <div class="line say"><span class="tag">Save it</span><p>${c.save}</p></div>
+        <div class="line not" style="background:#FEF7E0;box-shadow:0 9px 0 var(--butter-dark)">
+          <span class="tag" style="color:var(--butter-dark)">Send it</span><p>${c.send}</p></div>
+      </div>
+      <div class="spacer"></div>`;
+  }
+
+  else if (c.type === 'cta') {
+    inner = `
+      ${c.eyebrow ? `<span class="eyebrow">${c.eyebrow}</span>` : ''}
+      <div class="rule"></div>
+      <h1 class="${c.scale || 'h-md'}" style="margin-top:40px">${c.headline}</h1>
+      ${c.body ? `<p class="body wide" style="margin-top:40px">${c.body}</p>` : ''}
+      <div class="spacer"></div>
+      <span class="pill ${c.pillTone || ''}">${c.pill || 'Link in bio'}</span>`;
+  }
+
+  return `<div class="card size-${size}" data-tone="${tone}" data-name="${c.name || 'card-' + (i + 1)}">
+    ${confetti}${inner}${foot(deck, i, total)}
+  </div>`;
+}
+
+function renderDeck(deck){
+  document.getElementById('sheet').innerHTML = deck.cards.map((c, i) => cardHTML(c, i, deck)).join('');
+}
+
+const SAMPLE = {
+  name: 'sample',
+  cards: [
+    { type:'cover', tone:'butter', eyebrow:'Happy news', headline:'Five good<br>things this<br>week', body:'Screens are not the villain. Here is the proof.' },
+    { type:'list', tone:'blue', eyebrow:'The list', headline:'What they made', items:['A stop motion film about a hedgehog','A birthday card for their abuela','A song, badly, on a free app'] },
+    { type:'cta', tone:'ink', eyebrow:'Where to start', headline:'What stage is<br>your child?', body:'Three questions. No sign up.', pill:'Link in bio' },
+  ],
+};
+
+if (window.DECK) renderDeck(window.DECK); else renderDeck(SAMPLE);
+window.renderDeck = renderDeck;
+</script>
+</body>
+</html>

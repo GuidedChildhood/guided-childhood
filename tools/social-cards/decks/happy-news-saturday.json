@@ -1,0 +1,72 @@
+{
+  "name": "happy-news-saturday",
+  "size": "portrait",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "cover",
+      "type": "cover",
+      "tone": "butter",
+      "eyebrow": "Happy news · Saturday",
+      "headline": "Five good<br>things,<br>this week",
+      "body": "Screens are not the villain. Here is a week of proof."
+    },
+    {
+      "name": "made",
+      "type": "list",
+      "tone": "blue",
+      "eyebrow": "What they made",
+      "headline": "Things built<br>on a screen",
+      "items": [
+        "A stop motion film about a hedgehog, 41 seconds long",
+        "A birthday card designed for an abuela in Valencia",
+        "A song, badly, on a free app, at full volume"
+      ]
+    },
+    {
+      "name": "photo",
+      "type": "photo",
+      "tone": "pink",
+      "eyebrow": "On our fridge",
+      "slot": "Photo of the printed star chart on the fridge",
+      "caption": "Week three, and it is still up there"
+    },
+    {
+      "name": "connection",
+      "type": "quote",
+      "tone": "green",
+      "eyebrow": "The good bit",
+      "quote": "She read to her grandmother, 1,200 miles away, for 20 minutes.",
+      "attrib": "That was a screen doing exactly what it should."
+    },
+    {
+      "name": "outside",
+      "type": "stat",
+      "tone": "amber",
+      "eyebrow": "Off screen wins",
+      "value": "31",
+      "unit": " jobs",
+      "body": "Real world jobs ticked off this week across our house. Every one of them bought screen time that had already done its job."
+    },
+    {
+      "name": "printable",
+      "type": "text",
+      "tone": "ink",
+      "eyebrow": "Free this week",
+      "headline": "The star chart,<br>on paper",
+      "body": "Print it, put it on the fridge, and the arguing turns into a deal you both already made.",
+      "pill": "Link in bio",
+      "pillTone": "green",
+      "scale": "h-md"
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "tone": "butter",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for the Saturday when it has all gone wrong by ten in the morning.",
+      "send": "Send it to the parent who thinks they are the only one."
+    }
+  ]
+}

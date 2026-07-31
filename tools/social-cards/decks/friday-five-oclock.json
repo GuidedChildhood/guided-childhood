@@ -1,0 +1,62 @@
+{
+  "name": "friday-five-oclock",
+  "size": "portrait",
+  "wordmark": "Guided Childhood",
+  "cards": [
+    {
+      "name": "cover",
+      "type": "cover",
+      "tone": "pink",
+      "eyebrow": "Service Friday · 1 of 18",
+      "headline": "Five o'clock<br>was a fight<br>in our house",
+      "body": "For about two years. Here is what we did in the end."
+    },
+    {
+      "name": "the-problem",
+      "type": "big",
+      "tone": "ink",
+      "eyebrow": "The bit everyone knows",
+      "headline": "Two more<br>minutes<br>becomes<br>twenty.",
+      "body": "And then it is a row, and the row ruins the evening.",
+      "scale": "h-lg"
+    },
+    {
+      "name": "say-this",
+      "type": "script",
+      "tone": "green",
+      "eyebrow": "What we say now",
+      "headline": "The handover",
+      "not": "Right, that is enough, off it now.",
+      "say": "Your timer has four minutes left. Do you want to finish the level or stop at a save point?"
+    },
+    {
+      "name": "ages",
+      "type": "ages",
+      "tone": "blue",
+      "eyebrow": "Same moment, three ages",
+      "headline": "It is not one<br>rule for all",
+      "bands": [
+        { "age": "4 to 7", "stage": "Foundation", "what": "You hold the timer. The job is a calm stop, every time, with no negotiation." },
+        { "age": "8 to 10", "stage": "Builder", "what": "They ask, you say yes or not yet. They start watching the clock themselves." },
+        { "age": "11 to 13", "stage": "Explorer", "what": "They set it and you see it. You step in on the pattern, not on the day." }
+      ]
+    },
+    {
+      "name": "the-hinge",
+      "type": "quote",
+      "tone": "amber",
+      "eyebrow": "Why it holds",
+      "quote": "The minutes were earned. So the timer ending is a deal running out, not you being mean.",
+      "attrib": "Real jobs pay stars. Stars buy the minutes."
+    },
+    {
+      "name": "ask",
+      "type": "ask",
+      "tone": "butter",
+      "eyebrow": "Before you go",
+      "headline": "Keep this one",
+      "save": "Save it for five o'clock today, because that is when you will want the words.",
+      "send": "Send it to the parent who says the same thing every evening and hates it."
+    }
+  ]
+}
