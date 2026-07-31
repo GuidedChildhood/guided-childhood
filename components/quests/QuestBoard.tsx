@@ -305,7 +305,11 @@ export default function QuestBoard() {
                   {/* Today's quest dots */}
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                     <span style={{ fontSize: '15.5px', fontWeight: 700, color: 'var(--ink-soft)' }}>
-                      {doneToday} of {dueToday.length} done today · tap to see the tasks, agree the waiting ones and send more
+                      {/* The instruction that used to run on here, "tap to see
+                          the tasks, agree the waiting ones and send more", was
+                          three lines of telling a parent what a row with a
+                          chevron on it does. The chevron already says it. */}
+                      {doneToday} of {dueToday.length} done today
                     </span>
                     {goal?.daily_stars ? (
                       <span style={{
