@@ -652,34 +652,40 @@ export default function ManageJobs({
 
           Outside the tabs, because they are the way OUT of this page and the
           way out should not move about depending on which tab you are on. */}
-      {/* Chunky, per the design system, and left aligned with the arrow pushed
-          to the edge.
-          btn-outline sets box-shadow: none, so three of them stacked read as
-          three flat rectangles rather than as buttons: the one shape in this
-          product that is meant to look pressable was the one with no depth.
-          The label leads and the arrow sits right, so the eye lands on the
-          words rather than on the middle of an empty box. */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
+      {/* Three across, one line, small.
+          Stacked full width they were three of the biggest objects on the page,
+          sitting under the thing a parent actually came to do and reading as
+          three more jobs rather than as the way out. Side by side they are one
+          quiet row: still chunky enough to look pressable, per the design
+          system, just no longer shouting over the composer above them.
+
+          A grid rather than flex, so all three are exactly the same width
+          however long the words are, and each label centres and wraps rather
+          than clipping. At 390 that is about 110px a column, which the shorter
+          labels fit in two lines. The arrows go: there is no room for one and a
+          centred label reads better without it. */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginTop: 8 }}>
         {[
-          { href: '/dashboard/quests/routines', label: 'Add a whole week routine' },
-          { href: '/dashboard/quests/timer', label: 'Start the screen timer' },
+          { href: '/dashboard/quests/routines', label: 'Week routine' },
+          { href: '/dashboard/quests/timer', label: 'Screen timer' },
           { href: '/dashboard/stats', label: 'Balance and stats' },
         ].map(b => (
           <Link
             key={b.href}
             href={b.href}
             style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              textAlign: 'center', minHeight: 58,
               background: '#fff', color: 'var(--ink)',
               border: '1.5px solid var(--terracotta)',
-              borderRadius: 16,
-              boxShadow: '0 4px 0 var(--terracotta)',
-              padding: '15px 18px', textDecoration: 'none',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+              borderRadius: 14,
+              boxShadow: '0 3px 0 var(--terracotta)',
+              padding: '10px 8px', textDecoration: 'none',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13.5,
+              lineHeight: 1.25,
             }}
           >
-            <span>{b.label}</span>
-            <span aria-hidden style={{ color: 'var(--terracotta-dark)', fontSize: 18 }}>→</span>
+            {b.label}
           </Link>
         ))}
       </div>
