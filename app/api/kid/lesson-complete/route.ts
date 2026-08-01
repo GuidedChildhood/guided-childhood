@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { markStepQuietly } from '@/lib/kid/day-store'
 
 // A child finished a family stage lesson on their own link. Token is the
 // auth, exactly like quest ticks. The completion upserts into
@@ -89,10 +90,25 @@ export async function POST(req: NextRequest) {
           { onConflict: 'user_id,lesson_id,lesson_source' }
         )
       if (retryError) return NextResponse.json({ error: retryError.message }, { status: 500 })
+      if (passedNow) await markStepQuietly(supabase, link.user_id, link.child_id, 'lesson')
       return NextResponse.json({ ok: true, passed: true })
     }
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
+
+  // The five a day's lesson row, ticked here because this is the only place
+  // that knows the child passed.
+  //
+  // "A lesson" sends the child to /k/<token>/lessons, and a step with an href
+  // navigates rather than marking itself, so nothing was ever ticking it. Same
+  // shape as the `ask` bug: the row sat there undone for ever and the day could
+  // not complete.
+  //
+  // ON PASSING, not on arriving. The hint under the row already says "Learn one
+  // thing, pass it", and a row that ticks for opening a lesson and closing it
+  // would make that line a lie a child works out in a day. A pass is never
+  // downgraded above, so a wobbly replay after a pass cannot untick it either.
+  if (passed) await markStepQuietly(supabase, link.user_id, link.child_id, 'lesson')
 
   // The good news reaches the parent's phone, best effort.
   try {

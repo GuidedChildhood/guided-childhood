@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getPrintable } from '@/lib/printables/registry'
+import { markStepQuietly } from '@/lib/kid/day-store'
 
 // The child did a printable at home and taps "show my grown up". That writes
 // a PENDING completion here (keyed by the stable printable key) and pings the
@@ -31,7 +32,13 @@ export async function POST(req: NextRequest) {
     .order('created_at', { ascending: false })
     .limit(1).maybeSingle()
   if (readErr) return NextResponse.json({ error: 'not ready', needsMigration: true }, { status: 409 })
-  if (existing) return NextResponse.json({ ok: true, status: existing.status })
+  if (existing) {
+    // Already sent or already confirmed. The child still did it, so the row
+    // still ticks: this is the path a second tap lands on, and losing the tick
+    // to an impatient double tap would be the worst possible reason to fail.
+    await markStepQuietly(supabase, link.user_id, link.child_id, 'printable')
+    return NextResponse.json({ ok: true, status: existing.status })
+  }
 
   const { error } = await supabase.from('printable_completions').insert({
     user_id: link.user_id, child_id: link.child_id,
@@ -42,6 +49,21 @@ export async function POST(req: NextRequest) {
   if (error && !/duplicate|unique/i.test(error.message)) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
+
+  // The five a day's printable row, ticked on SENDING IT TO THE GROWN UP rather
+  // than on the grown up confirming it.
+  //
+  // The stars deliberately wait for the confirm, because a printable is meant to
+  // be a real thing done together and a self award would hollow that out. The
+  // checklist row must not wait, and the difference matters: a child who
+  // coloured the thing in and sent it has finished their part, and holding
+  // their day open until a parent picks up their phone would let an adult who
+  // is at work break a streak the child earned. Late evening, nothing they can
+  // do about it, no explanation on screen.
+  //
+  // So: stars on confirm, row on sending. The two are answering different
+  // questions and only one of them is the child's to control.
+  await markStepQuietly(supabase, link.user_id, link.child_id, 'printable')
 
   // If a grown up had sent this printable, clear the assignment so it drops
   // off the top of the child's to do now they have done it. Fails soft before
