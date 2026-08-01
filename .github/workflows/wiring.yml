@@ -1,0 +1,26 @@
+# The wiring check, on every push and pull request.
+#
+# Health checks answer "is it up". This answers "is it connected", which is a
+# different question and the one that kept getting the wrong answer: a link to
+# a route that does not exist, a component imported nowhere, a step of the five
+# a day that sends a child away and is never ticked. Every one of those passed
+# every health check, because the system was up and doing the wrong thing.
+#
+# No database, no secrets, no build. It reads the source and exits non zero, so
+# a broken wire cannot reach main without someone deciding to let it.
+name: Wiring
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  wiring:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/wiring-check.mjs
