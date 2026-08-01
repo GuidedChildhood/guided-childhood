@@ -120,6 +120,10 @@ create index if not exists idx_digi_outcomes_situation
 
 alter table public.digi_outcomes enable row level security;
 
+-- Dropped first, because create policy has no "if not exists" and this file
+-- claims to be safe to run twice. It has to actually be.
+drop policy if exists "Users manage own digi outcomes" on public.digi_outcomes;
+
 create policy "Users manage own digi outcomes" on public.digi_outcomes for all
   using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
