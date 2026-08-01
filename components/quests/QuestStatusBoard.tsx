@@ -200,8 +200,8 @@ export default function QuestStatusBoard() {
           padding: '13px 16px', marginBottom: 18, cursor: 'pointer', textAlign: 'left',
         }}
       >
-        <span aria-hidden style={{ flexShrink: 0, fontSize: 17 }}>✓</span>
-        <span style={{ flex: 1, minWidth: 0, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.45 }}>
+        <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)' }}>✓</span>
+        <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
           <strong>Nothing waiting on you.</strong>{' '}
           <span style={{ color: 'var(--ink-soft)' }}>
             {onApp > 0
@@ -212,7 +212,7 @@ export default function QuestStatusBoard() {
         {/* A chevron, not a word. "Where" alone was shorthand for the heading
             this row replaces and read as a riddle without it, and the chevron
             is what every other tappable row in this product already wears. */}
-        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink-light)' }}>
+        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-light)' }}>
           ›
         </span>
       </button>
@@ -224,10 +224,10 @@ export default function QuestStatusBoard() {
       background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
       padding: '18px 18px 20px', marginBottom: 18,
     }}>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)', margin: '0 0 3px', letterSpacing: '-0.02em' }}>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 3px', letterSpacing: '-0.02em' }}>
         Where every job is
       </h2>
-      <p style={{ fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
         Tap a number to see what is in it.
       </p>
 
@@ -254,13 +254,13 @@ export default function QuestStatusBoard() {
               }}
             >
               <span style={{
-                display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 21, lineHeight: 1,
+                display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', lineHeight: 1,
                 color: urgent ? 'var(--terracotta-dark)' : n === 0 ? 'var(--ink-light)' : 'var(--ink)',
               }}>
                 {n}
               </span>
               <span style={{
-                display: 'block', fontSize: 11.5, lineHeight: 1.25, marginTop: 4,
+                display: 'block', fontSize: 'var(--text-sm)', lineHeight: 1.25, marginTop: 4,
                 color: on ? 'var(--ink)' : 'var(--ink-soft)', fontWeight: on ? 700 : 500,
               }}>
                 {TILE_LABEL[k]}
@@ -270,12 +270,12 @@ export default function QuestStatusBoard() {
         })}
       </div>
 
-      <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
         {BUCKET_BLURB[shown]}
       </p>
 
       {rows.length === 0 ? (
-        <p style={{ fontSize: 15, color: 'var(--ink-muted)', lineHeight: 1.5, margin: 0, padding: '6px 0 2px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: 0, padding: '6px 0 2px' }}>
           {EMPTY[shown]}
         </p>
       ) : (
@@ -285,19 +285,19 @@ export default function QuestStatusBoard() {
               display: 'flex', alignItems: 'center', gap: 10,
               border: '1.5px solid var(--border)', borderRadius: 13, padding: '10px 12px',
             }}>
-              <span aria-hidden style={{ fontSize: 18, lineHeight: 1, flexShrink: 0 }}>{r.emoji}</span>
+              <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{r.emoji}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {r.title}
                 </span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11.5, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 1 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 1 }}>
                   {r.who}{r.note ? ` · ${r.note}` : ''}
                 </span>
               </span>
             </div>
           ))}
           {rows.length > 8 && (
-            <p style={{ fontSize: 14, color: 'var(--ink-muted)', margin: '2px 0 0' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: '2px 0 0' }}>
               and {rows.length - 8} more
             </p>
           )}
@@ -311,7 +311,7 @@ export default function QuestStatusBoard() {
         <a
           href="#quest-board"
           className="btn btn-gold"
-          style={{ display: 'inline-flex', marginTop: 13, padding: '11px 20px', fontSize: 15.5, textDecoration: 'none' }}
+          style={{ display: 'inline-flex', marginTop: 13, padding: '11px 20px', fontSize: 'var(--text-base)', textDecoration: 'none' }}
         >
           Go and say yes
         </a>

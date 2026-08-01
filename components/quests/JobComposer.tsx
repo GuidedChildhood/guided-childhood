@@ -60,7 +60,7 @@ type Step = 'what' | 'often' | 'when' | 'added'
 
 const CHIP_BASE: React.CSSProperties = {
   cursor: 'pointer', borderRadius: 100, padding: '11px 12px',
-  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
   color: 'var(--ink)', textAlign: 'center',
 }
 
@@ -89,11 +89,11 @@ const CHIP_GRID: React.CSSProperties = {
 // tints side by side do not read as a considered palette, they read as a screen
 // that could not decide. The label already says which band it is.
 const QUESTION: React.CSSProperties = {
-  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17,
+  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
   color: 'var(--ink)', margin: '0 0 2px', lineHeight: 1.25,
 }
 const ASIDE: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 
@@ -251,7 +251,7 @@ export default function JobComposer({
     return (
       <>
         <p style={QUESTION}>What is the job?</p>
-        <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
           Type it, or tap one of the ideas below.
         </p>
         <div style={{ display: 'flex', gap: '8px' }}>
@@ -267,7 +267,7 @@ export default function JobComposer({
               flex: 1, minWidth: 0, padding: '12px 14px', borderRadius: '12px',
               border: '1.5px solid var(--border)',
               background: tone === 'cream' ? 'var(--cream)' : '#fff',
-              fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none',
+              fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
             maxLength={120}
           />
@@ -278,7 +278,7 @@ export default function JobComposer({
               flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
               borderRadius: '12px', padding: '12px 20px',
               cursor: ready ? 'pointer' : 'default',
-              fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800,
+              fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
               boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: ready ? 1 : 0.5,
             }}
           >
@@ -286,13 +286,13 @@ export default function JobComposer({
           </button>
         </div>
         {many && (
-          <p style={{ fontSize: '14px', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '9px 0 0', fontWeight: 600 }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '9px 0 0', fontWeight: 600 }}>
             That is {countToday} jobs today. Plenty of families run three or four and
             find they get done. Add more if it suits you, this is only a nudge.
           </p>
         )}
         {help && (
-          <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
             {help}
           </p>
         )}
@@ -306,7 +306,7 @@ export default function JobComposer({
   const heading = (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
       <span style={ASIDE}>Adding</span>
-      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)' }}>
+      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
         {draft}
       </span>
       <button
@@ -314,7 +314,7 @@ export default function JobComposer({
         onClick={() => { setStep('what'); setTitle(draft); setDraft('') }}
         style={{
           background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px',
-          fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           color: 'var(--terracotta)', letterSpacing: '0.04em',
         }}
       >
@@ -355,7 +355,7 @@ export default function JobComposer({
       <>
         {heading}
         <p style={QUESTION}>When in the day?</p>
-        <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 8px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 8px' }}>
           This is when the reminder lands. Work it out reads it from the words.
         </p>
         <div style={CHIP_GRID}>
@@ -376,7 +376,7 @@ export default function JobComposer({
           onClick={() => setStep('often')}
           style={{
             background: 'none', border: 'none', cursor: 'pointer', marginTop: 10, padding: '4px 2px',
-            fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             color: 'var(--ink-muted)', letterSpacing: '0.04em',
           }}
         >
@@ -392,7 +392,7 @@ export default function JobComposer({
       <div style={{ display: 'flex', gap: 9, alignItems: 'baseline', marginBottom: 12 }}>
         <span aria-hidden style={{ color: 'var(--green-dark)', fontWeight: 800, flexShrink: 0 }}>✓</span>
         <span style={{ minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', lineHeight: 1.25 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
             {last?.title} is on the board
           </span>
           {/* The answers back in the colour they were chosen in.
@@ -410,7 +410,7 @@ export default function JobComposer({
               const pill = (text: string) => {
                 return (
                   <span key={text} style={{
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13,
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
                     background: 'var(--terracotta)', color: 'var(--ink)',
                     border: '1.5px solid var(--terracotta-dark)',
                     borderRadius: 100, padding: '4px 11px',
@@ -426,7 +426,7 @@ export default function JobComposer({
                   {/* Left on work it out, so say what that means rather than
                       showing nothing where a second answer was given. */}
                   {last && last.band === 'auto' && (
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--ink-muted)', alignSelf: 'center' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', alignSelf: 'center' }}>
                       time of day worked out from the words
                     </span>
                   )}
@@ -443,7 +443,7 @@ export default function JobComposer({
           style={{
             flex: 1, minWidth: 130, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
             borderRadius: 12, padding: '12px 16px', cursor: 'pointer',
-            fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 800,
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
             boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}
         >
@@ -456,7 +456,7 @@ export default function JobComposer({
             style={{
               flex: 1, minWidth: 130, background: '#fff', color: 'var(--ink)',
               border: '1.5px solid var(--border)', borderRadius: 12, padding: '12px 16px',
-              cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 16, fontWeight: 700,
+              cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 700,
             }}
           >
             See waiting for you
@@ -464,7 +464,7 @@ export default function JobComposer({
         )}
       </div>
       {many && (
-        <p style={{ fontSize: '14px', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '10px 0 0', fontWeight: 600 }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', lineHeight: 1.45, margin: '10px 0 0', fontWeight: 600 }}>
           That is {countToday} jobs today. Plenty of families run three or four and
           find they get done. Add more if it suits you, this is only a nudge.
         </p>
