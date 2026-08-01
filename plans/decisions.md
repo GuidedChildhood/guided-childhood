@@ -4600,3 +4600,50 @@ Worth keeping: the test caught what reading could not. "The morning routine is a
 nightmare" matched trauma, because the singular is idiom and the plural is
 literal. Ten sentences took a minute and found both a whole class of misses and a
 false positive.
+
+---
+
+## 1 August 2026 — the Monday management review
+
+Justin: "so that we are saving data gathering on my management board and weekly
+meetings where an agent reviews it for findings."
+
+Most of what he described already existed and was pointed at the wrong half of
+the data. /dashboard/insights is the founder board and /api/cron/digi-insights
+runs an agent daily, but it reviews the QUESTIONS parents asked. That tells him
+what families are worried about and nothing about what actually helped. A product
+whose entire claim is that it learns from what works had no report on what worked.
+
+Meanwhile rebuildWisdom was already reading the three places a success is
+recorded and turning them into guidance for DiGi. The machine was learning from
+outcomes and nobody was reading it back to the person who decides what to build.
+
+So /api/cron/management-review, Monday 00:30, reviews the OUTCOME side: concerns
+families marked resolved, scripts they said worked against ones that did not, the
+patterns wisdom has accumulated evidence for, jobs approved, full days finished,
+credits earned, and which worries keep coming back. Findings land in
+management_findings (migration 140) and the newest sits at the top of the founder
+board, above the daily insight board, because it answers the more important
+question.
+
+Four decisions in it worth keeping:
+
+**00:30, after the star rollover at 00:10.** Reviewing a week that is still being
+closed would report it as quieter than it was, because the rollover writes that
+week's sticker credits.
+
+**Nothing per family leaves.** Every input is a count or a category label we
+chose. No parent's words, no child's name, no user id reaches the model. Justin
+does not need one family's week to decide what to build, and a founder dashboard
+that quietly becomes a surveillance tool is exactly what this product tells
+parents it is not. management_findings has no parent readable policy at all and
+the board reads it server side after the founder email check.
+
+**The counts are stored beside the prose.** A finding you cannot check later is an
+opinion with a date on it, so metrics goes in the row next to the summary.
+
+**The agent is told to prefer the uncomfortable finding, and to say when a number
+is too small to mean anything.** A weekly report that always finds three
+encouraging trends is one you stop reading by week five. If the models are all
+unreachable the numbers are still saved and the panel says so, because the
+numbers are the durable part and the prose is commentary.
