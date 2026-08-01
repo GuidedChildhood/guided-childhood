@@ -14,11 +14,11 @@ import { BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
 // always been on family_quests and the composer simply never asked.
 export type Schedule = 'daily' | 'weekdays' | 'weekend' | 'once'
 
-const WHEN: { key: Schedule; label: string; tint: string }[] = [
-  { key: 'daily',    label: 'Every day',   tint: 'yellow' },
-  { key: 'weekdays', label: 'School days', tint: 'blue' },
-  { key: 'weekend',  label: 'Weekends',    tint: 'coral' },
-  { key: 'once',     label: 'Just once',   tint: 'lavender' },
+const WHEN: { key: Schedule; label: string }[] = [
+  { key: 'daily',    label: 'Every day' },
+  { key: 'weekdays', label: 'School days' },
+  { key: 'weekend',  label: 'Weekends' },
+  { key: 'once',     label: 'Just once' },
 ]
 
 // When in the day, in the child's words rather than a clock.
@@ -31,11 +31,11 @@ const WHEN: { key: Schedule; label: string; tint: string }[] = [
 // Work it out means what has always happened: the band is read from the words
 // in the title. A parent only overrides it when the guess is wrong for their
 // house.
-const BANDS: { key: JobBand | 'auto'; label: string; tint: string }[] = [
-  { key: 'auto',         label: 'Work it out',   tint: 'pink' },
-  { key: 'morning',      label: 'Before school', tint: 'yellow' },
-  { key: 'after_school', label: 'After school',  tint: 'blue' },
-  { key: 'evening',      label: 'Before bed',    tint: 'lavender' },
+const BANDS: { key: JobBand | 'auto'; label: string }[] = [
+  { key: 'auto',         label: 'Work it out' },
+  { key: 'morning',      label: 'Before school' },
+  { key: 'after_school', label: 'After school' },
+  { key: 'evening',      label: 'Before bed' },
 ]
 
 // One question at a time.
@@ -83,18 +83,11 @@ const CHIP_GRID: React.CSSProperties = {
 // looked like a form until it was answered. The tints do the work the gold was
 // doing alone: four options that are visibly four different things.
 //
-// The bands are not decorated in an arbitrary order, they are coloured by
-// what they mean. Morning takes the warm yellow, after school the daylight
-// blue, before bed the lavender. A parent scanning them meets the day in the
-// order the day happens, in the colours it happens in.
-type Tint = { bg: string; bold: string; text: string }
-const TINTS: Record<string, Tint> = {
-  yellow:   { bg: 'var(--stage-1)', bold: 'var(--stage-1-bold)', text: 'var(--stage-1-text)' },
-  blue:     { bg: 'var(--stage-2)', bold: 'var(--stage-2-bold)', text: 'var(--stage-2-text)' },
-  coral:    { bg: 'var(--stage-3)', bold: 'var(--stage-3-bold)', text: 'var(--stage-3-text)' },
-  pink:     { bg: 'var(--stage-4)', bold: 'var(--stage-4-bold)', text: 'var(--stage-4-text)' },
-  lavender: { bg: 'var(--stage-5)', bold: 'var(--stage-5-bold)', text: 'var(--stage-5-text)' },
-}
+// The bands used to carry a colour each, chosen by meaning: morning the warm
+// yellow, after school the daylight blue, before bed the lavender. That table
+// is gone. The idea was sound and the result was not, because five near white
+// tints side by side do not read as a considered palette, they read as a screen
+// that could not decide. The label already says which band it is.
 const QUESTION: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17,
   color: 'var(--ink)', margin: '0 0 2px', lineHeight: 1.25,
@@ -219,22 +212,39 @@ export default function JobComposer({
     // action rather than three.
   }
 
-  // Chosen deepens the chip's OWN colour rather than turning it gold. One gold
-  // for every answer to every question told a parent which one was picked and
-  // nothing else; this says which one was picked AND keeps saying which answer
-  // it was, which matters on the confirmation screen a moment later.
-  const chip = (on: boolean, tintKey: string): React.CSSProperties => {
-    const t = TINTS[tintKey] ?? TINTS.yellow
-    return {
-      ...CHIP_BASE,
-      background: on ? t.bold : t.bg,
-      border: `1.5px solid ${on ? t.bold : 'var(--border)'}`,
-      color: on ? t.text : 'var(--ink)',
-      // The chunky shadow only on the chosen one, so the row stays calm until
-      // a parent has answered and the answer then sits proud of the rest.
-      boxShadow: on ? '0 3px 0 rgba(26,26,46,0.16)' : 'none',
-    }
-  }
+  // One accent, and it is the butter.
+  //
+  // Justin: "can we change these tab colours to match Good Inside as yellow,
+  // the pastel does not go, and make the buttons more defined but professional
+  // looking."
+  //
+  // The previous version gave every answer its own pastel and deepened that
+  // pastel when chosen. The reasoning was that a single gold for every answer
+  // would say WHICH ONE was picked and nothing about WHAT it was.
+  //
+  // That reasoning was wrong, and looking at four washed pastels next to Good
+  // Inside makes it obvious why: the label already says what it is. "Before
+  // school" is written on the button. The colour was carrying information the
+  // words were already carrying, and paying for it with a screen that looks
+  // uncertain, because five near white tints next to each other read as a
+  // decision nobody could make rather than a palette.
+  //
+  // So: unchosen is white with a real border, which is what makes them read as
+  // buttons rather than tinted areas. Chosen is the butter with the house
+  // chunky shadow. One confident accent against clean neutrals, which is the
+  // actual lesson from the Good Inside screen: their colour is saturated and
+  // used sparingly, not spread thin across everything.
+  const chip = (on: boolean): React.CSSProperties => ({
+    ...CHIP_BASE,
+    background: on ? 'var(--terracotta)' : '#fff',
+    border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`,
+    color: 'var(--ink)',
+    // Chosen sits proud of the row. Unchosen keeps a hairline lift so the group
+    // still reads as pressable before anything is picked, which the flat
+    // version did not.
+    boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : '0 1px 0 var(--border)',
+    fontWeight: on ? 800 : 700,
+  })
 
   // ── 1. What is it? ────────────────────────────────────────────
   if (step === 'what') {
@@ -329,7 +339,7 @@ export default function JobComposer({
               type="button"
               aria-pressed={w.key === when}
               onClick={() => { setWhen(w.key); setStep('when') }}
-              style={chip(w.key === when, w.tint)}
+              style={chip(w.key === when)}
             >
               {w.label}
             </button>
@@ -355,7 +365,7 @@ export default function JobComposer({
               type="button"
               aria-pressed={b.key === band}
               onClick={() => { setBand(b.key); finish(b.key) }}
-              style={chip(b.key === band, b.tint)}
+              style={chip(b.key === band)}
             >
               {b.label}
             </button>
@@ -385,24 +395,24 @@ export default function JobComposer({
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', lineHeight: 1.25 }}>
             {last?.title} is on the board
           </span>
-          {/* The answers back in the colours they were chosen in.
-              Justin: "hard to see text you selected ... would be clearer sbd
-              in colours if button as it is bit clear when we press button what
-              was selected". It was one line of grey mono, the quietest type on
-              the card, reporting the two decisions a parent had just made. The
-              chips they tapped were yellow and blue a second earlier, so the
-              confirmation says it in those same two colours and the answer is
-              recognisable rather than merely readable. */}
+          {/* The answers back in the colour they were chosen in.
+              Justin, originally: "hard to see the text you selected, would be
+              clearer in the colours of the button". It was one line of grey
+              mono, the quietest type on the card, reporting the two decisions a
+              parent had just made.
+              That still holds. What changed is that there is now one chosen
+              colour rather than five, so these come back in the butter they
+              were tapped in and match the chips exactly. */}
           <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
             {(() => {
               const w = WHEN.find(x => x.key === last?.when)
               const b = last && last.band !== 'auto' ? BANDS.find(x => x.key === last.band) : null
-              const pill = (text: string, tintKey: string) => {
-                const t = TINTS[tintKey] ?? TINTS.yellow
+              const pill = (text: string) => {
                 return (
                   <span key={text} style={{
                     fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13,
-                    background: t.bold, color: t.text,
+                    background: 'var(--terracotta)', color: 'var(--ink)',
+                    border: '1.5px solid var(--terracotta-dark)',
                     borderRadius: 100, padding: '4px 11px',
                   }}>
                     {text}
@@ -411,8 +421,8 @@ export default function JobComposer({
               }
               return (
                 <>
-                  {w && pill(w.label, w.tint)}
-                  {b && pill(b.label, b.tint)}
+                  {w && pill(w.label)}
+                  {b && pill(b.label)}
                   {/* Left on work it out, so say what that means rather than
                       showing nothing where a second answer was given. */}
                   {last && last.band === 'auto' && (

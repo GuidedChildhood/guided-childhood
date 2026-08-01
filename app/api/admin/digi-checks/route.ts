@@ -61,7 +61,18 @@ export async function GET() {
     admin.from('digi_answer_reviews').select('period, summary, suggestions, metrics, model').order('period', { ascending: false }).limit(1).maybeSingle(),
     admin.from('digi_followups').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
     admin.from('digi_safety_flags').select('severity').eq('source', 'live').gte('created_at', new Date(Date.now() - 30 * 86_400_000).toISOString()),
-    admin.from('cron_runs').select('job, started_at, ok').order('started_at', { ascending: false }).limit(400),
+    // Filtered to OUR seven jobs, not the last N rows of everything.
+    //
+    // The first version read the most recent 400 rows across all jobs and took
+    // the first hit per name. device-time runs every minute, so 400 rows is
+    // under seven hours of that one job alone, and every DiGi job fell outside
+    // the window and reported "never". A monitoring board that says a healthy
+    // daily job has never run is worse than no board, because the first person
+    // to check it learns not to believe it.
+    admin.from('cron_runs').select('job, started_at, ok')
+      .in('job', DIGI_JOBS.map(j => j.job))
+      .order('started_at', { ascending: false })
+      .limit(200),
   ])
 
   // Last run per job, from one query rather than seven.
