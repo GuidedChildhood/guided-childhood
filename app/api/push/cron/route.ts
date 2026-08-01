@@ -1,5 +1,6 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { londonNow } from '@/lib/time/london'
+import { isSchoolDay } from '@/lib/quests/job-time'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Called by Vercel Cron every 30 minutes — see vercel.json. Vercel cron
@@ -26,6 +27,15 @@ const CHECK_INS = [
     hour: 15, minute: 30,
     title: 'School is out',
     body: 'After school screen time is one of the hardest moments. Your stage guide has the structure.',
+    // Saturday 1 August, and every parent got "School is out". True in the
+    // narrowest sense and obviously wrong to anyone reading it, which is the
+    // kind of wrong that teaches people the notifications are automated noise.
+    // The moment is real in the holidays too, the mid afternoon stretch is
+    // arguably harder, so the slot stays and only the words change.
+    offSchool: {
+      title: 'The afternoon stretch',
+      body: 'The long middle of the day is one of the hardest moments for screens. Your stage guide has the structure.',
+    },
   },
   {
     slot: 'evening',
@@ -86,16 +96,32 @@ async function handler(req: NextRequest) {
       'content-type': 'application/json',
       authorization: `Bearer ${process.env.CRON_SECRET}`,
     },
-    body: JSON.stringify({ title: checkin.title, body: checkin.body, url: '/dashboard', slot: checkin.slot }),
+    body: JSON.stringify({
+      ...(!isSchoolDay(new Date()) && checkin.offSchool ? checkin.offSchool : { title: checkin.title, body: checkin.body }),
+      url: '/dashboard',
+      slot: checkin.slot,
+    }),
   })
 
   const result = await res.json()
 
   // Kid quest reminders ride the morning and after school slots only,
   // never the evening one: no buzzing children at bedtime.
+  //
+  // This is a BROADCAST, one message to every child at once, so it cannot use a
+  // family's own school region the way the job reminders do. It assumes the
+  // England and Wales calendar, which is right for almost everyone here and
+  // will be a few days out for Scotland at the start and end of summer. Worth
+  // saying rather than leaving as a silent assumption: the fix, if it ever
+  // matters, is to send this per family instead of to everyone.
+  const schoolDay = isSchoolDay(new Date())
   const KID_NUDGES: Record<number, { title: string; body: string }> = {
-    7: { title: 'Your quests are ready ⭐', body: 'Tick them off today and stack your stars.' },
-    15: { title: 'After school quests ⭐', body: 'A few ticks now and the screen minutes are yours.' },
+    7: schoolDay
+      ? { title: 'Your quests are ready ⭐', body: 'Tick them off today and stack your stars.' }
+      : { title: 'Your quests are ready ⭐', body: 'No rush today. Tick them off whenever and stack your stars.' },
+    15: schoolDay
+      ? { title: 'After school quests ⭐', body: 'A few ticks now and the screen minutes are yours.' }
+      : { title: 'Afternoon quests ⭐', body: 'A few ticks now and the screen minutes are yours.' },
   }
   const kidNudge = KID_NUDGES[checkin.hour]
   let kidResult = null
