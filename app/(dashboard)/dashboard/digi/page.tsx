@@ -115,6 +115,7 @@ export default async function DigiPage() {
       pendingReflection={pendingReflection}
       stageId={stage.id}
       stageName={stage.name}
+      childName={childName}
     />
   )
 }
