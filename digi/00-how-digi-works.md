@@ -102,6 +102,7 @@ to keywords and still works.
 | All families | Sunday 06:00 | resolved concerns, scripts marked worked, written feedback | `digi_wisdom`, read back on the next question |
 | The research bank | 1st and 15th | question gaps, plus a web search | candidates for the founder to approve |
 | Quality | Monday 06:30 | fourteen adversarial eval cases | a score to watch move |
+| Its own answers | 2nd of the month | eval scores, safety flags, what parents wrote back | `digi_answer_reviews`, proposals only |
 | Insights | daily 07:00 | what parents asked | the founder board |
 | Management review | Monday 00:30 | what actually worked | `management_findings` |
 
@@ -110,6 +111,13 @@ is looking at more than one family**, only counts and category labels we chose.
 And **nothing enters the research bank without a human approving it**, because an
 unsupervised loop that adds its own sources is how you end up citing a study that
 does not exist.
+
+The monthly answer review is the only loop that looks at **how DiGi answers**
+rather than what it knows, and it lives under the same gate. It proposes, it
+never applies. A system that rewrites its own instructions is one where nobody
+can say what it was told to do last Tuesday, and for a product that answers
+questions about children that is not a trade worth making. A prompt change is
+still a commit with a name on it.
 
 ---
 
@@ -132,19 +140,31 @@ does not exist.
 
 ## What DiGi is not
 
-**It is barely an agent, and only in one direction.** DiGi has exactly one tool,
-`search_knowledge`, and it is read only over a corpus that is already public
-inside the product. So it can now decide the research it was handed does not fit
-what a parent actually means, and go and look again in its own words. That is a
-real crossing of the line between retrieving and searching, and it is also the
-whole of it.
+**It is an agent now, within a fence.** DiGi has five tools and decides for
+itself which to use:
 
-It still **cannot take an action**. It cannot save something, schedule something,
-change anything, or reach outside that one bank. Every loop in the table above is
-a scheduled job, not a decision DiGi made.
+| Tool | What it does | Risk |
+| --- | --- | --- |
+| `search_knowledge` | searches the research bank by meaning, in its own words | read, public corpus |
+| `get_child_history` | pulls this family's check ins, concerns and screen weeks | read, this family only |
+| `save_memory` | keeps one durable fact, embedded on the way in | writes, this family only |
+| `schedule_followup` | comes back in a few days and asks how it went | writes, and the parent hears about it |
+| `web_search` | the live world only: an app, a device, a change in UK law | reaches outside |
 
-The other exception is the fortnightly research updater, which does search the
-web, and everything it finds waits in a queue for approval.
+The fence is the point. **Every write is small, visible and reversible.** One
+memory line the parent can delete, one card they can cancel. Nothing DiGi can do
+changes a child's screen time, sends anything, spends anything, or touches
+another family. The day a tool can do any of those, it needs a parent's tap and
+not a model's judgement.
+
+`schedule_followup` is the one that changes what DiGi *is*, because it lets DiGi
+act in the future rather than only respond in the present. Follow ups are capped
+at three pending per family, enforced in code, because a guide that queues up
+nine things to ask you about is a guide you start avoiding.
+
+`web_search` is fenced to the live world and **explicitly barred from anything
+clinical or developmental**, because the open web is where the worst parenting
+advice lives. For how children work it uses the bank and what it knows.
 
 **The model does not learn either, and it should not.** DiGi learns *about* our
 families. Nothing learns *from* them into anyone's weights. That is the version
@@ -153,11 +173,14 @@ that can be defended to a parent.
 ### The honest public claim
 
 > A research grounded coaching system with a persistent per family memory and
-> closed learning loops, that can search its own evidence base when a question
-> needs it, and where every new source passes a human.
+> closed learning loops, that searches its own evidence base, keeps what matters,
+> comes back to ask how something went, and where every new source and every
+> change to how it answers passes a human.
 
-That survives a hostile expert reading it. "Truly agentic" still does not, and
-will not until DiGi can act rather than only look.
+That survives a hostile expert reading it, and every clause in it is checkable
+against the code. What it deliberately does not claim: that DiGi learns into a
+model, that it acts without a fence, or that anything it proposes about itself
+ships without a person reading it first.
 
 ---
 

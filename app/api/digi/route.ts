@@ -11,7 +11,7 @@ import { getExpertKnowledge, getFamilyMemory, getWhatWorked, getPathwayPosition 
 import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import { classifyLane, laneShape } from '@/lib/digi/lane'
-import { DIGI_TOOLS, TOOL_RULES, runDigiTool } from '@/lib/digi/tools'
+import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
 import { consumeStream } from '@/lib/digi/stream'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
 import { schoolSubjectFor, learningContextFor, learningRules } from '@/lib/learning/digi-context'
@@ -570,7 +570,7 @@ When a parent asks whether or for how long their child should use any device, do
       // it, so the extraction call is skipped rather than paid for and answered
       // NONE. It also stops a stray note about someone's work deadline being
       // filed as lasting context about the family.
-      const extraction = lane === 'general' ? null : await callDigi({
+      const extraction = (lane === 'general' || savedItsOwnMemory) ? null : await callDigi({
         model: digiModelsFor('extract')[0],
         max_tokens: 220,
         messages: [{
@@ -666,6 +666,10 @@ When a parent asks whether or for how long their child should use any device, do
   // Stream the reply to the client as plain text. The reflective question
   // travels inside the stream after the --- marker and the client splits on
   // it, exactly as the model writes it.
+  // Set by the tool loop when DiGi chose to remember something itself. Declared
+  // out here because the extraction step in after() has to read it.
+  let savedItsOwnMemory = false
+
   const encoder = new TextEncoder()
   const body = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -694,6 +698,11 @@ When a parent asks whether or for how long their child should use any device, do
           const turn = await consumeStream(stream, controller, encoder, dashes)
           fullText += turn.clean
 
+          // web_search is resolved at Anthropic's end inside the same turn, so
+          // it never reaches here. Only the tools we run ourselves continue the
+          // loop, and an unknown name is ignored rather than answered, so a
+          // model inventing a tool cannot spin us.
+          turn.toolUses = turn.toolUses.filter(t => CLIENT_TOOL_NAMES.has(t.name))
           const wantsTool = turn.stopReason === 'tool_use' && turn.toolUses.length > 0
           if (!wantsTool || round === 2) break
 
@@ -704,9 +713,20 @@ When a parent asks whether or for how long their child should use any device, do
             turn.toolUses.map(async t => ({
               type: 'tool_result' as const,
               tool_use_id: t.id,
-              content: await runDigiTool(supabase, t.name, t.input, child?.age_band ?? null),
+              content: await runDigiTool({
+                supabase,
+                userId: user.id,
+                childId: (child?.id as string | undefined) ?? null,
+                ageBand: (child?.age_band as string | undefined) ?? null,
+                childName: (child?.name as string | undefined) ?? null,
+              }, t.name, t.input),
             }))
           )
+          // Noted so the extraction pass afterwards can stand down. DiGi
+          // deciding in the moment what is worth keeping beats a second model
+          // guessing at it after the fact, and running both would file the same
+          // fact twice under two different wordings.
+          if (turn.toolUses.some(t => t.name === 'save_memory')) savedItsOwnMemory = true
 
           conversation.push({ role: 'assistant', content: turn.blocks })
           conversation.push({ role: 'user', content: results })
