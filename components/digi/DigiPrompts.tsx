@@ -13,6 +13,10 @@ const KIND_LABEL: Record<string, string> = {
   new_research: 'New research',
   celebration: 'Worth celebrating',
   school: 'From school',
+  // DiGi said it would come back and ask. The label has to read as a promise
+  // being kept rather than as another notification, or the whole point of it is
+  // lost at the moment a parent looks at their screen.
+  follow_up: 'Checking back, as promised',
 }
 
 // DiGi leads: proactive prompts generated from this family's own data and

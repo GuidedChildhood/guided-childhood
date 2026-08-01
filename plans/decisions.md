@@ -4723,3 +4723,48 @@ their subjects are in the knowledge base, which is the point.
 **What does not learn is the model itself, and it should not.** DiGi learns about
 our families, not from them into anyone's weights. That is the version that can be
 defended to a parent.
+
+## 1 August 2026 — DiGi becomes an agent, within a fence
+
+Justin: "build 1 to 5."
+
+**The fence matters more than the tools.** Every write DiGi can make is small,
+visible and reversible: one memory line a parent can delete, one card they can
+cancel. Nothing it can do changes a child's screen time, sends anything, spends
+anything or touches another family. The day a tool can do any of those, it needs
+a parent's tap and not a model's judgement. That line is the design, not a
+caveat on it.
+
+**schedule_followup is the one that changes what DiGi is.** Until now it could
+only answer when spoken to, so a parent tried the thing on Tuesday and unless
+they thought to come back, nobody found out whether it worked. The parent carried
+the follow up, and the parents who most need this have the least room to carry
+anything.
+
+Delivered as a digi_prompts card rather than a new channel, so it inherits the
+quiet hours, dismiss and mute that queue already respects. A second channel would
+mean two places to be interrupted from and two ways to get that wrong. Capped at
+three pending per family, in code, because a guide that queues up nine things to
+ask you about is one you start avoiding. Overdue ones still go out: a day late
+beats a promise silently dropped.
+
+**web_search is barred from anything clinical or developmental.** It is for the
+live world only, a named app or a change in UK law. The open web is where the
+worst parenting advice lives, and a parenting product that starts sourcing child
+development from it has given away the only thing that makes it different.
+
+**The monthly answer review proposes and never applies.** Every other loop
+improves what DiGi knows; this is the only one that looks at how it answers. A
+system that rewrites its own instructions is one where nobody can say what it was
+told to do last Tuesday, and for a product answering questions about children
+that is not a trade worth making for any amount of convenience. Same human gate
+as the research bank.
+
+**Schema was verified rather than assumed**, which caught three wrong table and
+column names before they shipped. Writing a tool against a remembered schema is
+how you ship a feature that throws on first use for a real family.
+
+**The rail that grows with every tool: a tool result is DATA, never an
+instruction.** It mattered when the only tool read our own curated bank. It
+matters far more now one of them fetches pages written by strangers, and it has
+to be restated every time a tool is added.

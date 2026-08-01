@@ -11,6 +11,8 @@ import { getExpertKnowledge, getFamilyMemory, getWhatWorked, getPathwayPosition 
 import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import { classifyLane, laneShape } from '@/lib/digi/lane'
+import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
+import { consumeStream } from '@/lib/digi/stream'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
 import { schoolSubjectFor, learningContextFor, learningRules } from '@/lib/learning/digi-context'
 import { deviceLabel } from '@/lib/quests/device-time'
@@ -59,7 +61,11 @@ async function callDigiStream(params: Omit<Anthropic.MessageCreateParamsStreamin
   throw lastError
 }
 
-export const maxDuration = 60
+// Raised from 60 when the tool loop landed. A message where DiGi searches costs
+// an extra model round trip, and the 45 second client timeout means two rounds
+// could in principle outlast the old ceiling. The common case, where no tool is
+// called, is unchanged and nowhere near either number.
+export const maxDuration = 90
 export const dynamic = 'force-dynamic'
 
 const FREE_DAILY_LIMIT = 3
@@ -461,7 +467,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge + laneShape(lane),
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
@@ -475,6 +481,9 @@ When a parent asks whether or for how long their child should use any device, do
     ...history.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content })),
     { role: 'user' as const, content: message },
   ]
+  // The growing turn list, which the tool loop appends to. `messages` stays as
+  // the opening state so nothing else in this route sees the tool traffic.
+  const conversation: Anthropic.MessageParam[] = [...messages]
 
   const newCount = currentCount + 1
 
@@ -493,6 +502,7 @@ When a parent asks whether or for how long their child should use any device, do
         { type: 'text', text: familyContext },
       ],
       messages,
+      tools: DIGI_TOOLS,
     })
   } catch (err) {
     const status = err instanceof Anthropic.APIError ? err.status : null
@@ -560,7 +570,7 @@ When a parent asks whether or for how long their child should use any device, do
       // it, so the extraction call is skipped rather than paid for and answered
       // NONE. It also stops a stray note about someone's work deadline being
       // filed as lasting context about the family.
-      const extraction = lane === 'general' ? null : await callDigi({
+      const extraction = (lane === 'general' || savedItsOwnMemory) ? null : await callDigi({
         model: digiModelsFor('extract')[0],
         max_tokens: 220,
         messages: [{
@@ -656,24 +666,83 @@ When a parent asks whether or for how long their child should use any device, do
   // Stream the reply to the client as plain text. The reflective question
   // travels inside the stream after the --- marker and the client splits on
   // it, exactly as the model writes it.
+  // Set by the tool loop when DiGi chose to remember something itself. Declared
+  // out here because the extraction step in after() has to read it.
+  let savedItsOwnMemory = false
+
   const encoder = new TextEncoder()
   const body = new ReadableStream<Uint8Array>({
     async start(controller) {
       let fullText = ''
       // The no dashes rule, enforced on the way out. The system prompt asks for
       // it twice and the model still lands one occasionally, and a dash is the
-      // clearest tell that a machine wrote the reply.
+      // clearest tell that a machine wrote the reply. One stripper across all
+      // rounds, so a dash split over a tool pause is still caught.
       const dashes = makeDashStripper()
       try {
-        for await (const event of modelStream) {
-          if (event.type === 'content_block_delta' && event.delta.type === 'text_delta') {
-            const clean = dashes.push(event.delta.text)
-            if (clean) {
-              fullText += clean
-              controller.enqueue(encoder.encode(clean))
-            }
-          }
+        // The tool loop.
+        //
+        // Streaming FIRST and handling tools if they happen, rather than doing a
+        // tool pass and then streaming. Almost every message needs no tool at
+        // all, and a pre pass would make every one of them wait for a round trip
+        // to serve the few that do. This way the common case is exactly as fast
+        // as it was, and only a message where DiGi decides to go and look
+        // something up pauses, which is the one place a parent would forgive it.
+        //
+        // Two rounds. One search answers the question; a second is occasionally
+        // worth it when the first came back empty. Beyond that it is a model
+        // stuck in a loop, and the right response to that is a good answer from
+        // what it already knows rather than a third search.
+        let stream = modelStream
+        for (let round = 0; round < 3; round++) {
+          const turn = await consumeStream(stream, controller, encoder, dashes)
+          fullText += turn.clean
+
+          // web_search is resolved at Anthropic's end inside the same turn, so
+          // it never reaches here. Only the tools we run ourselves continue the
+          // loop, and an unknown name is ignored rather than answered, so a
+          // model inventing a tool cannot spin us.
+          turn.toolUses = turn.toolUses.filter(t => CLIENT_TOOL_NAMES.has(t.name))
+          const wantsTool = turn.stopReason === 'tool_use' && turn.toolUses.length > 0
+          if (!wantsTool || round === 2) break
+
+          // Every tool the model asked for, in parallel, then all the results in
+          // one user turn. The API requires a tool_result for every tool_use id
+          // in the assistant turn, so a partial reply here would be rejected.
+          const results = await Promise.all(
+            turn.toolUses.map(async t => ({
+              type: 'tool_result' as const,
+              tool_use_id: t.id,
+              content: await runDigiTool({
+                supabase,
+                userId: user.id,
+                childId: (child?.id as string | undefined) ?? null,
+                ageBand: (child?.age_band as string | undefined) ?? null,
+                childName: (child?.name as string | undefined) ?? null,
+              }, t.name, t.input),
+            }))
+          )
+          // Noted so the extraction pass afterwards can stand down. DiGi
+          // deciding in the moment what is worth keeping beats a second model
+          // guessing at it after the fact, and running both would file the same
+          // fact twice under two different wordings.
+          if (turn.toolUses.some(t => t.name === 'save_memory')) savedItsOwnMemory = true
+
+          conversation.push({ role: 'assistant', content: turn.blocks })
+          conversation.push({ role: 'user', content: results })
+
+          stream = await callDigiStream({
+            model: DIGI_MODEL,
+            max_tokens: 1000,
+            system: [
+              { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
+              { type: 'text', text: familyContext },
+            ],
+            messages: conversation,
+            tools: DIGI_TOOLS,
+          })
         }
+
         // Anything held back waiting for the next chunk that never came.
         const tail = dashes.flush()
         if (tail) {

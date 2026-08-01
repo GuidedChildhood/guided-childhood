@@ -50,34 +50,112 @@ const WORD_TO_TOPIC: Record<string, string> = {
   nightmares: 'trauma',
 }
 
+export type KnowledgeRow = {
+  source_name: string
+  finding: string
+  topics: string[]
+  age_bands: string[]
+}
+
+/**
+ * Search the research bank by meaning.
+ *
+ * This is the half of the brain that was missing. digi_memory has understood
+ * what a parent MEANT since migration 45; expert_knowledge was matched against a
+ * hand maintained list of about seventy words, so a finding was reachable only
+ * if the parent happened to type one of them.
+ *
+ * Also exported on its own because it is what the search_knowledge tool calls.
+ * The pre packed retrieval below is DiGi being handed six findings we guessed at.
+ * This is DiGi going and looking for what it decided it needs, which is the
+ * difference between a system that retrieves and one that searches.
+ *
+ * Returns [] on anything going wrong, including no EMBEDDING_API_KEY. Every
+ * caller has a keyword path to fall back to.
+ */
+export async function searchKnowledge(
+  supabase: SupabaseClient,
+  query: string,
+  ageBand: string | null,
+  limit = 6,
+): Promise<KnowledgeRow[]> {
+  if (!query.trim()) return []
+  try {
+    const { embedText } = await import('@/lib/digi/embeddings')
+    const vector = await embedText(query, 'query')
+    if (!vector) return []
+    const { data } = await supabase.rpc('match_expert_knowledge', {
+      query_embedding: vector,
+      match_count: limit,
+      band: ageBand,
+    })
+    return (data ?? []) as KnowledgeRow[]
+  } catch {
+    return [] // semantic search is an upgrade, never a dependency
+  }
+}
+
 export async function getExpertKnowledge(
   supabase: SupabaseClient,
   ageBand: string | null,
   userMessage: string,
   limit = 6
 ): Promise<string> {
-  const { data } = await supabase
-    .from('expert_knowledge')
-    .select('source_name, finding, topics, age_bands')
-    .eq('active', true)
+  // Hybrid, the same shape getFamilyMemory has used all along: meaning leads,
+  // keywords fill in. Semantic hits go first because they are the ones the
+  // keyword map could never have found, and the keyword pass still contributes
+  // the crisis rule and the exact topic matches that a vector can blur.
+  const [semantic, allRows] = await Promise.all([
+    searchKnowledge(supabase, userMessage, ageBand, limit),
+    supabase
+      .from('expert_knowledge')
+      .select('source_name, finding, topics, age_bands')
+      .eq('active', true),
+  ])
+
+  const data = allRows.data
+
+  if (semantic.length > 0) {
+    const seen = new Set(semantic.map(s => s.finding))
+    const keyword = data ? scoreByKeyword(data as KnowledgeRow[], ageBand, userMessage, limit) : []
+    const merged = [...semantic, ...keyword.filter(k => !seen.has(k.finding))].slice(0, limit)
+    return renderKnowledge(merged)
+  }
 
   if (!data || data.length === 0) return ''
+  return renderKnowledge(scoreByKeyword(data as KnowledgeRow[], ageBand, userMessage, limit))
+}
 
-  // Cheap relevance: age band match plus topic keyword overlap with the
-  // message. Crisis guidance always qualifies so signposting never misses.
+/**
+ * The keyword pass, unchanged in behaviour and now reusable.
+ *
+ * Cheap relevance: age band match plus topic keyword overlap with the message.
+ * Crisis guidance always qualifies so signposting never misses.
+ *
+ * It stays even now that meaning search exists, for two reasons. It is the only
+ * path when EMBEDDING_API_KEY is absent or a row has not been embedded yet, and
+ * it catches the exact things a vector blurs: the crisis bump, and a literal
+ * topic match a similarity score would rank merely close.
+ */
+function scoreByKeyword(
+  rows: KnowledgeRow[],
+  ageBand: string | null,
+  userMessage: string,
+  limit: number,
+): KnowledgeRow[] {
   const msg = userMessage.toLowerCase()
-  const scored = data.map(k => {
+  const scored = rows.map(k => {
     let score = 0
     if (!ageBand || k.age_bands.length === 0 || k.age_bands.includes(ageBand)) score += 1
     else score -= 2
-    for (const t of k.topics as string[]) {
+    for (const t of k.topics) {
       if (t === 'crisis') score += 1
       if (msg.includes(t.replace('_', ' ')) || msg.includes(t.replace('_', ''))) score += 2
     }
     for (const word of Object.keys(WORD_TO_TOPIC)) {
       if (msg.includes(word)) {
         const topic = WORD_TO_TOPIC[word] ?? word
-        if ((k.topics as string[]).includes(topic)) score += 2
+        if (k.topics.includes(topic)) score += 2
       }
     }
     return { k, score }
@@ -91,7 +169,7 @@ export async function getExpertKnowledge(
   // Every finding scoring zero used to mean an EMPTY STRING, silently, and an
   // answer built on no research at all looked identical to one built on six.
   // The keyword match is literal, so "she has been really down since she got
-  // Snapchat" matched nothing at all before the map below grew, and a full
+  // Snapchat" matched nothing at all before the map above grew, and a full
   // library still handed DiGi nothing.
   //
   // So when nothing scores, fall back to whatever is age appropriate rather
@@ -100,13 +178,16 @@ export async function getExpertKnowledge(
   // of every answer rather than most of them.
   if (top.length === 0) {
     top = ranked
-      .filter(s => !ageBand || s.k.age_bands.length === 0 || (s.k.age_bands as string[]).includes(ageBand))
+      .filter(s => !ageBand || s.k.age_bands.length === 0 || s.k.age_bands.includes(ageBand))
       .slice(0, 2)
   }
-  if (top.length === 0) return ''
+  return top.map(s => s.k)
+}
 
+function renderKnowledge(rows: KnowledgeRow[]): string {
+  if (rows.length === 0) return ''
   return '\n\nEXPERT KNOWLEDGE BASE (cite the source by name when you use one of these):\n' +
-    top.map(s => `- ${s.k.source_name}: ${s.k.finding}`).join('\n')
+    rows.map(k => `- ${k.source_name}: ${k.finding}`).join('\n')
 }
 
 export type MemoryRow = { kind: string; content: string; created_at: string }
