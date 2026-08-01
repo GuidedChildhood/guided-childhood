@@ -4539,3 +4539,187 @@ repo, so this does not need a live account to verify.
 
 Worth keeping as a rule: when one action has three entry points, the one to
 keep is the one that performs the action, not the ones that navigate toward it.
+
+---
+
+## 1 August 2026 — DiGi's precedence, the retrieval floor, and learning from what worked
+
+Justin: "I want it to use the researchers when answering specific questions, as
+well as weighting the parent input, what we learn from the platform, and all the
+data reports from the researchers we agree with. How is this working, and can we
+make sure it is that clear?" Then: "make DiGi learn from successes ... where they
+have marked a solution fixed, trace the best answers, look for popular issues and
+moments, then be proactive on known success solutions."
+
+**The precedence was emergent, not designed.** Thirteen context blocks were
+concatenated into one flat string and handed over, so the model inferred the
+ordering itself, differently each time. Nothing said what wins when a research
+finding and a family's own history disagree, which is the exact moment a
+parenting guide either earns trust or loses it. Now stated, and placed FIRST in
+the context because an instruction about how to read something has to arrive
+before the something.
+
+The order is the product's argument: safety, then the family's own signed
+agreement, then research for DIRECTION, then this family for FIT, then other
+families as a suggestion only, then say so out loud when they conflict, then
+admit not knowing. Research before the family on what is generally true; the
+family before the research on whether it applies here. A finding about eleven
+year olds is not a finding about THIS eleven year old.
+
+**Two retrieval faults, both silent.**
+
+The keyword match is a literal substring, and the map had fifteen words in it
+with not one platform a child actually uses. "She has been really down since she
+got Snapchat" matched nothing. Now about seventy words, tested against ten real
+parent sentences: all ten match, where several matched nothing before.
+
+And when nothing scored, getExpertKnowledge returned an EMPTY STRING. An answer
+built on no research looked identical to one built on six, with no signal
+anywhere. There is now a floor: if nothing scores, fall back to whatever is age
+appropriate. The claim that DiGi answers from research is now true of every
+answer rather than most of them.
+
+**Learning from successes.** rebuildWisdom already read the three places a
+success is recorded (a concern marked resolved, a script marked worked, written
+parent feedback) and stored evidence_count. That count was then thrown away at
+retrieval, so a pattern proven across many families and one seen once read the
+same. getProvenSolutions surfaces them as their own block, ranked, with a log
+compression on the count so one very common pattern cannot win every question
+regardless of what was asked. Floor of two families, because one success is an
+anecdote and presenting it as a pattern is the overclaiming this brain exists to
+avoid.
+
+**And the two researchers.** Foulkes and Valkenburg were named in Justin's
+LinkedIn post and were not in the codebase at all. Migration 139 adds both, from
+the published work rather than memory, with urls. They are also the two that most
+support the product's own argument: Foulkes is the peer reviewed case for
+education over alarm, and Valkenburg's 28 percent negative, 26 percent positive,
+half negligible is why a blanket rule is the wrong instrument.
+
+Worth keeping: the test caught what reading could not. "The morning routine is a
+nightmare" matched trauma, because the singular is idiom and the plural is
+literal. Ten sentences took a minute and found both a whole class of misses and a
+false positive.
+
+---
+
+## 1 August 2026 — the Monday management review
+
+Justin: "so that we are saving data gathering on my management board and weekly
+meetings where an agent reviews it for findings."
+
+Most of what he described already existed and was pointed at the wrong half of
+the data. /dashboard/insights is the founder board and /api/cron/digi-insights
+runs an agent daily, but it reviews the QUESTIONS parents asked. That tells him
+what families are worried about and nothing about what actually helped. A product
+whose entire claim is that it learns from what works had no report on what worked.
+
+Meanwhile rebuildWisdom was already reading the three places a success is
+recorded and turning them into guidance for DiGi. The machine was learning from
+outcomes and nobody was reading it back to the person who decides what to build.
+
+So /api/cron/management-review, Monday 00:30, reviews the OUTCOME side: concerns
+families marked resolved, scripts they said worked against ones that did not, the
+patterns wisdom has accumulated evidence for, jobs approved, full days finished,
+credits earned, and which worries keep coming back. Findings land in
+management_findings (migration 140) and the newest sits at the top of the founder
+board, above the daily insight board, because it answers the more important
+question.
+
+Four decisions in it worth keeping:
+
+**00:30, after the star rollover at 00:10.** Reviewing a week that is still being
+closed would report it as quieter than it was, because the rollover writes that
+week's sticker credits.
+
+**Nothing per family leaves.** Every input is a count or a category label we
+chose. No parent's words, no child's name, no user id reaches the model. Justin
+does not need one family's week to decide what to build, and a founder dashboard
+that quietly becomes a surveillance tool is exactly what this product tells
+parents it is not. management_findings has no parent readable policy at all and
+the board reads it server side after the founder email check.
+
+**The counts are stored beside the prose.** A finding you cannot check later is an
+opinion with a date on it, so metrics goes in the row next to the summary.
+
+**The agent is told to prefer the uncomfortable finding, and to say when a number
+is too small to mean anything.** A weekly report that always finds three
+encouraging trends is one you stop reading by week five. If the models are all
+unreachable the numbers are still saved and the panel says so, because the
+numbers are the durable part and the prose is commentary.
+
+## 1 August 2026 — DiGi answers anything, in the shape the question deserves
+
+Justin: "I want to be able to use Claude though but with the guardrails so it can
+answer anything. Does it currently do that? Like the Good Inside version."
+
+**It always could.** There is no topic gate anywhere in DiGi and there never was.
+What made it feel narrow was the SHAPE: the static prompt forces every reply into
+the coaching format and closes every one with a reflective question built to learn
+about the family. Ask for help drafting a letter to the head teacher and you get
+the letter followed by "Quick one for tonight", which is the moment a parent stops
+believing they can ask it anything.
+
+**Three lanes, varying the shape only.** parenting keeps the full coaching shape
+and the research. family keeps the warmth and the memory but drops the forced 24
+hour close and only asks a reflective question when it would teach us something.
+general gets a straight answer with no wrapper at all.
+
+**The rails do not vary by lane.** Crisis routing, never diagnose, never allow or
+deny, data minimisation, no invented sources, no dashes. All in the static prompt,
+all three lanes. Widening what DiGi will talk about must never widen what it is
+allowed to say. Professional signposting for medical, legal and financial was
+added, because those only became reachable once the scope widened.
+
+**Every failure path lands on parenting.** A general question wrongly given the
+coaching shape is mildly odd. A question about a child wrongly given the plain
+shape loses the research, the memory and the reflective question, which is the
+whole product.
+
+**The lane is stored (migration 141) because two agents read digi_questions
+assuming every row is a parent asking about their child.** digi-insights would
+read general questions as phantom product demand. knowledge-refresh is worse: it
+uses them to decide what to go SEARCHING the web for, and those candidates land in
+front of Justin to approve into the bank DiGi cites by name. Both now read
+parenting and family only.
+
+**Recorded as a known soft spot:** digi_wisdom.evidence_count is the model's own
+estimate of its evidence, parsed from the JSON it returns, not a counted fact.
+getProvenSolutions floors and weights on it, so "proven across families" currently
+reads harder than it is. The fix is to count the supporting signals in code.
+
+## 1 August 2026 — the knowledge base grounds DiGi, it does not cap it
+
+Justin: "I want to make sure it has as much knowledge as Claude, and I want to
+answer every child mental health question."
+
+**The model was never the limit.** DiGi runs on claude-fable-5, so everything
+Claude knows about child development, CAMHS pathways, eating disorders, ADHD and
+sleep was always available. One line in the prompt was capping it: when nothing
+in the bank fitted, DiGi was told to teach from the research principles and "say
+the source is our own approach". So real, established clinical knowledge came back
+either thinner than it should be, or labelled as house opinion. That is the mirror
+image of inventing a citation and just as dishonest.
+
+**Three levels, stated.** Bank covers it, lead with it and name the source. Bank
+does not, answer just as fully with no source attached and nothing dressed up as
+ours. Genuinely contested, say so and say why.
+
+**Never invent a study still holds and does not fight with that.** A full answer
+with no citation is honest. A thin answer with a made up citation is not.
+PRECEDENCE rule 7 says the same, because "if you do not know, say you do not know"
+was the sentence most likely to be misread as "if the bank is quiet, say less".
+
+**Child mental health gets answered properly.** Signs at that age, what to do this
+week, and always the route to a human without waiting to be asked: GP as the door
+to CAMHS, pastoral lead or SENCO, YoungMinds, Beat, Papyrus, Childline. Never
+diagnose, never rule out, never definitely fine, and never let waiting be the whole
+plan.
+
+**Three eval cases guard the opposite failure to all the others.** The existing
+cases catch DiGi saying too much. These catch it saying too little, and none of
+their subjects are in the knowledge base, which is the point.
+
+**What does not learn is the model itself, and it should not.** DiGi learns about
+our families, not from them into anyone's weights. That is the version that can be
+defended to a parent.

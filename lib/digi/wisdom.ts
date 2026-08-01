@@ -129,6 +129,69 @@ evidence_count is roughly how many signals point to this pattern.`
 // Retrieval for the DiGi context block. Same shape as getWhatWorked, but this
 // is the whole community's track record, not one family's. Age matched first,
 // then the message keywords nudge the ordering.
+/**
+ * The solutions that have actually worked, ranked by how often.
+ *
+ * Justin: "make DiGi learn from successes, look at positive feedback from
+ * parents where they have marked a solution fixed, trace the best answers, look
+ * for popular issues and moments, then be proactive on known success solutions."
+ *
+ * rebuildWisdom already reads the three places a success is recorded: a concern
+ * a family marked resolved, a script a parent said worked, and their own written
+ * feedback. What it did not do was let the ANSWER know which of those had the
+ * most weight behind it. getAggregateWisdom scores mostly by word overlap, so a
+ * pattern proven across many families and one seen once read the same.
+ *
+ * evidence_count is that weight, and it was already being stored and then thrown
+ * away at retrieval. This surfaces the proven ones as their own block so DiGi can
+ * lead with what has worked rather than treating it as background colour.
+ *
+ * Deliberately NOT a rule. A pattern that helped many families is a good place
+ * to start and not a verdict, which is the whole product in one sentence, so the
+ * instruction below says offer it first and stay ready to be wrong.
+ */
+export async function getProvenSolutions(
+  supabase: SupabaseClient,
+  ageBand: string | null,
+  message = '',
+  limit = 3,
+): Promise<string> {
+  const { data } = await supabase
+    .from('digi_wisdom')
+    .select('topic, age_band, what_works, evidence_count')
+    .eq('active', true)
+    // Proven means more than one family, so a single report never presents as
+    // a pattern. One family's success is an anecdote and saying otherwise is
+    // the overclaiming this whole brain is built to avoid.
+    .gte('evidence_count', 2)
+    .order('evidence_count', { ascending: false })
+    .limit(30)
+
+  if (!data || data.length === 0) return ''
+
+  const msg = message.toLowerCase()
+  const words = new Set(msg.split(/[^a-z0-9]+/).filter(w => w.length > 3))
+  const scored = data.map(w => {
+    let score = 0
+    if (!w.age_band) score += 1
+    else if (w.age_band === ageBand) score += 3
+    else score -= 3
+    const hay = `${w.topic} ${w.what_works}`.toLowerCase()
+    for (const word of words) if (hay.includes(word)) score += 2
+    // How many families, compressed. Raw counts would let one very common
+    // pattern win every question regardless of what was asked, which is how a
+    // guide starts answering the popular question instead of yours.
+    score += Math.min(3, Math.log2((Number(w.evidence_count) || 1) + 1))
+    return { w, score }
+  })
+
+  const top = scored.sort((a, b) => b.score - a.score).slice(0, limit).filter(s => s.score > 0)
+  if (top.length === 0) return ''
+
+  return '\n\nWHAT HAS ACTUALLY WORKED (patterns from families who told us the problem was solved, ranked by how many. Offer the closest one FIRST when it fits the question, in your own words, as a place to start rather than an instruction. Never give numbers of families, never name anyone, and if it does not fit, ignore it and answer normally):\n' +
+    top.map(s => `- ${s.w.topic}: ${s.w.what_works}`).join('\n')
+}
+
 export async function getAggregateWisdom(
   supabase: SupabaseClient,
   ageBand: string | null,

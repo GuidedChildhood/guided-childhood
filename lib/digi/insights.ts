@@ -54,6 +54,11 @@ export async function runDigiInsights(daysRaw: number): Promise<InsightPayload> 
   const { data: questionsRaw } = await admin
     .from('digi_questions')
     .select('question, stage_id, created_at')
+    // Questions that were never about a child are excluded. This agent's job is
+    // to find what parents need from the PLATFORM, and a question about a train
+    // timetable in that pile is phantom demand. Null is every row written before
+    // lanes existed, when there was only one shape. See migration 141.
+    .or('lane.is.null,lane.in.(parenting,family)')
     .gte('created_at', since)
     .order('created_at', { ascending: false })
     .limit(400)
