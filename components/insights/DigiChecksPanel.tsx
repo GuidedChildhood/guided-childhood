@@ -60,10 +60,14 @@ export default function DigiChecksPanel() {
     try {
       const res = await fetch('/api/admin/digi-checks', { method: 'POST' })
       const json = await res.json()
+      // "0 embedded" is ambiguous: it looks the same whether nothing needed
+      // doing or everything failed. Say which.
       setEmbedNote(
         !json.configured
           ? 'EMBEDDING_API_KEY is not set, so nothing was embedded.'
-          : `${json.embedded} embedded${json.failed ? `, ${json.failed} failed` : ''}.`
+          : json.missing === 0
+            ? 'Nothing to do, the whole bank is already searchable.'
+            : `${json.embedded} embedded${json.failed ? `, ${json.failed} failed` : ''}.`
       )
       await load()
     } catch { setEmbedNote('That did not run.') }
@@ -120,17 +124,36 @@ export default function DigiChecksPanel() {
       {/* The scheduled jobs. A missing run is the alert, so "never" and
           "overdue" are called out rather than left as an old timestamp
           somebody has to do arithmetic on. */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
-        {checks.jobs.map(j => (
-          <div key={j.label} style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, borderBottom: '1px solid var(--border)', paddingBottom: 5 }}>
-            <span style={{ fontSize: 15.5, color: 'var(--ink)' }}>
-              {j.ok === false ? '⚠ ' : j.overdue ? '· ' : '✓ '}{j.label}
+      <p className="eyebrow" style={{ margin: '0 0 8px' }}>Scheduled jobs</p>
+      <div style={{ background: 'var(--cream)', borderRadius: 14, padding: '4px 14px', marginBottom: 18 }}>
+        {checks.jobs.map((j, i) => (
+          <div
+            key={j.label}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              gap: 12, padding: '11px 0',
+              borderTop: i === 0 ? 'none' : '1px solid var(--border)',
+            }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: 9, minWidth: 0 }}>
+              {/* A fixed width marker so every label starts on the same x.
+                  Ragged first letters are most of why a list like this reads
+                  as noise rather than a table. */}
+              <span aria-hidden style={{
+                width: 18, textAlign: 'center', flexShrink: 0, fontWeight: 800,
+                color: j.ok === false ? 'var(--danger)' : j.overdue ? '#A37A2A' : 'var(--retro-green)',
+              }}>
+                {j.ok === false ? '⚠' : j.overdue ? '·' : '✓'}
+              </span>
+              <span style={{ fontSize: 15.5, color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {j.label}
+              </span>
             </span>
             <span style={{
-              fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, flexShrink: 0,
               color: j.ok === false ? 'var(--danger)' : j.overdue ? '#A37A2A' : 'var(--ink-muted)',
             }}>
-              {j.ok === false ? 'failed' : j.overdue ? `overdue, ${when(j.lastRun)}` : when(j.lastRun)}
+              {j.ok === false ? 'failed' : j.lastRun === null ? 'not yet run' : j.overdue ? `overdue, ${when(j.lastRun)}` : when(j.lastRun)}
             </span>
           </div>
         ))}

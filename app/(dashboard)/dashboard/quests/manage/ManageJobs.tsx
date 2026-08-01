@@ -748,9 +748,9 @@ export default function ManageJobs({
           centred label reads better without it. */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginTop: 8, alignItems: 'stretch' }}>
         {[
-          { href: '/dashboard/quests/routines', label: 'Week routine', bg: 'var(--stage-2)', line: 'var(--stage-2-bold)' },
-          { href: '/dashboard/quests/timer', label: 'Screen timer', bg: 'var(--stage-3)', line: 'var(--stage-3-bold)' },
-          { href: '/dashboard/stats', label: 'Balance and stats', bg: 'var(--stage-5)', line: 'var(--stage-5-bold)' },
+          { href: '/dashboard/quests/routines', label: 'Week routine' },
+          { href: '/dashboard/quests/timer', label: 'Screen timer' },
+          { href: '/dashboard/stats', label: 'Balance and stats' },
         ].map(b => (
           <Link
             key={b.href}
@@ -758,13 +758,21 @@ export default function ManageJobs({
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               textAlign: 'center', minHeight: 58, height: '100%',
-              // A pastel each, same stage palette as the composer's answers
-              // above. Three identical white boxes with a terracotta line read
-              // as one thing repeated; three tints read as three places to go.
-              background: b.bg, color: 'var(--ink)',
-              border: `1.5px solid ${b.line}`,
+              // These were a pastel each, on the theory that three tints read as
+              // three places to go while three white boxes read as one thing
+              // repeated. Next to a saturated reference the pastels just looked
+              // washed, and three different soft colours for three links that
+              // do the same KIND of thing (go somewhere) is colour used as
+              // decoration rather than meaning.
+              //
+              // Cream with a defined border and the house shadow instead. They
+              // are still clearly three separate targets because they are three
+              // separate boxes with real edges, and the accent stays reserved
+              // for the thing a parent has actually chosen.
+              background: 'var(--cream)', color: 'var(--ink)',
+              border: '1.5px solid var(--border)',
               borderRadius: 14,
-              boxShadow: `0 3px 0 ${b.line}`,
+              boxShadow: '0 3px 0 var(--border)',
               padding: '10px 8px', textDecoration: 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13.5,
               lineHeight: 1.25,
