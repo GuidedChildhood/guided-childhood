@@ -190,8 +190,20 @@ function checkUnwritableSteps() {
   for (const { key, navigates } of defs) {
     // A step that stays on the list is ticked by the list's own mark(step).
     if (!navigates) continue
-    const writer = [...SOURCE].some(([g, s2]) =>
-      g !== defFile && new RegExp(`step(?::\\s*|=)['"\`{]{1,2}${key}['"\`]`).test(s2))
+    // Two shapes count as ticking it, and the second was learned the hard way.
+    //
+    // The first is the key named as a field or a prop: step: 'lesson', or
+    // step="balance" on MarkStepOnArrival. That is how the client side ticks.
+    //
+    // The second is the key passed as an argument to the shared marker:
+    // markStepQuietly(admin, userId, childId, 'lesson'). Server side ticks are
+    // written that way, and this check ORIGINALLY MISSED THEM ENTIRELY. It went
+    // on reporting all three as broken after they were fixed, which is the
+    // failure mode that matters most here: a check nobody can turn green is one
+    // that gets deleted, and it takes the true findings with it.
+    const named = new RegExp(`step(?::\\s*|=)['"\`{]{1,2}${key}['"\`]`)
+    const marked = new RegExp(`markStep(?:Quietly)?\\([^)]*['"\`]${key}['"\`]`)
+    const writer = [...SOURCE].some(([g, s2]) => g !== defFile && (named.test(s2) || marked.test(s2)))
     if (!writer) {
       errors.push(`unticked step  "${key}"  sends the child away and nothing on the far side ticks it, so the day can never complete`)
     }
@@ -236,11 +248,13 @@ function checkWeekWindows() {
 // The rules for it: every entry is dated, printed loudly on every run, and
 // counted in the exit summary. Nothing gets in here silently, and an entry
 // that starts passing is itself reported so the list cannot rot.
-const BASELINE = [
-  { since: '2026-08-01', match: 'unticked step  "lesson"' },
-  { since: '2026-08-01', match: 'unticked step  "quiz"' },
-  { since: '2026-08-01', match: 'unticked step  "printable"' },
-]
+// Empty, and it got here the right way round. The three that were recorded on
+// 1 August (lesson, quiz, printable) were fixed the same day, the FIXED line
+// said so on the next run, and they were removed rather than left to rot.
+//
+// Keep it empty if you can. A finding belongs here only when it is real, known,
+// and blocked on a decision rather than on work.
+const BASELINE = []
 
 checkDeadLinks()
 checkOrphanComponents()

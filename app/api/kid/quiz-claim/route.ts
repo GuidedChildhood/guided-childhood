@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { quizByKey, QUIZ_LENGTH } from '@/lib/content/school-quizzes'
+import { markStepQuietly } from '@/lib/kid/day-store'
 
 // The school quiz behind the path character. Pass four of five and two bonus
 // stars land through the star_bonuses ledger, one quiz a day, checked server
@@ -44,13 +45,30 @@ export async function POST(req: NextRequest) {
     .limit(1)
     .maybeSingle()
   if (readErr) return NextResponse.json({ error: 'not ready', needsMigration: true }, { status: 409 })
-  if (already) return NextResponse.json({ error: 'already claimed today' }, { status: 409 })
+  if (already) {
+    // The stars are a once a day thing and this is the second pass, so nothing
+    // is banked. The five a day row is not: a child who has provably passed
+    // today has done that step, and if the first tick was lost this is the only
+    // remaining chance to put it right.
+    await markStepQuietly(supabase, link.user_id, link.child_id, 'quiz')
+    return NextResponse.json({ error: 'already claimed today' }, { status: 409 })
+  }
 
   const { error } = await supabase.from('star_bonuses').insert({
     user_id: link.user_id, child_id: link.child_id, stars: 2,
     note: `Path quiz passed: ${quiz.title} (${right} of ${total}) ⭐`,
   })
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // The five a day's quiz row. Same bug as the lesson row: "Today's quiz" sends
+  // the child to /k/<token>/lessons?quiz=1 and a step with an href navigates
+  // rather than marking itself, so nothing ticked it.
+  //
+  // ON PASSING. Everything above this line already refuses anything under four
+  // of five, checked server side against the real quiz, so reaching here IS the
+  // pass. A child who opened the quiz and gave up has not done the step, and a
+  // row that ticked anyway would be the app telling them otherwise.
+  await markStepQuietly(supabase, link.user_id, link.child_id, 'quiz')
 
   // The grown up hears it straight away, best effort: real curriculum work
   // done off their own bat is the best push a parent can get.
