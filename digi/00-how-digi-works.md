@@ -99,6 +99,7 @@ to keywords and still works.
 | Loop | When | Reads | Writes |
 | --- | --- | --- | --- |
 | This family | every reply | the exchange | a memory, embedded, plus a concern |
+| Did it work | a few days after a suggestion | the parent's own verdict on the card | `digi_outcomes`, read back on the next question |
 | All families | Sunday 06:00 | resolved concerns, scripts marked worked, written feedback | `digi_wisdom`, read back on the next question |
 | The research bank | 1st and 15th | question gaps, plus a web search | candidates for the founder to approve |
 | Quality | Monday 06:30 | seventeen adversarial eval cases | a score to watch move |
@@ -162,6 +163,21 @@ act in the future rather than only respond in the present. Follow ups are capped
 at three pending per family, enforced in code, because a guide that queues up
 nine things to ask you about is a guide you start avoiding.
 
+It also carries **what was suggested and the shape of the moment** (topic, time
+of day, the trigger in a few words), so the answer has something to be about.
+When the card is delivered it opens a row in `digi_outcomes`, and the parent
+answers it in three taps: worked, helped a bit, not really. That verdict is the
+only **counted** thing DiGi knows about what works. Everything else is inferred
+from proxies. "Not really" is the valuable one and is treated that way: it opens
+DiGi with the thread rather than closing a card, so the parent gets a different
+idea rather than a tick and silence.
+
+Two reads come back out of it. This family's own verdicts go into every later
+answer, so DiGi never suggests again something they told us failed. And across
+families, a suggestion needs **three** verdicts on the same situation shape
+before it can be offered as something that has worked elsewhere. Two is a
+coincidence with a plural.
+
 `web_search` has exactly two uses: the live world (a named app, device, or a
 change in UK law), and looking up **a specific figure from a named researcher's
 published work** rather than stating one from memory. It is **explicitly barred
@@ -218,5 +234,13 @@ page that only describes the good parts.
 - **`digi_wisdom.evidence_count` is the model's own estimate** of its evidence,
   parsed from the JSON it returns, not a counted fact. `getProvenSolutions` floors
   and weights on it, so "proven across families" currently reads harder than it is.
+  `digi_outcomes` is the counted replacement and it starts empty, so until real
+  verdicts land, the estimate is still what is doing the work.
+- **Situation clustering is not built.** An outcome stores topic, time band and
+  trigger, which is what makes "early morning, age 8, will not come off the TV" a
+  countable shape. Nothing yet groups those into named common situations, puts
+  them on the founder board, or answers a recognised one faster. That is the next
+  pass, and it is deliberately after the verdicts rather than before them,
+  because all of it is ranking and there is currently nothing to rank.
 - **The proactive half of the success loop is unbuilt.** Proven solutions are
   available when a parent asks. Offering them unprompted is a separate change.

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 
-type Prompt = { id: string; kind: string; title: string; body: string; href?: string | null }
+type Prompt = { id: string; kind: string; title: string; body: string; href?: string | null; outcome_id?: string | null }
 
 const KIND_LABEL: Record<string, string> = {
   watch_for: 'Worth watching this week',
@@ -116,6 +116,24 @@ export default function DigiPrompts() {
           {open ? 'Show less' : 'Read the rest'}
         </button>
 
+        {/* A follow up card ANSWERS, everything else acts.
+
+            DiGi promised to come back and ask how something went, and until now
+            the only thing a parent could do with that question was dismiss it.
+            We kept the promise and binned the answer, which is the one part of
+            the loop the rest of the learning depends on.
+
+            Three taps, an optional line, and nothing required. "Not really" is
+            the most valuable answer in here, so it gets equal weight and equal
+            size rather than being tucked away as the awkward option, and it is
+            the only one that opens something instead of closing it. */}
+        {p.kind === 'follow_up' && p.outcome_id ? (
+          <FollowUpAnswer
+            outcomeId={p.outcome_id}
+            promptId={p.id}
+            onAnswered={() => { setOpen(false); setPrompts(list => list.filter(x => x.id !== p.id)) }}
+          />
+        ) : (
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
           <Link
             href={p.href ?? `/dashboard/digi?q=${encodeURIComponent(`You flagged: ${p.title}. Can we talk it through?`)}`}
@@ -138,6 +156,7 @@ export default function DigiPrompts() {
             Dismiss
           </button>
         </div>
+        )}
 
         {/* Said quietly, so a parent knows there is more thinking here without
             it being pushed at them. Dismissing this brings the next one up. */}
@@ -147,6 +166,94 @@ export default function DigiPrompts() {
           </p>
         )}
       </div>
+    </div>
+  )
+}
+
+/**
+ * How did that go. Three answers, one optional line.
+ *
+ * THE WORDING IS THE FEATURE. If saying "it did not work" feels like a
+ * complaint, every answer skews kind and the ledger fills with flattery that
+ * has a count attached to it. So the third option is worded as information
+ * rather than criticism, it is the same size as the other two, and the line
+ * underneath says plainly that it is the useful one.
+ *
+ * It is also the only answer that opens something. A parent who has just told
+ * us a suggestion failed has done us a favour, and answering that with a tick
+ * and silence is the fastest way to teach them not to bother next time. They
+ * go straight into DiGi with the thread loaded, so what they get back is a
+ * different idea.
+ */
+const ANSWERS: { verdict: 'worked' | 'partly' | 'no'; label: string; bg: string; border: string }[] = [
+  { verdict: 'worked', label: 'It worked', bg: 'var(--tint-green)', border: 'var(--retro-green)' },
+  { verdict: 'partly', label: 'Helped a bit', bg: 'var(--stage-1)', border: '#D9B94E' },
+  { verdict: 'no', label: 'Not really', bg: 'var(--terracotta-lt)', border: 'var(--terracotta)' },
+]
+
+function FollowUpAnswer({
+  outcomeId, promptId, onAnswered,
+}: { outcomeId: string; promptId: string; onAnswered: () => void }) {
+  const [note, setNote] = useState('')
+  const [busy, setBusy] = useState<string | null>(null)
+
+  async function answer(verdict: 'worked' | 'partly' | 'no') {
+    if (busy) return
+    setBusy(verdict)
+    try {
+      const res = await fetch('/api/digi/outcome', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ outcomeId, promptId, verdict, note }),
+      })
+      const json = await res.json().catch(() => ({}))
+      // A hard navigation rather than a router push, because the DiGi page
+      // reads its opening question from the query string on load.
+      if (json?.nextStep?.href) {
+        window.location.href = `${json.nextStep.href}?q=${encodeURIComponent(json.nextStep.message)}`
+        return
+      }
+      onAnswered()
+    } catch {
+      // The verdict is worth more than the tidy up. Leaving the card in place
+      // means they can try again rather than losing the answer silently.
+      setBusy(null)
+    }
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        {ANSWERS.map(a => (
+          <button
+            key={a.verdict}
+            onClick={() => answer(a.verdict)}
+            disabled={!!busy}
+            style={{
+              flex: '1 1 100px', background: a.bg, border: `1.5px solid ${a.border}`,
+              borderRadius: 13, padding: '11px 12px', cursor: busy ? 'default' : 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5,
+              color: 'var(--ink)', opacity: busy && busy !== a.verdict ? 0.45 : 1,
+            }}
+          >
+            {busy === a.verdict ? 'Saving...' : a.label}
+          </button>
+        ))}
+      </div>
+      <textarea
+        value={note}
+        onChange={e => setNote(e.target.value)}
+        placeholder="Anything you want to add, in your own words. Optional."
+        rows={2}
+        style={{
+          width: '100%', marginTop: 10, padding: '10px 12px', resize: 'vertical',
+          border: '1.5px solid var(--border)', borderRadius: 12, background: 'var(--cream)',
+          fontFamily: 'inherit', fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.5,
+        }}
+      />
+      <p style={{ fontSize: 13.5, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0' }}>
+        Not really is the most useful answer here. It is how DiGi learns what to suggest you instead.
+      </p>
     </div>
   )
 }
