@@ -467,28 +467,6 @@ export default function PassportBook({
             about it underneath. White on the burgundy cover and on every
             coloured page alike, so it reads on all six without a per page
             colour. */}
-        <Link
-          href="/dashboard/keepsakes#p-passport_printed"
-          title="Order the printed passport and its stickers"
-          style={{
-            position: 'absolute', right: 10, bottom: 10, zIndex: 3,
-            display: 'inline-flex', alignItems: 'center', gap: 5,
-            background: 'rgba(255,255,255,0.94)', border: '1.5px solid var(--terracotta)',
-            borderRadius: 100, padding: '5px 10px', textDecoration: 'none',
-            boxShadow: '0 2px 8px rgba(26,26,46,0.25)',
-            fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700,
-            letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink)',
-          }}
-        >
-          {/* "Order", not "Print it". Justin: "should say order your passport
-              and stickers here". Print it reads like a browser command, as
-              though the parent is about to send this page to a printer in the
-              next room and get it on A4. What is actually on the other side of
-              this is a real bound booklet with its sticker sheet, posted, and
-              the word for that is order. */}
-          <span aria-hidden style={{ fontSize: 13, lineHeight: 1 }}>🛂</span>
-          Order it
-        </Link>
       </div>
 
       {/* Page controls */}
@@ -536,6 +514,37 @@ export default function PassportBook({
           →
         </button>
       </div>
+
+      {/* Order the real thing. Underneath, not floating on the cover.
+
+          It used to sit absolutely positioned in the bottom right corner of the
+          book, a small pill laid over the artwork. Justin: it "looks messy".
+          He is right, and the reason is that the passport is the one object in
+          this product meant to feel like a keepsake rather than a screen, and a
+          shop button stuck on top of it undoes exactly that. A real passport
+          does not have a buy button printed on the cover.
+
+          Below the page controls it can also be the size a real call to action
+          should be, rather than an 11px pill squeezed into a corner. And it
+          says what is on the other side of it: a bound booklet with its sticker
+          sheet, posted. Print it read like a browser command, as though the
+          parent were about to send the page to a printer in the next room. */}
+      <Link
+        href="/dashboard/keepsakes#p-passport_printed"
+        style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+          marginTop: 16, padding: '15px 20px',
+          background: '#fff', color: 'var(--ink)',
+          border: '1.5px solid var(--terracotta)', borderRadius: 16,
+          boxShadow: '0 5px 0 var(--terracotta)',
+          textDecoration: 'none', textAlign: 'center',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17.5,
+          lineHeight: 1.3,
+        }}
+      >
+        <span aria-hidden style={{ fontSize: 20, lineHeight: 1 }}>🛂</span>
+        Order a passport here
+      </Link>
 
       {allEarned && (
         <div style={{
