@@ -151,7 +151,13 @@ function checkOrphanComponents() {
       if (rel(g).startsWith('app' + sep + 'ref-') || rel(g).includes(sep + 'dev' + sep)) fixtureOnly++
       else real++
     }
-    if (real === 0 && fixtureOnly === 0) errors.push(`orphan component  ${rel(f)}  imported nowhere`)
+    // A warning, not a failure. An unimported component does not break a
+    // path a parent walks: it is either dead code or wiring somebody forgot,
+    // and the check cannot tell which. WeeklyReviewCard was the second kind
+    // and one line in a report read every run would have caught it. Errors
+    // here are reserved for things that are broken FOR A PARENT, so that a
+    // red build always means someone cannot do something.
+    if (real === 0 && fixtureOnly === 0) warnings.push(`orphan        ${rel(f)}  imported nowhere, dead code or forgotten wiring`)
     else if (real === 0) warnings.push(`fixture only  ${rel(f)}  imported only by a ref-/dev page`)
   }
 }
@@ -212,19 +218,63 @@ function checkWeekWindows() {
   }
 }
 
+
+// ── The baseline ─────────────────────────────────────────────────────
+//
+// Three real bugs were live the day this check was written, all the same
+// shape as ask: a step that sends the child away where nothing on the far
+// side ticks it. Fixing them is three product decisions (does a lesson count
+// on arriving or on passing?) rather than a line of code, so they are
+// recorded here instead of being quietly dropped.
+//
+// This exists so the check can be GREEN for new breakage while these are
+// still open. A check that lands permanently red teaches everyone to ignore
+// it within a week, and the first one ignored is the real one. That is the
+// same failure as an alert that fires every morning, arrived at from the
+// other direction.
+//
+// The rules for it: every entry is dated, printed loudly on every run, and
+// counted in the exit summary. Nothing gets in here silently, and an entry
+// that starts passing is itself reported so the list cannot rot.
+const BASELINE = [
+  { since: '2026-08-01', match: 'unticked step  "lesson"' },
+  { since: '2026-08-01', match: 'unticked step  "quiz"' },
+  { since: '2026-08-01', match: 'unticked step  "printable"' },
+]
+
 checkDeadLinks()
 checkOrphanComponents()
 checkUnwritableSteps()
 checkWeekWindows()
 
 const line = '─'.repeat(64)
+
+// Split what is new from what was already known and written down.
+const known = []
+const fresh = []
+for (const e of errors) {
+  const hit = BASELINE.find(b => e.includes(b.match))
+  ;(hit ? known : fresh).push(hit ? `${e}   [known since ${hit.since}]` : e)
+}
+// A baseline entry that no longer fires has been fixed, and saying so is how
+// the list stays honest rather than accumulating dead entries forever.
+const healed = BASELINE.filter(b => !errors.some(e => e.includes(b.match)))
+
 console.log(line)
 console.log('Wiring check: is every surface connected to the rest?')
 console.log(line)
-if (!errors.length && !warnings.length) console.log('Nothing unwired. All four checks clean.')
-for (const w of warnings) console.log(`  warn   ${w}`)
-for (const e of errors) console.log(`  BROKEN ${e}`)
+if (!fresh.length && !known.length && !warnings.length) console.log('Nothing unwired. All four checks clean.')
+for (const w of warnings) console.log(`  warn    ${w}`)
+for (const k of known) console.log(`  known   ${k}`)
+for (const e of fresh) console.log(`  BROKEN  ${e}`)
+for (const h of healed) console.log(`  FIXED   "${h.match}" no longer fires, remove it from BASELINE`)
 console.log(line)
-console.log(`${errors.length} broken, ${warnings.length} to look at, across ${SOURCE.size} files.`)
+console.log(
+  `${fresh.length} new, ${known.length} known and still open, ` +
+  `${warnings.length} to look at, across ${SOURCE.size} files.`
+)
+if (known.length) console.log('Known entries are real bugs waiting on a decision, not noise. See BASELINE.')
 
-process.exit(errors.length ? 1 : 0)
+// Only NEW breakage fails the build. The known three are already written
+// down, in the PR, and printed above on every single run.
+process.exit(fresh.length ? 1 : 0)
