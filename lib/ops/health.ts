@@ -118,6 +118,22 @@ export function serviceChecks(env: NodeJS.ProcessEnv = process.env): Check[] {
       : { key: 'digi', label: 'DiGi', level: 'down', headline: 'No API key', detail: 'DiGi cannot reply. Every pathway request fails.' },
   )
 
+  // Meaning search. A missing key is a CHOICE, not a fault: DiGi falls back to
+  // keyword matching and every answer still works, so it is amber and stays on
+  // the board rather than landing in an inbox. The fault case is the one below,
+  // where the key is present and the bank still is not embedded.
+  checks.push(
+    has('EMBEDDING_API_KEY')
+      ? {
+          key: 'embeddings', label: 'Meaning search', level: 'ok', headline: 'Configured',
+          detail: `Provider ${env.EMBEDDING_API_KEY?.trim().startsWith('sk-') ? 'OpenAI' : 'Voyage'}, so DiGi finds research and memories by what a parent means rather than the words they typed.`,
+        }
+      : {
+          key: 'embeddings', label: 'Meaning search', level: 'warn', headline: 'Not set',
+          detail: 'EMBEDDING_API_KEY is absent, so retrieval falls back to keyword matching. It works, and it is what misses the parent who describes a worry rather than naming it.',
+        },
+  )
+
   checks.push(
     has('CRON_SECRET')
       ? { key: 'cron_secret', label: 'Cron auth', level: 'ok', headline: 'Configured', detail: 'Scheduled jobs can authenticate.' }
@@ -279,9 +295,52 @@ export async function jobHealth(supabase: Client | null = admin(), now = Date.no
   })
 }
 
+/**
+ * Is the research bank actually searchable by meaning.
+ *
+ * Justin: "can we have a routine that checks this board for me, or should I be
+ * doing that check?"
+ *
+ * Neither. A board somebody has to remember to read is the same failure as a
+ * query somebody has to remember to run, only prettier, and the whole reason
+ * this needed a check is that it breaks WITHOUT LOOKING BROKEN. So it joins the
+ * sweep that already runs every morning and only writes to him when something
+ * is genuinely down.
+ *
+ * The level is chosen carefully. No key at all is amber, because that is a
+ * decision and the product still works. A key present with findings still
+ * unembedded is DOWN, because the daily sweep exists precisely to stop that and
+ * its continued existence means the sweep is not working.
+ */
+export async function knowledgeCheck(supabase: Client | null = admin()): Promise<Check[]> {
+  if (!supabase || !process.env.EMBEDDING_API_KEY?.trim()) return []
+  try {
+    const [total, embedded] = await Promise.all([
+      supabase.from('expert_knowledge').select('id', { count: 'exact', head: true }).eq('active', true),
+      supabase.from('expert_knowledge').select('id', { count: 'exact', head: true }).eq('active', true).not('embedding', 'is', null),
+    ])
+    const t = total.count ?? 0
+    const e = embedded.count ?? 0
+    if (t === 0) return []
+    return [
+      e >= t
+        ? { key: 'knowledge_embedded', label: 'Research bank', level: 'ok', headline: `${e} of ${t} searchable`, detail: 'Every active finding has a meaning vector.' }
+        : {
+            key: 'knowledge_embedded', label: 'Research bank', level: 'down',
+            headline: `${t - e} of ${t} unreachable`,
+            detail: 'The key is set but these findings have no vector, so they can only be found if a parent happens to type a matching word. The daily embed sweep should have fixed this, so it is not running or it is failing.',
+          },
+    ]
+  } catch {
+    // Pre migration 142 the column does not exist. Silence is right: a check
+    // that shouts about a feature not yet installed is noise.
+    return []
+  }
+}
+
 export async function readHealth(now = Date.now()): Promise<Health> {
-  const [schema, jobs] = await Promise.all([schemaChecks(), jobHealth(admin(), now)])
-  const services = [...serviceChecks(), ...schema]
+  const [schema, jobs, knowledge] = await Promise.all([schemaChecks(), jobHealth(admin(), now), knowledgeCheck()])
+  const services = [...serviceChecks(), ...schema, ...knowledge]
   const levels = [...services.map(s => s.level), ...jobs.map(j => j.level)]
 
   return {
