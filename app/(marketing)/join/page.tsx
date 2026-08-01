@@ -447,7 +447,7 @@ export default async function JoinPage() {
 
           <div className="four-col">
             {[
-              { name: 'Prof. Candace Odgers', institution: 'UC Irvine · Duke', note: 'Effects depend on vulnerability and environment, not hours of use.', initial: 'CO', bg: 'var(--stage-2)', color: 'var(--terracotta)' },
+              { name: 'Prof. Candice Odgers', institution: 'UC Irvine · Duke', note: 'Effects depend on vulnerability and environment, not hours of use.', initial: 'CO', bg: 'var(--stage-2)', color: 'var(--terracotta)' },
               { name: 'Dr Amy Orben', institution: 'Cambridge MRC · Oxford', note: 'The 11 to 13 developmental window. Peak sensitivity for girls.', initial: 'AO', bg: 'var(--stage-1)', color: 'var(--terracotta)' },
               { name: 'Prof. Andrew Przybylski', institution: 'Oxford OII', note: 'The Goldilocks effect. Moderate, structured use is not the problem.', initial: 'AP', bg: 'var(--stage-5)', color: 'var(--terracotta)' },
               { name: 'Prof. Sonia Livingstone', institution: 'LSE, London', note: 'Children need skills and agency, not just restrictions.', initial: 'SL', bg: 'var(--stage-4)', color: 'var(--terracotta)' },

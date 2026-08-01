@@ -36,7 +36,7 @@ carries into adult life" line is fine, never as the headline.
 ### 2. Proof and authority above the fold
 Right now there is no proof up top (correct, after we removed the untrue 200
 families). Add two things near the hero:
-- A named research bar: "Built on the research of Candace Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance." (We can defend every name.)
+- A named research bar: "Built on the research of Candice Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance." (We can defend every name.)
 - Real beta parent quotes as soon as we have five. Placeholder the slot now.
 
 ### 3. One primary CTA, and premium restraint
@@ -72,7 +72,7 @@ brand.
 ### Fix 2 — add a proof and authority bar above the fold
 There is no trust signal in the first three seconds. Add one line under the CTA
 or the subhead, in a quiet IBM Plex Mono treatment:
-> Built on the research of Candace Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance.
+> Built on the research of Candice Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance.
 Every name is defensible. Leave a placeholder slot beside it for real beta parent
 quotes once we have five.
 
