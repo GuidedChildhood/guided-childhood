@@ -206,14 +206,75 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
         const deck: Deck[] = []
         deck.push({
           eyebrow: 'The moment', heading: moment.title,
-          render: () => (
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginTop: 4 }}>
-              <DigiCharacter mood={digiMood} size={46} />
-              <p style={cardBody}>
-                {loading && !digiResponse ? 'One moment, I am pulling the evidence and the exact words together for you.' : (digiResponse?.digiQuestion ?? moment.digi_opener)}
-              </p>
-            </div>
-          ),
+          render: () => {
+            const thinking = loading && !digiResponse
+            const question = digiResponse?.digiQuestion ?? moment.digi_opener
+            return (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 4 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                  <DigiCharacter mood={digiMood} size={46} />
+                  <p style={cardBody}>
+                    {thinking ? 'One moment, I am pulling the evidence and the exact words together for you.' : question}
+                  </p>
+                </div>
+
+                {/* Say it is still working, in something other than words.
+                    The sentence above was already here and it is a good one,
+                    but a paragraph that never changes reads as the content
+                    rather than as a wait. Justin: it "takes a little while to
+                    populate", so tell the user it is thinking while it thinks.
+                    Three dots on a stagger, stopped for anyone who asked for
+                    reduced motion by the CSS in globals. */}
+                {thinking && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, paddingLeft: 58 }}>
+                    {[0, 1, 2].map(i => (
+                      <span
+                        key={i}
+                        style={{
+                          width: 7, height: 7, borderRadius: '50%', background: look.band,
+                          opacity: 0.35, animation: `momentThink 1.1s ${i * 0.16}s ease-in-out infinite`,
+                        }}
+                      />
+                    ))}
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: look.band, marginLeft: 4 }}>
+                      DiGi is thinking
+                    </span>
+                  </div>
+                )}
+
+                {/* A question needs somewhere to answer it.
+                    Justin: this card "asks a question but user does not have
+                    ability to answer". He is right, and it is the one card in
+                    the deck where that matters. DiGi opens by asking which of
+                    two things is really going on, the parent forms an answer in
+                    their head, and the only thing the screen offers is tap to
+                    move on. That teaches them the question was rhetorical, and
+                    it is not: the answer changes which script fits.
+
+                    So the question travels to DiGi, who asked it. Not a text
+                    box on the card, because a deck a parent flicks through in
+                    twenty seconds is the wrong place to start typing, and a
+                    half finished answer in a box that vanishes on the next tap
+                    is worse than no box. */}
+                {!thinking && question && (
+                  <a
+                    href={`/dashboard/digi?q=${encodeURIComponent(question)}`}
+                    onClick={e => e.stopPropagation()}
+                    style={{
+                      alignSelf: 'flex-start', marginLeft: 58,
+                      display: 'inline-flex', alignItems: 'center', gap: 7,
+                      background: '#fff', border: `1.5px solid ${look.band}`,
+                      borderRadius: 100, padding: '9px 15px', textDecoration: 'none',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                      color: 'var(--ink)',
+                    }}
+                  >
+                    Answer this with DiGi →
+                  </a>
+                )}
+              </div>
+            )
+          },
         })
         deck.push({
           eyebrow: 'Why this happens', heading: 'This is normal, and there is a reason',
@@ -382,7 +443,22 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               {!isLast && (
                 <div style={{ padding: '0 24px 16px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                   <a href={scriptsHref} onClick={e => e.stopPropagation()} style={lesserLink}>See the scripts for this →</a>
-                  <span aria-hidden style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.16)', borderRadius: 100, padding: '5px 11px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.95)', flexShrink: 0 }}>
+                  {/* White on the band colour, not white on a white wash.
+                      This was `background: rgba(255,255,255,0.16)` with
+                      `color: rgba(255,255,255,0.95)`, which is white text on a
+                      faint white tint. That works against the dark deck
+                      backdrop it was presumably designed against, and this pill
+                      does not sit there: it sits INSIDE the card, whose body is
+                      look.tint, a pale colour on every category. #D8E8F8 for
+                      Digital. So the one cue telling a parent the card advances
+                      was very nearly invisible. Justin: "too light and
+                      unreadable".
+
+                      Solid look.band gives the same contrast the header band
+                      already proves works with white on it, and ties the pill
+                      to the card's own colour rather than to a backdrop it
+                      never touches. */}
+                  <span aria-hidden style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: look.band, borderRadius: 100, padding: '7px 13px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: '#fff', flexShrink: 0 }}>
                     Tap to continue →
                   </span>
                 </div>
