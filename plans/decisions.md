@@ -4768,3 +4768,60 @@ how you ship a feature that throws on first use for a real family.
 instruction.** It mattered when the only tool read our own curated bank. It
 matters far more now one of them fetches pages written by strangers, and it has
 to be restated every time a tool is added.
+
+---
+
+## 1 Aug 2026 — the wiring check, and why a failing check that stays failing is its own bug
+
+**Health and correctness are different questions, and we were only asking one.**
+Config is checked by looking, schema by reading the columns, crons by heartbeat,
+and DiGi by a Monday eval suite that generates real replies and grades them on
+safety and on a rubric. That is a good net. It could not have caught a single one
+of the four things that broke on 31 July, because in every case the system was up,
+connected, configured and doing the wrong thing.
+
+`ask` had no code anywhere that could tick it, so no child had ever completed a
+day since the five a day shipped, and the streak, the celebration and the Planet
+Friends all sat downstream of that. `WeeklyReviewCard` was imported nowhere at
+all. `/k/<token>/balance` was linked from the five a day and 404'd. Five surfaces
+disagreed about what "this week" means, so one child read 163 stars on one screen
+and 116 on another.
+
+**What those four share is that they are static facts about the code.** You do not
+need a database, a session or a running app to know a link points at a route that
+does not exist, or that a step key has nothing anywhere that can write it. So the
+check runs in CI in a second, needs no secrets, and cannot flake.
+
+**Four checks, not fourteen**, and each earned its place by catching something
+that actually shipped. Dead internal links, components nobody imports, steps that
+navigate away and are never ticked, and more than one definition of the week.
+Every check added past the point of usefulness makes the whole suite easier to
+ignore.
+
+**It found three more live bugs on its first real run**: `lesson`, `quiz` and
+`printable`, all the same shape as `ask`.
+
+**They are recorded, not fixed, and not guessed at.** Each is a product decision
+on when the step counts, not a line of code. Does a lesson tick on arriving or on
+passing? Does a printable tick on opening it or on sending it back? Guessing those
+would have been worse than writing them down.
+
+**A check that lands permanently red teaches everyone to ignore it inside a week,
+and the first one ignored is the real one.** That is the same failure as an alert
+that fires every morning, arrived at from the other direction. So the three sit in
+a dated BASELINE and only NEW breakage fails the build. The rules that stop the
+baseline rotting into a graveyard: every entry carries the date it was recorded,
+every entry prints on every single run, and an entry that stops firing is itself
+reported as FIXED with an instruction to delete it.
+
+**Errors are reserved for things that are broken FOR A PARENT.** Orphan components
+dropped to warning on that rule: an unimported component does not break a path
+anybody walks, and the check cannot tell dead code from forgotten wiring.
+`WeeklyReviewCard` was the forgotten kind, and one warning line in a report read
+every run would still have caught it. The point of the rule is that a red build
+always means someone cannot do something.
+
+**Three of my own false positives were fixed before the check was trusted**: a
+nested template literal, an `index.tsx` directory import, and a step written from
+a JSX prop. A check that guesses is a check that cries wolf. Where it cannot
+resolve a value it now stays silent rather than asserting.
