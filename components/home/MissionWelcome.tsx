@@ -235,10 +235,10 @@ export default function MissionWelcome({
             <DigiCharacter size={26} mood="wave" />
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
               {name ? `Welcome back, ${name}` : 'Welcome back'}
             </div>
-            <div style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
+            <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
               While we get today ready, here is one thing we do
             </div>
           </div>
@@ -247,7 +247,7 @@ export default function MissionWelcome({
         {/* The one service. Different every open, so a fortnight of hellos
             covers the whole product without a tour. */}
         <div style={{ padding: '18px 18px 4px' }}>
-          <div style={{ fontSize: 30, lineHeight: 1, marginBottom: 10 }}>{card.emoji}</div>
+          <div style={{ fontSize: 'var(--text-2xl)', lineHeight: 1, marginBottom: 10 }}>{card.emoji}</div>
           <h2 style={{
             fontFamily: 'var(--font-display)', fontWeight: 900,
             fontSize: 'clamp(21px, 6vw, 24px)', color: 'var(--ink)',
@@ -255,7 +255,7 @@ export default function MissionWelcome({
           }}>
             {card.title}
           </h2>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 18, fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             {card.line}
           </p>
         </div>
@@ -263,10 +263,10 @@ export default function MissionWelcome({
         {/* What we do with what you tell it. Every card carries one, because
             the honest answer is the feature. */}
         <div style={{ margin: '14px 18px 0', background: 'var(--tint-sage)', borderRadius: 14, padding: '11px 13px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
             What we do with it
           </div>
-          <p style={{ fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
             {card.trust}
           </p>
         </div>
@@ -276,7 +276,7 @@ export default function MissionWelcome({
             about to be sent on their behalf has every right not to press it. */}
         <div style={{ padding: '16px 18px 0' }}>
           <p style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             color: 'var(--ink)', lineHeight: 1.35, margin: 0,
           }}>
             &ldquo;{card.ask}&rdquo;
@@ -302,7 +302,7 @@ export default function MissionWelcome({
               style={{
                 display: 'block', textAlign: 'center', padding: '13px 10px', textDecoration: 'none',
                 background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 16,
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                 boxShadow: '0 4px 0 var(--terracotta-dark)',
               }}
             >
@@ -321,7 +321,7 @@ export default function MissionWelcome({
               background: action ? '#fff' : 'var(--terracotta)',
               color: 'var(--ink)', borderRadius: 16,
               border: action ? '1.5px solid var(--border)' : 'none',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               boxShadow: action ? 'none' : '0 4px 0 var(--terracotta-dark)',
             }}
           >
@@ -337,7 +337,7 @@ export default function MissionWelcome({
               flex: '0 0 auto', padding: '13px 18px', cursor: 'pointer',
               background: '#fff', color: 'var(--ink)',
               border: '1.5px solid var(--border)',
-              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             }}
           >
             {isLast ? 'Later' : 'Next'}

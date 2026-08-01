@@ -22,14 +22,14 @@ export default async function TimerPage() {
 
   return (
     <div style={{ maxWidth: 620, margin: '0 auto', padding: '22px 20px 48px' }}>
-      <Link href="/dashboard/quests" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 15, color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
+      <Link href="/dashboard/quests" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
         ← Quests
       </Link>
       <p className="eyebrow" style={{ marginBottom: 4 }}>Screen timer</p>
       <h1 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.3rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 6px' }}>
         Start some screen time
       </h1>
-      <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 20px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 20px' }}>
         No phone of their own? Start it here and it still counts in the balance, on the same countdown you both watch.
       </p>
 
@@ -38,7 +38,7 @@ export default async function TimerPage() {
       <Link
         href="/dashboard/stats"
         className="btn btn-outline"
-        style={{ display: 'flex', justifyContent: 'center', marginTop: 22, padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}
+        style={{ display: 'flex', justifyContent: 'center', marginTop: 22, padding: '15px 20px', fontSize: 'var(--text-md)', textDecoration: 'none' }}
       >
         See the week and the balance →
       </Link>

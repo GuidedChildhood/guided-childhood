@@ -50,19 +50,19 @@ export default function DayCheckup({
       padding: '20px 22px', marginBottom: 22, boxShadow: '0 3px 14px rgba(26,26,46,0.05)',
     }}>
       <div style={{
-        fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700,
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
         letterSpacing: '0.14em', textTransform: 'uppercase',
         color: 'var(--terracotta-dark)', marginBottom: 6,
       }}>
         Now check on {name}
       </div>
       <div style={{
-        fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22,
+        fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)',
         color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.015em', marginBottom: 4,
       }}>
         Stage {stageNum} of 5, {stageName}
       </div>
-      <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 14px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 14px' }}>
         Today is done, so this is the wider look. {reds.length === 1 ? 'One thing' : `${reds.length} things`} worth a few minutes when you have them.
       </p>
 
@@ -83,16 +83,16 @@ export default function DayCheckup({
             borderRadius: 16, padding: '14px 16px', textDecoration: 'none',
           }}
         >
-          <span aria-hidden style={{ flexShrink: 0, fontSize: 24 }}>🎬</span>
+          <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-xl)' }}>🎬</span>
           <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               Lessons that move this
             </span>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)', lineHeight: 1.3, marginTop: 2 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3, marginTop: 2 }}>
               {lessonsTotal - lessonsLeft} of {lessonsTotal} passed at {stageName}
             </span>
           </span>
-          <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, color: 'var(--ink)' }}>Open →</span>
+          <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>Open →</span>
         </Link>
       )}
     </div>

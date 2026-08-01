@@ -9,11 +9,11 @@ import { CURRICULUM, CHARACTERS } from '@/lib/content/schools-curriculum'
 // prints from the browser.
 
 const eyebrow: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 const linkStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
+  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
   color: 'var(--green-dark)', textDecoration: 'none',
   border: '1.5px solid var(--border)', borderRadius: '12px',
   padding: '8px 14px', background: '#fff',
@@ -46,7 +46,7 @@ export default async function PrintRoomPage() {
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>
           The print room
         </h1>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '560px', marginBottom: '30px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '560px', marginBottom: '30px' }}>
           Every pack generates from the lesson itself, so a wording change updates every page.
           Print from your browser: the paper pack for the classroom, colour booklets per pupil,
           and quizzes with your pupils&rsquo; names already on them.
@@ -63,10 +63,10 @@ export default async function PrintRoomPage() {
                 boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)',
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-                  {ch && <span style={{ fontSize: '20px' }}>{ch.emblem}</span>}
+                  {ch && <span style={{ fontSize: 'var(--text-lg)' }}>{ch.emblem}</span>}
                   <span style={eyebrow}>{l.key_stage} · {l.year_band}</span>
                 </div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18.5px', color: 'var(--ink)', marginBottom: '12px' }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '12px' }}>
                   {l.title}
                 </h2>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -84,7 +84,7 @@ export default async function PrintRoomPage() {
             )
           })}
           {(lessons ?? []).length === 0 && (
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-muted)' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>
               No live modules yet. Packs appear here the moment a module ships.
             </p>
           )}
@@ -94,10 +94,10 @@ export default async function PrintRoomPage() {
               background: 'var(--warm)', border: '2px solid var(--gold)',
               borderRadius: '20px', padding: '18px 20px',
             }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18.5px', color: 'var(--ink)', marginBottom: '4px' }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '4px' }}>
                 Certificates 🏆
               </h2>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '12px' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '12px' }}>
                 The Digital Detective Award, one per pupil with names already printed.
               </p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>

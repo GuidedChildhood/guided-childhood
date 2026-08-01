@@ -153,14 +153,14 @@ export default function LessonsBrowser({
                   padding: '9px 8px', borderRadius: '100px', cursor: 'pointer', border: 'none',
                   background: on ? 'var(--deep-teal)' : 'transparent',
                   color: on ? '#fff' : 'var(--ink-soft)',
-                  fontFamily: 'var(--font-display)', fontSize: '17px', fontWeight: 800,
+                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
                   boxShadow: on ? '0 2px 8px -1px rgba(46,40,24,0.45)' : 'none',
                   transition: 'background 0.2s ease, color 0.2s ease',
                 }}
               >
-                <span style={{ fontSize: '17.5px' }}>{t.icon}</span>
+                <span style={{ fontSize: 'var(--text-lg)' }}>{t.icon}</span>
                 <span>{t.label}</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, opacity: on ? 0.85 : 0.5 }}>{t.count}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, opacity: on ? 0.85 : 0.5 }}>{t.count}</span>
               </button>
             )
           })}
@@ -208,12 +208,12 @@ export default function LessonsBrowser({
             watch on the sofa or send to their phone. */}
         {view === 'together' && (
           <>
-            <p style={{ fontSize: '17.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
+            <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
               The illustrated films that already live on {childName}&apos;s phone. Watch one together here, or send it for them to watch on their own. First watch earns 10 stars.
             </p>
             {watchFallback && (
               <p style={{
-                fontSize: '19px', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 16px', fontWeight: 600,
+                fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 16px', fontWeight: 600,
                 background: 'var(--tint-blue)', borderRadius: '14px', padding: '13px 15px',
               }}>
                 Nothing written for this stage yet, so here is everything else. An earlier film {childName} never saw is still worth an evening, and the ages are about when something lands best rather than a rule.
@@ -233,34 +233,34 @@ export default function LessonsBrowser({
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={w.posterUrl} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
                       ) : (
-                        <span style={{ position: 'absolute', top: '10px', left: '12px', fontSize: '26px' }}>{strandEmoji(w.strand)}</span>
+                        <span style={{ position: 'absolute', top: '10px', left: '12px', fontSize: 'var(--text-2xl)' }}>{strandEmoji(w.strand)}</span>
                       )}
                       {w.done && (
-                        <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>✓ Done</span>
+                        <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>✓ Done</span>
                       )}
                       <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', width: 46, height: 46, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 10px rgba(0,0,0,0.15)' }}>
-                        <span style={{ fontSize: '20px', color: 'var(--ink)', marginLeft: '3px' }}>▶</span>
+                        <span style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', marginLeft: '3px' }}>▶</span>
                       </span>
-                      <span style={{ position: 'absolute', bottom: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.75)', borderRadius: '100px', padding: '2px 8px' }}>
+                      <span style={{ position: 'absolute', bottom: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.75)', borderRadius: '100px', padding: '2px 8px' }}>
                         Lesson {w.journeyStep}{w.duration ? ` · ${w.duration}` : ''}
                       </span>
                     </Link>
                     <div style={{ padding: '13px 15px 15px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '4px' }}>{w.title}</div>
-                        <div style={{ fontSize: '16px', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.4 }}>&ldquo;{w.catchphrase}&rdquo;</div>
+                        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: '4px' }}>{w.title}</div>
+                        <div style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', fontStyle: 'italic', lineHeight: 1.4 }}>&ldquo;{w.catchphrase}&rdquo;</div>
                         {(() => {
                           const area = literacyAreaFor(w.strand)
                           return area ? (
                             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: '8px', background: 'var(--tint-sage)', borderRadius: '100px', padding: '3px 9px' }}>
-                              <span aria-hidden style={{ fontSize: '14.5px' }}>{area.icon}</span>
-                              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-soft)' }}>Builds {area.name}</span>
+                              <span aria-hidden style={{ fontSize: 'var(--text-base)' }}>{area.icon}</span>
+                              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-soft)' }}>Builds {area.name}</span>
                             </div>
                           ) : null
                         })()}
                       </div>
                       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                        <Link href={`/dashboard/lessons/together/${w.code}`} style={{ flex: 1, textAlign: 'center', textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '11px', padding: '9px 10px', fontFamily: 'var(--font-display)', fontSize: '16.5px', fontWeight: 800, boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+                        <Link href={`/dashboard/lessons/together/${w.code}`} style={{ flex: 1, textAlign: 'center', textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '11px', padding: '9px 10px', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
                           {w.done ? 'Watch again ↻' : '▶ Watch together'}
                         </Link>
                         <LessonSendButton childId={childId} childName={childName} title={w.title} />
@@ -361,11 +361,11 @@ export default function LessonsBrowser({
             <Link href="/dashboard/lessons/preview" style={{ textDecoration: 'none', display: 'block', marginTop: '8px' }}>
               <div style={{ background: '#DEF0E7', border: '1.5px solid #2F8F6B', borderRadius: '18px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '14px' }}>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#2F8F6B', marginBottom: '3px' }}>Bonus · new · 15 min together · ages 11 to 15</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>Is That Real?</div>
-                  <div style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>The sofa lesson on fake images and deepfakes.</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#2F8F6B', marginBottom: '3px' }}>Bonus · new · 15 min together · ages 11 to 15</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>Is That Real?</div>
+                  <div style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>The sofa lesson on fake images and deepfakes.</div>
                 </div>
-                <span style={{ background: 'var(--terracotta)', color: 'var(--ink)', flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', borderRadius: '12px', padding: '10px 16px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>Start</span>
+                <span style={{ background: 'var(--terracotta)', color: 'var(--ink)', flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', borderRadius: '12px', padding: '10px 16px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>Start</span>
               </div>
             </Link>
           </>
@@ -389,7 +389,7 @@ function StageSubHead({ s, childStageNum, childName }: { s: typeof STAGE_LIST[nu
         Stage {s.num} · Ages {s.ages}
       </span>
       {mine && (
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           {childName}&apos;s stage · counts for progress now
         </span>
       )}
@@ -412,15 +412,15 @@ function RouteHeader({ s, count, childName }: { s: typeof STAGE_LIST[number]; co
         </div>
       )}
       <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'flex-start', gap: '11px' }}>
-        <span aria-hidden style={{ flexShrink: 0, width: 38, height: 38, borderRadius: '11px', background: '#fff', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 21 }}>🪪</span>
+        <span aria-hidden style={{ flexShrink: 0, width: 38, height: 38, borderRadius: '11px', background: '#fff', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>🪪</span>
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
             Pass this stage · {count} lesson{count === 1 ? '' : 's'}
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.15 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.15 }}>
             The {s.label} route
           </div>
-          <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 0' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 0' }}>
             The deep lessons that fill this stamp. Work through them in order, open one to do together, or send the set to {childName}.
           </p>
         </div>
@@ -433,9 +433,9 @@ function RouteHeader({ s, count, childName }: { s: typeof STAGE_LIST[number]; co
 function SectionLabel({ eyebrow, title, note }: { eyebrow: string; title: string; note?: string }) {
   return (
     <div style={{ margin: '0 0 12px' }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '2px' }}>{eyebrow}</div>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: 'var(--ink)' }}>{title}</div>
-      {note && <p style={{ fontSize: '16px', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '3px 0 0' }}>{note}</p>}
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '2px' }}>{eyebrow}</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{title}</div>
+      {note && <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '3px 0 0' }}>{note}</p>}
     </div>
   )
 }
@@ -490,15 +490,15 @@ function ProgressLessonsBanner({
 
   return (
     <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginBottom: '14px' }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '4px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '4px' }}>
         These move {childName}&apos;s progress
       </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
         {left > 0
           ? <>Stage {childStageNum} lessons, {passed} of {total} passed</>
           : <>All {total} Stage {childStageNum} lessons passed 🌱</>}
       </div>
-      <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 12px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 12px' }}>
         {left > 0
           ? <>These are the right ones for {childName}&apos;s age{stageMeta ? ` (${stageMeta.ages.toLowerCase()})` : ''}. {childName} sees exactly this set on their own page, in order with the next one marked. One a week is plenty, and each pass ticks the progress report.</>
           : <>The progress report shows the full tick for this stage. New lessons arrive as {childName} ages up.</>}
@@ -508,7 +508,7 @@ function ProgressLessonsBanner({
           onClick={onSeeStage}
           style={{
             background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '11px',
-            padding: '9px 14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '16.5px',
+            padding: '9px 14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)',
             fontWeight: 800, boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}
         >
@@ -522,7 +522,7 @@ function ProgressLessonsBanner({
             background: sendState === 'sent' ? 'var(--tint-sage)' : '#fff',
             border: '1.5px solid var(--border)', borderRadius: '11px', padding: '8px 12px',
             cursor: childId && sendState !== 'sending' ? 'pointer' : 'default',
-            fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800, color: 'var(--ink)',
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
             whiteSpace: 'nowrap', opacity: childId ? 1 : 0.55,
           }}
         >
@@ -546,19 +546,19 @@ function ModuleCard({ count, onOpen }: { count: number; onOpen: () => void }) {
         padding: '16px 18px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '13px',
       }}
     >
-      <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>📱</span>
+      <span aria-hidden style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>📱</span>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
           Special module · the big one
         </div>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', lineHeight: 1.15 }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
           Social Media Ready
         </div>
-        <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '3px 0 0' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '3px 0 0' }}>
           The whole spine in one ramp, {count} lessons from what it even is to taking the wheel at 16. Settings, dangers, safe use, and the research behind every one.
         </p>
       </div>
-      <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '22px', color: 'var(--terracotta-dark)' }}>→</span>
+      <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>→</span>
     </button>
   )
 }
@@ -575,19 +575,19 @@ function SocialMediaModule({ items, childName, onBack }: { items: LibraryItem[];
     <div>
       <button
         onClick={onBack}
-        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-muted)', fontFamily: 'var(--font-mono)', fontSize: '16px', letterSpacing: '0.04em', padding: 0, marginBottom: '14px' }}
+        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-muted)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', letterSpacing: '0.04em', padding: 0, marginBottom: '14px' }}
       >
         ← All lessons
       </button>
 
       <div style={{ background: 'linear-gradient(135deg, var(--stage-4) 0%, var(--stage-3) 100%)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>
           Special module · {items.length} lessons
         </div>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', lineHeight: 1.1, margin: '0 0 8px' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.1, margin: '0 0 8px' }}>
           Social Media Ready
         </h2>
-        <p style={{ fontSize: '17.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
           The one topic parents worry about most, taught as a ramp, not a cliff. It climbs from what social media even is, through the settings that keep you private and the real dangers, to the honest mood check and taking the wheel at 16. Grounded in Orben, Odgers, Przybylski, Livingstone and Knibbs, so every lesson holds up to a hard question.
         </p>
       </div>
@@ -620,7 +620,7 @@ function SocialMediaModule({ items, childName, onBack }: { items: LibraryItem[];
         </div>
       ))}
 
-      <p style={{ fontSize: '16.5px', color: 'var(--ink-muted)', lineHeight: 1.6, margin: '4px 0 0', textAlign: 'center' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', lineHeight: 1.6, margin: '4px 0 0', textAlign: 'center' }}>
         More lands as {childName} grows. Do one a week and the ramp does the rest.
       </p>
     </div>
@@ -629,7 +629,7 @@ function SocialMediaModule({ items, childName, onBack }: { items: LibraryItem[];
 
 function Empty({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '22px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: '17.5px' }}>
+    <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '22px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: 'var(--text-lg)' }}>
       {children}
     </div>
   )

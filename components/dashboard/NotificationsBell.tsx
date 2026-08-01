@@ -42,14 +42,14 @@ export default function NotificationsBell() {
     <Link
       href="/dashboard/notifications"
       aria-label={count > 0 ? `${count} notifications` : 'Notifications'}
-      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: '11px', textDecoration: 'none', color: 'var(--ink-soft)', fontSize: '20px' }}
+      style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 38, height: 38, borderRadius: '11px', textDecoration: 'none', color: 'var(--ink-soft)', fontSize: 'var(--text-lg)' }}
     >
       🔔
       {count > 0 && (
         <span style={{
           position: 'absolute', top: 2, right: 0, minWidth: 17, height: 17, padding: '0 4px',
           borderRadius: '100px', background: urgent > 0 ? '#E5484D' : 'var(--ink-muted)', color: '#fff',
-          fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, lineHeight: '17px',
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, lineHeight: '17px',
           textAlign: 'center', boxShadow: '0 0 0 2px rgba(255,255,255,0.96)',
         }}>
           {count > 9 ? '9+' : count}

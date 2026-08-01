@@ -22,7 +22,7 @@ const SUGGESTIONS: Suggestion[] = [
 export default function HomeTailHarness() {
   return (
     <div style={{ maxWidth: 620, margin: '0 auto', padding: '24px 20px 60px', background: 'var(--cream)' }}>
-      <p className="eyebrow" style={{ margin: '0 0 10px', fontSize: 12 }}>DiGi, your streak and alerts</p>
+      <p className="eyebrow" style={{ margin: '0 0 10px', fontSize: 'var(--text-sm)' }}>DiGi, your streak and alerts</p>
       <DigiPrompts />
       <SmartAlerts suggestions={SUGGESTIONS} />
     </div>

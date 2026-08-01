@@ -8,8 +8,8 @@ import { parseSlides, PHASE_LABELS, type LessonSlide } from '@/lib/content/lesso
 // and the subject lead's file (the clean version of Jigsaw's Puzzle Map).
 // Generated from the deck itself, so it can never disagree with the lesson.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.55 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55 }
 
 const TYPE_LABELS: Record<string, string> = {
   title: 'Opening', objective: 'Objective', keywords: 'Keywords', concept: 'Teaching',
@@ -65,38 +65,38 @@ export default async function UnitOverviewPage({ params }: { params: Promise<{ m
       </div>
 
       <div style={mono}>{lesson.key_stage} · {lesson.year_band} · Unit overview · for planning and the subject lead</div>
-      <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', margin: '4px 0 4px' }}>{lesson.title}</h1>
+      <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', margin: '4px 0 4px' }}>{lesson.title}</h1>
       <p style={{ ...body, marginBottom: '4px' }}>
         <strong>Outcome:</strong> {lesson.single_action_outcome}
         {lesson.character_cast ? <> · <strong>Cast:</strong> {lesson.character_cast}</> : null}
         {totalMinutes ? <> · <strong>~{totalMinutes} minutes</strong> in {slides.length} slides</> : null}
       </p>
-      {notes.timing && <p style={{ ...body, fontSize: '13.5px', color: 'var(--ink-muted)', marginBottom: '14px' }}>{notes.timing}</p>}
+      {notes.timing && <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginBottom: '14px' }}>{notes.timing}</p>}
 
       <table style={{ borderCollapse: 'collapse', width: '100%' }}>
         <thead>
           <tr>
             {['#', 'Phase', 'Kind', 'What happens', 'Min'].map(h => (
-              <th key={h} style={{ textAlign: 'left', padding: '6px 8px', borderBottom: '2px solid var(--ink)', fontFamily: 'var(--font-display)', fontSize: '13.5px' }}>{h}</th>
+              <th key={h} style={{ textAlign: 'left', padding: '6px 8px', borderBottom: '2px solid var(--ink)', fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)' }}>{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {slides.map((s, i) => (
             <tr key={i} style={{ pageBreakInside: 'avoid' }}>
-              <td style={{ ...body, padding: '5px 8px', borderBottom: '1px solid var(--border)', fontFamily: 'var(--font-mono)', fontSize: '12.5px' }}>{i + 1}</td>
-              <td style={{ ...body, padding: '5px 8px', borderBottom: '1px solid var(--border)', fontFamily: 'var(--font-mono)', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
+              <td style={{ ...body, padding: '5px 8px', borderBottom: '1px solid var(--border)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)' }}>{i + 1}</td>
+              <td style={{ ...body, padding: '5px 8px', borderBottom: '1px solid var(--border)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>
                 {s.phase ? PHASE_LABELS[s.phase] : ''}
               </td>
               <td style={{ ...body, padding: '5px 8px', borderBottom: '1px solid var(--border)', fontWeight: 700, whiteSpace: 'nowrap' }}>{TYPE_LABELS[s.type] ?? s.type}</td>
               <td style={{ ...body, padding: '5px 8px', borderBottom: '1px solid var(--border)' }}>{slideTitle(s)}</td>
-              <td style={{ ...body, padding: '5px 8px', borderBottom: '1px solid var(--border)', fontFamily: 'var(--font-mono)', fontSize: '12.5px' }}>{s.minutes ?? ''}</td>
+              <td style={{ ...body, padding: '5px 8px', borderBottom: '1px solid var(--border)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)' }}>{s.minutes ?? ''}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      <p style={{ ...body, fontSize: '13px', color: 'var(--ink-muted)', marginTop: '14px' }}>
+      <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '14px' }}>
         Full resources for this module: paper pack, pupil booklets, knowledge organiser and named quizzes,
         all in the print room. Generated from the live lesson on {new Date().toLocaleDateString('en-GB')}.
       </p>

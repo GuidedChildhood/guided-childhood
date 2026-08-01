@@ -27,7 +27,7 @@ export default function PassportSection() {
             Your child&apos;s{' '}
             <span style={{ color: 'var(--terracotta)' }}>social media passport</span>
           </h2>
-          <p className="fu" style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '600px', margin: '0 auto' }}>
+          <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '600px', margin: '0 auto' }}>
             {PASSPORT_ANALOGY} This is not about banning. It is about preparation, the skills to navigate the digital world rather than hide from it. Your child earns the passport page by page: safe digital usage, healthy habits from the start, no matter what age they join.
           </p>
         </div>
@@ -45,10 +45,10 @@ export default function PassportSection() {
             boxShadow: '0 14px 40px rgba(0,0,0,0.22), inset 0 0 0 2px rgba(237,195,95,0.55), inset 0 0 0 5px rgba(237,195,95,0.14), inset 12px 0 24px rgba(0,0,0,0.25)',
           }}>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.8)', marginBottom: '8px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.8)', marginBottom: '8px' }}>
                 Guided Childhood
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.6rem', letterSpacing: '0.02em', lineHeight: 1.05 }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '0.02em', lineHeight: 1.05 }}>
                 Digital Passport
               </div>
               <div style={{ width: '46px', height: '1.5px', background: 'rgba(237,195,95,0.55)', margin: '12px auto 0' }} />
@@ -68,7 +68,7 @@ export default function PassportSection() {
                 </div>
               </div>
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', textAlign: 'center' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', textAlign: 'center' }}>
               Ages 4 to 16 · Prepared, not postponed
             </div>
           </div>
@@ -79,7 +79,7 @@ export default function PassportSection() {
             background: '#fff', borderRadius: '18px', border: '1.5px solid var(--border)',
             padding: '26px 24px', boxShadow: '0 14px 40px rgba(0,0,0,0.07)',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '18px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '18px' }}>
               One stamp earned each stage
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(96px, 1fr))', gap: '14px' }}>
@@ -95,26 +95,26 @@ export default function PassportSection() {
                       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                       transform: `rotate(${STAMP_TILT[i]}deg)`,
                     }}>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-soft)', textTransform: 'uppercase' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-soft)', textTransform: 'uppercase' }}>
                         Stage
                       </span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', lineHeight: 1, color: isFinal ? 'var(--terracotta-dark)' : 'var(--ink)' }}>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', lineHeight: 1, color: isFinal ? 'var(--terracotta-dark)' : 'var(--ink)' }}>
                         {stage.id}
                       </span>
                       {isFinal && (
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--terracotta-dark)', textTransform: 'uppercase' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--terracotta-dark)', textTransform: 'uppercase' }}>
                           Ready
                         </span>
                       )}
                     </div>
                     <div>
-                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', lineHeight: 1.15 }}>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.15 }}>
                         {stage.name}
                       </div>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', color: 'var(--ink-muted)', marginTop: '2px' }}>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '2px' }}>
                         {stage.ages.replace('Ages ', '').replace(' and above', '+')}
                       </div>
-                      <div style={{ fontSize: '12px', color: 'var(--ink-light)', marginTop: '3px', lineHeight: 1.3 }}>
+                      <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-light)', marginTop: '3px', lineHeight: 1.3 }}>
                         {r.moment}
                       </div>
                     </div>
@@ -122,7 +122,7 @@ export default function PassportSection() {
                 )
               })}
             </div>
-            <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.6, marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--border)' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, marginTop: '20px', paddingTop: '16px', borderTop: '1px solid var(--border)' }}>
               At 16, when social media and the first vote arrive together, the cliff edge is just a step. Your child is prepared, educated and safe, and so are you.
             </p>
           </div>
@@ -141,7 +141,7 @@ export default function PassportSection() {
                 style={{ width: '100%', display: 'block', aspectRatio: '390 / 680', objectFit: 'cover', objectPosition: 'top' }}
               />
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               Live in the app today
             </div>
           </div>
@@ -150,18 +150,18 @@ export default function PassportSection() {
         {/* Two supporting points: device settings, and catch up at any age */}
         <div className="fu" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '14px', marginBottom: '34px' }}>
           <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--stage-2)', borderRadius: '16px', padding: '20px 22px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
               Settings that grow with them
             </div>
-            <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
               The parental device settings relax as each stamp is earned, so freedom is age related and earned, never handed over all at once. A feature phone around 9, a guided smartphone later, real social media at 16.
             </p>
           </div>
           <div style={{ background: 'var(--stage-4)', border: '1.5px solid var(--stage-4)', borderRadius: '16px', padding: '20px 22px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
               Start at any age
             </div>
-            <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
               Joining when your child is 13 or 15? You never miss a stamp. We start where they are and build a catch up plan to get them up to speed, so the passport still completes by 16.
             </p>
           </div>
@@ -169,10 +169,10 @@ export default function PassportSection() {
 
         {/* CTAs */}
         <div className="fu" style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '17px', padding: '15px 32px' }}>
+          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 32px' }}>
             Start the passport, it is free
           </Link>
-          <Link href="/passport" style={{ display: 'inline-flex', alignItems: 'center', padding: '15px 28px', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: '16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px' }}>
+          <Link href="/passport" style={{ display: 'inline-flex', alignItems: 'center', padding: '15px 28px', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: '16px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>
             See how it works
           </Link>
         </div>

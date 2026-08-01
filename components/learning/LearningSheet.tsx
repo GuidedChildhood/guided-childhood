@@ -93,23 +93,23 @@ export default function LearningSheet({
     const flaggedNames = objectives.filter(o => tricky.has(o.id))
     return (
       <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', borderRadius: 20, padding: '20px 22px' }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 24, color: 'var(--ink)', lineHeight: 1.15, marginBottom: 6 }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.15, marginBottom: 6 }}>
           All done, and {done.stars} stars in the bank
         </div>
         {flaggedNames.length === 0 ? (
-          <p style={{ fontSize: 17, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
             {childName} did not flag anything as tricky. Worth doing another one in a few weeks to see if that holds.
           </p>
         ) : (
           <>
-            <p style={{ fontSize: 17, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 12px' }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 12px' }}>
               Thank you for being honest about the hard bits, {childName}. These are the {flaggedNames.length === 1 ? 'one' : flaggedNames.length} to go over together, and nothing else:
             </p>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {flaggedNames.map(o => (
                 <li key={o.id} style={{ display: 'flex', gap: 9, alignItems: 'flex-start', marginBottom: 8 }}>
                   <span aria-hidden style={{ flexShrink: 0 }}>💛</span>
-                  <span style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.5 }}>{o.objective}</span>
+                  <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5 }}>{o.objective}</span>
                 </li>
               ))}
             </ul>
@@ -122,19 +122,19 @@ export default function LearningSheet({
             <div style={{ borderTop: '1.5px solid rgba(47,143,107,0.28)', marginTop: 16, paddingTop: 14 }}>
               {quest ? (
                 <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px 15px' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--retro-green-dark)', marginBottom: 5 }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--retro-green-dark)', marginBottom: 5 }}>
                     On {childName}&apos;s phone now
                   </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18, color: 'var(--ink)', lineHeight: 1.3 }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.3 }}>
                     {quest.emoji} {quest.title}
                   </div>
-                  <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
+                  <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
                     Worth {quest.stars} {quest.stars === 1 ? 'star' : 'stars'} on weekdays. It sits on the Quests board with the rest, so switch it off there whenever it has done its job.
                   </p>
                 </div>
               ) : (
                 <>
-                  <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px' }}>
+                  <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px' }}>
                     DiGi can turn {flaggedNames.length === 1 ? 'that' : 'those'} into one small thing to practise, and put it on {childName}&apos;s phone for stars.
                   </p>
                   <button
@@ -143,14 +143,14 @@ export default function LearningSheet({
                     style={{
                       width: '100%', padding: '13px', cursor: questState === 'busy' ? 'default' : 'pointer',
                       background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14,
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                       boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: questState === 'busy' ? 0.7 : 1,
                     }}
                   >
                     {questState === 'busy' ? 'Writing it' : 'Make it a quest'}
                   </button>
                   {questState === 'failed' && (
-                    <p style={{ fontSize: 15, color: 'var(--terracotta-dark)', fontWeight: 700, margin: '10px 0 0' }}>
+                    <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 700, margin: '10px 0 0' }}>
                       That did not go through. Have another go in a moment.
                     </p>
                   )}
@@ -167,22 +167,22 @@ export default function LearningSheet({
     <div>
       <div style={{ background: '#fff', border: '1.5px solid rgba(201,154,40,0.32)', borderRadius: 22, overflow: 'hidden', boxShadow: '0 4px 0 rgba(201,154,40,0.16)' }}>
         <div style={{ background: 'var(--terracotta)', padding: '14px 20px 20px', borderRadius: '0 0 50% 50% / 0 0 30px 30px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: '#4A3410', opacity: 0.75 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: '#4A3410', opacity: 0.75 }}>
             {label}
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: '#3A2C0C', lineHeight: 1.2, letterSpacing: '-0.01em', marginTop: 2 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: '#3A2C0C', lineHeight: 1.2, letterSpacing: '-0.01em', marginTop: 2 }}>
             What {childName} should know by now
           </div>
         </div>
 
         <div style={{ padding: 'clamp(18px, 5vw, 24px)' }}>
-          <p style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
             Go through these together. Tick anything {childName} found tricky. There is no score and nothing is marked, we only want to know where to help.
           </p>
 
           {strands.map(strand => (
             <div key={strand} style={{ marginBottom: 20 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 10 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.11em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 10 }}>
                 {strand}
               </div>
               {objectives.filter(o => o.strand === strand).map(o => {
@@ -207,8 +207,8 @@ export default function LearningSheet({
                       fontSize: 15, lineHeight: 1,
                     }}>{on ? '💛' : ''}</span>
                     <span style={{ minWidth: 0 }}>
-                      <span style={{ display: 'block', fontSize: 17, color: 'var(--ink)', lineHeight: 1.45 }}>{o.objective}</span>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: on ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 4 }}>
+                      <span style={{ display: 'block', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45 }}>{o.objective}</span>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: on ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 4 }}>
                         {on ? 'Found this tricky' : 'Tap if tricky'}
                       </span>
                     </span>
@@ -221,7 +221,7 @@ export default function LearningSheet({
       </div>
 
       {failed && (
-        <p style={{ fontSize: 16, color: 'var(--terracotta-dark)', fontWeight: 700, margin: '12px 0 0' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)', fontWeight: 700, margin: '12px 0 0' }}>
           That did not save. Have another go in a moment.
         </p>
       )}
@@ -232,13 +232,13 @@ export default function LearningSheet({
         style={{
           width: '100%', marginTop: 16, padding: '15px', cursor: saving ? 'default' : 'pointer',
           background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16,
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18,
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
           boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: saving ? 0.7 : 1,
         }}
       >
         {saving ? 'Saving' : `We have finished this one · ⭐ 5`}
       </button>
-      <p style={{ fontSize: 14.5, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '10px 0 0', textAlign: 'center' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '10px 0 0', textAlign: 'center' }}>
         {tricky.size === 0
           ? 'Nothing ticked yet, which is a fine answer too.'
           : `${tricky.size} to go over together.`}

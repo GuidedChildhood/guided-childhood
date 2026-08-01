@@ -34,7 +34,7 @@ function Fixture() {
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 10px' }}>
           Ask for a job
         </h1>
-        <p style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '0 0 20px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '0 0 20px' }}>
           Think of something you could do to help, Alfie. Your grown up gets it on their phone and can turn it into a real job with stars.
         </p>
 

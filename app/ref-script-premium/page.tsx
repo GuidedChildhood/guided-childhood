@@ -42,7 +42,7 @@ export default async function RefScriptPremium({ searchParams }: { searchParams:
     return (
       <div style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '28px 16px 48px', display: 'flex', justifyContent: 'center', fontFamily: 'var(--font-body)' }}>
         <div style={{ width: 'min(100%, 560px)' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 12px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 12px' }}>
             The rehearsal conversation
           </p>
           <RehearseWithDigi

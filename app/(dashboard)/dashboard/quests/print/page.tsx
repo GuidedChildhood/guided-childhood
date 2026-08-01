@@ -37,7 +37,7 @@ export default async function QuestPrintPage() {
       <div className="no-print" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', marginBottom: '20px', flexWrap: 'wrap' }}>
         <div>
           <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', marginBottom: '6px' }}>Family Quests</p>
-          <h1 style={{ fontSize: '1.5rem', fontWeight: 900, letterSpacing: '-0.02em', margin: 0 }}>
+          <h1 style={{ fontSize: 'var(--text-xl)', fontWeight: 900, letterSpacing: '-0.02em', margin: 0 }}>
             This week&apos;s quest sheets
           </h1>
         </div>
@@ -65,10 +65,10 @@ export default async function QuestPrintPage() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/digi-squad/DiGi-star.svg" alt="" width={62} height={62} style={{ flexShrink: 0 }} />
               <div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '2px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '2px' }}>
                   ⭐ DiGi&apos;s quest board ⭐
                 </div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.9rem', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.05 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.05 }}>
                   {child.name}&apos;s week
                 </div>
               </div>
@@ -82,14 +82,14 @@ export default async function QuestPrintPage() {
                 border: '2px dashed var(--terracotta-dark)', borderRadius: '14px',
                 padding: '12px 16px', marginBottom: '16px', textAlign: 'center',
               }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', marginBottom: '6px' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '6px' }}>
                   The prize: {goal.title}
                 </div>
-                <div style={{ fontSize: '21px', letterSpacing: '3px', lineHeight: 1.5, wordBreak: 'break-all' }}>
+                <div style={{ fontSize: 'var(--text-xl)', letterSpacing: '3px', lineHeight: 1.5, wordBreak: 'break-all' }}>
                   {Array.from({ length: Math.min(goal.stars_needed, 30) }).map((_, i) => '☆').join('')}
                   {goal.stars_needed > 30 ? ' …' : ''}
                 </div>
-                <div style={{ fontSize: '13.5px', color: 'var(--ink-soft)', marginTop: '4px' }}>
+                <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: '4px' }}>
                   Colour a star every time a grown up approves a quest. Fill them all and the prize is yours.
                 </div>
               </div>
@@ -98,11 +98,11 @@ export default async function QuestPrintPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr>
-                  <th style={{ textAlign: 'left', padding: '8px 6px', fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', borderBottom: '2px solid var(--ink)' }}>
+                  <th style={{ textAlign: 'left', padding: '8px 6px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', borderBottom: '2px solid var(--ink)' }}>
                     Quest
                   </th>
                   {DAYS.map(d => (
-                    <th key={d} style={{ padding: '8px 4px', fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', borderBottom: '2px solid var(--ink)', width: '44px' }}>
+                    <th key={d} style={{ padding: '8px 4px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', borderBottom: '2px solid var(--ink)', width: '44px' }}>
                       {d}
                     </th>
                   ))}
@@ -112,9 +112,9 @@ export default async function QuestPrintPage() {
                 {childQuests.map(q => (
                   <tr key={q.id}>
                     <td style={{ padding: '10px 6px', borderBottom: '1px solid var(--border)' }}>
-                      <span style={{ fontSize: '1.05rem', marginRight: '8px' }}>{q.emoji}</span>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)' }}>{q.title}</span>
-                      <span style={{ fontSize: '13px', color: 'var(--ink-muted)' }}> ⭐{q.stars}</span>
+                      <span style={{ fontSize: 'var(--text-md)', marginRight: '8px' }}>{q.emoji}</span>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{q.title}</span>
+                      <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}> ⭐{q.stars}</span>
                     </td>
                     {DAYS.map((d, i) => {
                       const weekend = i >= 5
@@ -122,7 +122,7 @@ export default async function QuestPrintPage() {
                       return (
                         <td key={d} style={{ padding: '10px 4px', borderBottom: '1px solid var(--border)', textAlign: 'center' }}>
                           {off ? (
-                            <span style={{ color: 'var(--ink-light)', fontSize: '14px' }}>·</span>
+                            <span style={{ color: 'var(--ink-light)', fontSize: 'var(--text-base)' }}>·</span>
                           ) : (
                             <span style={{
                               display: 'inline-block', width: '24px', height: '24px',
@@ -143,8 +143,8 @@ export default async function QuestPrintPage() {
               padding: '10px 14px', display: 'flex', alignItems: 'center', gap: '12px',
               background: 'var(--tint-sage)',
             }}>
-              <span style={{ fontSize: '1.4rem' }}>🎲</span>
-              <span style={{ flex: 1, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.45 }}>
+              <span style={{ fontSize: 'var(--text-xl)' }}>🎲</span>
+              <span style={{ flex: 1, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
                 <strong>Family bonus:</strong> play one game together this weekend, screens off. Worth ⭐⭐⭐ extra.
               </span>
               <span style={{
@@ -152,7 +152,7 @@ export default async function QuestPrintPage() {
               }} />
             </div>
 
-            <p style={{ textAlign: 'center', fontSize: '14px', color: 'var(--ink-soft)', marginTop: '14px', marginBottom: 0 }}>
+            <p style={{ textAlign: 'center', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '14px', marginBottom: 0 }}>
               Tick the box when it is done, then show a grown up. Stars land when they approve. ⭐
             </p>
             <PrintBrandFooter />
@@ -161,7 +161,7 @@ export default async function QuestPrintPage() {
       })}
 
       {quests.length === 0 && (
-        <p className="no-print" style={{ fontSize: '16px', color: 'var(--ink-muted)' }}>
+        <p className="no-print" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>
           No quests set yet. Add some in the quest manager first.
         </p>
       )}

@@ -8,8 +8,8 @@ import { CURRICULUM } from '@/lib/content/schools-curriculum'
 // hook and its disclosure guidance on one page. DSL notes pull live from
 // the lesson rows so this page and the taught content can never disagree.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.7 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.7 }
 
 type DslNote = { required?: boolean; note?: string }
 
@@ -38,7 +38,7 @@ export default async function DslCrosswalkPage() {
         </div>
 
         <div style={mono}>For the Designated Safeguarding Lead · reference from your safeguarding policy</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: '6px 0 8px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', margin: '6px 0 8px' }}>
           Safeguarding crosswalk
         </h1>
         <p style={{ ...body, marginBottom: '8px' }}>
@@ -47,7 +47,7 @@ export default async function DslCrosswalkPage() {
           rules across every module: content is age appropriate and never graphic, and the platform
           records no disclosures, so every concern follows your school&rsquo;s own reporting systems.
         </p>
-        <p style={{ ...body, fontSize: '14px', color: 'var(--ink-muted)', marginBottom: '22px' }}>
+        <p style={{ ...body, fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '22px' }}>
           The PSHE Association advises linking your safeguarding policy explicitly to the RSHE
           curriculum under the renewed Ofsted framework. This page is written to be that link: file it
           or reference it from the policy.
@@ -61,13 +61,13 @@ export default async function DslCrosswalkPage() {
               <div style={{ ...mono, color: 'var(--coral-dark)', marginBottom: '4px' }}>
                 {m.keyStage} · Module {String(m.n).padStart(2, '0')} · {m.yearBand}
               </div>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17.5px', color: 'var(--ink)', margin: '0 0 6px' }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px' }}>
                 {m.title}
               </h2>
-              <p style={{ ...body, fontSize: '14.5px', marginBottom: '8px' }}>
+              <p style={{ ...body, fontSize: 'var(--text-base)', marginBottom: '8px' }}>
                 <strong>Statutory ground:</strong> {(db?.statutory_hooks ?? []).join(' · ') || 'Loads from the module row.'}
               </p>
-              <p style={{ ...body, fontSize: '15px' }}>
+              <p style={{ ...body, fontSize: 'var(--text-base)' }}>
                 <strong>The note teachers receive:</strong>{' '}
                 {note.note ?? 'The DSL note loads from the module row when the lesson is live.'}
               </p>
@@ -75,7 +75,7 @@ export default async function DslCrosswalkPage() {
           )
         })}
 
-        <p style={{ ...body, fontSize: '13.5px', color: 'var(--ink-muted)', marginTop: '10px' }}>
+        <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '10px' }}>
           Generated live from the curriculum data on {new Date().toLocaleDateString('en-GB')}. Staff
           briefings for teaching these modules are in the Hub under Staff briefings.
         </p>

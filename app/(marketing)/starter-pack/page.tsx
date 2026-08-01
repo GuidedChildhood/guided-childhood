@@ -388,7 +388,7 @@ export default function StarterPackPage() {
         `}</style>
         {progress > 0 && (
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '0.18em', textTransform: 'uppercase',
             color: 'var(--ink-muted)', marginBottom: '36px',
             animation: 'stepIn 0.45s ease both',
@@ -412,22 +412,22 @@ export default function StarterPackPage() {
             }}>
               Welcome back.
             </h1>
-            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '26px', lineHeight: 1.6 }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '26px', lineHeight: 1.6 }}>
               Your child&apos;s pathway is saved{email ? <> to <span style={{ color: 'var(--ink)', fontWeight: 700 }}>{email}</span></> : ''}. Pick up where you left off.
             </p>
             <button
               onClick={() => setStep('result')}
-              style={{ width: '100%', padding: '17px 28px', borderRadius: 16, border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+              style={{ width: '100%', padding: '17px 28px', borderRadius: 16, border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
             >
               See my pathway
             </button>
             <Link
               href={`/login${email ? `?email=${encodeURIComponent(email)}` : ''}`}
-              style={{ display: 'block', marginTop: '14px', textAlign: 'center', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14px', color: 'var(--ink)' }}
+              style={{ display: 'block', marginTop: '14px', textAlign: 'center', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}
             >
               Sign in to my account
             </Link>
-            <button onClick={() => { setReturning(false); setStep('details') }} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
+            <button onClick={() => { setReturning(false); setStep('details') }} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
               Start again for another child
             </button>
           </div>
@@ -446,7 +446,7 @@ export default function StarterPackPage() {
             }}>
               Let us build your child&apos;s pathway.
             </h1>
-            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '30px', lineHeight: 1.6, textAlign: 'center' }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '30px', lineHeight: 1.6, textAlign: 'center' }}>
               A couple of minutes, then free access to the platform. No card.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '30px' }}>
@@ -456,10 +456,10 @@ export default function StarterPackPage() {
                 { n: '3', title: 'Step into the platform, free', sub: 'The words for tonight, safe lessons by age, and a plan that protects your child and you' },
               ].map(item => (
                 <div key={item.n} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start', background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '16px 18px' }}>
-                  <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>{item.n}</div>
+                  <div style={{ width: '26px', height: '26px', borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>{item.n}</div>
                   <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)' }}>{item.title}</div>
-                    <div style={{ fontSize: '13px', color: 'var(--ink-muted)', marginTop: '2px', lineHeight: 1.5 }}>{item.sub}</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{item.title}</div>
+                    <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '2px', lineHeight: 1.5 }}>{item.sub}</div>
                   </div>
                 </div>
               ))}
@@ -467,11 +467,11 @@ export default function StarterPackPage() {
             <button
               onClick={() => setStep('details')}
               className="btn btn-gold"
-              style={{ width: '100%', justifyContent: 'center', fontSize: '15px', padding: '17px' }}
+              style={{ width: '100%', justifyContent: 'center', fontSize: 'var(--text-base)', padding: '17px' }}
             >
               Start, it is free
             </button>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.06em' }}>
               No card. No commitment. Built on the research.
             </p>
           </>
@@ -491,7 +491,7 @@ export default function StarterPackPage() {
             }}>
               Create your account
             </h1>
-            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '24px', lineHeight: 1.6, textAlign: 'center' }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '24px', lineHeight: 1.6, textAlign: 'center' }}>
               One step, then straight into your pathway. This is the only setup, your name, email and a password.
             </p>
 
@@ -502,7 +502,7 @@ export default function StarterPackPage() {
               placeholder="Your first name"
               value={name}
               onChange={e => setName(e.target.value)}
-              style={{ fontSize: 17, marginBottom: '12px' }}
+              style={{ fontSize: 'var(--text-md)', marginBottom: '12px' }}
             />
             <input
               className="input"
@@ -512,7 +512,7 @@ export default function StarterPackPage() {
               placeholder="you@email.com"
               value={email}
               onChange={e => { setEmail(e.target.value); if (emailError) setEmailError('') }}
-              style={{ fontSize: 17, marginBottom: '12px' }}
+              style={{ fontSize: 'var(--text-md)', marginBottom: '12px' }}
             />
             <input
               className="input"
@@ -522,10 +522,10 @@ export default function StarterPackPage() {
               value={password}
               onChange={e => { setPassword(e.target.value); if (emailError) setEmailError('') }}
               onKeyDown={e => { if (e.key === 'Enter') submitDetails() }}
-              style={{ fontSize: 17, marginBottom: emailError ? '10px' : '16px' }}
+              style={{ fontSize: 'var(--text-md)', marginBottom: emailError ? '10px' : '16px' }}
             />
             {emailError && (
-              <p style={{ color: 'var(--terracotta-dark)', fontSize: '13px', textAlign: 'center', marginBottom: '14px', lineHeight: 1.5 }}>
+              <p style={{ color: 'var(--terracotta-dark)', fontSize: 'var(--text-sm)', textAlign: 'center', marginBottom: '14px', lineHeight: 1.5 }}>
                 {emailError}
               </p>
             )}
@@ -534,14 +534,14 @@ export default function StarterPackPage() {
               onClick={submitDetails}
               disabled={savingEmail}
               className="btn btn-gold"
-              style={{ width: '100%', justifyContent: 'center', fontSize: '15px', padding: '17px', opacity: savingEmail ? 0.7 : 1 }}
+              style={{ width: '100%', justifyContent: 'center', fontSize: 'var(--text-base)', padding: '17px', opacity: savingEmail ? 0.7 : 1 }}
             >
               {savingEmail ? 'One moment...' : 'Continue'}
             </button>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
               No card. We save your pathway and email the occasional genuinely useful thing. Unsubscribe any time.
             </p>
-            <button onClick={() => setStep('intro')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
+            <button onClick={() => setStep('intro')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
               ← Back
             </button>
           </>
@@ -574,15 +574,15 @@ export default function StarterPackPage() {
                 }}>
                   <span style={{
                     width: 22, height: 22, borderRadius: '50%', flexShrink: 0, background: 'var(--tint-sage)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2D5016', fontSize: '12px', fontWeight: 800,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#2D5016', fontSize: 'var(--text-sm)', fontWeight: 800,
                   }}>✓</span>
-                  <span style={{ fontSize: '13.5px', fontWeight: 600, color: 'var(--ink)' }}>{row.t}</span>
+                  <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)' }}>{row.t}</span>
                 </div>
               ))}
             </div>
             {/* Honest reassurance, no invented numbers: this really is the
                 thing parents raise most about growing up today. */}
-            <p style={{ color: 'var(--ink-soft)', fontSize: '13.5px', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto' }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-sm)', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto' }}>
               You are far from alone. Screens are the hardest daily battle most UK parents name, and there is a calm way through.
             </p>
             <style>{`@keyframes buildIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }`}</style>
@@ -599,7 +599,7 @@ export default function StarterPackPage() {
             }}>
               Tell us about your child
             </h1>
-            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '20px', lineHeight: 1.55 }}>
+            <p style={{ color: 'var(--ink)', fontSize: 'var(--text-base)', marginBottom: '20px', lineHeight: 1.55 }}>
               Their first name and age, so everything that follows is about them. This maps your stage.
             </p>
             <input
@@ -609,9 +609,9 @@ export default function StarterPackPage() {
               placeholder="Your child's first name"
               value={childName}
               onChange={e => { setChildName(e.target.value); try { localStorage.setItem('gc_starter_child_name', e.target.value.trim()) } catch {} }}
-              style={{ fontSize: 17, marginBottom: '22px' }}
+              style={{ fontSize: 'var(--text-md)', marginBottom: '22px' }}
             />
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
               How old are they?
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -637,24 +637,24 @@ export default function StarterPackPage() {
                       width: 42, height: 42, borderRadius: '13px', flexShrink: 0,
                       background: acc.bold, color: acc.text,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px',
+                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
                     }}>
                       {st.id}
                     </span>
                     <span style={{ flex: 1, minWidth: 0 }}>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
                         {opt.label}
                       </span>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', color: 'var(--ink-muted)', marginTop: '2px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '2px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                         Stage {st.id} · {st.name}
                       </span>
                     </span>
-                    <span style={{ color: on ? 'var(--terracotta)' : 'var(--ink-light)', fontSize: '22px', flexShrink: 0, lineHeight: 1, fontWeight: 300 }}>›</span>
+                    <span style={{ color: on ? 'var(--terracotta)' : 'var(--ink-light)', fontSize: 'var(--text-xl)', flexShrink: 0, lineHeight: 1, fontWeight: 300 }}>›</span>
                   </button>
                 )
               })}
             </div>
-            <p style={{ textAlign: 'center', fontSize: '12.5px', color: 'var(--ink-muted)', marginTop: '16px', lineHeight: 1.5 }}>
+            <p style={{ textAlign: 'center', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '16px', lineHeight: 1.5 }}>
               Got more than one child? You can add a brother or sister any time once you are in.
             </p>
           </>
@@ -670,7 +670,7 @@ export default function StarterPackPage() {
             }}>
               What are you dealing with right now?
             </h1>
-            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '24px', lineHeight: 1.55 }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '24px', lineHeight: 1.55 }}>
               Tick everything that is going on, and tap the one that worries you most first. That just sets where we start. Your plan still covers everything else for their age.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -720,7 +720,7 @@ export default function StarterPackPage() {
                     }}>
                       {CHALLENGE_ICONS[opt.value] ?? opt.icon}
                     </span>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.3 }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>
                       {opt.label}
                     </span>
 
@@ -728,7 +728,7 @@ export default function StarterPackPage() {
                     {isPrimary ? (
                       <span style={{
                         marginTop: '10px',
-                        fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+                        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         letterSpacing: '0.1em', textTransform: 'uppercase',
                         color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
                         borderRadius: '100px', padding: '4px 9px',
@@ -743,7 +743,7 @@ export default function StarterPackPage() {
                         onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.stopPropagation(); makePrimary(opt.value) } }}
                         style={{
                           marginTop: '10px',
-                          fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+                          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                           letterSpacing: '0.1em', textTransform: 'uppercase',
                           color: 'var(--ink-muted)', border: '1px solid var(--border)',
                           borderRadius: '100px', padding: '4px 9px', cursor: 'pointer',
@@ -766,7 +766,7 @@ export default function StarterPackPage() {
               borderRadius: '16px', padding: '14px 16px', marginTop: '20px',
             }}>
               <img src="/digi-squad/DiGi-star.svg" alt="" width={34} height={34} style={{ flexShrink: 0, marginTop: '1px' }} />
-              <p style={{ fontSize: '13.5px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
                 This is the hardest part of parenting right now, and how you are doing matters as much as how they are. We have got you, not just your child.
               </p>
             </div>
@@ -778,8 +778,8 @@ export default function StarterPackPage() {
               marginTop: '20px', padding: '11px 14px',
               background: 'var(--tint-sage)', border: '1px solid var(--border)', borderRadius: '12px',
             }}>
-              <span aria-hidden style={{ fontSize: '14px', flexShrink: 0 }}>🎯</span>
-              <p style={{ fontSize: '12.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+              <span aria-hidden style={{ fontSize: 'var(--text-base)', flexShrink: 0 }}>🎯</span>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
                 You are choosing where to start. Every other part of your child&apos;s age is still in your plan.
               </p>
             </div>
@@ -793,7 +793,7 @@ export default function StarterPackPage() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
                 background: picks.length ? 'var(--terracotta)' : 'var(--border)',
                 color: picks.length ? 'var(--ink)' : 'var(--ink-muted)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 cursor: picks.length ? 'pointer' : 'not-allowed',
                 boxShadow: picks.length ? '0 5px 0 var(--terracotta-dark)' : 'none',
                 transition: 'background 0.16s, box-shadow 0.16s',
@@ -808,17 +808,17 @@ export default function StarterPackPage() {
                     <span style={{
                       minWidth: '22px', height: '22px', padding: '0 7px', borderRadius: '100px',
                       background: 'rgba(26,26,46,0.16)', color: 'var(--ink)',
-                      fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                       display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
                     }}>
                       {picks.length}
                     </span>
                   )}
-                  <span aria-hidden style={{ fontSize: '17px' }}>→</span>
+                  <span aria-hidden style={{ fontSize: 'var(--text-md)' }}>→</span>
                 </>
               )}
             </button>
-            <button onClick={() => setStep('q1')} style={{ marginTop: '12px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
+            <button onClick={() => setStep('q1')} style={{ marginTop: '12px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
             </button>
           </>
@@ -834,7 +834,7 @@ export default function StarterPackPage() {
             }}>
               How are you feeling about it?
             </h1>
-            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
+            <p style={{ color: 'var(--ink)', fontSize: 'var(--text-base)', marginBottom: '32px', lineHeight: 1.55 }}>
               There is no wrong answer. This shapes how we frame what comes next.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -852,18 +852,18 @@ export default function StarterPackPage() {
                   }}
                 >
                   <div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: feeling === opt.value ? '#fff' : 'var(--ink)' }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: feeling === opt.value ? '#fff' : 'var(--ink)' }}>
                       {opt.label}
                     </div>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: feeling === opt.value ? 'rgba(255,255,255,0.75)' : 'var(--ink-muted)', marginTop: '3px', letterSpacing: '0.08em' }}>
+                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: feeling === opt.value ? 'rgba(255,255,255,0.75)' : 'var(--ink-muted)', marginTop: '3px', letterSpacing: '0.08em' }}>
                       {opt.sub}
                     </div>
                   </div>
-                  <div style={{ color: feeling === opt.value ? '#fff' : 'var(--ink-light)', fontSize: '16px' }}>→</div>
+                  <div style={{ color: feeling === opt.value ? '#fff' : 'var(--ink-light)', fontSize: 'var(--text-md)' }}>→</div>
                 </button>
               ))}
             </div>
-            <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
+            <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
             </button>
           </>
@@ -879,7 +879,7 @@ export default function StarterPackPage() {
             }}>
               How much time can you give this each day?
             </h1>
-            <p style={{ color: 'var(--ink)', fontSize: '15px', marginBottom: '32px', lineHeight: 1.55 }}>
+            <p style={{ color: 'var(--ink)', fontSize: 'var(--text-base)', marginBottom: '32px', lineHeight: 1.55 }}>
               We will match your daily practice to this. You can change it any time.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -900,19 +900,19 @@ export default function StarterPackPage() {
                     }}
                   >
                     <span style={{ flex: 1, minWidth: 0 }}>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
                         {opt.label}
                       </span>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '10.5px', color: 'var(--ink-muted)', marginTop: '2px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '2px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                         {opt.sub}
                       </span>
                     </span>
-                    <span style={{ color: on ? 'var(--terracotta)' : 'var(--ink-light)', fontSize: '22px', flexShrink: 0, lineHeight: 1, fontWeight: 300 }}>›</span>
+                    <span style={{ color: on ? 'var(--terracotta)' : 'var(--ink-light)', fontSize: 'var(--text-xl)', flexShrink: 0, lineHeight: 1, fontWeight: 300 }}>›</span>
                   </button>
                 )
               })}
             </div>
-            <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
+            <button onClick={() => setStep('q2')} style={{ marginTop: '24px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0', textAlign: 'left' }}>
               ← Back
             </button>
           </>
@@ -933,7 +933,7 @@ export default function StarterPackPage() {
             }}>
               Where should we send it?
             </h1>
-            <p style={{ color: 'var(--ink-soft)', fontSize: '15px', marginBottom: '26px', lineHeight: 1.6, textAlign: 'center' }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '26px', lineHeight: 1.6, textAlign: 'center' }}>
               Your pathway is ready. Add your email and we save it to your account, so next time you land straight back here, not at the start.
             </p>
 
@@ -946,10 +946,10 @@ export default function StarterPackPage() {
               value={email}
               onChange={e => { setEmail(e.target.value); if (emailError) setEmailError('') }}
               onKeyDown={e => { if (e.key === 'Enter') submitEmail() }}
-              style={{ fontSize: 17, textAlign: 'center', marginBottom: emailError ? '10px' : '16px' }}
+              style={{ fontSize: 'var(--text-md)', textAlign: 'center', marginBottom: emailError ? '10px' : '16px' }}
             />
             {emailError && (
-              <p style={{ color: 'var(--terracotta-dark)', fontSize: '13px', textAlign: 'center', marginBottom: '14px', lineHeight: 1.5 }}>
+              <p style={{ color: 'var(--terracotta-dark)', fontSize: 'var(--text-sm)', textAlign: 'center', marginBottom: '14px', lineHeight: 1.5 }}>
                 {emailError}
               </p>
             )}
@@ -960,17 +960,17 @@ export default function StarterPackPage() {
               style={{
                 width: '100%', padding: '17px 28px', borderRadius: 16, border: 'none',
                 background: 'var(--terracotta)', color: 'var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 cursor: savingEmail ? 'default' : 'pointer', opacity: savingEmail ? 0.7 : 1,
                 boxShadow: '0 5px 0 var(--terracotta-dark)',
               }}
             >
               {savingEmail ? 'Starting your pathway...' : 'Start your digital pathway'}
             </button>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)', textAlign: 'center', marginTop: '14px', letterSpacing: '0.05em', lineHeight: 1.6 }}>
               No card. We email the starter pack and the occasional genuinely useful thing. Unsubscribe any time.
             </p>
-            <button onClick={() => setStep('q4')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
+            <button onClick={() => setStep('q4')} style={{ marginTop: '10px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.06em', padding: '8px 0' }}>
               ← Back
             </button>
           </>
@@ -992,7 +992,7 @@ export default function StarterPackPage() {
 ──────────────────────────────────────────────────────────────── */
 
 const RESULT_EYEBROW: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.16em', textTransform: 'uppercase',
   color: 'var(--ink-muted)', marginBottom: '10px',
 }
@@ -1317,7 +1317,7 @@ function ResultScreen({
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
           <Link href={enterHref} style={{
             display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontFamily: 'var(--font-display)', fontSize: '13px', fontWeight: 700,
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 700,
             letterSpacing: '-0.005em', color: 'var(--deep-teal)', textDecoration: 'none',
             border: '1.5px solid var(--border)', borderRadius: '100px', padding: '9px 17px', background: '#fff',
           }}>
@@ -1344,10 +1344,10 @@ function ResultScreen({
           ))}
         </h1>
 
-        <p className="wow-fu" style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '12px' }}>
+        <p className="wow-fu" style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '12px' }}>
           <strong>Our job:</strong> the exact words for tonight, a two minute daily practice, and DiGi beside you the moment anything kicks off. <strong>Your job:</strong> five minutes a day.
         </p>
-        <p className="wow-fu" style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 600, letterSpacing: '0.04em', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+        <p className="wow-fu" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.04em', color: 'var(--ink-muted)', marginBottom: '14px' }}>
           Sixty seconds down this page and you will know exactly what happens tonight, this week, and on the road to 16.
         </p>
 
@@ -1361,7 +1361,7 @@ function ResultScreen({
                 display: 'inline-flex', alignItems: 'center', gap: '7px',
                 padding: '8px 14px', borderRadius: '100px', cursor: 'pointer',
                 background: '#fff', border: '1.5px solid var(--border)',
-                fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                 letterSpacing: '0.06em', color: 'var(--ink-soft)',
                 boxShadow: '0 2px 8px rgba(26,26,46,0.05)',
               }}
@@ -1375,15 +1375,15 @@ function ResultScreen({
         {/* Problem recognition. Names what they told us before offering the fix. */}
         <div className="wow-fu" style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 10px 32px rgba(26,26,46,0.10)', marginBottom: '14px' }}>
           <div style={{ background: 'var(--deep-teal)', padding: '18px 22px 22px', borderRadius: '0 0 28px 28px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '6px' }}>
               Sound familiar?
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
               {challengeLabel}
             </div>
           </div>
           <div style={{ padding: '18px 22px', background: 'var(--terracotta-lt)' }}>
-            <p style={{ fontSize: '14px', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.65, margin: 0 }}>
               This is one of the most common things parents raise at Stage {stage.id}. It is not a sign you are behind. It is the next thing to fix, and there is a clear next step.
             </p>
           </div>
@@ -1399,7 +1399,7 @@ function ResultScreen({
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
             <span style={{
-              fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '0.12em', textTransform: 'uppercase',
               background: accent.bold, color: accent.text,
               padding: '4px 10px', borderRadius: '100px',
@@ -1408,7 +1408,7 @@ function ResultScreen({
             </span>
             {stage.isCritical && (
               <span style={{
-                fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                 letterSpacing: '0.1em', textTransform: 'uppercase',
                 background: 'var(--deep-teal)', color: '#fff',
                 padding: '3px 8px', borderRadius: '100px',
@@ -1417,13 +1417,13 @@ function ResultScreen({
               </span>
             )}
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '3px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '3px' }}>
             {stage.keyStage} · {stage.yearGroup}
           </div>
-          <div style={{ fontSize: '13px', color: 'var(--ink-soft)', marginBottom: '2px' }}>{stage.ages}</div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-light)', marginBottom: '12px' }}>{stage.usGrade}</div>
-          <div style={{ fontSize: '14px', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.6, marginBottom: '12px' }}>{stage.focus}</div>
-          <div style={{ padding: '10px 14px', background: 'var(--terracotta-lt)', borderRadius: '10px', fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-soft)', letterSpacing: '0.04em' }}>
+          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginBottom: '2px' }}>{stage.ages}</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)', marginBottom: '12px' }}>{stage.usGrade}</div>
+          <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.6, marginBottom: '12px' }}>{stage.focus}</div>
+          <div style={{ padding: '10px 14px', background: 'var(--terracotta-lt)', borderRadius: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', letterSpacing: '0.04em' }}>
             Recommended: {stage.device}
           </div>
         </div>
@@ -1432,7 +1432,7 @@ function ResultScreen({
         <section id="chapter-week" style={{ marginTop: 'clamp(64px, 10vw, 96px)', scrollMarginTop: '18px' }}>
           <div className="wow-fu" style={RESULT_EYEBROW}>Chapter 1 · Tonight and your first week</div>
           <h2 className="wow-fu" style={RESULT_H2}>{kid ? `Here is how ${kid}'s first week goes.` : 'Here is how week one goes.'}</h2>
-          <p className="wow-fu" style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '24px' }}>
+          <p className="wow-fu" style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '24px' }}>
             {feelingLine}
           </p>
 
@@ -1452,21 +1452,21 @@ function ResultScreen({
                   boxShadow: '0 0 0 1.5px var(--border)', zIndex: 1,
                 }} />
                 <div style={{ background: day.tint, border: '1px solid var(--border)', borderRadius: '16px', padding: '18px 20px' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                     {day.label}
                   </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', marginBottom: '5px', letterSpacing: '-0.01em' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: '5px', letterSpacing: '-0.01em' }}>
                     {day.title}
                   </div>
-                  <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
                     {day.body}
                   </p>
                   {day.script && (
                     <div style={{ marginTop: '12px', background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '13px 15px' }}>
-                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
+                      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
                         The exact script
                       </div>
-                      <p style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+                      <p style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
                         &ldquo;{day.script}&rdquo;
                       </p>
                     </div>
@@ -1481,7 +1481,7 @@ function ResultScreen({
         <section id="chapter-inside" style={{ marginTop: 'clamp(64px, 10vw, 96px)', scrollMarginTop: '18px' }}>
           <div className="wow-fu" style={RESULT_EYEBROW}>Chapter 2 · What you get</div>
           <h2 className="wow-fu" style={RESULT_H2}>Everything waiting inside.</h2>
-          <p className="wow-fu" style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
+          <p className="wow-fu" style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
             Built for real families with school runs and short evenings. Every piece earns its place.
           </p>
 
@@ -1499,12 +1499,12 @@ function ResultScreen({
                       {f.icon}
                     </span>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
                         {f.title}
                       </span>
                       {f.comingSoon && (
                         <span style={{
-                          fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700,
+                          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                           letterSpacing: '0.1em', textTransform: 'uppercase',
                           background: 'var(--deep-teal)', color: '#fff',
                           padding: '3px 8px', borderRadius: '100px',
@@ -1514,7 +1514,7 @@ function ResultScreen({
                       )}
                     </div>
                   </div>
-                  <p style={{ fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+                  <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
                     {f.body}
                   </p>
                   {f.lessons && (
@@ -1528,7 +1528,7 @@ function ResultScreen({
                         }}>
                           <div style={{ height: '9px', background: t.band }} />
                           <div style={{ padding: '7px 7px 8px' }}>
-                            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '7px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px', whiteSpace: 'nowrap' }}>
+                            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px', whiteSpace: 'nowrap' }}>
                               {t.label}
                             </div>
                             <div style={{ height: '3px', background: 'var(--border)', borderRadius: '2px', marginBottom: '3px' }} />
@@ -1557,7 +1557,7 @@ function ResultScreen({
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 4.5vw, 2.5rem)', color: '#fff', lineHeight: 1, letterSpacing: '-0.02em' }}>
                     <span className="wow-num" data-count={s.n}>{s.n}</span>
                   </div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginTop: '6px', lineHeight: 1.4 }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)', marginTop: '6px', lineHeight: 1.4 }}>
                     {s.label}
                   </div>
                 </div>
@@ -1570,7 +1570,7 @@ function ResultScreen({
         <section id="chapter-road" style={{ marginTop: 'clamp(64px, 10vw, 96px)', scrollMarginTop: '18px' }}>
           <div className="wow-fu" style={RESULT_EYEBROW}>Chapter 3 · The road ahead</div>
           <h2 className="wow-fu" style={RESULT_H2}>One pathway, ages 4 to 16.</h2>
-          <p className="wow-fu" style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
+          <p className="wow-fu" style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px' }}>
             Stage {stage.id} is where you start, not where it ends. The whole road is already mapped, and DiGi walks it with you.
           </p>
 
@@ -1599,16 +1599,16 @@ function ResultScreen({
                         {s.id}
                       </div>
                       <div style={{ textAlign: 'center' }}>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
                           {s.name}
                         </div>
-                        <div style={{ fontFamily: 'var(--font-display)', fontSize: '10px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+                        <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)' }}>
                           {ages}
                         </div>
                         {isCurrent && (
                           <div style={{
                             display: 'inline-block', marginTop: '4px',
-                            fontFamily: 'var(--font-mono)', fontSize: '7.5px', fontWeight: 700,
+                            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                             letterSpacing: '0.08em', textTransform: 'uppercase',
                             background: accent.bold, color: accent.text,
                             padding: '2px 7px', borderRadius: '100px', whiteSpace: 'nowrap',
@@ -1627,23 +1627,23 @@ function ResultScreen({
 
         {/* Parent quote, warm texture before the ask */}
         <div className="wow-fu" style={{ padding: '18px 22px', borderLeft: '3px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '0 12px 12px 0', margin: 'clamp(56px, 9vw, 80px) 0 40px' }}>
-          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.7, margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.7, margin: 0 }}>
             {stage.parentQuote}
           </p>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink-muted)', marginTop: '8px', letterSpacing: '0.04em' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '8px', letterSpacing: '0.04em' }}>
             Parent, Stage {stage.id}
           </p>
         </div>
 
         {/* ── Beat 5: save CTA, the one primary CTA on the page ── */}
         <div id="chapter-cta" ref={ctaRef} className="wow-fu" style={{ background: 'var(--retro-green)', borderRadius: '20px', padding: '40px 28px', textAlign: 'center', marginBottom: '12px', scrollMarginTop: '18px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--stage-1-bold)', marginBottom: '14px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--stage-1-bold)', marginBottom: '14px' }}>
             {needsConfirm ? 'One last step' : 'You are all set'}
           </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', color: '#fff', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '12px' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)', color: '#fff', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '12px' }}>
             {needsConfirm ? 'Check your email' : 'Your first win is tonight'}
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: '14px', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 24px' }}>
+          <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 'var(--text-base)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 24px' }}>
             {needsConfirm
               ? 'We sent a link to confirm your email. Tap it, then step straight in. Your Stage ' + stage.id + ' pathway is saved and waiting.'
               : 'Your account is set and your Stage ' + stage.id + ' pathway is ready. Step in whenever you are. No card required.'}
@@ -1655,17 +1655,17 @@ function ResultScreen({
               display: 'inline-flex', alignItems: 'center', gap: '10px',
               padding: '16px 36px', background: 'var(--terracotta)',
               color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               letterSpacing: '-0.01em',
               boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}
           >
             <span>
               {needsConfirm ? 'I have confirmed, sign in' : kid ? `Step into ${kid}'s pathway` : 'Step into your pathway'}
-              {' '}<span className="arrow" aria-hidden style={{ fontSize: '18px' }}>→</span>
+              {' '}<span className="arrow" aria-hidden style={{ fontSize: 'var(--text-lg)' }}>→</span>
             </span>
           </Link>
-          <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'rgba(255,255,255,0.75)' }}>
+          <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'rgba(255,255,255,0.75)' }}>
             Already have an account?{' '}
             <Link href="/login" style={{ color: 'var(--stage-1-bold)', textDecoration: 'none', fontWeight: 700 }}>Sign in</Link>
           </p>
@@ -1673,7 +1673,7 @@ function ResultScreen({
 
         {/* Free includes */}
         <div className="wow-fu" style={{ padding: '24px', textAlign: 'center' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '16px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '16px' }}>
             Free account includes
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '300px', margin: '0 auto', textAlign: 'left' }}>
@@ -1686,8 +1686,8 @@ function ResultScreen({
               'Device setting checklists',
             ].map((item, i) => (
               <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ color: 'var(--terracotta-dark)', fontSize: '14px', flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: '14px', color: 'var(--ink-soft)' }}>{item}</span>
+                <span style={{ color: 'var(--terracotta-dark)', fontSize: 'var(--text-base)', flexShrink: 0 }}>✓</span>
+                <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>{item}</span>
               </div>
             ))}
           </div>
@@ -1715,7 +1715,7 @@ function ResultScreen({
           padding: '10px 10px 10px 18px',
           boxShadow: '0 12px 36px rgba(26,26,46,0.28)',
         }}>
-          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: '#fff', lineHeight: 1.3 }}>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: '#fff', lineHeight: 1.3 }}>
             {kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}
           </span>
           <Link
@@ -1724,7 +1724,7 @@ function ResultScreen({
               flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '7px',
               padding: '11px 18px', background: 'var(--terracotta)', color: 'var(--ink)',
               borderRadius: '13px', textDecoration: 'none',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
               boxShadow: '0 3px 0 var(--terracotta-dark)',
             }}
           >

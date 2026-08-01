@@ -45,14 +45,14 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
     return (
       <div style={box}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span aria-hidden style={{ fontSize: '22px' }}>⭐</span>
-          <p style={{ fontSize: '14.5px', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>
+          <span aria-hidden style={{ fontSize: 'var(--text-xl)' }}>⭐</span>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: 0 }}>
             Added {stars} star{stars === 1 ? '' : 's'} to {childName}&apos;s bank. Ready to spend as screen time.
           </p>
         </div>
         <button
           onClick={() => { setStatus('idle'); setStars(5) }}
-          style={{ marginTop: 10, background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+          style={{ marginTop: 10, background: 'none', border: 'none', cursor: 'pointer', padding: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'underline', textUnderlineOffset: '3px' }}
         >
           Log another week
         </button>
@@ -66,16 +66,16 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
         onClick={() => setOpen(o => !o)}
         style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}
       >
-        <span aria-hidden style={{ fontSize: '22px', flexShrink: 0 }}>🧲</span>
+        <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>🧲</span>
         <span style={{ flex: 1 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
             Ran the chart on paper this week?
           </span>
-          <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '1px' }}>
+          <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '1px' }}>
             Add the fridge chart stars to the bank. For paper jobs, not ones already ticked here.
           </span>
         </span>
-        <span aria-hidden style={{ flexShrink: 0, color: 'var(--ink-muted)', fontSize: '18px', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 0.15s' }}>›</span>
+        <span aria-hidden style={{ flexShrink: 0, color: 'var(--ink-muted)', fontSize: 'var(--text-lg)', transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 0.15s' }}>›</span>
       </button>
 
       {open && (
@@ -88,7 +88,7 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
                   onClick={() => setChildId(k.id)}
                   style={{
                     padding: '7px 14px', borderRadius: 100, cursor: 'pointer',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13.5px', color: 'var(--ink)',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)',
                     background: k.id === childId ? 'var(--terracotta)' : '#fff',
                     border: k.id === childId ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
                   }}
@@ -102,8 +102,8 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, marginBottom: 14 }}>
             <button onClick={() => setStars(s => Math.max(1, s - 1))} aria-label="One fewer star" style={stepBtn}>−</button>
             <div style={{ textAlign: 'center', minWidth: 96 }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '2.2rem', color: 'var(--ink)', lineHeight: 1 }}>{stars}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 4 }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)', color: 'var(--ink)', lineHeight: 1 }}>{stars}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 4 }}>
                 star{stars === 1 ? '' : 's'} · {stars * 5} min
               </div>
             </div>
@@ -114,11 +114,11 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
             onClick={add}
             disabled={status === 'saving'}
             className="btn btn-gold"
-            style={{ width: '100%', padding: '13px', fontSize: '15.5px', opacity: status === 'saving' ? 0.7 : 1 }}
+            style={{ width: '100%', padding: '13px', fontSize: 'var(--text-base)', opacity: status === 'saving' ? 0.7 : 1 }}
           >
             {status === 'saving' ? 'Adding...' : `Add to ${childName}'s bank`}
           </button>
-          {error && <p style={{ fontSize: '13px', color: 'var(--danger)', margin: '10px 0 0', textAlign: 'center' }}>{error}</p>}
+          {error && <p style={{ fontSize: 'var(--text-sm)', color: 'var(--danger)', margin: '10px 0 0', textAlign: 'center' }}>{error}</p>}
         </div>
       )}
     </div>
@@ -128,6 +128,6 @@ export default function FridgeChartLog({ kids }: { kids: { id: string; name: str
 const stepBtn: React.CSSProperties = {
   width: 46, height: 46, borderRadius: '50%', flexShrink: 0, cursor: 'pointer',
   border: '1.5px solid var(--border)', background: '#fff', color: 'var(--ink)',
-  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', lineHeight: 1,
+  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', lineHeight: 1,
   display: 'flex', alignItems: 'center', justifyContent: 'center',
 }

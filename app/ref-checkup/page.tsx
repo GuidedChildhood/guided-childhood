@@ -15,7 +15,7 @@ export default function RefCheckup() {
         ]}
         lessonsLeft={3} lessonsTotal={6}
       />
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12 }}>ABOVE: something to do. BELOW: all green, must render nothing.</p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)' }}>ABOVE: something to do. BELOW: all green, must render nothing.</p>
       <DayCheckup
         childName="Gus" stageNum={2} stageName="Builder"
         strands={[

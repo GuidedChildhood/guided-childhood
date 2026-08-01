@@ -118,17 +118,17 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
             borderRadius: 16, padding: '12px 14px', cursor: 'pointer', textAlign: 'left',
           }}
         >
-          <span aria-hidden style={{ fontSize: 20, flexShrink: 0 }}>📲</span>
+          <span aria-hidden style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>📲</span>
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{
-              display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700,
+              display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
             }}>
               One thing left to set up
             </span>
             <span style={{
               display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-              fontSize: 16, color: 'var(--ink)', overflow: 'hidden',
+              fontSize: 'var(--text-md)', color: 'var(--ink)', overflow: 'hidden',
               textOverflow: 'ellipsis', whiteSpace: 'nowrap',
             }}>
               {heading}
@@ -136,7 +136,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
           </span>
           <span aria-hidden style={{
             flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 15, color: 'var(--terracotta-dark)',
+            fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)',
           }}>
             Open
           </span>
@@ -155,13 +155,13 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '0 18px', marginBottom: 12 }}>
           <span aria-hidden style={{
             flexShrink: 0, width: 44, height: 44, borderRadius: 14, background: 'var(--terracotta-lt)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)',
           }}>📲</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
               One thing left to set up
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
               {heading}
             </div>
           </div>
@@ -175,7 +175,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
             style={{
               flexShrink: 0, width: 32, height: 32, borderRadius: 10,
               border: '1px solid var(--border)', background: 'transparent',
-              color: 'var(--ink-muted)', fontSize: 17, lineHeight: 1,
+              color: 'var(--ink-muted)', fontSize: 'var(--text-md)', lineHeight: 1,
               display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
             }}
           >
@@ -183,7 +183,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
           </button>
         </div>
 
-        <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.45, margin: '0 0 12px', fontWeight: 600, padding: '0 18px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45, margin: '0 0 12px', fontWeight: 600, padding: '0 18px' }}>
           Press the button and the code appears. Point their phone or tablet at it and their app opens. Nothing to install, nothing to sign up for.
         </p>
 
@@ -201,11 +201,11 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
                 background: 'var(--terracotta-lt)', borderRadius: 16,
                 padding: '13px 15px 15px', minHeight: 118, boxSizing: 'border-box',
               }}>
-                <div aria-hidden style={{ fontSize: 20, marginBottom: 4 }}>{p.emoji}</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)', lineHeight: 1.2 }}>
+                <div aria-hidden style={{ fontSize: 'var(--text-lg)', marginBottom: 4 }}>{p.emoji}</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
                   {p.title}
                 </div>
-                <div style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 5 }}>
+                <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 5 }}>
                   {p.body}
                 </div>
               </div>
@@ -243,7 +243,7 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
               display: 'inline-flex', alignItems: 'center', marginTop: 10,
               background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
               borderRadius: 16, padding: '14px 24px',
-              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18,
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
               boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}>
               Share the QR code
@@ -276,13 +276,13 @@ export default function ChildAppNudge({ childName, childId }: { childName?: stri
               display: 'block', width: '100%', marginTop: 12, cursor: saving ? 'default' : 'pointer',
               background: 'transparent', border: '1.5px solid var(--border)', borderRadius: 16,
               padding: '13px 16px', textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5,
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               color: 'var(--ink)', opacity: saving ? 0.6 : 1,
             }}
           >
             {saving ? 'Saving that' : 'We use the paper chart'}
           </button>
-          <p style={{ fontSize: 14.5, color: 'var(--ink-muted)', margin: '12px 0 0', lineHeight: 1.5 }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: '12px 0 0', lineHeight: 1.5 }}>
             <Link href="/dashboard/quests?tab=share" style={{ color: 'var(--ink-muted)' }}>
               The jobs, the code and the printables all live in Quests
             </Link>

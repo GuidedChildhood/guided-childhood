@@ -48,7 +48,7 @@ function Tile({ s }: { s: KidSticker }) {
           <StickerBadge s={s} size={56} />
         )}
       </div>
-      <span style={{ fontSize: '13px', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.1 }}>
+      <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.1 }}>
         {s.earned ? s.name : 'Locked'}
       </span>
     </div>
@@ -98,10 +98,10 @@ export default function KidStickers({ token, stickers, celebrate }: {
   return (
     <div style={{ margin: '10px 2px 8px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 12 }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)' }}>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>
           My stickers
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
           {earnedCount} of {stickers.length}
         </span>
       </div>
@@ -128,7 +128,7 @@ export default function KidStickers({ token, stickers, celebrate }: {
                 right: i >= 3 ? `${8 + (i - 3) * 6}%` : undefined, fontSize: '22px',
               }}>{e}</span>
             ))}
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 12px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 12px' }}>
               {toCheer.length > 1 ? `${toCheer.length} new stickers` : 'New sticker'}
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 14, flexWrap: 'wrap', marginBottom: 16 }}>
@@ -145,16 +145,16 @@ export default function KidStickers({ token, stickers, celebrate }: {
                 </div>
               ))}
             </div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--ink)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
               {toCheer.length > 1 ? 'You earned new stickers' : `You earned ${toCheer[0]?.name}`}
             </h2>
-            <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
               Straight into your sticker book. Keep going for more.
             </p>
             <button onClick={() => setShowCheer(false)} style={{
               width: '100%', padding: '14px', borderRadius: 16, border: 'none', cursor: 'pointer',
               background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)',
-              fontWeight: 800, fontSize: '17px', boxShadow: '0 5px 0 var(--terracotta-dark)',
+              fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}>
               Yay
             </button>

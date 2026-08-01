@@ -73,10 +73,10 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
           padding: '18px 22px 26px',
           borderRadius: '0 0 50% 50% / 0 0 26px 26px',
         }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: 3 }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: 3 }}>
             A moment from Guided Childhood
           </p>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.15rem', color: '#fff', lineHeight: 1.2, margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: '#fff', lineHeight: 1.2, margin: 0 }}>
             {moment.category}
           </p>
         </div>
@@ -90,7 +90,7 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
             {moment.title}
           </h1>
 
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '18px', color: 'var(--ink)', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.65, margin: 0, fontWeight: 500 }}>
             {moment.science_brief}
           </p>
 
@@ -99,17 +99,17 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
               background: 'rgba(255,255,255,0.65)', borderRadius: '14px', padding: '14px 16px',
               borderLeft: `3px solid ${look.band}`,
             }}>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: look.band, marginBottom: 6 }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: look.band, marginBottom: 6 }}>
                 Try this tonight
               </p>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
                 {String(solutions[0])}
               </p>
             </div>
           )}
 
           {moment.expert_note && (
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>
               {moment.expert_note}
             </p>
           )}
@@ -118,7 +118,7 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
 
       {/* The invitation, not a hard sell */}
       <div style={{ width: 'min(100%, 520px)', marginTop: '18px', textAlign: 'center' }}>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, marginBottom: '14px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.6, marginBottom: '14px' }}>
           There is a card like this for every hard moment, and the exact words to say, from age 4 to 16.
         </p>
         <Link
@@ -127,17 +127,17 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
             background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: '16px', padding: '14px 28px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}
         >
           Get your free starter pack
         </Link>
-        <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.75)', marginTop: '12px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.75)', marginTop: '12px' }}>
           Already a member?{' '}
           <Link href="/login" style={{ color: '#fff', fontWeight: 700 }}>Log in</Link>
         </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'rgba(255,255,255,0.55)', marginTop: '14px', letterSpacing: '0.06em' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'rgba(255,255,255,0.55)', marginTop: '14px', letterSpacing: '0.06em' }}>
           guidedchildhood.co.uk
         </p>
       </div>

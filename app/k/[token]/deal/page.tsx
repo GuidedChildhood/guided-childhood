@@ -69,7 +69,7 @@ export default async function KidDealPrintPage({ params }: { params: Promise<{ t
       `}</style>
 
       <div className="no-print" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 20 }}>
-        <Link href={`/k/${token}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+        <Link href={`/k/${token}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
           ← Back to my app
         </Link>
         <PrintButton />

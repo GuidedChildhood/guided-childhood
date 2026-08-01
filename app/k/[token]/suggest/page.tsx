@@ -58,7 +58,7 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ marginBottom: '18px' }}>
           <Link href={`/k/${token}`} style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
           }}>
             ← My quests
@@ -71,12 +71,12 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
             <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
               Ask for a job
             </h1>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.66)', margin: '5px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.66)', margin: '5px 0 0' }}>
               Your idea, their yes
             </p>
           </div>
         </div>
-        <p style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '10px 0 20px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '10px 0 20px' }}>
           Think of something you could do to help{childName ? `, ${childName}` : ''}. Your grown up gets it on their phone and can turn it into a real job with stars.
         </p>
 

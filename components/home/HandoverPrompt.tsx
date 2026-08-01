@@ -75,10 +75,10 @@ export default function HandoverPrompt({
 
   const reason = (emoji: string, title: string, body: string) => (
     <li style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 9 }}>
-      <span aria-hidden style={{ flexShrink: 0, fontSize: 19, lineHeight: 1.3 }}>{emoji}</span>
+      <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-lg)', lineHeight: 1.3 }}>{emoji}</span>
       <span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5, color: 'var(--ink)' }}>{title}</span>
-        <span style={{ display: 'block', fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 1 }}>{body}</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{title}</span>
+        <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 1 }}>{body}</span>
       </span>
     </li>
   )
@@ -107,20 +107,20 @@ export default function HandoverPrompt({
         <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '16px 18px 14px', background: 'var(--terracotta-lt)' }}>
           <span aria-hidden style={{
             flexShrink: 0, width: 42, height: 42, borderRadius: 13, background: '#fff',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 21,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)',
           }}>📲</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               One thing worth doing
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
               Put {name}&apos;s side on their phone
             </div>
           </div>
         </div>
 
         <div style={{ padding: '16px 18px 4px' }}>
-          <p style={{ fontSize: 17, color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: '0 0 13px' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5, margin: '0 0 13px' }}>
             Jobs, quests, printables and their star bank, on their own device. Nothing to install and nothing for them to sign up for.
           </p>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
@@ -130,16 +130,16 @@ export default function HandoverPrompt({
         </div>
 
         <div style={{ margin: '13px 18px 0', background: 'var(--tint-sage)', borderRadius: 14, padding: '11px 13px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
             What they get, and what they do not
           </div>
-          <p style={{ fontSize: 15, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
             Their view has no chat, no browsing and no account. It opens on a private link you send or they scan, and you can see everything on it.
           </p>
         </div>
 
         {failed && (
-          <p style={{ margin: '10px 18px 0', fontSize: 15, color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+          <p style={{ margin: '10px 18px 0', fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 700 }}>
             That did not go through. Have another go, or find it any time in Quests.
           </p>
         )}
@@ -151,7 +151,7 @@ export default function HandoverPrompt({
             style={{
               width: '100%', padding: '14px', cursor: busy ? 'default' : 'pointer',
               background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18,
+              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
               boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.7 : 1,
             }}
           >
@@ -165,12 +165,12 @@ export default function HandoverPrompt({
             style={{
               width: '100%', marginTop: 8, padding: '13px', cursor: 'pointer',
               background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)',
-              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+              borderRadius: 16, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             }}
           >
             We do it on paper
           </button>
-          <p style={{ fontSize: 14, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0', textAlign: 'center' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0', textAlign: 'center' }}>
             Print the quest cards and tick them at the table. It all still counts, and we will not ask again.
           </p>
 
@@ -179,7 +179,7 @@ export default function HandoverPrompt({
             style={{
               width: '100%', marginTop: 10, padding: '8px', cursor: 'pointer',
               background: 'none', border: 'none', color: 'var(--ink-muted)',
-              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5,
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
             }}
           >
             Not now

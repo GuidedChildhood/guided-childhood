@@ -58,12 +58,12 @@ export default function SchoolLink() {
   return (
     <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '20px', opacity: SCHOOL_LINK_LIVE ? 1 : 0.55 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginBottom: '6px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: SCHOOL_LINK_LIVE ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: SCHOOL_LINK_LIVE ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
           School link
         </span>
         {!SCHOOL_LINK_LIVE && (
           <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)',
             background: 'rgba(26,26,46,0.06)', borderRadius: 100, padding: '3px 9px',
           }}>
@@ -71,8 +71,8 @@ export default function SchoolLink() {
           </span>
         )}
       </div>
-      <h3 style={{ fontSize: '1rem', marginBottom: '8px' }}>Let DiGi catch the school emails</h3>
-      <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '14px' }}>
+      <h3 style={{ fontSize: 'var(--text-md)', marginBottom: '8px' }}>Let DiGi catch the school emails</h3>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '14px' }}>
         Forward school emails to your private DiGi address and DiGi pulls out the things that matter: PE kit tomorrow, payment due, homework, trip forms. DiGi never sees your inbox, only what you forward.
       </p>
 
@@ -82,22 +82,22 @@ export default function SchoolLink() {
         onClick={save}
         disabled={!SCHOOL_LINK_LIVE || saving || !schoolName.trim()}
         className="btn btn-gold"
-        style={{ fontSize: '15px', padding: '11px 20px', cursor: SCHOOL_LINK_LIVE ? 'pointer' : 'not-allowed' }}
+        style={{ fontSize: 'var(--text-base)', padding: '11px 20px', cursor: SCHOOL_LINK_LIVE ? 'pointer' : 'not-allowed' }}
       >
         {token ? 'Update school link' : 'Create my DiGi address'}
       </button>
       {!SCHOOL_LINK_LIVE && (
-        <p style={{ fontSize: '14.5px', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '12px 0 0' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '12px 0 0' }}>
           Not switched on yet. Until it is, add the weekly things by hand on the School page and they will remind you both every week.
         </p>
       )}
 
       {address && (
         <div style={{ marginTop: '16px', background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '12px', padding: '14px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink)', wordBreak: 'break-all', marginBottom: '10px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', wordBreak: 'break-all', marginBottom: '10px' }}>
             {address}
           </div>
-          <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
             One time setup in your email: create a forwarding rule for messages from your school to this address. The step by step walkthrough lives at <a href="/dashboard/school" style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>School link setup</a>. Or simply forward any school email here manually and DiGi handles it.
           </p>
         </div>

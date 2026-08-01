@@ -157,7 +157,7 @@ export default async function StatsPage() {
 
   return (
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '24px 20px 48px' }}>
-      <Link href="/dashboard/quests" style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+      <Link href="/dashboard/quests" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
         ‹ Quests
       </Link>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '10px 0 8px' }}>Balance and stats</p>
@@ -168,7 +168,7 @@ export default async function StatsPage() {
       <PaceCard pace={pace} childName={child?.name} />
       <BalanceReport report={report} />
       {handMinutes > 0 && (
-        <p style={{ fontSize: 14.5, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 2px 0' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 2px 0' }}>
           {handMinutes} of these {report.totalWeekMins} minutes were marked by hand rather than timed.
         </p>
       )}

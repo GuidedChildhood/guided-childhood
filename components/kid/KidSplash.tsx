@@ -45,10 +45,10 @@ export default function KidSplash({ buddyImg, buddyName, childName, bg, ink, bud
           ? { width: 136, height: 136 }
           : { width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top' }} />
       </span>
-      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: ink, letterSpacing: '-0.01em', textAlign: 'center', padding: '0 20px' }}>
+      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: ink, letterSpacing: '-0.01em', textAlign: 'center', padding: '0 20px' }}>
         Welcome {childName}!
       </span>
-      <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '1.02rem', color: ink, opacity: 0.85, textAlign: 'center', padding: '0 28px', lineHeight: 1.4, marginTop: -8 }}>
+      <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-md)', color: ink, opacity: 0.85, textAlign: 'center', padding: '0 28px', lineHeight: 1.4, marginTop: -8 }}>
         {buddyIsStar
           ? 'DiGi here to guide you. Have fun!'
           : `I'm ${buddyName}, here to guide you. Have fun!`}

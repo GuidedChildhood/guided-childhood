@@ -131,18 +131,18 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
   if (running) {
     return (
       <div style={{ background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF', borderRadius: 20, boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 18, marginBottom: 16 }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--retro-green-dark, #236F52)', marginBottom: 8 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--retro-green-dark, #236F52)', marginBottom: 8 }}>
           Screen time running
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <span aria-hidden style={{ fontSize: 32, lineHeight: 1, flexShrink: 0 }}>
+          <span aria-hidden style={{ fontSize: 'var(--text-3xl)', lineHeight: 1, flexShrink: 0 }}>
             {runningDevice ? deviceIcon(runningDevice) : deviceEmoji(live!.device)}
           </span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 30, color: 'var(--ink)', lineHeight: 1, letterSpacing: '-0.02em' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1, letterSpacing: '-0.02em' }}>
               {mmss(left)}
             </div>
-            <div style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 3 }}>
+            <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 3 }}>
               {/* Named when we know which one, so a house with two tablets is
                   told which tablet is counting down. */}
               left of {live!.minutes} minutes on {runningDevice ? runningDevice.label : `the ${deviceLabel(live!.device).toLowerCase()}`}. {name === 'your child' ? 'They are' : `${name} is`} watching the same countdown.
@@ -155,7 +155,7 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
             display: 'block', textAlign: 'center', marginTop: 14,
             background: '#fff', border: '1.5px solid var(--border)', borderRadius: 12,
             padding: '11px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
         >
           Open the timer
@@ -166,10 +166,10 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
 
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, boxShadow: '0 4px 22px rgba(26,26,46,0.06)', padding: 18, marginBottom: 16 }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
         Start screen time
       </div>
-      <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
         No phone of their own? Start {name}&apos;s screen time here and it still counts in the balance below, on the same countdown you both watch.
       </p>
 
@@ -191,13 +191,13 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
         style={{
           width: '100%', padding: '11px', borderRadius: 12, border: 'none',
           cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)',
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16,
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           boxShadow: busy ? 'none' : '0 3px 0 var(--terracotta-dark)',
         }}
       >
         {busy ? 'Starting…' : done ? 'Started ✓' : `Start ${minutes} minutes`}
       </button>
-      {error && <p style={{ fontSize: 14, color: '#B93B3F', margin: '9px 0 0', fontWeight: 600 }}>{error}</p>}
+      {error && <p style={{ fontSize: 'var(--text-base)', color: '#B93B3F', margin: '9px 0 0', fontWeight: 600 }}>{error}</p>}
     </div>
   )
 }

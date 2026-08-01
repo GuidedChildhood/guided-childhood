@@ -27,21 +27,21 @@ export default function DigiPrintableNudge({
         <div style={{
           width: 36, height: 36, borderRadius: '10px', flexShrink: 0,
           background: '#fff', border: '1.5px solid var(--border)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '21px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)',
         }}>
           {emoji}
         </div>
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             A printable from DiGi
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.2, marginTop: '2px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginTop: '2px' }}>
             {title}
           </div>
         </div>
       </div>
 
-      <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 13px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 13px' }}>
         {blurb}
       </p>
 
@@ -52,7 +52,7 @@ export default function DigiPrintableNudge({
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
             border: 'none', borderRadius: '12px', padding: '9px 15px',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}
         >
@@ -62,7 +62,7 @@ export default function DigiPrintableNudge({
           onClick={() => setShow(false)}
           style={{
             marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer',
-            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)', padding: '6px 4px',
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', padding: '6px 4px',
           }}
         >
           Not now

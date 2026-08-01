@@ -102,7 +102,7 @@ export default function Shop({
       <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: 10 }}>
         Make the journey real
       </h1>
-      <p style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: 22, maxWidth: 520 }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: 22, maxWidth: 520 }}>
         The passport and the Planet Friends live on a screen. The proudest moments deserve something you can hold, printed from the stamps {childName ?? 'your child'} actually earned.
       </p>
 
@@ -123,10 +123,10 @@ export default function Shop({
 
       {soon.length > 0 && (
         <>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)', margin: '30px 0 6px', letterSpacing: '-0.01em' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '30px 0 6px', letterSpacing: '-0.01em' }}>
             Coming soon
           </h2>
-          <p style={{ fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 16px' }}>
             Anything a child can hold and chew is a toy in law, so the magnetic chart, the charms and the plush go through proper safety testing before we sell one. Tell us which you want and you will hear first.
           </p>
           {soon.map(p => (
@@ -146,10 +146,10 @@ export default function Shop({
         }}>
           <div style={{ maxWidth: 600, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 14 }}>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
                 {count === 1 ? '1 item' : `${count} items`}
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 24, color: 'var(--ink)' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)' }}>
                 {formatPence(total)}
               </div>
             </div>
@@ -159,7 +159,7 @@ export default function Shop({
               style={{
                 background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16,
                 padding: '15px 26px', cursor: busy ? 'wait' : 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18.5,
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
                 boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: busy ? 0.7 : 1,
               }}
             >
@@ -172,11 +172,11 @@ export default function Shop({
               We could not reach the payment page and read as that form having
               failed. It is here now, attached to the thing that failed. */}
           {error ? (
-            <p role="alert" style={{ maxWidth: 600, margin: '10px auto 0', fontSize: 15, fontWeight: 700, color: 'var(--terracotta-dark)', textAlign: 'center', lineHeight: 1.5 }}>
+            <p role="alert" style={{ maxWidth: 600, margin: '10px auto 0', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', textAlign: 'center', lineHeight: 1.5 }}>
               {error}
             </p>
           ) : (
-            <p style={{ maxWidth: 600, margin: '8px auto 0', fontSize: 14, color: 'var(--ink-muted)', textAlign: 'center' }}>
+            <p style={{ maxWidth: 600, margin: '8px auto 0', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center' }}>
               Posted within the UK. Payment handled by Stripe.
             </p>
           )}
@@ -261,18 +261,18 @@ function Card({
 
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20.5, color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
               {product.name}
             </span>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19, color: 'var(--terracotta-dark)' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>
               {formatPence(product.price_pence)}
             </span>
           </div>
-          <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '6px 0 0' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '6px 0 0' }}>
             {product.blurb}
           </p>
           {product.personalised && childName && (
-            <p style={{ fontSize: 15.5, fontWeight: 700, color: 'var(--ink)', margin: '8px 0 0' }}>
+            <p style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', margin: '8px 0 0' }}>
               Printed for {childName}, from their real stamps.
             </p>
           )}
@@ -305,9 +305,9 @@ function Card({
           qty > 0 ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <Step label="One fewer" onClick={() => onAdd(product.key, -1)}>–</Step>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 21, minWidth: 22, textAlign: 'center' }}>{qty}</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', minWidth: 22, textAlign: 'center' }}>{qty}</span>
               <Step label="One more" onClick={() => onAdd(product.key, 1)} disabled={qty >= MAX_QTY}>+</Step>
-              <span style={{ fontSize: 15.5, color: 'var(--ink-muted)', fontWeight: 700 }}>In your basket</span>
+              <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', fontWeight: 700 }}>In your basket</span>
             </div>
           ) : (
             <button
@@ -315,7 +315,7 @@ function Card({
               style={{
                 background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16,
                 padding: '13px 24px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17.5,
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
                 boxShadow: '0 5px 0 var(--terracotta-dark)',
               }}
             >
@@ -326,7 +326,7 @@ function Card({
           <div style={{
             display: 'inline-block', background: 'var(--cream)', border: '1.5px solid var(--border)',
             borderRadius: 12, padding: '10px 16px',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink-soft)',
           }}>
             {lockedReason(product)}
           </div>
@@ -343,7 +343,7 @@ function Step({ children, onClick, label, disabled }: { children: React.ReactNod
       style={{
         width: 42, height: 42, borderRadius: 14, background: '#fff',
         border: '1.5px solid var(--border)', cursor: disabled ? 'default' : 'pointer',
-        fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)',
+        fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)',
         opacity: disabled ? 0.4 : 1,
       }}
     >
@@ -360,8 +360,8 @@ function Banner({ tone, title, children }: { tone: 'good' | 'quiet'; title: stri
       border: `1.5px solid ${good ? '#D6E5DF' : 'var(--border)'}`,
       borderRadius: 18, padding: '16px 18px', marginBottom: 18,
     }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19, color: 'var(--ink)' }}>{title}</div>
-      <p style={{ fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '5px 0 0' }}>{children}</p>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{title}</div>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '5px 0 0' }}>{children}</p>
     </div>
   )
 }
@@ -409,34 +409,34 @@ function Interest({ email, childName }: { email: string; childName: string | nul
     <div style={{ background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF', borderRadius: 20, padding: 20, marginTop: 4 }}>
       {state === 'done' ? (
         <div style={{ textAlign: 'center', padding: '8px 4px' }}>
-          <div style={{ fontSize: 34, marginBottom: 6 }}>💛</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)' }}>You are on the list</div>
-          <p style={{ fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '6px auto 0', maxWidth: 380 }}>
+          <div style={{ fontSize: 'var(--text-3xl)', marginBottom: 6 }}>💛</div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>You are on the list</div>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '6px auto 0', maxWidth: 380 }}>
             We will let you know the moment these are ready to order. Thank you for building the journey with us.
           </p>
         </div>
       ) : (
         <>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19.5, color: 'var(--ink)', marginBottom: 4 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: 4 }}>
             Want the charms and the plush
           </div>
-          <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
             No payment now. We make these in the order families ask for them, and you will hear the day they land.
           </p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <input
               type="email" value={value} onChange={e => setValue(e.target.value)} placeholder="Your email"
-              style={{ flex: 1, minWidth: 180, padding: '13px 15px', borderRadius: 12, border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)', fontSize: 17, background: '#fff' }}
+              style={{ flex: 1, minWidth: 180, padding: '13px 15px', borderRadius: 12, border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', background: '#fff' }}
             />
             <button
               onClick={register} disabled={state === 'sending'}
-              style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 12, padding: '13px 22px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, boxShadow: '0 4px 0 var(--terracotta-dark)' }}
+              style={{ background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 12, padding: '13px 22px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}
             >
               {state === 'sending' ? 'Sending…' : state === 'error' ? 'Try again' : 'Notify me'}
             </button>
           </div>
           {error && (
-            <p role="alert" style={{ fontSize: 15, color: '#B93B3F', lineHeight: 1.5, margin: '10px 0 0' }}>
+            <p role="alert" style={{ fontSize: 'var(--text-base)', color: '#B93B3F', lineHeight: 1.5, margin: '10px 0 0' }}>
               {error}
             </p>
           )}

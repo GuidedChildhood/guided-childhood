@@ -8,7 +8,7 @@ import Link from 'next/link'
 // data protection, safeguarding, CPD, FAQs. Every document prints.
 
 const eyebrow: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 
@@ -72,7 +72,7 @@ export default async function HubPage() {
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>
           The Hub
         </h1>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '580px', marginBottom: '28px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '580px', marginBottom: '28px' }}>
           Everything your school needs around the lessons: the statutory mapping, the policy text,
           the parent pack, data protection and staff briefings. Every document prints from the page,
           and every one regenerates automatically when the curriculum changes, so nothing here can go stale.
@@ -85,12 +85,12 @@ export default async function HubPage() {
               padding: '18px 20px', textDecoration: 'none', display: 'flex', gap: '14px', alignItems: 'flex-start',
               boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)',
             }}>
-              <span style={{ fontSize: '26px', flexShrink: 0 }}>{d.emoji}</span>
+              <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>{d.emoji}</span>
               <span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17.5px', color: d.accent, marginBottom: '4px' }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: d.accent, marginBottom: '4px' }}>
                   {d.title} →
                 </span>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
                   {d.body}
                 </span>
               </span>

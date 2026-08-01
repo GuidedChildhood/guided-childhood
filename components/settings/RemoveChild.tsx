@@ -86,7 +86,7 @@ export default function RemoveChild({
     <div style={{ marginTop: '18px', paddingTop: '16px', borderTop: '1.5px solid var(--border)' }}>
       {!open ? (
         <>
-          <p style={{ fontSize: '14.5px', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 10px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '0 0 10px' }}>
             Added a child twice, or added a new one when you meant to change a name? You can take one off here.
           </p>
           <button
@@ -95,7 +95,7 @@ export default function RemoveChild({
             style={{
               background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px',
               padding: '9px 16px', cursor: 'pointer', fontFamily: 'var(--font-body)',
-              fontSize: '14.5px', fontWeight: 600, color: 'var(--terracotta-dark)',
+              fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta-dark)',
             }}
           >
             Remove {label}
@@ -103,10 +103,10 @@ export default function RemoveChild({
         </>
       ) : (
         <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '15px' }}>
-          <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 10px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 10px' }}>
             This takes {label} off your account for good, along with their jobs and stars, their stickers, their own app link, and everything DiGi remembers about them. Your other {siblingCount > 2 ? 'children are' : 'child is'} not affected. It cannot be undone.
           </p>
-          <label htmlFor={`confirm-remove-${childId}`} style={{ display: 'block', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '10px' }}>
+          <label htmlFor={`confirm-remove-${childId}`} style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '10px' }}>
             Type <strong>{confirmWord}</strong> to confirm.
           </label>
           <input
@@ -117,7 +117,7 @@ export default function RemoveChild({
             style={{
               width: '100%', padding: '12px 14px', borderRadius: '12px',
               border: '1.5px solid var(--border)', background: 'var(--cream)',
-              fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
+              fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
           />
           <div style={{ display: 'flex', gap: '10px', marginTop: '12px', flexWrap: 'wrap' }}>
@@ -128,7 +128,7 @@ export default function RemoveChild({
               style={{
                 background: ready ? 'var(--terracotta)' : 'var(--border)', border: 'none',
                 borderRadius: '12px', padding: '11px 18px', cursor: ready && !busy ? 'pointer' : 'default',
-                fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
               }}
             >
               {busy ? 'Removing' : `Remove ${label}`}
@@ -139,14 +139,14 @@ export default function RemoveChild({
               style={{
                 background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px',
                 padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
-                fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)',
+                fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
               }}
             >
               Keep {label}
             </button>
           </div>
           {error && (
-            <p role="status" style={{ fontSize: '14.5px', color: 'var(--terracotta-dark)', fontWeight: 600, margin: '10px 0 0', lineHeight: 1.5 }}>
+            <p role="status" style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 600, margin: '10px 0 0', lineHeight: 1.5 }}>
               {error}
             </p>
           )}

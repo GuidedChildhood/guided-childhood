@@ -51,10 +51,10 @@ export default function ChildPing({
 
   return (
     <div style={{ marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--border)' }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
         Ping {childName}&apos;s phone now
       </div>
-      <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
         One tap and it buzzes on their phone. Works once they have opened their quest link and turned on reminders.
       </p>
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -66,7 +66,7 @@ export default function ChildPing({
             style={{
               background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px',
               padding: '9px 14px', cursor: 'pointer', fontFamily: 'var(--font-body)',
-              fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)', textAlign: 'left',
+              fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', textAlign: 'left',
               // Wraps to a second line rather than being cut off. Long labels are
               // the minority, so the row stays tidy either way.
               maxWidth: '100%', whiteSpace: 'normal', lineHeight: 1.35,
@@ -97,7 +97,7 @@ export default function ChildPing({
           style={{
             flex: 1, minWidth: 0, padding: '10px 12px', borderRadius: '12px',
             border: '1.5px solid var(--border)', fontFamily: 'var(--font-body)',
-            fontSize: '15px', color: 'var(--ink)', background: '#fff',
+            fontSize: 'var(--text-base)', color: 'var(--ink)', background: '#fff',
           }}
         />
         <button
@@ -107,14 +107,14 @@ export default function ChildPing({
             flexShrink: 0, background: ready ? 'var(--terracotta)' : 'var(--border)',
             color: 'var(--ink)', border: 'none', borderRadius: '12px', padding: '10px 16px',
             cursor: ready ? 'pointer' : 'default',
-            fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
           }}
         >
           Send
         </button>
       </form>
       {result && (
-        <p role="status" style={{ fontSize: '14.5px', color: result.startsWith('Ping sent') ? 'var(--terracotta-dark)' : 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.55, margin: '10px 0 0' }}>
+        <p role="status" style={{ fontSize: 'var(--text-base)', color: result.startsWith('Ping sent') ? 'var(--terracotta-dark)' : 'var(--ink-soft)', fontWeight: 600, lineHeight: 1.55, margin: '10px 0 0' }}>
           {result}
         </p>
       )}

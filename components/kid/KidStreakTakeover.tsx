@@ -101,7 +101,7 @@ export default function KidStreakTakeover({
         }}>
           {streak}
         </div>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', color: 'var(--terracotta-dark)', marginTop: '2px' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--terracotta-dark)', marginTop: '2px' }}>
           {streak === 1 ? 'day streak' : 'day streak'}
         </div>
       </div>
@@ -109,13 +109,13 @@ export default function KidStreakTakeover({
       <div style={{ display: 'flex', gap: '9px', margin: '22px 0 18px' }}>
         {week.map((d, i) => (
           <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, color: 'rgba(26,26,46,0.5)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'rgba(26,26,46,0.5)' }}>
               {d.letter}
             </span>
             <span style={{
               width: 30, height: 30, borderRadius: '50%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '15px', fontWeight: 800, color: d.filled ? 'var(--ink)' : 'rgba(26,26,46,0.25)',
+              fontSize: 'var(--text-base)', fontWeight: 800, color: d.filled ? 'var(--ink)' : 'rgba(26,26,46,0.25)',
               background: d.filled ? '#fff' : 'rgba(26,26,46,0.07)',
               border: d.isToday ? '2px solid var(--terracotta)' : '2px solid transparent',
             }}>
@@ -125,13 +125,13 @@ export default function KidStreakTakeover({
         ))}
       </div>
 
-      <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 6px', maxWidth: '340px', fontWeight: 600 }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 6px', maxWidth: '340px', fontWeight: 600 }}>
         {earnedFriend
           ? `That is ${STREAKS_PER_FRIEND} streaks${childName ? `, ${childName}` : ''}. A new friend is on the way to your sticker book.`
           : `All five done${childName ? `, ${childName}` : ''}. Every one of them.`}
       </p>
       {!earnedFriend && (
-        <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, maxWidth: '340px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, maxWidth: '340px' }}>
           {toReward === 1
             ? 'One more day and you get a new friend for your sticker book.'
             : `${toReward} more days and you get a new friend for your sticker book.`}
@@ -143,7 +143,7 @@ export default function KidStreakTakeover({
         style={{
           marginTop: '26px', padding: '14px 34px', borderRadius: '16px', border: 'none',
           background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px',
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
           boxShadow: '0 5px 0 var(--terracotta-dark)',
         }}
       >

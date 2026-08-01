@@ -19,12 +19,12 @@ export function PrintBrandHeader() {
             ))}
           </span>
         </span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
           {BRAND_NAME}
         </span>
       </div>
       <div style={{
-        fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700,
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
         letterSpacing: '0.22em', color: 'var(--terracotta-dark)', marginTop: '3px',
       }}>
         {BRAND_PATHWAY}
@@ -36,11 +36,11 @@ export function PrintBrandHeader() {
 export function PrintBrandFooter() {
   return (
     <div style={{ textAlign: 'center', marginTop: '12px' }}>
-      <div style={{ fontSize: '11px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+      <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
         {BRAND_CATCHPHRASE}
       </div>
       <div style={{
-        fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700,
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
         letterSpacing: '0.1em', color: 'var(--terracotta-dark)', marginTop: '2px',
       }}>
         {BRAND_DOMAIN}

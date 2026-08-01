@@ -41,7 +41,7 @@ export default function DigiCheckinFixturePage() {
   if (process.env.NODE_ENV === 'production') notFound()
   return (
     <main style={{ maxWidth: 640, margin: '0 auto', padding: '40px 20px', background: 'var(--cream)', minHeight: '100vh' }}>
-      <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', color: 'var(--ink)', marginBottom: 20 }}>
+      <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: 20 }}>
         Device check in fixtures
       </h1>
       {FIXTURES.map(f => <DigiDeviceCheckin key={f.promptId} fixture={f} />)}

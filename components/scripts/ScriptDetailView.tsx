@@ -51,7 +51,7 @@ type Props = {
 
 const chip: React.CSSProperties = {
   ...eyebrow,
-  fontSize: 11.5,
+  fontSize: 'var(--text-sm)',
   padding: '5px 11px',
   borderRadius: 100,
   display: 'inline-flex',
@@ -72,14 +72,14 @@ export default function ScriptDetailView({
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px', flexWrap: 'wrap', gap: '8px' }}>
         <Link
           href="/dashboard/scripts"
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
         >
           ← All scripts
         </Link>
         <Link
           href={`/dashboard/scripts/${sortOrder}/deck`}
           className="btn btn-green"
-          style={{ padding: '8px 16px', fontSize: '13px' }}
+          style={{ padding: '8px 16px', fontSize: 'var(--text-sm)' }}
         >
           Try as deck
         </Link>
@@ -102,7 +102,7 @@ export default function ScriptDetailView({
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '14px' }}>
           {script.title}
         </h1>
-        <p style={{ fontSize: '19px', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '62ch', margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '62ch', margin: 0 }}>
           {script.situation}
         </p>
 
@@ -111,9 +111,9 @@ export default function ScriptDetailView({
           <span aria-hidden style={{
             width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
             background: 'var(--tint-sage)', color: 'var(--ink)',
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12,
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-sm)',
           }}>✓</span>
-          <span style={{ fontSize: '16px', color: 'var(--ink-muted)', lineHeight: 1.45 }}>
+          <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', lineHeight: 1.45 }}>
             Marked as read just by opening it. It counts on your path today.
           </span>
         </div>
@@ -122,7 +122,7 @@ export default function ScriptDetailView({
             evening best, so the way to search for a better fitting one is always
             one tap away, right here on the pick. */}
         <div style={{ marginTop: '16px' }}>
-          <Link href="/dashboard/scripts" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15.5px', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+          <Link href="/dashboard/scripts" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
             Not the right words for tonight? Search all scripts →
           </Link>
         </div>
@@ -137,7 +137,7 @@ export default function ScriptDetailView({
             <div style={{ ...eyebrow, color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
               UK social media ban context
             </div>
-            <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
               This script is updated for the UK ban on social media for under 16s. The approach stays the same: relational, not restrictive. The law is the start of the conversation, not the end of it.
             </p>
           </div>
@@ -185,14 +185,14 @@ export default function ScriptDetailView({
             <div style={{ ...eyebrow, color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
               DiGi
             </div>
-            <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
               Need help adapting this for your situation? Ask DiGi.
             </p>
           </div>
           <Link
             href={`/dashboard/digi?q=${encodeURIComponent(`I need help with the script: ${script.title}. My situation: `)}`}
             className="btn btn-gold"
-            style={{ flexShrink: 0, padding: '11px 20px', fontSize: '14px' }}
+            style={{ flexShrink: 0, padding: '11px 20px', fontSize: 'var(--text-base)' }}
           >
             Ask DiGi about this
           </Link>
@@ -203,16 +203,16 @@ export default function ScriptDetailView({
           href="/dashboard/agreement"
           style={{ ...card, display: 'flex', alignItems: 'center', gap: '14px', textDecoration: 'none', padding: cardPad }}
         >
-          <span aria-hidden style={{ fontSize: '22px', flexShrink: 0 }}>🤝</span>
+          <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>🤝</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: '17px', fontWeight: 800, color: 'var(--ink)', fontFamily: 'var(--font-display)', marginBottom: '3px' }}>
+            <div style={{ fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', fontFamily: 'var(--font-display)', marginBottom: '3px' }}>
               Make it a family agreement
             </div>
-            <div style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            <div style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
               Turn this conversation into a simple agreement you both sign, so the rule holds after the moment passes.
             </div>
           </div>
-          <span aria-hidden style={{ fontFamily: 'var(--font-mono)', fontSize: '20px', color: 'var(--terracotta-dark)', flexShrink: 0 }}>→</span>
+          <span aria-hidden style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', flexShrink: 0 }}>→</span>
         </Link>
 
         {/* Navigation */}
@@ -222,16 +222,16 @@ export default function ScriptDetailView({
               href={`/dashboard/scripts/${prevScript.sort_order}`}
               style={{ ...card, borderRadius: 16, flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}
             >
-              <span style={{ ...eyebrow, fontSize: 11.5, color: 'var(--ink-muted)' }}>← Previous</span>
-              <span style={{ fontSize: '16px', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{prevScript.title}</span>
+              <span style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>← Previous</span>
+              <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{prevScript.title}</span>
             </Link>
           ) : (
             <Link
               href="/dashboard/scripts"
               style={{ ...card, borderRadius: 16, flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}
             >
-              <span style={{ ...eyebrow, fontSize: 11.5, color: 'var(--terracotta-dark)' }}>All topics</span>
-              <span style={{ fontSize: '16px', fontWeight: 700, color: 'var(--ink)' }}>Back to scripts</span>
+              <span style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>All topics</span>
+              <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)' }}>Back to scripts</span>
             </Link>
           )}
 
@@ -240,8 +240,8 @@ export default function ScriptDetailView({
               href={`/dashboard/scripts/${nextScript.sort_order}`}
               style={{ ...card, borderRadius: 16, flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'right', minWidth: 0 }}
             >
-              <span style={{ ...eyebrow, fontSize: 11.5, color: 'var(--terracotta-dark)' }}>Next →</span>
-              <span style={{ fontSize: '16px', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{nextScript.title}</span>
+              <span style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>Next →</span>
+              <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{nextScript.title}</span>
             </Link>
           )}
         </div>
@@ -255,7 +255,7 @@ export default function ScriptDetailView({
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
             borderRadius: 16, padding: '15px 20px',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}
         >

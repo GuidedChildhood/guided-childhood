@@ -47,13 +47,13 @@ export default async function KidAdventurePage({ params }: { params: Promise<{ t
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '10px' }}>
           <Link href={`/k/${token}`} style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
             color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
           }}>
             ← My quests
           </Link>
           <span style={{
-            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '13px',
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
             color: 'var(--ink)', background: 'var(--gold, #F2C94C)', borderRadius: '100px',
             padding: '6px 14px', boxShadow: '0 3px 0 rgba(0,0,0,0.2)',
           }}>
@@ -62,7 +62,7 @@ export default async function KidAdventurePage({ params }: { params: Promise<{ t
         </div>
 
         <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', margin: '0 0 6px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', margin: '0 0 6px' }}>
             Watch together with your grown up
           </p>
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 6vw, 1.7rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.2, margin: 0 }}>

@@ -318,24 +318,24 @@ export default function KidTodayList({
           animation: r.burst ? 'kid-pop 0.5s ease' : done ? 'kid-done-leave 1.9s ease forwards' : undefined,
         }}
       >
-        <span style={{ fontSize: '1.7rem', flexShrink: 0, opacity: waiting ? 0.85 : 1 }}>{r.emoji}</span>
+        <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0, opacity: waiting ? 0.85 : 1 }}>{r.emoji}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: done ? 'var(--ink-muted)' : 'var(--terracotta-dark)' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: done ? 'var(--ink-muted)' : 'var(--terracotta-dark)' }}>
             {r.kind}
           </span>
           <span style={{
             display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-            fontSize: '1.3rem', color: 'var(--ink)', lineHeight: 1.25, marginTop: 1,
+            fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.25, marginTop: 1,
             textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.6 : 1,
           }}>
             {r.title}
           </span>
-          <span style={{ display: 'block', fontSize: '16.5px', fontWeight: 600, color: waiting ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 2, lineHeight: 1.35 }}>
+          <span style={{ display: 'block', fontSize: 'var(--text-md)', fontWeight: 600, color: waiting ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 2, lineHeight: 1.35 }}>
             {r.sub}
             {r.beforeScreens && (
               <span style={{
                 display: 'inline-block', marginLeft: 8, verticalAlign: 'middle',
-                fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                 letterSpacing: '0.08em', textTransform: 'uppercase',
                 background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)',
                 border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px',
@@ -350,7 +350,7 @@ export default function KidTodayList({
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           background: done ? 'var(--terracotta)' : waiting ? 'var(--terracotta-lt)' : 'var(--cream)',
           border: done ? 'none' : waiting ? '1.5px solid var(--terracotta)' : '2.5px dashed var(--ink-light)',
-          fontSize: '20px',
+          fontSize: 'var(--text-lg)',
         }}>
           {done ? '✓' : waiting ? '⏳' : ''}
           {r.burst && <KidTickBurst />}
@@ -377,17 +377,17 @@ export default function KidTodayList({
         boxShadow: '0 4px 0 rgba(0,0,0,0.12)',
       }}
     >
-      <span style={{ fontSize: '1.35rem', flexShrink: 0 }}>{r.emoji}</span>
+      <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>{r.emoji}</span>
       <span style={{ flex: 1, minWidth: 0 }}>
         <span style={{
           display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-          fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2,
+          fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2,
           whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
         }}>
           {r.title}
         </span>
       </span>
-      {r.beforeScreens && <span aria-hidden style={{ fontSize: '15px', flexShrink: 0 }}>📵</span>}
+      {r.beforeScreens && <span aria-hidden style={{ fontSize: 'var(--text-base)', flexShrink: 0 }}>📵</span>}
       <span style={{
         width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
         background: 'var(--cream)', border: '2px dashed var(--ink-light)',
@@ -414,7 +414,7 @@ export default function KidTodayList({
           background: '#fff', borderRadius: '4px 16px 16px 16px', padding: '9px 14px',
           border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 3px 0 rgba(26,26,46,0.08)',
         }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.35 }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.35 }}>
             {tod} {childName}. {line}
           </span>
         </div>
@@ -436,18 +436,18 @@ export default function KidTodayList({
           padding: '13px 15px', marginBottom: 12,
           boxShadow: '0 4px 0 var(--terracotta-dark)',
         }}>
-          <span aria-hidden style={{ fontSize: 22, lineHeight: 1, flexShrink: 0 }}>✨</span>
-          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)', lineHeight: 1.25 }}>
+          <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>✨</span>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
             {newQuestCount === 1 ? 'A new job just arrived!' : `${newQuestCount} new jobs just arrived!`}
           </span>
         </div>
       )}
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 10 }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: inkSoft }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: inkSoft }}>
           Today
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: inkSoft }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: inkSoft }}>
           {doneCount} of {total}
         </span>
       </div>
@@ -461,12 +461,12 @@ export default function KidTodayList({
           background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
           borderRadius: '20px', padding: '13px 17px', marginBottom: '12px',
         }}>
-          <span style={{ fontSize: '1.6rem', flexShrink: 0 }}>💛</span>
+          <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>💛</span>
           <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.02rem', color: 'var(--ink)', lineHeight: 1.25 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
               Pay back the gift
             </span>
-            <span style={{ display: 'block', fontSize: '16px', fontWeight: 600, color: 'var(--ink-soft)', marginTop: 2 }}>
+            <span style={{ display: 'block', fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink-soft)', marginTop: 2 }}>
               do a job to say thanks · {giftStarsOwed} star{giftStarsOwed === 1 ? '' : 's'} of gifted time
             </span>
           </span>
@@ -480,12 +480,12 @@ export default function KidTodayList({
           background: 'var(--tint-sage)', borderRadius: '20px', padding: '15px 18px',
           border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 5px 0 rgba(26,26,46,0.12)',
         }}>
-          <span style={{ fontSize: '1.9rem', lineHeight: 1, flexShrink: 0 }}>🏅</span>
+          <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1, flexShrink: 0 }}>🏅</span>
           <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.15 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
               Today is done
             </span>
-            <span style={{ display: 'block', fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)', marginTop: 2 }}>
+            <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', marginTop: 2 }}>
               Every job, plus Learn and Move. Amazing work {childName}!
             </span>
           </span>
@@ -499,7 +499,7 @@ export default function KidTodayList({
             <div>
               {rowCard(activeRows[0])}
               {peeks.map((r, i) => peekCard(r, i))}
-              <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', color: inkSoft, margin: '12px 0 0' }}>
+              <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: inkSoft, margin: '12px 0 0' }}>
                 {tucked > 0
                   ? `${activeRows.length - 1} more to go, ${tucked} tucked behind`
                   : `${activeRows.length - 1} more, one at a time`}
@@ -518,10 +518,10 @@ export default function KidTodayList({
                   borderRadius: '16px', padding: '12px 16px', cursor: 'pointer',
                 }}
               >
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                   ⏳ With your grown up · {waitingRows.length}
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-soft)' }}>
                   {waitingOpen ? 'Hide' : 'Show'}
                 </span>
               </button>
@@ -532,7 +532,7 @@ export default function KidTodayList({
       )}
 
       {/* The device rule, quiet but always here: what using any screen means. */}
-      <p style={{ textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 600, color: inkSoft, lineHeight: 1.55, margin: '12px 6px 0' }}>
+      <p style={{ textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: inkSoft, lineHeight: 1.55, margin: '12px 6px 0' }}>
         {TIMER_RULE}
       </p>
     </div>

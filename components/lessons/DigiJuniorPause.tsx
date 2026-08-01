@@ -34,7 +34,7 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: '2rem',
+        fontSize: 'var(--text-3xl)',
         margin: '0 auto 12px',
         boxShadow: '0 0 24px rgba(90,138,106,.3)',
         animation: breathing ? 'breathe 4s ease-in-out' : 'bobble 2s ease-in-out infinite',
@@ -42,7 +42,7 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
         🤖
       </div>
 
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '12px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '12px' }}>
         DiGi Junior · Pause point
       </div>
 
@@ -54,7 +54,7 @@ export default function DigiJuniorPause({ message, onContinue }: DigiJuniorPause
         marginBottom: '20px',
         boxShadow: '0 4px 16px rgba(90,138,106,.1)',
       }}>
-        <p style={{ fontSize: '1rem', lineHeight: 1.6, color: 'var(--ink)', margin: 0, fontWeight: 500 }}>
+        <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.6, color: 'var(--ink)', margin: 0, fontWeight: 500 }}>
           {message}
         </p>
       </div>

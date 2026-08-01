@@ -8,7 +8,7 @@ export const metadata = {
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }
-const P: CSSProperties = { fontSize: '15.5px', lineHeight: 1.65, color: 'var(--ink-soft)', margin: '0 0 12px' }
+const P: CSSProperties = { fontSize: 'var(--text-base)', lineHeight: 1.65, color: 'var(--ink-soft)', margin: '0 0 12px' }
 
 const QUESTIONS = [
   ['Is the screen replacing something, or adding to the day?', 'The real risk is what screens crowd out: sleep, movement, real play, and the boredom that turns into ideas. A show after a day full of those is very different from one that took their place.'],
@@ -21,7 +21,7 @@ const QUESTIONS = [
 export default function FiveQuestionsPage() {
   return (
     <div style={WRAP}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>Five questions</p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>Five questions</p>
       <h1 style={H1}>Five questions worth asking before you hand over a screen</h1>
       <p style={P}>
         No lecture, no guilt. Just five calm questions that help you make the call that fits your child and your day. Most parents find they already know the answers, they just needed the questions.
@@ -31,9 +31,9 @@ export default function FiveQuestionsPage() {
         {QUESTIONS.map(([q, a], i) => (
           <div key={i} style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '20px 22px' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px' }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--terracotta)', flexShrink: 0 }}>{i + 1}</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--terracotta)', flexShrink: 0 }}>{i + 1}</span>
               <div>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.2rem', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.25 }}>{q}</h2>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.25 }}>{q}</h2>
                 <p style={{ ...P, margin: 0 }}>{a}</p>
               </div>
             </div>

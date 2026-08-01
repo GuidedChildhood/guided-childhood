@@ -59,19 +59,19 @@ export default function SchoolAheadCard({ ahead }: { ahead: SchoolAhead }) {
         style={{
           position: 'absolute', top: 12, right: 12, width: 30, height: 30,
           borderRadius: '50%', border: '1px solid var(--border)', background: 'var(--cream)',
-          color: 'var(--ink-muted)', fontSize: 15, lineHeight: 1, cursor: 'pointer',
+          color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1, cursor: 'pointer',
         }}
       >
         ×
       </button>
 
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5, paddingRight: 34 }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5, paddingRight: 34 }}>
         {ahead.thisWeek ? 'At school this week' : `Coming ${ahead.when}`}
       </div>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 21, color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.015em', marginBottom: 8, paddingRight: 34 }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.015em', marginBottom: 8, paddingRight: 34 }}>
         {ahead.title}
       </div>
-      <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
         {ahead.what}
       </p>
 
@@ -79,10 +79,10 @@ export default function SchoolAheadCard({ ahead }: { ahead: SchoolAhead }) {
           rather than informative, and a second suggestion halves the odds of
           the first one happening. */}
       <div style={{ background: 'var(--tint-sage)', borderRadius: 14, padding: '11px 13px', marginBottom: 12 }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 4 }}>
           Worth doing
         </div>
-        <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
           {ahead.doThis}
         </p>
       </div>
@@ -92,7 +92,7 @@ export default function SchoolAheadCard({ ahead }: { ahead: SchoolAhead }) {
         style={{
           display: 'inline-flex', padding: '11px 17px', textDecoration: 'none',
           background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14,
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16,
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           boxShadow: '0 3px 0 var(--terracotta-dark)',
         }}
       >

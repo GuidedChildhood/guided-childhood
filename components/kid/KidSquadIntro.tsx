@@ -161,11 +161,11 @@ export default function KidSquadIntro({
     fontSize: 'clamp(1.8rem, 8.5vw, 2.4rem)',
   }
   const body: React.CSSProperties = {
-    fontFamily: 'var(--font-body)', fontSize: '17px', color: soft,
+    fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: soft,
     lineHeight: 1.55, margin: 0, maxWidth: 340,
   }
   const eyebrow: React.CSSProperties = {
-    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
     letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)',
   }
 
@@ -182,7 +182,7 @@ export default function KidSquadIntro({
     >
       <button
         onClick={(e) => { e.stopPropagation(); finish() }}
-        style={{ position: 'absolute', top: 16, right: 18, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'rgba(255,255,255,0.55)' }}
+        style={{ position: 'absolute', top: 16, right: 18, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'rgba(255,255,255,0.55)' }}
       >
         Skip
       </button>
@@ -229,7 +229,7 @@ export default function KidSquadIntro({
             </span>
 
             <div style={headline}>{friend.name}</div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: friend.colour, marginBottom: 10 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: friend.colour, marginBottom: 10 }}>
               {friend.action} · {friend.ages}
             </div>
             <p style={{ ...body, marginBottom: 14 }}>{friend.intro}</p>
@@ -258,7 +258,7 @@ export default function KidSquadIntro({
         style={{
           background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '16px',
           padding: '16px 32px', cursor: 'pointer', minWidth: 210, marginTop: 26,
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px',
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
           boxShadow: '0 5px 0 var(--terracotta-dark)',
         }}
       >

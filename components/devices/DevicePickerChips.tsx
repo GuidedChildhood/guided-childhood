@@ -53,7 +53,7 @@ export default function DevicePickerChips({
               onClick={() => onChange({ kind: d.kind, familyDeviceId: d.id })}
               style={chip(on)}
             >
-              <span aria-hidden style={{ fontSize: 16, lineHeight: 1 }}>{deviceIcon(d)}</span>
+              <span aria-hidden style={{ fontSize: 'var(--text-md)', lineHeight: 1 }}>{deviceIcon(d)}</span>
               {d.label}
             </button>
           )
@@ -74,7 +74,7 @@ export default function DevicePickerChips({
             onClick={() => onChange({ kind: d.key, familyDeviceId: null })}
             style={chip(on)}
           >
-            <span aria-hidden style={{ fontSize: 16, lineHeight: 1 }}>{d.emoji}</span>
+            <span aria-hidden style={{ fontSize: 'var(--text-md)', lineHeight: 1 }}>{d.emoji}</span>
             {d.label}
           </button>
         )

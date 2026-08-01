@@ -64,13 +64,13 @@ export default function YourAgreements({
 
   return (
     <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
-      <h2 style={{ fontSize: '1rem', marginBottom: '14px', color: 'var(--ink)' }}>What you have agreed to</h2>
+      <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '14px', color: 'var(--ink)' }}>What you have agreed to</h2>
 
       <div>
-        <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
           <strong>Terms and Privacy Policy.</strong> {joined ? `Agreed when you created your account on ${joined}.` : 'Agreed when you created your account.'}
         </p>
-        <p style={{ fontSize: '15px', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '4px 0 0' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.55, margin: '4px 0 0' }}>
           Read the{' '}
           <Link href="/terms" style={{ color: 'var(--terracotta-dark)', fontWeight: 600, textDecoration: 'none' }}>Terms</Link>
           {' '}or the{' '}
@@ -80,7 +80,7 @@ export default function YourAgreements({
       </div>
 
       <div style={ROW}>
-        <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
           <strong>Keeping how your child is doing.</strong>{' '}
           {consented
             ? agreed
@@ -95,7 +95,7 @@ export default function YourAgreements({
             style={{
               marginTop: 12, background: 'none', border: '1.5px solid var(--border)',
               borderRadius: '14px', padding: '10px 18px', cursor: 'pointer',
-              fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 600,
+              fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
               color: 'var(--terracotta-dark)',
             }}
           >
@@ -105,7 +105,7 @@ export default function YourAgreements({
 
         {consented && asking && (
           <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '15px', marginTop: 12 }}>
-            <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 12px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 12px' }}>
               Every check in you have saved is deleted now, and we stop keeping them. DiGi will still help, it just will not know how your weeks have been going. The rest of Guided Childhood carries on as normal.
             </p>
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
@@ -115,7 +115,7 @@ export default function YourAgreements({
                 style={{
                   background: 'var(--terracotta)', border: 'none', borderRadius: '12px',
                   padding: '11px 18px', cursor: busy ? 'default' : 'pointer',
-                  fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
+                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
                 }}
               >
                 {busy ? 'Deleting' : 'Yes, delete it'}
@@ -125,14 +125,14 @@ export default function YourAgreements({
                 style={{
                   background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px',
                   padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
-                  fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)',
+                  fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
                 }}
               >
                 Keep it
               </button>
             </div>
             {failed && (
-              <p role="status" style={{ fontSize: '14.5px', color: 'var(--terracotta-dark)', fontWeight: 600, margin: '10px 0 0', lineHeight: 1.5 }}>
+              <p role="status" style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 600, margin: '10px 0 0', lineHeight: 1.5 }}>
                 That did not go through. Try again, and if it keeps failing email us and we will do it by hand the same day.
               </p>
             )}

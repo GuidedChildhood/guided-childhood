@@ -37,7 +37,7 @@ export default function DigitalWellbeingPage() {
           <p style={{ fontSize: 'clamp(.92rem, 1.5vw, 1.1rem)', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '520px', margin: '0 auto 28px' }}>
             Answer questions about what's happening at home. TV routines, gaming, sleep, mood, social media, digital literacy. You'll get a personalised read of where the gaps are and exactly where to start.
           </p>
-          <Link href="https://wellbeing.guidedchildhood.com/signup/" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 32px' }}>
+          <Link href="https://wellbeing.guidedchildhood.com/signup/" className="btn btn-gold" style={{ fontSize: 'var(--text-base)', padding: '16px 32px' }}>
             Take the free health check →
           </Link>
           <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: '.72rem', color: 'var(--ink-muted)' }}>No account needed. No email required. Results instantly.</p>
@@ -50,7 +50,7 @@ export default function DigitalWellbeingPage() {
           <div style={{ textAlign: 'center', marginBottom: '36px' }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>Six areas</p>
             <h2 style={{ marginBottom: '12px' }}>What the check covers</h2>
-            <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '480px', margin: '0 auto' }}>Most parents are surprised. The issues they knew about are rarely the ones that need the most attention.</p>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '480px', margin: '0 auto' }}>Most parents are surprised. The issues they knew about are rarely the ones that need the most attention.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
             {AREAS.map((area, i) => (
@@ -78,9 +78,9 @@ export default function DigitalWellbeingPage() {
               { num: '04', title: 'Your starting point in Guided Childhood', body: 'If you want to go further, you\'ll know exactly where to start in the platform and what your first week looks like.' },
             ].map((item, i) => (
               <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '14px', padding: '24px 28px', display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 900, color: 'var(--stage-5)', lineHeight: 1, flexShrink: 0 }}>{item.num}</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-3xl)', fontWeight: 900, color: 'var(--stage-5)', lineHeight: 1, flexShrink: 0 }}>{item.num}</div>
                 <div>
-                  <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '6px' }}>{item.title}</h3>
+                  <h3 style={{ fontSize: 'var(--text-md)', fontWeight: 700, marginBottom: '6px' }}>{item.title}</h3>
                   <p style={{ fontSize: '.85rem', color: 'var(--ink-soft)', lineHeight: 1.72 }}>{item.body}</p>
                 </div>
               </div>
@@ -102,8 +102,8 @@ export default function DigitalWellbeingPage() {
       <section style={{ padding: 'clamp(60px, 8vw, 80px) 32px', textAlign: 'center', background: 'var(--cream)' }}>
         <div style={{ maxWidth: '480px', margin: '0 auto' }}>
           <h2 style={{ marginBottom: '14px' }}>Find out where you are. It takes 5 minutes.</h2>
-          <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.78, marginBottom: '24px' }}>Free. No signup. No email. Results immediately.</p>
-          <Link href="https://wellbeing.guidedchildhood.com/signup/" className="btn btn-gold" style={{ fontSize: '15px', padding: '16px 32px' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.78, marginBottom: '24px' }}>Free. No signup. No email. Results immediately.</p>
+          <Link href="https://wellbeing.guidedchildhood.com/signup/" className="btn btn-gold" style={{ fontSize: 'var(--text-base)', padding: '16px 32px' }}>
             Take the free check →
           </Link>
           <p style={{ marginTop: '16px', fontSize: '.8rem', color: 'var(--ink-muted)' }}>Or <Link href="/" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'underline' }}>explore Guided Childhood</Link> first.</p>

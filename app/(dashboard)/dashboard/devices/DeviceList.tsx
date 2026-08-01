@@ -54,7 +54,7 @@ export default function DeviceList({
 
   return (
     <div>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
         Every guide, step by step
       </div>
 
@@ -91,7 +91,7 @@ export default function DeviceList({
       </div>
 
       {filtered.length === 0 && (
-        <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--ink-muted)', fontSize: '16px' }}>
+        <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
           <strong style={{ display: 'block', color: 'var(--ink)', marginBottom: '6px', fontWeight: 700 }}>No device found</strong>
           Try a brand or type, like iPad, console, or TV.
         </div>
@@ -122,22 +122,22 @@ export default function DeviceList({
                   padding: '14px 16px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
                 }}
               >
-                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', flexShrink: 0 }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'var(--stage-2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0 }}>
                   {d.emoji}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '17px', color: 'var(--ink)' }}>{d.name}</span>
-                    {isDone && <span style={{ fontSize: '15px', color: 'var(--terracotta)' }}>✓</span>}
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{d.name}</span>
+                    {isDone && <span style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta)' }}>✓</span>}
                     {isNotOwned && (
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '2px 8px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '2px 8px' }}>
                         Not in our home
                       </span>
                     )}
                   </div>
-                  <div style={{ fontSize: '14px', color: 'var(--ink-muted)' }}>{d.subtitle}</div>
+                  <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)' }}>{d.subtitle}</div>
                 </div>
-                <span style={{ fontSize: '16px', color: 'var(--ink-light)', flexShrink: 0, transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
+                <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink-light)', flexShrink: 0, transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
               </button>
 
               {isOpen && (
@@ -156,7 +156,7 @@ export default function DeviceList({
                       disabled={pending === d.device_key}
                       style={{
                         marginTop: '10px', background: 'none', border: 'none', cursor: 'pointer',
-                        fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 600,
+                        fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
                         color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px', padding: '2px 0',
                       }}
                     >

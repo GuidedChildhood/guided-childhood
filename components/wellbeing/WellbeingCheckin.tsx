@@ -53,11 +53,11 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
   if (done) {
     return (
       <div style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '36px 28px', textAlign: 'center', color: '#fff' }}>
-        <div style={{ fontSize: 40, marginBottom: 12 }}>💛</div>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', letterSpacing: '-0.02em', marginBottom: 10 }}>
+        <div style={{ fontSize: 'var(--text-3xl)', marginBottom: 12 }}>💛</div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.02em', marginBottom: 10 }}>
           Thank you for checking in
         </h2>
-        <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, maxWidth: 380, margin: '0 auto 22px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, maxWidth: 380, margin: '0 auto 22px' }}>
           We have got this month. You are doing the hard part, and you are not doing it alone. See you back here next month.
         </p>
         <button
@@ -93,10 +93,10 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
       {/* Mood */}
       <section>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', marginBottom: '4px' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', marginBottom: '4px' }}>
           How have you been this month, {firstName}?
         </h2>
-        <p style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '14px' }}>
           You, not your child. This one is just for you.
         </p>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -112,8 +112,8 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px',
               }}
             >
-              <span style={{ fontSize: '26px', lineHeight: 1 }}>{m.face}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.3 }}>
+              <span style={{ fontSize: 'var(--text-2xl)', lineHeight: 1 }}>{m.face}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.3 }}>
                 {m.label}
               </span>
             </button>
@@ -123,10 +123,10 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
 
       {/* What got better */}
       <section>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', marginBottom: '4px' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', marginBottom: '4px' }}>
           What has got a little better?
         </h2>
-        <p style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '14px' }}>
           Tick anything that feels easier than last month. Nothing yet is fine too.
         </p>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -136,10 +136,10 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
 
       {/* Anything new */}
       <section>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', marginBottom: '4px' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', marginBottom: '4px' }}>
           Anything new come up?
         </h2>
-        <p style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '14px' }}>
           New worries we should fold into your pathway.
         </p>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -149,10 +149,10 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
 
       {/* Note */}
       <section>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', marginBottom: '4px' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', marginBottom: '4px' }}>
           Anything you want to say?
         </h2>
-        <p style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '14px' }}>
           Optional. A line for yourself, or for DiGi to pick up next time.
         </p>
         <textarea
@@ -163,14 +163,14 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
           placeholder="This month has been..."
           style={{
             width: '100%', borderRadius: '14px', border: '1.5px solid var(--border)',
-            padding: '14px 16px', fontFamily: 'var(--font-body)', fontSize: '16px',
+            padding: '14px 16px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)',
             color: 'var(--ink)', resize: 'vertical', background: 'var(--cream)',
           }}
         />
       </section>
 
       {error && (
-        <p style={{ fontSize: '15px', color: 'var(--terracotta-dark)', margin: 0 }}>{error}</p>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', margin: 0 }}>{error}</p>
       )}
 
       <button

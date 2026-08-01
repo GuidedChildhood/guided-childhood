@@ -42,7 +42,7 @@ export default function ManagementReviewPanel({ row }: { row: ManagementReviewRo
     return (
       <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: 16, padding: '18px 20px', marginBottom: 20 }}>
         <p className="eyebrow" style={{ marginBottom: 6 }}>Weekly review</p>
-        <p style={{ fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
           No review yet. It runs at half past midnight every Monday, on the week just gone. Until the first one lands there is nothing here, which is the honest state rather than an empty chart.
         </p>
       </div>
@@ -61,12 +61,12 @@ export default function ManagementReviewPanel({ row }: { row: ManagementReviewRo
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: '20px 22px', marginBottom: 22, boxShadow: '0 3px 0 rgba(26,26,46,0.05)' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
         <p className="eyebrow" style={{ margin: 0 }}>Week of {row.week_start}</p>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
           {row.model ? `Reviewed by ${row.model}` : 'Numbers only, agent unavailable'}
         </span>
       </div>
 
-      <p style={{ fontSize: 17, color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 16px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 16px' }}>
         {row.summary}
       </p>
 
@@ -77,10 +77,10 @@ export default function ManagementReviewPanel({ row }: { row: ManagementReviewRo
           const v = val(h.key)
           return (
             <div key={h.key} style={{ background: 'var(--cream)', borderRadius: 12, padding: '10px 12px' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)', lineHeight: 1.1 }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.1 }}>
                 {v ?? '—'}
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 2 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 2 }}>
                 {h.label}
               </div>
             </div>
@@ -89,7 +89,7 @@ export default function ManagementReviewPanel({ row }: { row: ManagementReviewRo
       </div>
 
       {row.findings.length === 0 ? (
-        <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
           No findings this week. A quiet week with nothing worth acting on is a real result, and inventing three bullet points for it would only teach you to stop reading these.
         </p>
       ) : (
@@ -98,13 +98,13 @@ export default function ManagementReviewPanel({ row }: { row: ManagementReviewRo
             const tint = AREA_TINT[f.area] ?? { bg: 'var(--cream)', fg: 'var(--ink-soft)' }
             return (
               <div key={i} style={{ border: '1px solid var(--border)', borderRadius: 14, padding: '13px 15px' }}>
-                <span style={{ display: 'inline-block', background: tint.bg, color: tint.fg, borderRadius: 100, padding: '3px 10px', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 7 }}>
+                <span style={{ display: 'inline-block', background: tint.bg, color: tint.fg, borderRadius: 100, padding: '3px 10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 7 }}>
                   {f.area}
                 </span>
-                <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 5px', fontWeight: 600 }}>
+                <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 5px', fontWeight: 600 }}>
                   {f.observation}
                 </p>
-                <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+                <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
                   {f.suggestion}
                 </p>
               </div>

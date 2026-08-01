@@ -114,7 +114,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
           onClick={() => { localStorage.removeItem(storageKey); setConfirmed(false) }}
           style={{
             background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-            fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
             color: 'var(--ink-muted)', letterSpacing: '0.08em', textTransform: 'uppercase',
             textDecoration: 'underline',
           }}
@@ -141,7 +141,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
         <div style={{ padding: '20px 22px 0' }}>
           {/* Eyebrow */}
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '0.12em', textTransform: 'uppercase',
             color: colors.text, opacity: 0.7, marginBottom: '8px',
           }}>
@@ -159,7 +159,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
           </h3>
 
           {name && (
-            <p style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '0', lineHeight: 1.5 }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '0', lineHeight: 1.5 }}>
               These are the settings to check before {name} moves on to the next stage.
             </p>
           )}
@@ -168,7 +168,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
         {/* Device label */}
         <div style={{ padding: '14px 22px 0' }}>
           <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
             letterSpacing: '0.08em', textTransform: 'uppercase',
             background: colors.bold, color: colors.text,
             padding: '3px 10px', borderRadius: '100px',
@@ -180,7 +180,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
         {/* iOS settings checklist */}
         <div style={{ padding: '16px 22px 0' }}>
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '0.1em', textTransform: 'uppercase',
             color: colors.text, opacity: 0.6, marginBottom: '10px',
           }}>
@@ -195,9 +195,9 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
                   flexShrink: 0, marginTop: '1px',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
-                  <span style={{ fontSize: '12px', color: colors.text }}>✓</span>
+                  <span style={{ fontSize: 'var(--text-sm)', color: colors.text }}>✓</span>
                 </div>
-                <span style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
                   {setting}
                 </span>
               </div>
@@ -211,7 +211,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
             onClick={() => setShowApps(v => !v)}
             style={{
               background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
               color: colors.text, letterSpacing: '0.08em', textTransform: 'uppercase',
               opacity: 0.75,
             }}
@@ -229,11 +229,11 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
                 }}>
                   <div style={{
                     fontFamily: 'var(--font-display)', fontWeight: 700,
-                    fontSize: '15px', color: 'var(--ink)',
+                    fontSize: 'var(--text-base)', color: 'var(--ink)',
                   }}>
                     {app.name}
                   </div>
-                  <div style={{ fontSize: '14px', color: 'var(--ink-muted)', fontStyle: 'italic' }}>
+                  <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', fontStyle: 'italic' }}>
                     {app.note}
                   </div>
                 </div>
@@ -260,7 +260,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
           <Link
             href="/dashboard/devices"
             style={{
-              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
               color: colors.text, textDecoration: 'underline',
               letterSpacing: '0.04em',
             }}

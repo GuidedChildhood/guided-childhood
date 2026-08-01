@@ -90,10 +90,10 @@ export default function SetupUnlockToast({ flags }: { flags: SetupFlags }) {
         </span>
         <span style={{ flex: 1, minWidth: 0, paddingTop: '1px' }}>
           <span style={{
-            display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+            display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '4px',
           }}>Now on</span>
-          <span style={{ display: 'block', fontSize: '16.5px', lineHeight: 1.5, fontWeight: 600, color: 'var(--ink)' }}>{queue[0]}</span>
+          <span style={{ display: 'block', fontSize: 'var(--text-md)', lineHeight: 1.5, fontWeight: 600, color: 'var(--ink)' }}>{queue[0]}</span>
         </span>
         <button
           type="button"
@@ -103,7 +103,7 @@ export default function SetupUnlockToast({ flags }: { flags: SetupFlags }) {
             position: 'absolute', top: '11px', right: '11px',
             width: '28px', height: '28px', borderRadius: '50%', flexShrink: 0,
             background: 'var(--cream)', border: '1px solid var(--border)',
-            color: 'var(--ink-muted)', fontSize: '16px', lineHeight: 1, cursor: 'pointer',
+            color: 'var(--ink-muted)', fontSize: 'var(--text-md)', lineHeight: 1, cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
         >✕</button>
