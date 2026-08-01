@@ -64,10 +64,41 @@ export default function DigiChat({
   stageId?: number
   stageName?: string
 }) {
-  const [messages, setMessages] = useState<Message[]>(initialMessages)
+  // A NEW CHAT EVERY TIME YOU OPEN IT.
+  //
+  // Justin: "the previous conversation is scrolled down, I want it hidden up
+  // above, not down, and saved like on the left in this chat so I can return to
+  // it if I want, but new ones start."
+  //
+  // It used to seed the live thread with the last twenty messages and scroll to
+  // the top, so a parent opened DiGi and met the tail of a conversation they had
+  // already read, with every action link from the last answer still attached.
+  // The greeting was there but it was competing with a finished exchange.
+  //
+  // Now the thread starts empty and the history sits above it behind one tap.
+  // The important part, and the reason this costs nothing: DIGI STILL REMEMBERS.
+  // The route reads the stored conversation server side for context regardless
+  // of what is on screen, so hiding it changes what the PARENT sees and nothing
+  // about what DiGi knows.
+  const [messages, setMessages] = useState<Message[]>([])
+  const [historyOpen, setHistoryOpen] = useState(false)
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [streamingReply, setStreamingReply] = useState(false)
+  // Justin: "when you ask for DiGi's help it does run through what is
+  // happening, just not on the first question."
+  //
+  // The thinking block was gated on `loading && !streamingReply`, so it lived
+  // exactly as long as the wait did. The first question of a session is the
+  // FASTEST one: no history to send, a cold cache being written rather than
+  // read, and the shortest context of the conversation. The first token came
+  // back before a parent could read a line, so the one moment we most want to
+  // explain ourselves was the one moment we said nothing.
+  //
+  // So it holds for a beat. Not to fake work, the work is real and is listed in
+  // ThinkingReassurance line by line, but because a message that flashes for
+  // 300ms was never a message.
+  const [thinkingFloor, setThinkingFloor] = useState(false)
   const [error, setError] = useState('')
   const [dailyCount, setDailyCount] = useState(initialCount)
   const [deviceSetupDismissed, setDeviceSetupDismissed] = useState(true)
@@ -129,7 +160,10 @@ export default function DigiChat({
   // conversation by scrolling up, rather than arriving at the tail of a wall of
   // text they have already read. How many messages existed when the tab opened
   // never changes for this visit, so it is a ref, not state.
-  const historyCount = useRef(initialMessages.length).current
+  // Zero, always: the live thread now opens empty, so the in thread divider and
+  // the open at the top behaviour it drove are both retired. The old
+  // conversation is reached by the control above instead.
+  const historyCount = 0
   const freshRef = useRef<HTMLDivElement>(null)
   const openedRef = useRef(false)
   const wantOpenScroll = useRef(false)
@@ -279,6 +313,10 @@ export default function DigiChat({
   async function sendMessage(text?: string, deviceOverride?: string) {
     const typed = text ?? input
     if (!typed.trim() || loading) return
+    setThinkingFloor(true)
+    // 1400ms: long enough to read one line of what DiGi is doing, short enough
+    // that it never feels like it is stalling on an answer it already has.
+    window.setTimeout(() => setThinkingFloor(false), 1400)
     const messageText = text ? typed : continuingPrefix ? `${continuingPrefix}${typed}` : typed
 
     // A new message means the conversation is still going, so any reflection
@@ -630,6 +668,74 @@ export default function DigiChat({
           </div>
         )}
 
+        {/* The earlier conversation, above the new one and shut by default.
+            Justin: "hidden up above, not down, so I can return to it if I want,
+            but new ones start."
+
+            Deliberately quieter than the live thread: the words, and nothing
+            else. Every action link on an old answer (put this in words, back to
+            today's pathway, scripts, a lesson) acts on a moment that has passed,
+            and seven stale invitations was most of what made arriving here feel
+            messy. Reading back what was said is the only thing this is for. */}
+        {initialMessages.length > 0 && (
+          <div style={{ marginBottom: historyOpen ? 26 : 18 }}>
+            <button
+              onClick={() => setHistoryOpen(o => !o)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8, width: '100%',
+                background: 'var(--cream)', border: '1.5px solid var(--border)',
+                borderRadius: 14, padding: '11px 14px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5,
+                color: 'var(--ink-soft)', textAlign: 'left',
+              }}
+            >
+              <span aria-hidden style={{
+                display: 'inline-block', transition: 'transform 160ms ease',
+                transform: historyOpen ? 'rotate(90deg)' : 'none',
+              }}>›</span>
+              {historyOpen ? 'Hide the earlier chat' : 'Earlier chat'}
+              <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)' }}>
+                {initialMessages.length} message{initialMessages.length === 1 ? '' : 's'}
+              </span>
+            </button>
+
+            {historyOpen && (
+              <div style={{ marginTop: 14, paddingLeft: 2 }}>
+                {initialMessages.map((m, i) => (
+                  <div
+                    key={`hist-${i}`}
+                    style={{
+                      display: 'flex',
+                      justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
+                      marginBottom: 12,
+                    }}
+                  >
+                    <div style={{
+                      maxWidth: '88%',
+                      background: m.role === 'user' ? 'var(--stage-2)' : 'transparent',
+                      border: m.role === 'user' ? '1px solid var(--border)' : 'none',
+                      borderRadius: 16, padding: m.role === 'user' ? '9px 13px' : '0 2px',
+                      // Dimmer than the live thread on purpose. This is a
+                      // record, not the conversation a parent is in.
+                      fontSize: 15, lineHeight: 1.55, color: 'var(--ink-soft)',
+                      whiteSpace: 'pre-wrap',
+                    }}>
+                      {m.content}
+                    </div>
+                  </div>
+                ))}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '18px 0 4px' }}>
+                  <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
+                    New chat below
+                  </span>
+                  <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {messages.map((msg, i) => {
           // DiGi speaks as one warm, continuous voice, the way the welcome
           // sheet reads, not a stack of boxed white cards. The whole reply
@@ -835,7 +941,7 @@ export default function DigiChat({
           </div>
         )}
 
-        {loading && !streamingReply && (
+        {loading && (!streamingReply || thinkingFloor) && (
           <div style={{ marginBottom: '26px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 11 }}>
               <div style={{ width: 26, height: 26, flexShrink: 0 }}><DigiAvatar size={26} mood="thinking" /></div>
