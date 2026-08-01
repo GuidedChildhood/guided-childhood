@@ -21,10 +21,32 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 //   when it exists and is silent when it does not.
 
 export type DayState = {
+  /** The UK date this row is for, so the celebration is remembered per day. */
+  day?: string
   steps: StepKey[]
   done: StepKey[]
   complete: boolean
   streak: number
+}
+
+// Whether the takeover has already played for a given day.
+//
+// Wrapped because a child's phone can refuse localStorage entirely (private
+// mode, a locked down device), and a throw here would take the whole list down
+// with it. Unreadable storage means "not celebrated", which errs towards
+// showing a child their moment twice rather than never.
+const CELEBRATED_KEY = 'gc.kid.celebrated'
+
+function celebratedToday(day?: string): boolean {
+  if (!day) return false
+  try { return window.localStorage.getItem(CELEBRATED_KEY) === day } catch { return false }
+}
+
+function rememberCelebrated(day?: string) {
+  if (!day) return
+  // One day at a time. Yesterday's value is simply overwritten, so nothing
+  // accumulates on the device.
+  try { window.localStorage.setItem(CELEBRATED_KEY, day) } catch { /* nothing to remember it with */ }
 }
 
 export default function KidFiveADay({
@@ -58,9 +80,30 @@ export default function KidFiveADay({
     let live = true
     fetch(`/api/kid/day?token=${encodeURIComponent(token)}`)
       .then(r => (r.ok ? r.json() : null))
-      .then(d => { if (live && d && Array.isArray(d.steps)) setState(d) })
+      .then(d => {
+        if (!live || !d || !Array.isArray(d.steps)) return
+        setState(d)
+        // The day may have been finished somewhere else entirely.
+        //
+        // Three of the five are ticked by the routes that know the child did
+        // the thing: passing a lesson, passing the quiz, sending a printable.
+        // Any of those can be the fifth, and when it is, the child is on
+        // another page and mark() never runs, so the celebration below never
+        // fires. They would come back to a finished list and no moment at all,
+        // which is the whole reward for the day quietly missing.
+        //
+        // Remembered per day in localStorage rather than in the database. It is
+        // a moment on a screen, not a record: completed_at and the streak are
+        // the record, and they are already right. Worst case on a cleared phone
+        // is one replay of a good thing.
+        if (d.complete && !celebratedToday(d.day)) {
+          rememberCelebrated(d.day)
+          onDayComplete?.(d.streak)
+        }
+      })
       .catch(() => { /* the card simply does not show */ })
     return () => { live = false }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 
   // Jobs is the one step the child does not tick here: it is true when every job
@@ -106,7 +149,12 @@ export default function KidFiveADay({
         setState(s => (s ? { ...s, done: s.done.filter(k => k !== step) } : s))
       } else {
         setState(s => (s ? { ...s, done: d.done, complete: d.complete, streak: d.streak } : s))
-        if (d.justCompleted) onDayComplete?.(d.streak)
+        if (d.justCompleted) {
+          // Remembered here too, so coming back to the list does not replay a
+          // takeover the child has just watched.
+          rememberCelebrated(state?.day)
+          onDayComplete?.(d.streak)
+        }
       }
     } catch {
       setState(s => (s ? { ...s, done: s.done.filter(k => k !== step) } : s))
