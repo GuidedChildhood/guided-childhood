@@ -95,6 +95,40 @@
   --serif:        var(--font-display);
   --mono:         var(--font-mono);
 
+  /* ── TYPE SCALE ──
+     Eight sizes, and nothing else. Justin, 1 August: make the text a size a
+     parent can actually read, "same consistent approach" everywhere.
+
+     The second half of that is the harder half and the reason this block
+     exists. A measure of the app before this: 4,279 hardcoded font sizes across
+     398 files, in 122 distinct sizes. Not a scale with exceptions, no scale at
+     all. 13.5, 14.5, 15.5, 16.5, 17.5 and 18.5 all appear, which is six sizes
+     doing the job of two, chosen a component at a time by whoever was there.
+     42 percent sat under 14px.
+
+     Sizes are unitless px numbers so they can be used from inline styles, which
+     is how this codebase is written:  fontSize: 'var(--text-base)'.
+
+     These live UNDER the zoom on body, currently 1.07, so the number here is
+     not what lands on the glass. Base 16 renders about 17, which is the size
+     Duolingo and Good Inside both settle on for body. Change the zoom and every
+     one of these moves with it, which is the point of having both.
+
+     THE RULE, and it is short:
+       Nothing below --text-sm is body text. Ever.
+       --text-xs is for IBM Plex Mono eyebrows and labels only, the uppercase
+       letterspaced ones the design system asks for. Small is deliberate there
+       because the label is scaffolding around the thing, not the thing. If it
+       is a sentence a parent has to read, it starts at --text-base. */
+  --text-xs:    12px;   /* mono eyebrows and labels ONLY, never a sentence */
+  --text-sm:    14px;   /* timestamps, captions, the quiet second line */
+  --text-base:  16px;   /* body. The default. Reach for this first */
+  --text-md:    17px;   /* body that carries weight, list rows, buttons */
+  --text-lg:    19px;   /* card titles, the lead line of a section */
+  --text-xl:    22px;   /* section headings */
+  --text-2xl:   28px;   /* page headings */
+  --text-3xl:   34px;   /* the one big number on a card */
+
   /* ── RADIUS ── */
   --radius-btn:   16px;
   --radius-card:  24px;

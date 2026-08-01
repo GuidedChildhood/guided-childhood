@@ -25,7 +25,7 @@ export default function PaceCard({ pace, childName }: { pace: Pace; childName?: 
       padding: '20px 20px 22px', marginBottom: 16,
     }}>
       <div style={{
-        fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700,
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
         letterSpacing: '0.13em', textTransform: 'uppercase', color: tone.ink, marginBottom: 10,
       }}>
         {VERDICT_LABEL[pace.verdict]}
@@ -33,12 +33,12 @@ export default function PaceCard({ pace, childName }: { pace: Pace; childName?: 
 
       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
         <span style={{
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 46,
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)',
           color: 'var(--ink)', lineHeight: 1, letterSpacing: '-0.03em',
         }}>
           {pace.average}
         </span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 20, color: 'var(--ink)' }}>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>
           minutes a day
         </span>
       </div>
@@ -51,7 +51,7 @@ export default function PaceCard({ pace, childName }: { pace: Pace; childName?: 
           number for school age children, and in September the same card would
           quietly say 120 with nothing to explain the drop. So both numbers are
           named, each credited to the right thing. */}
-      <div style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.4, marginBottom: 14 }}>
+      <div style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.4, marginBottom: 14 }}>
         {name ? `${name} so far this week` : 'So far this week'}, against a guide of {pace.termGuide} a day for their age
         {pace.relaxed && <>, relaxed to {pace.dailyGuide} for {pace.holidayTitle}</>}
       </div>
@@ -80,14 +80,14 @@ export default function PaceCard({ pace, childName }: { pace: Pace; childName?: 
           display: 'flex', alignItems: 'center', gap: 14,
         }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               {trimming ? 'Tomorrow, to level up' : 'A normal day'}
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 30, color: 'var(--ink)', lineHeight: 1.1 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1.1 }}>
               {pace.suggestTomorrow} min
             </div>
           </div>
-          <p style={{ flex: 1, minWidth: 0, fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
+          <p style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
             {trimming
               ? `A little under the usual ${pace.dailyGuide} brings the week back level.`
               : `The same as any other day. Being under it is not time owed back.`}
@@ -95,7 +95,7 @@ export default function PaceCard({ pace, childName }: { pace: Pace; childName?: 
         </div>
       )}
 
-      <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.5, margin: '14px 0 0', fontWeight: 600 }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: '14px 0 0', fontWeight: 600 }}>
         {pace.line}
       </p>
 
@@ -107,7 +107,7 @@ export default function PaceCard({ pace, childName }: { pace: Pace; childName?: 
           child earns beyond the weekly cap banks for the school holidays, never
           expires, and is theirs. That is the thing worth pointing at, because it
           rewards the work rather than the watching. */}
-      <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '10px 0 0' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '10px 0 0' }}>
         The guide is a steer for the age, not a rule and not a target. A heavy Saturday does not break anything. Time earned beyond it is not lost either: it banks for the school holidays, or you can gift it whenever you like.
       </p>
     </div>
