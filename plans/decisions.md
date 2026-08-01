@@ -4647,3 +4647,43 @@ is too small to mean anything.** A weekly report that always finds three
 encouraging trends is one you stop reading by week five. If the models are all
 unreachable the numbers are still saved and the panel says so, because the
 numbers are the durable part and the prose is commentary.
+
+## 1 August 2026 — DiGi answers anything, in the shape the question deserves
+
+Justin: "I want to be able to use Claude though but with the guardrails so it can
+answer anything. Does it currently do that? Like the Good Inside version."
+
+**It always could.** There is no topic gate anywhere in DiGi and there never was.
+What made it feel narrow was the SHAPE: the static prompt forces every reply into
+the coaching format and closes every one with a reflective question built to learn
+about the family. Ask for help drafting a letter to the head teacher and you get
+the letter followed by "Quick one for tonight", which is the moment a parent stops
+believing they can ask it anything.
+
+**Three lanes, varying the shape only.** parenting keeps the full coaching shape
+and the research. family keeps the warmth and the memory but drops the forced 24
+hour close and only asks a reflective question when it would teach us something.
+general gets a straight answer with no wrapper at all.
+
+**The rails do not vary by lane.** Crisis routing, never diagnose, never allow or
+deny, data minimisation, no invented sources, no dashes. All in the static prompt,
+all three lanes. Widening what DiGi will talk about must never widen what it is
+allowed to say. Professional signposting for medical, legal and financial was
+added, because those only became reachable once the scope widened.
+
+**Every failure path lands on parenting.** A general question wrongly given the
+coaching shape is mildly odd. A question about a child wrongly given the plain
+shape loses the research, the memory and the reflective question, which is the
+whole product.
+
+**The lane is stored (migration 141) because two agents read digi_questions
+assuming every row is a parent asking about their child.** digi-insights would
+read general questions as phantom product demand. knowledge-refresh is worse: it
+uses them to decide what to go SEARCHING the web for, and those candidates land in
+front of Justin to approve into the bank DiGi cites by name. Both now read
+parenting and family only.
+
+**Recorded as a known soft spot:** digi_wisdom.evidence_count is the model's own
+estimate of its evidence, parsed from the JSON it returns, not a counted fact.
+getProvenSolutions floors and weights on it, so "proven across families" currently
+reads harder than it is. The fix is to count the supporting signals in code.
