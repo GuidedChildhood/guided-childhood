@@ -3,7 +3,33 @@
 Both of these sit outside the repo, so no pull request can finish them. Written
 down here because the session that worked them out will be gone tomorrow.
 
-Status at 31 July 2026: neither is done.
+**Status at 1 August 2026: BOTH DONE.** Kept rather than deleted, because the
+reasoning is the part worth having: what the variable does, why the alias and
+not the real domain, and why the routine cannot be made from a Claude Code
+session. All three come back the moment anyone touches this again, and the go
+live switch to the real domain is still ahead of us.
+
+Proof rather than assumption, which after this week is the only kind that counts:
+
+- `NEXT_PUBLIC_APP_URL` set to `https://guided-childhood-app.vercel.app` on the
+  guided-childhood-app project, which is the one that owns the crons.
+- Push check ins landed on Justin's actual phone at 7:30 and again at 15:30 on
+  1 August. The `cron_runs` row for 15:30 reads ok true, processed 13, no error,
+  while every other run that day shows processed null because it skipped outside
+  the window. The row proves the send was accepted; the phone proves it arrived.
+- The health watcher runs daily at 10:30 BST against the guided-childhood repo
+  with the Supabase connector attached. GitHub is not offered as a routine
+  connector and does not need to be: selecting the repository is what grants the
+  git access.
+
+One correction worth keeping, because it was stated confidently and was wrong.
+On 31 July this file's author concluded the digest had never run and was probably
+not registered, likely because the project was over a Vercel cron limit. All of
+that was false. The digest is registered, it ran at 09:20 on 1 August and sent to
+14 families, and every one of the 25 crons is accounted for. What actually
+happened was a single missed run on 31 July, which is consistent with Vercel
+documenting crons as best effort. Reasoning from one absence to a systemic cause
+was the mistake, and the smaller reading was the right one.
 
 ---
 
@@ -282,3 +308,55 @@ Both school crons also show `Invalid time value` on their last runs, at 07:45
 and 19:00, but both of those predate the London fix reaching production at
 noon. They prove out at 19:00 and 07:45 the following morning. No action needed
 unless they fail again after that.
+
+---
+
+## 4. What came out of finishing the above, and is NOT fixed
+
+Both were found while proving the two steps worked. Neither is urgent while the
+only accounts are test ones. Both want doing before real families are on it.
+
+### The push sends that fail invisibly
+
+The 15:30 run on 1 August targeted 23 parent subscriptions with the afternoon
+slot and reported 13 sent. Ten went nowhere, the subscription count stayed at 28,
+and nothing anywhere records which ten or why.
+
+`/api/push/send` collects failures into a `stale` list and prunes only the
+endpoints that answer 410 Gone. Anything failing another way stays on the list
+for ever, is retried at every check in for ever, and never appears in the reply.
+The route returns a count of what worked and says nothing about what did not.
+
+That is the same shape as every other fault this week: a run that reports success
+while part of it quietly did nothing. It is the reason the heartbeat exists, and
+this path slipped through because the number it reports is real, just incomplete.
+
+The subscriptions run from 4 July, 17 on fcm.googleapis.com and 11 on
+web.push.apple.com, so ten dead endpoints out of a month of testing is entirely
+plausible and not itself alarming. The invisibility is the problem, not the ten.
+
+Worth doing: count failures as well as sends, return both, and let the heartbeat
+see the failure count. Prune on the other permanent status codes, not just 410.
+A send that reaches thirteen of twenty three should not read as a clean run.
+
+### The 36 HTTP self calls
+
+Still there, across 30 files. Every one reaches code sitting in the same
+deployment by going out to the public internet and coming back.
+
+Today's fix works, and it is worth being clear about what it rests on: an
+environment variable being right, a domain staying attached, and a Deployment
+Protection setting nobody changes. Three things, none of them enforced by code,
+all of them silent when wrong. This exact fault has now cost two separate
+outages.
+
+`/api/push/send` is already a pure function of its JSON body (`title`, `body`,
+`url`, `userId`, `audience`, `slot`, `urgent`), so lifting it into
+`lib/push/send.ts` and calling it in process is mechanical rather than a
+redesign. The route stays as a thin wrapper for anything genuinely outside the
+deployment. An in process call cannot 401, cannot 404, does not care which domain
+the app is on, and does not break the next time somebody changes a setting. It is
+also faster, since all 36 are currently a network round trip to reach a function
+already in memory.
+
+This is the one that removes a class of fault rather than an instance of it.
