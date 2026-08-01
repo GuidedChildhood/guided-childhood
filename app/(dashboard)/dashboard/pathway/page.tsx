@@ -14,6 +14,7 @@ import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import PassportBook from '@/components/pathway/PassportBook'
+import PathwayIntro from '@/components/pathway/PathwayIntro'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
 import MeetTheFriends from '@/components/pathway/MeetTheFriends'
 import StageReadiness from '@/components/pathway/StageReadiness'
@@ -215,46 +216,15 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto', marginBottom: '20px' }}>
         <ChildSwitcher kids={children} selectedId={primaryChild?.id ?? null} basePath="/dashboard/pathway" />
         <div className="pathway-hero">
-          <div style={{ minWidth: 0 }}>
-            <p className="eyebrow" style={{ marginBottom: '4px' }}>Your journey</p>
-            <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>The pathway to 16</h1>
-            <p style={{ color: 'var(--ink)', fontSize: '20px', lineHeight: 1.55, maxWidth: '580px', fontWeight: 600 }}>
-              A passport that proves {kidLabel} can actually handle the internet, earned one stage at a time, so 16 arrives as a gentle ramp instead of a cliff edge.
-            </p>
+          {/* The promise, folded away after the first visit.
 
-            {/* What it proves, and what we do about it. This page is the whole
-                promise of the product and it never once said what the promise was:
-                a parent read a road, five circles and a percentage, and had to
-                infer the rest. Four lines, the biggest supporting type on the page,
-                and it is said. */}
-            <ul style={{ listStyle: 'none', padding: 0, margin: '14px 0 0', maxWidth: '580px' }}>
-              {[
-                ['🛡️', 'Safe online', 'Spotting what is not right, and always telling someone.'],
-                ['⚖️', 'A healthy balance', 'Screen time earned from real world jobs, never just handed over.'],
-                ['🤖', 'AI and what is real', 'Knowing when something is made up, sold to them, or a bot.'],
-                ['💬', 'Ready for social media', 'Judgement built years before the account, not the week they ask.'],
-              ].map(([em, t, b]) => (
-                <li key={t} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', marginBottom: 9 }}>
-                  <span aria-hidden style={{ fontSize: 20, lineHeight: 1.2, flexShrink: 0 }}>{em}</span>
-                  <span>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17.5, color: 'var(--ink)' }}>{t}</span>
-                    <span style={{ display: 'block', fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.45 }}>{b}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <p style={{ color: 'var(--ink)', fontSize: '17px', lineHeight: 1.55, maxWidth: '580px', margin: '4px 0 0', fontWeight: 600 }}>
-              We tell you what to do, how to do it, and the research it comes from. You just do today.
-            </p>
-            <Link href="/passport" style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-mono)', fontSize: '15px', color: 'var(--terracotta-dark)', textDecoration: 'underline', textUnderlineOffset: '3px', letterSpacing: '0.03em' }}>
-              Why we call it a passport →
-            </Link>
-            {children.length > 1 && (
-              <p style={{ color: 'var(--ink-muted)', fontSize: '16px', marginTop: '4px' }}>
-                {children.length} children, one account.
-              </p>
-            )}
-          </div>
+              It used to sit here open at full height every single time: a
+              2.5rem heading, a 20px paragraph, four bullets and two more lines,
+              which on a 390 wide phone is the entire screen before the passport
+              begins. Justin: "that text takes up the whole of screen so needs to
+              move away, especially not each time." The words were right, the
+              permanence was not. See PathwayIntro for the reasoning. */}
+          <PathwayIntro kidLabel={kidLabel} childCount={children.length} />
 
           {/* The passport itself, the hero of its own page at last. */}
           {passportStamps.length > 0 && (
