@@ -2,7 +2,8 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
-import { bandForQuest, isBand, BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
+import { bandForQuest, isBand, bandLabelOn, type JobBand } from '@/lib/quests/job-time'
+import { isRegion, DEFAULT_REGION } from '@/lib/learning/region'
 
 // A nudge on the child's own phone, at the hour the job can still be done.
 //
@@ -72,10 +73,14 @@ async function handler(request: Request) {
 
   const childIds = links.map(l => l.child_id as string)
 
-  const [{ data: questRows }, { data: tickRows }, { data: kidRows }] = await Promise.all([
+  const [{ data: questRows }, { data: tickRows }, { data: kidRows }, { data: profileRows }] = await Promise.all([
     admin.from('family_quests').select('id, title, user_id, child_id, schedule, schedule_days, band').eq('active', true).in('child_id', childIds),
     admin.from('quest_ticks').select('quest_id, child_id, status').eq('tick_date', today).in('child_id', childIds),
     admin.from('children').select('id, name').in('id', childIds),
+    // The family's own school calendar. Scottish and US terms differ enough
+    // that "after school" would be wrong for weeks at a time if we assumed
+    // England for everyone.
+    admin.from('profiles').select('id, school_region').in('id', [...new Set(links.map(l => l.user_id as string))]),
   ])
 
   const quests = (questRows ?? []) as Quest[]
@@ -84,6 +89,7 @@ async function handler(request: Request) {
   // wrong and would read as us not noticing.
   const handled = new Set((tickRows ?? []).filter(t => t.status !== 'rejected').map(t => `${t.child_id}|${t.quest_id}`))
   const nameOf = new Map((kidRows ?? []).map(k => [k.id as string, (k.name as string) ?? 'you']))
+  const regionOf = new Map((profileRows ?? []).map(p => [p.id as string, isRegion(p.school_region) ? p.school_region : DEFAULT_REGION]))
 
   let sent = 0
   for (const link of links) {
@@ -106,9 +112,13 @@ async function handler(request: Request) {
     const more = outstanding.length - 1
     const name = nameOf.get(childId)
     const title = outstanding.length === 1 ? 'One job left' : `${outstanding.length} jobs left`
+    // What to call the slot TODAY, not what it is called in term time. On a
+    // Saturday or in the holidays "after school" is simply false, and a child
+    // reading something obviously untrue learns to stop reading it.
+    const whenLabel = bandLabelOn(band, now, regionOf.get(userId) ?? DEFAULT_REGION)
     const body = more > 0
-      ? `${first}, and ${more} more to do ${BAND_LABEL[band]}. Tap to tick them off.`
-      : `${first}. Still time to do it ${BAND_LABEL[band]}.`
+      ? `${first}, and ${more} more to do ${whenLabel}. Tap to tick them off.`
+      : `${first}. Still time to do it ${whenLabel}.`
 
     try {
       await pushToChild(admin, userId, childId, `${title}${name && name !== 'you' ? `, ${name}` : ''}`, body)

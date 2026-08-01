@@ -7,7 +7,7 @@ import KidStickers, { type KidSticker } from '@/components/kid/KidStickers'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { PATH_CHARACTERS, challengeFor, type PathChallenge, type PathCharacter } from '@/lib/content/path-challenges'
 import { STAR_MINUTES } from '@/lib/quests/templates'
-import { BAND_LABEL, type JobBand } from '@/lib/quests/job-time'
+import { bandLabelOn, type JobBand } from '@/lib/quests/job-time'
 import type { SchoolQuiz } from '@/lib/content/school-quizzes'
 import type { PathTip } from '@/lib/content/path-tips'
 
@@ -736,7 +736,7 @@ export default function KidPath({
                       border: '1.5px solid var(--border)', borderRadius: 100,
                       padding: '2px 8px',
                     }}>
-                      {BAND_LABEL[j.band]}
+                      {bandLabelOn(j.band, new Date())}
                     </span>
                   )}
                   <span style={label}>{j.title}</span>
