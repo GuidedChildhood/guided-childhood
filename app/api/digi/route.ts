@@ -10,6 +10,7 @@ import type { StageId } from '@/lib/pathway/progress'
 import { getExpertKnowledge, getFamilyMemory, getWhatWorked, getPathwayPosition } from '@/lib/digi/brain'
 import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
+import { classifyLane, laneShape } from '@/lib/digi/lane'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
 import { schoolSubjectFor, learningContextFor, learningRules } from '@/lib/learning/digi-context'
 import { deviceLabel } from '@/lib/quests/device-time'
@@ -249,11 +250,19 @@ export async function POST(request: Request) {
   const scriptFeedback = scriptFeedbackResult.data ?? []
   const parentChallenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
 
+  // Which shape this message needs, before the research queries run so a
+  // question that has nothing to do with the child does not go and fetch six
+  // findings about eleven year olds to ignore. Nearly always free: the keyword
+  // pass answers it with no model call, and every failure lands on 'parenting',
+  // which is the shape that loses least by being wrong.
+  const lane = await classifyLane(message, (convData?.messages ?? []).length > 0)
+  const wantsResearch = lane !== 'general'
+
   // Second parallel round trip for the queries that depend on the first
   const [expertKnowledge, aggregateWisdom, provenSolutions, recommended, matchingScriptsResult, pathwayPosition] = await Promise.all([
-    getExpertKnowledge(supabase, child?.age_band ?? null, message),
-    getAggregateWisdom(supabase, child?.age_band ?? null, message),
-    getProvenSolutions(supabase, child?.age_band ?? null, message),
+    wantsResearch ? getExpertKnowledge(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
+    wantsResearch ? getAggregateWisdom(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
+    wantsResearch ? getProvenSolutions(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
     child?.stage_id
       ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null, { preferFree: !isPaid })
       : Promise.resolve(null),
@@ -448,7 +457,11 @@ When a parent asks whether or for how long their child should use any device, do
     // weighed in, which is what PRECEDENCE exists to say. Before it, thirteen
     // blocks arrived as one flat wall of context and the model decided the
     // precedence for itself, differently each time.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge,
+    // laneShape goes LAST because it overrides the format rules in the static
+    // prompt, and an override that arrives before the thing it overrides reads
+    // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
+    // and safety leading is not negotiable for any lane.
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge + laneShape(lane),
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
@@ -543,7 +556,11 @@ When a parent asks whether or for how long their child should use any device, do
       const existingConcernList = liveConcerns.length > 0
         ? liveConcerns.map(c => `${c.slug}: ${c.label}`).join('; ')
         : 'none yet'
-      const extraction = await callDigi({
+      // A message that was never about the child has no durable family fact in
+      // it, so the extraction call is skipped rather than paid for and answered
+      // NONE. It also stops a stray note about someone's work deadline being
+      // filed as lasting context about the family.
+      const extraction = lane === 'general' ? null : await callDigi({
         model: digiModelsFor('extract')[0],
         max_tokens: 220,
         messages: [{
@@ -551,7 +568,7 @@ When a parent asks whether or for how long their child should use any device, do
           content: `From this parent coaching exchange, extract at most ONE durable fact worth remembering for future conversations (a concern, a win, a preference, or lasting context about the child or family). Skip small talk and one off logistics. If nothing durable, reply exactly NONE.\n\nParent: ${message}\nAdvisor: ${mainResponse.slice(0, 600)}\n\nThis family's existing tracked concerns (slug: label): ${existingConcernList}\n\nReply as JSON only: {"kind":"observation|concern|win|preference|context","content":"one sentence, third person","concern_slug":"kebab-case-2-to-4-words","concern_label":"Short label, sentence case, correctly spelled, never copy a typo from the parent"} or NONE. Only include concern_slug and concern_label when kind is concern: reuse an existing slug above verbatim if this is the same theme, otherwise invent a new short one.`,
         }],
       })
-      const memText = firstText(extraction).trim() || 'NONE'
+      const memText = extraction ? firstText(extraction).trim() || 'NONE' : 'NONE'
       if (memText !== 'NONE') {
         const memMatch = memText.match(/\{[\s\S]*\}/)
         if (memMatch) {
@@ -596,6 +613,9 @@ When a parent asks whether or for how long their child should use any device, do
         stage_id: stage.id,
         question: message,
         response: mainResponse,
+        // Stored so the insight agent and the research updater can ignore the
+        // questions that were never about a child. See migration 141.
+        lane,
       })
     } catch { /* best-effort */ }
 

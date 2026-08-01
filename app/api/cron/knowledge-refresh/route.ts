@@ -44,7 +44,12 @@ async function handler(req: NextRequest) {
     // model fills gaps and does not repeat what is already in.
     const since = new Date(Date.now() - 30 * 86_400_000).toISOString()
     const [questionsRes, bankRes] = await Promise.all([
-      admin.from('digi_questions').select('question').gte('created_at', since).limit(120),
+      // Parenting lanes only. This is the input that decides what the research
+      // updater goes SEARCHING for, and the candidates land in front of Justin to
+      // approve into the bank DiGi cites by name. A general question in here
+      // could send it hunting for studies that have no business being there. See
+      // migration 141.
+      admin.from('digi_questions').select('question').or('lane.is.null,lane.in.(parenting,family)').gte('created_at', since).limit(120),
       admin.from('expert_knowledge').select('source_name, finding').limit(500),
     ])
     const questions = (questionsRes.data ?? []).map(q => String(q.question)).filter(Boolean)
