@@ -4687,3 +4687,39 @@ parenting and family only.
 estimate of its evidence, parsed from the JSON it returns, not a counted fact.
 getProvenSolutions floors and weights on it, so "proven across families" currently
 reads harder than it is. The fix is to count the supporting signals in code.
+
+## 1 August 2026 — the knowledge base grounds DiGi, it does not cap it
+
+Justin: "I want to make sure it has as much knowledge as Claude, and I want to
+answer every child mental health question."
+
+**The model was never the limit.** DiGi runs on claude-fable-5, so everything
+Claude knows about child development, CAMHS pathways, eating disorders, ADHD and
+sleep was always available. One line in the prompt was capping it: when nothing
+in the bank fitted, DiGi was told to teach from the research principles and "say
+the source is our own approach". So real, established clinical knowledge came back
+either thinner than it should be, or labelled as house opinion. That is the mirror
+image of inventing a citation and just as dishonest.
+
+**Three levels, stated.** Bank covers it, lead with it and name the source. Bank
+does not, answer just as fully with no source attached and nothing dressed up as
+ours. Genuinely contested, say so and say why.
+
+**Never invent a study still holds and does not fight with that.** A full answer
+with no citation is honest. A thin answer with a made up citation is not.
+PRECEDENCE rule 7 says the same, because "if you do not know, say you do not know"
+was the sentence most likely to be misread as "if the bank is quiet, say less".
+
+**Child mental health gets answered properly.** Signs at that age, what to do this
+week, and always the route to a human without waiting to be asked: GP as the door
+to CAMHS, pastoral lead or SENCO, YoungMinds, Beat, Papyrus, Childline. Never
+diagnose, never rule out, never definitely fine, and never let waiting be the whole
+plan.
+
+**Three eval cases guard the opposite failure to all the others.** The existing
+cases catch DiGi saying too much. These catch it saying too little, and none of
+their subjects are in the knowledge base, which is the point.
+
+**What does not learn is the model itself, and it should not.** DiGi learns about
+our families, not from them into anyone's weights. That is the version that can be
+defended to a parent.
