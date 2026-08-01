@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import InsightsBoard from '@/components/insights/InsightsBoard'
 import ManagementReviewPanel, { type ManagementFindingRow } from '@/components/insights/ManagementReviewPanel'
+import DigiChecksPanel from '@/components/insights/DigiChecksPanel'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 // Founder only. The daily insight agent's dashboard: run it on demand, read
@@ -37,6 +38,10 @@ export default async function InsightsPage() {
   return (
     <>
       <ManagementReviewPanel row={review} />
+      {/* Below the week's read, above the daily detail. It answers "is the
+          machine actually running", which is the question you only think to ask
+          after it has quietly not been for a month. */}
+      <DigiChecksPanel />
       <InsightsBoard />
     </>
   )
