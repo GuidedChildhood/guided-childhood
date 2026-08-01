@@ -7,6 +7,49 @@ type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 // memory DiGi saves between conversations, and the trigger rules that make
 // DiGi proactive instead of only reactive.
 
+// The words a parent actually types, mapped to the topics a finding is tagged
+// with. Scoring is a literal substring match, so anything missing here is a
+// question the library cannot answer however well stocked it is.
+//
+// Grown from the original fifteen after the obvious gap: not one platform a
+// child under thirteen actually uses was in it, and none of the ordinary words
+// a worried parent reaches for. "Down", "quiet" and "withdrawn" are how people
+// describe low mood; almost nobody types "mood".
+const WORD_TO_TOPIC: Record<string, string> = {
+  // Feeling, in the words people use
+  anxious: 'anxiety', anxiety: 'anxiety', worried: 'anxiety', worry: 'anxiety',
+  panic: 'anxiety', nervous: 'anxiety',
+  sad: 'mood', down: 'mood', low: 'mood', mood: 'mood', tearful: 'mood',
+  quiet: 'mood', withdrawn: 'mood', miserable: 'mood', meltdown: 'mood',
+  angry: 'mood', 'lost it': 'mood',
+  confidence: 'self_esteem', 'self esteem': 'self_esteem', ugly: 'self_esteem',
+  comparing: 'self_esteem', 'left out': 'friendships', lonely: 'friendships',
+  friends: 'friendships', friendship: 'friendships', fallen: 'friendships',
+  // Platforms, which is how a parent names the problem
+  tiktok: 'social_media', instagram: 'social_media', snapchat: 'social_media',
+  snap: 'social_media', 'social media': 'social_media', youtube: 'social_media',
+  whatsapp: 'social_media', discord: 'social_media', reddit: 'social_media',
+  roblox: 'gaming', minecraft: 'gaming', fortnite: 'gaming', xbox: 'gaming',
+  playstation: 'gaming', switch: 'gaming', gaming: 'gaming', game: 'gaming',
+  // Devices and time
+  phone: 'screen_time', ipad: 'screen_time', tablet: 'screen_time',
+  screen: 'screen_time', 'screen time': 'screen_time', laptop: 'screen_time',
+  // The day
+  sleep: 'sleep', bedtime: 'sleep', tired: 'sleep', 'wont sleep': 'sleep',
+  'school run': 'routines', homework: 'routines', morning: 'routines',
+  routine: 'routines',
+  // Safety, and the ones that must never be missed
+  'self harm': 'crisis', suicide: 'crisis', 'hurt themselves': 'crisis',
+  bullying: 'safety', bullied: 'safety', stranger: 'safety', grooming: 'safety',
+  porn: 'safety', nudes: 'safety', scam: 'safety',
+  scared: 'trauma', frightened: 'trauma',
+  // "nightmares" and not "nightmare". The singular is how people describe an
+  // ordinary bad morning ("the school run is a nightmare") and it was pulling
+  // trauma findings into a question about routines. The plural is almost always
+  // literal.
+  nightmares: 'trauma',
+}
+
 export async function getExpertKnowledge(
   supabase: SupabaseClient,
   ageBand: string | null,
@@ -31,21 +74,35 @@ export async function getExpertKnowledge(
       if (t === 'crisis') score += 1
       if (msg.includes(t.replace('_', ' ')) || msg.includes(t.replace('_', ''))) score += 2
     }
-    for (const word of ['sleep', 'mood', 'anxious', 'anxiety', 'sad', 'gaming', 'tiktok', 'instagram', 'phone', 'school run', 'meltdown', 'self harm', 'bullying', 'scared', 'worried']) {
+    for (const word of Object.keys(WORD_TO_TOPIC)) {
       if (msg.includes(word)) {
-        const map: Record<string, string> = {
-          anxious: 'anxiety', sad: 'mood', tiktok: 'social_media', instagram: 'social_media',
-          phone: 'screen_time', 'school run': 'routines', meltdown: 'mood', 'self harm': 'crisis',
-          bullying: 'safety', scared: 'trauma', worried: 'anxiety',
-        }
-        const topic = map[word] ?? word
+        const topic = WORD_TO_TOPIC[word] ?? word
         if ((k.topics as string[]).includes(topic)) score += 2
       }
     }
     return { k, score }
   })
 
-  const top = scored.sort((a, b) => b.score - a.score).slice(0, limit).filter(s => s.score > 0)
+  const ranked = scored.sort((a, b) => b.score - a.score)
+  let top = ranked.slice(0, limit).filter(s => s.score > 0)
+
+  // The floor.
+  //
+  // Every finding scoring zero used to mean an EMPTY STRING, silently, and an
+  // answer built on no research at all looked identical to one built on six.
+  // The keyword match is literal, so "she has been really down since she got
+  // Snapchat" matched nothing at all before the map below grew, and a full
+  // library still handed DiGi nothing.
+  //
+  // So when nothing scores, fall back to whatever is age appropriate rather
+  // than to silence. A general finding for the right age is a far better floor
+  // than none, and it means the claim that DiGi answers from research is true
+  // of every answer rather than most of them.
+  if (top.length === 0) {
+    top = ranked
+      .filter(s => !ageBand || s.k.age_bands.length === 0 || (s.k.age_bands as string[]).includes(ageBand))
+      .slice(0, 2)
+  }
   if (top.length === 0) return ''
 
   return '\n\nEXPERT KNOWLEDGE BASE (cite the source by name when you use one of these):\n' +

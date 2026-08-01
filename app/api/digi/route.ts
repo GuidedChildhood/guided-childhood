@@ -8,7 +8,7 @@ import { getStageFromAgeBand, STAGES, ageBandInList, type AgeBand, type Challeng
 import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { StageId } from '@/lib/pathway/progress'
 import { getExpertKnowledge, getFamilyMemory, getWhatWorked, getPathwayPosition } from '@/lib/digi/brain'
-import { getAggregateWisdom } from '@/lib/digi/wisdom'
+import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
 import { schoolSubjectFor, learningContextFor, learningRules } from '@/lib/learning/digi-context'
@@ -62,6 +62,45 @@ export const maxDuration = 60
 export const dynamic = 'force-dynamic'
 
 const FREE_DAILY_LIMIT = 3
+
+// How to weigh everything that follows.
+//
+// Justin: "I want it to use the researchers when answering specific questions,
+// as well as weighting the parent input, what we learn from the platform, and
+// all the data reports from the researchers we agree with. How is this working,
+// and can we make sure it is that clear?"
+//
+// The honest answer was that it was not clear. Thirteen context blocks were
+// concatenated into one flat string and handed over, so the precedence was
+// whatever the model inferred that time. It mostly behaved, but nothing said
+// what should win when a research finding and a family's own history disagree,
+// which is the exact moment a parenting guide either earns trust or loses it.
+//
+// So the order is stated rather than hoped for. It sits FIRST in the context,
+// before any of the material it governs, because an instruction about how to
+// read something has to arrive before the something.
+//
+// The order itself is the product's argument. Safety outranks everything because
+// it must. Research sets the direction, since what is generally true is the
+// honest starting point. This family outranks the research for FIT, because a
+// finding about eleven year olds is not a finding about this eleven year old.
+// Other families come last and never as authority, because "other people do it
+// this way" is social pressure, not evidence, and a parent already gets plenty
+// of that. And when they genuinely conflict, saying so out loud is better than
+// silently picking, because a parent who can see the tension makes a better
+// decision than one handed false certainty.
+const PRECEDENCE = `
+
+HOW TO WEIGH WHAT FOLLOWS (this ordering overrides the order the sections happen to appear in):
+1. SAFETY FIRST. Anything touching harm, crisis or safeguarding outranks everything else here, always, and the human signpost (GP, NHS 111, Childline 0800 1111) is never replaced by advice.
+2. THE FAMILY'S OWN AGREEMENT outranks your suggestion. If they have written a rule down, work inside it or say plainly why it might be worth revisiting. Never quietly contradict a deal a parent and child signed.
+3. RESEARCH SETS THE DIRECTION. The expert knowledge base is what is generally true, and it is where an answer starts. Cite the source by name when you use one.
+4. THIS FAMILY SETS THE FIT. Their history, what has worked for them before, their child's age and stage decide how the general thing applies here. A finding about eleven year olds is not a finding about THIS eleven year old, so when the family's own record points somewhere else, follow the family and say why.
+5. WHAT HAS WORKED for other families is a starting suggestion only. Offer it, never lean on it, never present it as what people do, and never give numbers.
+6. WHEN THEY CONFLICT, SAY SO. If the research points one way and this family's experience the other, name the tension in one plain sentence and give the parent the choice. Do not pick silently and do not pretend there is more certainty than there is.
+7. IF YOU DO NOT KNOW, SAY YOU DO NOT KNOW. Never invent a study, a statistic, a source or a number. An honest gap is worth more than a confident guess.
+`
+
 
 export async function POST(request: Request) {
   const supabase = await createClient()
@@ -211,9 +250,10 @@ export async function POST(request: Request) {
   const parentChallenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
 
   // Second parallel round trip for the queries that depend on the first
-  const [expertKnowledge, aggregateWisdom, recommended, matchingScriptsResult, pathwayPosition] = await Promise.all([
+  const [expertKnowledge, aggregateWisdom, provenSolutions, recommended, matchingScriptsResult, pathwayPosition] = await Promise.all([
     getExpertKnowledge(supabase, child?.age_band ?? null, message),
     getAggregateWisdom(supabase, child?.age_band ?? null, message),
+    getProvenSolutions(supabase, child?.age_band ?? null, message),
     child?.stage_id
       ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null, { preferFree: !isPaid })
       : Promise.resolve(null),
@@ -404,7 +444,11 @@ When a parent asks whether or for how long their child should use any device, do
     trackerResult.data ?? [],
     feedbackResult.data ?? [],
     aiKnowledge,
-    pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge,
+    // The order these are concatenated in is not the order they should be
+    // weighed in, which is what PRECEDENCE exists to say. Before it, thirteen
+    // blocks arrived as one flat wall of context and the model decided the
+    // precedence for itself, differently each time.
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:

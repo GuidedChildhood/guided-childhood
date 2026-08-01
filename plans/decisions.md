@@ -4539,3 +4539,64 @@ repo, so this does not need a live account to verify.
 
 Worth keeping as a rule: when one action has three entry points, the one to
 keep is the one that performs the action, not the ones that navigate toward it.
+
+---
+
+## 1 August 2026 — DiGi's precedence, the retrieval floor, and learning from what worked
+
+Justin: "I want it to use the researchers when answering specific questions, as
+well as weighting the parent input, what we learn from the platform, and all the
+data reports from the researchers we agree with. How is this working, and can we
+make sure it is that clear?" Then: "make DiGi learn from successes ... where they
+have marked a solution fixed, trace the best answers, look for popular issues and
+moments, then be proactive on known success solutions."
+
+**The precedence was emergent, not designed.** Thirteen context blocks were
+concatenated into one flat string and handed over, so the model inferred the
+ordering itself, differently each time. Nothing said what wins when a research
+finding and a family's own history disagree, which is the exact moment a
+parenting guide either earns trust or loses it. Now stated, and placed FIRST in
+the context because an instruction about how to read something has to arrive
+before the something.
+
+The order is the product's argument: safety, then the family's own signed
+agreement, then research for DIRECTION, then this family for FIT, then other
+families as a suggestion only, then say so out loud when they conflict, then
+admit not knowing. Research before the family on what is generally true; the
+family before the research on whether it applies here. A finding about eleven
+year olds is not a finding about THIS eleven year old.
+
+**Two retrieval faults, both silent.**
+
+The keyword match is a literal substring, and the map had fifteen words in it
+with not one platform a child actually uses. "She has been really down since she
+got Snapchat" matched nothing. Now about seventy words, tested against ten real
+parent sentences: all ten match, where several matched nothing before.
+
+And when nothing scored, getExpertKnowledge returned an EMPTY STRING. An answer
+built on no research looked identical to one built on six, with no signal
+anywhere. There is now a floor: if nothing scores, fall back to whatever is age
+appropriate. The claim that DiGi answers from research is now true of every
+answer rather than most of them.
+
+**Learning from successes.** rebuildWisdom already read the three places a
+success is recorded (a concern marked resolved, a script marked worked, written
+parent feedback) and stored evidence_count. That count was then thrown away at
+retrieval, so a pattern proven across many families and one seen once read the
+same. getProvenSolutions surfaces them as their own block, ranked, with a log
+compression on the count so one very common pattern cannot win every question
+regardless of what was asked. Floor of two families, because one success is an
+anecdote and presenting it as a pattern is the overclaiming this brain exists to
+avoid.
+
+**And the two researchers.** Foulkes and Valkenburg were named in Justin's
+LinkedIn post and were not in the codebase at all. Migration 139 adds both, from
+the published work rather than memory, with urls. They are also the two that most
+support the product's own argument: Foulkes is the peer reviewed case for
+education over alarm, and Valkenburg's 28 percent negative, 26 percent positive,
+half negligible is why a blanket rule is the wrong instrument.
+
+Worth keeping: the test caught what reading could not. "The morning routine is a
+nightmare" matched trauma, because the singular is idiom and the plural is
+literal. Ten sentences took a minute and found both a whole class of misses and a
+false positive.
