@@ -4825,3 +4825,48 @@ always means someone cannot do something.
 nested template literal, an `index.tsx` directory import, and a step written from
 a JSX prop. A check that guesses is a check that cries wolf. Where it cannot
 resolve a value it now stays silent rather than asserting.
+
+## 1 August 2026 — Minutes marked by hand are a session, not just a number
+
+**A parent who marks screen time by hand had a balance report that could not see
+it.** Two paths put screen time in the system. A timer block writes
+`device_sessions`, which carries the device, the activity and the family device.
+"Screen time used" wrote `star_spends`, which carries minutes and stars and
+nothing else. Every weekly breakdown reads `device_sessions` only, so a family
+without a phone child, marking time in the co view, drained the star bank all
+week and read a balance report showing almost no screen use at all. The guide for
+a 4 to 7 year old is 27 minutes watching and 24 learning, and they were being
+measured against it with an empty numerator.
+
+**So `/api/quests/spend` writes the session too, tied to its spend by
+`spend_id`.** That link already existed for parent granted blocks, and
+`getMinutesUsedToday` already skips a spend whose session it has counted, so
+today's total still counts each minute once. Nothing needed inventing.
+
+**The device is asked for, never defaulted.** Every other timer flow defaults the
+picker (`ParentStartTimer` to the TV, `ParentDeviceTime` to the tablet) because
+the parent is standing there choosing. Recording after the fact is different: a
+default there is a guess written into the week's breakdown as though somebody
+answered it. So the minute buttons stay disabled until the screen is picked, and
+the pick then sticks, so marking again is still one tap. A computer is asked what
+they were doing, for the same reason the child is asked: it is the one device
+whose bucket cannot be read off the device, and homework counted as watching is
+the bug that question exists to stop.
+
+**Migration 146 adds `device_sessions.manual`.** `spend_id` says these minutes
+came from a spend; it cannot say whether a person typed them or a clock measured
+them. A parent reading "45 minutes on the TV" deserves to know which, because a
+recollection at bedtime and a countdown are not the same evidence. The stats page
+says it in one line under the report.
+
+**The session write is best effort and the spend is not.** The stars come off the
+bank first and the parent is told so. Failing the whole request because the
+session insert failed would leave them tapping again and spending twice, so the
+response carries `logged` instead and the confirmation says when the week's
+screens did not get the minutes.
+
+**`manual` is read in its own query, not added to the breakdown's select.** One
+unknown column in that select and the existing catch swallows every session,
+leaving a parent looking at an empty week rather than a missing footnote. The
+footnote is what should go missing before migration 146 runs, so it is the only
+thing that does.

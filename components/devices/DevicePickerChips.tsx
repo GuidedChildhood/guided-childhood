@@ -22,7 +22,8 @@ export default function DevicePickerChips({
   /** The family's own devices. Empty falls back to the generic kinds. */
   devices: FamilyDevice[]
   fallback: { key: DeviceKind; label: string; emoji: string }[]
-  value: DevicePick
+  /** Null shows nothing selected, for a flow that must not guess the screen. */
+  value: DevicePick | null
   onChange: (pick: DevicePick) => void
   disabled?: boolean
 }) {
@@ -43,7 +44,7 @@ export default function DevicePickerChips({
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
         {live.map(d => {
-          const on = value.familyDeviceId === d.id
+          const on = value?.familyDeviceId === d.id
           return (
             <button
               key={d.id}
@@ -64,7 +65,7 @@ export default function DevicePickerChips({
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
       {fallback.map(d => {
-        const on = value.familyDeviceId === null && value.kind === d.key
+        const on = value != null && value.familyDeviceId === null && value.kind === d.key
         return (
           <button
             key={d.key}
