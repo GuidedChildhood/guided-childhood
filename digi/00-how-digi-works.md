@@ -101,7 +101,7 @@ to keywords and still works.
 | This family | every reply | the exchange | a memory, embedded, plus a concern |
 | All families | Sunday 06:00 | resolved concerns, scripts marked worked, written feedback | `digi_wisdom`, read back on the next question |
 | The research bank | 1st and 15th | question gaps, plus a web search | candidates for the founder to approve |
-| Quality | Monday 06:30 | fourteen adversarial eval cases | a score to watch move |
+| Quality | Monday 06:30 | seventeen adversarial eval cases | a score to watch move |
 | Its own answers | 2nd of the month | eval scores, safety flags, what parents wrote back | `digi_answer_reviews`, proposals only |
 | Insights | daily 07:00 | what parents asked | the founder board |
 | Management review | Monday 00:30 | what actually worked | `management_findings` |
@@ -149,7 +149,7 @@ itself which to use:
 | `get_child_history` | pulls this family's check ins, concerns and screen weeks | read, this family only |
 | `save_memory` | keeps one durable fact, embedded on the way in | writes, this family only |
 | `schedule_followup` | comes back in a few days and asks how it went | writes, and the parent hears about it |
-| `web_search` | the live world only: an app, a device, a change in UK law | reaches outside |
+| `web_search` | the live world, and looking up a named researcher's published figures | reaches outside |
 
 The fence is the point. **Every write is small, visible and reversible.** One
 memory line the parent can delete, one card they can cancel. Nothing DiGi can do
@@ -162,9 +162,31 @@ act in the future rather than only respond in the present. Follow ups are capped
 at three pending per family, enforced in code, because a guide that queues up
 nine things to ask you about is a guide you start avoiding.
 
-`web_search` is fenced to the live world and **explicitly barred from anything
-clinical or developmental**, because the open web is where the worst parenting
-advice lives. For how children work it uses the bank and what it knows.
+`web_search` has exactly two uses: the live world (a named app, device, or a
+change in UK law), and looking up **a specific figure from a named researcher's
+published work** rather than stating one from memory. It is **explicitly barred
+from general parenting advice**, because the open web is where the worst of it
+lives and a search result is not evidence just because it is recent.
+
+### Depth on the researchers, and the line under it
+
+Claude knows this literature far beyond the one or two sentences stored per
+researcher, and DiGi is told to use that: reason from what they genuinely argue,
+follow their thinking into questions they never wrote about, and set them against
+each other where they honestly disagree.
+
+The limit is the difference between depth and fabrication, and it turns on
+reliability. Claude is reliable on the SHAPE of an argument and unreliable on its
+SPECIFICS.
+
+| | From memory? |
+| --- | --- |
+| Their position, framing, direction of evidence | yes, and attributed |
+| What they would say about a case they never covered | yes, as inference |
+| Effect size, percentage, sample size, year, paper title, quotation | **no.** Bank, or search, or it does not appear |
+
+Three eval cases exist purely to bait a fabricated figure out of it, because
+widening what DiGi may claim without testing the guardrail is the wrong order.
 
 **The model does not learn either, and it should not.** DiGi learns *about* our
 families. Nothing learns *from* them into anyone's weights. That is the version
