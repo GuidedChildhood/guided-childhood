@@ -18,7 +18,9 @@ import { recommendedDailyMinutes, bandLabelFor } from '@/lib/quests/screen-balan
 import { STAGE_LABELS, AGE_BAND_TO_STAGE, type StageKey } from '@/lib/quests/game-picks'
 import { gamesForStage } from '@/lib/quest-games/registry'
 import { PRINTABLES } from '@/lib/printables/registry'
-import { deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
+import { deviceLabel, deviceEmoji, DEVICES, ACTIVITIES, asksActivity, type ActivityKey } from '@/lib/quests/device-time'
+import DevicePickerChips, { type DevicePick } from '@/components/devices/DevicePickerChips'
+import type { FamilyDevice } from '@/lib/devices/family'
 
 // When a child asks for a printable their pitch reads either "Print the
 // {title} sheet" (full access, no printer at home) or "Please can I do the
@@ -142,6 +144,25 @@ export default function QuestManager() {
   const [askStars, setAskStars] = useState<Record<string, number>>({})
   const [askSchedule, setAskSchedule] = useState<Record<string, string>>({})
   const [spendMsg, setSpendMsg] = useState<string | null>(null)
+  // Which screen the marked minutes went on, and what they were doing if the
+  // device cannot say. Deliberately unset to begin with: a default here is a
+  // guess written into the week's breakdown as though somebody answered.
+  const [spendPick, setSpendPick] = useState<DevicePick | null>(null)
+  const [spendActivity, setSpendActivity] = useState<ActivityKey | null>(null)
+  const [homeDevices, setHomeDevices] = useState<FamilyDevice[]>([])
+
+  // The screens in this house, so marking time offers Ella's iPad rather than
+  // the word tablet. No devices listed simply falls back to the five kinds.
+  useEffect(() => {
+    let on = true
+    fetch('/api/devices/family')
+      .then(r => r.json())
+      .then((d: { devices?: FamilyDevice[] }) => {
+        if (on) setHomeDevices((d.devices ?? []).filter(x => !x.retiredAt))
+      })
+      .catch(() => { /* the picker falls back to the kinds */ })
+    return () => { on = false }
+  }, [])
 
   // Open straight to a tab when linked with ?tab=, so the setup step Send
   // your child their phone link lands on Share, not the default Quests tab.
@@ -512,14 +533,22 @@ export default function QuestManager() {
     } catch { load() }
   }
 
-  // Screen time was used: mark the minutes, the stars come off the bank.
+  // Screen time was used: mark the minutes, the stars come off the bank, and
+  // the same minutes land in the week's breakdown against the screen they went
+  // on. The device rides along because a spend on its own is invisible to every
+  // per device and per activity report the parent reads.
   async function spendTime(minutes: number) {
-    if (!activeChild) return
+    if (!activeChild || !spendPick) return
     try {
       const res = await fetch('/api/quests/spend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ child_id: activeChild, minutes }),
+        body: JSON.stringify({
+          child_id: activeChild, minutes,
+          device: spendPick.kind,
+          familyDeviceId: spendPick.familyDeviceId,
+          activity: spendActivity,
+        }),
       })
       const data = await res.json()
       if (data.ok) {
@@ -531,7 +560,12 @@ export default function QuestManager() {
           stars: data.spent_stars, minutes: data.spent_minutes,
           created_at: new Date().toISOString(),
         }, ...prev])
-        setSpendMsg(`${data.spent_minutes} minutes marked as used ✓`)
+        // Say the screen back. The parent picked it, so the confirmation
+        // proving it was recorded against that screen is worth the words.
+        const on = data.device_label ? ` on ${data.device_label}` : ''
+        setSpendMsg(data.logged === false
+          ? `${data.spent_minutes} minutes marked as used ✓ (not added to the week's screens)`
+          : `${data.spent_minutes} minutes marked as used${on} ✓`)
       } else {
         setSpendMsg(data.error ?? 'Could not mark that just now')
       }
@@ -1894,28 +1928,96 @@ export default function QuestManager() {
                     </div>
                   ))}
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)' }}>
-                    Screen time used:
-                  </span>
-                  {[15, 30, 60].map(m => (
-                    <button
-                      key={m}
-                      onClick={() => spendTime(m)}
-                      disabled={balance <= 0}
-                      style={{
-                        background: balance > 0 ? 'var(--terracotta)' : 'var(--cream)',
-                        color: balance > 0 ? 'var(--ink)' : 'var(--ink-muted)',
-                        border: 'none', borderRadius: '100px', padding: '8px 14px',
-                        cursor: balance > 0 ? 'pointer' : 'default',
-                        fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
-                        boxShadow: balance > 0 ? '0 3px 0 var(--terracotta-dark)' : 'none',
-                      }}
-                    >
-                      {m} min
-                    </button>
-                  ))}
-                </div>
+                {/* Which screen, then how long. Marking time used to be one tap
+                    and record nothing but a number, which is why a family who
+                    marks by hand saw an almost empty week on the balance report
+                    while the stars drained away. The screen is asked for once
+                    and then stays picked, so marking again is still one tap. */}
+                {(() => {
+                  const needsActivity = spendPick != null && asksActivity(spendPick.kind)
+                  const ready = spendPick != null && (!needsActivity || spendActivity != null)
+                  const live = balance > 0 && ready
+                  return (
+                    <>
+                      <div style={{ fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)', marginBottom: '8px' }}>
+                        Screen time used. Which screen?
+                      </div>
+                      <DevicePickerChips
+                        devices={homeDevices}
+                        fallback={DEVICES}
+                        value={spendPick}
+                        onChange={pick => {
+                          setSpendPick(pick)
+                          // A different device asks a different question, so
+                          // last time's answer never rides along to this one.
+                          if (!asksActivity(pick.kind)) setSpendActivity(null)
+                        }}
+                        disabled={balance <= 0}
+                      />
+                      {needsActivity && (
+                        <div style={{ marginTop: '10px' }}>
+                          {/* A computer is the one device whose bucket cannot be
+                              read off the device. Homework counted as watching
+                              is the bug this question exists to stop. */}
+                          <div style={{ fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)', marginBottom: '8px' }}>
+                            What were they doing?
+                          </div>
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                            {ACTIVITIES.map(a => {
+                              const on = spendActivity === a.key
+                              return (
+                                <button
+                                  key={a.key}
+                                  type="button"
+                                  onClick={() => setSpendActivity(a.key)}
+                                  style={{
+                                    display: 'flex', alignItems: 'center', gap: '7px',
+                                    padding: '10px 14px', borderRadius: '100px',
+                                    border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                                    background: on ? 'var(--terracotta-lt)' : '#fff',
+                                    color: on ? 'var(--terracotta)' : 'var(--ink)',
+                                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px',
+                                    cursor: 'pointer',
+                                  }}
+                                >
+                                  <span aria-hidden style={{ fontSize: '16px', lineHeight: 1 }}>{a.emoji}</span>
+                                  {a.label}
+                                </button>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      )}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', marginTop: '12px' }}>
+                        <span style={{ fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)' }}>
+                          How long?
+                        </span>
+                        {[15, 30, 60].map(m => (
+                          <button
+                            key={m}
+                            onClick={() => spendTime(m)}
+                            disabled={!live}
+                            style={{
+                              background: live ? 'var(--terracotta)' : 'var(--cream)',
+                              color: live ? 'var(--ink)' : 'var(--ink-muted)',
+                              border: 'none', borderRadius: '100px', padding: '8px 14px',
+                              cursor: live ? 'pointer' : 'default',
+                              fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
+                              boxShadow: live ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                            }}
+                          >
+                            {m} min
+                          </button>
+                        ))}
+                      </div>
+                      {balance > 0 && !ready && (
+                        <p style={{ fontSize: '14px', color: 'var(--ink-muted)', margin: '8px 0 0' }}>
+                          {spendPick == null ? 'Pick the screen first.' : 'Pick what they were doing first.'}
+                        </p>
+                      )}
+                    </>
+                  )
+                })()}
                 {spendMsg && (
                   <p style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--terracotta-dark)', margin: '10px 0 0' }}>
                     {spendMsg}

@@ -49,6 +49,11 @@ export default async function StatsPage() {
   // page and the tracker can never drift apart again.
   let jobs: { title: string; minutes?: number | null }[] = []
   let jobStars = 0, sheets_ = 0, sheetStars = 0
+  // Of this week's minutes, how many a person typed in rather than a countdown
+  // measuring them. The breakdown below is only as good as what fed it, and a
+  // week that is mostly recollection deserves to be read differently from a
+  // week that is mostly clock.
+  let handMinutes = 0
 
   if (child?.id) {
     try {
@@ -75,6 +80,21 @@ export default async function StatsPage() {
       }
       deviceMinutes = [...map.values()]
     } catch { /* thin week */ }
+
+    // Asked separately, and on purpose. Adding `manual` to the select above
+    // would make the whole breakdown depend on migration 146 having run: one
+    // unknown column and the catch swallows the sessions, leaving a parent
+    // looking at an empty week rather than a missing footnote. This is the
+    // footnote, so it is the only thing that goes missing without the column.
+    try {
+      const { data: hand } = await supabase
+        .from('device_sessions')
+        .select('minutes')
+        .eq('child_id', child.id)
+        .eq('manual', true)
+        .gte('started_at', sinceIso)
+      handMinutes = (hand ?? []).reduce((sum, s) => sum + (Number(s.minutes) || 0), 0)
+    } catch { /* pre 146, the breakdown simply says nothing about how it was recorded */ }
 
     try {
       const [{ data: quests }, { data: ticks }] = await Promise.all([
@@ -147,6 +167,11 @@ export default async function StatsPage() {
       {child?.id && <ParentStartTimer childId={child.id} childName={child.name} />}
       <PaceCard pace={pace} childName={child?.name} />
       <BalanceReport report={report} />
+      {handMinutes > 0 && (
+        <p style={{ fontSize: 14.5, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 2px 0' }}>
+          {handMinutes} of these {report.totalWeekMins} minutes were marked by hand rather than timed.
+        </p>
+      )}
     </div>
   )
 }
