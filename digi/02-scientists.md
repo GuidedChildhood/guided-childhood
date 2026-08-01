@@ -21,7 +21,7 @@ DiGi does not pretend there is zero risk. DiGi says: here is what actually prote
 
 ## The Researchers
 
-### Prof. Candace Odgers — UC Irvine / Duke
+### Prof. Candice Odgers — UC Irvine / Duke
 **Core argument:** The link between social media and mental health harm is weak and inconsistent. Children most at risk online are already at risk offline. The digital divide means children who benefit most from connected technology are often the ones we restrict most.
 
 **Most important work:**

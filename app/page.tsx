@@ -258,7 +258,7 @@ const TRUST = [
 // ── Researchers ──────────────────────────────────────────────────────────────
 
 const RESEARCHERS = [
-  { name: 'Prof. Candace Odgers', uni: 'UC Irvine · Duke University', finding: 'Effects depend on vulnerability and environment, not just the device. Structure is protective.' },
+  { name: 'Prof. Candice Odgers', uni: 'UC Irvine · Duke University', finding: 'Effects depend on vulnerability and environment, not just the device. Structure is protective.' },
   { name: 'Dr. Amy Orben', uni: 'Cambridge MRC · Oxford', finding: 'Developmental sensitivity windows: 11 to 13 for girls, 14 to 15 for boys. These are the stages we protect most carefully.' },
   { name: 'Prof. Andrew Przybylski', uni: 'Oxford Internet Institute', finding: 'The Goldilocks effect. Moderate use is not inherently harmful. Too much, too early, structured wrong: that is where risk lives.' },
   { name: 'Prof. Sonia Livingstone', uni: 'LSE, London', finding: 'Children need skills and agency, not just restrictions. Every stage builds graduated digital skills.' },
@@ -323,7 +323,7 @@ export default function HomePage() {
               {
                 '@type': 'Question',
                 name: 'Is screen time really harmful for children?',
-                acceptedAnswer: { '@type': 'Answer', text: 'The research is more nuanced than most headlines suggest. Professor Candace Odgers at UC Irvine and Professor Andrew Przybylski at Oxford both find that the effects depend heavily on context, vulnerability, and structure. Screen time is not uniformly harmful. Too much, too early, without structure, for already vulnerable children is where risk concentrates. Guided Childhood is built on this nuanced research, not panic.' },
+                acceptedAnswer: { '@type': 'Answer', text: 'The research is more nuanced than most headlines suggest. Professor Candice Odgers at UC Irvine and Professor Andrew Przybylski at Oxford both find that the effects depend heavily on context, vulnerability, and structure. Screen time is not uniformly harmful. Too much, too early, without structure, for already vulnerable children is where risk concentrates. Guided Childhood is built on this nuanced research, not panic.' },
               },
               {
                 '@type': 'Question',
@@ -463,7 +463,7 @@ export default function HomePage() {
                 the right for real parent quotes we add later. */}
             <div className="fu proof-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 26px', alignItems: 'center', maxWidth: '520px' }}>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-light)', lineHeight: 1.65, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
-                Built on the research of Candace Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance.
+                Built on the research of Candice Odgers, Amy Orben and Catherine Knibbs. Aligned with NHS and NSPCC guidance.
               </p>
               <div style={{ flex: '0 1 200px', minWidth: '180px', borderLeft: '2px solid var(--terracotta)', paddingLeft: '16px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Parent quote</div>
