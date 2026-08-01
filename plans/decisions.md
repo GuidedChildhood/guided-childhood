@@ -4825,3 +4825,47 @@ always means someone cannot do something.
 nested template literal, an `index.tsx` directory import, and a step written from
 a JSX prop. A check that guesses is a check that cries wolf. Where it cannot
 resolve a value it now stays silent rather than asserting.
+
+---
+
+## 1 August 2026 — An explanation and a tool have different lifespans
+
+The passport page's intro was correct and was still the wrong shape. Every line
+of it was added because the page never said what it was promising: a parent read
+a road, five circles and a percentage and had to infer the rest. That was a real
+gap and the words fixed it. What was wrong was that they never went away. On a
+390 wide phone the heading, the paragraph, four bullets and two closing lines are
+the whole screen before the passport begins, so a parent who opens this tab every
+week paid for their first visit every week.
+
+**So the rule: an explanation is shown until it is read, not forever.** The intro
+opens in full on a device that has never seen it, then collapses to a heading, a
+line and a tap. Nothing was cut. The same test applies to every reassurance block
+in this product, and there are several.
+
+**A remembered "seen" flag must be written LATER than the mounts that read it.**
+The obvious build of this failed and the failure is worth keeping. Read the flag
+and write it in the same effect, and a device gets marked as having read an
+explanation it never showed: the component mounts more than once per page load,
+so mount one opened the panel and wrote "seen", and mount two read "seen" and
+rendered shut. Module scope did not fix it either, because the module is
+evaluated twice as well. The flag is now written two seconds in. That is also the
+more honest rule: an explanation somebody bounced off in under two seconds has
+not been read.
+
+Anything else in here that reads localStorage on mount and writes in the same
+breath has this bug. It is silent, and the symptom is "the thing never shows".
+
+**Opening on the child's own stage hides everything behind it, so the passport
+now names what it skipped.** Justin: landing on their stage "is neater", but a
+parent will "forget to catch up in previous stages with them". Both halves true
+and they pull against each other. The book keeps opening where it should and
+lists each unstamped earlier stage under the page dots with its real percentage
+and a tap to turn to it. Stage one is where the habits the later stages assume
+get built, so a child on stage three with an unstamped stage one is not ahead of
+schedule, they have a gap, and the passport is the only screen that can see it.
+
+**A fixture where nothing is ever left behind cannot check the state that only
+exists because something was.** `/ref-passport-book` now carries a deliberately
+unstamped Builder and the collapsed intro, because the real page is behind a
+login and this was otherwise unverifiable without an account.
