@@ -32,20 +32,46 @@ const BORDER = '#EAEAF0'
 
 const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
 
-/**
- * The five stage tones, straight from globals.css.
- *
- * `bg` is the -bold pastel rather than the barely there one: a band has to read
- * as a band on a phone in daylight, and the soft tokens are built to sit behind
- * a card indoors. `text` is the matching -text token, so a heading on a band is
- * always the same family as the band and always passes contrast.
- */
+// THE FONT WAS THE REAL BUG, and it is worth writing down because it is
+// invisible until somebody says "the font looks different".
+//
+// The first version asked for Nunito and never loaded it. Web fonts are not
+// available in email unless the message carries them, so every client fell
+// straight through to Helvetica and the whole thing rendered in a generic
+// system face. It was never Nunito on any screen, including Justin's.
+//
+// Apple Mail and iOS Mail honour a linked web font, which is where most of
+// these are actually opened. Gmail strips it and falls back, which is why the
+// stack behind it matters and why the fallbacks are ordered widest support
+// first rather than prettiest first.
+const FONT = "'Nunito','Trebuchet MS',Verdana,Helvetica,Arial,sans-serif"
+const MONO = "'IBM Plex Mono',Menlo,Consolas,monospace"
+
+// Loaded twice on purpose: <link> for clients that support it, @import for the
+// few that prefer it. Neither breaks a client that honours neither.
+const FONT_HEAD = `<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=IBM+Plex+Mono:wght@600;700&display=swap');</style>`
+
+// CALIBRATED TO ONE LIGHTNESS, and that is the whole correction.
+//
+// The first version used the -bold tokens straight from globals.css, and Justin
+// said the colours were not quite right. He was correct and the reason is
+// measurable rather than a matter of taste. The Good Inside band is #c2e1ff,
+// which is around 88 percent lightness. Four of our five bolds sit near there,
+// but stage 1 yellow at #FEF08A is 77 percent, so it arrived far heavier than
+// everything around it and pulled the whole email from calm towards candy.
+//
+// These are the same five hues from the pathway, each taken to roughly the same
+// lightness as each other. So they still read as our stages, and no single band
+// shouts over the rest. On screen in the app the -bold tokens are right, because
+// there they sit on white behind a card. Across a full width band they are not,
+// and the same colour doing two jobs badly is worse than two values.
 export const TONES = {
-  1: { bg: '#FEF08A', text: '#713F12', name: 'Ages 4 to 7' },
-  2: { bg: '#BAE6FD', text: '#0C4A6E', name: 'Ages 8 to 10' },
-  3: { bg: '#FECDD3', text: '#881337', name: 'Ages 11 to 13' },
-  4: { bg: '#FBCFE8', text: '#831843', name: 'Ages 13 to 15' },
-  5: { bg: '#DDD6FE', text: '#3B0764', name: 'Ages 16 plus' },
+  1: { bg: '#FDF3BF', text: '#6B3D10', name: 'Ages 4 to 7' },
+  2: { bg: '#C6E4FE', text: '#0B4569', name: 'Ages 8 to 10' },
+  3: { bg: '#FED9DD', text: '#82122F', name: 'Ages 11 to 13' },
+  4: { bg: '#FBDCEC', text: '#7D1640', name: 'Ages 13 to 15' },
+  5: { bg: '#E4DFFE', text: '#38065F', name: 'Ages 16 plus' },
 } as const
 
 export type Tone = keyof typeof TONES | 'white'
@@ -102,7 +128,7 @@ export function paint(bands: Band[], startAt: 1 | 2 | 3 | 4 | 5 = 1): { tone: To
 
 export function button(label: string, url: string): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:24px 0 4px"><tr><td style="background:${BUTTER};border-radius:16px;box-shadow:0 5px 0 ${BUTTER_DARK}">
-    <a href="${url}" style="display:inline-block;padding:15px 30px;font-family:'IBM Plex Mono',Menlo,monospace;font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:${INK};text-decoration:none">${label}</a>
+    <a href="${url}" style="display:inline-block;padding:15px 30px;font-family:${MONO};font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:${INK};text-decoration:none">${label}</a>
   </td></tr></table>`
 }
 
@@ -118,30 +144,34 @@ export function button(label: string, url: string): string {
 export function sectionHead(mark: string, title: string, tone: Tone = 'white'): string {
   const colour = tone === 'white' ? INK : TONES[tone].text
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 12px"><tr>
-    <td style="padding-right:10px;font-size:22px;line-height:1">${mark}</td>
-    <td style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:20px;font-weight:800;line-height:1.25;color:${colour}">${title}</td>
+    <td style="padding-right:11px;font-size:26px;line-height:1">${mark}</td>
+    <td style="font-family:${FONT};font-size:24px;font-weight:800;line-height:1.25;color:${colour}">${title}</td>
   </tr></table>`
 }
 
 export function eyebrow(text: string, tone: Tone = 'white'): string {
   const colour = tone === 'white' ? BUTTER_DARK : TONES[tone].text
-  return `<div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:${colour};margin:0 0 10px">${text}</div>`
+  return `<div style="font-family:${MONO};font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:${colour};margin:0 0 10px">${text}</div>`
 }
 
 export function h1(text: string, tone: Tone = 'white'): string {
   const colour = tone === 'white' ? INK : TONES[tone].text
-  return `<h1 style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:26px;font-weight:900;line-height:1.15;color:${colour};margin:0 0 14px;letter-spacing:-0.01em">${text}</h1>`
+  // 34, up from 26. The reference runs its opening headline at 36 and it is a
+  // large part of why theirs reads as a designed email and the first draft of
+  // this read as a letter. On a phone a heading that is only ten points above
+  // the body is not a heading, it is a bold line.
+  return `<h1 style="font-family:${FONT};font-size:34px;font-weight:900;line-height:1.12;color:${colour};margin:0 0 16px;letter-spacing:-0.02em">${text}</h1>`
 }
 
 export function p(text: string, tone: Tone = 'white'): string {
   const colour = tone === 'white' ? INK : TONES[tone].text
-  return `<p style="margin:0 0 14px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:${colour}">${text}</p>`
+  return `<p style="margin:0 0 14px;font-family:${FONT};font-size:16px;line-height:1.65;color:${colour}">${text}</p>`
 }
 
 /** A list where every item goes somewhere. The Good Inside resource block. */
 export function linkList(items: { label: string; href: string }[]): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 14px">${items.map(i => `
-    <tr><td style="padding:0 0 9px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5">
+    <tr><td style="padding:0 0 9px;font-family:${FONT};font-size:16px;line-height:1.5">
       <span style="color:${INK_MUTED};padding-right:8px">&bull;</span>
       <a href="${i.href}" style="color:${BUTTER_DARK};font-weight:700;text-decoration:underline">${i.label}</a>
     </td></tr>`).join('')}</table>`
@@ -153,7 +183,7 @@ export function tickList(items: string[], tone: Tone = 'white'): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 14px">${items.map(t => `
     <tr>
       <td valign="top" style="padding:0 10px 9px 0;font-size:15px;line-height:1.5">&#10003;</td>
-      <td style="padding:0 0 9px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.55;color:${colour}">${t}</td>
+      <td style="padding:0 0 9px;font-family:${FONT};font-size:16px;line-height:1.55;color:${colour}">${t}</td>
     </tr>`).join('')}</table>`
 }
 
@@ -189,22 +219,22 @@ export function bandedWrapper(params: {
     })
     .join('')
 
-  return `<!doctype html><html><body style="margin:0;padding:0;background:${CREAM}">
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">${FONT_HEAD}</head><body style="margin:0;padding:0;background:${CREAM}">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM};padding:28px 14px"><tr><td align="center">
 
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;border:1px solid ${BORDER};border-radius:20px;overflow:hidden">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;border:1px solid ${BORDER};border-radius:20px;overflow:hidden">
       <tr><td style="background:#ffffff;padding:26px 30px 4px">
-        <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:${BUTTER_DARK}">Guided Childhood</div>
+        <div style="font-family:${MONO};font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:${BUTTER_DARK}">Guided Childhood</div>
       </td></tr>
       ${rows}
       <tr><td style="background:#ffffff;padding:26px 30px 30px">
-        <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6;color:${INK}">${signOff ?? 'Until next time,'}<br><strong>Justin</strong></div>
-        <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:13px;color:${INK_MUTED};margin-top:4px">Founder, Guided Childhood &middot; Bath, UK</div>
+        <div style="font-family:${FONT};font-size:16px;line-height:1.6;color:${INK}">${signOff ?? 'Until next time,'}<br><strong>Justin</strong></div>
+        <div style="font-family:${FONT};font-size:13px;color:${INK_MUTED};margin-top:4px">Founder, Guided Childhood &middot; Bath, UK</div>
       </td></tr>
     </table>
 
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px"><tr><td style="padding:18px 8px;text-align:center">
-      <span style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;color:${INK_MUTED};line-height:1.7">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px"><tr><td style="padding:18px 8px;text-align:center">
+      <span style="font-family:${MONO};font-size:11px;color:${INK_MUTED};line-height:1.7">
         <a href="${APP}/dashboard" style="color:${INK_MUTED};text-decoration:none">Home</a>
         &nbsp;&nbsp;<a href="${APP}/dashboard/scripts" style="color:${INK_MUTED};text-decoration:none">Scripts</a>
         &nbsp;&nbsp;<a href="${APP}/dashboard/pathway" style="color:${INK_MUTED};text-decoration:none">Pathway</a>
