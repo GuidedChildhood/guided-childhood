@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import InsightsBoard from '@/components/insights/InsightsBoard'
 import ManagementReviewPanel, { type ManagementFindingRow } from '@/components/insights/ManagementReviewPanel'
 import DigiChecksPanel from '@/components/insights/DigiChecksPanel'
+import LaneMissesPanel from '@/components/insights/LaneMissesPanel'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 // Founder only. The daily insight agent's dashboard: run it on demand, read
@@ -42,6 +43,11 @@ export default async function InsightsPage() {
           machine actually running", which is the question you only think to ask
           after it has quietly not been for a month. */}
       <DigiChecksPanel />
+      {/* The weekly review Justin asked for: what DiGi failed to understand,
+          and one tap to teach it. Sits under the machine check because it is
+          the same question one level down, from "is it running" to "is it
+          keeping up with how families actually talk". */}
+      <LaneMissesPanel />
       <InsightsBoard />
     </>
   )

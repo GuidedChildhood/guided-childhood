@@ -90,16 +90,91 @@ const PARENTING_RE = new RegExp(
   'i',
 )
 
-/** The deterministic half. Returns a lane, or null when it genuinely cannot tell. */
-export function fastLane(message: string, hasHistory: boolean): Lane | null {
+// The list above is the floor, not the whole list. Migration 150 moved the
+// vocabulary into digi_lane_keywords so Justin can add a word from the Insights
+// board without a deploy, and seeded it with roughly twice as many words.
+//
+// This stays as the fallback and is never removed. If the database read fails,
+// a parent still gets routed sensibly, because a routing hint must never be the
+// reason somebody gets no reply.
+function buildRe(words: string[]): RegExp {
+  return new RegExp(
+    `\\b(${words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})(s|es|'s)?\\b`,
+    'i',
+  )
+}
+
+/**
+ * The deterministic half. Returns a lane, or null when it genuinely cannot tell.
+ *
+ * `extra` is the database list. Passing none is the old behaviour exactly.
+ */
+export function fastLane(message: string, hasHistory: boolean, extra?: string[]): Lane | null {
   const msg = message.toLowerCase().trim()
   if (!msg) return 'parenting'
-  if (PARENTING_RE.test(msg)) return 'parenting'
+  const re = extra?.length ? buildRe([...PARENTING_SIGNALS, ...extra]) : PARENTING_RE
+  if (re.test(msg)) return 'parenting'
   // Mid conversation, a short or connective message continues what came before.
   if (hasHistory && (msg.length < 60 || FOLLOW_UP_OPENERS.some(o => msg.startsWith(o)))) {
     return 'parenting'
   }
   return null
+}
+
+// Words a miss report should never suggest, because they carry no signal about
+// screens or children and would bury the words that do.
+const STOPWORDS = new Set([
+  'the','a','an','and','or','but','if','then','so','because','as','of','to','in',
+  'on','at','for','with','from','by','about','into','over','after','before',
+  'is','are','was','were','be','been','being','do','does','did','have','has',
+  'had','will','would','can','could','should','shall','may','might','must',
+  'i','me','my','we','us','our','you','your','he','him','his','she','her',
+  'it','its','they','them','their','this','that','these','those','what','which',
+  'who','when','where','why','how','all','any','both','each','more','most',
+  'other','some','such','no','not','only','own','same','than','too','very',
+  'just','now','get','got','go','goes','going','know','think','want','need',
+  'like','say','said','tell','told','ask','asked','help','thing','things','time',
+  'day','days','week','one','two','back','down','up','out','off','still','also',
+  'really','much','lot','bit','been','him','hes','shes','dont','doesnt','wont',
+  'cant','im','ive','id','ill','were','youre','theyre','thats','whats',
+])
+
+/**
+ * Candidate words from a message the keyword pass could not classify, for the
+ * founder misses report.
+ *
+ * PRIVACY IS THE DESIGN HERE, not a footnote. This returns WORDS, never the
+ * message, and it throws away everything that could identify anybody:
+ *
+ * - anything capitalised mid sentence, which is how names arrive ("Teo")
+ * - stopwords and the ordinary verbs of describing a day
+ * - anything under three characters or containing a digit
+ * - and it caps how many words one message may contribute, so a long message
+ *   cannot reconstruct itself in the table
+ *
+ * The Insights board then refuses to show a word until two or more separate
+ * families have used it, so one family's word is never shown to anybody.
+ */
+export function missCandidates(message: string, known: Set<string>): string[] {
+  const out: string[] = []
+  const seen = new Set<string>()
+  // Split on the original so capitalisation survives long enough to spot names.
+  const tokens = message.split(/[^A-Za-z']+/).filter(Boolean)
+  tokens.forEach((token, i) => {
+    // A capital that is not the first word of the message is a name far more
+    // often than it is a brand, and the cost of dropping a brand is one more
+    // week before it shows up. The cost of keeping a name is a child's name in
+    // a table. Not a close call.
+    if (i > 0 && /^[A-Z]/.test(token)) return
+    const word = token.toLowerCase().replace(/'s$/, '')
+    if (word.length < 3) return
+    if (STOPWORDS.has(word)) return
+    if (known.has(word)) return
+    if (seen.has(word)) return
+    seen.add(word)
+    out.push(word)
+  })
+  return out.slice(0, 6)
 }
 
 const CLASSIFY = `Classify one message a parent sent to a digital parenting advisor. Reply with ONE word and nothing else.
@@ -119,8 +194,8 @@ Message: `
  * research, the reflective question and the memory that makes DiGi worth having,
  * so every failure path lands on parenting.
  */
-export async function classifyLane(message: string, hasHistory: boolean): Promise<Lane> {
-  const fast = fastLane(message, hasHistory)
+export async function classifyLane(message: string, hasHistory: boolean, extra?: string[]): Promise<Lane> {
+  const fast = fastLane(message, hasHistory, extra)
   if (fast) return fast
 
   try {
