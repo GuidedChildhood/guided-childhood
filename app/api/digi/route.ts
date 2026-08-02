@@ -12,6 +12,7 @@ import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
 import { getTriedAlready } from '@/lib/digi/outcomes'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import { classifyLane, laneShape } from '@/lib/digi/lane'
+import { startTimer } from '@/lib/digi/timing'
 import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
 import { consumeStream } from '@/lib/digi/stream'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
@@ -111,6 +112,11 @@ HOW TO WEIGH WHAT FOLLOWS (this ordering overrides the order the sections happen
 
 
 export async function POST(request: Request) {
+  // Measuring only. Nothing below is reordered or gated on a duration, and the
+  // timer does no I/O. See lib/digi/timing.ts for why time to first token is
+  // the number and total request duration is not.
+  const timer = startTimer()
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -122,6 +128,7 @@ export async function POST(request: Request) {
   if (!message?.trim()) {
     return NextResponse.json({ error: 'Message is required' }, { status: 400 })
   }
+  timer.mark('auth')
 
   // Gather all independent context in one parallel round trip: profile,
   // conversation (rate limit + history), child, tracker history, reflection
@@ -223,6 +230,7 @@ export async function POST(request: Request) {
       .eq('user_id', user.id)
       .gte('started_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()),
   ])
+  timer.mark('gather1')
 
   const profile = profileResult.data
   const convData = convResult.data
@@ -263,6 +271,7 @@ export async function POST(request: Request) {
   // pass answers it with no model call, and every failure lands on 'parenting',
   // which is the shape that loses least by being wrong.
   const lane = await classifyLane(message, (convData?.messages ?? []).length > 0)
+  timer.mark('lane')
   const wantsResearch = lane !== 'general'
 
   // Second parallel round trip for the queries that depend on the first
@@ -289,6 +298,7 @@ export async function POST(request: Request) {
       ? getPathwayPosition(supabase, user.id, { id: stage.id, name: stage.name, ages: stage.ages, stageId: child.stage_id as StageId }, (child?.streak_weeks as number | null) ?? 0)
       : Promise.resolve(''),
   ])
+  timer.mark('gather2')
 
   let nextStepKnowledge = ''
   if (recommended) {
@@ -494,6 +504,11 @@ When a parent asks whether or for how long their child should use any device, do
 
   const newCount = currentCount + 1
 
+  // Everything above this line is our own work, and the parent has seen none of
+  // it. The prompt is now built, so close that phase off before the one part of
+  // the wait that is not ours.
+  timer.mark('prompt')
+
   // Open the model stream. Failures here happen before any bytes reach the
   // client, so the warm error can still go out as JSON like before.
   let modelStream: Awaited<ReturnType<typeof callDigiStream>>
@@ -515,6 +530,10 @@ When a parent asks whether or for how long their child should use any device, do
     const status = err instanceof Anthropic.APIError ? err.status : null
     return NextResponse.json({ error: status === 429 || status === 529 ? BUSY_ERROR : WARM_ERROR }, { status: 503 })
   }
+  // The await above resolves when Anthropic starts sending, so this is time to
+  // first token and it is the last thing standing between the parent and a
+  // reply. If this phase is the big one, the fix is not in our code.
+  timer.mark('model')
 
   // The post-response work (saving the conversation, memory extraction, the
   // reflective question) runs after the stream completes, once the full text
@@ -524,6 +543,33 @@ When a parent asks whether or for how long their child should use any device, do
 
   after(async () => {
     const responseText = await donePromise
+
+    // Timings first, and deliberately BEFORE the empty reply guard below. A
+    // message that failed still waited, and a reply that took eleven seconds
+    // and then fell over is the single most interesting row this table can
+    // hold. Dropping it would mean the numbers only ever describe the good
+    // days, which is how a slow path stays invisible.
+    //
+    // Wrapped because diagnostics must never be the reason a conversation is
+    // not saved. The real work is below this and it is not allowed to depend
+    // on us being curious.
+    try {
+      const t = timer.read()
+      await supabase.from('digi_latency').insert({
+        user_id: user.id,
+        auth_ms: t.auth ?? null,
+        gather1_ms: t.gather1 ?? null,
+        lane_ms: t.lane ?? null,
+        gather2_ms: t.gather2 ?? null,
+        prompt_ms: t.prompt ?? null,
+        model_ms: t.model ?? null,
+        total_ms: t.total ?? null,
+        lane,
+        first_message: history.length === 0,
+        tool_fired: toolFired,
+      })
+    } catch { /* never at the cost of the reply */ }
+
     if (!responseText.trim()) return
 
     // Extract the reflective question from the response (after the marker line).
@@ -677,6 +723,11 @@ When a parent asks whether or for how long their child should use any device, do
   // out here because the extraction step in after() has to read it.
   let savedItsOwnMemory = false
 
+  // Whether any client tool ran, for the same reason and read in the same
+  // place. A tool costs a whole extra model turn, so mixing tool messages in
+  // with the rest would make the ordinary case look worse than it is.
+  let toolFired = false
+
   const encoder = new TextEncoder()
   const body = new ReadableStream<Uint8Array>({
     async start(controller) {
@@ -712,6 +763,7 @@ When a parent asks whether or for how long their child should use any device, do
           turn.toolUses = turn.toolUses.filter(t => CLIENT_TOOL_NAMES.has(t.name))
           const wantsTool = turn.stopReason === 'tool_use' && turn.toolUses.length > 0
           if (!wantsTool || round === 2) break
+          toolFired = true
 
           // Every tool the model asked for, in parallel, then all the results in
           // one user turn. The API requires a tool_result for every tool_use id
@@ -775,6 +827,10 @@ When a parent asks whether or for how long their child should use any device, do
       'Content-Type': 'text/plain; charset=utf-8',
       'Cache-Control': 'no-store',
       'X-Messages-Used-Today': String(newCount),
+      // Chrome DevTools renders this natively under Network then Timing, so the
+      // phase breakdown is readable on any real request without opening the
+      // database. CLAUDE.md rule 5 already has us in DevTools on every change.
+      'Server-Timing': timer.header(),
     },
   })
 }
