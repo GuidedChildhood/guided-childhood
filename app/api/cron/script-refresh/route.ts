@@ -32,7 +32,7 @@ ABSOLUTE RULES:
 - stage_id is one of: foundation (4 to 7), builder (8 to 10), explorer (11 to 13), shaper (13 to 15), independent (16+).
 - Prefer scripts that answer the direct parent requests below, and fill gaps the library does not already cover. Never duplicate an existing title.
 
-Return ONLY a JSON array, no prose, of up to 5 script drafts: {"stage_id":"...","category":"screen-time|social-media|gaming|online-safety|daily-moments|first-device|...","title":"...","situation":"one or two sentences on the moment","say_this":"the words to say","not_this":"the words to avoid","why_it_works":"grounded in named research","tonight":"one concrete step","grounded_in":"which researcher or body it leans on","rationale":"one line on why this belongs, tied to demand"}. If you cannot draft anything solid, return [].`
+Return ONLY a JSON array, no prose, of up to 5 script drafts: {"stage_id":"...","category":"screen-time|social-media|gaming|staying-safe|mood-confidence|family-rules|school-and-ai|everyday-routines (one of these EIGHT exactly, no others, see migration 149)","title":"...","situation":"one or two sentences on the moment","say_this":"the words to say","not_this":"the words to avoid","why_it_works":"grounded in named research","tonight":"one concrete step","grounded_in":"which researcher or body it leans on","rationale":"one line on why this belongs, tied to demand"}. If you cannot draft anything solid, return [].`
 
 async function handler(req: NextRequest) {
   if (req.headers.get('authorization') !== `Bearer ${process.env.CRON_SECRET}`) {

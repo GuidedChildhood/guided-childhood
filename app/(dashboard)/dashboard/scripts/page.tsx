@@ -9,6 +9,14 @@ import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { ChallengeId } from '@/lib/content/stages'
 import ScriptFinder from '@/components/scripts/ScriptFinder'
 
+// The eight the library actually uses, after migration 149 collapsed fourteen
+// values plus a source label into a vocabulary a parent can scan.
+//
+// "Everyday routines" is the one Justin did not ask for and it earned its
+// place: filing the 59 daily moments by hand turned up 24 with no device in
+// them at all, from teeth brushing to a sibling being unkind to a good day
+// worth noticing. Every other chip here is a digital topic, so those 24 had
+// nowhere honest to go.
 export const CATEGORY_META: Record<string, {
   label: string
   description: string
@@ -16,14 +24,14 @@ export const CATEGORY_META: Record<string, {
   border: string
   accent: string
 }> = {
-  'first-device':  { label: 'First Device',  description: 'Setting the right foundations before and after the first screen arrives.', bg: 'var(--stage-1)',  border: 'var(--stage-1)',  accent: 'var(--terracotta)' },
-  'social-media':  { label: 'Social Media',  description: 'Navigating platforms, algorithms, and identity with your child.',          bg: 'var(--stage-3)', border: 'var(--stage-3)',    accent: 'var(--terracotta)' },
-  'gaming':        { label: 'Gaming',        description: 'Healthy gaming conversations without the battle.',                          bg: 'var(--stage-2)',      border: 'var(--stage-2)',    accent: 'var(--terracotta)' },
-  'safety':        { label: 'Safety',        description: 'What to say when something goes wrong online.',                            bg: 'var(--stage-4)',  border: 'var(--stage-4)',    accent: 'var(--terracotta)' },
-  'wellbeing':     { label: 'Wellbeing',     description: 'Mood, sleep, body image, and the digital connection.',                    bg: 'var(--stage-4)',     border: 'var(--stage-4)',    accent: 'var(--terracotta)' },
-  'screen-habits': { label: 'Screen Habits', description: 'Building routines that work for your whole family.',                      bg: 'var(--stage-1)',  border: 'var(--stage-1)',    accent: 'var(--terracotta)' },
-  'ai-and-tech':   { label: 'AI and Tech',   description: 'Deepfakes, AI tools, and what digital literacy actually looks like.',     bg: 'var(--stage-5)',      border: 'var(--stage-5)',    accent: 'var(--terracotta)' },
-  'relationships': { label: 'Relationships', description: 'Trust, independence, and keeping the conversation open.',                 bg: 'var(--stage-3)',    border: 'var(--stage-3)',    accent: 'var(--terracotta)' },
+  'screen-time':       { label: 'Screen time',        description: 'Handovers, standoffs, and the routines that stop the daily argument.',      bg: 'var(--stage-1)', border: 'var(--stage-1)', accent: 'var(--terracotta)' },
+  'social-media':      { label: 'Social media',       description: 'Platforms, algorithms, comparison, and who they are becoming online.',      bg: 'var(--stage-3)', border: 'var(--stage-3)', accent: 'var(--terracotta)' },
+  'gaming':            { label: 'Gaming',             description: 'Healthy gaming conversations without the battle.',                          bg: 'var(--stage-2)', border: 'var(--stage-2)', accent: 'var(--terracotta)' },
+  'staying-safe':      { label: 'Staying safe',       description: 'What to say when something goes wrong online, from a group chat to worse.', bg: 'var(--stage-4)', border: 'var(--stage-4)', accent: 'var(--terracotta)' },
+  'mood-confidence':   { label: 'Mood and confidence',description: 'Low moods, body image, and who they think they are.',                       bg: 'var(--stage-4)', border: 'var(--stage-4)', accent: 'var(--terracotta)' },
+  'family-rules':      { label: 'Family rules',       description: 'First devices, other parents, siblings, and the deals you make together.',  bg: 'var(--stage-2)', border: 'var(--stage-2)', accent: 'var(--terracotta)' },
+  'school-and-ai':     { label: 'School and AI',      description: 'Homework, deepfakes, AI tools, and what is real.',                          bg: 'var(--stage-5)', border: 'var(--stage-5)', accent: 'var(--terracotta)' },
+  'everyday-routines': { label: 'Everyday routines',  description: 'Mornings, meals, siblings and bedtime. No screens involved.',               bg: 'var(--tint-sage)', border: 'var(--tint-sage)', accent: 'var(--terracotta)' },
 }
 
 // A contextual icon per script, so a card shows what it is about at a glance
@@ -31,14 +39,26 @@ export const CATEGORY_META: Record<string, {
 // then the category, then a warm talk bubble, never a bare quote glyph. Where
 // a title matches one of our Higgsfield moment illustrations, the card shows
 // that drawn art through BrowseTile's coverUrl instead of an emoji.
+// The eight live slugs lead. The older values stay underneath as aliases
+// rather than being deleted: migration 149 renames what is in the database
+// today, and a row written by an older seed or restored from a backup should
+// still get its icon instead of falling through to a bare quote mark.
 const CATEGORY_EMOJI: Record<string, string> = {
-  'first-device': '📱', 'first device': '📱',
+  'screen-time': '⏰', 'screen time': '⏰',
   'social-media': '💬', 'social media': '💬',
   'gaming': '🎮', 'games': '🎮',
+  'staying-safe': '🛡️',
+  'mood-confidence': '💛',
+  'family-rules': '🤝',
+  'school-and-ai': '🤖',
+  'everyday-routines': '🏡',
+  // Aliases, pre 149.
+  'first-device': '📱', 'first device': '📱',
   'safety': '🛡️', 'online-safety': '🛡️', 'online safety': '🛡️',
-  'wellbeing': '💛',
-  'screen-habits': '⏰', 'screen-time': '⏰', 'screen time': '⏰',
-  'ai-and-tech': '🤖', 'ai and tech': '🤖',
+  'cyberbullying': '🛡️',
+  'wellbeing': '💛', 'mental-health': '💛', 'body-image': '💛', 'identity': '💛',
+  'screen-habits': '⏰',
+  'ai-and-tech': '🤖', 'ai and tech': '🤖', 'ai-technology': '🤖', 'school': '🤖',
   'relationships': '🤝',
   'daily-moments': '🏡', 'daily moments': '🏡',
 }
@@ -88,8 +108,8 @@ type ScriptRow = {
   sort_order: number
 }
 
-export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string }> }) {
-  const { topic } = await searchParams
+export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; cat?: string }> }) {
+  const { topic, cat } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -129,8 +149,20 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     ? await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null, { preferFree: !isPaid })
     : null
 
+  // The chip row. Counted from the real library rather than from the eight
+  // keys, so a category with nothing in it never gets a chip and a chip never
+  // promises rows it cannot show.
+  const catCounts = new Map<string, number>()
+  for (const sc of scripts) {
+    if (sc.category) catCounts.set(sc.category, (catCounts.get(sc.category) ?? 0) + 1)
+  }
+  const chips = (Object.keys(CATEGORY_META))
+    .filter(k => (catCounts.get(k) ?? 0) > 0)
+    .map(k => ({ key: k, label: CATEGORY_META[k].label, n: catCounts.get(k) ?? 0 }))
+  const activeCat = cat && CATEGORY_META[cat] ? cat : null
+
   const byStage = (Object.keys(STAGE_META) as StageId[]).map(stageId => {
-    const items = scripts.filter(s => s.stage_id === stageId)
+    const items = scripts.filter(s => s.stage_id === stageId && (!activeCat || s.category === activeCat))
     // Scripts matching what this parent told us their main concern was
     // surface first within the stage, so that answer stays useful instead
     // of being read once at signup and forgotten.
@@ -261,9 +293,81 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         </div>
       )}
 
-      {byStage.map(group => (
-        <section key={group.stageId} style={{ marginBottom: '28px' }}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '12px' }}>
+      {/* THE CHIP ROW.
+
+          Justin: "is there a better way of showing so many? Could we have tabs
+          for each category rather than fill the whole page?"
+
+          Chips rather than tabs, and that is a measured choice rather than a
+          preference. Mobbin, pulled before building: Alan, Formula 1, Moonly
+          and Nibble all use a scrolling chip row for a topic library of this
+          size. The one that uses tabs, Tonal, has four. Tabs stop working past
+          about five because the labels truncate and you cannot see what you are
+          not looking at. We have eight.
+
+          Links, not buttons. The whole page stays a server component, so there
+          is no client state to hydrate, it works before JavaScript arrives, and
+          a filtered view has a URL a parent can bookmark or you can send. */}
+      <div style={{
+        display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4, marginBottom: 16,
+        // The row runs to the screen edge rather than stopping inside the
+        // padding, which is what tells a thumb there is more to the right.
+        marginLeft: -20, marginRight: -20, paddingLeft: 20, paddingRight: 20,
+        scrollbarWidth: 'none',
+      }}>
+        {[{ key: null as string | null, label: 'All', n: scripts.length }, ...chips].map(c => {
+          const on = activeCat === c.key
+          return (
+            <Link
+              key={c.key ?? 'all'}
+              href={c.key ? `/dashboard/scripts?cat=${c.key}` : '/dashboard/scripts'}
+              scroll={false}
+              style={{
+                flexShrink: 0, textDecoration: 'none', borderRadius: 100,
+                padding: '9px 15px', whiteSpace: 'nowrap',
+                background: on ? 'var(--terracotta)' : '#fff',
+                border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`,
+                boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
+                fontFamily: 'var(--font-display)', fontWeight: on ? 800 : 700,
+                fontSize: 'var(--text-base)', color: 'var(--ink)',
+              }}
+            >
+              {c.label}
+              <span style={{
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                marginLeft: 7, color: on ? 'var(--ink)' : 'var(--ink-muted)',
+              }}>{c.n}</span>
+            </Link>
+          )
+        })}
+      </div>
+
+      {activeCat && (
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 16px' }}>
+          {CATEGORY_META[activeCat].description}
+        </p>
+      )}
+
+      {byStage.length === 0 && (
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 24px' }}>
+          Nothing in that one yet. Try another, or search above for the moment you are actually in.
+        </p>
+      )}
+
+      {/* THEIR STAGE IS OPEN, THE OTHER FOUR ARE FOLDED.
+
+          The chips alone would not have fixed "it fills the whole page",
+          because All is still 233 tiles. A parent is nearly always after a
+          script for the child they have, so their own stage stays open and the
+          rest fold to one line each with a count.
+
+          A native details element, so this costs no JavaScript, survives a
+          bad connection, and Ctrl F still finds a title inside a closed one in
+          most browsers. Nothing is hidden, it is stacked. */}
+      {byStage.map(group => {
+        const isTheirs = group.stageId === currentStageId
+        const header = (
+          <span style={{ display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap' }}>
             <span style={{
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
               letterSpacing: '0.1em', textTransform: 'uppercase',
@@ -275,9 +379,14 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               {group.meta.ages}
             </span>
-          </div>
-
-          {/* Big pastel browse tiles, the Good Inside Discover pattern. */}
+            {!isTheirs && (
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                {group.items.length} script{group.items.length === 1 ? '' : 's'}
+              </span>
+            )}
+          </span>
+        )
+        const tiles = (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
             {group.items.map(script => {
               const isDone = completedOrders.has(script.sort_order)
@@ -301,8 +410,25 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
               )
             })}
           </div>
-        </section>
-      ))}
+        )
+        // Big pastel browse tiles, the Good Inside Discover pattern.
+        return isTheirs ? (
+          <section key={group.stageId} style={{ marginBottom: '28px' }}>
+            <div style={{ marginBottom: '12px' }}>{header}</div>
+            {tiles}
+          </section>
+        ) : (
+          <details key={group.stageId} style={{ marginBottom: '14px' }}>
+            <summary style={{
+              cursor: 'pointer', listStyle: 'none', padding: '11px 14px',
+              background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14,
+            }}>
+              {header}
+            </summary>
+            <div style={{ marginTop: 12 }}>{tiles}</div>
+          </details>
+        )
+      })}
 
       {!isPaid && (
         <div style={{
