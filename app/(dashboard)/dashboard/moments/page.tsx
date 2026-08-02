@@ -1,10 +1,12 @@
 import { createClient } from '@/lib/supabase/server'
+import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
 import { ageBandInList } from '@/lib/content/stages'
 import MomentsGrid from './MomentsGrid'
 import type { Moment } from '@/components/cards/MomentCard'
 
-export default async function MomentsPage() {
+export default async function MomentsPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
+  const { from: from_ } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -64,6 +66,7 @@ export default async function MomentsPage() {
 
   return (
     <div style={{ maxWidth: '700px', margin: '0 auto', padding: '24px 20px' }}>
+      <BackTo from={from_} />
       <div style={{ marginBottom: '24px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Moment cards</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
