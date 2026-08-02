@@ -219,7 +219,21 @@ export default function KidQuestScreen({
   const [showWelcome, setShowWelcome] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
   const [askedMore, setAskedMore] = useState(false)
-  const [tab, setTab] = useState<'quests' | 'lessons' | 'print'>('quests')
+  // Opens on quests, unless a link said otherwise.
+  //
+  // The five a day's printable step used to link to `/k/{token}`, which is the
+  // page the child is already on, so tapping it navigated to itself and nothing
+  // happened. Justin: "it's not clicking anywhere". Printables live in a tab on
+  // this same page, so the link needs to say WHICH tab rather than which page.
+  //
+  // Read from the URL rather than held in the parent, because the step is a
+  // plain link in a list of five and turning that one row into a callback would
+  // mean threading state through the whole day screen for a single tap.
+  const [tab, setTab] = useState<'quests' | 'lessons' | 'print'>(() => {
+    if (typeof window === 'undefined') return 'quests'
+    const t = new URLSearchParams(window.location.search).get('tab')
+    return t === 'print' || t === 'lessons' ? t : 'quests'
+  })
   const [doneLessons, setDoneLessons] = useState<Set<string>>(new Set(doneLessonKeys))
   // How a done lesson went, remembered on this device so a less than perfect
   // one can invite a retry for 100% and a perfect one can stop asking. Keys
