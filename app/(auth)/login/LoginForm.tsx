@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient, isSupabaseConfigured } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import DigiCharacter from '@/components/digi/DigiCharacter'
@@ -23,18 +23,42 @@ export default function LoginForm() {
 
   const destination = nextParam ?? (path === 'school' ? '/educator' : '/dashboard')
 
+  // A sign in can fail for two very different reasons and only one of them is
+  // the parent's fault. This form used to answer both with "email or password
+  // not recognised", which sends someone off resetting a password that was
+  // always correct. Say which one it is.
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
     setError('')
+
+    // NEXT_PUBLIC values are baked in at build time, so a build made without
+    // them points at a domain that does not exist and every request fails
+    // before it leaves the browser. Nothing anyone types can fix that.
+    if (!isSupabaseConfigured()) {
+      setError('This copy of the app is not connected to the database, so no account can sign in here. Your details are fine. Try the main app instead.')
+      setLoading(false)
+      return
+    }
+
     const supabase = createClient()
     const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) {
-      setError('Email or password not recognised. Please try again.')
-      setLoading(false)
-    } else {
+    if (!error) {
       router.push(destination)
+      return
     }
+
+    // Supabase answers a genuinely wrong email or password with a 400 and a
+    // code. Anything else, no status at all, a 5xx, a fetch that never landed,
+    // means we could not ask the question. That is not the same as a no.
+    if (error.code === 'email_not_confirmed') {
+      setError('That account still needs confirming. Open the link in the email we sent, then sign in again.')
+    } else if (error.code === 'invalid_credentials' || error.status === 400) {
+      setError('Email or password not recognised. Please try again.')
+    } else {
+      setError(`We could not reach the sign in service, so we do not know whether those details are right. Please try again in a moment. (${error.message})`)
+    }
+    setLoading(false)
   }
 
   return (
