@@ -6,6 +6,9 @@ import { questDueToday } from '@/lib/quests/due'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import Button from '@/components/ui/Button'
 import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
+import DevicePickerChips, { type DevicePick } from '@/components/devices/DevicePickerChips'
+import { DEVICES, ACTIVITIES, asksActivity, type ActivityKey } from '@/lib/quests/device-time'
+import type { FamilyDevice } from '@/lib/devices/family'
 
 // The family quest board on Home: every child's day at a glance, big
 // enough to matter. The approve queue leads (kid ticked, one tap lands
@@ -36,6 +39,12 @@ export default function QuestBoard() {
   const [loaded, setLoaded] = useState(false)
   const [openChild, setOpenChild] = useState<string | null>(null)
   const [spendNote, setSpendNote] = useState<string | null>(null)
+  // Which screen the marked minutes went on, per child, because this board
+  // lists the whole family and two children are rarely on the same one. Unset
+  // until asked: a default would write a guess into the week's breakdown.
+  const [spendPick, setSpendPick] = useState<Record<string, DevicePick>>({})
+  const [spendActivity, setSpendActivity] = useState<Record<string, ActivityKey>>({})
+  const [homeDevices, setHomeDevices] = useState<FamilyDevice[]>([])
   const [showDone, setShowDone] = useState(false)
   // What the last yes just landed. The board approves too, so it owes the
   // parent the same sentence the agree tab does.
@@ -85,20 +94,42 @@ export default function QuestBoard() {
     } catch { load() }
   }
 
-  // Screen time was used: the stars come off the bank right here.
+  // The screens in this house, so the picker offers Ella's iPad rather than
+  // the word tablet. No devices listed falls back to the five kinds.
+  useEffect(() => {
+    let on = true
+    fetch('/api/devices/family')
+      .then(r => r.json())
+      .then((d: { devices?: FamilyDevice[] }) => {
+        if (on) setHomeDevices((d.devices ?? []).filter(x => !x.retiredAt))
+      })
+      .catch(() => { /* the picker falls back to the kinds */ })
+    return () => { on = false }
+  }, [])
+
+  // Screen time was used: the stars come off the bank right here, and the same
+  // minutes land in the week's breakdown against the screen they went on.
   async function spend(childId: string, minutes: number) {
+    const pick = spendPick[childId]
+    if (!pick) return
     try {
       const res = await fetch('/api/quests/spend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ child_id: childId, minutes }),
+        body: JSON.stringify({
+          child_id: childId, minutes,
+          device: pick.kind,
+          familyDeviceId: pick.familyDeviceId,
+          activity: spendActivity[childId] ?? null,
+        }),
       })
       const data = await res.json()
       if (data.ok) {
         setBanks(prev => prev.map(b => b.child_id === childId
           ? { ...b, spent: b.spent + data.spent_stars, balance: data.balance, minutes: data.balance_minutes }
           : b))
-        setSpendNote(`${data.spent_minutes} minutes marked as used, ⭐ ${data.balance} left in the bank`)
+        const on = data.device_label ? ` on ${data.device_label}` : ''
+        setSpendNote(`${data.spent_minutes} minutes marked as used${on}, ⭐ ${data.balance} left in the bank`)
       } else {
         setSpendNote(data.error ?? 'Could not mark that just now')
       }
@@ -158,7 +189,7 @@ export default function QuestBoard() {
       borderRadius: '20px', padding: '20px 22px', marginBottom: '20px',
     }}>
       <div style={{ marginBottom: '14px' }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
           Family Quests
         </span>
       </div>
@@ -176,8 +207,8 @@ export default function QuestBoard() {
                 background: 'var(--tint-blue)', border: '1.5px solid var(--border)',
                 borderRadius: '14px', padding: '11px 14px',
               }}>
-                <span style={{ fontSize: '1.2rem' }}>{a.emoji}</span>
-                <span style={{ flex: 1, minWidth: 0, fontSize: '16.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+                <span style={{ fontSize: 'var(--text-lg)' }}>{a.emoji}</span>
+                <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
                   {childName} pitched a quest: <strong>{a.title}</strong>
                   <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}> · their idea</span>
                 </span>
@@ -189,7 +220,7 @@ export default function QuestBoard() {
                   aria-label="Not this time"
                   style={{
                     background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
-                    padding: '8px 10px', cursor: 'pointer', fontSize: '14px', color: 'var(--ink-muted)', flexShrink: 0,
+                    padding: '8px 10px', cursor: 'pointer', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', flexShrink: 0,
                   }}
                 >
                   ✕
@@ -213,8 +244,8 @@ export default function QuestBoard() {
                 background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
                 borderRadius: '14px', padding: '11px 14px',
               }}>
-                <span style={{ fontSize: '1.2rem' }}>{q.emoji}</span>
-                <span style={{ flex: 1, minWidth: 0, fontSize: '16.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+                <span style={{ fontSize: 'var(--text-lg)' }}>{q.emoji}</span>
+                <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
                   {childName} ticked <strong>{q.title}</strong>
                   <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}> · ⭐ {q.stars} = {q.stars * STAR_MINUTES} min</span>
                 </span>
@@ -226,7 +257,7 @@ export default function QuestBoard() {
                   aria-label="Not done yet"
                   style={{
                     background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
-                    padding: '8px 10px', cursor: 'pointer', fontSize: '14px', color: 'var(--ink-muted)', flexShrink: 0,
+                    padding: '8px 10px', cursor: 'pointer', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', flexShrink: 0,
                   }}
                 >
                   ✕
@@ -275,7 +306,7 @@ export default function QuestBoard() {
               >
                 <span style={{ flex: 1, minWidth: 0 }}>
                   <span style={{ display: 'flex', alignItems: 'baseline', gap: '10px', marginBottom: '6px' }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)' }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>
                       {c.name}
                     </span>
                     {/* "This week", said out loud. It used to read "⭐ 116 =
@@ -286,7 +317,7 @@ export default function QuestBoard() {
                         designed reads as a runaway bug. Naming the window is
                         the whole fix: these stars reset, the banked minutes
                         below them do not. */}
-                    <span style={{ fontSize: '15.5px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                    <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                       ⭐ {balance} = {balance * STAR_MINUTES} min this week
                     </span>
                   </span>
@@ -302,7 +333,7 @@ export default function QuestBoard() {
                       the summer holidays" on the one branch a parent sees
                       most, the holidays actually being open. */}
                   {holiday && holiday.remaining > 0 && (
-                    <span style={{ display: 'block', fontSize: '14px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginBottom: '6px' }}>
+                    <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginBottom: '6px' }}>
                       {holiday.spendableNow
                         ? <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> to spend{holiday.holidayTitle ? ` during ${holiday.holidayTitle}` : ' now'}</>
                         : <>Plus <strong style={{ color: 'var(--ink)' }}>{holiday.remaining} min</strong> saved for the school holidays</>}
@@ -310,7 +341,7 @@ export default function QuestBoard() {
                   )}
                   {/* Today's quest dots */}
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: '15.5px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+                    <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)' }}>
                       {/* The instruction that used to run on here, "tap to see
                           the tasks, agree the waiting ones and send more", was
                           three lines of telling a parent what a row with a
@@ -319,7 +350,7 @@ export default function QuestBoard() {
                     </span>
                     {goal?.daily_stars ? (
                       <span style={{
-                        fontSize: '12px', fontWeight: 800, marginLeft: '4px',
+                        fontSize: 'var(--text-xs)', fontWeight: 800, marginLeft: '4px',
                         fontFamily: 'var(--font-mono)', letterSpacing: '0.04em',
                         color: dayGoalHit ? 'var(--ink)' : 'var(--ink-muted)',
                         background: dayGoalHit ? 'var(--terracotta)' : 'var(--cream)',
@@ -341,7 +372,7 @@ export default function QuestBoard() {
                       the selected one, so for a family with two children this
                       row is the only place both balances appear at once. */}
                 </span>
-                <span style={{ color: 'var(--ink-light)', fontSize: '16px', flexShrink: 0, transform: isOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s ease' }}>
+                <span style={{ color: 'var(--ink-light)', fontSize: 'var(--text-md)', flexShrink: 0, transform: isOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s ease' }}>
                   →
                 </span>
               </button>
@@ -350,33 +381,104 @@ export default function QuestBoard() {
               {isOpen && (
                 <div style={{ padding: '0 16px 14px', display: 'flex', flexDirection: 'column', gap: '7px' }}>
                   {/* Screen time used comes straight off the bank */}
-                  {balance > 0 && (
-                    <div style={{
-                      display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap',
-                      background: '#fff', border: '1px solid var(--border)', borderRadius: '11px',
-                      padding: '10px 12px',
-                    }}>
-                      <span style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--ink-soft)' }}>
-                        Screen time used:
-                      </span>
-                      {[15, 30, 60].map(m => (
-                        <button
-                          key={m}
-                          onClick={() => spend(c.id, m)}
-                          disabled={balance * STAR_MINUTES < STAR_MINUTES}
-                          style={{
-                            background: 'var(--cream)', border: '1.5px solid var(--border)',
-                            borderRadius: '100px', padding: '6px 12px', cursor: 'pointer',
-                            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink)',
+                  {balance > 0 && (() => {
+                    // Which screen, then how long. Marking time used to record
+                    // a bare number, so a family who marks by hand read an
+                    // almost empty week on the balance report while the stars
+                    // drained away. Asked once per child, then it stays picked.
+                    const pick = spendPick[c.id] ?? null
+                    const needsActivity = pick != null && asksActivity(pick.kind)
+                    const ready = pick != null && (!needsActivity || spendActivity[c.id] != null)
+                    return (
+                      <div style={{
+                        display: 'flex', flexDirection: 'column', gap: '9px',
+                        background: '#fff', border: '1px solid var(--border)', borderRadius: '11px',
+                        padding: '10px 12px',
+                      }}>
+                        <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)' }}>
+                          Screen time used. Which screen?
+                        </span>
+                        <DevicePickerChips
+                          devices={homeDevices}
+                          fallback={DEVICES}
+                          value={pick}
+                          onChange={next => {
+                            setSpendPick(prev => ({ ...prev, [c.id]: next }))
+                            // A different device asks a different question, so
+                            // last time's answer never rides along to this one.
+                            if (!asksActivity(next.kind)) {
+                              setSpendActivity(prev => {
+                                const { [c.id]: _drop, ...rest } = prev
+                                return rest
+                              })
+                            }
                           }}
-                        >
-                          {m} min
-                        </button>
-                      ))}
-                    </div>
-                  )}
+                        />
+                        {needsActivity && (
+                          <>
+                            {/* A computer is the one device whose bucket cannot
+                                be read off the device. Homework counted as
+                                watching is the bug this question stops. */}
+                            <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)' }}>
+                              What were they doing?
+                            </span>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                              {ACTIVITIES.map(a => {
+                                const on = spendActivity[c.id] === a.key
+                                return (
+                                  <button
+                                    key={a.key}
+                                    type="button"
+                                    onClick={() => setSpendActivity(prev => ({ ...prev, [c.id]: a.key }))}
+                                    style={{
+                                      display: 'flex', alignItems: 'center', gap: '6px',
+                                      padding: '8px 12px', borderRadius: '100px',
+                                      border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                                      background: on ? 'var(--terracotta-lt)' : '#fff',
+                                      color: on ? 'var(--terracotta)' : 'var(--ink)',
+                                      fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
+                                      cursor: 'pointer',
+                                    }}
+                                  >
+                                    <span aria-hidden style={{ fontSize: '15px', lineHeight: 1 }}>{a.emoji}</span>
+                                    {a.label}
+                                  </button>
+                                )
+                              })}
+                            </div>
+                          </>
+                        )}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                          <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)' }}>
+                            How long?
+                          </span>
+                          {[15, 30, 60].map(m => (
+                            <button
+                              key={m}
+                              onClick={() => spend(c.id, m)}
+                              disabled={!ready}
+                              style={{
+                                background: 'var(--cream)', border: '1.5px solid var(--border)',
+                                borderRadius: '100px', padding: '6px 12px',
+                                cursor: ready ? 'pointer' : 'default',
+                                opacity: ready ? 1 : 0.5,
+                                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)',
+                              }}
+                            >
+                              {m} min
+                            </button>
+                          ))}
+                        </div>
+                        {!ready && (
+                          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
+                            {pick == null ? 'Pick the screen first.' : 'Pick what they were doing first.'}
+                          </span>
+                        )}
+                      </div>
+                    )
+                  })()}
                   {spendNote && (
-                    <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--terracotta-dark)', margin: 0 }}>
+                    <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta-dark)', margin: 0 }}>
                       {spendNote}
                     </p>
                   )}
@@ -395,7 +497,7 @@ export default function QuestBoard() {
                         flex: 1, minWidth: 150, display: 'flex', alignItems: 'center', justifyContent: 'center',
                         gap: '6px', padding: '11px 14px', borderRadius: '12px', textDecoration: 'none',
                         background: 'var(--terracotta)', color: 'var(--ink)',
-                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                         boxShadow: '0 3px 0 var(--terracotta-dark)',
                       }}
                     >
@@ -407,7 +509,7 @@ export default function QuestBoard() {
                         flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
                         padding: '11px 14px', borderRadius: '12px', textDecoration: 'none',
                         background: '#fff', border: '1.5px solid var(--border)', color: 'var(--ink-soft)',
-                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px',
+                        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
                       }}
                     >
                       Manage
@@ -425,8 +527,8 @@ export default function QuestBoard() {
                             padding: '11px 13px', borderRadius: '11px',
                             background: 'var(--tint-sage)', border: '1px solid var(--border)',
                           }}>
-                            <span style={{ fontSize: '1.05rem' }}>🎉</span>
-                            <span style={{ fontSize: '16px', fontWeight: 700, color: 'var(--ink)' }}>
+                            <span style={{ fontSize: 'var(--text-md)' }}>🎉</span>
+                            <span style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)' }}>
                               All done for today
                             </span>
                           </div>
@@ -442,11 +544,11 @@ export default function QuestBoard() {
                               textAlign: 'left',
                             }}
                           >
-                            <span style={{ fontSize: '1.05rem' }}>{q.emoji}</span>
-                            <span style={{ flex: 1, fontSize: '16.5px', fontWeight: 600, color: 'var(--ink)' }}>
+                            <span style={{ fontSize: 'var(--text-md)' }}>{q.emoji}</span>
+                            <span style={{ flex: 1, fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)' }}>
                               {q.title}
                             </span>
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--terracotta-dark)', flexShrink: 0 }}>
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', flexShrink: 0 }}>
                               Tick · ⭐{q.stars}
                             </span>
                           </button>
@@ -463,11 +565,11 @@ export default function QuestBoard() {
                                 border: '1px dashed var(--border)', cursor: 'pointer', textAlign: 'left',
                               }}
                             >
-                              <span style={{ fontSize: '15px' }}>✓</span>
-                              <span style={{ flex: 1, fontSize: '15px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+                              <span style={{ fontSize: 'var(--text-base)' }}>✓</span>
+                              <span style={{ flex: 1, fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-muted)' }}>
                                 {done.length} done today
                               </span>
-                              <span style={{ fontSize: '14px', color: 'var(--ink-light)', transform: showDone ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s ease' }}>
+                              <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-light)', transform: showDone ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s ease' }}>
                                 →
                               </span>
                             </button>
@@ -479,11 +581,11 @@ export default function QuestBoard() {
                                     padding: '9px 12px', borderRadius: '11px',
                                     background: 'var(--tint-sage)', border: '1px solid var(--border)',
                                   }}>
-                                    <span style={{ fontSize: '1.05rem', opacity: 0.7 }}>{q.emoji}</span>
-                                    <span style={{ flex: 1, fontSize: '16px', fontWeight: 600, color: 'var(--ink)', textDecoration: 'line-through', opacity: 0.6 }}>
+                                    <span style={{ fontSize: 'var(--text-md)', opacity: 0.7 }}>{q.emoji}</span>
+                                    <span style={{ flex: 1, fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', textDecoration: 'line-through', opacity: 0.6 }}>
                                       {q.title}
                                     </span>
-                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
+                                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
                                       Done ✓
                                     </span>
                                   </div>

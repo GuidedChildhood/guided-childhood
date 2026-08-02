@@ -83,7 +83,7 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
       <h1 style={{ fontSize: 'clamp(1.6rem, 5.2vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '7px' }}>
         The pathway to 16
       </h1>
-      <p style={{ color: 'var(--ink)', fontSize: '17px', lineHeight: 1.5, maxWidth: '580px', fontWeight: 600, margin: 0 }}>
+      <p style={{ color: 'var(--ink)', fontSize: 'var(--text-md)', lineHeight: 1.5, maxWidth: '580px', fontWeight: 600, margin: 0 }}>
         A passport that proves {kidLabel} can actually handle the internet, earned one stage at a time.
       </p>
 
@@ -95,13 +95,13 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
           display: 'inline-flex', alignItems: 'center', gap: 8,
           marginTop: 10, padding: '8px 14px',
           background: '#fff', border: '1.5px solid var(--border)', borderRadius: 12,
-          fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)',
           cursor: 'pointer',
         }}
       >
         {open ? 'Hide what it proves' : 'What the passport proves'}
-        <span aria-hidden style={{ display: 'inline-block', fontSize: 11, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }}>
+        <span aria-hidden style={{ display: 'inline-block', fontSize: 'var(--text-xs)', transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }}>
           ▾
         </span>
       </button>
@@ -113,20 +113,20 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
               <li key={t} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', marginBottom: 9 }}>
                 <span aria-hidden style={{ fontSize: 20, lineHeight: 1.2, flexShrink: 0 }}>{em}</span>
                 <span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17.5, color: 'var(--ink)' }}>{t}</span>
-                  <span style={{ display: 'block', fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.45 }}>{b}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{t}</span>
+                  <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{b}</span>
                 </span>
               </li>
             ))}
           </ul>
-          <p style={{ color: 'var(--ink)', fontSize: '17px', lineHeight: 1.55, maxWidth: '580px', margin: '4px 0 0', fontWeight: 600 }}>
+          <p style={{ color: 'var(--ink)', fontSize: 'var(--text-md)', lineHeight: 1.55, maxWidth: '580px', margin: '4px 0 0', fontWeight: 600 }}>
             We tell you what to do, how to do it, and the research it comes from. You just do today.
           </p>
-          <Link href="/passport" style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-mono)', fontSize: '15px', color: 'var(--terracotta-dark)', textDecoration: 'underline', textUnderlineOffset: '3px', letterSpacing: '0.03em' }}>
+          <Link href="/passport" style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', textDecoration: 'underline', textUnderlineOffset: '3px', letterSpacing: '0.03em' }}>
             Why we call it a passport →
           </Link>
           {childCount > 1 && (
-            <p style={{ color: 'var(--ink-muted)', fontSize: '16px', marginTop: '6px' }}>
+            <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-base)', marginTop: '6px' }}>
               {childCount} children, one account.
             </p>
           )}

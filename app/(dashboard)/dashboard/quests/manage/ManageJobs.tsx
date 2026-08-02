@@ -66,13 +66,13 @@ const CARD: React.CSSProperties = {
   padding: '18px 18px 20px', marginBottom: 16,
 }
 const H2: React.CSSProperties = {
-  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19,
+  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
   color: 'var(--ink)', margin: '0 0 4px', letterSpacing: '-0.02em',
 }
-const SUB: React.CSSProperties = { fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }
+const SUB: React.CSSProperties = { fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }
 const LINK_BTN: React.CSSProperties = {
   background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0,
-  fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   color: 'var(--terracotta)', letterSpacing: '0.04em', padding: '6px 4px',
 }
 // The chip, which is now the only shape a suggestion takes on this page.
@@ -80,12 +80,12 @@ const CHIP: React.CSSProperties = {
   display: 'inline-flex', alignItems: 'center', gap: 6,
   border: '1.5px solid var(--border)', borderRadius: 100, background: '#fff',
   padding: '8px 13px', cursor: 'pointer',
-  fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 14.5, color: 'var(--ink)',
+  fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink)',
 }
 // A quiet line for a tab with nothing in it. An empty tab has to say so in
 // words, because an empty panel reads as a page that failed to load.
 const EMPTY: React.CSSProperties = {
-  fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0,
+  fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0,
 }
 
 function isTab(v: string | null): v is TabKey {
@@ -349,7 +349,7 @@ export default function ManageJobs({
 
   return (
     <div style={{ maxWidth: 620, margin: '0 auto', padding: '22px 20px 48px' }}>
-      <Link href="/dashboard/quests" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 15, color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
+      <Link href="/dashboard/quests" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
         ← Quests
       </Link>
 
@@ -357,7 +357,7 @@ export default function ManageJobs({
       <h1 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.3rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 6px' }}>
         {childName && childName !== 'Your child' ? `${childName}'s jobs` : 'Your jobs'}
       </h1>
-      <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         Add as many as you like. Nothing here closes on you.
       </p>
 
@@ -375,7 +375,7 @@ export default function ManageJobs({
                 border: `1.5px solid ${activeChild === c.id ? 'var(--terracotta)' : 'var(--border)'}`,
                 background: activeChild === c.id ? 'var(--terracotta-lt)' : '#fff',
                 borderRadius: 100, padding: '8px 15px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
               }}
             >
               {c.name}
@@ -413,7 +413,7 @@ export default function ManageJobs({
                 border: 'none', background: on ? '#fff' : 'transparent',
                 boxShadow: on ? '0 2px 0 rgba(26,26,46,0.07)' : 'none',
                 fontFamily: 'var(--font-display)', fontWeight: on ? 800 : 600,
-                fontSize: 13, color: on ? 'var(--ink)' : 'var(--ink-soft)',
+                fontSize: 'var(--text-sm)', color: on ? 'var(--ink)' : 'var(--ink-soft)',
                 lineHeight: 1.2, textAlign: 'center',
               }}
             >
@@ -425,7 +425,7 @@ export default function ManageJobs({
               {t.count > 0 && (
                 <span style={{
                   flexShrink: 0, minWidth: 20, padding: '1px 6px', borderRadius: 100,
-                  fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700,
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   background: t.alert ? '#E5484D' : 'var(--border)',
                   color: t.alert ? '#fff' : 'var(--ink-soft)',
                 }}>
@@ -464,7 +464,7 @@ export default function ManageJobs({
               border: `1.5px solid ${hasApp ? 'var(--border)' : 'var(--terracotta)'}`,
               borderRadius: 16, padding: '13px 15px', marginBottom: 16,
             }}>
-              <span style={{ flex: 1, minWidth: 180, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.5 }}>
+              <span style={{ flex: 1, minWidth: 180, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
                 {hasApp
                   ? <>Anything you add here appears on {name}&apos;s phone straight away.</>
                   : <><strong>{name} has no app yet.</strong> Scan a code on their phone to set it up, or carry on and mark jobs off yourself here.</>}
@@ -483,7 +483,7 @@ export default function ManageJobs({
                   title="Hide this for a week"
                   style={{
                     flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer',
-                    padding: '4px 6px', fontSize: 17, lineHeight: 1, color: 'var(--ink-muted)',
+                    padding: '4px 6px', fontSize: 'var(--text-md)', lineHeight: 1, color: 'var(--ink-muted)',
                   }}
                 >
                   ✕
@@ -546,7 +546,7 @@ export default function ManageJobs({
                 fourteen suggestions fit in the space the six rows took. */}
             {myPrevious.length > 0 && !midQuestion && (
               <>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 8px' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 8px' }}>
                   You have used these before
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 14 }}>
@@ -566,7 +566,7 @@ export default function ManageJobs({
 
             {!midQuestion && (
             <>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', margin: '0 0 8px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', margin: '0 0 8px' }}>
               Or tap an idea
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
@@ -576,7 +576,7 @@ export default function ManageJobs({
                   {t.title}
                   {/* The value pill, from Tiimo. A chip that does not say what
                       it pays is asking a parent to add a job blind. */}
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                     ⭐{t.stars}
                   </span>
                 </button>
@@ -603,10 +603,10 @@ export default function ManageJobs({
                 padding: '13px 15px', cursor: 'pointer', textAlign: 'left',
               }}
             >
-              <span style={{ flex: 1, minWidth: 0, fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+              <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
                 <strong style={{ color: 'var(--ink)' }}>{mine.length} job{mine.length === 1 ? '' : 's'}</strong> on {name}&apos;s board already
               </span>
-              <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--terracotta)' }}>
+              <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta)' }}>
                 See them →
               </span>
             </button>
@@ -638,16 +638,16 @@ export default function ManageJobs({
                   const q = questById.get(t.quest_id)
                   return (
                     <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px' }}>
-                      <span aria-hidden style={{ fontSize: 19, lineHeight: 1, flexShrink: 0 }}>{q?.emoji ?? '⭐'}</span>
+                      <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{q?.emoji ?? '⭐'}</span>
                       <span style={{ flex: 1, minWidth: 0 }}>
-                        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.3 }}>
+                        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
                           {q?.title ?? 'A job'}
                         </span>
-                        <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 11.5, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 1 }}>
+                        <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 1 }}>
                           {t.tick_date}
                         </span>
                       </span>
-                      <button onClick={() => approve(t.id)} disabled={busy} className="btn btn-gold" style={{ flexShrink: 0, padding: '9px 16px', fontSize: 14.5 }}>
+                      <button onClick={() => approve(t.id)} disabled={busy} className="btn btn-gold" style={{ flexShrink: 0, padding: '9px 16px', fontSize: 'var(--text-base)' }}>
                         Done ✓
                       </button>
                     </div>
@@ -666,10 +666,10 @@ export default function ManageJobs({
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {myAsks.map(a => (
                   <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px', flexWrap: 'wrap' }}>
-                    <span style={{ flex: 1, minWidth: 140, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.3 }}>
+                    <span style={{ flex: 1, minWidth: 140, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
                       {a.title}
                     </span>
-                    <button onClick={() => decideAsk(a.id, 'added')} disabled={busy} className="btn btn-gold" style={{ flexShrink: 0, padding: '9px 16px', fontSize: 14.5 }}>
+                    <button onClick={() => decideAsk(a.id, 'added')} disabled={busy} className="btn btn-gold" style={{ flexShrink: 0, padding: '9px 16px', fontSize: 'var(--text-base)' }}>
                       Yes, add it
                     </button>
                     <button onClick={() => decideAsk(a.id, 'declined')} disabled={busy} style={{ ...LINK_BTN, color: 'var(--ink-muted)' }}>
@@ -693,18 +693,18 @@ export default function ManageJobs({
               : `${mine.length} job${mine.length === 1 ? '' : 's'} running, waiting on ${name === 'your child' ? 'them' : name}.`}
           </p>
           {mine.length === 0 ? (
-            <button onClick={() => goTab('add')} className="btn btn-gold" style={{ padding: '12px 20px', fontSize: 15.5 }}>
+            <button onClick={() => goTab('add')} className="btn btn-gold" style={{ padding: '12px 20px', fontSize: 'var(--text-base)' }}>
               Add the first one
             </button>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
               {mine.map(q => (
                 <div key={q.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px' }}>
-                  <span aria-hidden style={{ fontSize: 19, lineHeight: 1, flexShrink: 0 }}>{q.emoji}</span>
-                  <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.3 }}>
+                  <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{q.emoji}</span>
+                  <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
                     {q.title}
                   </span>
-                  <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐{q.stars}</span>
+                  <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐{q.stars}</span>
                   {/* Only when they have the app. Offering to buzz a phone that
                       does not exist is a button that can only disappoint. */}
                   {hasApp && (
@@ -774,7 +774,7 @@ export default function ManageJobs({
               borderRadius: 14,
               boxShadow: '0 3px 0 var(--border)',
               padding: '10px 8px', textDecoration: 'none',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13.5,
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
               lineHeight: 1.25,
             }}
           >

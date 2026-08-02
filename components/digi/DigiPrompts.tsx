@@ -232,7 +232,7 @@ function FollowUpAnswer({
             style={{
               flex: '1 1 100px', background: a.bg, border: `1.5px solid ${a.border}`,
               borderRadius: 13, padding: '11px 12px', cursor: busy ? 'default' : 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5,
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               color: 'var(--ink)', opacity: busy && busy !== a.verdict ? 0.45 : 1,
             }}
           >
@@ -248,10 +248,10 @@ function FollowUpAnswer({
         style={{
           width: '100%', marginTop: 10, padding: '10px 12px', resize: 'vertical',
           border: '1.5px solid var(--border)', borderRadius: 12, background: 'var(--cream)',
-          fontFamily: 'inherit', fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.5,
+          fontFamily: 'inherit', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5,
         }}
       />
-      <p style={{ fontSize: 13.5, color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0' }}>
         Not really is the most useful answer here. It is how DiGi learns what to suggest you instead.
       </p>
     </div>

@@ -158,13 +158,13 @@ export default function PassportBook({
   return (
     <div style={{ marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
           {childName === 'your child' ? 'The' : `${childName}'s`} digital passport
         </span>
         {/* nowrap. "1/5 pages stamped" was breaking after "pages", which took
             the label opposite it to two lines as well, so the book started two
             lines lower for no reason anybody chose. */}
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap', flexShrink: 0 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap', flexShrink: 0 }}>
           {earnedCount}/{stamps.length} stamped
         </span>
       </div>
@@ -205,7 +205,7 @@ export default function PassportBook({
               }}
             >
               <div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.34em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.34em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
                   Digital Passport
                 </div>
                 <div style={{ width: '46px', height: '1.5px', background: 'rgba(237,195,95,0.55)', margin: '10px auto 0' }} />
@@ -224,14 +224,14 @@ export default function PassportBook({
                     ))}
                   </div>
                 </div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--terracotta)', letterSpacing: '0.02em', lineHeight: 1.15 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--terracotta)', letterSpacing: '0.02em', lineHeight: 1.15 }}>
                   {childName === 'your child' ? 'Our family' : childName}
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', marginTop: '8px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', marginTop: '8px' }}>
                   The journey to 16
                 </div>
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.5)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.5)' }}>
                 Tap to open
               </div>
             </div>
@@ -261,10 +261,10 @@ export default function PassportBook({
                     The words are already on the cover and in the label directly
                     above the book, so the stage number is the part that was
                     doing any work here. */}
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: theme.text, opacity: 0.75, whiteSpace: 'nowrap' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: theme.text, opacity: 0.75, whiteSpace: 'nowrap' }}>
                   Stage {stamp.id}
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, color: theme.text, opacity: 0.55, whiteSpace: 'nowrap' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: theme.text, opacity: 0.55, whiteSpace: 'nowrap' }}>
                   P{stamp.id} of {stamps.length}
                 </span>
               </div>
@@ -290,16 +290,16 @@ export default function PassportBook({
                       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M5 12.5l4.5 4.5L19 7" />
                       </svg>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: '2px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: '2px' }}>
                         Earned
                       </span>
                     </div>
                   ) : (
                     <>
-                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.9rem', lineHeight: 1, color: theme.text }}>
+                      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)', lineHeight: 1, color: theme.text }}>
                         {stamp.pct}%
                       </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginTop: '3px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginTop: '3px' }}>
                         {statusLabel(stamp.status)}
                       </span>
                     </>
@@ -317,15 +317,15 @@ export default function PassportBook({
                     }}>
                       <Image src={friend.img} alt={friend.name} fill sizes="62px" style={{ objectFit: 'cover' }} />
                     </span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.8, marginTop: '6px' }}>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.8, marginTop: '6px' }}>
                       {stamp.status === 'earned' || stamp.status === 'current' ? `With ${friend.name}` : `Meet ${friend.name}`}
                     </span>
                   </div>
                 )}
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
                   {stamp.name}
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, marginTop: '4px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, marginTop: '4px' }}>
                   {stamp.ages}
                 </div>
               </div>
@@ -340,7 +340,7 @@ export default function PassportBook({
                   device setup, the daily habit. Nobody is left guessing the
                   next step. */}
               <div style={{ position: 'relative', zIndex: 3, borderTop: `1.5px dashed ${theme.bold}`, paddingTop: '12px', marginTop: 'auto' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: theme.text, opacity: 0.7, marginBottom: '9px' }}>
                   {stamp.status === 'earned' ? 'This page is stamped' : 'To stamp this page · tap any one to do it'}
                 </div>
                 {stamp.sections && stamp.sections.length > 0 ? (
@@ -368,11 +368,11 @@ export default function PassportBook({
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
                                   )}
                                 </span>
-                                <span style={{ flex: 1, fontSize: '16px', fontWeight: 700, color: 'var(--ink)', opacity: done ? 0.55 : 1 }}>
+                                <span style={{ flex: 1, fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', opacity: done ? 0.55 : 1 }}>
                                   <span aria-hidden style={{ marginRight: 5 }}>{sec.emoji}</span>{sec.label}
                                 </span>
                                 <span style={{
-                                  fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700,
+                                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
                                   whiteSpace: 'nowrap',
                                   color: done ? DONE : TODO,
                                 }}>
@@ -391,7 +391,7 @@ export default function PassportBook({
                                     a parent otherwise reads as broken. */}
                                 {sec.ongoing && (
                                   <span style={{
-                                    flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '10.5px', fontWeight: 700,
+                                    flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                                     letterSpacing: '0.06em', textTransform: 'uppercase',
                                     color: done ? DONE : TODO,
                                     background: done ? 'var(--tint-green)' : 'var(--terracotta-lt)',
@@ -400,14 +400,14 @@ export default function PassportBook({
                                     {done ? 'Keeping it up' : 'Kept up, not ticked off'}
                                   </span>
                                 )}
-                                <span style={{ flex: '1 1 160px', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>
+                                <span style={{ flex: '1 1 160px', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>
                                   {sec.help}
                                 </span>
                               </div>
                               {sec.alert && (
                                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginTop: 5, marginLeft: 26, background: '#FDECEC', borderRadius: '9px', padding: '6px 9px' }}>
-                                  <span aria-hidden style={{ fontSize: 14, lineHeight: 1.3 }}>⚠️</span>
-                                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#B93B3F', lineHeight: 1.35 }}>{sec.alert}</span>
+                                  <span aria-hidden style={{ fontSize: 'var(--text-base)', lineHeight: 1.3 }}>⚠️</span>
+                                  <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: '#B93B3F', lineHeight: 1.35 }}>{sec.alert}</span>
                                 </div>
                               )}
                             </Link>
@@ -417,22 +417,22 @@ export default function PassportBook({
                             is the number a parent can act on; the percentage is
                             the one they compare against last week. */}
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginTop: '10px', paddingTop: '9px', borderTop: '1px solid rgba(26,26,46,0.12)' }}>
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, opacity: 0.7 }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: theme.text, opacity: 0.7 }}>
                             This stage
                           </span>
                           <span style={{ display: 'flex', alignItems: 'baseline', gap: 9, minWidth: 0 }}>
                             <span style={{
-                              fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                               color: greenRows === secs.length ? DONE : TODO, whiteSpace: 'nowrap',
                             }}>
                               {greenRows} of {secs.length} green
                             </span>
-                            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: 'var(--ink)' }}>
+                            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                               {runningPct}%
                             </span>
                           </span>
                         </div>
-                        <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '8px 0 0' }}>
+                        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '8px 0 0' }}>
                           <span style={{ color: DONE, fontWeight: 800 }}>Green</span> is doing its job. <span style={{ color: TODO, fontWeight: 800 }}>Amber</span> is the next step, and tapping it goes straight there. Jobs and screen balance are kept up across the stage rather than ticked off, so those two can move both ways.
                         </p>
                       </>
@@ -460,10 +460,10 @@ export default function PassportBook({
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
                         )}
                       </span>
-                      <span style={{ flex: 1, fontSize: '14.5px', fontWeight: 700, color: 'var(--ink)', opacity: t.done ? 0.5 : 1, textDecoration: t.done ? 'line-through' : 'none' }}>
+                      <span style={{ flex: 1, fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', opacity: t.done ? 0.5 : 1, textDecoration: t.done ? 'line-through' : 'none' }}>
                         {t.label}
                       </span>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, color: t.done ? DONE : TODO, whiteSpace: 'nowrap' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: t.done ? DONE : TODO, whiteSpace: 'nowrap' }}>
                         {t.detail}{t.done ? '' : ' ›'}
                       </span>
                     </Link>
@@ -473,7 +473,7 @@ export default function PassportBook({
                   href={`/dashboard/lessons?stage=${stamp.id}`}
                   style={{
                     display: 'block', textAlign: 'center', marginTop: '11px',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                     color: 'var(--ink)', textDecoration: 'none',
                     background: theme.bold, borderRadius: '12px', padding: '10px 14px',
                   }}
@@ -503,7 +503,7 @@ export default function PassportBook({
           style={{
             background: '#fff', border: '1.5px solid var(--border)', borderRadius: '10px',
             width: 34, height: 34, cursor: page === 0 ? 'default' : 'pointer',
-            opacity: page === 0 ? 0.4 : 1, fontSize: '17px', color: 'var(--ink)',
+            opacity: page === 0 ? 0.4 : 1, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
         >
           ←
@@ -537,7 +537,7 @@ export default function PassportBook({
           style={{
             background: '#fff', border: '1.5px solid var(--border)', borderRadius: '10px',
             width: 34, height: 34, cursor: page === stamps.length ? 'default' : 'pointer',
-            opacity: page === stamps.length ? 0.4 : 1, fontSize: '17px', color: 'var(--ink)',
+            opacity: page === stamps.length ? 0.4 : 1, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
         >
           →
@@ -547,7 +547,7 @@ export default function PassportBook({
       {/* How to use the book, beside the arrows that do it rather than three
           lines above the book pushing it off a phone screen. It was preamble up
           there and it is a caption down here, which is what it always was. */}
-      <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0', textAlign: 'center' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0', textAlign: 'center' }}>
         One page per stage. Flip through to catch up or peek ahead.
       </p>
 
@@ -573,10 +573,10 @@ export default function PassportBook({
           marginTop: 16, background: 'var(--terracotta-lt)',
           border: '1.5px solid var(--terracotta)', borderRadius: 16, padding: '14px 16px',
         }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
             {catchUps.length === 1 ? 'One page behind you' : `${catchUps.length} pages behind you`}
           </div>
-          <p style={{ fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 11px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 11px' }}>
             {childName === 'your child' ? 'Your child has' : `${childName} has`} moved on without stamping{' '}
             {catchUps.length === 1
               ? 'this one. The stage they are on now is built on top of it, so it is worth going back to together.'
@@ -595,10 +595,10 @@ export default function PassportBook({
                   padding: '8px 13px', cursor: 'pointer', textAlign: 'left',
                 }}
               >
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, color: 'var(--ink)' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
                   Stage {s.id} {s.name}
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                   {s.pct}%
                 </span>
               </button>
@@ -630,11 +630,11 @@ export default function PassportBook({
           border: '1.5px solid var(--terracotta)', borderRadius: 16,
           boxShadow: '0 5px 0 var(--terracotta)',
           textDecoration: 'none', textAlign: 'center',
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17.5,
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
           lineHeight: 1.3,
         }}
       >
-        <span aria-hidden style={{ fontSize: 20, lineHeight: 1 }}>🛂</span>
+        <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>🛂</span>
         Order a passport here
       </Link>
 
@@ -643,10 +643,10 @@ export default function PassportBook({
           marginTop: '14px', background: 'var(--deep-teal)', borderRadius: '14px',
           padding: '14px 16px', textAlign: 'center',
         }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: '#fff' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: '#fff' }}>
             🎉 Passport complete
           </div>
-          <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, marginTop: '3px' }}>
+          <div style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.5, marginTop: '3px' }}>
             Every page stamped, all the way to 16. {childName === 'your child' ? 'Your child has' : `${childName} has`} grown up online with the habits, the know how and the judgement built stage by stage.
           </div>
         </div>
@@ -688,20 +688,20 @@ export default function PassportBook({
                 animation: 'gcSeal 0.6s cubic-bezier(0.34,1.56,0.64,1) both',
               }}>
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: '4px' }}>Stamped</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: '4px' }}>Stamped</span>
               </div>
             </div>
             <div style={{ textAlign: 'center', marginTop: '22px', maxWidth: '320px', animation: 'gcCelebFade 0.4s ease 0.25s both' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
                 Page {celebrating.id} earned
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: '#fff', marginTop: '8px', lineHeight: 1.15 }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: '#fff', marginTop: '8px', lineHeight: 1.15 }}>
                 {celebrating.name} complete
               </div>
-              <div style={{ fontSize: '15.5px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.55, marginTop: '8px' }}>
+              <div style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.55, marginTop: '8px' }}>
                 {childName === 'your child' ? 'Your child' : childName} has the {celebrating.name} habits in place for their age now. A real step on the road to a confident, capable 16.
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginTop: '18px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)', marginTop: '18px' }}>
                 Tap to see the page
               </div>
             </div>
@@ -730,7 +730,7 @@ export default function PassportBook({
           the seal has been dismissed, then says it once. */}
       {justStamped && (
         <p style={{
-          fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55,
+          fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55,
           margin: '14px 0 0', textAlign: 'center',
           animation: 'gcCelebFade 0.5s ease both',
         }}>
