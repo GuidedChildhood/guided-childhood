@@ -43,4 +43,4 @@ async function handler(request: Request) {
   })
 }
 
-export const GET = withHeartbeat('management-review', handler)
+export const GET = withHeartbeat('/api/cron/management-review', handler)

@@ -166,7 +166,16 @@ export default function LessonsBrowser({
           })}
         </div>
 
-        {stageChips.length > 1 && (
+        {/* Hidden while the Social Media Ready module is open, and this is the
+            bug Justin found: "these tabs on top do not work".
+            They did nothing, because the module renders its own stage groups
+            and never reads `stage`. So a chip changed its own highlight and
+            not one thing below it. A control that does nothing is worse than
+            no control, because it teaches a parent that the app ignores them.
+            Hidden rather than wired up, because the module exists to read as
+            ONE ramp from 8 to 16, and filtering it to a single stage would
+            destroy the only thing it is for. */}
+        {stageChips.length > 1 && !(view === 'library' && moduleOn) && (
           <div style={{ display: 'flex', gap: '7px', overflowX: 'auto', paddingTop: '10px', scrollbarWidth: 'none' }}>
             <button
               onClick={() => setStage('all')}

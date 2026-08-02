@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
 import type { AgeBand } from '@/lib/content/stages'
 import DeviceHub from './DeviceHub'
@@ -30,7 +31,6 @@ export default async function DevicesPage({
   // enough browsers and privacy settings that the back button would silently
   // change meaning depending on the reader's setup.
   const { from } = await searchParams
-  const cameFromPassport = from === 'passport'
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -72,13 +72,11 @@ export default async function DevicesPage({
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px 48px' }}>
-      {/* A way back. This page is reached from Home, the passport and DiGi, and
-          had no exit of its own, so a parent who scrolled the whole hub was
-          left to the browser's back button or the tab bar. Same pattern as the
-          phone setup page and the lesson pages. */}
-      <Link href={cameFromPassport ? '/dashboard/pathway' : '/dashboard'} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: '18px' }}>
-        ← {cameFromPassport ? 'Passport' : 'Home'}
-      </Link>
+      {/* A way back. This page is reached from Home, the passport and DiGi, so
+          the exit has to match where the parent actually came from. Shared with
+          the other four passport destinations rather than written out five
+          times, which is how four of them ended up without one. */}
+      <BackTo from={from} />
 
       <div style={{ marginBottom: '20px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Device Safety Hub</p>

@@ -231,6 +231,44 @@ function checkWeekWindows() {
 }
 
 
+// ── 5. Two migrations wearing the same number ────────────────────────
+//
+// Documenting this rule has now failed three times in one week. Two 147s are
+// on main (digi_outcomes and kid_homework_notes, 2 August, two sessions the
+// same day), and a third was in flight on an open PR carrying a second 149.
+//
+// Nothing broke, because they happened to create different tables. That is
+// luck, not design: two migrations with the same number have no defined order,
+// so the next pair that touch the same object apply in whichever order the
+// tooling happens to pick, and the answer is different on a fresh database
+// than on this one.
+//
+// CLAUDE.md already says to claim the number in the draft PR at claim time.
+// The rule is right and people are following the rest of that file, so the
+// problem is not the wording. A rule that has been ignored three times needs a
+// check, not a fourth restatement.
+
+function checkMigrationNumbers() {
+  const dir = join(ROOT, 'supabase', 'migrations')
+  let files
+  try { files = readdirSync(dir) } catch { return }
+
+  const byNumber = new Map()
+  for (const f of files) {
+    const m = f.match(/^(\d+)_/)
+    if (!m) continue
+    const n = m[1]
+    if (!byNumber.has(n)) byNumber.set(n, [])
+    byNumber.get(n).push(f)
+  }
+
+  for (const [n, names] of [...byNumber].sort((a, b) => Number(a[0]) - Number(b[0]))) {
+    if (names.length < 2) continue
+    errors.push(`migration ${n}  ${names.join('  and  ')}  share a number, so their order is undefined. Renumber the newer one.`)
+  }
+}
+
+
 // ── The baseline ─────────────────────────────────────────────────────
 //
 // Three real bugs were live the day this check was written, all the same
@@ -254,12 +292,49 @@ function checkWeekWindows() {
 //
 // Keep it empty if you can. A finding belongs here only when it is real, known,
 // and blocked on a decision rather than on work.
-const BASELINE = []
+// Every duplicate migration number already on main on 2 August 2026.
+//
+// The check was written expecting the two 147s from this week. It found
+// NINETEEN, the oldest from migration 002. So this was never a new problem or
+// a multi session problem: it has been happening for months, quietly, and
+// nothing broke only because no colliding pair ever touched the same object.
+// That is luck holding, not a design working.
+//
+// These are baselined rather than renumbered ON PURPOSE. They have already
+// been applied to the live database. Renaming an applied migration does not
+// reorder anything, it just makes the files disagree with the ledger, which
+// trades a dormant problem for an active one.
+//
+// So the line is drawn here: everything below is history, printed loudly on
+// every run, and any NEW collision fails the build. Number 20 cannot happen.
+const BASELINE = [
+  { match: 'migration 002', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 027', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 028', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 031', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 032', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 033', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 034', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 035', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 038', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 049', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 071', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 098', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 101', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 103', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 104', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 105', since: '2 Aug 2026, pre-existing' },
+  { match: 'migration 106', since: '2 Aug 2026, pre-existing, three files' },
+  { match: 'migration 109', since: '2 Aug 2026, pre-existing' },
+  // The one that prompted the check. Two sessions, same day, 2 August.
+  { match: 'migration 147', since: '2 Aug 2026, the collision that prompted this check' },
+]
 
 checkDeadLinks()
 checkOrphanComponents()
 checkUnwritableSteps()
 checkWeekWindows()
+checkMigrationNumbers()
 
 const line = '─'.repeat(64)
 

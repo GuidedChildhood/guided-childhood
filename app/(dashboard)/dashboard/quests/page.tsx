@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import BackTo from '@/components/nav/BackTo'
 import QuestManager from './QuestManager'
 import QuestBoard from '@/components/quests/QuestBoard'
 import NoPhoneButton from '@/components/quests/NoPhoneButton'
@@ -20,7 +21,8 @@ import { getBoardStatus, type BoardStatus } from '@/lib/quests/board-status'
 // or print the sheet. Sending a lesson to the child moved to the Lessons tab
 // (its one home now), so this page points there rather than duplicating it.
 
-export default async function QuestsPage() {
+export default async function QuestsPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
+  const { from: from_ } = await searchParams
   // The handover moment: a child in the 8 to 10 band or older can run their
   // own side of the quests. While no kid link exists for them, one warm
   // prompt at the top points at the QR handover, then it steps back for good.
@@ -104,6 +106,7 @@ export default async function QuestsPage() {
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
+      <BackTo from={from_} />
       {/* The log a week card that used to sit here moved to the Printables page,
           under the star chart builder that makes the chart, so build, print and
           log the week live together. */}

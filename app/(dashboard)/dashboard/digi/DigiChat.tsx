@@ -316,9 +316,60 @@ export default function DigiChat({
   // hidden on the next page. Always clear it on unmount.
   useEffect(() => () => { document.body.classList.remove('gc-input-focused') }, [])
 
+  // The answer when there is no answer.
+  //
+  // CLAUDE.md non-negotiable 1: DiGi always returns a calibrated pathway. An
+  // error box is a dead end, which is the single thing that rule forbids, and
+  // "try again" is a dead end wearing a suggestion's clothes. So when both
+  // attempts fail, DiGi still says something true and usable.
+  //
+  // Written to be honest rather than clever. It does not pretend to have
+  // understood the question, because it did not, and a fallback that guesses at
+  // advice for a message it never read would be worse than silence. What it can
+  // do is the thing that holds for almost every screen moment, and point at the
+  // scripts, which are real answers sitting in the product already.
+  function showFallback(asked: string) {
+    const known = asked.trim().length > 0
+    setMessages(prev => [...prev, {
+      role: 'assistant',
+      content: [
+        'I could not get my thinking together just then, and I would rather say so than give you something half made.',
+        known ? 'Your message is still in the box, so send it again whenever you like and I will have another go.' : 'Ask me again whenever you like.',
+        '',
+        'While you are here, the one thing that holds for nearly every screen moment: the time to talk about it is never while the screen is still on. Wait for the calm part of the day, then agree together what happens next time. A rule set during a meltdown never survives the week.',
+        '',
+        'If you want something concrete right now, the scripts have a line for most of these moments, and they are written to be said out loud.',
+      ].join('\n'),
+    }])
+  }
+
   async function sendMessage(text?: string, deviceOverride?: string) {
     const typed = text ?? input
     if (!typed.trim() || loading) return
+
+    // Held so a failure can hand the words back.
+    //
+    // Justin, 2 August, with two screenshots: DiGi timed out and the box was
+    // empty. The error said "Your message was not lost, try sending it again"
+    // and it was gone from the transcript AND the input, so the only way to try
+    // again was to type the whole thing out a second time. His words: "this is
+    // where it would annoy, having to type it in again."
+    //
+    // The promise was the right promise. The code just did not keep it. So the
+    // fix is to make it true rather than to soften the wording, because a
+    // parent who has just described a hard morning should never be made to
+    // describe it twice.
+    const priorPrefix = continuingPrefix
+    const priorTopic = continuingTopic
+    const restoreDraft = () => {
+      setInput(typed)
+      // Only when the parent typed it. A chip carries no prefix, so putting one
+      // back would attach a topic they never chose.
+      if (!text && priorPrefix) {
+        setContinuingPrefix(priorPrefix)
+        setContinuingTopic(priorTopic)
+      }
+    }
     setThinkingFloor(true)
     // 1400ms: long enough to read one line of what DiGi is doing, short enough
     // that it never feels like it is stalling on an answer it already has.
@@ -351,7 +402,20 @@ export default function DigiChat({
     const REFLECTION_MARKER = /\n\s*---\s*\n/
     let replyStarted = false
 
-    try {
+    // One quiet second go, then stop.
+    //
+    // Justin: "How can we make sure it answers these questions". The parent
+    // should not be the retry mechanism. Most failures here are transient and
+    // die on a second attempt, and the first real numbers say the normal reply
+    // is about four seconds, so a retry is affordable in a way it would not be
+    // if DiGi were genuinely slow.
+    //
+    // ONE retry, not a loop. A second failure means something real is wrong,
+    // and hammering a struggling system is how a slow minute becomes a broken
+    // one. Only ever retried when NOTHING reached the screen: once a reply has
+    // started it is a real partial answer, and replacing it would take words
+    // away from a parent who is already reading them.
+    async function attempt(): Promise<'ok' | 'retry' | 'stop'> {
       const controller = new AbortController()
       const timeout = setTimeout(() => controller.abort(), 65_000)
       const res = await fetch('/api/digi', {
@@ -364,13 +428,22 @@ export default function DigiChat({
       if (!res.ok) {
         clearTimeout(timeout)
         const data = await res.json().catch(() => ({} as { error?: string }))
+        // The daily limit is a decision, not a wobble, and asking again will
+        // get the same answer. Same for anything else in the 400s: the request
+        // was understood and refused. Only a server side fault is worth a
+        // second go.
+        if (res.status >= 500) return 'retry'
         if (res.status === 429) {
           setError('DiGi has helped all it can today, that is your 3 free chats. It refreshes tomorrow, or go unlimited any time.')
         } else {
           setError(data.error ?? 'Something went wrong. Please try again.')
         }
         setMessages(prev => prev.slice(0, -1))
-        return
+        // Including the daily limit. They cannot send it now, but the words are
+        // still theirs, and they are still there tomorrow or the moment they go
+        // unlimited.
+        restoreDraft()
+        return 'stop'
       }
 
       if (!res.body) throw new Error('No response stream')
@@ -413,11 +486,10 @@ export default function DigiChat({
       const rawReflective = parts[1]?.trim() || null
       const reflective = rawReflective && rawReflective.endsWith('?') ? rawReflective : null
 
-      if (!mainResponse) {
-        setError('DiGi took too long to answer. Your message was not lost, try sending it again.')
-        setMessages(prev => prev.slice(0, -1))
-        return
-      }
+      // An empty reply is not a timeout, whatever the old copy said. It arrives
+      // fast and says nothing, and it is worth a second go precisely because it
+      // costs so little.
+      if (!mainResponse) return 'retry'
 
       showReply(mainResponse)
       setDailyCount(Number.isFinite(usedToday) && usedToday > 0 ? usedToday : dailyCount + 1)
@@ -435,13 +507,38 @@ export default function DigiChat({
       if (reflective && !reflectionQuestion && !reflectionDone) {
         armReflection(reflective)
       }
-    } catch {
-      if (replyStarted) {
-        // Keep whatever DiGi managed to say before the connection dropped
-        return
+      return 'ok'
+    }
+
+    try {
+      let outcome = await attempt()
+
+      // The second go, and only when the screen is still blank. A partial reply
+      // is a real answer and must not be thrown away to try for a better one.
+      if (outcome === 'retry' && !replyStarted) {
+        outcome = await attempt()
       }
-      setError('DiGi took too long to answer. Your message was not lost, try sending it again.')
-      setMessages(prev => prev.slice(0, -1))
+
+      if (outcome === 'retry') {
+        // Both attempts failed. CLAUDE.md non-negotiable 1: DiGi always returns
+        // a calibrated pathway. An error box is a dead end, which is the one
+        // thing that rule forbids, so DiGi still answers. Thinner than usual
+        // and honest about being thinner, but never nothing.
+        //
+        // The message stays in the box as well, so the parent can send it again
+        // the moment they want to, without typing it twice.
+        setMessages(prev => prev.slice(0, -1))
+        restoreDraft()
+        setError('')
+        showFallback(messageText)
+      }
+    } catch {
+      if (!replyStarted) {
+        setMessages(prev => prev.slice(0, -1))
+        restoreDraft()
+        showFallback(messageText)
+      }
+      // A reply that started and then dropped is kept exactly as it arrived.
     } finally {
       setLoading(false)
       setStreamingReply(false)
