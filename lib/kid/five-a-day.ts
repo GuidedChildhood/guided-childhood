@@ -107,7 +107,11 @@ export const STEPS: Record<StepKey, StepDef> = {
     key: 'printable', emoji: '🖍️',
     label: 'A printable',
     hint: 'Colour and do, away from the screen',
-    href: t => `/k/${t}`,
+    // ?tab=print, and the anchor so the tab is on screen when it opens.
+    // This was `/k/${t}`, the page the child is already on, so the row looked
+    // tappable and did nothing. Printables are a tab on this same page, so the
+    // link has to name the tab rather than the page.
+    href: t => `/k/${t}?tab=print#kid-tabs`,
   },
   move: {
     key: 'move', emoji: '⚽',

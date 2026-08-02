@@ -39,7 +39,7 @@ async function handler(request: Request) {
 
   const { data: due } = await admin
     .from('digi_followups')
-    .select('id, user_id, child_id, question, context, suggestion, situation')
+    .select('id, user_id, child_id, question, context, suggestion, situation, moment_id')
     .eq('status', 'pending')
     .lte('due_on', today)
     .limit(200)
@@ -73,6 +73,9 @@ async function handler(request: Request) {
       time_band: situation.time_band ?? null,
       trigger: situation.trigger ?? null,
       suggestion: f.suggestion ?? f.question,
+      // Carried through, so a verdict can be counted back to the moment it was
+      // about. Null for an ordinary DiGi suggestion.
+      moment_id: f.moment_id ?? null,
     }).select('id').single()
 
     // One at a time, and the status only moves after the card is safely in.
