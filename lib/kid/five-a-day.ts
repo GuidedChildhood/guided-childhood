@@ -34,6 +34,12 @@ export type StepKey =
   | 'homework'
   | 'printable'
   | 'move'
+  | 'maths'
+  | 'tidy'
+  | 'make'
+  | 'kind'
+  | 'talk'
+  | 'grownup_break'
 
 export type StepDef = {
   key: StepKey
@@ -94,7 +100,10 @@ export const STEPS: Record<StepKey, StepDef> = {
     // thirteen. The static label is the fallback when no age band is known.
     key: 'reading', emoji: '📖',
     label: 'Ten minutes reading',
-    hint: 'Away from a screen',
+    // Justin: "read a book tell your parent". The telling is the half that makes
+    // it stick, and it is the half a grown up actually hears about. A child who
+    // has to say what happened has to have followed what happened.
+    hint: 'Then tell your grown up what happened',
     href: null,
   },
   homework: {
@@ -116,7 +125,75 @@ export const STEPS: Record<StepKey, StepDef> = {
   move: {
     key: 'move', emoji: '⚽',
     label: 'Move about',
-    hint: 'Outside if you can, twenty minutes',
+    // Justin: "exercise played football with daddy". With somebody, when there is
+    // somebody, because that is the version a child remembers. Outside is the
+    // ideal and never the requirement: not every family has an outside.
+    hint: 'Twenty minutes, outside if you can, better with someone',
+    href: null,
+  },
+
+  // ── The offline rows ──────────────────────────────────────────────────────
+  //
+  // Justin's list, near enough word for word: "read a book tell your parent also
+  // the maths, tidy my room, raise a quest with parents, exercise played football
+  // with daddy, asked parent to have a 30 min break from phone, anything we can
+  // add that is a brilliant offline benefit".
+  //
+  // Two of his were already here (reading, move) and one already is the last row
+  // of every day (ask). These are the rest, plus the ones that clear the same bar:
+  // nothing to buy, nothing to install, no screen, and a person at the other end
+  // of it wherever a person can be.
+  //
+  // All self ticked, like reading and move. A child ticking their own tidy room is
+  // trusted the same way they are trusted with their own twenty minutes outside,
+  // and the alternative is a grown up approval queue for making a bed.
+
+  maths: {
+    key: 'maths', emoji: '🔢',
+    label: 'Ten minutes of numbers',
+    // Deliberately not "maths homework", which a child either has or does not.
+    // Times tables in the car and counting change both count, so the row works at
+    // five and at thirteen without needing its own age ladder.
+    hint: 'Times tables, out loud or on paper',
+    href: null,
+  },
+  tidy: {
+    key: 'tidy', emoji: '🧺',
+    label: 'Tidy your room',
+    hint: 'Floor clear, bed done',
+    href: null,
+  },
+  make: {
+    key: 'make', emoji: '✂️',
+    label: 'Make something',
+    hint: 'Draw, build, bake. Anything with your hands',
+    href: null,
+  },
+  kind: {
+    key: 'kind', emoji: '💛',
+    label: 'Something kind',
+    // The only row that is about somebody else. It costs nothing, it is noticed,
+    // and it is the one a family tells other families about.
+    hint: 'One kind thing for someone in your house',
+    href: null,
+  },
+  talk: {
+    key: 'talk', emoji: '💬',
+    label: 'Best and worst bit',
+    // Two minutes, both ways. The daily check in is the most protective habit in
+    // the whole product and the cheapest thing on this list: a child who is used
+    // to telling a grown up about an ordinary day is a child who tells them about
+    // the day that is not ordinary.
+    hint: 'Ask your grown up about their day, then tell them yours',
+    href: null,
+  },
+  grownup_break: {
+    key: 'grownup_break', emoji: '📵',
+    label: 'Screen break together',
+    // Justin's, and it is the mission in one row. A product that asks children to
+    // manage their screens and never once asks the adult holding one is only half
+    // honest. The child is allowed to be the one who asks.
+    hint: 'Ask your grown up for 30 minutes with phones down',
     href: null,
   },
 }
@@ -190,8 +267,22 @@ export function isMoveJob(title: string): boolean {
 const FIXED_FIRST: StepKey[] = ['jobs']
 const FIXED_LAST: StepKey[] = ['balance', 'ask']
 
-/** The pool the middle two are drawn from, so the day is not identical. */
-const ROTATING: StepKey[] = ['lesson', 'quiz', 'reading', 'homework', 'printable', 'move']
+/**
+ * The pool the middle two are drawn from, so the day is not identical.
+ *
+ * Twelve rows, two drawn a day, so a given row comes round about once a week and
+ * a child never gets the same middle twice running. Small enough that every row
+ * still feels like part of a known list rather than a random generator, which is
+ * what a child has to trust for the streak to mean anything.
+ *
+ * Weighted by nothing. The seeded draw in pickDay walks the pool evenly, so the
+ * screen break row is as likely as the maths row, which is the correct
+ * relationship between those two things.
+ */
+const ROTATING: StepKey[] = [
+  'lesson', 'quiz', 'reading', 'homework', 'printable', 'move',
+  'maths', 'tidy', 'make', 'kind', 'talk', 'grownup_break',
+]
 
 /**
  * A small stable hash. Same child and same date always gives the same number, so

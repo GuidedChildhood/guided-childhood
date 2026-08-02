@@ -1,6 +1,6 @@
 # Finishing a stage: the last week, the celebration, the keepsake, the monthly nudge
 
-**2 August 2026.** Lane: platform. Migration claimed: **152**.
+**2 August 2026.** Lane: platform. Migration claimed: **153** (152 was taken by PR 686 first).
 
 Justin, in three messages, describing the same thing:
 
@@ -48,7 +48,7 @@ side record that a stage was ever completed**, so nothing can hang off it. No
 email can mention it, no shop offer can follow it, and the founder board cannot
 count it.
 
-Migration 152, `stage_completions`: user, child, stage, completed_on, and the
+Migration 153, `stage_completions`: user, child, stage, completed_on, and the
 five row percentages as they stood. One row per child per stage, written the
 first time all five go green. Everything below reads from it.
 
@@ -121,7 +121,7 @@ go green, and it holds whatever the rows come to mean.
 
 ## Order of work
 
-**This pass.** Migration 152 and the server side record, so the celebration is
+**This pass.** Migration 153 and the server side record, so the celebration is
 once per family rather than once per browser, and so anything can hang off it.
 
 **Then.** The last week review and the carry over. Then the keepsake offer at
