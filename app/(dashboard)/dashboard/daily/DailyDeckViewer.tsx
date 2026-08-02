@@ -158,7 +158,17 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
           the words at a size a parent reads at arm's length on a phone in a
           hallway. Big and calm beats dense and tidy. */}
       <div style={{ padding: '26px 24px 28px', background: palette.body, flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <div style={{ maxWidth: '620px', ...hide }}>
+        {/* Centred in the card when it is short, top aligned when it is long.
+            Same treatment as the moment card deck, so the two decks in the app
+            behave the same way. The card has a minHeight of min(56dvh, 540px),
+            so a two line card left most of that empty underneath it with the
+            buttons stranded at the bottom.
+
+            Auto margins on the main axis of a column flex container absorb the
+            free space and compute to zero once the content is taller than the
+            box, so this centres a short card and gets out of the way of a long
+            one. justifyContent cannot do the second half. */}
+        <div style={{ maxWidth: '620px', margin: 'auto 0', width: '100%', ...hide }}>
           <h2 style={{
             fontFamily: 'var(--font-display)', fontWeight: 900,
             fontSize: 'clamp(26px, 7.2vw, 32px)',
