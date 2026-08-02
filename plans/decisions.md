@@ -4913,3 +4913,60 @@ unknown column in that select and the existing catch swallows every session,
 leaving a parent looking at an empty week rather than a missing footnote. The
 footnote is what should go missing before migration 146 runs, so it is the only
 thing that does.
+
+## 2 August 2026 — The five a day stops asking children to claim things
+
+**A row wearing the completion signal while it was still outstanding.** The jobs
+step used ✅ as its icon, which renders as a green box with a white check and is
+indistinguishable from the done state two rows below it. Justin read the board as
+already ticked; the database said `done: [ask, homework, balance]` and the card
+said "1 of 5". The logic was right the whole time. Nothing but the done state is
+allowed to look done, so the icon is now 📋.
+
+**The same row now says where they are up to.** "Tick off what your grown up
+sent" read identically whether none were done or five of six were, which is the
+least useful thing it can say to a child standing in front of it. It reads
+"4 of 6 done. Tap to see the rest".
+
+**Printables become a holiday thing.** Colouring a sheet in is a holiday morning
+activity, and asking for one on a school night competes with the homework that is
+actually due. `available.printable` is now `isSchoolHoliday()` against the
+family's own region, so a US family is not offered a sheet because it is half
+term in England. Dropping it never empties the middle: five of the six rotating
+steps remain.
+
+**Reading takes the freed slot, scaled by age.** Ten minutes is a real stretch for
+a child still decoding words and a bar a confident thirteen year old clears
+without noticing, and a target that does not fit teaches a child the list does not
+mean what it says. 10 minutes at 4 to 7, 20 at 8 to 13, 30 above. The row states
+its own number.
+
+**Homework stops being a tick that records nothing.** It was the weakest row of
+the five: a child self certified, no parent could see what was set, and the child
+got no credit for the work. It now opens a note, and writing it IS the completion.
+Migration 147, one note per child per day. Deliberately not sent for approval:
+homework is between a child and their school, and an approval gate would make it
+one more thing to be inspected on.
+
+**In the holidays that row looks forward instead.** No homework exists to record,
+and inventing some is the fastest way to make this the row a child dreads. It
+shows what is coming when they go back, read off the 448 curriculum objectives we
+already hold, and reading it completes the step. `nextTermTarget` is a separate
+function from `termFor` on purpose: a half term goes back into the SAME term, and
+a naive "next term" would be wrong twice a year in a way that shows a child work
+they will not meet for months.
+
+**The note is best effort and the tick is not.** The five are what the streak is
+made of, so refusing the step because the note could not be stored would hold a
+child's whole run hostage to a migration they cannot see. Before 147 the table
+does not exist; the day still moves, and the lost note shows up in the logs and
+in `saved`.
+
+**Outstanding jobs on the balance page are links.** A child reading what they
+still owe with no way through to it has to remember the list and go and find it,
+which is the moment the page stops being useful. Done ones stay plain: a record
+has nowhere to go.
+
+**The celebration carries the timer reminder.** It is the only moment in the day a
+child is reading the screen because something good just happened. The same
+sentence on the jobs list is a rule; there it is the next step.

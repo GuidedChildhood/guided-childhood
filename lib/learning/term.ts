@@ -78,6 +78,50 @@ export function termFor(on: Date): { term: Term; lookingBack: boolean } {
   return { term: 'summer', lookingBack: true }
 }
 
+/**
+ * What is coming NEXT, for a child standing in a school holiday.
+ *
+ * Not the same question as termFor, which answers "where are we now". A holiday
+ * summary is only interesting if it looks forward, and which way forward depends
+ * on WHICH holiday it is:
+ *
+ *   Summer      the year is over. Next is Autumn, and the child moves up a year.
+ *   Christmas   Autumn is finished. Next is Spring, same year group.
+ *   Easter      Spring is finished. Next is Summer, same year group.
+ *   Half term   nothing has finished. They go back into the SAME term, so the
+ *               honest answer is the rest of the term they are already in.
+ *
+ * That last case is the one a naive "next term" would get wrong, and it would
+ * get it wrong twice a year in a way that shows a child work they will not meet
+ * for months.
+ *
+ * Returns null outside Years 1 to 6, where there are no objectives to read.
+ */
+export function nextTermTarget(birthday: Date, on: Date): SheetTarget | null {
+  const m = on.getUTCMonth()
+  const d = on.getUTCDate()
+  const current = yearGroupFor(birthday, on)
+
+  let term: Term
+  let yearGroup = current
+  if (m === 7) {
+    // August. academicYearStart already reads August as the year just gone, so
+    // the child's next year group is one above what yearGroupFor returns.
+    term = 'autumn'
+    yearGroup = current + 1
+  } else if (m === 11 && d >= 20) {
+    term = 'spring'
+  } else if (m === 3 && d < 15) {
+    term = 'summer'
+  } else {
+    // A half term, or term time. Either way the current term is what is next.
+    term = termFor(on).term
+  }
+
+  if (yearGroup < MIN_YEAR || yearGroup > MAX_YEAR) return null
+  return { yearGroup, term, lookingBack: false }
+}
+
 export function sheetTarget(birthday: Date, on: Date): SheetTarget | null {
   const { term, lookingBack } = termFor(on)
   const yearGroup = yearGroupFor(birthday, on)

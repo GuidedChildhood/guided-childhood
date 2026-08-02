@@ -8,6 +8,7 @@ import { MOMENT_PHOTOS } from '@/lib/content/moment-photos'
 import { scriptVoiceUrl } from '@/lib/content/script-voice'
 import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
 import DigiCharacter from '@/components/digi/DigiCharacter'
+import ShareWithChildPanel, { type ShareChild } from '@/components/rightnow/ShareWithChildPanel'
 
 // The Right Now button: the emergency entry point in the centre of the
 // mobile tab bar. A child is crying because the TV went off and the parent
@@ -46,6 +47,7 @@ function orderedSituations() {
 }
 
 type ScriptResult = {
+  id?: string
   title: string
   say_this: string
   not_this: string
@@ -88,6 +90,16 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
   const [customInput, setCustomInput] = useState('')
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [speaking, setSpeaking] = useState(false)
+
+  // Share with your child, when the child has the app. The parent always
+  // reads the note before it lands on their child's screen.
+  const [shareOpen, setShareOpen] = useState(false)
+  const [shareKids, setShareKids] = useState<ShareChild[]>([])
+  const [shareKidId, setShareKidId] = useState<string | null>(null)
+  const [shareNote, setShareNote] = useState('')
+  const [shareBlocked, setShareBlocked] = useState<string | null>(null)
+  const [shareBusy, setShareBusy] = useState(false)
+  const [shareSent, setShareSent] = useState<string | null>(null)
 
   // Lock body scroll while the sheet is up.
   useEffect(() => {
@@ -149,6 +161,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
     setFailed(false)
     setCustomMode(false)
     setCustomInput('')
+    resetShare()
     setOpen(true)
   }
 
@@ -176,6 +189,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
     setPickedLabel(label)
     setScript(null)
     setFailed(false)
+    resetShare()
 
     fetch('/api/rightnow', {
       method: 'POST',
@@ -194,6 +208,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
     setPickedLabel(detail.length > 60 ? detail.slice(0, 57) + '...' : detail)
     setScript(null)
     setFailed(false)
+    resetShare()
 
     fetch('/api/rightnow/custom', {
       method: 'POST',
@@ -203,6 +218,97 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
       .then(res => (res.ok ? res.json() : Promise.reject(new Error('bad status'))))
       .then((data: ScriptResult) => setScript(data))
       .catch(() => setFailed(true))
+  }
+
+  function resetShare() {
+    setShareOpen(false); setShareKids([]); setShareKidId(null)
+    setShareNote(''); setShareBlocked(null); setShareBusy(false); setShareSent(null)
+  }
+
+  // Ask which children could receive this card, then draft for the first one
+  // who can. A card that is above a child's stage, or a child with no app of
+  // their own, comes back as a reason to read it together instead.
+  async function openShare() {
+    if (!script) return
+    setShareOpen(true); setShareBusy(true)
+    setShareBlocked(null); setShareSent(null); setShareNote(''); setShareKidId(null)
+    try {
+      const params = new URLSearchParams()
+      if (script.id) params.set('scriptId', script.id)
+      if (script.crisis) params.set('crisis', '1')
+      const res = await fetch(`/api/rightnow/child-note?${params.toString()}`)
+      const data = await res.json()
+      const kids: ShareChild[] = data.children ?? []
+      setShareKids(kids)
+      const target = kids.find(k => k.canSend)
+      if (!target) { setShareBusy(false); return }
+      await draftFor(target.id, kids)
+    } catch {
+      setShareBlocked('Could not reach the app just now. Read the card through with them instead.')
+      setShareBusy(false)
+    }
+  }
+
+  async function draftFor(childId: string, kids?: ShareChild[]) {
+    if (!script) return
+    setShareKidId(childId); setShareBusy(true); setShareBlocked(null); setShareNote('')
+    const known = kids ?? shareKids
+    const kid = known.find(k => k.id === childId)
+    if (kid && !kid.canSend) {
+      setShareBlocked(kid.reason ?? 'Read this one through with them instead.')
+      setShareBusy(false)
+      return
+    }
+    try {
+      const res = await fetch('/api/rightnow/child-note', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          childId, scriptId: script.id ?? null,
+          title: script.title, sayThis: script.say_this, crisis: script.crisis === true,
+        }),
+      })
+      const data = await res.json()
+      if (data.blocked) setShareBlocked(data.message ?? 'Read this one through with them instead.')
+      else if (data.note) setShareNote(data.note)
+      else setShareBlocked('Could not write it just now. Read the card through with them instead.')
+    } catch {
+      setShareBlocked('Could not write it just now. Read the card through with them instead.')
+    } finally {
+      setShareBusy(false)
+    }
+  }
+
+  async function sendNote() {
+    if (!script || !shareKidId || !shareNote.trim()) return
+    setShareBusy(true)
+    try {
+      const res = await fetch('/api/rightnow/child-note', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          childId: shareKidId, scriptId: script.id ?? null,
+          note: shareNote.trim(), crisis: script.crisis === true,
+        }),
+      })
+      const data = await res.json()
+      if (data.sent) setShareSent(data.name ?? 'them')
+      else setShareBlocked(data.message ?? 'Could not send it just now.')
+    } catch {
+      setShareBlocked('Could not send it just now.')
+    } finally {
+      setShareBusy(false)
+    }
+  }
+
+  // The old behaviour, kept for the times there is no child screen to send to.
+  async function copyTheWords() {
+    if (!script) return
+    const text = `${script.title}\n\n"${script.say_this}"\n\nFrom our family pathway on Guided Childhood.`
+    try {
+      if (navigator.share) await navigator.share({ title: script.title, text })
+      else await navigator.clipboard.writeText(text)
+    } catch { /* cancelled */ }
   }
 
   function playVoice(url: string) {
@@ -613,17 +719,27 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
                 )}
 
                 <div className="no-print" style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', paddingBottom: '12px' }}>
+                  {script && shareOpen && (
+                    <ShareWithChildPanel
+                      kids={shareKids}
+                      kidId={shareKidId}
+                      note={shareNote}
+                      blocked={shareBlocked}
+                      busy={shareBusy}
+                      sent={shareSent}
+                      onNote={setShareNote}
+                      onPick={id => draftFor(id)}
+                      onSend={sendNote}
+                      onCancel={() => setShareOpen(false)}
+                      onCopy={copyTheWords}
+                    />
+                  )}
+
                   {script && (
                     <div style={{ display: 'flex', gap: '10px' }}>
                       <button
                         type="button"
-                        onClick={async () => {
-                          const text = `${script.title}\n\n"${script.say_this}"\n\nFrom our family pathway on Guided Childhood.`
-                          try {
-                            if (navigator.share) await navigator.share({ title: script.title, text })
-                            else await navigator.clipboard.writeText(text)
-                          } catch { /* cancelled */ }
-                        }}
+                        onClick={openShare}
                         style={{
                           flex: 1, background: 'var(--white)', border: '1.5px solid var(--border)',
                           color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 700,

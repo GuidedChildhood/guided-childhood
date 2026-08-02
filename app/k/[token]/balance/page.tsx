@@ -176,11 +176,18 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
                 {stillToEarn > 0 && <>, and <strong>{stillToEarn} more</strong> still there to be had, worth {stillToEarn * STAR_MINUTES} minutes.</>}
                 {stillToEarn === 0 && <>. Everything for today is done.</>}
               </p>
+              {/* An outstanding job is a link to the job, not a line about it.
+                  Justin: it "lets them know what jobs are outstanding but can
+                  they actually click to go to those jobs". A child reading a
+                  list of what they still owe, with no way through to it, has to
+                  remember the list and go and find it, which is the moment the
+                  page stops being useful. A done one is just a record and has
+                  nowhere to go. */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {mine.map(q => {
                   const done = doneIds.has(q.id)
-                  return (
-                    <div key={q.id} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+                  const row = (
+                    <>
                       <span aria-hidden style={{ fontSize: 'var(--text-md)', flexShrink: 0, opacity: done ? 0.55 : 1 }}>{done ? '✓' : q.emoji}</span>
                       <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35, textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.55 : 1 }}>
                         {q.title}
@@ -188,7 +195,21 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
                       <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: done ? 'var(--ink-muted)' : 'var(--terracotta-dark)' }}>
                         {q.stars * STAR_MINUTES} min
                       </span>
-                    </div>
+                      {!done && (
+                        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink-muted)' }}>›</span>
+                      )}
+                    </>
+                  )
+                  const base: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: 9 }
+                  if (done) return <div key={q.id} style={base}>{row}</div>
+                  return (
+                    <Link
+                      key={q.id}
+                      href={`/k/${token}#kid-today`}
+                      style={{ ...base, textDecoration: 'none', color: 'inherit', borderRadius: 10, margin: '0 -6px', padding: '4px 6px' }}
+                    >
+                      {row}
+                    </Link>
                   )
                 })}
               </div>
