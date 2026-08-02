@@ -319,6 +319,30 @@ export default function DigiChat({
   async function sendMessage(text?: string, deviceOverride?: string) {
     const typed = text ?? input
     if (!typed.trim() || loading) return
+
+    // Held so a failure can hand the words back.
+    //
+    // Justin, 2 August, with two screenshots: DiGi timed out and the box was
+    // empty. The error said "Your message was not lost, try sending it again"
+    // and it was gone from the transcript AND the input, so the only way to try
+    // again was to type the whole thing out a second time. His words: "this is
+    // where it would annoy, having to type it in again."
+    //
+    // The promise was the right promise. The code just did not keep it. So the
+    // fix is to make it true rather than to soften the wording, because a
+    // parent who has just described a hard morning should never be made to
+    // describe it twice.
+    const priorPrefix = continuingPrefix
+    const priorTopic = continuingTopic
+    const restoreDraft = () => {
+      setInput(typed)
+      // Only when the parent typed it. A chip carries no prefix, so putting one
+      // back would attach a topic they never chose.
+      if (!text && priorPrefix) {
+        setContinuingPrefix(priorPrefix)
+        setContinuingTopic(priorTopic)
+      }
+    }
     setThinkingFloor(true)
     // 1400ms: long enough to read one line of what DiGi is doing, short enough
     // that it never feels like it is stalling on an answer it already has.
@@ -370,6 +394,10 @@ export default function DigiChat({
           setError(data.error ?? 'Something went wrong. Please try again.')
         }
         setMessages(prev => prev.slice(0, -1))
+        // Including the daily limit. They cannot send it now, but the words are
+        // still theirs, and they are still there tomorrow or the moment they go
+        // unlimited.
+        restoreDraft()
         return
       }
 
@@ -416,6 +444,7 @@ export default function DigiChat({
       if (!mainResponse) {
         setError('DiGi took too long to answer. Your message was not lost, try sending it again.')
         setMessages(prev => prev.slice(0, -1))
+        restoreDraft()
         return
       }
 
@@ -442,6 +471,7 @@ export default function DigiChat({
       }
       setError('DiGi took too long to answer. Your message was not lost, try sending it again.')
       setMessages(prev => prev.slice(0, -1))
+      restoreDraft()
     } finally {
       setLoading(false)
       setStreamingReply(false)
