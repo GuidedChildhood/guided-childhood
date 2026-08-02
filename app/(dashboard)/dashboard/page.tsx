@@ -59,6 +59,7 @@ import { getTodayLoop } from '@/lib/pathway/daily-tasks'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
+import FoldSection from '@/components/dashboard/FoldSection'
 
 const WEEKLY_ACTIONS = [
   'Put the bedroom rule in place',
@@ -834,24 +835,38 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
           Below the daily flow, quieter: the streak card, DiGi's proactive
           prompts, the ranked alerts and the age gate. */}
-      <p id="dash-more" className="eyebrow" style={{ margin: '0 0 10px', fontSize: 'var(--text-sm)', scrollMarginTop: '64px' }}>DiGi, your streak and alerts</p>
-      <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
-      {revealed.has('moments') && (
-        <>
-          <DigiPrompts />
-          <SmartAlerts suggestions={suggestions} />
-          {/* Looking ahead at Builder (Stage 2): DiGi rotates two calm pre
-              warnings so only one shows, and never every day, the phone
-              conversation and the secondary school social media move. From
-              Stage 3 the full readiness panel takes over. */}
-          {stage.id === 2 && (
-            new Date().getDate() % 2 === 0
-              ? <PhoneHeadsUp childName={child?.name} />
-              : <SocialMediaHeadsUp childName={child?.name} />
+      {/* Five components, one line until asked for.
+          This block already carried its own eyebrow, already sat below the
+          daily flow, and is already the quiet half of Home: the streak card,
+          DiGi's prompts, the ranked alerts and the age gate. Five full width
+          cards is most of a phone screen for the part of the page a parent
+          reads last. Folded, it is one row that still says where the streak is,
+          so nothing is lost but the height. */}
+      <div id="dash-more" style={{ scrollMarginTop: '64px' }}>
+        <FoldSection
+          label="DiGi, your streak and alerts"
+          value={streak.count > 0 ? `${streak.count} day streak` : undefined}
+          count={suggestions.length}
+        >
+          <DigiStreakWidget count={streak.count} aliveToday={streak.aliveToday} firstName={firstName} />
+          {revealed.has('moments') && (
+            <>
+              <DigiPrompts />
+              <SmartAlerts suggestions={suggestions} />
+              {/* Looking ahead at Builder (Stage 2): DiGi rotates two calm pre
+                  warnings so only one shows, and never every day, the phone
+                  conversation and the secondary school social media move. From
+                  Stage 3 the full readiness panel takes over. */}
+              {stage.id === 2 && (
+                new Date().getDate() % 2 === 0
+                  ? <PhoneHeadsUp childName={child?.name} />
+                  : <SocialMediaHeadsUp childName={child?.name} />
+              )}
+              <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
+            </>
           )}
-          <SocialMediaReadiness stageId={stage.id} childName={child?.name} />
-        </>
-      )}
+        </FoldSection>
+      </div>
 
       {/* DiGi check in — surfaces last reflective answer if the parent responded */}
       {lastFeedback && (
@@ -912,8 +927,22 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           emails, or added by hand. The id is the anchor the setup path's
           school step points at, so Go lands right here, not on a separate
           page the parent then has to hunt through for the add form. */}
-      <div id="school-actions">
-        <SchoolActionsCard actions={schoolActions} childName={child?.name} />
+      {/* Open only when school has actually sent something.
+          The biggest component on Home at 675 lines, and on most days it is a
+          card saying there is nothing. Folded it costs one line and still says
+          so; with actions waiting it opens itself and carries a red count,
+          because a school deadline is the one thing here a parent cannot
+          afford to scroll past. Same rule as the quest tabs. */}
+      <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
+        <FoldSection
+          label="From school"
+          value={schoolActions.length === 0 ? 'Nothing waiting' : undefined}
+          count={schoolActions.length}
+          alert={schoolActions.length > 0}
+          open={schoolActions.length > 0}
+        >
+          <SchoolActionsCard actions={schoolActions} childName={child?.name} />
+        </FoldSection>
       </div>
 
       {/* School email promo: only when school is the current setup step, or
@@ -932,10 +961,31 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               Browse all →
             </Link>
           </div>
+          {/* One row that scrolls sideways, not ten rows that scroll down.
+              todayMoments takes up to twenty, and at a 170px minimum in a two
+              column grid that is ten rows, roughly 1,800px, for a section a
+              parent browses rather than acts on. The rail is the Apple TV and
+              Prime Video pattern: a section costs one row of height however
+              many things are in it, and Browse all is already there for anyone
+              who wants the full set laid out.
+
+              Still a grid, just flowing across instead of down, so every card
+              inside keeps the sizing it already had. No scroll snapping: it
+              needs scroll-snap-align on each child and those live inside
+              MomentCard, so declaring only the container half would have been a
+              line that looks like it does something and does not. */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+            gridAutoFlow: 'column',
+            gridAutoColumns: 'minmax(150px, 170px)',
             gap: '10px',
+            overflowX: 'auto',
+            paddingBottom: 6,
+            // The cards have their own rounded corners and shadows, so let them
+            // reach the screen edge on a phone rather than stopping short of it,
+            // which is what tells a thumb there is more to the right.
+            marginInline: -4,
+            paddingInline: 4,
           }}>
             {todayMoments.map(moment => (
               <MomentCard
