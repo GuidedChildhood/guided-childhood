@@ -5,13 +5,32 @@ import { useEffect, useState } from 'react'
 // The install prompt, done properly for both worlds. Android and desktop
 // Chrome give us a real install event we can trigger on tap. iPhone gives
 // us nothing (Apple allows no automatic prompt), so we guide the two taps
-// with the actual icons a parent must look for. Snoozes for three days on
-// dismiss, gone forever once installed or marked done.
+// with the actual icons a parent must look for.
+//
+// ASKED ONCE, AND THEN NOT AGAIN. Justin: "on laptop it keeps asking me to
+// install the app but we have already done it. I open from the browser, so
+// maybe that is confusing it, but it is annoying. Can we just ask once?"
+//
+// Both halves of that were real.
+//
+// ONE. Installed is only detected by display-mode: standalone, which is true
+// inside the installed window and FALSE in a browser tab. Justin installed it
+// and then carried on browsing in a tab, so from here he looked like somebody
+// who never installed anything. getInstalledRelatedApps closes that gap where
+// the browser supports it, and it needs the manifest to point back at itself,
+// which is why related_applications exists in public/manifest.json.
+//
+// TWO, and this is the part that actually annoyed him: dismissing set a THREE
+// DAY snooze. So the honest reading of a parent closing the banner was "ask me
+// again on Thursday", forever, with no end. That is not a snooze, it is a
+// recurring interruption with a polite name.
+//
+// Closing an install banner IS an answer. It now means no, permanently. If they
+// change their mind the app is still installable from the browser's own menu,
+// which is where somebody who wants to install an app goes anyway.
 
-const SNOOZE_KEY = 'gc_install_snooze'
 const DONE_KEY = 'gc_install_done'
 const FIRST_SEEN_KEY = 'gc_app_first_seen'
-const SNOOZE_DAYS = 3
 
 type BeforeInstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> }
 
@@ -30,12 +49,25 @@ export default function InstallPrompt() {
   const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null)
 
   useEffect(() => {
-    const nav = navigator as Navigator & { standalone?: boolean }
+    const nav = navigator as Navigator & {
+      standalone?: boolean
+      getInstalledRelatedApps?: () => Promise<unknown[]>
+    }
     const standalone = window.matchMedia('(display-mode: standalone)').matches || nav.standalone === true
     if (standalone) { localStorage.setItem(DONE_KEY, '1'); return }
     if (localStorage.getItem(DONE_KEY) === '1') return
-    const snooze = Number(localStorage.getItem(SNOOZE_KEY) ?? 0)
-    if (snooze && Date.now() - snooze < SNOOZE_DAYS * 86400000) return
+
+    // Already installed, but being read in a browser tab. Chrome only. Fires
+    // and forgets: if it resolves to an install we mark done and the banner
+    // never shows again, and if the browser does not support it we simply carry
+    // on with the rules below.
+    let cancelled = false
+    nav.getInstalledRelatedApps?.().then(apps => {
+      if (!cancelled && apps.length > 0) {
+        localStorage.setItem(DONE_KEY, '1')
+        setMode('hidden')
+      }
+    }).catch(() => { /* unsupported, no worse than before */ })
     // Never on the very first visit. Let the parent land and do their first
     // setup step before we ask them to install, so nothing competes on day one.
     if (!localStorage.getItem(FIRST_SEEN_KEY)) { localStorage.setItem(FIRST_SEEN_KEY, String(Date.now())); return }
@@ -50,18 +82,22 @@ export default function InstallPrompt() {
         setMode('banner')
       }
       window.addEventListener('beforeinstallprompt', onPrompt)
-      return () => window.removeEventListener('beforeinstallprompt', onPrompt)
+      return () => { cancelled = true; window.removeEventListener('beforeinstallprompt', onPrompt) }
     }
 
     const id = setTimeout(() => setMode('banner'), 2500)
-    return () => clearTimeout(id)
+    return () => { cancelled = true; clearTimeout(id) }
   }, [])
 
-  function snooze() {
-    localStorage.setItem(SNOOZE_KEY, String(Date.now()))
-    setMode('hidden')
-  }
-
+  /**
+   * Closing the banner is an answer, not a postponement.
+   *
+   * This used to write a three day snooze, which meant a parent who said no was
+   * asked again on Thursday, and the Thursday after that, indefinitely. Asked
+   * once is what was wanted and it is also the right default: an install banner
+   * that returns after being dismissed reads as nagging, and the browser's own
+   * menu is still there for anyone who changes their mind.
+   */
   function markDone() {
     localStorage.setItem(DONE_KEY, '1')
     setMode('hidden')
@@ -71,8 +107,8 @@ export default function InstallPrompt() {
     if (!installEvent) return
     await installEvent.prompt()
     const choice = await installEvent.userChoice
-    if (choice.outcome === 'accepted') markDone()
-    else snooze()
+    // Accepted or declined, they have now been asked and have answered.
+    markDone()
   }
 
   if (mode === 'hidden') return null
@@ -116,7 +152,7 @@ export default function InstallPrompt() {
           {platform === 'ios' ? 'Show me' : 'Install'}
         </button>
         <button
-          onClick={snooze}
+          onClick={markDone}
           aria-label="Not now"
           style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: 'var(--text-md)', cursor: 'pointer', padding: '4px', flexShrink: 0 }}
         >
@@ -129,7 +165,7 @@ export default function InstallPrompt() {
   // The iOS walkthrough sheet: the two taps, with the real icons
   return (
     <div
-      onClick={snooze}
+      onClick={markDone}
       style={{
         position: 'fixed', inset: 0, zIndex: 130,
         background: 'rgba(26,26,46,0.5)',
@@ -184,7 +220,7 @@ export default function InstallPrompt() {
             Done, it is on my Home Screen
           </button>
           <button
-            onClick={snooze}
+            onClick={markDone}
             style={{
               padding: '14px 16px', background: 'none', border: '1.5px solid var(--border)',
               borderRadius: '14px', cursor: 'pointer', fontFamily: 'var(--font-body)',

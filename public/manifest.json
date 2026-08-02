@@ -21,8 +21,19 @@
       "purpose": "maskable any"
     }
   ],
-  "categories": ["education", "health", "parenting"],
+  "categories": [
+    "education",
+    "health",
+    "parenting"
+  ],
   "lang": "en-GB",
   "dir": "ltr",
-  "scope": "/"
+  "scope": "/",
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://guidedchildhood.com/manifest.json"
+    }
+  ],
+  "prefer_related_applications": false
 }

@@ -234,15 +234,22 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           {/* The passport itself, the hero of its own page at last. */}
           {passportStamps.length > 0 && (
             <div id="passport" style={{ scrollMarginTop: '84px', minWidth: 0 }}>
-              {/* Opens on the child's own stage. Landing on the cover is
-                  right when a parent came here to browse, and wrong when they
-                  came from "See your passport fill" after a lesson: the page
-                  that moved is theirs, and the ones either side read as rows
-                  of zeros because those stages are not. */}
+              {/* Lands on the COVER, not on their stage.
+                  It opened straight onto the child's own page for a while,
+                  which sounded right and was not: it skips the one screen that
+                  says what this object is, and drops a parent into a long
+                  checklist with no sense of where it sits in the journey.
+                  Justin, having lived with it: land on the cover "with option
+                  to go to current stage or catch up previous stages not done".
+                  So currentStage tells the book which page is theirs, and the
+                  book prints that as a button under the cover instead of
+                  turning there on its own. openAtStage still exists for the
+                  deep link from "see your passport fill" after a lesson, where
+                  something has already told the parent which page moved. */}
               <PassportBook
                 stamps={passportStamps}
                 childName={primaryChild?.name ?? 'your child'}
-                openAtStage={currentStageNum}
+                currentStage={currentStageNum}
               />
             </div>
           )}

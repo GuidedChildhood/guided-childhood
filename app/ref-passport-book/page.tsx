@@ -23,8 +23,24 @@ const STAMPS: Stamp[] = [
   // something was.
   { id: 2, name: 'Builder', ages: 'Ages 8 to 10', pct: 62, status: 'catchup', href: '#',
     lessonsDone: 4, lessonsTotal: 7, scriptsPct: 80, streakPct: 55, devicesPct: 100, lessonsPct: 57 },
+  // The real page renders the five row `sections` checklist, not the four task
+  // fallback, so the fixture has to carry sections or it cannot check the thing
+  // Justin screenshotted: five rows each with a three line explanation under it,
+  // which is what made the page run to three screens.
   { id: 3, name: 'Explorer', ages: 'Ages 11 to 13', pct: 34, status: 'current', href: '#',
-    lessonsDone: 3, lessonsTotal: 8, scriptsPct: 40, streakPct: 25, devicesPct: 60, lessonsPct: 38 },
+    lessonsDone: 3, lessonsTotal: 8, scriptsPct: 40, streakPct: 25, devicesPct: 60, lessonsPct: 38,
+    sections: [
+      { key: 'devices', emoji: '🔧', label: 'Devices set up', pct: 100, detail: 'All set', href: '#',
+        help: 'Measured against the 4 screens you listed as yours. Work through the setup guide for each one, and add anything new the day it arrives.' },
+      { key: 'moments', emoji: '💬', label: 'Moments to resolve', pct: 30, detail: '10 to resolve', href: '#',
+        help: 'Open a moment, use the words it gives you, and mark it resolved when it is done.' },
+      { key: 'lessons', emoji: '📚', label: 'Lessons and tests', pct: 21, detail: '3 of 14', href: '#',
+        help: 'Watch or lead each lesson for this stage, then pass its check. A failed run does not count, so it can be retaken.' },
+      { key: 'jobs', emoji: '⭐', label: 'Jobs and routines', pct: 60, detail: 'Jobs to do', href: '#', ongoing: true,
+        help: 'Screen time earned from real world jobs, kept up across the stage rather than ticked off once.' },
+      { key: 'balance', emoji: '⚖️', label: 'Screen balance', pct: 100, detail: 'On track', href: '#', ongoing: true,
+        help: 'This week sits inside the guide for their age. It moves both ways, so it is worth a glance each week.' },
+    ] },
   { id: 4, name: 'Shaper', ages: 'Ages 13 to 15', pct: 0, status: 'upcoming', href: '#',
     lessonsDone: 0, lessonsTotal: 8, scriptsPct: 0, streakPct: 0, devicesPct: 0, lessonsPct: 0 },
   { id: 5, name: 'Independent', ages: 'Age 16', pct: 0, status: 'upcoming', href: '#',
@@ -45,7 +61,7 @@ export default async function RefPassportBookPage({
           phone is how much of the screen is spent before the passport starts. */}
       <div className="pathway-hero">
         <PathwayIntro kidLabel="Teo" childCount={1} />
-        <PassportBook openAtStage={stage ? Number(stage) : null} stamps={STAMPS} childName="Teo" />
+        <PassportBook openAtStage={stage ? Number(stage) : null} currentStage={3} stamps={STAMPS} childName="Teo" />
       </div>
     </div>
   )
