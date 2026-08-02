@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { buildParentReport } from '@/lib/balance/parent-report'
@@ -28,7 +29,8 @@ export const metadata = { title: 'Balance and stats · Guided Childhood' }
 // week, neither wrong on its own terms, is the seam this removes.
 import { starWeekStart, starWeekStartIso } from '@/lib/quests/star-week'
 
-export default async function StatsPage() {
+export default async function StatsPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
+  const { from: from_ } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -157,9 +159,9 @@ export default async function StatsPage() {
 
   return (
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '24px 20px 48px' }}>
-      <Link href="/dashboard/quests" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
-        ‹ Quests
-      </Link>
+      {/* Quests stays the fallback, because that is where this page lives when
+          nobody sent you. The origin wins when there is one. */}
+      <BackTo from={from_} fallback={{ href: '/dashboard/quests', label: 'Quests' }} />
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '10px 0 8px' }}>Balance and stats</p>
       <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: 20 }}>
         {child?.name && child.name !== 'Your child' ? `${child.name}'s week` : 'This week'}

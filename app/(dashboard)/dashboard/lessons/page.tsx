@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
 import { hasFullAccess } from '@/lib/access'
 import { freeLessonIds } from '@/lib/content/lesson-access'
@@ -67,11 +68,11 @@ const normaliseTitle = (t: string) => t.trim().toLowerCase().replace(/’/g, "'"
 // badge rather than the fallback emoji.
 type LessonRow = { id: string; stageKey: string; category: string; title: string; key_message: string; sort_order: number; source: 'lesson' | 'ai'; coverUrl: string | null; deep: boolean }
 
-export default async function LessonsPage({ searchParams }: { searchParams: Promise<{ stage?: string }> }) {
+export default async function LessonsPage({ searchParams }: { searchParams: Promise<{ stage?: string; from?: string }> }) {
   // A ?stage=<1..5> deep link (from the passport rows and the road) opens the
   // library straight on that stage's route, so "Watch the lessons" lands
   // exactly where the work is, not on a generic all ages grid.
-  const { stage: stageParam } = await searchParams
+  const { stage: stageParam, from: from_ } = await searchParams
   const stageNum = Number(stageParam)
   const initialStage = Number.isInteger(stageNum) && stageNum >= 1 && stageNum <= 5 ? stageNum : null
 
@@ -153,6 +154,7 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
 
   return (
     <div style={{ maxWidth: '760px', margin: '0 auto', padding: '20px 20px 48px' }}>
+      <BackTo from={from_} />
       <div style={{ marginBottom: '4px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Every lesson, one place</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>Lessons</h1>

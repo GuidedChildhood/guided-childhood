@@ -23,6 +23,12 @@ type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
 const STAGE_SLUGS: StageId[] = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
 
+import { withOrigin } from '@/components/nav/BackTo'
+
+// Every row here is a link OUT of the passport, so every row carries where it
+// came from. Without it the parent lands somewhere with a back link pointing at
+// Home, which is not where they were and not where the other four rows are.
+
 // The upper age of each band, for spotting a device set up ahead of the child.
 const AGE_BAND_UPPER: Record<string, number> = { '4-7': 7, '8-10': 10, '11-13': 13, '13-15': 15, '16+': 99 }
 
@@ -154,7 +160,7 @@ export async function buildPassportSections(
           : prog.devicesPct >= 100 ? 'All set'
           : prog.devicesPct === 0 ? 'To set up'
           : `${prog.devicesPct}%`,
-        href: '/dashboard/devices',
+        href: withOrigin('/dashboard/devices', 'passport'),
         help: homeDeviceCount > 0
           ? `Measured against the ${homeDeviceCount} screen${homeDeviceCount === 1 ? '' : 's'} you listed as yours. Work through the setup guide for each one, and add anything new the day it arrives.`
           : 'List the screens you actually have first, on the Devices page. Until you do this counts every guide we publish rather than your house.',
@@ -166,7 +172,7 @@ export async function buildPassportSections(
         key: 'moments', emoji: '💬', label: 'Moments to resolve',
         pct: isCurrent ? momentsPct : 0,
         detail: !isCurrent ? 'Later' : openMoments > 0 ? `${openMoments} to resolve` : 'All clear',
-        href: '/dashboard/moments',
+        href: withOrigin('/dashboard/moments', 'passport'),
         help: 'Open a moment, use the words it gives you, and mark it resolved when it is done.',
       },
       {
@@ -184,14 +190,14 @@ export async function buildPassportSections(
         // page was already telling him it was not his page.
         detail: !reached ? 'Ahead'
           : prog.lessonsTotal > 0 ? `${prog.lessonsDone} of ${prog.lessonsTotal}` : 'None yet',
-        href: `/dashboard/lessons?stage=${id}`,
+        href: withOrigin(`/dashboard/lessons?stage=${id}`, 'passport'),
         help: 'Watch or lead each lesson for this stage, then pass its check. A failed run does not count, so it can be retaken.',
       },
       {
         key: 'jobs', emoji: '⭐', label: 'Jobs and routines',
         pct: isCurrent ? jobsPct : 0,
         detail: !isCurrent ? 'Later' : jobsStreakDays > 0 ? `${jobsStreakDays} day streak` : jobsStatus === 'pending' ? 'Jobs to do' : 'Set a job',
-        href: '/dashboard/quests',
+        href: withOrigin('/dashboard/quests', 'passport'),
         help: 'Goes green once the jobs are set and being done on time, and stays green while that keeps up.',
         ongoing: true,
       },
@@ -203,7 +209,7 @@ export async function buildPassportSections(
         // down this one. That anchor renders only when a week has already been
         // logged, so in the exact case where there is work to do, tapping the
         // row did nothing at all.
-        href: '/dashboard/stats',
+        href: withOrigin('/dashboard/stats', 'passport'),
         help: !parentReport
           ? 'Nothing logged yet, so there is no week to judge. Start the timer on the balance page, or log the screens by hand, and this reads for real from then on.'
           : phoneFlag
