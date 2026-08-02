@@ -423,18 +423,39 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                 </button>
               </div>
 
-              {/* One idea, big. Scrolls only if a card runs long. */}
-              <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px 22px', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: look.band, margin: 0 }}>
-                  {current.eyebrow}
-                </p>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 6.5vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.12, margin: 0 }}>
-                  {current.heading}
-                </h2>
-                {current.render()}
-                {shared && (
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: look.band, margin: '4px 0 0' }}>Link copied, paste it anywhere ✓</p>
-                )}
+              {/* One idea, big. Scrolls only if a card runs long.
+
+                  The cards are a fixed height deck, so a short card and a long
+                  card have to live in the same box. This used to pin every card
+                  to the top of that box, which meant an opener of two lines sat
+                  under the header with most of a phone screen of empty tint
+                  below it and the continue pill marooned at the bottom. Justin
+                  saw it on the TikTok card. It reads as a page that failed to
+                  finish loading, which is the worst thing it could read as on a
+                  card that genuinely is still loading some of the time.
+
+                  `margin: auto 0` on the inner block does the whole job, and it
+                  is the reason this is a wrapper rather than a justifyContent
+                  on the scroller. Auto margins on the main axis of a column
+                  flex container absorb the free space, so a short card centres
+                  itself. When the content is taller than the box those margins
+                  compute to zero, so a long card starts at the top and scrolls
+                  normally. `justify-content: center` cannot do the second half:
+                  it clips the top of overflowing content and puts it out of
+                  reach of the scrollbar. */}
+              <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px 22px', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ margin: 'auto 0', width: '100%', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: look.band, margin: 0 }}>
+                    {current.eyebrow}
+                  </p>
+                  <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 6.5vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.12, margin: 0 }}>
+                    {current.heading}
+                  </h2>
+                  {current.render()}
+                  {shared && (
+                    <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: look.band, margin: '4px 0 0' }}>Link copied, paste it anywhere ✓</p>
+                  )}
+                </div>
               </div>
 
               {/* The quiet see scripts link, and a clear tap to continue cue so
