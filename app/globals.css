@@ -299,15 +299,46 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   bottom: 0;
   left: 0;
   right: 0;
-  height: 72px;
+  /* THE HOME INDICATOR WAS EATING THE TABS.
+
+     box-sizing is border-box globally, so `height: 72px` with
+     `padding-bottom: env(safe-area-inset-bottom)` did not add the inset, it
+     SUBTRACTED it. On an iPhone with a home indicator that inset is about
+     34px, which left 38px of content box for a row that needs roughly 57:
+     a 28px icon pill, a 3px gap, a 12px label at 1.2, and the item's own
+     12px of padding. So the icons were cut off along the bottom edge.
+
+     It also explains the drift Justin saw. Safari changes the safe area inset
+     as the URL bar collapses and expands during scroll, so the amount being
+     subtracted CHANGED mid scroll and the row visibly shifted. One cause, two
+     symptoms, and the second one is the reason it read as "not fixed" rather
+     than "cut off".
+
+     calc puts the inset back where it was meant to be: 72px of real content,
+     plus the inset underneath it.
+
+     Worth noting that .above-tab-bar directly below already offsets by
+     `72px + env(safe-area-inset-bottom)`, so it always believed that was the
+     bar's height. The bar was the one declaring otherwise. */
+  height: calc(72px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   background: rgba(255,255,255,.96);
-  backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding-bottom: env(safe-area-inset-bottom);
   z-index: 100;
+  /* Its own compositor layer, so iOS paints it with the scroll rather than
+     after it. A fixed bar that lags behind momentum scrolling is the other
+     half of what "seems to scroll a little" describes.
+
+     backdrop-filter used to sit here and has gone, deliberately. It is a known
+     cause of exactly this lag on fixed elements in iOS Safari, and at 96%
+     opaque the blur behind it was doing almost nothing anyone could see. Four
+     percent of translucency is not worth a tab bar that judders. */
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
 
