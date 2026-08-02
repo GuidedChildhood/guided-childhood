@@ -204,7 +204,7 @@ export default function LearningSheet({
                       border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`,
                       background: on ? 'var(--terracotta)' : '#fff',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 15, lineHeight: 1,
+                      fontSize: 'var(--text-base)', lineHeight: 1,
                     }}>{on ? '💛' : ''}</span>
                     <span style={{ minWidth: 0 }}>
                       <span style={{ display: 'block', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45 }}>{o.objective}</span>

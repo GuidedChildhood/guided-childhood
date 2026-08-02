@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { quizByKey, QUIZ_LENGTH } from '@/lib/content/school-quizzes'
 import { markStepQuietly } from '@/lib/kid/day-store'
+import { sendPush } from '@/lib/push/send'
 
 // The school quiz behind the path character. Pass four of five and two bonus
 // stars land through the star_bonuses ledger, one quiz a day, checked server
@@ -75,17 +76,12 @@ export async function POST(req: NextRequest) {
   try {
     const { data: child } = await supabase.from('children').select('name').eq('id', link.child_id).maybeSingle()
     const name = child?.name && child.name !== 'Your child' ? child.name : 'Your child'
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: `${name} passed today's school quiz 🏆`,
         body: `${right} of ${total} on ${quiz.title} (${quiz.yearNote}). 2 bonus stars banked.`,
         url: '/dashboard/quests/manage',
-      }),
-    })
+      })
   } catch { /* push is best effort */ }
 
   return NextResponse.json({ ok: true, stars: 2 })

@@ -32,7 +32,7 @@ export default function Page() {
                 width: 26, height: 26, borderRadius: 8, display: 'grid', placeItems: 'center',
                 border: `1.5px solid ${i > 3 ? 'var(--terracotta)' : 'var(--border)'}`,
                 background: i > 3 ? 'var(--terracotta)' : '#fff',
-                fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               }}>{l}</span>
             ))}
           </span>

@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { FIRST_COMPLETION_STARS, REDO_STARS } from '@/lib/lessons/parent-lessons'
 import { STAGES } from '@/lib/content/stages'
+import { sendPush } from '@/lib/push/send'
 
 // A watch together lesson finished: segment C ended and the quiz cards
 // answered. Two callers share this endpoint, exactly like the star
@@ -196,16 +197,11 @@ async function notifyParent(
       .eq('id', link.child_id)
       .maybeSingle()
     const name = child?.name ?? 'Your child'
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: `${name} ${titleSuffix}`,
         body: bodyText,
         url: '/dashboard/lessons',
-      }),
-    })
+      })
   } catch { /* push is best effort */ }
 }

@@ -2,6 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { londonNow } from '@/lib/time/london'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { sendPush } from '@/lib/push/send'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -149,7 +150,6 @@ async function handler(req: NextRequest) {
     byUser.set(item.action.user_id, list)
   }
 
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
   let parents = 0
   let kids = 0
 
@@ -164,12 +164,8 @@ async function handler(req: NextRequest) {
       : `${items.map(line).join('. ')}.`
 
     try {
-      const r = await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-        body: JSON.stringify({ userId, title: 'Coming up soon ⏰', body, url: '/dashboard/school' }),
-      })
-      if ((await r.json()).sent > 0) parents++
+      const r = await sendPush({ userId, title: 'Coming up soon ⏰', body, url: '/dashboard/school' })
+      if ((r).sent > 0) parents++
     } catch { /* best effort, the same as every other push in this product */ }
 
     const childItems = items.filter(i => i.action.kind && CHILD_KINDS.has(i.action.kind))
@@ -178,12 +174,8 @@ async function handler(req: NextRequest) {
         ? `${line(childItems[0])}, in about ${childItems[0].minutesAway} minutes.`
         : `${childItems.map(line).join('. ')}.`
       try {
-        const r = await fetch(`${origin}/api/push/send`, {
-          method: 'POST',
-          headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-          body: JSON.stringify({ userId, audience: 'kids', title: 'Almost time ⏰', body: childBody }),
-        })
-        if ((await r.json()).sent > 0) kids++
+        const r = await sendPush({ userId, audience: 'kids', title: 'Almost time ⏰', body: childBody })
+        if ((r).sent > 0) kids++
       } catch { /* best effort */ }
     }
   }

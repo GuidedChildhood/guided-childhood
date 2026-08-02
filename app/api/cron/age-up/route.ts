@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { STAGES } from '@/lib/content/stages'
 import { ageFromDob, bandForAge, stageForBand, isBirthdayOn } from '@/lib/children/age'
+import { sendPush } from '@/lib/push/send'
 
 // The daily grow up sweep. Vercel Cron hits this each morning (vercel.json)
 // and, for every child with a birthday on record, checks whether the band
@@ -108,14 +109,9 @@ async function handler(req: NextRequest) {
         ? (birthdayToday ? `${name} turns ${age} today 🎂` : `${name} is ${age} now 🎂`)
         : `${name} is growing up 🎂`
       const body = `The ${stageName} stage opens: new lessons, a new stamp to earn, and the healthy screen amount shifts. The contract is ready to re agree at the new wording.`
-      const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-      const res = await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${secret}` },
-        body: JSON.stringify({ userId: child.parent_id, title, body, url: '/dashboard/pathway' }),
-      })
-      const result = await res.json().catch(() => ({ sent: 0 }))
-      if ((result?.sent ?? 0) > 0) pushed++
+      // No catch needed: sendPush never throws, it reports in its result.
+      const result = await sendPush({ userId: child.parent_id, title, body, url: '/dashboard/pathway' })
+      if (result.sent > 0) pushed++
     } catch { /* best effort, the app shows the same news on next open */ }
   }
 

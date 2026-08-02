@@ -175,7 +175,7 @@ export default function LessonsBrowser({
                 border: `1.5px solid ${stage === 'all' ? 'var(--terracotta)' : 'var(--border)'}`,
                 background: stage === 'all' ? 'var(--terracotta-lt)' : '#fff',
                 color: stage === 'all' ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
-                fontFamily: 'var(--font-mono)', fontSize: '14.5px', fontWeight: 700, whiteSpace: 'nowrap',
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, whiteSpace: 'nowrap',
               }}
             >
               All ages
@@ -191,7 +191,7 @@ export default function LessonsBrowser({
                     border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                     background: on ? 'var(--terracotta-lt)' : '#fff',
                     color: on ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
-                    fontFamily: 'var(--font-mono)', fontSize: '14.5px', fontWeight: 700, whiteSpace: 'nowrap',
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, whiteSpace: 'nowrap',
                   }}
                 >
                   Stage {s.num} · {s.ages}
@@ -383,7 +383,7 @@ function StageSubHead({ s, childStageNum, childName }: { s: typeof STAGE_LIST[nu
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px', flexWrap: 'wrap' }}>
       <span style={{
-        fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
         color: 'var(--ink)', background: `var(--stage-${s.num})`, padding: '4px 11px', borderRadius: '100px',
       }}>
         Stage {s.num} · Ages {s.ages}
@@ -595,7 +595,7 @@ function SocialMediaModule({ items, childName, onBack }: { items: LibraryItem[];
       {groups.map(g => (
         <div key={g.s.num} style={{ marginBottom: '24px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '0 0 12px' }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: `var(--stage-${g.s.num})`, padding: '4px 11px', borderRadius: '100px' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: `var(--stage-${g.s.num})`, padding: '4px 11px', borderRadius: '100px' }}>
               Stage {g.s.num} · Ages {g.s.ages}
             </span>
           </div>

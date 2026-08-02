@@ -130,7 +130,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                               border: `2px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
                               background: active ? 'var(--terracotta)' : '#fff',
                               fontFamily: 'var(--font-display)',
-                              fontSize: '16.5px',
+                              fontSize: 'var(--text-md)',
                               fontWeight: 800,
                               color: active ? 'var(--ink)' : 'var(--ink-soft)',
                               cursor: chosen ? 'default' : 'pointer',

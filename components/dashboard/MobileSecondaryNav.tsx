@@ -54,7 +54,7 @@ export default function MobileSecondaryNav() {
               aria-current={on ? 'page' : undefined}
               style={{
                 flexShrink: 0, textDecoration: 'none',
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px',
+                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
                 padding: '8px 15px', borderRadius: '100px', whiteSpace: 'nowrap',
                 background: on ? 'var(--deep-teal)' : 'var(--cream)',
                 color: on ? '#fff' : 'var(--ink-soft)',

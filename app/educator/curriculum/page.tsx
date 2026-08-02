@@ -129,7 +129,7 @@ export default async function CurriculumMapPage() {
                         <span style={{
                           width: '32px', height: '32px', borderRadius: '50%', background: '#fff',
                           border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center',
-                          justifyContent: 'center', fontSize: '19px', flexShrink: 0,
+                          justifyContent: 'center', fontSize: 'var(--text-lg)', flexShrink: 0,
                         }}>
                           {ch.emblem}
                         </span>

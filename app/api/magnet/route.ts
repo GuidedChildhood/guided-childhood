@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getMagnet } from '@/lib/magnets/registry'
 import { sendEmail } from '@/lib/email'
 import { magnetEmail } from '@/lib/email/templates'
+import { sendPush } from '@/lib/push/send'
 
 // A parent asked for a free printable in exchange for their email. Save
 // the lead onto the same list the starter quiz fills (tagged by which
@@ -74,15 +75,11 @@ async function notifyFounder(
       .from('profiles').select('id').eq('email', founderEmail).maybeSingle()
     if (!founder?.id) return
     const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: founder.id,
         title: 'New lead from a free download 🎁',
         body: `${leadEmail} · ${slug}`,
         url: '/dashboard',
-      }),
-    })
+      })
   } catch { /* founder ping is best effort */ }
 }

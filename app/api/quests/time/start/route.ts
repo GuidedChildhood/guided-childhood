@@ -9,6 +9,7 @@ import { questDueToday } from '@/lib/quests/due'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { jobsTodayCount } from '@/lib/pathway/jobs-streak'
+import { sendPush } from '@/lib/push/send'
 
 // The child spends earned stars as device time. The link token is the auth,
 // same trust model as ticking. Starting a session records the spend against
@@ -189,17 +190,12 @@ export async function POST(req: NextRequest) {
     } catch { /* the ask still sends without the jobs line */ }
 
     try {
-      const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-      await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-        body: JSON.stringify({
+      await sendPush({
           userId: link.user_id,
           title: `${childName} is asking for screen time ⏳`,
           body: `${mins} minutes on ${onScreen}, that is ${stars} star${stars === 1 ? '' : 's'}.${jobsLine} Tap to say yes on your board.`,
           url: '/dashboard/quests',
-        }),
-      })
+        })
     } catch { /* best effort */ }
     return NextResponse.json({ pending: true, request: askRow ?? { device, minutes: mins } })
   }
@@ -286,11 +282,7 @@ export async function POST(req: NextRequest) {
   // An approved ask start pings too, so the yes closes its loop both sides.
   if (trust !== 'trusted') {
     try {
-      const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-      await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-        body: JSON.stringify({
+      await sendPush({
           userId: link.user_id,
           title: `${childName} started ${mins} minutes on the ${deviceLabel(device)} ⏱️`,
           // Where it was paid from matters to a parent. Holiday minutes are
@@ -301,8 +293,7 @@ export async function POST(req: NextRequest) {
             ? `${plan.starCost} star${plan.starCost === 1 ? '' : 's'} and ${holidayDrawn} minute${holidayDrawn === 1 ? '' : 's'} from their holiday savings. The timer is running, you can watch it on the quests board.`
             : `That is ${plan.starCost} star${plan.starCost === 1 ? '' : 's'} spent. The timer is running, you can watch it on the quests board.`,
           url: '/dashboard/quests',
-        }),
-      })
+        })
     } catch { /* push is best effort */ }
   }
 

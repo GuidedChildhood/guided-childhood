@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { markStepQuietly } from '@/lib/kid/day-store'
+import { sendPush } from '@/lib/push/send'
 
 // A child finished a family stage lesson on their own link. Token is the
 // auth, exactly like quest ticks. The completion upserts into
@@ -113,19 +114,14 @@ export async function POST(req: NextRequest) {
   // The good news reaches the parent's phone, best effort.
   try {
     const name = child?.name ?? 'Your child'
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: passedNow ? `${name} passed a lesson 🌱` : `${name} had a go at a lesson 💪`,
         body: passedNow
           ? `${lesson.title}: ${correctQ} of ${totalQ} right. The tick is on your pathway now.`
           : `${lesson.title}: ${correctQ} of ${totalQ} this time. They can go back over it any time.`,
         url: '/dashboard/lessons',
-      }),
-    })
+      })
   } catch { /* push is best effort */ }
 
   return NextResponse.json({ ok: true, passed })

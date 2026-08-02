@@ -240,7 +240,7 @@ export default function KidSquadIntro({
               background: isYours ? 'rgba(47,143,107,0.22)' : 'rgba(255,255,255,0.1)',
               border: `1.5px solid ${isYours ? 'rgba(104,197,159,0.6)' : 'rgba(255,255,255,0.22)'}`,
               borderRadius: 100, padding: '9px 16px',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               color: isYours ? '#9FE3C4' : white,
             }}>
               {isYours

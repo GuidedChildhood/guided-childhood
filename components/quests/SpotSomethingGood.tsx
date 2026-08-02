@@ -51,7 +51,7 @@ export default function SpotSomethingGood({ kids }: { kids: { id: string; name: 
     border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
     background: on ? 'var(--terracotta-lt)' : '#fff',
     color: on ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
-    fontFamily: 'var(--font-display)', fontSize: '14.5px', fontWeight: 800, whiteSpace: 'nowrap',
+    fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, whiteSpace: 'nowrap',
   })
 
   return (

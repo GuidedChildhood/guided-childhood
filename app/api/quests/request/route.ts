@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendPush } from '@/lib/push/send'
 
 // A child asks for their own quest: clean my room, wash the car, help
 // with dinner. Same trust model as ticking, the link token is the auth.
@@ -98,17 +99,12 @@ export async function POST(req: NextRequest) {
 
   // Nudge the parent's phone, best effort
   try {
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: `${name} is asking for a quest ⭐`,
         body: `"${cleanTitle}" is their idea. One tap to make it a real quest with stars.`,
         url: '/dashboard/quests/manage',
-      }),
-    })
+      })
   } catch { /* push is best effort */ }
 
   return NextResponse.json({ ok: true, request })

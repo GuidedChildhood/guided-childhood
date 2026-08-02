@@ -3,6 +3,7 @@ import { createHmac, timingSafeEqual } from 'crypto'
 import Anthropic from '@anthropic-ai/sdk'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
+import { sendPush } from '@/lib/push/send'
 
 // Inbound school email webhook. The email provider POSTs forwarded school
 // emails here. The to address carries the family's private token. DiGi
@@ -244,12 +245,7 @@ export async function POST(req: NextRequest) {
   // The Duolingo moment: the parent's phone buzzes while they are away,
   // not when they next happen to open the dashboard.
   try {
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.guidedchildhood.co.uk'
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({ userId: conn.user_id, title: `DiGi caught a school email`, body: promptTitle, url: '/dashboard/school' }),
-    })
+    await sendPush({ userId: conn.user_id, title: `DiGi caught a school email`, body: promptTitle, url: '/dashboard/school' })
   } catch { /* push is best effort */ }
 
   return NextResponse.json({ ok: true, actions: valid.length })

@@ -161,7 +161,7 @@ export default function CommunityBite() {
                     background: mine ? 'var(--gold-lt)' : '#fff',
                     border: `1.5px solid ${mine ? 'var(--gold)' : 'var(--border)'}`,
                     borderRadius: 14, padding: '13px 15px', cursor: busy ? 'default' : 'pointer',
-                    fontFamily: 'var(--font-body)', fontSize: 18, fontWeight: 600, color: 'var(--ink)',
+                    fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--ink)',
                     lineHeight: 1.4,
                   }}
                 >

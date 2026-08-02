@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { buildWeeklyReview } from '@/lib/digi/weekly-review'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { weeklyReviewEmail } from '@/lib/email/templates'
+import { sendPush } from '@/lib/push/send'
 
 // The Sunday evening DiGi weekly review cron. Finds families that did anything
 // this week, builds each one a private review off their own numbers, stores it,
@@ -33,7 +34,6 @@ async function handler(request: Request) {
     .limit(5000)
   const userIds = [...new Set((active ?? []).map(t => t.user_id))]
 
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? new URL(request.url).origin
   let built = 0
 
   // The community bite, once a month: on the first Sunday, the review email
@@ -79,16 +79,12 @@ async function handler(request: Request) {
       const review = await buildWeeklyReview(userId)
       built++
       // Nudge the parent, best effort.
-      await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
-        body: JSON.stringify({
+      await sendPush({
           userId,
           title: 'Your week with DiGi ✨',
           body: review.summary.slice(0, 120),
           url: '/dashboard',
-        }),
-      }).catch(() => {})
+        }).catch(() => {})
 
       // The same review as an email, so the clever weekly read also reaches a
       // parent who lives in their inbox. Guarded by the email opt out and the

@@ -35,7 +35,7 @@ export default function DevicePickerChips({
     border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
     background: on ? 'var(--terracotta-lt)' : '#fff',
     color: on ? 'var(--terracotta)' : 'var(--ink)',
-    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5,
+    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
     cursor: disabled ? 'default' : 'pointer', opacity: disabled ? 0.55 : 1,
     transition: 'border-color 0.12s, background 0.12s, color 0.12s',
   })

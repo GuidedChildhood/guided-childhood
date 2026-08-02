@@ -576,7 +576,7 @@ export default function DeviceTimeCard({
                   minHeight: 86, padding: '12px 6px', borderRadius: '16px', cursor: 'pointer',
                   border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                   background: on ? 'var(--terracotta-lt)' : 'var(--cream)',
-                  fontFamily: 'var(--font-display)', fontSize: '16.5px', fontWeight: 800, color: 'var(--ink)',
+                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
                   lineHeight: 1.2, textAlign: 'center',
                 }}
               >
@@ -622,7 +622,7 @@ export default function DeviceTimeCard({
                       minHeight: 56, padding: '10px 12px', borderRadius: '14px', cursor: 'pointer',
                       border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                       background: on ? 'var(--terracotta-lt)' : 'var(--cream)',
-                      fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
+                      fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
                       lineHeight: 1.2, textAlign: 'left',
                     }}
                   >

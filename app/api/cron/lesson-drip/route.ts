@@ -2,6 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { sendPush } from '@/lib/push/send'
 
 // The fortnightly lesson drip. The whole Rosenshine library is a lot to meet
 // at once, so it reaches each child one lesson at a time. Their own app
@@ -32,7 +33,6 @@ async function handler(request: Request) {
   }
 
   const admin = createAdminClient()
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? new URL(request.url).origin
 
   // Every child with their own link. The drip is only for children whose
   // grown up has handed them the app, so the lesson genuinely lands on a
@@ -93,11 +93,7 @@ async function handler(request: Request) {
       const title = `This fortnight's lesson for ${name} ${emoji}`
       const body = `DiGi here. ${next.title} is ready on ${name}'s app now. It takes a few minutes, and when they pass it the tick lands on your progress report. One lesson at a time, the whole way up.`
 
-      await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
-        body: JSON.stringify({ userId, title, body, url: '/dashboard/lessons' }),
-      })
+      await sendPush({ userId, title, body, url: '/dashboard/lessons' })
       sent += 1
     } catch { /* best effort per family */ }
   }

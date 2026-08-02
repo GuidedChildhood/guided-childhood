@@ -150,7 +150,7 @@ export default function BucketBuilder() {
                       padding: '9px 14px', borderRadius: '100px', cursor: 'pointer',
                       border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                       background: on ? 'var(--terracotta-lt)' : '#fff',
-                      fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 600, color: 'var(--ink)',
+                      fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)',
                     }}
                   >
                     {idea.emoji} {idea.text}{on ? ' ✓' : ''}

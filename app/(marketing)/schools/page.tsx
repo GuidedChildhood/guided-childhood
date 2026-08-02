@@ -60,7 +60,7 @@ function ProductMockup() {
             return (
               <div key={m.moduleId} style={{ background: '#fff', border: `1.5px solid ${ch.accent}`, borderRadius: '11px', overflow: 'hidden' }}>
                 <div style={{ background: ch.soft, padding: '5px 7px', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                  <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#fff', border: `1.5px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px' }}>{ch.emblem}</span>
+                  <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#fff', border: `1.5px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-sm)' }}>{ch.emblem}</span>
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>M{String(m.n).padStart(2, '0')}</span>
                 </div>
                 <div style={{ padding: '6px 7px 8px' }}>
@@ -211,7 +211,7 @@ export default function SchoolsPage() {
               return (
                 <Reveal key={c.key} delay={(i % 3) * 0.05} as="div" style={{ height: '100%' }}>
                   <div style={{ background: ch.soft, border: `1.5px solid ${ch.accent}`, borderRadius: '20px', padding: '22px 18px', textAlign: 'center', height: '100%' }}>
-                    <div style={{ width: '56px', height: '56px', margin: '0 auto 14px', borderRadius: '50%', background: '#fff', border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '28px', overflow: 'hidden' }}>
+                    <div style={{ width: '56px', height: '56px', margin: '0 auto 14px', borderRadius: '50%', background: '#fff', border: `2px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)', overflow: 'hidden' }}>
                       {ch.img
                         // eslint-disable-next-line @next/next/no-img-element
                         ? <img src={ch.img} alt={ch.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -255,7 +255,7 @@ export default function SchoolsPage() {
                       {mods.map(m => {
                         const ch = CHARACTERS[m.character]
                         return (
-                          <span key={m.moduleId} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: ch.soft, border: `1px solid ${ch.accent}`, borderRadius: '100px', padding: '6px 14px', fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 600, color: 'var(--ink)' }}>
+                          <span key={m.moduleId} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: ch.soft, border: `1px solid ${ch.accent}`, borderRadius: '100px', padding: '6px 14px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)' }}>
                             <span style={{ fontSize: 'var(--text-sm)' }}>{ch.emblem}</span>{m.title}
                           </span>
                         )
@@ -366,7 +366,7 @@ export default function SchoolsPage() {
                     ))}
                   </ul>
                   <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{
-                    width: '100%', padding: '14px', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '0.92rem',
+                    width: '100%', padding: '14px', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                     textDecoration: 'none', display: 'block', textAlign: 'center', cursor: 'pointer',
                     ...(plan.featured
                       ? { background: GOLD, color: 'var(--ink)', boxShadow: '0 5px 0 var(--terracotta-dark)' }

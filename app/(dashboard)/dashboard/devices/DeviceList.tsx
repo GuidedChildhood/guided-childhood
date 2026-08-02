@@ -81,7 +81,7 @@ export default function DeviceList({
               border: `1.5px solid ${activeCategory === cat ? 'var(--terracotta)' : 'var(--border)'}`,
               background: activeCategory === cat ? 'var(--terracotta)' : '#fff',
               color: activeCategory === cat ? '#fff' : 'var(--ink)',
-              fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600,
               cursor: 'pointer', whiteSpace: 'nowrap',
             }}
           >

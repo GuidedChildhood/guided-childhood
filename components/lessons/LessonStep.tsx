@@ -87,7 +87,7 @@ export default function LessonStep({
         {/* Character says */}
         {characterSays && (
           <div style={{ borderTop: '1px solid var(--border)', padding: '18px 28px', background: colorLight, display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
-            <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0, boxShadow: `0 4px 12px ${color}44` }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)', flexShrink: 0, boxShadow: `0 4px 12px ${color}44` }}>
               {emoji}
             </div>
             <div>

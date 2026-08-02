@@ -1162,7 +1162,7 @@ export default function KidPath({
                           textAlign: 'left', padding: '14px 16px', borderRadius: 14, cursor: qPicked == null ? 'pointer' : 'default',
                           border: `2px solid ${showState && isRight ? '#2F8F6B' : picked ? '#C0533E' : 'var(--border)'}`,
                           background: showState && isRight ? '#DEF0E7' : picked ? '#FDECEC' : '#fff',
-                          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)',
+                          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
                         }}
                       >
                         {opt}{showState && isRight ? '  ✓' : picked ? '  ✕' : ''}

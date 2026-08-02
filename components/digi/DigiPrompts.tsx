@@ -96,7 +96,7 @@ export default function DigiPrompts() {
             thinking, which is the right amount to have written and the wrong
             amount to put in front of somebody scrolling their Home at 8am. */}
         <p style={{
-          fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.68, margin: '0 0 10px',
+          fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.68, margin: '0 0 10px',
           ...(open ? {} : {
             display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const,
             overflow: 'hidden',

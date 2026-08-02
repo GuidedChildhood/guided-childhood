@@ -186,7 +186,7 @@ export default function TrackerForm({
                     background: scores[q.id] === n ? 'var(--stage-2)' : 'var(--cream)',
                     fontFamily: 'var(--font-display)',
                     fontWeight: 700,
-                    fontSize: '20px',
+                    fontSize: 'var(--text-lg)',
                     color: scores[q.id] === n ? 'var(--terracotta)' : 'var(--ink-light)',
                     cursor: 'pointer',
                     transition: 'all 0.15s',

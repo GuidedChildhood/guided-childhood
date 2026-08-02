@@ -5,6 +5,7 @@ import { deviceLabel } from '@/lib/quests/device-time'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { pushToChild } from '@/lib/quests/kid-push'
+import { sendPush } from '@/lib/push/send'
 
 // The parent's eyes on device time, every minute. Two jobs:
 //
@@ -32,7 +33,6 @@ async function handler(request: Request) {
 
   const admin = createAdminClient()
   const nowIso = new Date().toISOString()
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? new URL(request.url).origin
 
   // One small cache of child name and age band per run, shared by both jobs.
   const kids = new Map<string, { name: string; ageBand: string | null }>()
@@ -51,11 +51,7 @@ async function handler(request: Request) {
   // here with a deadline: it is worth nothing if it lands after the argument.
   async function push(userId: string, title: string, body: string, urgent = false) {
     try {
-      await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
-        body: JSON.stringify({ userId, title, body, url: '/dashboard/quests#screen-time', urgent }),
-      })
+      await sendPush({ userId, title, body, url: '/dashboard/quests#screen-time', urgent })
     } catch { /* best effort per session */ }
   }
 

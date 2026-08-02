@@ -192,7 +192,7 @@ export default function SectionTiles({
                   color: 'var(--ink)',
                 }),
                 borderRadius: 100, padding: '3px 10px',
-                fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                 whiteSpace: 'nowrap',
                 // Never shrink, and never clip. The row wraps instead, so a
                 // badge always reads in full at whatever width it needs.

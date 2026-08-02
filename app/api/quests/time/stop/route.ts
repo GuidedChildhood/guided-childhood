@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { deviceLabel, type DeviceKey } from '@/lib/quests/device-time'
 import { planRefund, refundToHolidayBank } from '@/lib/quests/holiday-spend'
+import { sendPush } from '@/lib/push/send'
 
 // The child stops their device time early, or their app calls this when the
 // countdown hits zero. Either way the session closes and the recorded spend
@@ -95,11 +96,7 @@ export async function POST(req: NextRequest) {
     const { data: childRow } = await supabase
       .from('children').select('name').eq('id', link.child_id).maybeSingle()
     const childName = childRow?.name ?? 'Your child'
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: stoppedEarly ? `${childName} has stopped watching ⏹️` : `${childName}'s screen time is up ⏰`,
         body: stoppedEarly
@@ -110,8 +107,7 @@ export async function POST(req: NextRequest) {
         // back early is good news that can wait. Same alert route, different
         // weight, so the one that matters is the one that stays on screen.
         urgent: !stoppedEarly,
-      }),
-    })
+      })
   } catch { /* push is best effort; the session is already recorded */ }
 
   return NextResponse.json({ ok: true, usedMinutes, usedStars, refundedStars: (session.stars as number) - usedStars })

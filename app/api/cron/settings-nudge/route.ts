@@ -1,6 +1,7 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendPush } from '@/lib/push/send'
 
 // The settled subscriber nudge. Once a family is paying, one gentle push
 // every few weeks for the single most valuable thing still missing in their
@@ -29,7 +30,6 @@ async function handler(request: Request) {
   }
 
   const admin = createAdminClient()
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? new URL(request.url).origin
   const week = Math.floor(Date.now() / (7 * 24 * 60 * 60 * 1000)) % 4
 
   // Paying families only: the nudge is aftercare, not acquisition.
@@ -90,11 +90,7 @@ async function handler(request: Request) {
 
       if (!title || !body) continue
 
-      await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${secret}` },
-        body: JSON.stringify({ userId, title, body, url }),
-      })
+      await sendPush({ userId, title, body, url })
       sent += 1
     } catch { /* best effort per family */ }
   }

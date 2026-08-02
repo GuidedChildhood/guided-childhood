@@ -250,7 +250,7 @@ export default function DeviceSetupBanner({ stageId, stageName, childName }: Pro
               background: colors.text, color: colors.bg,
               border: 'none', borderRadius: '16px',
               padding: '11px 22px', cursor: 'pointer',
-              fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
               letterSpacing: '0.06em', textTransform: 'uppercase',
               boxShadow: `0 4px 0 ${colors.text}66`,
             }}

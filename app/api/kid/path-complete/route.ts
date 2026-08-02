@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendPush } from '@/lib/push/send'
 
 // The whole path done in one day: every due job ticked and the daily chest
 // opened, verified here against the real records, pays three bonus stars
@@ -75,17 +76,12 @@ export async function POST(req: NextRequest) {
   try {
     const { data: child } = await supabase.from('children').select('name').eq('id', link.child_id).maybeSingle()
     const name = child?.name && child.name !== 'Your child' ? child.name : 'Your child'
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: `${name} completed the whole path today 🏁`,
         body: `Every job, the chest and all the finds. 3 bonus stars banked. That is the daily loop working perfectly.`,
         url: '/dashboard/quests/manage',
-      }),
-    })
+      })
   } catch { /* push is best effort */ }
 
   return NextResponse.json({ ok: true, stars: 3 })

@@ -224,7 +224,7 @@ function SumsView({ game, onDone }: { game: SumsGame; onDone: () => void }) {
               disabled={answered !== null}
               style={{
                 padding: '18px 6px', borderRadius: '16px', cursor: answered === null ? 'pointer' : 'default',
-                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)',
                 background: showAsAnswer ? 'var(--tint-sage)' : chosen ? '#FBEAEA' : '#fff',
                 border: `2px solid ${showAsAnswer ? 'var(--sage-ink, #2D5016)' : chosen ? '#c0392b' : 'var(--border)'}`,
               }}
@@ -293,7 +293,7 @@ function JudgeView({ game, onDone }: { game: JudgeGame; onDone: () => void }) {
       {answered !== null && (
         <div>
           <div style={{
-            fontSize: '15.5px', lineHeight: 1.55, color: 'var(--ink)', marginTop: '14px',
+            fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--ink)', marginTop: '14px',
             background: answered ? 'var(--stage-4)' : '#FBEAEA', borderLeft: `3px solid ${answered ? 'var(--gold-dark, #C99A28)' : '#c0392b'}`,
             borderRadius: '10px', padding: '12px 14px',
           }}>

@@ -222,7 +222,7 @@ export default function StarChartBuilder({
                       padding: '9px 15px', borderRadius: 100, cursor: 'pointer',
                       border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                       background: on ? 'var(--terracotta-lt)' : '#fff',
-                      fontFamily: 'var(--font-body)', fontSize: 15.5, fontWeight: 700, color: 'var(--ink)',
+                      fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
                     }}
                   >
                     {k.name}
@@ -256,7 +256,7 @@ export default function StarChartBuilder({
                       padding: '9px 14px', borderRadius: 100, cursor: 'pointer',
                       border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`,
                       background: on ? '#fff' : 'rgba(255,255,255,0.55)',
-                      fontFamily: 'var(--font-body)', fontSize: 15.5, fontWeight: 600, color: 'var(--ink)',
+                      fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)',
                       display: 'inline-flex', alignItems: 'center', gap: 7,
                     }}
                   >
@@ -299,7 +299,7 @@ export default function StarChartBuilder({
                         padding: '9px 14px', borderRadius: 100, cursor: 'pointer',
                         border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                         background: on ? 'var(--terracotta-lt)' : '#fff',
-                        fontFamily: 'var(--font-body)', fontSize: 15.5, fontWeight: 600, color: 'var(--ink)',
+                        fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)',
                         display: 'inline-flex', alignItems: 'center', gap: 7,
                       }}
                     >

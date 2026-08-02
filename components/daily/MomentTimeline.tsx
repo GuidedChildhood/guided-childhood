@@ -111,7 +111,7 @@ function MomentTile({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '12px',
+          fontSize: 'var(--text-sm)',
           fontWeight: 800,
           color: 'var(--ink)',
           transform: selected ? 'scale(1)' : 'scale(0)',

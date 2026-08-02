@@ -1592,7 +1592,7 @@ function ResultScreen({
                         width: '24px', height: '24px', borderRadius: '50%',
                         background: '#fff', border: '2px solid var(--border)',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '11px',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
                         color: 'var(--ink-light)', position: 'relative', zIndex: 1,
                         boxShadow: isCurrent ? `0 0 0 3px ${accent.bold}` : 'none',
                       }}>

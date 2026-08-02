@@ -1606,7 +1606,7 @@ export default function QuestManager() {
                             border: `1.5px solid ${q.blocks_screens ? 'var(--terracotta)' : 'var(--border)'}`,
                             background: q.blocks_screens ? 'var(--terracotta-lt)' : '#fff',
                             color: q.blocks_screens ? 'var(--terracotta-dark)' : 'var(--ink-soft)',
-                            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+                            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                           }}
                         >
                           📵 Screens wait{q.blocks_screens ? ' ✓' : ''}
@@ -1976,7 +1976,7 @@ export default function QuestManager() {
                                     border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                                     background: on ? 'var(--terracotta-lt)' : '#fff',
                                     color: on ? 'var(--terracotta)' : 'var(--ink)',
-                                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px',
+                                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
                                     cursor: 'pointer',
                                   }}
                                 >

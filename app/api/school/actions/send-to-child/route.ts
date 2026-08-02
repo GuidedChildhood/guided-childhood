@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { sendPush } from '@/lib/push/send'
 
 // Turn a school action into something the child actually does, not just
 // something the parent reads. It lands as a one off quest on the
@@ -56,18 +57,13 @@ export async function POST(req: NextRequest) {
 
   // Straight to the child's phone, best effort.
   try {
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: user.id,
         audience: 'kids',
         title: 'From home ⭐',
         body: `${action.title}. Tick it off on your quests when it is sorted.`,
         url: '/',
-      }),
-    })
+      })
   } catch { /* best effort */ }
 
   return NextResponse.json({ ok: true, childName: child.name })
