@@ -61,15 +61,25 @@ export async function POST(request: Request) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // Generate and save a DiGi insight for tomorrow's dashboard (best-effort, ~4s timeout)
+  // DiGi answers, and the parent sees the answer.
+  //
+  // This was already generated here, synchronously, before the response went
+  // back. The parent waited the four seconds for it and then got { ok: true }
+  // and a grey line saying DiGi would use it tomorrow, while the actual advice
+  // ("7am is your target, try waking him at 7 both weekend days") sat in the
+  // database unread. Somebody who answers a question and is told to come back
+  // tomorrow has no reason to answer the next one. So it is returned and shown
+  // on the spot. It is still saved for the follow up card and the Sunday round
+  // up, which is the part that was working.
+  let insight: string | null = null
   if (response?.trim()) {
-    const insight = await generateInsight(question.trim(), response.trim(), child?.name ?? null, child?.age_band ?? null)
+    insight = await generateInsight(question.trim(), response.trim(), child?.name ?? null, child?.age_band ?? null)
     if (insight) {
       await supabase.from('digi_feedback').update({ digi_insight: insight }).eq('user_id', user.id).eq('feedback_date', today)
     }
   }
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, insight })
 }
 
 // Return today's pending feedback question (if any)

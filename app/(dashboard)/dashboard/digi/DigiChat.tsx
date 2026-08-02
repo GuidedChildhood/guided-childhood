@@ -127,11 +127,15 @@ export default function DigiChat({
   // it never lingers at the bottom of the thread. Separate from reflectionDone,
   // which stays true so the prompt does not resurface.
   const [reflectionToast, setReflectionToast] = useState(false)
+  // What DiGi wrote back. Advice is not a toast: it stays until the parent
+  // leaves the page, rather than fading after four seconds like the receipt
+  // that used to stand in for it.
+  const [reflectionInsight, setReflectionInsight] = useState<string | null>(null)
   useEffect(() => {
-    if (!reflectionToast) return
+    if (!reflectionToast || reflectionInsight) return
     const id = setTimeout(() => setReflectionToast(false), 4000)
     return () => clearTimeout(id)
-  }, [reflectionToast])
+  }, [reflectionToast, reflectionInsight])
 
   // The reflection is a gentle end of chat ask, never an interruption. When a
   // reply carries one, we hold it here and only surface the card once the
@@ -473,7 +477,7 @@ export default function DigiChat({
     if (!reflectionQuestion || !reflectionInput.trim()) return
     setReflectionSaving(true)
     try {
-      await fetch('/api/digi/feedback', {
+      const res = await fetch('/api/digi/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -481,6 +485,8 @@ export default function DigiChat({
           response: reflectionInput.trim(),
         }),
       })
+      const data = await res.json().catch(() => null)
+      setReflectionInsight(typeof data?.insight === 'string' && data.insight.trim() ? data.insight.trim() : null)
       setReflectionDone(true)
       setReflectionToast(true)
       setReflectionQuestion(null)
@@ -1067,11 +1073,31 @@ export default function DigiChat({
         )}
 
         {reflectionToast && (
-          <div style={{ textAlign: 'center', padding: '12px 0 8px', marginBottom: 8, transition: 'opacity 0.4s' }}>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)' }}>
-              ✓ Reflection saved. DiGi will use this tomorrow
-            </p>
-          </div>
+          reflectionInsight ? (
+            /* DiGi answered. The advice was always written here, four seconds
+               before this rendered, and used to be thrown away in favour of a
+               receipt. It reads as a reply because that is what it is. */
+            <div style={{
+              background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF',
+              borderRadius: '16px', padding: '15px 17px', margin: '4px 0 12px',
+            }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '7px' }}>
+                DiGi
+              </div>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.65, marginBottom: '9px' }}>
+                {reflectionInsight}
+              </p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                Kept, so it shapes what I suggest next and your Sunday round up.
+              </p>
+            </div>
+          ) : (
+            <div style={{ textAlign: 'center', padding: '12px 0 8px', marginBottom: 8, transition: 'opacity 0.4s' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)' }}>
+                ✓ Saved. My thinking on it will be on your home page
+              </p>
+            </div>
+          )
         )}
 
         <div ref={tailRef} aria-hidden style={{ height: Math.max(20, tailSpace) }} />
