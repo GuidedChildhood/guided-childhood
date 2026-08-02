@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendPush } from '@/lib/push/send'
 
 // The kid finished everything on today's list and wants more. Same
 // trust model as ticking: the link token is the auth. The parent gets
@@ -27,17 +28,12 @@ export async function POST(req: NextRequest) {
   const name = child?.name ?? 'Your child'
 
   try {
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: `${name} wants more quests ⭐`,
         body: `Everything on today's list is done and ${name} is asking for more. Add one or two?`,
         url: '/dashboard/quests/manage',
-      }),
-    })
+      })
   } catch { /* push is best effort */ }
 
   return NextResponse.json({ ok: true })

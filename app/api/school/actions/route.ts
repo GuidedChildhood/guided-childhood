@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { sendPush } from '@/lib/push/send'
 
 // The parent's open school actions: the Things you need to know card reads
 // them via the dashboard's server render and marks them done or dismissed
@@ -101,11 +102,7 @@ export async function POST(req: NextRequest) {
   try {
     const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
     const ics = `${origin}/api/school/${data.id}/ics`
-    const send = (extra: Record<string, unknown>) => fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({ userId: user.id, title: `Added: ${title} 🎒`, body: 'Tap to add it to your calendar.', url: ics, ...extra }),
-    })
+    const send = (extra: Record<string, unknown>) => sendPush({ userId: user.id, title: `Added: ${title} 🎒`, body: 'Tap to add it to your calendar.', url: ics, ...extra })
     await Promise.allSettled([send({}), send({ audience: 'kids' })])
   } catch { /* best effort */ }
 

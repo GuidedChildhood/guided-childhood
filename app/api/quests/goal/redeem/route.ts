@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
+import { sendPush } from '@/lib/push/send'
 
 // The child cashes in the reward they have been saving for. The link token is
 // the auth, same as ticking. It only goes through when the bank truly holds
@@ -48,17 +49,12 @@ export async function POST(req: NextRequest) {
   try {
     const { data: kid } = await supabase.from('children').select('name').eq('id', link.child_id).maybeSingle()
     const name = kid?.name ?? 'Your child'
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: `${name} earned their reward! 🎉`,
         body: `They saved ${cost} stars for "${goal.title}". Time to make it happen, then set the next goal.`,
         url: '/dashboard/quests',
-      }),
-    })
+      })
   } catch { /* best effort */ }
 
   return NextResponse.json({ ok: true, balance: bank.lifetimeBalance - cost })

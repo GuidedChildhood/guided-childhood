@@ -116,7 +116,7 @@ export default async function LearningSheetPage({
             padding: '10px 16px', borderRadius: 13, textDecoration: 'none',
             background: s === subject ? 'var(--terracotta)' : '#fff',
             border: `1.5px solid ${s === subject ? 'var(--terracotta)' : 'var(--border)'}`,
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
             textTransform: 'capitalize',
           }}
         >

@@ -67,7 +67,7 @@ export default function MomentsGrid({ initialMoments, allMoments, childName, age
                 onClick={() => setActiveCategory(on ? 'All' : b.category)}
                 style={{ position: 'relative', zIndex: 1, flex: 1, minWidth: 0, background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, padding: 0 }}
               >
-                <span style={{ width: 46, height: 46, borderRadius: '50%', background: on ? 'var(--terracotta)' : 'var(--cream)', border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none' }}>{b.icon}</span>
+                <span style={{ width: 46, height: 46, borderRadius: '50%', background: on ? 'var(--terracotta)' : 'var(--cream)', border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none' }}>{b.icon}</span>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.1, textAlign: 'center' }}>{b.label}</span>
                 <span style={{ display: 'flex', gap: 1, fontSize: 'var(--text-sm)', lineHeight: 1 }}>
                   {b.items.slice(0, 4).map(m => <span key={m.id}>{m.icon}</span>)}

@@ -169,7 +169,7 @@ export default function SocialMediaReadiness({
             background: onDark ? 'rgba(255,251,244,0.08)' : 'transparent',
             border: `1.5px solid ${onDark ? 'rgba(255,251,244,0.30)' : 'var(--border)'}`,
             borderRadius: '14px', padding: '13px 20px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px',
+            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
           }}
         >
           See the evidence

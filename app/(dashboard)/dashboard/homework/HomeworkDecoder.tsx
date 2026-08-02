@@ -61,7 +61,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
                 background: k.id === childId ? 'var(--deep-teal)' : 'var(--cream)',
                 color: k.id === childId ? '#fff' : 'var(--ink-soft)',
                 border: `1px solid ${k.id === childId ? 'var(--deep-teal)' : 'var(--border)'}`,
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15,
+                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
               }}
             >
               {k.name}

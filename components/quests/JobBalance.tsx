@@ -53,7 +53,7 @@ export default function JobBalance({
             {a.headline}
           </div>
         </div>
-        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: t.fg, background: t.bg, border: `1px solid ${t.border}`, padding: '5px 10px', borderRadius: 100 }}>
+        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase', color: t.fg, background: t.bg, border: `1px solid ${t.border}`, padding: '5px 10px', borderRadius: 100 }}>
           {t.label}
         </span>
       </div>

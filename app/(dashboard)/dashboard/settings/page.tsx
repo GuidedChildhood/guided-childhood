@@ -298,7 +298,7 @@ export default function SettingsPage() {
                       padding: '10px 16px', borderRadius: 100, cursor: 'pointer',
                       border: `1.5px solid ${region === r ? 'var(--terracotta)' : 'var(--border)'}`,
                       background: region === r ? 'var(--terracotta-lt)' : '#fff',
-                      fontFamily: 'var(--font-body)', fontSize: '15.5px', fontWeight: 700, color: 'var(--ink)',
+                      fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)',
                     }}
                   >
                     {REGION_LABEL[r]}

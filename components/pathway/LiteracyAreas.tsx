@@ -62,7 +62,7 @@ function StatusChip({ tone, children }: { tone: ChipTone; children: React.ReactN
       display: 'inline-flex', alignItems: 'center', gap: 5, flexShrink: 0,
       background: look.bg, color: look.color, border: `1px solid ${look.border}`,
       borderRadius: 6, padding: '4px 10px',
-      fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
+      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
       letterSpacing: '0.06em', textTransform: 'uppercase', whiteSpace: 'nowrap',
       lineHeight: 1.3,
     }}>

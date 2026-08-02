@@ -121,7 +121,7 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
     padding: '7px 12px', borderRadius: 100, cursor: 'pointer',
     border: `1.5px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
     background: active ? 'var(--terracotta-lt)' : '#fff',
-    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15,
+    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
     color: 'var(--ink)', flexShrink: 0,
   })
 

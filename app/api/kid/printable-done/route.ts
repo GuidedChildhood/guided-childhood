@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getPrintable } from '@/lib/printables/registry'
 import { markStepQuietly } from '@/lib/kid/day-store'
+import { sendPush } from '@/lib/push/send'
 
 // The child did a printable at home and taps "show my grown up". That writes
 // a PENDING completion here (keyed by the stable printable key) and pings the
@@ -79,17 +80,12 @@ export async function POST(req: NextRequest) {
   try {
     const { data: child } = await supabase.from('children').select('name').eq('id', link.child_id).maybeSingle()
     const name = child?.name && child.name !== 'Your child' ? child.name : 'Your child'
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: `${name} finished a printable 🖍️`,
         body: `${printable.emoji} ${printable.title}. Have a look and confirm it to land their ${printable.stars} stars.`,
         url: '/dashboard/quests/manage',
-      }),
-    })
+      })
   } catch { /* best effort */ }
 
   return NextResponse.json({ ok: true, status: 'pending' })

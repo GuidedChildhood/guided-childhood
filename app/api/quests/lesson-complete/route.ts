@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { KID_LESSONS, kidLessonQuestTitle, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getQuestGame } from '@/lib/quest-games/registry'
+import { sendPush } from '@/lib/push/send'
 
 // A kid finished a lesson on their quest link. Token is the auth, exactly
 // like quest ticks. Two lesson kinds share this endpoint:
@@ -219,16 +220,11 @@ async function notifyParent(
       .eq('id', link.child_id)
       .maybeSingle()
     const name = child?.name ?? 'Your child'
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: `${name} ${titleSuffix}`,
         body: bodyText,
         url: '/dashboard',
-      }),
-    })
+      })
   } catch { /* push is best effort */ }
 }

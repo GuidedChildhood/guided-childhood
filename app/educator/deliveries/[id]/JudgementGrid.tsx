@@ -46,7 +46,7 @@ export default function JudgementGrid({
                   })}
                   style={{
                     padding: '7px 12px', borderRadius: '10px', cursor: 'pointer',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                     border: active ? `2px solid ${l.fg}` : '1.5px solid var(--border)',
                     background: active ? l.bg : '#fff',
                     color: active ? l.fg : 'var(--ink-muted)',

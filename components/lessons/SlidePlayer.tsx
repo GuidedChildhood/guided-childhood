@@ -224,7 +224,7 @@ function SlideBody({ slide, picked, onPick }: {
                 textAlign: 'left', padding: '14px 16px', borderRadius: '14px', cursor: 'pointer',
                 border: chosen ? `2.5px solid ${o.correct ? BAND : 'var(--danger)'}` : '1.5px solid var(--border)',
                 background: chosen ? (o.correct ? 'rgba(255,255,255,0.85)' : '#FBEAEA') : 'rgba(255,255,255,0.65)',
-                fontFamily: 'var(--font-body)', fontSize: '17px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5,
+                fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5,
               }}
             >
               {o.label}

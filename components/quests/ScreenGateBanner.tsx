@@ -99,7 +99,7 @@ export default function ScreenGateBanner({
     padding: '6px 11px', borderRadius: 100, cursor: 'pointer',
     border: `1.5px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
     background: active ? '#fff' : 'rgba(255,255,255,0.55)',
-    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, color: 'var(--ink)', flexShrink: 0,
+    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', flexShrink: 0,
   })
 
   async function remind(job: GateJob) {

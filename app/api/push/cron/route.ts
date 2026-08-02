@@ -2,6 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { londonNow } from '@/lib/time/london'
 import { isSchoolDay } from '@/lib/quests/job-time'
 import { NextRequest, NextResponse } from 'next/server'
+import { sendPush } from '@/lib/push/send'
 
 // Called by Vercel Cron every 30 minutes — see vercel.json. Vercel cron
 // schedules are fixed UTC, but the promise shown in Settings is a UK
@@ -80,30 +81,20 @@ async function handler(req: NextRequest) {
     return NextResponse.json({ skipped: true, reason: 'outside check in window', ukHour, nowMinutes })
   }
 
-  // The canonical domain, never req.nextUrl.origin.
+  // Sent in process, so there is no host to get wrong any more.
   //
-  // Vercel Cron invokes the function on the deployment specific host
-  // (guided-childhood-<hash>.vercel.app), and that host sits behind Deployment
-  // Protection, so a call back to ourselves through it answers 401 "Protected
-  // deployment" and not a single push goes out. The route still replied 200
-  // with the failure tucked inside its body, which is why this ran broken
-  // without anybody knowing.
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-
-  const res = await fetch(`${origin}/api/push/send`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      authorization: `Bearer ${process.env.CRON_SECRET}`,
-    },
-    body: JSON.stringify({
-      ...(!isSchoolDay(new Date()) && checkin.offSchool ? checkin.offSchool : { title: checkin.title, body: checkin.body }),
-      url: '/dashboard',
-      slot: checkin.slot,
-    }),
+  // This used to post to `${origin}/api/push/send`, and Vercel Cron invokes the
+  // function on the deployment specific host, which sits behind Deployment
+  // Protection. So the call answered 401 "Protected deployment", not a single
+  // push went out, and this route still replied 200 with the failure tucked
+  // inside its body. It ran broken for weeks without anybody knowing. The fix
+  // at the time was an environment variable pointing at an unprotected alias.
+  // Calling the function directly means there is nothing left to point wrong.
+  const result = await sendPush({
+    ...(!isSchoolDay(new Date()) && checkin.offSchool ? checkin.offSchool : { title: checkin.title, body: checkin.body }),
+    url: '/dashboard',
+    slot: checkin.slot,
   })
-
-  const result = await res.json()
 
   // Kid quest reminders ride the morning and after school slots only,
   // never the evening one: no buzzing children at bedtime.
@@ -126,17 +117,9 @@ async function handler(req: NextRequest) {
   const kidNudge = KID_NUDGES[checkin.hour]
   let kidResult = null
   if (kidNudge) {
-    try {
-      const kidRes = await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          authorization: `Bearer ${process.env.CRON_SECRET}`,
-        },
-        body: JSON.stringify({ title: kidNudge.title, body: kidNudge.body, url: '/', audience: 'kids' }),
-      })
-      kidResult = await kidRes.json()
-    } catch { /* kid nudges are best effort */ }
+    // sendPush never throws, so no try needed. A failure comes back in the
+    // result and rides out in the reply, where the heartbeat can see it.
+    kidResult = await sendPush({ title: kidNudge.title, body: kidNudge.body, url: '/', audience: 'kids' })
   }
 
   return NextResponse.json({ checkin: checkin.title, ukHour, ...result, kids: kidResult })

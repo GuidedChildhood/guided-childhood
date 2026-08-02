@@ -675,7 +675,7 @@ export default function OnboardingPage() {
                       borderRadius: 14,
                       background: on ? 'var(--terracotta-lt)' : '#fff',
                       cursor: 'pointer', textAlign: 'left',
-                      fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 15.5,
+                      fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)',
                       color: on ? 'var(--terracotta)' : 'var(--ink)',
                       transition: 'border-color 0.12s, background 0.12s, color 0.12s',
                     }}
@@ -746,7 +746,7 @@ export default function OnboardingPage() {
                       borderRadius: 14,
                       background: selected ? 'var(--terracotta-lt)' : '#fff',
                       cursor: 'pointer', textAlign: 'center', lineHeight: 1.35,
-                      fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 16,
+                      fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-md)',
                       color: selected ? 'var(--terracotta)' : 'var(--ink)',
                       transition: 'border-color 0.12s, background 0.12s, color 0.12s',
                     }}

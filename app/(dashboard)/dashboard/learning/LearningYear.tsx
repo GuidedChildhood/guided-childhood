@@ -55,7 +55,7 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
                 padding: '9px 15px', borderRadius: 100, cursor: 'pointer',
                 border: `1.5px solid ${i === active ? 'var(--terracotta)' : 'var(--border)'}`,
                 background: i === active ? 'var(--terracotta-lt)' : '#fff',
-                fontFamily: 'var(--font-body)', fontSize: 15.5, fontWeight: 700, color: 'var(--ink)',
+                fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)',
               }}
             >
               {x.childName}

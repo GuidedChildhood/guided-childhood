@@ -19,7 +19,7 @@ export default function SaveChip({ state }: { state: SaveState }) {
       style={{
         display: 'inline-flex', alignItems: 'center', gap: '5px',
         padding: '6px 11px', borderRadius: '100px', whiteSpace: 'nowrap',
-        fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
         border: `1.5px solid ${failed ? 'var(--terracotta-dark)' : 'var(--retro-green)'}`,
         background: failed ? 'var(--terracotta-lt)' : 'rgba(255,255,255,0.9)',
         color: failed ? 'var(--terracotta-dark)' : 'var(--retro-green)',

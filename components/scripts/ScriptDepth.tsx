@@ -184,7 +184,7 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
           )}
           {smsHref && (
             <a href={smsHref} className={childHasApp && !isYoung ? '' : 'btn btn-gold'} style={{
-              padding: '10px 18px', fontSize: '14px', textDecoration: 'none',
+              padding: '10px 18px', fontSize: 'var(--text-base)', textDecoration: 'none',
               ...(childHasApp && !isYoung ? { background: 'var(--white)', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: '16px', fontFamily: 'var(--font-display)', fontWeight: 700, boxShadow: '0 3px 0 var(--border)' } : {}),
             }}>
               Text it instead

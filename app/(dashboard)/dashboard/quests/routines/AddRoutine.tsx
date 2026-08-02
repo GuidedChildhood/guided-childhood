@@ -122,7 +122,7 @@ export default function AddRoutine() {
                 border: `1.5px solid ${activeChild === c.id ? 'var(--terracotta)' : 'var(--border)'}`,
                 background: activeChild === c.id ? 'var(--terracotta-lt)' : '#fff',
                 borderRadius: 100, padding: '8px 15px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
               }}
             >
               {c.name}

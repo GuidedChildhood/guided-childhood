@@ -248,7 +248,7 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
                       border: `1.5px solid ${selected ? 'var(--terracotta)' : '#e5e7eb'}`,
                       borderRadius: '12px',
                       padding: '12px 16px',
-                      fontSize: '16px',
+                      fontSize: 'var(--text-md)',
                       fontWeight: selected ? 600 : 400,
                       color: 'var(--ink)',
                       cursor: 'pointer',

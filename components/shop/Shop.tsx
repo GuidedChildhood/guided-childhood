@@ -237,7 +237,7 @@ function Card({
           // character art gets the Friend's colour ring.
           border: shownPhoto ? '1.5px solid var(--border)' : `2px solid ${character?.colour ?? 'var(--border)'}`,
           display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
-          fontSize: 30, lineHeight: 1,
+          fontSize: 'var(--text-2xl)', lineHeight: 1,
           // A charm nobody has earned is shown in grey, so the colour arriving
           // is itself the reward.
           filter: buyable ? 'none' : 'grayscale(1)',

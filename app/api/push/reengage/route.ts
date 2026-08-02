@@ -2,6 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { reengageMessageForDay } from '@/lib/content/reengage-messages'
+import { sendPush } from '@/lib/push/send'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -70,13 +71,8 @@ async function handler(req: NextRequest) {
     if (profile.last_reengage_push_at && daysSince(profile.last_reengage_push_at) < MIN_GAP_DAYS) continue
 
     try {
-      const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-      const res = await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-        body: JSON.stringify({ userId: profile.id, title: message.title, body: message.body, url: '/dashboard' }),
-      })
-      const result = await res.json()
+      const res = await sendPush({ userId: profile.id, title: message.title, body: message.body, url: '/dashboard' })
+      const result = res
       if (result.sent > 0) {
         sent++
         await supabase.from('profiles').update({ last_reengage_push_at: new Date().toISOString() }).eq('id', profile.id)

@@ -211,7 +211,7 @@ export default function StageReadiness({
                   style={{
                     textAlign: 'left', background: bg, border: `1.5px solid ${border}`,
                     borderRadius: 14, padding: '14px 16px', cursor: picked === null ? 'pointer' : 'default',
-                    fontFamily: 'var(--font-body)', fontSize: 18, fontWeight: 600, color: 'var(--ink)',
+                    fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--ink)',
                     lineHeight: 1.4, display: 'flex', alignItems: 'center', gap: 10,
                   }}
                 >

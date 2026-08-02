@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendPush } from '@/lib/push/send'
 
 // The parent gave us their email at the end of the starter quiz. Save it with
 // their answers, keyed by email, so a lead is captured even if they never
@@ -58,16 +59,11 @@ async function notifyFounder(
     const { data: founder } = await supabase
       .from('profiles').select('id').eq('email', founderEmail).maybeSingle()
     if (!founder?.id) return
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: founder.id,
         title: 'New Guided Childhood signup 🎉',
         body: leadEmail,
         url: '/dashboard',
-      }),
-    })
+      })
   } catch { /* founder ping is best effort */ }
 }

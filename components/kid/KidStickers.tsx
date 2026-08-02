@@ -125,7 +125,7 @@ export default function KidStickers({ token, stickers, celebrate }: {
             {['✨', '⭐', '🎉', '✨', '⭐', '🎉'].map((e, i) => (
               <span key={i} className="gc-cheer-spark" aria-hidden style={{
                 position: 'absolute', top: `${12 + (i % 3) * 12}%`, left: i < 3 ? `${8 + i * 6}%` : undefined,
-                right: i >= 3 ? `${8 + (i - 3) * 6}%` : undefined, fontSize: '22px',
+                right: i >= 3 ? `${8 + (i - 3) * 6}%` : undefined, fontSize: 'var(--text-xl)',
               }}>{e}</span>
             ))}
             <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 12px' }}>

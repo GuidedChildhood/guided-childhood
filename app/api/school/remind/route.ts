@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { schoolReminderEmail } from '@/lib/email/templates'
+import { sendPush } from '@/lib/push/send'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -81,12 +82,8 @@ async function handler(req: NextRequest) {
       ? `Tomorrow: ${titles[0]}. Sort it tonight while it is easy.`
       : `Tomorrow: ${titles.slice(0, 3).join(', ')}${titles.length > 3 ? ', and more' : ''}. Sort tonight while it is easy.`
     try {
-      const res = await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-        body: JSON.stringify({ userId, title: 'From school, due tomorrow', body, url: '/dashboard/school' }),
-      })
-      const result = await res.json()
+      const res = await sendPush({ userId, title: 'From school, due tomorrow', body, url: '/dashboard/school' })
+      const result = res
       if (result.sent > 0) sent++
     } catch { /* best effort */ }
 
@@ -119,12 +116,8 @@ async function handler(req: NextRequest) {
       ? `Tomorrow: ${titles[0]}. Get it ready tonight ⭐`
       : `Tomorrow: ${titles.slice(0, 3).join(', ')}. Get them ready tonight ⭐`
     try {
-      const res = await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-        body: JSON.stringify({ userId, audience: 'kids', title: 'From school 🎒', body, url: '/' }),
-      })
-      const result = await res.json()
+      const res = await sendPush({ userId, audience: 'kids', title: 'From school 🎒', body, url: '/' })
+      const result = res
       if (result.sent > 0) childSent++
     } catch { /* best effort */ }
   }
@@ -161,14 +154,10 @@ async function handler(req: NextRequest) {
         .single()
       if (!quest) continue
 
-      await fetch(`${origin}/api/push/send`, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${process.env.CRON_SECRET}` },
-        body: JSON.stringify({
+      await sendPush({
           userId: routine.user_id, audience: 'kids',
           title: 'From home ⭐', body: `${routine.title}. Tick it off on your quests when it is sorted.`, url: '/',
-        }),
-      })
+        })
       childSent++
     } catch { /* best effort, next week tries again */ }
   }

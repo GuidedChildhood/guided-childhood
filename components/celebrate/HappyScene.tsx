@@ -49,7 +49,7 @@ export default function HappyScene({
 
         {/* Twinkling stars */}
         {[[24, 30], [168, 22], [40, 74], [156, 70]].map(([x, y], i) => (
-          <span key={i} style={{ position: 'absolute', left: x, top: y, fontSize: '17px', animation: `gcSceneTwinkle ${1.4 + i * 0.3}s ease-in-out ${i * 0.2}s infinite` }} aria-hidden>⭐</span>
+          <span key={i} style={{ position: 'absolute', left: x, top: y, fontSize: 'var(--text-md)', animation: `gcSceneTwinkle ${1.4 + i * 0.3}s ease-in-out ${i * 0.2}s infinite` }} aria-hidden>⭐</span>
         ))}
 
         {/* Drifting confetti */}

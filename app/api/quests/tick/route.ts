@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendPush } from '@/lib/push/send'
 
 // The kid side tick. No account, no session: the kid link token is the
 // auth, exactly like the school letterbox. A tick lands as pending, the
@@ -87,17 +88,12 @@ export async function POST(req: NextRequest) {
   // here. The ones that are only news (a timer started, a goal redeemed) still
   // go to the quests page, because there is nothing to decide.
   try {
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
-    await fetch(`${origin}/api/push/send`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.CRON_SECRET}` },
-      body: JSON.stringify({
+    await sendPush({
         userId: link.user_id,
         title: 'A quest is ready for your ok',
         body: `${quest.title} was just ticked off. One tap to approve and the stars land.`,
         url: '/dashboard/quests/manage',
-      }),
-    })
+      })
   } catch { /* push is best effort */ }
 
   return NextResponse.json({ ok: true, status: 'pending' })

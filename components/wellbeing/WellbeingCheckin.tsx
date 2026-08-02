@@ -81,7 +81,7 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
         color: active ? '#fff' : 'var(--ink)',
         border: `1.5px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
         borderRadius: '100px', padding: '9px 15px', cursor: 'pointer',
-        fontFamily: 'var(--font-body)', fontSize: '15px', fontWeight: 600,
+        fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
         transition: 'all 0.12s',
       }}
     >

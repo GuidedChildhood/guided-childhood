@@ -224,7 +224,7 @@ export default function SundayCheckIn() {
               <button key={f} onClick={() => setFocus(f)} style={{
                 textAlign: 'left', cursor: 'pointer', background: focus === f ? 'var(--terracotta-lt)' : 'var(--cream)',
                 border: `2px solid ${focus === f ? 'var(--terracotta)' : 'transparent'}`, borderRadius: '13px', padding: '13px 15px',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
               }}>
                 {f}
               </button>
@@ -288,7 +288,7 @@ function ChipGrid({ options, selected, onToggle }: { options: { v: string; label
           <button key={o.v} onClick={() => onToggle(o.v)} style={{
             cursor: 'pointer', background: on ? 'var(--terracotta)' : 'var(--cream)',
             border: `2px solid ${on ? 'var(--terracotta)' : 'transparent'}`, borderRadius: '100px', padding: '9px 15px',
-            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px', color: on ? '#fff' : 'var(--ink)',
+            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: on ? '#fff' : 'var(--ink)',
           }}>
             {on ? '✓ ' : ''}{o.label}
           </button>

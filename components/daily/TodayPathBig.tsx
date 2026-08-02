@@ -308,7 +308,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                           : isCurrent
                             ? '0 5px 0 var(--terracotta-dark), 0 0 0 6px var(--terracotta-lt)'
                             : '0 5px 0 var(--border)',
-                        fontSize: '26px',
+                        fontSize: 'var(--text-2xl)',
                         filter: !isDoneNode && !isCurrent ? 'grayscale(1) opacity(0.5)' : 'none',
                       }}
                     >
@@ -350,7 +350,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     position: 'absolute', top: -12, left: '50%',
                     transform: `translateX(calc(-50% + ${x}px))`,
                     background: 'var(--terracotta)', color: 'var(--ink)',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '13px',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
                     padding: '5px 11px', borderRadius: '100px', whiteSpace: 'nowrap',
                     boxShadow: '0 3px 10px rgba(237,195,95,0.4)', zIndex: 3,
                   }}>

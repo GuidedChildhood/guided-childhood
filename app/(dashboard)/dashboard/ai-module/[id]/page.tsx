@@ -146,7 +146,7 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
                 {section.label}
               </div>
               <p style={{
-                fontSize: '17px', color: 'var(--ink)', lineHeight: 1.65,
+                fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.65,
                 ...(section.key === 'key_message' ? { fontWeight: 600 } : {}),
               }}>
                 {lesson[section.key]}
