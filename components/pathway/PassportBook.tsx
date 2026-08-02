@@ -52,6 +52,7 @@ export default function PassportBook({
   stamps,
   childName,
   openAtStage = null,
+  currentStage = null,
 }: {
   stamps: Stamp[]
   childName: string
@@ -67,6 +68,20 @@ export default function PassportBook({
    * updating. It was, one page over.
    */
   openAtStage?: number | null
+  /**
+   * Which stage is theirs, WITHOUT opening it.
+   *
+   * Justin, after living with openAtStage on his phone: the book should land on
+   * its cover, "with option to go to current stage or catch up previous stages
+   * not done." He is right and it is the better of the two. Opening straight
+   * onto a stage page skips the one screen that says what this object IS, and
+   * lands a parent in a long checklist with no sense of where it sits.
+   *
+   * So the cover is the front door again, and the two things a parent actually
+   * wants from it are printed underneath as buttons rather than left to be
+   * discovered by flipping.
+   */
+  currentStage?: number | null
 }) {
   // Page 0 is the cover; pages 1..5 are the stages. The book rests on its
   // cover and never opens itself: the parent taps to open each page, the way
@@ -93,6 +108,7 @@ export default function PassportBook({
   // their own page, which is right, and the cost of that is that these become
   // invisible unless somebody thinks to flip backwards.
   const catchUps = stamps.filter(s => s.status === 'catchup')
+  const theirStage = currentStage ? stamps.find(s => s.id === currentStage) ?? null : null
 
   // Draw the rings in shortly after mount. No auto flip: the cover stays put.
   useEffect(() => {
@@ -122,6 +138,10 @@ export default function PassportBook({
 
   function goTo(target: number) {
     if (target === page || flipping) return
+    // The explanation above this book has done its job the moment somebody
+    // opens the book. See PathwayIntro: this is what retires it, rather than a
+    // timer taking words off the screen while a parent is still reading them.
+    try { window.dispatchEvent(new CustomEvent('gc:passport-opened')) } catch { /* SSR */ }
     pending.current = target
     setFlipping(target > page ? 'next' : 'prev')
   }
@@ -351,12 +371,28 @@ export default function PassportBook({
                     // instead of averaging today's live rows back in.
                     const runningPct = stamp.pct
                     const greenRows = secs.filter(s => s.pct >= 100).length
+                    // The one row a parent should do next: the first still open.
+                    const nextKey = secs.find(x => x.pct < 100)?.key ?? null
                     return (
                       <>
+                        {/* ONE row of help, not five.
+                            Justin: the page "looks massive, way too long, it
+                            needs to look passport size".
+                            Every row carried a two or three line explanation of
+                            how it goes green, which is genuinely useful and,
+                            printed five times, is most of why the page ran to
+                            three screens. A parent only ever acts on one row at
+                            a time, so the help now belongs to the row they
+                            should act on next: the first one still open. The
+                            rest keep their tick, their label and their number,
+                            which is all a scan needs. Tapping any row still
+                            goes straight to the thing that fills it, so nothing
+                            has been hidden, only unstacked. */}
                         {secs.map(sec => {
                           const done = sec.pct >= 100
+                          const isNext = sec.key === nextKey
                           return (
-                            <Link key={sec.key} href={sec.href} style={{ display: 'block', textDecoration: 'none', marginBottom: '8px' }}>
+                            <Link key={sec.key} href={sec.href} style={{ display: 'block', textDecoration: 'none', marginBottom: isNext ? '9px' : '5px' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
                                 <span style={{
                                   width: 17, height: 17, borderRadius: '6px', flexShrink: 0,
@@ -368,12 +404,16 @@ export default function PassportBook({
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7" /></svg>
                                   )}
                                 </span>
-                                <span style={{ flex: 1, fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', opacity: done ? 0.55 : 1 }}>
+                                <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', opacity: done ? 0.55 : 1, lineHeight: 1.3 }}>
                                   <span aria-hidden style={{ marginRight: 5 }}>{sec.emoji}</span>{sec.label}
                                 </span>
                                 <span style={{
-                                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
-                                  whiteSpace: 'nowrap',
+                                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                                  // nowrap and never squeezed. It was taking
+                                  // enough of a 340 wide card to push "Moments
+                                  // to resolve" and "Jobs and routines" onto a
+                                  // second line each.
+                                  whiteSpace: 'nowrap', flexShrink: 0,
                                   color: done ? DONE : TODO,
                                 }}>
                                   {sec.detail}{done ? '' : ' ›'}
@@ -383,6 +423,7 @@ export default function PassportBook({
                                   written on every row and never rendered, which
                                   is why the page could only ever say WHAT was
                                   left and never HOW. */}
+                              {isNext && (
                               <div style={{ marginTop: 3, marginLeft: 26, display: 'flex', alignItems: 'flex-start', gap: 6, flexWrap: 'wrap' }}>
                                 {/* An ongoing row can go back to amber, so its chip
                                     says which way it is currently running rather
@@ -404,6 +445,7 @@ export default function PassportBook({
                                   {sec.help}
                                 </span>
                               </div>
+                              )}
                               {sec.alert && (
                                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6, marginTop: 5, marginLeft: 26, background: '#FDECEC', borderRadius: '9px', padding: '6px 9px' }}>
                                   <span aria-hidden style={{ fontSize: 'var(--text-base)', lineHeight: 1.3 }}>⚠️</span>
@@ -432,8 +474,16 @@ export default function PassportBook({
                             </span>
                           </span>
                         </div>
-                        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '8px 0 0' }}>
-                          <span style={{ color: DONE, fontWeight: 800 }}>Green</span> is doing its job. <span style={{ color: TODO, fontWeight: 800 }}>Amber</span> is the next step, and tapping it goes straight there. Jobs and screen balance are kept up across the stage rather than ticked off, so those two can move both ways.
+                        {/* One line, not five.
+                            This legend was printed in full on every page of the
+                            book. The colours now do their own explaining, since
+                            the one amber row that matters carries its next step
+                            in words directly underneath it, so the standing
+                            paragraph was repeating what the page already shows.
+                            The half that is NOT self evident is that two rows
+                            never tick off, and that part stays. */}
+                        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
+                          Tap any row to go straight there. Jobs and screen balance are kept up across the stage rather than ticked off, so those two move both ways.
                         </p>
                       </>
                     )
@@ -547,9 +597,44 @@ export default function PassportBook({
       {/* How to use the book, beside the arrows that do it rather than three
           lines above the book pushing it off a phone screen. It was preamble up
           there and it is a caption down here, which is what it always was. */}
-      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0', textAlign: 'center' }}>
-        One page per stage. Flip through to catch up or peek ahead.
-      </p>
+      {/* Not on the cover. There it sat between the page dots and the button
+          that is the actual route in, splitting the one from the other. The
+          cover already says TAP TO OPEN and has its two doors printed below, so
+          a line about flipping is the third instruction on a screen that needs
+          one. It comes back the moment a page is open, which is when flipping
+          is a thing you might want to do. */}
+      {page > 0 && (
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0', textAlign: 'center' }}>
+          One page per stage. Flip through to catch up or peek ahead.
+        </p>
+      )}
+
+      {/* THE COVER'S TWO DOORS.
+
+          Justin: land on the cover, "with option to go to current stage or
+          catch up previous stages not done."
+
+          Only on the cover, because once a page is open these would be
+          repeating a choice already made. The catch up card below handles the
+          second half and already renders on every page, which is right: pages
+          left behind stay worth saying wherever you are in the book. */}
+      {page === 0 && currentStage && theirStage && (
+        <button
+          type="button"
+          onClick={() => openFromBelow(currentStage)}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            width: '100%', marginTop: 14, padding: '14px 18px',
+            background: 'var(--terracotta)', color: 'var(--ink)',
+            border: 'none', borderRadius: 16, boxShadow: '0 5px 0 var(--terracotta-dark)',
+            cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800,
+            fontSize: 'var(--text-md)', lineHeight: 1.3,
+          }}
+        >
+          Open {childName === 'your child' ? 'their' : `${childName}'s`} page, Stage {theirStage.id} {theirStage.name}
+          <span aria-hidden>→</span>
+        </button>
+      )}
 
       {/* Pages left behind, named rather than left to be discovered.
 

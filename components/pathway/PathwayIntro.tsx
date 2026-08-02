@@ -37,25 +37,35 @@ const PROVES: [string, string, string][] = [
 ]
 
 /**
- * How long the intro has to be on screen before it counts as seen.
+ * WHEN AN EXPLANATION RETIRES, which is the whole design question here.
  *
- * This delay is the whole fix, so it is worth saying why it exists rather than
- * leaving a bare 2000 for somebody to "tidy up" later.
+ * Justin: "I can see you have given an option to dismiss it, but is there a
+ * neater way to show it then it goes away? Auto? What is best practice?"
  *
- * The obvious version read the flag and wrote it in the same breath: open the
- * panel, mark it seen. It did not work. This component mounts more than once
- * per page load, so the first mount opened the panel and wrote "seen", the
- * second mount read "seen" and rendered it shut, and the net effect was a
- * device marked as having read the explanation without the explanation ever
- * being on screen. A parent's first visit was silently their second. Module
- * scope did not save it either, because the module is evaluated twice too.
+ * The honest answer to the auto half is NO, and it is the one option to rule
+ * out rather than tune. Content that removes itself on a timer takes words off
+ * the screen while somebody is still reading them, and it punishes exactly the
+ * people who read slowly, in a second language, or with a toddler shouting.
+ * WCAG 2.2.1 is explicit about it. A timer also has no idea whether the thing
+ * was read or ignored, so it is guessing with confidence.
  *
- * Writing the flag a beat AFTER the mounts have settled makes every mount in a
- * page load agree, and it is the more honest rule anyway: an explanation a
- * parent bounced off in under two seconds has not been read, so it earns the
- * right to appear once more.
+ * The pattern that does work, and it is what every app worth copying does:
+ * AN EXPLANATION RETIRES WHEN THE READER DOES THE THING IT EXPLAINS. Nothing
+ * disappears while being read, nothing needs a decision, and the trigger is
+ * real evidence rather than elapsed seconds.
+ *
+ * So this panel closes the moment a parent opens the passport, which is the
+ * one action that proves the explanation landed. The manual toggle stays as
+ * the way back in, because someone who never touches the book should keep the
+ * words, and someone who wants them again should not have to clear storage.
+ *
+ * The event is dispatched by PassportBook.goTo.
+ *
+ * (This replaces a two second timer that marked it seen. That timer existed to
+ * dodge a double mount race, not because anyone thought it was right, and the
+ * engagement signal solves the race properly: both mounts hear the same event.)
  */
-const SEEN_AFTER_MS = 2000
+const OPENED_EVENT = 'gc:passport-opened'
 
 export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: string; childCount: number }) {
   // Closed on the server and on the first client paint, always. Reading
@@ -67,12 +77,16 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
   useEffect(() => {
     let seen = false
     try { seen = localStorage.getItem(SEEN_KEY) === '1' } catch { seen = false }
-    if (seen) return
-    setOpen(true)
-    const t = setTimeout(() => {
+    if (!seen) setOpen(true)
+
+    // Opening the passport is what retires the explanation. Registered even
+    // when already seen, which costs nothing and keeps the two paths identical.
+    const onOpened = () => {
+      setOpen(false)
       try { localStorage.setItem(SEEN_KEY, '1') } catch { /* private mode, it just explains itself again */ }
-    }, SEEN_AFTER_MS)
-    return () => clearTimeout(t)
+    }
+    window.addEventListener(OPENED_EVENT, onOpened)
+    return () => window.removeEventListener(OPENED_EVENT, onOpened)
   }, [])
 
   return (
