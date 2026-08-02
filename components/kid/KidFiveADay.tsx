@@ -53,6 +53,8 @@ export default function KidFiveADay({
   token,
   childName,
   jobsAllDone,
+  jobsProgress,
+  readingMinutes,
   moveJobs,
   onOpenJobs,
   onDayComplete,
@@ -61,6 +63,18 @@ export default function KidFiveADay({
   childName?: string
   /** Whether every job due today is ticked, which is step one's own condition. */
   jobsAllDone: boolean
+  /**
+   * How today's jobs are going, so the row can say it.
+   *
+   * The row used to read "Tick off what your grown up sent" whether none were
+   * done or five of six were, which is the least useful thing it could say to a
+   * child standing in front of it. Justin: it "should give the jobs then need to
+   * do by the time on app and when cleared it goes green". The going green part
+   * already worked; saying where they are up to did not.
+   */
+  jobsProgress?: { done: number; total: number } | null
+  /** Minutes of reading to ask for, from the child's age band. */
+  readingMinutes?: number
   /**
    * The moving about jobs actually on the board today, and whether they are
    * ticked. Null when this child has none, which is the case that has to keep
@@ -214,13 +228,22 @@ export default function KidFiveADay({
                   color: isDone ? 'var(--ink-muted)' : 'var(--ink)',
                   textDecoration: isDone ? 'line-through' : 'none',
                 }}>
-                  {def.label}
+                  {/* Reading states its own number, which changes with the
+                      child's age. Everything else says what it always says. */}
+                  {key === 'reading' && readingMinutes
+                    ? `${readingMinutes} minutes reading`
+                    : def.label}
                 </span>
                 {!isDone && (
                   <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: '1px' }}>
                     {key === 'move' && moveJobs
                       ? `You have ${moveJobs.total === 1 ? 'a job' : `${moveJobs.total} jobs`} for this. Tap to see ${moveJobs.total === 1 ? 'it' : 'them'}`
-                      : def.hint}
+                      : key === 'jobs' && jobsProgress && jobsProgress.total > 0
+                        // Where they are up to, not a generic instruction. A
+                        // child who has done four of six is told so, and the
+                        // number is the reason to tap.
+                        ? `${jobsProgress.done} of ${jobsProgress.total} done. Tap to see the rest`
+                        : def.hint}
                   </span>
                 )}
               </span>

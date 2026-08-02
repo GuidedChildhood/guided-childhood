@@ -48,7 +48,11 @@ export type StepDef = {
 
 export const STEPS: Record<StepKey, StepDef> = {
   jobs: {
-    key: 'jobs', emoji: '✅',
+    // NOT a tick. This was ✅, which renders as a green box with a white check,
+    // and a row wearing the completion signal while it is still outstanding is
+    // simply lying: Justin read the board as already ticked and so would any
+    // child. The done state is the only thing allowed to look done.
+    key: 'jobs', emoji: '📋',
     label: 'Your jobs',
     hint: 'Tick off what your grown up sent',
     href: null,
@@ -85,6 +89,9 @@ export const STEPS: Record<StepKey, StepDef> = {
     href: t => `/k/${t}/suggest`,
   },
   reading: {
+    // The minutes are filled in per child by readingMinutesFor, because a target
+    // is only encouraging if it fits: ten is a real ask at five and a low bar at
+    // thirteen. The static label is the fallback when no age band is known.
     key: 'reading', emoji: '📖',
     label: 'Ten minutes reading',
     hint: 'Away from a screen',
@@ -94,7 +101,7 @@ export const STEPS: Record<StepKey, StepDef> = {
     key: 'homework', emoji: '✏️',
     label: 'Homework done',
     hint: 'Get it out of the way',
-    href: null,
+    href: t => `/k/${t}/homework`,
   },
   printable: {
     key: 'printable', emoji: '🖍️',
@@ -108,6 +115,37 @@ export const STEPS: Record<StepKey, StepDef> = {
     hint: 'Outside if you can, twenty minutes',
     href: null,
   },
+}
+
+// How long a read is worth asking for, by age.
+//
+// Justin: printables should not be an everyday thing, and the daily slot is
+// better spent "encouraging 20 minute read per day, or if it's a younger child
+// reading". He is right that it should not be one number. Ten minutes is a real
+// stretch for a child still decoding words, and the same ten is a bar a
+// confident thirteen year old clears without noticing, which teaches them the
+// list does not mean what it says.
+//
+// The figures track the reading for pleasure evidence rather than any curriculum
+// target: the point is a daily habit off a screen, not a quota. Rounded to
+// numbers a child can hold in their head.
+const READING_MINUTES: Record<string, number> = {
+  '4-7': 10,
+  '8-10': 20,
+  '11-13': 20,
+  '13-15': 30,
+  '16+': 30,
+}
+
+/** Minutes of reading to ask this child for. Ten when the band is unknown, which
+ *  is the gentlest of the five and never over asks a child we cannot place. */
+export function readingMinutesFor(ageBand: string | null | undefined): number {
+  return READING_MINUTES[ageBand ?? ''] ?? 10
+}
+
+/** The reading row's label for this child, so the row states its own number. */
+export function readingLabelFor(ageBand: string | null | undefined): string {
+  return `${readingMinutesFor(ageBand)} minutes reading`
 }
 
 // Which of today's jobs ARE moving about.

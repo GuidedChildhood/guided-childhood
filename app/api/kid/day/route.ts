@@ -2,6 +2,8 @@ import { NextResponse, type NextRequest } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { STEPS, type StepKey } from '@/lib/kid/five-a-day'
 import { loadDay, streakCount, markStep } from '@/lib/kid/day-store'
+import { isSchoolHoliday } from '@/lib/learning/holidays'
+import { getFamilyRegion } from '@/lib/learning/region'
 
 // The child's five a day: read it, and mark a step done.
 //
@@ -34,7 +36,20 @@ export async function GET(request: NextRequest) {
   const link = await linkFor(token)
   if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
 
-  const { day, row } = await loadDay(link.admin, link.userId, link.childId)
+  // A printable is a holiday thing, not an everyday one.
+  //
+  // Justin: "printables should maybe be a holiday thing? Not every day to do?"
+  // Colouring a sheet in is a holiday morning activity, and asking for one on a
+  // school night competes with the homework that is actually due. Read against
+  // the family's own region, so a US family is not offered a sheet because it is
+  // half term in England.
+  //
+  // The freed slot goes to reading, which is already in the pool. Dropping
+  // printable never empties the middle: five of the six rotating steps remain.
+  const region = await getFamilyRegion(link.admin, link.userId).catch(() => 'uk' as const)
+  const available = { printable: isSchoolHoliday(new Date(), region) }
+
+  const { day, row } = await loadDay(link.admin, link.userId, link.childId, available)
   const streak = await streakCount(link.admin, link.childId)
   return NextResponse.json({
     day,

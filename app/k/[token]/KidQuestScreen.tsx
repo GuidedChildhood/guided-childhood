@@ -30,7 +30,7 @@ import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidTodayList from '@/components/kid/KidTodayList'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
-import { isMoveJob } from '@/lib/kid/five-a-day'
+import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
 import KidStreakTakeover from '@/components/kid/KidStreakTakeover'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
@@ -788,6 +788,11 @@ export default function KidQuestScreen({
   const doneCount = quests.filter(q => ticks[q.id]).length
   const allDone = quests.length > 0 && doneCount === quests.length
 
+  // The child's band, from their stage. Derived once because two places want it
+  // now: the quiz below, and the reading row, which states its own number of
+  // minutes and gets that number from the band.
+  const ageBand = (['4-7', '8-10', '11-13', '13-15', '16+'] as const)[Math.min(4, Math.max(0, stageId - 1))]
+
   // The jobs on today's board that ARE moving about, so the five a day's Move
   // row can point at them instead of asking for a second tick of the same hour
   // outside. Null when there are none, which keeps Move a plain self tick for a
@@ -1195,6 +1200,8 @@ export default function KidQuestScreen({
           token={token}
           childName={childName}
           jobsAllDone={allDone}
+          jobsProgress={{ done: doneCount, total: quests.length }}
+          readingMinutes={readingMinutesFor(ageBand)}
           moveJobs={moveJobs}
           onOpenJobs={() => document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
           onDayComplete={n => { playKidSound('done'); setStreakWon(n) }}
@@ -1433,7 +1440,7 @@ export default function KidQuestScreen({
                 outstandingJobs={[...new Set(quests.filter(q => !ticks[q.id]).map(q => q.title))]}
                 outstandingMinutes={quests.filter(q => !ticks[q.id]).reduce((n, q) => n + q.stars * STAR_MINUTES, 0)}
                 usedTodayMinutes={usedTodayMinutes} recommendedMinutes={recommendedMinutes}
-                ageBand={(['4-7', '8-10', '11-13', '13-15', '16+'] as const)[Math.min(4, Math.max(0, stageId - 1))]}
+                ageBand={ageBand}
                 deviceTrust={trust}
                 onAsked={a => {
                   setScreenAsk({ id: a.id, device: a.device, minutes: a.minutes, status: 'pending' })

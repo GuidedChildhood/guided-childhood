@@ -138,10 +138,27 @@ export default function KidStreakTakeover({
         </p>
       )}
 
+      {/* The one thing worth saying while they are listening.
+          Justin: "remember it is important when using any device use your timer
+          to request time from parents and you will be one step closer to your
+          complete passport."
+          It sits here and nowhere else because this is the only moment in the
+          day a child is reading the screen because something good happened. The
+          same sentence on the jobs list is a rule; here it is the next step. */}
+      <p style={{
+        fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5,
+        margin: '18px 0 0', maxWidth: '340px',
+        borderTop: '1.5px solid rgba(26,26,46,0.12)', paddingTop: '14px',
+      }}>
+        Going on a screen next? Use your timer to ask your grown up for the time.
+        That is how the minutes you earned get to you, and every one of them takes
+        you a step closer to your finished passport.
+      </p>
+
       <button
         onClick={onClose}
         style={{
-          marginTop: '26px', padding: '14px 34px', borderRadius: '16px', border: 'none',
+          marginTop: '22px', padding: '14px 34px', borderRadius: '16px', border: 'none',
           background: 'var(--terracotta)', color: 'var(--ink)', cursor: 'pointer',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
           boxShadow: '0 5px 0 var(--terracotta-dark)',
