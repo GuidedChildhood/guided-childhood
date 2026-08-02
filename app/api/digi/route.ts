@@ -9,6 +9,7 @@ import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { StageId } from '@/lib/pathway/progress'
 import { getExpertKnowledge, getFamilyMemory, getWhatWorked, getPathwayPosition } from '@/lib/digi/brain'
 import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
+import { getTriedAlready } from '@/lib/digi/outcomes'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import { classifyLane, laneShape } from '@/lib/digi/lane'
 import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
@@ -265,10 +266,16 @@ export async function POST(request: Request) {
   const wantsResearch = lane !== 'general'
 
   // Second parallel round trip for the queries that depend on the first
-  const [expertKnowledge, aggregateWisdom, provenSolutions, recommended, matchingScriptsResult, pathwayPosition] = await Promise.all([
+  const [expertKnowledge, aggregateWisdom, provenSolutions, triedAlready, recommended, matchingScriptsResult, pathwayPosition] = await Promise.all([
     wantsResearch ? getExpertKnowledge(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
     wantsResearch ? getAggregateWisdom(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
     wantsResearch ? getProvenSolutions(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
+    // What this family has already tried and what they told us happened. Not
+    // gated on wantsResearch: a parent's own verdict on their own child is not
+    // research, it is the thing DiGi must not contradict or repeat back to
+    // them. Suggesting again the exact thing somebody told you failed is worse
+    // than having no memory at all, because the first is not listening.
+    wantsResearch ? getTriedAlready(supabase, user.id) : Promise.resolve(''),
     child?.stage_id
       ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null, { preferFree: !isPaid })
       : Promise.resolve(null),
@@ -467,7 +474,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + triedAlready + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:

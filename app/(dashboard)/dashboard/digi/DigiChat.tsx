@@ -54,6 +54,7 @@ export default function DigiChat({
   pendingReflection,
   stageId,
   stageName,
+  childName,
 }: {
   initialMessages: Message[]
   initialCount: number
@@ -63,6 +64,7 @@ export default function DigiChat({
   pendingReflection?: { question: string; answered: boolean } | null
   stageId?: number
   stageName?: string
+  childName?: string | null
 }) {
   // A NEW CHAT EVERY TIME YOU OPEN IT.
   //
@@ -608,7 +610,18 @@ export default function DigiChat({
                     Device setup · Stage {stageId}
                   </div>
                   <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, marginBottom: '10px' }}>
-                    Have you set the right device settings for {stageName}? I work better when the basics are in place.
+                    {/* The name of the CHILD, not the name of the stage.
+                        Justin: "this came up on DiGi after the updates and I am
+                        not sure what Shaper refers to."
+                        Shaper is what we call stage 4. The sentence is "device
+                        settings for X", which reads as a person, so it named the
+                        stage as though it were his son. The eyebrow directly
+                        above already says STAGE 4, so the stage was both wrong
+                        here and redundant.
+                        Falls back to "your child" rather than to the stage,
+                        because a family with no name saved should get a plain
+                        sentence, not a puzzle. */}
+                    Have you set the right device settings for {childName || 'your child'}? I work better when the basics are in place.
                   </p>
                   <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                     <Link

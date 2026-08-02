@@ -1,6 +1,7 @@
 import type Anthropic from '@anthropic-ai/sdk'
 import type { createClient } from '@/lib/supabase/server'
 import { searchKnowledge } from '@/lib/digi/brain'
+import { cleanTrigger, isTimeBand } from '@/lib/digi/outcomes'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -112,6 +113,25 @@ export const SCHEDULE_FOLLOWUP_TOOL: Anthropic.Tool = {
       context: {
         type: 'string',
         description: 'One line on what this is following up, so the card carries the thread.',
+      },
+      // The four below are what turn a kept promise into learning. Without
+      // them the parent answers "it worked" and there is nothing for that to
+      // be about. See lib/digi/outcomes.ts and migration 147.
+      suggestion: {
+        type: 'string',
+        description: 'The thing you actually suggested they try, in one plain sentence. This is what the verdict will be about, so write the action itself and not the reasoning behind it. "Move the TV remote out of the front room and put breakfast on the table before the TV goes on" rather than "we talked about morning routines".',
+      },
+      topic: {
+        type: 'string',
+        description: 'The area this sits in, as a short lowercase slug so it can be counted with other families. Use one of: screen_time, gaming, social_media, sleep, mood, anxiety, safety, school, siblings, routines, devices, friendship, content, ai.',
+      },
+      time_band: {
+        type: 'string',
+        description: 'When in the day this actually happens, which is often the whole shape of the problem. One of: morning, after_school, evening, bedtime, weekend, any.',
+      },
+      trigger: {
+        type: 'string',
+        description: 'The moment itself in a few plain words, as the parent described it. "goes straight to the TV before breakfast". Short, because two families describing the same morning need to land near each other.',
       },
     },
     required: ['days', 'question'],
@@ -320,12 +340,27 @@ async function doScheduleFollowup(ctx: ToolContext, arg: Record<string, unknown>
   const due = new Date(Date.now() + days * 86_400_000)
   const dueOn = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(due)
 
+  // What the verdict will be about. Falls back to the question, because a
+  // follow up with no recorded suggestion is a promise we can keep and cannot
+  // learn from, and the promise is still worth keeping.
+  const suggestion = typeof arg.suggestion === 'string' && arg.suggestion.trim()
+    ? arg.suggestion.trim().slice(0, 400)
+    : question
+
+  const situation = {
+    topic: typeof arg.topic === 'string' ? arg.topic.trim().toLowerCase().replace(/[^a-z_]/g, '').slice(0, 40) || null : null,
+    time_band: isTimeBand(arg.time_band) ? arg.time_band : null,
+    trigger: cleanTrigger(arg.trigger),
+  }
+
   const { error } = await ctx.supabase.from('digi_followups').insert({
     user_id: ctx.userId,
     child_id: ctx.childId,
     due_on: dueOn,
     question,
     context,
+    suggestion,
+    situation,
   })
   if (error) return 'That did not schedule. Do not promise the parent a follow up.'
   return `Scheduled for ${dueOn}, ${days} day(s) away. Tell the parent you will check back in, warmly and in your own words.`

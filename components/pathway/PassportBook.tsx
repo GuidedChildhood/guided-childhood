@@ -85,9 +85,14 @@ export default function PassportBook({
   // leaving to the mark in the corner of the book.
   const [justStamped, setJustStamped] = useState(false)
   const pending = useRef<number | null>(null)
+  const bookRef = useRef<HTMLDivElement>(null)
 
   const earnedCount = stamps.filter(s => s.status === 'earned').length
   const allEarned = earnedCount === stamps.length && stamps.length > 0
+  // Stages the child has already aged past without stamping. The book opens on
+  // their own page, which is right, and the cost of that is that these become
+  // invisible unless somebody thinks to flip backwards.
+  const catchUps = stamps.filter(s => s.status === 'catchup')
 
   // Draw the rings in shortly after mount. No auto flip: the cover stays put.
   useEffect(() => {
@@ -121,6 +126,18 @@ export default function PassportBook({
     setFlipping(target > page ? 'next' : 'prev')
   }
 
+  /**
+   * Turn to a page from a control that sits BELOW the book.
+   *
+   * The dots and the tap zones never need this: the book is on screen when you
+   * use them. The catch up buttons are underneath, so on a phone the flip can
+   * happen entirely off screen and read as a dead tap.
+   */
+  function openFromBelow(target: number) {
+    goTo(target)
+    bookRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   // The flip is two halves: rotate to the spine, swap the page, rotate out.
   useEffect(() => {
     if (!flipping) return
@@ -144,13 +161,14 @@ export default function PassportBook({
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
           {childName === 'your child' ? 'The' : `${childName}'s`} digital passport
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-          {earnedCount}/{stamps.length} pages stamped
+        {/* nowrap. "1/5 pages stamped" was breaking after "pages", which took
+            the label opposite it to two lines as well, so the book started two
+            lines lower for no reason anybody chose. */}
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap', flexShrink: 0 }}>
+          {earnedCount}/{stamps.length} stamped
         </span>
       </div>
-      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
-        One page per stage. The circle fills as you complete the stage, and a full circle stamps the page. Flip through to catch up or peek ahead.
-      </p>
+      <div style={{ height: 12 }} />
 
       {/* The book */}
       {/* position relative so the print mark can sit in the book's corner.
@@ -158,7 +176,7 @@ export default function PassportBook({
           which matters: anything inside that div rotates to the spine and back
           on every page turn, and a shop link tumbling through 88 degrees each
           time a parent flips a page is not a quiet affordance. */}
-      <div style={{ position: 'relative', perspective: '1400px', maxWidth: '340px', margin: '0 auto' }}>
+      <div ref={bookRef} style={{ position: 'relative', perspective: '1400px', maxWidth: '340px', margin: '0 auto', scrollMarginTop: '84px' }}>
         <div
           style={{
             position: 'relative',
@@ -236,10 +254,17 @@ export default function PassportBook({
               <div onClick={() => page < stamps.length && goTo(page + 1)} aria-hidden style={{ position: 'absolute', inset: '0 0 0 50%', cursor: page < stamps.length ? 'pointer' : 'default', zIndex: 2 }} />
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: theme.text, opacity: 0.75 }}>
-                  Digital Passport · Stage {stamp.id}
+                {/* "Digital Passport · Stage 3" no longer fits on one line.
+                    In the hero the book sits in a 300px column on a desk, which
+                    left 256px of page for a 26 character letterspaced line, so
+                    it broke after "STAGE" and orphaned the "3" on its own row.
+                    The words are already on the cover and in the label directly
+                    above the book, so the stage number is the part that was
+                    doing any work here. */}
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: theme.text, opacity: 0.75, whiteSpace: 'nowrap' }}>
+                  Stage {stamp.id}
                 </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: theme.text, opacity: 0.55 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: theme.text, opacity: 0.55, whiteSpace: 'nowrap' }}>
                   P{stamp.id} of {stamps.length}
                 </span>
               </div>
@@ -487,15 +512,19 @@ export default function PassportBook({
           {[0, ...stamps.map(s => s.id)].map(i => {
             const active = i === page
             const t = i >= 1 ? STAGE_THEME[i] : null
+            // A page left behind gets a ring, so the flip control itself says
+            // which stages are still open rather than only the banner below.
+            const behind = i >= 1 && stamps.find(s => s.id === i)?.status === 'catchup'
             return (
               <button
                 key={i}
                 onClick={() => goTo(i)}
-                aria-label={i === 0 ? 'Cover' : `Stage ${i}`}
+                aria-label={i === 0 ? 'Cover' : behind ? `Stage ${i}, not stamped yet` : `Stage ${i}`}
                 style={{
                   width: active ? 22 : 8, height: 8, borderRadius: '100px', border: 'none', padding: 0,
                   cursor: 'pointer', transition: 'all 0.25s ease',
-                  background: active ? (t ? t.bold : 'var(--deep-teal)') : 'var(--border)',
+                  background: active ? (t ? t.bold : 'var(--deep-teal)') : behind ? 'var(--terracotta)' : 'var(--border)',
+                  boxShadow: behind && !active ? '0 0 0 2px var(--terracotta-lt)' : 'none',
                 }}
               />
             )
@@ -514,6 +543,69 @@ export default function PassportBook({
           →
         </button>
       </div>
+
+      {/* How to use the book, beside the arrows that do it rather than three
+          lines above the book pushing it off a phone screen. It was preamble up
+          there and it is a caption down here, which is what it always was. */}
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0', textAlign: 'center' }}>
+        One page per stage. Flip through to catch up or peek ahead.
+      </p>
+
+      {/* Pages left behind, named rather than left to be discovered.
+
+          Justin: the book opening on the child's own stage "is neater", but a
+          parent will "forget to catch up in previous stages with them". Both
+          halves of that are true and they pull against each other. Opening on
+          the cover made a parent flip blind; opening on their page hides
+          whatever is behind it.
+
+          So the book keeps opening where it should and says out loud what it
+          skipped past. Only when there is something: a family who has stamped
+          everything behind them never sees this, and a stage still ahead is not
+          a stage left behind, so neither triggers it.
+
+          Why it is worth its space: stage one is where the habits the later
+          stages assume actually get built. A child on stage three with an
+          unstamped stage one is not ahead of schedule, they have a gap, and the
+          passport is the one place in the product that can see it. */}
+      {catchUps.length > 0 && (
+        <div style={{
+          marginTop: 16, background: 'var(--terracotta-lt)',
+          border: '1.5px solid var(--terracotta)', borderRadius: 16, padding: '14px 16px',
+        }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
+            {catchUps.length === 1 ? 'One page behind you' : `${catchUps.length} pages behind you`}
+          </div>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 11px' }}>
+            {childName === 'your child' ? 'Your child has' : `${childName} has`} moved on without stamping{' '}
+            {catchUps.length === 1
+              ? 'this one. The stage they are on now is built on top of it, so it is worth going back to together.'
+              : 'these. The stage they are on now is built on top of them, so they are worth going back to together.'}
+            {' '}Tap {catchUps.length === 1 ? 'it' : 'one'} to open {catchUps.length === 1 ? 'that' : 'its'} page.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {catchUps.map(s => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => openFromBelow(s.id)}
+                style={{
+                  display: 'inline-flex', alignItems: 'baseline', gap: 7,
+                  background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 12,
+                  padding: '8px 13px', cursor: 'pointer', textAlign: 'left',
+                }}
+              >
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
+                  Stage {s.id} {s.name}
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                  {s.pct}%
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Order the real thing. Underneath, not floating on the cover.
 
