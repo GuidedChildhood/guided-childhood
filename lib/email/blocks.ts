@@ -1,21 +1,19 @@
 // Banded emails: the roundup shape, in our own colours.
 //
-// Justin sent the Good Inside August roundup and said replicate the style, then
-// looked at their age band blocks and said "the blue looks nice but alternate
-// colours would be good".
+// Justin sent the Good Inside August roundup and asked for the style. He then
+// asked for alternating colours, saw them, and settled it: "can we use the blue
+// its nicer".
 //
-// WHAT IS ACTUALLY WORTH TAKING, which is not the blue. Their email alternates
-// full bleed coloured bands with white content, and their site gives every age
-// band its own colour: peach for babies, green for two to ten, blue for eight
-// to eighteen. The colour is doing a job. It tells you which part of childhood
-// you are reading about before you have read a word.
+// WHAT IS WORTH TAKING. Their email alternates full bleed coloured bands with
+// white content, and that rhythm is the whole trick: it turns a long message
+// into a few short ones. The colour itself is ours, one calm blue from the
+// stage palette, at our own line lengths and in Nunito. Their pattern, our
+// butter and ink, never another brand's look, which is the CLAUDE.md rule for
+// working from a reference.
 //
-// We already have that, and better, because ours is five stages rather than
-// three overlapping bands, and every stage already has a pastel and a matching
-// dark text colour in globals.css. So this is not a copy of their palette. It
-// is their rhythm carried by our pathway, which is the CLAUDE.md rule for
-// working from a reference: their pattern, our butter and ink and Nunito, never
-// another brand's look.
+// The rotation through five stage colours was tried and dropped. Five colours
+// down one email means every band competes with the one above it, so nothing is
+// emphasis any more.
 //
 // WHY TABLES AND INLINE STYLES. Email clients. Outlook has no flexbox, Gmail
 // strips <style> blocks, and a full bleed band is a table row with a background
@@ -76,16 +74,7 @@ export const TONES = {
 
 export type Tone = keyof typeof TONES | 'white'
 
-/**
- * 'auto' means "colour me, whichever comes next in the rotation".
- *
- * Written this way because the sections in an email are CONDITIONAL. The phone
- * block only appears for a family in the Year 6 window, so any hand written
- * colour order is wrong for one of the two audiences, and the first version of
- * this did exactly that: it indexed a fixed rotation and produced two white
- * bands in a row whenever the phone block was missing. Deciding the colour
- * after the list is built is the only way it can be right for both.
- */
+/** 'auto' means "the email's colour, whatever that is". 'white' means white. */
 export type BandTone = Tone | 'auto'
 
 export interface Band {
@@ -93,36 +82,38 @@ export interface Band {
   /**
    * A function of the tone, not a string, and this is the point of 'auto'.
    *
-   * Text inside a band has to match the band: a heading on the coral band uses
-   * the coral text colour. But the band colour is only known once the
-   * conditional sections have been counted, so the content cannot be built
-   * until then either. Passing the tone in at render time is what lets both be
-   * decided in the right order.
+   * Text inside a band has to match the band, so a heading on the blue band
+   * uses the blue text colour. Passing the tone in at render time keeps that
+   * true without every caller having to know which colour it got.
    */
   html: string | ((tone: Tone) => string)
 }
 
 /**
- * Assign the rotation, starting at the child's own stage.
+ * Give every coloured band the same tone.
  *
- * Starting at their stage rather than always at one, so the first band a parent
- * sees is the colour they already know from the app. A rotation that ignores
- * the family is just stripes.
+ * IT ROTATED FIRST, AND JUSTIN WAS RIGHT TO STOP IT. He asked for alternating
+ * colours, saw it, and said "can we use the blue its nicer". He is right, and
+ * the reason is worth keeping: five colours down one email means every band
+ * competes with the one above it, so nothing is emphasis any more. One calm
+ * colour, and the eye goes to the words.
+ *
+ * The stage palette still earns its keep in the app, where a colour marks which
+ * part of childhood you are looking at. An email is one child at a time, so the
+ * colour has nothing left to tell you.
+ *
+ * Kept as a parameter rather than hardcoded, because a Christmas or an end of
+ * year email may well want a different single colour, and that is one argument
+ * rather than a rewrite.
  */
-export function paint(bands: Band[], startAt: 1 | 2 | 3 | 4 | 5 = 1): { tone: Tone; html: string }[] {
-  let step = 0
+export function paint(bands: Band[], tone: 1 | 2 | 3 | 4 | 5 = 2): { tone: Tone; html: string }[] {
   return bands
     .map(b => {
-      const tone: Tone = b.tone === 'auto'
-        ? ((((startAt - 1 + step++) % 5) + 1) as 1 | 2 | 3 | 4 | 5)
-        : b.tone
-      return { tone, html: typeof b.html === 'function' ? b.html(tone) : b.html }
+      const t: Tone = b.tone === 'auto' ? tone : b.tone
+      return { tone: t, html: typeof b.html === 'function' ? b.html(t) : b.html }
     })
-    // After rendering, not before: a section that rendered to nothing must not
-    // leave a stripe of colour behind. It has already taken its turn in the
-    // rotation by then, which is the right trade, because a rotation that
-    // shifts depending on whether a block was empty is harder to reason about
-    // than one colour occasionally being skipped.
+    // A section that rendered to nothing must not leave a stripe of colour
+    // behind, so the filter runs after rendering rather than before.
     .filter(b => b.html.trim())
 }
 
@@ -205,14 +196,14 @@ export function bandedWrapper(params: {
   bands: Band[]
   unsubscribe: string
   signOff?: string
-  /** Where the rotation starts. The child's own stage. */
-  startAt?: 1 | 2 | 3 | 4 | 5
+  /** The one colour every band uses. Blue by default. */
+  tone?: 1 | 2 | 3 | 4 | 5
 }): string {
-  const { bands, unsubscribe, signOff, startAt = 1 } = params
+  const { bands, unsubscribe, signOff, tone = 2 } = params
   // paint() also drops empty bands, so a section that rendered to nothing
   // cannot leave a stripe of colour behind and take a turn in the rotation with
   // it.
-  const rows = paint(bands, startAt)
+  const rows = paint(bands, tone)
     .map(b => {
       const bg = b.tone === 'white' ? '#ffffff' : TONES[b.tone].bg
       return `<tr><td style="background:${bg};padding:28px 30px">${b.html}</td></tr>`

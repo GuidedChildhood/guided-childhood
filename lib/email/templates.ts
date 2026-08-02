@@ -849,14 +849,13 @@ export function backToSchoolEmail(params: {
   // to get it right for both audiences is to assemble after the condition is
   // known rather than push bands as we go.
   const firstThing =
-    sectionHead('📓', 'The one thing worth doing first') +
-    bp(newYear.doThis) +
-    bp('Screens are the part that always slips. The routine that held in July does not survive the first week of term on its own, and the families it goes well for are the ones who agreed the new shape before the shape was needed.') +
+    sectionHead('&#128211;', 'The one thing worth doing first') +
+    bp('Screens are the part that slips. The July routine does not survive the first week of term, and the families it goes well for agreed the new shape before they needed it.') +
     button('Set the term routine', `${APP}/dashboard/quests`)
 
   const restOfYear =
-    sectionHead('🗓️', 'The rest of the school year, already mapped') +
-    bp('Every year group has its own set of dates that arrive without warning. We keep them in one place so the first you hear of one is not a letter in a bag.') +
+    sectionHead('&#128197;', 'The rest of the school year, already mapped') +
+    bp('Every year group has dates that arrive without warning. They are all in one place, so the first you hear of one is not a letter in a bag.') +
     linkList([
       { label: 'What your child’s year actually covers', href: `${APP}/dashboard/learning` },
       { label: 'The scripts for the first week back', href: `${APP}/dashboard/scripts` },
@@ -869,8 +868,7 @@ export function backToSchoolEmail(params: {
       html: tone =>
         eyebrow('The September run up', tone) +
         h1('Consider this your back to school prep', tone) +
-        bp(`${yearLine} A new year group, a new teacher, and a jump in what is expected that nobody hands you a list for.`, tone) +
-        bp('Here is the short version of what is worth settling now, while there is still time to do it calmly.', tone),
+        bp(`${yearLine} New year group, new teacher, and a jump in what is expected that nobody hands you a list for.`, tone),
     },
   ]
 
@@ -883,18 +881,18 @@ export function backToSchoolEmail(params: {
       tone: 'auto',
       html: tone =>
         eyebrow(`Year ${transition.yearGroup}`, tone) +
-        sectionHead('📱', transition.headline, tone) +
+        sectionHead('&#128241;', transition.headline, tone) +
         bp(transition.line, tone) +
         tickList([
-          'What gets agreed before the handset, which is the part most families do backwards',
-          'The rules that survive the first term, and the ones that quietly stop being enforced',
+          'What to agree before the handset, the part most families do backwards',
+          'Which rules survive the first term, and which quietly stop',
           'What to do when the year group WhatsApp starts without you',
         ], tone),
     })
     bands.push({
       tone: 'white',
       html:
-        bp('We will not tell you to give them a phone, and we will not tell you not to. That is your call and it always was. What we have is the order to do it in.') +
+        bp('We will not tell you to give them a phone, or not to. That is your call. What we have is the order to do it in.') +
         button('Walk the transition', `${APP}/dashboard/pathway`) +
         rule() +
         restOfYear,
@@ -908,12 +906,11 @@ export function backToSchoolEmail(params: {
   bands.push({
     tone: 'auto',
     html: tone =>
-      bp('September starts a lot of new things at once, and whichever of them lands on your family, we are here for it.', tone) +
-      bp(`If you want to think one out loud, ask DiGi: <em>${newYear.ask}</em>`, tone),
+      bp('September starts a lot at once. Whichever of it lands on your family, we are here for it.', tone),
   })
 
   return {
     subject: `Consider this your back to school prep, ${childName}’s year starts soon`,
-    html: bandedWrapper({ bands, unsubscribe, signOff: 'Have a good September,', startAt: stageNumber }),
+    html: bandedWrapper({ bands, unsubscribe, signOff: 'Have a good September,' }),
   }
 }
