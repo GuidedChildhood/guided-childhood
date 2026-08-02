@@ -11,8 +11,9 @@ import { getExpertKnowledge, getFamilyMemory, getWhatWorked, getPathwayPosition 
 import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
 import { getTriedAlready } from '@/lib/digi/outcomes'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
-import { classifyLane, laneShape } from '@/lib/digi/lane'
+import { classifyLane, laneShape, missCandidates } from '@/lib/digi/lane'
 import { startTimer } from '@/lib/digi/timing'
+import { loadLaneKeywords } from '@/lib/digi/keywords'
 import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
 import { consumeStream } from '@/lib/digi/stream'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
@@ -148,6 +149,12 @@ export async function POST(request: Request) {
     whatWorked,
     agreementResult,
     weekSessionsResult,
+    // The routing vocabulary, in here rather than next to classifyLane on
+    // purpose. This round is already thirteen queries wide, so the read hides
+    // behind the slowest of them and the database backed list costs nothing on
+    // the clock. Adding it later, where it would be serial, would have made the
+    // very phase this is meant to speed up slower.
+    laneKeywords,
   ] = await Promise.all([
     supabase
       .from('profiles')
@@ -229,6 +236,7 @@ export async function POST(request: Request) {
       .select('device, minutes')
       .eq('user_id', user.id)
       .gte('started_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()),
+    loadLaneKeywords(supabase),
   ])
   timer.mark('gather1')
 
@@ -270,9 +278,23 @@ export async function POST(request: Request) {
   // findings about eleven year olds to ignore. Nearly always free: the keyword
   // pass answers it with no model call, and every failure lands on 'parenting',
   // which is the shape that loses least by being wrong.
-  const lane = await classifyLane(message, (convData?.messages ?? []).length > 0)
+  const hasHistoryNow = (convData?.messages ?? []).length > 0
+  const lane = await classifyLane(message, hasHistoryNow, laneKeywords)
   timer.mark('lane')
   const wantsResearch = lane !== 'general'
+
+  // A slow lane phase means the keyword pass could not answer and we paid a
+  // model call to find out. Those are the messages whose words are worth
+  // knowing, so the list can learn and the next parent does not pay it.
+  //
+  // The threshold, not a flag: a fall through is the only thing that takes real
+  // time here, so the clock is a more honest signal than re-deriving what
+  // fastLane decided. Words only, and missCandidates strips names, stopwords
+  // and anything short before they reach the table.
+  const laneMissed = (timer.read().lane ?? 0) > 200
+  const missWords = laneMissed
+    ? missCandidates(message, new Set(laneKeywords))
+    : []
 
   // Second parallel round trip for the queries that depend on the first
   const [expertKnowledge, aggregateWisdom, provenSolutions, triedAlready, recommended, matchingScriptsResult, pathwayPosition] = await Promise.all([
@@ -555,6 +577,7 @@ When a parent asks whether or for how long their child should use any device, do
     // on us being curious.
     try {
       const t = timer.read()
+      const replied = responseText.trim().length > 0
       await supabase.from('digi_latency').insert({
         user_id: user.id,
         auth_ms: t.auth ?? null,
@@ -567,7 +590,24 @@ When a parent asks whether or for how long their child should use any device, do
         lane,
         first_message: history.length === 0,
         tool_fired: toolFired,
+        // Migration 149 recorded how long every phase took and not whether an
+        // answer came out. So when Justin asked which of four rows was his
+        // failure, there was no way to tell: a four second success and a four
+        // second empty reply were the same row. Speed measured, outcome
+        // forgotten. This is that gap closed.
+        replied,
+        reply_chars: responseText.trim().length,
+        failure: replied ? null : 'empty',
       })
+
+      // The words we did not know, from a message the keyword pass could not
+      // place. Words only, already stripped of names and stopwords, and nothing
+      // surfaces on the board until two or more separate families have said it.
+      if (missWords.length > 0) {
+        await supabase.from('digi_lane_misses').insert(
+          missWords.map(word => ({ word, user_id: user.id })),
+        )
+      }
     } catch { /* never at the cost of the reply */ }
 
     if (!responseText.trim()) return

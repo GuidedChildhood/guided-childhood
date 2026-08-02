@@ -149,6 +149,14 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
       }
     } catch {
       setError('DiGi lost connection. Your line was not lost, try again.')
+      // Same promise as the chat box, kept the same way. The line survives in
+      // the transcript here, but "try again" still meant retyping it, and a
+      // parent practising a hard sentence should not have to write it twice.
+      // history, not the messages state: sendText calls run() in the same tick
+      // it calls setMessages, so the state here is still the list from before
+      // the line was added and the last entry would be the wrong one.
+      const last = history[history.length - 1]
+      if (last?.role === 'user') setInput(last.content)
     } finally {
       setBusy(false)
       scrollDown()
