@@ -81,8 +81,8 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
           <DigiCharacter size={26} mood={worked === 'yes' ? 'happy' : 'idle'} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>DiGi</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.3 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>DiGi</div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
             {chosen ? 'Noted. DiGi will start with that one next time.' : askWhich ? 'Which line worked?' : settled ?? 'Did this help?'}
           </div>
         </div>
@@ -98,7 +98,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
               style={{
                 flex: 1, padding: '11px 6px', borderRadius: '12px', cursor: saving ? 'default' : 'pointer',
                 background: 'var(--cream)', border: '1.5px solid var(--border)', color: 'var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 boxShadow: '0 3px 0 rgba(26,26,46,0.12)', opacity: saving ? 0.7 : 1,
               }}
             >
@@ -113,7 +113,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
           reads, and a line cut off at forty characters is a guess. */}
       {askWhich && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 2px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 2px' }}>
             You took these out of the rehearsal. Whichever one landed is the one DiGi will offer you first next time.
           </p>
           {lines!.map(line => (
@@ -123,7 +123,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
               style={{
                 textAlign: 'left', padding: '11px 14px', borderRadius: '12px', cursor: 'pointer',
                 background: 'var(--cream)', border: '1.5px solid var(--border)', color: 'var(--ink)',
-                fontSize: '15.5px', lineHeight: 1.45,
+                fontSize: 'var(--text-base)', lineHeight: 1.45,
               }}
             >
               &ldquo;{line}&rdquo;
@@ -131,7 +131,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
           ))}
           <button
             onClick={() => setLines([])}
-            style={{ alignSelf: 'flex-start', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)', padding: '4px 0' }}
+            style={{ alignSelf: 'flex-start', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', padding: '4px 0' }}
           >
             I said something else
           </button>
@@ -141,7 +141,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
       {settled && !askWhich && (
         <button
           onClick={() => { setWorked(null); setChosen(null); setLines(null) }}
-          style={{ marginTop: '10px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'underline', padding: 0 }}
+          style={{ marginTop: '10px', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'underline', padding: 0 }}
         >
           Change my answer
         </button>

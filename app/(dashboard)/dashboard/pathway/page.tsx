@@ -219,11 +219,16 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           {/* The promise, folded away after the first visit.
 
               It used to sit here open at full height every single time: a
-              2.5rem heading, a 20px paragraph, four bullets and two more lines,
+              2.5rem heading, a big paragraph, four bullets and two more lines,
               which on a 390 wide phone is the entire screen before the passport
               begins. Justin: "that text takes up the whole of screen so needs to
               move away, especially not each time." The words were right, the
-              permanence was not. See PathwayIntro for the reasoning. */}
+              permanence was not. See PathwayIntro for the reasoning.
+
+              The copy moved wholesale into that component, so main's type scale
+              sweep of this block (3f9bbfe) landed on lines that no longer exist
+              here. Its SIZING decisions were not lost: they are applied inside
+              PathwayIntro to the same sentences. */}
           <PathwayIntro kidLabel={kidLabel} childCount={children.length} />
 
           {/* The passport itself, the hero of its own page at last. */}
@@ -261,7 +266,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           <span style={{ flexShrink: 0, width: 42, height: 42, borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <DigiCharacter size={28} mood="wave" />
           </span>
-          <p style={{ flex: 1, minWidth: 0, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+          <p style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
             <strong style={{ fontWeight: 800 }}>Do not worry about the whole map.</strong> We have got you. Just follow each daily task and we drive the growing up for you, all the way to 16 and beyond.
           </p>
         </div>
@@ -331,10 +336,10 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       {tailoredAction && (
         <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 20px' }}>
           <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '16px 18px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '5px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--deep-teal)', marginBottom: '5px' }}>
               For your family right now{concernLabel ? ` · ${concernLabel}` : ''}
             </div>
-            <p style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{tailoredAction}</p>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{tailoredAction}</p>
           </div>
         </div>
       )}
@@ -367,17 +372,17 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           <Link href="/dashboard/digi" style={{ textDecoration: 'none', display: 'block' }}>
             <div style={{ background: 'var(--deep-teal)', borderRadius: '18px', padding: '18px 20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
               <div style={{ width: 40, height: 40, borderRadius: '11px', background: 'var(--terracotta)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-                <span style={{ color: '#fff', fontSize: '1rem', lineHeight: 1 }}>◎</span>
+                <span style={{ color: '#fff', fontSize: 'var(--text-md)', lineHeight: 1 }}>◎</span>
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: '#fff' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: '#fff' }}>
                   Not sure of your next step?
                 </div>
-                <div style={{ fontSize: '14.5px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.45, marginTop: '2px' }}>
+                <div style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.45, marginTop: '2px' }}>
                   DiGi reads the moments you have flagged and talks you through the one that matters now.
                 </div>
               </div>
-              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '20px', flexShrink: 0 }}>→</span>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 'var(--text-lg)', flexShrink: 0 }}>→</span>
             </div>
           </Link>
         </div>
@@ -387,7 +392,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '28px auto 0' }}>
         {children.length > 1 && (
           <div style={{ marginBottom: '20px' }}>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
               Your children
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -401,12 +406,12 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
                     borderRadius: '12px', padding: '12px 16px', gap: '12px',
                     textDecoration: 'none',
                   }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)' }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                       {child.name}
                     </span>
                     {stageMeta && (
                       <span style={{
-                        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
                         padding: '3px 10px', borderRadius: '100px', letterSpacing: '0.06em',
                         textTransform: 'uppercase', whiteSpace: 'nowrap',
@@ -427,11 +432,11 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
 
         {/* Add child prompt */}
         <div style={{ textAlign: 'center', marginTop: '8px' }}>
-          <p style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '10px' }}>
             Multiple children? One account covers all of them.
           </p>
           <Link href="/dashboard/settings" style={{
-            fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)',
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)',
             textDecoration: 'underline', letterSpacing: '0.04em',
           }}>
             Manage children →
@@ -445,8 +450,8 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
             padding: '20px 22px', background: 'var(--stage-5)',
           }}>
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '8px' }}>Founder rate</p>
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '8px' }}>Unlock all 5 stages for £7.99 / month</h3>
-            <p style={{ fontSize: '16px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
+            <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '8px' }}>Unlock all 5 stages for £7.99 / month</h3>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
               All scripts, unlimited DiGi, wellbeing tracker. First 50 members only.
             </p>
             <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>

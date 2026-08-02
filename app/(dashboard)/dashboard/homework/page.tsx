@@ -31,20 +31,20 @@ export default async function HomeworkPage() {
 
   return (
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '24px 20px 60px' }}>
-      <Link href="/dashboard/printables" style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+      <Link href="/dashboard/printables" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', textDecoration: 'none' }}>
         ← Printables
       </Link>
       <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(26px, 7vw, 32px)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.02em', margin: '14px 0 10px' }}>
         What is this homework?
       </h1>
-      <p style={{ fontSize: 17.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 20px' }}>
+      <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 20px' }}>
         Paste it in and we will tell you which bit of the national curriculum it comes from, what it is actually for, and one way to help tonight.
       </p>
 
       {children.length === 0 ? (
         <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)', marginBottom: 6 }}>Add your child first</div>
-          <p style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: 6 }}>Add your child first</div>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
             This works off their school year, so we need to know who it is for.
           </p>
         </div>

@@ -11,7 +11,7 @@ import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER } from '@/lib/c
 // programme WITH live delivery evidence on it).
 
 const eyebrow: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 
@@ -33,7 +33,7 @@ function CoverageRing({ taught, total, accent }: { taught: number; total: number
           <text x="19" y="24" textAnchor="middle" fontSize="14" fill={accent} fontWeight="900">✓</text>
         )}
       </svg>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)' }}>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)' }}>
         {taught} of {total} classes
       </span>
     </span>
@@ -87,11 +87,11 @@ export default async function CurriculumMapPage() {
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 5vw, 2.4rem)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>
           The curriculum map
         </h1>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>
           Twenty one modules covering all eight Education for a Connected World strands, taught by the DiGi Squad.
           The ring on each card fills as your classes are taught, so this page is also your live coverage record.
         </p>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '34px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '34px' }}>
           {liveCount} of {CURRICULUM.length} modules live in the pilot · the rest are in production
         </p>
 
@@ -101,14 +101,14 @@ export default async function CurriculumMapPage() {
           return (
             <section key={ks} style={{ marginBottom: '40px' }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px', flexWrap: 'wrap', marginBottom: '4px' }}>
-                <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
                   {meta.label} <span style={{ fontWeight: 700, fontSize: '0.75em', color: 'var(--ink-muted)' }}>{meta.years}</span>
                 </h2>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)' }}>
                   {modules.length} module{modules.length === 1 ? '' : 's'}
                 </span>
               </div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', marginBottom: '16px' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginBottom: '16px' }}>
                 {meta.strapline}
               </p>
 
@@ -133,49 +133,49 @@ export default async function CurriculumMapPage() {
                         }}>
                           {ch.emblem}
                         </span>
-                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: ch.ink }}>
+                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: ch.ink }}>
                           {m.castLine}
                         </span>
-                        <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', color: ch.ink }}>
+                        <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', color: ch.ink }}>
                           M{String(m.n).padStart(2, '0')}
                         </span>
                       </div>
 
                       <div style={{ padding: '14px 16px 16px', display: 'flex', flexDirection: 'column', gap: '8px', flex: 1 }}>
                         <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                          <span style={{ ...eyebrow, fontSize: '11.5px' }}>{m.yearBand}</span>
+                          <span style={{ ...eyebrow, fontSize: 'var(--text-sm)' }}>{m.yearBand}</span>
                           {m.crown && (
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#7A5A0E', background: '#FBEEC9', borderRadius: '6px', padding: '1px 7px' }}>
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#7A5A0E', background: '#FBEEC9', borderRadius: '6px', padding: '1px 7px' }}>
                               👑 Crown module
                             </span>
                           )}
                           {m.dsl && (
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--coral-dark)', background: 'var(--coral-lt)', borderRadius: '6px', padding: '1px 7px' }}>
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--coral-dark)', background: 'var(--coral-lt)', borderRadius: '6px', padding: '1px 7px' }}>
                               DSL note
                             </span>
                           )}
                         </div>
-                        <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17.5px', color: 'var(--ink)', lineHeight: 1.3 }}>
+                        <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.3 }}>
                           {m.title}
                         </h3>
-                        <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+                        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
                           {m.blurb}
                         </p>
-                        <p style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontWeight: 600, fontSize: '14.5px', color: ch.ink, lineHeight: 1.5 }}>
+                        <p style={{ fontFamily: 'var(--font-body)', fontStyle: 'italic', fontWeight: 600, fontSize: 'var(--text-base)', color: ch.ink, lineHeight: 1.5 }}>
                           &ldquo;{m.outcome}&rdquo;
                         </p>
 
                         <div style={{ marginTop: 'auto', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                           {live ? (
                             <Link href={`/educator/teach/${m.moduleId}`} style={{
-                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                               color: '#fff', background: ch.accent, borderRadius: '12px',
                               padding: '8px 14px', textDecoration: 'none',
                             }}>
                               Ready to teach →
                             </Link>
                           ) : (
-                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '7px 12px' }}>
+                            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)', border: '1.5px solid var(--border)', borderRadius: '12px', padding: '7px 12px' }}>
                               In production
                             </span>
                           )}
@@ -190,7 +190,7 @@ export default async function CurriculumMapPage() {
           )
         })}
 
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-light)', lineHeight: 1.6, maxWidth: '640px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-light)', lineHeight: 1.6, maxWidth: '640px' }}>
           Every module ships with the lesson player, video beats, the teacher script, the paper pack, pupil booklets,
           named quizzes, a parent note home, and one tap register and marking. Coverage on this page is your
           printable evidence of delivery.

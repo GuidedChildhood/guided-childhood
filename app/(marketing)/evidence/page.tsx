@@ -9,7 +9,7 @@ export const metadata = {
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }
 const H2: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.15rem, 3.5vw, 1.4rem)', margin: '34px 0 10px', color: 'var(--ink)' }
-const P: CSSProperties = { fontSize: '15.5px', lineHeight: 1.65, color: 'var(--ink-soft)', margin: '0 0 12px' }
+const P: CSSProperties = { fontSize: 'var(--text-base)', lineHeight: 1.65, color: 'var(--ink-soft)', margin: '0 0 12px' }
 
 // DRAFT: the evidence stance, plain and defensible. Swap in the full cited
 // library from the kids-research briefings when ready.
@@ -23,7 +23,7 @@ const POINTS = [
 export default function EvidencePage() {
   return (
     <div style={WRAP}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>The evidence</p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>The evidence</p>
       <h1 style={H1}>What Guided Childhood is built on</h1>
       <p style={P}>
         We try to be honest about what the research does and does not say. The headlines are often louder than the science. Here is the stance the whole product rests on, calm, balanced, and open to being updated as the evidence moves.

@@ -238,17 +238,17 @@ export default function SettingsPage() {
       </div>
 
       {error && (
-        <div style={{ background: 'var(--stage-1)', border: '1px solid var(--stage-1)', borderRadius: '10px', padding: '12px 16px', marginBottom: '20px', fontSize: '16px', color: 'var(--ink)' }}>
+        <div style={{ background: 'var(--stage-1)', border: '1px solid var(--stage-1)', borderRadius: '10px', padding: '12px 16px', marginBottom: '20px', fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
           {error}
         </div>
       )}
 
       {/* Profile section */}
       <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
-        <h2 style={{ fontSize: '1rem', marginBottom: '18px', color: 'var(--ink)' }}>Your profile</h2>
+        <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '18px', color: 'var(--ink)' }}>Your profile</h2>
         <form onSubmit={saveProfile} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           <div>
-            <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+            <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
               Your name
             </label>
             <input
@@ -260,7 +260,7 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+            <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
               Email
             </label>
             <input
@@ -269,7 +269,7 @@ export default function SettingsPage() {
               disabled
               style={{ opacity: 0.5, cursor: 'not-allowed' }}
             />
-            <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginTop: '4px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '4px' }}>
               To change your email, contact support.
             </p>
           </div>
@@ -284,7 +284,7 @@ export default function SettingsPage() {
               anybody asking. */}
           {regionSupported && (
             <div>
-              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                 School holidays
               </label>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -305,7 +305,7 @@ export default function SettingsPage() {
                   </button>
                 ))}
               </div>
-              <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginTop: '8px', lineHeight: 1.5 }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '8px', lineHeight: 1.5 }}>
                 {REGION_NOTE[region]} It sets when the screen guide relaxes, and when saved holiday minutes can be spent.
               </p>
             </div>
@@ -314,7 +314,7 @@ export default function SettingsPage() {
             type="submit"
             className="btn btn-green"
             disabled={savingProfile}
-            style={{ alignSelf: 'flex-start', padding: '10px 24px', fontSize: '16px' }}
+            style={{ alignSelf: 'flex-start', padding: '10px 24px', fontSize: 'var(--text-md)' }}
           >
             {profileSaved ? 'Saved' : savingProfile ? 'Saving...' : 'Save profile'}
           </button>
@@ -332,7 +332,7 @@ export default function SettingsPage() {
           is reading this list, so this is where you come to see whether the
           list is right. */}
       {kids.length > 1 && (
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 12px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 12px' }}>
           {kids.length} children on this account
         </p>
       )}
@@ -343,12 +343,12 @@ export default function SettingsPage() {
         const derivedBand = hasDob ? bandForAge(form.dob) : null
         return (
         <section key={kid.id} style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
-          <h2 style={{ fontSize: '1rem', marginBottom: '18px', color: 'var(--ink)' }}>
+          <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '18px', color: 'var(--ink)' }}>
             {kids.length > 1 ? (kid.name && kid.name !== 'Your child' ? kid.name : 'Your child') : 'Your child'}
           </h2>
           <form onSubmit={e => saveChild(e, kid.id)} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div>
-              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                 Child's name (optional)
               </label>
               <input
@@ -360,7 +360,7 @@ export default function SettingsPage() {
             </div>
             {interestsSupported && (
             <div>
-              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                 What they love (optional)
               </label>
               <input
@@ -369,14 +369,14 @@ export default function SettingsPage() {
                 onChange={e => patchForm(kid.id, { interests: e.target.value })}
                 placeholder="Football, singing, crafts..."
               />
-              <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginTop: '4px' }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '4px' }}>
                 DiGi turns this into a for you tip on their pathway: enjoy a little on the screen, then go and do the real thing.
               </p>
             </div>
             )}
             {dobSupported && (
             <div>
-              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                 Birthday
               </label>
               <input
@@ -392,15 +392,15 @@ export default function SettingsPage() {
                   checked={form.monthOnly}
                   onChange={e => patchForm(kid.id, { monthOnly: e.target.checked, dob: form.dob.slice(0, e.target.checked ? 7 : 10) })}
                 />
-                <span style={{ fontSize: '14.5px', color: 'var(--ink-soft)' }}>
+                <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>
                   Rather not give the exact day? Month and year is plenty, we work from that.
                 </span>
               </label>
-              <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginTop: '4px' }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '4px' }}>
                 Set the birthday and everything grows up with them on its own.
               </p>
               {derivedBand && (
-                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', marginTop: '2px' }}>
+                <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px' }}>
                   From this birthday: {AGE_BAND_OPTIONS.find(o => o.value === derivedBand)?.label} · {AGE_BAND_OPTIONS.find(o => o.value === derivedBand)?.sub}
                 </p>
               )}
@@ -408,7 +408,7 @@ export default function SettingsPage() {
             )}
             {!hasDob && (
             <div>
-              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '10px' }}>
                 Age band
               </label>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -436,8 +436,8 @@ export default function SettingsPage() {
                       style={{ accentColor: 'var(--terracotta)' }}
                     />
                     <span style={{ flex: 1 }}>
-                      <span style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink)' }}>{opt.label}</span>
-                      <span style={{ display: 'block', fontSize: '13px', color: 'var(--ink-muted)', fontFamily: 'var(--font-mono)', marginTop: '1px' }}>{opt.sub}</span>
+                      <span style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)' }}>{opt.label}</span>
+                      <span style={{ display: 'block', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', fontFamily: 'var(--font-mono)', marginTop: '1px' }}>{opt.sub}</span>
                     </span>
                   </label>
                 ))}
@@ -448,7 +448,7 @@ export default function SettingsPage() {
               type="submit"
               className="btn btn-green"
               disabled={form.saving}
-              style={{ alignSelf: 'flex-start', padding: '10px 24px', fontSize: '16px' }}
+              style={{ alignSelf: 'flex-start', padding: '10px 24px', fontSize: 'var(--text-md)' }}
             >
               {form.saved ? 'Saved' : form.saving ? 'Saving...' : 'Save child details'}
             </button>
@@ -479,37 +479,37 @@ export default function SettingsPage() {
 
       {/* Billing section */}
       <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
-        <h2 style={{ fontSize: '1rem', marginBottom: '6px', color: 'var(--ink)' }}>Membership</h2>
+        <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Membership</h2>
 
         {isPaid ? (
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, background: 'var(--stage-2)', color: 'var(--terracotta)', padding: '3px 10px', borderRadius: '100px' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, background: 'var(--stage-2)', color: 'var(--terracotta)', padding: '3px 10px', borderRadius: '100px' }}>
                 {tierLabel} member
               </span>
               {profile?.is_founder && (
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>
                   Founder rate locked for life
                 </span>
               )}
             </div>
-            <p style={{ fontSize: '16px', color: 'var(--ink-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
               Manage your subscription, update payment details, or download invoices through Stripe's secure billing portal.
             </p>
             <a
               href="/api/stripe/portal"
               className="btn btn-green"
-              style={{ display: 'inline-block', padding: '10px 24px', fontSize: '16px', textDecoration: 'none' }}
+              style={{ display: 'inline-block', padding: '10px 24px', fontSize: 'var(--text-md)', textDecoration: 'none' }}
             >
               Manage billing
             </a>
           </>
         ) : (
           <>
-            <p style={{ fontSize: '16px', color: 'var(--ink-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
               You are on the free plan. Upgrade to unlock all five stages, unlimited DiGi, and the full script library.
             </p>
-            <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-block', padding: '10px 24px', fontSize: '16px', textDecoration: 'none' }}>
+            <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-block', padding: '10px 24px', fontSize: 'var(--text-md)', textDecoration: 'none' }}>
               Upgrade now
             </Link>
           </>
@@ -527,8 +527,8 @@ export default function SettingsPage() {
 
       {/* Sign out */}
       <section id="sign-out" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
-        <h2 style={{ fontSize: '1rem', marginBottom: '6px', color: 'var(--ink)' }}>Sign out</h2>
-        <p style={{ fontSize: '16px', color: 'var(--ink-muted)', marginBottom: '16px' }}>
+        <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Sign out</h2>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
           You will be signed out on this device.
         </p>
         <button
@@ -538,7 +538,7 @@ export default function SettingsPage() {
             border: '2px solid var(--border)',
             borderRadius: '16px',
             padding: '10px 24px',
-            fontSize: '16px',
+            fontSize: 'var(--text-md)',
             fontFamily: 'var(--font-body)',
             fontWeight: 600,
             color: 'var(--ink-muted)',

@@ -43,10 +43,10 @@ export default function SetupCompleteCard() {
           </svg>
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
             Your family setup is complete
           </div>
-          <div style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>
+          <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '2px' }}>
             The daily practice, the check ins, quests, school and your agreement all work together now. From here it is just showing up.
           </div>
         </div>

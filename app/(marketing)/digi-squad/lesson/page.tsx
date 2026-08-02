@@ -95,13 +95,13 @@ export default function LessonPage() {
           {/* Trophy */}
           <div style={{ fontSize: '5rem', marginBottom: '16px', animation: 'bounce 1s ease-in-out infinite' }}>🏆</div>
           <h1 style={{ color: '#fff', marginBottom: '12px' }}>Mission complete!</h1>
-          <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '1.05rem', lineHeight: 1.65, marginBottom: '28px' }}>
+          <p style={{ color: 'rgba(255,255,255,.7)', fontSize: 'var(--text-md)', lineHeight: 1.65, marginBottom: '28px' }}>
             You just learned why your brain loves screens and how to be the boss of yours. Teo is proud of you.
           </p>
 
           {/* Mission card */}
           <div style={{ background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,255,255,.15)', borderRadius: '16px', padding: '24px', marginBottom: '24px', textAlign: 'left' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-5)', marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-5)', marginBottom: '10px' }}>
               🚀 {LESSON.mission.heading}
             </div>
             <p style={{ color: '#fff', lineHeight: 1.65, marginBottom: '12px', fontSize: '.95rem' }}>{LESSON.mission.body}</p>
@@ -110,7 +110,7 @@ export default function LessonPage() {
 
           {/* Family question */}
           <div style={{ background: 'var(--stage-2)', borderRadius: '14px', padding: '16px 20px', marginBottom: '32px', textAlign: 'left' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>
               💬 Talk about it tonight
             </div>
             <p style={{ color: 'var(--ink)', fontSize: '.9rem', lineHeight: 1.6, margin: 0 }}>{LESSON.familyQuestion}</p>

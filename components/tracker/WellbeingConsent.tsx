@@ -45,16 +45,16 @@ export default function WellbeingConsent({ onAgreed }: { onAgreed: () => void })
       </h1>
 
       <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: '18px 18px 20px' }}>
-        <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 12px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 12px' }}>
           The weekly check in asks how your child seems. Their mood, their sleep, how they are with friends, how they are after screens, and whether they are talking to you.
         </p>
-        <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 12px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 12px' }}>
           That is the most personal thing we hold, and the law treats it as health information. So we ask properly, on its own, rather than burying it in the terms you clicked when you signed up.
         </p>
-        <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 12px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 12px' }}>
           We use it for one thing: so DiGi knows what your week has actually been like and gives you advice that fits it. Never sold, never shared, and never used to make a judgement about your child. DiGi will tell you what you have logged and what has helped other families. It will not tell you what is wrong with your child.
         </p>
-        <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 18px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 18px' }}>
           You can stop any time in Settings, and when you do, what we hold is deleted. The rest of Guided Childhood works fine without this.
         </p>
 
@@ -65,7 +65,7 @@ export default function WellbeingConsent({ onAgreed }: { onAgreed: () => void })
             onChange={e => setTicked(e.target.checked)}
             style={{ width: 22, height: 22, marginTop: 1, flexShrink: 0, accentColor: 'var(--terracotta)' }}
           />
-          <span style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.5 }}>
+          <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5 }}>
             Yes, keep what I record about how my child is doing, so DiGi can help properly. I know I can stop and delete it whenever I want.
           </span>
         </label>
@@ -74,13 +74,13 @@ export default function WellbeingConsent({ onAgreed }: { onAgreed: () => void })
           onClick={save}
           disabled={!ticked || saving}
           className="btn btn-gold"
-          style={{ marginTop: 16, width: '100%', padding: '14px 20px', fontSize: 16.5, opacity: ticked ? 1 : 0.5, cursor: ticked ? 'pointer' : 'default' }}
+          style={{ marginTop: 16, width: '100%', padding: '14px 20px', fontSize: 'var(--text-md)', opacity: ticked ? 1 : 0.5, cursor: ticked ? 'pointer' : 'default' }}
         >
           {saving ? 'Saving' : 'Start the check in'}
         </button>
 
         {failed && (
-          <p role="status" style={{ fontSize: 14.5, color: 'var(--terracotta-dark)', fontWeight: 600, margin: '10px 0 0' }}>
+          <p role="status" style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 600, margin: '10px 0 0' }}>
             That did not save. Try again, and if it keeps happening email us rather than carrying on.
           </p>
         )}

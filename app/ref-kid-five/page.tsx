@@ -27,23 +27,23 @@ function Row({ k, done }: { k: StepKey; done: boolean }) {
     }}>
       <span style={{
         width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
-        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', lineHeight: 1,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)', lineHeight: 1,
         background: done ? 'var(--tint-sage)' : 'var(--cream)',
         border: done ? '1.5px solid #2F8F6B' : '1.5px solid rgba(26,26,46,0.1)',
       }}>{done ? '✓' : def.emoji}</span>
       <span style={{ flex: 1, minWidth: 0 }}>
         <span style={{
-          display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px',
+          display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           lineHeight: 1.25, color: done ? 'var(--ink-muted)' : 'var(--ink)',
           textDecoration: done ? 'line-through' : 'none',
         }}>{def.label}</span>
         {!done && (
-          <span style={{ display: 'block', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: '1px' }}>
+          <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: '1px' }}>
             {def.hint}
           </span>
         )}
       </span>
-      {!done && <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink-muted)' }}>›</span>}
+      {!done && <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>›</span>}
     </div>
   )
 }
@@ -63,10 +63,10 @@ function Fixture() {
           padding: '16px 16px 12px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
         }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)', margin: 0, lineHeight: 1.15 }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: 0, lineHeight: 1.15 }}>
               {complete ? 'Today is done! 🎉' : 'Your five for today'}
             </p>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
               {done.length} of {steps.length}
             </span>
           </div>
@@ -76,7 +76,7 @@ function Fixture() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {steps.map(k => <Row key={k} k={k} done={done.includes(k)} />)}
           </div>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '12px 2px 2px', textAlign: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '12px 2px 2px', textAlign: 'center' }}>
             🔥 4 days in a row
           </p>
         </div>

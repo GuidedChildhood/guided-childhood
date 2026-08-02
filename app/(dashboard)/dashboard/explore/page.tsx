@@ -27,7 +27,7 @@ export default async function ExplorePage() {
         href="/dashboard"
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 7, marginBottom: 18,
-          fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
           color: 'var(--ink-muted)', textDecoration: 'none',
         }}
       >
@@ -38,7 +38,7 @@ export default async function ExplorePage() {
       <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
         Everything else
       </h1>
-      <p style={{ color: 'var(--ink-soft)', fontSize: '17px', lineHeight: 1.6, marginBottom: '22px' }}>
+      <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', lineHeight: 1.6, marginBottom: '22px' }}>
         The rest of the platform, grouped. Home keeps the five you use most, and this is where the depth lives.
       </p>
 

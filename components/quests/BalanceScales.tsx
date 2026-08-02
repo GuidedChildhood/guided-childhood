@@ -54,7 +54,7 @@ export default function BalanceScales({
       }}>
         <span style={{ fontSize: compact ? '15px' : '17px', lineHeight: 1 }} aria-hidden>{icon}</span>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: compact ? '15px' : '18px', color: 'var(--ink)', lineHeight: 1.05 }}>{big}</span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.15 }}>{small}</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.15 }}>{small}</span>
       </div>
     </div>
   )
@@ -80,7 +80,7 @@ export default function BalanceScales({
       <div style={{ position: 'absolute', bottom: 10, left: '50%', width: 84, height: 10, marginLeft: -42, borderRadius: '100px', background: 'var(--ink)' }} />
 
       {/* a plain read of which way it leans, so the tilt is never ambiguous */}
-      <div style={{ position: 'absolute', bottom: -8, left: 0, right: 0, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: screenHeavier ? screenFill : realHeavier ? realFill : 'var(--ink-muted)' }}>
+      <div style={{ position: 'absolute', bottom: -8, left: 0, right: 0, textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: screenHeavier ? screenFill : realHeavier ? realFill : 'var(--ink-muted)' }}>
         {total === 0 ? 'Level, the day is young'
           : screenHeavier ? '▼ Tipping to screen'
           : realHeavier ? 'Tipping to real life ▼'

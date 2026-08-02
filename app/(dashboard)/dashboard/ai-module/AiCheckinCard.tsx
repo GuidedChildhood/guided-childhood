@@ -118,23 +118,23 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
       }}>
         <div style={{ flex: 1, minWidth: '180px' }}>
           <p style={{
-            fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
             letterSpacing: '0.1em', textTransform: 'uppercase',
             color: 'var(--terracotta)', marginBottom: '6px',
           }}>
             AI Readiness Check
           </p>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px', color: 'var(--ink)', marginBottom: '4px' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '4px' }}>
             Where does your family stand with AI?
           </p>
-          <p style={{ fontSize: '15px', color: 'var(--ink-muted)', margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: 0 }}>
             Three questions. We will point you to the right lesson.
           </p>
         </div>
         <button
           onClick={() => setOpen(true)}
           className="btn btn-gold"
-          style={{ flexShrink: 0, padding: '11px 20px', fontSize: '14px' }}
+          style={{ flexShrink: 0, padding: '11px 20px', fontSize: 'var(--text-base)' }}
         >
           Start
         </button>
@@ -155,13 +155,13 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
         marginBottom: '28px',
       }}>
         <p style={{
-          fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
           letterSpacing: '0.1em', textTransform: 'uppercase',
           color: 'var(--terracotta)', marginBottom: '8px',
         }}>
           Your recommendation
         </p>
-        <p style={{ fontSize: '16px', color: 'var(--ink-muted)', marginBottom: '16px', lineHeight: 1.55 }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px', lineHeight: 1.55 }}>
           {rec.headline}
         </p>
         {lesson && (
@@ -178,16 +178,16 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
             }}
           >
             <div style={{
-              fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
               letterSpacing: '0.1em', textTransform: 'uppercase',
               color: 'var(--terracotta)', marginBottom: '6px',
             }}>
               {rec.forChild ? 'For your child' : 'For you'}
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px', color: 'var(--ink)', marginBottom: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '4px' }}>
               {lesson.title}
             </div>
-            <div style={{ fontSize: '14px', color: 'var(--ink-muted)', fontStyle: 'italic' }}>
+            <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', fontStyle: 'italic' }}>
               {lesson.key_message}
             </div>
           </Link>
@@ -196,7 +196,7 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
           onClick={() => { setDone(false); setOpen(true); setAnswers({}) }}
           style={{
             background: 'none', border: 'none', color: '#9ca3af',
-            fontFamily: 'var(--font-mono)', fontSize: '13px', cursor: 'pointer',
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', cursor: 'pointer',
             padding: '8px 0', letterSpacing: '0.06em', display: 'block',
           }}
         >
@@ -216,24 +216,24 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
       marginBottom: '28px',
     }}>
       <p style={{
-        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
         letterSpacing: '0.1em', textTransform: 'uppercase',
         color: 'var(--terracotta)', marginBottom: '4px',
       }}>
         AI Readiness Check
       </p>
-      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '18px', color: 'var(--ink)', marginBottom: '20px' }}>
+      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '20px' }}>
         Three quick questions.
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '20px' }}>
         {QUESTIONS.map(q => (
           <div key={q.key}>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '17px', color: 'var(--ink)', marginBottom: q.hint ? '4px' : '10px', lineHeight: 1.3 }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: q.hint ? '4px' : '10px', lineHeight: 1.3 }}>
               {q.text}
             </p>
             {q.hint && (
-              <p style={{ fontSize: '14px', color: '#9ca3af', marginBottom: '10px', marginTop: 0 }}>{q.hint}</p>
+              <p style={{ fontSize: 'var(--text-base)', color: '#9ca3af', marginBottom: '10px', marginTop: 0 }}>{q.hint}</p>
             )}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {q.options.map(opt => {

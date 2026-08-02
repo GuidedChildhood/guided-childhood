@@ -116,10 +116,10 @@ export default function KidAskForJob({
   return (
     <div>
       <div style={{ background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 rgba(26,26,46,0.08)' }}>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', margin: '0 0 4px' }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 4px' }}>
           Got a quest idea? 💡
         </p>
-        <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
           Tap one, or write your own. Your grown up says yes to turn it into a real quest with stars.
         </p>
 
@@ -133,10 +133,10 @@ export default function KidAskForJob({
                   display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left', cursor: 'pointer',
                   padding: '13px 14px', borderRadius: '14px',
                   background: 'var(--cream)', border: '1.5px solid rgba(26,26,46,0.08)',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.25,
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25,
                 }}
               >
-                <span style={{ fontSize: '20px', flexShrink: 0 }}>{idea.emoji}</span>
+                <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{idea.emoji}</span>
                 <span style={{ minWidth: 0 }}>{idea.title}</span>
               </button>
             ))}
@@ -153,7 +153,7 @@ export default function KidAskForJob({
             style={{
               flex: 1, minWidth: 0, padding: '13px 14px', borderRadius: '14px',
               border: '1.5px solid rgba(26,26,46,0.12)', background: 'var(--cream)',
-              fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none',
+              fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
             onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)' }}
             onBlur={e => { e.currentTarget.style.borderColor = 'rgba(26,26,46,0.12)' }}
@@ -165,7 +165,7 @@ export default function KidAskForJob({
               padding: '13px 20px', borderRadius: '14px', border: 'none', flexShrink: 0,
               cursor: text.trim().length < 3 ? 'default' : 'pointer',
               background: 'var(--terracotta)', color: 'var(--ink)',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               boxShadow: text.trim().length < 3 ? 'none' : '0 4px 0 var(--terracotta-dark)',
               opacity: text.trim().length < 3 ? 0.55 : 1,
             }}
@@ -182,15 +182,15 @@ export default function KidAskForJob({
         <div style={{ marginTop: '18px' }}>
           {/* Light, because this sits on the dark kid background rather than
               inside the white card. Ink colours here read as almost invisible. */}
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.66)', margin: '0 0 8px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.66)', margin: '0 0 8px' }}>
             Your ideas so far
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
             {asks.slice(0, 8).map(a => (
               <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '14px', padding: '11px 13px' }}>
-                <span style={{ fontSize: '17px', flexShrink: 0 }}>{a.emoji}</span>
-                <span style={{ flex: 1, minWidth: 0, fontSize: '16px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{a.title}</span>
-                <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, color: a.status === 'added' ? 'var(--retro-green-dark, var(--deep-teal))' : 'var(--ink-muted)' }}>
+                <span style={{ fontSize: 'var(--text-md)', flexShrink: 0 }}>{a.emoji}</span>
+                <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{a.title}</span>
+                <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: a.status === 'added' ? 'var(--retro-green-dark, var(--deep-teal))' : 'var(--ink-muted)' }}>
                   {a.status === 'added' ? 'IT IS ON ⭐' : a.status === 'declined' ? 'NOT THIS TIME' : 'WAITING'}
                 </span>
               </div>
@@ -199,7 +199,7 @@ export default function KidAskForJob({
           {/* Said plainly, because a child watching a WAITING row needs to know
               nothing is stuck and nobody is ignoring them. */}
           {pending > 0 && (
-            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.5, margin: '10px 0 0' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.5, margin: '10px 0 0' }}>
               {pending === 1 ? 'One idea is' : `${pending} ideas are`} with your grown up. They get a message on their phone, so it is not lost.
             </p>
           )}
@@ -207,13 +207,13 @@ export default function KidAskForJob({
       )}
 
       {note && (
-        <div role="status" style={{ position: 'fixed', left: '50%', bottom: '22px', transform: 'translateX(-50%)', zIndex: 60, maxWidth: 'calc(100% - 32px)', background: 'var(--ink)', color: '#fff', borderRadius: '14px', padding: '12px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', textAlign: 'center', lineHeight: 1.35 }}>
+        <div role="status" style={{ position: 'fixed', left: '50%', bottom: '22px', transform: 'translateX(-50%)', zIndex: 60, maxWidth: 'calc(100% - 32px)', background: 'var(--ink)', color: '#fff', borderRadius: '14px', padding: '12px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', textAlign: 'center', lineHeight: 1.35 }}>
           {note}
         </div>
       )}
 
       {childName && asks.length === 0 && (
-        <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.55, marginTop: '16px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.55, marginTop: '16px' }}>
           Anything you think you could help with counts, {childName}. Even a small one.
         </p>
       )}

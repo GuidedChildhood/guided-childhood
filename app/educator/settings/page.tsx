@@ -47,17 +47,17 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
       <div style={{ maxWidth: '680px', margin: '0 auto' }}>
         <Link href="/educator" style={{ ...eyebrow, textDecoration: 'none' }}>← Workspace</Link>
         <h1 style={{ ...h1, margin: '14px 0 6px' }}>Settings</h1>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '22px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '22px' }}>
           Your details and your school. To rename a class or edit pupils, open the class and use Edit there.
         </p>
 
         {saved && (
-          <div style={{ background: 'var(--green-lt)', border: '2px solid var(--green-dark)', borderRadius: '14px', padding: '12px 16px', marginBottom: '18px', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '15.5px', color: 'var(--green-dark)' }}>
+          <div style={{ background: 'var(--green-lt)', border: '2px solid var(--green-dark)', borderRadius: '14px', padding: '12px 16px', marginBottom: '18px', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--green-dark)' }}>
             Saved.
           </div>
         )}
         {error && (
-          <div style={{ background: 'var(--coral-lt)', border: '2px solid var(--coral)', borderRadius: '14px', padding: '12px 16px', marginBottom: '18px', fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--coral-dark, #8F3F04)', lineHeight: 1.55, overflowWrap: 'anywhere' }}>
+          <div style={{ background: 'var(--coral-lt)', border: '2px solid var(--coral)', borderRadius: '14px', padding: '12px 16px', marginBottom: '18px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--coral-dark, #8F3F04)', lineHeight: 1.55, overflowWrap: 'anywhere' }}>
             {error}
           </div>
         )}
@@ -69,7 +69,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
             <label style={label}>
               Your name
               <input name="display_name" defaultValue={membership.display_name ?? ''} placeholder="Ms Okafor" style={{ ...input, marginTop: '6px' }} />
-              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)', marginTop: '4px' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '4px' }}>
                 Shown on your dashboard greeting. However you like to be addressed at school.
               </span>
             </label>
@@ -79,7 +79,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
                 {ROLES.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
               </select>
             </label>
-            <div style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-muted)' }}>
+            <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)' }}>
               Signed in as {user.email}
             </div>
             <button type="submit" style={{ ...btnGold, alignSelf: 'flex-start' }}>Save your details</button>
@@ -106,7 +106,7 @@ export default async function SettingsPage({ searchParams }: { searchParams: Pro
                 <input name="urn" defaultValue={school?.urn ?? ''} placeholder="123456" style={{ ...input, marginTop: '6px' }} />
               </label>
             </div>
-            <span style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)' }}>
               The DfE unique reference number, used on your coverage reports. You can add it later.
             </span>
             <button type="submit" style={{ ...btnGold, alignSelf: 'flex-start' }}>Save the school</button>

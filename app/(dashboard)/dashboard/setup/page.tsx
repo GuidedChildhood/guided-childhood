@@ -35,7 +35,7 @@ export default async function SetupPage() {
           <div style={{ flex: 1, height: '10px', borderRadius: '100px', background: 'var(--border)', overflow: 'hidden' }}>
             <div style={{ width: `${Math.round((doneCount / Math.max(1, total)) * 100)}%`, height: '100%', borderRadius: '100px', background: 'var(--terracotta)', transition: 'width 0.4s ease' }} />
           </div>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
             {doneCount}/{total}
           </span>
         </div>
@@ -43,10 +43,10 @@ export default async function SetupPage() {
 
       {complete && (
         <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--stage-1-bold)', borderRadius: '16px', padding: '18px 20px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <span style={{ fontSize: '1.8rem' }}>🎉</span>
+          <span style={{ fontSize: 'var(--text-2xl)' }}>🎉</span>
           <div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: 'var(--ink)' }}>You are all set up</div>
-            <div style={{ fontSize: '15px', color: 'var(--ink-soft)', marginTop: '2px' }}>Everything below is ready. Change any of it any time.</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>You are all set up</div>
+            <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px' }}>Everything below is ready. Change any of it any time.</div>
           </div>
         </div>
       )}
@@ -62,12 +62,12 @@ export default async function SetupPage() {
                 borderRadius: '16px', padding: '16px 18px',
                 boxShadow: i === 0 ? '0 4px 16px rgba(201,154,40,0.14)' : '0 2px 10px rgba(26,26,46,0.04)',
               }}>
-                <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '12px', background: 'var(--cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px' }}>
+                <span style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '12px', background: 'var(--cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>
                   {STEP_ICON[s.key] ?? '•'}
                 </span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.25 }}>{s.title}</div>
-                  <div style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>{shortWhat(s.key)}</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>{s.title}</div>
+                  <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '2px' }}>{shortWhat(s.key)}</div>
                 </div>
                 <ButtonLink href={s.href} variant="primary" size="md" style={{ flexShrink: 0 }}>
                   {i === 0 ? 'Start' : 'Set up'}
@@ -87,11 +87,11 @@ export default async function SetupPage() {
                 display: 'flex', alignItems: 'center', gap: '13px', textDecoration: 'none',
                 background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '13px 16px',
               }}>
-                <span style={{ flexShrink: 0, width: 36, height: 36, borderRadius: '10px', background: '#fff', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '19px' }}>
+                <span style={{ flexShrink: 0, width: 36, height: 36, borderRadius: '10px', background: '#fff', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)' }}>
                   {STEP_ICON[s.key] ?? '•'}
                 </span>
-                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)' }}>{s.title}</span>
-                <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#1F7A54', background: '#D4EDDF', borderRadius: '100px', padding: '3px 9px' }}>✓ Done</span>
+                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{s.title}</span>
+                <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#1F7A54', background: '#D4EDDF', borderRadius: '100px', padding: '3px 9px' }}>✓ Done</span>
               </Link>
             ))}
           </div>

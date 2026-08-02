@@ -26,11 +26,11 @@ export default function DashboardError({
       alignItems: 'center', justifyContent: 'center', textAlign: 'center',
       padding: '32px 24px', maxWidth: 440, margin: '0 auto',
     }}>
-      <div style={{ fontSize: 40, marginBottom: 16 }}>🌱</div>
-      <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: 10 }}>
+      <div style={{ fontSize: 'var(--text-3xl)', marginBottom: 16 }}>🌱</div>
+      <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: 10 }}>
         That did not load right
       </h1>
-      <p style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 24 }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 24 }}>
         Nothing is lost. This is almost always an old version held in the browser. Try again, and if it sticks, tap reload to pull the latest.
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', maxWidth: 260 }}>
@@ -50,7 +50,7 @@ export default function DashboardError({
         </button>
       </div>
       {error.digest && (
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, color: 'var(--ink-muted)', marginTop: 20, letterSpacing: '0.04em' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: 20, letterSpacing: '0.04em' }}>
           Reference {error.digest}
         </p>
       )}

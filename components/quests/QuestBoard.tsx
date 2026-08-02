@@ -440,7 +440,7 @@ export default function QuestBoard() {
                                       cursor: 'pointer',
                                     }}
                                   >
-                                    <span aria-hidden style={{ fontSize: '15px', lineHeight: 1 }}>{a.emoji}</span>
+                                    <span aria-hidden style={{ fontSize: 'var(--text-base)', lineHeight: 1 }}>{a.emoji}</span>
                                     {a.label}
                                   </button>
                                 )

@@ -47,22 +47,22 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
 }) {
   return (
     <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', marginBottom: '2px' }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: '2px' }}>
         {deviceEmoji(request.device)} {childName} is asking for {request.minutes} minutes
       </div>
-      <div style={{ fontSize: '14px', color: 'var(--ink-soft)', marginBottom: '9px' }}>
+      <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginBottom: '9px' }}>
         That is {minutesToStars(request.minutes)} star{minutesToStars(request.minutes) === 1 ? '' : 's'} on {request.deviceName ?? `the ${deviceLabel(request.device)}`}. Your yes lets {childName} tap Start on their screen.
       </div>
       {/* Saying yes here past the day's guide is a treat, named warmly
           before the tap so the parent grants it knowingly. Never a block. */}
       {exceedsGuide && (
-        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 9px' }}>
           This takes {childName} past today&apos;s healthy amount for their age, so it goes down as a treat. Treats are fine, they are yours to give.
         </p>
       )}
       <div style={{ display: 'flex', gap: '8px' }}>
-        <button onClick={onApprove} disabled={busy} style={{ flex: 1, padding: '10px', borderRadius: '12px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes, start it</button>
-        <button onClick={onDecline} disabled={busy} style={{ flexShrink: 0, padding: '10px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px', color: 'var(--ink-soft)' }}>Not yet</button>
+        <button onClick={onApprove} disabled={busy} style={{ flex: 1, padding: '10px', borderRadius: '12px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes, start it</button>
+        <button onClick={onDecline} disabled={busy} style={{ flexShrink: 0, padding: '10px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>Not yet</button>
       </div>
     </div>
   )
@@ -136,10 +136,10 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
     // bell's See the timer link lands here.
     <div id="screen-time" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '20px', marginTop: '24px', scrollMarginTop: '80px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '9px', marginBottom: '4px' }}>
-        <span style={{ fontSize: '1.1rem' }}>⏱️</span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)' }}>Screen time</span>
+        <span style={{ fontSize: 'var(--text-lg)' }}>⏱️</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>Screen time</span>
       </div>
-      <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
         Set device time for each child. It spends their stars, or give a bonus for a treat. You both get the alarm when it is up.
       </p>
       {/* No label of our own above this.
@@ -159,7 +159,7 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
         </div>
       )}
       <details style={{ marginBottom: '16px' }}>
-        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           How does screen time work? ›
         </summary>
         <ol style={{ margin: '10px 0 0', padding: '0 0 0 4px', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -169,7 +169,7 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
             ['📱', 'The countdown runs on their phone and yours at the same time, so you both see it ticking down.'],
             ['⏰', 'When it reaches zero, both phones get the alarm. Then it is time to agree the next quests.'],
           ].map(([icon, text]) => (
-            <li key={text} style={{ display: 'flex', gap: '9px', alignItems: 'flex-start', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            <li key={text} style={{ display: 'flex', gap: '9px', alignItems: 'flex-start', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
               <span style={{ flexShrink: 0 }}>{icon}</span>
               <span>{text}</span>
             </li>
@@ -336,7 +336,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
     return (
       <div style={{ border: `1.5px solid ${up ? '#E5484D' : 'var(--terracotta)'}`, background: up ? '#FDECEC' : 'var(--terracotta-lt)', borderRadius: '16px', padding: '14px 16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
             {deviceEmoji(kid.session.device)} {kid.name}
           </span>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: up ? '15px' : '1.4rem', color: up ? '#B93B3F' : 'var(--ink)' }}>
@@ -348,7 +348,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
             <div style={{ height: '100%', borderRadius: '100px', background: 'var(--terracotta)', width: `${pct}%`, transition: 'width 1s linear' }} />
           </div>
         ) : (
-          <Link href="#quest-board" onClick={onChange} style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: '#B93B3F', textDecoration: 'none' }}>
+          <Link href="#quest-board" onClick={onChange} style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#B93B3F', textDecoration: 'none' }}>
             Set {kid.name}&apos;s next quests →
           </Link>
         )}
@@ -360,8 +360,8 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
   return (
     <div style={{ border: '1.5px solid var(--border)', borderRadius: '16px', padding: '14px 16px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '10px' }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>{kid.name}</span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐ {kid.balance}</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{kid.name}</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>⭐ {kid.balance}</span>
       </div>
 
       {/* The child handed the device back before the time was up. Their timer
@@ -370,14 +370,14 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
       {stoppedNote && (
         <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '8px' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
               ⏹️ {kid.name} has stopped watching
             </span>
-            <button onClick={() => setStoppedNote(null)} style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)' }}>
+            <button onClick={() => setStoppedNote(null)} style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)' }}>
               OK
             </button>
           </div>
-          <div style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
+          <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
             {stoppedNote.mins} minute{stoppedNote.mins === 1 ? '' : 's'} on {stoppedNote.deviceName ?? `the ${deviceLabel(stoppedNote.device)}`} recorded, on today&apos;s balance. The rest of the stars went back.
           </div>
         </div>
@@ -386,7 +386,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
       {/* A gift still being paid back, quietly. A gift is a gift: this is a
           note of the thank you on its way, never a debt collector. */}
       {(kid.giftOwed ?? 0) > 0 && (
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--terracotta-dark)', margin: '0 0 9px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', margin: '0 0 9px' }}>
           💛 Gifted, {kid.giftOwed} star{kid.giftOwed === 1 ? '' : 's'} owed in jobs
         </p>
       )}
@@ -394,7 +394,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
       {/* The timer rule this child agreed on their first run, locked in and
           visible on both sides. */}
       {kid.agreedAt && (
-        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', margin: '0 0 9px' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', margin: '0 0 9px' }}>
           {kid.name} agreed the timer rule on {new Date(kid.agreedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.{' '}
           <Link href="/dashboard/agreement" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>
             See the agreement →
@@ -422,7 +422,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
           are still to do today, the same soft nudge the child gets shows here,
           so both sides are told to finish those first. Never a block. */}
       {!kid.request && answered === 'yes' && !kid.session && (
-        <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--ink-soft)', background: 'var(--tint-sage)', borderRadius: '11px', padding: '9px 12px', margin: '0 0 11px', lineHeight: 1.45 }}>
+        <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', background: 'var(--tint-sage)', borderRadius: '11px', padding: '9px 12px', margin: '0 0 11px', lineHeight: 1.45 }}>
           {jobsLeftAfterYes > 0
             ? `✅ Yes sent. ${kid.name} still has ${jobsLeftAfterYes} job${jobsLeftAfterYes === 1 ? '' : 's'} to do today, so we have asked them to finish those first, then tap Start.`
             : `✅ Yes sent. ${kid.name} taps Start on their screen and the countdown shows here too.`}
@@ -432,7 +432,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
       {/* Who starts the timer: how much this child does alone, more as they
           grow. Easy to find, one plain line per option. */}
       <details style={{ marginBottom: '11px', background: 'var(--cream)', borderRadius: '12px', padding: '9px 12px' }}>
-        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)' }}>
+        <summary style={{ cursor: 'pointer', listStyle: 'none', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)' }}>
           Who starts the timer? <span style={{ fontWeight: 700, color: 'var(--terracotta-dark)' }}>{TRUST_LEVELS.find(l => l.key === kid.trust)?.label ?? 'Ask first'} ›</span>
         </summary>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginTop: '9px' }}>
@@ -442,8 +442,8 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
               background: kid.trust === l.key ? 'var(--terracotta-lt)' : '#fff',
               border: kid.trust === l.key ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
             }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{l.label}</span>
-              <span style={{ display: 'block', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{l.hint}</span>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{l.label}</span>
+              <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{l.hint}</span>
             </button>
           ))}
         </div>
@@ -457,7 +457,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
         {MINUTE_PRESETS.map(m => (
           <button key={m} onClick={() => setMinutes(m)} aria-pressed={minutes === m} style={{
             flex: 1, padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',
-            fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
             background: minutes === m ? 'var(--terracotta-lt)' : '#fff',
             color: minutes === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
             border: minutes === m ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
@@ -473,19 +473,19 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
             background: mode === m.key ? 'var(--terracotta-lt)' : '#fff',
             border: mode === m.key ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
           }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)' }}>{m.label}</span>
-            <span style={{ display: 'block', fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{m.hint}</span>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{m.label}</span>
+            <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.4 }}>{m.hint}</span>
           </button>
         ))}
       </div>
 
-      {err && <p style={{ fontSize: '14px', color: '#B93B3F', margin: '0 0 8px' }}>{err}</p>}
+      {err && <p style={{ fontSize: 'var(--text-base)', color: '#B93B3F', margin: '0 0 8px' }}>{err}</p>}
 
       <button onClick={start} disabled={busy || tooPoor} style={{
         width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
         cursor: busy || tooPoor ? 'default' : 'pointer', opacity: tooPoor ? 0.55 : 1,
         background: 'var(--terracotta)', color: 'var(--ink)',
-        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px',
+        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
         boxShadow: busy || tooPoor ? 'none' : '0 4px 0 var(--terracotta-dark)',
       }}>
         {busy ? 'Starting…'
@@ -495,7 +495,7 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
           : `Start ${minutes} min · ${cost} stars`}
       </button>
       {mode === 'gift' && (
-        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
           The gift starts now and {minutesToStars(minutes)} star{minutesToStars(minutes) === 1 ? '' : 's'} of jobs pay it back later. The next approved job settles it by itself.
         </p>
       )}
@@ -523,21 +523,21 @@ function WhereTheTimeGoes({ name, ageBand, week }: { name: string; ageBand: stri
   }
   return (
     <div style={{ marginTop: '12px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 13px' }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
         Where the time goes · last 7 days
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
         {week.map(w => (
           <div key={w.device} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ fontSize: '17px', flexShrink: 0 }}>{deviceEmoji(w.device)}</span>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: 'var(--ink)', flexShrink: 0 }}>{deviceLabel(w.device)}</span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)', marginLeft: 'auto' }}>
+            <span style={{ fontSize: 'var(--text-md)', flexShrink: 0 }}>{deviceEmoji(w.device)}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', flexShrink: 0 }}>{deviceLabel(w.device)}</span>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', marginLeft: 'auto' }}>
               {w.minutes} min this week · {w.sessions} session{w.sessions === 1 ? '' : 's'}
             </span>
           </div>
         ))}
       </div>
-      <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
         {advice[heaviest.device]}{' '}
         <Link href="/dashboard/lessons" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>
           Healthy balance lessons →
@@ -561,10 +561,10 @@ function DailyGuideLine({ name, usedToday, recommended, ageBand, addingMinutes, 
   return (
     <div style={{ marginBottom: '11px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: '4px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
           Today, age {g.bandLabel}
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: accent }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: accent }}>
           {g.used} of ~{recommended} min
         </span>
       </div>
@@ -572,12 +572,12 @@ function DailyGuideLine({ name, usedToday, recommended, ageBand, addingMinutes, 
         <div style={{ height: '100%', width: `${g.pct}%`, borderRadius: 100, background: accent, transition: 'width 0.4s ease' }} />
       </div>
       {sessionsToday > 0 && (
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '4px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: '4px' }}>
           {sessionsToday} session{sessionsToday === 1 ? '' : 's'} today
         </div>
       )}
       {(g.status !== 'under' || willTreat) && (
-        <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
           {g.status === 'over'
             ? `That is ${g.overBy} min over today's guide. Anything more is a treat, your call.`
             : g.status === 'reached'

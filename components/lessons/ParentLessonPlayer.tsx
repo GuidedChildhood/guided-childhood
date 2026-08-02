@@ -22,7 +22,7 @@ import {
 // the token or child id decides which door the completion goes through.
 
 const eyebrowStyle: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.12em', textTransform: 'uppercase',
 }
 
@@ -57,7 +57,7 @@ function AskCard({ card }: { card: ParentLessonCard }) {
           <button
             onClick={() => setShowOlder(o => !o)}
             style={{
-              fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--stage-1-text)',
               background: 'none', border: 'none', cursor: 'pointer', padding: 0,
             }}
@@ -65,13 +65,13 @@ function AskCard({ card }: { card: ParentLessonCard }) {
             {showOlder ? '▾ For ages 6 to 7' : '▸ For ages 6 to 7, ask this too'}
           </button>
           {showOlder && (
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.6, margin: '10px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.6, margin: '10px 0 0' }}>
               &ldquo;{card.older_variant}&rdquo;
             </p>
           )}
         </div>
       )}
-      <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '16px 0 0' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '16px 0 0' }}>
         Let the answer land, there is no wrong one. Continue when you are both ready.
       </p>
     </div>
@@ -94,7 +94,7 @@ function SayCard({ card }: { card: ParentLessonCard }) {
           <button
             onClick={() => setShowOlder(o => !o)}
             style={{
-              fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
               background: 'none', border: 'none', cursor: 'pointer', padding: 0,
             }}
@@ -102,7 +102,7 @@ function SayCard({ card }: { card: ParentLessonCard }) {
             {showOlder ? '▾ For ages 6 to 7' : '▸ For ages 6 to 7, add this'}
           </button>
           {showOlder && (
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.6, margin: '10px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.6, margin: '10px 0 0' }}>
               &ldquo;{card.older_variant}&rdquo;
             </p>
           )}
@@ -149,13 +149,13 @@ function QuizCard({ card, onAnswered }: { card: ParentLessonCard; onAnswered: (c
               style={{
                 textAlign: 'left', background: bg, border, borderRadius: '16px',
                 padding: '14px 16px', cursor: revealed ? 'default' : 'pointer',
-                fontFamily: 'var(--font-body)', fontSize: '16.5px', fontWeight: 600,
+                fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600,
                 color: 'var(--ink)', lineHeight: 1.5, transition: 'border-color 0.15s, background 0.15s',
               }}
             >
               {opt.text}
               {isPicked && (
-                <span style={{ display: 'block', marginTop: '8px', fontSize: '15px', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+                <span style={{ display: 'block', marginTop: '8px', fontSize: 'var(--text-base)', fontWeight: 500, color: 'var(--ink-soft)', lineHeight: 1.55 }}>
                   {opt.correct ? '✓ ' : ''}{opt.reaction}
                 </span>
               )}
@@ -200,7 +200,7 @@ function PassportCelebration({
       <div ref={badgeRef} style={{
         display: 'inline-block', background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
         borderRadius: '100px', padding: '10px 24px', marginBottom: '14px',
-        fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
         letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
       }}>
         ⭐ Stage passport earned
@@ -208,13 +208,13 @@ function PassportCelebration({
       <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 5vw, 2.2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '10px' }}>
         {stageName} stage complete!
       </h2>
-      <p style={{ fontSize: '16.5px', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '380px', margin: '0 auto 24px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '380px', margin: '0 auto 24px' }}>
         {kidMode
           ? 'Every single lesson, done. That is a whole stage of the journey in your pocket. DiGi is SO proud of you!'
           : `Every lesson in the ${stageName} stage is complete${childName ? ` for ${childName}` : ''}. The passport is theirs for keeps, and the next stage will be ready when they are.`}
       </p>
       <div style={{ maxWidth: '300px', margin: '0 auto' }}>
-        <Link href={backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '16px', width: '100%' }}>
+        <Link href={backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-md)', width: '100%' }}>
           {kidMode ? 'Back to my quests' : 'Back to lessons'}
         </Link>
       </div>
@@ -361,27 +361,27 @@ export default function ParentLessonPlayer({
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 5vw, 2rem)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
           {kidMode ? 'You did it! 🎉' : 'Lesson complete'}
         </h2>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', marginBottom: '10px' }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '10px' }}>
           &ldquo;{lesson.catchphrase}&rdquo;
         </p>
         <div style={{
           display: 'inline-block', background: 'var(--terracotta-lt)',
           border: '2px solid var(--terracotta)', borderRadius: '100px',
           padding: '10px 22px', margin: '4px 0 12px',
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)',
         }}>
           ⭐ {stars} star{stars === 1 ? '' : 's'} {kidMode ? 'in your bank!' : 'earned'}
         </div>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto 20px' }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '360px', margin: '0 auto 20px' }}>
           {kidMode
             ? 'Watching again with your grown up earns more stars any time you like.'
             : 'Complete lessons stay open. Rewatching together is the whole point, and every redo earns a couple more stars.'}
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '300px', margin: '0 auto' }}>
-          <button onClick={runAgain} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: '15px' }}>
+          <button onClick={runAgain} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
             Watch it again ↻
           </button>
-          <Link href={backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: '16px' }}>
+          <Link href={backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-md)' }}>
             {kidMode ? 'Back to my quests' : 'Back to lessons'}
           </Link>
         </div>
@@ -391,7 +391,7 @@ export default function ParentLessonPlayer({
 
   if (steps.length === 0) {
     return (
-      <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: '16px' }}>
+      <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
         This lesson&rsquo;s video is still on its way. Check back soon.
       </div>
     )
@@ -430,7 +430,7 @@ export default function ParentLessonPlayer({
               style={{ width: '100%', borderRadius: '20px', background: 'var(--ink)', display: 'block' }}
             />
             {!videoEnded && !isRedo && (
-              <p style={{ fontSize: '14.5px', color: 'var(--ink-muted)', marginTop: '10px', textAlign: 'center' }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '10px', textAlign: 'center' }}>
                 The continue button wakes up when this part finishes.
               </p>
             )}
@@ -450,7 +450,7 @@ export default function ParentLessonPlayer({
           <button
             onClick={() => { setAnswered(true); setVideoEnded(true); setIndex(i => i - 1) }}
             className="btn btn-outline"
-            style={{ fontSize: '15px', padding: '13px 18px', flexShrink: 0 }}
+            style={{ fontSize: 'var(--text-base)', padding: '13px 18px', flexShrink: 0 }}
           >
             Back
           </button>
@@ -459,7 +459,7 @@ export default function ParentLessonPlayer({
           onClick={advance}
           disabled={!canContinue}
           className="btn btn-gold"
-          style={{ flex: 1, justifyContent: 'center', fontSize: '16px', padding: '14px 20px', opacity: canContinue ? 1 : 0.45 }}
+          style={{ flex: 1, justifyContent: 'center', fontSize: 'var(--text-md)', padding: '14px 20px', opacity: canContinue ? 1 : 0.45 }}
         >
           {isLast ? 'Finish lesson' : isQuiz && !answered ? 'Pick an answer to continue' : 'Continue'}
         </button>

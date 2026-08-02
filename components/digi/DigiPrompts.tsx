@@ -83,10 +83,10 @@ export default function DigiPrompts() {
             <DigiCharacter mood={p.kind === 'celebration' ? 'happy' : 'speak'} size={30} />
           </span>
           <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
               {KIND_LABEL[p.kind] ?? 'From DiGi'}
             </span>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18.5px', color: 'var(--ink)', lineHeight: 1.25, marginTop: '3px' }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.25, marginTop: '3px' }}>
               {p.title}
             </span>
           </span>
@@ -109,7 +109,7 @@ export default function DigiPrompts() {
           aria-expanded={open}
           style={{
             background: 'none', border: 'none', cursor: 'pointer', padding: '0 0 14px',
-            fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '0.06em', color: 'var(--terracotta-dark)',
           }}
         >
@@ -142,16 +142,16 @@ export default function DigiPrompts() {
               display: 'inline-flex', alignItems: 'center', gap: '7px',
               background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
               borderRadius: '13px', padding: '10px 16px',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               boxShadow: '0 4px 0 var(--terracotta-dark)',
             }}
           >
             {p.href ? 'Open Lessons' : 'Talk it through'}
-            <span style={{ fontSize: '17px' }} aria-hidden>→</span>
+            <span style={{ fontSize: 'var(--text-md)' }} aria-hidden>→</span>
           </Link>
           <button
             onClick={() => { setOpen(false); dismiss(p.id) }}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}
           >
             Dismiss
           </button>
@@ -161,7 +161,7 @@ export default function DigiPrompts() {
         {/* Said quietly, so a parent knows there is more thinking here without
             it being pushed at them. Dismissing this brings the next one up. */}
         {waiting > 0 && (
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', letterSpacing: '0.05em', color: 'var(--ink-light)', margin: '12px 0 0' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.05em', color: 'var(--ink-light)', margin: '12px 0 0' }}>
             {waiting} more when you want {waiting === 1 ? 'it' : 'them'}
           </p>
         )}

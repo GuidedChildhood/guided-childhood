@@ -40,7 +40,7 @@ export default async function ClassPage({ params, searchParams }: {
         <Link href="/educator" style={{ ...eyebrow, textDecoration: 'none' }}>← All classes</Link>
 
         {error && (
-          <div style={{ background: 'var(--coral-lt)', border: '2px solid var(--coral)', borderRadius: '14px', padding: '12px 16px', margin: '14px 0', fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--coral-dark, #8F3F04)', lineHeight: 1.55, overflowWrap: 'anywhere' }}>
+          <div style={{ background: 'var(--coral-lt)', border: '2px solid var(--coral)', borderRadius: '14px', padding: '12px 16px', margin: '14px 0', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--coral-dark, #8F3F04)', lineHeight: 1.55, overflowWrap: 'anywhere' }}>
             {error}
           </div>
         )}
@@ -53,12 +53,12 @@ export default async function ClassPage({ params, searchParams }: {
               <h1 style={{ ...h1, color: '#fff' }}>
                 {cls.name} <span style={{ fontWeight: 700, fontSize: '0.6em', color: 'rgba(255,255,255,0.7)' }}>{cls.year_group}</span>
               </h1>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600, color: 'rgba(255,255,255,0.8)', marginTop: '8px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'rgba(255,255,255,0.8)', marginTop: '8px' }}>
                 Class code {cls.class_code} · {(pupils ?? []).length} pupil{(pupils ?? []).length === 1 ? '' : 's'}
               </div>
             </div>
             <Link href={editing ? `/educator/classes/${cls.id}` : `/educator/classes/${cls.id}?edit=1`} style={{
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', textDecoration: 'none',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', textDecoration: 'none',
               color: '#fff', background: 'rgba(255,255,255,0.14)', border: '1.5px solid rgba(255,255,255,0.3)',
               borderRadius: '12px', padding: '9px 16px',
             }}>
@@ -90,13 +90,13 @@ export default async function ClassPage({ params, searchParams }: {
             <form action={deleteClass}>
               <input type="hidden" name="class_id" value={cls.id} />
               <button type="submit" style={{
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', cursor: 'pointer',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer',
                 color: 'var(--coral-dark, #8F3F04)', background: 'var(--coral-lt)', border: '1.5px solid var(--coral)',
                 borderRadius: '12px', padding: '10px 16px',
               }}>
                 Delete this class and its pupils
               </button>
-              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '14px', color: 'var(--ink-muted)', marginTop: '6px' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '6px' }}>
                 Removes the class, its pupils and its delivery records. This cannot be undone.
               </span>
             </form>
@@ -111,15 +111,15 @@ export default async function ClassPage({ params, searchParams }: {
               <div key={l.id} style={{ ...innerRow, display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
                 <div>
                   <div style={{ ...eyebrow, marginBottom: '4px' }}>{l.key_stage}</div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>{l.title}</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{l.title}</div>
                 </div>
-                <Link href={`/educator/classes/${cls.id}/lesson/${l.module_id}`} style={{ ...btnGold, fontSize: '15.5px', padding: '10px 18px', textDecoration: 'none', flexShrink: 0 }}>
+                <Link href={`/educator/classes/${cls.id}/lesson/${l.module_id}`} style={{ ...btnGold, fontSize: 'var(--text-base)', padding: '10px 18px', textDecoration: 'none', flexShrink: 0 }}>
                   Everything for this lesson →
                 </Link>
               </div>
             ))}
             {(lessons ?? []).length === 0 && (
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-muted)' }}>Run the migrations and the lessons appear here.</p>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>Run the migrations and the lessons appear here.</p>
             )}
           </div>
         </div>
@@ -128,15 +128,15 @@ export default async function ClassPage({ params, searchParams }: {
         <div style={{ ...panel, marginBottom: '18px' }}>
           <div style={sectionEyebrow}>Past deliveries</div>
           {(deliveries ?? []).length === 0 ? (
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-muted)' }}>Nothing recorded yet. The moment you teach a lesson, one tap records it for the coverage report.</p>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>Nothing recorded yet. The moment you teach a lesson, one tap records it for the coverage report.</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {(deliveries ?? []).map(d => (
                 <Link key={d.id} href={`/educator/deliveries/${d.id}`} style={{ ...innerRow, textDecoration: 'none', display: 'flex', justifyContent: 'space-between' }}>
-                  <span style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '16px', color: 'var(--ink)' }}>
+                  <span style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                     {(d.school_lessons as unknown as { title: string })?.title ?? 'Lesson'}
                   </span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink-muted)' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
                     {new Date(d.taught_at).toLocaleDateString('en-GB')}
                   </span>
                 </Link>
@@ -155,18 +155,18 @@ export default async function ClassPage({ params, searchParams }: {
                   <form action={renamePupil} style={{ display: 'flex', gap: '8px', alignItems: 'center', flex: 1, minWidth: '200px' }}>
                     <input type="hidden" name="pupil_id" value={p.id} />
                     <input type="hidden" name="class_id" value={cls.id} />
-                    <input name="display_name" defaultValue={p.display_name} style={{ ...input, padding: '8px 12px', fontSize: '16px' }} />
+                    <input name="display_name" defaultValue={p.display_name} style={{ ...input, padding: '8px 12px', fontSize: 'var(--text-md)' }} />
                     <button type="submit" style={{ ...btnQuiet, padding: '8px 14px' }}>Save</button>
                   </form>
                   <form action={removePupil}>
                     <input type="hidden" name="pupil_id" value={p.id} />
                     <input type="hidden" name="class_id" value={cls.id} />
-                    <button type="submit" aria-label={`Remove ${p.display_name}`} style={{ background: 'none', border: 'none', color: 'var(--coral-dark, #8F3F04)', cursor: 'pointer', fontSize: '18px', padding: '6px 8px' }}>✕</button>
+                    <button type="submit" aria-label={`Remove ${p.display_name}`} style={{ background: 'none', border: 'none', color: 'var(--coral-dark, #8F3F04)', cursor: 'pointer', fontSize: 'var(--text-lg)', padding: '6px 8px' }}>✕</button>
                   </form>
                 </div>
               ))}
               {(pupils ?? []).length === 0 && (
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-muted)' }}>No pupils yet. Add them below.</p>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>No pupils yet. Add them below.</p>
               )}
 
               <form action={addPupils} style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -181,12 +181,12 @@ export default async function ClassPage({ params, searchParams }: {
           ) : (
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
               {(pupils ?? []).map(p => (
-                <span key={p.id} style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '15.5px', color: 'var(--ink)', background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '10px', padding: '6px 12px' }}>
+                <span key={p.id} style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--warm)', border: '1px solid var(--border)', borderRadius: '10px', padding: '6px 12px' }}>
                   {p.display_name}
                 </span>
               ))}
               {(pupils ?? []).length === 0 && (
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink-muted)' }}>No pupils added. Use Edit class to add them.</span>
+                <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>No pupils added. Use Edit class to add them.</span>
               )}
             </div>
           )}

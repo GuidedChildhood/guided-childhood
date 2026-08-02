@@ -131,7 +131,7 @@ function CardFace({ card, palette, blank = false }: { card: DailyCard; palette: 
       }}>
         <div style={{
           flex: 1, minWidth: 0,
-          fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
           letterSpacing: '.16em', textTransform: 'uppercase',
           color: palette.text, ...hide,
         }}>
@@ -208,10 +208,10 @@ function DoneFace() {
         width: 76, height: 76, borderRadius: '50%',
         background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '34px', color: 'var(--ink)',
+        fontSize: 'var(--text-3xl)', color: 'var(--ink)',
       }}>✓</div>
       <div style={{
-        fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700,
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
         letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)',
       }}>
         Done
@@ -352,16 +352,16 @@ export default function DailyDeckViewer({
             background: 'var(--tint-green)',
             border: '1.5px solid var(--border)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '28px', color: 'var(--ink)', margin: '0 auto 16px',
+            fontSize: 'var(--text-2xl)', color: 'var(--ink)', margin: '0 auto 16px',
           }}>✓</div>
           <h2 style={{
             fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: '1.6rem', color: 'var(--ink)', marginBottom: '6px',
+            fontSize: 'var(--text-2xl)', color: 'var(--ink)', marginBottom: '6px',
             letterSpacing: '-0.03em',
           }}>
             Done for today
           </h2>
-          <p style={{ fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '260px', margin: '0 auto' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, maxWidth: '260px', margin: '0 auto' }}>
             Come back tomorrow and keep the streak going.
           </p>
         </div>
@@ -372,10 +372,10 @@ export default function DailyDeckViewer({
             background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: '20px', padding: '22px', marginBottom: '16px',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '10px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '10px' }}>
               Quick tracker check in
             </div>
-            <p style={{ fontSize: '18.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, marginBottom: '16px' }}>
+            <p style={{ fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, marginBottom: '16px' }}>
               How is your child doing with screens this week?
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
@@ -394,7 +394,7 @@ export default function DailyDeckViewer({
                     padding: '14px 12px', borderRadius: '14px',
                     border: '2px solid var(--border)',
                     background: '#fff',
-                    fontFamily: 'var(--font-display)', fontSize: '17px',
+                    fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)',
                     fontWeight: 800, color: 'var(--ink)',
                     cursor: 'pointer', boxShadow: '0 3px 0 var(--border)',
                   }}
@@ -408,7 +408,7 @@ export default function DailyDeckViewer({
           <div style={{
             background: 'var(--stage-2)', border: '1.5px solid var(--border)',
             borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
-            fontFamily: 'var(--font-body)', fontSize: '16.5px', fontWeight: 600, color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink-soft)',
           }}>
             ✓ Added to your tracker
           </div>
@@ -420,10 +420,10 @@ export default function DailyDeckViewer({
             background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: '20px', padding: '22px', marginBottom: '16px',
           }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '8px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--stage-2-text)', marginBottom: '8px' }}>
               What came up today?
             </div>
-            <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '18px' }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '18px' }}>
               Tap anything that happened. We will show you the right scripts tomorrow.
             </p>
             <div style={{ marginBottom: '18px' }}>
@@ -436,7 +436,7 @@ export default function DailyDeckViewer({
                 background: selectedMoments.length > 0 ? 'var(--terracotta)' : 'var(--cream)',
                 border: selectedMoments.length > 0 ? 'none' : '1.5px solid var(--border)',
                 borderRadius: '12px',
-                fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
                 letterSpacing: '.08em', textTransform: 'uppercase',
                 color: 'var(--ink)',
                 boxShadow: selectedMoments.length > 0 ? '0 3px 0 var(--terracotta-dark)' : 'none',
@@ -451,7 +451,7 @@ export default function DailyDeckViewer({
           <div style={{
             background: 'var(--stage-2)', border: '1.5px solid var(--border)',
             borderRadius: '16px', padding: '14px 18px', marginBottom: '16px',
-            fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)',
           }}>
             ✓ Got it. Tomorrow we will cover what came up today.
           </div>
@@ -462,7 +462,7 @@ export default function DailyDeckViewer({
           style={{
             width: '100%', padding: '16px', background: 'var(--terracotta)',
             border: 'none', borderRadius: 'var(--radius-btn)',
-            fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
             letterSpacing: '.08em', textTransform: 'uppercase',
             color: 'var(--ink)', cursor: 'pointer',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
@@ -476,7 +476,7 @@ export default function DailyDeckViewer({
           style={{
             width: '100%', marginTop: '10px', padding: '12px', background: 'none',
             border: 'none', cursor: 'pointer',
-            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '0.06em', color: 'var(--terracotta-dark)',
           }}
         >
@@ -490,7 +490,7 @@ export default function DailyDeckViewer({
             style={{
               flex: 1, padding: '13px', background: 'var(--white)',
               border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
-              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '.06em', textTransform: 'uppercase',
               color: 'var(--ink-soft)', cursor: 'pointer',
             }}
@@ -502,7 +502,7 @@ export default function DailyDeckViewer({
             style={{
               flex: 1, padding: '13px', background: 'var(--white)',
               border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
-              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '.06em', textTransform: 'uppercase',
               color: 'var(--ink-soft)', cursor: 'pointer',
             }}
@@ -510,7 +510,7 @@ export default function DailyDeckViewer({
             Family quests
           </button>
         </div>
-        <p style={{ textAlign: 'center', fontSize: '16px', color: 'var(--ink-muted)', marginTop: '12px', marginBottom: 0 }}>
+        <p style={{ textAlign: 'center', fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginTop: '12px', marginBottom: 0 }}>
           Something kicking off? The Help now button is always there, even after your day is done.
         </p>
       </div>
@@ -539,7 +539,7 @@ export default function DailyDeckViewer({
             width: 36, height: 36, borderRadius: '50%',
             background: 'var(--border)', border: 'none', cursor: 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '20px', color: 'var(--ink)',
+            fontSize: 'var(--text-lg)', color: 'var(--ink)',
           }}
         >
           ×
@@ -560,7 +560,7 @@ export default function DailyDeckViewer({
           }} />
         </div>
 
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)', minWidth: 36, textAlign: 'right' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', minWidth: 36, textAlign: 'right' }}>
           {cardIndex + 1}/{cards.length}
         </div>
       </div>
@@ -639,7 +639,7 @@ export default function DailyDeckViewer({
             style={{
               padding: '14px 18px', background: 'var(--cream)',
               border: '1.5px solid var(--border)', borderRadius: 'var(--radius-btn)',
-              fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 600,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600,
               letterSpacing: '.06em', color: 'var(--ink)',
               cursor: 'pointer', flexShrink: 0,
             }}
@@ -653,7 +653,7 @@ export default function DailyDeckViewer({
             flex: 1, padding: '15px 20px',
             background: 'var(--terracotta)',
             border: 'none', borderRadius: 'var(--radius-btn)',
-            fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
             letterSpacing: '.08em', textTransform: 'uppercase',
             color: 'var(--ink)', cursor: 'pointer',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
@@ -672,7 +672,7 @@ export default function DailyDeckViewer({
           onClick={e => e.stopPropagation()}
           style={{
             display: 'block', textAlign: 'center', marginTop: '16px',
-            fontFamily: 'var(--font-body)', fontSize: '16px', fontWeight: 600,
+            fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600,
             color: 'var(--ink-soft)', textDecoration: 'underline',
             textUnderlineOffset: '3px', textDecorationColor: 'var(--border)',
           }}

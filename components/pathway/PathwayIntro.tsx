@@ -111,10 +111,10 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
           <ul style={{ listStyle: 'none', padding: 0, margin: '14px 0 0', maxWidth: '580px' }}>
             {PROVES.map(([em, t, b]) => (
               <li key={t} style={{ display: 'flex', gap: 11, alignItems: 'flex-start', marginBottom: 9 }}>
-                <span aria-hidden style={{ fontSize: 20, lineHeight: 1.2, flexShrink: 0 }}>{em}</span>
+                <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1.2, flexShrink: 0 }}>{em}</span>
                 <span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{t}</span>
-                  <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{b}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>{t}</span>
+                  <span style={{ display: 'block', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{b}</span>
                 </span>
               </li>
             ))}
@@ -122,11 +122,11 @@ export default function PathwayIntro({ kidLabel, childCount }: { kidLabel: strin
           <p style={{ color: 'var(--ink)', fontSize: 'var(--text-md)', lineHeight: 1.55, maxWidth: '580px', margin: '4px 0 0', fontWeight: 600 }}>
             We tell you what to do, how to do it, and the research it comes from. You just do today.
           </p>
-          <Link href="/passport" style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', textDecoration: 'underline', textUnderlineOffset: '3px', letterSpacing: '0.03em' }}>
+          <Link href="/passport" style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', textDecoration: 'underline', textUnderlineOffset: '3px', letterSpacing: '0.03em' }}>
             Why we call it a passport →
           </Link>
           {childCount > 1 && (
-            <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-base)', marginTop: '6px' }}>
+            <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-md)', marginTop: '6px' }}>
               {childCount} children, one account.
             </p>
           )}

@@ -6,7 +6,7 @@ export default function PrintButton() {
       type="button"
       onClick={() => window.print()}
       className="btn btn-gold no-print"
-      style={{ padding: '12px 28px', fontSize: '16px' }}
+      style={{ padding: '12px 28px', fontSize: 'var(--text-md)' }}
     >
       Print
     </button>

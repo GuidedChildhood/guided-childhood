@@ -81,15 +81,15 @@ export default function DigiGreeter() {
             aria-label="Close"
             style={{
               position: 'absolute', top: '8px', right: '10px', background: 'none', border: 'none',
-              cursor: 'pointer', fontSize: '17px', color: 'var(--ink-muted)', lineHeight: 1, padding: '4px',
+              cursor: 'pointer', fontSize: 'var(--text-md)', color: 'var(--ink-muted)', lineHeight: 1, padding: '4px',
             }}
           >
             ×
           </button>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '7px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '7px' }}>
             DiGi
           </div>
-          <p style={{ fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px', minHeight: '4.5em' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 12px', minHeight: '4.5em' }}>
             {typed}
             {!done && <span style={{ display: 'inline-block', width: '2px', height: '1em', background: 'var(--terracotta)', marginLeft: '1px', verticalAlign: '-2px', animation: 'digiCaret 0.7s step-end infinite' }} />}
           </p>
@@ -99,7 +99,7 @@ export default function DigiGreeter() {
               style={{
                 display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
                 borderRadius: '12px', padding: '10px 18px', textDecoration: 'none',
-                fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
+                fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
                 boxShadow: '0 3px 0 var(--terracotta-dark)', animation: 'digiFadeIn 0.4s ease both',
               }}
             >

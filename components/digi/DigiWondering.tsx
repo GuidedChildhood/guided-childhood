@@ -82,13 +82,13 @@ export default function DigiWondering() {
           <DigiCharacter size={26} mood={done ? 'happy' : 'idle'} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>DiGi is wondering</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17.5px', color: 'var(--ink)', lineHeight: 1.35 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>DiGi is wondering</div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.35 }}>
             {done ? 'Thank you. DiGi will fold this into your Sunday round up.' : question}
           </div>
         </div>
         {!done && (
-          <button onClick={skip} aria-label="Not now" style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', fontSize: 20, color: 'var(--ink-muted)', lineHeight: 1, padding: 4 }}>✕</button>
+          <button onClick={skip} aria-label="Not now" style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', lineHeight: 1, padding: 4 }}>✕</button>
         )}
       </div>
       {!done && (
@@ -98,12 +98,12 @@ export default function DigiWondering() {
             onChange={e => setAnswer(e.target.value)}
             placeholder="A sentence is plenty..."
             rows={2}
-            style={{ flex: 1, minWidth: 0, padding: '11px 13px', borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink)', outline: 'none', resize: 'none', lineHeight: 1.5, boxSizing: 'border-box' }}
+            style={{ flex: 1, minWidth: 0, padding: '11px 13px', borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none', resize: 'none', lineHeight: 1.5, boxSizing: 'border-box' }}
           />
           <button
             onClick={send}
             disabled={saving || !answer.trim()}
-            style={{ flexShrink: 0, padding: '11px 17px', borderRadius: '12px', border: 'none', cursor: answer.trim() ? 'pointer' : 'default', background: answer.trim() ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', boxShadow: answer.trim() ? '0 3px 0 var(--terracotta-dark)' : 'none', opacity: saving ? 0.7 : 1 }}
+            style={{ flexShrink: 0, padding: '11px 17px', borderRadius: '12px', border: 'none', cursor: answer.trim() ? 'pointer' : 'default', background: answer.trim() ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: answer.trim() ? '0 3px 0 var(--terracotta-dark)' : 'none', opacity: saving ? 0.7 : 1 }}
           >
             {saving ? '…' : 'Tell DiGi'}
           </button>

@@ -516,8 +516,8 @@ export default function DigiChat({
               <DigiAvatar size={36} mood="wave" />
             </div>
             <div>
-              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 12 }}>Your evidence led guide</p>
-              <h1 style={{ fontSize: '1.05rem', marginBottom: '0', lineHeight: 1 }}>DiGi</h1>
+              <p className="eyebrow" style={{ marginBottom: '1px', fontSize: 'var(--text-sm)' }}>Your evidence led guide</p>
+              <h1 style={{ fontSize: 'var(--text-md)', marginBottom: '0', lineHeight: 1 }}>DiGi</h1>
             </div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' }}>
@@ -532,7 +532,7 @@ export default function DigiChat({
               href="/dashboard"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 5,
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 14,
+                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
                 color: 'var(--ink)', textDecoration: 'none',
                 background: 'var(--cream)', border: '1.5px solid var(--border)',
                 borderRadius: 100, padding: '6px 13px', whiteSpace: 'nowrap',
@@ -541,12 +541,12 @@ export default function DigiChat({
               <span aria-hidden>←</span> Today&apos;s pathway
             </Link>
             {!isPaid && (
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-muted)' }}>
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
                 {dailyCount}/{FREE_LIMIT} today
               </span>
             )}
             {atLimit && (
-              <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--terracotta)', textDecoration: 'none' }}>
+              <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--terracotta)', textDecoration: 'none' }}>
                 Upgrade for unlimited →
               </Link>
             )}
@@ -599,17 +599,17 @@ export default function DigiChat({
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   boxShadow: '0 2px 0 var(--terracotta-dark)',
                 }}>
-                  <span style={{ fontSize: '16px', color: '#fff' }}>⚙</span>
+                  <span style={{ fontSize: 'var(--text-md)', color: '#fff' }}>⚙</span>
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700,
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                     letterSpacing: '0.1em', textTransform: 'uppercase',
                     color: 'var(--terracotta)', marginBottom: '4px',
                   }}>
                     Device setup · Stage {stageId}
                   </div>
-                  <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.5, marginBottom: '10px' }}>
+                  <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, marginBottom: '10px' }}>
                     {/* The name of the CHILD, not the name of the stage.
                         Justin: "this came up on DiGi after the updates and I am
                         not sure what Shaper refers to."
@@ -627,7 +627,7 @@ export default function DigiChat({
                     <Link
                       href={`/dashboard/pathway`}
                       style={{
-                        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+                        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         color: 'var(--terracotta)', textDecoration: 'underline',
                         letterSpacing: '0.04em',
                       }}
@@ -641,7 +641,7 @@ export default function DigiChat({
                       }}
                       style={{
                         background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-                        fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600,
+                        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
                         color: 'var(--ink-muted)', letterSpacing: '0.04em',
                       }}
                     >
@@ -652,7 +652,7 @@ export default function DigiChat({
               </div>
             )}
 
-            <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 12 }}>Try asking</p>
+            <p className="eyebrow" style={{ marginBottom: '12px', fontSize: 'var(--text-sm)' }}>Try asking</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '20px' }}>
               {stagePrompts.map((prompt, i) => (
                 <button
@@ -663,7 +663,7 @@ export default function DigiChat({
                     background: 'var(--white)',
                     border: '1px solid var(--border)',
                     borderRadius: '12px',
-                    fontSize: '16px',
+                    fontSize: 'var(--text-md)',
                     color: 'var(--ink-soft)',
                     textAlign: 'left',
                     cursor: 'pointer',
@@ -698,7 +698,7 @@ export default function DigiChat({
                 display: 'flex', alignItems: 'center', gap: 8, width: '100%',
                 background: 'var(--cream)', border: '1.5px solid var(--border)',
                 borderRadius: 14, padding: '11px 14px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 14.5,
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 color: 'var(--ink-soft)', textAlign: 'left',
               }}
             >
@@ -707,7 +707,7 @@ export default function DigiChat({
                 transform: historyOpen ? 'rotate(90deg)' : 'none',
               }}>›</span>
               {historyOpen ? 'Hide the earlier chat' : 'Earlier chat'}
-              <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)' }}>
+              <span style={{ marginLeft: 'auto', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
                 {initialMessages.length} message{initialMessages.length === 1 ? '' : 's'}
               </span>
             </button>
@@ -730,7 +730,7 @@ export default function DigiChat({
                       borderRadius: 16, padding: m.role === 'user' ? '9px 13px' : '0 2px',
                       // Dimmer than the live thread on purpose. This is a
                       // record, not the conversation a parent is in.
-                      fontSize: 15, lineHeight: 1.55, color: 'var(--ink-soft)',
+                      fontSize: 'var(--text-base)', lineHeight: 1.55, color: 'var(--ink-soft)',
                       whiteSpace: 'pre-wrap',
                     }}>
                       {m.content}
@@ -739,7 +739,7 @@ export default function DigiChat({
                 ))}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '18px 0 4px' }}>
                   <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
                     New chat below
                   </span>
                   <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
@@ -765,7 +765,7 @@ export default function DigiChat({
                   // top with DiGi's answer flowing beneath it.
                   maxWidth: '84%', background: '#DCE7FB', color: '#1B2A4A',
                   borderRadius: '20px', padding: '14px 18px',
-                  fontFamily: 'var(--font-display)', fontSize: '19px', lineHeight: 1.45,
+                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', lineHeight: 1.45,
                   fontWeight: 800, whiteSpace: 'pre-wrap',
                 }}>
                   {msg.content}
@@ -788,14 +788,14 @@ export default function DigiChat({
                   feel: no coloured bubble, just a clear note from a coach. */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 11 }}>
                 <div style={{ width: 26, height: 26, flexShrink: 0 }}><DigiAvatar size={26} /></div>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)' }}>DiGi</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>DiGi</span>
               </div>
               {/* The answer flows as plain text on white, its separate points set
                   apart by space, each bold lead in carrying the move. */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                 {paras.map((text, b) => (
                   <p key={b} style={{
-                    margin: 0, fontFamily: 'var(--font-body)', fontSize: '19px',
+                    margin: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)',
                     lineHeight: 1.6, color: 'var(--ink)', fontWeight: 500, whiteSpace: 'pre-wrap',
                   }}>
                     {renderInline(text)}
@@ -807,7 +807,7 @@ export default function DigiChat({
                     style={{
                       alignSelf: 'flex-start', marginTop: 3, background: '#fff', border: '1.5px solid var(--terracotta)',
                       color: 'var(--ink)', borderRadius: 12, padding: '9px 14px', cursor: 'pointer',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                     }}
                   >
                     Put this in words for my child
@@ -824,7 +824,7 @@ export default function DigiChat({
             ? [
                 <div key="gc-fresh-start" ref={freshRef} style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '4px 0 26px' }}>
                   <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
                     Earlier chat above
                   </span>
                   <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
@@ -836,7 +836,7 @@ export default function DigiChat({
         {historyCount > 0 && messages.length === historyCount && (
           <div ref={freshRef} style={{ display: 'flex', alignItems: 'center', gap: 12, margin: '4px 0 20px' }}>
             <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
               Earlier chat above
             </span>
             <span style={{ flex: 1, height: 1, background: 'var(--border)' }} />
@@ -860,19 +860,19 @@ export default function DigiChat({
                 borderRadius: 16, padding: '13px 15px', marginBottom: 18,
               }}
             >
-              <span aria-hidden style={{ fontSize: 21, lineHeight: 1, flexShrink: 0 }}>🧭</span>
+              <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>🧭</span>
               <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5, color: 'var(--ink)' }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                   Back to today&apos;s pathway
                 </span>
-                <span style={{ display: 'block', fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
+                <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
                   It picks up where you left off and says what to do next.
                 </span>
               </span>
-              <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--terracotta-dark)' }}>›</span>
+              <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>›</span>
             </Link>
 
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '9px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '9px' }}>
               More that might help
             </div>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -884,7 +884,7 @@ export default function DigiChat({
                   display: 'inline-flex', alignItems: 'center', gap: '7px',
                   background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px',
                   padding: '9px 13px', textDecoration: 'none',
-                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15px', color: 'var(--ink)',
+                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
                 }}>
                   <span aria-hidden>{r.icon}</span>{r.label}
                 </Link>
@@ -895,7 +895,7 @@ export default function DigiChat({
                 opened, a plain thank you once sent. Never in the way. */}
             <div style={{ marginTop: '14px' }}>
               {flagSent ? (
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 600, color: 'var(--ink-muted)' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)' }}>
                   Thank you. We will look at this.
                 </div>
               ) : flagOpen ? (
@@ -908,7 +908,7 @@ export default function DigiChat({
                     style={{
                       width: '100%', boxSizing: 'border-box', padding: '10px 13px', borderRadius: '12px',
                       border: '1.5px solid var(--border)', background: 'var(--cream)',
-                      fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)',
+                      fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)',
                       resize: 'none', outline: 'none', lineHeight: 1.5, marginBottom: '8px',
                     }}
                     onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)'; document.body.classList.add('gc-input-focused') }}
@@ -922,7 +922,7 @@ export default function DigiChat({
                         background: flagNote.trim() ? 'var(--terracotta)' : 'var(--border)',
                         color: flagNote.trim() ? 'var(--ink)' : 'var(--ink-muted)', border: 'none',
                         borderRadius: '10px', padding: '9px 15px', cursor: flagNote.trim() ? 'pointer' : 'not-allowed',
-                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                       }}
                     >
                       {flagSending ? 'Sending…' : 'Send'}
@@ -931,7 +931,7 @@ export default function DigiChat({
                       onClick={() => { setFlagOpen(false); setFlagNote('') }}
                       style={{
                         background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px', padding: '9px 14px',
-                        cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14.5px', color: 'var(--ink-soft)',
+                        cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
                       }}
                     >
                       Cancel
@@ -943,7 +943,7 @@ export default function DigiChat({
                   onClick={() => setFlagOpen(true)}
                   style={{
                     background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-                    fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-light)',
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-light)',
                     textDecoration: 'underline', textUnderlineOffset: '3px',
                   }}
                 >
@@ -958,7 +958,7 @@ export default function DigiChat({
           <div style={{ marginBottom: '26px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 11 }}>
               <div style={{ width: 26, height: 26, flexShrink: 0 }}><DigiAvatar size={26} mood="thinking" /></div>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17, color: 'var(--ink)' }}>DiGi</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>DiGi</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
               <div style={{ display: 'inline-flex', gap: '5px', alignItems: 'center', background: 'var(--cream)', borderRadius: '100px', padding: '10px 14px' }}>
@@ -975,9 +975,9 @@ export default function DigiChat({
 
         {error && (
           <div style={{ padding: '12px 16px', background: 'var(--stage-1)', borderRadius: '12px', marginBottom: '12px' }}>
-            <p style={{ fontSize: '15px', color: 'var(--ink)', lineHeight: 1.5 }}>{error}</p>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>{error}</p>
             {error.toLowerCase().includes('upgrade') && (
-              <Link href="/dashboard/upgrade" className="btn" style={{ marginTop: '12px', display: 'inline-flex', padding: '10px 20px', fontSize: '14px' }}>
+              <Link href="/dashboard/upgrade" className="btn" style={{ marginTop: '12px', display: 'inline-flex', padding: '10px 20px', fontSize: 'var(--text-base)' }}>
                 Unlock unlimited DiGi
               </Link>
             )}
@@ -997,11 +997,11 @@ export default function DigiChat({
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
               <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: 12, fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
                 Today's reflection
               </span>
             </div>
-            <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.6, marginBottom: 14, fontWeight: 500 }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, marginBottom: 14, fontWeight: 500 }}>
               {reflectionQuestion}
             </p>
             <textarea
@@ -1016,7 +1016,7 @@ export default function DigiChat({
                 border: '1.5px solid var(--border)',
                 background: 'var(--cream)',
                 fontFamily: 'var(--font-body)',
-                fontSize: '16px',
+                fontSize: 'var(--text-md)',
                 color: 'var(--ink)',
                 resize: 'none',
                 outline: 'none',
@@ -1040,7 +1040,7 @@ export default function DigiChat({
                   borderRadius: '10px',
                   fontFamily: 'var(--font-body)',
                   fontWeight: 600,
-                  fontSize: '15px',
+                  fontSize: 'var(--text-base)',
                   cursor: reflectionInput.trim() ? 'pointer' : 'not-allowed',
                   transition: 'background 0.15s',
                 }}
@@ -1055,7 +1055,7 @@ export default function DigiChat({
                   border: '1px solid var(--border)',
                   borderRadius: '10px',
                   fontFamily: 'var(--font-body)',
-                  fontSize: '15px',
+                  fontSize: 'var(--text-base)',
                   color: 'var(--ink-muted)',
                   cursor: 'pointer',
                 }}
@@ -1068,7 +1068,7 @@ export default function DigiChat({
 
         {reflectionToast && (
           <div style={{ textAlign: 'center', padding: '12px 0 8px', marginBottom: 8, transition: 'opacity 0.4s' }}>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--ink-muted)' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)' }}>
               ✓ Reflection saved. DiGi will use this tomorrow
             </p>
           </div>
@@ -1102,7 +1102,7 @@ export default function DigiChat({
                   flexShrink: 0, whiteSpace: 'nowrap', cursor: 'pointer',
                   background: 'var(--cream)', border: '1px solid var(--border)',
                   borderRadius: '100px', padding: '8px 14px',
-                  fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)',
+                  fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
                 }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--terracotta)')}
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--border)')}
@@ -1114,7 +1114,7 @@ export default function DigiChat({
         )}
         {atLimit ? (
           <div style={{ textAlign: 'center', padding: '8px 0' }}>
-            <p style={{ fontSize: '15px', color: 'var(--ink-muted)', marginBottom: '12px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '12px' }}>
               You have used your 3 free messages today. Come back tomorrow, or upgrade for unlimited DiGi.
             </p>
             <Link href="/dashboard/upgrade" className="btn" style={{ display: 'inline-flex' }}>
@@ -1129,7 +1129,7 @@ export default function DigiChat({
                   display: 'inline-flex', alignItems: 'center', gap: '6px',
                   background: 'var(--stage-2)', border: '1px solid var(--border)',
                   borderRadius: '100px', padding: '5px 12px',
-                  fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   color: 'var(--ink-soft)', maxWidth: '100%',
                 }}>
                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -1139,7 +1139,7 @@ export default function DigiChat({
                     type="button"
                     onClick={() => { setContinuingPrefix(null); setContinuingTopic(null) }}
                     aria-label="Stop continuing this topic"
-                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--ink-muted)', fontSize: '15px', lineHeight: 1, flexShrink: 0 }}
+                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1, flexShrink: 0 }}
                   >
                     ×
                   </button>
@@ -1167,7 +1167,7 @@ export default function DigiChat({
                 border: 'none',
                 background: 'transparent',
                 fontFamily: 'var(--font-body)',
-                fontSize: '18.5px',
+                fontSize: 'var(--text-lg)',
                 color: 'var(--ink)',
                 resize: 'none',
                 outline: 'none',
@@ -1188,7 +1188,7 @@ export default function DigiChat({
                 color: 'var(--ink)', cursor: input.trim() ? 'pointer' : 'default',
                 boxShadow: input.trim() ? '0 4px 0 var(--terracotta-dark)' : 'none',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 22, fontWeight: 800, lineHeight: 1,
+                fontSize: 'var(--text-xl)', fontWeight: 800, lineHeight: 1,
                 transition: 'background 0.15s',
               }}
             >
@@ -1198,7 +1198,7 @@ export default function DigiChat({
           </form>
         )}
         {!atLimit && (
-          <p style={{ margin: '9px 6px 0', textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
+          <p style={{ margin: '9px 6px 0', textAlign: 'center', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
             DiGi is a guide, not a crisis line, and can make mistakes. In an emergency call 999, or Samaritans on 116 123.
           </p>
         )}

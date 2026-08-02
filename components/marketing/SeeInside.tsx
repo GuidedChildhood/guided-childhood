@@ -49,7 +49,7 @@ export default function SeeInside() {
             This is the real thing,{' '}
             <span style={{ color: 'var(--terracotta)' }}>not a mockup</span>
           </h2>
-          <p className="fu" style={{ fontSize: '1.02rem', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto' }}>
+          <p className="fu" style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.75, maxWidth: '560px', margin: '0 auto' }}>
             Every picture below is the product as families use it today: the passport your child fills up, the bucket lists you print, the sheets that earn stars.
           </p>
         </div>
@@ -72,7 +72,7 @@ export default function SeeInside() {
                 />
               </div>
               <figcaption>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
                   {tile.title}
                 </div>
                 <p style={{ fontSize: '.86rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '4px 0 0' }}>
@@ -84,7 +84,7 @@ export default function SeeInside() {
         </div>
 
         <div className="fu" style={{ textAlign: 'center', marginTop: '38px' }}>
-          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '17px', padding: '15px 32px' }}>
+          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 32px' }}>
             Step inside, it is free
           </Link>
         </div>

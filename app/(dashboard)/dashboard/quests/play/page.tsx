@@ -12,7 +12,7 @@ export default function QuestGamesIndex() {
       <h1 style={{ fontSize: 'clamp(1.5rem, 4vw, 2rem)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: '8px' }}>
         Games that earn their stars
       </h1>
-      <p style={{ color: 'var(--ink-soft)', fontSize: '17px', lineHeight: 1.55, marginBottom: '22px' }}>
+      <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', lineHeight: 1.55, marginBottom: '22px' }}>
         Short, age matched games a child plays to earn stars. Calm and finite, they teach something and end warmly. Tap any to play it yourself first.
       </p>
 
@@ -23,18 +23,18 @@ export default function QuestGamesIndex() {
             boxShadow: '0 6px 22px rgba(46,40,24,0.06)', display: 'flex', flexDirection: 'column', gap: '10px',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-              <span style={{ fontSize: '30px' }}>{g.emoji}</span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', padding: '3px 9px', borderRadius: '100px' }}>
+              <span style={{ fontSize: 'var(--text-2xl)' }}>{g.emoji}</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', padding: '3px 9px', borderRadius: '100px' }}>
                 {g.stage}
               </span>
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
               {'⭐'.repeat(g.stars)} {g.stars} stars
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', letterSpacing: '-0.01em' }}>{g.title}</div>
-            <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, flex: 1 }}>{g.blurb}</p>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', letterSpacing: '-0.01em' }}>{g.title}</div>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, flex: 1 }}>{g.blurb}</p>
             <Link href={`/dashboard/quests/play/${g.key}`} style={{
-              alignSelf: 'flex-start', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+              alignSelf: 'flex-start', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               background: 'var(--gold, #EDC35F)', color: 'var(--ink)', borderRadius: '13px', padding: '10px 20px',
               textDecoration: 'none', boxShadow: '0 4px 0 var(--gold-dark, #C99A28)',
             }}>Play</Link>
@@ -43,7 +43,7 @@ export default function QuestGamesIndex() {
       </div>
 
       <div style={{ marginTop: '24px' }}>
-        <Link href="/dashboard/quests" style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink-muted)', textDecoration: 'underline' }}>
+        <Link href="/dashboard/quests" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'underline' }}>
           Back to quests
         </Link>
       </div>

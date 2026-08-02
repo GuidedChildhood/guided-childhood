@@ -109,12 +109,12 @@ export default function CommunityBite() {
           borderRadius: '0 0 50% 50% / 0 0 26px 26px',
           display: 'flex', alignItems: 'center', gap: 12,
         }}>
-          <span aria-hidden style={{ fontSize: 30, lineHeight: 1, flexShrink: 0 }}>📣</span>
+          <span aria-hidden style={{ fontSize: 'var(--text-2xl)', lineHeight: 1, flexShrink: 0 }}>📣</span>
           <span style={{ flex: 1, minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)' }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)' }}>
               This month
             </span>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)', lineHeight: 1.15 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.15 }}>
               Community bite
             </span>
           </span>
@@ -124,7 +124,7 @@ export default function CommunityBite() {
             style={{
               width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
               border: 'none', background: 'rgba(255,255,255,0.55)', cursor: 'pointer',
-              fontSize: 18, color: 'var(--ink)', lineHeight: 1,
+              fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1,
             }}
           >
             ×
@@ -133,7 +133,7 @@ export default function CommunityBite() {
 
         <div style={{ padding: '18px 20px 20px' }}>
           {total > 0 && (
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 8 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 8 }}>
               {total} {total === 1 ? 'family has' : 'families have'} answered
             </div>
           )}
@@ -177,7 +177,7 @@ export default function CommunityBite() {
                   <span style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 10 }}>
                     <span style={{ flex: 1, minWidth: 0 }}>{opt}</span>
                     {answered && (
-                      <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 15, fontWeight: 700, color: mine ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
+                      <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: mine ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
                         {pct}%{mine ? ' ✓' : ''}
                       </span>
                     )}
@@ -188,7 +188,7 @@ export default function CommunityBite() {
           </div>
 
           {answered && (
-            <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '14px 0 0' }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '14px 0 0' }}>
               {justVoted ? 'Thanks. ' : ''}
               That is the honest shape of it across every family here, and whatever you picked, you are in good company. DiGi keeps hold of your answer so it can pick the thread back up, and the full read lands in your Sunday email once a month. Closing this now.
             </p>

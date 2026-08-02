@@ -14,11 +14,11 @@ const QUIET = { ticksToConfirm: 0, printablesToConfirm: 0, schoolOpen: 0, agreem
 export default function Page() {
   return (
     <main style={{ background: 'var(--cream)', minHeight: '100vh', padding: 20, maxWidth: 640, margin: '0 auto' }}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7 }}>Something waiting</p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7 }}>Something waiting</p>
       <QuestShortcuts status={BUSY} />
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7, marginTop: 32 }}>Timer running, nobody asking</p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7, marginTop: 32 }}>Timer running, nobody asking</p>
       <QuestShortcuts status={RUNNING} />
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7, marginTop: 32 }}>All clear</p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7, marginTop: 32 }}>All clear</p>
       <QuestShortcuts status={QUIET} />
     </main>
   )

@@ -50,7 +50,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
         style={{
           position: 'absolute', top: 12, right: 12, width: 30, height: 30,
           borderRadius: '50%', border: '1px solid var(--terracotta)', background: '#fff',
-          color: 'var(--terracotta-dark)', fontSize: 15, lineHeight: 1, cursor: 'pointer',
+          color: 'var(--terracotta-dark)', fontSize: 'var(--text-base)', lineHeight: 1, cursor: 'pointer',
         }}
       >
         ×
@@ -61,22 +61,22 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
           <DigiCharacter size={26} mood="speak" />
         </span>
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             Year 6 into Year 7
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.015em' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.015em' }}>
             {bridge.headline}
           </div>
         </div>
       </div>
 
-      <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 6px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 6px' }}>
         {bridge.line}
       </p>
       {/* Said plainly and early, because a parent seeing a phone card from an
           app about screens will reasonably assume it is about to tell them
           what to do. */}
-      <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
         We will not tell you whether {name} should have one. We will give you the order to do it in.
       </p>
 
@@ -86,7 +86,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
           style={{
             display: 'inline-flex', padding: '12px 18px', textDecoration: 'none',
             background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14,
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5,
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             boxShadow: '0 3px 0 var(--terracotta-dark)',
           }}
         >
@@ -98,7 +98,7 @@ export default function PhoneBridgeCard({ bridge }: { bridge: PhoneBridge }) {
             display: 'inline-flex', padding: '12px 18px', textDecoration: 'none',
             background: '#fff', color: 'var(--ink)', borderRadius: 14,
             border: '1.5px solid var(--border)',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5,
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           }}
         >
           Ask DiGi

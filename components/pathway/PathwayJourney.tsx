@@ -85,17 +85,17 @@ export default function PathwayJourney({
       padding: '22px 22px 24px', boxShadow: '0 6px 26px rgba(26,26,46,0.07)',
     }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px', flexWrap: 'wrap' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           Your journey
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)' }}>
           {stageName} · {stageAges}
         </span>
       </div>
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 4vw, 1.6rem)', letterSpacing: '-0.03em', lineHeight: 1.12, margin: '0 0 4px' }}>
         {allDone ? 'This stage is walked' : 'One step at a time to independence'}
       </h2>
-      <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 20px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 20px' }}>
         {allDone
           ? `Settings set, moments worked through, lessons done. ${childName} is ready for what comes next.`
           : 'The goal is not control. It is a young person who does not need it. Here is the next thing that gets you there.'}
@@ -116,7 +116,7 @@ export default function PathwayJourney({
                 <div style={{
                   position: 'relative', zIndex: 1, flexShrink: 0,
                   width: 44, height: 44, borderRadius: '50%',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)',
                   background: isDone ? 'var(--tint-sage)' : isCurrent ? 'var(--terracotta-lt)' : '#fff',
                   border: isDone ? '2.5px solid var(--tint-sage)' : isCurrent ? '3px solid var(--terracotta)' : '2.5px solid var(--border)',
                   boxShadow: isCurrent ? '0 0 0 5px var(--terracotta-lt)' : 'none',
@@ -139,21 +139,21 @@ export default function PathwayJourney({
                   borderRadius: '16px', padding: '14px 16px',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
                       {s.title}
                     </span>
                     {isCurrent && (
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', background: '#fff', border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', background: '#fff', border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px' }}>
                         Do this next
                       </span>
                     )}
                   </div>
-                  <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 12px' }}>
+                  <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '4px 0 12px' }}>
                     {s.subtitle}
                   </p>
                   <Link href={s.href} style={{
                     display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                     padding: isCurrent ? '10px 18px' : '8px 14px', borderRadius: '12px',
                     background: isCurrent ? 'var(--terracotta)' : '#fff',
                     color: 'var(--ink)',

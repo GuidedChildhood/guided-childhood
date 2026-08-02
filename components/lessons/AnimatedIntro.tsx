@@ -74,7 +74,7 @@ export default function AnimatedIntro({
       }}
     >
       {eyebrow && (
-        <div data-eyebrow style={{ opacity: 0, fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '14px' }}>
+        <div data-eyebrow style={{ opacity: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '14px' }}>
           {eyebrow}
         </div>
       )}
@@ -97,7 +97,7 @@ export default function AnimatedIntro({
           background: '#fff', borderRadius: '14px 14px 14px 4px', padding: '9px 12px',
           textAlign: 'left', boxShadow: '0 4px 0 rgba(0,0,0,0.18)', minHeight: '2.6em',
         }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '14.5px', color: 'var(--ink)', lineHeight: 1.4 }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4 }}>
             {typed}
             {typed.length < c.line.length && <span style={{ display: 'inline-block', width: '2px', height: '1em', background: 'var(--terracotta)', marginLeft: '1px', verticalAlign: '-2px', animation: 'introCaret 0.7s step-end infinite' }} />}
           </span>
@@ -117,7 +117,7 @@ export default function AnimatedIntro({
           style={{
             opacity: 0, background: c.accent, color: 'var(--ink)', border: 'none',
             borderRadius: '16px', padding: '14px 30px', cursor: 'pointer',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}
         >

@@ -87,22 +87,22 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
     return (
       <div style={{ maxWidth: '560px', margin: '0 auto', padding: '24px 20px 48px' }}>
         <div style={{ marginBottom: '20px' }}>
-          <Link href={lessonsBackHref} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
+          <Link href={lessonsBackHref} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
             ← Lessons
           </Link>
         </div>
         <div style={{ background: 'var(--deep-teal)', borderRadius: '20px', padding: '32px 26px', textAlign: 'center' }}>
-          <div style={{ fontSize: 34, marginBottom: 12 }}>🔒</div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 10 }}>
+          <div style={{ fontSize: 'var(--text-3xl)', marginBottom: 12 }}>🔒</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 10 }}>
             {stage.label}
           </div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: '#fff', letterSpacing: '-0.02em', marginBottom: 10, lineHeight: 1.2 }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: '#fff', letterSpacing: '-0.02em', marginBottom: 10, lineHeight: 1.2 }}>
             {lesson.title}
           </h1>
-          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, maxWidth: 380, margin: '0 auto 22px' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, maxWidth: 380, margin: '0 auto 22px' }}>
             One lesson in every stage is free, and you have opened it. The rest of the lessons, all the scripts and the full pathway are part of membership. The founder rate is still open at £7.99 a month for life.
           </p>
-          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '14px', padding: '13px 24px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '14px', padding: '13px 24px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
             Unlock every lesson
           </Link>
         </div>
@@ -118,7 +118,7 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
         <div style={{ marginBottom: '20px' }}>
           <Link
             href={lessonsBackHref}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
           >
             ← Lessons
           </Link>
@@ -142,7 +142,7 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
       <div style={{ marginBottom: '24px' }}>
         <Link
           href={lessonsBackHref}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
         >
           ← Lessons
         </Link>
@@ -152,7 +152,7 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
       <div style={{ marginBottom: '28px' }}>
         <div style={{ marginBottom: '12px' }}>
           <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
             letterSpacing: '0.1em', textTransform: 'uppercase',
             color: 'var(--ink)', background: stage.bg,
             padding: '4px 10px', borderRadius: '100px',
@@ -176,12 +176,12 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
               width: '36px', height: '36px', borderRadius: '50%',
               background: 'var(--terracotta)', color: 'var(--ink)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '18px', fontWeight: 800, flexShrink: 0, fontFamily: 'var(--font-display)',
+              fontSize: 'var(--text-lg)', fontWeight: 800, flexShrink: 0, fontFamily: 'var(--font-display)',
             }}>
               {section.num}
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
                 {section.label}
               </div>
               <p style={{
@@ -200,17 +200,17 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
       {/* DiGi CTA */}
       <div style={{ background: 'var(--stage-5)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '24px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '6px' }}>
             DiGi
           </div>
-          <p style={{ fontSize: '16px', color: 'var(--ink)', lineHeight: 1.5 }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5 }}>
             Want to take this further? Ask DiGi.
           </p>
         </div>
         <Link
           href={`/dashboard/digi?q=${encodeURIComponent(lesson.digi_prompt)}`}
           className="btn btn-gold"
-          style={{ flexShrink: 0, padding: '11px 20px', fontSize: '14px' }}
+          style={{ flexShrink: 0, padding: '11px 20px', fontSize: 'var(--text-base)' }}
         >
           Ask DiGi about this
         </Link>
@@ -221,8 +221,8 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
         href={lessonsBackHref}
         style={{ display: 'flex', padding: '14px 18px', background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '12px', textDecoration: 'none', flexDirection: 'column', gap: '4px', textAlign: 'center' }}
       >
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>Lessons</span>
-        <span style={{ fontSize: '15px', fontWeight: 600, color: 'var(--terracotta)' }}>Back to lessons</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>Lessons</span>
+        <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta)' }}>Back to lessons</span>
       </Link>
     </div>
   )

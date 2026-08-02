@@ -57,7 +57,7 @@ export default function WeeklyReviewCard() {
       <button
         onClick={close}
         aria-label="Close"
-        style={{ position: 'absolute', top: 8, right: 11, background: 'none', border: 'none', cursor: 'pointer', fontSize: '19px', lineHeight: 1, color: 'var(--ink-muted)', padding: '2px 4px' }}
+        style={{ position: 'absolute', top: 8, right: 11, background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--text-lg)', lineHeight: 1, color: 'var(--ink-muted)', padding: '2px 4px' }}
       >
         ×
       </button>
@@ -68,13 +68,13 @@ export default function WeeklyReviewCard() {
         {/* Weekly, not Sunday. It is written on a Sunday and it can now be
             read on a Thursday, and a card that says Sunday on a Thursday
             reads as something a parent has already missed. */}
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Weekly round up</div>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.15, marginTop: '2px' }}>The week just gone</div>
-        <div style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '3px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Weekly round up</div>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15, marginTop: '2px' }}>The week just gone</div>
+        <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: '3px' }}>
           The balance, the wins, and one thing to try next.
         </div>
       </div>
-      <Link href="/dashboard/week" style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: '12px', padding: '10px 15px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
+      <Link href="/dashboard/week" style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none', borderRadius: '12px', padding: '10px 15px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
         See your week →
       </Link>
     </div>

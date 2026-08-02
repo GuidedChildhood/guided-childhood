@@ -145,14 +145,14 @@ export default function DeviceHub({
           }}
         >
           <span style={{ minWidth: 0 }}>
-            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.25 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
               Browse every guide
             </span>
-            <span style={{ display: 'block', fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 2 }}>
+            <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 2 }}>
               All {devices.length} of them, including things you do not have yet.
             </span>
           </span>
-          <span aria-hidden style={{ fontSize: 16, color: 'var(--ink-muted)', flexShrink: 0, transform: catalogueOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
+          <span aria-hidden style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', flexShrink: 0, transform: catalogueOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
         </button>
 
         {catalogueOpen && (

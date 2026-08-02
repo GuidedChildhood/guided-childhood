@@ -106,14 +106,14 @@ export default function BucketBuilder() {
 
       {/* Controls, hidden on paper */}
       <div className="no-print">
-        <Link href="/dashboard/printables" style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+        <Link href="/dashboard/printables" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
           ← All printables
         </Link>
         <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '14px 0 8px' }}>Bucket list builder</p>
         <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '10px' }}>
           Build your own bucket list
         </h1>
-        <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px', maxWidth: '540px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px', maxWidth: '540px' }}>
           Pick up to {MAX_ITEMS} ideas or write your own, put their name on it, print it for the fridge. The finished page is worth 5 stars through the quest list.
         </p>
 
@@ -123,20 +123,20 @@ export default function BucketBuilder() {
             onChange={e => setTitle(e.target.value)}
             maxLength={30}
             placeholder="Our Bucket List"
-            style={{ flex: 2, minWidth: '180px', padding: '12px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '17px', color: 'var(--ink)', outline: 'none' }}
+            style={{ flex: 2, minWidth: '180px', padding: '12px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none' }}
           />
           <input
             value={childName}
             onChange={e => setChildName(e.target.value)}
             maxLength={20}
             placeholder="Their name (optional)"
-            style={{ flex: 1, minWidth: '140px', padding: '12px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', outline: 'none' }}
+            style={{ flex: 1, minWidth: '140px', padding: '12px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none' }}
           />
         </div>
 
         {IDEA_POOL.map(group => (
           <div key={group.group} style={{ marginBottom: '14px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
               {group.group}
             </div>
             <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
@@ -168,11 +168,11 @@ export default function BucketBuilder() {
             onKeyDown={e => { if (e.key === 'Enter') addCustom() }}
             maxLength={40}
             placeholder="Or write your own idea..."
-            style={{ flex: 1, minWidth: 0, padding: '12px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none' }}
+            style={{ flex: 1, minWidth: 0, padding: '12px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none' }}
           />
           <button
             onClick={addCustom}
-            style={{ padding: '12px 18px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700 }}
+            style={{ padding: '12px 18px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700 }}
           >
             Add
           </button>
@@ -183,7 +183,7 @@ export default function BucketBuilder() {
             onClick={() => window.print()}
             disabled={picked.length === 0}
             className="btn btn-gold"
-            style={{ padding: '13px 22px', fontSize: '16px', opacity: picked.length === 0 ? 0.55 : 1, cursor: picked.length === 0 ? 'default' : 'pointer' }}
+            style={{ padding: '13px 22px', fontSize: 'var(--text-md)', opacity: picked.length === 0 ? 0.55 : 1, cursor: picked.length === 0 ? 'default' : 'pointer' }}
           >
             🖨️ Print it ({picked.length}/{MAX_ITEMS})
           </button>
@@ -193,7 +193,7 @@ export default function BucketBuilder() {
             style={{
               background: added ? 'var(--tint-sage)' : '#fff', border: '1.5px solid var(--border)', borderRadius: '16px',
               padding: '13px 22px', cursor: added || picked.length === 0 ? 'default' : 'pointer',
-              fontFamily: 'var(--font-display)', fontSize: '16px', fontWeight: 800, color: 'var(--ink)',
+              fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
             }}
           >
             {added ? 'On the quest list ✓' : 'Add to quests · ⭐ 5'}
@@ -245,12 +245,12 @@ export default function BucketBuilder() {
                 }}>
                   {title.trim() || 'Our Bucket List'}
                 </div>
-                <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '8px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '3px 0 2px' }}>
+                <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '3px 0 2px' }}>
                   {childName.trim() ? `${childName.trim()}'s list · ` : ''}Colour the circle when it is done
                 </div>
                 <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
                   {n === 0 ? (
-                    <p style={{ textAlign: 'center', fontSize: '15px', color: 'var(--ink-muted)', margin: 'auto 0' }}>
+                    <p style={{ textAlign: 'center', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: 'auto 0' }}>
                       Your picks appear in the bucket as you choose them.
                     </p>
                   ) : picked.map((idea, i) => (
@@ -284,8 +284,8 @@ export default function BucketBuilder() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--deep-teal)', borderRadius: '14px', padding: '13px 18px', marginTop: '14px' }}>
-          <span style={{ fontSize: '22px' }}>⭐</span>
-          <span style={{ fontSize: '15px', fontWeight: 700, color: '#fff', lineHeight: 1.45 }}>
+          <span style={{ fontSize: 'var(--text-xl)' }}>⭐</span>
+          <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: '#fff', lineHeight: 1.45 }}>
             Whole list done? Hand this to your grown up. Worth 5 stars toward your screen time.
           </span>
         </div>

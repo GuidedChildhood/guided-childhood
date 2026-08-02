@@ -17,7 +17,7 @@ export default async function CheckinPage() {
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto', padding: '24px 20px 48px' }}>
       <div style={{ marginBottom: '20px' }}>
-        <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
+        <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
           ← Home
         </Link>
       </div>
@@ -27,7 +27,7 @@ export default async function CheckinPage() {
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
           A minute for you
         </h1>
-        <p style={{ color: 'var(--ink-muted)', fontSize: '17px', lineHeight: 1.55 }}>
+        <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-md)', lineHeight: 1.55 }}>
           Once a month we check in on how the family has been, and on how you are doing. It shapes the pathway ahead, and it keeps you in view, not just your child.
         </p>
       </div>

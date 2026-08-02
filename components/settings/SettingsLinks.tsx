@@ -34,7 +34,7 @@ const LINKS = [
 export default function SettingsLinks() {
   return (
     <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
-      <h2 style={{ fontSize: '1rem', marginBottom: '14px', color: 'var(--ink)' }}>Everything else</h2>
+      <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '14px', color: 'var(--ink)' }}>Everything else</h2>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {LINKS.map(l => (
@@ -48,14 +48,14 @@ export default function SettingsLinks() {
             }}
           >
             <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', lineHeight: 1.25 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
                 {l.title}
               </span>
-              <span style={{ display: 'block', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
+              <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
                 {l.body}
               </span>
             </span>
-            <span aria-hidden style={{ fontSize: '18px', color: 'var(--ink-muted)', flexShrink: 0 }}>›</span>
+            <span aria-hidden style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', flexShrink: 0 }}>›</span>
           </Link>
         ))}
       </div>

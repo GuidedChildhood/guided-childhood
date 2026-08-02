@@ -138,14 +138,14 @@ export default function DailyTrail({ tasks }: { tasks: DailyTask[] }) {
                 strokeWidth={isActive ? 3.5 : 2.5}
               />
               {task.done ? (
-                <text x={n.x} y={n.y + 1} textAnchor="middle" dominantBaseline="middle" fill="#fff" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px' }}>✓</text>
+                <text x={n.x} y={n.y + 1} textAnchor="middle" dominantBaseline="middle" fill="#fff" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}>✓</text>
               ) : (
-                <text x={n.x} y={n.y + 1} textAnchor="middle" dominantBaseline="middle" style={{ fontSize: '17px' }}>{TASK_ICON[task.key]}</text>
+                <text x={n.x} y={n.y + 1} textAnchor="middle" dominantBaseline="middle" style={{ fontSize: 'var(--text-md)' }}>{TASK_ICON[task.key]}</text>
               )}
               <text
                 x={labelLeft ? n.x - 32 : n.x + 32} y={n.y + 4}
                 textAnchor={labelLeft ? 'end' : 'start'}
-                style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px' }}
+                style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)' }}
                 fill={task.done ? 'var(--ink-muted)' : 'var(--ink)'}
               >
                 {task.label.length > 24 ? `${task.label.slice(0, 23)}…` : task.label}
@@ -191,28 +191,28 @@ export default function DailyTrail({ tasks }: { tasks: DailyTask[] }) {
         >
           {allDone ? (
             <>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', marginBottom: '4px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: '4px' }}>
                 All done for today
               </div>
-              <p style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
                 Every step walked. See you tomorrow, or ask me anything tonight.
               </p>
             </>
           ) : activeTask && (
             <>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '5px' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '5px' }}>
                 Next on your path
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.3, marginBottom: '4px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3, marginBottom: '4px' }}>
                 {activeTask.label}
               </div>
-              <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '10px' }}>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '10px' }}>
                 {activeTask.detail}
               </p>
               <Link
                 href={activeTask.href}
                 className="btn btn-gold"
-                style={{ pointerEvents: 'auto', width: '100%', justifyContent: 'center', fontSize: '13.5px', padding: '9px 12px' }}
+                style={{ pointerEvents: 'auto', width: '100%', justifyContent: 'center', fontSize: 'var(--text-sm)', padding: '9px 12px' }}
               >
                 Take me there
               </Link>

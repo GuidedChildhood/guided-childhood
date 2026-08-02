@@ -34,7 +34,7 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
 
   return (
     <div style={{ maxWidth: 660, margin: '0 auto', padding: '22px 20px 60px' }}>
-      <Link href="/dashboard" style={{ display: 'inline-flex', gap: 6, fontSize: 15, color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
+      <Link href="/dashboard" style={{ display: 'inline-flex', gap: 6, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
         ← Home
       </Link>
 
@@ -60,7 +60,7 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
             >
               {x.childName}
               {x.yearGroup !== null && (
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)', marginLeft: 7 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginLeft: 7 }}>
                   Y{x.yearGroup}
                 </span>
               )}
@@ -75,21 +75,21 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
       {v.label && (
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 12, padding: '8px 13px', margin: '14px 0 12px' }}>
           <span aria-hidden>🎒</span>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, color: 'var(--ink)' }}>{v.label}</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{v.label}</span>
         </div>
       )}
 
-      <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 20px' }}>{blurb}</p>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 20px' }}>{blurb}</p>
 
       {/* No birthday: the ask, and nothing else. Everything on this page is
           derived from it, so offering a half page of guesses underneath would
           be the one thing this feature must never do. */}
       {v.blocked === 'no_birthday' && (
         <div style={{ ...CARD, background: 'var(--cream)' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, margin: '0 0 6px' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 6px' }}>
             One thing missing
           </h2>
-          <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
             England places a child by their age on 31 August, so their birthday is the only way to know which year group they are actually in. The month on its own is enough if you would rather not give the day.
           </p>
           <Link href="/dashboard/settings" className="btn btn-primary" style={{ textDecoration: 'none' }}>
@@ -102,16 +102,16 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
           one is a head start. */}
       {v.event && (
         <div style={{ ...CARD, borderColor: 'var(--terracotta)' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 6 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 6 }}>
             Coming up {v.eventWhen ? `· ${v.eventWhen}` : ''}
           </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19, margin: '0 0 6px', letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
             {v.event.event.title}
           </h2>
-          <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
             {v.event.event.what}
           </p>
-          <p style={{ fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.55, fontWeight: 600, margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, fontWeight: 600, margin: 0 }}>
             {v.event.event.doThis}
           </p>
         </div>
@@ -122,13 +122,13 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
           the only thing a parent is actually thinking about. */}
       {v.transition && (
         <div style={{ ...CARD, background: 'var(--tint-blue, #D8E8F8)', borderColor: 'transparent' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 6 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: 6 }}>
             Secondary school
           </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19, margin: '0 0 6px', letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
             {v.transition.headline}
           </h2>
-          <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
             {v.transition.line}
           </p>
           <Link href="/dashboard/secondary" className="btn btn-primary" style={{ textDecoration: 'none' }}>
@@ -141,10 +141,10 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
       {v.subjects.map(sub => (
         <div key={sub.subject} style={CARD}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19, margin: 0, letterSpacing: '-0.02em' }}>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: 0, letterSpacing: '-0.02em' }}>
               {sub.label}
             </h2>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, color: 'var(--ink-muted)' }}>
+            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
               {sub.count} {sub.count === 1 ? 'thing' : 'things'}
             </span>
           </div>
@@ -163,18 +163,18 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
                       padding: '13px 14px',
                     }}
                   >
-                    <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, color: 'var(--ink)', lineHeight: 1.3 }}>
+                    <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
                       {st.strand}
                     </span>
-                    <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--ink-muted)' }}>
+                    <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
                       {st.objectives.length}
                     </span>
-                    <span aria-hidden style={{ flexShrink: 0, fontSize: 17, color: 'var(--ink-muted)', transform: isOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
+                    <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: 'var(--ink-muted)', transform: isOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
                   </button>
                   {isOpen && (
                     <ul style={{ listStyle: 'none', margin: 0, padding: '2px 14px 14px', display: 'grid', gap: 9 }}>
                       {st.objectives.map(o => (
-                        <li key={o.id} style={{ display: 'flex', gap: 9, fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                        <li key={o.id} style={{ display: 'flex', gap: 9, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
                           <span aria-hidden style={{ flexShrink: 0, color: 'var(--terracotta-dark)', fontWeight: 900 }}>·</span>
                           {/* The Department writes its long objectives as one
                               sentence ending "by:" and then six clauses split
@@ -212,10 +212,10 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
           the URL, which is why nobody had ever seen it. */}
       {v.blocked === null && (
         <div style={{ ...CARD, background: 'var(--cream)' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, margin: '0 0 4px' }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 4px' }}>
             Do something with it
           </h2>
-          <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 14px' }}>
             Both of these read the same list you just scrolled.
           </p>
           <div style={{ display: 'grid', gap: 10 }}>
@@ -235,7 +235,7 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
           reason a parent can trust a page that tells them what school teaches
           is being able to see it is not our opinion. */}
       {v.subjects.length > 0 && (
-        <p style={{ fontSize: 14, color: 'var(--ink-muted)', lineHeight: 1.55, marginTop: 18 }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.55, marginTop: 18 }}>
           Taken from the national curriculum programmes of study for England, published by the Department for Education. The wording is theirs. Which term a topic falls in is our ordering, not the school&rsquo;s, so a class may reach something sooner or later than this shows.
         </p>
       )}

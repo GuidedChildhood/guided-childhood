@@ -96,21 +96,21 @@ export default function DigiChecksPanel() {
         background: bankState === 'on' ? 'var(--stage-2)' : bankState === 'partial' ? '#FFF6E5' : '#FDECEC',
         borderRadius: 14, padding: '14px 16px', marginBottom: 16,
       }}>
-        <p style={{ margin: '0 0 4px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: 'var(--ink)' }}>
+        <p style={{ margin: '0 0 4px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
           {bankState === 'on' && 'Meaning search is on'}
           {bankState === 'partial' && `Meaning search is partly on, ${bankGap} findings still unembedded`}
           {bankState === 'off' && 'Meaning search is OFF'}
         </p>
-        <p style={{ margin: 0, fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+        <p style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
           {bankState === 'on' && `All ${k.total} findings in the research bank are searchable by meaning, so DiGi finds the right one even when a parent never types the obvious word.`}
           {bankState === 'partial' && `${k.embedded} of ${k.total} are searchable by meaning. The rest are reachable by keyword only, which means they are effectively invisible unless a parent happens to use the right word.`}
           {bankState === 'off' && 'EMBEDDING_API_KEY is not set, so nothing is embedded and every question falls back to keyword matching. It works, and it is the thing that fails when a parent describes a worry instead of naming it.'}
         </p>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginTop: 10, flexWrap: 'wrap' }}>
-          <button onClick={embedBank} disabled={busy} className="btn btn-outline" style={{ padding: '8px 16px', fontSize: 14.5, cursor: 'pointer', opacity: busy ? 0.6 : 1 }}>
+          <button onClick={embedBank} disabled={busy} className="btn btn-outline" style={{ padding: '8px 16px', fontSize: 'var(--text-base)', cursor: 'pointer', opacity: busy ? 0.6 : 1 }}>
             {busy ? 'Embedding...' : 'Embed the research bank'}
           </button>
-          {embedNote && <span style={{ fontSize: 14.5, color: 'var(--ink-soft)' }}>{embedNote}</span>}
+          {embedNote && <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>{embedNote}</span>}
         </div>
       </div>
 
@@ -145,12 +145,12 @@ export default function DigiChecksPanel() {
               }}>
                 {j.ok === false ? '⚠' : j.overdue ? '·' : '✓'}
               </span>
-              <span style={{ fontSize: 15.5, color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {j.label}
               </span>
             </span>
             <span style={{
-              fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, flexShrink: 0,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, flexShrink: 0,
               color: j.ok === false ? 'var(--danger)' : j.overdue ? '#A37A2A' : 'var(--ink-muted)',
             }}>
               {j.ok === false ? 'failed' : j.lastRun === null ? 'not yet run' : j.overdue ? `overdue, ${when(j.lastRun)}` : when(j.lastRun)}
@@ -165,24 +165,24 @@ export default function DigiChecksPanel() {
           <p className="eyebrow" style={{ margin: '0 0 6px' }}>
             How DiGi answered, {checks.answerReview.period}
           </p>
-          <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 10px' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 10px' }}>
             {checks.answerReview.summary}
           </p>
           {checks.answerReview.suggestions.map((s, i) => (
             <div key={i} style={{ marginBottom: 8 }}>
-              <p style={{ fontSize: 15.5, color: 'var(--ink)', margin: '0 0 2px', fontWeight: 600 }}>{s.observation}</p>
-              <p style={{ fontSize: 15, color: 'var(--ink-soft)', margin: 0, lineHeight: 1.5 }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{s.target}</span>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', margin: '0 0 2px', fontWeight: 600 }}>{s.observation}</p>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', margin: 0, lineHeight: 1.5 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase' }}>{s.target}</span>
                 {' '}{s.change}
               </p>
             </div>
           ))}
-          <p style={{ fontSize: 14.5, color: 'var(--ink-muted)', margin: '8px 0 0', lineHeight: 1.5 }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: '8px 0 0', lineHeight: 1.5 }}>
             Suggestions only. Nothing here changes how DiGi answers until you make the change yourself.
           </p>
         </div>
       ) : (
-        <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
           No answer review yet. It runs on the 2nd of each month, reads DiGi&rsquo;s lowest scoring evals, its flagged replies and what parents wrote back, and proposes what to change. Until the first one lands there is nothing here, which is the honest state rather than an empty chart.
         </p>
       )}
@@ -193,8 +193,8 @@ export default function DigiChecksPanel() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div style={{ background: 'var(--cream)', borderRadius: 12, padding: '10px 12px' }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 21, color: 'var(--ink)', lineHeight: 1.1 }}>{value}</div>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 2 }}>{label}</div>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.1 }}>{value}</div>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 2 }}>{label}</div>
     </div>
   )
 }

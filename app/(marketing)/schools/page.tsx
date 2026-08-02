@@ -17,7 +17,7 @@ const ESPRESSO = 'var(--deep-teal)'
 const GOLD = 'var(--terracotta)'
 
 const eyebrow = (color = 'var(--terracotta-dark)'): React.CSSProperties => ({
-  fontFamily: 'var(--font-mono)', fontSize: '0.72rem', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.16em', textTransform: 'uppercase', color,
 })
 
@@ -46,14 +46,14 @@ function ProductMockup() {
         <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#E06C5A' }} />
         <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#E9B949' }} />
         <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#7BB662' }} />
-        <span style={{ marginLeft: '10px', fontFamily: 'var(--font-mono)', fontSize: '10px', color: 'var(--ink-muted)', background: '#fff', borderRadius: '6px', padding: '3px 12px', flex: 1, maxWidth: '260px' }}>
+        <span style={{ marginLeft: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', background: '#fff', borderRadius: '6px', padding: '3px 12px', flex: 1, maxWidth: '260px' }}>
           guidedchildhood.app/educator/curriculum
         </span>
       </div>
       {/* The map preview */}
       <div style={{ padding: '18px', background: 'var(--cream)' }}>
-        <div style={{ ...eyebrow('var(--green-dark)'), fontSize: '0.6rem', marginBottom: '3px' }}>The whole programme · Reception to Year 13</div>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '12px' }}>The curriculum map</div>
+        <div style={{ ...eyebrow('var(--green-dark)'), fontSize: 'var(--text-sm)', marginBottom: '3px' }}>The whole programme · Reception to Year 13</div>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '12px' }}>The curriculum map</div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
           {showcase.map((m, i) => {
             const ch = CHARACTERS[m.character]
@@ -61,15 +61,15 @@ function ProductMockup() {
               <div key={m.moduleId} style={{ background: '#fff', border: `1.5px solid ${ch.accent}`, borderRadius: '11px', overflow: 'hidden' }}>
                 <div style={{ background: ch.soft, padding: '5px 7px', display: 'flex', alignItems: 'center', gap: '5px' }}>
                   <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#fff', border: `1.5px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '9px' }}>{ch.emblem}</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '6.5px', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>M{String(m.n).padStart(2, '0')}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>M{String(m.n).padStart(2, '0')}</span>
                 </div>
                 <div style={{ padding: '6px 7px 8px' }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '8px', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '5px', minHeight: '20px' }}>{m.title}</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '5px', minHeight: '20px' }}>{m.title}</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <span style={{ height: '4px', flex: 1, borderRadius: '4px', background: 'var(--border)', overflow: 'hidden' }}>
                       <span style={{ display: 'block', height: '100%', width: i === 0 ? '100%' : i === 1 ? '66%' : i === 2 ? '33%' : '0%', background: ch.accent }} />
                     </span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: '6px', color: 'var(--ink-muted)' }}>{i === 0 ? '3/3' : i === 1 ? '2/3' : i === 2 ? '1/3' : '0/3'}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>{i === 0 ? '3/3' : i === 1 ? '2/3' : i === 2 ? '1/3' : '0/3'}</span>
                   </div>
                 </div>
               </div>
@@ -88,15 +88,15 @@ export default function SchoolsPage() {
 
       {/* Nav */}
       <header style={{ position: 'sticky', top: 0, zIndex: 300, height: '64px', padding: '0 clamp(20px, 4vw, 40px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(249,248,246,0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid var(--border)' }}>
-        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', textDecoration: 'none' }}>
+        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', textDecoration: 'none' }}>
           ⭐ Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
         </Link>
         <nav style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-          <Link href="/" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>For parents</Link>
-          <Link href="#curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Curriculum</Link>
-          <Link href="#pricing" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Pricing</Link>
-          <Link href="/login?next=/educator" style={{ fontFamily: 'var(--font-body)', fontSize: '0.86rem', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Sign in</Link>
-          <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '10px 22px', fontSize: '0.84rem', marginLeft: '6px' }}>
+          <Link href="/" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>For parents</Link>
+          <Link href="#curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Curriculum</Link>
+          <Link href="#pricing" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Pricing</Link>
+          <Link href="/login?next=/educator" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Sign in</Link>
+          <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '10px 22px', fontSize: 'var(--text-sm)', marginLeft: '6px' }}>
             Request a pilot
           </a>
         </nav>
@@ -117,14 +117,14 @@ export default function SchoolsPage() {
               <strong style={{ color: '#fff', fontWeight: 800 }}>The ban takes the apps. We build the judgement.</strong> A complete online safety scheme of work, Reception to Year 13, mapped to the new statutory RSHE guidance. Every lesson taught from an interactive script, with printable packs and the coverage evidence Ofsted asks for. Ready in your classroom tomorrow.
             </p>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
-              <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: '1rem', padding: '16px 32px' }}>
+              <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '16px 32px' }}>
                 Request a free pilot
               </a>
-              <Link href="#curriculum" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1rem', padding: '16px 30px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.24)' }}>
+              <Link href="#curriculum" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '16px 30px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.1)', border: '1.5px solid rgba(255,255,255,0.24)' }}>
                 See the curriculum
               </Link>
             </div>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: 'rgba(255,250,240,0.6)' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'rgba(255,250,240,0.6)' }}>
               Free one term pilot for the first schools. We reply within 48 hours.
             </p>
           </Reveal>
@@ -146,7 +146,7 @@ export default function SchoolsPage() {
             <Reveal key={s.l} delay={i * 0.06}>
               <div style={{ textAlign: 'center' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 3.4vw, 2.8rem)', color: GOLD, lineHeight: 1, letterSpacing: '-0.02em' }}>{s.n}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.68rem', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,250,240,0.64)', marginTop: '8px', lineHeight: 1.4 }}>{s.l}</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.06em', textTransform: 'uppercase', color: 'rgba(255,250,240,0.64)', marginTop: '8px', lineHeight: 1.4 }}>{s.l}</div>
               </div>
             </Reveal>
           ))}
@@ -161,7 +161,7 @@ export default function SchoolsPage() {
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.8vw, 3.1rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', maxWidth: '760px', marginBottom: '18px' }}>
               A teacher opens one page. The whole lesson is already there.
             </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px', marginBottom: '48px' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px', marginBottom: '48px' }}>
               No hunting through a portal. No prep the night before. Everything a non specialist needs to teach it well, generated from the lesson itself and updated the moment the world changes.
             </p>
           </Reveal>
@@ -176,9 +176,9 @@ export default function SchoolsPage() {
             ].map((f, i) => (
               <Reveal key={f.title} delay={(i % 3) * 0.06} as="div" style={{ height: '100%' }}>
                 <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '22px', padding: '26px', height: '100%', boxShadow: softShadow }}>
-                  <div style={{ fontSize: '30px', marginBottom: '16px' }}>{f.icon}</div>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.15rem', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '9px' }}>{f.title}</h3>
-                  <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.92rem', color: 'var(--ink-soft)', lineHeight: 1.65 }}>{f.body}</p>
+                  <div style={{ fontSize: 'var(--text-2xl)', marginBottom: '16px' }}>{f.icon}</div>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '9px' }}>{f.title}</h3>
+                  <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.65 }}>{f.body}</p>
                 </div>
               </Reveal>
             ))}
@@ -194,7 +194,7 @@ export default function SchoolsPage() {
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.8vw, 3.1rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', maxWidth: '720px', marginBottom: '18px' }}>
               A cast children remember, carrying lessons that matter.
             </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '600px', marginBottom: '44px' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '600px', marginBottom: '44px' }}>
               Each character owns a corner of digital life, so a child meets a familiar face every time the topic comes back. DiGi, the golden star, is always there at the close.
             </p>
           </Reveal>
@@ -217,8 +217,8 @@ export default function SchoolsPage() {
                         ? <img src={ch.img} alt={ch.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         : ch.emblem}
                     </div>
-                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: ch.ink, marginBottom: '6px' }}>{ch.name}</div>
-                    <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{c.line}</div>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: ch.ink, marginBottom: '6px' }}>{ch.name}</div>
+                    <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>{c.line}</div>
                   </div>
                 </Reveal>
               )
@@ -235,7 +235,7 @@ export default function SchoolsPage() {
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.8vw, 3.1rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', maxWidth: '760px', marginBottom: '18px' }}>
               {totalModules} modules that build from first screens to the working world.
             </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px', marginBottom: '44px' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '620px', marginBottom: '44px' }}>
               Not a bolt on, not a one off assembly. A proper spine that sits inside your PSHE provision and covers all eight Education for a Connected World strands, EYFS to Year 13.
             </p>
           </Reveal>
@@ -247,16 +247,16 @@ export default function SchoolsPage() {
                 <Reveal key={ks} delay={i * 0.05}>
                   <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', overflow: 'hidden', display: 'grid', gridTemplateColumns: 'minmax(180px, 220px) 1fr', boxShadow: softShadow }} className="schools-curric-row">
                     <div style={{ background: ESPRESSO, color: '#fff', padding: '24px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      <div style={{ ...eyebrow(GOLD), fontSize: '0.64rem', marginBottom: '7px' }}>{meta.label}</div>
-                      <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.05rem', fontWeight: 800, marginBottom: '3px' }}>{meta.years}</div>
-                      <div style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: 'rgba(255,250,240,0.7)', lineHeight: 1.45 }}>{meta.strapline}</div>
+                      <div style={{ ...eyebrow(GOLD), fontSize: 'var(--text-sm)', marginBottom: '7px' }}>{meta.label}</div>
+                      <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, marginBottom: '3px' }}>{meta.years}</div>
+                      <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'rgba(255,250,240,0.7)', lineHeight: 1.45 }}>{meta.strapline}</div>
                     </div>
                     <div style={{ padding: '22px', display: 'flex', flexWrap: 'wrap', gap: '8px', alignContent: 'center' }}>
                       {mods.map(m => {
                         const ch = CHARACTERS[m.character]
                         return (
                           <span key={m.moduleId} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: ch.soft, border: `1px solid ${ch.accent}`, borderRadius: '100px', padding: '6px 14px', fontFamily: 'var(--font-body)', fontSize: '0.8rem', fontWeight: 600, color: 'var(--ink)' }}>
-                            <span style={{ fontSize: '11px' }}>{ch.emblem}</span>{m.title}
+                            <span style={{ fontSize: 'var(--text-sm)' }}>{ch.emblem}</span>{m.title}
                           </span>
                         )
                       })}
@@ -299,10 +299,10 @@ export default function SchoolsPage() {
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.9rem, 3.4vw, 2.9rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.1, color: 'var(--ink)', marginBottom: '18px' }}>
                   The paperwork is already written, and it prints.
                 </h2>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.02rem', color: 'var(--ink-soft)', lineHeight: 1.7, marginBottom: '20px' }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, marginBottom: '20px' }}>
                   Every module is mapped to the RSHE 2025 guidance that becomes statutory in September 2026, including deepfakes, misogynistic and incel content, gambling and the harms of pornography. Your DSL gets the safeguarding crosswalk, your DPO gets the data protection pack, and parents get a transparency pack built for consultation.
                 </p>
-                <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.02rem', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
                   All of it regenerates from the live curriculum, so it can never fall out of date in a filing cabinet.
                 </p>
               </div>
@@ -314,8 +314,8 @@ export default function SchoolsPage() {
                   { label: 'Data minimised', desc: 'First name and initial only. No pupil accounts.' },
                 ].map(item => (
                   <div key={item.label} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px', boxShadow: softShadow }}>
-                    <div style={{ ...eyebrow('var(--green-dark)'), fontSize: '0.62rem', marginBottom: '9px' }}>{item.label}</div>
-                    <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.82rem', color: 'var(--ink-soft)', lineHeight: 1.55 }}>{item.desc}</p>
+                    <div style={{ ...eyebrow('var(--green-dark)'), fontSize: 'var(--text-sm)', marginBottom: '9px' }}>{item.label}</div>
+                    <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>{item.desc}</p>
                   </div>
                 ))}
               </div>
@@ -333,7 +333,7 @@ export default function SchoolsPage() {
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.8vw, 3.1rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', marginBottom: '16px' }}>
                 Simple annual pricing.
               </h2>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '520px', margin: '0 auto' }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '520px', margin: '0 auto' }}>
                 Every teacher, every year group, all {totalModules} modules. No per seat fees, no per lesson charges.
               </p>
             </div>
@@ -350,17 +350,17 @@ export default function SchoolsPage() {
                   position: 'relative',
                 }}>
                   {plan.featured && (
-                    <span style={{ position: 'absolute', top: '20px', right: '20px', ...eyebrow(GOLD), fontSize: '0.6rem' }}>Most schools</span>
+                    <span style={{ position: 'absolute', top: '20px', right: '20px', ...eyebrow(GOLD), fontSize: 'var(--text-sm)' }}>Most schools</span>
                   )}
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.66rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: plan.featured ? GOLD : 'var(--ink-muted)', marginBottom: '6px' }}>{plan.tier}</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: plan.featured ? 'rgba(255,250,240,0.7)' : 'var(--ink-muted)', marginBottom: '18px' }}>{plan.pupils}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: plan.featured ? GOLD : 'var(--ink-muted)', marginBottom: '6px' }}>{plan.tier}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: plan.featured ? 'rgba(255,250,240,0.7)' : 'var(--ink-muted)', marginBottom: '18px' }}>{plan.pupils}</div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '22px' }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontSize: '2.8rem', fontWeight: 900, lineHeight: 1, letterSpacing: '-0.03em' }}>{plan.price}</span>
-                    <span style={{ fontFamily: 'var(--font-body)', fontSize: '0.8rem', color: plan.featured ? 'rgba(255,250,240,0.64)' : 'var(--ink-muted)' }}>{plan.period}</span>
+                    <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: plan.featured ? 'rgba(255,250,240,0.64)' : 'var(--ink-muted)' }}>{plan.period}</span>
                   </div>
                   <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '28px', flex: 1, padding: 0 }}>
                     {plan.features.map(feat => (
-                      <li key={feat} style={{ display: 'flex', gap: '10px', fontFamily: 'var(--font-body)', fontSize: '0.86rem', color: plan.featured ? 'rgba(255,255,255,0.82)' : 'var(--ink-soft)', alignItems: 'flex-start', lineHeight: 1.5 }}>
+                      <li key={feat} style={{ display: 'flex', gap: '10px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: plan.featured ? 'rgba(255,255,255,0.82)' : 'var(--ink-soft)', alignItems: 'flex-start', lineHeight: 1.5 }}>
                         <span style={{ color: GOLD, fontWeight: 900, flexShrink: 0 }}>✓</span>{feat}
                       </li>
                     ))}
@@ -378,7 +378,7 @@ export default function SchoolsPage() {
               </Reveal>
             ))}
           </div>
-          <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '0.74rem', color: 'var(--ink-muted)', marginTop: '24px' }}>
+          <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '24px' }}>
             10 percent off a two year commitment · a free assembly pack with every enquiry · all teacher logins included
           </p>
         </div>
@@ -393,14 +393,14 @@ export default function SchoolsPage() {
             <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4.2vw, 3.3rem)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: '18px', color: '#fff' }}>
               Be one of the first schools to teach it.
             </h2>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '1.08rem', color: 'rgba(255,250,240,0.84)', lineHeight: 1.7, marginBottom: '32px' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'rgba(255,250,240,0.84)', lineHeight: 1.7, marginBottom: '32px' }}>
               A free one term pilot for the first schools who want to get ahead of September 2026. Tell us your school and we will reply within 48 hours, with the free assembly pack either way.
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: '1.05rem', padding: '17px 36px' }}>
+              <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '17px 36px' }}>
                 Request your pilot
               </a>
-              <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.05rem', padding: '17px 34px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.26)' }}>
+              <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', padding: '17px 34px', borderRadius: '16px', textDecoration: 'none', color: '#fff', background: 'rgba(255,255,255,0.12)', border: '1.5px solid rgba(255,255,255,0.26)' }}>
                 Get the free assembly pack
               </a>
             </div>
@@ -411,8 +411,8 @@ export default function SchoolsPage() {
       {/* Footer */}
       <footer style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: '30px clamp(20px, 4vw, 40px)' }}>
         <div style={{ maxWidth: '1160px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-          <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '0.9rem', fontWeight: 800, color: 'var(--ink-muted)', textDecoration: 'none' }}>← Guided Childhood</Link>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.72rem', color: 'var(--ink-light)' }}>© 2026 The Social Billboard · Justin Phillips</p>
+          <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink-muted)', textDecoration: 'none' }}>← Guided Childhood</Link>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)' }}>© 2026 The Social Billboard · Justin Phillips</p>
         </div>
       </footer>
 

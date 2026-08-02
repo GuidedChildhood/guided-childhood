@@ -19,7 +19,7 @@ export default function Page() {
             : 'Ping sent ✓ It just landed on their phone.')}
         />
       </div>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, opacity: 0.7, marginTop: 14 }}>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', opacity: 0.7, marginTop: 14 }}>
         Time for bed fakes the not set up path, everything else fakes success.
       </p>
     </main>

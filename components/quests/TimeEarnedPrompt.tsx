@@ -46,8 +46,8 @@ export default function TimeEarnedPrompt({
         animation: 'gcEarnedIn 0.3s ease both',
       }}
     >
-      <span aria-hidden style={{ fontSize: 22, lineHeight: 1, flexShrink: 0 }}>⭐</span>
-      <span style={{ flex: 1, minWidth: 170, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.45 }}>
+      <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>⭐</span>
+      <span style={{ flex: 1, minWidth: 170, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
         <strong>{minutes} minutes</strong> landed for {who === 'They' ? 'them' : who}, from {earned.stars} star{earned.stars === 1 ? '' : 's'}.
       </span>
       <Link
@@ -55,7 +55,7 @@ export default function TimeEarnedPrompt({
         style={{
           flexShrink: 0, textDecoration: 'none', borderRadius: 12,
           padding: '10px 15px', background: 'var(--terracotta)', color: 'var(--ink)',
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
           boxShadow: '0 3px 0 var(--terracotta-dark)',
         }}
       >
@@ -68,7 +68,7 @@ export default function TimeEarnedPrompt({
         title="Not now"
         style={{
           flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer',
-          padding: '4px 6px', fontSize: 17, lineHeight: 1, color: 'var(--ink-muted)',
+          padding: '4px 6px', fontSize: 'var(--text-md)', lineHeight: 1, color: 'var(--ink-muted)',
         }}
       >
         ✕

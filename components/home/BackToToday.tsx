@@ -33,8 +33,8 @@ export default function BackToToday() {
       background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
       borderRadius: 16, padding: '11px 14px', margin: '0 0 16px',
     }}>
-      <span aria-hidden style={{ fontSize: 20, lineHeight: 1, flexShrink: 0 }}>🧭</span>
-      <span style={{ flex: 1, minWidth: 0, fontSize: 15.5, color: 'var(--ink)', lineHeight: 1.45 }}>
+      <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>🧭</span>
+      <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
         When you are done here, today is waiting.
       </span>
       <Link
@@ -42,7 +42,7 @@ export default function BackToToday() {
         style={{
           flexShrink: 0, textDecoration: 'none', padding: '8px 13px',
           background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 12,
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15,
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
           boxShadow: '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap',
         }}
       >

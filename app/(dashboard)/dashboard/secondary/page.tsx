@@ -36,7 +36,7 @@ export default async function SecondaryPage() {
 
   return (
     <div style={{ maxWidth: 640, margin: '0 auto', padding: '24px 20px 60px' }}>
-      <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+      <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--ink-muted)', textDecoration: 'none' }}>
         ← Home
       </Link>
 
@@ -46,7 +46,7 @@ export default async function SecondaryPage() {
       <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(26px, 7vw, 34px)', color: 'var(--ink)', lineHeight: 1.1, letterSpacing: '-0.02em', margin: '0 0 12px' }}>
         {state ? state.headline : 'The first phone'}
       </h1>
-      <p style={{ fontSize: 18, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 8px' }}>
+      <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 8px' }}>
         {state
           ? state.line
           : `Whenever ${name} gets there, this is the order that works. It is here early on purpose, because the useful steps are the ones taken before the handset arrives.`}
@@ -56,7 +56,7 @@ export default async function SecondaryPage() {
           implied, because a parent arriving here is often hoping we will make
           the decision and it is kinder to be straight about it. */}
       <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', borderRadius: 16, padding: '14px 16px', margin: '18px 0 24px' }}>
-        <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
           We will not tell you whether to get {name} a phone. Nobody who has not met your child should. What we can give you is the order, and the order is the part you cannot go back and redo.
         </p>
       </div>
@@ -65,19 +65,19 @@ export default async function SecondaryPage() {
         {TRANSITION_STEPS.map((step, i) => (
           <li key={step.key} style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 8 }}>
-              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                 {i + 1}
               </span>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.01em', margin: 0 }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, letterSpacing: '-0.01em', margin: 0 }}>
                 {step.title}
               </h2>
             </div>
-            <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 10px' }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 10px' }}>
               {step.what}
             </p>
             {/* Why it sits at this point in the order, in the quieter voice, so
                 a parent skimming the titles can still find the reasoning. */}
-            <p style={{ fontSize: 15.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, paddingLeft: 12, borderLeft: '2px solid var(--border)' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, paddingLeft: 12, borderLeft: '2px solid var(--border)' }}>
               {step.why}
             </p>
             {step.href && (
@@ -86,7 +86,7 @@ export default async function SecondaryPage() {
                 style={{
                   display: 'inline-flex', marginTop: 12, padding: '10px 16px', textDecoration: 'none',
                   background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 13,
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16,
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                   boxShadow: '0 3px 0 var(--terracotta-dark)',
                 }}
               >
@@ -98,10 +98,10 @@ export default async function SecondaryPage() {
       </ol>
 
       <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 20, padding: '18px 20px', marginTop: 20 }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19, color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
           Every family lands this differently
         </div>
-        <p style={{ fontSize: 16.5, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 12px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 12px' }}>
           The five steps are the order. What you actually decide inside them is yours, and it depends on things only you know about {name}.
         </p>
         <Link
@@ -109,7 +109,7 @@ export default async function SecondaryPage() {
           style={{
             display: 'inline-flex', padding: '13px 18px', textDecoration: 'none',
             background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 16,
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}
         >

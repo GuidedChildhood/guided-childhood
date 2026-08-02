@@ -159,7 +159,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               width: 84, height: 84, borderRadius: '18px',
               background: accentColor,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '2rem', flexShrink: 0,
+              fontSize: 'var(--text-3xl)', flexShrink: 0,
             }}>
               {moment.icon}
             </div>
@@ -167,14 +167,14 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
           <div style={{ textAlign: 'center' }}>
             <p style={{
               fontFamily: 'var(--font-display)', fontWeight: 700,
-              fontSize: '0.92rem', color: 'var(--ink)', lineHeight: 1.3,
+              fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3,
               marginBottom: 4,
               display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
               overflow: 'hidden',
             }}>
               {moment.title}
             </p>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               {moment.category}
             </p>
           </div>
@@ -186,8 +186,8 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
           background: 'var(--cream)', marginTop: 'auto',
         }}>
-          <span style={{ fontSize: '0.7rem' }}>✨</span>
-          <span style={{ fontFamily: 'var(--font-body)', fontSize: '13px', color: 'var(--ink-muted)', fontWeight: 500 }}>
+          <span style={{ fontSize: 'var(--text-sm)' }}>✨</span>
+          <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', fontWeight: 500 }}>
             Tap for DiGi
           </span>
         </div>
@@ -206,14 +206,75 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
         const deck: Deck[] = []
         deck.push({
           eyebrow: 'The moment', heading: moment.title,
-          render: () => (
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginTop: 4 }}>
-              <DigiCharacter mood={digiMood} size={46} />
-              <p style={cardBody}>
-                {loading && !digiResponse ? 'One moment, I am pulling the evidence and the exact words together for you.' : (digiResponse?.digiQuestion ?? moment.digi_opener)}
-              </p>
-            </div>
-          ),
+          render: () => {
+            const thinking = loading && !digiResponse
+            const question = digiResponse?.digiQuestion ?? moment.digi_opener
+            return (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginTop: 4 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                  <DigiCharacter mood={digiMood} size={46} />
+                  <p style={cardBody}>
+                    {thinking ? 'One moment, I am pulling the evidence and the exact words together for you.' : question}
+                  </p>
+                </div>
+
+                {/* Say it is still working, in something other than words.
+                    The sentence above was already here and it is a good one,
+                    but a paragraph that never changes reads as the content
+                    rather than as a wait. Justin: it "takes a little while to
+                    populate", so tell the user it is thinking while it thinks.
+                    Three dots on a stagger, stopped for anyone who asked for
+                    reduced motion by the CSS in globals. */}
+                {thinking && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 7, paddingLeft: 58 }}>
+                    {[0, 1, 2].map(i => (
+                      <span
+                        key={i}
+                        style={{
+                          width: 7, height: 7, borderRadius: '50%', background: look.band,
+                          opacity: 0.35, animation: `momentThink 1.1s ${i * 0.16}s ease-in-out infinite`,
+                        }}
+                      />
+                    ))}
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: look.band, marginLeft: 4 }}>
+                      DiGi is thinking
+                    </span>
+                  </div>
+                )}
+
+                {/* A question needs somewhere to answer it.
+                    Justin: this card "asks a question but user does not have
+                    ability to answer". He is right, and it is the one card in
+                    the deck where that matters. DiGi opens by asking which of
+                    two things is really going on, the parent forms an answer in
+                    their head, and the only thing the screen offers is tap to
+                    move on. That teaches them the question was rhetorical, and
+                    it is not: the answer changes which script fits.
+
+                    So the question travels to DiGi, who asked it. Not a text
+                    box on the card, because a deck a parent flicks through in
+                    twenty seconds is the wrong place to start typing, and a
+                    half finished answer in a box that vanishes on the next tap
+                    is worse than no box. */}
+                {!thinking && question && (
+                  <a
+                    href={`/dashboard/digi?q=${encodeURIComponent(question)}`}
+                    onClick={e => e.stopPropagation()}
+                    style={{
+                      alignSelf: 'flex-start', marginLeft: 58,
+                      display: 'inline-flex', alignItems: 'center', gap: 7,
+                      background: '#fff', border: `1.5px solid ${look.band}`,
+                      borderRadius: 100, padding: '9px 15px', textDecoration: 'none',
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                      color: 'var(--ink)',
+                    }}
+                  >
+                    Answer this with DiGi →
+                  </a>
+                )}
+              </div>
+            )
+          },
         })
         deck.push({
           eyebrow: 'Why this happens', heading: 'This is normal, and there is a reason',
@@ -231,7 +292,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                     <p style={{ ...cardBody, margin: 0 }}>{step}</p>
                   </div>
                 ))}
-                {t.why && <p style={{ ...cardBody, fontStyle: 'italic', opacity: 0.85, fontSize: '1rem' }}>Why it works: {t.why}</p>}
+                {t.why && <p style={{ ...cardBody, fontStyle: 'italic', opacity: 0.85, fontSize: 'var(--text-md)' }}>Why it works: {t.why}</p>}
               </div>
             ),
           })
@@ -270,7 +331,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                   background: look.band, color: '#fff', borderRadius: '16px', padding: '16px 22px',
                   textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800,
-                  fontSize: '1.05rem', boxShadow: '0 5px 0 rgba(0,0,0,0.18)',
+                  fontSize: 'var(--text-md)', boxShadow: '0 5px 0 rgba(0,0,0,0.18)',
                 }}
               >
                 Take me to relevant scripts →
@@ -292,7 +353,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                   {questMade ? `Sent to ${childName && childName !== 'Your child' ? childName : 'them'} ✓` : questBusy ? 'Making...' : 'Make it a quest →'}
                 </button>
               </div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0', display: 'flex', alignItems: 'center', gap: 8 }}>
                 <span aria-hidden>🗓️</span> DiGi will check how this one went in your Sunday catch up.
               </p>
             </div>
@@ -347,10 +408,10 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M6 9l6 6 6-6" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
                 </button>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', margin: '2px 0 3px' }}>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', margin: '2px 0 3px' }}>
                     Moment
                   </p>
-                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.2rem', color: '#fff', lineHeight: 1.15, margin: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: '#fff', lineHeight: 1.15, margin: 0 }}>
                     {moment.category}
                   </p>
                 </div>
@@ -364,7 +425,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
 
               {/* One idea, big. Scrolls only if a card runs long. */}
               <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px 22px', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: look.band, margin: 0 }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: look.band, margin: 0 }}>
                   {current.eyebrow}
                 </p>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 6.5vw, 2.2rem)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.12, margin: 0 }}>
@@ -372,7 +433,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                 </h2>
                 {current.render()}
                 {shared && (
-                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: look.band, margin: '4px 0 0' }}>Link copied, paste it anywhere ✓</p>
+                  <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: look.band, margin: '4px 0 0' }}>Link copied, paste it anywhere ✓</p>
                 )}
               </div>
 
@@ -382,7 +443,22 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               {!isLast && (
                 <div style={{ padding: '0 24px 16px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                   <a href={scriptsHref} onClick={e => e.stopPropagation()} style={lesserLink}>See the scripts for this →</a>
-                  <span aria-hidden style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'rgba(255,255,255,0.16)', borderRadius: 100, padding: '5px 11px', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', color: 'rgba(255,255,255,0.95)', flexShrink: 0 }}>
+                  {/* White on the band colour, not white on a white wash.
+                      This was `background: rgba(255,255,255,0.16)` with
+                      `color: rgba(255,255,255,0.95)`, which is white text on a
+                      faint white tint. That works against the dark deck
+                      backdrop it was presumably designed against, and this pill
+                      does not sit there: it sits INSIDE the card, whose body is
+                      look.tint, a pale colour on every category. #D8E8F8 for
+                      Digital. So the one cue telling a parent the card advances
+                      was very nearly invisible. Justin: "too light and
+                      unreadable".
+
+                      Solid look.band gives the same contrast the header band
+                      already proves works with white on it, and ties the pill
+                      to the card's own colour rather than to a backdrop it
+                      never touches. */}
+                  <span aria-hidden style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: look.band, borderRadius: 100, padding: '7px 13px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: '#fff', flexShrink: 0 }}>
                     Tap to continue →
                   </span>
                 </div>
@@ -394,7 +470,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
               {idx > 0 && (
                 <button onClick={prev} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'inline-flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M9 14L4 9l5-5M4 9h11a5 5 0 015 5v1" stroke="rgba(255,255,255,0.9)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>Previous card</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.9)' }}>Previous card</span>
                 </button>
               )}
             </div>
@@ -414,7 +490,7 @@ const stepNum: React.CSSProperties = {
   width: 30, height: 30, borderRadius: '50%', flexShrink: 0, marginTop: 2,
   background: 'rgba(0,0,0,0.10)', color: 'var(--ink)',
   display: 'flex', alignItems: 'center', justifyContent: 'center',
-  fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
 }
 const roundIcon: React.CSSProperties = {
   width: 38, height: 38, borderRadius: '50%',
@@ -422,6 +498,6 @@ const roundIcon: React.CSSProperties = {
   cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
 }
 const lesserLink: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, letterSpacing: '0.02em',
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.02em',
   color: 'var(--ink-soft)', textDecoration: 'none',
 }

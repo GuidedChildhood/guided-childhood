@@ -42,10 +42,10 @@ export default function AgeUpFixturePage() {
 
       <section id="birthday" style={{ padding: '8px 0 24px' }}>
         <div style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
-          <h2 style={{ fontSize: '1rem', marginBottom: '18px', color: 'var(--ink)' }}>Alfie</h2>
+          <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '18px', color: 'var(--ink)' }}>Alfie</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div>
-              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+              <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
                 Birthday
               </label>
               <input
@@ -55,16 +55,16 @@ export default function AgeUpFixturePage() {
                 onChange={e => setDob(e.target.value)}
                 max={new Date().toISOString().slice(0, 10)}
               />
-              <p style={{ fontSize: '14px', color: 'var(--ink-muted)', marginTop: '4px' }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '4px' }}>
                 Set the birthday and everything grows up with them on its own.
               </p>
               {derivedOpt && (
-                <p style={{ fontSize: '14px', color: 'var(--ink-soft)', marginTop: '2px' }}>
+                <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px' }}>
                   From this birthday: {derivedOpt.label} · {derivedOpt.sub}
                 </p>
               )}
             </div>
-            <button type="button" className="btn btn-green" style={{ alignSelf: 'flex-start', padding: '10px 24px', fontSize: '16px' }}>
+            <button type="button" className="btn btn-green" style={{ alignSelf: 'flex-start', padding: '10px 24px', fontSize: 'var(--text-md)' }}>
               Save child details
             </button>
           </div>

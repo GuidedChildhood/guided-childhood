@@ -22,7 +22,7 @@ export default async function EmailCheckPage() {
         href="/dashboard/settings"
         style={{
           display: 'inline-flex', alignItems: 'center', gap: 7, marginBottom: 18,
-          fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
           color: 'var(--ink-muted)', textDecoration: 'none',
         }}
       >
@@ -31,7 +31,7 @@ export default async function EmailCheckPage() {
 
       <EmailCheck />
 
-      <p style={{ maxWidth: 640, margin: '18px auto 0', fontSize: 15, color: 'var(--ink-muted)', lineHeight: 1.6 }}>
+      <p style={{ maxWidth: 640, margin: '18px auto 0', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
         This tests the deployment you are on right now. A preview URL and the live site can answer differently, because environment variables in Vercel are set per environment, and that on its own explains most notifications that never arrive.
       </p>
     </div>

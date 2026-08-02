@@ -18,12 +18,12 @@ export default function Page() {
   }
   return (
     <main style={{ background: 'var(--cream)', minHeight: '100vh', padding: 20, maxWidth: 640, margin: '0 auto' }}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7 }}>Every state</p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7 }}>Every state</p>
       <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center', marginBottom: 28 }}>
         <SaveChip state="saving" /><SaveChip state="saved" /><SaveChip state="failed" />
       </div>
 
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7 }}>In the row, as a parent sees it</p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase', opacity: 0.7 }}>In the row, as a parent sees it</p>
       <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: 14 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
           <span style={{ display: 'flex', gap: 5 }}>

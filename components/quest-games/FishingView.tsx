@@ -250,7 +250,7 @@ export function FishingView({ game, onDone }: { game: FishingGame; onDone: () =>
   }
 
   const stageEyebrow: React.CSSProperties = {
-    fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em',
+    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em',
     textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px',
   }
 
@@ -272,7 +272,7 @@ export function FishingView({ game, onDone }: { game: FishingGame; onDone: () =>
           flex: 1, maxWidth: '280px', background: '#fff', border: '1.5px solid var(--border)',
           borderRadius: '18px', boxShadow: '0 4px 0 var(--border)', padding: '10px 14px', textAlign: 'left',
         }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '2px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '2px' }}>
             {isLetters ? 'Catch this sound' : 'Catch this word'}
           </div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: 'var(--ink)', lineHeight: 1, textTransform: 'none' }}>
@@ -306,7 +306,7 @@ export function FishingView({ game, onDone }: { game: FishingGame; onDone: () =>
             <span
               ref={el => { sparkRef.current[f.id] = el }}
               aria-hidden="true"
-              style={{ position: 'absolute', left: '50%', top: '-8%', transform: 'translateX(-50%)', fontSize: '26px', opacity: 0, pointerEvents: 'none' }}
+              style={{ position: 'absolute', left: '50%', top: '-8%', transform: 'translateX(-50%)', fontSize: 'var(--text-2xl)', opacity: 0, pointerEvents: 'none' }}
             >
               ✨
             </span>
@@ -316,7 +316,7 @@ export function FishingView({ game, onDone }: { game: FishingGame; onDone: () =>
 
       {/* Gentle feedback line */}
       <p style={{
-        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', textAlign: 'center',
+        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', textAlign: 'center',
         color: feedback?.tone === 'good' ? 'var(--ink)' : 'var(--ink-soft)',
         minHeight: '20px', margin: '14px 0 12px', lineHeight: 1.5,
       }}>
@@ -329,7 +329,7 @@ export function FishingView({ game, onDone }: { game: FishingGame; onDone: () =>
           const active = i === phaseIdx
           return (
             <button key={p.id} onClick={() => startRound(i)} style={{
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer',
               color: active ? 'var(--ink)' : 'var(--ink-soft)',
               background: active ? 'var(--terracotta)' : '#fff',
               border: active ? '1.5px solid var(--terracotta-dark)' : '1.5px solid var(--border)',

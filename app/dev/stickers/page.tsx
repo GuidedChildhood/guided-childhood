@@ -13,7 +13,7 @@ const EARNED = [mk(1, '#E8B54B', true), mk(10, '#E8B54B', true), mk(25, '#D9A22E
 const LOCKED = [mk(1, '#7FB3C8', false), mk(5, '#7FB3C8', false), mk(7, '#D8955E', false)]
 
 const label: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.12em',
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.12em',
   textTransform: 'uppercase', opacity: 0.7, marginTop: 24,
 }
 

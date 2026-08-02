@@ -51,7 +51,7 @@ export default function LessonSendButton({
         background: state === 'sent' ? 'var(--tint-sage)' : '#fff',
         border: '1.5px solid var(--border)', borderRadius: '11px',
         padding: '8px 12px', cursor: childId && state !== 'sending' ? 'pointer' : 'default',
-        fontFamily: 'var(--font-display)', fontSize: '14px', fontWeight: 800, color: 'var(--ink)',
+        fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
         whiteSpace: 'nowrap', opacity: childId ? 1 : 0.55,
       }}
     >

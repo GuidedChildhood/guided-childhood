@@ -117,7 +117,7 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
         ...card, boxShadow: 'none', borderStyle: 'dashed',
         background: 'var(--cream)', padding: cardPad, textAlign: 'center',
       }}>
-        <p style={{ fontSize: '16px', color: 'var(--ink-muted)', margin: 0 }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', margin: 0 }}>
           DiGi is writing the deeper half of this script, the push back reply, the follow up and a note for your child...
         </p>
       </div>
@@ -158,14 +158,14 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
         </div>
 
         <p style={{
-          fontSize: '18px', color: '#1B2A4A', lineHeight: 1.6, marginBottom: '14px',
+          fontSize: 'var(--text-lg)', color: '#1B2A4A', lineHeight: 1.6, marginBottom: '14px',
           fontStyle: 'italic', background: '#DCE7FB',
           borderRadius: '18px 18px 18px 6px', padding: '14px 16px',
         }}>
           {note}
         </p>
 
-        <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
           {isYoung
             ? 'At this age there is no phone, so read it together at bedtime, or tuck it into a lunchbox. It always comes from you, we never message your child.'
             : childHasApp
@@ -178,7 +178,7 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
               number needed. The read together and copy paths stay for the
               young ages and the no app families. */}
           {childHasApp && !isYoung && childId && (
-            <button onClick={sendToApp} disabled={sending} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: '14px', cursor: sending ? 'wait' : 'pointer' }}>
+            <button onClick={sendToApp} disabled={sending} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: sending ? 'wait' : 'pointer' }}>
               {sending ? 'Sending…' : `💛 Send to ${childName ?? 'their'}'s app`}
             </button>
           )}
@@ -191,14 +191,14 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
             </a>
           )}
           {!(childHasApp && !isYoung) && (
-            <button onClick={share} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: '14px', cursor: 'pointer' }}>
+            <button onClick={share} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer' }}>
               {smsHref ? 'Share another way' : `Share it with ${childName ?? 'your child'}`}
             </button>
           )}
           <button
             onClick={copy}
             style={{
-              padding: '10px 18px', fontSize: '14px', cursor: 'pointer',
+              padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer',
               background: 'var(--white)', color: 'var(--ink)',
               border: '1.5px solid var(--border)', borderRadius: '16px',
               fontFamily: 'var(--font-display)', fontWeight: 700,
@@ -209,7 +209,7 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
           </button>
         </div>
         {sent && (
-          <p style={{ fontSize: '16px', color: 'var(--ink)', fontWeight: 700, lineHeight: 1.5, margin: '12px 0 0' }}>{sent}</p>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 700, lineHeight: 1.5, margin: '12px 0 0' }}>{sent}</p>
         )}
       </div>
 

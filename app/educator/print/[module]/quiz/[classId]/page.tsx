@@ -10,8 +10,8 @@ import PrintButton from '../../PrintButton'
 // the record. Oak conventions: "Tick 1 correct answer.", checkbox rows.
 
 const page: React.CSSProperties = { pageBreakAfter: 'always', padding: '26px 20px' }
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', lineHeight: 1.55 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55 }
 
 export default async function PersonalisedQuizPage({ params }: { params: Promise<{ module: string; classId: string }> }) {
   const { module: moduleId, classId } = await params
@@ -42,11 +42,11 @@ export default async function PersonalisedQuizPage({ params }: { params: Promise
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderBottom: '2px solid var(--ink)', paddingBottom: '10px', marginBottom: '16px' }}>
             <div>
               <div style={mono}>{lesson.key_stage} · {cls.name} · End of lesson quiz</div>
-              <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '22px', color: 'var(--ink)', margin: '4px 0 0' }}>{lesson.title}</h1>
+              <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '4px 0 0' }}>{lesson.title}</h1>
             </div>
             <div style={{ textAlign: 'right' }}>
               <div style={mono}>Detective</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '20px', color: 'var(--ink)', minWidth: '140px', borderBottom: pupil.display_name ? 'none' : '2px solid var(--border)' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', minWidth: '140px', borderBottom: pupil.display_name ? 'none' : '2px solid var(--border)' }}>
                 {pupil.display_name || ' '}
               </div>
             </div>
@@ -55,7 +55,7 @@ export default async function PersonalisedQuizPage({ params }: { params: Promise
           {checks.map((c, qi) => (
             <div key={qi} style={{ marginBottom: '16px' }}>
               <p style={{ ...body, fontWeight: 700, marginBottom: '4px' }}>{qi + 1}. {c.question}</p>
-              <p style={{ ...mono, fontSize: '11px', marginBottom: '8px' }}>Tick 1 correct answer.</p>
+              <p style={{ ...mono, fontSize: 'var(--text-sm)', marginBottom: '8px' }}>Tick 1 correct answer.</p>
               {c.options.map((o, oi) => (
                 <p key={oi} style={{ ...body, display: 'flex', gap: '10px', marginBottom: '6px' }}>
                   <span style={{ flexShrink: 0, width: '16px', height: '16px', border: '2px solid var(--ink)', borderRadius: '3px', display: 'inline-block', marginTop: '2px' }} />

@@ -33,7 +33,7 @@ export default function NoPhoneButton({ childId, childName }: { childId: string;
         disabled={busy}
         style={{
           background: 'none', border: 'none', cursor: busy ? 'default' : 'pointer',
-          fontFamily: 'var(--font-body)', fontSize: '13.5px', fontWeight: 600,
+          fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600,
           color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px',
           padding: '4px 8px',
         }}
