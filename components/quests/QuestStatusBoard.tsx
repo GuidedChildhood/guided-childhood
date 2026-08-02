@@ -306,8 +306,21 @@ export default function QuestStatusBoard() {
 
       {/* The waiting pile is the only one with an action, and it already has a
           home further down the page, so this points at it rather than building
-          a second approve button that could fall out of step with the first. */}
-      {active === 'waiting' && rows.length > 0 && (
+          a second approve button that could fall out of step with the first.
+
+          `shown`, NOT `active`. This was the one place in the component still
+          reading the raw state, and the raw state defaults to 'waiting' before
+          a parent has touched anything. So on a morning with nothing to approve
+          the board correctly opened on the "on their app" pile, printed its
+          blurb ("nothing for you to do until they tick it"), listed six jobs
+          the child has not ticked yet, and then offered Go and say yes
+          underneath, pointing at an approve list with nothing in it.
+
+          Justin: "there are no items to say yes to, so it should be clever
+          enough not to ask." Every other reader here was already using `shown`,
+          which is why the tiles, the blurb and the list were all right and only
+          the button was wrong. */}
+      {shown === 'waiting' && rows.length > 0 && (
         <a
           href="#quest-board"
           className="btn btn-gold"
