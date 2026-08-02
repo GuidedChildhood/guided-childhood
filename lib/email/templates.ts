@@ -4,6 +4,12 @@
 
 import type { WeeklyReview } from '@/lib/digi/weekly-review'
 import type { MonthPace } from '@/lib/balance/pace'
+import { SCHOOL_EVENTS, yearGroupFromDob } from '@/lib/learning/calendar'
+import { transitionFor } from '@/lib/learning/transition'
+import {
+  bandedWrapper, eyebrow, h1, linkList, rule, sectionHead, tickList, p as bp,
+  type Band,
+} from '@/lib/email/blocks'
 
 const INK = '#1A1A2E'
 const INK_SOFT = '#52526A'
@@ -791,5 +797,123 @@ export function orderFulfilmentEmail(params: {
       p(`Ship to:<br>${shipping}`),
       `${APP}/dashboard`
     ),
+  }
+}
+
+// ── The back to school roundup ───────────────────────────────────────────────
+//
+// Justin sent the Good Inside August roundup: "Love this email from goodinside
+// can we replicate the style for our email sequence using those colours, also
+// like back to school get ready, we can build off school data and add the
+// emails." Then, on their age band blocks: "the blue looks nice but alternate
+// colours would be good."
+//
+// WHAT MAKES THIS DIFFERENT FROM THEIR EMAIL, and it is the whole reason to
+// send it. Theirs is one roundup to everybody. Ours knows the child's year
+// group from their birthday, and the school year is data we already hold and
+// already act on: lib/learning/calendar.ts has the events keyed by year, and
+// lib/learning/transition.ts knows that Year 6 into Year 7 is the highest value
+// moment this product has. So a Year 6 family in August gets the phone
+// conversation, and a Year 3 family gets the new year one, and neither reads a
+// word aimed at the other.
+//
+// The colour rotates through the stage palette, starting at the child's own
+// stage, so the first band is the colour they already know from the app.
+
+export function backToSchoolEmail(params: {
+  childName: string
+  dob: string | null
+  stageNumber: 1 | 2 | 3 | 4 | 5
+  unsubscribe: string
+  on?: Date
+}): EmailContent {
+  const { childName, dob, stageNumber, unsubscribe } = params
+  const on = params.on ?? new Date()
+  const yearGroup = yearGroupFromDob(dob, on)
+  const transition = transitionFor(dob, on)
+  const newYear = SCHOOL_EVENTS.find(e => e.key === 'new_year')!
+
+  // The year group line. Named plainly when we know it, and skipped rather than
+  // guessed when we do not, because "your child's new year" to a parent whose
+  // birthday we never collected reads as a product that is not paying attention.
+  const yearLine = yearGroup !== null && yearGroup >= 1 && yearGroup <= 11
+    ? `${childName} goes into Year ${yearGroup} in September.`
+    : `${childName} goes back in September.`
+
+  // The two white sections, built first so the assembly below can decide
+  // whether they are one band or two.
+  //
+  // Two adjacent white bands render as one white area with a double gap down
+  // the middle, which reads as a rotation that skipped its turn. Whether that
+  // happens depends on the phone block, which is conditional, so the only way
+  // to get it right for both audiences is to assemble after the condition is
+  // known rather than push bands as we go.
+  const firstThing =
+    sectionHead('📓', 'The one thing worth doing first') +
+    bp(newYear.doThis) +
+    bp('Screens are the part that always slips. The routine that held in July does not survive the first week of term on its own, and the families it goes well for are the ones who agreed the new shape before the shape was needed.') +
+    button('Set the term routine', `${APP}/dashboard/quests`)
+
+  const restOfYear =
+    sectionHead('🗓️', 'The rest of the school year, already mapped') +
+    bp('Every year group has its own set of dates that arrive without warning. We keep them in one place so the first you hear of one is not a letter in a bag.') +
+    linkList([
+      { label: 'What your child’s year actually covers', href: `${APP}/dashboard/learning` },
+      { label: 'The scripts for the first week back', href: `${APP}/dashboard/scripts` },
+      { label: 'Screen balance for term time', href: `${APP}/dashboard/quests` },
+    ])
+
+  const bands: Band[] = [
+    {
+      tone: 'auto',
+      html: tone =>
+        eyebrow('The September run up', tone) +
+        h1('Consider this your back to school prep', tone) +
+        bp(`${yearLine} A new year group, a new teacher, and a jump in what is expected that nobody hands you a list for.`, tone) +
+        bp('Here is the short version of what is worth settling now, while there is still time to do it calmly.', tone),
+    },
+  ]
+
+  if (transition) {
+    // The phone window, only for the families actually in it. A Year 6 August
+    // family is the single most valuable moment this product has, and a Year 3
+    // family getting this block would be noise at best.
+    bands.push({ tone: 'white', html: firstThing })
+    bands.push({
+      tone: 'auto',
+      html: tone =>
+        eyebrow(`Year ${transition.yearGroup}`, tone) +
+        sectionHead('📱', transition.headline, tone) +
+        bp(transition.line, tone) +
+        tickList([
+          'What gets agreed before the handset, which is the part most families do backwards',
+          'The rules that survive the first term, and the ones that quietly stop being enforced',
+          'What to do when the year group WhatsApp starts without you',
+        ], tone),
+    })
+    bands.push({
+      tone: 'white',
+      html:
+        bp('We will not tell you to give them a phone, and we will not tell you not to. That is your call and it always was. What we have is the order to do it in.') +
+        button('Walk the transition', `${APP}/dashboard/pathway`) +
+        rule() +
+        restOfYear,
+    })
+  } else {
+    // Nothing to separate them, so they are one band with a rule down the
+    // middle rather than two whites pretending to be different sections.
+    bands.push({ tone: 'white', html: firstThing + rule() + restOfYear })
+  }
+
+  bands.push({
+    tone: 'auto',
+    html: tone =>
+      bp('September starts a lot of new things at once, and whichever of them lands on your family, we are here for it.', tone) +
+      bp(`If you want to think one out loud, ask DiGi: <em>${newYear.ask}</em>`, tone),
+  })
+
+  return {
+    subject: `Consider this your back to school prep, ${childName}’s year starts soon`,
+    html: bandedWrapper({ bands, unsubscribe, signOff: 'Have a good September,', startAt: stageNumber }),
   }
 }

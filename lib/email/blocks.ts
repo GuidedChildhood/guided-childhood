@@ -1,0 +1,218 @@
+// Banded emails: the roundup shape, in our own colours.
+//
+// Justin sent the Good Inside August roundup and said replicate the style, then
+// looked at their age band blocks and said "the blue looks nice but alternate
+// colours would be good".
+//
+// WHAT IS ACTUALLY WORTH TAKING, which is not the blue. Their email alternates
+// full bleed coloured bands with white content, and their site gives every age
+// band its own colour: peach for babies, green for two to ten, blue for eight
+// to eighteen. The colour is doing a job. It tells you which part of childhood
+// you are reading about before you have read a word.
+//
+// We already have that, and better, because ours is five stages rather than
+// three overlapping bands, and every stage already has a pastel and a matching
+// dark text colour in globals.css. So this is not a copy of their palette. It
+// is their rhythm carried by our pathway, which is the CLAUDE.md rule for
+// working from a reference: their pattern, our butter and ink and Nunito, never
+// another brand's look.
+//
+// WHY TABLES AND INLINE STYLES. Email clients. Outlook has no flexbox, Gmail
+// strips <style> blocks, and a full bleed band is a table row with a background
+// rather than a div. Everything here is deliberately old fashioned so it
+// renders the same in Apple Mail, Gmail and Outlook.
+
+const INK = '#1A1A2E'
+const INK_SOFT = '#52526A'
+const INK_MUTED = '#8888A0'
+const BUTTER = '#E9B949'
+const BUTTER_DARK = '#C29018'
+const CREAM = '#F9F8F6'
+const BORDER = '#EAEAF0'
+
+const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+
+/**
+ * The five stage tones, straight from globals.css.
+ *
+ * `bg` is the -bold pastel rather than the barely there one: a band has to read
+ * as a band on a phone in daylight, and the soft tokens are built to sit behind
+ * a card indoors. `text` is the matching -text token, so a heading on a band is
+ * always the same family as the band and always passes contrast.
+ */
+export const TONES = {
+  1: { bg: '#FEF08A', text: '#713F12', name: 'Ages 4 to 7' },
+  2: { bg: '#BAE6FD', text: '#0C4A6E', name: 'Ages 8 to 10' },
+  3: { bg: '#FECDD3', text: '#881337', name: 'Ages 11 to 13' },
+  4: { bg: '#FBCFE8', text: '#831843', name: 'Ages 13 to 15' },
+  5: { bg: '#DDD6FE', text: '#3B0764', name: 'Ages 16 plus' },
+} as const
+
+export type Tone = keyof typeof TONES | 'white'
+
+/**
+ * 'auto' means "colour me, whichever comes next in the rotation".
+ *
+ * Written this way because the sections in an email are CONDITIONAL. The phone
+ * block only appears for a family in the Year 6 window, so any hand written
+ * colour order is wrong for one of the two audiences, and the first version of
+ * this did exactly that: it indexed a fixed rotation and produced two white
+ * bands in a row whenever the phone block was missing. Deciding the colour
+ * after the list is built is the only way it can be right for both.
+ */
+export type BandTone = Tone | 'auto'
+
+export interface Band {
+  tone: BandTone
+  /**
+   * A function of the tone, not a string, and this is the point of 'auto'.
+   *
+   * Text inside a band has to match the band: a heading on the coral band uses
+   * the coral text colour. But the band colour is only known once the
+   * conditional sections have been counted, so the content cannot be built
+   * until then either. Passing the tone in at render time is what lets both be
+   * decided in the right order.
+   */
+  html: string | ((tone: Tone) => string)
+}
+
+/**
+ * Assign the rotation, starting at the child's own stage.
+ *
+ * Starting at their stage rather than always at one, so the first band a parent
+ * sees is the colour they already know from the app. A rotation that ignores
+ * the family is just stripes.
+ */
+export function paint(bands: Band[], startAt: 1 | 2 | 3 | 4 | 5 = 1): { tone: Tone; html: string }[] {
+  let step = 0
+  return bands
+    .map(b => {
+      const tone: Tone = b.tone === 'auto'
+        ? ((((startAt - 1 + step++) % 5) + 1) as 1 | 2 | 3 | 4 | 5)
+        : b.tone
+      return { tone, html: typeof b.html === 'function' ? b.html(tone) : b.html }
+    })
+    // After rendering, not before: a section that rendered to nothing must not
+    // leave a stripe of colour behind. It has already taken its turn in the
+    // rotation by then, which is the right trade, because a rotation that
+    // shifts depending on whether a block was empty is harder to reason about
+    // than one colour occasionally being skipped.
+    .filter(b => b.html.trim())
+}
+
+export function button(label: string, url: string): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:24px 0 4px"><tr><td style="background:${BUTTER};border-radius:16px;box-shadow:0 5px 0 ${BUTTER_DARK}">
+    <a href="${url}" style="display:inline-block;padding:15px 30px;font-family:'IBM Plex Mono',Menlo,monospace;font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:${INK};text-decoration:none">${label}</a>
+  </td></tr></table>`
+}
+
+/**
+ * A section heading with its own mark.
+ *
+ * Good Inside puts a small line drawing beside every section heading and it is
+ * the thing that stops a long email reading as one wall. An emoji rather than
+ * an image on purpose: an image needs hosting, survives no image blocking, and
+ * every client that blocks images by default would show a section with no head
+ * at all.
+ */
+export function sectionHead(mark: string, title: string, tone: Tone = 'white'): string {
+  const colour = tone === 'white' ? INK : TONES[tone].text
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 12px"><tr>
+    <td style="padding-right:10px;font-size:22px;line-height:1">${mark}</td>
+    <td style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:20px;font-weight:800;line-height:1.25;color:${colour}">${title}</td>
+  </tr></table>`
+}
+
+export function eyebrow(text: string, tone: Tone = 'white'): string {
+  const colour = tone === 'white' ? BUTTER_DARK : TONES[tone].text
+  return `<div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:${colour};margin:0 0 10px">${text}</div>`
+}
+
+export function h1(text: string, tone: Tone = 'white'): string {
+  const colour = tone === 'white' ? INK : TONES[tone].text
+  return `<h1 style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:26px;font-weight:900;line-height:1.15;color:${colour};margin:0 0 14px;letter-spacing:-0.01em">${text}</h1>`
+}
+
+export function p(text: string, tone: Tone = 'white'): string {
+  const colour = tone === 'white' ? INK : TONES[tone].text
+  return `<p style="margin:0 0 14px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.65;color:${colour}">${text}</p>`
+}
+
+/** A list where every item goes somewhere. The Good Inside resource block. */
+export function linkList(items: { label: string; href: string }[]): string {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 14px">${items.map(i => `
+    <tr><td style="padding:0 0 9px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5">
+      <span style="color:${INK_MUTED};padding-right:8px">&bull;</span>
+      <a href="${i.href}" style="color:${BUTTER_DARK};font-weight:700;text-decoration:underline">${i.label}</a>
+    </td></tr>`).join('')}</table>`
+}
+
+/** What you walk away with. Ticks rather than bullets, because it is a promise. */
+export function tickList(items: string[], tone: Tone = 'white'): string {
+  const colour = tone === 'white' ? INK : TONES[tone].text
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 14px">${items.map(t => `
+    <tr>
+      <td valign="top" style="padding:0 10px 9px 0;font-size:15px;line-height:1.5">&#10003;</td>
+      <td style="padding:0 0 9px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.55;color:${colour}">${t}</td>
+    </tr>`).join('')}</table>`
+}
+
+/** A quiet rule between two sections inside the same band. */
+export function rule(): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:22px 0"><tr><td style="border-top:1px solid ${BORDER};font-size:0;line-height:0">&nbsp;</td></tr></table>`
+}
+
+/**
+ * The banded shell.
+ *
+ * Bands are full width rows of one outer table, so the colour runs edge to edge
+ * the way it does in the reference rather than stopping at a card. The rounded
+ * corners live on the outer table with overflow hidden, which Outlook ignores
+ * and everything else honours, and a square corner in Outlook is a fine place
+ * to lose.
+ */
+export function bandedWrapper(params: {
+  bands: Band[]
+  unsubscribe: string
+  signOff?: string
+  /** Where the rotation starts. The child's own stage. */
+  startAt?: 1 | 2 | 3 | 4 | 5
+}): string {
+  const { bands, unsubscribe, signOff, startAt = 1 } = params
+  // paint() also drops empty bands, so a section that rendered to nothing
+  // cannot leave a stripe of colour behind and take a turn in the rotation with
+  // it.
+  const rows = paint(bands, startAt)
+    .map(b => {
+      const bg = b.tone === 'white' ? '#ffffff' : TONES[b.tone].bg
+      return `<tr><td style="background:${bg};padding:28px 30px">${b.html}</td></tr>`
+    })
+    .join('')
+
+  return `<!doctype html><html><body style="margin:0;padding:0;background:${CREAM}">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM};padding:28px 14px"><tr><td align="center">
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;border:1px solid ${BORDER};border-radius:20px;overflow:hidden">
+      <tr><td style="background:#ffffff;padding:26px 30px 4px">
+        <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:${BUTTER_DARK}">Guided Childhood</div>
+      </td></tr>
+      ${rows}
+      <tr><td style="background:#ffffff;padding:26px 30px 30px">
+        <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6;color:${INK}">${signOff ?? 'Until next time,'}<br><strong>Justin</strong></div>
+        <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:13px;color:${INK_MUTED};margin-top:4px">Founder, Guided Childhood &middot; Bath, UK</div>
+      </td></tr>
+    </table>
+
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px"><tr><td style="padding:18px 8px;text-align:center">
+      <span style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;color:${INK_MUTED};line-height:1.7">
+        <a href="${APP}/dashboard" style="color:${INK_MUTED};text-decoration:none">Home</a>
+        &nbsp;&nbsp;<a href="${APP}/dashboard/scripts" style="color:${INK_MUTED};text-decoration:none">Scripts</a>
+        &nbsp;&nbsp;<a href="${APP}/dashboard/pathway" style="color:${INK_MUTED};text-decoration:none">Pathway</a>
+        <br>You get these because you joined Guided Childhood.
+        <a href="${unsubscribe}" style="color:${INK_MUTED}">Stop the emails</a>
+      </span>
+    </td></tr></table>
+
+  </td></tr></table>
+</body></html>`
+}
