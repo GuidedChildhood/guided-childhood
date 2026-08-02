@@ -32,6 +32,10 @@ export default function DigiWondering() {
   const [answer, setAnswer] = useState('')
   const [done, setDone] = useState(false)
   const [saving, setSaving] = useState(false)
+  // What DiGi wrote back. It is generated while the answer saves, so it is
+  // here by the time the card flips, and a parent who answered a question gets
+  // an answer rather than a receipt.
+  const [insight, setInsight] = useState<string | null>(null)
 
   useEffect(() => {
     try {
@@ -59,10 +63,12 @@ export default function DigiWondering() {
     if (!question || !answer.trim() || saving) return
     setSaving(true)
     try {
-      await fetch('/api/digi/feedback', {
+      const res = await fetch('/api/digi/feedback', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question, response: answer.trim() }),
       })
+      const data = await res.json().catch(() => null)
+      setInsight(typeof data?.insight === 'string' && data.insight.trim() ? data.insight.trim() : null)
       try { localStorage.setItem(KEY, new Date().toISOString()) } catch { /* private mode */ }
       setDone(true)
     } catch { /* best effort */ } finally { setSaving(false) }
@@ -82,15 +88,31 @@ export default function DigiWondering() {
           <DigiCharacter size={26} mood={done ? 'happy' : 'idle'} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>DiGi is wondering</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>{done && insight ? 'DiGi says' : 'DiGi is wondering'}</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.35 }}>
-            {done ? 'Thank you. DiGi will fold this into your Sunday round up.' : question}
+            {done ? (insight ? 'Here is what I would do' : 'Thank you, that is saved') : question}
           </div>
         </div>
         {!done && (
           <button onClick={skip} aria-label="Not now" style={{ flexShrink: 0, background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', lineHeight: 1, padding: 4 }}>✕</button>
         )}
       </div>
+      {done && (
+        <div style={{ marginTop: '12px' }}>
+          {insight && (
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.65, marginBottom: '10px' }}>
+              {insight}
+            </p>
+          )}
+          {/* What happens to it, said plainly, so answering never feels like
+              typing into a void. True whether or not the advice landed. */}
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            {insight
+              ? 'I have kept this. It shapes what I suggest next, and your Sunday round up.'
+              : 'I have kept this. It shapes what I suggest next, and your Sunday round up. My thinking on it will be waiting on your home page.'}
+          </p>
+        </div>
+      )}
       {!done && (
         <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-end' }}>
           <textarea
