@@ -102,4 +102,4 @@ async function handler(request: Request) {
   return NextResponse.json({ ok: true, delivered, found: due.length, day: today })
 }
 
-export const GET = withHeartbeat('followups', handler)
+export const GET = withHeartbeat('/api/cron/followups', handler)

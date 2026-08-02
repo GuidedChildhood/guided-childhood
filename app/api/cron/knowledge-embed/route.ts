@@ -38,4 +38,4 @@ async function handler(request: Request) {
   })
 }
 
-export const GET = withHeartbeat('knowledge-embed', handler)
+export const GET = withHeartbeat('/api/cron/knowledge-embed', handler)

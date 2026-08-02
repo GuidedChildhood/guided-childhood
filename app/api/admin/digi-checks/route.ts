@@ -29,13 +29,13 @@ const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbill
 
 /** The scheduled jobs that make up DiGi's own upkeep, in the order they matter. */
 const DIGI_JOBS: { job: string; label: string; everyHours: number }[] = [
-  { job: 'knowledge-embed', label: 'Research bank embedding', everyHours: 24 },
-  { job: 'followups', label: 'Follow ups delivered', everyHours: 24 },
+  { job: '/api/cron/knowledge-embed', label: 'Research bank embedding', everyHours: 24 },
+  { job: '/api/cron/followups', label: 'Follow ups delivered', everyHours: 24 },
   { job: '/api/cron/digi-insights', label: 'Daily insight agent', everyHours: 24 },
-  { job: 'digi-wisdom', label: 'Shared wisdom rebuild', everyHours: 24 * 7 },
-  { job: 'digi-quality', label: 'Weekly evals', everyHours: 24 * 7 },
-  { job: 'management-review', label: 'Monday management review', everyHours: 24 * 7 },
-  { job: 'answer-review', label: 'Monthly answer review', everyHours: 24 * 31 },
+  { job: '/api/cron/digi-wisdom', label: 'Shared wisdom rebuild', everyHours: 24 * 7 },
+  { job: '/api/cron/digi-quality', label: 'Weekly evals', everyHours: 24 * 7 },
+  { job: '/api/cron/management-review', label: 'Monday management review', everyHours: 24 * 7 },
+  { job: '/api/cron/answer-review', label: 'Monthly answer review', everyHours: 24 * 31 },
 ]
 
 async function requireFounder() {
