@@ -43,6 +43,8 @@ const SITUATIONS: Record<SituationKey, {
 }
 
 type ScriptRow = {
+  id: string
+  stage_id: string | null
   title: string
   situation: string
   say_this: string
@@ -90,7 +92,7 @@ export async function POST(request: Request) {
   let { data: scripts } = stageId
     ? await supabase
         .from('scripts')
-        .select('title, situation, say_this, not_this, category, is_free, sort_order')
+        .select('id, stage_id, title, situation, say_this, not_this, category, is_free, sort_order')
         .eq('stage_id', stageId)
         .order('sort_order', { ascending: true })
     : { data: null }
@@ -99,7 +101,7 @@ export async function POST(request: Request) {
   if (!scripts || scripts.length === 0) {
     const { data: allScripts } = await supabase
       .from('scripts')
-      .select('title, situation, say_this, not_this, category, is_free, sort_order')
+      .select('id, stage_id, title, situation, say_this, not_this, category, is_free, sort_order')
       .order('sort_order', { ascending: true })
     scripts = allScripts
   }
@@ -147,6 +149,8 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({
+    id: best.id,
+    stage_id: best.stage_id,
     title: best.title,
     say_this: best.say_this,
     not_this: best.not_this,
