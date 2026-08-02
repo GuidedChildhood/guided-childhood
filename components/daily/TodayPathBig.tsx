@@ -167,17 +167,17 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
         <span aria-hidden style={{
           flexShrink: 0, width: 38, height: 38, borderRadius: '12px',
           background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '19px',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-lg)',
         }}>✓</span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.2 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
             Today, sorted
           </span>
-          <span style={{ display: 'block', fontSize: '14px', color: 'var(--ink-muted)', marginTop: '2px' }}>
+          <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '2px' }}>
             {doneCount} of {steps.length} done{streakCount > 0 ? ` · ${streakCount} day streak` : ''}
           </span>
         </span>
-        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)' }}>
+        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)' }}>
           Show ›
         </span>
       </button>
@@ -212,10 +212,10 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
 
       {/* The point of the day, one line, same words as ever */}
       <div style={{ padding: '0 4px', marginBottom: '12px' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '21px', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.2, margin: '0 0 3px' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.2, margin: '0 0 3px' }}>
           {dayDone ? 'Today, sorted' : `Today with ${kid}`}
         </h2>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
           {dayDone
             ? 'You understood a moment and you have the words. That is the day.'
             : 'Understand one moment, and walk away with the exact words for it.'}
@@ -223,10 +223,10 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', padding: '0 4px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
           {dayDone ? 'Today' : 'Today · do this next'}
         </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: dayDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: dayDone ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
           {dayDone ? 'All done ✓' : `${investedMinutes} of ${minutes} min`}
         </span>
       </div>
@@ -251,11 +251,11 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                 transition: 'all 0.15s',
               }}
             >
-              <span aria-hidden style={{ fontSize: '20px', lineHeight: 1, filter: on ? 'none' : 'grayscale(1) opacity(0.6)' }}>{icon}</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: on ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
+              <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, filter: on ? 'none' : 'grayscale(1) opacity(0.6)' }}>{icon}</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: on ? 'var(--terracotta-dark)' : 'var(--ink-muted)' }}>
                 {m} min
               </span>
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: 'var(--ink-muted)', lineHeight: 1.1 }}>{hint}</span>
+              <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.1 }}>{hint}</span>
             </button>
           )
         })}
@@ -335,7 +335,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     )}
                   </div>
                   <span style={{
-                    fontFamily: 'var(--font-mono)', fontSize: '12px',
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
                     fontWeight: isCurrent ? 700 : 600, letterSpacing: '0.06em', textTransform: 'uppercase',
                     color: isCurrent ? 'var(--ink)' : isDoneNode ? 'var(--ink-soft)' : 'var(--ink-muted)',
                     textAlign: 'center', lineHeight: 1.3,
@@ -373,20 +373,20 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 16,
                     padding: '14px 14px 14px', boxShadow: '0 5px 0 rgba(201,154,40,0.25)',
                   }}>
-                    <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)', lineHeight: 1.2 }}>
+                    <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>
                       Next: {tasks[currentIndex].label}
-                      <span style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-muted)', fontWeight: 500 }}>
+                      <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', fontWeight: 500 }}>
                         {' '}· {minuteLine}
                       </span>
                     </p>
-                    <p style={{ margin: '4px 0 12px', fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                    <p style={{ margin: '4px 0 12px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
                       {nextHint(tasks[currentIndex].key)}
                     </p>
                     <Link
                       href={tasks[currentIndex].href}
                       style={{
                         display: 'block', textAlign: 'center', textDecoration: 'none',
-                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
                         color: 'var(--ink)', background: 'var(--terracotta)',
                         border: 'none', borderRadius: 16, padding: '14px 0',
                         boxShadow: '0 5px 0 var(--terracotta-dark)',
@@ -410,17 +410,17 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           marginTop: '16px', padding: '13px 15px',
           background: 'var(--tint-sage)', borderRadius: '14px',
         }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: 'var(--ink)' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
             That is your {minutes} minutes, day done 🎉
           </div>
-          <div style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
+          <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
             You are readier for {kid} today than yesterday.{streakCount >= 2 ? ` ${streakCount} days in a row now.` : ''} Streak safe, the rest waits for tomorrow. Got a spare minute?
           </div>
           <Link
             href={tasks[currentIndex].href}
             style={{
               display: 'inline-block', marginTop: '9px',
-              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               color: 'var(--terracotta-dark)', textDecoration: 'none',
             }}
           >
@@ -432,10 +432,10 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           href="/dashboard/pathway"
           style={{
             display: 'block', marginTop: '16px', textAlign: 'center', textDecoration: 'none',
-            fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
           }}
         >
-          Day complete, streak safe. <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--terracotta-dark)' }}>See what it moved →</span>
+          Day complete, streak safe. <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>See what it moved →</span>
         </Link>
       ) : null}
     </div>

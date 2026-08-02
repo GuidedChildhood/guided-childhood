@@ -163,7 +163,7 @@ export default function SectionTiles({
             <span aria-hidden style={{
               width: 46, height: 46, borderRadius: 13, background: t.bg,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              flexShrink: 0, fontSize: 22, lineHeight: 1,
+              flexShrink: 0, fontSize: 'var(--text-xl)', lineHeight: 1,
               // KidIcon draws in currentColor, so setting it here colours the
               // whole icon set without touching a single call site.
               color: iconColorFor(t.accent, t.iconColor),
@@ -208,10 +208,10 @@ export default function SectionTiles({
               </span>
             )}
           </span>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 18.5, color: 'var(--ink)', lineHeight: 1.15 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
             {t.label}
           </span>
-          <span style={{ display: 'block', fontSize: 15, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 3, flex: 1 }}>
+          <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 3, flex: 1 }}>
             {t.sub}
           </span>
         </Link>

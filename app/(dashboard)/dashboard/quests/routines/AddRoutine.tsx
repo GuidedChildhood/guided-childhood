@@ -100,7 +100,7 @@ export default function AddRoutine() {
 
   return (
     <div style={{ maxWidth: 620, margin: '0 auto', padding: '22px 20px 48px' }}>
-      <Link href="/dashboard/quests/manage" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 15, color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
+      <Link href="/dashboard/quests/manage" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
         ← Manage jobs
       </Link>
 
@@ -108,7 +108,7 @@ export default function AddRoutine() {
       <h1 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.3rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 6px' }}>
         Add a whole week
       </h1>
-      <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
         A routine is a set of jobs that lands together. Tap one to see what is in it, untick anything that is not a battle in your house, then add it.
       </p>
 
@@ -135,7 +135,7 @@ export default function AddRoutine() {
         <div role="status" style={{
           display: 'flex', alignItems: 'center', gap: 8, background: 'var(--retro-green)', color: '#fff',
           borderRadius: 14, padding: '12px 15px', marginBottom: 14,
-          fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15.5,
+          fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
         }}>
           <span aria-hidden>✓</span> {added} is on {name}&apos;s board
         </div>
@@ -154,16 +154,16 @@ export default function AddRoutine() {
               aria-expanded={isOpen}
               style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
             >
-              <span aria-hidden style={{ fontSize: 26, lineHeight: 1, flexShrink: 0 }}>{pack.emoji}</span>
+              <span aria-hidden style={{ fontSize: 'var(--text-2xl)', lineHeight: 1, flexShrink: 0 }}>{pack.emoji}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, color: 'var(--ink)', lineHeight: 1.2 }}>
+                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>
                   {pack.name}
                 </span>
-                <span style={{ display: 'block', fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 2 }}>
+                <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: 2 }}>
                   {allOn ? 'Already on their board' : pack.blurb}
                 </span>
               </span>
-              <span aria-hidden style={{ fontSize: 16, color: 'var(--ink-light)', flexShrink: 0, transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
+              <span aria-hidden style={{ fontSize: 'var(--text-md)', color: 'var(--ink-light)', flexShrink: 0, transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
             </button>
 
             {isOpen && (
@@ -185,11 +185,11 @@ export default function AddRoutine() {
                           onChange={() => togglePick(pack, t.title)}
                           style={{ width: 20, height: 20, flexShrink: 0, accentColor: 'var(--terracotta)' }}
                         />
-                        <span aria-hidden style={{ fontSize: 18, lineHeight: 1, flexShrink: 0 }}>{t.emoji}</span>
-                        <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 15, color: 'var(--ink)', lineHeight: 1.25 }}>
+                        <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{t.emoji}</span>
+                        <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25 }}>
                           {t.title}
                         </span>
-                        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, color: 'var(--terracotta-dark)' }}>
+                        <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                           {onBoard ? 'on' : `⭐${t.stars}`}
                         </span>
                       </label>
@@ -200,7 +200,7 @@ export default function AddRoutine() {
                   onClick={() => addPack(pack)}
                   disabled={!!adding || allOn}
                   className="btn btn-gold"
-                  style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', fontSize: 16.5, opacity: allOn ? 0.5 : 1 }}
+                  style={{ width: '100%', justifyContent: 'center', padding: '14px 20px', fontSize: 'var(--text-md)', opacity: allOn ? 0.5 : 1 }}
                 >
                   {allOn ? 'Already added' : adding === pack.key ? 'Adding' : `Add ${picked.filter(p => !mine.some(q => q.title === p)).length} jobs`}
                 </button>
@@ -216,7 +216,7 @@ export default function AddRoutine() {
       <Link
         href="/dashboard/quests/manage"
         className="btn btn-outline"
-        style={{ display: 'flex', justifyContent: 'center', marginTop: 22, padding: '15px 20px', fontSize: 16.5, textDecoration: 'none' }}
+        style={{ display: 'flex', justifyContent: 'center', marginTop: 22, padding: '15px 20px', fontSize: 'var(--text-md)', textDecoration: 'none' }}
       >
         ← Back to add a job
       </Link>

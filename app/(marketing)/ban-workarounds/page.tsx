@@ -213,7 +213,7 @@ export default function BanWorkaroundsPage() {
       {/* Hero */}
       <section style={{ background: 'var(--terracotta)', padding: 'clamp(56px, 8vw, 96px) 24px clamp(48px, 6vw, 80px)' }}>
         <div className="container" style={{ textAlign: 'center' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,.18)', border: '1px solid rgba(255,255,255,.3)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: '#fff', marginBottom: '24px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,.18)', border: '1px solid rgba(255,255,255,.3)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: '#fff', marginBottom: '24px' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#fff', display: 'inline-block', animation: 'pulse 2s infinite' }} />
             Ban takes effect Spring 2027
           </div>
@@ -235,7 +235,7 @@ export default function BanWorkaroundsPage() {
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p className="eyebrow" style={{ marginBottom: '12px' }}>How they get in</p>
             <h2>Six workarounds every parent needs to know</h2>
-            <p style={{ color: 'var(--ink-soft)', fontSize: '1.05rem', maxWidth: '560px', margin: '16px auto 0', lineHeight: 1.65 }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', maxWidth: '560px', margin: '16px auto 0', lineHeight: 1.65 }}>
               None of these require technical skill. Most take under five minutes. All of them are already being shared in school corridors.
             </p>
           </div>
@@ -243,10 +243,10 @@ export default function BanWorkaroundsPage() {
             {WORKAROUNDS.map((w) => (
               <div key={w.label} className="card" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '12px' }}>
-                  <span style={{ fontSize: '1.8rem', lineHeight: 1 }}>{w.icon}</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', background: w.tagBg, color: w.tagColor, padding: '3px 9px', borderRadius: '100px', whiteSpace: 'nowrap', marginTop: '2px' }}>{w.tag}</span>
+                  <span style={{ fontSize: 'var(--text-2xl)', lineHeight: 1 }}>{w.icon}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', background: w.tagBg, color: w.tagColor, padding: '3px 9px', borderRadius: '100px', whiteSpace: 'nowrap', marginTop: '2px' }}>{w.tag}</span>
                 </div>
-                <h3 style={{ fontSize: '1.1rem', marginBottom: '0' }}>{w.label}</h3>
+                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '0' }}>{w.label}</h3>
                 <p style={{ color: 'var(--ink-soft)', fontSize: '.9rem', lineHeight: 1.65, margin: 0 }}>{w.desc}</p>
               </div>
             ))}
@@ -260,14 +260,14 @@ export default function BanWorkaroundsPage() {
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p className="eyebrow" style={{ marginBottom: '12px' }}>Why workarounds are worse than no ban</p>
             <h2>Getting through is not the same as being safe</h2>
-            <p style={{ color: 'var(--ink-soft)', fontSize: '1.05rem', maxWidth: '580px', margin: '16px auto 0', lineHeight: 1.65 }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', maxWidth: '580px', margin: '16px auto 0', lineHeight: 1.65 }}>
               When a child accesses a platform via a workaround, every safety feature designed for under-16s is gone. They are treated as an adult. That changes everything.
             </p>
           </div>
           <div className="three-col">
             {HARMS.map((h) => (
               <div key={h.title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '14px', padding: '24px', display: 'flex', flexDirection: 'column', gap: '10px', borderTop: `4px solid ${h.accent}` }}>
-                <h3 style={{ fontSize: '1rem', lineHeight: 1.3 }}>{h.title}</h3>
+                <h3 style={{ fontSize: 'var(--text-md)', lineHeight: 1.3 }}>{h.title}</h3>
                 <p style={{ color: 'var(--ink-soft)', fontSize: '.88rem', lineHeight: 1.65, margin: 0 }}>{h.desc}</p>
               </div>
             ))}
@@ -309,7 +309,7 @@ export default function BanWorkaroundsPage() {
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p className="eyebrow" style={{ color: 'var(--green)', marginBottom: '12px' }}>For parents at home</p>
             <h2 style={{ color: '#fff' }}>Eight signs your child may already be using a workaround</h2>
-            <p style={{ color: 'rgba(255,255,255,.65)', fontSize: '1.05rem', maxWidth: '560px', margin: '16px auto 0', lineHeight: 1.65 }}>
+            <p style={{ color: 'rgba(255,255,255,.65)', fontSize: 'var(--text-md)', maxWidth: '560px', margin: '16px auto 0', lineHeight: 1.65 }}>
               Most parents find out months after the fact. These are the early signals that give you a chance to have the conversation before a pattern is set.
             </p>
           </div>
@@ -332,7 +332,7 @@ export default function BanWorkaroundsPage() {
           <div style={{ textAlign: 'center', marginBottom: '52px' }}>
             <p className="eyebrow" style={{ marginBottom: '12px' }}>Step by step</p>
             <h2>Lock down your accounts so they cannot be borrowed</h2>
-            <p style={{ color: 'var(--ink-soft)', fontSize: '1.05rem', maxWidth: '580px', margin: '16px auto 0', lineHeight: 1.65 }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', maxWidth: '580px', margin: '16px auto 0', lineHeight: 1.65 }}>
               The most common workaround is the simplest. Your logged-in accounts on a shared or accessible device. These steps close that gap on every major platform.
             </p>
           </div>
@@ -340,8 +340,8 @@ export default function BanWorkaroundsPage() {
             {PLATFORMS.map((p) => (
               <div key={p.name} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden' }}>
                 <div style={{ background: p.bg, padding: '18px 24px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: p.text }}>{p.name}</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: p.text, opacity: 0.7 }}>{p.steps.length} steps</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: p.text }}>{p.name}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: p.text, opacity: 0.7 }}>{p.steps.length} steps</span>
                 </div>
                 <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {p.steps.map((step, i) => (
@@ -389,7 +389,7 @@ export default function BanWorkaroundsPage() {
                 <div className="digi-avatar">D</div>
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.9rem', color: 'var(--ink)' }}>DiGi</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>Your digital guide</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>Your digital guide</div>
                 </div>
               </div>
 
@@ -415,7 +415,7 @@ export default function BanWorkaroundsPage() {
                 </div>
 
                 <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '10px', padding: '14px 16px', marginTop: '4px' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>Stage 4 script · full version in your guide</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '8px' }}>Stage 4 script · full version in your guide</div>
                   <p style={{ fontSize: '.82rem', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
                     Includes: how to respond without destroying trust, what to do next, and how to set a new agreement around privacy and access.
                   </p>
@@ -431,17 +431,17 @@ export default function BanWorkaroundsPage() {
         <div className="container">
           <div className="three-col" style={{ gap: '32px' }}>
             <div style={{ padding: '0 8px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: 'var(--terracotta)', marginBottom: '8px' }}>73%</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta)', marginBottom: '8px' }}>73%</div>
               <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>of UK teenagers who know about the ban say they plan to find a workaround before it takes effect.</p>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-light)', marginTop: '8px' }}>Ofcom · Children and Parents Media Use and Attitudes 2025</p>
             </div>
             <div style={{ padding: '0 8px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: 'var(--terracotta)', marginBottom: '8px' }}>2 min</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta)', marginBottom: '8px' }}>2 min</div>
               <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>Average time it takes a child to install and connect a VPN to access a blocked platform, based on platform testing.</p>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-light)', marginTop: '8px' }}>Internet Watch Foundation · 2025</p>
             </div>
             <div style={{ padding: '0 8px' }}>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '2rem', fontWeight: 700, color: 'var(--terracotta)', marginBottom: '8px' }}>6 in 10</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta)', marginBottom: '8px' }}>6 in 10</div>
               <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>Secondary school teachers report pupils already discussing ban workarounds during school time and on school devices.</p>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', color: 'var(--ink-light)', marginTop: '8px' }}>NASUWT Teacher Survey · 2025</p>
             </div>
@@ -458,7 +458,7 @@ export default function BanWorkaroundsPage() {
           <h2 style={{ color: '#fff', marginBottom: '20px' }}>
             The settings buy you time.<br />The guide gives you the conversation.
           </h2>
-          <p style={{ color: 'rgba(255,255,255,.75)', fontSize: '1.05rem', maxWidth: '520px', margin: '0 auto 36px', lineHeight: 1.65 }}>
+          <p style={{ color: 'rgba(255,255,255,.75)', fontSize: 'var(--text-md)', maxWidth: '520px', margin: '0 auto 36px', lineHeight: 1.65 }}>
             The free starter pack includes your child&rsquo;s stage, the workaround script for their age, and a 10-minute weekly check in to keep you ahead of what is happening.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>

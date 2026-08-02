@@ -44,10 +44,10 @@ export default function Page() {
   return (
     <main style={{ background: 'var(--cream)', minHeight: '100vh', padding: 20 }}>
       <div style={{ maxWidth: 460, margin: '0 auto' }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', marginBottom: 6 }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', marginBottom: 6 }}>
           Countdown harness
         </h1>
-        <p style={{ color: 'var(--ink-soft)', fontSize: 15.5, lineHeight: 1.5, marginBottom: 16 }}>
+        <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', lineHeight: 1.5, marginBottom: 16 }}>
           Runs a real block so the last ten seconds can be seen and heard. Turn
           the sound on, then pick a length.
         </p>
@@ -61,7 +61,7 @@ export default function Page() {
               style={{
                 border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer',
                 borderRadius: 16, padding: '10px 16px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)',
-                fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, letterSpacing: '0.06em',
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em',
               }}
             >
               {s}s block
@@ -73,7 +73,7 @@ export default function Page() {
             style={{
               border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer',
               borderRadius: 16, padding: '10px 16px',
-              fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, letterSpacing: '0.06em',
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em',
             }}
           >
             Reset

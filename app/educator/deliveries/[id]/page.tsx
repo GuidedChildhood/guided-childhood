@@ -55,7 +55,7 @@ export default async function DeliveryPage({ params }: { params: Promise<{ id: s
               Marking · taught {new Date(delivery.taught_at).toLocaleDateString('en-GB')}
             </div>
             <h1 style={{ ...h1, color: '#fff', margin: '8px 0 6px' }}>{lesson?.title}</h1>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '16px', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, marginBottom: '14px', maxWidth: '460px' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'rgba(255,255,255,0.82)', lineHeight: 1.6, marginBottom: '14px', maxWidth: '460px' }}>
               {lesson?.single_action_outcome}
             </p>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -65,7 +65,7 @@ export default async function DeliveryPage({ params }: { params: Promise<{ id: s
                 { n: exCount, label: 'exceeded' },
               ].map(t => (
                 <span key={t.label} style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   color: '#fff', background: 'rgba(255,255,255,0.14)', border: '1px solid rgba(255,255,255,0.24)',
                   borderRadius: '100px', padding: '5px 12px',
                 }}>
@@ -78,7 +78,7 @@ export default async function DeliveryPage({ params }: { params: Promise<{ id: s
 
         <div style={panel}>
           <div style={{ ...eyebrow, color: 'var(--green-dark)', marginBottom: '4px' }}>The exceptions</div>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
             Everyone starts at Met. Touch only the pupils who were not, and you are done.
           </p>
           <JudgementGrid deliveryId={delivery.id} rows={rows} />

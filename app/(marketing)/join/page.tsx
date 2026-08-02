@@ -158,7 +158,7 @@ export default async function JoinPage() {
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.98rem', color: 'var(--ink)' }}>Guided Childhood</span>
           </Link>
-          <Link href="/starter-pack" className="btn btn-gold" style={{ padding: '10px 22px', fontSize: '12px' }}>
+          <Link href="/starter-pack" className="btn btn-gold" style={{ padding: '10px 22px', fontSize: 'var(--text-sm)' }}>
             Start free →
           </Link>
         </div>
@@ -197,7 +197,7 @@ export default async function JoinPage() {
           </p>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '20px' }}>
-            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '17px 36px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-base)', padding: '17px 36px' }}>
               Find your child's stage, it is free →
             </Link>
           </div>
@@ -272,7 +272,7 @@ export default async function JoinPage() {
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: color.text, marginBottom: '6px' }}>
                     Stage {stage.id}
                   </div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.1rem', color: 'var(--ink)', marginBottom: '3px' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '3px' }}>
                     {stage.name}
                   </div>
                   <div style={{ fontSize: '.73rem', color: 'var(--ink-muted)', marginBottom: '12px' }}>
@@ -357,7 +357,7 @@ export default async function JoinPage() {
                   margin: '0 auto 14px',
                   boxShadow: `0 4px 0 ${item.color}33`,
                 }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 900, color: item.color }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-2xl)', fontWeight: 900, color: item.color }}>
                     {item.letter}
                   </span>
                 </div>
@@ -387,7 +387,7 @@ export default async function JoinPage() {
               justifyContent: 'center',
               fontFamily: 'var(--font-display)',
               fontWeight: 800,
-              fontSize: '1.4rem',
+              fontSize: 'var(--text-xl)',
               color: 'var(--ink)',
               flexShrink: 0,
               boxShadow: '0 6px 24px rgba(0,0,0,.2)',
@@ -423,7 +423,7 @@ export default async function JoinPage() {
             Guided Childhood is the platform I wanted to hand them. Staged by age. Specific to the challenge. A DiGi advisor that speaks plainly and ends every response with a concrete next step.
           </p>
 
-          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '13px' }}>
+          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-sm)' }}>
             Start your child's pathway →
           </Link>
         </div>
@@ -483,8 +483,8 @@ export default async function JoinPage() {
           <div className="three-col">
             {FEATURES.map((f, i) => (
               <div key={i} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '18px', padding: '28px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <div style={{ fontSize: '1.6rem', color: 'var(--terracotta)', lineHeight: 1 }}>{f.icon}</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.3 }}>{f.title}</div>
+                <div style={{ fontSize: 'var(--text-2xl)', color: 'var(--terracotta)', lineHeight: 1 }}>{f.icon}</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>{f.title}</div>
                 <p style={{ fontSize: '.84rem', color: 'var(--ink-soft)', lineHeight: 1.72, flex: 1 }}>{f.desc}</p>
                 <span style={{
                   display: 'inline-flex',
@@ -653,7 +653,7 @@ export default async function JoinPage() {
                 ))}
               </div>
 
-              <Link href="/starter-pack" className="btn btn-gold" style={{ width: '100%', display: 'flex', justifyContent: 'center', fontSize: '14px', padding: '17px' }}>
+              <Link href="/starter-pack" className="btn btn-gold" style={{ width: '100%', display: 'flex', justifyContent: 'center', fontSize: 'var(--text-base)', padding: '17px' }}>
                 Start with the free check, then claim your place →
               </Link>
             </div>
@@ -665,7 +665,7 @@ export default async function JoinPage() {
             <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '28px' }}>
               <p className="eyebrow" style={{ marginBottom: '12px' }}>Standard</p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', marginBottom: '20px' }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2.4rem', color: 'var(--ink)', lineHeight: 1, letterSpacing: '-.03em' }}>£12.99</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-3xl)', color: 'var(--ink)', lineHeight: 1, letterSpacing: '-.03em' }}>£12.99</span>
                 <span style={{ color: 'var(--ink-muted)', fontSize: '.82rem' }}> / month</span>
               </div>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '24px' }}>
@@ -676,7 +676,7 @@ export default async function JoinPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/starter-pack" className="btn btn-ink" style={{ display: 'flex', justifyContent: 'center', fontSize: '13px' }}>
+              <Link href="/starter-pack" className="btn btn-ink" style={{ display: 'flex', justifyContent: 'center', fontSize: 'var(--text-sm)' }}>
                 Start Standard
               </Link>
             </div>
@@ -688,7 +688,7 @@ export default async function JoinPage() {
               </div>
               <p className="eyebrow" style={{ marginBottom: '12px', marginTop: '8px', color: 'var(--terracotta)' }}>Annual</p>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '3px', marginBottom: '4px' }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '2.4rem', color: 'var(--ink)', lineHeight: 1, letterSpacing: '-.03em' }}>£99</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-3xl)', color: 'var(--ink)', lineHeight: 1, letterSpacing: '-.03em' }}>£99</span>
                 <span style={{ color: 'var(--ink-muted)', fontSize: '.82rem' }}> / year</span>
               </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.72rem', color: 'var(--terracotta)', fontWeight: 700, marginBottom: '20px' }}>
@@ -702,7 +702,7 @@ export default async function JoinPage() {
                   </li>
                 ))}
               </ul>
-              <Link href="/starter-pack" className="btn btn-green" style={{ display: 'flex', justifyContent: 'center', fontSize: '13px' }}>
+              <Link href="/starter-pack" className="btn btn-green" style={{ display: 'flex', justifyContent: 'center', fontSize: 'var(--text-sm)' }}>
                 Start Annual
               </Link>
             </div>
@@ -738,7 +738,7 @@ export default async function JoinPage() {
           <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '.97rem', lineHeight: 1.85, marginBottom: '32px' }}>
             Age, main challenge, how you are feeling, and how much time you have. Four questions. Your personalised pathway is waiting on the other side.
           </p>
-          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '15px', padding: '17px 36px', display: 'inline-flex' }}>
+          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-base)', padding: '17px 36px', display: 'inline-flex' }}>
             Start the check, it is free →
           </Link>
           <p style={{ marginTop: '16px', fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'rgba(255,255,255,.4)', letterSpacing: '.04em' }}>

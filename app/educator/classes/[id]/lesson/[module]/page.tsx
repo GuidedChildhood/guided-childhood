@@ -21,10 +21,10 @@ type TeacherNotes = {
 type DslNote = { note?: string; required?: boolean }
 type ParentNote = { family_question?: string }
 
-const eyebrow: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const eyebrow: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
 // The premium surface, matched to components/educator/ui.ts.
 const card: React.CSSProperties = { background: '#fff', border: '1px solid var(--border)', borderRadius: '24px', padding: 'clamp(18px, 2.5vw, 24px)', boxShadow: '0 1px 2px rgba(23,60,70,0.04), 0 12px 32px -18px rgba(23,60,70,0.28)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', lineHeight: 1.6 }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6 }
 
 export default async function LessonHubPage({ params }: { params: Promise<{ id: string; module: string }> }) {
   const { id: classId, module: moduleId } = await params
@@ -76,22 +76,22 @@ export default async function LessonHubPage({ params }: { params: Promise<{ id: 
             <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 5vw, 2rem)', letterSpacing: '-0.01em', margin: '10px 0 12px' }}>
               {lesson.title}
             </h1>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold, #F2C94C)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold, #F2C94C)', marginBottom: '6px' }}>
               Purpose · what pupils gain
             </div>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: '#fff', marginBottom: '8px', lineHeight: 1.4 }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: '#fff', marginBottom: '8px', lineHeight: 1.4 }}>
               {lesson.single_action_outcome}
             </p>
             {notes.learning_objective && <p style={{ ...body, color: 'rgba(255,255,255,0.82)' }}>{notes.learning_objective}</p>}
-            {notes.timing && <p style={{ ...body, fontSize: '14.5px', color: 'rgba(255,255,255,0.6)', marginTop: '8px' }}>{notes.timing}</p>}
+            {notes.timing && <p style={{ ...body, fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.6)', marginTop: '8px' }}>{notes.timing}</p>}
           </div>
         </div>
 
         {/* Statutory line: the coverage this lesson earns the school */}
         <div style={{ ...card, marginBottom: '22px' }}>
           <div style={{ ...eyebrow, marginBottom: '8px' }}>What this lesson covers for your records</div>
-          <p style={{ ...body, fontSize: '15px' }}>{(lesson.statutory_hooks ?? []).join(' · ')}</p>
-          <p style={{ ...body, fontSize: '14.5px', color: 'var(--ink-muted)', marginTop: '6px' }}>
+          <p style={{ ...body, fontSize: 'var(--text-base)' }}>{(lesson.statutory_hooks ?? []).join(' · ')}</p>
+          <p style={{ ...body, fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '6px' }}>
             Education for a Connected World strand{(lesson.efcw_strands ?? []).length === 1 ? '' : 's'} {(lesson.efcw_strands ?? []).join(', ')} · {lesson.evidence_anchor}
           </p>
         </div>
@@ -109,7 +109,7 @@ export default async function LessonHubPage({ params }: { params: Promise<{ id: 
           <Link href={`/educator/teach/${lesson.module_id}`} style={{
             padding: '13px 24px', borderRadius: '16px', background: 'var(--gold)', color: 'var(--ink)',
             boxShadow: '0 5px 0 var(--gold-hover)', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           }}>
             Teach the lesson
           </Link>
@@ -119,7 +119,7 @@ export default async function LessonHubPage({ params }: { params: Promise<{ id: 
             <button type="submit" style={{
               padding: '13px 24px', borderRadius: '16px', background: 'var(--green-lt)', color: 'var(--green-dark)',
               border: '2px solid var(--green-dark)', boxShadow: '0 5px 0 var(--green-dark)', cursor: 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
             }}>
               Taught it, take the register
             </button>

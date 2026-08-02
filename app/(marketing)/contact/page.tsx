@@ -9,14 +9,14 @@ export const metadata = {
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '10px' }
 const H2: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(1.15rem, 3.5vw, 1.4rem)', letterSpacing: '-0.02em', margin: '34px 0 10px', color: 'var(--ink)' }
-const P: CSSProperties = { fontSize: '15.5px', lineHeight: 1.65, color: 'var(--ink-soft)', margin: '0 0 12px' }
-const LI: CSSProperties = { fontSize: '15.5px', lineHeight: 1.6, color: 'var(--ink-soft)', margin: '0 0 7px' }
+const P: CSSProperties = { fontSize: 'var(--text-base)', lineHeight: 1.65, color: 'var(--ink-soft)', margin: '0 0 12px' }
+const LI: CSSProperties = { fontSize: 'var(--text-base)', lineHeight: 1.6, color: 'var(--ink-soft)', margin: '0 0 7px' }
 const MAIL: CSSProperties = { color: 'var(--terracotta-dark)', fontWeight: 700 }
 
 export default function ContactPage() {
   return (
     <div style={WRAP}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>Contact</p>
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>Contact</p>
       <h1 style={H1}>Talk to a real person</h1>
 
       <p style={P}>

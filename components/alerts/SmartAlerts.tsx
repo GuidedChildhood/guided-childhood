@@ -48,13 +48,13 @@ export default function SmartAlerts({ suggestions }: { suggestions: Suggestion[]
   return (
     <div style={{ marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '10px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
           Things you could do now
         </span>
         {live.length > 2 && (
           <button
             onClick={() => setShowAll(v => !v)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, color: 'var(--ink-muted)' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}
           >
             {showAll ? 'Show less' : `See all ${live.length}`}
           </button>
@@ -84,29 +84,29 @@ export default function SmartAlerts({ suggestions }: { suggestions: Suggestion[]
               flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: '11px',
               textDecoration: 'none', padding: '11px 4px 11px 13px',
             }}>
-              <span aria-hidden style={{ fontSize: '19px', lineHeight: 1, flexShrink: 0 }}>{s.emoji}</span>
+              <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{s.emoji}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{
-                  display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '15.5px',
+                  display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
                   color: 'var(--ink)', lineHeight: 1.25,
                   whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
                 }}>
                   {s.title}
                 </span>
                 <span style={{
-                  display: 'block', fontFamily: 'var(--font-mono)', fontSize: '11.5px',
+                  display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
                   letterSpacing: '0.05em', textTransform: 'uppercase',
                   color: i === 0 ? 'var(--terracotta-dark)' : 'var(--ink-muted)', marginTop: 1,
                 }}>
                   {s.cta}
                 </span>
               </span>
-              <span aria-hidden style={{ fontSize: '17px', color: 'var(--ink-light)', flexShrink: 0 }}>›</span>
+              <span aria-hidden style={{ fontSize: 'var(--text-md)', color: 'var(--ink-light)', flexShrink: 0 }}>›</span>
             </Link>
             <button
               onClick={() => dismiss(s.key)}
               aria-label={`Not now: ${s.title}`}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-light)', fontSize: '14px', padding: '11px 7px', flexShrink: 0, lineHeight: 1 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-light)', fontSize: 'var(--text-base)', padding: '11px 7px', flexShrink: 0, lineHeight: 1 }}
             >
               ✕
             </button>

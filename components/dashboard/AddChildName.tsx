@@ -55,18 +55,18 @@ export default function AddChildName() {
         style={{
           position: 'absolute', top: 10, right: 10, width: 26, height: 26,
           borderRadius: '50%', background: 'rgba(0,0,0,0.06)', border: 'none',
-          color: 'var(--ink-muted)', fontSize: 15, lineHeight: 1, cursor: 'pointer',
+          color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1, cursor: 'pointer',
         }}
       >
         ✕
       </button>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 5 }}>
         Make it personal
       </div>
-      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17.5, color: 'var(--ink)', margin: '0 0 4px' }}>
+      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 4px' }}>
         What is your child&rsquo;s first name?
       </p>
-      <p style={{ fontSize: 14.5, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
         Scripts, lessons and DiGi all speak to them by name. First name only, nothing else is stored.
       </p>
       <div style={{ display: 'flex', gap: 8 }}>
@@ -78,7 +78,7 @@ export default function AddChildName() {
           style={{
             flex: 1, minWidth: 0, padding: '11px 14px', borderRadius: 12,
             border: '1.5px solid var(--border)', background: '#fff',
-            fontFamily: 'var(--font-body)', fontSize: 17, color: 'var(--ink)', outline: 'none',
+            fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
           }}
         />
         <button
@@ -88,14 +88,14 @@ export default function AddChildName() {
           style={{
             flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)',
             border: 'none', borderRadius: 12, padding: '11px 18px', cursor: 'pointer',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5,
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             boxShadow: '0 3px 0 var(--terracotta-dark)', opacity: saving || !name.trim() ? 0.6 : 1,
           }}
         >
           {saving ? 'Saving...' : 'Save'}
         </button>
       </div>
-      {error && <p style={{ fontSize: 14, color: 'var(--danger, #B4423A)', margin: '8px 0 0' }}>{error}</p>}
+      {error && <p style={{ fontSize: 'var(--text-base)', color: 'var(--danger, #B4423A)', margin: '8px 0 0' }}>{error}</p>}
     </div>
   )
 }

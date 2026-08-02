@@ -52,17 +52,17 @@ export default function StreakRewards({ streaks }: { streaks: StreakReward[] }) 
           borderRadius: '18px', padding: '17px 18px', marginBottom: '12px',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '11px', marginBottom: '12px' }}>
-            <span aria-hidden style={{ width: 46, height: 46, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0 }}>🌟</span>
+            <span aria-hidden style={{ width: 46, height: 46, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0 }}>🌟</span>
             <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
                 Streak complete
               </span>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.15 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
                 {streak.childName} kept a {streak.streakDays} day jobs streak
               </span>
             </span>
           </div>
-          <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 13px' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 13px' }}>
             Every job done on time for {streak.streakDays} days running. It is already stamped on their passport. Send a little reward to mark it.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '9px' }}>
@@ -79,9 +79,9 @@ export default function StreakRewards({ streaks }: { streaks: StreakReward[] }) 
                   textAlign: 'center',
                 }}
               >
-                <span aria-hidden style={{ fontSize: '1.4rem', lineHeight: 1 }}>{r.emoji}</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', lineHeight: 1.15 }}>{r.label}</span>
-                <span style={{ fontSize: '13px', color: 'var(--ink-muted)', lineHeight: 1.3 }}>{r.sub}</span>
+                <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1 }}>{r.emoji}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.15 }}>{r.label}</span>
+                <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.3 }}>{r.sub}</span>
               </button>
             ))}
           </div>

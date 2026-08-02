@@ -17,7 +17,7 @@ export default function FixtureViews({ view }: { view: string }) {
     return (
       <div style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '28px 16px', display: 'flex', justifyContent: 'center', fontFamily: 'var(--font-body)' }}>
         <div style={{ width: 'min(100%, 540px)' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 12px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 12px' }}>
             The ask box and the locked banner
           </p>
           <ScreenGateBanner
@@ -50,7 +50,7 @@ export default function FixtureViews({ view }: { view: string }) {
   return (
     <div style={{ minHeight: '100dvh', background: 'linear-gradient(180deg, #4C5057 0%, #34373D 100%)', padding: '28px 16px 40px', display: 'flex', justifyContent: 'center', fontFamily: 'var(--font-body)' }}>
       <div style={{ width: 'min(100%, 460px)' }}>
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '0 0 12px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '0 0 12px' }}>
           Asked, waiting
         </p>
         <KidAskBanner
@@ -58,7 +58,7 @@ export default function FixtureViews({ view }: { view: string }) {
           blockingJobs={[]} nudges={[]} hasSession={false} startBusy={false}
           onStart={noop} onDismissDeclined={noop} onDismissNudge={noop}
         />
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '4px 0 12px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '4px 0 12px' }}>
           The yes landed
         </p>
         <KidAskBanner
@@ -66,7 +66,7 @@ export default function FixtureViews({ view }: { view: string }) {
           blockingJobs={[]} nudges={[]} hasSession={false} startBusy={false}
           onStart={noop} onDismissDeclined={noop} onDismissNudge={noop}
         />
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '4px 0 12px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '4px 0 12px' }}>
           Not right now, and a nudge
         </p>
         <KidAskBanner
@@ -76,7 +76,7 @@ export default function FixtureViews({ view }: { view: string }) {
           hasSession={false} startBusy={false}
           onStart={noop} onDismissDeclined={noop} onDismissNudge={noop}
         />
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '4px 0 12px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '4px 0 12px' }}>
           Chores first
         </p>
         <KidAskBanner
@@ -84,7 +84,7 @@ export default function FixtureViews({ view }: { view: string }) {
           blockingJobs={['Make your bed']} nudges={[]} hasSession={false} startBusy={false}
           onStart={noop} onDismissDeclined={noop} onDismissNudge={noop}
         />
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '4px 0 12px' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '4px 0 12px' }}>
           The picker, ask first
         </p>
         <DeviceTimeCard

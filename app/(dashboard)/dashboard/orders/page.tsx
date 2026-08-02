@@ -79,14 +79,14 @@ export default async function OrdersPage() {
 
   return (
     <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 20px 60px' }}>
-      <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+      <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
         ‹ Home
       </Link>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '10px 0 8px' }}>Founder only</p>
       <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: 8 }}>
         Keepsake orders
       </h1>
-      <p style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 24, maxWidth: 540 }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 24, maxWidth: 540 }}>
         Paid and waiting to be made. Mark one as posted once it is in the post box, and it drops to the bottom.
       </p>
       <OrdersBoard rows={rows} />
@@ -107,13 +107,13 @@ function addressLines(shipping: unknown): string[] {
 function Empty({ note }: { note: string }) {
   return (
     <div style={{ maxWidth: 720, margin: '0 auto', padding: '24px 20px 60px' }}>
-      <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: 14, fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+      <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
         ‹ Home
       </Link>
       <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '14px 0 10px' }}>
         Keepsake orders
       </h1>
-      <p style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.6 }}>{note}</p>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6 }}>{note}</p>
     </div>
   )
 }

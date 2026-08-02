@@ -40,7 +40,7 @@ export default async function LearningSheetPage({
   const child = children.find(c => c.id === childParam) ?? children[0] ?? null
 
   const eyebrow: React.CSSProperties = {
-    fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700,
+    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
     letterSpacing: '0.13em', textTransform: 'uppercase',
   }
   const wrap = { maxWidth: 640, margin: '0 auto', padding: '24px 20px 60px' }
@@ -59,8 +59,8 @@ export default async function LearningSheetPage({
 
   const note = (title: string, line: string) => (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>{title}</div>
-      <p style={{ fontSize: 17, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{line}</p>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>{title}</div>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{line}</p>
     </div>
   )
 
@@ -143,13 +143,13 @@ export default async function LearningSheetPage({
       {tabs}
       {wholeYear ? (
         <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', borderRadius: 16, padding: '13px 15px', marginBottom: 14 }}>
-          <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
             Reading and writing are set out for the whole school year rather than term by term, so this is everything Year {target.yearGroup} covers, not just this term.
           </p>
         </div>
       ) : target.lookingBack && (
         <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 16, padding: '13px 15px', marginBottom: 14 }}>
-          <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>
             School is out, so this looks back over the year {child.name} has just finished rather than the one starting in September.
           </p>
         </div>

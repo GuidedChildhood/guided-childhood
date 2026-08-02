@@ -35,12 +35,12 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
     flex: '1 1 auto', padding: '11px 12px', borderRadius: '14px', border: 'none',
     background: '#fff', cursor: 'pointer', boxShadow: '0 3px 0 rgba(0,0,0,0.14)',
-    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)',
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
     lineHeight: 1.2, whiteSpace: 'nowrap',
   }
   return (
     <div style={{ textAlign: 'left' }}>
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16.5px', color: 'var(--ink)', margin: '0 0 8px' }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 8px' }}>
         Good things to do instead
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
@@ -436,9 +436,9 @@ export default function DeviceTimeCard({
     return (
       <div style={{ background: '#fff', borderRadius: '20px', padding: '18px 20px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-          <span style={{ fontSize: '1.6rem', display: 'inline-block', animation: countingDown ? 'gcAlarmBounce 0.7s ease-in-out infinite' : 'none' }}>{countingDown ? '🎉' : deviceEmoji(session.device)}</span>
+          <span style={{ fontSize: 'var(--text-2xl)', display: 'inline-block', animation: countingDown ? 'gcAlarmBounce 0.7s ease-in-out infinite' : 'none' }}>{countingDown ? '🎉' : deviceEmoji(session.device)}</span>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               {deviceLabel(session.device)} time
             </div>
             <div
@@ -465,8 +465,8 @@ export default function DeviceTimeCard({
           const tip = screenTipFor(ageBand, new Date().getDate())
           return (
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, background: 'var(--cream)', borderRadius: '12px', padding: '9px 12px', marginBottom: '12px' }}>
-              <span aria-hidden style={{ fontSize: '1rem', flexShrink: 0 }}>{tip.emoji}</span>
-              <span style={{ fontSize: '15.5px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+              <span aria-hidden style={{ fontSize: 'var(--text-md)', flexShrink: 0 }}>{tip.emoji}</span>
+              <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45 }}>
                 {tip.text}
               </span>
             </div>
@@ -474,8 +474,8 @@ export default function DeviceTimeCard({
         })()}
         {countingDown && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--terracotta-lt)', borderRadius: '12px', padding: '9px 12px', marginBottom: '12px' }}>
-            <span style={{ fontSize: '1.1rem' }}>🌟</span>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', lineHeight: 1.35 }}>
+            <span style={{ fontSize: 'var(--text-lg)' }}>🌟</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.35 }}>
               Nearly there. Time to find some offline fun.
             </span>
           </div>
@@ -483,7 +483,7 @@ export default function DeviceTimeCard({
         <button
           onClick={stop}
           disabled={busy}
-          style={{ width: '100%', padding: '13px', borderRadius: '14px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '19px', fontWeight: 800, color: 'var(--ink)' }}
+          style={{ width: '100%', padding: '13px', borderRadius: '14px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink)' }}
         >
           I&apos;m done, hand it back
         </button>
@@ -497,9 +497,9 @@ export default function DeviceTimeCard({
       <div style={{ position: 'relative', background: 'var(--terracotta)', borderRadius: '20px', padding: '20px', marginBottom: '16px', boxShadow: '0 5px 0 var(--terracotta-dark)', textAlign: 'center', overflow: 'hidden' }}>
         <Celebration fire />
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ fontSize: '2.4rem', lineHeight: 1, marginBottom: '6px', display: 'inline-block', animation: 'gcAlarmBounce 0.7s ease-in-out 3' }}>{endedByGuide ? '🌱' : '🎉'}</div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: '4px' }}>Time for offline fun!</div>
-          <p style={{ fontSize: '18.5px', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
+          <div style={{ fontSize: 'var(--text-3xl)', lineHeight: 1, marginBottom: '6px', display: 'inline-block', animation: 'gcAlarmBounce 0.7s ease-in-out 3' }}>{endedByGuide ? '🌱' : '🎉'}</div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: '4px' }}>Time for offline fun!</div>
+          <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', opacity: 0.8, margin: '0 0 14px', lineHeight: 1.5 }}>
             {endedByGuide
               ? 'That is the healthy amount for today. Your stars are safe for tomorrow, and there is plenty of good stuff to do right now.'
               : `Great play! Your ${deviceLabel(session?.device ?? 'phone')} time is done for now. Go find something fun away from the screen, and earn more stars to unlock more.`}
@@ -509,19 +509,19 @@ export default function DeviceTimeCard({
               them, which is a far better reason to go and do one. */}
           {outstandingJobs.length > 0 && (
             <div style={{ background: 'rgba(255,255,255,0.72)', borderRadius: '14px', padding: '13px 14px', marginBottom: '12px', textAlign: 'left' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)', marginBottom: '7px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '7px' }}>
                 {outstandingMinutes > 0
                   ? `${outstandingMinutes} more minutes are waiting in your jobs`
                   : 'Still to do today'}
               </div>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '5px' }}>
                 {outstandingJobs.slice(0, 4).map(j => (
-                  <li key={j} style={{ display: 'flex', gap: '8px', alignItems: 'center', fontSize: '17px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
+                  <li key={j} style={{ display: 'flex', gap: '8px', alignItems: 'center', fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
                     <span aria-hidden style={{ flexShrink: 0 }}>⭐</span>{j}
                   </li>
                 ))}
                 {outstandingJobs.length > 4 && (
-                  <li style={{ fontSize: '16px', fontWeight: 700, color: 'var(--ink)', opacity: 0.7 }}>
+                  <li style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', opacity: 0.7 }}>
                     and {outstandingJobs.length - 4} more
                   </li>
                 )}
@@ -535,7 +535,7 @@ export default function DeviceTimeCard({
           </div>
           <button
             onClick={() => { setSession(null); setPhase('idle'); setEndedByGuide(false); router.refresh() }}
-            style={{ padding: '11px 22px', borderRadius: '14px', border: 'none', background: 'var(--ink)', color: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 800 }}
+            style={{ padding: '11px 22px', borderRadius: '14px', border: 'none', background: 'var(--ink)', color: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800 }}
           >
             OK
           </button>
@@ -550,13 +550,13 @@ export default function DeviceTimeCard({
     const exceedsGuide = guideToday > 0 && Math.round(usedTodayMinutes) + minutes > guideToday
     return (
       <div style={{ background: '#fff', borderRadius: '20px', padding: '18px 20px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)' }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', marginBottom: asksFirst ? '4px' : '12px' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: asksFirst ? '4px' : '12px' }}>
           What will you use?
         </div>
         {/* The deal, said plainly before anything is picked: an ask is an
             ask, and the yes is what starts the timer. */}
         {asksFirst && (
-          <p style={{ fontSize: '17px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+          <p style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
             This asks your grown up. They get a ping, and when they say yes your timer starts.
           </p>
         )}
@@ -580,7 +580,7 @@ export default function DeviceTimeCard({
                   lineHeight: 1.2, textAlign: 'center',
                 }}
               >
-                <span style={{ fontSize: '1.9rem', lineHeight: 1 }}>{d.emoji}</span>
+                <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }}>{d.emoji}</span>
                 {d.label}
               </button>
             )
@@ -603,10 +603,10 @@ export default function DeviceTimeCard({
             something true. The timer will not start until they do. */}
         {asksActivity(device) && (
           <div style={{ marginBottom: '16px' }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', marginBottom: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '4px' }}>
               What are you doing on it?
             </div>
-            <p style={{ fontSize: '16px', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
+            <p style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 10px' }}>
               Homework counts differently to watching, so this is worth a tap.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '9px' }}>
@@ -626,7 +626,7 @@ export default function DeviceTimeCard({
                       lineHeight: 1.2, textAlign: 'left',
                     }}
                   >
-                    <span aria-hidden style={{ fontSize: '1.4rem', lineHeight: 1, flexShrink: 0 }}>{a.emoji}</span>
+                    <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>{a.emoji}</span>
                     {a.label}
                   </button>
                 )
@@ -636,12 +636,12 @@ export default function DeviceTimeCard({
         )}
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)' }}>How long?</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>How long?</span>
           {/* Once a pick goes past this week's stars, saying "14 of your 6
               stars" is nonsense. Naming the holiday minutes instead is also the
               only place a child is told, at the moment of spending, that the
               extra jobs they did weeks ago are what is paying. */}
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: 700, color: holidayCost > 0 ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: holidayCost > 0 ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
             {holidayCost > 0
               ? `${starCost} star${starCost === 1 ? '' : 's'} + ${holidayCost} holiday min`
               : `${costStars} of your ${balanceStars} stars`}
@@ -650,37 +650,37 @@ export default function DeviceTimeCard({
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
           <button
             onClick={() => setMinutes(m => Math.max(STAR_MINUTES, m - STAR_MINUTES))}
-            style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer', fontSize: '22px', fontWeight: 800, color: 'var(--ink)', flexShrink: 0 }}
+            style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer', fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--ink)', flexShrink: 0 }}
           >−</button>
           <div style={{ flex: 1, textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.9rem', lineHeight: 1, color: 'var(--ink)' }}>{minutes}</div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>minutes</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)', lineHeight: 1, color: 'var(--ink)' }}>{minutes}</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>minutes</div>
           </div>
           <button
             onClick={() => setMinutes(m => Math.min(maxMinutes, m + STAR_MINUTES))}
             disabled={minutes + STAR_MINUTES > maxMinutes}
-            style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: minutes + STAR_MINUTES > maxMinutes ? 'default' : 'pointer', fontSize: '22px', fontWeight: 800, color: 'var(--ink)', opacity: minutes + STAR_MINUTES > maxMinutes ? 0.4 : 1, flexShrink: 0 }}
+            style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: minutes + STAR_MINUTES > maxMinutes ? 'default' : 'pointer', fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--ink)', opacity: minutes + STAR_MINUTES > maxMinutes ? 0.4 : 1, flexShrink: 0 }}
           >+</button>
         </div>
         {/* An ask past today's healthy amount is allowed, just named: the
             grown up decides, and the good offline stuff sits right there. */}
         {asksFirst && exceedsGuide && (
           <div style={{ background: 'var(--terracotta-lt)', borderRadius: '12px', padding: '11px 13px', marginBottom: '12px' }}>
-            <p style={{ fontSize: '16.5px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.45, margin: '0 0 10px' }}>
+            <p style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.45, margin: '0 0 10px' }}>
               🌱 This goes past the healthy amount for today, your grown up decides.
             </p>
             <OfflineIdeas onPrintables={onPrintables} onGames={onGames} />
           </div>
         )}
         {note && (
-          <div style={{ background: '#FDECEC', border: '1.5px solid #E5484D', borderRadius: '12px', padding: '10px 13px', marginBottom: '12px', fontSize: '17px', fontWeight: 700, color: '#B93B3F', lineHeight: 1.4 }}>
+          <div style={{ background: '#FDECEC', border: '1.5px solid #E5484D', borderRadius: '12px', padding: '10px 13px', marginBottom: '12px', fontSize: 'var(--text-md)', fontWeight: 700, color: '#B93B3F', lineHeight: 1.4 }}>
             {note}
           </div>
         )}
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={() => setPhase('idle')}
-            style={{ padding: '13px 18px', borderRadius: '14px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 800, color: 'var(--ink-soft)' }}
+            style={{ padding: '13px 18px', borderRadius: '14px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink-soft)' }}
           >Back</button>
           {/* Blocked until the question is answered, for the one device that
               asks it. Starting anyway would write a session we then have to
@@ -691,7 +691,7 @@ export default function DeviceTimeCard({
           <button
             onClick={start}
             disabled={busy || minutes < STAR_MINUTES || needsActivity}
-            style={{ flex: 1, padding: '13px', borderRadius: '14px', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', cursor: busy || needsActivity ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: '19px', fontWeight: 800, boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: busy || needsActivity ? 0.6 : 1 }}
+            style={{ flex: 1, padding: '13px', borderRadius: '14px', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', cursor: busy || needsActivity ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: busy || needsActivity ? 0.6 : 1 }}
           >
             {busy
               ? (asksFirst ? 'Asking...' : 'Starting...')
@@ -725,10 +725,10 @@ export default function DeviceTimeCard({
           boxShadow: '0 3px 0 rgba(0,0,0,0.10)',
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: '6px' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)' }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
               {reachedGuide ? 'You have had your screen time today 🌱' : "Today's screen time"}
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700, color: 'var(--ink-soft)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)' }}>
               {usedToday}/{recToday} min
             </span>
           </div>
@@ -737,7 +737,7 @@ export default function DeviceTimeCard({
           </div>
           {reachedGuide && (
             <>
-              <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
+              <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
                 That is the healthy amount for your age. Want more? Ask your grown up for a treat.
               </p>
               <div style={{ marginTop: '10px' }}>
@@ -748,7 +748,7 @@ export default function DeviceTimeCard({
           {/* The rule that keeps the deal fair and friendly: checking jobs and
               doing lessons in here is always free, the timer is for the fun
               screens. Said out loud so nobody ever hoards or fears the app. */}
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '8px 0 0' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '8px 0 0' }}>
             This app never uses your minutes. Fun screens do.
           </p>
         </div>
@@ -771,14 +771,14 @@ export default function DeviceTimeCard({
           boxShadow: '0 5px 0 rgba(0,0,0,0.14)',
         }}
       >
-        <span style={{ fontSize: '1.7rem', flexShrink: 0 }}>{canSpend ? '⏱️' : '⭐'}</span>
+        <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>{canSpend ? '⏱️' : '⭐'}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.05rem', color: 'var(--ink)', lineHeight: 1.2 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
             {canSpend
               ? (reachedGuide && !asksFirst ? 'That is your screen time for today 🌱' : 'Use device time now')
               : 'Earn your screen time'}
           </span>
-          <span style={{ display: 'block', fontSize: '17px', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px' }}>
+          <span style={{ display: 'block', fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px' }}>
             {canSpend
               ? (reachedGuide && !asksFirst
                 ? 'Your stars are safe for tomorrow. Do a job to earn more'
@@ -790,12 +790,12 @@ export default function DeviceTimeCard({
               : 'Do a job to earn stars, then swap them for time. Tap to see your jobs'}
           </span>
         </span>
-        <span style={{ fontSize: '1.3rem', flexShrink: 0 }}>{canSpend ? '▶' : '→'}</span>
+        <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>{canSpend ? '▶' : '→'}</span>
       </button>
 
       {/* The device rule, said the same way here as everywhere else, so the
           timer card itself always carries what using any screen means. */}
-      <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '14px', fontWeight: 700, letterSpacing: '0.03em', color: 'var(--ink-muted)', lineHeight: 1.6, margin: '10px 6px 0' }}>
+      <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.03em', color: 'var(--ink-muted)', lineHeight: 1.6, margin: '10px 6px 0' }}>
         {TIMER_RULE}
       </p>
     </div>

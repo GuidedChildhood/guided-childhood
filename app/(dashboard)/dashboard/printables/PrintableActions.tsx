@@ -66,7 +66,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
     display: 'inline-flex', alignItems: 'center', gap: '7px',
     background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px',
     padding: '10px 16px', textDecoration: 'none',
-    fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800,
+    fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
     boxShadow: '0 3px 0 var(--terracotta-dark)',
   }
 
@@ -120,7 +120,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
           background: added ? 'var(--tint-sage)' : '#fff',
           border: '1.5px solid var(--border)', borderRadius: '12px',
           padding: '10px 16px', cursor: added ? 'default' : 'pointer',
-          fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
         }}
       >
         {added ? 'On the quest list ✓' : `Add to quests · ⭐ ${printable.stars}`}
@@ -132,7 +132,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
           background: sent ? 'var(--tint-sage)' : 'var(--stage-1)',
           border: '1.5px solid var(--border)', borderRadius: '12px',
           padding: '10px 16px', cursor: sent ? 'default' : 'pointer',
-          fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
         }}
       >
         {sent ? 'Sent to their app ✓' : '📲 Send to my child'}
@@ -145,7 +145,7 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
           background: done ? 'var(--tint-sage)' : '#fff',
           border: '1.5px solid var(--border)', borderRadius: '12px',
           padding: '10px 16px', cursor: done ? 'default' : 'pointer',
-          fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
         }}
       >
         {done ? `Done, ⭐ ${printable.stars} landed ✓` : `✅ They did it · ⭐ ${printable.stars}`}

@@ -8,8 +8,8 @@ import { parseSlides, type KeywordsSlide } from '@/lib/content/lesson-slides'
 // The whole scheme vocabulary: every keyword from every module, grouped
 // by key stage, generated from the decks so it can never drift.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.6 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6 }
 
 type TeacherNotes = { keywords?: { word: string; definition: string }[] }
 
@@ -41,7 +41,7 @@ export default async function VocabularyPage() {
         </div>
 
         <div style={mono}>Whole scheme vocabulary · for display walls and planning</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: '6px 0 8px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', margin: '6px 0 8px' }}>
           Every word we teach
         </h1>
         <p style={{ ...body, marginBottom: '22px', maxWidth: '600px' }}>
@@ -54,7 +54,7 @@ export default async function VocabularyPage() {
           const modules = CURRICULUM.filter(m => m.keyStage === ks)
           return (
             <section key={ks} style={{ marginBottom: '20px', pageBreakInside: 'avoid' }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: 'var(--ink)', margin: '0 0 8px' }}>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 8px' }}>
                 {meta.label} <span style={{ fontWeight: 700, fontSize: '0.8em', color: 'var(--ink-muted)' }}>{meta.years}</span>
               </h2>
               {modules.map(m => {
@@ -62,10 +62,10 @@ export default async function VocabularyPage() {
                 if (!words.length) return null
                 return (
                   <div key={m.moduleId} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 16px', marginBottom: '8px' }}>
-                    <div style={{ ...mono, fontSize: '11px', marginBottom: '4px' }}>M{String(m.n).padStart(2, '0')} · {m.title}</div>
+                    <div style={{ ...mono, fontSize: 'var(--text-sm)', marginBottom: '4px' }}>M{String(m.n).padStart(2, '0')} · {m.title}</div>
                     {words.map(w => (
-                      <p key={w.word} style={{ ...body, fontSize: '14.5px', margin: '3px 0' }}>
-                        <strong style={{ fontFamily: 'var(--font-mono)', fontSize: '13.5px' }}>{w.word}</strong> · {w.definition}
+                      <p key={w.word} style={{ ...body, fontSize: 'var(--text-base)', margin: '3px 0' }}>
+                        <strong style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)' }}>{w.word}</strong> · {w.definition}
                       </p>
                     ))}
                   </div>

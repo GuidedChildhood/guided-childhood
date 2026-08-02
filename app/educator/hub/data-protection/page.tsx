@@ -7,10 +7,10 @@ import PrintButton from '@/components/educator/PrintButton'
 // is the design, so this document is short because there is little to say,
 // and that IS the point.
 
-const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
-const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.7 }
+const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
+const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.7 }
 const block: React.CSSProperties = { border: '1.5px solid var(--border)', borderRadius: '14px', padding: '16px 20px', marginBottom: '14px' }
-const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', margin: '0 0 8px' }
+const h2: React.CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 8px' }
 
 export default async function DataProtectionPage() {
   const supabase = await createClient()
@@ -26,7 +26,7 @@ export default async function DataProtectionPage() {
         </div>
 
         <div style={mono}>For your Data Protection Officer · DPIA support</div>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', margin: '6px 0 8px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', margin: '6px 0 8px' }}>
           Data protection pack
         </h1>
         <p style={{ ...body, marginBottom: '20px' }}>
@@ -104,7 +104,7 @@ export default async function DataProtectionPage() {
           </p>
         </div>
 
-        <p style={{ ...body, fontSize: '13.5px', color: 'var(--ink-muted)' }}>
+        <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
           This pack supports your DPIA but does not replace it: the school remains responsible for its
           own assessment. Questions to justin@thesocialbillboard.com and our DPO contact named in the
           data processing agreement.

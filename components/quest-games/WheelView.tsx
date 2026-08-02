@@ -15,7 +15,7 @@ import type { WheelGame } from '@/lib/quest-games/registry'
 // game row (rule 6), never hardcoded here.
 
 const eyebrow: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
 }
 
@@ -139,7 +139,7 @@ export default function WheelView({ game, onDone }: { game: WheelGame; onDone: (
   // Nothing to play: degrade gently like the rest of the interactive layer.
   if (!tier || items.length === 0) {
     return (
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '17px', color: 'var(--ink)', textAlign: 'center', padding: '24px' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'center', padding: '24px' }}>
         DiGi is polishing the letter wheel. Come back in a moment.
       </p>
     )
@@ -156,7 +156,7 @@ export default function WheelView({ game, onDone }: { game: WheelGame; onDone: (
       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '16px' }}>
         {rounds.map((r, i) => (
           <button key={r.tier} onClick={() => chooseTier(i)} style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', cursor: 'pointer',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', cursor: 'pointer',
             color: i === tierIndex ? '#fff' : 'var(--ink)',
             background: i === tierIndex ? 'var(--terracotta)' : '#fff',
             border: i === tierIndex ? 'none' : '2px solid var(--border)',
@@ -213,10 +213,10 @@ export default function WheelView({ game, onDone }: { game: WheelGame; onDone: (
         border: '2px solid var(--border)', borderRadius: '18px', padding: '16px 20px',
         boxShadow: '0 5px 0 var(--border)',
       }}>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
           The letter is {item.letter}.
         </p>
-        <p style={{ fontFamily: 'var(--font-body)', fontSize: '17.5px', color: 'var(--ink)', lineHeight: 1.5 }}>
+        <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.5 }}>
           {item.clue}
         </p>
       </div>
@@ -232,19 +232,19 @@ export default function WheelView({ game, onDone }: { game: WheelGame; onDone: (
           else if (answered && isPicked) { bg = '#FBEAEA'; fg = 'var(--ink)'; shadow = '0 4px 0 rgba(0,0,0,0.12)'; border = '2px solid #c0392b' }
           return (
             <button key={opt} ref={el => { optionRefs.current[i] = el }} onClick={() => pick(i)} disabled={answered} style={{
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
               cursor: answered ? 'default' : 'pointer', color: fg, background: bg,
               border, borderRadius: '16px', padding: '15px 14px', boxShadow: shadow,
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '7px',
               opacity: answered && !isAnswer && !isPicked ? 0.5 : 1,
             }}>
-              {answered && isAnswer && <span aria-hidden style={{ fontSize: '19px' }}>✓</span>}
+              {answered && isAnswer && <span aria-hidden style={{ fontSize: 'var(--text-lg)' }}>✓</span>}
               {opt}
             </button>
           )
         })}
       </div>
-      <p style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-muted)', marginTop: '14px' }}>
+      <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '14px' }}>
         {tier.tier} round · {tier.label}
       </p>
     </div>

@@ -69,12 +69,12 @@ export default function KidRemindersPrompt({
       boxShadow: '0 4px 0 rgba(26,26,46,0.1)',
     }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-        <span style={{ fontSize: '26px', flexShrink: 0, lineHeight: 1.1 }}>🔔</span>
+        <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0, lineHeight: 1.1 }}>🔔</span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', margin: '0 0 3px', lineHeight: 1.2 }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 3px', lineHeight: 1.2 }}>
             Want a nudge about your jobs?
           </p>
-          <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             {state === 'offer'
               ? `A quick reminder before school and after school${childName ? `, ${childName}` : ''}, so nothing gets forgotten. Never at bedtime.`
               : 'Add me to your Home Screen first, then you can turn reminders on. It only takes a moment.'}
@@ -88,7 +88,7 @@ export default function KidRemindersPrompt({
           style={{
             flex: '1 1 auto', padding: '13px 18px', borderRadius: '14px', border: 'none', cursor: 'pointer',
             background: 'var(--terracotta)', color: 'var(--ink)',
-            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px',
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}
         >
@@ -99,7 +99,7 @@ export default function KidRemindersPrompt({
           style={{
             flexShrink: 0, padding: '13px 18px', borderRadius: '14px', cursor: 'pointer',
             background: 'transparent', border: '1.5px solid rgba(26,26,46,0.18)',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink-soft)',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink-soft)',
           }}
         >
           Not now
@@ -119,9 +119,9 @@ export default function KidRemindersPrompt({
                 width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
                 background: 'var(--terracotta)', color: 'var(--ink)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               }}>{i + 1}</span>
-              <span style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.55 }}>{step}</span>
+              <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55 }}>{step}</span>
             </div>
           ))}
         </div>

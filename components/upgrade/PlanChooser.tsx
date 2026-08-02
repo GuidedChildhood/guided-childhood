@@ -20,7 +20,7 @@ export default function PlanChooser({ heading }: { heading: string }) {
 
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: '22px', boxShadow: '0 4px 22px rgba(26,26,46,0.06)' }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
         {heading}
       </div>
 
@@ -36,7 +36,7 @@ export default function PlanChooser({ heading }: { heading: string }) {
                 flex: 1, padding: '10px', borderRadius: '100px', border: 'none', cursor: 'pointer',
                 background: on ? 'var(--deep-teal)' : 'transparent',
                 color: on ? '#fff' : 'var(--ink-soft)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                 transition: 'background .15s ease, color .15s ease',
               }}
@@ -44,7 +44,7 @@ export default function PlanChooser({ heading }: { heading: string }) {
               {label}
               {key === 'annual' && (
                 <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700,
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   background: on ? 'var(--terracotta)' : 'var(--terracotta-lt)',
                   color: 'var(--ink)', padding: '2px 7px', borderRadius: '100px',
                 }}>
@@ -58,14 +58,14 @@ export default function PlanChooser({ heading }: { heading: string }) {
 
       {/* Price */}
       <div style={{ marginBottom: '18px' }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '2.4rem', color: 'var(--ink)', letterSpacing: '-0.03em' }}>{p.price}</span>
-        <span style={{ color: 'var(--ink-muted)', fontSize: '17px' }}> {p.unit}</span>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--terracotta-dark)', marginTop: '4px' }}>{p.sub}</div>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)', color: 'var(--ink)', letterSpacing: '-0.03em' }}>{p.price}</span>
+        <span style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}> {p.unit}</span>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta-dark)', marginTop: '4px' }}>{p.sub}</div>
       </div>
 
       <form action="/api/stripe/checkout" method="POST">
         <input type="hidden" name="tier" value={p.tier} />
-        <button type="submit" className="btn btn-gold" style={{ width: '100%', justifyContent: 'center', fontSize: '17px', padding: '16px' }}>
+        <button type="submit" className="btn btn-gold" style={{ width: '100%', justifyContent: 'center', fontSize: 'var(--text-md)', padding: '16px' }}>
           {p.cta}
         </button>
       </form>

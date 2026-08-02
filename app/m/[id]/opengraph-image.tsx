@@ -58,10 +58,10 @@ export default async function OgImage({ params }: { params: { id: string } }) {
             borderBottomRightRadius: 60,
           }}
         >
-          <div style={{ fontSize: 24, fontWeight: 700, color: 'rgba(255,255,255,0.85)', letterSpacing: 4, textTransform: 'uppercase' }}>
+          <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'rgba(255,255,255,0.85)', letterSpacing: 4, textTransform: 'uppercase' }}>
             A moment from Guided Childhood
           </div>
-          <div style={{ fontSize: 40, fontWeight: 800, color: '#ffffff', marginTop: 6 }}>
+          <div style={{ fontSize: 'var(--text-3xl)', fontWeight: 800, color: '#ffffff', marginTop: 6 }}>
             {moment?.category ?? 'Moments'}
           </div>
         </div>
@@ -72,7 +72,7 @@ export default async function OgImage({ params }: { params: { id: string } }) {
             {title}
           </div>
           {brief && (
-            <div style={{ fontSize: 30, color: '#3A3A50', marginTop: 28, lineHeight: 1.4 }}>
+            <div style={{ fontSize: 'var(--text-2xl)', color: '#3A3A50', marginTop: 28, lineHeight: 1.4 }}>
               {brief}{brief.length >= 150 ? '…' : ''}
             </div>
           )}
@@ -87,12 +87,12 @@ export default async function OgImage({ params }: { params: { id: string } }) {
             padding: '0 64px 40px',
           }}
         >
-          <div style={{ fontSize: 26, fontWeight: 700, color: '#1A1A2E' }}>guidedchildhood.co.uk</div>
+          <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: '#1A1A2E' }}>guidedchildhood.co.uk</div>
           <div
             style={{
               background: '#EDC35F',
               color: '#1A1A2E',
-              fontSize: 26,
+              fontSize: 'var(--text-2xl)',
               fontWeight: 800,
               padding: '14px 30px',
               borderRadius: 18,

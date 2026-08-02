@@ -44,7 +44,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
   }
 
   const label: React.CSSProperties = {
-    fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700,
+    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
     letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
   }
 
@@ -72,13 +72,13 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
 
       {child && !child.hasBirthday ? (
         <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
             We need {child.name}&apos;s birthday first
           </div>
-          <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
             Homework only means something against a school year, and school places a child by their age on 31 August. Without the birthday we would be guessing the year, and a decode against the wrong year is worse than none.
           </p>
-          <Link href="/dashboard/settings" style={{ display: 'inline-flex', padding: '11px 17px', textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+          <Link href="/dashboard/settings" style={{ display: 'inline-flex', padding: '11px 17px', textDecoration: 'none', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
             Add the birthday
           </Link>
         </div>
@@ -94,7 +94,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
               style={{
                 width: '100%', resize: 'vertical', padding: '12px 13px',
                 border: '1.5px solid var(--border)', borderRadius: 13,
-                fontFamily: 'var(--font-body)', fontSize: 16.5, color: 'var(--ink)',
+                fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
                 lineHeight: 1.5, background: 'var(--cream)',
               }}
             />
@@ -104,7 +104,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
               style={{
                 width: '100%', marginTop: 12, padding: '14px', cursor: busy ? 'default' : 'pointer',
                 background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16,
-                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17.5,
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
                 boxShadow: '0 4px 0 var(--terracotta-dark)',
                 opacity: busy || text.trim().length < 3 ? 0.6 : 1,
               }}
@@ -114,15 +114,15 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
           </div>
 
           {error && (
-            <p style={{ fontSize: 16, color: 'var(--terracotta-dark)', fontWeight: 700, margin: '12px 0 0' }}>{error}</p>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)', fontWeight: 700, margin: '12px 0 0' }}>{error}</p>
           )}
 
           {result && !result.ok && (
             <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '18px 20px', marginTop: 14 }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 19, color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginBottom: 6 }}>
                 {result.reason === 'no_match' ? 'Not one we can place' : 'Nothing to match it against yet'}
               </div>
-              <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+              <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
                 {result.reason === 'no_match'
                   ? 'That does not line up with anything in the national curriculum for their year. It may be a school’s own project, a topic piece, or reading. Saying nothing is the honest answer here rather than reaching for the nearest thing.'
                   : result.reason === 'out_of_range'
@@ -136,20 +136,20 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
             <div style={{ marginTop: 14, display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--retro-green)', borderRadius: 20, padding: '18px 20px' }}>
                 <div style={{ ...label, color: 'var(--retro-green-dark)', marginBottom: 6 }}>What it is asking for</div>
-                <p style={{ fontSize: 17.5, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{result.plain}</p>
+                <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{result.plain}</p>
               </div>
 
               {result.help && (
                 <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: 20, padding: '18px 20px' }}>
                   <div style={{ ...label, color: 'var(--terracotta-dark)', marginBottom: 6 }}>One thing to do tonight</div>
-                  <p style={{ fontSize: 17.5, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{result.help}</p>
+                  <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{result.help}</p>
                 </div>
               )}
 
               {result.watch && (
                 <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '16px 18px' }}>
                   <div style={{ ...label, marginBottom: 6 }}>Where parents usually trip up</div>
-                  <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{result.watch}</p>
+                  <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>{result.watch}</p>
                 </div>
               )}
 
@@ -164,14 +164,14 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
                   <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
                     {result.matches.map(m => (
                       <li key={m.id}>
-                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11.5, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 2 }}>
+                        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 2 }}>
                           {m.subject} · {m.strand}
                         </div>
-                        <div style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.5 }}>{m.objective}</div>
+                        <div style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5 }}>{m.objective}</div>
                       </li>
                     ))}
                   </ul>
-                  <p style={{ fontSize: 14.5, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 0' }}>
+                  <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 0' }}>
                     Word for word from the national curriculum in England. It says what the year covers, not how {result.childName && result.childName !== 'Your child' ? result.childName : 'your child'} is doing, and not that their school is teaching it this week.
                   </p>
                 </div>
@@ -182,7 +182,7 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
                 style={{
                   display: 'inline-flex', justifyContent: 'center', padding: '13px 18px', textDecoration: 'none',
                   background: '#fff', color: 'var(--ink)', borderRadius: 16, border: '1.5px solid var(--border)',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 17,
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                 }}
               >
                 Still stuck? Ask DiGi

@@ -218,7 +218,7 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
 
   const tray = Array.from(new Set(game.coins)).sort((a, b) => a - b)
   const eyebrowStyle: React.CSSProperties = {
-    fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em',
+    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em',
     textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px',
   }
 
@@ -236,7 +236,7 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.15rem, 5vw, 1.5rem)', letterSpacing: '-0.01em', color: 'var(--terracotta-dark)', margin: 0 }}>
             Yes! One {order.item} coming up!
           </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: '15.5px', color: 'var(--ink-soft)', marginTop: '4px' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '4px' }}>
             Exactly {priceLabel(order.price)}. Pebble is so proud of you.
           </p>
         </div>
@@ -253,7 +253,7 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
               flex: 1, background: '#fff', border: '1.5px solid var(--border)',
               borderRadius: '18px', padding: '12px 15px', boxShadow: '0 5px 0 var(--border)',
             }}>
-              <p style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
                 A {order.item} please! That is{' '}
                 <strong style={{ color: 'var(--terracotta-dark)' }}>{priceLabel(order.price)}</strong>.
                 Tap coins to make it.
@@ -266,7 +266,7 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
             background: 'var(--stage-1, #FFFBEE)', border: '1.5px solid var(--border)',
             borderRadius: '16px', padding: '12px 14px', marginBottom: '12px',
           }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17px', color: 'var(--ink)', textAlign: 'center', marginBottom: paid.length ? '10px' : 0 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'center', marginBottom: paid.length ? '10px' : 0 }}>
               You have {priceLabel(total)} of {priceLabel(order.price)}
             </div>
             {paid.length > 0 && (
@@ -281,7 +281,7 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
                     </button>
                   ))}
                 </div>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '8px' }}>
+                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textAlign: 'center', marginTop: '8px' }}>
                   Tap a coin here to take it back
                 </p>
               </>
@@ -290,7 +290,7 @@ export function CoinsView({ game, onDone }: { game: CoinsGame; onDone: () => voi
 
           {/* Gentle nudge (space is always reserved so nothing jumps) */}
           <p style={{
-            fontFamily: 'var(--font-body)', fontSize: '15.5px', fontWeight: 700, lineHeight: 1.5, textAlign: 'center',
+            fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, lineHeight: 1.5, textAlign: 'center',
             color: nudge ? 'var(--terracotta-dark)' : 'transparent', minHeight: '20px', margin: '0 0 12px',
           }}>
             {nudge ?? ' '}

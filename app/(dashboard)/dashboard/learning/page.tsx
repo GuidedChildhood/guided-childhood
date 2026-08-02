@@ -44,14 +44,14 @@ export default async function LearningPage() {
   if (views.length === 0) {
     return (
       <div style={{ maxWidth: 620, margin: '0 auto', padding: '22px 20px 48px' }}>
-        <Link href="/dashboard" style={{ display: 'inline-flex', gap: 6, fontSize: 15, color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
+        <Link href="/dashboard" style={{ display: 'inline-flex', gap: 6, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
           ← Home
         </Link>
         <p className="eyebrow" style={{ marginBottom: 4 }}>At school</p>
         <h1 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.3rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, margin: '0 0 10px' }}>
           What they are learning
         </h1>
-        <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 22 }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 22 }}>
           Add your child and their birthday, and this fills in with the objectives their class is actually working through this term.
         </p>
         <Link href="/dashboard/settings" className="btn btn-primary" style={{ textDecoration: 'none' }}>

@@ -137,12 +137,12 @@ export default function ScreenGateBanner({
         borderRadius: '14px', padding: '13px 15px',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: locked ? '10px' : 0 }}>
-          <span style={{ fontSize: '1.3rem', lineHeight: 1, flexShrink: 0 }}>{locked ? '🔒' : '🎉'}</span>
+          <span style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>{locked ? '🔒' : '🎉'}</span>
           <div style={{ minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', color: locked ? 'var(--ink)' : 'var(--stage-4-text)' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: locked ? 'var(--ink)' : 'var(--stage-4-text)' }}>
               {locked ? 'Screen time is locked' : `Screen time unlocked for ${childName}`}
             </div>
-            <div style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+            <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
               {locked
                 ? `Approve the job${blocking.length === 1 && blocking[0].count === 1 ? '' : 's'} below and ${childName}'s timer can start.`
                 : `${childName} finished the before screens ${gateCount === 1 ? 'task' : 'tasks'}, so their timer is ready. Enjoy some screen together, they have earned it.`}
@@ -154,7 +154,7 @@ export default function ScreenGateBanner({
             timer here and the minutes are recorded to the week. */}
         {!locked && coView && (
           <div style={{ marginTop: 12, borderTop: '1px solid var(--pastel-pink-deep)', paddingTop: 12 }}>
-            <div style={{ fontSize: 14.5, color: 'var(--ink-soft)', fontWeight: 600, marginBottom: 9, lineHeight: 1.45 }}>
+            <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', fontWeight: 600, marginBottom: 9, lineHeight: 1.45 }}>
               Watching together on a shared screen? Start the timer here so it still counts in {childName}&apos;s week.
             </div>
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
@@ -174,7 +174,7 @@ export default function ScreenGateBanner({
               style={{
                 width: '100%', padding: '10px', borderRadius: 12, border: 'none',
                 cursor: starting ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16,
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                 boxShadow: starting ? 'none' : '0 3px 0 var(--terracotta-dark)',
               }}
             >
@@ -192,12 +192,12 @@ export default function ScreenGateBanner({
                 background: '#fff', border: '1.5px solid var(--border)',
                 borderRadius: '12px', padding: '9px 12px',
               }}>
-                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {job.title}
                 </span>
                 {job.count > 1 && (
                   <span style={{
-                    flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
+                    flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                     background: 'var(--danger)', color: '#fff', borderRadius: '100px', padding: '3px 9px',
                   }}>
                     ×{job.count}
@@ -207,7 +207,7 @@ export default function ScreenGateBanner({
                   onClick={() => remind(job)}
                   style={{
                     flexShrink: 0, border: 'none', borderRadius: '11px', padding: '8px 13px',
-                    cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px',
+                    cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                     background: reminded === job.questId ? 'var(--tint-sage)' : 'var(--terracotta)',
                     color: 'var(--ink)',
                     boxShadow: reminded === job.questId ? 'none' : '0 3px 0 var(--terracotta-dark)',

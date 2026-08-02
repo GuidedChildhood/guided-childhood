@@ -43,7 +43,7 @@ export default function ScriptsPage() {
           </Link>
           <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             <PrintButton />
-            <Link href="/join" className="btn btn-gold" style={{ fontSize: '12px', padding: '10px 20px' }}>
+            <Link href="/join" className="btn btn-gold" style={{ fontSize: 'var(--text-sm)', padding: '10px 20px' }}>
               Join →
             </Link>
           </div>
@@ -57,7 +57,7 @@ export default function ScriptsPage() {
           The conversations<br />
           <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>that change everything.</em>
         </h1>
-        <p style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '560px', marginBottom: '12px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.8, maxWidth: '560px', marginBottom: '12px' }}>
           One script per stage. Read it through in 10 minutes. Say it tonight.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'var(--ink-muted)', letterSpacing: '.06em' }}>
@@ -153,7 +153,7 @@ export default function ScriptsPage() {
                     Say this
                   </div>
                   <p style={{
-                    fontSize: '1.05rem',
+                    fontSize: 'var(--text-md)',
                     fontWeight: 600,
                     color: 'var(--ink)',
                     lineHeight: 1.7,
@@ -271,12 +271,12 @@ export default function ScriptsPage() {
             Screen time endings, mood after phones, the social media ask, the bedroom rule fight, online safety, gaming, and everything in between. All staged by age.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: '13px' }}>
+            <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-sm)' }}>
               Find my child's stage →
             </Link>
             <Link href="/join" style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: '12px',
+              fontSize: 'var(--text-xs)',
               fontWeight: 600,
               letterSpacing: '.06em',
               color: 'rgba(255,255,255,.6)',

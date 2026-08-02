@@ -65,7 +65,7 @@ export default function DigiGreeting({
         borderRadius: '4px 18px 18px 18px', padding: '11px 14px',
         boxShadow: '0 3px 0 rgba(26,26,46,0.05)',
       }}>
-        <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.45 }}>
+        <p style={{ margin: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45 }}>
           {line}
         </p>
         {jobsLine && (
@@ -80,10 +80,10 @@ export default function DigiGreeting({
               width: 7, height: 7, borderRadius: '50%', flexShrink: 0,
               background: jobsTone,
             }} />
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14.5px', color: jobsTone }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: jobsTone }}>
               {jobsLine}
             </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, color: 'var(--ink-muted)' }}>
+            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
               · {jobsSuffix}
             </span>
           </Link>

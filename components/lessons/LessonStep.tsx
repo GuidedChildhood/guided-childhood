@@ -72,15 +72,15 @@ export default function LessonStep({
           {stepNumber}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '1.1rem' }}>{step.icon}</span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{step.label}</span>
+          <span style={{ fontSize: 'var(--text-lg)' }}>{step.icon}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{step.label}</span>
         </div>
       </div>
 
       {/* Main content card */}
       <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', overflow: 'hidden', borderTop: `4px solid ${color}` }}>
         <div style={{ padding: '24px 28px' }}>
-          <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', color: 'var(--ink)' }}>{heading}</h3>
+          <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '12px', color: 'var(--ink)' }}>{heading}</h3>
           <p style={{ color: 'var(--ink-soft)', lineHeight: 1.7, fontSize: '.95rem', margin: 0 }}>{body}</p>
         </div>
 
@@ -91,7 +91,7 @@ export default function LessonStep({
               {emoji}
             </div>
             <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color, marginBottom: '6px' }}>{name} says</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color, marginBottom: '6px' }}>{name} says</div>
               <p style={{ fontSize: '.9rem', lineHeight: 1.6, color: 'var(--ink)', margin: 0, fontStyle: 'italic', fontWeight: 500 }}>
                 &ldquo;{characterSays}&rdquo;
               </p>
@@ -102,7 +102,7 @@ export default function LessonStep({
         {/* Fun fact */}
         {funFact && (
           <div style={{ borderTop: '1px solid var(--border)', padding: '16px 28px', background: 'var(--cream)', display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-            <span style={{ fontSize: '1.2rem', flexShrink: 0 }}>🧠</span>
+            <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>🧠</span>
             <p style={{ fontSize: '.85rem', lineHeight: 1.6, color: 'var(--ink-soft)', margin: 0 }}>
               <strong style={{ color: 'var(--ink)' }}>Brain fact: </strong>{funFact}
             </p>

@@ -47,19 +47,19 @@ export default function DigiLessonNudge({
           background: 'var(--terracotta)', boxShadow: '0 3px 0 var(--terracotta-dark)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
-          <span style={{ color: '#fff', fontSize: '1rem', lineHeight: 1 }}>◎</span>
+          <span style={{ color: '#fff', fontSize: 'var(--text-md)', lineHeight: 1 }}>◎</span>
         </div>
         <div style={{ minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             A quick lesson from DiGi
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', lineHeight: 1.2, marginTop: '2px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2, marginTop: '2px' }}>
             {title}
           </div>
         </div>
       </div>
 
-      <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 13px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 13px' }}>
         {catchphrase
           ? `${catchphrase} Five minutes with ${childName}, together here or sent to their phone.`
           : `Five minutes with ${childName}. Watch it together here, or send it to their phone.`}
@@ -72,7 +72,7 @@ export default function DigiLessonNudge({
             display: 'inline-flex', alignItems: 'center', gap: '6px',
             background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
             border: 'none', borderRadius: '12px', padding: '9px 15px',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
             boxShadow: '0 4px 0 var(--terracotta-dark)',
           }}
         >
@@ -83,7 +83,7 @@ export default function DigiLessonNudge({
           onClick={dismiss}
           style={{
             marginLeft: 'auto', background: 'none', border: 'none', cursor: 'pointer',
-            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)', padding: '6px 4px',
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', padding: '6px 4px',
           }}
         >
           Not now

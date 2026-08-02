@@ -80,7 +80,7 @@ export default function PathwayPage() {
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.95rem', color: 'var(--ink)' }}>Guided Childhood</span>
           </Link>
-          <Link href="/join" className="btn btn-gold" style={{ fontSize: '12px', padding: '10px 20px' }}>
+          <Link href="/join" className="btn btn-gold" style={{ fontSize: 'var(--text-sm)', padding: '10px 20px' }}>
             Join as Founder →
           </Link>
         </div>
@@ -93,7 +93,7 @@ export default function PathwayPage() {
           Ages 4 to 16.<br />
           <em style={{ fontStyle: 'italic', fontWeight: 300, color: 'var(--terracotta)' }}>Always a next step.</em>
         </h1>
-        <p style={{ fontSize: '1.05rem', color: 'var(--ink-soft)', lineHeight: 1.85, maxWidth: '580px', marginBottom: '28px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.85, maxWidth: '580px', marginBottom: '28px' }}>
           Five stages. Twenty units. Ten minutes each. Every conversation your child needs, at exactly the right moment. From first screens at four to genuine independence at sixteen.
         </p>
 
@@ -194,7 +194,7 @@ export default function PathwayPage() {
                       textAlign: 'center',
                       flexShrink: 0,
                     }}>
-                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.4rem', color: col.deep, lineHeight: 1 }}>4</div>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', color: col.deep, lineHeight: 1 }}>4</div>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.54rem', color: 'var(--ink-muted)', letterSpacing: '.08em', textTransform: 'uppercase', marginTop: '3px' }}>units</div>
                     </div>
                   </div>
@@ -371,7 +371,7 @@ export default function PathwayPage() {
             </div>
 
             <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-              <Link href="/join" className="btn btn-gold" style={{ fontSize: '14px', padding: '16px 32px' }}>
+              <Link href="/join" className="btn btn-gold" style={{ fontSize: 'var(--text-base)', padding: '16px 32px' }}>
                 Join as a Founder →
               </Link>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.65rem', color: 'rgba(255,255,255,.4)', letterSpacing: '.04em' }}>

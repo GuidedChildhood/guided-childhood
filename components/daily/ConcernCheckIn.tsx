@@ -78,13 +78,13 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       {!(allAnswered && allFolded) ? (
         <>
           <div style={{
-            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             letterSpacing: '.12em', textTransform: 'uppercase',
             color: 'var(--stage-2-text)', marginBottom: '8px',
           }}>
             Still on the list
           </div>
-          <p style={{ fontSize: '17px', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
             One tap each. How did these go today?
           </p>
 
@@ -105,13 +105,13 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                 <div style={{ overflow: 'hidden' }}>
                   <div style={{ padding: '9px 0' }}>
                     <div style={{
-                      fontFamily: 'var(--font-display)', fontSize: '18.5px', fontWeight: 800,
+                      fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800,
                       color: 'var(--ink)', marginBottom: '2px',
                     }}>
                       {c.label}
                     </div>
                     <div style={{
-                      fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 600,
+                      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
                       color: 'var(--ink-muted)', marginBottom: '9px',
                     }}>
                       {recencyLabel(c)}
@@ -153,14 +153,14 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       ) : (
         <div style={{
           display: 'flex', alignItems: 'center', gap: '10px',
-          fontFamily: 'var(--font-body)', fontSize: '16.5px', fontWeight: 600,
+          fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600,
           color: 'var(--ink-soft)',
         }}>
           <span aria-hidden style={{
             width: '22px', height: '22px', borderRadius: '50%',
             background: 'var(--tint-green)', border: '1.5px solid var(--border)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '13px', color: 'var(--ink)', flexShrink: 0,
+            fontSize: 'var(--text-sm)', color: 'var(--ink)', flexShrink: 0,
           }}>✓</span>
           All checked. Small steps, kept up, are how this turns.
         </div>

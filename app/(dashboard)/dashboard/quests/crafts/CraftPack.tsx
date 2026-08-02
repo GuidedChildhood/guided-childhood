@@ -34,7 +34,7 @@ function AwardStars({ title, worth }: { title: string; worth: number }) {
         background: added ? 'var(--tint-sage)' : 'var(--terracotta)',
         border: 'none', borderRadius: '14px', padding: '13px 18px',
         cursor: added ? 'default' : 'pointer',
-        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)',
+        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
         boxShadow: added ? 'none' : '0 4px 0 var(--terracotta-dark)',
       }}
     >
@@ -78,14 +78,14 @@ function Sheet({ children, band, title, worth, lesson, plays }: {
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '6px', flexWrap: 'wrap' }}>
         <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
-          <div style={{ ...mono, fontSize: '11px', color: 'var(--terracotta-dark)' }}>{band} · Guided Childhood game pack</div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
+          <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>{band} · Guided Childhood game pack</div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
             {title}
           </h2>
         </div>
         <div style={{
           background: 'var(--butter, #EDC35F)', borderRadius: '14px', padding: '8px 14px',
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: 'var(--ink)',
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)',
           boxShadow: '0 3px 0 rgba(0,0,0,0.2)', flexShrink: 0,
         }}>
           Worth {'⭐'.repeat(worth)}
@@ -93,18 +93,18 @@ function Sheet({ children, band, title, worth, lesson, plays }: {
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', margin: '0 0 18px' }}>
         <span style={{
-          ...mono, fontSize: '11px', color: 'var(--ink)',
+          ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink)',
           background: 'var(--cream)', border: '1px solid var(--border)',
           borderRadius: '100px', padding: '4px 10px',
         }}>
           Plays like {plays}
         </span>
-        <p style={{ fontSize: '14px', color: 'var(--ink-muted)', margin: 0, fontStyle: 'italic' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: 0, fontStyle: 'italic' }}>
           The sneaky lesson: {lesson}
         </p>
       </div>
       {children}
-      <p style={{ ...mono, fontSize: '11px', color: 'var(--ink-light)', textAlign: 'center', marginTop: '20px' }}>
+      <p style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-light)', textAlign: 'center', marginTop: '20px' }}>
         Finished? Tick it on your quest page and the stars are yours
       </p>
       <AwardStars title={title} worth={worth} />
@@ -133,13 +133,13 @@ function StarChartSheet() {
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '14px', flexWrap: 'wrap' }}>
         <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
-          <div style={{ ...mono, fontSize: '11px', color: 'var(--terracotta-dark)' }}>For the fridge · Guided Childhood</div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
+          <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>For the fridge · Guided Childhood</div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
             Stars turn into screen time
           </h2>
         </div>
       </div>
-      <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 16px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 16px' }}>
         Jobs and games earn stars. Stars buy screen time, and <strong>1 star is {STAR_MINUTES} minutes</strong> on any screen. Same rate for the TV, the console, the phone and the tablet, because a screen is a screen.
       </p>
 
@@ -147,9 +147,9 @@ function StarChartSheet() {
       <div style={{ border: '2px solid var(--ink)', borderRadius: '16px', overflow: 'hidden', marginBottom: '16px' }}>
         {ladder.map((s, i) => (
           <div key={s} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '11px 16px', background: i % 2 === 0 ? 'var(--cream)' : '#fff', borderTop: i === 0 ? 'none' : '1px solid var(--border)' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', minWidth: 62 }}>{s} {'⭐'.repeat(Math.min(s, 3))}{s > 3 ? '…' : ''}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', minWidth: 62 }}>{s} {'⭐'.repeat(Math.min(s, 3))}{s > 3 ? '…' : ''}</span>
             <span style={{ flex: 1, borderBottom: '1px dashed var(--border)' }} />
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--terracotta-dark)' }}>{s * STAR_MINUTES} minutes</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)' }}>{s * STAR_MINUTES} minutes</span>
           </div>
         ))}
       </div>
@@ -158,21 +158,21 @@ function StarChartSheet() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px', marginBottom: '18px' }}>
         {rows.map(r => (
           <div key={r.label} style={{ border: '1.5px solid var(--border)', borderRadius: '12px', padding: '10px 12px', textAlign: 'center', background: 'var(--cream)' }}>
-            <div style={{ fontSize: '1.4rem' }}>{r.icon}</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '14px', color: 'var(--ink)', marginTop: '2px' }}>{r.label}</div>
+            <div style={{ fontSize: 'var(--text-xl)' }}>{r.icon}</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginTop: '2px' }}>{r.label}</div>
           </div>
         ))}
       </div>
 
       {/* Colour a star as you earn it */}
       <div style={{ border: '2px dashed var(--terracotta-dark)', borderRadius: '14px', padding: '14px 16px', textAlign: 'center' }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', marginBottom: '8px' }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '8px' }}>
           My stars this week
         </div>
-        <div style={{ fontSize: '26px', letterSpacing: '6px', lineHeight: 1.6, wordBreak: 'break-word' }}>
+        <div style={{ fontSize: 'var(--text-2xl)', letterSpacing: '6px', lineHeight: 1.6, wordBreak: 'break-word' }}>
           {'☆'.repeat(20)}
         </div>
-        <div style={{ fontSize: '13.5px', color: 'var(--ink-soft)', marginTop: '4px' }}>
+        <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: '4px' }}>
           Colour a star in every time a grown up says a job or a game is done.
         </div>
       </div>
@@ -191,13 +191,13 @@ function PlanetFriendsColourSheet() {
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px', flexWrap: 'wrap' }}>
         <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
-          <div style={{ ...mono, fontSize: '11px', color: 'var(--terracotta-dark)' }}>Colour me in · Guided Childhood</div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
+          <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>Colour me in · Guided Childhood</div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
             Colour your Planet Friends
           </h2>
         </div>
       </div>
-      <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 16px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 16px' }}>
         Meet the five Planet Friends you earn on the way to 16. Colour each one in as you unlock them, and stick them on your fridge star chart.
       </p>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '14px' }}>
@@ -205,8 +205,8 @@ function PlanetFriendsColourSheet() {
           <div key={c.key} style={{ border: '2px dashed var(--ink-light)', borderRadius: '16px', padding: '12px', textAlign: 'center' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={c.colouring} alt={`Colour in ${c.name}`} style={{ width: '100%', maxWidth: '190px', height: 'auto', margin: '0 auto', display: 'block' }} />
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink)', marginTop: '6px' }}>{c.name}</div>
-            <div style={{ ...mono, fontSize: '8.5px', color: 'var(--ink-light)', marginTop: '2px' }}>{c.ages}</div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginTop: '6px' }}>{c.name}</div>
+            <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-light)', marginTop: '2px' }}>{c.ages}</div>
           </div>
         ))}
       </div>
@@ -229,22 +229,22 @@ function StarTokensSheet() {
       <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px', flexWrap: 'wrap' }}>
         <img src="/digi-squad/DiGi-star.svg" alt="" style={{ width: '44px', height: '44px' }} />
         <div style={{ flex: 1, minWidth: '200px' }}>
-          <div style={{ ...mono, fontSize: '11px', color: 'var(--terracotta-dark)' }}>Cut and keep · Guided Childhood</div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.55rem', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
+          <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>Cut and keep · Guided Childhood</div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: '2px 0 0' }}>
             Stars to cut out
           </h2>
         </div>
       </div>
-      <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 6px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 6px' }}>
         Colour these in, cut them out, and stick one on the fridge chart every time a job or a game is done. Keep them in a today, a this week and a this month pile.
       </p>
       <CutLine />
       {piles.map(p => (
         <div key={p.label} style={{ marginBottom: '14px' }}>
-          <div style={{ ...mono, fontSize: '11px', color: 'var(--ink-muted)', marginBottom: '6px' }}>{p.label}</div>
+          <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginBottom: '6px' }}>{p.label}</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {Array.from({ length: p.count }).map((_, i) => (
-              <span key={i} style={{ fontSize: '30px', color: 'var(--ink-light)', lineHeight: 1, width: 34, textAlign: 'center' }}>☆</span>
+              <span key={i} style={{ fontSize: 'var(--text-2xl)', color: 'var(--ink-light)', lineHeight: 1, width: 34, textAlign: 'center' }}>☆</span>
             ))}
           </div>
         </div>
@@ -264,8 +264,8 @@ function StarCalendarSheet({ childName }: { childName: string | null }) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={STAGE_CHARACTERS[1].cutout} alt="" aria-hidden style={{ position: 'absolute', right: 10, bottom: 8, width: 60, height: 60, objectFit: 'contain', opacity: 0.9, pointerEvents: 'none' }} />
       <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-        <div style={{ ...mono, fontSize: '11px', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>My week of stars · Guided Childhood</div>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', letterSpacing: '-0.02em', color: 'var(--ink)', margin: 0 }}>
+        <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>My week of stars · Guided Childhood</div>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', margin: 0 }}>
           {childName ? `${childName}'s star week` : 'My star week'}
         </h2>
         {!childName && (
@@ -275,12 +275,12 @@ function StarCalendarSheet({ childName }: { childName: string | null }) {
       <div style={{ border: '2px solid var(--ink)', borderRadius: '16px', overflow: 'hidden' }}>
         {days.map((d, i) => (
           <div key={d} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 16px', background: i % 2 === 0 ? 'var(--cream)' : '#fff', borderTop: i === 0 ? 'none' : '1px solid var(--border)' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink)', width: 86, flexShrink: 0 }}>{d}</span>
-            <span style={{ flex: 1, fontSize: '22px', letterSpacing: '4px', color: 'var(--ink-light)' }}>{'☆'.repeat(5)}</span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', width: 86, flexShrink: 0 }}>{d}</span>
+            <span style={{ flex: 1, fontSize: 'var(--text-xl)', letterSpacing: '4px', color: 'var(--ink-light)' }}>{'☆'.repeat(5)}</span>
           </div>
         ))}
       </div>
-      <p style={{ fontSize: '13.5px', color: 'var(--ink-soft)', textAlign: 'center', marginTop: '12px', marginBottom: 0 }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', textAlign: 'center', marginTop: '12px', marginBottom: 0 }}>
         Colour a star for each job or game done. Stars turn into screen time on the fridge chart, and buy the prize on the reward sheet.
       </p>
       <PrintBrandFooter />
@@ -290,7 +290,7 @@ function StarCalendarSheet({ childName }: { childName: string | null }) {
 
 function CutLine() {
   return (
-    <div style={{ ...mono, fontSize: '11px', color: 'var(--ink-light)', display: 'flex', alignItems: 'center', gap: '8px', margin: '14px 0' }}>
+    <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-light)', display: 'flex', alignItems: 'center', gap: '8px', margin: '14px 0' }}>
       ✂<span style={{ flex: 1, borderTop: '2px dashed var(--ink-light)' }} />cut along the dashed lines
     </div>
   )
@@ -393,21 +393,21 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {/* Screen chrome */}
       <div className="no-print" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '18px' }}>
         <div>
-          <Link href="/dashboard/quests" style={{ ...mono, fontSize: '13px', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+          <Link href="/dashboard/quests" style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
             ← Quests
           </Link>
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 5vw, 2rem)', letterSpacing: '-0.02em', margin: '6px 0 4px' }}>
             The Game Pack
           </h1>
-          <p style={{ fontSize: '16px', color: 'var(--ink-soft)', maxWidth: '46ch', lineHeight: 1.55 }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', maxWidth: '46ch', lineHeight: 1.55 }}>
             Screen free games that earn stars and quietly teach the digital skills. Print, cut, play. Every finished craft counts as a quest.
           </p>
         </div>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          <button onClick={() => window.print()} className="btn btn-gold" style={{ padding: '12px 22px', fontSize: '15px', cursor: 'pointer' }}>
+          <button onClick={() => window.print()} className="btn btn-gold" style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer' }}>
             Print this pack
           </button>
-          <button onClick={printWholePack} style={{ padding: '12px 22px', fontSize: '15px', cursor: 'pointer', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)' }}>
+          <button onClick={printWholePack} style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)' }}>
             ⭐ Print the whole offline pack
           </button>
         </div>
@@ -416,7 +416,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {/* When the whole pack is on, a line so the parent knows the print will
           be long: every game, the fridge chart and the star calendar at once. */}
       {showAll && (
-        <div className="no-print" style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '12px 16px', marginBottom: '18px', fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.5 }}>
+        <div className="no-print" style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '14px', padding: '12px 16px', marginBottom: '18px', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
           The whole offline star pack is ready below: every game for every age, the fridge star chart and {childName ? `${childName}'s` : 'the'} weekly star calendar. Print the lot, or use Print this pack for one age at a time.
         </div>
       )}
@@ -441,7 +441,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             onClick={() => setBand(b.key)}
             style={{
               padding: '10px 18px', borderRadius: '100px', cursor: 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
               background: band === b.key ? 'var(--terracotta)' : '#fff',
               color: 'var(--ink)',
               border: band === b.key ? 'none' : '1.5px solid var(--border)',
@@ -459,7 +459,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
         <>
           <Sheet band="Ages 4 to 7" title="Robot Parent" worth={3} plays="Simon Says" lesson="computers only do exactly what they are told, nothing more">
             <div style={{ background: 'var(--cream)', borderRadius: '14px', padding: '14px 16px', marginBottom: '4px' }}>
-              <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
                 <strong>How to play:</strong> cut out the cards. Your grown up is now a robot. Hand them a card and they must do it, exactly, in their best robot voice. Robots never guess and never do extra. That is how computers work too: they only follow instructions.
               </p>
             </div>
@@ -470,9 +470,9 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                   border: '2px dashed var(--ink-light)', borderRadius: '14px', padding: '14px 12px',
                   textAlign: 'center', background: '#fff',
                 }}>
-                  <div style={{ fontSize: '1.8rem', marginBottom: '6px' }}>{c.emoji}</div>
-                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', lineHeight: 1.4, color: 'var(--ink)', margin: 0 }}>{c.cmd}</p>
-                  <div style={{ ...mono, fontSize: '8px', color: 'var(--ink-light)', marginTop: '8px' }}>beep boop · command card</div>
+                  <div style={{ fontSize: 'var(--text-2xl)', marginBottom: '6px' }}>{c.emoji}</div>
+                  <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.4, color: 'var(--ink)', margin: 0 }}>{c.cmd}</p>
+                  <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-light)', marginTop: '8px' }}>beep boop · command card</div>
                 </div>
               ))}
             </div>
@@ -481,9 +481,9 @@ export default function CraftPack({ childName = null }: { childName?: string | n
           <Sheet band="Ages 4 to 7" title="My Screen Rules door poster" worth={2} plays="a keep out sign, but yours" lesson="rules the child writes are rules the child keeps">
             <div style={{ border: '3px solid var(--ink)', borderRadius: '18px', padding: '24px', textAlign: 'center', background: '#fff' }}>
               <img src="/digi-squad/DiGi-star.svg" alt="DiGi" style={{ width: '90px', height: '90px', marginBottom: '8px' }} />
-              <div style={{ ...mono, fontSize: '12px', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>this room belongs to</div>
+              <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>this room belongs to</div>
               <div style={{ borderBottom: '3px solid var(--ink)', width: '60%', margin: '0 auto 20px', height: '34px' }} />
-              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.8rem', color: 'var(--ink)', margin: '0 0 18px', letterSpacing: '-0.02em' }}>
+              <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', margin: '0 0 18px', letterSpacing: '-0.02em' }}>
                 MY SCREEN RULES
               </h3>
               {[1, 2, 3].map(n => (
@@ -491,19 +491,19 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                   <span style={{
                     width: 34, height: 34, borderRadius: '50%', background: 'var(--terracotta)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '18px', color: 'var(--ink)',
+                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)',
                   }}>{n}</span>
                   <span style={{ flex: 1, borderBottom: '2.5px solid var(--ink)', height: '30px' }} />
                 </div>
               ))}
-              <p style={{ fontSize: '14px', color: 'var(--ink-muted)', margin: 0 }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: 0 }}>
                 Write your three rules with your grown up, colour DiGi in, stick it on your door. Your rules, your door, your call.
               </p>
             </div>
           </Sheet>
 
           <Sheet band="Ages 4 to 7" title="Goodnight Screens pairs" worth={2} plays="the memory pairs game" lesson="switching a screen off becomes a normal, happy part of the day">
-            <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
               <strong>How to play:</strong> cut out the cards and lay them face down. Take turns flipping two. Find a matching pair and you keep it, but only after you say goodnight to it out loud: goodnight tablet! Most pairs wins. Bedtime for screens becomes the fun bit, not the fight.
             </p>
             <CutLine />
@@ -514,8 +514,8 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px',
                   background: '#fff',
                 }}>
-                  <span style={{ fontSize: '2rem' }}>{e}</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '7.5px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)' }}>goodnight!</span>
+                  <span style={{ fontSize: 'var(--text-3xl)' }}>{e}</span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)' }}>goodnight!</span>
                 </div>
               ))}
             </div>
@@ -527,26 +527,26 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {(showAll || band === 'middle') && (
         <>
           <Sheet band="Ages 8 to 10" title="Password Monster" worth={3} plays="Mad Libs" lesson="three random words beat any clever short password">
-            <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
               <strong>How to play:</strong> pick one word from each column and squash them together. WobblyOctopus77! is a monster of a passphrase: long, silly, easy for you to remember and horrible for a computer to guess. Then draw your monster below. Never tell anyone your real one except your grown up.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '16px' }}>
               {PASSWORD_COLS.map((col, i) => (
                 <div key={i} style={{ background: 'var(--cream)', borderRadius: '14px', padding: '12px' }}>
-                  <div style={{ ...mono, fontSize: '11px', color: 'var(--terracotta-dark)', marginBottom: '8px', textAlign: 'center' }}>{col.head}</div>
+                  <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '8px', textAlign: 'center' }}>{col.head}</div>
                   {col.words.map(w => (
-                    <p key={w} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', color: 'var(--ink)', textAlign: 'center', margin: '0 0 6px' }}>{w}</p>
+                    <p key={w} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'center', margin: '0 0 6px' }}>{w}</p>
                   ))}
                 </div>
               ))}
             </div>
             <div style={{ border: '2px dashed var(--ink-light)', borderRadius: '16px', height: '170px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ ...mono, fontSize: '12px', color: 'var(--ink-light)' }}>draw your password monster here</span>
+              <span style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-light)' }}>draw your password monster here</span>
             </div>
           </Sheet>
 
           <Sheet band="Ages 8 to 10" title="The Feed: snakes and ladders" worth={3} plays="snakes and ladders" lesson="the feed is built with traps and ladders, learn to spot both">
-            <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
               <strong>How to play:</strong> grab a dice and a counter each (coins work). Smart digital choices are ladders, screen traps are snakes. First to square 30 wins the remote for film night.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '5px', marginBottom: '14px' }}>
@@ -557,9 +557,9 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                   border: '1.5px solid var(--border)',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '2px',
                 }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)' }}>{sq.n}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>{sq.n}</span>
                   {sq.special && (
-                    <span style={{ fontSize: '15px', lineHeight: 1 }}>
+                    <span style={{ fontSize: 'var(--text-base)', lineHeight: 1 }}>
                       {sq.special.kind === 'ladder' ? `🪜↑${sq.special.to}` : `🐍↓${sq.special.to}`}
                     </span>
                   )}
@@ -568,7 +568,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               {BOARD.filter(s => s.special).map(s => (
-                <p key={s.n} style={{ fontSize: '13.5px', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
+                <p key={s.n} style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
                   <strong>{s.special!.kind === 'ladder' ? '🪜' : '🐍'} {s.n}:</strong> {s.special!.note}
                 </p>
               ))}
@@ -576,7 +576,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
           </Sheet>
 
           <Sheet band="Ages 8 to 10" title="Advert Detective Bingo" worth={3} plays="bingo" lesson="once you can spot the selling tricks, they stop working on you">
-            <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
               <strong>How to play:</strong> everyone gets a card for one normal evening of TV or YouTube. Spot a trick in the wild, cross it off, shout BINGO on a full line. Winner picks pudding. Grown ups play too and usually lose.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px' }}>
@@ -587,7 +587,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                   border: '1.5px solid var(--border)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center',
                 }}>
-                  <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.35 }}>{sq}</span>
+                  <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.35 }}>{sq}</span>
                 </div>
               ))}
             </div>
@@ -599,7 +599,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {(showAll || band === 'older') && (
         <>
           <Sheet band="Ages 11 to 13" title="Deepfake or Real: the family quiz" worth={3} plays="a TV quiz show" lesson="the tells of fake content, learned by beating your parents at it">
-            <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
               <strong>How to play:</strong> cut out the cards. Take turns reading one aloud. Everyone votes real or fake before the reader flips it for the answer. Score a point for each correct call. The child usually wins this. That is the point.
             </p>
             <CutLine />
@@ -607,22 +607,22 @@ export default function CraftPack({ childName = null }: { childName?: string | n
               {QUIZ_CARDS.map((c, i) => (
                 <div key={i} style={{ border: '2px dashed var(--ink-light)', borderRadius: '14px', overflow: 'hidden' }}>
                   <div style={{ padding: '12px 14px', background: '#fff' }}>
-                    <div style={{ ...mono, fontSize: '8px', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>card {i + 1} · real or fake?</div>
-                    <p style={{ fontSize: '14.5px', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>{c.q}</p>
+                    <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>card {i + 1} · real or fake?</div>
+                    <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.5, margin: 0 }}>{c.q}</p>
                   </div>
                   <div style={{ padding: '10px 14px', background: 'var(--deep-teal, #173C46)', transform: 'rotate(180deg)' }}>
-                    <p style={{ fontSize: '12.5px', color: '#fff', lineHeight: 1.45, margin: 0 }}>{c.a}</p>
+                    <p style={{ fontSize: 'var(--text-sm)', color: '#fff', lineHeight: 1.45, margin: 0 }}>{c.a}</p>
                   </div>
                 </div>
               ))}
             </div>
-            <p style={{ fontSize: '13px', color: 'var(--ink-muted)', marginTop: '10px', textAlign: 'center' }}>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '10px', textAlign: 'center' }}>
               Answers print upside down so nobody peeks. Fold each card along the middle.
             </p>
           </Sheet>
 
           <Sheet band="Ages 11 to 13" title="Algorithm Architect" worth={3} plays="being the game maker for once" lesson="design the hook yourself and it never hooks you the same way again">
-            <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
               <strong>The job:</strong> you are the algorithm. Your only goal is to keep a player watching as long as possible. Design the next six videos for someone who just watched one football clip. Use every trick: cliffhangers, outrage, one more thing.
             </p>
             {[1, 2, 3, 4, 5, 6].map(n => (
@@ -630,13 +630,13 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                 <span style={{
                   width: 30, height: 30, borderRadius: '8px', background: 'var(--deep-teal, #173C46)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '16px', color: '#fff',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: '#fff',
                 }}>{n}</span>
                 <span style={{ flex: 1, borderBottom: '2px solid var(--ink)', height: '26px' }} />
               </div>
             ))}
             <div style={{ background: 'var(--butter, #EDC35F)', borderRadius: '14px', padding: '14px 16px' }}>
-              <p style={{ fontSize: '15px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+              <p style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
                 The debrief, together: which trick was strongest? Now the big one: whose feed is running these exact tricks on you, and where did it work this week?
               </p>
             </div>
@@ -647,7 +647,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {/* ------------------------------ Family ------------------------------ */}
       {(showAll || band === 'family') && (
         <Sheet band="The whole family" title="Device free dinner cards" worth={2} plays="a card deck in a jar" lesson="the best parental control ever invented is a conversation">
-          <p style={{ fontSize: '15.5px', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
             <strong>How to play:</strong> cut out the cards, keep them in a jar on the table. Phones sleep somewhere else during dinner, grown ups included. Youngest picks a card, everyone answers, no wrong answers.
           </p>
           <CutLine />
@@ -657,8 +657,8 @@ export default function CraftPack({ childName = null }: { childName?: string | n
                 border: '2px dashed var(--ink-light)', borderRadius: '14px', padding: '16px 14px',
                 background: i % 2 === 0 ? '#fff' : 'var(--cream)', textAlign: 'center',
               }}>
-                <div style={{ fontSize: '1.2rem', marginBottom: '6px' }}>🍽️</div>
-                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', lineHeight: 1.45, color: 'var(--ink)', margin: 0 }}>{q}</p>
+                <div style={{ fontSize: 'var(--text-lg)', marginBottom: '6px' }}>🍽️</div>
+                <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.45, color: 'var(--ink)', margin: 0 }}>{q}</p>
               </div>
             ))}
           </div>

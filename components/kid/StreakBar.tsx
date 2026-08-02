@@ -24,16 +24,16 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
     }}>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 7 }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             🔥 Streaks
           </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, color: 'var(--ink-muted)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
             {completedStreaks} earned
           </span>
         </div>
 
         {done ? (
-          <div style={{ fontFamily: 'var(--font-body)', fontSize: 13.5, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+          <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
             The whole family is home. Keep your streaks going to stay a superstar.
           </div>
         ) : (
@@ -48,7 +48,7 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
                 }} />
               ))}
             </div>
-            <div style={{ fontFamily: 'var(--font-body)', fontSize: 12.5, fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+            <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
               {toNext === 1
                 ? <>One more streak unlocks <b>{next!.name}</b>. So close!</>
                 : <><b>{toNext}</b> more streaks to unlock <b>{next!.name}</b>. Keep your jobs on time.</>}

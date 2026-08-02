@@ -173,10 +173,10 @@ export default function KidFiveADay({
       padding: '16px 16px 12px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
     }}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '20px', color: 'var(--ink)', margin: 0, lineHeight: 1.15 }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: 0, lineHeight: 1.15 }}>
           {state.complete ? 'Today is done! 🎉' : 'Your five for today'}
         </p>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
           {doneCount} of {total}
         </span>
       </div>
@@ -201,7 +201,7 @@ export default function KidFiveADay({
               <span style={{
                 width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '18px', lineHeight: 1,
+                fontSize: 'var(--text-lg)', lineHeight: 1,
                 background: isDone ? 'var(--tint-sage)' : 'var(--cream)',
                 border: isDone ? '1.5px solid #2F8F6B' : '1.5px solid rgba(26,26,46,0.1)',
               }}>
@@ -210,14 +210,14 @@ export default function KidFiveADay({
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{
                   display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-                  fontSize: '16.5px', lineHeight: 1.25,
+                  fontSize: 'var(--text-md)', lineHeight: 1.25,
                   color: isDone ? 'var(--ink-muted)' : 'var(--ink)',
                   textDecoration: isDone ? 'line-through' : 'none',
                 }}>
                   {def.label}
                 </span>
                 {!isDone && (
-                  <span style={{ display: 'block', fontSize: '14px', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: '1px' }}>
+                  <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: '1px' }}>
                     {key === 'move' && moveJobs
                       ? `You have ${moveJobs.total === 1 ? 'a job' : `${moveJobs.total} jobs`} for this. Tap to see ${moveJobs.total === 1 ? 'it' : 'them'}`
                       : def.hint}
@@ -225,7 +225,7 @@ export default function KidFiveADay({
                 )}
               </span>
               {!isDone && (
-                <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '19px', color: 'var(--ink-muted)' }}>
+                <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>
                   ›
                 </span>
               )}
@@ -279,12 +279,12 @@ export default function KidFiveADay({
       </div>
 
       {state.streak > 0 && (
-        <p style={{ fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '12px 2px 2px', textAlign: 'center' }}>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '12px 2px 2px', textAlign: 'center' }}>
           🔥 {state.streak} day{state.streak === 1 ? '' : 's'} in a row
         </p>
       )}
       {state.complete && state.streak === 0 && childName && (
-        <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 2px 2px', textAlign: 'center' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 2px 2px', textAlign: 'center' }}>
           Every single one, {childName}. Come back tomorrow to start a run.
         </p>
       )}

@@ -7,10 +7,10 @@ export default function Page() {
     <main style={{ background: 'var(--cream)', minHeight: '100vh', padding: 20 }}>
       <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: 16, maxWidth: 640, margin: '0 auto' }}>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          <button className="btn btn-gold" style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '15px' }}>
+          <button className="btn btn-gold" style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: 'var(--text-base)' }}>
             Mark as set up
           </button>
-          <Link href="#" className="btn btn-outline" style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: '15px' }}>
+          <Link href="#" className="btn btn-outline" style={{ flex: 1, minWidth: '140px', justifyContent: 'center', fontSize: 'var(--text-base)' }}>
             Ask DiGi to help
           </Link>
         </div>

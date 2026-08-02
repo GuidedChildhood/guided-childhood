@@ -23,15 +23,15 @@ function SlimRow({ href, emoji, title, meta, badge, urgent }: {
       }}>
         <span style={{
           width: 50, height: 50, borderRadius: '14px', background: 'var(--terracotta-lt)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', flexShrink: 0,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0,
         }}>{emoji}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.2 }}>{title}</span>
-          <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-muted)', marginTop: '3px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{meta}</span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2 }}>{title}</span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '3px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{meta}</span>
         </span>
         {badge && (
           <span style={{
-            fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, flexShrink: 0,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, flexShrink: 0,
             background: urgent ? '#E5484D' : 'var(--tint-blue)', color: urgent ? '#fff' : 'var(--ink)',
             borderRadius: '100px', padding: '5px 11px',
           }}>{badge}</span>

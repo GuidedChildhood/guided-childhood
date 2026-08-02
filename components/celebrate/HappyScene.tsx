@@ -80,11 +80,11 @@ export default function HappyScene({
         </div>
       </div>
 
-      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: titleColor, margin: '0 0 4px' }}>
+      <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: titleColor, margin: '0 0 4px' }}>
         {headline}
       </p>
       {sub && (
-        <p style={{ fontSize: '17px', color: subColor, lineHeight: 1.5, margin: 0, maxWidth: 320, marginLeft: 'auto', marginRight: 'auto' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: subColor, lineHeight: 1.5, margin: 0, maxWidth: 320, marginLeft: 'auto', marginRight: 'auto' }}>
           {sub}
         </p>
       )}

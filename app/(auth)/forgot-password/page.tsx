@@ -23,14 +23,14 @@ export default function ForgotPasswordPage() {
     <div style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '24px', background: 'var(--cream)' }}>
       <div style={{ width: '100%', maxWidth: '420px' }}>
         <Link href="/" style={{ display: 'block', marginBottom: '32px', textAlign: 'center' }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '22px', color: 'var(--ink)' }}>Guided Childhood</span>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', color: 'var(--ink)' }}>Guided Childhood</span>
         </Link>
 
         <div className="card">
           {sent ? (
             <div style={{ textAlign: 'center', padding: '8px 0' }}>
-              <div style={{ fontSize: '40px', marginBottom: '16px' }}>✉️</div>
-              <h2 style={{ fontSize: '1.4rem', marginBottom: '12px' }}>Check your inbox</h2>
+              <div style={{ fontSize: 'var(--text-3xl)', marginBottom: '16px' }}>✉️</div>
+              <h2 style={{ fontSize: 'var(--text-xl)', marginBottom: '12px' }}>Check your inbox</h2>
               <p style={{ color: 'var(--ink-muted)' }}>We sent a reset link to <strong>{email}</strong>. It expires in 1 hour.</p>
               <Link href="/login" className="btn btn-outline" style={{ marginTop: '24px', display: 'inline-flex' }}>
                 Back to sign in
@@ -39,8 +39,8 @@ export default function ForgotPasswordPage() {
           ) : (
             <>
               <div style={{ marginBottom: '28px' }}>
-                <h1 style={{ fontSize: '1.75rem', marginBottom: '4px' }}>Reset your password</h1>
-                <p style={{ color: 'var(--ink-muted)', fontSize: '17px' }}>Enter your email and we will send a reset link.</p>
+                <h1 style={{ fontSize: 'var(--text-2xl)', marginBottom: '4px' }}>Reset your password</h1>
+                <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>Enter your email and we will send a reset link.</p>
               </div>
 
               <form onSubmit={handleReset} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -51,7 +51,7 @@ export default function ForgotPasswordPage() {
               </form>
 
               <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                <Link href="/login" style={{ fontFamily: 'var(--font-mono)', fontSize: '14px', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+                <Link href="/login" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
                   Back to sign in
                 </Link>
               </div>

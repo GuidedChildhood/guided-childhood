@@ -94,12 +94,12 @@ export default function SentToast({
           flexShrink: 0, width: 22, height: 22, borderRadius: 999,
           background: 'var(--retro-green, #5C9433)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 13, fontWeight: 900, color: '#fff', lineHeight: 1,
+          fontSize: 'var(--text-sm)', fontWeight: 900, color: '#fff', lineHeight: 1,
         }}
       >
         ✓
       </span>
-      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15.5, lineHeight: 1.35 }}>
+      <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.35 }}>
         {message}
       </span>
     </div>

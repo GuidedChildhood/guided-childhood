@@ -45,7 +45,7 @@ export default async function AgreementPrintPage() {
 
       {/* Screen chrome */}
       <div className="no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', gap: '12px', flexWrap: 'wrap' }}>
-        <Link href="/dashboard/agreement" style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '0.04em' }}>
+        <Link href="/dashboard/agreement" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '0.04em' }}>
           ← Back to the builder
         </Link>
         <PrintButton />
@@ -55,14 +55,14 @@ export default async function AgreementPrintPage() {
       <div style={{ background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px', padding: 'clamp(28px, 5vw, 44px)' }}>
         <PrintBrandHeader />
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '10px' }}>
             Family agreement{agreement.version > 1 ? ` · Version ${agreement.version}` : ''}
           </div>
           <h1 style={{ fontSize: 'clamp(1.6rem, 4vw, 2.1rem)', lineHeight: 1.1, marginBottom: '8px' }}>
             Our family agreement
           </h1>
           {agreement.agreed_date && (
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.04em' }}>
               Agreed together on {formatDate(agreement.agreed_date)}
             </p>
           )}
@@ -70,10 +70,10 @@ export default async function AgreementPrintPage() {
 
         {sections.map((section, i) => (
           <div key={i} style={{ marginBottom: '22px', breakInside: 'avoid' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: '6px' }}>
               {section.title}
             </div>
-            <p style={{ fontSize: '17px', color: 'var(--ink)', lineHeight: 1.7, margin: 0 }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.7, margin: 0 }}>
               {section.body}
             </p>
           </div>
@@ -86,10 +86,10 @@ export default async function AgreementPrintPage() {
             { name: childName, signed: agreement.signed_by_child },
           ].map((sig, i) => (
             <div key={i} style={{ flex: 1, minWidth: '180px' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '19px', color: 'var(--ink)', borderBottom: '2px solid var(--ink)', paddingBottom: '6px', marginBottom: '6px', minHeight: '30px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', borderBottom: '2px solid var(--ink)', paddingBottom: '6px', marginBottom: '6px', minHeight: '30px' }}>
                 {sig.signed ? sig.name : ''}
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
                 {sig.name === 'Parent' ? 'Parent' : 'Child'}
               </div>
             </div>
@@ -97,7 +97,7 @@ export default async function AgreementPrintPage() {
         </div>
 
         {agreement.review_date && (
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '13px', color: 'var(--ink-muted)', letterSpacing: '0.04em', marginTop: '26px', textAlign: 'center' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', letterSpacing: '0.04em', marginTop: '26px', textAlign: 'center' }}>
             We will sit down and review this together on {formatDate(agreement.review_date)}
           </p>
         )}

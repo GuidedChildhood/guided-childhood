@@ -57,16 +57,16 @@ export default function DeviceSweepCard() {
           <DigiCharacter size={26} mood={done ? 'happy' : 'idle'} />
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             DiGi, every two weeks
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '17.5px', color: 'var(--ink)', lineHeight: 1.35 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.35 }}>
             {done
               ? 'Lovely. DiGi will check in again in two weeks.'
               : question}
           </div>
           {!done && (
-            <div style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
+            <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
               A new phone, console or tablet? Set it up here, and give the settings a look so they still match their age.
             </div>
           )}
@@ -76,13 +76,13 @@ export default function DeviceSweepCard() {
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
           <button
             onClick={confirm}
-            style={{ padding: '11px 17px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
+            style={{ padding: '11px 17px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}
           >
             All checked
           </button>
           <button
             onClick={confirm}
-            style={{ padding: '11px 17px', borderRadius: '12px', border: '1.5px solid var(--border)', cursor: 'pointer', background: 'var(--cream)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '16px' }}
+            style={{ padding: '11px 17px', borderRadius: '12px', border: '1.5px solid var(--border)', cursor: 'pointer', background: 'var(--cream)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)' }}
           >
             Nothing new
           </button>

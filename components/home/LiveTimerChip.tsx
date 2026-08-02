@@ -97,10 +97,10 @@ export default function LiveTimerChip({ initial }: { initial?: Kid[] }) {
             borderRadius: '14px', padding: '10px 14px',
           }}>
             <span aria-hidden className="gc-live-dot" style={{ width: 9, height: 9, borderRadius: '50%', background: '#2F8F6B', flexShrink: 0 }} />
-            <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-body)', fontSize: '15.5px', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               {deviceEmoji(k.session!.device)} {k.name} has time running
             </span>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '17px', fontWeight: 700, color: '#236F52', fontVariantNumeric: 'tabular-nums' }}>
+            <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: '#236F52', fontVariantNumeric: 'tabular-nums' }}>
               {fmt(new Date(k.session!.ends_at).getTime() - now)}
             </span>
             <span aria-hidden style={{ color: 'var(--ink-muted)', fontWeight: 800, flexShrink: 0 }}>›</span>
@@ -117,9 +117,9 @@ export default function LiveTimerChip({ initial }: { initial?: Kid[] }) {
             background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
             borderRadius: '14px', padding: '9px 11px 9px 14px',
           }}>
-            <span aria-hidden style={{ fontSize: '18px', flexShrink: 0 }}>🙋</span>
+            <span aria-hidden style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>🙋</span>
             <Link href="/dashboard/quests" style={{ flex: 1, minWidth: 0, textDecoration: 'none' }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: '15.5px', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {k.name} is asking for {k.request!.minutes} min on the {deviceLabel(k.request!.device)}
               </span>
             </Link>
@@ -130,7 +130,7 @@ export default function LiveTimerChip({ initial }: { initial?: Kid[] }) {
                 flexShrink: 0, padding: '9px 18px', borderRadius: '12px', border: 'none',
                 cursor: (busy || sent) ? 'default' : 'pointer',
                 background: sent ? '#2F8F6B' : 'var(--terracotta)', color: sent ? '#fff' : 'var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                 boxShadow: sent ? 'none' : '0 3px 0 var(--terracotta-dark)', whiteSpace: 'nowrap',
               }}
             >

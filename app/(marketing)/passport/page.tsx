@@ -110,7 +110,7 @@ export default function PassportPage() {
                       {stage.id}
                     </span>
                     {isFinal && (
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--terracotta-dark)', textTransform: 'uppercase', marginTop: '2px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--terracotta-dark)', textTransform: 'uppercase', marginTop: '2px' }}>
                         Ready
                       </span>
                     )}
@@ -121,7 +121,7 @@ export default function PassportPage() {
                         {stage.name} · {stage.ages}
                       </span>
                       {heavy && (
-                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta)', color: '#fff', padding: '3px 9px', borderRadius: '100px' }}>
+                        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', background: 'var(--terracotta)', color: '#fff', padding: '3px 9px', borderRadius: '100px' }}>
                           Heavy training
                         </span>
                       )}

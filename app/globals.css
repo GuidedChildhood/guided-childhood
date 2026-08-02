@@ -1152,3 +1152,20 @@ body.gc-input-focused .rightnow-fab { display: none; }
     transform: rotate(45deg) !important;
   }
 }
+
+/* DiGi is thinking, on the moment card deck.
+   The card's opener waits on a DiGi call, and Justin found the wait reads as a
+   stalled screen: "takes a little while to populate, if we do take that long we
+   should update the thinking to user whilst it is thinking". There was already
+   a sentence saying so, but a paragraph that never moves reads as the content
+   rather than as a wait. Three dots on a stagger say it without words. */
+@keyframes momentThink {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40%           { opacity: 1;    transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Still visible, just still. Someone who asked for no motion should not lose
+     the signal that something is happening, only the movement. */
+  [style*="momentThink"] { animation: none !important; opacity: 0.55 !important; }
+}

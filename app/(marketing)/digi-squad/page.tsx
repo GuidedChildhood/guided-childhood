@@ -42,7 +42,7 @@ export default function DigiSquadPage() {
         <div style={{ position: 'absolute', bottom: '10%', left: '5%', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(175,220,162,.05)', pointerEvents: 'none' }} />
         <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <img src="/digi-squad/DiGi-star.svg" alt="DiGi" width={92} height={92} style={{ margin: '0 auto 20px', display: 'block', animation: 'gentleFloat 3.5s ease-in-out infinite' }} />
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(242,201,76,.14)', border: '1px solid rgba(242,201,76,.3)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '24px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'rgba(242,201,76,.14)', border: '1px solid rgba(242,201,76,.3)', borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '24px' }}>
             Meet the team
           </div>
           <h1 style={{ color: '#fff', fontSize: 'clamp(2.4rem, 6vw, 4rem)', lineHeight: 1.08, marginBottom: '20px' }}>
@@ -60,8 +60,8 @@ export default function DigiSquadPage() {
             {FRIENDS.map((f) => (
               <div key={f.key} style={{ background: 'rgba(255,255,255,.07)', border: '1px solid rgba(255,255,255,.12)', borderRadius: '16px', padding: '16px 18px', minWidth: '132px', textAlign: 'center' }}>
                 <img src={f.img} alt={f.name} width={64} height={64} style={{ borderRadius: '50%', objectFit: 'cover', margin: '0 auto 8px', display: 'block', border: `2px solid ${f.colour}` }} />
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: '#fff', fontSize: '1rem' }}>{f.name}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)', marginTop: '4px' }}>{f.ages}</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, color: '#fff', fontSize: 'var(--text-md)' }}>{f.name}</div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,.5)', marginTop: '4px' }}>{f.ages}</div>
               </div>
             ))}
           </div>
@@ -83,7 +83,7 @@ export default function DigiSquadPage() {
                 <div style={{ background: `${f.colour}12`, border: `2px solid ${f.colour}`, borderRadius: '20px', padding: '40px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
                   <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '120px', height: '120px', borderRadius: '50%', background: `${f.colour}18`, pointerEvents: 'none' }} />
                   <img src={f.img} alt={f.name} width={168} height={168} style={{ borderRadius: '50%', objectFit: 'cover', margin: '0 auto 18px', display: 'block', border: `3px solid ${f.colour}`, boxShadow: '0 8px 24px rgba(0,0,0,.12)' }} />
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: f.colour, marginBottom: '8px' }}>Stage {f.stageId} · {f.ages}</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: f.colour, marginBottom: '8px' }}>Stage {f.stageId} · {f.ages}</div>
                   <h2 style={{ fontSize: 'clamp(2rem, 4vw, 2.6rem)', marginBottom: '4px', color: 'var(--ink)' }}>{f.name}</h2>
                   <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.78rem', fontWeight: 600, color: f.colour }}>{f.action}</div>
                 </div>
@@ -93,11 +93,11 @@ export default function DigiSquadPage() {
               <div style={{ order: i % 2 === 0 ? 1 : 0 }}>
                 <p className="eyebrow" style={{ marginBottom: '12px' }}>Meet {f.name} · {f.ages}</p>
                 <h2 style={{ marginBottom: '16px' }}>{f.blurb}</h2>
-                <p style={{ color: 'var(--ink-soft)', fontSize: '1.05rem', lineHeight: 1.7, marginBottom: '24px' }}>
+                <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', lineHeight: 1.7, marginBottom: '24px' }}>
                   {f.name} is the Planet Friend for {f.role}. Earn {f.name} on the way to Stage {f.stageId}, and DiGi and {f.name} take that part of the journey together.
                 </p>
                 <div style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px 18px', marginBottom: '28px' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>{f.name} says</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>{f.name} says</div>
                   <p style={{ color: 'var(--ink)', fontSize: '.98rem', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>{f.intro}</p>
                 </div>
                 <Link href="/starter-pack" className="btn btn-ink" style={{ fontSize: '.78rem', padding: '12px 24px' }}>
@@ -117,7 +117,7 @@ export default function DigiSquadPage() {
             <img src="/digi-squad/DiGi-star.svg" alt="DiGi" width={72} height={72} style={{ margin: '0 auto 16px', display: 'block' }} />
             <p className="eyebrow" style={{ color: 'var(--gold)', marginBottom: '12px' }}>The guide</p>
             <h2 style={{ color: '#fff', marginBottom: '16px' }}>DiGi is with your child the whole way</h2>
-            <p style={{ color: 'rgba(255,255,255,.6)', fontSize: '1.05rem', maxWidth: '540px', margin: '0 auto', lineHeight: 1.65 }}>
+            <p style={{ color: 'rgba(255,255,255,.6)', fontSize: 'var(--text-md)', maxWidth: '540px', margin: '0 auto', lineHeight: 1.65 }}>
               DiGi the star never changes as your child grows. DiGi introduces each Planet Friend, explains what your child just learned, and always answers with a calm next step for their exact age, never a flat yes or no.
             </p>
           </div>
@@ -130,17 +130,17 @@ export default function DigiSquadPage() {
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
             <p className="eyebrow" style={{ marginBottom: '12px' }}>How it works</p>
             <h2>Designed for kids. Guided by parents.</h2>
-            <p style={{ color: 'var(--ink-soft)', fontSize: '1.05rem', maxWidth: '540px', margin: '16px auto 0', lineHeight: 1.65 }}>
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', maxWidth: '540px', margin: '16px auto 0', lineHeight: 1.65 }}>
               Short lessons with DiGi and the Planet Friends. Each one takes under five minutes and comes with a family conversation starter, so parents and children learn together.
             </p>
           </div>
           <div className="three-col">
             {STEPS.map((item) => (
               <div key={item.step} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '28px', borderTop: '4px solid var(--gold-dark)' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '12px', background: item.bg, display: 'inline-block', padding: '4px 10px', borderRadius: '100px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '12px', background: item.bg, display: 'inline-block', padding: '4px 10px', borderRadius: '100px' }}>
                   Step {item.step}
                 </div>
-                <h3 style={{ fontSize: '1.15rem', marginBottom: '12px' }}>{item.title}</h3>
+                <h3 style={{ fontSize: 'var(--text-lg)', marginBottom: '12px' }}>{item.title}</h3>
                 <p style={{ color: 'var(--ink-soft)', fontSize: '.9rem', lineHeight: 1.65, margin: 0 }}>{item.desc}</p>
               </div>
             ))}
@@ -171,7 +171,7 @@ export default function DigiSquadPage() {
                 <img src="/digi-squad/DiGi-star.svg" alt="DiGi" width={40} height={40} />
                 <div>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.9rem', color: 'var(--ink)' }}>DiGi</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold-dark)' }}>After today&rsquo;s lesson with Bloop</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold-dark)' }}>After today&rsquo;s lesson with Bloop</div>
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -188,7 +188,7 @@ export default function DigiSquadPage() {
                   </div>
                 </div>
                 <div style={{ background: 'var(--stage-2)', border: '1px solid var(--stage-2)', borderRadius: '10px', padding: '14px 16px' }}>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '9px', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '8px' }}>Why this matters · Stage 2 · Ages 8 to 10</div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '8px' }}>Why this matters · Stage 2 · Ages 8 to 10</div>
                   <p style={{ fontSize: '.82rem', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
                     Children who can name what is happening in their brain are far better at steadying themselves. Bloop makes that naming feel like a game, not a lecture.
                   </p>
@@ -207,7 +207,7 @@ export default function DigiSquadPage() {
           <h2 style={{ color: '#fff', marginBottom: '20px' }}>
             DiGi and Pebble are waiting.<br />First lesson is free.
           </h2>
-          <p style={{ color: 'rgba(255,255,255,.85)', fontSize: '1.05rem', maxWidth: '480px', margin: '0 auto 36px', lineHeight: 1.65 }}>
+          <p style={{ color: 'rgba(255,255,255,.85)', fontSize: 'var(--text-md)', maxWidth: '480px', margin: '0 auto 36px', lineHeight: 1.65 }}>
             Get your child&rsquo;s stage, their first Planet Friend, and the first lesson free with the starter pack. No account required.
           </p>
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>

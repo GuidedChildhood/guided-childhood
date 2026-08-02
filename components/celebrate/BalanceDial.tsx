@@ -58,7 +58,7 @@ export default function BalanceDial({
       marginBottom: '14px', border: '1.5px solid rgba(26,26,46,0.06)',
       display: 'flex', flexDirection: 'column', alignItems: 'center',
     }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>
         Your balance today
       </div>
 
@@ -73,18 +73,18 @@ export default function BalanceDial({
       </svg>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', width: '186px', marginTop: '-6px', marginBottom: '8px' }}>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Off screen</span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Screen</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Off screen</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Screen</span>
       </div>
 
-      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)', letterSpacing: '-0.02em', textAlign: 'center' }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.02em', textAlign: 'center' }}>
         {headline}
       </div>
-      <div style={{ fontFamily: 'var(--font-body)', fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.45, textAlign: 'center', margin: '3px 6px 0', maxWidth: 260 }}>
+      <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, textAlign: 'center', margin: '3px 6px 0', maxWidth: 260 }}>
         {sub}
       </div>
       <span style={{
-        fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
         color: tone, background: inGreen ? '#E8F4EE' : '#FBEEDF', borderRadius: '100px', padding: '4px 11px', marginTop: '9px',
       }}>
         {inGreen ? 'In the green' : 'Tip it back'}

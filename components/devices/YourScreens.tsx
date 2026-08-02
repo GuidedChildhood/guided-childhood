@@ -51,7 +51,7 @@ const CARD: React.CSSProperties = {
 
 const LINK_BTN: React.CSSProperties = {
   background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0,
-  fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   color: 'var(--terracotta)', letterSpacing: '0.04em', padding: '4px 2px',
 }
 
@@ -153,17 +153,17 @@ export default function YourScreens({
   return (
     <div style={CARD}>
       <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 6, flexWrap: 'wrap' }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)', margin: 0, letterSpacing: '-0.02em' }}>
+        <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: 0, letterSpacing: '-0.02em' }}>
           The screens in your home
         </h2>
         {live.length > 0 && (
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: doneCount === live.length ? 'var(--retro-green)' : 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: doneCount === live.length ? 'var(--retro-green)' : 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
             {doneCount} of {live.length} set up
           </span>
         )}
       </div>
 
-      <p style={{ fontSize: 16, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
         {live.length === 0
           ? `Add what you actually have and each one arrives with its own settings guide, matched to ${name ? `${name}'s` : 'your child’s'} age. Nothing here is a rule, it is what most families set.`
           : 'Tap any screen to walk through its settings. Mark it set up and it ticks off here.'}
@@ -187,14 +187,14 @@ export default function YourScreens({
               }}>
                 {editing === d.id ? (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 11, padding: '11px 13px' }}>
-                    <span aria-hidden style={{ fontSize: 21, lineHeight: 1, flexShrink: 0 }}>{deviceIcon(d)}</span>
+                    <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>{deviceIcon(d)}</span>
                     <input
                       className="input"
                       value={draft}
                       autoFocus
                       onChange={e => setDraft(e.target.value.slice(0, 60))}
                       onKeyDown={e => { if (e.key === 'Enter' && draft.trim()) { patch(d.id, { label: draft }); setEditing(null) } }}
-                      style={{ flex: 1, minWidth: 0, fontSize: 16, padding: '8px 12px' }}
+                      style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', padding: '8px 12px' }}
                     />
                     <button type="button" onClick={() => { if (draft.trim()) patch(d.id, { label: draft }); setEditing(null) }} style={LINK_BTN}>
                       Save
@@ -211,15 +211,15 @@ export default function YourScreens({
                         cursor: guide ? 'pointer' : 'default', textAlign: 'left',
                       }}
                     >
-                      <span aria-hidden style={{ fontSize: 21, lineHeight: 1, flexShrink: 0 }}>{deviceIcon(d)}</span>
+                      <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>{deviceIcon(d)}</span>
                       <span style={{ flex: 1, minWidth: 0 }}>
-                        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 17, color: 'var(--ink)', lineHeight: 1.2 }}>
+                        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
                           {d.label}
                         </span>
                         {/* The status a parent came here to read, on the row,
                             the way every setup checklist worth copying does it. */}
                         <span style={{
-                          display: 'block', fontFamily: 'var(--font-mono)', fontSize: 12.5,
+                          display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
                           letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: 2,
                           color: done ? 'var(--retro-green)' : 'var(--terracotta-dark)',
                         }}>
@@ -227,7 +227,7 @@ export default function YourScreens({
                         </span>
                       </span>
                       {guide && (
-                        <span aria-hidden style={{ fontSize: 16, color: 'var(--ink-light)', flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
+                        <span aria-hidden style={{ fontSize: 'var(--text-md)', color: 'var(--ink-light)', flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▾</span>
                       )}
                     </button>
 
@@ -271,7 +271,7 @@ export default function YourScreens({
           insist, so each one can be waved away and nothing counts down. */}
       {suggestions.length > 0 && !picking && (
         <div style={{ marginBottom: 14 }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', margin: '0 0 9px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', margin: '0 0 9px' }}>
             {live.length === 0 ? 'Most families have these' : `Also common at ${childAge}`}
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -299,13 +299,13 @@ export default function YourScreens({
                       opacity: busy ? 0.5 : 1,
                     }}
                   >
-                    <span aria-hidden style={{ fontSize: 21, lineHeight: 1, flexShrink: 0, opacity: 0.65 }}>{s.emoji}</span>
+                    <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0, opacity: 0.65 }}>{s.emoji}</span>
                     <span style={{ flex: 1, minWidth: 0 }}>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.2 }}>
+                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.2 }}>
                         {s.label}
                       </span>
                       {sub && (
-                        <span style={{ display: 'block', fontSize: 13.5, color: 'var(--ink-muted)', lineHeight: 1.35, marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.35, marginTop: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                           {sub}
                         </span>
                       )}
@@ -314,7 +314,7 @@ export default function YourScreens({
                       flexShrink: 0, width: 26, height: 26, borderRadius: '50%',
                       border: '1.5px solid var(--terracotta)', color: 'var(--terracotta)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16, lineHeight: 1,
+                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', lineHeight: 1,
                     }}>
                       +
                     </span>
@@ -332,7 +332,7 @@ export default function YourScreens({
                       setDismissed(prev => new Set(prev).add(s.label))
                       if (s.guideKey) onNotOwned(s.guideKey)
                     }}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-light)', fontSize: 15, padding: '10px 6px', flexShrink: 0, lineHeight: 1 }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ink-light)', fontSize: 'var(--text-base)', padding: '10px 6px', flexShrink: 0, lineHeight: 1 }}
                   >
                     ✕
                   </button>
@@ -347,7 +347,7 @@ export default function YourScreens({
           the whole catalogue. */}
       {picking ? (
         <div style={{ border: '1.5px dashed var(--border)', borderRadius: 14, padding: '13px 13px 10px' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 12.5, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', margin: '0 0 10px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', margin: '0 0 10px' }}>
             What arrived?
           </p>
           <input
@@ -355,7 +355,7 @@ export default function YourScreens({
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Search iPhone, Xbox, Fire tablet, Switch"
-            style={{ marginBottom: 12, fontSize: 16 }}
+            style={{ marginBottom: 12, fontSize: 'var(--text-md)' }}
           />
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 10 }}>
             {pickList.map(s => (
@@ -368,17 +368,17 @@ export default function YourScreens({
                   display: 'flex', alignItems: 'center', gap: 6,
                   border: '1.5px solid var(--border)', borderRadius: 100,
                   background: '#fff', padding: '8px 13px', cursor: busy ? 'default' : 'pointer',
-                  fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 15, color: 'var(--ink)',
+                  fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink)',
                   opacity: busy ? 0.5 : 1,
                 }}
               >
-                <span aria-hidden style={{ fontSize: 15, lineHeight: 1 }}>{s.emoji}</span>
+                <span aria-hidden style={{ fontSize: 'var(--text-base)', lineHeight: 1 }}>{s.emoji}</span>
                 {s.label}
               </button>
             ))}
           </div>
           {pickList.length === 0 && (
-            <p style={{ fontSize: 15, color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 10px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 10px' }}>
               Nothing matching. Every guide we publish is at the bottom of this page, and DiGi can walk you through anything that is not listed.
             </p>
           )}
@@ -394,7 +394,7 @@ export default function YourScreens({
             width: '100%', padding: '13px 16px', borderRadius: 16,
             border: '2px solid var(--terracotta)', background: '#fff',
             color: 'var(--terracotta)', cursor: 'pointer',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 16.5,
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
           }}
         >
           + Add a device
@@ -415,7 +415,7 @@ export default function YourScreens({
                   onClick={() => patch(d.id, { retired: false })}
                   style={{
                     border: '1.5px solid var(--border)', borderRadius: 100, background: 'var(--cream)',
-                    padding: '7px 12px', cursor: 'pointer', fontSize: 14.5, color: 'var(--ink-soft)',
+                    padding: '7px 12px', cursor: 'pointer', fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
                   }}
                 >
                   {d.label} · put back

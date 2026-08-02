@@ -36,7 +36,7 @@ export default function AnnouncementBar() {
         style={{
           background: 'none',
           border: 'none',
-          fontSize: '1.1rem',
+          fontSize: 'var(--text-lg)',
           cursor: 'pointer',
           color: 'rgba(255,255,255,.7)',
           padding: '0 2px',

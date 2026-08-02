@@ -46,10 +46,10 @@ export default function EmailCheck() {
       padding: '20px 22px', maxWidth: 640, margin: '0 auto',
     }}>
       <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '0 0 6px' }}>Email check</p>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: 'var(--ink)', margin: '0 0 8px', lineHeight: 1.15 }}>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 8px', lineHeight: 1.15 }}>
         Does a keepsake signup reach you?
       </h2>
-      <p style={{ fontSize: 16.5, color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
         Sends one real test email through the same path a coming soon signup uses, from this exact deployment, and says plainly what happened.
       </p>
 
@@ -59,7 +59,7 @@ export default function EmailCheck() {
         style={{
           background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16,
           padding: '14px 24px', cursor: state === 'sending' ? 'wait' : 'pointer',
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17.5,
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
           boxShadow: '0 5px 0 var(--terracotta-dark)', opacity: state === 'sending' ? 0.7 : 1,
         }}
       >
@@ -67,7 +67,7 @@ export default function EmailCheck() {
       </button>
 
       {state === 'done' && failed && (
-        <p role="alert" style={{ fontSize: 16, fontWeight: 700, color: 'var(--terracotta-dark)', margin: '16px 0 0', lineHeight: 1.5 }}>
+        <p role="alert" style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--terracotta-dark)', margin: '16px 0 0', lineHeight: 1.5 }}>
           The check itself could not run. Make sure you are signed in on this deployment, then try again.
         </p>
       )}
@@ -78,15 +78,15 @@ export default function EmailCheck() {
           background: good ? 'var(--tint-green)' : 'var(--terracotta-lt)',
           border: `1.5px solid ${good ? '#9CC3B4' : 'var(--terracotta)'}`,
         }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, color: 'var(--ink)', marginBottom: 4 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: 4 }}>
             {good ? 'Sent' : 'Not sent'}
           </div>
-          <p style={{ fontSize: 16, color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 10px' }}>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 10px' }}>
             {result.message}
           </p>
           {/* The two addresses involved, because a notification going to the
               wrong inbox looks exactly like one that never sent. */}
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13.5, color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
             To: {result.to}<br />
             From: {result.from}
           </p>

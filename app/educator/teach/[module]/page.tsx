@@ -39,7 +39,7 @@ export default async function TeachLessonPage({ params }: { params: Promise<{ mo
     <main style={{ minHeight: '100vh', background: 'var(--cream)' }}>
       <div style={{ maxWidth: '720px', margin: '0 auto', padding: '28px 20px 0' }}>
         <div style={{
-          fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700,
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
           letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
           marginBottom: '8px',
         }}>

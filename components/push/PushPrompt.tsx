@@ -342,14 +342,14 @@ export default function PushPrompt({ userId, stage }: Props) {
         fontWeight: 600,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '1rem' }}>✓</span>
+          <span style={{ fontSize: 'var(--text-md)' }}>✓</span>
           <span style={{ flex: 1, minWidth: '180px' }}>Check ins are on. Pick the moments that suit your day.</span>
           <button
             onClick={() => sendTest()}
             style={{
               background: 'none', border: '1.5px solid var(--border)', borderRadius: '10px',
               padding: '7px 14px', cursor: 'pointer', flexShrink: 0,
-              fontFamily: 'var(--font-mono)', fontSize: '13px', fontWeight: 700, color: 'var(--ink-soft)',
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)',
             }}
           >
             Send a test
@@ -385,7 +385,7 @@ export default function PushPrompt({ userId, stage }: Props) {
           disabled={resetting}
           style={{
             background: 'none', border: 'none', cursor: resetting ? 'wait' : 'pointer', padding: 0, marginTop: '10px',
-            fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
             color: 'var(--ink-muted)', textDecoration: 'underline',
           }}
         >
@@ -477,7 +477,7 @@ export default function PushPrompt({ userId, stage }: Props) {
       boxShadow: '0 6px 20px rgba(224,122,63,0.16)',
     }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11.5px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
           Important step
         </div>
         {/* Not now. An important step a parent has read and decided against is
@@ -490,7 +490,7 @@ export default function PushPrompt({ userId, stage }: Props) {
           style={{
             flexShrink: 0, width: 28, height: 28, borderRadius: 9,
             border: '1px solid var(--border)', background: 'transparent',
-            color: 'var(--ink-muted)', fontSize: 15, lineHeight: 1,
+            color: 'var(--ink-muted)', fontSize: 'var(--text-base)', lineHeight: 1,
             display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
           }}
         >
@@ -499,7 +499,7 @@ export default function PushPrompt({ userId, stage }: Props) {
       </div>
       <p style={{
         fontFamily: 'var(--font-display)',
-        fontSize: '1rem',
+        fontSize: 'var(--text-md)',
         fontWeight: 800,
         color: 'var(--ink)',
         marginBottom: '6px',
@@ -593,7 +593,7 @@ function NudgeSlots() {
             onClick={() => toggle(o.key)}
             aria-pressed={on}
             style={{
-              fontFamily: 'var(--font-mono)', fontSize: '12.5px', fontWeight: 700,
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '0.04em', borderRadius: '100px', padding: '7px 13px',
               cursor: 'pointer', transition: 'all 0.12s',
               background: on ? 'var(--terracotta)' : '#fff',

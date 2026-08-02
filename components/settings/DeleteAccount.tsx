@@ -42,10 +42,10 @@ export default function DeleteAccount() {
 
   return (
     <section style={{ marginTop: '32px', paddingTop: '20px', borderTop: '1.5px solid var(--border)' }}>
-      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '17px', color: 'var(--ink)', margin: '0 0 6px' }}>
+      <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 6px' }}>
         Delete my account
       </h2>
-      <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 12px' }}>
         This removes everything: your children, their jobs and stars, the passport, anything you have recorded about how they are doing, and the whole conversation with DiGi. It cannot be undone and we cannot get it back for you.
       </p>
 
@@ -55,14 +55,14 @@ export default function DeleteAccount() {
           style={{
             background: 'none', border: '1.5px solid var(--border)', borderRadius: '14px',
             padding: '10px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
-            fontSize: '15px', fontWeight: 600, color: 'var(--terracotta-dark)',
+            fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--terracotta-dark)',
           }}
         >
           Delete my account
         </button>
       ) : (
         <div style={{ background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '15px' }}>
-          <label htmlFor="confirm-delete" style={{ display: 'block', fontSize: '15px', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '10px' }}>
+          <label htmlFor="confirm-delete" style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, marginBottom: '10px' }}>
             Type <strong>DELETE</strong> to confirm.
           </label>
           <input
@@ -73,7 +73,7 @@ export default function DeleteAccount() {
             style={{
               width: '100%', padding: '12px 14px', borderRadius: '12px',
               border: '1.5px solid var(--border)', background: 'var(--cream)',
-              fontFamily: 'var(--font-body)', fontSize: '16px', color: 'var(--ink)', outline: 'none',
+              fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
             }}
           />
           <div style={{ display: 'flex', gap: '10px', marginTop: '12px', flexWrap: 'wrap' }}>
@@ -83,7 +83,7 @@ export default function DeleteAccount() {
               style={{
                 background: ready ? 'var(--terracotta)' : 'var(--border)', border: 'none',
                 borderRadius: '12px', padding: '11px 18px', cursor: ready && !busy ? 'pointer' : 'default',
-                fontFamily: 'var(--font-display)', fontSize: '15px', fontWeight: 800, color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
               }}
             >
               {busy ? 'Deleting' : 'Delete everything'}
@@ -93,14 +93,14 @@ export default function DeleteAccount() {
               style={{
                 background: 'none', border: '1.5px solid var(--border)', borderRadius: '12px',
                 padding: '11px 18px', cursor: 'pointer', fontFamily: 'var(--font-body)',
-                fontSize: '15px', fontWeight: 600, color: 'var(--ink-soft)',
+                fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)',
               }}
             >
               Keep my account
             </button>
           </div>
           {error && (
-            <p role="status" style={{ fontSize: '14.5px', color: 'var(--terracotta-dark)', fontWeight: 600, margin: '10px 0 0', lineHeight: 1.5 }}>
+            <p role="status" style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 600, margin: '10px 0 0', lineHeight: 1.5 }}>
               {error}
             </p>
           )}

@@ -43,7 +43,7 @@ const SECTION_LINE: React.CSSProperties = {
   flex: 1, height: 0, borderTop: '1.5px dashed rgba(26,26,46,0.16)',
 }
 const SECTION_TEXT: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.12em', textTransform: 'uppercase',
   color: 'var(--terracotta-dark)', whiteSpace: 'nowrap',
 }
@@ -561,12 +561,12 @@ export default function KidPath({
   })
   const label: React.CSSProperties = {
     marginTop: 8, maxWidth: 150, textAlign: 'center',
-    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 13.5,
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
     color: 'var(--ink)', lineHeight: 1.25,
   }
   const sub: React.CSSProperties = {
     marginTop: 3, maxWidth: 150, textAlign: 'center',
-    fontFamily: 'var(--font-mono)', fontSize: 9.5, fontWeight: 700,
+    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
     letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--ink-muted)',
   }
   const column: React.CSSProperties = { display: 'flex', flexDirection: 'column', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'none' }
@@ -594,10 +594,10 @@ export default function KidPath({
       `}</style>
       <div style={{ maxWidth: '520px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', gap: '10px' }}>
-          <Link href={`/k/${token}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15px', color: 'var(--ink-soft)', textDecoration: 'none' }}>
+          <Link href={`/k/${token}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', textDecoration: 'none' }}>
             ← My quests
           </Link>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '100px', padding: '5px 12px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '100px', padding: '5px 12px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
             ⭐ {bankStars} in the bank
           </span>
         </div>
@@ -606,13 +606,13 @@ export default function KidPath({
             digital literacy passport with a stamp for every safety lesson
             passed, the same count the grown up's progress report shows. */}
         <div style={{ background: '#fff', borderRadius: '22px', padding: '16px 18px', marginBottom: '14px', boxShadow: '0 5px 0 rgba(26,26,46,0.12)', border: '1.5px solid var(--border)' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '3px' }}>
             Stage {stageId} of 5 · {stageName} · ages {ages}
           </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.5rem', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.12 }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.12 }}>
             Your pathway to safe content use
           </div>
-          <div style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '13.5px', color: 'var(--ink-soft)', marginTop: 4, lineHeight: 1.4 }}>
+          <div style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 4, lineHeight: 1.4 }}>
             {stageId === 1
               ? `Do this one together on the iPad, ${childName}. Stop and come back any time, it is always here.`
               : `Come back any time, ${childName}. Your pathway saves itself and never disappears.`}
@@ -624,8 +624,8 @@ export default function KidPath({
           {stampsTotal > 0 && (
             <div style={{ marginTop: 12, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 16, padding: '11px 13px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-                <span aria-hidden style={{ fontSize: 15 }}>🪪</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+                <span aria-hidden style={{ fontSize: 'var(--text-base)' }}>🪪</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
                   Digital literacy passport · {stampsEarned} of {stampsTotal} stamps
                 </span>
               </div>
@@ -636,7 +636,7 @@ export default function KidPath({
                     <span key={i} aria-hidden style={{
                       width: 22, height: 22, borderRadius: '50%', flexShrink: 0,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: 12, lineHeight: 1,
+                      fontSize: 'var(--text-sm)', lineHeight: 1,
                       background: filled ? 'var(--terracotta)' : 'transparent',
                       border: filled ? 'none' : '1.5px dashed rgba(26,26,46,0.28)',
                       color: 'var(--ink)', boxShadow: filled ? '0 2px 0 var(--terracotta-dark)' : 'none',
@@ -646,7 +646,7 @@ export default function KidPath({
                   )
                 })}
               </div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: 8 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: 8 }}>
                 {stampsEarned >= stampsTotal
                   ? `Passport full! Every ${stageName} lesson passed 🎉`
                   : `Pass a lesson to earn the next stamp. Final stamp: ${stamp}`}
@@ -663,7 +663,7 @@ export default function KidPath({
             <div style={{ height: 10, borderRadius: 100, background: 'rgba(26,26,46,0.10)', overflow: 'hidden' }}>
               <div style={{ height: '100%', width: `${Math.round(childFrac * 100)}%`, borderRadius: 100, background: 'var(--terracotta)', transition: 'width 0.5s ease' }} />
             </div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10.5, fontWeight: 700, color: 'var(--ink-muted)', marginTop: 5 }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginTop: 5 }}>
               {todayAllDone
                 ? 'All your jobs done today ⭐'
                 : `${jobsDoneToday} of ${jobs.length} jobs done today`}
@@ -673,7 +673,7 @@ export default function KidPath({
         </div>
 
         {toast && (
-          <div style={{ position: 'sticky', top: 10, zIndex: 20, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '11px 15px', marginBottom: 14, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15, textAlign: 'center', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+          <div style={{ position: 'sticky', top: 10, zIndex: 20, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '11px 15px', marginBottom: 14, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', textAlign: 'center', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
             {toast}
           </div>
         )}
@@ -712,8 +712,8 @@ export default function KidPath({
               node = (
                 <button onClick={() => tickJob(j)} disabled={done || busy} style={column}>
                   <span style={shell({ bg: j.state === 'done' ? 'var(--tint-sage)' : j.state === 'waiting' ? '#FFF7E0' : '#fff', dim: done, pulse: isCurrent })}>
-                    <span style={{ fontSize: 32, lineHeight: 1 }}>{j.state === 'done' ? '✓' : j.emoji}</span>
-                    {j.state === 'waiting' && <span style={{ fontSize: 15, marginTop: 1 }}>⏳</span>}
+                    <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }}>{j.state === 'done' ? '✓' : j.emoji}</span>
+                    {j.state === 'waiting' && <span style={{ fontSize: 'var(--text-base)', marginTop: 1 }}>⏳</span>}
                   </span>
                   {/* When, in the child's own words.
                       The band has always existed and has always fired the
@@ -730,7 +730,7 @@ export default function KidPath({
                   {!done && (
                     <span style={{
                       display: 'inline-block', marginTop: 5,
-                      fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700,
+                      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                       letterSpacing: '0.08em', textTransform: 'uppercase',
                       color: 'var(--ink-soft)', background: 'var(--cream)',
                       border: '1.5px solid var(--border)', borderRadius: 100,
@@ -751,8 +751,8 @@ export default function KidPath({
               node = (
                 <Link href={`/k/${token}/lessons/${l.id}`} onClick={() => playKidSound('tap')} style={column}>
                   <span style={shell({ bg: l.done ? 'var(--terracotta)' : 'var(--cream)', dim: !l.done && !isCurrent, pulse: isCurrent })}>
-                    <span style={{ fontSize: 34, lineHeight: 1 }}>{l.done ? '⭐' : l.locked ? '🔒' : l.emoji}</span>
-                    {l.done && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700, color: 'var(--ink)', marginTop: 2 }}>+2 ⚡ leap</span>}
+                    <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }}>{l.done ? '⭐' : l.locked ? '🔒' : l.emoji}</span>
+                    {l.done && <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', marginTop: 2 }}>+2 ⚡ leap</span>}
                   </span>
                   <span style={label}>{l.title}</span>
                   <span style={sub}>
@@ -765,7 +765,7 @@ export default function KidPath({
               node = (
                 <button onClick={openChest} disabled={busy} style={column}>
                   <span style={shell({ bg: chestClaimed ? 'var(--tint-sage)' : openable ? 'var(--terracotta-lt)' : 'var(--cream)', border: openable ? '3px solid var(--terracotta)' : undefined, dim: chestClaimed, pulse: isCurrent })}>
-                    <span style={{ fontSize: 34, lineHeight: 1 }}>{chestClaimed ? '⭐' : '🎁'}</span>
+                    <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }}>{chestClaimed ? '⭐' : '🎁'}</span>
                   </span>
                   <span style={label}>{chestClaimed ? 'Star claimed' : 'Claim your star'}</span>
                   <span style={sub}>{chestClaimed ? '+1 star banked' : openable ? 'Tap to claim!' : 'Tick a job to claim'}</span>
@@ -783,7 +783,7 @@ export default function KidPath({
                         means is that a grown up has not looked yet. The today
                         list already used ⏳ for exactly this state, so the two
                         screens now say the same thing the same way. */}
-                    <span style={{ fontSize: 34, lineHeight: 1 }}>{st === 'confirmed' ? '✓' : st === 'pending' ? '⏳' : '🖍️'}</span>
+                    <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }}>{st === 'confirmed' ? '✓' : st === 'pending' ? '⏳' : '🖍️'}</span>
                   </span>
                   <span style={label}>{p.title}</span>
                   <span style={sub}>
@@ -811,7 +811,7 @@ export default function KidPath({
               node = (
                 <a href={`/k/${token}?tab=games`} onClick={() => { markFound(`game_${stone.game.key}`); playKidSound('tap') }} style={column}>
                   <span style={shell({ bg: 'var(--tint-blue, #E4ECF7)', dim: gameDone, pulse: isCurrent })}>
-                    <span style={{ fontSize: 34, lineHeight: 1 }}>{stone.game.emoji || '🎮'}</span>
+                    <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }}>{stone.game.emoji || '🎮'}</span>
                   </span>
                   <span style={label}>{stone.game.title}</span>
                   <span style={sub}>{gameDone ? 'Played today ✓' : 'Learning game'}</span>
@@ -822,7 +822,7 @@ export default function KidPath({
               node = (
                 <a href={`/k/${token}#my-todo`} onClick={() => { markFound('reading'); playKidSound('tap') }} style={column}>
                   <span style={shell({ bg: 'var(--cream)', dim: readDone, pulse: isCurrent })}>
-                    <span style={{ fontSize: 34, lineHeight: 1 }}>📚</span>
+                    <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }}>📚</span>
                   </span>
                   <span style={label}>Twenty minutes lost in a book</span>
                   <span style={sub}>{readDone ? 'On it today ✓' : 'A big star job'}</span>
@@ -834,7 +834,7 @@ export default function KidPath({
               node = (
                 <button onClick={() => { markFound(`tip_${t.key}`); setViewTip(t); playKidSound('tap') }} style={column}>
                   <span style={shell({ bg: tipDone ? 'var(--tint-sage)' : '#FFF7E0', dim: tipDone, pulse: isCurrent })}>
-                    <span style={{ fontSize: 34, lineHeight: 1 }}>{tipDone ? '✓' : t.emoji}</span>
+                    <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }}>{tipDone ? '✓' : t.emoji}</span>
                   </span>
                   <span style={label}>{t.title}</span>
                   <span style={sub}>{tipDone ? 'Read today ✓' : `DiGi tip · ${t.tag}`}</span>
@@ -844,7 +844,7 @@ export default function KidPath({
               node = (
                 <div style={{ ...column, cursor: 'default' }}>
                   <span style={shell({ bg: 'var(--cream)', dim: true })}>
-                    <span style={{ fontSize: 30, lineHeight: 1, filter: 'grayscale(1)', opacity: 0.55 }}>🔒</span>
+                    <span style={{ fontSize: 'var(--text-2xl)', lineHeight: 1, filter: 'grayscale(1)', opacity: 0.55 }}>🔒</span>
                   </span>
                   <span style={{ ...label, color: 'var(--ink-muted)' }}>{stone.label}</span>
                   <span style={sub}>{stone.sub}</span>
@@ -854,7 +854,7 @@ export default function KidPath({
               node = (
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <span style={shell({ bg: allPathDone ? 'var(--terracotta)' : 'var(--cream)', dim: !allPathDone, pulse: allPathDone })}>
-                    <span style={{ fontSize: 34, lineHeight: 1 }}>🪪</span>
+                    <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }}>🪪</span>
                   </span>
                   <span style={label}>The {stamp} stamp</span>
                   <span style={sub}>{allPathDone ? 'Path complete today! ⭐' : 'Waiting at the end of the path'}</span>
@@ -906,7 +906,7 @@ export default function KidPath({
                         position: 'absolute', top: 0, left: '50%',
                         animation: 'gcStartBob 1.4s ease-in-out infinite',
                         background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 12,
-                        padding: '5px 13px', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700,
+                        padding: '5px 13px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
                         boxShadow: '0 3px 0 rgba(26,26,46,0.12)', whiteSpace: 'nowrap', zIndex: 2,
                       }}>
@@ -920,7 +920,7 @@ export default function KidPath({
                       <span aria-hidden style={{
                         position: 'absolute', top: (isCurrent ? 34 : 0) - 1, left: '50%', transform: 'translateX(20px)',
                         width: 26, height: 26, borderRadius: '50%', background: '#2F8F6B', color: '#fff',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 900,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-base)', fontWeight: 900,
                         border: '2.5px solid var(--warm-bg, #F7F3EE)', boxShadow: '0 2px 0 rgba(26,26,46,0.18)', zIndex: 3,
                       }}>✓</span>
                     )}
@@ -939,7 +939,7 @@ export default function KidPath({
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 26, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18, padding: '14px 16px', boxShadow: '0 4px 0 rgba(26,26,46,0.10)' }}>
           <DigiCharacter mood="wave" size={44} once />
-          <p style={{ fontSize: '14.5px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             {stageId === 1
               ? `Do this together on the iPad, ${childName}. Tap the lit stone with your grown up, then the next one wakes up. Stop whenever you like, your pathway waits right here for next time.`
               : `Do the lit stone, ${childName}, then the next one lights up. Pass a lesson to stamp your passport and leap ahead. Stop and come back any time, your pathway is always here and never disappears.`}
@@ -959,15 +959,15 @@ export default function KidPath({
         <div onClick={() => setPathComplete(false)} style={{ position: 'fixed', inset: 0, zIndex: 135, background: 'rgba(26,26,46,0.55)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
           <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 420, background: 'var(--cream)', borderRadius: 26, padding: '30px 24px', boxShadow: '0 24px 60px -16px rgba(0,0,0,0.55)', textAlign: 'center' }}>
             <div style={{ fontSize: 64, lineHeight: 1, marginBottom: 10, display: 'inline-block', animation: 'gcChestPop 0.7s ease-out' }}>🏁</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: 8 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: 8 }}>
               Path complete, {childName}!
             </div>
-            <p style={{ fontSize: '16px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
               Every stone on today&apos;s path, done. 3 bonus stars are landing in your bank, that is {3 * STAR_MINUTES} more minutes of screen time whenever you want them. Same again tomorrow?
             </p>
             <button
               onClick={() => { setPathComplete(false); playKidSound('tap') }}
-              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 16, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
             >
               Brilliant ⭐
             </button>
@@ -985,10 +985,10 @@ export default function KidPath({
         <div onClick={() => setChestReveal(null)} style={{ position: 'fixed', inset: 0, zIndex: 132, background: 'rgba(26,26,46,0.5)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
           <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 520, background: 'var(--cream)', borderTopLeftRadius: 26, borderTopRightRadius: 26, padding: '24px 22px calc(28px + env(safe-area-inset-bottom))', boxShadow: '0 -18px 50px -16px rgba(0,0,0,0.5)', textAlign: 'center' }}>
             <div style={{ fontSize: 56, lineHeight: 1, marginBottom: 8, display: 'inline-block', animation: 'gcChestPop 0.6s ease-out' }}>{emoji}</div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.4rem', color: 'var(--ink)', marginBottom: 4 }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: 4 }}>
               Star claimed! +1 in your bank ⭐
             </div>
-            <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
               {chestReveal === 'quiz' && 'And a surprise: the school quiz! Pass it and 2 more stars are yours.'}
               {chestReveal === 'printable' && (todoPrintable ? `And a surprise: the ${todoPrintable.title}! Do it at home and show your grown up for ${todoPrintable.stars} stars.` : 'And a surprise printable to do at home. Find the 🖍️ stone on your path.')}
               {chestReveal === 'game' && 'And a surprise: a learning game to play. Quick, clever, and good fun.'}
@@ -998,7 +998,7 @@ export default function KidPath({
             {chestReveal === 'quiz' && (
               <button
                 onClick={() => { const s = stones.find(s => s.type === 'character' && s.holdsQuiz); setChestReveal(null); if (s) openSheet(s) }}
-                style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+                style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
               >
                 Take the quiz, 2 more stars →
               </button>
@@ -1006,22 +1006,22 @@ export default function KidPath({
             {chestReveal === 'printable' && todoPrintable && (
               <button
                 onClick={() => { setChestReveal(null); setActivePrintable(todoPrintable); playKidSound('tap') }}
-                style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+                style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
               >
                 Do the printable →
               </button>
             )}
             {chestReveal === 'game' && (
-              <a href={`/k/${token}?tab=games`} onClick={() => playKidSound('tap')} style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}>
+              <a href={`/k/${token}?tab=games`} onClick={() => playKidSound('tap')} style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}>
                 Play a game →
               </a>
             )}
             {chestReveal === 'challenge' && (
-              <a href={`/k/${token}#my-todo`} onClick={() => playKidSound('tap')} style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}>
+              <a href={`/k/${token}#my-todo`} onClick={() => playKidSound('tap')} style={{ display: 'block', width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)', boxSizing: 'border-box' }}>
                 {bonusChallenge.cta} →
               </a>
             )}
-            <button onClick={() => setChestReveal(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', margin: '14px auto 0', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 14, color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+            <button onClick={() => setChestReveal(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', margin: '14px auto 0', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
               Back to the path
             </button>
           </div>
@@ -1036,26 +1036,26 @@ export default function KidPath({
           <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 520, background: 'var(--cream)', borderTopLeftRadius: 26, borderTopRightRadius: 26, padding: '24px 22px calc(28px + env(safe-area-inset-bottom))', boxShadow: '0 -18px 50px -16px rgba(0,0,0,0.5)' }}>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 48, lineHeight: 1, marginBottom: 8 }}>{activePrintable.emoji}</div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--ink)', marginBottom: 6 }}>{activePrintable.title}</div>
-              <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: 6 }}>{activePrintable.title}</div>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
                 Print it and do it at home, away from screens. When it is finished, show your grown up so they can confirm it and land your {activePrintable.stars} stars.
               </p>
             </div>
             <a
               href={activePrintable.sheetUrl} target="_blank" rel="noopener noreferrer"
               onClick={() => playKidSound('tap')}
-              style={{ display: 'block', textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, marginBottom: 10, boxSizing: 'border-box' }}
+              style={{ display: 'block', textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '13px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', marginBottom: 10, boxSizing: 'border-box' }}
             >
               🖨️ Open the sheet to print
             </a>
             <button
               onClick={() => sendPrintable(activePrintable)}
               disabled={busy}
-              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
             >
               {busy ? 'Sending...' : `I did it! Show my grown up ⭐${activePrintable.stars}`}
             </button>
-            <button onClick={() => setActivePrintable(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', margin: '14px auto 0', display: 'block', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 14, color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
+            <button onClick={() => setActivePrintable(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', margin: '14px auto 0', display: 'block', fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: 3 }}>
               Not yet, back to the path
             </button>
           </div>
@@ -1069,17 +1069,17 @@ export default function KidPath({
           <div onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: 520, background: 'var(--cream)', borderTopLeftRadius: 26, borderTopRightRadius: 26, padding: '24px 22px calc(28px + env(safe-area-inset-bottom))', boxShadow: '0 -18px 50px -16px rgba(0,0,0,0.5)' }}>
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 52, lineHeight: 1, marginBottom: 8 }}>{viewTip.emoji}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 4 }}>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 4 }}>
                 DiGi tip · {viewTip.tag}
               </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--ink)', marginBottom: 8, lineHeight: 1.2 }}>{viewTip.title}</div>
-              <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: 8, lineHeight: 1.2 }}>{viewTip.title}</div>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
                 {viewTip.body}
               </p>
             </div>
             <button
               onClick={() => { setViewTip(null); playKidSound('tap') }}
-              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+              style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '15px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
             >
               Got it ⭐
             </button>
@@ -1098,55 +1098,55 @@ export default function KidPath({
                 <img src={sheet.character.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </span>
               <div style={{ flex: 1 }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.15rem', color: 'var(--ink)', lineHeight: 1.15 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
                   {sheet.holdsQuiz ? `${sheet.character.name}'s school quiz` : `${sheet.character.name}'s secret challenge`}
                 </div>
                 {sheet.holdsQuiz && (
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: 2 }}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginTop: 2 }}>
                     {quiz.title} · {quiz.yearNote}
                   </div>
                 )}
               </div>
-              <button onClick={() => setSheet(null)} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 16, color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
+              <button onClick={() => setSheet(null)} aria-label="Close" style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: '#fff', cursor: 'pointer', fontSize: 'var(--text-md)', color: 'var(--ink-muted)', flexShrink: 0 }}>✕</button>
             </div>
 
             {!sheet.holdsQuiz ? (
               <>
-                <div style={{ fontSize: 40, lineHeight: 1, marginBottom: 8 }}>{sheet.challenge.emoji}</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: 6 }}>
+                <div style={{ fontSize: 'var(--text-3xl)', lineHeight: 1, marginBottom: 8 }}>{sheet.challenge.emoji}</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: 6 }}>
                   {sheet.challenge.title}
                 </div>
-                <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
+                <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 16px' }}>
                   {sheet.challenge.body}
                 </p>
                 <a
                   href={`/k/${token}#my-todo`}
                   onClick={() => playKidSound('tap')}
-                  style={{ display: 'block', textAlign: 'center', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+                  style={{ display: 'block', textAlign: 'center', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 14, padding: '14px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
                 >
                   {sheet.challenge.cta} →
                 </a>
               </>
             ) : quizClaimed && !qDone ? (
-              <p style={{ fontSize: '15.5px', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
                 You already passed today&apos;s quiz and banked the stars. {sheet.character.name} will have a fresh one tomorrow ⭐
               </p>
             ) : qDone ? (
               <div style={{ textAlign: 'center', padding: '10px 0 4px' }}>
                 <div style={{ fontSize: 44, lineHeight: 1, marginBottom: 8 }}>{qDone === 'pass' ? '🏆' : '💪'}</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.3rem', color: 'var(--ink)', marginBottom: 6 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: 6 }}>
                   {qDone === 'pass' ? `${qRight} of ${runQs.length}! Quiz passed` : `${qRight} of ${runQs.length} this time`}
                 </div>
-                <p style={{ fontSize: '15px', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+                <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
                   {qDone === 'pass' ? '2 bonus stars are in your bank ⭐' : 'So close. Have another go tomorrow, the questions change every time.'}
                 </p>
               </div>
             ) : runQs[qIndex] ? (
               <>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 8 }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: 8 }}>
                   Question {qIndex + 1} of {runQs.length} · pass 4 to bank 2 stars
                 </div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.35rem', color: 'var(--ink)', lineHeight: 1.25, marginBottom: 14 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.25, marginBottom: 14 }}>
                   {runQs[qIndex].q}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
@@ -1179,16 +1179,16 @@ export default function KidPath({
                       border: `1.5px solid ${qPicked === runQs[qIndex].answer ? '#2F8F6B' : '#C0533E'}`,
                       borderRadius: 12, padding: '11px 14px', marginBottom: 10,
                     }}>
-                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 14.5, color: qPicked === runQs[qIndex].answer ? '#1F7A54' : '#B93B3F', marginBottom: 3 }}>
+                      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: qPicked === runQs[qIndex].answer ? '#1F7A54' : '#B93B3F', marginBottom: 3 }}>
                         {qPicked === runQs[qIndex].answer ? 'Correct!' : 'Not quite'}
                       </div>
-                      <div style={{ fontSize: 14, color: 'var(--ink)', lineHeight: 1.5 }}>
+                      <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }}>
                         {runQs[qIndex].why}
                       </div>
                     </div>
                     <button
                       onClick={continueQuiz}
-                      style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15.5, boxShadow: '0 5px 0 var(--terracotta-dark)' }}
+                      style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}
                     >
                       {qIndex + 1 < runQs.length ? 'Continue →' : 'See my score →'}
                     </button>

@@ -47,17 +47,17 @@ export default function LiteracyCheckIn({ stageId }: { stageId: number }) {
       <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
           <DigiCharacter mood="speak" size={30} once />
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '12px', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
             DiGi asks · {STRAND_LABEL[q.strand]}
           </span>
         </div>
 
         {result ? (
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-            <span aria-hidden style={{ flexShrink: 0, width: 34, height: 34, borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: result.grade === 'green' ? 'var(--retro-green, #2F8F6B)' : '#C0533E', color: '#fff', fontSize: 19, fontWeight: 900 }}>
+            <span aria-hidden style={{ flexShrink: 0, width: 34, height: 34, borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: result.grade === 'green' ? 'var(--retro-green, #2F8F6B)' : '#C0533E', color: '#fff', fontSize: 'var(--text-lg)', fontWeight: 900 }}>
               {result.grade === 'green' ? '✓' : '✕'}
             </span>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>
               {result.note}{' '}
               {q.strand === 'fairplay' && result.grade === 'green' ? (
                 <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>
@@ -70,7 +70,7 @@ export default function LiteracyCheckIn({ stageId }: { stageId: number }) {
           </div>
         ) : (
           <>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '18px', color: 'var(--ink)', lineHeight: 1.4, margin: '0 0 12px' }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.4, margin: '0 0 12px' }}>
               {q.question}
             </p>
             <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
@@ -79,12 +79,12 @@ export default function LiteracyCheckIn({ stageId }: { stageId: number }) {
                 onChange={e => setAnswer(e.target.value)}
                 placeholder="A sentence or two is plenty"
                 rows={2}
-                style={{ flex: 1, padding: '11px 14px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: '16.5px', color: 'var(--ink)', resize: 'none', outline: 'none', lineHeight: 1.5 }}
+                style={{ flex: 1, padding: '11px 14px', borderRadius: 12, border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', resize: 'none', outline: 'none', lineHeight: 1.5 }}
               />
               <button
                 onClick={send}
                 disabled={busy || !answer.trim()}
-                style={{ flexShrink: 0, background: answer.trim() ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)', border: 'none', borderRadius: 12, padding: '11px 18px', cursor: answer.trim() ? 'pointer' : 'default', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '15.5px', boxShadow: answer.trim() ? '0 3px 0 var(--terracotta-dark)' : 'none' }}
+                style={{ flexShrink: 0, background: answer.trim() ? 'var(--terracotta)' : 'var(--border)', color: 'var(--ink)', border: 'none', borderRadius: 12, padding: '11px 18px', cursor: answer.trim() ? 'pointer' : 'default', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: answer.trim() ? '0 3px 0 var(--terracotta-dark)' : 'none' }}
               >
                 {busy ? 'DiGi is reading…' : 'Send to DiGi'}
               </button>
