@@ -37,6 +37,9 @@ import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
 import KidSquadIntro, { squadIntroSeen, squadIntroDue } from '@/components/kid/KidSquadIntro'
 import StreakBar from '@/components/kid/StreakBar'
+import KidWins, { type WinRecord } from '@/components/kid/KidWins'
+import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
+import type { KidSticker } from '@/components/kid/KidStickers'
 import { streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 import Image from 'next/image'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
@@ -129,6 +132,7 @@ export default function KidQuestScreen({
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
   earnedStages = 0, completedStreaks = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
+  stickers = [], celebrateStickers = [],
 }: {
   token: string
   childName: string
@@ -205,6 +209,13 @@ export default function KidQuestScreen({
   // A printable a grown up sent to this child, shown at the top of the to do:
   // print it, do it, then send it to be confirmed like any printable.
   assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; previewUrl: string } | null
+  // The sticker book, which used to live at the foot of the road. It moved here
+  // with the road itself, because migration 109's once only pop is the only
+  // server side celebration the child app has ever had and it must not go down
+  // with the page it happened to be rendered on.
+  stickers?: KidSticker[]
+  /** Earned but not yet seen, so the book can pop the new ones exactly once. */
+  celebrateStickers?: string[]
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -412,6 +423,11 @@ export default function KidQuestScreen({
   const [chosenBuddy, setChosenBuddy] = useState(buddy && BUDDY_MAP[buddy] ? buddy : DEFAULT_BUDDY)
   const [chosenAccent, setChosenAccent] = useState(knownAccent(accent) ? accent : DEFAULT_ACCENT)
   const [makeMineOpen, setMakeMineOpen] = useState(false)
+  const [winsOpen, setWinsOpen] = useState(false)
+  // The child's own record and anything earned while they were away. Both come
+  // from /api/kid/celebrations, which is also what writes the milestone rows.
+  const [winRecord, setWinRecord] = useState<WinRecord | null>(null)
+  const [pendingWins, setPendingWins] = useState<Win[]>([])
   // Which kind of printable is showing. The whole library on one scroll was a
   // long way to the sheet you wanted, so it filters by the kind already in the
   // registry rather than a new grouping invented for the child app.
@@ -459,27 +475,32 @@ export default function KidQuestScreen({
   const [showIntro, setShowIntro] = useState(false)
   useEffect(() => { if (squadIntroDue()) setShowIntro(true) }, [])
 
-  // A new Planet Friend just unlocked: celebrate it once. The first ever load
-  // records the baseline quietly so already earned Friends are not celebrated
-  // on install; after that, any rise means a fresh unlock worth a burst.
+  // What grew while they were away, and their own record.
+  //
+  // Justin: "when streaks are achieved... are real celebrations and can pop up
+  // then on next login so you can see the family growing."
+  //
+  // This replaces three localStorage keys (gc_kid_friends_earned,
+  // gc_kid_bank_mile, gc_kid_streak_seen). Every one of them celebrated a win
+  // once per BROWSER: twice for a child with a tablet and a phone, never again
+  // on a cleared one, and never at all on a new phone. The server now holds it
+  // (migration 154), which is the same thing migration 109 already does for
+  // stickers, so the moment is once per CHILD and the record survives it.
+  //
+  // Fails soft in every direction: an error, an empty queue or a missing table
+  // simply means no pop, exactly as if nothing had been earned.
   useEffect(() => {
-    const KEY = 'gc_kid_friends_earned'
-    let stored: string | null = null
-    try { stored = localStorage.getItem(KEY) } catch { return }
-    if (stored === null) {
-      try { localStorage.setItem(KEY, String(earnedStages)) } catch { /* private mode */ }
-      return
-    }
-    const last = parseInt(stored, 10) || 0
-    if (earnedStages > last) {
-      const friend = STAGE_CHARACTERS.find(c => c.stageId === earnedStages)
-      if (friend) {
-        playKidSound('star')
-        setHappyNews({ character: friend.key as CharacterKey, headline: `You unlocked ${friend.name}! 🎉`, sub: friend.unlockLine })
-      }
-      try { localStorage.setItem(KEY, String(earnedStages)) } catch { /* private mode */ }
-    }
-  }, [earnedStages])
+    let live = true
+    fetch(`/api/kid/celebrations?token=${encodeURIComponent(token)}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => {
+        if (!live || !d) return
+        if (d.record) setWinRecord(d.record as WinRecord)
+        if (Array.isArray(d.pending) && d.pending.length > 0) setPendingWins(d.pending as Win[])
+      })
+      .catch(() => { /* no pop, no record card. Nothing else changes. */ })
+    return () => { live = false }
+  }, [token])
   const theme = resolveTheme(chosenAccent)
   function saveMine(next: { buddy?: string; accent?: string }) {
     if (next.buddy) setChosenBuddy(next.buddy)
@@ -856,44 +877,15 @@ export default function KidQuestScreen({
   const dailyLearnDone = learnedThisSession || !learnTarget
 
 
-  // Welcome back celebrations: when the child opens their screen and something
-  // grew while they were away, a squad friend springs up to mark it. Two
-  // moments, each fired at most once per milestone so it is a treat, not a
-  // nag: crossing a star bank milestone (their grown up approved stars up to a
-  // round number), and being on a streak of three days or more. localStorage
-  // on their own device remembers what has already been celebrated.
-  useEffect(() => {
-    const BANK_MILES = [10, 25, 50, 100, 200, 500]
-    try {
-      const seenBank = Number(localStorage.getItem('gc_kid_bank_mile') || '0')
-      const hit = [...BANK_MILES].reverse().find(m => bankBalance >= m && m > seenBank)
-      if (hit) {
-        localStorage.setItem('gc_kid_bank_mile', String(hit))
-        setHappyNews({ character: 'nova', headline: `${hit} stars in the bank!`, sub: `That is ${hit * STAR_MINUTES} minutes of screen time earned. Superstar.` })
-        return
-      }
-      if (streakDays >= 3) {
-        const key = `${new Date().toISOString().slice(0, 10)}:${streakDays}`
-        if (localStorage.getItem('gc_kid_streak_seen') !== key) {
-          localStorage.setItem('gc_kid_streak_seen', key)
-          // Every fifth day of jobs in a row is a big, clear celebration. The
-          // in between days get the gentler cheer.
-          const fiveInARow = streakDays % 5 === 0
-          setHappyNews(fiveInARow
-            ? { character: 'orbit', headline: `${streakDays} days of jobs in a row! 🔥`, sub: 'That is a proper streak. Champions show up like this. Keep the run going!' }
-            : { character: 'orbit', headline: `${streakDays} day streak!`, sub: 'You have shown up every day. That is how champions train. Keep it going!' })
-          return
-        }
-      }
-      // Nothing else pops on open. The daily hello and the wisdom pop used to
-      // spring a character up every single login, which read as flicker and
-      // clutter. What to do is already right there on the screen, so the home
-      // stays calm and only a real, rare win (a bank milestone or a streak)
-      // ever brings a friend up to celebrate.
-    } catch { /* localStorage off, skip the treat */ }
-    // Runs once on open with the values the server rendered.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  // Nothing else pops on open. The daily hello and the wisdom pop used to spring
+  // a character up every single login, which read as flicker and clutter. What
+  // to do is already right there on the screen, so the home stays calm and only
+  // a real, rare win ever stops it, which is now KidWinPop's job above.
+  //
+  // The bank milestone and the day run that used to live here have not gone
+  // away: they are two of the three ladders in lib/kid/milestones, written down
+  // as rows instead of browser keys, so the same wins now also reach the record
+  // card and the grown up.
 
   // ── My lessons sub-tabs and the "something new" dots ──
   // Only grown up sent content counts as new (adventures, star lessons, and
@@ -1287,7 +1279,18 @@ export default function KidQuestScreen({
             Make it mine and New job. */}
         {(() => {
           const tiles: { icon?: KidIconName; emoji?: string; iconColor?: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
-            { emoji: '🗺️', label: 'My path', sub: 'Play the road to 16', tint: 'var(--tint-blue, #E4ECF7)', onClick: () => { playKidSound('tap'); window.location.assign(`/k/${token}/path`) } },
+            // My wins, where My path used to be.
+            //
+            // Justin: "yes lets lose the pathway as advised for children only
+            // NOT parents." The road was a second copy of this screen's five a
+            // day, with the same lessons, printables and jobs on it, so a child
+            // finished their day in one place and it still looked unfinished in
+            // the other. The parent's passport at /dashboard/pathway is
+            // untouched: that is the ramp to 16 and it is for the grown up.
+            //
+            // The slot goes to the thing the road was actually good at, which is
+            // showing a child how far they have come.
+            { emoji: '🏆', label: 'My wins', sub: 'Streaks, Friends and stickers', tint: 'var(--tint-blue, #E4ECF7)', onClick: () => { playKidSound('tap'); setWinsOpen(true) } },
             // The stage lessons, taken by the child themselves: a pass here
             // lights the same tick their grown up sees on the pathway.
             { emoji: '📚', label: 'My lessons', sub: 'Learn it, pass it', tint: 'var(--terracotta-lt)', onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
@@ -1557,6 +1560,29 @@ export default function KidQuestScreen({
             earnedStages={earnedStages}
             completedStreaks={completedStreaks}
             onPick={saveMine}
+          />
+        )}
+
+        {winsOpen && (
+          <KidWins
+            onClose={() => setWinsOpen(false)}
+            token={token}
+            childName={childName}
+            record={winRecord}
+            stickers={stickers}
+            celebrateStickers={celebrateStickers}
+          />
+        )}
+
+        {/* Anything earned while they were away, one at a time, oldest first.
+            Above everything else on the screen because that is the point of it:
+            a Planet Friend joining the family happens about five times in a
+            childhood and is allowed to stop the page. */}
+        {pendingWins.length > 0 && (
+          <KidWinPop
+            token={token}
+            wins={pendingWins}
+            onDone={() => { setPendingWins([]); setWinsOpen(true) }}
           />
         )}
 

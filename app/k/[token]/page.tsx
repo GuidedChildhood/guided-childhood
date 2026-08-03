@@ -18,6 +18,9 @@ import { getAllStagesProgress } from '@/lib/pathway/progress'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import KidQuestScreen from './KidQuestScreen'
 import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
+import { getStickerBook } from '@/lib/stickers/book'
+import { stickerArt } from '@/lib/stickers/catalog'
+import type { KidSticker } from '@/components/kid/KidStickers'
 
 // The kid's own screen. Opened from the private link their parent sends,
 // no account, no login, nothing to install. Today's quests, big ticks,
@@ -509,6 +512,30 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     sheetStars = (sheets ?? []).reduce((sum, r) => sum + (Number(r.stars) || 0), 0)
   } catch { sheetsDone = 0; sheetStars = 0 }
 
+  // The child's sticker book, and the earned but not yet celebrated set.
+  //
+  // This read used to live on /k/[token]/path. The road is gone from the child
+  // app (Justin: "yes lets lose the pathway as advised for children only NOT
+  // parents") and the book came home with it, into My wins. Losing the page
+  // would otherwise have taken the only server side celebration in the whole
+  // child app down with it: migration 109's `celebrated` flag, which is what
+  // makes a new sticker pop exactly once per child rather than once per browser.
+  //
+  // Both reads fail soft, so a family on an older database simply sees no book.
+  let kidStickers: KidSticker[] = []
+  let celebrateStickers: string[] = []
+  try {
+    const book = await getStickerBook(supabase, link.user_id, { id: link.child_id, age_band: ageBand ?? null })
+    kidStickers = book.stickers.map(s => ({
+      key: s.key, name: s.name, emoji: s.emoji, art: stickerArt(s),
+      colour: s.colour, earned: s.earned, rule: s.rule,
+    }))
+    const { data, error } = await supabase
+      .from('earned_stickers').select('sticker_key')
+      .eq('child_id', link.child_id).eq('celebrated', false)
+    if (!error) celebrateStickers = (data ?? []).map(r => String(r.sticker_key))
+  } catch { kidStickers = []; celebrateStickers = [] }
+
   // The screens this family owns, for the timer picker. Fails soft: before
   // migration 106 there is no table, and the picker falls back to the four
   // kinds exactly as it did before.
@@ -526,6 +553,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   return (
     <KidQuestScreen
       familyDevices={familyDevices}
+      stickers={kidStickers}
+      celebrateStickers={celebrateStickers}
       sheetsDone={sheetsDone}
       sheetStars={sheetStars}
       earnedStages={earnedStages}
