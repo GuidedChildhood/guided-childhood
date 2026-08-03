@@ -41,6 +41,7 @@ import KidWins, { type WinRecord } from '@/components/kid/KidWins'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import type { KidSticker } from '@/components/kid/KidStickers'
 import { streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
+import { startErrorMessage, START_RETRY } from '@/lib/quests/start-errors'
 import Image from 'next/image'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
@@ -1121,11 +1122,20 @@ export default function KidQuestScreen({
                 router.refresh()
                 setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 250)
               } else {
-                setToast(d.error === 'chores first' ? 'Do your before screens job first, then it starts.' : 'That did not start. Try again in a moment.')
-                setTimeout(() => setToast(null), 3000)
+                // Every refusal says which one it was. This used to name
+                // "chores first" and shrug at the other eight, so a child whose
+                // yes had already been spent was told to try again in a moment,
+                // for ever. See lib/quests/start-errors.
+                setToast(startErrorMessage(d.error))
+                // A real reason is worth reading twice. The generic shrug got
+                // three seconds because there was nothing in it.
+                setTimeout(() => setToast(null), 5000)
+                // The ask is gone or spent, so take the card down with it rather
+                // than leaving a Start that will refuse again.
+                if (d.error === 'ask not approved') { setScreenAsk(null); router.refresh() }
               }
             } catch {
-              setToast('That did not start. Try again in a moment.')
+              setToast(START_RETRY)
               setTimeout(() => setToast(null), 3000)
             }
             setAskStartBusy(false)

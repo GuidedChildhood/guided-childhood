@@ -9,6 +9,7 @@ import { questDueToday } from '@/lib/quests/due'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { jobsTodayCount } from '@/lib/pathway/jobs-streak'
+import { getFamilyRegion } from '@/lib/learning/region'
 import { sendPush } from '@/lib/push/send'
 
 // The child spends earned stars as device time. The link token is the auth,
@@ -114,25 +115,47 @@ export async function POST(req: NextRequest) {
   }
 
   // Vital chores gate: any quest the parent flagged before screens, due today
-  // and not yet approved, blocks the child from starting device time. The
-  // parent still keeps the override from their own board.
+  // and not yet approved.
+  //
+  // WHAT IT NO LONGER BLOCKS, AND WHY. Justin: "seems a bit restrictive that
+  // they can request device time unless all jobs are done that day? If they have
+  // stars it should be ok to request."
+  //
+  // He is right, and the reason is the first non-negotiable. This route does two
+  // different things: it ASKS a grown up, and it STARTS a timer. The gate sat in
+  // front of both, so a child with a job outstanding could not even put the
+  // question. That is a flat deny, from an app whose whole argument is that a
+  // pathway beats a deny, and it takes the decision away from the parent, who is
+  // the one person here allowed to make it.
+  //
+  // Asking is a conversation. The parent sees the ask WITH the jobs line already
+  // attached ("2 of 4 jobs done today so far", built below), so they can say not
+  // yet in one tap, knowing exactly what is outstanding. That is the pathway.
+  //
+  // What the gate still covers is a child STARTING a timer on their own, where
+  // nobody has looked. And an approved ask is exempt for the same reason: the
+  // parent has already looked and said yes, and a gate that overrules a parent's
+  // yes is the app deciding it knows better than they do.
   const gateToday = new Date().toISOString().slice(0, 10)
-  const { data: gateQuests } = await supabase
-    .from('family_quests')
-    .select('id, title, schedule, schedule_days')
-    .eq('user_id', link.user_id)
-    .eq('active', true)
-    .eq('blocks_screens', true)
-    .or(`child_id.eq.${link.child_id},child_id.is.null`)
-  const dueGate = (gateQuests ?? []).filter(q => questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
-  if (dueGate.length > 0) {
-    const { data: approvedToday } = await supabase
-      .from('quest_ticks').select('quest_id')
-      .eq('child_id', link.child_id).eq('status', 'approved').eq('tick_date', gateToday)
-    const doneIds = new Set((approvedToday ?? []).map(t => t.quest_id))
-    const blocking = dueGate.filter(q => !doneIds.has(q.id))
-    if (blocking.length > 0) {
-      return NextResponse.json({ error: 'chores first', blocking: blocking.map(q => q.title) }, { status: 400 })
+  const willJustAsk = trust === 'ask' && !approvedAsk
+  if (!willJustAsk && !approvedAsk) {
+    const { data: gateQuests } = await supabase
+      .from('family_quests')
+      .select('id, title, schedule, schedule_days')
+      .eq('user_id', link.user_id)
+      .eq('active', true)
+      .eq('blocks_screens', true)
+      .or(`child_id.eq.${link.child_id},child_id.is.null`)
+    const dueGate = (gateQuests ?? []).filter(q => questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
+    if (dueGate.length > 0) {
+      const { data: approvedToday } = await supabase
+        .from('quest_ticks').select('quest_id')
+        .eq('child_id', link.child_id).eq('status', 'approved').eq('tick_date', gateToday)
+      const doneIds = new Set((approvedToday ?? []).map(t => t.quest_id))
+      const blocking = dueGate.filter(q => !doneIds.has(q.id))
+      if (blocking.length > 0) {
+        return NextResponse.json({ error: 'chores first', blocking: blocking.map(q => q.title) }, { status: 400 })
+      }
     }
   }
 
@@ -147,7 +170,15 @@ export async function POST(req: NextRequest) {
   // Without this the child app was lying. It shows "90 holiday minutes, ready
   // now" during a holiday and the gate below read the star balance alone, so a
   // child with an empty week was told the minutes were theirs and then refused.
-  const [holidayBank] = await getHolidayBanks(supabase, link.user_id, [link.child_id])
+  // The family's own school calendar, not the default one.
+  //
+  // This read had no region, so it fell back to England while the child's page
+  // asks with the family's actual region. Whether it is "the holidays" therefore
+  // had two answers, and the card can say "5 holiday minutes, ready now" while
+  // this refuses to spend them. Exactly the lie the comment above says was
+  // fixed: they fixed the pocket and left the calendar.
+  const region = await getFamilyRegion(supabase, link.user_id)
+  const [holidayBank] = await getHolidayBanks(supabase, link.user_id, [link.child_id], new Date(), region)
   const plan = planSpend(mins, bank?.balance ?? 0, holidayBank?.remaining ?? 0, holidayBank?.spendableNow ?? false)
   if (!bank || !plan.enough) {
     return NextResponse.json({
@@ -267,11 +298,28 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: sessionError.message }, { status: 500 })
   }
 
-  // The ask is now running: mark it started so the child's banner steps back.
-  // Fails soft to approved on a database still carrying the old status list.
-  if (approvedAsk) {
+  // The yes is now spent, so no yes is left standing.
+  //
+  // THE BUG THIS FIXES. This used to close only the ask it was started FROM, so
+  // a session begun any other way (the child's own device card, the parent's
+  // card) left an approved request sitting in the table. The child's banner
+  // reads that row, so it went on saying "They said yes! Tap to start your
+  // timer" after the yes had already been used. Tapping it tried to spend a yes
+  // that was gone, and the refusal came back as "That did not start. Try again
+  // in a moment", which is the sentence Justin screenshotted at 08:53 after a
+  // session had already run at 08:46.
+  //
+  // A start is a start. Whichever door it came through, every outstanding ask
+  // for this child is now answered, because two live yeses for one child is not
+  // a state that should exist.
+  //
+  // Fails soft: on a database still carrying the old status list the update
+  // errors and the active session outranks the banner anyway.
+  {
     const { error: startedErr } = await supabase.from('device_requests')
-      .update({ status: 'started' }).eq('id', approvedAsk.id)
+      .update({ status: 'started' })
+      .eq('child_id', link.child_id)
+      .in('status', ['approved', 'pending'])
     if (startedErr) { /* the active session already outranks the banner */ }
   }
 

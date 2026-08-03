@@ -81,6 +81,12 @@ export default function QuestStatusBoard() {
     children: Child[]; quests: Quest[]; ticks: Tick[]; links: Link[]
   } | null>(null)
   const [active, setActive] = useState<BucketKey>('waiting')
+  // Ticks this panel has just approved, so a row leaves the moment it is
+  // agreed rather than after a refetch. The stars are already real by then.
+  const [agreed, setAgreed] = useState<Set<string>>(new Set())
+  const [busyKey, setBusyKey] = useState<string | null>(null)
+  const [allBusy, setAllBusy] = useState(false)
+  const [failed, setFailed] = useState<string | null>(null)
   // Whether the parent has picked a tile themselves. Until they do, the board
   // picks the one with something in it rather than sitting on an empty pile.
   const [touched, setTouched] = useState(false)
@@ -154,6 +160,61 @@ export default function QuestStatusBoard() {
     return out
   }, [data])
 
+  // Saying yes, right here.
+  //
+  // Justin, on this panel: "these waiting for you I cannot ok them individually
+  // or the button for all does not work."
+  //
+  // He is right on both counts and they were the same decision. Every row here
+  // was a plain div, and the only action was a "Go and say yes" link that
+  // scrolled to the board further down the page. A parent looking at six jobs
+  // their child has done, on a card that names each one, cannot agree to any of
+  // them without being sent somewhere else first. Nothing was broken exactly;
+  // it just did not do the thing it was showing you.
+  //
+  // The comment on the old link said a second approve button "could fall out of
+  // step with the first". Both call the same endpoint with the same tick id, so
+  // there is nothing to fall out of step: the row IS the tick.
+  async function approve(tickId: string): Promise<boolean> {
+    try {
+      const res = await fetch('/api/quests/approve', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tick_id: tickId, decision: 'approve' }),
+      })
+      return res.ok
+    } catch { return false }
+  }
+
+  async function sayYes(tickId: string) {
+    if (busyKey || allBusy) return
+    setBusyKey(tickId); setFailed(null)
+    const ok = await approve(tickId)
+    if (ok) setAgreed(prev => new Set(prev).add(tickId))
+    else setFailed('That did not save. Try again.')
+    setBusyKey(null)
+  }
+
+  async function sayYesToAll(ids: string[]) {
+    if (allBusy || ids.length === 0) return
+    setAllBusy(true); setFailed(null)
+    // One at a time. The approve route settles gift debts, pushes to the child
+    // and checks the streak on every call, and firing eight of those at once is
+    // how one of them quietly loses a race with another.
+    const done: string[] = []
+    for (const id of ids) {
+      if (await approve(id)) done.push(id)
+    }
+    if (done.length > 0) setAgreed(prev => new Set([...prev, ...done]))
+    // Named, not swallowed. A partial failure used to be indistinguishable from
+    // a full success because neither said anything.
+    if (done.length < ids.length) {
+      setFailed(done.length === 0
+        ? 'None of those saved. Try again.'
+        : `${ids.length - done.length} of those did not save. Try again.`)
+    }
+    setAllBusy(false)
+  }
+
   if (!data) return <div style={{ height: 132, marginBottom: 18, opacity: 0.35 }} aria-hidden />
   const nothingAtAll = (['waiting', 'sent', 'withyou', 'done'] as BucketKey[]).every(k => buckets[k].length === 0)
   if (nothingAtAll) return null
@@ -161,7 +222,10 @@ export default function QuestStatusBoard() {
   // Nothing needs the parent when both piles that cost somebody something are
   // empty. Sent and Done are information: a job on a child's app is not a task
   // for the grown up, and a job already agreed is a receipt.
-  const needsYou = buckets.waiting.length + buckets.withyou.length
+  // Anything agreed in this panel leaves the waiting pile at once, so the tile
+  // count, the list and the button all drop together on the same tap.
+  const stillWaiting = buckets.waiting.filter(r => !agreed.has(r.key))
+  const needsYou = stillWaiting.length + buckets.withyou.length
 
   // The board defaults to Waiting on you, which is right when there IS one and
   // wrong the rest of the time: with nothing waiting and three jobs sent, a
@@ -170,12 +234,12 @@ export default function QuestStatusBoard() {
   // board now opens on a pile that has something in it, and respects the
   // parent's own choice the moment they make one.
   const best: BucketKey =
-    buckets.waiting.length ? 'waiting'
+    stillWaiting.length ? 'waiting'
     : buckets.withyou.length ? 'withyou'
     : buckets.sent.length ? 'sent'
     : 'done'
   const shown = touched ? active : best
-  const rows = buckets[shown]
+  const rows = shown === 'waiting' ? stillWaiting : buckets[shown]
 
   // Caught up, so say it in a line rather than a card.
   //
@@ -294,6 +358,25 @@ export default function QuestStatusBoard() {
                   {r.who}{r.note ? ` · ${r.note}` : ''}
                 </span>
               </span>
+              {/* One tap, on the row that names the job. Only the waiting pile
+                  has anything to agree to: Done is a receipt, and the other two
+                  are not the parent's to tick from here. */}
+              {shown === 'waiting' && (
+                <button
+                  onClick={() => sayYes(r.key)}
+                  disabled={busyKey === r.key || allBusy}
+                  aria-label={`Say yes to ${r.title}`}
+                  style={{
+                    flexShrink: 0, border: 'none', borderRadius: 11, cursor: (busyKey === r.key || allBusy) ? 'default' : 'pointer',
+                    background: 'var(--terracotta)', color: 'var(--ink)', padding: '9px 14px',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                    boxShadow: '0 3px 0 var(--terracotta-dark)',
+                    opacity: (busyKey === r.key || allBusy) ? 0.6 : 1,
+                  }}
+                >
+                  {busyKey === r.key ? '...' : 'Yes'}
+                </button>
+              )}
             </div>
           ))}
           {rows.length > 8 && (
@@ -321,13 +404,32 @@ export default function QuestStatusBoard() {
           which is why the tiles, the blurb and the list were all right and only
           the button was wrong. */}
       {shown === 'waiting' && rows.length > 0 && (
-        <a
-          href="#quest-board"
-          className="btn btn-gold"
-          style={{ display: 'inline-flex', marginTop: 13, padding: '11px 20px', fontSize: 'var(--text-base)', textDecoration: 'none' }}
-        >
-          Go and say yes
-        </a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginTop: 13 }}>
+          <button
+            onClick={() => sayYesToAll(rows.map(r => r.key))}
+            disabled={allBusy || busyKey !== null}
+            className="btn btn-gold"
+            style={{ display: 'inline-flex', padding: '11px 20px', fontSize: 'var(--text-base)', border: 'none', cursor: (allBusy || busyKey !== null) ? 'default' : 'pointer', opacity: (allBusy || busyKey !== null) ? 0.6 : 1 }}
+          >
+            {allBusy ? 'Saying yes...' : rows.length === 1 ? 'Say yes' : `Say yes to all ${rows.length}`}
+          </button>
+          {/* The board further down is still there for the parent who wants to
+              turn one of these down, which this panel deliberately cannot do:
+              a reject is a conversation and should never be one tap away from
+              an approve on a list you are working through quickly. */}
+          <a
+            href="#quest-board"
+            style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none' }}
+          >
+            One at a time ›
+          </a>
+        </div>
+      )}
+
+      {failed && (
+        <p role="status" style={{ fontSize: 'var(--text-base)', color: '#B93B3F', fontWeight: 600, margin: '9px 0 0' }}>
+          {failed}
+        </p>
       )}
     </div>
   )
