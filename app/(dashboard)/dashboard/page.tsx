@@ -19,7 +19,6 @@ import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
-import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import { allBirthdaysIn } from '@/lib/setup/flags'
@@ -43,7 +42,7 @@ import CommunityBite from '@/components/community/CommunityBite'
 import DealReviewNudge from '@/components/quests/DealReviewNudge'
 import HomeRows from '@/components/home/HomeRows'
 import WeeklyReviewCard from '@/components/digi/WeeklyReviewCard'
-import LiveTimerChip from '@/components/home/LiveTimerChip'
+import HomeLive from '@/components/home/HomeLive'
 import HomeMain from '@/components/home/HomeMain'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
@@ -615,15 +614,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         )
       })()}
 
-      {/* The device timer, only when it is live: a child's running countdown
-          or a pending ask, one slim row that opens the full card on Quests.
-          Nothing renders here on a quiet day. */}
-      <LiveTimerChip />
-
-      {/* Waiting on you: the one clear next action at the top. A red count of
-          the quests to approve and the ideas a child pitched, tapping through
-          to where a parent acts on them. Silent when nothing waits. */}
-      <WaitingOnYou />
+      {/* THE LIVE SLOT: one fixed place for anything with a person on the
+          other end of it.
+          Justin, holding up Duolingo's home: "after pathway is done for the day
+          it should move away leaving all the next important tabs."
+          The timer and the approvals queue used to be two separate cards that
+          each rendered nothing on a quiet day. Right about noise, wrong about
+          position: a slot that vanishes is indistinguishable from one that
+          failed to load. HomeLive keeps the place and writes the calm state,
+          the way Deel's Upcoming actions and Airwallex's My tasks both do. */}
+      <HomeLive />
 
       {/* The monthly community bite: one question, answered in a tap, and the
           answer turns into the crowd. Sits under what is waiting, because a
