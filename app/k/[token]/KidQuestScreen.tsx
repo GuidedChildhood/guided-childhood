@@ -485,7 +485,7 @@ export default function KidQuestScreen({
   // gc_kid_bank_mile, gc_kid_streak_seen). Every one of them celebrated a win
   // once per BROWSER: twice for a child with a tablet and a phone, never again
   // on a cleared one, and never at all on a new phone. The server now holds it
-  // (migration 154), which is the same thing migration 109 already does for
+  // (migration 155), which is the same thing migration 109 already does for
   // stickers, so the moment is once per CHILD and the record survives it.
   //
   // Fails soft in every direction: an error, an empty queue or a missing table
