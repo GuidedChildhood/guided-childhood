@@ -8,6 +8,7 @@ import { screenTipFor } from '@/lib/content/screen-tips'
 import { speakEnglish, warmVoices } from '@/lib/voice/english-voice'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { planSpend } from '@/lib/quests/holiday-spend'
+import { startErrorMessage, START_RETRY } from '@/lib/quests/start-errors'
 import Celebration from '@/components/ui/Celebration'
 
 // The child's own device time timer. They have earned stars; here they turn
@@ -392,14 +393,15 @@ export default function DeviceTimeCard({
         onSessionChange?.(started)
         setPhase('idle')
         router.refresh()
-      } else if (data.error === 'chores first') {
+      } else if (data.error === 'chores first' && (data.blocking ?? []).length > 0) {
+        // The route names the actual jobs, so this stays: it is more use than
+        // the shared line precisely because it can list them.
         setNote(`Finish first: ${(data.blocking ?? []).join(', ')}. Then your time can start.`)
-      } else if (data.error === 'not enough stars') {
-        setNote('Not quite enough stars yet. Earn a few more first.')
       } else {
-        setNote('That did not start. Try again in a moment.')
+        // Everything else now says which refusal it was rather than shrugging.
+        setNote(startErrorMessage(data.error))
       }
-    } catch { setNote('That did not start. Try again in a moment.') }
+    } catch { setNote(START_RETRY) }
     setBusy(false)
   }
 

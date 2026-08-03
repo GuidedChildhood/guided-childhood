@@ -116,14 +116,28 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     while (tickDays.has(dayStr(offset))) { streakDays++; offset++ }
   }
 
-  // The child's week at a glance: how many quests they ticked each of the
-  // last seven days, built from the same tick history the streak uses.
+  // The child's week at a glance: Monday to Sunday, built from the same tick
+  // history the streak uses.
+  //
+  // Justin: "the days should be m to s so Monday to Sunday."
+  //
+  // It used to be a rolling seven days ending today, which is why his screenshot
+  // reads T W T F S S M with Monday on the right hand end. That is a correct
+  // window and the wrong shape: a week has a start, every child knows where it
+  // is, and a strip whose first column moves every day cannot be compared with
+  // yesterday's or with a sibling's. It also disagreed with the star week, which
+  // resets on Monday, so "this week" meant two different things on one screen.
+  //
+  // Days after today are shown empty rather than hidden, so the week keeps its
+  // shape all week and a child can see what is still to come.
+  const dowToday = new Date(`${dayStr(0)}T00:00:00Z`).getUTCDay()
+  // Sunday is 0 in JS, and 6 in a week that starts on Monday.
+  const sinceMonday = (dowToday + 6) % 7
   const weekChart = Array.from({ length: 7 }, (_, i) => {
-    const off = 6 - i
+    const off = sinceMonday - i
     const d = dayStr(off)
-    const count = (streakTicksRes.data ?? []).filter(t => String(t.tick_date) === d).length
-    const dow = new Date(`${d}T00:00:00Z`).getUTCDay()
-    return { label: 'SMTWTFS'[dow], count, today: off === 0 }
+    const count = off < 0 ? 0 : (streakTicksRes.data ?? []).filter(t => String(t.tick_date) === d).length
+    return { label: 'MTWTFSS'[i], count, today: off === 0 }
   })
 
   // A printable ask that was turned into a job on an older build (before the

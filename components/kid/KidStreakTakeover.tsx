@@ -54,16 +54,26 @@ export default function KidStreakTakeover({
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
-  // The last seven days ending today, so the run reads left to right into today.
+  // Monday to Sunday, the week a child actually keeps.
+  //
+  // Justin: "the days should be m to s so Monday to Sunday." This was a rolling
+  // seven ending today, which is why it read T W T F S S M with Monday stuck on
+  // the right hand end. Correct window, wrong shape: a week has a start, and a
+  // strip whose first column moves every day cannot be held up next to
+  // yesterday's or a sibling's. It also disagreed with the star week, which
+  // resets on Monday, so one screen had two different weeks on it.
   const today = new Date()
+  // Sunday is 0 in JS and 6 in a week that starts on Monday.
+  const sinceMonday = (today.getDay() + 6) % 7
   const week = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(today)
-    d.setDate(d.getDate() - (6 - i))
+    const offset = sinceMonday - i
     return {
-      letter: ['S', 'M', 'T', 'W', 'T', 'F', 'S'][d.getDay()],
-      // Filled from the right: a run of `streak` days ending today.
-      filled: 6 - i < streak,
-      isToday: i === 6,
+      letter: 'MTWTFSS'[i],
+      // The run ends today and counts backwards, so only days at or before
+      // today can be filled. Days still to come in the week stay empty rather
+      // than disappearing, so the week keeps its shape from Monday to Sunday.
+      filled: offset >= 0 && offset < streak,
+      isToday: offset === 0,
     }
   })
 

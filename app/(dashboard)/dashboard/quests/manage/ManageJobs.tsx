@@ -367,20 +367,46 @@ export default function ManageJobs({
           wants the agree list again, not the composer. */}
       {children.length > 1 && (
         <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', marginBottom: 14 }}>
-          {children.map(c => (
-            <button
-              key={c.id}
-              onClick={() => setActiveChild(c.id)}
-              style={{
-                border: `1.5px solid ${activeChild === c.id ? 'var(--terracotta)' : 'var(--border)'}`,
-                background: activeChild === c.id ? 'var(--terracotta-lt)' : '#fff',
-                borderRadius: 100, padding: '8px 15px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
-              }}
-            >
-              {c.name}
-            </button>
-          ))}
+          {children.map(c => {
+            // How many of THIS child's things are waiting on the parent.
+            //
+            // Justin followed a red 6 to this page and found "nothing there to
+            // match the 6". The badge counts the whole family; this page shows
+            // one child and quietly defaults to the first. So with two children
+            // the six could be sitting behind a chip nobody had a reason to
+            // press, and the page looked empty while being entirely correct.
+            //
+            // The chip carries its own number now, so the rest of the six is
+            // visible without pressing anything, and the tab strip below still
+            // counts the selected child. Nothing is hidden behind a default.
+            const mineWaiting =
+              ticks.filter(t => t.status === 'pending' && (t.child_id === c.id || t.child_id === null)).length
+              + asks.filter(a => a.child_id === c.id || a.child_id === null).length
+            return (
+              <button
+                key={c.id}
+                onClick={() => setActiveChild(c.id)}
+                style={{
+                  border: `1.5px solid ${activeChild === c.id ? 'var(--terracotta)' : 'var(--border)'}`,
+                  background: activeChild === c.id ? 'var(--terracotta-lt)' : '#fff',
+                  borderRadius: 100, padding: '8px 15px', cursor: 'pointer',
+                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)',
+                  display: 'inline-flex', alignItems: 'center', gap: 7,
+                }}
+              >
+                {c.name}
+                {mineWaiting > 0 && (
+                  <span style={{
+                    background: '#B93B3F', color: '#fff', borderRadius: 100,
+                    minWidth: 20, padding: '1px 6px', textAlign: 'center',
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                  }}>
+                    {mineWaiting}
+                  </span>
+                )}
+              </button>
+            )
+          })}
         </div>
       )}
 

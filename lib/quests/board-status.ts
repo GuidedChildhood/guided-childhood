@@ -25,7 +25,9 @@ import { getStarBanks } from '@/lib/quests/bank'
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
 export type BoardStatus = {
-  /** Ticks the child has claimed that are waiting on the parent's yes. */
+  /** Everything waiting on the parent's yes: ticks the child has claimed, plus
+   *  new jobs they have pitched. One number because they are one queue, answered
+   *  on one tab. */
   ticksToConfirm: number
   /** Finished printables waiting to be confirmed so the stars can land. */
   printablesToConfirm: number
@@ -93,7 +95,7 @@ export async function getBoardStatus(
   const kidsPromise = supabase.from('children').select('id').eq('user_id', userId)
 
   const nowIso = new Date().toISOString()
-  const [ticks, sheets, school, agreement, kids, chartPrints, timeAsks, timers] = await Promise.all([
+  const [ticks, sheets, school, agreement, kids, chartPrints, timeAsks, timers, jobAsks] = await Promise.all([
     supabase.from('quest_ticks').select('id', { count: 'exact', head: true })
       .eq('user_id', userId).eq('status', 'pending'),
     supabase.from('printable_completions').select('id', { count: 'exact', head: true })
@@ -111,6 +113,10 @@ export async function getBoardStatus(
       .gte('created_at', new Date(Date.now() - 12 * 3600000).toISOString()),
     supabase.from('device_sessions').select('id', { count: 'exact', head: true })
       .eq('user_id', userId).eq('status', 'active').gt('ends_at', nowIso),
+    // A child pitching a new job. Counted into ticksToConfirm below rather than
+    // getting a badge of its own: see the comment on that field.
+    supabase.from('quest_requests').select('id', { count: 'exact', head: true })
+      .eq('user_id', userId).eq('status', 'pending'),
   ])
 
   // Fails soft like the rest: a bank that cannot be read shows no badge rather
@@ -128,7 +134,15 @@ export async function getBoardStatus(
     starsToSpend,
     // Unknown reads as printed, so a failure is silence rather than a nag.
     starChartPrinted: chartPrints.error ? true : (chartPrints.data?.length ?? 0) > 0,
-    ticksToConfirm: ticks.error ? 0 : (ticks.count ?? 0),
+    // Ticks AND pitches, as one number.
+    //
+    // Justin: "on quest it says 1 in red on home page, click on it and you get
+    // red 6 on jobs, but when you click jobs nothing there to match the 6." The
+    // nav badge counted pitches, this counted ticks, and both drew the same red
+    // circle without saying which question they were about. They are answered
+    // on the same "Waiting for you" tab and by the same parent in the same
+    // minute, so they are one queue. The layout reads the same union.
+    ticksToConfirm: (ticks.error ? 0 : (ticks.count ?? 0)) + (jobAsks.error ? 0 : (jobAsks.count ?? 0)),
     printablesToConfirm: sheets.error ? 0 : (sheets.count ?? 0),
     schoolOpen: school.error ? 0 : (school.count ?? 0),
     // Unknown reads as signed, so a failure is silence rather than a nag.

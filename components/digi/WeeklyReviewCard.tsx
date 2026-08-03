@@ -38,7 +38,22 @@ export default function WeeklyReviewCard() {
   // Seen is not read. This used to PATCH read the moment the card appeared,
   // which spent the unread state on a parent scrolling past it. The round up
   // page marks it read, because that is where it actually gets read.
-  if (!loaded || dismissed || !review) return null
+  //
+  // AND A READ ONE IS FINISHED WITH. Justin: "the week just gone should move
+  // away once they have looked at it."
+  //
+  // The card only ever hid on `dismissed`, so a parent who tapped See your
+  // week, read the whole round up, and came back to Home was offered it again,
+  // and again every day after, until they thought to press the small × instead.
+  // The comment four lines up already said the page marks it read; nothing was
+  // reading that back. A card asking you to go and read something you have read
+  // is the same fault as the rest of this morning, in a quieter register: a
+  // control that looks live and is not.
+  //
+  // Dismissed stays separate and still means what it meant. Read means finished
+  // with it, dismissed means not interested, and both take the card away.
+  const finishedWith = review?.status === 'read' || review?.status === 'dismissed'
+  if (!loaded || dismissed || !review || finishedWith) return null
 
   // Dismissed on the server, not in localStorage. The old day keyed local flag
   // put the card away on one device for one day; the parent's answer here is

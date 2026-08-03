@@ -1,7 +1,9 @@
 # The child's app: lose the road, keep the day, make the wins real
 
-**2 August 2026.** Lane: platform, child side. Migration claimed: **154**.
-(152 went to PR 686 first, so the moments loop moved to 153.)
+**2 August 2026.** Lane: platform, child side. Migration claimed: **155** (152 to 154 were all taken while this was in flight).
+(152 to 154 all went to other sessions while this was in flight, and the
+moments loop landed on main twice under two numbers. The stray copy is deleted
+here and 154_moment_outcomes.sql is the one that stands.)
 
 Three of Justin's messages, and they turn out to be one job.
 
@@ -84,7 +86,7 @@ The one exception is stickers, where migration 109 already got this right:
 `earned_stickers.celebrated`, flipped by `/api/kid/stickers/seen`. That is the
 pattern, and this generalises it.
 
-**Migration 154, `kid_milestones`.** One row per real win, unique on
+**Migration 155, `kid_milestones`.** One row per real win, unique on
 `(child_id, kind, key)`, so it is written once however many times it is noticed.
 `celebrated_at` null until the child has actually seen it, which is what makes
 "pops on next login" true rather than nearly true. `told_parent_at` null until
@@ -130,7 +132,7 @@ child's screen and mentions no shop at all.
 
 1. The offline pool (contained, and Justin asked twice)
 2. Lose the road, move the stickers home
-3. Migration 154, the milestone queue, the pop, the record
+3. Migration 155, the milestone queue, the pop, the record
 4. Tell the parent, with the shop offer
 
 Then back to the stated build order: the stage quiz, and the curriculum review

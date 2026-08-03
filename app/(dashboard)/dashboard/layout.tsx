@@ -18,16 +18,34 @@ export default async function DashboardLayout({ children }: { children: React.Re
     ? await supabase.from('profiles').select('full_name, subscription_tier, subscription_status').eq('id', user.id).single()
     : { data: null }
 
-  // Pending child asks: the count that puts a red, gently rocking badge on
-  // the Quests tab, so a parent notices when their child has pitched a
-  // quest or asked for a printable and it is waiting on their yes.
-  const { count: pendingAsks } = user
-    ? await supabase
-        .from('quest_requests')
-        .select('id', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .eq('status', 'pending')
-    : { count: 0 }
+  // Everything actually waiting on the parent, as ONE number.
+  //
+  // Justin: "on quest it says 1 in red on home page, click on it and you get
+  // red 6 on jobs, but when you click jobs nothing there to match the 6."
+  //
+  // Three red circles, three different things, and nothing said so:
+  //
+  //   this badge   quest_requests pending   a child PITCHING a new job
+  //   the tile     quest_ticks pending      a child saying they DID one
+  //   the page     neither, because it filtered to one child
+  //
+  // So a parent followed a red 1 about a pitch, met a red 6 about approvals,
+  // and landed on a form. Every hop was a different question, drawn in the same
+  // notification red, which teaches a parent that the numbers mean nothing.
+  //
+  // A badge is a promise that something needs you. Both of these do, and both
+  // are answered on the same "Waiting for you" tab, so they are one count. The
+  // tile reads the same union (board-status), so the numbers now agree wherever
+  // a parent looks.
+  const [ticksRes, asksRes] = user
+    ? await Promise.all([
+        supabase.from('quest_ticks').select('id', { count: 'exact', head: true })
+          .eq('user_id', user.id).eq('status', 'pending'),
+        supabase.from('quest_requests').select('id', { count: 'exact', head: true })
+          .eq('user_id', user.id).eq('status', 'pending'),
+      ])
+    : [{ count: 0 }, { count: 0 }]
+  const pendingAsks = (ticksRes.count ?? 0) + (asksRes.count ?? 0)
 
   const isPaid = profile?.subscription_status === 'active'
 
