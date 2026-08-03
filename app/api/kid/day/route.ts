@@ -47,7 +47,44 @@ export async function GET(request: NextRequest) {
   // The freed slot goes to reading, which is already in the pool. Dropping
   // printable never empties the middle: five of the six rotating steps remain.
   const region = await getFamilyRegion(link.admin, link.userId).catch(() => 'uk' as const)
-  const available = { printable: isSchoolHoliday(new Date(), region) }
+
+  // A lesson is a WEEKLY thing, not a daily one.
+  //
+  // Justin: "can we make sure the lessons for kids... we only feed one per week
+  // at most."
+  //
+  // Two of the twelve rotating rows are learning (lesson and quiz), so on a bad
+  // draw a child could meet one most days, and the Today list offers the focus
+  // lesson alongside. A lesson a day is school, and this is the fifteen minutes
+  // after school where a child has least appetite for more of it. One a week is
+  // a thing to look forward to; five a week is a subject.
+  //
+  // Enforced through the SAME mechanism the printable already uses: a step that
+  // cannot be completed must never be one of the five, because a child who
+  // cannot finish the day can never earn the streak and has no way of knowing
+  // why. So the row is simply not drawn once this week's lesson is done.
+  //
+  // The week is the last seven days rather than since Monday, deliberately. A
+  // child who does their lesson on Sunday should not meet another on Monday
+  // morning because a calendar boundary happened to fall between them.
+  let lessonThisWeek = false
+  try {
+    const since = new Date(Date.now() - 7 * 86_400_000).toISOString()
+    const { count } = await link.admin
+      .from('kid_lesson_missions')
+      .select('id', { count: 'exact', head: true })
+      .eq('child_id', link.childId)
+      .eq('status', 'done')
+      .gte('completed_at', since)
+    lessonThisWeek = (count ?? 0) > 0
+  } catch { lessonThisWeek = false }
+
+  const available = {
+    printable: isSchoolHoliday(new Date(), region),
+    // Fails soft to available: a read that cannot answer must not silently
+    // remove a child's learning row for ever.
+    lesson: !lessonThisWeek,
+  }
 
   const { day, row } = await loadDay(link.admin, link.userId, link.childId, available)
   const streak = await streakCount(link.admin, link.childId)

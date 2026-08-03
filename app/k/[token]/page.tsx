@@ -282,7 +282,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       supabase.from('lessons').select('id, title, category, sort_order')
         .eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub')
         .order('sort_order', { ascending: true }),
-      supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', link.user_id).eq('lesson_source', 'lesson'),
+      supabase.from('lesson_completions').select('lesson_id, passed, completed_at').eq('user_id', link.user_id).eq('lesson_source', 'lesson'),
     ])
     if (!lessonsErr && !passErr && (stageLessonRows ?? []).length > 0) {
       const rows = stageLessonRows ?? []
@@ -292,7 +292,22 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       )
       stageLessonsTotal = ids.size
       stageLessonsPassed = passedIds.size
-      const next = rows.find(l => !passedIds.has(l.id))
+      // One lesson a week, the other door.
+      //
+      // The five a day caps its own lesson row (see /api/kid/day), but the
+      // Today list offers this focus lesson separately and every single day, so
+      // capping one and not the other would have left the cadence exactly where
+      // it was. Justin: "we only feed one per week at most."
+      //
+      // Counted on PASSES rather than on what was offered: a child who opened a
+      // lesson and did not finish it has not had their lesson this week, and
+      // hiding the next one would strand them.
+      const weekAgoLesson = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
+      const passedThisWeek = (passRows ?? []).some(
+        c => c.passed !== false && ids.has(c.lesson_id)
+          && String((c as { completed_at?: string | null }).completed_at ?? '').slice(0, 10) >= weekAgoLesson,
+      )
+      const next = passedThisWeek ? undefined : rows.find(l => !passedIds.has(l.id))
       if (next) {
         focusLesson = {
           id: next.id as string,

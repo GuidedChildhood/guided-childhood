@@ -493,11 +493,55 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* More than one child: butter pills at the top switch whose day this
           is. Every reading below recomputes for the selected child. */}
       <ChildSwitcher kids={allKids} selectedId={child?.id ?? null} basePath="/dashboard" />
-      {/* The weekly round up, at the top, when there is one waiting. Renders
-          nothing at all otherwise, so it costs the other six days nothing.
-          Above DiGi's welcome because it is the only thing on this screen
-          that expires: it is about a week that has finished, and it stops
-          being the week just gone the moment the next one lands. */}
+
+      {/* ── THE FIRST SCREEN ────────────────────────────────────────────────
+          Two things, in this order, and then everything else.
+
+          Justin: "when you open Duolingo first time it has pathway only on Home
+          Screen scroll, this is neat."
+
+          Step 2 put Today second and it was still not second. Seven things
+          rendered above it: the round up card, DiGi's welcome, two trial
+          banners, the mission welcome, the child app nudge and the deal review
+          nudge. All of them conditional, so no parent met all seven, but any
+          two of them together pushed the day below the fold on a phone. That is
+          the whole complaint, and moving Today past ten components while
+          leaving seven in front of it fixed about half of it.
+
+          The rule now, and it is the only rule this screen has: WHOEVER IS
+          WAITING, then THE DAY. Everything else is worth having and is not
+          worth being met before those two, so it sits underneath in the order
+          it always had. Nothing is deleted here. ─────────────────────────── */}
+      {/* THE LIVE SLOT: one fixed place for anything with a person on the
+          other end of it.
+          Justin, holding up Duolingo's home: "after pathway is done for the day
+          it should move away leaving all the next important tabs."
+          The timer and the approvals queue used to be two separate cards that
+          each rendered nothing on a quiet day. Right about noise, wrong about
+          position: a slot that vanishes is indistinguishable from one that
+          failed to load. HomeLive keeps the place and writes the calm state,
+          the way Deel's Upcoming actions and Airwallex's My tasks both do. */}
+      <HomeLive />
+
+      {/* TODAY, THE SPINE OF THE SCREEN, second only to whoever is waiting.
+          Justin, holding up Duolingo's home: "it has pathway only on Home
+          Screen scroll, this is neat".
+          This is that path and it has always been the right component. It was
+          simply ELEVENTH on the page, under the community question, the quests
+          lead and the day checkup, so the thing a parent opens the app to do
+          was below the fold on a phone. Nothing about the card changed; only
+          where it sits. Its own finished state already folds it to one line
+          (see TodayPathBig), which is Justin's "after pathway is done for the
+          day it should move away leaving all the next important tabs". */}
+      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
+
+      {/* The weekly round up, first of the things that are not the day itself.
+          Renders nothing at all otherwise, so it costs the other six days
+          nothing, and it hides once read (see WeeklyReviewCard).
+          It leads this group because it is the only thing here that EXPIRES:
+          it is about a week that has finished, and it stops being the week just
+          gone the moment the next one lands. It no longer leads the SCREEN,
+          because a round up of last week is not more urgent than today. */}
       <WeeklyReviewCard />
       {/* DiGi comes up first, once a day, greeting the family by name */}
       <DigiWelcomeSheet
@@ -613,29 +657,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           />
         )
       })()}
-
-      {/* THE LIVE SLOT: one fixed place for anything with a person on the
-          other end of it.
-          Justin, holding up Duolingo's home: "after pathway is done for the day
-          it should move away leaving all the next important tabs."
-          The timer and the approvals queue used to be two separate cards that
-          each rendered nothing on a quiet day. Right about noise, wrong about
-          position: a slot that vanishes is indistinguishable from one that
-          failed to load. HomeLive keeps the place and writes the calm state,
-          the way Deel's Upcoming actions and Airwallex's My tasks both do. */}
-      <HomeLive />
-
-      {/* TODAY, THE SPINE OF THE SCREEN, second only to whoever is waiting.
-          Justin, holding up Duolingo's home: "it has pathway only on Home
-          Screen scroll, this is neat".
-          This is that path and it has always been the right component. It was
-          simply ELEVENTH on the page, under the community question, the quests
-          lead and the day checkup, so the thing a parent opens the app to do
-          was below the fold on a phone. Nothing about the card changed; only
-          where it sits. Its own finished state already folds it to one line
-          (see TodayPathBig), which is Justin's "after pathway is done for the
-          day it should move away leaving all the next important tabs". */}
-      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
 
       {/* The monthly community bite, now BELOW today rather than above it. One
           question a month is worth having and is not worth the second slot on
