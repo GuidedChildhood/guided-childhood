@@ -39,6 +39,15 @@ type Tile = {
    * do, so it stays quiet. Same tile, same badge slot, two different weights.
    */
   badgeTone?: 'quiet' | 'alert' | ((s: BoardStatus) => 'quiet' | 'alert')
+  /**
+   * Where the tile goes WHEN IT HAS A BADGE, if that is somewhere else.
+   *
+   * A badge is a promise that there is something to deal with. Following it has
+   * to land on the thing it counted, or the number is decoration. Only set this
+   * where the two genuinely differ; every other tile has one destination and
+   * the badge is just extra detail about it.
+   */
+  hrefWithBadge?: string
 }
 
 const TILES: Tile[] = [
@@ -55,7 +64,23 @@ const TILES: Tile[] = [
     // it is the single most used action on this board. A parent with a job in
     // their head scans eight tiles for the word they are thinking, and the word
     // they are thinking is add.
+    // The badge and the destination have to be the same thing.
+    //
+    // Justin: "on quest it says 1 in red on home page, click on it and you get
+    // red 6 on jobs, but when you click jobs nothing there to match the 6."
+    //
+    // He is right and it was this line. The badge counts ticks WAITING TO BE
+    // AGREED, the tile is called Add a job, and the link opened the page on its
+    // Add a job tab. So a parent followed a red 6 to a form for creating a
+    // seventh job, with the six it was counting sitting behind a tab they had
+    // not been shown. Three surfaces, three different numbers, and none of them
+    // where the number pointed.
+    //
+    // The page already takes ?tab, so the link now names the tab that HOLDS
+    // what the badge counted. With nothing waiting it opens on Add, which is
+    // what the tile is called and what a parent with a clear board came for.
     href: '/dashboard/quests/manage', label: 'Add a job', sub: 'Add, agree and send',
+    hrefWithBadge: '/dashboard/quests/manage?tab=agree',
     icon: 'jobs', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#C0603A',
     // The one red count on the board. A ticked job is a child standing there
     // with the stars not yet theirs, which is the only thing on this page with
@@ -168,7 +193,9 @@ export default function QuestShortcuts({ status }: { status?: BoardStatus }) {
   const tiles: SectionTile[] = TILES.map(t => {
     const badge = status && t.badge ? t.badge(status) : null
     return {
-      href: t.href, label: t.label, sub: t.sub,
+      // A badged tile goes where its number lives. See hrefWithBadge.
+      href: badge && t.hrefWithBadge ? t.hrefWithBadge : t.href,
+      label: t.label, sub: t.sub,
       icon: <KidIcon name={t.icon} size={23} />,
       bg: t.bg, accent: ACCENT[t.bg] ?? 'var(--border)', iconColor: t.iconColor,
       ...(badge ? { badge, badgeTone: typeof t.badgeTone === 'function' ? t.badgeTone(status!) : (t.badgeTone ?? 'quiet') } : {}),

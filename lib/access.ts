@@ -1,8 +1,18 @@
-// Full access to Guided Childhood: an active subscription, or a 7 day free
-// trial that has not yet passed. When the trial ends the family settles onto
-// the free tier, never a lockout. One helper so every feature gate agrees.
+// Full access to Guided Childhood: an active subscription, or a short free
+// trial that has not yet passed. One helper so every feature gate agrees.
 
-export const TRIAL_DAYS = 7
+// Justin: "it should be 4 days free not 7".
+//
+// Four rather than seven because the thing this trial has to prove happens
+// daily. A parent who is going to get it gets it in the first two or three
+// days: they set a job, the child ticks it, they say yes, the minutes land.
+// Seven days does not add a fifth proof, it adds four days for the habit to go
+// quiet in, and a trial that ends after the family has already drifted converts
+// worse than one that ends while they are still in it.
+//
+// Changing this number changes the Stripe checkout's trial_period_days too, so
+// the card and the app can never disagree about when it runs out.
+export const TRIAL_DAYS = 4
 
 export type AccessProfile = {
   subscription_status?: string | null
