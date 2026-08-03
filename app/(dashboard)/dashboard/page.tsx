@@ -625,10 +625,22 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           the way Deel's Upcoming actions and Airwallex's My tasks both do. */}
       <HomeLive />
 
-      {/* The monthly community bite: one question, answered in a tap, and the
-          answer turns into the crowd. Sits under what is waiting, because a
-          parent with jobs to approve should see those first. Silent once it is
-          answered and read, until next month's question. */}
+      {/* TODAY, THE SPINE OF THE SCREEN, second only to whoever is waiting.
+          Justin, holding up Duolingo's home: "it has pathway only on Home
+          Screen scroll, this is neat".
+          This is that path and it has always been the right component. It was
+          simply ELEVENTH on the page, under the community question, the quests
+          lead and the day checkup, so the thing a parent opens the app to do
+          was below the fold on a phone. Nothing about the card changed; only
+          where it sits. Its own finished state already folds it to one line
+          (see TodayPathBig), which is Justin's "after pathway is done for the
+          day it should move away leaving all the next important tabs". */}
+      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
+
+      {/* The monthly community bite, now BELOW today rather than above it. One
+          question a month is worth having and is not worth the second slot on
+          the screen: a parent who has not done their day yet has something
+          better to do than answer it. Silent once answered, until next month. */}
       <CommunityBite />
 
       {/* Day done, so lead with quests. A returning parent whose daily habit is
@@ -670,11 +682,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         />
       )}
 
-      {/* The hero of Home while the day is still open: today's loop as the big
-          vertical path, Duolingo sized, DiGi on the lit next step and one big
-          Go. Once the habit is done the quests lead above takes first place and
-          the path sits below in its finished state. */}
-      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
 
       {/* Everything else folds to big friendly rows: quests with the live
           approve count, the road to 16 with the stamp position, and DiGi.
