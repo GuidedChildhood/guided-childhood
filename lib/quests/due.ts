@@ -20,3 +20,36 @@ export function questDueToday(schedule: string, scheduleDays?: number[] | null, 
   if (schedule === 'weekend') return weekend
   return true
 }
+
+// How often this job happens, in a child's words.
+//
+// Justin: "if it's set for weekdays it sends a notification for exact day so 5,
+// but only need to send one that job has been added and say if weekly etc."
+//
+// The five pushes are the daily reminder cron doing its job, not the add doing
+// it five times. But the add never SAID the cadence, so a child met "Tidy your
+// room is worth 1 star" and then five nudges across the week with nothing ever
+// having told them it was a weekday job. The reminders read as pestering
+// because the agreement was never stated.
+//
+// Said once, at the point it is added, they read as the thing already agreed.
+export function scheduleLabel(schedule: string | null, days?: number[] | null): string {
+  // Chosen days win over the schedule word: a parent who picked Tuesday and
+  // Thursday means those, whatever the dropdown says.
+  if (Array.isArray(days) && days.length > 0) {
+    const NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const picked = [...new Set(days)].sort().map(d => NAMES[d]).filter(Boolean)
+    if (picked.length === 1) return `every ${picked[0]}`
+    if (picked.length === 7) return 'every day'
+    const last = picked.pop()
+    return `every ${picked.join(', ')} and ${last}`
+  }
+  switch (schedule) {
+    case 'daily': return 'every day'
+    case 'weekdays': return 'every weekday'
+    case 'weekend': return 'at the weekend'
+    // A one off says nothing about repeating, because it does not.
+    case 'once': return ''
+    default: return ''
+  }
+}
