@@ -5056,3 +5056,41 @@ thing the sweep exists to stop.
 **Worth doing regardless of the sweep:** the scripts belong in a seed migration.
 233 rows of the product's voice living in one database with no copy in version
 control is a single delete away from gone.
+
+## 4 August 2026, later — the scripts sweep, done, and the numbers that were off
+
+**Justin opened Supabase, so the reads that blocked everything went through.**
+Three things the repo could not have told me:
+
+**The scripts number was 121. It is 179.** 236 scripts live, 143 saying "your
+child", 36 saying "your son, daughter or teen", 0 phrased as a scenario, 2
+assuming a gender. Full sweep was already the call and a bigger number does not
+change it, but it is worth knowing the sweep was half as big again as the brief.
+
+**Migration 157 rewrites all 179 situations.** Only the framing moves: "your
+child" becomes "a child", an opener becomes "when" where the sentence needs one,
+and the moment, detail and rhythm stay exactly as written. `say_this`,
+`not_this`, `why_it_works` and `tonight` are untouched, because once the moment
+IS real, second person is the right voice and always was.
+
+**Why this is not a style note.** A parent browses the scripts library before
+anything has happened. "Your child agrees to 45 minutes and is still playing an
+hour later" tells them it did. A whole list of those reads as a portrait of a
+family in trouble, which is the opposite of what the library is for.
+
+**Verified rather than trusted.** The 179 ids in the migration were fingerprinted
+against the 179 rows the database says match, and the md5 of both sets is
+identical, so the sweep covers exactly the affected rows, none missed and none
+extra. Hyphens were closed up on the way past, which also clears a no dashes
+breach these rows were already carrying.
+
+**ai_lessons is worse than the brief said, and in a more interesting way.** 54
+rows, not 46, and **not one of them has a slides deck at all**, so there are no
+authored questions to have zero of. Every one falls to `autoSlidesFromLesson`,
+which means a child meets one generated prove check built from the key message
+with two fixed wrong answers, the same two every time, across all 54.
+
+**A second audience leak, which the repo hid.** 10 of the 46 live family lessons
+have no deck, so the player renders their four text fields as slides. 5 of those
+10 carry grown up address in that text. Migration 156 fixed the lessons list
+line; this is the lesson body, and it is still open.
