@@ -51,6 +51,23 @@ export default async function KidLessonsPage({ params, searchParams }: {
     .order('sort_order', { ascending: true })
   const stageLessons = (allLessons ?? []).filter(l => l.stage_id === stage.name.toLowerCase())
 
+  // The child's own one line per lesson. key_message is written for the grown
+  // up on fifteen of these ("your child holds the keys to four doors"), and this
+  // is the page where the child reads it about themselves. Asked for separately
+  // and failing soft to an empty map, so before migration 156 the column is
+  // simply absent and every lesson keeps the line it has today.
+  const childLines = new Map<string, string>()
+  {
+    const { data } = await supabase
+      .from('lessons')
+      .select('id, child_key_message')
+      .eq('audience', 'parent')
+      .not('child_key_message', 'is', null)
+    for (const r of data ?? []) {
+      if (r.child_key_message) childLines.set(r.id as string, r.child_key_message as string)
+    }
+  }
+
   // Passes already on record for this family, columns fail soft: an older
   // database without the 079 pass columns just shows nothing as passed yet.
   let completions: { lesson_id: string; passed: boolean | null; score: number | null }[] = []
@@ -98,7 +115,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
       id: l.id,
       title: l.title,
       emoji: CATEGORY_EMOJI[l.category] ?? '📘',
-      keyMessage: l.key_message,
+      keyMessage: childLines.get(l.id) ?? l.key_message,
       done,
       score: done ? c?.score ?? null : null,
       locked: !paid && !freeIds.has(l.id) && !c && l.id !== nextOpenId,

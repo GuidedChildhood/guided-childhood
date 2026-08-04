@@ -68,7 +68,20 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
   const nextOpenId = nextOpenLessonId(stageLessonsForStage, passedIds)
   if (!paid && !freeIds.has(lesson.id) && !openedThis && lesson.id !== nextOpenId) redirect(`/k/${token}/lessons`)
 
-  const rawSlides = parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson)
+  // A lesson with no authored deck is rendered from its four text fields, which
+  // are written for the grown up, so the child would read the Remember card as
+  // "your child ...". Its own line replaces that one where the lesson has one.
+  // Asked for separately and failing soft, so before migration 156 the column is
+  // absent and the lesson renders exactly as it does today.
+  let childKeyMessage: string | null = null
+  {
+    const { data } = await supabase
+      .from('lessons').select('child_key_message').eq('id', lessonId).maybeSingle()
+    childKeyMessage = (data as { child_key_message?: string | null } | null)?.child_key_message ?? null
+  }
+
+  const rawSlides = parseSlides(lesson.slides)
+    ?? autoSlidesFromLesson({ ...lesson, key_message: childKeyMessage ?? lesson.key_message })
   if (!rawSlides) notFound()
   // The kid client never receives the teacher script channel.
   const slides = rawSlides.map(s => {
