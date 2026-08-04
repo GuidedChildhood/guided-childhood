@@ -7,6 +7,7 @@ import { getHolidayBanks } from '@/lib/quests/holiday-bank'
 import { getFamilyRegion } from '@/lib/learning/region'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { pushToChild } from '@/lib/quests/kid-push'
+import { scheduleLabel } from '@/lib/quests/due'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
 
@@ -387,10 +388,20 @@ export async function POST(req: NextRequest) {
     const gate = data.blocks_screens
       ? ' This one comes before screens today.'
       : ''
+    // How often it happens, said ONCE, here.
+    //
+    // Justin: "if it's set for weekdays it sends a notification for exact day
+    // so 5, but only need to send one that job has been added and say if weekly
+    // etc." The five are the reminder cron, not five adds. But this message
+    // never named the cadence, so a child met the job and then five nudges
+    // across the week having never been told it was a weekday job. Stated here,
+    // the later nudges read as the thing already agreed rather than pestering.
+    const every = scheduleLabel(data.schedule as string | null, data.schedule_days as number[] | null)
+    const when = every ? ` It happens ${every}.` : ''
     await pushToChild(
       createAdminClient(), user.id, data.child_id as string,
       `A new job from your grown up ${data.emoji ?? '⭐'}`,
-      `"${data.title}" is worth ${data.stars} star${data.stars === 1 ? '' : 's'}, that is ${mins} minutes.${gate} Tap it done when it is finished.`
+      `"${data.title}" is worth ${data.stars} star${data.stars === 1 ? '' : 's'}, that is ${mins} minutes.${when}${gate} Tap it done when it is finished.`
     )
   }
   return NextResponse.json({ quest: data })
