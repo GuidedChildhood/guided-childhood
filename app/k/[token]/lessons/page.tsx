@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
@@ -18,8 +18,12 @@ const CATEGORY_EMOJI: Record<string, string> = {
   online_risks: '🔍', ai_safety: '🤖', ai_literacy: '🤖',
 }
 
-export default async function KidLessonsPage({ params }: { params: Promise<{ token: string }> }) {
+export default async function KidLessonsPage({ params, searchParams }: {
+  params: Promise<{ token: string }>
+  searchParams?: Promise<{ next?: string; quiz?: string }>
+}) {
   const { token } = await params
+  const wantsNext = (await searchParams)?.next === '1'
   if (!/^[0-9a-f]{18}$/.test(token)) notFound()
 
   const supabase = createAdminClient()
@@ -79,6 +83,13 @@ export default async function KidLessonsPage({ params }: { params: Promise<{ tok
   // stalls behind the paywall; the ones beyond it still wait for membership.
   const passedIds = new Set(stageLessons.filter(l => { const c = byLesson.get(l.id); return Boolean(c && c.passed !== false) }).map(l => l.id))
   const nextOpenId = nextOpenLessonId(stageLessons.map(l => ({ id: l.id, stage_id: l.stage_id, sort_order: l.sort_order })), passedIds)
+
+  // The five a day's lesson row asks for the next one they have not passed, so
+  // send them into it rather than showing a shelf to pick from. Falling through
+  // to the list is the right answer when there is nothing left in the stage: a
+  // child who has passed everything should see what they finished, not a
+  // redirect to nowhere.
+  if (wantsNext && nextOpenId) redirect(`/k/${token}/lessons/${nextOpenId}`)
 
   const items: KidLessonItem[] = stageLessons.map(l => {
     const c = byLesson.get(l.id)

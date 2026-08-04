@@ -813,8 +813,13 @@ export default function LessonPlayer({
             : 'Your grown up just got the good news. Stars mean screen time, and you earned it the smart way.'}
         </p>
         <div style={{ maxWidth: '300px', margin: '0 auto' }}>
-          <Link href={backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-md)', width: '100%' }}>
-            {lessonSource === 'lesson' ? 'Back to my road ⭐' : 'Back to my quests'}
+          {/* Back to the five a day, not to the shelf of lessons.
+              A child who came from the lesson row has four other steps waiting
+              and the row is now ticked, so the list is the one place they do
+              not need to be. homeHref is only set on the child routes, so the
+              parent player keeps landing exactly where it always did. */}
+          <Link href={homeHref ?? backHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-md)', width: '100%' }}>
+            {lessonSource === 'lesson' ? 'Back to my day ⭐' : 'Back to my quests'}
           </Link>
         </div>
       </div>

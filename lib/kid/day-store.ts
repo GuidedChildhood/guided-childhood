@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { pickDay, dayComplete, ukToday, type StepKey } from '@/lib/kid/five-a-day'
+import { pickDay, dayComplete, ukToday, STEPS, type StepKey } from '@/lib/kid/five-a-day'
 import { grantDayMinutes, MINUTES_PER_COMPLETED_DAY } from '@/lib/quests/holiday-daily'
+import { sendPush } from '@/lib/push/send'
 
 // Reading and ticking the five a day, in one place.
 //
@@ -40,6 +41,42 @@ export interface DayRow {
  * phone, and the check-then-insert version races into a duplicate key error
  * that would show as a broken screen.
  */
+/**
+ * Has this child already had a lesson day this week?
+ *
+ * Justin: lessons are "just a once a week ask". A lesson is fifteen minutes of
+ * real work and the only step of the five that is, so drawing it daily turns
+ * the list from a habit into homework and the streak into something a child
+ * stops trying for. Once a week it is the interesting one; every day it is the
+ * reason they stop opening the app.
+ *
+ * Counts the step being SET for a day, not passed. A child who was offered a
+ * lesson on Monday and skipped it has had their lesson day: offering it again
+ * on Tuesday is the nagging this rule exists to prevent.
+ *
+ * Monday start, matching the star week the rest of the app runs on. Fails open,
+ * because a lookup that cannot answer should cost a child a slightly repetitive
+ * week, never a day they are unable to finish.
+ */
+async function lessonAlreadyThisWeek(admin: Admin, childId: string, day: string): Promise<boolean> {
+  try {
+    const d = new Date(`${day}T12:00:00Z`)
+    // getUTCDay is 0 on Sunday, which belongs to the week that began six days
+    // earlier rather than to the one starting tomorrow.
+    const back = (d.getUTCDay() + 6) % 7
+    d.setUTCDate(d.getUTCDate() - back)
+    const weekStart = d.toISOString().slice(0, 10)
+
+    const { data, error } = await admin
+      .from('kid_days').select('steps')
+      .eq('child_id', childId).gte('day', weekStart).lt('day', day)
+    if (error || !data) return false
+    return data.some(r => Array.isArray(r.steps) && (r.steps as string[]).includes('lesson'))
+  } catch {
+    return false
+  }
+}
+
 export async function loadDay(
   admin: Admin,
   userId: string,
@@ -52,7 +89,13 @@ export async function loadDay(
     .eq('child_id', childId).eq('day', day).maybeSingle()
   if (existing) return { day, row: existing as DayRow }
 
-  const steps = pickDay(childId, day, available)
+  // Only ever narrows what the caller already allowed: a caller saying there is
+  // no lesson left in the stage still wins.
+  const weekly = { ...available }
+  if (weekly.lesson !== false && await lessonAlreadyThisWeek(admin, childId, day)) {
+    weekly.lesson = false
+  }
+  const steps = pickDay(childId, day, weekly)
   await admin.from('kid_days')
     .upsert({ user_id: userId, child_id: childId, day, steps, done: [] }, { onConflict: 'child_id,day', ignoreDuplicates: true })
   const { data: row } = await admin
@@ -91,6 +134,60 @@ export async function streakCount(admin: Admin, childId: string): Promise<number
   let count = 0
   while (days.has(stamp(cursor))) { count++; cursor++ }
   return count
+}
+
+/**
+ * Tell the parent their child finished the whole day, and what "the whole day"
+ * actually was.
+ *
+ * Justin: when all jobs are done it should send "a child completion breakdown
+ * to parent that it's done, and a note of homework done ... as they wrote it,
+ * as we will match it with what is required another time".
+ *
+ * A bare "Teo finished his day" is a notification a parent learns to ignore,
+ * because it says nothing they can act on or ask about at tea. The five steps
+ * named, and the homework in the child's own words, is a thing to talk about.
+ *
+ * The note goes VERBATIM. Not summarised, not tidied. The whole point is that
+ * it can be held against what the school actually set, and a rewrite would
+ * quietly destroy the only evidence of what the child understood the homework
+ * to be. Trimmed for the notification only; the full text stays in
+ * kid_homework_notes either way.
+ *
+ * Best effort by contract, and called after the day is already saved. A child
+ * who has just finished five things must never see a failure about a push to
+ * somebody else's phone.
+ */
+async function notifyParentDayComplete(
+  admin: Admin,
+  userId: string,
+  childId: string,
+  day: string,
+  steps: StepKey[],
+): Promise<void> {
+  try {
+    const [{ data: child }, { data: homework }] = await Promise.all([
+      admin.from('children').select('name').eq('id', childId).maybeSingle(),
+      admin.from('kid_homework_notes').select('note').eq('child_id', childId).eq('day', day).maybeSingle(),
+    ])
+    const name = (child as { name?: string } | null)?.name ?? 'Your child'
+    const breakdown = steps.map(k => STEPS[k]?.label ?? k).join(', ')
+
+    const note = ((homework as { note?: string } | null)?.note ?? '').trim()
+    const clipped = note.length > 140 ? `${note.slice(0, 137)}...` : note
+    const body = note
+      ? `${breakdown}. Homework, in their words: "${clipped}"`
+      : `${breakdown}.`
+
+    await sendPush({
+      userId,
+      title: `${name} finished all five today 🌟`,
+      body,
+      url: '/dashboard/quests',
+    })
+  } catch (err) {
+    console.error('five a day: parent completion notice failed:', err)
+  }
 }
 
 export interface MarkResult {
@@ -147,7 +244,10 @@ export async function markStep(
   // celebration should be true together or not at all, so a child never sees
   // one without the other.
   const justCompleted = complete && !row.completed_at
-  if (justCompleted) await grantDayMinutes(admin, userId, childId, day)
+  if (justCompleted) {
+    await grantDayMinutes(admin, userId, childId, day)
+    await notifyParentDayComplete(admin, userId, childId, day, steps)
+  }
 
   return {
     ok: true,

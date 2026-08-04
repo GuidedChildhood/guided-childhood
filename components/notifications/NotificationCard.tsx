@@ -116,6 +116,61 @@ export default function NotificationCard({ n }: { n: Notification }) {
     )
   }
 
+  // Approve lands the stars HERE.
+  //
+  // Justin: "can we make this approve button actually approve instead of going
+  // to jobs page". The button said "Approve the stars" and approved nothing: it
+  // navigated to the manage board, where the parent had to find the same job
+  // again and press a second, different button. A button that names an action
+  // and performs a navigation is the thing this whole hub was built to stop.
+  //
+  // Both flavours of approve carry the row id in the notification id already,
+  // because the feed builds them as `tick-<id>` and `printable-<id>`, so there
+  // is nothing new to plumb and each goes to the endpoint the board already
+  // uses. The child gets the same push either way, since that lives in the
+  // route rather than in whichever screen the parent tapped.
+  //
+  // Optimistic: the card folds away at once and the bell re-counts, because a
+  // parent tapping approve has decided, and a spinner on a decision that has
+  // already been made just makes the app feel slow. A failure reconciles on the
+  // next load, when the tick is still pending and the card is simply back.
+  if (n.kind === 'approve') {
+    const isPrintable = n.id.startsWith('printable-')
+    const rowId = n.id.replace(/^(tick|printable)-/, '')
+    const approve = async (e: React.MouseEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+      if (busy) return
+      setBusy(true)
+      setCleared(true)
+      notifsChanged()
+      try {
+        await fetch(isPrintable ? '/api/printables/confirm' : '/api/quests/approve', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(isPrintable
+            ? { id: rowId, decision: 'confirm' }
+            : { tick_id: rowId, decision: 'approve' }),
+        })
+      } catch { /* gone locally, reconciles on reload */ }
+    }
+    return (
+      <div style={cardStyle(n)}>
+        <CardShell n={n}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
+            <button onClick={approve} disabled={busy} style={pill(n)}>
+              {isPrintable ? 'Confirm the stars ✓' : 'Approve the stars ✓'}
+            </button>
+            {/* The board is still one tap away for a parent who wants to look
+                before they say yes, or who wants to say no. */}
+            <Link href={n.href} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+              Open the board
+            </Link>
+          </div>
+        </CardShell>
+      </div>
+    )
+  }
+
   // Everything else: the whole card is the link. A DiGi nudge marks itself
   // acted as it opens, so it clears from the bell.
   const isDigi = n.kind === 'digi'

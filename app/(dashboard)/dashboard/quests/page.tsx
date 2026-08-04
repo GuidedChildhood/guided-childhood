@@ -40,6 +40,7 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
   // What is actually waiting, so the tiles at the top can say so rather than
   // being eight labels a parent has to scroll past to find out.
   let boardStatus: BoardStatus | undefined
+  let homeworkNotes: { childName: string; day: string; note: string }[] = []
   if (user) {
     boardStatus = await getBoardStatus(supabase, user.id)
     const [{ data: kids }, { data: links }, { data: quests }] = await Promise.all([
@@ -65,6 +66,40 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
     handoverName = ready?.name ?? null
     handoverId = ready?.id ?? null
     spotKids = (kids ?? []).filter(k => k.name && k.name !== 'Your child').map(k => ({ id: k.id, name: k.name }))
+
+    // Homework, in the child's own words.
+    //
+    // Justin: the note should be "saved somewhere as they wrote it, as we will
+    // match it with what is required another time". It is saved either way, but
+    // a note only a database can read is not a note a parent has. This is the
+    // place it belongs: the page the completion notice already links to.
+    //
+    // VERBATIM. Never tidied, never summarised. The value is that it can be held
+    // against what the school actually set, and the child's own wording is the
+    // only record of what they understood the homework to be.
+    //
+    // Fails soft: before migration 147 the table is simply not there, and a page
+    // that already works must not start 500ing over a panel that is a bonus.
+    {
+      const since = new Date(Date.now() - 7 * 86_400_000).toISOString().slice(0, 10)
+      const { data: notes, error } = await supabase
+        .from('kid_homework_notes')
+        .select('child_id, day, note')
+        .eq('user_id', user.id)
+        .gte('day', since)
+        .order('day', { ascending: false })
+        .limit(20)
+      if (!error) {
+        const nameOf = new Map((kids ?? []).map(k => [k.id as string, k.name as string]))
+        homeworkNotes = (notes ?? [])
+          .filter(n => String(n.note ?? '').trim())
+          .map(n => ({
+            childName: nameOf.get(n.child_id as string) ?? 'Your child',
+            day: String(n.day),
+            note: String(n.note).trim(),
+          }))
+      }
+    }
 
     // Completed jobs streaks still waiting on a reward. Fails soft before
     // migration 096 (the table simply does not exist yet).
@@ -219,6 +254,31 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
           ))}
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '4px 0 0' }}>
             1 star is {STAR_MINUTES} minutes. The guide is a ceiling, not a target: a child who earns plenty and watches less is the balance working at its best.
+          </p>
+        </div>
+      )}
+
+      {/* What they wrote in the Homework step, exactly as they wrote it. */}
+      {homeworkNotes.length > 0 && (
+        <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '15px 17px', marginTop: '14px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', marginBottom: '10px' }}>
+            Homework, in their words
+          </div>
+          {homeworkNotes.map(n => (
+            <div key={`${n.childName}-${n.day}`} style={{ marginBottom: '12px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', marginBottom: '2px' }}>
+                {n.childName}
+                <span style={{ fontFamily: 'var(--font-body)', fontWeight: 400, color: 'var(--ink-muted)' }}>
+                  {' '}· {new Date(`${n.day}T12:00:00Z`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' })}
+                </span>
+              </div>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, whiteSpace: 'pre-wrap' }}>
+                {n.note}
+              </p>
+            </div>
+          ))}
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '2px 0 0' }}>
+            Kept word for word, so you can hold it against what school actually set.
           </p>
         </div>
       )}

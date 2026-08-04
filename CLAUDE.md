@@ -64,6 +64,26 @@ the same thing (it happened: PR 55 and PR 56 built the same Phase 2 twice on
 9. Every CTA on /join routes to /starter-pack.
 10. Founder rate capped at 50 — enforced in code, not just in copy.
 
+## REPORTING BACK TO JUSTIN
+
+Summarise. Do not narrate every detail.
+
+Justin, 4 August 2026: "please summarise in general as a rule, as no need to go
+into so much detail as takes too long to read, as long as vital info there, it
+worked and why, and let me know what you need from me."
+
+So every update is three things and stops:
+
+1. What changed, in a line each.
+2. Whether it worked, and the one reason worth knowing.
+3. What is needed from him, named plainly.
+
+Depth on request, never by default. A long report on a small change is not
+thoroughness, it is a thing he has to read before he can do anything. The
+reasoning still belongs in the code comments and the pull request body, where it
+is there when someone goes looking, rather than in the message he opens on his
+phone.
+
 ## DESIGN SYSTEM
 
 Fonts: Nunito (700-900 display, 400-600 body) + IBM Plex Mono (labels, eyebrows)
