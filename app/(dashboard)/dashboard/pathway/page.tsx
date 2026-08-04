@@ -19,6 +19,7 @@ import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamp
 import MeetTheFriends from '@/components/pathway/MeetTheFriends'
 import StageReadiness from '@/components/pathway/StageReadiness'
 import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
+import { stageQuizPool } from '@/lib/pathway/stage-quiz-gather'
 import { READINESS } from '@/lib/content/readiness'
 import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 import IsItWorkingReport from '@/components/pathway/IsItWorkingReport'
@@ -111,6 +112,11 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   const lessonsLeft = Math.max(0, (currentStageProgress?.lessonsTotal ?? 0) - (currentStageProgress?.lessonsDone ?? 0))
   const passedStages = await getPassedStageQuizzes(supabase, user.id, primaryChild?.id ?? null)
   const stageQuizPassed = passedStages.has(stageNum)
+
+  // The quiz questions come from the stage's own lessons, gathered here on the
+  // server because that is where the lessons are. The hand written bank is only
+  // reached when the lessons cannot fill a run.
+  const { questions: stageQuizQuestions } = await stageQuizPool(supabase, stageNum)
 
   // Show the end of stage check as a family nears the end: content finished, or
   // the blend past three quarters, or the stamp already earned so it can show.
@@ -335,6 +341,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
             lessonsLeft={lessonsLeft}
             ambers={readinessAmbers}
             alreadyPassed={stageQuizPassed}
+            pool={stageQuizQuestions}
           />
         </div>
       )}

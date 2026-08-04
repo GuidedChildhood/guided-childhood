@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
-import { sampleStageQuiz, STAGE_QUIZ_PASS, STAGE_QUIZ_LENGTH, type StageQuizQuestion } from '@/lib/content/stage-quizzes'
+import { sampleFromPool, STAGE_QUIZ_PASS, STAGE_QUIZ_LENGTH, type StageQuizQuestion } from '@/lib/content/stage-quizzes'
 
 // The end of stage readiness check, DiGi's voice. As a family nears the end of
 // a stage, DiGi does the one thing a good teacher does before a milestone: reads
@@ -36,7 +36,7 @@ function shuffleOptions(item: StageQuizQuestion, seed: number): Shuffled {
 
 export default function StageReadiness({
   stageId, stageName, stampName, childId, childName,
-  greens, activeAreas, lessonsLeft, ambers, alreadyPassed,
+  greens, activeAreas, lessonsLeft, ambers, alreadyPassed, pool,
 }: {
   stageId: number
   stageName: string
@@ -48,6 +48,9 @@ export default function StageReadiness({
   lessonsLeft: number
   ambers: AmberItem[]
   alreadyPassed: boolean
+  // The questions this stage's own lessons already asked, gathered server side.
+  // Topped up from the floor bank only when the lessons cannot fill a run.
+  pool: StageQuizQuestion[]
 }) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   const allGreen = ambers.length === 0 && lessonsLeft === 0
@@ -56,8 +59,8 @@ export default function StageReadiness({
   // answer order. Client only, so Date is fine here.
   const [seed] = useState(() => Math.floor(Date.now() % 2147483647) || 1)
   const questions = useMemo<Shuffled[]>(
-    () => sampleStageQuiz(stageId, seed).map((item, i) => shuffleOptions(item, seed + i * 101)),
-    [stageId, seed],
+    () => sampleFromPool(pool, seed).map((item, i) => shuffleOptions(item, seed + i * 101)),
+    [pool, seed],
   )
 
   const [open, setOpen] = useState(false)
