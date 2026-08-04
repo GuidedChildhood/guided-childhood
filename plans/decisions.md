@@ -4970,3 +4970,55 @@ has nowhere to go.
 **The celebration carries the timer reminder.** It is the only moment in the day a
 child is reading the screen because something good just happened. The same
 sentence on the jobs list is a rule; there it is the next step.
+
+## 4 August 2026 — The stage quiz asks what the stage taught, and the child gets their own line
+
+**The quiz was already built, and was asking the wrong questions.** The brief
+said nothing writes to `stage_quiz_passes`. It has since 2 August: the bank, the
+API route, the component and the read back all shipped. What was missing was the
+part Justin specified, that the end of stage quiz **gathers the questions already
+asked across that stage's lessons**. It sampled 33 questions typed into
+`lib/content/stage-quizzes.ts` instead, which is a general knowledge round
+standing where retrieval practice should be, and content living in the app
+rather than the database.
+
+**The questions were already there.** They are `choice` slides inside
+`lessons.slides`. `gatherStageQuizPool` reads the stage's lessons and normalises
+them, the right answer's feedback becoming the why line.
+
+**A question only travels if it can stand on its own, and adjacency is the wrong
+test for that.** The first rule tried dropped any question sitting after a
+scenario slide. Measured over the real library it threw away "why is one reused
+password across ten accounts worse than one weak password on one account", which
+needs nothing around it, and pushed Explorer under a full run by itself. The test
+is the words: a demonstrative in front of a thing always drops, a bare "the chat"
+drops only when the slide before it put one on screen. That keeps foundation 8,
+builder 10, explorer 10, shaper 25 and independent 11 against a run of five, and
+drops four that genuinely need their slide.
+
+**So the hand written bank is never reached today.** It stays as a floor, because
+a stage is one retired lesson away from being short and a two question quiz at
+the end of a stage reads as an unearned stamp.
+
+**The generated floor question had to be renamed.** `autoSlidesFromLesson` gives
+every deckless lesson the same sentence, so gathered it would ask "before you
+finish, show what stuck" five times in one run. It now names its lesson.
+
+**A thirteen year old was reading "your child" about themselves.** `key_message`
+is one column serving two readers: the Remember panel on the parent hub, and the
+line under every title on the child's own lessons list. Fifteen of forty four put
+grown up address in it, and all fifteen are the social media 13 plus series from
+103 to 106. The lopsided Shaper count and the grown up voice are one finding, not
+two: that series arriving.
+
+**The child page is not showing the wrong rows, and this is the trap.**
+`audience = 'parent'` on the child's query is deliberate. On this table audience
+separates the family library from the school one, never the grown up from the
+child, and every family lesson is meant to reach both. Reading it as an audience
+gate is exactly what hides the bug. The fix is the missing second line, not a
+filter. Migration 156, `child_key_message`, nullable and additive, filled for the
+fifteen, with the grown up copy untouched because DiGi reads it for context.
+
+**Both child surfaces ask for the column in their own query.** A database without
+156 renders exactly as it does today rather than erroring a child's page, which
+is the right way round for a column that is an improvement, not a dependency.
