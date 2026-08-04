@@ -56,17 +56,28 @@ export default async function ScriptDetailPage({
     redirect('/dashboard/upgrade')
   }
 
-  // The purpose of this tool is to find the script the moment you need
-  // it, not to run a separate completion ritual. Opening it here IS
-  // using it, so this is the one and only place completion gets marked
-  // for the vast majority of visits (the deck flow marks it too, same
-  // row, upsert makes either order safe). Never touches the worked
-  // rating a parent may have already given.
+  // OPENING IS NOT USING, and this used to say the opposite.
   //
-  // completed_at is refreshed to now on every open. The daily path counts a
-  // script as done today only when its completion is dated today, so without
-  // this a re-read of a script first opened on an earlier day kept its old
-  // date and never ticked the path. Opening it, any day, now counts that day.
+  // The old comment here argued that finding the script the moment you need it
+  // IS the completion, so the page marked it done on load. True when a parent
+  // comes looking for words to say tonight. False when they open one from the
+  // pathway to see whether it applies and decide it does not, which is most of
+  // what browsing a library of 236 looks like.
+  //
+  // And scriptsPct counts these rows at thirty per cent of the stage blend, so
+  // that reading moved a child's passport for conversations that never
+  // happened, and permanently: a script marked done is never offered again.
+  //
+  // The row is still written on open, because the daily path needs to know a
+  // script was opened today and because the parent needs somewhere to record a
+  // decision. What changed is that it lands as 'opened', which counts for
+  // nothing until they say otherwise. See migration 157.
+  //
+  // onConflict ignoreDuplicates is wrong here and worth saying so: the daily
+  // path reads completed_at to tick today, so a re-read on a later day has to
+  // refresh it. What must NOT be touched is status, which is why the upsert
+  // below never sends one. Postgres leaves an unlisted column alone on
+  // conflict, so a script already marked used or not needed keeps that.
   await supabase
     .from('script_completions')
     .upsert({ user_id: user.id, script_sort_order: sortOrder, completed_at: new Date().toISOString() }, { onConflict: 'user_id,script_sort_order' })
@@ -74,12 +85,17 @@ export default async function ScriptDetailPage({
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
 
   const [{ data: prevScript }, { data: nextScript }, { data: primaryChild }, { data: myCompletion }] = await Promise.all([
-    supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder - 1).maybeSingle(),
-    supabase.from('scripts').select('sort_order, title').eq('sort_order', sortOrder + 1).maybeSingle(),
+    supabase.from('scripts').select('sort_order, title').eq('stage_id', script.stage_id).lt('sort_order', sortOrder).order('sort_order', { ascending: false }).limit(1).maybeSingle(),
+    // "See the next one for this age", Justin's words. sort_order + 1 walks out
+    // of the stage the moment you reach its last script, which on a library
+    // grouped by stage means the next tap lands a parent of a six year old on a
+    // script about sextortion. Same stage, next number up.
+    supabase.from('scripts').select('sort_order, title').eq('stage_id', script.stage_id).gt('sort_order', sortOrder).order('sort_order', { ascending: true }).limit(1).maybeSingle(),
     supabase.from('children').select('id, name, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
-    supabase.from('script_completions').select('worked').eq('user_id', user.id).eq('script_sort_order', sortOrder).maybeSingle(),
+    supabase.from('script_completions').select('worked, status').eq('user_id', user.id).eq('script_sort_order', sortOrder).maybeSingle(),
   ])
   const workedRating = (myCompletion as { worked?: 'yes' | 'somewhat' | 'no' | null } | null)?.worked ?? null
+  const scriptStatus = ((myCompletion as { status?: string } | null)?.status ?? 'opened') as 'opened' | 'used' | 'not_needed'
 
   // Does this child have their own app (a kid link)? If so the note goes
   // straight to their phone and their app, not out over SMS.
@@ -100,6 +116,7 @@ export default async function ScriptDetailPage({
       childId={primaryChild?.id ?? null}
       childHasApp={childHasApp}
       workedRating={workedRating}
+      scriptStatus={scriptStatus}
       prevScript={prevScript ?? null}
       nextScript={nextScript ?? null}
       depthInitial={{

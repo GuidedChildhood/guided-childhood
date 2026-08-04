@@ -3,6 +3,7 @@ import ScriptDepth from '@/components/scripts/ScriptDepth'
 import ScriptReader from '@/components/scripts/ScriptReader'
 import RehearseWithDigi, { type RehearseFixture } from '@/components/scripts/RehearseWithDigi'
 import ScriptHelpPrompt from '@/components/scripts/ScriptHelpPrompt'
+import ScriptStatusButtons from '@/components/scripts/ScriptStatusButtons'
 import { card, cardPad, eyebrow } from '@/components/scripts/card-system'
 
 // The whole script detail page as one presentational view: the page route
@@ -43,6 +44,7 @@ type Props = {
   childId: string | null
   childHasApp: boolean
   workedRating: 'yes' | 'somewhat' | 'no' | null
+  scriptStatus: 'opened' | 'used' | 'not_needed'
   prevScript: NavScript
   nextScript: NavScript
   depthInitial: { ifTheyPushBack?: string; checkBack?: string; forYourChild?: string }
@@ -60,7 +62,7 @@ const chip: React.CSSProperties = {
 
 export default function ScriptDetailView({
   script, sortOrder, showBanNote, voiceUrl, isPaid,
-  childName, childPhone, childId, childHasApp, workedRating,
+  childName, childPhone, childId, childHasApp, workedRating, scriptStatus,
   prevScript, nextScript, depthInitial, rehearseFixture,
 }: Props) {
   const stageMeta = STAGE_META[script.stage_id] ?? STAGE_META.foundation
@@ -178,6 +180,7 @@ export default function ScriptDetailView({
 
         {/* Did it help? DiGi asks, and the answer shapes what it suggests next. */}
         <ScriptHelpPrompt sortOrder={sortOrder} initialWorked={workedRating} />
+        <ScriptStatusButtons sortOrder={sortOrder} status={scriptStatus} />
 
         {/* DiGi CTA */}
         <div style={{ ...card, padding: cardPad, display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
