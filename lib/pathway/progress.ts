@@ -71,7 +71,7 @@ export async function getStageProgress(
     { data: familyDevices },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order').eq('stage_id', stageId),
-    supabase.from('script_completions').select('script_sort_order').eq('user_id', userId),
+    supabase.from('script_completions').select('script_sort_order, status').eq('user_id', userId),
     supabase.from('device_guides').select('device_key, min_age'),
     supabase.from('device_setup_progress').select('device_key, status').eq('user_id', userId),
     supabase.from('lessons').select('id').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub'),
@@ -83,9 +83,23 @@ export async function getStageProgress(
     supabase.from('family_devices').select('guide_key, retired_at').eq('user_id', userId),
   ])
 
-  // Scripts: how many of this stage's scripts has this user actually completed.
+  // Scripts: how many of this stage's scripts this family has RESOLVED, which
+  // is a stricter word than it used to be and the difference matters.
+  //
+  // A row used to be written simply by opening a script, and every row counted
+  // here, at thirty per cent of the blend. So browsing ten scripts moved a
+  // child's passport a third of the way through a stage with no conversation
+  // having happened, and none of the ten could ever be offered again.
+  //
+  // Resolved now means the parent said something: they used it, or they read
+  // it and said it does not apply. Merely opening one counts for nothing, which
+  // is what makes "not needed at this time" possible and what lets an unfinished
+  // script come back. See migration 157.
   const stageScriptOrders = new Set((stageScripts ?? []).map(s => s.sort_order))
-  const completedInStage = (userCompletedScripts ?? []).filter(c => stageScriptOrders.has(c.script_sort_order)).length
+  const completedInStage = (userCompletedScripts ?? [])
+    .filter(c => stageScriptOrders.has(c.script_sort_order))
+    .filter(c => (c as { status?: string }).status !== 'opened')
+    .length
   const scriptsPct = stageScriptOrders.size > 0 ? Math.round((completedInStage / stageScriptOrders.size) * 100) : 0
 
   // Streak: consistency credit, caps out at 4 weeks so it does not require
@@ -161,7 +175,7 @@ export async function getAllStagesProgress(
     { data: familyDevices },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order, stage_id'),
-    supabase.from('script_completions').select('script_sort_order').eq('user_id', userId),
+    supabase.from('script_completions').select('script_sort_order, status').eq('user_id', userId),
     supabase.from('device_guides').select('device_key, min_age'),
     supabase.from('device_setup_progress').select('device_key, status').eq('user_id', userId),
     supabase.from('lessons').select('id, stage_id').eq('audience', 'parent').neq('status', 'stub'),
@@ -170,7 +184,14 @@ export async function getAllStagesProgress(
     supabase.from('family_devices').select('guide_key, retired_at').eq('user_id', userId),
   ])
 
-  const completedScriptOrders = new Set((completedScripts ?? []).map(c => c.script_sort_order))
+  // Same stricter rule as getStageProgress above: resolved, not merely opened.
+  // These two functions feed the road and the passport respectively, and a
+  // parent who saw them disagree would be right to stop trusting both.
+  const completedScriptOrders = new Set(
+    (completedScripts ?? [])
+      .filter(c => (c as { status?: string }).status !== 'opened')
+      .map(c => c.script_sort_order),
+  )
   // Devices only count the ones a family actually has: a device marked not in
   // our home drops out of the denominator, so the passport reads against their
   // real devices, never all nineteen guides. A device set up counts as done.
