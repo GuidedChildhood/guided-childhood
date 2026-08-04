@@ -67,7 +67,14 @@ export const STEPS: Record<StepKey, StepDef> = {
     key: 'lesson', emoji: '📚',
     label: 'A lesson',
     hint: 'Learn one thing, pass it',
-    href: t => `/k/${t}/lessons`,
+    // Straight into the next lesson they have NOT passed, not the shelf.
+    //
+    // This used to land on the list, which asks a child to pick, and the list
+    // opens on lesson one every time. A child who has passed four of them has
+    // to find where they got to before they can start, and the row that said
+    // "a lesson" turns into a search. ?next=1 lets the page resolve which one
+    // that is, because only the server knows what has been passed.
+    href: t => `/k/${t}/lessons?next=1`,
   },
   quiz: {
     key: 'quiz', emoji: '🧠',
