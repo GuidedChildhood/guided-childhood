@@ -112,6 +112,12 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   const passedStages = await getPassedStageQuizzes(supabase, user.id, primaryChild?.id ?? null)
   const stageQuizPassed = passedStages.has(stageNum)
 
+  // The check is the child's and lives on their own link, so all this page needs
+  // is the token to send them to it.
+  const { data: kidLink } = primaryChild?.id
+    ? await supabase.from('kid_links').select('token').eq('child_id', primaryChild.id).maybeSingle()
+    : { data: null }
+
   // Show the end of stage check as a family nears the end: content finished, or
   // the blend past three quarters, or the stamp already earned so it can show.
   const nearStageEnd = !!primaryChild?.stage_id && (
@@ -335,6 +341,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
             lessonsLeft={lessonsLeft}
             ambers={readinessAmbers}
             alreadyPassed={stageQuizPassed}
+            kidToken={(kidLink as { token?: string } | null)?.token ?? null}
           />
         </div>
       )}

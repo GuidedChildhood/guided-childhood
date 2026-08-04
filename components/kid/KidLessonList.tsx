@@ -18,7 +18,7 @@ export type KidLessonItem = {
 }
 
 export default function KidLessonList({
-  backHref, childName, stageName, ages, items, hrefFor,
+  backHref, childName, stageName, ages, items, hrefFor, checkHref, checkPassed,
 }: {
   backHref: string
   childName: string
@@ -26,6 +26,9 @@ export default function KidLessonList({
   ages: string
   items: KidLessonItem[]
   hrefFor: (id: string) => string
+  // The big end of stage check. Absent when there is no link to send them to.
+  checkHref?: string | null
+  checkPassed?: boolean
 }) {
   const doneCount = items.filter(i => i.done).length
   return (
@@ -151,6 +154,62 @@ export default function KidLessonList({
             })}
           </div>
         )}
+
+        {/* The big check, at the END of the stage rather than after each lesson.
+            It asks the questions these lessons already asked, so it only makes
+            sense once they are all passed, and it stays visible but shut until
+            then so the child can see what they are working towards. */}
+        {checkHref && items.length > 0 && (() => {
+          const left = items.filter(i => !i.done).length
+          const ready = left === 0
+          const body = checkPassed
+            ? 'You passed it. Your stamp is on the passport.'
+            : ready
+            ? `All ${items.length} passed, ${childName}. Five questions from the lessons you have done, and the stamp is yours.`
+            : `Pass your last ${left} ${left === 1 ? 'lesson' : 'lessons'} and this opens. It only asks things your lessons already asked you.`
+          const inner = (
+            <>
+              <span style={{ fontSize: '2rem', lineHeight: 1, flexShrink: 0 }} aria-hidden>
+                {checkPassed ? '🏅' : ready ? '🎯' : '🔒'}
+              </span>
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{
+                  display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900,
+                  fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.2,
+                }}>
+                  The big {stageName} check
+                </span>
+                <span style={{
+                  display: 'block', fontSize: 'var(--text-md)', color: 'var(--ink-soft)',
+                  lineHeight: 1.45, marginTop: 3,
+                }}>
+                  {body}
+                </span>
+              </span>
+              {ready && !checkPassed && (
+                <span style={{
+                  flexShrink: 0, alignSelf: 'center', fontFamily: 'var(--font-display)', fontWeight: 800,
+                  fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--butter)',
+                  borderRadius: '12px', padding: '9px 15px', boxShadow: '0 4px 0 rgba(0,0,0,0.22)',
+                }}>
+                  Go ▶
+                </span>
+              )}
+            </>
+          )
+          const shell: React.CSSProperties = {
+            display: 'flex', gap: '13px', alignItems: 'flex-start', textDecoration: 'none',
+            background: checkPassed ? 'var(--sage)' : 'var(--cream)', borderRadius: '20px',
+            padding: '15px 16px', marginTop: '12px',
+            boxShadow: ready && !checkPassed
+              ? '0 5px 0 rgba(0,0,0,0.22), 0 0 0 3px var(--butter)'
+              : '0 5px 0 rgba(0,0,0,0.22)',
+            opacity: ready || checkPassed ? 1 : 0.75,
+          }
+          return ready || checkPassed
+            ? <Link href={checkHref} style={shell}>{inner}</Link>
+            : <div style={shell}>{inner}</div>
+        })()}
       </div>
     </div>
   )

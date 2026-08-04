@@ -1,8 +1,13 @@
-// The passport stage quiz. The last green before a stage is stamped is a short
-// check on what the stage actually taught the family, drawn from the scripts,
-// the device rules and the literacy strands for that age. It is not a test to
-// pass or fail a child, it is DiGi confirming the grown up holds the few things
-// this stage was built to leave them with, so the stamp means something.
+// The passport stage quiz FLOOR. The real questions now come from the stage's
+// own lessons, gathered in lib/pathway/stage-quiz-gather.ts, because Justin's
+// design is that the end of stage quiz asks again what the stage's lessons
+// already asked. This bank is only reached when a stage's lessons cannot fill a
+// five question run, so a family never meets a two question quiz that makes the
+// stamp look unearned. Foundation and Builder are the stages that still need it.
+//
+// It is not a test to pass or fail a child, it is DiGi confirming the few things
+// this stage was built to leave the family with have landed, so the stamp means
+// something.
 //
 // Built the same honest way as the school quizzes: every run SAMPLES five from
 // a bigger pool so a replay differs, the client SHUFFLES answer positions so
@@ -82,19 +87,27 @@ export function stageQuizFor(stageId: number): StageQuiz | null {
   return BANKS[stageId] ?? null
 }
 
-// A stable sample of STAGE_QUIZ_LENGTH from the pool. Deterministic on a seed so
+// A stable sample of STAGE_QUIZ_LENGTH from any pool. Deterministic on a seed so
 // a server and client agree on the same run, and a fresh open gives a fresh set.
-export function sampleStageQuiz(stageId: number, seed: number): StageQuizQuestion[] {
-  const quiz = BANKS[stageId]
-  if (!quiz) return []
-  const pool = [...quiz.pool]
+//
+// The pool now normally arrives from the stage's own lessons
+// (lib/pathway/stage-quiz-gather.ts). The sampling is the same either way, so it
+// takes the questions rather than a stage number and stays the one place a run
+// is chosen.
+export function sampleFromPool(pool: StageQuizQuestion[], seed: number): StageQuizQuestion[] {
+  const items = [...pool]
   // A small seeded shuffle, Fisher Yates with a linear congruential step, so no
   // Math.random is needed and the same seed reproduces the same five.
   let s = (seed % 2147483647) || 1
   const rnd = () => (s = (s * 48271) % 2147483647) / 2147483647
-  for (let i = pool.length - 1; i > 0; i--) {
+  for (let i = items.length - 1; i > 0; i--) {
     const j = Math.floor(rnd() * (i + 1))
-    ;[pool[i], pool[j]] = [pool[j], pool[i]]
+    ;[items[i], items[j]] = [items[j], items[i]]
   }
-  return pool.slice(0, Math.min(STAGE_QUIZ_LENGTH, pool.length))
+  return items.slice(0, Math.min(STAGE_QUIZ_LENGTH, items.length))
+}
+
+// The floor bank alone, for a stage whose lessons cannot fill a run.
+export function sampleStageQuiz(stageId: number, seed: number): StageQuizQuestion[] {
+  return sampleFromPool(BANKS[stageId]?.pool ?? [], seed)
 }

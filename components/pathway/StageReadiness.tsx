@@ -1,42 +1,23 @@
-'use client'
-
-import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
-import { sampleStageQuiz, STAGE_QUIZ_PASS, STAGE_QUIZ_LENGTH, type StageQuizQuestion } from '@/lib/content/stage-quizzes'
 
-// The end of stage readiness check, DiGi's voice. As a family nears the end of
-// a stage, DiGi does the one thing a good teacher does before a milestone: reads
-// where they actually are, names what is left in plain words, and when nothing
-// is left, offers the short passport quiz that earns the stamp. Never a test of
-// the child, never medical or clinical, just a warm confirmation that the few
-// things this stage was built to leave the grown up with have landed.
+// The end of stage readiness read, DiGi's voice. As a family nears the end of a
+// stage, DiGi does the one thing a good teacher does before a milestone: reads
+// where they actually are and names what is left in plain words.
+//
+// The check itself is the CHILD'S, and lives on their own link. It gathers the
+// questions their lessons already asked, so they are the one who answers them,
+// and the pass is what earns the stamp. This card stops at handing over: it
+// tells the grown up when the check is unlocked and where the child takes it.
+//
+// Never a test of the child in how it is described. The grown up is told what is
+// left, not what their child got wrong.
 
 type AmberItem = { name: string; improve: string; href: string }
 
-// A shuffled copy of one question's options, with the new index of the right
-// answer, so there is never a positional pattern to learn across a replay.
-type Shuffled = { q: string; options: string[]; answer: number; why: string }
-
-function shuffleOptions(item: StageQuizQuestion, seed: number): Shuffled {
-  const idx = item.options.map((_, i) => i)
-  let s = (seed % 2147483647) || 1
-  const rnd = () => (s = (s * 48271) % 2147483647) / 2147483647
-  for (let i = idx.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1))
-    ;[idx[i], idx[j]] = [idx[j], idx[i]]
-  }
-  return {
-    q: item.q,
-    options: idx.map(i => item.options[i]),
-    answer: idx.indexOf(item.answer),
-    why: item.why,
-  }
-}
-
 export default function StageReadiness({
-  stageId, stageName, stampName, childId, childName,
-  greens, activeAreas, lessonsLeft, ambers, alreadyPassed,
+  stageName, stampName, childName, greens, activeAreas, lessonsLeft, ambers,
+  alreadyPassed, kidToken,
 }: {
   stageId: number
   stageName: string
@@ -48,56 +29,13 @@ export default function StageReadiness({
   lessonsLeft: number
   ambers: AmberItem[]
   alreadyPassed: boolean
+  // The child's own link, so the grown up can send them straight to the check.
+  // Absent when no link has been made yet, and the card says so rather than
+  // offering a button that goes nowhere.
+  kidToken?: string | null
 }) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   const allGreen = ambers.length === 0 && lessonsLeft === 0
-
-  // A fresh seed each mount, so opening the quiz gives a fresh five and fresh
-  // answer order. Client only, so Date is fine here.
-  const [seed] = useState(() => Math.floor(Date.now() % 2147483647) || 1)
-  const questions = useMemo<Shuffled[]>(
-    () => sampleStageQuiz(stageId, seed).map((item, i) => shuffleOptions(item, seed + i * 101)),
-    [stageId, seed],
-  )
-
-  const [open, setOpen] = useState(false)
-  const [step, setStep] = useState(0)
-  const [picked, setPicked] = useState<number | null>(null)
-  const [correct, setCorrect] = useState(0)
-  const [finished, setFinished] = useState<{ passed: boolean; score: number } | null>(null)
-  const [saving, setSaving] = useState(false)
-
-  const q = questions[step]
-
-  async function finish(finalCorrect: number) {
-    setSaving(true)
-    const passed = finalCorrect >= STAGE_QUIZ_PASS
-    try {
-      await fetch('/api/pathway/stage-quiz', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ childId, stageId, correct: finalCorrect }),
-      })
-    } catch { /* the score still shows even if saving fails */ }
-    setSaving(false)
-    setFinished({ passed, score: finalCorrect })
-  }
-
-  function choose(i: number) {
-    if (picked !== null) return
-    setPicked(i)
-    if (i === q.answer) setCorrect(c => c + 1)
-  }
-
-  function next() {
-    const finalCorrect = correct
-    if (step + 1 >= questions.length) {
-      finish(finalCorrect)
-    } else {
-      setStep(s => s + 1)
-      setPicked(null)
-    }
-  }
 
   const card: React.CSSProperties = {
     background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20,
@@ -109,8 +47,8 @@ export default function StageReadiness({
     </span>
   )
 
-  // Already stamped: quiet confirmation, no quiz to retake.
-  if (alreadyPassed && !finished) {
+  // Already stamped: quiet confirmation, nothing to do.
+  if (alreadyPassed) {
     return (
       <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 20px' }}>
         <div style={{ ...card, background: 'var(--tint-green)', border: '1.5px solid var(--retro-green)' }}>
@@ -121,7 +59,8 @@ export default function StageReadiness({
                 {stampName} stamped
               </div>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
-                {kid} passed the {stageName} check. That stage is done and the stamp is theirs.
+                {kid} passed the {stageName} check on their own link. That stage is done and the
+                stamp is theirs.
               </p>
             </div>
           </div>
@@ -130,123 +69,6 @@ export default function StageReadiness({
     )
   }
 
-  // The result, pass or another look.
-  if (finished) {
-    const passed = finished.passed
-    return (
-      <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 20px' }}>
-        <div style={{ ...card, background: passed ? 'var(--tint-green)' : 'var(--terracotta-lt)', border: `1.5px solid ${passed ? 'var(--retro-green)' : 'var(--terracotta)'}` }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 13 }}>
-            {digiHead(passed ? 'happy' : 'thinking')}
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: passed ? 'var(--retro-green-dark)' : 'var(--ink)', lineHeight: 1.15 }}>
-                {passed ? `${stampName} stamped` : 'Nearly there'}
-              </div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
-                {passed
-                  ? `${finished.score} of ${STAGE_QUIZ_LENGTH}. The ${stageName} stage is stamped and ${kid} is ready for what comes next.`
-                  : `${finished.score} of ${STAGE_QUIZ_LENGTH}. Have another look at the stage together and try again when you are ready. No rush at all.`}
-              </p>
-            </div>
-          </div>
-          {!passed && (
-            <button
-              onClick={() => { setOpen(true); setStep(0); setPicked(null); setCorrect(0); setFinished(null) }}
-              style={{
-                marginTop: 15, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
-                border: 'none', borderRadius: 14, padding: '13px 18px', cursor: 'pointer',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
-                boxShadow: '0 4px 0 var(--terracotta-dark)',
-              }}
-            >
-              Try the check again
-            </button>
-          )}
-        </div>
-      </div>
-    )
-  }
-
-  // The quiz itself, one question at a time.
-  if (open && q) {
-    return (
-      <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 20px' }}>
-        <div style={card}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-              {stageName} check
-            </span>
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-              {step + 1} of {questions.length}
-            </span>
-          </div>
-
-          {/* Progress dots */}
-          <div style={{ display: 'flex', gap: 6, marginBottom: 18 }}>
-            {questions.map((_, i) => (
-              <span key={i} style={{ flex: 1, height: 6, borderRadius: 100, background: i <= step ? 'var(--terracotta)' : 'var(--cream)' }} />
-            ))}
-          </div>
-
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.3, margin: '0 0 16px' }}>
-            {q.q}
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {q.options.map((opt, i) => {
-              const isPicked = picked === i
-              const isAnswer = i === q.answer
-              const reveal = picked !== null
-              const bg = reveal
-                ? isAnswer ? 'var(--tint-green)' : isPicked ? 'var(--terracotta-lt)' : '#fff'
-                : '#fff'
-              const border = reveal
-                ? isAnswer ? 'var(--retro-green)' : isPicked ? 'var(--terracotta)' : 'var(--border)'
-                : 'var(--border)'
-              return (
-                <button
-                  key={i}
-                  onClick={() => choose(i)}
-                  disabled={picked !== null}
-                  style={{
-                    textAlign: 'left', background: bg, border: `1.5px solid ${border}`,
-                    borderRadius: 14, padding: '14px 16px', cursor: picked === null ? 'pointer' : 'default',
-                    fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--ink)',
-                    lineHeight: 1.4, display: 'flex', alignItems: 'center', gap: 10,
-                  }}
-                >
-                  {reveal && isAnswer && <span aria-hidden>✓</span>}
-                  <span>{opt}</span>
-                </button>
-              )
-            })}
-          </div>
-
-          {picked !== null && (
-            <div style={{ marginTop: 15 }}>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0, background: 'var(--cream)', borderRadius: 12, padding: '12px 14px' }}>
-                {q.why}
-              </p>
-              <button
-                onClick={next}
-                disabled={saving}
-                style={{
-                  marginTop: 14, width: '100%', background: 'var(--deep-teal)', color: '#fff',
-                  border: 'none', borderRadius: 14, padding: '14px 18px', cursor: 'pointer',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
-                  boxShadow: '0 4px 0 rgba(0,0,0,0.18)',
-                }}
-              >
-                {step + 1 >= questions.length ? (saving ? 'Saving…' : 'See the result') : 'Next'}
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    )
-  }
-
-  // The readiness read, before the quiz opens.
   return (
     <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto 20px' }}>
       <div style={{ ...card, background: allGreen ? 'var(--tint-green)' : '#fff', border: `1.5px solid ${allGreen ? 'var(--retro-green)' : 'var(--border)'}` }}>
@@ -256,7 +78,6 @@ export default function StageReadiness({
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 3 }}>
               End of stage check
             </div>
-            {/* The important insight, extra large */}
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.01em', color: allGreen ? 'var(--retro-green-dark)' : 'var(--ink)', lineHeight: 1.15 }}>
               {allGreen
                 ? `${kid} is ready for the ${stampName} stamp`
@@ -267,7 +88,7 @@ export default function StageReadiness({
 
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '13px 0 0' }}>
           {allGreen
-            ? `Every part of the ${stageName} stage is done, ${greens} of ${activeAreas} strands green. One short check together and the stamp is theirs.`
+            ? `Every part of the ${stageName} stage is done, ${greens} of ${activeAreas} strands green. The check is waiting on ${kid}'s own link, five questions drawn from the lessons they worked through.`
             : `${greens} of ${activeAreas} strands are green. Here is the little that is left before the ${stageName} stamp lands.`}
         </p>
 
@@ -303,17 +124,25 @@ export default function StageReadiness({
         )}
 
         {allGreen && (
-          <button
-            onClick={() => setOpen(true)}
-            style={{
-              marginTop: 16, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
-              border: 'none', borderRadius: 14, padding: '14px 18px', cursor: 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
-              boxShadow: '0 4px 0 var(--terracotta-dark)',
-            }}
-          >
-            Take the {stageName} check
-          </button>
+          kidToken ? (
+            <Link
+              href={`/k/${kidToken}/quiz`}
+              style={{
+                display: 'block', textAlign: 'center', textDecoration: 'none',
+                marginTop: 16, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
+                borderRadius: 14, padding: '14px 18px', boxSizing: 'border-box',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
+                boxShadow: '0 4px 0 var(--terracotta-dark)',
+              }}
+            >
+              Open the check on {kid}&rsquo;s link
+            </Link>
+          ) : (
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '14px 0 0', background: 'var(--cream)', borderRadius: 12, padding: '12px 14px' }}>
+              {kid} needs their own link before they can take it. Set one up on the quests page and
+              the check appears on their lessons.
+            </p>
+          )
         )}
       </div>
     </div>
