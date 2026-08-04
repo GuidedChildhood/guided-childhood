@@ -75,7 +75,19 @@ contribute at least one question. That is the pool the stage quiz should sample.
   `stage_quiz_passes` all stay exactly as they are. They are good.
 - The hand written bank stays as the **floor**, not the source: a stage whose
   lessons cannot yield five questions still gets a full five rather than a short
-  quiz. Foundation and Builder are the stages at risk of that.
+  quiz.
+
+> **Measured, and it corrected two guesses above.** I expected Foundation and
+> Builder to be the short stages. They are not. Every stage fills a run from its
+> own lessons: foundation 8, builder 10, explorer 10, shaper 25, independent 11,
+> against a run of five, so the floor bank is never reached today.
+>
+> I also expected "sits after a scenario slide" to be the right test for whether
+> a question can travel. It is much too blunt. It threw away "why is one reused
+> password across ten accounts worse than one weak password on one account",
+> which needs nothing around it, and dropped Explorer under a full run on its own.
+> The test is the words, not the neighbours. That leaves four dropped questions
+> across the whole library, and all four genuinely need their slide.
 
 ### One open question, asked rather than assumed
 
@@ -139,6 +151,29 @@ a bug in any reading, and go whichever way the rest goes.
 Cutting child push notifications. Still parked. The count comes first.
 
 ---
+
+## What the curriculum review found, and what it still cannot answer
+
+**Done and verified end to end:** the grown up address. 15 of the 44 lesson
+seeds put it in `key_message`, the one field every child reads on their own
+lessons list, and all 15 are the social media 13 plus series. Fixed by
+migration 156 and the two child surfaces. Findings 1 and 2 turned out to be one
+finding: that series arriving is both the grown up voice AND the Shaper bulge.
+
+**Blocked, and I will not guess at it:** the coverage rebalance and the
+`ai_lessons` question count. Justin's numbers come from the live database
+(46 lessons live, 10 parent lessons, ai_lessons 46). Reconstructing that state
+from 155 migration files by regex gives 41 to 44 depending on the parse, because
+of retires, status flips and three different insert forms. Those numbers are
+close enough to be dangerous and not close enough to author against: deciding
+which stage is short, and writing lessons to fill it, on a count that might be
+wrong by five is how the wrong five lessons get written.
+
+**The Supabase MCP is in the session but every query returns "requires
+approval", so I have no read.** That is the one thing needed to finish the
+review properly. With it the remaining pass is: confirm the live counts per
+stage, confirm the `ai_lessons` deck state, and author questions and lessons
+where the count says they are missing.
 
 ## Order of work
 
