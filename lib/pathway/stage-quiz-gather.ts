@@ -2,7 +2,11 @@ import { parseSlides, autoSlidesFromLesson, type LessonSlide } from '@/lib/conte
 import { stageQuizFor, STAGE_QUIZ_LENGTH, type StageQuizQuestion } from '@/lib/content/stage-quizzes'
 import type { createClient } from '@/lib/supabase/server'
 
-type SupabaseClient = Awaited<ReturnType<typeof createClient>>
+// The parent pathway reads this with the request scoped server client and the
+// child app with the admin client behind a kid token, so it takes either.
+type SupabaseClient =
+  | Awaited<ReturnType<typeof createClient>>
+  | ReturnType<typeof import('@/lib/supabase/admin').createAdminClient>
 
 // The stage quiz, gathered from the stage's own lessons rather than a bank
 // typed into the app. Justin's design: the quiz sits at the END of a stage and

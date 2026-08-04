@@ -51,6 +51,22 @@ export default async function KidLessonsPage({ params, searchParams }: {
     .order('sort_order', { ascending: true })
   const stageLessons = (allLessons ?? []).filter(l => l.stage_id === stage.name.toLowerCase())
 
+  // Whether the big end of stage check is already passed, so the card at the
+  // bottom of the list says so rather than inviting them to sit it again.
+  // Fails soft to not passed before migration 098.
+  let stageCheckPassed = false
+  {
+    const { data } = await supabase
+      .from('stage_quiz_passes')
+      .select('stage_id')
+      .eq('user_id', link.user_id)
+      .eq('child_id', link.child_id)
+      .eq('stage_id', stage.id)
+      .eq('passed', true)
+      .limit(1)
+    stageCheckPassed = !!data?.length
+  }
+
   // The child's own one line per lesson. key_message is written for the grown
   // up on fifteen of these ("your child holds the keys to four doors"), and this
   // is the page where the child reads it about themselves. Asked for separately
@@ -130,6 +146,8 @@ export default async function KidLessonsPage({ params, searchParams }: {
       ages={stage.ages}
       items={items}
       hrefFor={id => `/k/${token}/lessons/${id}`}
+      checkHref={`/k/${token}/quiz`}
+      checkPassed={stageCheckPassed}
     />
   )
 }
