@@ -14,6 +14,8 @@ import DigiDeviceCheckin from '@/components/digi/DigiDeviceCheckin'
 import SundayCheckIn from '@/components/digi/SundayCheckIn'
 import RevealCard from '@/components/onboarding/RevealCard'
 import { revealedKeys, eligibleReveals, daysSince } from '@/lib/onboarding/reveal'
+import { unmetCoverage } from '@/lib/dashboard/coverage'
+import DigiDiscoverNudge from '@/components/digi/DigiDiscoverNudge'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
 import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
@@ -392,6 +394,26 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle()
+  // WHAT THIS FAMILY HAS NOT MET YET, for the discover slot in the flash up
+  // rotation below.
+  //
+  // Justin: "all vital info on the parent home page, like the week round up,
+  // gets in front of the user, and we rotate so everything we offer is at some
+  // point front of mind."
+  //
+  // Built from signals already in hand rather than fresh queries. See
+  // lib/dashboard/coverage.ts for why it offers only what has not been used,
+  // and why it is seven cards and not eleven.
+  const coverage = unmetCoverage({
+    hasAgreement: setupFlags.agreement,
+    hasKidLink: setupFlags.childLink,
+    hasJobs: setupFlags.quests,
+    hasPush: setupFlags.push,
+    hasCheckin: !!lastCheckin,
+    hasReadScript: !!lastCompletion,
+    hasDoneLesson: stagePassed.size > 0,
+  })
+
   const checkinDue = !lastCheckin
     || (Date.now() - new Date(lastCheckin.created_at).getTime()) > 28 * 24 * 60 * 60 * 1000
 
@@ -749,6 +771,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           ) }] : []),
           ...(revealed.has('wellbeing') ? [{ key: 'moment', node: <DigiWondering /> }] : []),
           ...(revealed.has('wellbeing') ? [{ key: 'device', node: <DigiDeviceCheckin /> }] : []),
+          // The discover slot. Only present when there is genuinely something
+          // this family has not met, so it takes a turn in the rotation while
+          // that is true and disappears from it entirely once they have seen
+          // everything. A family who has met the lot gets a quieter Home,
+          // which is the right reward rather than a bug.
+          ...(coverage.length > 0 ? [{ key: 'discover', node: <DigiDiscoverNudge card={coverage[0]} /> }] : []),
         ]}
       />
 
