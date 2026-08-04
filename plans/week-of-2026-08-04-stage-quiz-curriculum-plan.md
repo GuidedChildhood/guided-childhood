@@ -137,14 +137,36 @@ the fix, and it is the same authoring pass as the coverage fill.
 
 ---
 
-## Also queued, Justin's call already given
+## The scripts copy sweep: Justin said full, and it is blocked on a read
 
-**The scripts copy sweep.** 121 of 233 scripts assert something about the
-reader's own child as fact ("Your child has broken a digital agreement"), 0 of
-233 are phrased as a scenario, 2 assume a gender the app does not know. He has
-seen the numbers and has not said full sweep or sample first. **Not started
-until he says which.** The two gender assumptions are the exception: those are
-a bug in any reading, and go whichever way the rest goes.
+121 of 233 scripts assert something about the reader's own child as fact ("Your
+child has broken a digital agreement"), 0 of 233 are phrased as a scenario, 2
+assume a gender the app does not know. **Justin's call, 4 August: full sweep
+now.**
+
+**It cannot be done from this session, and the reason is not the same as the
+curriculum one.** The scripts do not live in the repo. Only three of the 233 are
+seeded by a migration (153). The rest exist solely as rows in the live database,
+written and edited through `/api/admin/scripts`. There is no seed file, no
+export checked in, nothing to read.
+
+Rewriting 121 rows of nuanced copy means reading each one first. Turning an
+assertion into a scenario is not a find and replace: "Your child has broken a
+digital agreement" has to become something that still carries the same moment
+without telling a parent it happened. A blind SQL pattern swap over 121 rows of
+Justin's voice would do more damage than the problem it fixes, and it would do
+it silently.
+
+So the sweep needs one of:
+- the Supabase MCP approved for reads, or
+- an export of the 233 rows (`/api/admin/scripts-export` already exists), or
+- a seed migration checked in, which is worth doing anyway: content this
+  important living only in one database, with no copy in version control, is a
+  single delete away from gone.
+
+**Nothing has been changed in the scripts table.** Not the 121, not the 2 gender
+ones. Writing the two from memory of a description I have never read would be
+guessing at copy, which is the one thing this sweep exists to stop.
 
 ## Parked, waiting on a count not a guess
 

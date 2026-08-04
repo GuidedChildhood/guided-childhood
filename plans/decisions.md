@@ -5022,3 +5022,37 @@ fifteen, with the grown up copy untouched because DiGi reads it for context.
 **Both child surfaces ask for the column in their own query.** A database without
 156 renders exactly as it does today rather than erroring a child's page, which
 is the right way round for a column that is an improvement, not a dependency.
+
+## 4 August 2026 — The stage check is the child's, and the scripts sweep needs a read
+
+**Justin's call: the child taps the stage check.** The questions are gathered
+from the lessons the child worked through, so the child answers them, and the
+passport stamp is theirs. `/k/[token]/quiz` with the same token auth as their
+lessons, `/api/kid/stage-quiz` writing the pass under the parent user_id so the
+pathway page reads it under RLS exactly as before, and a server side stage gate
+so the URL cannot be edited into a stage they have not reached.
+
+**The entry sits at the bottom of their lessons list, visible while shut.** A
+child can see what they are working towards, and the copy says it only asks what
+their lessons already asked, so it reads as a lap of honour rather than an exam.
+Falling short never says failed: it names the lessons to go back over and invites
+them again. A stage runs two to three years, and a child who reads "failed" at
+the end of one learns the wrong thing about the whole pathway.
+
+**The parent card became a readiness read and a hand over.** It keeps the amber
+strands and the lessons left, which is the useful part for a grown up, and links
+into the child's check instead of opening its own. The quiz machinery is deleted
+from the parent component rather than left dormant.
+
+**The scripts sweep is full, per Justin, and blocked.** The 233 scripts live only
+in the live database. Three are seeded by migration 153, the rest were written
+through the admin API and exist nowhere in the repo. Rewriting 121 rows of
+Justin's voice from assertion to scenario needs each one read first, and a blind
+SQL pattern swap would do more damage than the problem, silently. Nothing in the
+scripts table has been touched, including the two gender assumptions: writing
+those from a description I have never read is guessing at copy, which is the
+thing the sweep exists to stop.
+
+**Worth doing regardless of the sweep:** the scripts belong in a seed migration.
+233 rows of the product's voice living in one database with no copy in version
+control is a single delete away from gone.
