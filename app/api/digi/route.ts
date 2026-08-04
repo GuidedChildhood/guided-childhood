@@ -324,7 +324,16 @@ export async function POST(request: Request) {
 
   let nextStepKnowledge = ''
   if (recommended) {
-    nextStepKnowledge = `\n\nRECOMMENDED NEXT STEP ON THE PATHWAY: The next script this parent has not yet completed is "${recommended.title}" (${recommended.situation}). ${recommended.matchesChallenge ? 'This directly matches the main concern they told us about at signup.' : ''} If the conversation naturally allows it, or if they ask what to do next, mention this specific script by name as the next concrete step, do not just give generic advice when a specific next step already exists.`
+    // The reason is passed through rather than summarised, so DiGi can say why
+    // it is offering this one. "Because the console keeps coming up" is a
+    // different sentence from "here is the next script", and only one of them
+    // sounds like something that has been listening.
+    const why = recommended.reason
+      ? `We are offering it because: ${recommended.reason}.`
+      : recommended.matchesChallenge
+        ? 'This directly matches the main concern they told us about at signup.'
+        : ''
+    nextStepKnowledge = `\n\nRECOMMENDED NEXT STEP ON THE PATHWAY: The next script this parent has not yet used is "${recommended.title}" (${recommended.situation}). ${why} If the conversation naturally allows it, or if they ask what to do next, mention this specific script by name as the next concrete step, do not just give generic advice when a specific next step already exists.`
   }
 
   let scriptFeedbackKnowledge = ''
