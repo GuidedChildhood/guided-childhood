@@ -118,12 +118,20 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
     supabase.from('children').select('stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
     supabase.from('scripts').select('id, stage_id, title, situation, category, is_free, sort_order').order('sort_order', { ascending: true }),
-    supabase.from('script_completions').select('script_sort_order, completed_at').eq('user_id', user.id),
+    supabase.from('script_completions').select('script_sort_order, completed_at, status').eq('user_id', user.id),
   ])
 
   const isPaid = hasFullAccess(profile, user.email)
   const scripts = (scriptsData ?? []) as ScriptRow[]
-  const completedOrders = new Set((completions ?? []).map(c => c.script_sort_order))
+  // The tick means the conversation happened, not that the page was opened.
+  // Migration 157 split those two apart; this list was still counting a row of
+  // any kind, so a parent who scrolled through ten scripts came back to ten
+  // ticks and a passport that disagreed with every one of them. The free read
+  // counter below deliberately keeps counting opens, because opening a paid
+  // script is exactly what that allowance is spent on.
+  const completedOrders = new Set(
+    (completions ?? []).filter(c => (c as { status?: string }).status !== 'opened').map(c => c.script_sort_order)
+  )
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
   const matchCategory = challenge ? CHALLENGE_TO_CATEGORY[challenge] : null
   const currentStageId = (child?.stage_id as StageId) ?? null
@@ -257,7 +265,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         >
           <div style={{ background: 'var(--terracotta)', borderRadius: '16px', padding: '18px 20px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: '6px' }}>
-              {recommended.matchesChallenge ? 'Recommended next, matches what you told us' : 'Recommended next'}
+              Recommended next
             </div>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: '#fff', marginBottom: '4px' }}>
               {recommended.title}
@@ -265,6 +273,14 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
             <div style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
               {recommended.situation}
             </div>
+            {/* Why this one, in a line a parent can check against their own
+                week. A recommendation that cannot say why it is here is
+                indistinguishable from the next row down. */}
+            {recommended.reason && (
+              <div style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.92)', fontWeight: 700, marginTop: '9px' }}>
+                {recommended.reason}
+              </div>
+            )}
           </div>
         </Link>
       )}

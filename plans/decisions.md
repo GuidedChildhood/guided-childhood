@@ -5094,3 +5094,54 @@ with two fixed wrong answers, the same two every time, across all 54.
 have no deck, so the player renders their four text fields as slides. 5 of those
 10 carry grown up address in that text. Migration 156 fixed the lessons list
 line; this is the lesson body, and it is still open.
+
+## 4 August 2026 — the recommender starts using what a family has actually told us
+
+Justin: "can we make sure the scripts that come up are either relating to
+previous conversations, or at least related to the devices or platforms they
+would use."
+
+**One signal became three.** `getRecommendedScript` matched only the challenge
+picked once at signup. It now scores live concerns first, then the devices in
+the house, then the signup answer, and returns a `reason` so the card can say
+why in a line a parent can check against their own week.
+
+**The order between the three is the argument, not the code.** A concern row is
+written when this family raised something with DiGi, in a moment, or in right
+now, and it carries a count, so something flagged four times outweighs
+something flagged once. Owning a console is real evidence but weaker, because
+having a thing is not the same as struggling with it. The signup answer is
+weakest and kept because on day one it is all we know.
+
+**No penalties, only evidence.** Demoting gaming scripts for a family with no
+console listed was tempting and would have been wrong: children game on phones,
+at friends' houses, on school laptops, and a device list is something a parent
+filled in once and may never have finished. Hiding the script a family needs is
+a far worse failure than showing one they do not.
+
+**CHALLENGE_TO_CATEGORY had been broken since migration 151 and nothing said
+so.** Four of its eleven answers pointed at categories the collapse deleted
+(mental-health, online-safety, relationships, first-device). A parent whose
+worry was moods, or safety, or a first phone, matched zero rows and fell
+through to plain sort order. It survived because a filter matching nothing
+looks exactly like a parent who has read everything.
+
+**The library was still ticking scripts that were only opened.** Migration 157
+split opened from used for the passport, but `/dashboard/scripts` counted any
+completion row, so ten glanced at scripts came back as ten ticks against a
+passport that disagreed with every one of them. The free read counter
+deliberately still counts opens, because opening a paid script is what that
+allowance is spent on.
+
+**Model written text is never grafted into a sentence.** The first version read
+"Because group chats keeps coming up" and lowercased a Switch into a light
+switch. Concern labels get their own sentence now, so agreement and casing stay
+correct whatever DiGi wrote, and dashes are stripped on the way past.
+
+**Migration 157 collided.** #697 and #698 both shipped a 157. The newer, the
+scripts copy sweep, is renumbered 158. Renaming touches no database: Justin
+pastes these by hand, so the number is ordering for humans.
+
+**Checked** with thirteen cases against a fake client covering the ranking, the
+return date, the free script rule and the copy, plus the card at 390px and
+1280px in Chromium.
