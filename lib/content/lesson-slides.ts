@@ -229,6 +229,32 @@ export function parseSlides(raw: unknown): LessonSlide[] | null {
 // open, DiGi to close. Authored decks always win; this is only the fallback
 // so that every lesson plays as slides, not a wall of text. Returns null
 // when there is genuinely no content to build from.
+// One authored choice slide off a lesson row, validated before it is trusted.
+// Anything malformed returns null and the generated check runs instead, so a
+// half written question can never leave a lesson with no check at all.
+function authoredQuiz(raw: unknown): ChoiceSlide | null {
+  if (!raw || typeof raw !== 'object') return null
+  const q = raw as { type?: unknown; question?: unknown; options?: unknown; phase?: unknown }
+  if (q.type !== 'choice' || typeof q.question !== 'string' || !q.question.trim()) return null
+  if (!Array.isArray(q.options) || q.options.length < 2) return null
+
+  const options: ChoiceOption[] = []
+  for (const o of q.options) {
+    if (!o || typeof o !== 'object') return null
+    const opt = o as { text?: unknown; correct?: unknown; feedback?: unknown }
+    if (typeof opt.text !== 'string' || !opt.text.trim()) return null
+    options.push({
+      text: opt.text,
+      correct: opt.correct === true,
+      feedback: typeof opt.feedback === 'string' ? opt.feedback : '',
+    })
+  }
+  // Exactly one right answer, or it cannot be graded.
+  if (options.filter(o => o.correct).length !== 1) return null
+
+  return { type: 'choice', phase: 'prove', question: q.question, options }
+}
+
 export function autoSlidesFromLesson(
   lesson: {
     title: string
@@ -236,6 +262,9 @@ export function autoSlidesFromLesson(
     why_it_matters?: string | null
     try_this?: string | null
     key_message?: string | null
+    // An authored prove check for this lesson (migration 161, ai_lessons.quiz).
+    // Used in place of the generated one below when present.
+    quiz?: unknown
   },
   opts?: { eyebrow?: string },
 ): LessonSlide[] | null {
@@ -258,6 +287,17 @@ export function autoSlidesFromLesson(
   // wrong readings, so finishing means engaging with the idea, not clicking
   // past it. Authored decks bring their own richer questions; this is the
   // floor for the lighter, text only lessons that had none.
+  // An authored question always wins. The generated one below asks the same
+  // thing of every lesson with the same two wrong answers, so a reader meeting
+  // it repeatedly learns the shape of the answer rather than the idea. Where a
+  // lesson has been given its own question, that is the check.
+  const authored = authoredQuiz(lesson.quiz)
+  if (authored) {
+    slides.push(authored)
+    if (key) slides.push({ type: 'digi', heading: 'Remember', lines: [key] })
+    return slides
+  }
+
   const takeaway = (key || idea || why).replace(/\s+/g, ' ').trim()
   if (takeaway) {
     const short = takeaway.length > 128 ? `${takeaway.slice(0, 122).replace(/[\s,.;:]+\S*$/, '')}…` : takeaway
