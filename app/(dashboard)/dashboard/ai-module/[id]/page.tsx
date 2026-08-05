@@ -58,10 +58,21 @@ export default async function AiLessonPage({ params }: { params: Promise<{ id: s
   const lesson = data as Lesson | null
   if (!lesson) notFound()
 
+  // This lesson's own authored question, asked for separately and failing soft,
+  // so before migration 161 the column is simply absent and the lesson plays
+  // exactly as it does today with the generated check.
+  let quiz: unknown = null
+  {
+    const { data } = await supabase
+      .from('ai_lessons').select('quiz').eq('id', lesson.id).maybeSingle()
+    quiz = (data as { quiz?: unknown } | null)?.quiz ?? null
+  }
+
   // Authored deck wins; otherwise build one from the lesson's own content so
-  // every AI module lesson plays as slides, not a flat wall of text.
+  // every AI module lesson plays as slides, not a flat wall of text. The
+  // authored question, where there is one, replaces the generated close.
   const slides = parseSlides(lesson.slides)
-    ?? autoSlidesFromLesson(lesson, { eyebrow: AUDIENCE_LABEL[lesson.audience]?.label ?? 'AI safety' })
+    ?? autoSlidesFromLesson({ ...lesson, quiz }, { eyebrow: AUDIENCE_LABEL[lesson.audience]?.label ?? 'AI safety' })
 
   if (slides) {
     return (
