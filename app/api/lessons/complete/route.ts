@@ -59,6 +59,29 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({ error: error.message }, { status: 500 })
   }
+
+  // WHO passed it, alongside the shared family row.
+  //
+  // lesson_completions cannot answer this: the child's own link upserts the
+  // very same row, so either side doing a lesson looks like both. The road to
+  // social media is the one place that difference matters, since a leg only
+  // counts when the parent AND the child have each walked it. See migration 162
+  // and lib/pathway/social-road.ts.
+  //
+  // child_id null: a parent watching a lesson is watching it for the family,
+  // not for one child. Best effort throughout, because a missing row here costs
+  // a tick on one card and must never cost somebody their pass.
+  //
+  // A plain insert, with the duplicate swallowed. Not an upsert: the uniqueness
+  // is a PARTIAL index (one per lesson where child_id is null), and a partial
+  // index is not a target PostgREST can name in an on conflict clause.
+  if (passed && lesson_source === 'lesson') {
+    try {
+      await supabase.from('lesson_pass_by')
+        .insert({ user_id: user.id, lesson_id, who: 'parent', child_id: null })
+    } catch { /* already recorded, or pre migration 162 */ }
+  }
+
   return NextResponse.json({ ok: true, passed })
 }
 
@@ -80,5 +103,13 @@ export async function DELETE(req: NextRequest) {
     .eq('lesson_source', lesson_source)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // The parent's side of the social road goes with it. Only theirs: a parent
+  // un ticking their own completion has not undone the lesson their child sat.
+  try {
+    await supabase.from('lesson_pass_by')
+      .delete().eq('user_id', user.id).eq('lesson_id', lesson_id).is('child_id', null)
+  } catch { /* pre migration 162 */ }
+
   return NextResponse.json({ ok: true })
 }
