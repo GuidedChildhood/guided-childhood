@@ -111,6 +111,23 @@ export async function POST(req: NextRequest) {
   // downgraded above, so a wobbly replay after a pass cannot untick it either.
   if (passed) await markStepQuietly(supabase, link.user_id, link.child_id, 'lesson')
 
+  // The child's side of the road to social media, recorded against THIS child.
+  //
+  // The upsert above writes the family's shared lesson_completions row, which
+  // the parent's own route writes too, so it cannot say who sat the lesson. A
+  // leg of the social road only counts when the parent and the child have each
+  // done it, and this is the half of that answer only this route knows. See
+  // migration 162 and lib/pathway/social-road.ts.
+  //
+  // Best effort and after the pass is banked: a missing row here costs a tick
+  // on one card, never a child their lesson.
+  if (passed) {
+    try {
+      await supabase.from('lesson_pass_by')
+        .insert({ user_id: link.user_id, lesson_id, who: 'child', child_id: link.child_id })
+    } catch { /* already recorded, or pre migration 162 */ }
+  }
+
   // The good news reaches the parent's phone, best effort.
   try {
     const name = child?.name ?? 'Your child'

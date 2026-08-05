@@ -27,6 +27,8 @@ import { getWeekParentReport } from '@/lib/balance/week-report'
 import PassportToDo from '@/components/pathway/PassportToDo'
 import { parentPassportToDo } from '@/lib/pathway/passport-todo'
 import { gatherChildPassportToDo } from '@/lib/pathway/passport-todo-gather'
+import SocialRoadNova from '@/components/pathway/SocialRoadNova'
+import { getSocialRoad } from '@/lib/pathway/social-road'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -186,6 +188,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     ? await gatherChildPassportToDo(supabase, user.id, primaryChild, { progress: currentStageProgress })
     : []
 
+  // NOVA'S ROAD, under the passport she is helping to stamp.
+  //
+  // Justin: "on the parents pathway every month we need an appearance of Nova
+  // that says come this way for the road to social media. It needs to then only
+  // be completed when they complete relevant lesson on social media and
+  // children have done their necessary part."
+  //
+  // Only from stage 3 (eleven and up), which is where the social media lessons
+  // start and where the run up to sixteen becomes a real thing rather than a
+  // distant one. Below that the pathway stays calm, the same guard the
+  // readiness panel has always used.
+  const socialRoad = (currentStageNum ?? 0) >= 3
+    ? await getSocialRoad(supabase, user.id, primaryChild?.id ?? null, currentStageNum)
+    : null
+
   // Tailor the stage by the concern this family actually flagged, not by any
   // assumption about the child. The top open concern maps straight to the
   // stage's own action for it, so an eleven year old whose parent worries about
@@ -291,6 +308,18 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
                 childName={primaryChild?.name ?? 'your child'}
                 currentStage={currentStageNum}
               />
+              {/* Nova, directly under the book she is helping to stamp. The one
+                  stretch of the pathway that only counts when the parent AND
+                  the child have each walked it, so it belongs beside the
+                  passport rather than three sections down with the lessons. */}
+              {socialRoad && socialRoad.total > 0 && primaryChild?.id && (
+                <SocialRoadNova
+                  road={socialRoad}
+                  childId={primaryChild.id}
+                  childName={primaryChild.name ?? null}
+                  onApp={!!kidLink?.token}
+                />
+              )}
             </div>
           )}
         </div>
