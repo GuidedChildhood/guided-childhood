@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { parseSlides, autoSlidesFromLesson } from '@/lib/content/lesson-slides'
+import { parseSlides } from '@/lib/content/lesson-slides'
 import { badgesFor } from '@/lib/content/curriculum-badges'
 import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
 import { hasFullAccess } from '@/lib/access'
@@ -39,7 +39,10 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
       .eq('id', lessonId)
       .maybeSingle(),
   ])
-  if (!lesson || lesson.audience !== 'parent' || lesson.status === 'stub') notFound()
+  // No authored deck means this is not a child lesson yet: the text fields it
+  // would fall back to are written to the grown up as an instruction. Enforced
+  // here as well as in the list, so a shared or guessed link cannot reach one.
+  if (!lesson || lesson.audience !== 'parent' || lesson.status === 'stub' || !lesson.slides) notFound()
 
   // Age gate, forward only: the child can open their own stage and earlier
   // ones, never ahead of their age.
@@ -51,7 +54,7 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
   // is a member or a completion already opened this lesson.
   const [{ data: parentProfile }, { data: stageList }, { data: allCompletions }] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, email').eq('id', link.user_id).maybeSingle(),
-    supabase.from('lessons').select('id, stage_id, sort_order').eq('audience', 'parent').neq('status', 'stub'),
+    supabase.from('lessons').select('id, stage_id, sort_order').eq('audience', 'parent').neq('status', 'stub').not('slides', 'is', null),
     supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', link.user_id).eq('lesson_source', 'lesson'),
   ])
   const paid = hasFullAccess(
@@ -68,20 +71,10 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
   const nextOpenId = nextOpenLessonId(stageLessonsForStage, passedIds)
   if (!paid && !freeIds.has(lesson.id) && !openedThis && lesson.id !== nextOpenId) redirect(`/k/${token}/lessons`)
 
-  // A lesson with no authored deck is rendered from its four text fields, which
-  // are written for the grown up, so the child would read the Remember card as
-  // "your child ...". Its own line replaces that one where the lesson has one.
-  // Asked for separately and failing soft, so before migration 156 the column is
-  // absent and the lesson renders exactly as it does today.
-  let childKeyMessage: string | null = null
-  {
-    const { data } = await supabase
-      .from('lessons').select('child_key_message').eq('id', lessonId).maybeSingle()
-    childKeyMessage = (data as { child_key_message?: string | null } | null)?.child_key_message ?? null
-  }
-
+  // Only the authored deck now. The generated fallback stays in the module for
+  // the parent hub, which is where a lesson written to the grown up belongs, but
+  // it is no longer a path a child can land on.
   const rawSlides = parseSlides(lesson.slides)
-    ?? autoSlidesFromLesson({ ...lesson, key_message: childKeyMessage ?? lesson.key_message })
   if (!rawSlides) notFound()
   // The kid client never receives the teacher script channel.
   const slides = rawSlides.map(s => {
