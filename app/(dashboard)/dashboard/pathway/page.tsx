@@ -24,6 +24,9 @@ import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 import IsItWorkingReport from '@/components/pathway/IsItWorkingReport'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getWeekParentReport } from '@/lib/balance/week-report'
+import PassportToDo from '@/components/pathway/PassportToDo'
+import { parentPassportToDo } from '@/lib/pathway/passport-todo'
+import { gatherChildPassportToDo } from '@/lib/pathway/passport-todo-gather'
 
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
 
@@ -163,6 +166,26 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       })
     : []
 
+  // THE TO DO ABOVE THE BOOK.
+  //
+  // Justin: "maybe a button over passport a TO DO but not time critical, maybe
+  // we could have a check each month and send / provide child's app with
+  // anything they need to do to keep passport on track."
+  //
+  // Both halves read from the SAME five rows the book prints, so the line above
+  // the passport and the page inside it can never disagree. The child's half is
+  // a filtered version of it, since three of the five rows are a grown up's job
+  // (see lib/pathway/passport-todo.ts), and it is what the monthly sweep sends.
+  //
+  // The stage progress is handed over rather than re-read: the page has already
+  // paid for it above and the gather is otherwise eight queries for numbers we
+  // are holding.
+  const currentSections = currentStageNum ? stageSections[currentStageNum]?.sections ?? [] : []
+  const passportToDo = parentPassportToDo(currentSections)
+  const childToDo = primaryChild
+    ? await gatherChildPassportToDo(supabase, user.id, primaryChild, { progress: currentStageProgress })
+    : []
+
   // Tailor the stage by the concern this family actually flagged, not by any
   // assumption about the child. The top open concern maps straight to the
   // stage's own action for it, so an eleven year old whose parent worries about
@@ -240,6 +263,17 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           {/* The passport itself, the hero of its own page at last. */}
           {passportStamps.length > 0 && (
             <div id="passport" style={{ scrollMarginTop: '84px', minWidth: 0 }}>
+              {/* What is left, above the book that holds it. Closed by default,
+                  sage rather than red, and it says no rush in as many words:
+                  the passport moves in months and the one thing it must never
+                  become is another screen shouting at a parent. */}
+              <PassportToDo
+                childId={primaryChild?.id ?? null}
+                childName={primaryChild?.name ?? null}
+                items={passportToDo}
+                childItems={childToDo}
+                onApp={!!kidLink?.token}
+              />
               {/* Lands on the COVER, not on their stage.
                   It opened straight onto the child's own page for a while,
                   which sounded right and was not: it skips the one screen that

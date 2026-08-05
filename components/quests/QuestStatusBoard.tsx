@@ -92,6 +92,12 @@ export default function QuestStatusBoard() {
   const [touched, setTouched] = useState(false)
   // The quiet board, opened by hand. Only reachable when nothing needs them.
   const [openAnyway, setOpenAnyway] = useState(false)
+  const [reminding, setReminding] = useState<string | null>(null)
+  // Per child, not one flag for the row. With two children the single flag
+  // swallowed the second button the moment the first was nudged, so a parent
+  // could remind Teo or Alma but never both.
+  const [reminded, setReminded] = useState<Set<string>>(new Set())
+  const [remindFailed, setRemindFailed] = useState<string | null>(null)
 
   useEffect(() => {
     let alive = true
@@ -103,7 +109,7 @@ export default function QuestStatusBoard() {
   }, [])
 
   const buckets = useMemo(() => {
-    const out: Record<BucketKey, { key: string; title: string; emoji: string; who: string; note?: string }[]> =
+    const out: Record<BucketKey, { key: string; title: string; emoji: string; who: string; note?: string; childId?: string }[]> =
       { waiting: [], sent: [], withyou: [], done: [] }
     if (!data) return out
 
@@ -152,6 +158,7 @@ export default function QuestStatusBoard() {
       const row = {
         key: q.id, title: q.title, emoji: q.emoji ?? '⭐',
         who: nameOf.get(q.child_id ?? '') ?? 'Anyone',
+        childId: q.child_id ?? undefined,
       }
       if (q.child_id && hasApp.has(q.child_id)) out.sent.push(row)
       else out.withyou.push(row)
@@ -215,6 +222,28 @@ export default function QuestStatusBoard() {
     setAllBusy(false)
   }
 
+  // Nudging the child from the caught up row.
+  //
+  // One per child rather than one per job: the ask is go and look at your list,
+  // not do this specific thing, so it sends a general reminder and the child's
+  // screen shows one line instead of ten.
+  async function remind(childId: string, name: string) {
+    if (reminding) return
+    setReminding(childId)
+    setRemindFailed(null)
+    try {
+      const res = await fetch('/api/quests/nudge', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ childId }),
+      })
+      if (res.ok) setReminded(prev => new Set(prev).add(childId))
+      else setRemindFailed(`That did not reach ${name}. Try again.`)
+    } catch {
+      setRemindFailed(`That did not reach ${name}. Try again.`)
+    }
+    setReminding(null)
+  }
+
   if (!data) return <div style={{ height: 132, marginBottom: 18, opacity: 0.35 }} aria-hidden />
   const nothingAtAll = (['waiting', 'sent', 'withyou', 'done'] as BucketKey[]).every(k => buckets[k].length === 0)
   if (nothingAtAll) return null
@@ -255,31 +284,75 @@ export default function QuestStatusBoard() {
   // because the information is real and only its size was wrong.
   if (needsYou === 0 && !openAnyway) {
     const onApp = buckets.sent.length
+    // Who still has jobs sitting on their app, once each. These are the only
+    // children a reminder would mean anything to.
+    const toRemind = Array.from(
+      new Map(buckets.sent.filter(r => r.childId).map(r => [r.childId as string, r.who])).entries()
+    )
     return (
-      <button
-        onClick={() => setOpenAnyway(true)}
-        style={{
-          width: '100%', display: 'flex', alignItems: 'center', gap: 10,
-          background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
-          padding: '13px 16px', marginBottom: 18, cursor: 'pointer', textAlign: 'left',
-        }}
-      >
-        <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)' }}>✓</span>
-        <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
-          <strong>Nothing waiting on you.</strong>{' '}
-          <span style={{ color: 'var(--ink-soft)' }}>
-            {onApp > 0
-              ? `${onApp} job${onApp === 1 ? '' : 's'} on their app.`
-              : 'Every job is done.'}
+      <div style={{
+        background: '#fff', border: '1.5px solid var(--border)', borderRadius: 18,
+        padding: '13px 16px', marginBottom: 18,
+      }}>
+        {/* The row is no longer one big button, because it now holds a second
+            action and a button inside a button is not a thing. The text is the
+            tappable part, exactly as before. */}
+        <button
+          onClick={() => setOpenAnyway(true)}
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+            background: 'none', border: 'none', padding: 0, cursor: 'pointer', textAlign: 'left',
+          }}
+        >
+          <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)' }}>✓</span>
+          <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
+            <strong>Nothing waiting on you.</strong>{' '}
+            <span style={{ color: 'var(--ink-soft)' }}>
+              {onApp > 0
+                ? `${onApp} job${onApp === 1 ? '' : 's'} on their app.`
+                : 'Every job is done.'}
+            </span>
           </span>
-        </span>
-        {/* A chevron, not a word. "Where" alone was shorthand for the heading
-            this row replaces and read as a riddle without it, and the chevron
-            is what every other tappable row in this product already wears. */}
-        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-light)' }}>
-          ›
-        </span>
-      </button>
+          {/* A chevron, not a word. "Where" alone was shorthand for the heading
+              this row replaces and read as a riddle without it, and the chevron
+              is what every other tappable row in this product already wears. */}
+          <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-light)' }}>
+            ›
+          </span>
+        </button>
+
+        {/* Nothing waiting on YOU is not the same as nothing to do, and this is
+            the one thing a parent can actually do about the other half. */}
+        {toRemind.length > 0 && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 11, paddingTop: 11, borderTop: '1px solid var(--border)' }}>
+            <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
+              {toRemind.every(([id]) => reminded.has(id)) ? 'Nudged.' : 'Give them a nudge?'}
+            </span>
+            {toRemind.map(([id, name]) => reminded.has(id) ? (
+              <span key={id} style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)' }}>
+                {name} 💛
+              </span>
+            ) : (
+              <button
+                key={id}
+                onClick={() => remind(id, name)}
+                disabled={reminding !== null}
+                style={{
+                  background: 'var(--cream)', border: '1.5px solid var(--border)',
+                  borderRadius: 999, padding: '6px 13px', cursor: reminding ? 'wait' : 'pointer',
+                  fontFamily: 'var(--font-display)', fontWeight: 700,
+                  fontSize: 'var(--text-sm)', color: 'var(--ink)',
+                }}
+              >
+                {reminding === id ? 'Sending' : `Remind ${name}`}
+              </button>
+            ))}
+            {remindFailed && (
+              <span style={{ width: '100%', fontSize: 'var(--text-sm)', color: 'var(--danger)' }}>{remindFailed}</span>
+            )}
+          </div>
+        )}
+      </div>
     )
   }
 

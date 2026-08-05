@@ -494,6 +494,51 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
           : mode === 'bonus' ? `Give ${minutes} min on ${grantScreen} 🎁`
           : `Start ${minutes} min · ${cost} stars`}
       </button>
+      {/* Short this week is an offer, not a wall.
+          Justin: "screen timer can be sent and can always send their stars into
+          debit, but let parents know maybe check jobs or add another to keep
+          the balance healthy."
+          The button used to say "Needs 4 stars" and simply stop, which reads as
+          the app refusing a decision that was never the app's to make. The way
+          through already existed one tab across: a gift starts now, spends
+          nothing, and the next approved job settles it. So say that, and say
+          the honest thing about the balance in the same breath. */}
+      {tooPoor && (
+        <div style={{
+          background: 'var(--tint-sage)', border: '1.5px solid #D6E5DF',
+          borderRadius: '14px', padding: '12px 14px', margin: '9px 0 0',
+        }}>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, marginBottom: '8px' }}>
+            {kid.name} is {cost - kid.balance} star{cost - kid.balance === 1 ? '' : 's'} short this week. You can still send it as a gift, and the next job {kid.name} does pays it back.
+          </p>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => setMode('gift')}
+              style={{
+                background: 'var(--terracotta)', border: 'none', borderRadius: '12px',
+                padding: '9px 15px', cursor: 'pointer', color: 'var(--ink)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                boxShadow: '0 3px 0 var(--terracotta-dark)',
+              }}
+            >
+              Send it as a gift 💛
+            </button>
+            {/* The other half of Justin's note: the balance is low for a reason,
+                and the fix is jobs rather than a smaller number here. */}
+            <Link href="/dashboard/quests/manage" style={{
+              display: 'inline-flex', alignItems: 'center', background: 'var(--white)',
+              border: '1.5px solid var(--border)', borderRadius: '12px', padding: '9px 15px',
+              textDecoration: 'none', color: 'var(--ink)',
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
+            }}>
+              Check the jobs
+            </Link>
+          </div>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '9px 0 0' }}>
+            A week that keeps running short usually means the board is light. Adding a job is what keeps the balance healthy.
+          </p>
+        </div>
+      )}
       {mode === 'gift' && (
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
           The gift starts now and {minutesToStars(minutes)} star{minutesToStars(minutes) === 1 ? '' : 's'} of jobs pay it back later. The next approved job settles it by itself.
