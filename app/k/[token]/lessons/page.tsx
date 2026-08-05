@@ -48,6 +48,14 @@ export default async function KidLessonsPage({ params, searchParams }: {
     .select('id, stage_id, category, title, key_message, sort_order')
     .eq('audience', 'parent')
     .neq('status', 'stub')
+    // A lesson with no authored deck is NOT a child lesson yet. Without one the
+    // player builds slides from the four text fields, and on the ten lessons
+    // that have no deck those fields are written to the grown up as an
+    // instruction: "practise one sentence with your child", "sit with your child
+    // for their next screen session". A child opening that reads homework set
+    // for somebody else. They belong on the parent hub, which still shows them,
+    // and they come back here the moment a deck is written for them.
+    .not('slides', 'is', null)
     .order('sort_order', { ascending: true })
   const stageLessons = (allLessons ?? []).filter(l => l.stage_id === stage.name.toLowerCase())
 
