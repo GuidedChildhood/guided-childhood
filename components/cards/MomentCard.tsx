@@ -50,6 +50,12 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
   const [shared, setShared] = useState(false)
   const [questMade, setQuestMade] = useState(false)
   const [questBusy, setQuestBusy] = useState(false)
+  // "I tried this" is a heavier signal than "I opened this", and a different
+  // one. Opening the card ticks the daily moment via /api/moments/complete and
+  // always has. This schedules the question DiGi comes back with in a week, and
+  // is the only thing that starts the follow up chain.
+  const [tried, setTried] = useState(false)
+  const [triedBusy, setTriedBusy] = useState(false)
   // The deck: which card the parent is on, and whether they saved this one.
   const [card, setCard] = useState(0)
   const [saved, setSaved] = useState(false)
@@ -352,10 +358,35 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                 >
                   {questMade ? `Sent to ${childName && childName !== 'Your child' ? childName : 'them'} ✓` : questBusy ? 'Making...' : 'Make it a quest →'}
                 </button>
+                <button
+                  onClick={async e => {
+                    e.stopPropagation()
+                    if (tried || triedBusy) return
+                    setTriedBusy(true)
+                    try {
+                      const res = await fetch('/api/moments/tried', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ momentId: moment.id }),
+                      })
+                      if (res.ok) setTried(true)
+                    } catch { /* leave as is */ } finally { setTriedBusy(false) }
+                  }}
+                  style={{ ...lesserLink, background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+                >
+                  {tried ? 'DiGi will check back ✓' : triedBusy ? 'Saving...' : 'I tried this →'}
+                </button>
               </div>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0', display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span aria-hidden>🗓️</span> DiGi will check how this one went in your Sunday catch up.
-              </p>
+              {/* The promise is only made once it is real. This line used to show
+                  on every card and said DiGi would check how it went, while the
+                  route that schedules that question had no caller anywhere in the
+                  app, so the check back never came. A promise the product cannot
+                  keep costs more than the feature was ever worth. */}
+              {tried && (
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span aria-hidden>🗓️</span> DiGi will ask how this one went in about a week.
+                </p>
+              )}
             </div>
           ),
         })
