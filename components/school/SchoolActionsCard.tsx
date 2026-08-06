@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
+import SchoolWeek from './SchoolWeek'
 
 // Tell the bell to recount the moment a school item is cleared, settled or
 // added right here, so the number on the bell never lags behind the card.
@@ -115,6 +116,16 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
   const [sendingId, setSendingId] = useState<string | null>(null)
   const [testing, setTesting] = useState(false)
   const [testResult, setTestResult] = useState<string | null>(null)
+  // Which week the calendar is showing. 0 is this one, and the arrows walk it.
+  const [weekOffset, setWeekOffset] = useState(0)
+  // The full list underneath, which repeats every item the week already shows.
+  //
+  // It is not redundant: it is the only place with Send to Teo, the calendar
+  // download, the detail line and Dismiss as distinct from Done. But printed
+  // open beneath the calendar it showed the same six things three times over,
+  // which is worse than the list alone was. So the week is the answer and the
+  // list is the drawer, one tap away and remembered for the session.
+  const [showList, setShowList] = useState(false)
   // Held null through the first render so server and client agree, then the
   // clock ticks in and the timed cards escalate on their own.
   const [nowMs, setNowMs] = useState<number | null>(null)
@@ -327,6 +338,26 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         </p>
       )}
 
+      {/* The week, above the lists. The lists still hold the detail and the
+          send to child controls; this is the shape of the week, which is the
+          thing a list of rows can never show. */}
+      <SchoolWeek
+        actions={actions}
+        nowMs={nowMs}
+        weekOffset={weekOffset}
+        onWeek={setWeekOffset}
+        clearedIds={clearedIds}
+        onClear={a => { if (a.recurs_weekday != null) clearForToday(a.id); else settle(a.id, 'done') }}
+        onDelete={id => settle(id, 'dismissed')}
+        onAdd={(dateIso, dow) => {
+          // Open the form already pointed at the day that was tapped, so
+          // adding Friday's swimming kit is a name and a save.
+          setShowAdd(true)
+          setWeekday(dow)
+          if (dateIso) { setRepeats(false); setDueDate(dateIso) }
+        }}
+      />
+
       {showAdd && (
         <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px', marginBottom: '14px' }}>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '10px' }}>
@@ -508,8 +539,27 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         </div>
       )}
 
+      {/* The drawer. Only offered when there is something in it. */}
+      {(recurring.length > 0 || oneOff.length > 0) && (
+        <button
+          type="button"
+          onClick={() => setShowList(v => !v)}
+          style={{
+            width: '100%', marginBottom: showList ? '14px' : '2px', padding: '11px 14px',
+            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '12px', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
+          }}
+        >
+          <span>{showList ? 'Hide the full list' : 'Open the full list'}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
+            {showList ? '▲' : `▼  ${recurring.length + oneOff.length}`}
+          </span>
+        </button>
+      )}
+
       {/* Weekly routines: permanent, never done or dismissed the way a one off is */}
-      {recurring.length > 0 && (
+      {showList && recurring.length > 0 && (
         <div style={{ marginBottom: '16px' }}>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
             Every week
@@ -580,12 +630,14 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       )}
 
       {oneOff.length === 0 ? (
+        // The empty state belongs to the whole card, not to the drawer, so it
+        // shows whether or not the list is open.
         recurring.length === 0 && (
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
             Nothing open right now. Forward a school email, or add a reminder by hand above.
           </p>
         )
-      ) : (
+      ) : showList && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {oneOff.map(a => {
             const kindMeta = KIND_STYLE[a.kind] ?? KIND_STYLE.notice
