@@ -7,7 +7,7 @@
 // says how close they are. Pure display: it reads the counts and invents
 // nothing.
 
-import { STREAKS_PER_FRIEND, streaksBankedTowardNext, streaksToNextFriend, nextFriendToEarn } from '@/lib/pathway/streak-unlock'
+import { rungLength, streaksBankedTowardNext, streaksToNextFriend, nextFriendToEarn } from '@/lib/pathway/streak-unlock'
 
 export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { completedStreaks?: number; earnedStages?: number }) {
   const banked = streaksBankedTowardNext(completedStreaks)
@@ -38,9 +38,11 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
           </div>
         ) : (
           <>
-            {/* Four dots toward the next Friend */}
+            {/* One dot per streak in the rung being worked through. The rungs
+                are uneven, so this is no longer a fixed four, and it is capped
+                so the long run to Cosmo draws a bar rather than confetti. */}
             <div style={{ display: 'flex', gap: 6, marginBottom: 6 }}>
-              {Array.from({ length: STREAKS_PER_FRIEND }).map((_, i) => (
+              {Array.from({ length: rungLength(completedStreaks) }).map((_, i) => (
                 <span key={i} style={{
                   flex: 1, height: 9, borderRadius: 100,
                   background: i < banked ? 'var(--terracotta)' : 'rgba(201,154,40,0.22)',

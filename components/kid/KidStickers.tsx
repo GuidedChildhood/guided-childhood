@@ -23,11 +23,36 @@ export type KidSticker = {
   // child book did not, so the person the stickers are actually FOR was the one
   // still getting them.
   rule: StickerRule
+  /** What it costs, in the child's words. "Save 8 half hours". */
+  earn?: string
+  /** How far along, and the target, both in the units the earn line names. */
+  have?: number
+  need?: number
 }
 
+// A LOCKED SLOT HAS TO SAY WHAT IT COSTS.
+//
+// Every locked sticker used to read the word "Locked" with a bare number under
+// it: 8, 15, 25, 40, 5, 7. No unit, no verb, no name. A child cannot tell
+// whether 40 is days, stars, sheets or minutes, or what earns it.
+//
+// The sentence existed the whole time. Every sticker in the catalog carries an
+// `earn` string, "Save 25 half hours", "Finish 5 printables", and the tile
+// printed "Locked" instead. The answer was written and thrown away at the last
+// step.
+//
+// Mobbin, 5 August 2026: Tripadvisor puts the instruction on the tile itself
+// ("Write 5 restaurant reviews") beside a 0/5, and stoic. lists the two or
+// three closest with live progress. Not Boring Vibes is the one we half copied:
+// bare numbers work there because a header names the unit, and we took the
+// numbers and left the header behind.
 function Tile({ s }: { s: KidSticker }) {
+  const need = s.need ?? 0
+  const have = Math.min(s.have ?? 0, need)
+  const showBar = !s.earned && need > 0 && have > 0
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, textAlign: 'center', width: 82 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, textAlign: 'center', width: 96 }}>
       <div style={{
         position: 'relative', width: 72, height: 72, borderRadius: '50%',
         display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
@@ -48,9 +73,29 @@ function Tile({ s }: { s: KidSticker }) {
           <StickerBadge s={s} size={56} />
         )}
       </div>
-      <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-muted)', lineHeight: 1.1 }}>
-        {s.earned ? s.name : 'Locked'}
+
+      {/* The name, always. A locked sticker is a thing you are working towards,
+          and a thing with no name is not something anybody works towards. */}
+      <span style={{ fontSize: 'var(--text-sm)', fontWeight: 800, color: s.earned ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.15 }}>
+        {s.name}
       </span>
+
+      {!s.earned && s.earn && (
+        <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.25 }}>
+          {s.earn}
+        </span>
+      )}
+
+      {showBar && (
+        <>
+          <span style={{ width: '100%', height: 5, borderRadius: 100, background: 'rgba(26,26,46,0.12)', overflow: 'hidden' }}>
+            <span style={{ display: 'block', height: '100%', borderRadius: 100, width: `${Math.round((have / need) * 100)}%`, background: s.colour }} />
+          </span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
+            {have} of {need}
+          </span>
+        </>
+      )}
     </div>
   )
 }
@@ -105,7 +150,7 @@ export default function KidStickers({ token, stickers, celebrate }: {
           {earnedCount} of {stickers.length}
         </span>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(82px, 1fr))', gap: '16px 6px', justifyItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))', gap: '16px 6px', justifyItems: 'center' }}>
         {stickers.map(s => <Tile key={s.key} s={s} />)}
       </div>
 

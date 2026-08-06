@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { STREAKS_PER_FRIEND, streaksToNextFriend } from '@/lib/pathway/streak-unlock'
+import { isFriendMoment, streaksToNextFriend } from '@/lib/pathway/streak-unlock'
 
 // All five done. The full screen moment.
 //
@@ -78,7 +78,9 @@ export default function KidStreakTakeover({
   })
 
   const toReward = streaksToNextFriend(completedStreaks)
-  const earnedFriend = completedStreaks > 0 && completedStreaks % STREAKS_PER_FRIEND === 0
+  // The rungs are uneven now (2, 10, 22, 38, 58), so a modulo cannot tell
+  // which day is the one that brings a Friend home. The ladder can.
+  const earnedFriend = isFriendMoment(completedStreaks)
 
   return (
     <div
@@ -137,7 +139,7 @@ export default function KidStreakTakeover({
 
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 6px', maxWidth: '340px', fontWeight: 600 }}>
         {earnedFriend
-          ? `That is ${STREAKS_PER_FRIEND} streaks${childName ? `, ${childName}` : ''}. A new friend is on the way to your sticker book.`
+          ? `That is ${completedStreaks} full days${childName ? `, ${childName}` : ''}. A new friend is on the way to your sticker book.`
           : `All five done${childName ? `, ${childName}` : ''}. Every one of them.`}
       </p>
       {!earnedFriend && (

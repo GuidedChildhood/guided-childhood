@@ -558,6 +558,10 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     kidStickers = book.stickers.map(s => ({
       key: s.key, name: s.name, emoji: s.emoji, art: stickerArt(s),
       colour: s.colour, earned: s.earned, rule: s.rule,
+      // What it costs and how close they are. Both already existed on the
+      // book and neither was reaching the child, which is why a locked
+      // sticker could only say "Locked" over a bare number.
+      earn: s.earn, have: s.have, need: s.need,
     }))
     const { data, error } = await supabase
       .from('earned_stickers').select('sticker_key')
