@@ -1,6 +1,7 @@
 import webpush from 'web-push'
 import { createClient } from '@supabase/supabase-js'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import { oneRowPerDevice } from '@/lib/push/devices'
 
 // Sending a push, in process.
 //
@@ -87,7 +88,9 @@ export async function sendPush(input: SendPushInput): Promise<SendPushResult> {
 
   // Parent messages never reach kid devices and kid reminders never reach
   // parents: subscriptions are split by child_id (migration 031).
-  const query = supabase.from('push_subscriptions').select('endpoint, p256dh, auth')
+  const query = supabase
+    .from('push_subscriptions')
+    .select('endpoint, p256dh, auth, device_id, child_id, updated_at, created_at')
   if (userId) query.eq('user_id', userId)
   if (audience === 'kids') query.not('child_id', 'is', null)
   else query.is('child_id', null)
@@ -105,6 +108,24 @@ export async function sendPush(input: SendPushInput): Promise<SendPushResult> {
   if (error) return { sent: 0, failed: 0, pruned: 0, error: error.message }
   if (!subs?.length) return { sent: 0, failed: 0, pruned: 0 }
 
+  // ONE BUZZ PER DEVICE.
+  //
+  // Justin, 6 August 2026: "Every reminder eg jobs or agree timer seems to send
+  // 4 pwas to child's phone."
+  //
+  // Every row here used to be sent to, and the table is not a list of devices:
+  // a push service issues a new endpoint whenever the subscription is recreated
+  // and nothing removed the old row, so one account had twenty three rows and
+  // one child's phone had five. See migration 166, which cleans the table and
+  // stops it refilling.
+  //
+  // This stays regardless of that migration, because it is the layer the child
+  // actually feels. A row can slip in between the delete and the write in a
+  // subscribe, an older client can subscribe with no device_id, and a family can
+  // be halfway through the rollout. `sent` counts devices reached now, which is
+  // the number that was always meant.
+  const devices = oneRowPerDevice(subs)
+
   const payload = JSON.stringify({ title, body, url, urgent: urgent === true })
 
   // urgent raises the delivery urgency on the wire. Web push defaults to
@@ -119,7 +140,7 @@ export async function sendPush(input: SendPushInput): Promise<SendPushResult> {
   const stale: string[] = []
 
   await Promise.allSettled(
-    subs.map(async sub => {
+    devices.map(async sub => {
       try {
         await webpush.sendNotification(
           { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },

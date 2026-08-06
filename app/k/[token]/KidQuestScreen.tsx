@@ -22,6 +22,7 @@ import { TIMER_RULE, readTrust, type ActiveSession } from '@/lib/quests/device-t
 import { contractRule, type ContractLevel } from '@/lib/content/kid-contract'
 import KidAskBanner, { type KidAskState, type KidNudge } from '@/components/kid/KidAskBanner'
 import { playKidSound, soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
+import { getDeviceId } from '@/lib/push/device-id'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 import HappyScene from '@/components/celebrate/HappyScene'
 import BalanceInsight from '@/components/celebrate/BalanceInsight'
@@ -797,7 +798,11 @@ export default function KidQuestScreen({
       await fetch('/api/quests/push-subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, subscription: sub.toJSON() }),
+        // deviceId so this phone keeps ONE row instead of gaining another every
+        // time the push service rotates its endpoint. Teo had five, and four of
+        // them still delivered, which is why every reminder arrived four times.
+        // See migration 166.
+        body: JSON.stringify({ token, subscription: sub.toJSON(), deviceId: getDeviceId() }),
       })
       localStorage.setItem('gc_kid_reminders', '1')
       setRemindState('on')

@@ -10,6 +10,7 @@ import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { trialEndsFromNow } from '@/lib/access'
 import Celebration from '@/components/ui/Celebration'
 import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
+import { getDeviceId } from '@/lib/push/device-id'
 
 type Screen = 'init' | 'welcome' | 'children' | 'devices' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task' | 'notifications'
 
@@ -1030,7 +1031,9 @@ export default function OnboardingPage() {
         await fetch('/api/push/subscribe', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ subscription: sub.toJSON(), userId: user?.id }),
+          // deviceId so this browser keeps ONE row instead of gaining another
+          // every time the push service rotates its endpoint. See migration 166.
+          body: JSON.stringify({ subscription: sub.toJSON(), userId: user?.id, deviceId: getDeviceId() }),
         })
         setNotifStatus('done')
         setTimeout(goNext, 900)

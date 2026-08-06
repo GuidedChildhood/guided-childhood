@@ -17,16 +17,36 @@ export async function POST(req: NextRequest) {
     const supabase = getSupabase()
     if (!supabase) return NextResponse.json({ error: 'Push not configured' }, { status: 503 })
 
-    const { subscription, userId, stage } = await req.json()
+    const { subscription, userId, stage, deviceId } = await req.json()
 
     if (!subscription?.endpoint || !subscription?.keys?.p256dh || !subscription?.keys?.auth) {
       return NextResponse.json({ error: 'Invalid subscription' }, { status: 400 })
+    }
+
+    // One row per device, not one per subscription this device has ever had.
+    // The parent side had accumulated seventeen rows on Google and six on Apple
+    // for a single account, which is why every message arrived as a pile. Same
+    // cause and same fix as the child route; see migration 166.
+    const device = typeof deviceId === 'string' && deviceId.length > 0 && deviceId.length <= 64
+      ? deviceId
+      : null
+    if (device) {
+      try {
+        await supabase
+          .from('push_subscriptions')
+          .delete()
+          .eq('user_id', userId)
+          .is('child_id', null)
+          .eq('device_id', device)
+          .neq('endpoint', subscription.endpoint)
+      } catch { /* best effort */ }
     }
 
     const { error } = await supabase
       .from('push_subscriptions')
       .upsert({
         user_id: userId,
+        device_id: device,
         endpoint: subscription.endpoint,
         p256dh: subscription.keys.p256dh,
         auth: subscription.keys.auth,

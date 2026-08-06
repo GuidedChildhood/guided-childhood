@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import { getDeviceId } from '@/lib/push/device-id'
 
 interface Props {
   userId: string
@@ -243,7 +244,9 @@ export default function PushPrompt({ userId, stage }: Props) {
       const res = await fetch('/api/push/subscribe', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ subscription: sub.toJSON(), userId, stage }),
+        // deviceId so this browser keeps ONE row instead of gaining another
+        // every time the push service rotates its endpoint. See migration 166.
+        body: JSON.stringify({ subscription: sub.toJSON(), userId, stage, deviceId: getDeviceId() }),
       })
       if (!res.ok) {
         setStatus('idle')
