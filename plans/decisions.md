@@ -5268,3 +5268,42 @@ the copy, fixed by moving them onto a ring outside the character; and headless
 screenshots stall GSAP mid tween, so the settled layout has to be checked under
 `prefers-reduced-motion` or read off computed styles rather than trusted from a
 picture taken too early.
+
+## 6 August 2026, late — one reminder, one buzz
+
+Justin: "Every reminder eg jobs or agree timer seems to send 4 pwas to child's
+phone." Counted in the live database: Teo had four push subscriptions to one
+phone, and one parent account had twenty three.
+
+**A push endpoint is not a device.** The push service issues a new endpoint on a
+PWA reinstall, on clearing site data, on an iOS update and on its own schedule.
+Both subscribe routes upserted on endpoint, so every rotation inserted a row and
+nothing removed the one before, and the table stopped being a list of devices
+and became a log of every subscription a phone had ever had. Every send fanned
+out across the whole log. This is the same fault as the school reminder test
+this morning, which was patched in one route. It was never one route.
+
+**device_id is the fix at the source.** A stable id the browser makes once and
+keeps in localStorage. It survives the endpoint rotating, which is the only
+thing that can tell "this phone again" from "a second phone", and the subscribe
+routes now clear a device's older rows before writing the new one.
+
+**No unique index on it.** A subscribe runs while a child is standing at a
+permission prompt, and turning a lost race into a 500 there would trade four
+buzzes for no reminders at all.
+
+**The cleanup keeps the newest row per family, per child, per push host.** One
+phone talks to one push service, so the host is the best identity available for
+rows written before device_id existed. It costs a parent running two browsers of
+the same kind on one account the older of the two; they resubscribe on the next
+visit and are properly separated from then on. Being sent seventeen copies of
+everything is the worse side of that trade.
+
+**Send time collapses duplicates as well**, and stays whatever the table looks
+like, because that is the layer a child feels. Keyed on child_id too: two
+children in one house on two iPhones share a push host, and grouping on the host
+alone would have silenced one of them, which is worse than the bug being fixed.
+
+**Migration 165 collided** with another session's `digi_wisdom_review_gate`,
+which committed later and is now 167. Every statement in it is an idempotent
+create or a guarded update, so re-running under the new name changes nothing.

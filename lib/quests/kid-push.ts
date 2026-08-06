@@ -1,5 +1,6 @@
 import webpush from 'web-push'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import { oneRowPerDevice } from '@/lib/push/devices'
 
 // A best effort nudge to the child's own device, through the reminders
 // they turned on from their quest link. Only ever from a parent to their
@@ -19,10 +20,24 @@ export async function pushToChild(
   try {
     const { data: subs } = await admin
       .from('push_subscriptions')
-      .select('endpoint, p256dh, auth')
+      .select('endpoint, p256dh, auth, device_id, child_id, updated_at, created_at')
       .eq('user_id', userId)
       .eq('child_id', childId)
     if (!subs?.length) return
+
+    // ONE BUZZ PER DEVICE.
+    //
+    // Justin, 6 August 2026: "Every reminder eg jobs or agree timer seems to
+    // send 4 pwas to child's phone." This function is the one behind the jobs
+    // nudge and the timer, and it was sending to every row it found. Teo had
+    // five rows for one phone, four of which still delivered.
+    //
+    // A push endpoint is not a device: the service issues a new one on a
+    // reinstall, on clearing site data, on an iOS update and on its own
+    // schedule, and the old row was never removed. Migration 166 cleans the
+    // table and the subscribe route stops it refilling; this is the guard that
+    // holds while both of those are rolling out.
+    const devices = oneRowPerDevice(subs)
 
     // Tapping the notification must open the child's own quest page, not
     // the site root (where a child, with no login, lands nowhere useful).
@@ -35,16 +50,23 @@ export async function pushToChild(
     const payload = JSON.stringify({ title, body, url })
     const stale: string[] = []
     await Promise.allSettled(
-      subs.map(async sub => {
+      devices.map(async sub => {
         try {
           await webpush.sendNotification(
             { endpoint: sub.endpoint, keys: { p256dh: sub.p256dh, auth: sub.auth } },
             payload
           )
         } catch (err: unknown) {
-          if (err && typeof err === 'object' && 'statusCode' in err && err.statusCode === 410) {
-            stale.push(sub.endpoint)
-          }
+          // 404 as well as 410. Apple and Google both answer 404 for an endpoint
+          // that no longer exists, and an endpoint that is not there is not
+          // coming back. Only removing 410 is part of why dead rows sat in this
+          // table for a month. Anything else is left alone: a 429 or a 500 is
+          // the push service having a moment, and deleting a real family's
+          // subscription over that unsubscribes them for good.
+          const status = err && typeof err === 'object' && 'statusCode' in err
+            ? Number((err as { statusCode?: unknown }).statusCode)
+            : 0
+          if (status === 404 || status === 410) stale.push(sub.endpoint)
         }
       })
     )

@@ -1,4 +1,11 @@
--- Guided Childhood — Migration 165
+-- Guided Childhood — Migration 167
+--
+-- Renumbered from 165 on 6 August 2026. It landed the same evening as
+-- 165_clear_age_rule_friends.sql from another session, and two files sharing a
+-- number leaves their order undefined, which is what the wiring check calls
+-- BROKEN. This one committed later so this one moved. Every statement in it is
+-- an idempotent create or a guarded update, so a re-run under the new name
+-- changes nothing.
 --
 -- Nothing reaches a parent's DiGi until somebody has read it.
 --
