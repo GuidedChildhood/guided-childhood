@@ -140,18 +140,70 @@ export default function KidStickers({ token, stickers, celebrate }: {
 
   const earnedCount = stickers.filter(s => s.earned).length
 
+  // The pages of the book, in the order they are worth working through. Every
+  // sticker lands on exactly one, and a page with nothing in it is not drawn,
+  // so an older database missing the stamps simply has two pages.
+  const pages: { name: string; note: string; of: KidSticker[] }[] = [
+    { name: 'The Squad', note: 'Finish full days to bring them home', of: stickers.filter(s => s.rule.kind === 'friend') },
+    { name: 'The Stamps', note: 'The rare ones. A whole stage each', of: stickers.filter(s => s.rule.kind === 'stamp') },
+    { name: 'Saving and Streaks', note: 'For the time you earned and did not spend', of: stickers.filter(s => s.rule.kind === 'credits' || s.rule.kind === 'sheets' || s.rule.kind === 'streak') },
+  ].filter(p => p.of.length > 0)
+
   return (
     <div style={{ margin: '10px 2px 8px' }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10, marginBottom: 12 }}>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>
-          My stickers
-        </span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-          {earnedCount} of {stickers.length}
-        </span>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))', gap: '16px 6px', justifyItems: 'center' }}>
-        {stickers.map(s => <Tile key={s.key} s={s} />)}
+      {/* THE COLLECTION IS THE PASSPORT.
+          Justin: "we want the stickers and the squad friends to appear in a
+          copy of the passport image we have."
+          The parent already has a passport, a burgundy book with a gold crest
+          that is the one object in this product meant to feel like a keepsake.
+          The child had a grid of circles on a grey background. This is their
+          copy of the same book, and the stickers live inside it.
+          Mobbin, Finch's Micropedia: a collection reads as a collection when it
+          is a bound thing with pages and the count is printed on it, not when
+          it is a wall of tiles. */}
+      <div style={{
+        background: 'linear-gradient(160deg, #6B2333 0%, #571C2A 55%, #4A1723 100%)',
+        borderRadius: '14px 18px 18px 14px',
+        boxShadow: 'inset 0 0 0 2px rgba(237,195,95,0.5), inset 0 0 0 5px rgba(237,195,95,0.12), inset 13px 0 26px rgba(0,0,0,0.3), 0 14px 34px rgba(0,0,0,0.3)',
+        padding: '16px 13px 14px',
+        display: 'flex', flexDirection: 'column', gap: 12,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 10 }}>
+          <span style={{
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.2em', textTransform: 'uppercase', color: '#EDC35F',
+          }}>
+            My sticker book
+          </span>
+          {/* One count for the whole book. There used to be two that could not
+              be reconciled: "6 of 13" here and "Friends home 0 of 5" up in the
+              wins panel, both true, of different systems. */}
+          <span style={{
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+            color: 'rgba(237,195,95,0.68)', whiteSpace: 'nowrap',
+          }}>
+            {earnedCount} of {stickers.length} collected
+          </span>
+        </div>
+
+        {pages.map(page => (
+          <div key={page.name} style={{ background: '#FFFCF3', borderRadius: 10, padding: '12px 11px 13px', boxShadow: '0 2px 0 rgba(0,0,0,0.18)' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8, marginBottom: 10 }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: '#2A1F14', letterSpacing: '-0.01em' }}>
+                {page.name}
+              </span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#9A8A6A', whiteSpace: 'nowrap' }}>
+                {page.of.filter(s => s.earned).length} of {page.of.length}
+              </span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))', gap: '14px 6px', justifyItems: 'center' }}>
+              {page.of.map(s => <Tile key={s.key} s={s} />)}
+            </div>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 600, color: '#9A8A6A', lineHeight: 1.4, margin: '11px 0 0', textAlign: 'center' }}>
+              {page.note}
+            </p>
+          </div>
+        ))}
       </div>
 
       {showCheer && (

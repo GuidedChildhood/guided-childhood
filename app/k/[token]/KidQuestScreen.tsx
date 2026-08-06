@@ -38,6 +38,7 @@ import KidSplash from '@/components/kid/KidSplash'
 import KidSquadIntro, { squadIntroSeen, squadIntroDue } from '@/components/kid/KidSquadIntro'
 import StreakBar from '@/components/kid/StreakBar'
 import KidWins, { type WinRecord } from '@/components/kid/KidWins'
+import KidPassport from '@/components/kid/KidPassport'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import type { KidSticker } from '@/components/kid/KidStickers'
 import { streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
@@ -425,6 +426,9 @@ export default function KidQuestScreen({
   const [chosenAccent, setChosenAccent] = useState(knownAccent(accent) ? accent : DEFAULT_ACCENT)
   const [makeMineOpen, setMakeMineOpen] = useState(false)
   const [winsOpen, setWinsOpen] = useState(false)
+  // The sticker book, opened on purpose from its own tile rather than found
+  // by scrolling past the wins panel.
+  const [passportOpen, setPassportOpen] = useState(false)
   // The child's own record and anything earned while they were away. Both come
   // from /api/kid/celebrations, which is also what writes the milestone rows.
   const [winRecord, setWinRecord] = useState<WinRecord | null>(null)
@@ -1300,7 +1304,14 @@ export default function KidQuestScreen({
             //
             // The slot goes to the thing the road was actually good at, which is
             // showing a child how far they have come.
-            { emoji: '🏆', label: 'My wins', sub: 'Streaks, Friends and stickers', tint: 'var(--tint-blue, #E4ECF7)', onClick: () => { playKidSound('tap'); setWinsOpen(true) } },
+            { emoji: '🏆', label: 'My wins', sub: 'Streaks and best runs', tint: 'var(--tint-blue, #E4ECF7)', onClick: () => { playKidSound('tap'); setWinsOpen(true) } },
+            // The sticker book, on its own. It used to sit at the foot of the
+            // wins panel, under four stat tiles and a row of faces, which is
+            // the wrong place for the thing a child is collecting. A wins
+            // panel is a scoreboard you glance at; a passport is an object you
+            // open. The sub line counts anything earned and not yet seen, so a
+            // new sticker still pulls them in now the book is behind a tap.
+            { emoji: '🛂', label: 'My passport', sub: celebrateStickers.length > 0 ? `${celebrateStickers.length} new sticker${celebrateStickers.length > 1 ? 's' : ''}` : `${stickers.filter(s => s.earned).length} of ${stickers.length} collected`, tint: 'var(--terracotta-lt)', onClick: () => { playKidSound('tap'); setPassportOpen(true) } },
             // The stage lessons, taken by the child themselves: a pass here
             // lights the same tick their grown up sees on the pathway.
             { emoji: '📚', label: 'My lessons', sub: 'Learn it, pass it', tint: 'var(--terracotta-lt)', onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
@@ -1608,9 +1619,16 @@ export default function KidQuestScreen({
         {winsOpen && (
           <KidWins
             onClose={() => setWinsOpen(false)}
-            token={token}
             childName={childName}
             record={winRecord}
+          />
+        )}
+
+        {passportOpen && (
+          <KidPassport
+            onClose={() => setPassportOpen(false)}
+            token={token}
+            childName={childName}
             stickers={stickers}
             celebrateStickers={celebrateStickers}
           />

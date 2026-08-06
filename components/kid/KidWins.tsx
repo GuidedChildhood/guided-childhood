@@ -1,6 +1,5 @@
 'use client'
 
-import KidStickers, { type KidSticker } from '@/components/kid/KidStickers'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { FRIEND_STREAKS, streaksForFriend, streaksToNextFriend, nextFriendToEarn } from '@/lib/pathway/streak-unlock'
 
@@ -65,14 +64,11 @@ function Stat({ n, label, sub, colour }: { n: number | string; label: string; su
 }
 
 export default function KidWins({
-  onClose, token, childName, record, stickers, celebrateStickers,
+  onClose, childName, record,
 }: {
   onClose: () => void
-  token: string
   childName: string
   record: WinRecord | null
-  stickers: KidSticker[]
-  celebrateStickers: string[]
 }) {
   const r = record
   const next = r ? nextFriendToEarn(r.friends) : null
@@ -197,10 +193,12 @@ export default function KidWins({
           })}
         </div>
 
-        {/* The sticker book, which used to live at the foot of the road. It
-            keeps its own once only pop (migration 109), so a sticker earned
-            while the child was away still gets its moment here. */}
-        <KidStickers token={token} stickers={stickers} celebrate={celebrateStickers} />
+        {/* The sticker book used to sit here, and has moved to its own tile
+            and its own takeover. Under four stat tiles and a row of faces was
+            the wrong place for the thing a child is collecting: a wins panel is
+            a scoreboard you glance at, a passport is an object you open. It
+            took its once only celebration pop with it, which is why that lives
+            in KidStickers rather than here. */}
       </div>
     </div>
   )
