@@ -2,7 +2,7 @@
 
 import KidStickers, { type KidSticker } from '@/components/kid/KidStickers'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
-import { STREAKS_PER_FRIEND, streaksToNextFriend, nextFriendToEarn } from '@/lib/pathway/streak-unlock'
+import { FRIEND_STREAKS, streaksForFriend, streaksToNextFriend, nextFriendToEarn } from '@/lib/pathway/streak-unlock'
 
 // My wins: everything this child has actually done, in numbers big enough to
 // hold up.
@@ -76,7 +76,7 @@ export default function KidWins({
 }) {
   const r = record
   const next = r ? nextFriendToEarn(r.friends) : null
-  const toNext = r ? streaksToNextFriend(r.streaks) : STREAKS_PER_FRIEND
+  const toNext = r ? streaksToNextFriend(r.streaks) : FRIEND_STREAKS[0]
 
   return (
     <div
@@ -190,7 +190,7 @@ export default function KidWins({
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                   color: home ? 'var(--ink)' : 'var(--ink-muted)', textAlign: 'center', lineHeight: 1.1,
                 }}>
-                  {home ? c.name : `${c.stageId * STREAKS_PER_FRIEND}`}
+                  {home ? c.name : `${streaksForFriend(c.stageId)} days`}
                 </span>
               </div>
             )

@@ -1,5 +1,5 @@
 import { characterForStage } from '@/lib/content/stage-characters'
-import { STREAKS_PER_FRIEND, friendsFromStreaks } from '@/lib/pathway/streak-unlock'
+import { streaksForFriend, friendsFromStreaks } from '@/lib/pathway/streak-unlock'
 
 // Which wins a child has earned, and what to say about each one.
 //
@@ -103,7 +103,7 @@ export function milestonesEarned(input: {
   const out: Milestone[] = []
 
   // ── The family growing ──────────────────────────────────────────────────
-  // Every four streaks brings a Planet Friend home. This is the big one, and it
+  // Each rung of the ladder brings a Planet Friend home. This is the big one, and it
   // is the one Justin means by "see the family growing".
   const friends = Math.min(5, friendsFromStreaks(input.completedStreaks))
   for (let stage = 1; stage <= friends; stage++) {
@@ -112,7 +112,7 @@ export function milestonesEarned(input: {
     out.push({
       kind: 'friend',
       key: c.key,
-      value: stage * STREAKS_PER_FRIEND,
+      value: streaksForFriend(stage),
       label: `${c.name} joined your family`,
       detail: c.unlockLine,
       character: c.key,

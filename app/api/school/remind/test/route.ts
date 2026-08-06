@@ -115,12 +115,12 @@ export async function POST() {
     return NextResponse.json({ error: 'VAPID keys are not set on the server' }, { status: 500 })
   }
 
-  const [actionsResult, childResult] = await Promise.all([
-    supabase.from('school_actions').select('title, auto_send_to_child').eq('user_id', user.id).eq('status', 'open').limit(10),
-    supabase.from('children').select('id, name').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
-  ])
+  // The child is no longer looked up at all. See the note further down: the
+  // test is the parent asking about the parent's own phone.
+  const { data: actionsData } = await supabase
+    .from('school_actions').select('title').eq('user_id', user.id).eq('status', 'open').limit(10)
 
-  const actions = actionsResult.data ?? []
+  const actions = actionsData ?? []
   const titles = actions.map(a => a.title)
   const body = titles.length === 0
     ? 'This is a test. Once you add a reminder, it will read like: "Tomorrow: PE kit. Sort it tonight while it is easy."'
@@ -181,46 +181,27 @@ export async function POST() {
   const platforms = [...delivered]
   const hasApple = parentSubs.some(s => s.endpoint.includes('push.apple.com'))
 
-  let childSent = 0
-  let childRemoved = 0
-  const child = childResult.data
-  const hasAutoRoutine = actions.some(a => a.auto_send_to_child)
-  if (child && hasAutoRoutine) {
-    const { data: childRows } = await admin
-      .from('push_subscriptions')
-      .select('endpoint, p256dh, auth, updated_at')
-      .eq('child_id', child.id)
-    const childSubs = (childRows ?? []) as Sub[]
-
-    if (childSubs.length) {
-      const childPayload = JSON.stringify({
-        title: 'Test: from home ⭐',
-        body: 'This is a test of your weekly reminder. The real one lands the day it is due.',
-        url: '/',
-      })
-      // One buzz. A child's phone getting four of these in a row was the whole
-      // of the bug Justin saw.
-      const result = await sendToOne(childSubs, childPayload)
-      if (result.ok) childSent = 1
-      // The child path used to swallow every error, so its dead rows were the
-      // only ones in the table that could never be cleared.
-      if (result.gone.length > 0) {
-        try {
-          await admin.from('push_subscriptions').delete().in('endpoint', result.gone).eq('child_id', child.id)
-          childRemoved = result.gone.length
-        } catch { /* best effort */ }
-      }
-    }
-  }
+  // THE TEST NEVER TOUCHES THE CHILD'S PHONE.
+  //
+  // Justin, 6 August 2026, asked directly: "no need for test to go to child."
+  //
+  // It used to send them one as well, on the reasoning that a routine set to
+  // auto send should be provable end to end. That reasoning was wrong. The
+  // person tapping the button is the parent, the question they are asking is
+  // "will MY phone buzz", and the answer arriving on a child's phone in the
+  // next room is a notification nobody asked for, sent to somebody who is not
+  // in the conversation. A child should only ever get the real thing.
+  //
+  // Their devices are still pruned, just by the cron that actually sends to
+  // them, not by a button the parent pressed to check their own setup.
 
   return NextResponse.json({
     sent, devices: parentSubs.length, platforms, hasApple, errors, details,
     // How many rows were dropped as dead, so the card can say the retry is
     // worth making rather than leaving a parent to guess.
-    removed: gone.length + childRemoved,
+    removed: gone.length,
     // Every device on file refused. Not the same as having none, and it was
     // this gap that made a real setup problem read as "something went wrong".
     allFailed: sent === 0 && parentSubs.length > 0,
-    childSent, childHasDevice: (child ? childSent > 0 : null),
   })
 }

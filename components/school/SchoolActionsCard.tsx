@@ -254,11 +254,14 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         // turning on before it will ever buzz.
         const where = (data.platforms ?? []).join(' and ')
         const landed = where ? `Sent to ${where}.` : 'Sent.'
-        const childLine = data.childHasDevice ? ` ${childName ?? 'Your child'}'s phone got theirs too.` : ''
+        // The test used to also buzz the child and say so here. Justin, 6
+        // August: "no need for test to go to child." It is the parent asking
+        // whether the parent's phone works, so the child is left out of it
+        // and there is nothing to report about them.
         const phoneHint = data.hasApple
           ? ''
           : ' If the phone in your hand stayed quiet, that phone is not turned on yet. Open this page on the phone itself, tap Turn on check ins, and on iPhone add it to your home screen first, then test again.'
-        setTestResult(landed + childLine + phoneHint)
+        setTestResult(landed + phoneHint)
       } else if (data.reason) {
         setTestResult('No device is set up to get these yet. On the phone you want the reminders on, open this page, tap Turn on check ins, then test again. On iPhone, add the app to your home screen first, then turn them on.')
       } else if (data.allFailed) {

@@ -1,4 +1,5 @@
 import { characterByKey } from '@/lib/content/stage-characters'
+import { FRIEND_STREAKS } from '@/lib/pathway/streak-unlock'
 
 // The sticker book catalog. A small, hand picked set a child can actually fill:
 // the five Planet Friends they grow into, a ladder of star badges, two for
@@ -21,8 +22,23 @@ export type StickerRule =
   // a child can see: the one who uses less gets more.
   | { kind: 'credits'; n: number }
   | { kind: 'sheets'; n: number }
-  | { kind: 'stage'; n: number }
   | { kind: 'streak'; n: number }
+  // A Planet Friend. `n` is which one (1 to 5, in stage order) and `streaks` is
+  // the completed days it costs, from the ladder in lib/pathway/streak-unlock.
+  //
+  // This used to be `{ kind: 'stage' }` and the book read the child's AGE BAND
+  // for it, so a child who joined at 13 was handed Pebble, Bloop, Orbit and
+  // Nova on their first afternoon for having had birthdays. Two rows up the
+  // same screen, My wins counted stages actually stamped and said 0 of 5, which
+  // is how Pebble came to be earned and locked at the same time.
+  //
+  // Underneath the display bug was the worse one: a Friend earned by getting
+  // older is not a collectible. There was nothing left to collect.
+  //
+  // Justin, 6 August 2026, on killing the age rule: "yes to all".
+  | { kind: 'friend'; n: number; streaks: number }
+  // A passport stamp. `n` is the stage (1 to 5) whose page has been stamped.
+  | { kind: 'stamp'; n: number }
 
 export type Sticker = {
   key: string
@@ -39,12 +55,29 @@ export type Sticker = {
 }
 
 export const STICKERS: Sticker[] = [
-  // The Planet Friends, one for each stage the child grows into.
-  { key: 'friend-pebble', name: 'Pebble', friendKey: 'pebble', colour: '#EDC35F', earn: 'Reach Stage 1', rule: { kind: 'stage', n: 1 } },
-  { key: 'friend-bloop', name: 'Bloop', friendKey: 'bloop', colour: '#2F8F6B', earn: 'Reach Stage 2', rule: { kind: 'stage', n: 2 } },
-  { key: 'friend-orbit', name: 'Orbit', friendKey: 'orbit', colour: '#2E6F8E', earn: 'Reach Stage 3', rule: { kind: 'stage', n: 3 } },
-  { key: 'friend-nova', name: 'Nova', friendKey: 'nova', colour: '#7A5CC0', earn: 'Reach Stage 4', rule: { kind: 'stage', n: 4 } },
-  { key: 'friend-cosmo', name: 'Cosmo', friendKey: 'cosmo', colour: '#D4600A', earn: 'Reach Stage 5', rule: { kind: 'stage', n: 5 } },
+  // The Planet Friends, earned with completed days. The KEYS are unchanged, so
+  // any child who already holds one keeps it: earned_stickers is permanent and
+  // the reconcile in book.ts only ever adds.
+  { key: 'friend-pebble', name: 'Pebble', friendKey: 'pebble', colour: '#EDC35F', earn: 'Finish 2 full days', rule: { kind: 'friend', n: 1, streaks: FRIEND_STREAKS[0] } },
+  { key: 'friend-bloop', name: 'Bloop', friendKey: 'bloop', colour: '#2F8F6B', earn: 'Finish 10 full days', rule: { kind: 'friend', n: 2, streaks: FRIEND_STREAKS[1] } },
+  { key: 'friend-orbit', name: 'Orbit', friendKey: 'orbit', colour: '#2E6F8E', earn: 'Finish 22 full days', rule: { kind: 'friend', n: 3, streaks: FRIEND_STREAKS[2] } },
+  { key: 'friend-nova', name: 'Nova', friendKey: 'nova', colour: '#7A5CC0', earn: 'Finish 38 full days', rule: { kind: 'friend', n: 4, streaks: FRIEND_STREAKS[3] } },
+  { key: 'friend-cosmo', name: 'Cosmo', friendKey: 'cosmo', colour: '#D4600A', earn: 'Finish 58 full days', rule: { kind: 'friend', n: 5, streaks: FRIEND_STREAKS[4] } },
+
+  // The stamps. The rare tier, and the reason the book has a top.
+  //
+  // Justin asked for "other highly collectible items". The product already has
+  // the five rarest things it will ever have, and they were landing on the
+  // parent's passport and nowhere in the child's book at all. Finishing a
+  // stage's lessons and passing the big end of stage check is the hardest and
+  // most meaningful thing a child does here, it takes months rather than days,
+  // and it cannot be rushed with one good fortnight the way the saving ladder
+  // can. It also finally gives the stage check a prize on the child's side.
+  { key: 'stamp-foundation', name: 'Foundation Stamp', emoji: '🛂', colour: '#EDC35F', earn: 'Stamp your Foundation page', rule: { kind: 'stamp', n: 1 } },
+  { key: 'stamp-builder', name: 'Builder Stamp', emoji: '🛂', colour: '#2F8F6B', earn: 'Stamp your Builder page', rule: { kind: 'stamp', n: 2 } },
+  { key: 'stamp-explorer', name: 'Explorer Stamp', emoji: '🛂', colour: '#2E6F8E', earn: 'Stamp your Explorer page', rule: { kind: 'stamp', n: 3 } },
+  { key: 'stamp-shaper', name: 'Shaper Stamp', emoji: '🛂', colour: '#7A5CC0', earn: 'Stamp your Shaper page', rule: { kind: 'stamp', n: 4 } },
+  { key: 'stamp-independent', name: 'Independent Stamp', emoji: '🛂', colour: '#D4600A', earn: 'Stamp your Independent page', rule: { kind: 'stamp', n: 5 } },
 
   // The saving ladder. One credit is half an hour of screen time a child earned
   // and chose not to use, paid out on a Monday.

@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { getDailyStreak } from '@/lib/pathway/streak'
-import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { getAllStagesProgress } from '@/lib/pathway/progress'
+import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { STICKERS, type Sticker } from './catalog'
 
 // The sticker book, read for one child. Earning is reconciled on read from the
@@ -32,15 +32,47 @@ export type StickerBook = {
   total: number
 }
 
-type Ctx = { credits: number; sheets: number; stage: number; streak: number }
+type Ctx = {
+  credits: number
+  sheets: number
+  /** Completed days, the currency the Planet Friends are bought with. */
+  streaks: number
+  /** Friends actually earned, the further of the streak and stamped stage routes. */
+  friends: number
+  /** Passport pages stamped. */
+  stamps: number
+}
 
+/** How far along this sticker is, in whatever it is counted in. */
 function progressFor(rule: Sticker['rule'], ctx: Ctx): number {
   switch (rule.kind) {
     case 'credits': return ctx.credits
     case 'sheets': return ctx.sheets
-    case 'stage': return ctx.stage
-    case 'streak': return ctx.streak
+    // Both count completed days, which is what makes the bar on a locked
+    // Friend mean something ("6 of 10 full days") rather than counting
+    // Friends toward a Friend.
+    case 'friend': return ctx.streaks
+    case 'streak': return ctx.streaks
+    case 'stamp': return ctx.stamps
   }
+}
+
+/** The target, in the same units as progressFor. */
+function targetFor(rule: Sticker['rule']): number {
+  return rule.kind === 'friend' ? rule.streaks : rule.n
+}
+
+/**
+ * Whether it is earned outright.
+ *
+ * Everything is a simple threshold except a Friend, which also comes if the
+ * family stamped the matching stage without the days: earnedFriends takes the
+ * further of the two routes, and it is the same function My wins reads, so the
+ * two surfaces cannot disagree about Pebble again.
+ */
+function isEarned(rule: Sticker['rule'], ctx: Ctx): boolean {
+  if (rule.kind === 'friend') return ctx.friends >= rule.n
+  return progressFor(rule, ctx) >= rule.n
 }
 
 /**
@@ -65,27 +97,30 @@ export async function getStickerBook(
   userId: string,
   child: { id: string; age_band: string | null },
 ): Promise<StickerBook> {
-  const stage = child.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 1
-
   // The star bank is no longer read here at all. It was the cumulative lifetime
   // total, which is the number the weekly reset exists to stop handing out, and
   // reading it here is what tied sticker progress to a figure that now resets.
-  const [credits, sheets, streak, owned] = await Promise.all([
+  //
+  // Nor is the age band. That was the age rule, and killing it is the whole
+  // point of this pass: see the note on the friend rule in catalog.ts.
+  const [credits, sheets, streaks, stamps, owned] = await Promise.all([
     creditsFor(supabase, child.id),
     countSheets(supabase, userId, child.id),
-    dailyStreakCount(supabase, userId),
+    streaksFor(supabase, child.id),
+    stampsFor(supabase, userId),
     ownedKeys(supabase, child.id),
   ])
-  const ctx: Ctx = { credits, sheets, stage, streak }
+  const ctx: Ctx = { credits, sheets, streaks, stamps, friends: earnedFriends(stamps, streaks) }
 
   const toPersist: { user_id: string; child_id: string; sticker_key: string; reason: string }[] = []
   const stickers: StickerState[] = STICKERS.map(s => {
+    const need = targetFor(s.rule)
     const have = progressFor(s.rule, ctx)
-    const derived = have >= s.rule.n
+    const derived = isEarned(s.rule, ctx)
     if (derived && !owned.has(s.key)) {
       toPersist.push({ user_id: userId, child_id: child.id, sticker_key: s.key, reason: s.rule.kind })
     }
-    return { ...s, earned: owned.has(s.key) || derived, have: Math.min(have, s.rule.n), need: s.rule.n }
+    return { ...s, earned: owned.has(s.key) || derived, have: Math.min(have, need), need }
   })
 
   // Make the newly earned permanent. Idempotent and best effort: the derived
@@ -111,8 +146,53 @@ async function countSheets(supabase: SupabaseClient, userId: string, childId: st
   } catch { return 0 }
 }
 
-async function dailyStreakCount(supabase: SupabaseClient, userId: string): Promise<number> {
-  try { return (await getDailyStreak(supabase, userId)).count } catch { return 0 }
+/**
+ * Completed days for THIS CHILD.
+ *
+ * It used to be getDailyStreak(supabase, userId), which reads daily_sessions,
+ * moment_completions and quest_ticks by user_id only. That is the PARENT's
+ * daily habit. Everything else in this book is keyed on child_id, so in a house
+ * with two children both books awarded Week Streak for the same grown up
+ * activity and neither child had done it. It was also a third separate meaning
+ * of the word streak inside one product.
+ *
+ * Now it is the same number the Friends are bought with and the same one My
+ * wins prints as "Streaks earned": completed days from kid_days, or the older
+ * job_streaks run, whichever is further along. Both fail soft to zero.
+ */
+async function streaksFor(supabase: SupabaseClient, childId: string): Promise<number> {
+  let jobStreaks = 0
+  try {
+    const { count } = await supabase
+      .from('job_streaks').select('id', { count: 'exact', head: true }).eq('child_id', childId)
+    jobStreaks = count ?? 0
+  } catch { jobStreaks = 0 }
+
+  let completedDays = 0
+  try {
+    const { count } = await supabase
+      .from('kid_days').select('id', { count: 'exact', head: true })
+      .eq('child_id', childId).not('completed_at', 'is', null)
+    completedDays = count ?? 0
+  } catch { completedDays = 0 }
+
+  return streakCurrency(jobStreaks, completedDays)
+}
+
+/**
+ * Passport pages stamped, which is the rare tier.
+ *
+ * The same reading the parent's passport uses, so a page that shows a seal on
+ * the grown up side is the page that hands the child their stamp. Fails soft to
+ * zero: a stamp is a reward, and a query that cannot answer should hand back
+ * the quiet number rather than invent one.
+ */
+async function stampsFor(supabase: SupabaseClient, userId: string): Promise<number> {
+  const STAGES = ['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const
+  try {
+    const progress = await getAllStagesProgress(supabase, userId, 0)
+    return STAGES.filter(s => progress[s]?.contentComplete).length
+  } catch { return 0 }
 }
 
 async function ownedKeys(supabase: SupabaseClient, childId: string): Promise<Set<string>> {
