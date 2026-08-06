@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 // A running check in, not a one day question: this card asks about
@@ -9,6 +9,22 @@ import { useRouter } from 'next/navigation'
 // row. One tap answers, the row folds away, and when every row is
 // answered the card becomes a single warm line. Answers post to the
 // concerns ledger, which moves each one along open → improving → resolved.
+//
+// THE NUMBER, AND WHY IT NEVER COSTS A TAP
+//
+// Better, same and still hard is too coarse to show distance travelled: a
+// parent who went from a screaming match every night to one grumble a week
+// reads the same as one who was mildly irritated. So after the chip, a 0 to 10
+// strip appears and the answer is held for a beat.
+//
+// The chip stays the whole interaction. If the parent taps a number we save it,
+// if they tap skip we save without it, and if they do neither the answer posts
+// itself after a few seconds and the row folds anyway. Nobody is ever made to
+// score their own family to get their card to go away.
+//
+// Holding the post rather than firing on the chip keeps one parent action to one
+// immutable event (migration 164). Posting twice would either double count the
+// check in or move the concern two steps along its arc for a single tap.
 
 export type ConcernCheckItem = {
   slug: string
@@ -35,36 +51,59 @@ const CHIPS: { answer: Answer; label: string }[] = [
 const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)'
 const FOLD_MS = 550
 const FOLD_DELAY_MS = 500
+// How long the number strip waits before giving up and saving without one. Long
+// enough to notice and answer, short enough that an abandoned card still records
+// the tap the parent actually made.
+const RATING_GRACE_MS = 6000
+
+const SCALE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckItem[] }) {
-  // answered: the chip is chosen and highlighted. folded: the row has
-  // collapsed out of the card. The gap between the two is the beat the
-  // parent gets to see their answer land.
+  // answered: the chip is chosen and highlighted. rating: the row is waiting on
+  // an optional number. folded: the row has collapsed out of the card. The gap
+  // between them is the beat the parent gets to see their answer land.
   const [answered, setAnswered] = useState<Record<string, Answer>>({})
+  const [rating, setRating] = useState<Record<string, boolean>>({})
   const [folded, setFolded] = useState<Record<string, boolean>>({})
   const router = useRouter()
+
+  // One post per concern, whichever path gets there first.
+  const posted = useRef<Record<string, boolean>>({})
+  const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
 
   if (concerns.length === 0) return null
 
   const allAnswered = concerns.every(c => answered[c.slug])
   const allFolded = concerns.every(c => folded[c.slug])
 
-  const answer = (slug: string, choice: Answer) => {
-    if (answered[slug]) return
-    setAnswered(prev => ({ ...prev, [slug]: choice }))
+  const send = (slug: string, choice: Answer, severity: number | null) => {
+    if (posted.current[slug]) return
+    posted.current[slug] = true
+    if (timers.current[slug]) clearTimeout(timers.current[slug])
+
     fetch('/api/daily/concern-check', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, answer: choice }),
+      body: JSON.stringify({ slug, answer: choice, severity }),
     })
       // The Home path strip reads this same data server side. Refresh the
       // router cache the moment an answer lands, so tapping Home right
       // after does not show the check in step as still glowing and undone.
       .then(() => router.refresh())
       .catch(() => {})
+
+    setRating(prev => ({ ...prev, [slug]: false }))
     setTimeout(() => {
       setFolded(prev => ({ ...prev, [slug]: true }))
     }, FOLD_DELAY_MS)
+  }
+
+  const answer = (slug: string, choice: Answer) => {
+    if (answered[slug]) return
+    setAnswered(prev => ({ ...prev, [slug]: choice }))
+    setRating(prev => ({ ...prev, [slug]: true }))
+    // The safety net. If the parent walks away, their tap still counts.
+    timers.current[slug] = setTimeout(() => send(slug, choice, null), RATING_GRACE_MS)
   }
 
   return (
@@ -144,6 +183,57 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                         )
                       })}
                     </div>
+
+                    {rating[c.slug] && chosen && (
+                      <div style={{ marginTop: '12px' }}>
+                        <div style={{
+                          display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
+                          gap: '10px', marginBottom: '7px',
+                        }}>
+                          <span style={{
+                            fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
+                            fontWeight: 600, color: 'var(--ink-soft)',
+                          }}>
+                            How bad is it now? 0 is fine, 10 is the worst it gets.
+                          </span>
+                          <button
+                            onClick={() => send(c.slug, chosen, null)}
+                            style={{
+                              background: 'none', border: 'none', padding: 0,
+                              fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
+                              fontWeight: 700, color: 'var(--ink-muted)',
+                              textDecoration: 'underline', cursor: 'pointer', flexShrink: 0,
+                            }}
+                          >
+                            Skip
+                          </button>
+                        </div>
+                        <div style={{ display: 'flex', gap: '4px' }}>
+                          {SCALE.map(n => (
+                            <button
+                              key={n}
+                              onClick={() => send(c.slug, chosen, n)}
+                              aria-label={`${n} out of 10`}
+                              style={{
+                                flex: 1,
+                                minWidth: 0,
+                                padding: '9px 0',
+                                borderRadius: '9px',
+                                border: '1.5px solid var(--border)',
+                                background: '#fff',
+                                fontFamily: 'var(--font-mono)',
+                                fontSize: 'var(--text-xs)',
+                                fontWeight: 700,
+                                color: 'var(--ink-soft)',
+                                cursor: 'pointer',
+                              }}
+                            >
+                              {n}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

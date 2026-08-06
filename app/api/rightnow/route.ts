@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess } from '@/lib/access'
 import { NextResponse } from 'next/server'
+import { logConcernEvent } from '@/lib/concerns/events'
 
 // The Right Now rescue: a parent taps the situation mid meltdown and this
 // route returns the best matching script for their child's stage in one
@@ -145,6 +146,14 @@ export async function POST(request: Request) {
         times_flagged: prior ? prior.times_flagged + 1 : 1,
         last_flagged_at: now,
       }, { onConflict: 'user_id,slug' })
+
+      // Every raise, first or fifth, is one row in the history. See migration
+      // 164. Same rule as the upsert above: never blocks the rescue.
+      await logConcernEvent(supabase, user.id, slug, {
+        event: 'flagged',
+        source: 'rightnow',
+        linkedType: 'rightnow',
+      })
     } catch { /* the ledger never blocks the rescue */ }
   }
 
