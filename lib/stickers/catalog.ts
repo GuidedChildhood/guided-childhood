@@ -92,7 +92,14 @@ export const STICKERS: Sticker[] = [
   // which is not the "month or so" Justin asked for. At a realistic 2 to 5 credits
   // a week these land the first inside week two and the last around week ten, so
   // the book is felt early and still has somewhere to go.
-  { key: 'stars-1', name: 'First Save', emoji: '⭐', colour: '#EDC35F', earn: 'Save 3 half hours you did not use', rule: { kind: 'credits', n: 3 } },
+  //
+  // The earn lines are uniform now. The first used to carry "you did not use" as
+  // a one off explainer, which meant the definition of a save lived on one tile
+  // and every other tile assumed you had read it. It lives on the page itself
+  // instead, in the how it works block, along with the two things a child could
+  // not have guessed: that saves are counted on Monday, and that they buy these
+  // stickers rather than more minutes. See components/kid/KidStickers.tsx.
+  { key: 'stars-1', name: 'First Save', emoji: '⭐', colour: '#EDC35F', earn: 'Save 3 half hours', rule: { kind: 'credits', n: 3 } },
   { key: 'stars-10', name: 'Good Saver', emoji: '🌟', colour: '#EDC35F', earn: 'Save 8 half hours', rule: { kind: 'credits', n: 8 } },
   { key: 'stars-25', name: 'Time Keeper', emoji: '✨', colour: '#C99A28', earn: 'Save 15 half hours', rule: { kind: 'credits', n: 15 } },
   { key: 'stars-50', name: 'Minute Master', emoji: '🏅', colour: '#C99A28', earn: 'Save 25 half hours', rule: { kind: 'credits', n: 25 } },

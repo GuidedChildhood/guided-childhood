@@ -143,10 +143,55 @@ export default function KidStickers({ token, stickers, celebrate }: {
   // The pages of the book, in the order they are worth working through. Every
   // sticker lands on exactly one, and a page with nothing in it is not drawn,
   // so an older database missing the stamps simply has two pages.
-  const pages: { name: string; note: string; of: KidSticker[] }[] = [
-    { name: 'The Squad', note: 'Finish full days to bring them home', of: stickers.filter(s => s.rule.kind === 'friend') },
-    { name: 'The Stamps', note: 'The rare ones. A whole stage each', of: stickers.filter(s => s.rule.kind === 'stamp') },
-    { name: 'Saving and Streaks', note: 'For the time you earned and did not spend', of: stickers.filter(s => s.rule.kind === 'credits' || s.rule.kind === 'sheets' || s.rule.kind === 'streak') },
+  // EVERY PAGE SAYS HOW IT WORKS.
+  //
+  // Justin, 6 August 2026: "Can we also explain in more det[ail] the savers here
+  // as not clear on how they earn them and how are they used? Was it for extra
+  // holiday allowance as needs to [be] clear to [the] child."
+  //
+  // He is right, and the fact that he had to ask is the evidence. The saving
+  // page said "For the time you earned and did not spend" and the tiles said
+  // "Save 8 half hours", which never explained what a save IS, when it is
+  // counted, or what it gets you. A child cannot work toward a thing whose rule
+  // they cannot state.
+  //
+  // The holiday question is the important half, and the answer is no. There are
+  // two rewards in this product and they pay two different behaviours, which
+  // migration 127 is explicit about:
+  //
+  //   SAVING   time you had and chose not to spend. Counted on Monday, thirty
+  //            minutes to a save. It pays THESE STICKERS and nothing else.
+  //   HOLIDAY  jobs done after the week is already full. It pays real minutes,
+  //            banked and spendable in the school holidays.
+  //
+  // A child seeing the word "saving" will reasonably assume they are saving up
+  // time, so the page has to say that they are not, and say where the time that
+  // does carry over actually comes from. Otherwise the first Monday their
+  // minutes start fresh reads as the app taking something off them.
+  const pages: { name: string; note: string; steps?: string[]; how?: string; of: KidSticker[] }[] = [
+    {
+      name: 'The Squad',
+      how: 'A full day is all five of your five a day, ticked off. Every Friend costs a number of full days, and it says how many under their picture.',
+      note: 'Finish full days to bring them home',
+      of: stickers.filter(s => s.rule.kind === 'friend'),
+    },
+    {
+      name: 'The Stamps',
+      how: 'A stamp is a whole stage of your passport finished, lessons and all. These take months, which is what makes them the rarest thing in here.',
+      note: 'The rare ones. A whole stage each',
+      of: stickers.filter(s => s.rule.kind === 'stamp'),
+    },
+    {
+      name: 'Saving and Streaks',
+      steps: [
+        'Do your jobs. That is how you earn screen time.',
+        'Do not spend it all. Every half hour you leave is one save.',
+        'On Monday your saves are counted and this page fills up.',
+      ],
+      how: 'Saves turn into these stickers, not into more minutes, because your minutes start fresh every Monday. Doing extra jobs when your week is already full is the other one. That turns into holiday time, and holiday time is real minutes you can use in the school holidays.',
+      note: 'The one who uses less gets more',
+      of: stickers.filter(s => s.rule.kind === 'credits' || s.rule.kind === 'sheets' || s.rule.kind === 'streak'),
+    },
   ].filter(p => p.of.length > 0)
 
   return (
@@ -196,6 +241,48 @@ export default function KidStickers({ token, stickers, celebrate }: {
                 {page.of.filter(s => s.earned).length} of {page.of.length}
               </span>
             </div>
+            {/* How it works, ABOVE the tiles rather than under them. A page of
+                locked circles is the question; the answer has to come first. */}
+            {(page.steps || page.how) && (
+              <div style={{
+                background: '#F4ECD9', borderRadius: 9, padding: '10px 11px', marginBottom: 12,
+                display: 'flex', flexDirection: 'column', gap: 7,
+              }}>
+                <span style={{
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                  letterSpacing: '0.16em', textTransform: 'uppercase', color: '#A08247',
+                }}>
+                  How it works
+                </span>
+                {page.steps && (
+                  <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                    {page.steps.map((step, i) => (
+                      <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                        <span aria-hidden style={{
+                          flexShrink: 0, width: 18, height: 18, borderRadius: '50%',
+                          background: '#EDC35F', color: '#2A1F14',
+                          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '11px',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1,
+                        }}>{i + 1}</span>
+                        <span style={{
+                          fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                          color: '#4A3B25', lineHeight: 1.45,
+                        }}>{step}</span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+                {page.how && (
+                  <p style={{
+                    fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 600,
+                    color: '#6B5C42', lineHeight: 1.5, margin: 0,
+                  }}>
+                    {page.how}
+                  </p>
+                )}
+              </div>
+            )}
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))', gap: '14px 6px', justifyItems: 'center' }}>
               {page.of.map(s => <Tile key={s.key} s={s} />)}
             </div>
