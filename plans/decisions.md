@@ -5145,3 +5145,81 @@ pastes these by hand, so the number is ordering for humans.
 **Checked** with thirteen cases against a fake client covering the ranking, the
 return date, the free script rule and the copy, plus the card at 390px and
 1280px in Chromium.
+
+## 6 August 2026 — the fridge sheet, the school week, and the sticker book
+
+**The printed family agreement never had a page rule.** It printed the phone
+layout at phone sizes with whatever margins the browser chose, so six sections
+plus signatures ran onto a second sheet. It now has an A4 page box, print sized
+type, and a fit pass that scales the sheet to land on one page: down when a
+family writes an essay in "our extra agreements", and UP when they do not,
+because six short answers filled half the paper and printed marooned in the top
+corner. A fridge copy is read from across the kitchen, so the empty half of the
+page was worth more as type size.
+
+**Zoom is the wrong tool for scaling a print sheet.** It was the first attempt
+and it looked right: zoom the box, widen it by the same factor to keep it full
+bleed. It does not scale linearly, so one measurement mispredicted the printed
+height and the agreement still spilled. Scaling the type tokens instead means
+the text genuinely reflows, which is why the fit is searched over eight passes
+rather than calculated in one.
+
+**School reminders are all day things, so the week is day ROWS, not an hour
+grid.** Five of the first six Mobbin results were hour grids (Outlook, Amie,
+Evernote, ClickUp, Todoist) and all five are wrong here: almost no school
+reminder has a start time, so a time grid is seven mostly empty columns and the
+one thing a parent wants, which days are busy, becomes the hardest thing to
+read. Runna's training calendar is the pattern. No migration: school_actions
+already had due_date, due_time, recurs_weekday and cleared_on, and nothing was
+reading them as a week.
+
+**A push subscription row is an endpoint, not a phone.** iOS mints a new one
+every time a home screen app is removed and added back, so one phone becomes
+several rows. Send a test was sending one notification per row: four to Teo's
+phone, twenty three across Justin's own devices. A test now sends to one device
+per platform, newest first, and prunes dead endpoints as it finds them. The
+child path had swallowed every error, so its stale rows were the only ones in
+the table that could never be cleared.
+
+**A test never reaches the child.** Justin: "no need for test to go to child."
+The person tapping it is the parent asking about the parent's phone. A child
+gets the real thing on the day it is due, and nothing else.
+
+**The Planet Friends were earned twice, by two rules that disagreed.** The
+sticker book read the child's AGE BAND, so a child who joined at 13 was handed
+four of the five on their first afternoon; My wins counted stages actually
+stamped and said 0 of 5. Hence Pebble reading as earned and locked on one
+screen. The age rule is dead. Both surfaces now read earnedFriends(). The
+STAMPED stage route stays, because that is real work.
+
+**The Friend ladder is 2, 10, 22, 38, 58 completed days, not four each.** Flat
+fours meant twenty days bought every character, about five weeks, and then a
+collection meant to last to 16 was empty. Fast at the start, rare at the top.
+
+**The five passport stamps are the child's rare tier, 13 slots becomes 18.**
+The hardest thing in the product was landing on the parent's passport and
+nowhere in the child's book, and the stage check had no prize on the child's
+side.
+
+**A locked slot has to say what it costs.** Locked stickers read "Locked" over
+a bare 8, 15, 25, 40. The sentence existed the whole time in the catalog's
+`earn` field and the tile printed "Locked" instead. Mobbin: Tripadvisor puts
+the instruction on the tile, stoic. shows live progress against it.
+
+**Week Streak was the parent's streak.** It read getDailyStreak by user_id
+while every other sticker is keyed on child_id, so two children in one house
+both got it for the same grown up activity. Now the child's own completed days.
+
+**The collection is the passport.** The parent had a burgundy keepsake book and
+the child had a grid of circles on grey. The book now has three pages and one
+count on the cover, which retires the two counters that could not be reconciled
+("6 of 13" and "Friends home 0 of 5", both true, of different systems). It sits
+on its own tile rather than at the foot of the wins panel, and the tile counts
+uncelebrated stickers so the once only pop still gets found.
+
+**Checked** by rendering, not by reasoning. The fridge sheet was counted as
+pages in a real A4 PDF across five content lengths. The week and the book were
+screenshotted at 390 and 1280, which is what caught the sticker titles setting
+one word per line and the Explorer stamp drawing a bare "3" from a field that
+means the stage, not a threshold. The Friend ladder has 26 cases run against
+the real source. The push counts came from the live database.
