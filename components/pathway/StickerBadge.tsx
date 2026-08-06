@@ -30,6 +30,26 @@ function Star({ size, fill, stroke }: { size: number; fill: string; stroke: stri
   )
 }
 
+// The passport seal, for a stamp sticker. A tick in a ring, set on the tilt,
+// which is the same mark the parent's passport slams onto a finished page.
+function Seal({ size, ink }: { size: number; ink: string }) {
+  return (
+    <div
+      aria-hidden
+      style={{
+        width: size, height: size, borderRadius: '50%',
+        border: `2px solid ${ink}`, color: ink,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        transform: 'rotate(-10deg)',
+      }}
+    >
+      <svg width={size * 0.5} height={size * 0.5} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 12.5l4.5 4.5L19 7" />
+      </svg>
+    </div>
+  )
+}
+
 export default function StickerBadge({ s, size = 54 }: { s: BadgeShape; size?: number }) {
   const n = s.rule.n
   const earned = s.earned
@@ -73,7 +93,13 @@ export default function StickerBadge({ s, size = 54 }: { s: BadgeShape; size?: n
         printColorAdjust: 'exact',
       }}
     >
-      {isFirst ? (
+      {/* A stamp's `n` is WHICH STAGE it is, not how many of anything, so
+          printing it drew "3" on the Explorer stamp and read as a threshold
+          nobody could act on. The stage is already named underneath the tile;
+          what the disc should carry is the seal. */}
+      {s.rule.kind === 'stamp' ? (
+        <Seal size={size * 0.62} ink={ink} />
+      ) : isFirst ? (
         <Star size={size * 0.5} fill={earned ? '#fff' : 'none'} stroke={ink} />
       ) : (
         <>
