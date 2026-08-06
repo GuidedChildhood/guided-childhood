@@ -123,15 +123,36 @@ export function isFriendMoment(completedStreaks: number): boolean {
 /**
  * The total Friends a child has earned.
  *
- * The further of the stage route and the streak route, capped at the five that
- * exist. `stageEarned` is stages actually STAMPED, which is real work, so it
- * stays. What is gone is the sticker book reading the child's AGE BAND for the
- * same thing, which handed a child who joined at 13 four of the five Friends on
- * their first afternoon and was why Pebble could read as earned and locked on
- * the same screen. See lib/stickers/book.ts.
+ * Completed days, and nothing else. That is the whole rule now.
+ *
+ * This used to take the FURTHER of two routes: completed days, or the number of
+ * pathway stages the family had finished. The second route was kept this
+ * morning on the grounds that a stamped stage is real work, which it is. It is
+ * just not the child's work.
+ *
+ * `stampsFor` reads stages by user_id, so it is the PARENT finishing lessons and
+ * scripts. Under the max, a parent working through Foundation and Builder handed
+ * every child in the house two Planet Friends without the child completing a
+ * single day, and a second child who had done nothing at all got them too. It is
+ * the same fault as the age rule wearing different clothes: a Friend arriving
+ * for something the child did not do.
+ *
+ * Parent progress already has its own tier in the child's book, the five Stamps,
+ * added the same day. So the two currencies separate cleanly and stop being
+ * added together:
+ *
+ *   Friends  the child's completed days      2, 10, 22, 38, 58
+ *   Stamps   the family's finished stages    the rare tier above them
+ *
+ * The `stageEarned` parameter is gone rather than ignored, so no caller can keep
+ * passing a number that no longer does anything.
+ *
+ * Migration 165 clears the Friends the old routes banked. Nothing legitimate is
+ * lost: getStickerBook re-derives and re-persists on the next read, so a child
+ * keeps every Friend their days actually bought.
  */
-export function earnedFriends(stageEarned: number, completedStreaks: number): number {
-  return Math.min(5, Math.max(Math.max(0, stageEarned), friendsFromStreaks(completedStreaks)))
+export function earnedFriends(completedStreaks: number): number {
+  return Math.min(5, friendsFromStreaks(completedStreaks))
 }
 
 // The next Friend still to earn, or null when the whole family is home.

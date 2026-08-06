@@ -14,7 +14,6 @@ import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
-import { getAllStagesProgress } from '@/lib/pathway/progress'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import KidQuestScreen from './KidQuestScreen'
 import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
@@ -484,18 +483,14 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     if (p) assignedPrintable = { key: p.key, title: p.title, emoji: p.emoji, stars: p.stars, sheetUrl: p.pdfColourIn ?? p.sheetUrl, previewUrl: p.previewUrl }
   }
 
-  // How many passport stages the family has completed, so the app only offers
-  // the Planet Friends this child has earned. Same reading as the passport;
-  // fails soft to none.
-  let stageEarned = 0
-  try {
-    const prog = await getAllStagesProgress(supabase, link.user_id, 0)
-    stageEarned = (['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const)
-      .filter(s => prog[s]?.contentComplete).length
-  } catch { stageEarned = 0 }
-
-  // Streaks also unlock Friends: every four earns one, so a child never waits
-  // years. The child has whichever route is further along.
+  // The Planet Friends this child has earned, so the app only ever offers those.
+  //
+  // The family's finished pathway stages used to count toward this, taken as a
+  // max against the days. That read getAllStagesProgress by user_id, which is
+  // the PARENT's lessons and scripts, so a grown up working through Foundation
+  // handed the Friend to a child who had done nothing. Gone. Friends are
+  // completed days now, the same 2, 10, 22, 38, 58 the sticker book prints on
+  // every locked one.
   //
   // Two counters, combined with max in streakCurrency. The jobs run was the
   // only one being counted, which is why finishing all five of the five a day
@@ -523,7 +518,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   } catch { completedDays = 0 }
 
   const completedStreaks = streakCurrency(jobStreaks, completedDays)
-  const earnedStages = earnedFriends(stageEarned, completedStreaks)
+  const earnedStages = earnedFriends(completedStreaks)
 
   // Sheets finished away from a screen and confirmed by a grown up. The parent
   // stats already count these into the off screen total; this is so the child
