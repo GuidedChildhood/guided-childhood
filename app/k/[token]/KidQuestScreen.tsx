@@ -40,6 +40,7 @@ import StreakBar from '@/components/kid/StreakBar'
 import KidWins, { type WinRecord } from '@/components/kid/KidWins'
 import KidPassport from '@/components/kid/KidPassport'
 import KidFriendArrival from '@/components/kid/KidFriendArrival'
+import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import type { KidSticker } from '@/components/kid/KidStickers'
 import { friendsFromStreaks, isFriendMoment, streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
@@ -1716,6 +1717,7 @@ export default function KidQuestScreen({
             friend={arrival}
             completedStreaks={liveStreaks}
             childName={childName}
+            rocketVideo={FRIEND_ARRIVAL_VIDEO}
             onClose={() => setArrival(null)}
             onOpenBook={() => { setArrival(null); setPassportOpen(true) }}
           />

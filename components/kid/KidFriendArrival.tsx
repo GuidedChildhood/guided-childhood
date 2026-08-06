@@ -100,8 +100,11 @@ export default function KidFriendArrival({
 
   useEffect(() => {
     if (reduced) { land.current(); return }
-    // The video carries its own timing; without one the drawn flight does.
-    const FLIGHT_MS = rocketVideo ? 9200 : 4300
+    // The drawn flight is timed here. The video is timed by its own `onEnded`,
+    // and this is only the net under it: longer than the ten second clip, so a
+    // clip that plays normally is never cut short, and short enough that a
+    // device which silently refuses to play it still reaches the Friend.
+    const FLIGHT_MS = rocketVideo ? 11500 : 4300
     const t = window.setTimeout(() => land.current(), FLIGHT_MS)
     return () => window.clearTimeout(t)
   }, [reduced, rocketVideo])
