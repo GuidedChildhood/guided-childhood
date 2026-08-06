@@ -1379,6 +1379,38 @@ export default function KidQuestScreen({
               >
                 <span aria-hidden>⭐</span> Meet the Planet Friends
               </button>
+              {/* Telling a grown up.
+
+                  Full width and on its own rather than a seventh tile in the
+                  grid, for two reasons. Seven into a two column grid leaves an
+                  orphan, and more to the point this is not the same kind of
+                  thing as Make it mine. A child looking for it is usually
+                  looking for it at a bad moment, so it does not compete for
+                  attention with the playful tiles, it sits under them with room
+                  around it.
+                  A plain link, not a button with a handler: no sound, and it
+                  works if the JavaScript has not arrived. */}
+              {token && (
+                <a
+                  href={`/k/${token}/tell`}
+                  style={{
+                    width: '100%', marginTop: '12px', display: 'flex', alignItems: 'center', gap: '12px',
+                    background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '18px', padding: '14px 16px',
+                    textDecoration: 'none', boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
+                  }}
+                >
+                  <span aria-hidden style={{ width: 44, height: 44, borderRadius: '13px', background: 'var(--terracotta-lt)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>💬</span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.1 }}>
+                      Telling a grown up
+                    </span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '2px', lineHeight: 1.4 }}>
+                      Hard things to say, and what happens after
+                    </span>
+                  </span>
+                  <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>›</span>
+                </a>
+              )}
             </div>
           )
         })()}
