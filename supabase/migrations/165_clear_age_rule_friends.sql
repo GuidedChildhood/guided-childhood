@@ -1,0 +1,39 @@
+-- The age rule's leftovers.
+--
+-- Justin, 6 August 2026, looking at Teo's passport: "Ok I'm not [sure] how Teo
+-- has earned so many friends here?"
+--
+-- Teo has two completed days. Under the ladder agreed this morning that buys
+-- Pebble and nothing else. His book showed four Planet Friends.
+--
+-- The cause is not the ladder, it is history. Until this morning the sticker
+-- book read the child's AGE BAND and granted one Friend per stage, so a child
+-- who joined at 13 was handed four on their first afternoon. That rule was
+-- deleted today. What was not deleted is what it had already written:
+--
+--   Teo   13-15  friend-pebble, friend-bloop, friend-orbit, friend-nova
+--   Iris  11-13  friend-pebble, friend-bloop, friend-orbit
+--
+-- earned_stickers is permanent by design, and the book reads
+-- `earned: owned.has(key) || derived`, so a row written by a rule that no
+-- longer exists still shows a Friend as earned for good. The rule is gone. Its
+-- receipts are still in the till.
+--
+-- WHY THIS DELETES ALL OF THEM RATHER THAN THE WRONG ONES
+--
+-- getStickerBook reconciles earning from the real numbers on every single read
+-- and writes back anything genuinely earned. So a Friend a child actually owns
+-- comes straight back the next time they open their book: Teo keeps Pebble,
+-- because two days is Pebble.
+--
+-- That makes the precise delete the worse one. Working out which rows to spare
+-- in SQL means writing the ladder out a second time, here, in a place nobody
+-- will remember to change when the numbers move. FRIEND_STREAKS in
+-- lib/pathway/streak-unlock.ts is deliberately the only copy of 2, 10, 22, 38
+-- and 58 in the product, and this file is not going to become the second one.
+--
+-- Nothing else is touched. Credits, sheets and stamps were never granted by
+-- age, so their rows are honest and they stay.
+
+delete from earned_stickers
+where sticker_key like 'friend-%';

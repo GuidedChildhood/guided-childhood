@@ -37,7 +37,7 @@ type Ctx = {
   sheets: number
   /** Completed days, the currency the Planet Friends are bought with. */
   streaks: number
-  /** Friends actually earned, the further of the streak and stamped stage routes. */
+  /** Friends actually earned, which is completed days and nothing else. */
   friends: number
   /** Passport pages stamped. */
   stamps: number
@@ -65,10 +65,10 @@ function targetFor(rule: Sticker['rule']): number {
 /**
  * Whether it is earned outright.
  *
- * Everything is a simple threshold except a Friend, which also comes if the
- * family stamped the matching stage without the days: earnedFriends takes the
- * further of the two routes, and it is the same function My wins reads, so the
- * two surfaces cannot disagree about Pebble again.
+ * Every rule is a simple threshold. A Friend counts Friends rather than days
+ * because earnedFriends has already walked the uneven ladder, and it is the same
+ * function My wins reads, so the two surfaces cannot disagree about Pebble
+ * again.
  */
 function isEarned(rule: Sticker['rule'], ctx: Ctx): boolean {
   if (rule.kind === 'friend') return ctx.friends >= rule.n
@@ -110,7 +110,11 @@ export async function getStickerBook(
     stampsFor(supabase, userId),
     ownedKeys(supabase, child.id),
   ])
-  const ctx: Ctx = { credits, sheets, streaks, stamps, friends: earnedFriends(stamps, streaks) }
+  // Friends come from completed days only. `stamps` sits alongside them and
+  // feeds its own tier rather than being folded in: it is read by user_id, so
+  // it is the parent's stage progress, and adding it here is what let a grown up
+  // finishing lessons hand every child in the house a Planet Friend.
+  const ctx: Ctx = { credits, sheets, streaks, stamps, friends: earnedFriends(streaks) }
 
   const toPersist: { user_id: string; child_id: string; sticker_key: string; reason: string }[] = []
   const stickers: StickerState[] = STICKERS.map(s => {

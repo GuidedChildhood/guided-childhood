@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
 import { useRouter } from 'next/navigation'
 
@@ -39,12 +39,14 @@ import KidSquadIntro, { squadIntroSeen, squadIntroDue } from '@/components/kid/K
 import StreakBar from '@/components/kid/StreakBar'
 import KidWins, { type WinRecord } from '@/components/kid/KidWins'
 import KidPassport from '@/components/kid/KidPassport'
+import KidFriendArrival from '@/components/kid/KidFriendArrival'
+import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import type { KidSticker } from '@/components/kid/KidStickers'
-import { streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
+import { friendsFromStreaks, isFriendMoment, streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 import { startErrorMessage, START_RETRY } from '@/lib/quests/start-errors'
 import Image from 'next/image'
-import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
+import { STAGE_CHARACTERS, characterForStage, type StageCharacter } from '@/lib/content/stage-characters'
 
 // The kid facing quest screen: joyful, huge tap targets, instant ticks,
 // stars that count up, and a goal bar. Pending ticks show as "waiting
@@ -429,6 +431,78 @@ export default function KidQuestScreen({
   // The sticker book, opened on purpose from its own tile rather than found
   // by scrolling past the wins panel.
   const [passportOpen, setPassportOpen] = useState(false)
+
+  // A PLANET FRIEND CAME HOME.
+  //
+  // Justin, 6 August 2026: "Can we make even one is earn[ed] there is a big
+  // animated celebration."
+  //
+  // Earning one used to be a sentence inside the streak takeover, and then the
+  // child had to go and find it. This is the moment itself, and it is the only
+  // thing on the screen while it plays.
+  //
+  // Two ways in, because a Friend can be earned in front of the child or while
+  // they were away:
+  //
+  //   LIVE    they finish their fifth job and that day is the day. The streak
+  //           takeover runs first, then this, because the streak is the thing
+  //           they just did and the Friend is what it bought.
+  //   WAITING it happened on a device they have since closed, so the sticker is
+  //           sitting in earned_stickers unseen and the arrival plays on open.
+  //
+  // The highest Friend wins if two are waiting: a child who has been away long
+  // enough to earn two should be shown the bigger one.
+  const [arrival, setArrival] = useState<StageCharacter | null>(() => {
+    const keys = new Set(celebrateStickers)
+    return STAGE_CHARACTERS
+      .filter(c => keys.has(`friend-${c.key}`))
+      .sort((a, b) => b.stageId - a.stageId)[0] ?? null
+  })
+
+  // THE LIVE COUNT.
+  //
+  // completedStreaks is read on the server when the page loads, and a child who
+  // finishes their day has just made it one higher. The streak takeover was
+  // being handed the stale number, so on the exact day a Friend was earned it
+  // computed isFriendMoment against the day before and told the child "one more
+  // day and you get a new friend", seconds after they had got one. The one
+  // screen where being a day behind lands hardest.
+  //
+  // A completed day is one more row in kid_days, so the live count is simply one
+  // more. The server read still wins on the next load.
+  const [liveStreaks, setLiveStreaks] = useState(completedStreaks)
+
+  // Mark the Friend seen as soon as the takeover opens, not when it is
+  // dismissed. A child who closes the tab mid flight has still had the moment,
+  // and sitting through the same rocket twice for a Friend they already have is
+  // worse than missing the end of it once.
+  //
+  // Two records, because neither is enough alone. The server call is the real
+  // one and it is what the book reads, but on the LIVE path the earned_stickers
+  // row does not exist yet: it is written by the reconcile on the next read, so
+  // there is nothing to mark and the arrival would replay tomorrow. The local
+  // note covers that gap on this device. Both are best effort and idempotent.
+  const markArrivalSeen = useCallback((friend: StageCharacter) => {
+    try { localStorage.setItem(`gc_friend_home_${friend.key}`, '1') } catch { /* private mode */ }
+    try {
+      fetch('/api/kid/stickers/seen', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, keys: [`friend-${friend.key}`] }),
+      }).catch(() => {})
+    } catch { /* best effort */ }
+  }, [token])
+
+  const arrivalSeen = useRef<string | null>(null)
+  useEffect(() => {
+    if (!arrival || arrivalSeen.current === arrival.key) return
+    // Already had this one on this device, so do not make them watch it again.
+    let had = false
+    try { had = localStorage.getItem(`gc_friend_home_${arrival.key}`) === '1' } catch { had = false }
+    if (had) { setArrival(null); return }
+    arrivalSeen.current = arrival.key
+    markArrivalSeen(arrival)
+  }, [arrival, markArrivalSeen])
   // The child's own record and anything earned while they were away. Both come
   // from /api/kid/celebrations, which is also what writes the milestone rows.
   const [winRecord, setWinRecord] = useState<WinRecord | null>(null)
@@ -1224,7 +1298,7 @@ export default function KidQuestScreen({
           readingMinutes={readingMinutesFor(ageBand)}
           moveJobs={moveJobs}
           onOpenJobs={() => document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-          onDayComplete={n => { playKidSound('done'); setStreakWon(n) }}
+          onDayComplete={n => { playKidSound('done'); setLiveStreaks(s => s + 1); setStreakWon(n) }}
         />
 
         {/* Reminders, asked ABOVE the jobs rather than below everything. This
@@ -1631,6 +1705,21 @@ export default function KidQuestScreen({
             childName={childName}
             stickers={stickers}
             celebrateStickers={celebrateStickers}
+          />
+        )}
+
+        {/* The rocket, the planet, and the Friend filling the screen. Above the
+            passport and above the streak takeover, because if a child finishes
+            their fifth day and that day is the day Bloop arrives, the arrival is
+            the bigger of the two and should be the last thing standing. */}
+        {arrival && (
+          <KidFriendArrival
+            friend={arrival}
+            completedStreaks={liveStreaks}
+            childName={childName}
+            rocketVideo={FRIEND_ARRIVAL_VIDEO}
+            onClose={() => setArrival(null)}
+            onOpenBook={() => { setArrival(null); setPassportOpen(true) }}
           />
         )}
 
@@ -2438,9 +2527,19 @@ export default function KidQuestScreen({
       {streakWon !== null && (
         <KidStreakTakeover
           streak={streakWon}
-          completedStreaks={completedStreaks}
+          completedStreaks={liveStreaks}
           childName={childName}
-          onClose={() => setStreakWon(null)}
+          onClose={() => {
+            setStreakWon(null)
+            // If today was the day, the rocket goes up the moment they close
+            // the streak screen. Two takeovers back to back is the right order
+            // rather than one too many: the streak is what they did, the Friend
+            // is what it bought, and the second one is the rarer of the two.
+            if (isFriendMoment(liveStreaks)) {
+              const f = characterForStage(friendsFromStreaks(liveStreaks))
+              if (f) setArrival(f)
+            }
+          }}
         />
       )}
     </div>

@@ -5223,3 +5223,48 @@ screenshotted at 390 and 1280, which is what caught the sticker titles setting
 one word per line and the Explorer stamp drawing a bare "3" from a field that
 means the stage, not a threshold. The Friend ladder has 26 cases run against
 the real source. The push counts came from the live database.
+
+## 6 August 2026, evening — how a Planet Friend is earned, and what happens when one is
+
+Justin, on Teo's passport: "Ok I'm not [sure] how Teo has earned so many friends
+here?" and then "Can we make even one is earn[ed] there is a big animated
+celebration."
+
+**A Friend is bought with the child's completed days, and nothing else.** The
+morning's pass killed the age rule but left `earnedFriends` taking the max of
+days and finished pathway stages. Stages are read by `user_id`, so that is the
+parent's lessons and scripts: a grown up working through Foundation handed a
+Planet Friend to a child who had done nothing, and to their sibling too. The
+same fault as the age rule in different clothes. Parent progress already got its
+own tier in the child's book this morning, the five Stamps, so the two
+currencies separate instead of being added together.
+
+**Migration 165 deletes every friend row rather than the wrong ones.** The book
+reconciles from the real numbers on every read and re-persists, so nothing
+legitimate can be lost, and picking survivors in SQL would mean writing the 2,
+10, 22, 38, 58 ladder out a second time somewhere nobody will maintain it.
+FRIEND_STREAKS stays the only copy.
+
+**The live count, not the one from page load.** completedStreaks is read on the
+server, so on the exact day a Friend was earned the streak takeover computed
+against the day before and told the child "one more day and you get a new
+friend" seconds after they had got one.
+
+**Earning one is a takeover, not a sentence.** Mobbin first: Discord, Finch,
+(Not Boring) Weather and Vibes, Me+, Deepstash, Nibble, Duolingo. All the same
+six parts, and the one ours was missing is the line saying WHY it came. So the
+number is what gets said: "58 full days, Teo. You did every one of them."
+
+**The journey is generic, the arrival is real.** The rocket, the planet and the
+flight are the same for all five Friends; the character who lands is the child's
+own cutout art, the same file their sticker book uses. One clip covers every
+Friend, a sixth would need no new footage, and the thing that filled the screen
+is the thing they go and find. Shipping on a drawn flight with a `rocketVideo`
+prop ready for Higgsfield.
+
+**Checked** by rendering at 390 and 1280. Two things only a screenshot could
+find: twelve light rays drawn from a centre point read as a compass rose across
+the copy, fixed by moving them onto a ring outside the character; and headless
+screenshots stall GSAP mid tween, so the settled layout has to be checked under
+`prefers-reduced-motion` or read off computed styles rather than trusted from a
+picture taken too early.
