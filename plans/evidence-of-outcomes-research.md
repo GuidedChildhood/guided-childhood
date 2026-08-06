@@ -252,3 +252,160 @@ record.
 - EIF evidence standards: http://guidebook.eif.org.uk/eif-evidence-standards
 - Cochrane handbook, chapter 25, assessing risk of bias in non randomised studies:
   https://www.cochrane.org/authors/handbooks-and-manuals/handbook/current/chapter-25
+
+---
+
+# Part two: is it worth it, can it feed social, the UX, and DiGi
+
+Added 6 August 2026, answering Justin's follow up.
+
+## Is it worth building
+
+Yes, and the strongest reason is not the marketing. It is DiGi.
+
+`lib/digi/wisdom.ts` already rebuilds the aggregate "what works across families"
+corpus, and it already reads resolved concerns. Look at the signal it actually
+builds from them:
+
+```
+`A family sorted "Bedtime battle".`
+`A script this parent tried worked for them.`
+```
+
+That second line is verbatim. The query selects `script_sort_order` and then never
+uses it, so the model distilling our wisdom is told a script worked but not which
+one. The first line has no severity, no duration, and no link to what fixed it.
+
+We are asking a model to find patterns in signals that carry almost no information,
+then storing the result as the thing DiGi leans on with every family. `concern_events`
+is not a reporting feature bolted onto the side. It is the input quality for the
+learning loop we already built.
+
+Three returns, in order of value:
+
+1. **DiGi gets measurably better.** Rich signals in, better patterns out. "Bedtime
+   went 8 to 3 in nine days for a 7 year old after the parent used the wind down
+   script twice" is a pattern worth having. "A family sorted bedtime" is not.
+2. **Retention.** A visible "how far you have come" is the answer to the month three
+   question every subscription faces, which is *what am I actually paying for*. Our
+   product's progress is otherwise slow and invisible by nature.
+3. **Proof.** The external evidence, which is what prompted the question. Real, but
+   third on the list.
+
+**Related finding, worth a look separately.** `digi_outcomes` has 0 rows despite
+having live writers in `app/api/cron/followups/route.ts` and
+`app/api/digi/outcome/route.ts`. The closed loop is built and producing nothing.
+Either the follow up cron is not scheduling, or nothing is reaching the card. That
+is Justin's own "did it work" ledger sitting dead, and it is a separate bug hunt
+from this work.
+
+## Can it feed anonymous social, including LinkedIn
+
+Yes, with one hard line through the middle.
+
+**Numbers yes. Stories only with consent.**
+
+- **Aggregate counts are publishable.** The privacy policy already covers this: *"To
+  keep the service safe and improve it using aggregated, non identifying patterns
+  (legitimate interests)."* Genuinely anonymous aggregate data falls outside UK GDPR
+  altogether. "Bedtime was the single most common problem parents brought us this
+  quarter, and 6 in 10 of them moved" is ours to publish.
+- **Individual stories are not, without explicit opt in.** A narrative about one
+  family's child is health information about a child, and narrative anonymisation is
+  weak: the family recognises itself, and so does anyone who knows them. If we want
+  the story format, we ask that parent, in plain words, and we keep the record of
+  them saying yes.
+
+**The thresholds, so this is a rule and not a judgement call each time:**
+
+- Never publish a figure resting on fewer than about 30 families.
+- Never publish a cell (one problem, one age band, one quarter) with fewer than 10.
+- Never combine slices to the point where a reader could narrow it to one family.
+- Round. Precision invites arithmetic that gets to individuals.
+
+**Why this genuinely suits the LinkedIn thesis**, rather than just being usable on
+it. Per `hidden-thread.md`, the destination is that the platform is not the main
+character. Our own data says exactly that without being told to: the problems
+parents actually brought us are bedtime, phone handover, turning the TV off,
+homework refusal and sibling fights over a device. Ordinary friction, not
+catastrophe. That is the proportionality argument arriving as evidence from our own
+users rather than as an assertion, and it is one of the strongest bricks we could
+carry.
+
+It is also the honest middle the LinkedIn skill names as our earned flavour, on the
+condition we publish the failures too: the problems that stayed open, and the ones
+that came back. A resolution rate with its own denominator, including the ones we
+did not shift, is the version that survives a hostile reply.
+
+Cadence: this is brick material, not thesis material. One outcome post a month at
+most, on the back of a quarter's data, never as a running scoreboard.
+
+## The UX
+
+The rule is that we never ask a parent to fill in a form about their feelings. Every
+rating is attached to a moment that already exists.
+
+**At first flag, one line, inside the flow they are already in.** When a concern is
+raised from a moment, Right Now, or DiGi, one extra question before the pathway
+appears:
+
+> How bad is this right now?
+> 0 is fine, 10 is the worst it gets.
+
+A slider or a row of taps. Skippable. If skipped, the concern still exists and we
+have lost nothing that we have today.
+
+**At check in, the daily loop already asks.** `app/api/daily/concern-check` already
+asks "how did it go" and takes better, same or hard. Keep that exact question, it
+works, and add the number underneath as an optional second tap. The three way answer
+stays the thing that moves status; the number is the thing that shows distance.
+
+**At resolution, the retrospective question.** When a concern resolves, one question:
+
+> Looking back now, how bad was it when you started?
+
+This is the response shift correction from part one, it costs one tap, and it is the
+single cheapest thing we can do to make the evidence defensible.
+
+**The payoff screen, which is the point.** A "how far you have come" view: the
+problems they arrived with, where each one is now, how long it took, and what they
+did in between. This is the thing that makes the ratings feel worth answering, and
+it should ship in the same release as the asking. Ratings with no visible payoff get
+abandoned by month two, and then we have a half populated table and no evidence.
+
+Tone throughout: never a score of them as a parent. The number is about the problem,
+not about how they are doing. And "it did not work" has to be as easy to say as the
+opposite, for the reason already written at the top of `lib/digi/outcomes.ts`: if
+saying it feels like criticism, every answer skews kind and the ledger becomes
+flattery with a count attached.
+
+## Feeding DiGi
+
+Three changes, all in existing code.
+
+1. **`wisdom.ts` reads the event log instead of the current row.** Replace the two
+   thin strings with the real shape: problem, age band, severity at start, severity
+   now, days elapsed, and what was used in between. Fix the `script_sort_order`
+   selected and never used, so a script win names its script.
+2. **Weight by evidence, not by the model's guess.** `digi_wisdom.evidence_count` is
+   currently the model's own estimate parsed out of its JSON, which the comment in
+   `outcomes.ts` is already honest about. Once concern events exist, that count can
+   be a real count of families a pattern actually held for.
+3. **Feed the misses.** Concerns that recur after resolution, and ones that stay open
+   through several attempts, are the most useful rows we have and DiGi currently
+   never sees them. A pattern that keeps failing for 8 year olds at bedtime should
+   lose weight, not stay level because only wins are read.
+
+De-identification stays exactly as it is: `wisdom.ts` already keeps user and child
+ids away from the model and stores only paraphrased patterns. Nothing here changes
+that, and nothing here needs to.
+
+## Recommended order, revised
+
+1. `concern_events` plus the 0 to 10 at first flag and check in.
+2. The "how far you have come" view. Same release, so the asking has a payoff.
+3. The retrospective question at resolution.
+4. `wisdom.ts` reading the new signals, including the misses.
+5. Aggregate reporting for social and schools, once a quarter of history exists.
+
+Separately and unrelated to this order: find out why `digi_outcomes` is empty.
