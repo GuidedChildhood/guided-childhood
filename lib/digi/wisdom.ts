@@ -55,8 +55,24 @@ export async function rebuildWisdom(): Promise<WisdomRebuild> {
 
   // Pull the de-identified wins. child_id and user_id are read only to join an
   // age band, never sent onward. Ages let the wisdom stay stage aware.
-  const [concernsRes, scriptWorkedRes, reflectionsRes, childrenRes] = await Promise.all([
-    admin.from('concerns').select('label, status, times_flagged, child_id').in('status', ['resolved', 'improving']).limit(600),
+  //
+  // The concern signals come from the append only event log (migration 164)
+  // rather than the concerns table, because the current row only knows where a
+  // family ended up. The log knows the shape: how bad it was, how bad it is
+  // now, how long it took, and whether it came back. "Bedtime went 8 to 3 over
+  // nine days for a 7 year old, and stayed down" is a pattern worth having.
+  // "A family sorted bedtime", which is all this used to say, is not.
+  //
+  // Backfilled rows are excluded outright. Their timestamps were reconstructed
+  // when the log was created and they carry no severity, so including them
+  // would put invented durations in front of the model.
+  const [concernsRes, eventsRes, scriptWorkedRes, reflectionsRes, childrenRes] = await Promise.all([
+    admin.from('concerns').select('id, label, status, times_flagged, child_id').limit(600),
+    admin.from('concern_events')
+      .select('concern_id, event, severity, severity_at_start, created_at')
+      .eq('backfilled', false)
+      .order('created_at', { ascending: true })
+      .limit(4000),
     admin.from('script_completions').select('script_sort_order, worked, user_id').eq('worked', 'yes').limit(600),
     admin.from('digi_feedback').select('question, parent_response').not('parent_response', 'is', null).limit(600),
     admin.from('children').select('id, parent_id, age_band'),
@@ -67,14 +83,57 @@ export async function rebuildWisdom(): Promise<WisdomRebuild> {
   const ageByParent = new Map<string, string>()
   for (const c of children) if (!ageByParent.has(c.parent_id as string)) ageByParent.set(c.parent_id as string, c.age_band as string)
 
-  const wins = (concernsRes.data ?? []).map(c => ({
-    kind: 'turnaround',
-    text: `A family ${c.status === 'resolved' ? 'sorted' : 'is turning around'} "${c.label}"${(c.times_flagged as number) > 2 ? ' after it kept coming back' : ''}.`,
-    age: c.child_id ? ageByChild.get(c.child_id as string) ?? null : null,
-  }))
+  // Group the observed events by concern so each one can be read as an arc.
+  const eventsByConcern = new Map<string, typeof eventsRes.data>()
+  for (const e of eventsRes.data ?? []) {
+    const list = eventsByConcern.get(e.concern_id as string)
+    if (list) list.push(e)
+    else eventsByConcern.set(e.concern_id as string, [e])
+  }
+
+  const wins: { kind: string; text: string; age: string | null }[] = []
+  // The failures, kept separate so the prompt can weigh them against the wins
+  // instead of only ever seeing what worked.
+  const misses: { kind: string; text: string; age: string | null }[] = []
+
+  for (const c of concernsRes.data ?? []) {
+    const rows = eventsByConcern.get(c.id as string)
+    if (!rows?.length) continue
+
+    const age = c.child_id ? ageByChild.get(c.child_id as string) ?? null : null
+    const label = String(c.label)
+    const resolved = [...rows].reverse().find(r => r.event === 'resolved')
+    const recurrences = rows.filter(r => r.event === 'recurred').length
+
+    const start = resolved?.severity_at_start ?? rows.find(r => typeof r.severity === 'number')?.severity ?? null
+    const end = [...rows].reverse().find(r => typeof r.severity === 'number')?.severity ?? null
+    const moved = typeof start === 'number' && typeof end === 'number' && end < start
+
+    const days = resolved
+      ? Math.max(0, Math.round((new Date(resolved.created_at as string).getTime() - new Date(rows[0].created_at as string).getTime()) / 86400000))
+      : null
+
+    const scale = moved ? ` It went from ${start} out of 10 to ${end}.` : ''
+    const took = days !== null ? ` It took about ${days} ${days === 1 ? 'day' : 'days'}.` : ''
+
+    if (resolved && recurrences === 0) {
+      wins.push({ kind: 'turnaround', text: `A family sorted "${label}" and it stayed sorted.${scale}${took}`, age })
+    } else if (resolved && recurrences > 0) {
+      // Sorted, but it came back on the way. Useful, and not the same as clean.
+      misses.push({ kind: 'fragile', text: `A family got "${label}" sorted but it came back ${recurrences} ${recurrences === 1 ? 'time' : 'times'} first.${scale}`, age })
+    } else if (moved) {
+      wins.push({ kind: 'turning', text: `A family is turning "${label}" around.${scale}`, age })
+    } else if ((c.times_flagged as number) >= 3) {
+      misses.push({ kind: 'stuck', text: `A family has raised "${label}" ${c.times_flagged} times and it is still not sorted.`, age })
+    }
+  }
+
   const scriptWins = (scriptWorkedRes.data ?? []).map(s => ({
     kind: 'script',
-    text: `A script this parent tried worked for them.`,
+    // The sort order is the script's stable identity across the library, and it
+    // was being selected and then thrown away, so every script win read as an
+    // anonymous "something worked" and told the model nothing.
+    text: `Script ${s.script_sort_order ?? 'unknown'} worked for a family.`,
     age: s.user_id ? ageByParent.get(s.user_id as string) ?? null : null,
   }))
   const reflectionWins = (reflectionsRes.data ?? [])
@@ -85,17 +144,23 @@ export async function rebuildWisdom(): Promise<WisdomRebuild> {
       age: null as string | null,
     }))
 
-  const signals = [...wins, ...scriptWins, ...reflectionWins]
+  // The misses count as signal too. A run with nothing but failures still has
+  // something worth telling DiGi, and reporting the total as wins only would
+  // have quietly hidden how much of the evidence was negative.
+  const signals = [...wins, ...scriptWins, ...reflectionWins, ...misses]
   if (signals.length === 0) {
     return { ranAt: new Date().toISOString(), signals: 0, written: 0, rows: [] }
   }
 
-  const prompt = `You are distilling aggregate, de-identified evidence of what works for the families using Guided Childhood, a digital parenting platform. Below are anonymised signals of things that went well: concerns that turned around, scripts that worked, and reflections parents shared. None of this is one identifiable family. Turn the recurring patterns into a small set of reusable pieces of wisdom DiGi can lean on when it coaches a new parent.
+  const prompt = `You are distilling aggregate, de-identified evidence of what works for the families using Guided Childhood, a digital parenting platform. None of this is one identifiable family. Turn the recurring patterns into a small set of reusable pieces of wisdom DiGi can lean on when it coaches a new parent.
 
-SIGNALS (${signals.length}, de-identified):
-${signals.slice(0, 300).map(s => `- [${s.age ?? 'any'}] ${s.text}`).join('\n')}
+WHAT WENT WELL (${wins.length + scriptWins.length + reflectionWins.length}, de-identified):
+${[...wins, ...scriptWins, ...reflectionWins].slice(0, 240).map(s => `- [${s.age ?? 'any'}] ${s.text}`).join('\n')}
+${misses.length > 0 ? `
+WHAT DID NOT HOLD (${misses.length}, de-identified). These matter as much as the wins. A pattern that keeps coming back, or keeps not shifting, should make you MORE cautious about the advice around it, not less. Where a problem recurs often, say so in the wisdom itself, because a parent who is told something will fix it and then watches it return trusts nothing we say afterwards:
+${misses.slice(0, 120).map(s => `- [${s.age ?? 'any'}] ${s.text}`).join('\n')}` : ''}
 
-Write between 6 and 12 pieces of wisdom. Each is a pattern of what tends to work, phrased so DiGi can lean on it warmly and specifically, never as pressure and never as a rule. Attach an age band only when the pattern is clearly stage specific, otherwise leave it null. Justin's voice: warm, plain, direct, no dashes.
+Write between 6 and 12 pieces of wisdom. Each is a pattern of what tends to work, phrased so DiGi can lean on it warmly and specifically, never as pressure and never as a rule. Where the evidence is mixed, say that plainly inside what_works rather than dropping the pattern or overselling it. Attach an age band only when the pattern is clearly stage specific, otherwise leave it null. Justin's voice: warm, plain, direct, no dashes.
 
 Reply with ONLY valid JSON in this shape:
 {"wisdom":[{"topic":"short name","age_band":"4-7|8-10|11-13|13-15|16+|null","what_works":"one or two sentences, the pattern and why it helps","evidence_count":number}]}
@@ -114,13 +179,24 @@ evidence_count is roughly how many signals point to this pattern.`
       evidence_count: Math.max(1, Math.round(Number(w.evidence_count) || 1)),
     }))
 
-  // Replace the set only when there is a fresh set to put in. A bad model run
-  // that parses to zero rows must never blank a populated corpus, so the swap
-  // (deactivate old, insert new) happens as one step and only with rows in
-  // hand. The old wisdom keeps working until real new wisdom replaces it.
+  // Into the holding pen, never straight to a parent. See migration 165.
+  //
+  // This used to deactivate the live set and insert the new one live in the same
+  // breath, on an unattended Sunday cron, so an off run reached every parent for
+  // a week before anyone could have noticed. Now the candidates land pending and
+  // DiGi carries on serving the last approved set until a human promotes them on
+  // /dashboard/admin/wisdom.
+  //
+  // The old guard still holds too: a run that parses to zero rows writes nothing
+  // at all, so a bad model response cannot even empty the pen.
   if (rows.length > 0) {
-    await admin.from('digi_wisdom').update({ active: false }).eq('active', true)
-    await admin.from('digi_wisdom').insert(rows.map(r => ({ ...r, active: true, updated_at: new Date().toISOString() })))
+    await admin.from('digi_wisdom').delete().eq('pending', true)
+    await admin.from('digi_wisdom').insert(rows.map(r => ({
+      ...r,
+      active: false,
+      pending: true,
+      updated_at: new Date().toISOString(),
+    })))
   }
 
   return { ranAt: new Date().toISOString(), signals: signals.length, written: rows.length, rows }
