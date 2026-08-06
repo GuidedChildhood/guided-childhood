@@ -22,6 +22,7 @@ import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { READINESS } from '@/lib/content/readiness'
 import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 import IsItWorkingReport from '@/components/pathway/IsItWorkingReport'
+import HowFarYouHaveCome from '@/components/pathway/HowFarYouHaveCome'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getWeekParentReport } from '@/lib/balance/week-report'
 import PassportToDo from '@/components/pathway/PassportToDo'
@@ -387,6 +388,13 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           once you have seen what it is measuring. */}
       <div id="is-it-working" style={{ scrollMarginTop: '84px' }} />
       <IsItWorkingReport childParam={childParam} parentReport={weekReport} />
+
+      {/* The journey behind the report. Where every concern started, where it got
+          to, how long it took, and which ones came back. Reads the append only
+          event log rather than the concerns table, so it can show the shape
+          rather than only the destination. Renders nothing until a family has
+          history worth showing. */}
+      <HowFarYouHaveCome />
 
       {/* The end of stage readiness check, DiGi's voice: as the family nears the
           end of a stage, DiGi reads where they are, names what is left, and when

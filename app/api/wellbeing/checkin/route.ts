@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { CHALLENGE_OPTIONS } from '@/lib/content/stages'
+import { logConcernEvents } from '@/lib/concerns/events'
 
 // The check in speaks the starter quiz's concern language, so a tick maps
 // straight to a ledger slug and label.
@@ -59,6 +60,10 @@ export async function POST(req: NextRequest) {
         })
       if (newRows.length > 0) {
         await supabase.from('concerns').upsert(newRows, { onConflict: 'user_id,slug' })
+        await logConcernEvents(supabase, user.id, newRows.map(r => r.slug), {
+          event: 'flagged',
+          source: 'checkin',
+        })
       }
 
       // Things that got better: nudge an existing concern along its arc, the

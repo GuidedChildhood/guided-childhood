@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { CHALLENGE_OPTIONS } from '@/lib/content/stages'
 import { generateWeeklyPlan, type PlanStep } from '@/lib/digi/weekly-plan'
+import { logConcernEvents } from '@/lib/concerns/events'
 
 // The Sunday wellbeing check in. GET tells Home whether a check in is due (it is
 // Sunday and none done this week) and hands back this week's agreed plan so it
@@ -116,6 +117,10 @@ export async function POST(req: NextRequest) {
         }
       })
       await supabase.from('concerns').upsert(rows, { onConflict: 'user_id,slug' })
+      await logConcernEvents(supabase, user.id, knownSlugs, {
+        event: 'flagged',
+        source: 'checkin',
+      })
     }
   } catch { /* the ledger never blocks the check in */ }
 

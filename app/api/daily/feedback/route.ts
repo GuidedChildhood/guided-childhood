@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { dailyMomentLabel } from '@/lib/content/daily-moments'
+import { logConcernEvents } from '@/lib/concerns/events'
 
 // Store which daily moments happened today so tomorrow's card can be
 // personalised, and mirror each flagged moment into the concerns ledger:
@@ -65,6 +66,11 @@ export async function POST(request: Request) {
       })
 
       await supabase.from('concerns').upsert(rows, { onConflict: 'user_id,slug' })
+      await logConcernEvents(supabase, user.id, rows.map(r => r.slug), {
+        event: 'flagged',
+        source: 'moment',
+        linkedType: 'moment',
+      })
     }
   } catch { /* the ledger never blocks the daily save */ }
 

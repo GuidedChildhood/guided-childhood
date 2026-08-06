@@ -6,6 +6,7 @@ import { hasCrisisLanguage, lexicalFlags, highestSeverity } from '@/lib/digi/saf
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { logConcernEvent } from '@/lib/concerns/events'
 
 // The Right Now rescue for the moment that is not on the tiles. The parent
 // types one line about what is happening and DiGi writes the calm words on the
@@ -154,6 +155,12 @@ Reply with ONLY valid JSON: {"title":"...","say_this":"...","not_this":"..."}`
       times_flagged: prior ? prior.times_flagged + 1 : 1,
       last_flagged_at: now,
     }, { onConflict: 'user_id,slug' })
+
+    await logConcernEvent(supabase, user.id, 'rightnow-custom', {
+      event: 'flagged',
+      source: 'rightnow',
+      linkedType: 'rightnow',
+    })
   } catch { /* best effort */ }
 
   return NextResponse.json({ title, say_this: sayThis, not_this: notThis, custom: true })

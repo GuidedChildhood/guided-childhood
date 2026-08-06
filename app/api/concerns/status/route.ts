@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { logConcernEvent, isSeverity } from '@/lib/concerns/events'
 
 // The parent's own verdict on a concern from the Progress page: solved,
 // still going, or stuck and wanting help, plus happened again on a thing
@@ -14,7 +15,17 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { slug, status } = await request.json() as { slug?: string; status?: string }
+  // severity: how bad it is right now, 0 to 10, optional.
+  // severityAtStart: asked only when marking something solved, looking back from
+  // the end. That is the retrospective pre-test, and it exists because people
+  // re-scale what a 7 means to them as they get to know their own problem. It is
+  // the cheapest thing we can do to keep the before and after honest.
+  const { slug, status, severity, severityAtStart } = await request.json() as {
+    slug?: string
+    status?: string
+    severity?: unknown
+    severityAtStart?: unknown
+  }
   if (!slug) return NextResponse.json({ error: 'slug required' }, { status: 400 })
   if (status !== 'resolved' && status !== 'open' && status !== 'recurred') {
     return NextResponse.json({ error: 'status must be resolved, open or recurred' }, { status: 400 })
@@ -45,6 +56,15 @@ export async function POST(request: Request) {
       .eq('slug', slug)
 
     if (error) return NextResponse.json({ error: 'could not update' }, { status: 500 })
+
+    // The most valuable row in the table. A thing that came back after being
+    // sorted is what stops the wisdom corpus reading every win as permanent.
+    await logConcernEvent(supabase, user.id, slug, {
+      event: 'recurred',
+      severity: isSeverity(severity) ? severity : null,
+      source: 'progress',
+    })
+
     return NextResponse.json({ saved: true, status: 'open', recurred: true })
   }
 
@@ -55,5 +75,14 @@ export async function POST(request: Request) {
     .eq('slug', slug)
 
   if (error) return NextResponse.json({ error: 'could not update' }, { status: 500 })
+
+  await logConcernEvent(supabase, user.id, slug, {
+    event: status === 'resolved' ? 'resolved' : 'reopened',
+    severity: isSeverity(severity) ? severity : null,
+    // Only meaningful on the way out, and only when they answered it.
+    severityAtStart: status === 'resolved' && isSeverity(severityAtStart) ? severityAtStart : null,
+    source: 'progress',
+  })
+
   return NextResponse.json({ saved: true, status })
 }

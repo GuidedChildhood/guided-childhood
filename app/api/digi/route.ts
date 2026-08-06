@@ -21,6 +21,7 @@ import { schoolSubjectFor, learningContextFor, learningRules } from '@/lib/learn
 import { deviceLabel } from '@/lib/quests/device-time'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { logConcernEvent } from '@/lib/concerns/events'
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder',
@@ -711,6 +712,12 @@ When a parent asks whether or for how long their child should use any device, do
                   times_flagged: prior ? prior.times_flagged + 1 : 1,
                   last_flagged_at: new Date().toISOString(),
                 }, { onConflict: 'user_id,slug' })
+
+                await logConcernEvent(supabase, user.id, slug, {
+                  event: 'flagged',
+                  source: 'digi',
+                  linkedType: 'digi',
+                })
               }
             }
           }

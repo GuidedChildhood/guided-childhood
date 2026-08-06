@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 
 // The heart of Progress: not a graph, but the real list of what this
 // family is working on, and the parent's own verdict on each. Solved
@@ -24,6 +24,12 @@ export type SolvedConcern = {
 
 const HELP_EMAIL = 'hello@guidedchildhood.com'
 
+// How long the look back question stays up before the resolution saves without
+// it. A win should never be held hostage to a follow up question.
+const SOLVE_GRACE_MS = 8000
+
+const SCALE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
 export default function WorkingOn({
   concerns,
   solvedAlready,
@@ -42,6 +48,11 @@ export default function WorkingOn({
   const [helped, setHelped] = useState<Record<string, boolean>>({})
   const [solvedList, setSolvedList] = useState(recentSolved)
   const [showSolved, setShowSolved] = useState(false)
+  const [pendingSolve, setPendingSolve] = useState<{ slug: string; label: string } | null>(null)
+
+  // One resolution post per slug, whichever path gets there first.
+  const solvePosted = useRef<Record<string, boolean>>({})
+  const solveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const solvedTotal = solvedAlready + solvedNow
   const working = live.length
@@ -58,6 +69,19 @@ export default function WorkingOn({
     return null
   }, [live])
 
+  // Send the resolution. Called once per slug, either with the parent's
+  // retrospective number or without it when they skip or drift away.
+  function sendSolved(slug: string, severityAtStart: number | null) {
+    if (solvePosted.current[slug]) return
+    solvePosted.current[slug] = true
+    if (solveTimer.current) { clearTimeout(solveTimer.current); solveTimer.current = null }
+    fetch('/api/concerns/status', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ slug, status: 'resolved', severityAtStart }),
+    }).catch(() => {})
+  }
+
   function markSolved(slug: string) {
     const done = live.find(c => c.slug === slug)
     setLive(prev => prev.filter(c => c.slug !== slug))
@@ -65,11 +89,30 @@ export default function WorkingOn({
     // Drop it onto the sorted list too so it can be reopened straight away
     // if it comes back, no refresh needed.
     if (done) setSolvedList(prev => [{ slug: done.slug, label: done.label, times_flagged: done.times_flagged }, ...prev.filter(s => s.slug !== slug)].slice(0, 8))
-    fetch('/api/concerns/status', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, status: 'resolved' }),
-    }).catch(() => {})
+
+    // If another one is still waiting on its number, let that one go as it is
+    // rather than holding two answers open at once.
+    if (pendingSolve && pendingSolve.slug !== slug) sendSolved(pendingSolve.slug, null)
+
+    // Ask the one question that makes the before and after honest: looking back
+    // from the end, how bad was it at the start. People re-scale what a 7 means
+    // to them as they get to know a problem, and asking now rather than trusting
+    // a rating from months ago is the standard correction for that drift.
+    //
+    // Held, not blocking. The win is already on the board above; this is a
+    // question they can ignore and the resolution still saves either way.
+    setPendingSolve({ slug, label: done?.label ?? 'that one' })
+    solveTimer.current = setTimeout(() => {
+      setPendingSolve(null)
+      sendSolved(slug, null)
+    }, SOLVE_GRACE_MS)
+  }
+
+  function answerLookBack(severityAtStart: number | null) {
+    if (!pendingSolve) return
+    const { slug } = pendingSolve
+    setPendingSolve(null)
+    sendSolved(slug, severityAtStart)
   }
 
   // It came back. Reopen it, move it to the live list, and let the server
@@ -108,6 +151,37 @@ export default function WorkingOn({
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
         What we are working on
       </div>
+
+      {pendingSolve && (
+        <div style={{ background: 'var(--tint-green)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px', marginBottom: '16px' }}>
+          <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', marginBottom: '4px' }}>
+            {pendingSolve.label} is sorted. Nice one.
+          </div>
+          <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '8px' }}>
+            <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)' }}>
+              Looking back now, how bad was it when you started? 0 is fine, 10 is the worst it gets.
+            </span>
+            <button
+              onClick={() => answerLookBack(null)}
+              style={{ background: 'none', border: 'none', padding: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', textDecoration: 'underline', cursor: 'pointer', flexShrink: 0 }}
+            >
+              Skip
+            </button>
+          </div>
+          <div style={{ display: 'flex', gap: '4px' }}>
+            {SCALE.map(n => (
+              <button
+                key={n}
+                onClick={() => answerLookBack(n)}
+                aria-label={`${n} out of 10`}
+                style={{ flex: 1, minWidth: 0, padding: '9px 0', borderRadius: '9px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', cursor: 'pointer' }}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* The report: wins and live count */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: working > 0 ? '16px' : '0' }}>
