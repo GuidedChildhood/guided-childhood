@@ -217,6 +217,29 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         isPaid={isPaid}
       />
 
+      {/* The other direction.
+
+          Every tile below this line is a parent opening a conversation. The
+          passport review found nothing anywhere running the other way, which is
+          the half that decides whether a 16 year old still comes to you. It
+          gets a banner rather than a chip because it is not a ninth category,
+          it is the other half of the library. */}
+      <Link
+        href="/dashboard/tell-a-parent"
+        style={{ display: 'flex', alignItems: 'center', gap: '13px', textDecoration: 'none', background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '15px 17px', marginBottom: '20px' }}
+      >
+        <span aria-hidden style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>💬</span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
+            When they come to you
+          </span>
+          <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>
+            The words your child has, and the promise about how you will react
+          </span>
+        </span>
+        <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>›</span>
+      </Link>
+
       {/* Handoff from a moment card: the scripts for that exact moment lead, as
           the butter Good Inside numbered list, so the deck closes on the words.
           Butter and gold, never lavender: this is the Good Inside "4 Scripts"
