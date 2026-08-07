@@ -5307,3 +5307,57 @@ alone would have silenced one of them, which is worse than the bug being fixed.
 **Migration 165 collided** with another session's `digi_wisdom_review_gate`,
 which committed later and is now 167. Every statement in it is an idempotent
 create or a guarded update, so re-running under the new name changes nothing.
+
+## 6 August 2026, evening: the evidence ledger, and DiGi behind a gate
+
+**Concerns stopped overwriting their own history.** Every status change was an
+UPDATE in place, so we knew where a family was and had destroyed how they got
+there. concern_events (migration 164) is append only: raises, check ins,
+resolutions and recurrences all survive, with an optional 0 to 10 the parent
+can skip without cost. The recurrence surviving is the point: a thing that
+came back is the most informative row we own.
+
+**The look back question at resolution, not a baseline questionnaire.** People
+re-scale what a 7 means as they learn their own problem, so the start severity
+is asked again at the finish. One tap, and it is the standard correction for
+response shift. The GBO approach fits us because concerns are already the
+parent's own words; their materials are non commercial licensed, so we use the
+method in our words and never the name.
+
+**Nothing DiGi says reaches a parent unread any more.** The Sunday wisdom
+rebuild used to go live on an unattended cron. It now lands in a holding pen
+(migration 167, applied as 165 before another session took that number) and
+/dashboard/admin/wisdom is the only path to a parent. The failure mode left is
+a stale corpus rather than a wrong one, which is the right way round. The
+rebuild also now reads the event log, including the misses, so a pattern that
+keeps failing loses weight instead of holding it forever.
+
+**Why digi_outcomes had zero rows.** The follow up chain was broken at step
+one: /api/moments/tried had no caller anywhere in the app, and DiGi has never
+once chosen the schedule_followup tool in 166 questions because its description
+carries four separate warnings against using it (save_memory, same array and
+dispatcher, has 53 uses). The button is now wired ("I tried this" on the
+moment card) and the card only promises a check back once one is actually
+scheduled. The tool wording is deliberately untouched: loosening it changes
+what DiGi does to families and is its own decision.
+
+## 7 August 2026: the phone's text size setting reaches the app
+
+**Type tokens are rem now, not px.** A parent who turned their text up in
+settings got bigger text in every app except ours. One file changed and the
+whole app follows the dial, with -apple-system-body on the root so iOS
+Dynamic Type joins in. At default settings nothing moved.
+
+**The planned one notch size bump was dropped, on purpose.** body already
+carries zoom 1.07, the tuned readability dial, so base already lands at about
+17 on glass where Duolingo and Good Inside sit. Stacking a token bump on top
+would have overshot to 18 and risked wrapping buttons everywhere. One dial,
+not two.
+
+**The 12px rule was holding at 98.9 percent and is now enforced.** 930 of 943
+uses were the mono eyebrows the rule allows. Ten strays got two different
+medicines: four mislabelled eyebrows moved to the mono family keeping their
+size, four kid app sentences moved up a size. wiring-check gained a sixth
+check that fails CI on a body font sentence at 12px, because the rule was
+already written down when the ten happened, and a rule ignored ten times
+needs a check rather than an eleventh restatement.
