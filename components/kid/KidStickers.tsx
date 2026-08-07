@@ -261,7 +261,7 @@ export default function KidStickers({ token, stickers, celebrate }: {
                         <span aria-hidden style={{
                           flexShrink: 0, width: 18, height: 18, borderRadius: '50%',
                           background: '#EDC35F', color: '#2A1F14',
-                          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '11px',
+                          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xs)',
                           display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1,
                         }}>{i + 1}</span>
                         <span style={{
