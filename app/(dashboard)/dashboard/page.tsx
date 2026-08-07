@@ -6,7 +6,6 @@ import { getStageFromAgeBand, ageBandInList, type AgeBand, type ChallengeId, STA
 import type { Moment } from '@/components/cards/MomentCard'
 import MomentCard from '@/components/cards/MomentCard'
 import PushPrompt from '@/components/push/PushPrompt'
-import DeviceSetupBanner from '@/components/device/DeviceSetupBanner'
 import SmartAlerts from '@/components/alerts/SmartAlerts'
 import DigiPrompts from '@/components/digi/DigiPrompts'
 import DigiWondering from '@/components/digi/DigiWondering'
@@ -39,11 +38,9 @@ import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import DigiGreeting from '@/components/home/DigiGreeting'
 import MissionWelcome from '@/components/home/MissionWelcome'
-import ChildAppNudge from '@/components/home/ChildAppNudge'
 import CommunityBite from '@/components/community/CommunityBite'
-import DealReviewNudge from '@/components/quests/DealReviewNudge'
 import HomeRows from '@/components/home/HomeRows'
-import WeeklyReviewCard from '@/components/digi/WeeklyReviewCard'
+import TodayCard from '@/components/home/TodayCard'
 import HomeLive from '@/components/home/HomeLive'
 import HomeMain from '@/components/home/HomeMain'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
@@ -309,7 +306,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // recent job added or changed is the honest signal: it is the part of the
   // deal a family touches. Null means there is no deal yet to review.
   let dealDaysSinceChange: number | null = null
-  let dealChildToken: string | null = null
   try {
     const { data: lastQuest } = await supabase
       .from('family_quests').select('created_at')
@@ -319,9 +315,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       const days = Math.floor((Date.now() - new Date(lastQuest.created_at as string).getTime()) / 86400000)
       dealDaysSinceChange = Number.isFinite(days) ? days : null
     }
-    const { data: tokenRow } = await supabase
-      .from('kid_links').select('token').eq('user_id', user.id).limit(1).maybeSingle()
-    dealChildToken = (tokenRow?.token as string | null) ?? null
   } catch { dealDaysSinceChange = null }
 
   // Today's loop and the daily streak, both resolved server side.
@@ -458,8 +451,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // on an answer beats setting anything up, an empty jobs board beats the
   // passport (nothing else works without jobs), and once both are running the
   // passport is what is left. The child app handover is deliberately not in
-  // here, because ChildAppNudge above already owns that and saying it twice on
-  // one screen is nagging.
+  // here, because the Today card's child app row already owns that and saying
+  // it twice on one screen is nagging.
   const noQuestsYet = (questsCountResult.count ?? 0) === 0
   const stageLessonsLeft = stageLessons ? stageLessons.total - stageLessons.passed : 0
 
@@ -534,16 +527,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           WAITING, then THE DAY. Everything else is worth having and is not
           worth being met before those two, so it sits underneath in the order
           it always had. Nothing is deleted here. ─────────────────────────── */}
-      {/* THE LIVE SLOT: one fixed place for anything with a person on the
-          other end of it.
-          Justin, holding up Duolingo's home: "after pathway is done for the day
-          it should move away leaving all the next important tabs."
-          The timer and the approvals queue used to be two separate cards that
-          each rendered nothing on a quiet day. Right about noise, wrong about
-          position: a slot that vanishes is indistinguishable from one that
-          failed to load. HomeLive keeps the place and writes the calm state,
-          the way Deel's Upcoming actions and Airwallex's My tasks both do. */}
-      <HomeLive />
+      {/* THE NOW SLOT: one fixed place for anything with a person on the
+          other end of it, now speaking in the one voice phase 3 gave it: a
+          single butter row, a pulse dot, a sentence naming who is waiting.
+          Only ever one; approvals outrank the due check in. The quiet day
+          stays a sentence, not a gap. */}
+      <HomeLive
+        checkinDue={todayLoop.some(t => t.key === 'checkin' && !t.done)}
+        childName={child?.name ?? null}
+      />
 
       {/* TODAY, THE SPINE OF THE SCREEN, second only to whoever is waiting.
           Justin, holding up Duolingo's home: "it has pathway only on Home
@@ -557,14 +549,17 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           day it should move away leaving all the next important tabs". */}
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
 
-      {/* The weekly round up, first of the things that are not the day itself.
-          Renders nothing at all otherwise, so it costs the other six days
-          nothing, and it hides once read (see WeeklyReviewCard).
-          It leads this group because it is the only thing here that EXPIRES:
-          it is about a week that has finished, and it stops being the week just
-          gone the moment the next one lands. It no longer leads the SCREEN,
-          because a round up of last week is not more urgent than today. */}
-      <WeeklyReviewCard />
+      {/* THE TODAY CARD, volume two: everything that used to be its own
+          banner or nudge card on this screen is a tick and fold row in here
+          instead. The round up, the unread ideas, the child app handover,
+          the deal review and the stage device settings, one place to look,
+          one motion to learn. Renders nothing on a clear day; the calm
+          sentence belongs to the Now slot above. */}
+      <TodayCard
+        childApp={!childAppLive && handoverChoice !== 'paper' ? { childName: child?.name ?? null } : null}
+        dealReview={dealDaysSinceChange !== null && dealDaysSinceChange >= 14 ? { daysSinceChange: dealDaysSinceChange } : null}
+        deviceSetup={setupComplete ? { stageId: stage.id, stageName: stage.name } : null}
+      />
       {/* DiGi comes up first, once a day, greeting the family by name */}
       <DigiWelcomeSheet
         childrenInfo={welcomeChildren}
@@ -578,10 +573,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           // Once they are in, it goes back to the normal daily loop.
           // Always the daily loop, never the handover. This used to jump to
           // Share the QR code whenever the child had not opened their app,
-          // which is exactly the case where ChildAppNudge is already on screen
-          // saying it, and where HomeRows was saying it a third time. The rule
-          // twelve lines up said the handover stays out of the one next thing
-          // because ChildAppNudge owns it; this is that rule actually applied.
+          // which is exactly the case where the Today card's child app row is
+          // already on screen saying it, and where HomeRows was saying it a
+          // third time. The handover stays out of the one next thing because
+          // that row owns it; this is that rule actually applied.
           nextTask: (() => { const t = todayLoop.find(x => !x.done && x.key !== 'done'); return t ? { label: t.label, href: t.href } : null })(),
           strands: literacyStrands,
         }}
@@ -627,19 +622,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         handoverChild={handoverChild}
       />
 
-      {/* Half the product is on the child's phone. Until they have opened it,
-          the parent is running one side of a two sided thing and usually does
-          not know it, so this says what is missing and where the QR code is.
-          It goes for good the moment the child opens their app. */}
-      {/* A family who has chosen the paper chart is not a family with one
-          thing left to set up. handover_choice already retired the overlay
-          and never reached here, so this card kept asking for ever: the
-          only thing that ends it is the child opening an app they have
-          decided not to give them. */}
-      {!childAppLive && handoverChoice !== 'paper' && (
-        <ChildAppNudge childName={child?.name ?? null} childId={child?.id ?? null} />
-      )}
-
       {/* Year 6 into Year 7. The one card that earns a place near the top
           without being asked for: it happens once, and what a family decides in
           these few weeks sets the next five years. */}
@@ -648,13 +630,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* Otherwise, whatever school has coming, four to six weeks out. Early
           enough to be a head start rather than a warning. */}
       {schoolAhead && <SchoolAheadCard ahead={schoolAhead} />}
-
-      {/* Every couple of weeks, DiGi asks whether the deal still fits. A deal
-          set in week one quietly stops matching the family by week six, so this
-          is the prompt to look, update, and put the new one on the fridge. */}
-      {dealDaysSinceChange !== null && (
-        <DealReviewNudge daysSinceChange={dealDaysSinceChange} childToken={dealChildToken} />
-      )}
 
       {/* DiGi greets in one line: who, where on the road, and what today
           costs in minutes, with the streak flame alongside. The h1 header
@@ -967,16 +942,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             Continue with DiGi →
           </Link>
         </div>
-      )}
-
-      {/* Device setup prompt: a supplementary ask, held back until the core
-          setup path is done so it never competes with the current step. */}
-      {setupComplete && (
-        <DeviceSetupBanner
-          stageId={stage.id}
-          stageName={stage.name}
-          childName={child?.name ?? null}
-        />
       )}
 
       {/* Things you need to know: open school actions from forwarded school
