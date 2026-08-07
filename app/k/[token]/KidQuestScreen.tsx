@@ -1261,7 +1261,7 @@ export default function KidQuestScreen({
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>{assignedPrintable.title}</div>
               </div>
             </div>
-            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
               Print it and do it away from the screen. Then show your grown up for {assignedPrintable.stars} stars.
             </p>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -2481,7 +2481,7 @@ export default function KidQuestScreen({
                           >
                             {saidNo ? 'Not this one for now' : requested ? 'Asked your grown up ✓' : 'Ask a grown up for this one ⭐'}
                           </button>
-                          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textAlign: 'center', margin: '8px 0 0', lineHeight: 1.4 }}>
+                          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center', margin: '8px 0 0', lineHeight: 1.4 }}>
                             {saidNo
                               ? 'Maybe another time. Plenty more to colour.'
                               : 'Your grown up can set up printables for you.'}

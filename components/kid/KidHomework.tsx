@@ -150,7 +150,7 @@ export default function KidHomework({
                   fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', lineHeight: 1.5,
                 }}
               />
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '8px 0 0' }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '8px 0 0' }}>
                 Only you and your grown up can see this. Nobody marks it.
               </p>
             </section>
@@ -176,7 +176,7 @@ export default function KidHomework({
               {busy ? 'Saving...' : 'Save it'}
             </button>
             {text.trim().length === 0 && (
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textAlign: 'center', margin: '10px 0 0' }}>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center', margin: '10px 0 0' }}>
                 {childName ? `Write something first, ${childName}.` : 'Write something first.'}
               </p>
             )}

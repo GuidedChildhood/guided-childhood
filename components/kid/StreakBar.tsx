@@ -33,7 +33,7 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
         </div>
 
         {done ? (
-          <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+          <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
             The whole family is home. Keep your streaks going to stay a superstar.
           </div>
         ) : (
@@ -50,7 +50,7 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
                 }} />
               ))}
             </div>
-            <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+            <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
               {toNext === 1
                 ? <>One more streak unlocks <b>{next!.name}</b>. So close!</>
                 : <><b>{toNext}</b> more streaks to unlock <b>{next!.name}</b>. Keep your jobs on time.</>}
