@@ -147,7 +147,7 @@ export default function KidRoad({
                             <div style={{ height: 10, borderRadius: 100, background: 'var(--cream)', border: '1px solid var(--border)', overflow: 'hidden' }}>
                               <div style={{ height: '100%', width: `${pct}%`, background: 'var(--terracotta)', borderRadius: 100 }} />
                             </div>
-                            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
+                            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '6px 0 0' }}>
                               {pct >= 100 ? `Every lesson done. ${buddyName} is yours!` : `${stageLessonsTotal - (stageLessonsPassed ?? 0)} more lesson${stageLessonsTotal - (stageLessonsPassed ?? 0) === 1 ? '' : 's'} to earn ${buddyName} and fill your stamp.`}
                             </p>
                           </div>

@@ -612,7 +612,7 @@ export default function KidPath({
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.12 }}>
             Your pathway to safe content use
           </div>
-          <div style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 4, lineHeight: 1.4 }}>
+          <div style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: 4, lineHeight: 1.4 }}>
             {stageId === 1
               ? `Do this one together on the iPad, ${childName}. Stop and come back any time, it is always here.`
               : `Come back any time, ${childName}. Your pathway saves itself and never disappears.`}

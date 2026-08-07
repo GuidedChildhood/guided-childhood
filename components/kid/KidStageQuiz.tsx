@@ -207,7 +207,7 @@ export default function KidStageQuiz({
                 {STAGE_QUIZ_LENGTH} questions, {childName}, and you have met every one of them
                 before. They come straight from your own lessons.
               </p>
-              <p style={{ color: 'rgba(255,255,255,0.62)', margin: '0 0 16px', fontSize: 'var(--text-sm)' }}>
+              <p style={{ color: 'rgba(255,255,255,0.62)', margin: '0 0 16px', fontSize: 'var(--text-base)' }}>
                 Get {STAGE_QUIZ_PASS} right and the {stampName} stamp is yours. Get it wrong and
                 nothing bad happens, you can come again.
               </p>
@@ -261,7 +261,7 @@ export default function KidStageQuiz({
 
           {picked !== null && (
             <div style={{ marginTop: 6 }}>
-              <p style={{ color: 'rgba(255,255,255,0.86)', fontSize: 'var(--text-sm)', margin: '0 0 14px' }}>
+              <p style={{ color: 'rgba(255,255,255,0.86)', fontSize: 'var(--text-base)', margin: '0 0 14px' }}>
                 <strong style={{ color: '#fff' }}>{picked === q.answer ? 'Yes. ' : 'Not this time. '}</strong>
                 {q.why}
               </p>

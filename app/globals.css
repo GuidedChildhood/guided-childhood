@@ -183,7 +183,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
 
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -200,7 +200,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   color: var(--ink);
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 0.9375rem;
   letter-spacing: 0.01em;
   padding: 14px 28px;
   border-radius: var(--radius-btn);
@@ -249,7 +249,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   border: 1.5px solid var(--terracotta);
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 0.9375rem;
   padding: 13px 27px;
   border-radius: var(--radius-btn);
   cursor: pointer;
@@ -276,7 +276,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   border: 1.5px solid var(--border);
   border-radius: 12px;
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--ink);
   background: var(--white);
   outline: none;
@@ -291,7 +291,7 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   align-items: center;
   gap: 6px;
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -395,7 +395,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   text-decoration: none;
   color: var(--ink-soft);
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
@@ -430,10 +430,10 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 .tab-item { min-width: 0; }
 @media (max-width: 420px) {
   .bottom-tab-bar { padding-left: 2px; padding-right: 2px; }
-  .tab-item { font-size: 11px; padding: 6px 1px; gap: 2px; }
+  .tab-item { font-size: 0.6875rem; padding: 6px 1px; gap: 2px; }
 }
 @media (max-width: 345px) {
-  .tab-item { font-size: 10px; letter-spacing: -0.012em; }
+  .tab-item { font-size: 0.625rem; letter-spacing: -0.012em; }
 }
 .tab-item svg { width: 24px; height: 24px; }
 
@@ -468,14 +468,14 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
    on one line at 360 and 390, and wraps to two rather than colliding at 320. */
 .mini-road-age {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   text-align: center;
   white-space: nowrap;
 }
 @media (max-width: 420px) {
-  .mini-road-age { font-size: 10px; letter-spacing: -0.01em; white-space: normal; }
+  .mini-road-age { font-size: 0.625rem; letter-spacing: -0.01em; white-space: normal; }
 }
 /* Hover only for real pointers: on touch, :hover can stick after a tap
    and leave the wrong tab looking active until another tap clears it,
@@ -590,7 +590,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   border-radius: 100px;
   padding: 6px 14px;
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: .06em;
   color: var(--terracotta);
@@ -602,7 +602,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   align-items: center;
   gap: 8px;
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--terracotta);
@@ -678,8 +678,8 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 /* Comfortable reading size on phones. A larger base lifts every rem based
    size, and the smallest mono labels get a small bump so they stay legible. */
 @media (max-width: 600px) {
-  body { font-size: 17px; line-height: 1.6; }
-  .eyebrow { font-size: 11.5px; }
+  body { font-size: 1.0625rem; line-height: 1.6; }
+  .eyebrow { font-size: 0.72rem; }
 }
 
 /* ── GSAP ── */
@@ -739,7 +739,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   background: #E5484D;
   color: #fff;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 0.625rem;
   font-weight: 700;
   line-height: 17px;
   text-align: center;
@@ -834,7 +834,7 @@ h1, h2, h3 { text-wrap: balance; }
   border-radius: 10px;
   color: var(--ink);
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 1rem;
 }
 
 /* ── SQUAD SECTION ── */
@@ -1076,7 +1076,7 @@ h1, h2, h3 { text-wrap: balance; }
   display: inline-flex; align-items: center; justify-content: center;
   border-radius: 100px; border: 1.5px solid var(--border);
   background: #fff; color: var(--ink);
-  font-family: var(--font-display); font-weight: 800; font-size: 14.5px;
+  font-family: var(--font-display); font-weight: 800; font-size: 0.90625rem;
   letter-spacing: -0.01em; padding: 10px 20px;
   text-decoration: none; white-space: nowrap;
   transition: background 0.15s, border-color 0.15s, transform 0.1s;
@@ -1084,13 +1084,13 @@ h1, h2, h3 { text-wrap: balance; }
 .hdr-login:hover { background: var(--cream); border-color: var(--ink-light); }
 .hdr-login:active { transform: translateY(1px); }
 .hdr-cta {
-  border-radius: 100px; font-size: 14.5px; padding: 11px 22px;
+  border-radius: 100px; font-size: 0.90625rem; padding: 11px 22px;
   box-shadow: 0 4px 0 var(--terracotta-dark);
 }
 .hdr-cta:hover, .hdr-cta:active { box-shadow: 0 4px 0 var(--terracotta-dark); }
 @media (max-width: 420px) {
-  .hdr-login { padding: 9px 15px; font-size: 13.5px; }
-  .hdr-cta { padding: 10px 16px; font-size: 13.5px; }
+  .hdr-login { padding: 9px 15px; font-size: 0.84375rem; }
+  .hdr-cta { padding: 10px 16px; font-size: 0.84375rem; }
 }
 
 /* ── PATHWAY GRID (stage walkthrough) ── */
@@ -1155,7 +1155,7 @@ h1, h2, h3 { text-wrap: balance; }
   box-shadow: 0 5px 0 var(--terracotta-dark), 0 10px 26px rgba(0,0,0,0.16);
   cursor: pointer;
   font-family: var(--font-body);
-  font-size: 9px;
+  font-size: 0.5625rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -1183,7 +1183,7 @@ body.gc-input-focused .rightnow-fab { display: none; }
     padding: 14px 22px;
     cursor: pointer;
     font-family: var(--font-display);
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: 800;
     letter-spacing: -0.01em;
     box-shadow: 0 5px 0 var(--terracotta-dark), 0 10px 30px rgba(0,0,0,0.15);
