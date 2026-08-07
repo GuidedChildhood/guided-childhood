@@ -330,11 +330,64 @@ const BASELINE = [
   { match: 'migration 147', since: '2 Aug 2026, the collision that prompted this check' },
 ]
 
+// ── 6. Small print ───────────────────────────────────────────────────
+//
+// The type scale carries a rule in globals.css: --text-xs is for mono
+// eyebrows and labels only, never a sentence. The phase 2 readability audit
+// (plans/type-readability-review-plan.md, 7 August 2026) found the rule had
+// quietly failed ten times out of 943 uses: reading text in the body font at
+// 12px, which is exactly the small print the reference apps refuse to ship.
+// Ten is a good score, and the reason it stays good is this check rather
+// than the comment, because the comment was already there when the ten
+// happened.
+//
+// A body-font sentence at xs is an error. An xs with no family at all
+// inherits the body font, so it gets a warning rather than a failure, since
+// some of those are decorative glyphs; marking the element aria-hidden is
+// the way to say "this is decoration" and be left alone.
+
+function checkSmallPrint() {
+  for (const [f, src] of SOURCE) {
+    if (rel(f).startsWith('scripts')) continue
+    let idx = 0
+    const NEEDLE = "fontSize: 'var(--text-xs)'"
+    while ((idx = src.indexOf(NEEDLE, idx)) !== -1) {
+      // Walk back to the innermost object literal this size sits in, then
+      // forward to its close, so the family check reads the same style
+      // object and not a neighbour's.
+      let depth = 0, start = idx
+      while (start > 0) {
+        const c = src[start]
+        if (c === '}') depth++
+        else if (c === '{') { if (depth === 0) break; depth-- }
+        start--
+      }
+      let end = start; depth = 0
+      while (end < src.length) {
+        const c = src[end]
+        if (c === '{') depth++
+        else if (c === '}') { depth--; if (depth === 0) break }
+        end++
+      }
+      const obj = src.slice(start, end + 1)
+      const lineNo = src.slice(0, idx).split('\n').length
+      const decorative = src.slice(Math.max(0, start - 250), start).includes('aria-hidden')
+      if (obj.includes('var(--font-body)')) {
+        errors.push(`small print   ${rel(f)}:${lineNo}  body font at 12px; reading text starts at --text-sm, eyebrows are --font-mono`)
+      } else if (!obj.includes('var(--font-mono)') && !obj.includes('var(--font-display)') && !decorative) {
+        warnings.push(`small print   ${rel(f)}:${lineNo}  12px with no family inherits the body font; add --font-mono if it is a label, aria-hidden if decoration`)
+      }
+      idx = end
+    }
+  }
+}
+
 checkDeadLinks()
 checkOrphanComponents()
 checkUnwritableSteps()
 checkWeekWindows()
 checkMigrationNumbers()
+checkSmallPrint()
 
 const line = '─'.repeat(64)
 

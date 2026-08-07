@@ -81,7 +81,7 @@ function Tile({ s }: { s: KidSticker }) {
       </span>
 
       {!s.earned && s.earn && (
-        <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.25 }}>
+        <span style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.25 }}>
           {s.earn}
         </span>
       )}
@@ -265,7 +265,7 @@ export default function KidStickers({ token, stickers, celebrate }: {
                           display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1,
                         }}>{i + 1}</span>
                         <span style={{
-                          fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                          fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 700,
                           color: '#4A3B25', lineHeight: 1.45,
                         }}>{step}</span>
                       </li>
@@ -274,7 +274,7 @@ export default function KidStickers({ token, stickers, celebrate }: {
                 )}
                 {page.how && (
                   <p style={{
-                    fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 600,
+                    fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600,
                     color: '#6B5C42', lineHeight: 1.5, margin: 0,
                   }}>
                     {page.how}
@@ -286,7 +286,7 @@ export default function KidStickers({ token, stickers, celebrate }: {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(96px, 1fr))', gap: '14px 6px', justifyItems: 'center' }}>
               {page.of.map(s => <Tile key={s.key} s={s} />)}
             </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 600, color: '#9A8A6A', lineHeight: 1.4, margin: '11px 0 0', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: '#9A8A6A', lineHeight: 1.4, margin: '11px 0 0', textAlign: 'center' }}>
               {page.note}
             </p>
           </div>
