@@ -379,10 +379,14 @@ export default function KidTodayList({
     >
       <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>{r.emoji}</span>
       <span style={{ flex: 1, minWidth: 0 }}>
+        {/* Two lines before anything is cut. A one line chop turned "Shoes on
+            and by the door" into "Shoes on and by th…" on a phone, and a child
+            cannot do a job they cannot read the second half of. */}
         <span style={{
-          display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+          fontFamily: 'var(--font-display)', fontWeight: 800,
           fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2,
-          whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
         }}>
           {r.title}
         </span>

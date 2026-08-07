@@ -67,8 +67,14 @@ export default function WeeklyReviewCard() {
     }).catch(() => { /* it reappears next load, which is the safe way to fail */ })
   }
 
+  // flexWrap and the text column's flex basis are the phone layout. A fixed
+  // one row flex squeezed the words into a column one word wide next to the
+  // nowrap button (Justin's screenshot, 7 August): the button kept its full
+  // width because it may not wrap, so the sentence paid for all of it. Now the
+  // text claims a readable minimum and the button drops to its own line
+  // underneath when the two cannot share.
   return (
-    <div style={{ position: 'relative', background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '13px', boxShadow: '0 4px 16px rgba(201,154,40,0.12)' }}>
+    <div style={{ position: 'relative', background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '16px 18px', marginBottom: '20px', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '13px', boxShadow: '0 4px 16px rgba(201,154,40,0.12)' }}>
       <button
         onClick={close}
         aria-label="Close"
@@ -79,7 +85,7 @@ export default function WeeklyReviewCard() {
       <span style={{ flexShrink: 0, width: 46, height: 46, borderRadius: '13px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <DigiCharacter mood="happy" size={30} once />
       </span>
-      <div style={{ flex: 1, minWidth: 0, paddingRight: 14 }}>
+      <div style={{ flex: '1 1 200px', minWidth: 0, paddingRight: 14 }}>
         {/* Weekly, not Sunday. It is written on a Sunday and it can now be
             read on a Thursday, and a card that says Sunday on a Thursday
             reads as something a parent has already missed. */}

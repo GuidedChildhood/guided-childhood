@@ -108,6 +108,20 @@ export default function QuestStatusBoard() {
     return () => { alive = false }
   }, [])
 
+  // "Ticked 2026-08-03" is a database talking to a parent (Justin's
+  // screenshot, 7 August). The mono meta line also wrapped mid date, splitting
+  // the year from the day. Say it the way a person would: Today, Yesterday, or
+  // Sun 3 Aug. Noon anchors the parse so a timezone cannot shift the day.
+  const niceDay = (iso: string, todayStr: string): string => {
+    if (iso === todayStr) return 'Today'
+    const d = new Date(`${iso}T12:00:00`)
+    if (Number.isNaN(d.getTime())) return iso
+    const yesterday = new Date(`${todayStr}T12:00:00`)
+    yesterday.setDate(yesterday.getDate() - 1)
+    if (d.toDateString() === yesterday.toDateString()) return 'Yesterday'
+    return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })
+  }
+
   const buckets = useMemo(() => {
     const out: Record<BucketKey, { key: string; title: string; emoji: string; who: string; note?: string; childId?: string }[]> =
       { waiting: [], sent: [], withyou: [], done: [] }
@@ -133,7 +147,7 @@ export default function QuestStatusBoard() {
         who: nameOf.get(t.child_id ?? '') ?? 'Your child',
         // Naming the age matters. An old pending tick is the case that used to
         // disappear, and a parent should see that it has been sitting there.
-        note: stale ? `Ticked ${t.tick_date}` : undefined,
+        note: stale ? `Ticked ${niceDay(t.tick_date, todayStr)}` : undefined,
       })
     }
 
@@ -143,7 +157,7 @@ export default function QuestStatusBoard() {
       out.done.push({
         key: t.id, title: q.title, emoji: q.emoji ?? '⭐',
         who: nameOf.get(t.child_id ?? '') ?? 'Your child',
-        note: t.tick_date === todayStr ? 'Today' : t.tick_date,
+        note: niceDay(t.tick_date, todayStr),
       })
     }
 
@@ -424,7 +438,7 @@ export default function QuestStatusBoard() {
             }}>
               <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{r.emoji}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                   {r.title}
                 </span>
                 <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 1 }}>
