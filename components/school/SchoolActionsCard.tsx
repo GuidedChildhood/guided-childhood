@@ -3,6 +3,20 @@
 import { useEffect, useState } from 'react'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 import SchoolWeek from './SchoolWeek'
+import SchoolAddSheet, { type NewReminder } from './SchoolAddSheet'
+
+// Sunday first, matching recurs_weekday and JS getDay, so an index is never
+// shifted by one on the way between them.
+const DAY_FULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+// Today as YYYY-MM-DD in LOCAL time. Deliberately not toISOString, which is UTC
+// and rolls a British summer evening back to yesterday, the same trap the week
+// grid already avoids.
+function todayIso(): string {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
 
 // Tell the bell to recount the moment a school item is cleared, settled or
 // added right here, so the number on the bell never lags behind the card.
@@ -45,24 +59,8 @@ const KIND_STYLE: Record<string, { label: string; bg: string; color: string }> =
   notice: { label: 'Notice', bg: 'var(--border)', color: 'var(--ink-soft)' },
 }
 
-const KIND_OPTIONS = Object.entries(KIND_STYLE) as [string, { label: string; bg: string; color: string }][]
-const WEEKDAYS = [
-  { n: 1, label: 'Mon' }, { n: 2, label: 'Tue' }, { n: 3, label: 'Wed' }, { n: 4, label: 'Thu' },
-  { n: 5, label: 'Fri' }, { n: 6, label: 'Sat' }, { n: 0, label: 'Sun' },
-]
 const WEEKDAY_NAME: Record<number, string> = { 0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday' }
 
-// The routines parents forget the most, each a single tap that fills the
-// name, picks a sensible day, and sets it to every week. The day is only a
-// starting guess; the weekday picker below lets them change it.
-const QUICK_ROUTINES: { label: string; emoji: string; kind: string; weekday: number }[] = [
-  { label: 'PE kit', emoji: '👟', kind: 'kit', weekday: 4 },
-  { label: 'Reading book', emoji: '📖', kind: 'homework', weekday: 5 },
-  { label: 'Swimming kit', emoji: '🩱', kind: 'kit', weekday: 2 },
-  { label: 'Spellings', emoji: '✏️', kind: 'homework', weekday: 1 },
-  { label: 'Library books', emoji: '📚', kind: 'kit', weekday: 3 },
-  { label: 'Show and tell', emoji: '🧸', kind: 'event', weekday: 5 },
-]
 
 type DueTone = 'overdue' | 'urgent' | 'today' | 'soon' | 'calm'
 
@@ -104,19 +102,14 @@ function dueInfo(dueDate: string | null, dueTime: string | null | undefined, now
 
 export default function SchoolActionsCard({ actions: initial, childName }: { actions: SchoolAction[]; childName?: string | null }) {
   const [actions, setActions] = useState(initial)
-  const [showAdd, setShowAdd] = useState(false)
-  const [title, setTitle] = useState('')
-  const [kind, setKind] = useState('notice')
-  const [repeats, setRepeats] = useState(false)
-  const [dueDate, setDueDate] = useState('')
-  const [dueTime, setDueTime] = useState('')
-  const [weekday, setWeekday] = useState(4) // Thursday, PE kit is the classic case
-  const [autoSend, setAutoSend] = useState(false)
-  const [saving, setSaving] = useState(false)
   const [sendingId, setSendingId] = useState<string | null>(null)
   const [testing, setTesting] = useState(false)
   const [testResult, setTestResult] = useState<string | null>(null)
   // Which week the calendar is showing. 0 is this one, and the arrows walk it.
+  // The day whose "+ Add" was tapped, and therefore the sheet that is open.
+  // Null is closed.
+  const [addDay, setAddDay] = useState<{ dateIso: string; dow: number } | null>(null)
+
   const [weekOffset, setWeekOffset] = useState(0)
   // The full list underneath, which repeats every item the week already shows.
   //
@@ -195,35 +188,39 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
     } catch { /* non blocking, it still holds for this view */ }
   }
 
-  const addReminder = async () => {
-    if (!title.trim()) return
-    setSaving(true)
+
+  // "Thursday 6 August", for the sheet's heading. Parsed from the ISO parts
+  // rather than new Date(iso), which reads a bare YYYY-MM-DD as UTC midnight and
+  // shows the day before once the clocks go forward.
+  const dayLabel = (dateIso: string, dow: number) => {
+    const [y, m, d] = dateIso.split('-').map(Number)
+    if (!y || !m || !d) return DAY_FULL[dow] ?? ''
+    const local = new Date(y, m - 1, d)
+    return `${DAY_FULL[dow]} ${local.getDate()} ${MONTHS[local.getMonth()]}`
+  }
+
+  // Adding from the sheet. Same endpoint and the same optimistic insert as the
+  // old form, with one difference that matters: a one off keeps its time. The
+  // old path dropped due_time unless a date AND a time were both filled in on
+  // the form, so a reminder added for a specific day at 3pm lost the 3pm.
+  const addFromSheet = async (r: NewReminder) => {
     try {
       const res = await fetch('/api/school/actions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: title.trim(), kind,
-          due_date: repeats ? null : (dueDate || null),
-          // A routine has a time of day even though it has no date. Sending
-          // null here is what left Cubs every Tuesday with no when at all.
-          due_time: repeats ? (dueTime || null) : (dueDate && dueTime ? dueTime : null),
-          recurs_weekday: repeats ? weekday : null,
-          auto_send_to_child: repeats ? autoSend : false,
-        }),
+        body: JSON.stringify(r),
       })
       const data = await res.json()
       if (data.action) {
         setActions(a => [...a, data.action].sort((x, y) => (x.due_date ?? '9999').localeCompare(y.due_date ?? '9999')))
         notifsChanged()
-        setTitle('')
-        setDueDate('')
-        setDueTime('')
-        setRepeats(false)
-        setAutoSend(false)
-        setShowAdd(false)
+        setAddDay(null)
+        // Send it to their phone now rather than only on the day, when the
+        // parent asked for it and is still looking at the screen. The weekly
+        // flag on the row is what keeps it going after today.
+        if (r.auto_send_to_child && data.action.id) sendToChild(data.action.id)
       }
-    } catch { /* non blocking */ } finally { setSaving(false) }
+    } catch { /* non blocking, the week still shows what is there */ }
   }
 
   const sendToChild = async (id: string) => {
@@ -313,15 +310,21 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
       </div>
       {/* Actions row: wraps cleanly on a phone and a laptop. */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
+        {/* One way to add a reminder, not two. This used to toggle a separate
+            inline form with its own name field, its own weekday picker and its
+            own send to child checkbox, sitting below the week that also had an
+            Add on every day. Two forms for one job, and the one a parent
+            actually reached for was the one that looked like it did nothing.
+            Both now open the same sheet; this one starts on today. */}
         <button
-          onClick={() => setShowAdd(v => !v)}
+          onClick={() => setAddDay({ dateIso: todayIso(), dow: new Date().getDay() })}
           style={{
-            background: showAdd ? 'var(--cream)' : 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+            background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
             borderRadius: '100px', padding: '8px 16px', cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--terracotta-dark)',
           }}
         >
-          {showAdd ? 'Cancel' : '+ Add reminder'}
+          + Add reminder
         </button>
         <button
           onClick={sendTest}
@@ -352,195 +355,28 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         clearedIds={clearedIds}
         onClear={a => { if (a.recurs_weekday != null) clearForToday(a.id); else settle(a.id, 'done') }}
         onDelete={id => settle(id, 'dismissed')}
-        onAdd={(dateIso, dow) => {
-          // Open the form already pointed at the day that was tapped, so
-          // adding Friday's swimming kit is a name and a save.
-          setShowAdd(true)
-          setWeekday(dow)
-          if (dateIso) { setRepeats(false); setDueDate(dateIso) }
-        }}
+        // Justin, 7 August 2026: "when you click add it goes nowhere really, it
+        // should step you through adding a reminder."
+        //
+        // It used to open the form below the week and quietly set the day on
+        // it. On a phone that form is entirely below the fold, so the tap
+        // looked like nothing happened and the day it had set was invisible. A
+        // sheet over the week instead, which asks what it is, whether it is one
+        // off or every week, and whether the child's phone gets it too.
+        onAdd={(dateIso, dow) => setAddDay({ dateIso, dow })}
       />
 
-      {showAdd && (
-        <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: '14px', padding: '14px', marginBottom: '14px' }}>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '10px' }}>
-            School does not email you, or this one is off your own radar? Add it here, it works exactly the same either way.
-          </p>
-
-          {/* One tap routines: the classics parents forget. Tapping fills the
-              name and sets it to every week, so a PE kit reminder is two taps. */}
-          <div style={{ marginBottom: '10px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '7px' }}>
-              Quick add a weekly routine
-            </div>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              {QUICK_ROUTINES.map(r => (
-                <button
-                  key={r.label}
-                  onClick={() => { setTitle(r.label); setKind(r.kind); setRepeats(true); setWeekday(r.weekday) }}
-                  style={{
-                    padding: '7px 12px', borderRadius: '100px', cursor: 'pointer',
-                    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
-                    background: title === r.label ? 'var(--terracotta)' : '#fff', color: 'var(--ink)',
-                    border: title === r.label ? 'none' : '1.5px solid var(--border)',
-                  }}
-                >
-                  {r.emoji} {r.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* The thing being written, set like the thing being written.
-              Justin: "Writing here needs tu be bigger". It sat at 16px in a
-              thin box, the same size as the help text explaining it, so the
-              one field a parent actually types into was the quietest element
-              in the form. Enter sends, the way it does in every message box a
-              parent has ever used, so the keyboard's own return key finishes
-              the job rather than asking them to go and find a button. */}
-          <input
-            value={title}
-            onChange={e => setTitle(e.target.value)}
-            onKeyDown={e => {
-              if (e.key === 'Enter' && title.trim() && !saving) { e.preventDefault(); addReminder() }
-            }}
-            placeholder="PE kit, reading record due, swimming kit..."
-            enterKeyHint="done"
-            style={{
-              width: '100%', padding: '14px 16px', borderRadius: '14px', marginBottom: '8px',
-              border: '1.5px solid var(--border)', background: '#fff',
-              fontFamily: 'var(--font-body)', fontSize: 'var(--text-lg)', color: 'var(--ink)', outline: 'none',
-            }}
-            maxLength={140}
-          />
-
-          {/* One time or every week */}
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
-            {[['One time', false], ['Every week', true]].map(([label, val]) => (
-              <button
-                key={label as string}
-                onClick={() => setRepeats(val as boolean)}
-                style={{
-                  padding: '8px 14px', borderRadius: '100px', cursor: 'pointer',
-                  fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
-                  background: repeats === val ? 'var(--terracotta)' : '#fff',
-                  color: 'var(--ink)', border: repeats === val ? 'none' : '1.5px solid var(--border)',
-                }}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-
-          {repeats ? (
-            <div style={{ marginBottom: '10px' }}>
-              <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginBottom: '8px' }}>
-                {WEEKDAYS.map(d => (
-                  <button
-                    key={d.n}
-                    onClick={() => setWeekday(d.n)}
-                    style={{
-                      padding: '7px 11px', borderRadius: '10px', cursor: 'pointer',
-                      fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)',
-                      background: weekday === d.n ? 'var(--deep-teal)' : '#fff',
-                      color: weekday === d.n ? '#fff' : 'var(--ink-soft)',
-                      border: weekday === d.n ? 'none' : '1.5px solid var(--border)',
-                    }}
-                  >
-                    {d.label}
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={() => setAutoSend(v => !v)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '8px', background: 'none', border: 'none',
-                  cursor: 'pointer', padding: 0, textAlign: 'left',
-                }}
-              >
-                <span style={{
-                  width: 20, height: 20, borderRadius: '6px', flexShrink: 0,
-                  background: autoSend ? 'var(--terracotta)' : '#fff',
-                  border: autoSend ? 'none' : '1.5px solid var(--border)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-base)', color: '#fff',
-                }}>
-                  {autoSend ? '✓' : ''}
-                </span>
-                <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>
-                  Also remind {childName ?? 'them'} automatically, every week
-                </span>
-              </button>
-              {/* What time, on that day. Optional, the same as it is for a one
-                  off: some routines are a hand it in by home time, and some are
-                  a be there at 18:15. Without this a weekly routine had a day
-                  and no hour, so the child's card could only ever say the name
-                  of the thing. */}
-              <div style={{ marginTop: '10px' }}>
-                <input
-                  type="time"
-                  value={dueTime}
-                  onChange={e => setDueTime(e.target.value)}
-                  title="Optional. A time lets the reminder land an hour before, and turns it red as it nears."
-                  style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)' }}
-                />
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '6px 0 0' }}>
-                  Optional. Add a time for something that starts at one, like Cubs at 18:15. Leave it off for a bring it that day reminder.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div style={{ marginBottom: '10px' }}>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <input
-                  type="date"
-                  value={dueDate}
-                  onChange={e => setDueDate(e.target.value)}
-                  style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)' }}
-                />
-                <input
-                  type="time"
-                  value={dueTime}
-                  onChange={e => setDueTime(e.target.value)}
-                  disabled={!dueDate}
-                  title="Optional. A time makes it go red as it nears, like a dentist at 09:00."
-                  style={{ padding: '10px 12px', borderRadius: '10px', border: '1.5px solid var(--border)', background: dueDate ? '#fff' : 'var(--cream)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', opacity: dueDate ? 1 : 0.5 }}
-                />
-              </div>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '6px 0 0' }}>
-                Add a time for a set appointment (dentist, assembly). It turns red as it nears. Leave it off for a seen by today reminder.
-              </p>
-            </div>
-          )}
-
-          {/* The kind on its own row, then Add underneath at full width.
-              Justin: "enter button like a mess[age] stick it underneath". It
-              was pinned right of the dropdown with marginLeft auto, so on a
-              phone the one button that finishes the form was a small target in
-              the far corner, sharing a line with a control that is not part of
-              finishing anything. Full width underneath is where a send button
-              lives, and it is thumb sized by being there. */}
-          <select
-            value={kind}
-            onChange={e => setKind(e.target.value)}
-            style={{ width: '100%', padding: '12px 12px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink)', marginBottom: '8px' }}
-          >
-            {KIND_OPTIONS.map(([key, meta]) => <option key={key} value={key}>{meta.label}</option>)}
-          </select>
-          <button
-            onClick={addReminder}
-            disabled={saving || !title.trim()}
-            style={{
-              width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
-              borderRadius: '14px', padding: '15px 18px', cursor: saving || !title.trim() ? 'default' : 'pointer',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-              boxShadow: '0 4px 0 var(--terracotta-dark)',
-              opacity: saving || !title.trim() ? 0.55 : 1,
-            }}
-          >
-            {saving ? 'Adding...' : 'Add reminder'}
-          </button>
-        </div>
+      {addDay && (
+        <SchoolAddSheet
+          dateIso={addDay.dateIso}
+          dow={addDay.dow}
+          dayLabel={dayLabel(addDay.dateIso, addDay.dow)}
+          childName={childName}
+          onCancel={() => setAddDay(null)}
+          onAdd={addFromSheet}
+        />
       )}
+
 
       {/* The drawer. Only offered when there is something in it. */}
       {(recurring.length > 0 || oneOff.length > 0) && (

@@ -1,6 +1,6 @@
 import webpush from 'web-push'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
-import { oneRowPerDevice } from '@/lib/push/devices'
+import { oneRowPerDevice, DEVICE_COLUMNS, LEGACY_COLUMNS, isMissingColumn, type PushRow } from '@/lib/push/devices'
 
 // A best effort nudge to the child's own device, through the reminders
 // they turned on from their quest link. Only ever from a parent to their
@@ -18,11 +18,21 @@ export async function pushToChild(
 ) {
   if (!process.env.VAPID_EMAIL || !process.env.VAPID_PRIVATE_KEY) return
   try {
-    const { data: subs } = await admin
+    // Twice, because device_id arrives with migration 166 and migrations here
+    // are run by hand, so there is a window where this code knows about a column
+    // the database has not got. Asking for it fails the whole read, `subs` comes
+    // back null, and the early return below sends a child nothing at all. See
+    // lib/push/devices.ts.
+    const read = (columns: string) => admin
       .from('push_subscriptions')
-      .select('endpoint, p256dh, auth, device_id, child_id, updated_at, created_at')
+      .select(columns)
       .eq('user_id', userId)
       .eq('child_id', childId)
+
+    let { data: subs, error } = await read(DEVICE_COLUMNS)
+    if (error && isMissingColumn(error, 'device_id')) {
+      ({ data: subs, error } = await read(LEGACY_COLUMNS))
+    }
     if (!subs?.length) return
 
     // ONE BUZZ PER DEVICE.
@@ -37,7 +47,8 @@ export async function pushToChild(
     // schedule, and the old row was never removed. Migration 166 cleans the
     // table and the subscribe route stops it refilling; this is the guard that
     // holds while both of those are rolling out.
-    const devices = oneRowPerDevice(subs)
+    // Asserted: see the note in lib/push/devices.ts on PushRow.
+    const devices = oneRowPerDevice(subs as unknown as PushRow[])
 
     // Tapping the notification must open the child's own quest page, not
     // the site root (where a child, with no login, lands nowhere useful).

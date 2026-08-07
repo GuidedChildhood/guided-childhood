@@ -1,7 +1,7 @@
 import webpush from 'web-push'
 import { createClient } from '@supabase/supabase-js'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
-import { oneRowPerDevice } from '@/lib/push/devices'
+import { oneRowPerDevice, DEVICE_COLUMNS, LEGACY_COLUMNS, isMissingColumn, type PushRow } from '@/lib/push/devices'
 
 // Sending a push, in process.
 //
@@ -88,17 +88,28 @@ export async function sendPush(input: SendPushInput): Promise<SendPushResult> {
 
   // Parent messages never reach kid devices and kid reminders never reach
   // parents: subscriptions are split by child_id (migration 031).
-  const query = supabase
-    .from('push_subscriptions')
-    .select('endpoint, p256dh, auth, device_id, child_id, updated_at, created_at')
-  if (userId) query.eq('user_id', userId)
-  if (audience === 'kids') query.not('child_id', 'is', null)
-  else query.is('child_id', null)
-  // Slot aware sends only reach subscriptions that asked for that slot
-  // (migration 046). Sends without a slot, like tests, reach everyone.
-  if (slot && ['morning', 'afternoon', 'evening'].includes(slot)) query.contains('slots', [slot])
+  //
+  // Built as a function because it has to be runnable twice: device_id arrives
+  // with migration 166 and migrations here are applied by hand, so the deployed
+  // code and the database are out of step for a while. Asking for a column that
+  // does not exist yet fails the whole read, and the line below correctly treats
+  // a failed read as an error, which meant nobody anywhere got a notification.
+  // See lib/push/devices.ts.
+  const read = (columns: string) => {
+    const query = supabase.from('push_subscriptions').select(columns)
+    if (userId) query.eq('user_id', userId)
+    if (audience === 'kids') query.not('child_id', 'is', null)
+    else query.is('child_id', null)
+    // Slot aware sends only reach subscriptions that asked for that slot
+    // (migration 046). Sends without a slot, like tests, reach everyone.
+    if (slot && ['morning', 'afternoon', 'evening'].includes(slot)) query.contains('slots', [slot])
+    return query
+  }
 
-  const { data: subs, error } = await query
+  let { data: subs, error } = await read(DEVICE_COLUMNS)
+  if (error && isMissingColumn(error, 'device_id')) {
+    ({ data: subs, error } = await read(LEGACY_COLUMNS))
+  }
 
   // A failed read is not an empty list, and the old code treated them as the
   // same thing: `if (error || !subs?.length) return { sent: 0 }`. That is the
@@ -124,7 +135,9 @@ export async function sendPush(input: SendPushInput): Promise<SendPushResult> {
   // subscribe, an older client can subscribe with no device_id, and a family can
   // be halfway through the rollout. `sent` counts devices reached now, which is
   // the number that was always meant.
-  const devices = oneRowPerDevice(subs)
+  // Asserted, because the column list is a variable and supabase-js can only
+  // infer a row type from a literal. Safe while both lists name these fields.
+  const devices = oneRowPerDevice(subs as unknown as PushRow[])
 
   const payload = JSON.stringify({ title, body, url, urgent: urgent === true })
 

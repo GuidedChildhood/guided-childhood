@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
+import { isMissingColumn } from '@/lib/push/devices'
 
 // Build the client lazily, inside the handler, so a missing env var at
 // build time (for example on the marketing Vercel project, which has no
@@ -42,17 +43,27 @@ export async function POST(req: NextRequest) {
       } catch { /* best effort */ }
     }
 
-    const { error } = await supabase
+    const base = {
+      user_id: userId,
+      endpoint: subscription.endpoint,
+      p256dh: subscription.keys.p256dh,
+      auth: subscription.keys.auth,
+      stage: stage ?? null,
+      updated_at: new Date().toISOString(),
+    }
+
+    // Written twice if it has to be. device_id arrives with migration 166 and
+    // migrations here are applied by hand, so until it runs this insert names a
+    // column that does not exist and the whole subscribe fails. Saving the
+    // subscription matters more than recording which device it came from.
+    let { error } = await supabase
       .from('push_subscriptions')
-      .upsert({
-        user_id: userId,
-        device_id: device,
-        endpoint: subscription.endpoint,
-        p256dh: subscription.keys.p256dh,
-        auth: subscription.keys.auth,
-        stage: stage ?? null,
-        updated_at: new Date().toISOString(),
-      }, { onConflict: 'endpoint' })
+      .upsert({ ...base, device_id: device }, { onConflict: 'endpoint' })
+    if (error && isMissingColumn(error, 'device_id')) {
+      ({ error } = await supabase
+        .from('push_subscriptions')
+        .upsert(base, { onConflict: 'endpoint' }))
+    }
 
     if (error) throw error
 

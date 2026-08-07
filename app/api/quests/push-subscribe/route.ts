@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { isMissingColumn } from '@/lib/push/devices'
 
 // The kid side of notifications: the quest page subscribes with the kid
 // link token as the auth (no account, same trust model as ticking).
@@ -49,17 +50,30 @@ export async function POST(req: NextRequest) {
         .eq('child_id', link.child_id)
         .eq('device_id', device)
         .neq('endpoint', subscription.endpoint)
-    } catch { /* best effort */ }
+    } catch { /* best effort, and a no op before migration 166 */ }
   }
 
-  const { error } = await supabase.from('push_subscriptions').upsert({
+  const base = {
     user_id: link.user_id,
     child_id: link.child_id,
-    device_id: device,
     endpoint: subscription.endpoint,
     p256dh: subscription.keys?.p256dh ?? '',
     auth: subscription.keys?.auth ?? '',
-  }, { onConflict: 'endpoint' })
+  }
+
+  // Written twice if it has to be. Migration 166 adds device_id and migrations
+  // here are applied by hand, so until it runs this insert names a column that
+  // does not exist and the route answers 500 to a child standing at a permission
+  // prompt. Saving the subscription matters more than recording which device it
+  // came from: without the row they get no reminders at all, and without the
+  // device_id they get the duplicates we already know how to collapse at send
+  // time. So the id is the part that gives way.
+  let { error } = await supabase.from('push_subscriptions')
+    .upsert({ ...base, device_id: device }, { onConflict: 'endpoint' })
+  if (error && isMissingColumn(error, 'device_id')) {
+    ({ error } = await supabase.from('push_subscriptions')
+      .upsert(base, { onConflict: 'endpoint' }))
+  }
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })
 }
