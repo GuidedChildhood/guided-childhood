@@ -5373,3 +5373,13 @@ is waiting, nothing else on the screen glows. Rows stay white with ink text,
 after two rounds of colour review on his phone. The lasting lesson from
 those rounds: iOS paints button text in Apple link blue unless a colour is
 set explicitly, so every tappable row must carry its own ink.
+
+**Phase 3 is built (PR 726).** The Now slot reworks HomeLive: one butter row,
+approvals outrank the due check in, only one ever shows. The Today card
+replaces four Home cards (round up, deal review, device setup, child app
+nudge) with tick and fold rows that keep each card's honest dismissal
+semantics. One deliberate holdout: PushPrompt stays where it is because it
+owns the notification permission machinery and the setup anchor, and a row
+saying the same thing on the same screen would be a second voice. The count
+volume already existed as the quests tab chip. /ref-needs-you shows both
+pieces without a login.
