@@ -71,24 +71,27 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   if (!user) redirect('/login')
   const { child: childParam } = await searchParams
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes')
-    .eq('id', user.id)
-    .maybeSingle()
-
-  // Only send to onboarding when we POSITIVELY know it is not done. If the
-  // profile read comes back empty (a transient session or read hiccup),
-  // rendering the dashboard is safe (everything below is null tolerant) and,
-  // crucially, never bounces to onboarding, which onboarding then bounces
-  // back, the continuous flashing loop. One side must not fight the other.
-  if (profile && profile.onboarding_complete === false) redirect('/onboarding')
-
   const today = new Date().toISOString().split('T')[0]
 
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
 
-  const [childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult] = await Promise.all([
+  // Stage the reveal by account age: a new parent meets a one loop Home, and the
+  // rest opens up over the first fortnight. Established accounts reveal everything
+  // (daysSince is large), so nothing regresses for existing families. Computed
+  // before the reads because it gates one of them.
+  const accountAgeDays = daysSince(user.created_at)
+  const revealed = revealedKeys(accountAgeDays)
+  const reveals = eligibleReveals(accountAgeDays)
+
+  // ONE WAVE, NOT TEN. Everything here needs only the user id, and it used to
+  // run as eight separate awaits down the length of this function: profile,
+  // then thirteen reads, then birthdays, then the handover row, then the deal
+  // age, then the last script, then the last check in. Each await is a full
+  // round trip to the database before a single byte of HTML leaves the
+  // server, which is the whole of "opening the app seems a little slow".
+  // Same reads, same order of meaning, one round trip of latency.
+  const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
+    supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes').eq('id', user.id).maybeSingle(),
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
@@ -112,7 +115,35 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // The problem this family is working on right now: the most recently
     // flagged live concern, for the focus bar above the path.
     supabase.from('concerns').select('label, status').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(1).maybeSingle(),
+    // The birthday is a setup step now, not a welcome card and not a day three
+    // reveal. The read fails soft to done before migration 083, so a deploy
+    // without the column never shows a step nobody can finish.
+    supabase.from('children').select('date_of_birth, name').eq('parent_id', user.id),
+    // The handover columns, read on their own rather than folded into the
+    // profile select, so on any deploy where migration 103 has not run the
+    // missing columns cost nothing but this one null rather than taking the
+    // whole profile read down with them.
+    supabase.from('profiles').select('handover_choice, handover_asks').eq('id', user.id).maybeSingle(),
+    // How long since anything in the family deal actually moved: the most
+    // recent job added or changed, the part of the deal a family touches.
+    supabase.from('family_quests').select('created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).maybeSingle(),
+    // Last completed script, for the insight card and the coverage read.
+    supabase.from('script_completions').select('script_sort_order, completed_at').eq('user_id', user.id).order('completed_at', { ascending: false }).limit(1).maybeSingle(),
+    // Monthly wellbeing check in: when the last one happened, if ever.
+    supabase.from('wellbeing_checkins').select('created_at').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1).maybeSingle(),
+    // The flash up script rotation pool, only once moments are revealed.
+    revealed.has('moments')
+      ? supabase.from('scripts').select('title, situation, sort_order').order('sort_order', { ascending: true }).limit(30)
+      : Promise.resolve({ data: null }),
   ])
+
+  const profile = profileResult.data
+  // Only send to onboarding when we POSITIVELY know it is not done. If the
+  // profile read comes back empty (a transient session or read hiccup),
+  // rendering the dashboard is safe (everything below is null tolerant) and,
+  // crucially, never bounces to onboarding, which onboarding then bounces
+  // back, the continuous flashing loop. One side must not fight the other.
+  if (profile && profile.onboarding_complete === false) redirect('/onboarding')
 
   // Every child, primary first. The whole page runs on the selected child
   // (?child=<id>, defaulting to the primary), and the same list feeds the
@@ -123,21 +154,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     .filter(k => k.name)
     .map(k => ({ name: k.name as string, ageBand: (k.age_band as string | null) ?? null }))
 
-  // Stage the reveal by account age: a new parent meets a one loop Home, and the
-  // rest opens up over the first fortnight. Established accounts reveal everything
-  // (daysSince is large), so nothing regresses for existing families.
-  const accountAgeDays = daysSince(user.created_at)
-  const revealed = revealedKeys(accountAgeDays)
-  const reveals = eligibleReveals(accountAgeDays)
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
-
-  // The birthday is a setup step now, not a welcome card and not a day three
-  // reveal. It is the parent's job and setup is where a parent looks for what
-  // is missing, so it goes in the checklist with a flag and a tick like
-  // everything else. The read fails soft to done before migration 083, so a
-  // deploy without the column never shows a step nobody can finish.
-  const birthdays = await supabase.from('children').select('date_of_birth, name').eq('parent_id', user.id)
 
   // What school is about to throw at this family, and the one moment that
   // matters more than any other. Both read from the birthday and the fixed
@@ -201,21 +219,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // here, or send to their phone). This is the mobile answer to a nav that has
   // no room for a Lessons tab, so lessons are always one tap away. Only once
   // lessons have been revealed for this account.
+  // The reads join the second wave below; the pick happens after it lands.
+  const wantLessonNudge = revealed.has('lessons') && !!child?.id
   let lessonNudge: { code: string; title: string; catchphrase: string | null } | null = null
-  if (revealed.has('lessons') && child?.id) {
-    const stageNum = child.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
-    const [{ lessons: films }, watchedFilms] = await Promise.all([
-      getParentLessons(supabase),
-      getCompletionsForChild(supabase, child.id),
-    ])
-    const unseen = films.filter(f => !watchedFilms.has(f.lesson_code))
-    // Prefer the closest film at or below the child's stage, earliest step first.
-    const pick = [...unseen]
-      .filter(f => f.stage_id <= stageNum)
-      .sort((a, b) => (b.stage_id - a.stage_id) || (a.journey_step - b.journey_step))[0]
-      ?? unseen[0]
-    if (pick) lessonNudge = { code: pick.lesson_code, title: pick.title, catchphrase: pick.catchphrase ?? null }
-  }
   const lessonChildName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
 
   // The flash up rotation: DiGi brings ONE thing to Home now and then, a
@@ -227,12 +233,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const stagePrintables = printablesForStage(childStageNum)
   const flashPrintable = stagePrintables.length ? stagePrintables[dayIndex % stagePrintables.length] : null
   let flashScript: { title: string; situation: string | null; sort_order: number } | null = null
-  if (revealed.has('moments')) {
-    const { data: scriptRows } = await supabase
-      .from('scripts').select('title, situation, sort_order').order('sort_order', { ascending: true }).limit(30)
-    const rows = scriptRows ?? []
+  {
+    const rows = (flashScriptRows.data ?? []) as { title: string; situation: string | null; sort_order: number }[]
     const r = rows.length ? rows[dayIndex % rows.length] : null
-    if (r) flashScript = { title: r.title as string, situation: (r.situation as string | null) ?? null, sort_order: r.sort_order as number }
+    if (r) flashScript = { title: r.title, situation: r.situation ?? null, sort_order: r.sort_order }
   }
 
   // One conductor, one ask at a time. SetupPath sequences the setup steps
@@ -250,14 +254,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // made yet, they have not told us they do it on paper, and we have not
   // already asked more times than is fair. The overlay itself waits for the
   // second app open, which the client counts.
-  //
-  // Read on its own rather than folded into the profile select above, so that
-  // on any deploy where migration 103 has not been run yet the missing columns
-  // cost nothing but this one null. Putting them in the main select would take
-  // the whole profile read down with them, and Home would lose the name, the
-  // trial banner and the daily minutes over a prompt.
-  const { data: handoverRow } = await supabase
-    .from('profiles').select('handover_choice, handover_asks').eq('id', user.id).maybeSingle()
+  const handoverRow = handoverResult.data
   const handoverAsks = Number((handoverRow as { handover_asks?: number } | null)?.handover_asks ?? 0)
   const handoverChoice = (handoverRow as { handover_choice?: string | null } | null)?.handover_choice ?? null
   const handoverChild = (phoneAge && child?.id && !hasKidLink && !handoverChoice && handoverAsks < MAX_HANDOVER_ASKS)
@@ -306,16 +303,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // recent job added or changed is the honest signal: it is the part of the
   // deal a family touches. Null means there is no deal yet to review.
   let dealDaysSinceChange: number | null = null
-  try {
-    const { data: lastQuest } = await supabase
-      .from('family_quests').select('created_at')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false }).limit(1).maybeSingle()
+  {
+    const lastQuest = lastQuestResult.data
     if (lastQuest?.created_at) {
       const days = Math.floor((Date.now() - new Date(lastQuest.created_at as string).getTime()) / 86400000)
       dealDaysSinceChange = Number.isFinite(days) ? days : null
     }
-  } catch { dealDaysSinceChange = null }
+  }
 
   // Today's loop and the daily streak, both resolved server side.
   // stage.name lowercased matches the pathway stage slugs exactly
@@ -323,7 +317,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // daily deck relies on.
   const stageSlug = stage.name.toLowerCase() as PathwayStageId
   const challenge = ((profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null) as ChallengeId | null
-  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone] = await Promise.all([
+  // THE SECOND AND LAST WAVE. Everything that needed the child or the stage
+  // from wave one: the loop, the streak, the strands, plus the reads that
+  // used to trail behind as their own awaits (the lesson nudge pair, the
+  // last script's insight, the jobs board). Two waves total, not ten.
+  const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
+  const lastCompletion = lastCompletionResult.data
+  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
     getLiteracyStatuses(supabase, user.id, stage.id),
@@ -340,7 +340,31 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // name exactly which lessons to send for progress with the live count.
     supabase.from('lessons').select('id').eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub'),
     supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', user.id).eq('lesson_source', 'lesson'),
+    wantLessonNudge ? getParentLessons(supabase) : Promise.resolve({ lessons: [] as Awaited<ReturnType<typeof getParentLessons>>['lessons'] }),
+    wantLessonNudge && child?.id ? getCompletionsForChild(supabase, child.id) : Promise.resolve(new Set<string>()),
+    lastCompletion
+      ? supabase.from('scripts').select('title, why_it_works, sort_order, category').eq('sort_order', lastCompletion.script_sort_order).single()
+      : Promise.resolve({ data: null }),
+    child?.id
+      ? supabase.from('family_quests').select('id, schedule, schedule_days, created_at').eq('user_id', user.id).eq('child_id', child.id).eq('active', true)
+      : Promise.resolve({ data: null }),
+    child?.id
+      ? supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', child.id).gte('tick_date', sinceJobs)
+      : Promise.resolve({ data: null }),
   ])
+
+  // The lesson nudge pick, from the wave's reads: one age relevant film the
+  // child has not watched yet, closest at or below their stage, earliest
+  // step first.
+  if (wantLessonNudge && child) {
+    const stageNum = child.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
+    const unseen = nudgeFilms.lessons.filter(f => !nudgeWatched.has(f.lesson_code))
+    const pick = [...unseen]
+      .filter(f => f.stage_id <= stageNum)
+      .sort((a, b) => (b.stage_id - a.stage_id) || (a.journey_step - b.journey_step))[0]
+      ?? unseen[0]
+    if (pick) lessonNudge = { code: pick.lesson_code, title: pick.title, catchphrase: pick.catchphrase ?? null }
+  }
   const watchTogether = {
     total: watchTogetherTotal.count ?? 0,
     done: Math.min(watchTogetherDone.count ?? 0, watchTogetherTotal.count ?? 0),
@@ -358,35 +382,14 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     ? { total: stageLessonIds.size, passed: stagePassed.size }
     : null
 
-  // Last completed script insight
-  const { data: lastCompletion } = await supabase
-    .from('script_completions')
-    .select('script_sort_order, completed_at')
-    .eq('user_id', user.id)
-    .order('completed_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  let lastInsight: { title: string; why_it_works: string; sort_order: number; category: string | null } | null = null
-  if (lastCompletion) {
-    const { data: lastScript } = await supabase
-      .from('scripts')
-      .select('title, why_it_works, sort_order, category')
-      .eq('sort_order', lastCompletion.script_sort_order)
-      .single()
-    if (lastScript) lastInsight = lastScript
-  }
+  // Last completed script insight, from the second wave's read.
+  const lastInsight: { title: string; why_it_works: string; sort_order: number; category: string | null } | null =
+    lastScriptResult.data ?? null
 
   // Monthly wellbeing check in: due when it has never been done, or the last
   // one was more than 28 days ago. A gentle prompt, not a nag, and only once
   // the core setup is behind them so day one stays calm.
-  const { data: lastCheckin } = await supabase
-    .from('wellbeing_checkins')
-    .select('created_at')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
+  const lastCheckin = lastCheckinResult.data
   // WHAT THIS FAMILY HAS NOT MET YET, for the discover slot in the flash up
   // rotation below.
   //
@@ -421,11 +424,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   let jobsStatus: 'on_track' | 'pending' | 'none' | undefined
   let jobsStreakDays = 0
   if (child?.id) {
-    const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
-    const [jqRes, jtRes] = await Promise.all([
-      supabase.from('family_quests').select('id, schedule, schedule_days, created_at').eq('user_id', user.id).eq('child_id', child.id).eq('active', true),
-      supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', child.id).gte('tick_date', sinceJobs),
-    ])
     const jq = (jqRes.data ?? []) as StreakQuest[]
     const jt = (jtRes.data ?? []) as StreakTick[]
     jobsStatus = jobsTodayStatus(jq, jt)

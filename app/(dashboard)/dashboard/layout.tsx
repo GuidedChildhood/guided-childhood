@@ -14,10 +14,6 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: profile } = user
-    ? await supabase.from('profiles').select('full_name, subscription_tier, subscription_status').eq('id', user.id).single()
-    : { data: null }
-
   // Everything actually waiting on the parent, as ONE number.
   //
   // Justin: "on quest it says 1 in red on home page, click on it and you get
@@ -37,15 +33,20 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // are answered on the same "Waiting for you" tab, so they are one count. The
   // tile reads the same union (board-status), so the numbers now agree wherever
   // a parent looks.
-  const [ticksRes, asksRes] = user
+  // The profile rides in the same wave: this layout renders on every page,
+  // so a separate await here was one extra database round trip on every
+  // single navigation.
+  const [ticksRes, asksRes, profileRes] = user
     ? await Promise.all([
         supabase.from('quest_ticks').select('id', { count: 'exact', head: true })
           .eq('user_id', user.id).eq('status', 'pending'),
         supabase.from('quest_requests').select('id', { count: 'exact', head: true })
           .eq('user_id', user.id).eq('status', 'pending'),
+        supabase.from('profiles').select('full_name, subscription_tier, subscription_status').eq('id', user.id).single(),
       ])
-    : [{ count: 0 }, { count: 0 }]
+    : [{ count: 0 }, { count: 0 }, { data: null }]
   const pendingAsks = (ticksRes.count ?? 0) + (asksRes.count ?? 0)
+  const profile = (profileRes as { data: { full_name: string | null; subscription_tier: string | null; subscription_status: string | null } | null }).data
 
   const isPaid = profile?.subscription_status === 'active'
 

@@ -5383,3 +5383,10 @@ owns the notification permission machinery and the setup anchor, and a row
 saying the same thing on the same screen would be a second voice. The count
 volume already existed as the quests tab chip. /ref-needs-you shows both
 pieces without a login.
+
+**Home now loads in two database waves, not ten (same PR 726).** Justin:
+"opening the app seems a little slow also". The Home server component ran
+about ten awaits in sequence, each a full round trip to the database before
+any HTML left the server, and the dashboard layout added one more on every
+page. Same reads, same meaning, now two parallel waves on Home and one on
+the layout. Nothing about what renders changed.
