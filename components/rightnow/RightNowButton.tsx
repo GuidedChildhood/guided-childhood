@@ -441,6 +441,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
             <BoltIcon />
           </span>
           <span style={{
+            fontFamily: 'var(--font-mono)',
             fontSize: 'var(--text-xs)',
             fontWeight: 600,
             letterSpacing: '.05em',

@@ -99,7 +99,7 @@ export default async function SharedMomentPage({ params }: { params: Promise<{ i
               background: 'rgba(255,255,255,0.65)', borderRadius: '14px', padding: '14px 16px',
               borderLeft: `3px solid ${look.band}`,
             }}>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: look.band, marginBottom: 6 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: look.band, marginBottom: 6 }}>
                 Try this tonight
               </p>
               <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>

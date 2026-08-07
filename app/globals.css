@@ -106,11 +106,17 @@
      doing the job of two, chosen a component at a time by whoever was there.
      42 percent sat under 14px.
 
-     Sizes are unitless px numbers so they can be used from inline styles, which
-     is how this codebase is written:  fontSize: 'var(--text-base)'.
+     Sizes are rem so the phone's own text size setting reaches every screen.
+     They were px until 7 August 2026, which meant a parent who had turned
+     their text up in settings got bigger text in every other app on their
+     phone and nothing from us. rem computes against the root, the root tracks
+     the user's setting (see the html rule below for how iOS joins in), and
+     because every component reads these through var() the whole app follows
+     from this one block. At the default setting nothing moves: 1rem is 16px,
+     so each value below lands exactly where its old px value did.
 
      These live UNDER the zoom on body, currently 1.07, so the number here is
-     not what lands on the glass. Base 16 renders about 17, which is the size
+     not what lands on the glass. Base 1rem renders about 17, which is the size
      Duolingo and Good Inside both settle on for body. Change the zoom and every
      one of these moves with it, which is the point of having both.
 
@@ -120,14 +126,14 @@
        letterspaced ones the design system asks for. Small is deliberate there
        because the label is scaffolding around the thing, not the thing. If it
        is a sentence a parent has to read, it starts at --text-base. */
-  --text-xs:    12px;   /* mono eyebrows and labels ONLY, never a sentence */
-  --text-sm:    14px;   /* timestamps, captions, the quiet second line */
-  --text-base:  16px;   /* body. The default. Reach for this first */
-  --text-md:    17px;   /* body that carries weight, list rows, buttons */
-  --text-lg:    19px;   /* card titles, the lead line of a section */
-  --text-xl:    22px;   /* section headings */
-  --text-2xl:   28px;   /* page headings */
-  --text-3xl:   34px;   /* the one big number on a card */
+  --text-xs:    0.75rem;    /* 12  mono eyebrows and labels ONLY, never a sentence */
+  --text-sm:    0.875rem;   /* 14  timestamps, captions, the quiet second line */
+  --text-base:  1rem;       /* 16  body. The default. Reach for this first */
+  --text-md:    1.0625rem;  /* 17  body that carries weight, list rows, buttons */
+  --text-lg:    1.1875rem;  /* 19  card titles, the lead line of a section */
+  --text-xl:    1.375rem;   /* 22  section headings */
+  --text-2xl:   1.75rem;    /* 28  page headings */
+  --text-3xl:   2.125rem;   /* 34  the one big number on a card */
 
   /* ── RADIUS ── */
   --radius-btn:   16px;
@@ -138,11 +144,23 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 
+/* iOS does not let a web page hear the Dynamic Type setting unless the page is
+   sized from the system body font, so the root adopts it and everything rem
+   sized follows the dial. The font shorthand drags the system family in with
+   it, which is why body immediately reasserts Nunito below: the family never
+   reaches the glass, only the size does. Browsers that do not know
+   -apple-system-body skip this block entirely and rem keeps tracking their own
+   text size setting, which is Android's and the desktop's version of the same
+   dial. */
+@supports (font: -apple-system-body) {
+  html { font: -apple-system-body; }
+}
+
 body {
   background: var(--white);
   color: var(--ink);
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   /* One global readability dial for both apps. The interface is built in fixed

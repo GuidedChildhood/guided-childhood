@@ -180,7 +180,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
             }}>
               {moment.title}
             </p>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
               {moment.category}
             </p>
           </div>
