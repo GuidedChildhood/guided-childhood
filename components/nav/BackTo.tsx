@@ -35,6 +35,11 @@ const ORIGINS: Record<string, { href: string; label: string }> = {
   passport: { href: '/dashboard/pathway', label: 'Passport' },
   pathway: { href: '/dashboard/pathway', label: 'Pathway' },
   home: { href: '/dashboard', label: 'Home' },
+  // Back to the checkup card itself, not the top of Home. Justin: "once done
+  // the fix, return to where you clicked fix so they can run down list." A
+  // parent working through four red strands should find the next one where
+  // they left it, not scroll Home again after every single fix.
+  'home-check': { href: '/dashboard#home-check', label: 'the check list' },
   quests: { href: '/dashboard/quests', label: 'Quests' },
   school: { href: '/dashboard/school', label: 'School' },
 }

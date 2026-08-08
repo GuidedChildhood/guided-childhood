@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { withOrigin } from '@/components/nav/BackTo'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { STAGES } from '@/lib/content/stages'
 import { READINESS } from '@/lib/content/readiness'
@@ -64,7 +65,22 @@ export type StrandTone = 'green' | 'red' | 'grey'
 // depending on what is actually wrong, and it used to be dropped on the floor
 // right here. A pill that says "fix this" and does nothing is worse than a
 // pill that says nothing.
-export type Strand = { key: string; name: string; tone: StrandTone; href?: string }
+export type Strand = {
+  key: string
+  name: string
+  tone: StrandTone
+  href?: string
+  /**
+   * The one concrete thing that turns the cross back into a tick.
+   *
+   * getLiteracyStatuses has always worked this out (AreaStatus.improve) and it
+   * was dropped on the floor here, exactly as href once was. Justin, 8 August
+   * 2026: "fix it needs to be clearer and take you to exactly the bit to do to
+   * fix it." The sentence that does that already existed; it just never reached
+   * the screen.
+   */
+  improve?: string
+}
 
 // Each strand starts at a stage; before it, the dot stays quietly grey rather
 // than pretending progress. The single copy of this rule.
@@ -79,6 +95,7 @@ export function strandsFor(currentStage: number, statuses: Partial<Record<string
       name: LITERACY_AREAS[k].name,
       tone: live ? live.tone : active ? 'green' : 'grey',
       href: live?.href,
+      improve: live?.improve,
     }
   })
 }
@@ -96,37 +113,104 @@ const TONE_DOT: Record<StrandTone, string> = {
 // onNavigate is for callers that live in an overlay. The DiGi welcome sheet
 // sits over Home, so following a link has to close the sheet first or the
 // parent lands on the right page with the sheet still covering it.
-export function StrandPills({ strands, onNavigate }: { strands: Strand[]; onNavigate?: () => void }) {
+export function StrandPills({ strands, onNavigate, from }: {
+  strands: Strand[]
+  onNavigate?: () => void
+  /** Where a parent came from, so every fix carries the way back. */
+  from?: string
+}) {
   const anyRed = strands.some(s => s.tone === 'red')
   const anyFixable = strands.some(s => s.tone === 'red' && s.href)
   return (
     <div>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {strands.map(s => {
           const red = s.tone === 'red'
           // Only a red strand with somewhere to go becomes a link. A red one
-          // without an href keeps its old look and, crucially, loses the "fix
-          // this" arrow, because promising a tap that does nothing is the
-          // thing being fixed here.
+          // without an href keeps its look and, crucially, loses the arrow,
+          // because promising a tap that does nothing is the thing being fixed.
           const linked = red && !!s.href
           const inner = (
             <>
-              <span aria-hidden style={{ width: 10, height: 10, borderRadius: '50%', background: TONE_DOT[s.tone], flexShrink: 0, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 'var(--text-sm)', fontWeight: 900 }}>{s.tone === 'green' ? '✓' : ''}</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: red ? '#93392A' : 'var(--ink)', whiteSpace: 'nowrap' }}>{s.name}</span>
+              <span aria-hidden style={{
+                width: 11, height: 11, borderRadius: '50%', background: TONE_DOT[s.tone],
+                flexShrink: 0, marginTop: 5,
+              }} />
+              <span style={{ flex: 1, minWidth: 0 }}>
+                <span style={{
+                  display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)',
+                  fontWeight: 800, color: red ? '#93392A' : 'var(--ink)', lineHeight: 1.3,
+                }}>
+                  {s.name}
+                </span>
+                {/* THE ONE THING TO DO, in the parent's own words rather than
+                    "fix this". getLiteracyStatuses already knows what it is. */}
+                {red && s.improve && (
+                  <span style={{
+                    display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
+                    lineHeight: 1.4, marginTop: 2,
+                  }}>
+                    {s.improve}
+                  </span>
+                )}
+              </span>
               {linked && (
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#93392A', whiteSpace: 'nowrap' }}>· fix this →</span>
+                <span aria-hidden style={{
+                  // Centred on the row rather than pinned to the first line: a
+                  // chevron floating beside a heading reads as decoration, and
+                  // beside the middle of the row it reads as "this opens".
+                  alignSelf: 'center', flexShrink: 0,
+                  width: 24, height: 24, borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: '#F6DDD7', color: '#93392A',
+                  fontFamily: 'var(--font-display)', fontWeight: 900,
+                  fontSize: 'var(--text-md)', lineHeight: 1,
+                }}>
+                  ›
+                </span>
               )}
             </>
           )
+          // A ROW, NOT A PILL, AND THAT IS THE WHOLE FIX FOR THE OVERFLOW.
+          //
+          // Justin, 8 August 2026: "lengths of text seem to go over edge."
+          //
+          // These were inline-flex pills with nowrap on the name AND on the
+          // "fix this" suffix, so each one sized itself to its own text and
+          // could not shrink. "Social media ready · fix this" is wider than a
+          // 390px phone once body zoom 1.07 has taken its 6.5 per cent, so the
+          // pill pushed past the card and took the whole document sideways
+          // with it. Wrapping the row could never help: flex-wrap moves pills
+          // to the next line, it does not make one narrow enough to fit.
+          //
+          // A full width row cannot overflow by construction: the name column
+          // is `flex: 1, minWidth: 0` and wraps, and the only fixed things are
+          // an 11px dot and a chevron.
+          //
+          // MOBBIN, 8 August 2026, on how a checkup list is actually built.
+          // KakaoTalk, Coinbase, Uber and GoPay all do the same thing and none
+          // of them uses a chip: full width row, the problem in bold, the one
+          // thing to do underneath, a chevron on the right.
+          // https://mobbin.com/screens/c2b4188e-61b8-4708-925f-3904be6f88b6
+          // https://mobbin.com/screens/5dc8f411-e4c2-4886-b78d-8549536c01c3
+          // It is also the shape Justin asked for: "so they can run down list".
           const shell: React.CSSProperties = {
-            display: 'inline-flex', alignItems: 'center', gap: 7,
+            display: 'flex', alignItems: 'flex-start', gap: 10,
             background: red ? '#FDF0EE' : 'var(--cream)',
             border: `1.5px solid ${red ? '#E8C4BC' : 'var(--border)'}`,
-            borderRadius: 100, padding: '7px 14px',
+            borderRadius: 14, padding: '11px 13px',
             opacity: s.tone === 'grey' ? 0.55 : 1,
           }
           return linked ? (
-            <Link key={s.key} href={s.href!} onClick={onNavigate} style={{ ...shell, textDecoration: 'none' }}>
+            <Link
+              key={s.key}
+              // The way back travels WITH the link, so the fix page can offer a
+              // return to the list rather than dropping the parent at Home with
+              // three more red rows to go and find again.
+              href={from ? withOrigin(s.href!, from) : s.href!}
+              onClick={onNavigate}
+              style={{ ...shell, textDecoration: 'none' }}
+            >
               {inner}
             </Link>
           ) : (
@@ -136,9 +220,9 @@ export function StrandPills({ strands, onNavigate }: { strands: Strand[]; onNavi
       </div>
       {/* One quiet line so the dots explain themselves at a glance. It only
           offers the tap when there is genuinely one to make. */}
-      <p style={{ margin: '8px 2px 0', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
+      <p style={{ margin: '10px 2px 0', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.4 }}>
         {anyFixable
-          ? 'A red one needs one thing doing. Tap it to go straight to the fix.'
+          ? 'Tap a red one to go straight to the fix, then come back for the next.'
           : anyRed
           ? 'A red one needs one thing doing.'
           : 'Green means on track for their age. Grey comes later, at the right age.'}

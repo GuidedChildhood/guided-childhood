@@ -58,7 +58,9 @@ export default function RoadToSixteen({
 
       {/* The same four strands the pathway page tracks, in the same pills */}
       <div style={{ marginBottom: 13 }}>
-        <StrandPills strands={strandsFor(current, statuses)} />
+        {/* The pathway page is its own list to work down, so a fix taken from
+            here comes back here rather than to Home. */}
+        <StrandPills strands={strandsFor(current, statuses)} from="pathway" />
       </div>
 
       <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)' }}>
