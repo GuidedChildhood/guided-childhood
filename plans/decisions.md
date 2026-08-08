@@ -5471,3 +5471,13 @@ no button, so the only way to fill the pen was to wait for Sunday. The
 wisdom review page now carries Run the rebuild now, same implementation as
 the cron, writes to the pen only, so the first batch can be pulled and
 reviewed today.
+
+**The service catalogue is one file and it grew three entries (8 Aug).**
+Justin: "every single piece of service and benefit, why and problems solved,
+so we have it all saved somewhere." That file already existed as
+content/brand-story/service-post-map.md, eighteen services each with problem,
+what we made, hinge, hook and proof path. It now carries entries 19 to 21 for
+the week's builds (the child's own scripts, the evidence of how far you have
+come, DiGi's follow ups) and a standing rule in the header: when something
+new ships and a parent can touch it, it gets an entry the same week. Entry 21
+deliberately waits for real follow ups before it earns a Friday post.
