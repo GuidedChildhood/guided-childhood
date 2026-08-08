@@ -158,9 +158,12 @@ Never one shot the page. Sequence per stage, in plan mode first:
 9. Testimonials and the 30 day guarantee.
 10. Final CTA to /starter-pack.
 
-## Decisions still needed from Justin
+## Decisions locked (Justin, 8 Aug 2026)
 
-1. DONE: message locked (option 1 plus the two pillars above).
-2. Confirm the hero asset direction: real family photo territory or digi squad
-   illustrated world (recommendation: illustrated, we own it and it is consistent).
-3. Confirm PassportSection stays on the homepage or moves to /passport.
+1. Message locked (option 1 plus the two pillars above).
+2. Hero: illustrated digi squad world, styled for a parent audience, with the
+   Digital Passport as the aspirational image and selling point.
+3. PassportSection stays on the homepage (spine slot 6, the finish line).
+4. Digital Health Checker: footer link only, not a primary CTA anywhere.
+5. Stage 1 research complete; Stage 2 copy drafted in plans/homepage-spine-copy.md,
+   awaiting Justin's copy approval before Stage 3.
