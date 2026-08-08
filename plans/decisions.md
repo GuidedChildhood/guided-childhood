@@ -5481,3 +5481,15 @@ the week's builds (the child's own scripts, the evidence of how far you have
 come, DiGi's follow ups) and a standing rule in the header: when something
 new ships and a parent can touch it, it gets an entry the same week. Entry 21
 deliberately waits for real follow ups before it earns a Friday post.
+
+## 8 August 2026 — Homepage rebuilt around one message
+Justin locked the hero: "A clear digital pathway from first screen to 16."
+Ten minutes a day is the single time claim, with the catch up promise
+(miss days, the pathway catches you up). Digital Health Checker is footer
+link only. Hero and stage cards use the Planet Friends CDN art with the
+passport as the finish line. Every CTA routes to /starter-pack including
+both paid pricing buttons (were /join). Page went from 2,930 lines and 34
+blocks to a 10 section spine; TRUST method, schools section and FAQ
+accordion left the homepage (live at /pathway, /schools, JSON-LD kept).
+Research base: research/homepage-audience-language.md and
+plans/homepage-section-audit.md.
