@@ -670,9 +670,12 @@ export default function ManageJobs({
                 {waiting.map(t => {
                   const q = questById.get(t.quest_id)
                   return (
-                    <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px' }}>
+                    <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px', flexWrap: 'wrap' }}>
                       <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{q?.emoji ?? '⭐'}</span>
-                      <span style={{ flex: 1, minWidth: 0 }}>
+                      {/* minWidth 140 so a long job title wraps the button to
+                          the next line instead of being squeezed one word a
+                          line beside it, same as the asks rows below. */}
+                      <span style={{ flex: 1, minWidth: 140 }}>
                         <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
                           {q?.title ?? 'A job'}
                         </span>

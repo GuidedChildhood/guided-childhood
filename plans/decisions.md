@@ -5706,3 +5706,16 @@ app's big text scale the fixed right column (chip, padlock, Go) starved
 titles into one word a line beside a field of empty card. The chip, the
 padlock and Go now sit under the words, which costs the sentence nothing
 at any scale.
+
+**The squeezed row sweep, and the layout rule it leaves behind (8 Aug).**
+Justin, on the parent Home next up card: "make sure we don't have messy
+text vertically like this." Same fault as the child lesson cards, all over
+the app: a flex row with a flex 1 sentence beside a fixed width padded
+pill and no wrap, so at larger phone text sizes the pill keeps its width
+and the sentence stacks one word a line. A sweep matched 54 rows; ten were
+real (Home next up and finish setting up, quests Share, Sunday check in
+Start, Back to today, install banner, job balance Review jobs, Spot
+something good, weekly roundup glances, manage jobs Done) and each moves
+the action under the words, or wraps where the button belongs beside short
+titles. The rule for new UI: a sentence and a fixed pill never share a
+flex row without a wrap. PR 740.

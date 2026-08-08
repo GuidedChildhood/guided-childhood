@@ -132,6 +132,8 @@ export default function InstallPrompt() {
             ))}
           </span>
         </span>
+        {/* Button under the words, not beside them: as a third column it
+            squeezed the title one word a line at larger text sizes. */}
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: '#fff', lineHeight: 1.25 }}>
             Put Guided Childhood on your Home Screen
@@ -139,18 +141,18 @@ export default function InstallPrompt() {
           <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4, marginTop: '2px' }}>
             Full screen, one tap away, and check ins can reach you.
           </span>
+          <button
+            onClick={() => platform === 'ios' ? setMode('ios-sheet') : androidInstall()}
+            style={{
+              background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px',
+              padding: '9px 14px', cursor: 'pointer', display: 'inline-block', marginTop: '9px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+              boxShadow: '0 3px 0 var(--terracotta-dark)',
+            }}
+          >
+            {platform === 'ios' ? 'Show me' : 'Install'}
+          </button>
         </span>
-        <button
-          onClick={() => platform === 'ios' ? setMode('ios-sheet') : androidInstall()}
-          style={{
-            background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '12px',
-            padding: '10px 14px', cursor: 'pointer', flexShrink: 0,
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            boxShadow: '0 3px 0 var(--terracotta-dark)',
-          }}
-        >
-          {platform === 'ios' ? 'Show me' : 'Install'}
-        </button>
         <button
           onClick={markDone}
           aria-label="Not now"
