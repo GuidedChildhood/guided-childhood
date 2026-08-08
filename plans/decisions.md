@@ -5992,3 +5992,36 @@ statement so two tabs cannot both pass.
 correct because `profiles.subscription_status` is NOT NULL default `'free'`,
 checked against the live schema. If that constraint is ever dropped, the filter
 silently stops granting trials and must become an explicit is null or neq.
+
+## 8 August 2026 — the See their lessons button was already right, and looked broken
+
+Justin, from his phone: "This button doesn't [work] it should show just the age
+related lessons."
+
+**It was already showing just those.** `onSeeStage` called `setStage(childStageNum)`,
+and the Lessons tab sets exactly that on entry, so the button was setting the
+filter to the value it already held. A no op. The list underneath had been
+filtered to the child's stage the whole time.
+
+**Two things made it read as broken, and both are real.**
+
+1. **The selected chip sat off screen.** The chip row scrolls sideways and the
+   child's own stage is the fifth chip. On a 390px phone only "All ages" and
+   "Stage 1" fit, so the row looked like nothing was selected. From where a
+   parent is sitting, an invisible filter and no filter are the same thing.
+   The active chip now scrolls itself into view, centred, whenever the stage or
+   the view changes.
+2. **Tapping it moved nothing on screen.** The card sits above the list, so even
+   a real filter change happens below the fold. The button now also scrolls the
+   list into view, so it lands somewhere.
+
+**The browser had no fixture at all**, which is why one control a parent uses
+constantly had never been driven outside a signed in session. `/dev/lessons-filter`
+renders it with a Stage 4 child and lessons across all five stages, the shape
+that makes the overflow visible. Driven in Chromium at 390px: the chip reads
+"Stage 4 · 13 to 15 · Teo" and is on screen at load, the tap moves the page 325
+pixels onto the Shaper route, and the list holds stage 4 tiles only.
+
+Writing the fixture also surfaced that the banner counts only ids starting with
+`lesson-`, the family library set, so a fixture with invented ids renders no
+card at all. Recorded because the next person to write one will hit it too.
