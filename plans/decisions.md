@@ -5400,3 +5400,50 @@ on the thumb side (right edge) where ours tick left, and a count inside a row
 reads better as a subline word than a chip. Good Inside is not on Mobbin, so
 its part of the review stays sourced from our reference notes, permanently.
 All four phases of the type plan are now complete.
+
+## 8 August 2026: setting up a screen is per screen, not per guide (migration 169)
+
+Justin, having added two devices: "I've added these devices and it is
+automatically saying set up although I haven't." `device_setup_progress` was
+keyed `(user_id, device_key)` where `device_key` names one of our GUIDES, and
+one guide covers more than one screen: `iphone` is the guide called "iPhone and
+iPad". A house with both had two rows in `family_devices` pointing at one row in
+progress, so ticking the iPhone ticked the iPad.
+
+Not a display bug. Screen Time is set on the device, so that tick was the app
+telling a parent their child was protected on a screen nobody had touched.
+
+Migration 169 lets a progress row belong to a family device. Guide level rows
+keep their meaning for the coverage board and the catalogue and are still
+written when a screen is ticked, so the board goes green off real work. Only the
+reverse stopped. Ticks already earned are carried onto the longest owned screen
+of their guide, and where two screens share a guide the newer one is left
+honestly blank: an unticked screen that is set up costs a parent one tap, a
+ticked screen that is not costs a child their protection.
+
+Constraint shape worth remembering: `unique nulls not distinct (user_id,
+device_key, family_device_id)`, not two partial indexes. PostgREST can name a
+constraint on conflict and cannot name a partial index predicate, so partial
+indexes would have broken every upsert the table takes.
+
+## 8 August 2026: the child gets the week, read only
+
+Justin: "we could build same viewer on child's phone so they can see their
+week." Same data, different screen. The parent's version is seven rows with a
+tick, a cross and an add on each item because a parent is planning; the child is
+answering "what do I need tomorrow" and "is Cubs Thursday or Friday".
+
+Mobbin: the hour grid apps (Outlook, Amie, Evernote) are wrong here for the same
+reason they were wrong on the parent's version, school reminders are all day
+things. Saturn Calendar is the pattern, a school timetable for teenagers: a
+strip of seven days with a dot on the ones that have something, then that one
+day as a big list.
+
+Read only, and that is the decision rather than an omission. Clearing a school
+reminder is the grown up saying the thing is handled, and a child ticking "paid
+for the trip" would put a wrong fact on their parent's list.
+
+Standing note for the child app: text sits on an anthracite background, so
+headings are white, never `var(--ink)`, and past states dim by colour, never by
+opacity. The balance page still sets `var(--ink)` on its h1 and is nearly
+invisible; it is on the list.
