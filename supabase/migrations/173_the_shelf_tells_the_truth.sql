@@ -1,4 +1,4 @@
--- 172: the shelf tells the truth.
+-- 173: the shelf tells the truth.
 --
 -- The 44 parent lesson stubs become real lessons. Every deck follows the
 -- proven seven slide arc (title, objective, teach, practise, prove, DiGi

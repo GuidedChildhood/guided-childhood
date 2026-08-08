@@ -5745,4 +5745,4 @@ standing: Rosenshine arc built into the player, wrong answers explained
 kindly, sensitive teenage lessons name the pattern honestly with no blame
 and the real reporting route (CEOP), no invented statistics, no dashes.
 Machine validated against the slide contract before touching the
-database. Migration 172.
+database. Migration 173 (172 was claimed by streak week seen while this was being written).
