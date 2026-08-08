@@ -5481,3 +5481,17 @@ the week's builds (the child's own scripts, the evidence of how far you have
 come, DiGi's follow ups) and a standing rule in the header: when something
 new ships and a parent can touch it, it gets an entry the same week. Entry 21
 deliberately waits for real follow ups before it earns a Friday post.
+
+## 8 August 2026, evening: phase 1 of the curriculum depth plan is built
+
+**This week at school.** The 448 objectives gained a week: a deterministic
+walk through the term (lib/learning/this-week.ts), no model call, same
+objective all week, a new one on Monday. Delivered through what already
+existed: a Today card row that puts away until next Monday, a strip on the
+learning page with the objective and the dinner table frame, and Make it a
+job prefilling the quest composer through the pendingTitle mechanism it
+already had (two stars, the same weight as the homework templates). In the
+holidays it previews what starts when they go back, said as a preview,
+because this week in August would be a small lie. Other countries, per
+Justin's note: the curriculum slug is an explicit parameter, and a child we
+cannot place in the England system gets no brief rather than a wrong one.

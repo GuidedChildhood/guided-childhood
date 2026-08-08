@@ -18,6 +18,7 @@ export default function RefNeedsYou() {
         childApp={{ childName: 'Teo' }}
         dealReview={{ daysSinceChange: 21 }}
         deviceSetup={{ stageId: 2, stageName: 'Builder' }}
+        weekBrief={{ childName: 'Teo', lead: 'count to and across 100, forwards and backwards, beginning with 0 or 1', preview: false }}
       />
     </div>
   )

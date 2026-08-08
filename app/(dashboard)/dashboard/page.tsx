@@ -56,6 +56,7 @@ import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-l
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
+import { getWeekBrief } from '@/lib/learning/this-week'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
@@ -94,7 +95,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // Same reads, same order of meaning, one round trip of latency.
   const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
     supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes').eq('id', user.id).maybeSingle(),
-    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
+    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
@@ -325,7 +326,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // last script's insight, the jobs board). Two waves total, not ten.
   const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
   const lastCompletion = lastCompletionResult.data
-  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes] = await Promise.all([
+  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
     getLiteracyStatuses(supabase, user.id, stage.id),
@@ -353,6 +354,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     child?.id
       ? supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', child.id).gte('tick_date', sinceJobs)
       : Promise.resolve({ data: null }),
+    // This week at school, for the Today card row. Null without a birthday or
+    // outside Years 1 to 6, the same honest gate every curriculum surface has.
+    getWeekBrief(supabase, (child as { date_of_birth?: string | null } | null)?.date_of_birth ?? null),
   ])
 
   // The lesson nudge pick, from the wave's reads: one age relevant film the
@@ -576,6 +580,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         childApp={!childAppLive && handoverChoice !== 'paper' ? { childName: child?.name ?? null } : null}
         dealReview={dealDaysSinceChange !== null && dealDaysSinceChange >= 14 ? { daysSinceChange: dealDaysSinceChange } : null}
         deviceSetup={setupComplete ? { stageId: stage.id, stageName: stage.name } : null}
+        weekBrief={weekBrief ? {
+          childName: child?.name && child.name !== 'Your child' ? child.name : null,
+          lead: weekBrief.lead,
+          preview: weekBrief.preview,
+        } : null}
       />
       {/* DiGi comes up first, once a day, greeting the family by name */}
       <DigiWelcomeSheet
