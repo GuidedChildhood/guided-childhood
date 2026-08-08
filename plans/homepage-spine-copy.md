@@ -6,9 +6,9 @@ every button routes to /starter-pack. Health checker appears in the footer only
 (Justin, 8 Aug 2026). Hero is the illustrated digi squad world, styled for parents
 not children, with the Digital Passport as the aspirational object (Justin, 8 Aug 2026).
 
-Daily time claim: the current page says ten minutes in three places and five in
-three. This draft says TEN minutes a day everywhere. It is the honest number and
-survives a hostile reader. Justin can override to five with one word.
+Daily time claim: LOCKED (Justin, 8 Aug 2026). Ten minutes a day, and it does
+not have to be every day: miss a few days and the pathway catches you up. The
+catch up promise appears wherever the ten minutes claim does.
 
 ---
 
@@ -75,7 +75,8 @@ Start at 4 or start at 13. The pathway meets your child where they are.
 Guardrails you teach. Not gates you lock.
 
 Three cards (ported from How it helps, lines 760 to 778):
-1. Ten minutes a day. One lesson, one conversation, done.
+1. Ten minutes a day. One lesson, one conversation, done. Miss a few days
+   and the pathway catches you up. Life happens, the plan holds.
 2. The road to 16. Every stage mapped, every stamp earned.
 3. They earn their screen time. Stars, quests, and a timer they respect
    because they set it with you.
@@ -95,6 +96,12 @@ agreement · the wellbeing tracker · curriculum tracking with the road to 16.
 
 Plus the quiet line: printables in English and Spanish, 24 learning games,
 school activity messages home.
+
+Child app moment (Justin, 8 Aug 2026): their own app, shown from the child's
+side. They check their jobs, request new ones, and watch their own device
+balance, so screen time becomes something they manage, not something done to
+them. No device of their own yet? Everything works offline through your app,
+so a six year old can hold their first jobs list years before their first phone.
 
 Visual: SeeInside component, real product screenshots.
 
