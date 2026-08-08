@@ -5787,3 +5787,16 @@ start and not a verdict" straight from the wisdom.ts comment rather than letting
 it grow more confident on the way into an inbox.
 
 No migration. email_log already takes any email_key.
+**The four day funnel's pushes, and the child's school week card (8 Aug).**
+Justin: yes to both. Three trial pushes ride the trial clock daily at
+08:30 UTC: days left 3 the value push leading with the family's own
+approved tick count, days left 2 the honest warning that full access ends
+tomorrow, days left 1 the last call with the live founder seats count.
+Once only through email_log with push keys, never to payers, insert first
+so the unique index is the lock. And phase 2 of the curriculum plan: the
+week's school objective lands on the child's Learn tab as ONE calm card a
+week, never a feed, no notifications at the child. The child taps that
+they practised it, the tap becomes a pending quest tick like a game, the
+parent approves, three stars land. The server recomputes the objective
+from date of birth and dedupes per week; in the holidays there is no card
+at all.

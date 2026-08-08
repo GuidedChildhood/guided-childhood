@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import NavTabs from '@/components/dashboard/NavTabs'
 import NotificationsBell from '@/components/dashboard/NotificationsBell'
 import MobileTabBar from '@/components/dashboard/MobileTabBar'
+import OpenAtTheTop from '@/components/dashboard/OpenAtTheTop'
 import RightNowButton from '@/components/rightnow/RightNowButton'
 import InstallPrompt from '@/components/pwa/InstallPrompt'
 import AppBadge from '@/components/pwa/AppBadge'
@@ -119,6 +120,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <SetupNextBar />
 
       {/* Mobile bottom tab bar: Home, Scripts, DiGi, Quests, Progress */}
+      {/* Reopening the app lands at the top, not halfway down where it was
+          left. Here rather than on each page so every dashboard route gets it. */}
+      <OpenAtTheTop />
+
       <MobileTabBar pendingAsks={pendingAsks ?? 0} />
 
       {/* Help now: a floating action just above the tab bar on mobile (and the

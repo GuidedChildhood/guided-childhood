@@ -129,7 +129,7 @@ function knownAccent(a: string | null | undefined): a is string {
 }
 
 export default function KidQuestScreen({
-  token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
+  token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
   adventures = [], bank = null, holidayLine = null, holidayMinutes = 0, holidaySpendable = false,
   usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], schoolWeekCount = 0, notes = [], agreementItems = [], agreementSigned = false,
@@ -180,6 +180,8 @@ export default function KidQuestScreen({
   laterQuests?: { title: string; emoji: string; schedule: string }[]
   doneLessonKeys?: string[]
   missions?: KidMission[]
+  /** This week's school objective as one calm card, null in the holidays. */
+  weekMission?: { line: string; second: string | null; state: 'open' | 'pending' | 'done' } | null
   adventures?: KidAdventure[]
   bank?: StarBank | null
   // The holiday bank, already put into words on the server so the copy has one
@@ -308,6 +310,8 @@ export default function KidQuestScreen({
   const [activeLesson, setActiveLesson] = useState<KidLesson | null>(null)
   const [activeGame, setActiveGame] = useState<QuestGame | null>(null)
   const [doneGames, setDoneGames] = useState<Set<string>>(new Set())
+  // The school week card's claim state, optimistic on tap.
+  const [weekState, setWeekState] = useState<'open' | 'pending' | 'done'>(weekMission?.state ?? 'open')
   const [lessonCard, setLessonCard] = useState(0)
   const [qIndex, setQIndex] = useState(0)
   const [qAnswers, setQAnswers] = useState<number[]>([])
@@ -886,6 +890,23 @@ export default function KidQuestScreen({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, game_key: game.key }),
+      })
+    } catch { /* best effort, the next load reconciles */ }
+  }
+
+  // This week's school mission claimed: one tap, one pending tick, stars
+  // when the grown up approves. Optimistic to pending; the server recomputes
+  // the objective itself and dedupes per week.
+  async function recordSchoolWeek() {
+    if (weekState !== 'open') return
+    setWeekState('pending')
+    setToast('3 stars sent to your grown up! ⭐')
+    setTimeout(() => setToast(null), 3500)
+    try {
+      await fetch('/api/quests/lesson-complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, school_week: true }),
       })
     } catch { /* best effort, the next load reconciles */ }
   }
@@ -2408,6 +2429,37 @@ export default function KidQuestScreen({
                       ))}
                     </>
                   )}
+                </>
+              )}
+
+              {/* This week at school: one calm card a week, never a feed.
+                  The same objective the grown up sees on their Home, worded
+                  for the child, paying stars through the normal approve
+                  loop. Absent entirely in the school holidays. */}
+              {activeLessonTab === 'learn' && weekMission && (
+                <>
+                  <SectionHead kidIcon="star">From school this week</SectionHead>
+                  <button
+                    onClick={recordSchoolWeek}
+                    disabled={weekState !== 'open'}
+                    style={bigCardShell(weekState !== 'open')}
+                  >
+                    <CardFace
+                      seed="school-week"
+                      done={weekState === 'done'}
+                      emoji={weekState === 'done' ? '🏆' : '📘'}
+                      title={weekMission.line}
+                      subtitle={
+                        weekState === 'done' ? 'Approved! Stars landed ⭐'
+                        : weekState === 'pending' ? 'Waiting for your grown up to tick it ⭐'
+                        : weekMission.second
+                          ? `Your class is also on: ${weekMission.second}. Practised the big one? Tap here!`
+                          : 'Practised it at home? Tap here and your grown up gets the tick!'
+                      }
+                      pill="⭐ 3"
+                      actionIcon={weekState === 'open' ? '✓' : ''}
+                    />
+                  </button>
                 </>
               )}
 
