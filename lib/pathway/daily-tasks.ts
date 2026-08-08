@@ -3,6 +3,7 @@ import { getRecommendedScript, type RecommendedScript } from './recommend'
 import { isScriptLocked } from '@/lib/content/free-script-limit'
 import type { StageId } from './progress'
 import type { ChallengeId } from '@/lib/content/stages'
+import { londonToday, londonDayStart } from '@/lib/pathway/today'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -48,7 +49,11 @@ export async function getTodayLoop(
   challenge: ChallengeId | null,
   isPaid = true
 ): Promise<TodayLoopTask[]> {
-  const today = new Date().toISOString().slice(0, 10)
+  const today = londonToday()
+  // The instant today began in London, not UTC midnight. Through British summer
+  // time the two are an hour apart, so a step completed between midnight and
+  // 1am counted for the day before and the parent was told to do it again.
+  const dayStart = londonDayStart()
 
   const [
     { data: pendingConcerns },
@@ -70,8 +75,8 @@ export async function getTodayLoop(
       .limit(1),
     supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
-    supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', `${today}T00:00:00Z`).limit(1),
-    supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', `${today}T00:00:00Z`).limit(1),
+    supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', dayStart).limit(1),
+    supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', dayStart).limit(1),
     supabase.from('moment_completions').select('id').eq('user_id', userId).eq('completed_on', today).limit(1),
     // Whether this family has ANY live concern at all. Nothing to check in on
     // is not the same thing as having checked in, and only one of those two is
@@ -164,7 +169,11 @@ export async function getDailyTasks(
   challenge: ChallengeId | null,
   isPaid = true
 ): Promise<DailyTask[]> {
-  const today = new Date().toISOString().slice(0, 10)
+  const today = londonToday()
+  // The instant today began in London, not UTC midnight. Through British summer
+  // time the two are an hour apart, so a step completed between midnight and
+  // 1am counted for the day before and the parent was told to do it again.
+  const dayStart = londonDayStart()
   const weekStart = mondayOf(new Date())
 
   const [
@@ -181,7 +190,7 @@ export async function getDailyTasks(
   ] = await Promise.all([
     supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
-    supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', `${today}T00:00:00Z`).limit(1),
+    supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', dayStart).limit(1),
     supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, title').eq('audience', STAGE_TO_AUDIENCE[stageId]),
     supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
