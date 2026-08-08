@@ -306,6 +306,31 @@ export default function DeviceTimeCard({
   // Tick every second off the fixed end time. When it hits zero, sound the
   // alarm once and close the session on the server.
   //
+  // THE TIMER DOES NOT PAUSE WHEN THE CHILD LEAVES THE APP, and it must not.
+  //
+  // Justin: "I've noticed when you go off the child's app the timer pauses.
+  // That's a bug." He is right, and the reason it looked paused is worth
+  // writing down, because the countdown was never actually wrong.
+  //
+  // Every tick reads the wall clock: left = end minus now. It has never
+  // decremented a counter, so the number is correct the instant it is
+  // recalculated. What stops is the RECALCULATION. Browsers throttle a one
+  // second interval in a hidden tab down to about once a minute, and phones
+  // suspend it outright when the app goes to the background, so the digits on
+  // screen freeze at whatever they last said.
+  //
+  // That mattered far more than a frozen display. Switching to YouTube is
+  // exactly when the minutes are being spent, and if the block ran out while
+  // the app was in the background, the branch below never ran: no alarm, no
+  // hand it back, no stop recorded. A timer whose entire job is to END was
+  // relying on the child watching it in order to finish.
+  //
+  // So the tick is also fired the moment the app comes back, on both the
+  // signals that carry that: visibilitychange for a tab or app switch, and
+  // pageshow for a phone restoring the page from its back forward cache, which
+  // does not always raise the first. The child returns to the true number, and
+  // to the finish if it already happened while they were away.
+  //
   // The healthy amount is part of the same countdown: when this block is not a
   // treat and would run past the day's guide for their age, the countdown ends
   // at the crossing instead. The child sees one honest timer that lands on the
@@ -354,7 +379,20 @@ export default function DeviceTimeCard({
     }
     tick()
     const id = setInterval(tick, 1000)
-    return () => clearInterval(id)
+
+    // Catch up the moment the app is looked at again. Guarded on visible so a
+    // child leaving does not spend their last seconds of attention on a jump.
+    const catchUp = () => { if (document.visibilityState === 'visible') tick() }
+    document.addEventListener('visibilitychange', catchUp)
+    window.addEventListener('pageshow', catchUp)
+    window.addEventListener('focus', catchUp)
+
+    return () => {
+      clearInterval(id)
+      document.removeEventListener('visibilitychange', catchUp)
+      window.removeEventListener('pageshow', catchUp)
+      window.removeEventListener('focus', catchUp)
+    }
   }, [session, token, recommendedMinutes, soundAlarm, countdownFx, say])
 
   async function start() {

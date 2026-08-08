@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
 import StarChartBuilder from './StarChartBuilder'
+import { chartWeekStart, starWeekEnd, formatWeekBeginning } from '@/lib/quests/star-week'
 
 // The star chart, typed before it is printed.
 //
@@ -62,5 +62,30 @@ export default async function StarChartPage() {
     childId: (q.child_id as string | null) ?? null,
   }))
 
-  return <StarChartBuilder yourJobs={yourJobs} childOptions={childOptions} defaultChildName={childName} />
+  // WHICH WEEKS ARE ON OFFER, and what they are honestly called.
+  //
+  // chartWeekStart hands back next Monday on a Sunday and this Monday on every
+  // other day, which is the Sunday rhythm Justin asked for: make it on Sunday
+  // and it is for the week about to start.
+  //
+  // The name is computed here rather than from a position in the list, because
+  // on a Sunday the first entry IS next week, and a chip reading "This week"
+  // over a Monday that has not arrived would be a small lie on the one control
+  // whose whole job is saying which week you are printing.
+  const first = chartWeekStart()
+  const second = starWeekEnd(first)
+  const startsTomorrow = first > new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(new Date())
+  const weeks = [
+    { start: first, label: formatWeekBeginning(first), name: startsTomorrow ? 'The week ahead' : 'This week' },
+    { start: second, label: formatWeekBeginning(second), name: startsTomorrow ? 'The one after' : 'Next week' },
+  ]
+
+  return (
+    <StarChartBuilder
+      yourJobs={yourJobs}
+      childOptions={childOptions}
+      defaultChildName={childName}
+      weeks={weeks}
+    />
+  )
 }

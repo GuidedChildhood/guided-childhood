@@ -56,6 +56,42 @@ const KIND_EMOJI: Record<string, string> = {
   kit: '🎒', homework: '📕', event: '🎉', deadline: '⏰', payment: '💷', notice: '📌',
 }
 
+// A COLOUR PER KIND, THE WAY A CALENDAR DOES IT.
+//
+// Justin: "the colours of this page need to match Google Calendar colours mixed
+// with touches of our brand."
+//
+// Google Calendar's own named palette is the source, because it is the thing he
+// is comparing this to and because those eleven colours are genuinely well made:
+// they hold their meaning at chip size, they sit apart from each other for the
+// most common kinds of colour blindness, and every one of them takes dark text.
+// Peacock, Basil, Banana, Tangerine, Grape and Flamingo, in their real values.
+//
+// The tint is ours. Each chip is a wash of its colour with a solid rail down
+// the left edge, which is the shape Toggl and Outlook use and which survives
+// being small far better than a filled block. Ink stays our ink, the type stays
+// Nunito, and the radius stays chunky, so it reads as a calendar without
+// stopping being ours.
+//
+// Read only: a rail is not a control, and nothing here can be ticked. See the
+// note at the top of the file about why that matters.
+const KIND_COLOUR: Record<string, { rail: string; wash: string }> = {
+  // Peacock, for the thing you carry.
+  kit:      { rail: '#039BE5', wash: '#E6F4FD' },
+  // Basil, for work.
+  homework: { rail: '#0B8043', wash: '#E6F3EC' },
+  // Grape, for the fun one.
+  event:    { rail: '#8E24AA', wash: '#F4E9F7' },
+  // Tangerine, for the one with a clock on it.
+  deadline: { rail: '#F4511E', wash: '#FDEDE7' },
+  // Banana, for money. Deliberately the mildest: a payment is a grown up's job
+  // and a child should never read one as something they have to solve.
+  payment:  { rail: '#F6BF26', wash: '#FEF7E4' },
+  // Flamingo, for everything else.
+  notice:   { rail: '#E67C73', wash: '#FCEDEC' },
+}
+const KIND_FALLBACK = { rail: '#616161', wash: '#F1F1F1' }   // Graphite
+
 const DAYS = [
   { dow: 1, short: 'Mon', long: 'Monday' },
   { dow: 2, short: 'Tue', long: 'Tuesday' },
@@ -141,13 +177,14 @@ export default function KidSchoolWeek({ items, childName }: {
       {/* Which week */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          {/* On the child's anthracite background, so white rather than ink.
-              The balance page sets var(--ink) here and it is nearly invisible;
-              copying it would have shipped the same fault twice. */}
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: '#fff', lineHeight: 1.1 }}>
+          {/* Ink, because this page is now a light calendar surface rather
+              than the anthracite the rest of the child's sub pages use. Every
+              colour in this file moved with it; a single leftover white would
+              be invisible. */}
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.1 }}>
             {label}
           </div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'rgba(255,255,255,0.66)', letterSpacing: '0.04em', marginTop: 3 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', letterSpacing: '0.04em', marginTop: 3 }}>
             {mounted ? (weekCount === 0 ? 'nothing from school' : `${weekCount} to remember`) : range}
           </div>
         </div>
@@ -161,7 +198,7 @@ export default function KidSchoolWeek({ items, childName }: {
               style={{
                 width: 44, height: 44, borderRadius: 14, cursor: 'pointer',
                 background: '#fff', border: '2px solid var(--border)',
-                boxShadow: '0 3px 0 rgba(0,0,0,0.25)',
+                boxShadow: '0 3px 0 var(--border)',
                 fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1,
               }}
             >
@@ -187,8 +224,8 @@ export default function KidSchoolWeek({ items, childName }: {
               style={{
                 flex: 1, minWidth: 0, padding: '8px 1px 7px', cursor: 'pointer',
                 borderRadius: 14, textAlign: 'center',
-                background: isOpen ? 'var(--terracotta)' : 'rgba(255,255,255,0.10)',
-                border: `2px solid ${isOpen ? 'var(--terracotta)' : d.isToday ? 'var(--terracotta)' : 'rgba(255,255,255,0.16)'}`,
+                background: isOpen ? 'var(--terracotta)' : '#fff',
+                border: `2px solid ${isOpen || d.isToday ? 'var(--terracotta)' : 'var(--border)'}`,
                 boxShadow: isOpen ? '0 3px 0 var(--terracotta-dark)' : 'none',
               }}
             >
@@ -198,17 +235,16 @@ export default function KidSchoolWeek({ items, childName }: {
               <span style={{
                 display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
                 fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase',
-                color: isOpen ? 'var(--ink)' : 'rgba(255,255,255,0.6)',
+                color: isOpen ? 'var(--ink)' : 'var(--ink-muted)',
               }}>
                 {d.short}
               </span>
-              {/* A day that has been and gone is dimmed by colour, never by
-                  opacity: a faded white card on an anthracite background turns
-                  grey and reads as broken rather than as past. */}
+              {/* A day gone by is dimmed by colour rather than opacity, so it
+                  reads as past instead of as unloaded. */}
               <span style={{
                 display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900,
                 fontSize: 'var(--text-md)', lineHeight: 1.15, marginTop: 1,
-                color: isOpen ? 'var(--ink)' : d.isPast ? 'rgba(255,255,255,0.42)' : '#fff',
+                color: isOpen ? 'var(--ink)' : d.isPast ? 'var(--ink-light, #A8A5A0)' : 'var(--ink)',
               }}>
                 {d.date ? d.date.getDate() : '·'}
               </span>
@@ -224,7 +260,7 @@ export default function KidSchoolWeek({ items, childName }: {
       {/* The chosen day, big enough to read from across a room */}
       <div style={{
         background: '#fff', border: '2px solid var(--border)', borderRadius: 20,
-        boxShadow: '0 5px 0 rgba(0,0,0,0.25)', padding: '16px 16px 18px',
+        boxShadow: '0 5px 0 var(--border)', padding: '16px 16px 18px',
       }}>
         <div style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -241,14 +277,24 @@ export default function KidSchoolWeek({ items, childName }: {
           </p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-            {open!.list.map(({ item, done }) => (
+            {open!.list.map(({ item, done }) => {
+              const c = KIND_COLOUR[item.kind] ?? KIND_FALLBACK
+              return (
               <div
                 key={`${item.id}-${open!.dateIso}`}
                 style={{
                   display: 'flex', alignItems: 'flex-start', gap: 11,
-                  background: done ? 'transparent' : 'var(--cream)',
-                  border: `1.5px solid var(--border)`, borderRadius: 14, padding: '11px 12px',
-                  opacity: done ? 0.55 : 1,
+                  // The calendar chip: a wash of the kind's colour with a solid
+                  // rail down the left. Done rows drop to plain cream, because a
+                  // finished thing should stop competing for the eye with the
+                  // things that still need doing.
+                  background: done ? 'var(--cream)' : c.wash,
+                  borderLeft: `5px solid ${done ? 'var(--border)' : c.rail}`,
+                  border: '1.5px solid var(--border)',
+                  borderLeftWidth: 5,
+                  borderLeftColor: done ? 'var(--border)' : c.rail,
+                  borderRadius: 14, padding: '11px 12px',
+                  opacity: done ? 0.6 : 1,
                 }}
               >
                 <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1.1, flexShrink: 0 }}>
@@ -295,14 +341,15 @@ export default function KidSchoolWeek({ items, childName }: {
                   )}
                 </span>
               </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>
 
       {/* Says out loud whose list this is and who changes it, so a child is not
           left hunting for a tick that is not theirs to make. */}
-      <p style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.5, margin: '12px 4px 0' }}>
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 4px 0' }}>
         This comes from the school reminders {childName ? `your grown up set up for you` : 'your grown up set up'}. They tick things off at their end, so all you need to do here is look.
       </p>
     </div>

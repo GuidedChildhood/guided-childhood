@@ -100,14 +100,34 @@ export type YourJob = Job & { childId: string | null }
 
 export default function StarChartBuilder({
   yourJobs = [], childOptions = [], defaultChildName = '',
+  weeks = [],
 }: {
   /** The family's real active jobs, straight off the quests board. */
   yourJobs?: YourJob[]
   /** Named children, so a two child family can print each chart. */
   childOptions?: { id: string; name: string }[]
   defaultChildName?: string
+  /**
+   * The week this chart is for, and the one after it, worked out on the server.
+   *
+   * On the server deliberately, because the whole point is Europe/London and a
+   * browser clock is whatever the device says it is. A parent in Spain printing
+   * a chart for a child at a school in Kent should get the Kent week.
+   *
+   * Empty for the signed out lead magnet version, which prints undated: a chart
+   * for a family we have never met has no week to be for.
+   *
+   * `name` is set on the server rather than read off the index, because on a
+   * Sunday the first week IS next week and a chip reading "This week" over a
+   * Monday that has not happened yet is simply wrong.
+   */
+  weeks?: { start: string; label: string; name: string }[]
 } = {}) {
   const [childName, setChildName] = useState(defaultChildName)
+  // WHICH WEEK. Defaults to the first, which is this week every day except
+  // Sunday, when it is the week about to start. See chartWeekStart.
+  const [weekIdx, setWeekIdx] = useState(0)
+  const week = weeks[weekIdx] ?? null
   // Which child's jobs to show. Null means everyone, which is also what a
   // family with one child sees, so nothing extra appears for them.
   const [forChild, setForChild] = useState<string | null>(
@@ -338,6 +358,39 @@ export default function StarChartBuilder({
         </div>
       </div>
 
+      {/* WHICH WEEK, on screen only. Two options and never more: a chart three
+          weeks out is a chart nobody will still want by the time it matters,
+          and the jobs on it will have changed. Hidden for the one week case,
+          which is what the signed out lead magnet gets. */}
+      {weeks.length > 1 && (
+        <div className="no-print" style={{ marginBottom: 14 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 8 }}>
+            Which week
+          </div>
+          <div className="chip-row">
+            {weeks.map((w, i) => (
+              <button
+                key={w.start}
+                onClick={() => setWeekIdx(i)}
+                style={{
+                  padding: '10px 16px', borderRadius: 13, cursor: 'pointer',
+                  border: weekIdx === i ? 'none' : '1.5px solid var(--border)',
+                  background: weekIdx === i ? 'var(--deep-teal)' : '#fff',
+                  color: weekIdx === i ? '#fff' : 'var(--ink)',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                  boxShadow: weekIdx === i ? '0 3px 0 var(--deep-teal-dark, #1F5D57)' : 'none',
+                }}
+              >
+                {w.name}
+                <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)', opacity: 0.75, marginLeft: 7 }}>
+                  {w.label}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* The sheet itself. What is on screen here is exactly what prints. */}
       <div className="print-sheet" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: 22 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 14, marginBottom: 12 }}>
@@ -348,6 +401,16 @@ export default function StarChartBuilder({
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', lineHeight: 1.05 }}>
               {name ? `${name}'s star chart` : 'My star chart'}
             </div>
+            {/* WHICH WEEK THIS SHEET IS FOR, printed on it.
+                A chart with no date is the reason the fridge ends up with three
+                of them and nobody knowing which one is live. It also makes the
+                Monday reset visible on paper: the stars stop at Sunday and a
+                fresh sheet starts, which is exactly what the app does. */}
+            {week && (
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)', marginTop: 4 }}>
+                Week beginning {week.label}
+              </div>
+            )}
           </div>
           <div style={{ textAlign: 'right', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
             1 star = 5 minutes
@@ -501,7 +564,10 @@ export default function StarChartBuilder({
               fetch('/api/printables/star-chart-print', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({}),
+                // The week goes with it (migration 170), so the weekend offer
+                // knows whether the fridge has a sheet for the Monday coming
+                // rather than only whether this family has ever printed one.
+                body: JSON.stringify({ weekStart: week?.start ?? null }),
               }).catch(() => { /* the chart still prints */ })
               window.print()
             }}

@@ -15,7 +15,7 @@ import { createClient } from '@/lib/supabase/server'
 // write lands, so the button never waits on it and never shows an error for it.
 
 export async function POST(req: NextRequest) {
-  const { childId } = await req.json().catch(() => ({}))
+  const { childId, weekStart } = await req.json().catch(() => ({}))
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -30,9 +30,19 @@ export async function POST(req: NextRequest) {
     if (data) child = data.id as string
   }
 
+  // Which week this sheet is for (migration 170), so the weekend offer can ask
+  // "is there one for Monday" rather than "have they ever printed one".
+  //
+  // Validated as a date rather than trusted, because it decides whether a
+  // family gets nudged, and a junk value would either nag somebody who has the
+  // chart on the fridge or go quiet for somebody who does not. A bad one is
+  // dropped to null, which reads as "printed, week unknown" and is exactly what
+  // every row before today says.
+  const week = typeof weekStart === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(weekStart) ? weekStart : null
+
   const { error } = await supabase
     .from('star_chart_prints')
-    .insert({ user_id: user.id, child_id: child })
+    .insert({ user_id: user.id, child_id: child, week_start: week })
 
   if (error) return NextResponse.json({ error: 'not saved' }, { status: 500 })
   return NextResponse.json({ ok: true })
