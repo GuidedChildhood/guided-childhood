@@ -281,6 +281,12 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     const [{ data: stageLessonRows, error: lessonsErr }, { data: passRows, error: passErr }] = await Promise.all([
       supabase.from('lessons').select('id, title, category, sort_order')
         .eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub')
+        // Same rule as the child lessons list: no authored deck means it is
+        // not a child lesson yet. Without this the focus lesson row could
+        // offer a lesson whose page refuses to open, which is exactly the
+        // dead end Justin hit on 8 August: the app's most enthusiastic
+        // moment, a child going for their lesson, ending on a 404.
+        .not('slides', 'is', null)
         .order('sort_order', { ascending: true }),
       supabase.from('lesson_completions').select('lesson_id, passed, completed_at').eq('user_id', link.user_id).eq('lesson_source', 'lesson'),
     ])

@@ -5506,3 +5506,13 @@ three, argued in the component: their own evidence, a real clock, true
 scarcity (the 50 cap is enforced in checkout and counted live on the
 upgrade page). The trial push sequence is planned in the week plan addendum
 and waits on Justin because it messages users.
+
+**The child's 404 on their own lessons, found and closed (8 Aug).** Justin's
+screenshot: a done lesson on the child app landing on Page not found. Three
+of Teo's passed lessons have no authored deck (slides null), the child
+lesson page hard 404s on a missing deck, and the kid home's focus lesson
+query did not carry the list page's no deck filter, so the app could offer
+a lesson its own page refuses to open. Two fixes: the kid home query now
+carries the same not null slides rule as the list, and a real lesson with
+no deck redirects to the child's lessons list instead of 404ing, because
+the links that land there are the app's own. Guessed or junk ids still 404.
