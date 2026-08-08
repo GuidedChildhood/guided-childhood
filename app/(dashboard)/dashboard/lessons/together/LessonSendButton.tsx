@@ -14,7 +14,7 @@ export default function LessonSendButton({
   childName: string
   title: string
 }) {
-  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'nodevice' | 'noserver'>('idle')
+  const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'nodevice' | 'noserver' | 'quiet'>('idle')
 
   async function send() {
     if (!childId || state === 'sending') return
@@ -26,10 +26,16 @@ export default function LessonSendButton({
         body: JSON.stringify({ child_id: childId, message: `New lesson to play: ${title} ⭐` }),
       })
       const data = await res.json().catch(() => ({}))
-      // Three honest outcomes: delivered, the child's phone is not set up
-      // for pings yet (the lesson is on their quests either way), or the
-      // server is missing its notification keys (a deploy setting).
+      // Four honest outcomes now: delivered, held because it is night on the
+      // child's side, the child's phone is not set up for pings yet (the
+      // lesson is on their quests either way), or the server is missing its
+      // notification keys (a deploy setting).
+      //
+      // quiet_hours is checked BEFORE the zero, because a held push and an
+      // unsubscribed phone both come back as sent 0 and telling a parent to go
+      // and set up a phone that is already set up is worse than saying nothing.
       if (!res.ok) setState('noserver')
+      else if (data?.reason === 'quiet_hours') setState('quiet')
       else if (data?.sent > 0) setState('sent')
       else setState('nodevice')
       setTimeout(() => setState('idle'), 5000)
@@ -38,6 +44,7 @@ export default function LessonSendButton({
 
   const label = state === 'sending' ? 'Sending...'
     : state === 'sent' ? `Pinged ${childName} ✓`
+    : state === 'quiet' ? 'On their quests, no buzz after 7pm'
     : state === 'nodevice' ? 'On their quests (no ping set up)'
     : state === 'noserver' ? 'Pings not switched on yet'
     : `📲 Send to ${childName}`

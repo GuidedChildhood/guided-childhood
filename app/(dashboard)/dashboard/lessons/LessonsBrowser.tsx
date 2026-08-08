@@ -463,7 +463,7 @@ function ProgressLessonsBanner({
   libraryItems: LibraryItem[]
   onSeeStage: () => void
 }) {
-  const [sendState, setSendState] = useState<'idle' | 'sending' | 'sent' | 'nodevice' | 'noserver'>('idle')
+  const [sendState, setSendState] = useState<'idle' | 'sending' | 'sent' | 'nodevice' | 'noserver' | 'quiet'>('idle')
   // Only the family library lessons count for the progress report ticks, the
   // same set the child's own page shows, so the AI module extras stay out of
   // this count.
@@ -484,7 +484,10 @@ function ProgressLessonsBanner({
         body: JSON.stringify({ child_id: childId, message: `Your ${stageMeta?.label ?? 'stage'} lessons are ready on your page. Pass one to light up your pathway ⭐` }),
       })
       const data = await res.json().catch(() => ({}))
+      // quiet_hours before the zero: a held push and an unsubscribed phone
+      // both report sent 0, and only one of them is the parent's to fix.
       if (!res.ok) setSendState('noserver')
+      else if (data?.reason === 'quiet_hours') setSendState('quiet')
       else if (data?.sent > 0) setSendState('sent')
       else setSendState('nodevice')
       setTimeout(() => setSendState('idle'), 5000)
@@ -493,6 +496,7 @@ function ProgressLessonsBanner({
 
   const sendLabel = sendState === 'sending' ? 'Sending...'
     : sendState === 'sent' ? `Pinged ${childName} ✓`
+    : sendState === 'quiet' ? 'On their page, no buzz after 7pm'
     : sendState === 'nodevice' ? 'On their page (no ping set up)'
     : sendState === 'noserver' ? 'Pings not switched on yet'
     : `📲 Send to ${childName}`

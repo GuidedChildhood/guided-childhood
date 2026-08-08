@@ -2,6 +2,7 @@ import webpush from 'web-push'
 import { createClient } from '@supabase/supabase-js'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { oneRowPerDevice, DEVICE_COLUMNS, LEGACY_COLUMNS, isMissingColumn, type PushRow } from '@/lib/push/devices'
+import { inChildQuietHours } from '@/lib/push/quiet-hours'
 
 // Sending a push, in process.
 //
@@ -46,6 +47,13 @@ export type SendPushResult = {
   pruned: number
   /** Set only when the send could not be attempted at all. */
   error?: string
+  /**
+   * Held because it is night where the child is. Its own field rather than an
+   * error, because nothing went wrong: a caller that logs failures should stay
+   * silent about this, and a caller counting sends should be able to tell a
+   * quiet night from an empty subscription table.
+   */
+  quietHours?: boolean
 }
 
 /**
@@ -72,6 +80,17 @@ const PERMANENT = new Set([404, 410])
  */
 export async function sendPush(input: SendPushInput): Promise<SendPushResult> {
   const { title, body, url = '/dashboard', userId, audience, slot, urgent } = input
+
+  // Night time, for children only. Checked before anything else is read or
+  // configured, so a held push costs one clock lookup rather than a round trip
+  // to the database and the push service.
+  //
+  // Parents are deliberately untouched. A parent choosing to be told at 22:00
+  // that their child finished their five a day is a grown up with their own
+  // phone settings, and the ask was about the child's device.
+  if (audience === 'kids' && inChildQuietHours()) {
+    return { sent: 0, failed: 0, pruned: 0, quietHours: true }
+  }
 
   if (!process.env.VAPID_EMAIL || !process.env.VAPID_PRIVATE_KEY) {
     return { sent: 0, failed: 0, pruned: 0, error: 'VAPID not configured' }
