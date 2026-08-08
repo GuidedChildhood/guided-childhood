@@ -376,6 +376,7 @@ export default function KidQuestScreen({
     } catch { /* fine */ }
   }, [])
   const [seenLessons, setSeenLessons] = useState<Set<string>>(new Set())
+  const [seenHydrated, setSeenHydrated] = useState(false)
   const [soundOn, setSoundOn] = useState(true)
   const [happyNews, setHappyNews] = useState<HappyNewsItem | null>(null)
   const router = useRouter()
@@ -910,6 +911,32 @@ export default function KidQuestScreen({
   const doneCount = quests.filter(q => ticks[q.id]).length
   const allDone = quests.length > 0 && doneCount === quests.length
 
+  // WHERE A TAB TAKES YOU.
+  //
+  // Justin: "when you click quests from this button it does not take you to
+  // quests."
+  //
+  // He is right, and the reason is a layout decision nobody had followed
+  // through. The tab row is sticky and setting the tab only swapped what is
+  // BELOW it, so a child tapping Quests halfway down the page stayed halfway
+  // down the page. Two of the three tabs were already scrolled into view when
+  // something else selected them, from the five a day row and the shortcut
+  // tiles, so the buttons themselves were the only way in that did nothing.
+  //
+  // And Quests does not go to the tab row anyway. The jobs live in the ONE
+  // Today list ABOVE the tabs, and the Quests tab holds what sits around them,
+  // so scrolling to the tab row would land a child on the balance gauge with
+  // their jobs off the top of the screen. Which is exactly what the screenshot
+  // shows. Quests goes to the jobs; the other two go to the tabs.
+  const goToTab = useCallback((key: 'quests' | 'lessons' | 'print') => {
+    const id = key === 'quests' ? 'kid-today' : 'kid-tabs'
+    // Next frame, so the tab's content has rendered and the anchor is where it
+    // will actually be rather than where it was a moment ago.
+    requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }, [])
+
   // The child's band, from their stage. Derived once because two places want it
   // now: the quiz below, and the reading row, which states its own number of
   // minutes and gets that number from the band.
@@ -989,6 +1016,59 @@ export default function KidQuestScreen({
   const newPrint = printIds.filter(id => !seenLessons.has(id)).length
   const totalNewLessons = newWatch + newLearn
 
+  // WHERE THE APP PUTS A CHILD WHO COMES BACK LATER THE SAME DAY.
+  //
+  // Justin: "I've gone back into the child's app after 5 jobs are done and it
+  // arrives mid screen. Can this go to the next relevant section if they go in
+  // another time the same day?"
+  //
+  // Mid screen was the browser being helpful: it restores the scroll position
+  // from last time, which is right for an article and wrong for a board whose
+  // whole job is to say what to do next. A child reopening after tea got put
+  // back exactly where they left off in the morning, staring at the middle of a
+  // card about something they have already done.
+  //
+  // So the landing is chosen rather than remembered:
+  //
+  //   jobs still to do          the Today list, because that IS the next thing
+  //   all done, new lessons     the Lessons tab, opened
+  //   all done, new printables  the Printables tab, opened
+  //   nothing outstanding       the top, which is the celebration and the
+  //                             balance, and is the honest answer to a child
+  //                             who has finished: there is nothing you must do
+  //
+  // Once per mount only, and a deep link always wins, because a child who
+  // followed a link to the games was told where they were going.
+  const landedRef = useRef(false)
+  useEffect(() => {
+    if (landedRef.current) return
+    // Waits on seenHydrated, not on the quests, which are a server prop and so
+    // are correct on the very first paint. What is NOT correct on first paint
+    // is what this child has already seen, which lives in localStorage.
+    if (!seenHydrated) return
+    landedRef.current = true
+
+    // A deep link named the destination; that effect already handled it.
+    try {
+      const deep = new URLSearchParams(window.location.search).get('tab')
+      if (deep === 'games' || deep === 'print') return
+    } catch { /* fine */ }
+
+    // Stop the browser putting them back where they were, which would otherwise
+    // land after this and undo it.
+    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual' } catch { /* fine */ }
+
+    const settle = () => {
+      if (!allDone) { document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return }
+      if (totalNewLessons > 0) { setTab('lessons'); goToTab('lessons'); return }
+      if (newPrint > 0) { setTab('print'); goToTab('print'); return }
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+    // Two frames, so the restored scroll has already happened and the list has
+    // laid out. Racing it means landing on an anchor that then moves.
+    requestAnimationFrame(() => requestAnimationFrame(settle))
+  }, [seenHydrated, allDone, totalNewLessons, newPrint, goToTab])
+
   const hasWatch = adventures.length > 0
   const hasLearn = missions.length > 0 || stageLessons.length > 0
   const hasGames = stageGames.length > 0
@@ -1005,11 +1085,17 @@ export default function KidQuestScreen({
     : (availableLessonTabs.find(t => t.dot > 0)?.key ?? availableLessonTabs[0]?.key ?? 'watch')
 
   // Load what this child has already seen, once.
+  //
+  // seenHydrated exists because until this has run, seenLessons is empty and
+  // EVERYTHING counts as new. The landing effect reads those counts to decide
+  // where to put a child, so acting a frame early would send every one of them
+  // to Lessons whether or not there was anything there.
   useEffect(() => {
     try {
       const raw = localStorage.getItem('gc_kid_seen_lessons')
       if (raw) setSeenLessons(new Set(JSON.parse(raw) as string[]))
     } catch { /* first visit, nothing seen */ }
+    setSeenHydrated(true)
   }, [])
 
   function markLessonsSeen(ids: string[]) {
@@ -1911,7 +1997,7 @@ export default function KidQuestScreen({
             return (
               <button
                 key={key}
-                onClick={() => { setTab(key); setActiveLesson(null); playKidSound('tap') }}
+                onClick={() => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
                 style={{
                   position: 'relative',
                   flex: 1, padding: '10px 4px', borderRadius: '14px', cursor: 'pointer', border: 'none',

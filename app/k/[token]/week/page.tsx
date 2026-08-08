@@ -58,23 +58,36 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
     }))
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    // A LIGHT CALENDAR SURFACE, not the anthracite the other child sub pages
+    // use. Justin: "the colours of this page need to match Google Calendar
+    // colours mixed with touches of our brand."
+    //
+    // Every calendar worth copying is light: Google's own, Outlook, Toggl,
+    // Finch, Runna. The reason is not taste, it is that a calendar's whole job
+    // is to let coloured chips mean something, and colour coding on a dark
+    // ground either glows or goes muddy. The kind colours in KidSchoolWeek are
+    // Google's real palette, and they need a pale ground under them.
+    //
+    // Scoped to THIS page rather than changed on the --kid-bg token, which five
+    // other child pages also use and which Justin has not asked about. A colour
+    // token is the wrong place to make a one page decision.
+    <div style={{ minHeight: '100dvh', background: 'var(--butter)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
         <Link
           href={`/k/${token}`}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)',
             fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em',
-            color: 'rgba(255,255,255,0.78)', textDecoration: 'none', marginBottom: 16,
+            color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: 16,
           }}
         >
           ← Back
         </Link>
 
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 6px', color: '#fff' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 6px', color: 'var(--ink)' }}>
           {name ? `${name}'s week` : 'Your week'}
         </h1>
-        <p style={{ fontSize: 'var(--text-md)', color: 'rgba(255,255,255,0.72)', lineHeight: 1.5, margin: '0 0 18px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
           Everything from school, on the day it lands. Tap a day to see it.
         </p>
 

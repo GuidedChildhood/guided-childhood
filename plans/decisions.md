@@ -5604,3 +5604,43 @@ throttling itself still wants a look on a real phone.
 **The other per second intervals were left alone** (LiveTimerChip, StarSummary,
 SchoolActionsCard). They only paint a clock and self correct on the next tick,
 and none of them end a session, so a frozen second there is cosmetic.
+
+## 8 August 2026 — three from the child's app
+
+**The Quests tab did not go to quests.** Justin, with a screenshot. The tab row
+is sticky and setting the tab only swapped what was BELOW it, so a child tapping
+Quests halfway down the page stayed halfway down the page. The other two tabs
+were already scrolled into view when the five a day row or the shortcut tiles
+selected them, so the buttons themselves were the only route in that did
+nothing. And Quests does not belong at the tab row anyway: the jobs live in the
+ONE Today list ABOVE the tabs, so scrolling there lands a child on the balance
+gauge with their jobs off the top of the screen, which is exactly what the
+screenshot showed. Quests now goes to the jobs, the other two to the tabs.
+
+**Coming back mid screen.** That was the browser restoring the scroll position,
+which is right for an article and wrong for a board whose job is to say what to
+do next. The landing is chosen now rather than remembered: jobs left goes to the
+Today list, all done with new lessons opens Lessons, all done with new
+printables opens Printables, and nothing outstanding goes to the top, which is
+the honest answer to a child who has finished. Waits on seenHydrated, because
+until localStorage has loaded, seenLessons is empty and EVERYTHING counts as
+new, which would have sent every child to Lessons on every visit.
+
+**The week page is a calendar now.** Justin: "the colours of this page need to
+match Google Calendar colours mixed with touches of our brand." Mobbin first, as
+the rule says: Outlook, Toggl, Finch, Runna and Google's own are all LIGHT, and
+the reason is not taste. A calendar's whole job is to let coloured chips mean
+something, and colour coding on a dark ground either glows or goes muddy.
+
+So the page moved to butter, and each kind carries a real Google Calendar named
+colour as a wash with a solid rail down the left edge: Peacock for kit, Basil
+for homework, Grape for an event, Tangerine for a deadline, Banana for a
+payment, Flamingo for a notice, Graphite as the fallback. The rail shape is
+Toggl's and Outlook's, and it survives small sizes better than a filled block.
+Ink, Nunito and the chunky radii stay, so it reads as a calendar without
+stopping being ours. Banana for money on purpose: a payment is a grown up's job
+and a child should never read one as something they have to solve.
+
+**Scoped to this page, not to the token.** --kid-bg is used by five other child
+sub pages Justin has not asked about. A colour token is the wrong place to make
+a one page decision.
