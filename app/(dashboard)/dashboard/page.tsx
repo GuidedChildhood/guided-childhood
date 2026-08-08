@@ -36,6 +36,8 @@ import PhoneHeadsUp from '@/components/pathway/PhoneHeadsUp'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
+import CatchupCard from '@/components/daily/CatchupCard'
+import { rollVisit, getCatchup } from '@/lib/pathway/catchup'
 import DigiGreeting from '@/components/home/DigiGreeting'
 import MissionWelcome from '@/components/home/MissionWelcome'
 import CommunityBite from '@/components/community/CommunityBite'
@@ -434,6 +436,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // overview of what is waiting from their child, not the finished path. This
   // reads the same "day done" the greeting and the path use, so the lead only
   // changes once the daily loop is genuinely complete.
+  // The visit marks roll first, then the summary reads the gap they describe.
+  // Both fail soft to no card: this sits on a page with plenty else on it.
+  const visit = await rollVisit(supabase, user.id)
+  const catchup = visit
+    ? await getCatchup(supabase, user.id, child?.id ?? null, child?.name ?? null, visit.since)
+    : null
+
   const dailySteps = todayLoop.filter(t => t.key !== 'done')
   const dayComplete = dailyDone
     || investedMinutes(todayLoop) >= ((profile?.daily_minutes as number | null) ?? 10)
@@ -545,6 +554,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           where it sits. Its own finished state already folds it to one line
           (see TodayPathBig), which is Justin's "after pathway is done for the
           day it should move away leaving all the next important tabs". */}
+      {/* WHILE YOU WERE AWAY, above the day's tasks and only for someone who
+          has been away. Justin: "how we keep them coming back to feel they are
+          getting real use, feedback, enjoyment, seeing their child progress."
+          The order is the argument: what your child DID, then what is waiting
+          for you, then today's list. A parent who has not looked since Friday
+          meets their child's week before they are handed another checklist.
+          Nothing happened means no card, and a parent who is here every day
+          never sees it, which is the point. It is news. */}
+      {catchup && <CatchupCard catchup={catchup} childName={child?.name ?? null} />}
+
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
 
       {/* THE TODAY CARD, volume two: everything that used to be its own
