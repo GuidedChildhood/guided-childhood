@@ -5401,6 +5401,15 @@ reads better as a subline word than a chip. Good Inside is not on Mobbin, so
 its part of the review stays sourced from our reference notes, permanently.
 All four phases of the type plan are now complete.
 
+**The two Mobbin borrows and the repeating first card, acted on (8 Aug).**
+Today card ticks moved to the right edge, the thumb side, the way every
+Finch row ticks one handed; emoji tiles hold the left. The recommender now
+says so when it re offers a script the parent already opened, and names the
+two taps (used it, not needed) that move it on, instead of looking stuck.
+The daily deck's reflective question rotates through three per stage by day
+instead of one laminated line. The deck's focus card stays fixed on purpose:
+it is the stage's one thing, and rotating it would unsay that.
+
 ## 8 August 2026: setting up a screen is per screen, not per guide (migration 169)
 
 Justin, having added two devices: "I've added these devices and it is

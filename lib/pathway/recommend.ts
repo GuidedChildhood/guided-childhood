@@ -14,7 +14,7 @@ export interface RecommendedScript {
   matchesChallenge: boolean
   /** Why this one, in words a parent can check against their own life. Null when nothing but stage order chose it. */
   reason: string | null
-  reasonKey: 'concern' | 'device' | 'challenge' | 'returning' | null
+  reasonKey: 'concern' | 'device' | 'challenge' | 'returning' | 'opened' | null
 }
 
 // The single best next script for this family.
@@ -194,6 +194,12 @@ export async function getRecommendedScript(
   const signal = chosen.category ? byCategory.get(chosen.category) : undefined
   const carried = best > 0 && !!signal
   const returning = returned.has(chosen.sort_order)
+  // The same script coming up day after day is usually this: every script in
+  // the family's top category has been glanced at, none marked used or not
+  // needed, so the tie breaks the same way every morning. Justin: "whatever
+  // the first card is, always seems the same." Saying so, and naming the two
+  // taps that move it on, turns a thing that looks stuck into a choice.
+  const reopened = !returning && opened.has(chosen.sort_order)
 
   return {
     sort_order: chosen.sort_order,
@@ -203,8 +209,10 @@ export async function getRecommendedScript(
     matchesChallenge: !!challengeCategory && chosen.category === challengeCategory,
     reason: returning
       ? 'You set this aside a while back. Worth another look now'
-      : carried ? signal!.reason : null,
-    reasonKey: returning ? 'returning' : carried ? signal!.key : null,
+      : reopened
+        ? 'Still open from last time. Tap used it or not needed and the next one steps up'
+        : carried ? signal!.reason : null,
+    reasonKey: returning ? 'returning' : reopened ? 'opened' : carried ? signal!.key : null,
   }
 }
 
