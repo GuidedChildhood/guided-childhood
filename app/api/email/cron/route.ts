@@ -4,6 +4,7 @@ import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl } from '@/lib/email'
 import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
+import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
@@ -57,7 +58,7 @@ async function handler(req: NextRequest) {
   // days when the programme ended at day 25. The curriculum and DiGi emails run
   // to day 43, so 60 gives the last of them a fortnight of daily runs to land
   // even if a run is missed, while still keeping the query off the full table.
-  const since = new Date(Date.now() - 60 * 86400000).toISOString()
+  const since = new Date(Date.now() - 200 * 86400000).toISOString()
   const [{ data: profiles }, { data: log }] = await Promise.all([
     supabase
       .from('profiles')
@@ -82,7 +83,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, trialEnding: 0, winback: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, trialEnding: 0, winback: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -145,22 +146,22 @@ async function handler(req: NextRequest) {
     // each only sent when that service is NOT set up yet, so it is a genuine
     // "here is why, here is where" nudge and never nags about something done.
     // The setup signal is only queried once the day and the log both allow it.
-    if (days >= 9 && !alreadySent(profile.id, 'svc-childphone') && !!child?.age_band && child.age_band !== '4-7') {
+    if (days >= 14 && !alreadySent(profile.id, 'svc-childphone') && !!child?.age_band && child.age_band !== '4-7') {
       const { data: link } = await supabase.from('kid_links').select('child_id').eq('user_id', profile.id).limit(1).maybeSingle()
       if (!link) await deliver(profile.id, profile.email, 'svc-childphone', childPhoneEmail({ childName, unsubscribe }), 'svcChildPhone')
     }
 
-    if (days >= 11 && !alreadySent(profile.id, 'svc-screentime')) {
+    if (days >= 21 && !alreadySent(profile.id, 'svc-screentime')) {
       const { count } = await supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', profile.id).eq('active', true)
       if ((count ?? 0) === 0) await deliver(profile.id, profile.email, 'svc-screentime', screenTimeEmail({ childName, unsubscribe }), 'svcScreenTime')
     }
 
-    if (days >= 13 && !alreadySent(profile.id, 'svc-lessons')) {
+    if (days >= 28 && !alreadySent(profile.id, 'svc-lessons')) {
       const { data: done } = await supabase.from('lesson_completions').select('lesson_id').eq('user_id', profile.id).limit(1).maybeSingle()
       if (!done) await deliver(profile.id, profile.email, 'svc-lessons', lessonsEmail({ childName, unsubscribe }), 'svcLessons')
     }
 
-    if (days >= 15 && !alreadySent(profile.id, 'svc-school')) {
+    if (days >= 35 && !alreadySent(profile.id, 'svc-school')) {
       const [{ data: conn }, { data: act }] = await Promise.all([
         supabase.from('school_connections').select('id').eq('user_id', profile.id).eq('active', true).maybeSingle(),
         supabase.from('school_actions').select('id').eq('user_id', profile.id).limit(1).maybeSingle(),
@@ -168,7 +169,7 @@ async function handler(req: NextRequest) {
       if (!conn && !act) await deliver(profile.id, profile.email, 'svc-school', schoolRemindersEmail({ childName, unsubscribe }), 'svcSchool')
     }
 
-    if (days >= 17 && !alreadySent(profile.id, 'svc-agreement')) {
+    if (days >= 42 && !alreadySent(profile.id, 'svc-agreement')) {
       const { data: agreement } = await supabase.from('family_agreements').select('id').eq('user_id', profile.id).limit(1).maybeSingle()
       if (!agreement) await deliver(profile.id, profile.email, 'svc-agreement', familyAgreementEmail({ childName, unsubscribe }), 'svcAgreement')
     }
@@ -176,16 +177,16 @@ async function handler(req: NextRequest) {
     // The pillar reveals: one warm feature spotlight each, spaced through the
     // third and fourth week so the free plan keeps giving. Sent once each, so a
     // parent who already lives in that feature simply never sees a second one.
-    if (days >= 19 && !alreadySent(profile.id, 'reveal-printables')) {
+    if (days >= 49 && !alreadySent(profile.id, 'reveal-printables')) {
       await deliver(profile.id, profile.email, 'reveal-printables', printablesRevealEmail({ childName, unsubscribe }), 'revealPrintables')
     }
-    if (days >= 21 && !alreadySent(profile.id, 'reveal-balance')) {
+    if (days >= 56 && !alreadySent(profile.id, 'reveal-balance')) {
       await deliver(profile.id, profile.email, 'reveal-balance', balanceRevealEmail({ childName, unsubscribe }), 'revealBalance')
     }
-    if (days >= 23 && !alreadySent(profile.id, 'reveal-mind')) {
+    if (days >= 63 && !alreadySent(profile.id, 'reveal-mind')) {
       await deliver(profile.id, profile.email, 'reveal-mind', mentalHealthRevealEmail({ unsubscribe }), 'revealMind')
     }
-    if (days >= 25 && !alreadySent(profile.id, 'reveal-passport')) {
+    if (days >= 70 && !alreadySent(profile.id, 'reveal-passport')) {
       await deliver(profile.id, profile.email, 'reveal-passport', passportRevealEmail({ childName, unsubscribe }), 'revealPassport')
     }
 
@@ -194,27 +195,49 @@ async function handler(req: NextRequest) {
     // needing a tour and started asking whether the thing they are trusting is
     // any good. Spaced every three days rather than every two: six straight
     // weeks at onboarding pace stops reading as help.
-    if (days >= 28 && !alreadySent(profile.id, 'curriculum-strands')) {
+    if (days >= 77 && !alreadySent(profile.id, 'curriculum-strands')) {
       await deliver(profile.id, profile.email, 'curriculum-strands', curriculumStrandsEmail({
         childName, keyStage: stage.keyStage, unsubscribe,
       }), 'curriculumStrands')
     }
-    if (days >= 31 && !alreadySent(profile.id, 'curriculum-school')) {
+    if (days >= 84 && !alreadySent(profile.id, 'curriculum-school')) {
       await deliver(profile.id, profile.email, 'curriculum-school', curriculumSchoolEmail({
         childName, stageName: stage.name, stageId: stage.id, unsubscribe,
       }), 'curriculumSchool')
     }
-    if (days >= 34 && !alreadySent(profile.id, 'digi-brain')) {
+    if (days >= 91 && !alreadySent(profile.id, 'digi-brain')) {
       await deliver(profile.id, profile.email, 'digi-brain', digiBrainEmail({ childName, unsubscribe }), 'digiBrain')
     }
-    if (days >= 37 && !alreadySent(profile.id, 'digi-learns')) {
+    if (days >= 98 && !alreadySent(profile.id, 'digi-learns')) {
       await deliver(profile.id, profile.email, 'digi-learns', digiLearnsEmail({ unsubscribe }), 'digiLearns')
     }
-    if (days >= 40 && !alreadySent(profile.id, 'digi-feedback-loop')) {
+    if (days >= 105 && !alreadySent(profile.id, 'digi-feedback-loop')) {
       await deliver(profile.id, profile.email, 'digi-feedback-loop', digiFeedbackLoopEmail({ childName, unsubscribe }), 'digiFeedbackLoop')
     }
-    if (days >= 43 && !alreadySent(profile.id, 'digi-checks')) {
+    if (days >= 112 && !alreadySent(profile.id, 'digi-checks')) {
       await deliver(profile.id, profile.email, 'digi-checks', digiChecksEmail({ unsubscribe }), 'digiChecks')
+    }
+
+    // The weekly service programme, weeks 17 to 26 (Justin, 8 August: one a
+    // week, cover everything). Each teaches one part of the service, the
+    // philosophy behind it, and one thing to do today. Content in
+    // lib/email/weekly-programme.ts; same once only lock as everything above.
+    const weekly: [number, string, EmailContent, string][] = [
+      [119, 'week-founder-story', founderStoryEmail({ unsubscribe }), 'weekFounder'],
+      [126, 'week-philosophy', philosophyEmail({ unsubscribe }), 'weekPhilosophy'],
+      [133, 'week-research', researchAnchorsEmail({ unsubscribe }), 'weekResearch'],
+      [140, 'week-wisdom', wisdomInsightsEmail({ unsubscribe }), 'weekWisdom'],
+      [147, 'week-jobs-stars', jobsStarsEmail({ unsubscribe }), 'weekJobsStars'],
+      [154, 'week-evidence', checkinEvidenceEmail({ unsubscribe }), 'weekEvidence'],
+      [161, 'week-scripts', scriptsDeepEmail({ unsubscribe }), 'weekScripts'],
+      [168, 'week-school-week', schoolWeekEmail({ unsubscribe }), 'weekSchoolWeek'],
+      [175, 'week-device-time', deviceTimeEmail({ unsubscribe }), 'weekDeviceTime'],
+      [182, 'week-year-ahead', yearAheadEmail({ unsubscribe }), 'weekYearAhead'],
+    ]
+    for (const [day, key, content, counter] of weekly) {
+      if (days >= day && !alreadySent(profile.id, key)) {
+        await deliver(profile.id, profile.email, key, content, counter)
+      }
     }
 
     // The status aware layer: branch on where the contact actually is, not on

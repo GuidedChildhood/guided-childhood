@@ -5800,3 +5800,16 @@ they practised it, the tap becomes a pending quest tick like a game, the
 parent approves, three stars land. The server recomputes the objective
 from date of birth and dedupes per week; in the holidays there is no card
 at all.
+
+**The email programme goes weekly and reaches week 26 (8 Aug).** Justin:
+one per week is best, and cover everything. The four day trial arc keeps
+its pace; every email after it now lands weekly, the existing fifteen
+re timed to weeks 2 through 16 with keys unchanged so nobody mid
+programme is double sent. Ten new emails carry weeks 17 to 26: the
+founder story (from founding-story.md only), the philosophy, the
+research anchors (institutions and the experts already named in code,
+never an invented study), how families' wins become starting points,
+then one service deep dive a week: jobs and stars, the check in and
+evidence, scripts, the school week, device time, and the year ahead
+inviting a reply. Thirty programme emails over six months. Window
+widened to 200 days so the tail actually sends.
