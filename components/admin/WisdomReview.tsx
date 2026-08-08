@@ -18,7 +18,7 @@ export type WisdomRow = {
 }
 
 export default function WisdomReview({ pending, liveCount }: { pending: WisdomRow[]; liveCount: number }) {
-  const [busy, setBusy] = useState<'approve' | 'discard' | null>(null)
+  const [busy, setBusy] = useState<'approve' | 'discard' | 'rebuild' | null>(null)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
@@ -43,16 +43,57 @@ export default function WisdomReview({ pending, liveCount }: { pending: WisdomRo
     }
   }
 
+  // The on demand rebuild. The founder route has existed since the review
+  // gate shipped, but nothing on this page could press it, so the only way
+  // to fill the pen was to wait for Sunday. Same implementation as the cron:
+  // it writes candidates into the pen and touches nothing live.
+  async function rebuild() {
+    setBusy('rebuild')
+    setError(null)
+    try {
+      const res = await fetch('/api/admin/digi-wisdom', { method: 'POST' })
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}))
+        throw new Error(body.error ?? 'The rebuild did not go through')
+      }
+      router.refresh()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'The rebuild did not go through')
+    } finally {
+      setBusy(null)
+    }
+  }
+
+  const rebuildButton = (
+    <button
+      onClick={rebuild}
+      disabled={busy !== null}
+      style={{
+        padding: '13px 22px', borderRadius: '16px', border: '2px solid var(--border)',
+        background: '#fff', color: 'var(--ink-soft)',
+        fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
+        boxShadow: '0 5px 0 var(--border)', cursor: busy ? 'default' : 'pointer',
+        opacity: busy ? 0.6 : 1,
+      }}
+    >
+      {busy === 'rebuild' ? 'Rebuilding, this takes a minute' : 'Run the rebuild now'}
+    </button>
+  )
+
   if (pending.length === 0) {
     return (
       <div style={{ background: 'var(--tint-green)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '18px 20px' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink)', marginBottom: '4px' }}>
           Nothing waiting
         </div>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55 }}>
+        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '12px' }}>
           DiGi is serving {liveCount} approved {liveCount === 1 ? 'pattern' : 'patterns'}. The next rebuild runs Sunday at
-          06:00 and will leave its suggestions here rather than putting them live.
+          06:00 and will leave its suggestions here rather than putting them live, or run one now and review it today.
         </p>
+        {error && (
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--danger)', marginBottom: '10px' }}>{error}</p>
+        )}
+        {rebuildButton}
       </div>
     )
   }
