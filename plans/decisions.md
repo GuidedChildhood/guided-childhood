@@ -5495,3 +5495,14 @@ holidays it previews what starts when they go back, said as a preview,
 because this week in August would be a small lie. Other countries, per
 Justin's note: the curriculum slug is an explicit parameter, and a child we
 cannot place in the England system gets no brief rather than a wrong one.
+
+**The four day funnel got its countdown and its honest close (8 Aug).** The
+trial was already four days; what shouted 7 was one stale line on Home. The
+banner is now TrialCountdown: days while days are truthful, a live hours
+and minutes clock inside the last day counting to the real trial_ends_at,
+and an ended state that leads with the family's own numbers (jobs ticked,
+streak, or silence) and says what stays free. The techniques are the honest
+three, argued in the component: their own evidence, a real clock, true
+scarcity (the 50 cap is enforced in checkout and counted live on the
+upgrade page). The trial push sequence is planned in the week plan addendum
+and waits on Justin because it messages users.

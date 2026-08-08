@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { hasFullAccess, inTrial, trialDaysLeft } from '@/lib/access'
+import { hasFullAccess, inTrial, TRIAL_DAYS } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getStageFromAgeBand, ageBandInList, type AgeBand, type ChallengeId, STAGES } from '@/lib/content/stages'
@@ -43,6 +43,7 @@ import MissionWelcome from '@/components/home/MissionWelcome'
 import CommunityBite from '@/components/community/CommunityBite'
 import HomeRows from '@/components/home/HomeRows'
 import TodayCard from '@/components/home/TodayCard'
+import TrialCountdown from '@/components/home/TrialCountdown'
 import HomeLive from '@/components/home/HomeLive'
 import HomeMain from '@/components/home/HomeMain'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
@@ -420,7 +421,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     || (Date.now() - new Date(lastCheckin.created_at).getTime()) > 28 * 24 * 60 * 60 * 1000
 
   const showTrial = inTrial(profile)
-  const trialLeft = trialDaysLeft(profile)
   const trialEnded = !isPaid && Boolean(profile?.trial_ends_at) && !showTrial
 
   // The child's jobs, read across for DiGi's greeting: whether today's jobs are
@@ -607,35 +607,19 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           strands: literacyStrands,
         }}
       />
-      {/* Trial status: warm and forgiving during, a gentle offer after, never
-          a lockout. The everyday habit stays free either way. */}
-      {showTrial && (
-        <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-              ✨ Full access, {trialLeft} {trialLeft === 1 ? 'day' : 'days'} left
-            </span>
-            <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none', letterSpacing: '0.04em' }}>
-              See membership →
-            </Link>
-          </div>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
-            Everything is open while you settle in. Five to ten minutes a day, all the way to 16.
-          </p>
-        </div>
-      )}
-      {trialEnded && (
-        <div style={{ background: 'var(--deep-teal)', borderRadius: '16px', padding: '16px 18px', marginBottom: '18px' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: '#fff', marginBottom: '4px' }}>
-            Your 7 days of full access have finished
-          </div>
-          <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
-            The daily habit, quests and your tracker stay free. The founder rate opens everything for £7.99 a month, for life.
-          </p>
-          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-            Unlock everything again
-          </Link>
-        </div>
+      {/* Trial status: warm during, a real countdown inside the last day, an
+          honest close after, never a lockout. The three registers and the
+          honest techniques argument live in TrialCountdown. It used to say
+          7 days after the trial became 4, which is exactly why the number now
+          comes from TRIAL_DAYS rather than copy. */}
+      {(showTrial || trialEnded) && (
+        <TrialCountdown
+          trialEndsAt={(profile?.trial_ends_at as string | null) ?? null}
+          ended={trialEnded}
+          trialDays={TRIAL_DAYS}
+          jobsTicked={(jtRes.data ?? []).filter(t => (t as { status?: string }).status === 'approved').length}
+          streakCount={streak.count}
+        />
       )}
       {/* Welcome back, one beat, gone. Each open introduces a different thing
           the platform does, and what we do with what you tell it, so a parent

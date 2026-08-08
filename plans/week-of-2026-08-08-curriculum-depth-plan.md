@@ -98,3 +98,33 @@ afternoon and needs care only in context size (a handful of objectives, not
 the term's 40). Phase 4 is long but mechanical and can run in a parallel
 session lane. 1 then 3 then 2 then 4 if sessions are scarce; 1 must land
 first because 2 and 3 reuse its week picker.
+
+## Addendum, 8 August evening: the four day funnel
+
+Justin: "we should offer 4 days free with the limits as before on scripts
+digi messages etc but a count down then and pwa and best techniques to get
+them on founder rate at the end of 4 days."
+
+What was already true: the trial IS four days (TRIAL_DAYS in lib/access,
+changed on his earlier instruction, and the Stripe checkout follows it),
+the free tier limits return when it ends, and the upgrade page already
+shows the live founder seats count against the 50 cap.
+
+What was built today: Home's trial banner became TrialCountdown, three
+honest registers in one component. Days while days are truthful, a live
+hours and minutes clock inside the last day counting to the real
+trial_ends_at, and an ended state that leads with what the family's own
+days built (jobs ticked, the streak, real numbers or nothing) and says
+plainly what stays free. The stale "your 7 days" copy is gone for good:
+the number now comes from TRIAL_DAYS so copy and gate cannot disagree.
+
+What waits on Justin's approval because it messages users: THE PUSH
+SEQUENCE. Three pushes riding the existing push infrastructure and the
+same lifecycle states the email cron already computes: day 2 the value
+push (what their family has built so far), day 3 the honest warning
+(full access ends tomorrow, here is what changes), final morning the
+last call (ends today, founder rate holds it open, live seats count).
+Each deep links to /dashboard/upgrade, each sends once via the email_log
+pattern, none send to subscribers. The techniques stay the honest three:
+their own evidence, a real clock, true scarcity. No invented urgency,
+no guilt copy, per the same argument written into TrialCountdown.
