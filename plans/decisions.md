@@ -5568,3 +5568,39 @@ teeth" now also puts its button on a second line on a phone, because flex
 wrapping is decided by available width and not by how long the content happens
 to be. One basis cannot keep short rows inline and force long ones to wrap. The
 consistent two line row was chosen over occasionally saving thirty pixels.
+
+## 8 August 2026 — the child's timer looked paused when they left the app
+
+Justin: "I've noticed when you go off the child's app the timer pauses. That's
+a bug."
+
+**The countdown was never wrong. The recalculation stopped.** Every tick reads
+the wall clock (left = end minus now), so it has never decremented a counter and
+the number is correct the instant it is recomputed. What browsers throttle is
+the one second interval: down to about once a minute in a hidden tab, and
+suspended outright when a phone backgrounds the app. The digits freeze at
+whatever they last said.
+
+**The serious half was not the frozen display.** Switching to YouTube is exactly
+when the minutes are being spent, and if the block ran out while the app was in
+the background the expiry branch never ran: no alarm, no hand it back, no stop
+recorded. A timer whose whole job is to END was relying on the child watching it
+in order to finish.
+
+**Fixed by firing the tick on the way back in**, on visibilitychange, pageshow
+(a phone restoring from the back forward cache does not always raise the first)
+and focus. Guarded on visible so a child leaving does not spend their last
+seconds of attention on a jump.
+
+**Verified honestly.** Browser background throttling cannot be reproduced in a
+headless sandbox, and two attempts to force it (a second tab taking focus, then
+Page.setWebLifecycleState frozen over CDP) both left the page running normally,
+which is worth writing down so nobody repeats them. So the MECHANISM was tested
+instead: with the interval killed, the shipped code stays stuck on 4 seconds
+forever and never fires the finish, and the fixed code corrects to the true
+negative and fires the finish within one frame of the return event. The
+throttling itself still wants a look on a real phone.
+
+**The other per second intervals were left alone** (LiveTimerChip, StarSummary,
+SchoolActionsCard). They only paint a clock and self correct on the next tick,
+and none of them end a session, so a frozen second there is cosmetic.
