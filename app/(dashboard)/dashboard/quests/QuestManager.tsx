@@ -877,7 +877,12 @@ export default function QuestManager() {
           {/* The balance and stats now live on their own page, opened from this
               button and from the Screen time quick tile, so the Quests page
               stays clean instead of carrying the whole scales card. */}
-          <div id="screen-time" style={{ scrollMarginTop: '80px' }} />
+          {/* The #screen-time anchor that used to sit here is gone. It was left
+              behind when the timer moved to its own page, so every link and
+              push aimed at it landed on this board next to a link to Balance
+              and stats, with no countdown on the screen at all. It also made a
+              duplicate id with the real timer card. They all point at
+              /dashboard/quests/timer now. */}
           <Link href="/dashboard/stats" style={{ ...card, display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none' }}>
             <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #FFE9A8, #EDC35F)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', boxShadow: '0 3px 0 var(--terracotta-dark)', flexShrink: 0 }} aria-hidden>📊</span>
             <span style={{ flex: 1, minWidth: 0 }}>

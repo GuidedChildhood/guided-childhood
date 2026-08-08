@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import BrowseTile from '@/components/ui/BrowseTile'
 import { literacyAreaFor } from '@/lib/content/literacy'
@@ -99,6 +99,41 @@ export default function LessonsBrowser({
     initialStage ?? ((initialView ?? 'together') === 'library' ? childStageNum : 'all')
   )
 
+  // The chip row scrolls sideways, and the child's own stage is the fifth chip
+  // along. On a phone only "All ages" and "Stage 1" fit, so the selected chip
+  // sat off screen and the row looked like nothing was filtered at all.
+  //
+  // Justin, 8 August 2026, on the See their lessons button: "This button doesn't
+  // [work] it should show just the age related lessons." It already did. The
+  // list underneath had been filtered to their stage since the tab was opened.
+  // What was missing was any way to SEE that, which is the same thing as it not
+  // working from where a parent is sitting.
+  const chipRowRef = useRef<HTMLDivElement>(null)
+  const listRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const row = chipRowRef.current
+    if (!row) return
+    const active = row.querySelector('[data-chip-active="1"]')
+    if (!active) return
+    // inline: center rather than nearest, so the selected chip lands in the
+    // middle with its neighbours either side. That reads as a position in a
+    // row you can move along, where a chip flush against the edge reads as the
+    // end of the list.
+    active.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
+  }, [stage, view])
+
+  // Setting the stage to the value it already holds is a no op, which is what
+  // the button did. Now it also takes the parent to the lessons, because the
+  // card sits above the list and tapping a button that changes something below
+  // the fold is indistinguishable from tapping a dead one.
+  function seeChildStage() {
+    setStage(childStageNum)
+    requestAnimationFrame(() => {
+      listRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+    })
+  }
+
   const inStage = (n: number) => stage === 'all' || n === stage
   const watchForStage = watchItems.filter(w => inStage(w.stageNum))
   // A stage with no films of its own used to be a dead end that told a parent
@@ -176,9 +211,10 @@ export default function LessonsBrowser({
             ONE ramp from 8 to 16, and filtering it to a single stage would
             destroy the only thing it is for. */}
         {stageChips.length > 1 && !(view === 'library' && moduleOn) && (
-          <div style={{ display: 'flex', gap: '7px', overflowX: 'auto', paddingTop: '10px', scrollbarWidth: 'none' }}>
+          <div ref={chipRowRef} style={{ display: 'flex', gap: '7px', overflowX: 'auto', paddingTop: '10px', scrollbarWidth: 'none' }}>
             <button
               onClick={() => setStage('all')}
+              data-chip-active={stage === 'all' ? '1' : '0'}
               style={{
                 flexShrink: 0, padding: '7px 13px', borderRadius: '100px', cursor: 'pointer',
                 border: `1.5px solid ${stage === 'all' ? 'var(--terracotta)' : 'var(--border)'}`,
@@ -195,6 +231,7 @@ export default function LessonsBrowser({
                 <button
                   key={s.num}
                   onClick={() => setStage(s.num)}
+                  data-chip-active={on ? '1' : '0'}
                   style={{
                     flexShrink: 0, padding: '7px 13px', borderRadius: '100px', cursor: 'pointer',
                     border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
@@ -300,8 +337,12 @@ export default function LessonsBrowser({
               childName={childName}
               childStageNum={childStageNum}
               libraryItems={libraryItems}
-              onSeeStage={() => setStage(childStageNum)}
+              onSeeStage={seeChildStage}
             />
+            {/* Where See their lessons lands. Wrapping the list rather than
+                pointing at the first tile, so an empty stage still scrolls
+                somewhere and shows the reason instead of doing nothing. */}
+            <div ref={listRef} style={{ scrollMarginTop: 150 }} />
             {libForStage.length === 0 ? (
               <Empty>No library lessons at this stage yet. Try another stage above.</Empty>
             ) : (

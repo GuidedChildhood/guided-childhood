@@ -5912,6 +5912,51 @@ collected and why.
 for the set, because sending forty inboxes a claim that is currently untrue is
 the one thing worse than the page being wrong.
 
+## 8 August 2026 — the two false promises, fixed properly
+
+Justin: "Fix 1 and 2 and correct plan."
+
+**Cancelling now exists.** `/dashboard/upgrade` had promised "cancel any time"
+since it was written and there was no way to do it. Fixed in the product rather
+than in the copy: a Stripe hosted billing portal at `/api/stripe/portal` and a
+Your plan section in settings, shown only to people who actually pay.
+
+Hosted rather than built here on purpose. Cancelling and re-entering card
+details are the two flows where a subtle mistake costs someone real money, and
+Stripe's page is PCI handled, localised, and already knows about proration,
+trials and the real invoices. It also cannot drift out of step with what Stripe
+thinks the subscription is.
+
+**It fixes the card update in the same stroke**, which is what the past due
+email needed and could not have. Both emails that had been rewritten to say
+"reply to me" now point at the real screen again.
+
+**The portal has to be switched on once in the Stripe dashboard.** Until then
+the API returns a configuration error, and the button says the door is not open
+yet and gives an address, rather than showing a parent a dead button and letting
+them think cancelling is being made difficult.
+
+**The privacy policy now describes what is actually collected.** It said "We do
+not ask for a surname, a date of birth, a photo, or a school". The app has asked
+for a birthday since migration 083 and interests since 088. The policy now says
+both are optional, what each is for (the birthday moves a child into the next
+stage on the right day, the interests make scripts sound like your child), and
+that both can be cleared in settings. Verified against the save code: clearing
+the field writes null, and the age band falls back without it.
+
+**The product was not changed to match the policy**, which was the other option.
+The birthday earns its place, so the honest fix was to describe it rather than
+delete a working feature.
+
+**The effective date moved with the words.** A policy that changes and keeps its
+old date is the same problem one level up.
+
+**Left alone deliberately:** the same sentence says we do not ask for a school.
+No UI was found that collects one, so it stands as written rather than being
+rewritten on a guess. `profiles.school_id` and `school_region` exist and nothing
+in the parent app appears to set them. Worth confirming before the ICO
+registration goes in.
+
 ## 8 August 2026 — a parent could grant themselves the product
 
 **Justin, testing:** *"I was able to go around the block, maybe that's for
@@ -5947,6 +5992,76 @@ statement so two tabs cannot both pass.
 correct because `profiles.subscription_status` is NOT NULL default `'free'`,
 checked against the live schema. If that constraint is ever dropped, the filter
 silently stops granting trials and must become an explicit is null or neq.
+
+## 8 August 2026 — the See their lessons button was already right, and looked broken
+
+Justin, from his phone: "This button doesn't [work] it should show just the age
+related lessons."
+
+**It was already showing just those.** `onSeeStage` called `setStage(childStageNum)`,
+and the Lessons tab sets exactly that on entry, so the button was setting the
+filter to the value it already held. A no op. The list underneath had been
+filtered to the child's stage the whole time.
+
+**Two things made it read as broken, and both are real.**
+
+1. **The selected chip sat off screen.** The chip row scrolls sideways and the
+   child's own stage is the fifth chip. On a 390px phone only "All ages" and
+   "Stage 1" fit, so the row looked like nothing was selected. From where a
+   parent is sitting, an invisible filter and no filter are the same thing.
+   The active chip now scrolls itself into view, centred, whenever the stage or
+   the view changes.
+2. **Tapping it moved nothing on screen.** The card sits above the list, so even
+   a real filter change happens below the fold. The button now also scrolls the
+   list into view, so it lands somewhere.
+
+**The browser had no fixture at all**, which is why one control a parent uses
+constantly had never been driven outside a signed in session. `/dev/lessons-filter`
+renders it with a Stage 4 child and lessons across all five stages, the shape
+that makes the overflow visible. Driven in Chromium at 390px: the chip reads
+"Stage 4 · 13 to 15 · Teo" and is on screen at load, the tap moves the page 325
+pixels onto the Shaper route, and the list holds stage 4 tiles only.
+
+Writing the fixture also surfaced that the banner counts only ids starting with
+`lesson-`, the family library set, so a fixture with invented ids renders no
+card at all. Recorded because the next person to write one will hit it too.
+
+## 8 August 2026 — two more links that went nowhere, same cause
+
+Justin: "See timer should actually take you to the ticking timer" and "Play good
+night screens should take you there."
+
+**Both are the same failure: a link left behind when the thing it pointed at
+moved or never existed.** Nothing errors, the route resolves, and the parent is
+simply somewhere else. That is the quietest kind of broken link and the reason
+neither was ever reported as a bug by anything automated.
+
+**The timer.** Four places pointed at `/dashboard/quests#screen-time`: the bell
+notification, the device time cron push, the stop push, and the Screen timer
+tile on home. The timer moved to its own page at `/dashboard/quests/timer`, and
+the anchor was left behind on a spacer div that now sits above the Balance and
+stats LINK. So "See the timer" landed on the quests board, beside a link to a
+different page, with no countdown on screen. The spacer was also a duplicate id
+with the real timer card. All four now point at the timer page and the spacer
+is gone.
+
+**The game.** A job row is a plain div, which is right for "put your shoes away"
+and wrong for a job that names a game we made. `lib/quests/craft-links.ts` maps
+the nine game pack titles to their sheets, stripping a leading verb so "Play
+Goodnight Screens pairs" finds "Goodnight Screens pairs". Deliberately exact,
+never fuzzy: "Play fighting is not allowed" matches nothing, because landing a
+parent on the wrong sheet is worse than leaving the row as text.
+
+**The anchor alone would have been another dead link.** CraftPack renders only
+the selected age band, so six of the nine ids were not in the DOM at all. Proved
+by driving it: 3 of 9 present on the first run. The hash now chooses the band
+first, then scrolls after a frame, because the element does not exist at
+navigation time, which is exactly why it failed. All nine verified landing with
+the sheet 96 pixels down.
+
+**Two fixtures added**, `/dev/lessons-filter` and `/dev/craft-anchors`, because
+neither page had one and both are behind auth. That is why controls a parent
+uses constantly had never been driven at all.
 
 ## 8 August 2026 — nothing buzzes a child's phone at night
 

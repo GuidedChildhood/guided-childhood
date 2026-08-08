@@ -51,7 +51,7 @@ async function handler(request: Request) {
   // here with a deadline: it is worth nothing if it lands after the argument.
   async function push(userId: string, title: string, body: string, urgent = false) {
     try {
-      await sendPush({ userId, title, body, url: '/dashboard/quests#screen-time', urgent })
+      await sendPush({ userId, title, body, url: '/dashboard/quests/timer', urgent })
     } catch { /* best effort per session */ }
   }
 

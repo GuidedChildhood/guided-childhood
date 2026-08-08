@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import Link from 'next/link'
 import { kidLessonForQuestTitle } from '@/lib/quests/kid-lessons'
+import { craftForQuestTitle, craftHref } from '@/lib/quests/craft-links'
 import LessonCheck from './LessonCheck'
 
 // Where every job actually is.
@@ -453,6 +455,12 @@ export default function QuestStatusBoard() {
             // receipt, and asking then is asking about something already
             // settled. See LessonCheck for why the answers stay hidden.
             const lesson = shown === 'waiting' ? kidLessonForQuestTitle(r.title) : null
+            // Some jobs are a game we made, sitting a tap away on the game pack
+            // page. Justin: "Play good night screens should take you there."
+            // Naming one at a parent and not opening it is the app knowing
+            // something and not saying it. Unrecognised titles stay plain text
+            // rather than becoming a link to a guess.
+            const craft = craftForQuestTitle(r.title)
             return (
             <div key={r.key} style={{
               border: '1.5px solid var(--border)', borderRadius: 13, padding: '10px 12px',
@@ -461,10 +469,19 @@ export default function QuestStatusBoard() {
               <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1.3, flexShrink: 0 }}>{r.emoji}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
-                  {r.title}
+                  {craft ? (
+                    <Link href={craftHref(craft)} style={{ color: 'var(--ink)', textDecoration: 'none' }}>
+                      {r.title}
+                      {/* The arrow rather than an underline, because the row
+                          already carries an emoji and a Yes button and a rule
+                          under the words would read as a fourth thing. */}
+                      <span aria-hidden style={{ color: 'var(--terracotta-dark)', fontWeight: 900, marginLeft: 6 }}>›</span>
+                    </Link>
+                  ) : r.title}
                 </span>
                 <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginTop: 1 }}>
                   {r.who}{r.note ? ` · ${r.note}` : ''}
+                  {craft ? ' · TAP TO OPEN' : ''}
                 </span>
               </span>
               {/* One tap, on the row that names the job. Only the waiting pile
