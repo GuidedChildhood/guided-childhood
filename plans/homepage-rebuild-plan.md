@@ -47,6 +47,50 @@ buyer's own words, funnelled to ONE call to action. Ours already has that CTA ru
    button, submit the form, screenshot each breakpoint. Already our rule, now a
    formal build stage.
 
+## THE MESSAGE (locked by Justin, 8 Aug 2026)
+
+Hero headline:
+  **A clear digital pathway from first screen to 16.**
+Hero subline:
+  What to do, when to do it, how to do it. Age by age lessons, habits and
+  quests, all science backed, finished with their Digital Passport.
+CTA: Start with the free check (routes to /starter-pack, as every CTA does).
+
+Two supporting pillars Justin added, both must be visible on the page:
+1. WE DRIVE YOU. This is not a library. The pathway tells you what to do,
+   when to do it and how to do it, week by week, from any starting age.
+2. THE 11 O'CLOCK MOMENTS. DiGi answers any question about your child and
+   the digital world at any hour, with researched answers, and it remembers
+   what you have told it. What you tell us matters: your family's history
+   shapes every answer. This gets its own section high on the page, opening
+   with the moment itself ("It's 11 o'clock and you've just seen something
+   on their phone").
+
+## Good Inside adaptation (researched from our June 2026 teardown docs)
+
+Sources: design-refs/good-inside-notes.md and guided-childhood-build/docs/09
+(goodinside.com itself is blocked from this build environment; the local
+teardown is complete and recent). We adapt their general parenting playbook
+to the digital world:
+- Entry is a quiz, not a signup. Every CTA to /starter-pack. Already our rule.
+- Our job / Your job headline pattern for section leads.
+- Stage cards that open with a verbatim parent quote.
+- Outcome narrative in three acts: tonight, this term, age 16 with the passport.
+- Vivid future framing above pricing, 30 day guarantee said once, clearly.
+- Founder story block (Justin, photo, three sentences) and the research bench
+  (Justin + DiGi + Orben, Livingstone, Przybylski) as the expert bench.
+
+Where we say MORE than Good Inside, on the page, without naming them:
+- Digital specialism: they cover parenting in general, we go deep on the
+  one area parents feel least equipped for.
+- Curriculum tracking: a tracked, age by age curriculum with progress, not
+  just a content library.
+- The school connection: lessons align with school delivery, school activity
+  messages reach home.
+- A finish line: the Digital Passport at 16. Their journey never ends; ours
+  arrives somewhere.
+- Printables, quests and family activity management as first class features.
+
 ## Build stages (each is one Claude Code session step)
 
 Stage 0 — Claim. Push this plan on branch claude/website-front-page-rebuild-75pwww
@@ -99,9 +143,24 @@ Never one shot the page. Sequence per stage, in plan mode first:
 - Brand and testimonial scraping: Firecrawl MCP (https://docs.firecrawl.dev/mcp)
 - Asset generation: Higgsfield MCP (already connected in our sessions)
 
-## Decisions needed from Justin
+## Homepage spine (draft order, refined in Stage 2)
 
-1. Approve the one line message candidate or give the line himself.
+1. Hero: the locked message, single CTA.
+2. The 11 o'clock moment: DiGi, any question, any hour, remembers your family.
+3. We drive you: what to do, when, how. The five stages as the visual pathway.
+4. Inside the platform: lessons, quests, scripts, printables, wellbeing
+   tracker, curriculum tracking, school messages. Proof, not promises.
+5. Watching with you: safety settings, what to look for, child and parent
+   mental health, balancing tech with offline.
+6. Three acts: tonight, this term, sixteen with a Digital Passport.
+7. Stage cards with real parent quotes.
+8. Justin's story and the research bench.
+9. Testimonials and the 30 day guarantee.
+10. Final CTA to /starter-pack.
+
+## Decisions still needed from Justin
+
+1. DONE: message locked (option 1 plus the two pillars above).
 2. Confirm the hero asset direction: real family photo territory or digi squad
    illustrated world (recommendation: illustrated, we own it and it is consistent).
 3. Confirm PassportSection stays on the homepage or moves to /passport.
