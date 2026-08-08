@@ -172,7 +172,17 @@ export async function buildPassportSections(
         key: 'moments', emoji: '💬', label: 'Moments to resolve',
         pct: isCurrent ? momentsPct : 0,
         detail: !isCurrent ? 'Later' : openMoments > 0 ? `${openMoments} to resolve` : 'All clear',
-        href: withOrigin('/dashboard/moments', 'passport'),
+        // The list this number is counting, which is not where this row used
+        // to go. openMoments counts open rows in `concerns`, and the link went
+        // to /dashboard/moments, which lists `daily_moments`, the general
+        // library of moment cards. Two different tables, so "5 to resolve"
+        // landed a parent on a browse page that did not contain their five.
+        //
+        // Their five live in the What we are working on list, which is already
+        // further down THIS page, so this is an anchor rather than a route.
+        // That also answers the second half of what Justin asked for: getting
+        // back is scrolling up or the back gesture, because you never left.
+        href: '/dashboard/pathway#working-on',
         help: 'Open a moment, use the words it gives you, and mark it resolved when it is done.',
       },
       {
