@@ -137,7 +137,7 @@ export default function KidQuestScreen({
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
   earnedStages = 0, completedStreaks = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
-  stickers = [], celebrateStickers = [],
+  stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
 }: {
   token: string
   childName: string
@@ -224,6 +224,12 @@ export default function KidQuestScreen({
   stickers?: KidSticker[]
   /** Earned but not yet seen, so the book can pop the new ones exactly once. */
   celebrateStickers?: string[]
+  /** Sticker keys this child has ALREADY been shown. Never shown again. */
+  celebratedStickers?: string[]
+  /** The star week this child last saw the streak screen in, or null. */
+  streakWeekSeen?: string | null
+  /** The star week we are in now, stamped on the server. */
+  starWeek?: string
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -493,6 +499,53 @@ export default function KidQuestScreen({
   // A completed day is one more row in kid_days, so the live count is simply one
   // more. The server read still wins on the next load.
   const [liveStreaks, setLiveStreaks] = useState(completedStreaks)
+
+  // THE STREAK SCREEN IS A WEEKLY REMINDER, NOT A DAILY ONE.
+  //
+  // Justin, 8 August 2026: "only ever once for both, as would be annoying if
+  // every time they go in ... then the streaks achieved come up once per week so
+  // reminds them once per week what they have achieved, as we show streaks in
+  // other places."
+  //
+  // It fired on every completed day, which for a child doing their five a day
+  // is every single day: the same flame, the same week dots and the same
+  // sentence, over a number already on their home screen. That is how a
+  // celebration becomes a dialog you learn to dismiss without reading.
+  //
+  // The star week is the unit rather than a rolling seven days, because it is
+  // the Monday to Monday London week their earned minutes already reset on. And
+  // it is remembered on the child, not in localStorage, which is what it used
+  // before and which meant once per DEVICE, twice for a child with a tablet and
+  // a phone, and never again once an in app browser cleared its storage.
+  const [weekSeen, setWeekSeen] = useState<string | null>(streakWeekSeen)
+  const streakDueThisWeek = starWeek !== '' && weekSeen !== starWeek
+
+  const markStreakWeekSeen = useCallback(() => {
+    if (starWeek === '') return
+    setWeekSeen(starWeek)
+    try {
+      fetch('/api/kid/streak-week', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token }),
+      }).catch(() => {})
+    } catch { /* best effort, the local note holds for this visit */ }
+  }, [starWeek, token])
+
+  // The Friend arrival does NOT ride on the streak screen closing any more.
+  //
+  // It used to, and once the streak screen started skipping most days that
+  // would have taken the rarest moment in the whole app down with it: a child
+  // earns a Planet Friend about five times in a childhood, and it cannot depend
+  // on a weekly reminder happening to be due the same day.
+  const openArrivalIfEarned = useCallback((streaks: number) => {
+    if (!isFriendMoment(streaks)) return
+    const f = characterForStage(friendsFromStreaks(streaks))
+    // Once ever, and the server is what says so. A Friend already celebrated on
+    // a tablet must not arrive again on a phone, and the localStorage note
+    // below cannot know about the tablet.
+    if (f && !celebratedStickers.includes(`friend-${f.key}`)) setArrival(f)
+  }, [celebratedStickers])
 
   // Mark the Friend seen as soon as the takeover opens, not when it is
   // dismissed. A child who closes the tab mid flight has still had the moment,
@@ -1409,7 +1462,16 @@ export default function KidQuestScreen({
           readingMinutes={readingMinutesFor(ageBand)}
           moveJobs={moveJobs}
           onOpenJobs={() => document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-          onDayComplete={n => { playKidSound('done'); setLiveStreaks(s => s + 1); setStreakWon(n) }}
+          onDayComplete={n => {
+            playKidSound('done')
+            const next = liveStreaks + 1
+            setLiveStreaks(next)
+            // The weekly reminder, if it is owed. When it is not, the day still
+            // completes and the Friend still arrives: only the reminder is
+            // skipped.
+            if (streakDueThisWeek) { setStreakWon(n); markStreakWeekSeen() }
+            else openArrivalIfEarned(next)
+          }}
         />
 
         {/* Reminders, asked ABOVE the jobs rather than below everything. This
@@ -2646,10 +2708,7 @@ export default function KidQuestScreen({
             // the streak screen. Two takeovers back to back is the right order
             // rather than one too many: the streak is what they did, the Friend
             // is what it bought, and the second one is the rarer of the two.
-            if (isFriendMoment(liveStreaks)) {
-              const f = characterForStage(friendsFromStreaks(liveStreaks))
-              if (f) setArrival(f)
-            }
+            openArrivalIfEarned(liveStreaks)
           }}
         />
       )}
