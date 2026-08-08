@@ -70,7 +70,16 @@ export default function TrialCountdown({
     return (
       <div style={{ background: 'var(--deep-teal)', borderRadius: '16px', padding: '16px 18px', marginBottom: '18px' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: '#fff', marginBottom: '4px' }}>
-          Your {trialDays} days of full access have finished
+          {/* Justin, 8 August 2026: "should it be has?"
+              No, and the reason his ear snagged is worth keeping. The subject
+              is "days", which is plural, so "have" is the correct agreement
+              and "has" would be wrong. What is actually off is the verb: a
+              stretch of time does not finish, it ends. People finish things.
+              So "have finished" reads stilted, and a stilted sentence is the
+              kind you reread wondering if it is broken. "Are over" is plain,
+              it is what anybody would say out loud, and it matches "Full
+              access ends in" on the card this one replaces. */}
+          Your {trialDays} days of full access are over
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
           {evidence
