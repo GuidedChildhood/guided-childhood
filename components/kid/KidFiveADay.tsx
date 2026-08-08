@@ -89,6 +89,10 @@ export default function KidFiveADay({
 }) {
   const [state, setState] = useState<DayState | null>(null)
   const [busy, setBusy] = useState<StepKey | null>(null)
+  // A finished day folds to one proud line; this reopens it. Not remembered
+  // across loads on purpose, the same rule the parent's path uses: the point
+  // of folding is that the next visit leads with the day done, not the list.
+  const [openAnyway, setOpenAnyway] = useState(false)
 
   useEffect(() => {
     let live = true
@@ -180,6 +184,37 @@ export default function KidFiveADay({
 
   const doneCount = state.done.length
   const total = state.steps.length
+
+  // The finished day is one line, not five crossed out rows. Justin, on
+  // Teo's screen: "of 5 jobs done it should close up to 1 line as no need to
+  // see done 5." Done work is worth a proud line and a way back in, not the
+  // same room it took while it still needed doing. A tap reopens the list.
+  if (state.complete && !openAnyway) {
+    return (
+      <button
+        onClick={() => { playKidSound('tap'); setOpenAnyway(true) }}
+        style={{
+          display: 'flex', alignItems: 'center', gap: '12px', width: '100%',
+          background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '22px',
+          padding: '14px 16px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
+          cursor: 'pointer', textAlign: 'left', font: 'inherit', color: 'var(--ink)',
+        }}
+      >
+        <span aria-hidden style={{ fontSize: 'var(--text-2xl)', lineHeight: 1, flexShrink: 0 }}>🎉</span>
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
+            Today is done!
+          </span>
+          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginTop: 2 }}>
+            {doneCount} of {total}{state.streak > 0 ? ` · 🔥 ${state.streak} day${state.streak === 1 ? '' : 's'} in a row` : ''}
+          </span>
+        </span>
+        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: 'var(--ink-muted)' }}>
+          Show ›
+        </span>
+      </button>
+    )
+  }
 
   return (
     <div style={{

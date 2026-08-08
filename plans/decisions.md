@@ -5691,3 +5691,11 @@ a lesson its own page refuses to open. Two fixes: the kid home query now
 carries the same not null slides rule as the list, and a real lesson with
 no deck redirects to the child's lessons list instead of 404ing, because
 the links that land there are the app's own. Guessed or junk ids still 404.
+
+**The child's finished day folds to one line, and coming back starts at the
+top (8 Aug).** Justin, on Teo's screen: five crossed out rows under Today is
+done, and the app reopening wherever it was left. The five a day now folds
+to one proud line with the streak on it and a tap to reopen, the same rule
+the parent's path uses. The quests screen starts at the top on entry, and
+when the PWA resumes after five minutes or more away; a quick app switch
+never yanks the scroll.
