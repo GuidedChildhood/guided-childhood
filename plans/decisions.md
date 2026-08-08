@@ -5644,3 +5644,15 @@ and a child should never read one as something they have to solve.
 **Scoped to this page, not to the token.** --kid-bg is used by five other child
 sub pages Justin has not asked about. A colour token is the wrong place to make
 a one page decision.
+
+## 8 August 2026 — Homepage rebuilt around one message
+Justin locked the hero: "A clear digital pathway from first screen to 16."
+Ten minutes a day is the single time claim, with the catch up promise
+(miss days, the pathway catches you up). Digital Health Checker is footer
+link only. Hero and stage cards use the Planet Friends CDN art with the
+passport as the finish line. Every CTA routes to /starter-pack including
+both paid pricing buttons (were /join). Page went from 2,930 lines and 34
+blocks to a 10 section spine; TRUST method, schools section and FAQ
+accordion left the homepage (live at /pathway, /schools, JSON-LD kept).
+Research base: research/homepage-audience-language.md and
+plans/homepage-section-audit.md.

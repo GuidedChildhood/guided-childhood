@@ -31,6 +31,13 @@ const TILES = [
     tall: false,
   },
   {
+    src: '/marketing/kid-page.png',
+    alt: 'The child app: star bank, daily goal, a saving goal for film night, and today\'s quests',
+    title: 'Their own app',
+    sub: 'Quests to tick, jobs to request, and a star bank that turns into agreed screen time, with outside play earning the most. No device of their own yet? It runs from your phone.',
+    tall: true,
+  },
+  {
     src: '/marketing/passport-mobile-earned.png',
     alt: 'An earned passport page: the Foundation stage stamped complete',
     title: 'Stamped, not nagged',
