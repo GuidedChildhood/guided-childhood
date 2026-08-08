@@ -5,7 +5,7 @@ import { PrintBrandFooter } from '@/components/brand/PrintBrand'
 
 export const metadata = {
   title: 'Conversation Scripts | Guided Childhood',
-  description: 'Word-for-word scripts for every stage of digital parenting. Screen time, bedroom rules, the algorithm conversation, online safety. Five stages, ages 4 to 16.',
+  description: 'Word for word scripts for every stage of digital parenting. Screen time, bedroom rules, the algorithm conversation, online safety. Five stages, ages 4 to 16.',
 }
 
 const STAGE_COLORS = [

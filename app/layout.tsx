@@ -23,6 +23,12 @@ const plexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
+  // The domain every relative URL in this block resolves against. Without it
+  // Next resolves Open Graph and Twitter image paths against localhost during
+  // the build and warns, and a share card that points at localhost shows
+  // nothing at all on WhatsApp, LinkedIn or Facebook. It is the same origin
+  // robots.ts and sitemap.ts already hardcode, so all three now agree.
+  metadataBase: new URL('https://www.guidedchildhood.co.uk'),
   title: {
     default: 'Digital Literacy for Children Age 4 to 16, Research Based Pathway | Guided Childhood',
     template: '%s | Guided Childhood',
@@ -33,7 +39,7 @@ export const metadata: Metadata = {
   creator: 'Guided Childhood',
   publisher: 'Guided Childhood',
   openGraph: {
-    title: 'Guided Childhood, The Stage-by-Stage Digital Parenting Guide',
+    title: 'Guided Childhood, The Stage by Stage Digital Parenting Guide',
     description: 'From first screen at age 4 to full independence at 16. Exact scripts for every hard moment. DiGi your evidence led guide. For UK families.',
     type: 'website',
     locale: 'en_GB',
@@ -42,7 +48,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Guided Childhood, Digital Parenting for UK Families',
-    description: 'The stage-by-stage guide to raising children with screens. Ages 4 to 16. Built on the research.',
+    description: 'The stage by stage guide to raising children with screens. Ages 4 to 16. Built on the research.',
   },
   robots: {
     index: true,
