@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { kidLessonForQuestTitle } from '@/lib/quests/kid-lessons'
+import LessonCheck from './LessonCheck'
 
 // Where every job actually is.
 //
@@ -445,12 +447,18 @@ export default function QuestStatusBoard() {
         </p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-          {rows.slice(0, 8).map(r => (
+          {rows.slice(0, 8).map(r => {
+            // A finished lesson can be checked rather than just believed. Only
+            // in the waiting pile: once the parent has said yes it is a
+            // receipt, and asking then is asking about something already
+            // settled. See LessonCheck for why the answers stay hidden.
+            const lesson = shown === 'waiting' ? kidLessonForQuestTitle(r.title) : null
+            return (
             <div key={r.key} style={{
-              display: 'flex', alignItems: 'center', gap: 10,
               border: '1.5px solid var(--border)', borderRadius: 13, padding: '10px 12px',
             }}>
-              <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{r.emoji}</span>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+              <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1.3, flexShrink: 0 }}>{r.emoji}</span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.25, overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                   {r.title}
@@ -479,7 +487,14 @@ export default function QuestStatusBoard() {
                 </button>
               )}
             </div>
-          ))}
+            {/* Under the row, not inside its text column. Beside the emoji and
+                the Yes button a three line question had about half the card to
+                wrap into and set two words per line. The questions are the
+                point of this panel, so they get the whole width. */}
+            {lesson && <LessonCheck lesson={lesson} childName={r.who} />}
+            </div>
+            )
+          })}
           {rows.length > 8 && (
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: '2px 0 0' }}>
               and {rows.length - 8} more
