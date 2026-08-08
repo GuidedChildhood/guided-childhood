@@ -914,3 +914,228 @@ export function backToSchoolEmail(params: {
     html: bandedWrapper({ bands, unsubscribe, signOff: 'Have a good September,' }),
   }
 }
+
+// ── Weeks 5 to 7: the curriculum, and how DiGi learns ──
+//
+// The programme used to stop dead at day 25. These six carry it to day 43, and
+// they change subject: the first four weeks sell the tools, these explain the
+// thinking underneath them. A parent six weeks in has stopped needing a tour
+// and started wondering whether the thing they are trusting is any good.
+//
+// Cadence drops to every three days here. Keeping the onboarding pace for six
+// straight weeks turns help into pressure.
+//
+// Every claim below traces to code or to a cited document. Where the honest
+// answer is narrower than the impressive one, these take the narrow one.
+
+// A compact list, used where the point IS the completeness of a set (the eight
+// strands) and prose would bury it.
+function bullets(items: string[]): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 20px">` +
+    items.map(item =>
+      `<tr>
+        <td width="18" valign="top" style="padding:0 10px 8px 0">
+          <div style="width:6px;height:6px;border-radius:50%;background:${BUTTER};margin-top:8px"></div>
+        </td>
+        <td valign="top" style="padding:0 0 8px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;color:${INK_SOFT}">${item}</td>
+      </tr>`
+    ).join('') +
+    `</table>`
+}
+
+// Day 28 · The spine under the lessons.
+//
+// The claim is deliberately limited to what curriculum-badges.ts already says
+// in code: the lessons walk the same recognised ground, they are not the
+// school's scheme of work. A parent who thought their child had covered
+// school's syllabus, and had not, would find that out the worst way.
+export function curriculumStrandsEmail(params: {
+  childName: string
+  keyStage: string | null
+  unsubscribe: string
+}): EmailContent {
+  const { childName, keyStage, unsubscribe } = params
+  const ks = keyStage ? `, alongside the Key Stage it lines up with (${keyStage} for ${childName} right now)` : ''
+  return {
+    subject: `What ${childName} is actually being taught`,
+    html: wrapper(
+      heading('There is a spine under the lessons.') +
+      p(`The lessons are not a pile of good ideas. Every one of them sits on a strand of Education for a Connected World, the UKCIS framework schools use to plan online safety. There are eight, and between them they cover the whole of growing up online:`) +
+      bullets([
+        'Self image and identity',
+        'Online relationships',
+        'Online reputation',
+        'Online bullying',
+        'Managing online information',
+        'Health, wellbeing and lifestyle',
+        'Privacy and security',
+        'Copyright and ownership',
+      ]) +
+      p(`Open any lesson and you will see which strand it belongs to${ks}. That is how you can tell at a glance what ground ${childName} has covered and what is still ahead.`) +
+      button('See the lessons', `${APP}/dashboard/lessons`) +
+      p(`One thing I want to be straight about: this is not your school's scheme of work and it does not replace it. It walks the same recognised ground, so nothing ${childName} learns here is off on its own somewhere.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Day 31 · What school has to teach, and why getting there first is kinder.
+//
+// The five named topics are the ones the July 2025 RSHE guidance actually adds
+// (see plans/school-readiness-verdict-2026-07.md).
+//
+// SPLIT BY STAGE, and this is the whole point of the email rather than a
+// refinement of it. Those five are secondary school content. Listing them to
+// the parent of a five year old would be the exact fear pitch this company
+// exists to argue against, and no caveat underneath rescues a list a parent
+// has already read. So the primary stages get what their child actually meets
+// at KS1 and KS2, and the knowledge that the harder ground is mapped and comes
+// later. Same email, same promise, told at the right distance.
+export function curriculumSchoolEmail(params: {
+  childName: string
+  stageName: string
+  stageId: number
+  unsubscribe: string
+}): EmailContent {
+  const { childName, stageName, stageId, unsubscribe } = params
+  const primary = stageId <= 2
+
+  const items = primary
+    ? [
+        'Being kind online, and what to do when someone is not',
+        'Keeping personal things private',
+        'Telling a trusted adult when something feels wrong',
+        'Knowing that not everything online is true',
+      ]
+    : [
+        'The harms of pornography',
+        'Misogynistic cultures online, including incel groups',
+        'Deepfakes',
+        'The risks of online gambling',
+        'Illegal behaviour online, including drug and knife supply',
+      ]
+
+  const after = primary
+    ? p(`Gentle ground, and ${childName} is already walking it here. The heavier topics arrive years later, and they are mapped on the pathway so you can see them coming rather than meeting them the week school sends the letter.`)
+    : p(`That is a heavy list to meet for the first time in a school hall, in one go, with two hundred other children watching your reaction.`)
+
+  return {
+    subject: 'What school has to teach from September',
+    html: wrapper(
+      heading('From September the rules change.') +
+      p(`New statutory guidance for relationships and health education becomes compulsory in English schools on 1 September 2026. Here is the part of it ${childName} meets ${primary ? 'at their age' : 'at this stage'}:`) +
+      bullets(items) +
+      after +
+      p(`The lessons here go at ${childName}'s pace, one idea at a time, pitched at the ${stageName} stage and no further. Nothing lands before it should. By the time a topic comes up at school it is a second conversation rather than a first one, and you already know what was said.`) +
+      button(`See what is next for ${childName}`, `${APP}/dashboard/lessons`) +
+      p(`Not instead of school. Just calmly, first.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Day 34 · The brain, in plain words.
+//
+// Written for a parent who has been told for two years that everything is AI
+// and has no way to tell a research tool from a chatbot with a mascot. The
+// retrieval example is concrete on purpose: "screams when I take the iPad"
+// finding work on transitions is exactly what search by meaning buys, and it
+// is the one part of the machinery a parent can feel from the outside.
+export function digiBrainEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'What DiGi is doing while you wait',
+    html: wrapper(
+      heading('The three seconds after you press send.') +
+      p(`DiGi is not a chatbot having a guess, so here is exactly what happens in the pause after you ask it something.`) +
+      bullets([
+        `<strong>It searches by meaning, not words.</strong> Ask why he screams when I take the iPad away and it finds the research on transitions and endings, even though you never used either word.`,
+        `<strong>It loads who is asking.</strong> ${childName}'s age and stage go in with the question, so the answer is for a child that age and not for children in general.`,
+        `<strong>It refuses to give you a verdict.</strong> DiGi never answers allow it or ban it. It gives you the next move, because a yes or no on its own has never once helped anyone at bedtime.`,
+      ]) +
+      p(`And it will tell you when something is beyond it. A question that needs your GP, your school or a safeguarding lead gets sent there, plainly, rather than answered by a piece of software at 11pm.`) +
+      button('Ask DiGi something', `${APP}/dashboard/digi`) +
+      p(`That is the whole trick. Real research, your actual child, no verdicts.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Day 37 · The loop, and the human gate on it.
+//
+// The gate is the point. Every AI product claims it learns; almost none of them
+// can say a person reads each new thing before it reaches you. That is the
+// difference worth the email, so it gets the last word rather than a footnote.
+export function digiLearnsEmail(params: { unsubscribe: string }): EmailContent {
+  const { unsubscribe } = params
+  return {
+    subject: 'How DiGi gets better',
+    html: wrapper(
+      heading('It reads what parents actually ask.') +
+      p(`Every fortnight DiGi looks at the questions families have really been bringing it. Not what I assumed parents would ask, what they did ask, at the hours they asked it.`) +
+      p(`Where there is a gap, it goes looking for the current research on that exact thing, from universities, paediatric bodies and the people who study this for a living. It drafts what it finds into new findings for its own bank.`) +
+      p(`Then it stops and waits for me.`) +
+      p(`Nothing reaches your answers until I have read it and approved it. Every candidate sits in a queue marked pending until a person says yes. That gate is deliberate and it is not coming out. An AI tool that quietly rewrites its own advice about your children, with nobody reading the change, is not a tool I would let near my own family.`) +
+      button('Ask DiGi something', `${APP}/dashboard/digi`) +
+      p(`So the bank grows most weeks, and every single thing in it has been looked at by a human being first.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Day 40 · The ask.
+//
+// Six weeks of giving before asking for anything, which is the right order. The
+// "good place to start and not a verdict" line is lifted from the comment on
+// getProvenSolutions in lib/digi/wisdom.ts, because that comment is the honest
+// description of what the weighting does and it should not get more confident
+// on its way into an email.
+export function digiFeedbackLoopEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'The one thing I will ask you for',
+    html: wrapper(
+      heading('Six weeks in, one ask.') +
+      p(`Every so often DiGi will ask whether something it suggested actually worked. It takes a sentence to answer and most people skip it, so here is why it matters more than it looks.`) +
+      p(`Those answers are the record of what has genuinely worked. Not what sounds sensible in a book, what a real family tried on a real Tuesday and came back to say helped. A solution proven across many families carries more weight than one that worked once, and DiGi leads with the proven ones.`) +
+      p(`It offers them first and stays ready to be wrong. A pattern that helped a hundred families is a good place to start, never a verdict on yours.`) +
+      p(`Which is the honest version of the thing everyone says about scale. More families does not make the software cleverer by itself. It means that when you ask at 11pm about ${childName}, the starting point you get has already been tried by someone whose evening looked like yours.`) +
+      button('Ask DiGi something', `${APP}/dashboard/digi`) +
+      p(`So when it asks, tell it. Especially when the answer is that it did not work.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Day 43 · Who checks the checker.
+//
+// The programme closes on the least promotional thing in it. A parent six
+// weeks in is deciding whether to keep trusting this, and the answer to that is
+// not another feature, it is the machinery that would catch DiGi being wrong.
+// The all clear email detail is the convincing part precisely because it is a
+// boring operational choice nobody would invent for marketing.
+export function digiChecksEmail(params: { unsubscribe: string }): EmailContent {
+  const { unsubscribe } = params
+  return {
+    subject: 'Who checks DiGi',
+    html: wrapper(
+      heading('The question you would be right to ask.') +
+      p(`You have been letting DiGi advise you on your child for six weeks. So who is checking it.`) +
+      bullets([
+        `<strong>Every Monday</strong> DiGi is put through a fixed set of hard cases, including the ones where the right answer is to send a parent to a professional. It emails me the verdict even when everything passes, because a quiet inbox should mean no problems and never a check that quietly stopped running.`,
+        `<strong>Every month</strong> a closed month of real answers gets pulled apart and graded, to catch the slow drift that a single bad answer never shows.`,
+        `<strong>Every time you flag one</strong>, I read it. There is a small link under every answer for telling me it was off. It is quiet and it stays out of your way, and it is the fastest route into my inbox that exists here.`,
+      ]) +
+      p(`None of that makes DiGi incapable of being wrong. It makes being wrong something that gets found and fixed rather than something that sits there for a year.`) +
+      button('Ask DiGi something', `${APP}/dashboard/digi`) +
+      p(`That is the last of the welcome emails. From here you will hear from me weekly with how the family is doing, and when there is something genuinely worth your time. Thank you for trusting this with something that matters.`),
+      unsubscribe
+    ),
+  }
+}
