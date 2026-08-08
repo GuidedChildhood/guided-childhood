@@ -1139,3 +1139,311 @@ export function digiChecksEmail(params: { unsubscribe: string }): EmailContent {
     ),
   }
 }
+
+// ── State tracks: everyone who registered, not just recent signups ──
+//
+// The onboarding programme is a function of how long someone has been here, so
+// it is keyed on days since signup and windowed. These are not. A parent who
+// lapsed, or paid, or had a card fail is in that state today whether they
+// joined last week or last year, and until now the windowed query meant anyone
+// past the window was invisible to the email system permanently.
+//
+// Paced off email_log.sent_at rather than a signup date, which is what lets a
+// sequence run for someone who registered eleven months ago.
+
+// ── Win back, for the ones who did not continue after the trial ──
+// winBackEmail above is the first. Three in total and then it stops. A fourth
+// is nagging, and the free tier means they are still here if they change their
+// mind. Each one gives a different reason rather than repeating the first
+// louder.
+
+// Win back 2, a week after the first. Names what is sitting unused, because
+// "come back" is not a reason and a specific unopened thing is.
+export function winBackUnusedEmail(params: {
+  childName: string
+  stageName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, stageName, unsubscribe } = params
+  return {
+    subject: `What is still sitting there for ${childName}`,
+    html: wrapper(
+      heading('Still yours, still free.') +
+      p(`Nothing was taken away when the trial ended. The free tier keeps a real amount of it, and most of it is the part parents tell me they miss without realising they had it.`) +
+      bullets([
+        `The <strong>${stageName}</strong> stage scripts, the exact words for the moment you are actually in`,
+        `The printables, star charts and the offline pack, still free to print tonight`,
+        `${childName}'s passport, which keeps every stamp they earned`,
+      ]) +
+      p(`It is all where you left it. No setting up again, no starting over.`) +
+      button('Open your dashboard', `${APP}/dashboard`) +
+      p(`And if the honest answer is that this is not what you need right now, that is a fine answer. You can stop these at the bottom.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Win back 3, three weeks in: the founder rate while it exists.
+//
+// Justin, 8 August: "make sure we tease sign ups that disappear after trial
+// ends and keep emailing them weekly to entice back." So this is no longer the
+// last one, and the copy does not pretend to be. The weekly teases follow.
+export function winBackLastEmail(params: {
+  childName: string
+  remaining: number
+  unsubscribe: string
+}): EmailContent {
+  const { childName, remaining, unsubscribe } = params
+  const founder = remaining > 0
+    ? p(`The founding rate is still open, and it is the one thing here that genuinely runs out. <strong>${remaining} of the 50 places are left</strong>, it locks £7.99 a month for life, and the counter is real because it is enforced in the code rather than in the copy.`)
+    : p(`The founding places have all gone now, so this is not me dangling anything at you. The normal plan is there when and if you want it, at the normal price.`)
+  return {
+    subject: 'The bit that actually runs out',
+    html: wrapper(
+      heading('One thing here has a limit.') +
+      p(`Almost nothing about this is urgent. The free tier is not going anywhere, ${childName}'s passport keeps every stamp, and there is no countdown on any of it.`) +
+      founder +
+      p(`That is the whole pitch and I am not going to dress it up. If the timing is wrong, the timing is wrong.`) +
+      button('Take a look', `${APP}/dashboard/upgrade`) +
+      p(`I will keep sending you the odd useful thing either way, and you can stop them at the bottom of any of these.`),
+      unsubscribe
+    ),
+  }
+}
+
+// ── The paid service track ──
+// They already bought. So this is help, not selling, and every one of the three
+// gives something rather than asking for something. The paying members were the
+// worst served group in the system before this: the same onboarding as everyone
+// else, then nothing.
+
+// Paid 1 · What the plan actually unlocks. Most of the value is in the parts
+// nobody opens, and a parent paying for something they are not using is a
+// cancellation with a delay on it.
+export function paidUnlockedEmail(params: {
+  parentName: string
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { parentName, childName, unsubscribe } = params
+  return {
+    subject: 'The parts of your plan most people never open',
+    html: wrapper(
+      heading(`${parentName}, you are paying for more than you are using.`) +
+      p(`That is true of nearly everyone and it is my problem rather than yours, so here are the four things members most often have not touched.`) +
+      bullets([
+        `<strong>Every stage, not just this one.</strong> You can read ahead. What is coming at 11, at 13, at 16, is all unlocked, and reading it early is how the hard conversations stop being ambushes.`,
+        `<strong>DiGi without a limit.</strong> The free tier stops at three questions a day. Yours does not stop. Ask it the same thing three different ways at midnight if that is what it takes.`,
+        `<strong>The full script library.</strong> Over a hundred, searchable by the moment you are in rather than by topic.`,
+        `<strong>The family agreement builder.</strong> The rules decided together and signed by both of you, which is the single thing parents tell me changed the most in their house.`,
+      ]) +
+      button('Open your dashboard', `${APP}/dashboard`) +
+      p(`If one of those is not doing what you expected for ${childName}, tell me. That is what the next email is about.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Paid 2 · The open door. A real invitation to reply, sent to a small enough
+// group that it can be honoured. It is deliberately the shortest email in the
+// system: an ask this simple gets longer and less believable the more it is
+// dressed up.
+export function paidAskMeEmail(params: {
+  parentName: string
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { parentName, childName, unsubscribe } = params
+  return {
+    subject: 'Reply to this one',
+    html: wrapper(
+      heading('This is not an automated door.') +
+      p(`${parentName}, you pay for this, so you get me as well as the software.`) +
+      p(`If something about ${childName} and screens is not working, or the platform is not doing what you hoped, or there is a thing you wish existed here, hit reply and tell me. It comes to my actual inbox and I answer them myself.`) +
+      p(`The things members ask for in these replies are most of what gets built. Not a nice sentiment, just how the roadmap has genuinely worked so far.`) +
+      p(`No form, no ticket number. Just reply.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Paid 3 · The questions that come back most. Closes the track by answering
+// rather than asking, and points at the one thing a paying parent is entitled
+// to know: how to leave.
+export function paidCommonQuestionsEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'The questions members ask most',
+    html: wrapper(
+      heading('Four answers, quickly.') +
+      bullets([
+        `<strong>My child moved up an age band, do I redo everything?</strong> No. Change their age in settings and the stage, scripts and lessons all follow. The passport keeps every stamp.`,
+        `<strong>Can both parents have it?</strong> Yes. Same login, and the agreement is built to be signed by whoever is in the room.`,
+        `<strong>${childName} says the app is babyish.</strong> Usually the age band is set low. It is the most common fix and it takes ten seconds.`,
+        `<strong>How do I cancel?</strong> Reply to this email and say stop. I do it the same day, no phone call, no retention maze, and I will not ask you to sit through three screens of reasons to stay. Your data stays until you ask me to delete it, and then it goes.`,
+      ]) +
+      button('Open your dashboard', `${APP}/dashboard`) +
+      p(`Putting cancelling in a list like that is deliberate. A plan you stay on because leaving is annoying is not a plan I want to be running.`),
+      unsubscribe
+    ),
+  }
+}
+
+// ── The failed card ──
+// Not a decision, an accident. This is the cheapest save in the system and it
+// did not exist: past_due fell through lifecycleState to 'unknown' and nothing
+// was ever sent, so a member who wanted to stay simply stopped being one.
+export function pastDueEmail(params: {
+  parentName: string
+  unsubscribe: string
+}): EmailContent {
+  const { parentName, unsubscribe } = params
+  return {
+    subject: 'Your card needs a quick look',
+    html: wrapper(
+      heading('Nothing has been taken away.') +
+      p(`${parentName}, your last payment did not go through. Almost always that is an expired card or a bank being cautious, rather than anything you did.`) +
+      p(`Everything is still switched on. Our payments provider will try the card again over the next few days and send you a secure link to update it, so most of the time this sorts itself out and you never think about it again.`) +
+      p(`If it keeps failing, or you would rather just deal with a person, reply to this email and I will sort it out with you directly.`) +
+      p(`And if you meant to stop, that is genuinely fine and you do not owe me an explanation. Say so in a reply and I will close it the same day. The free tier keeps everything you have earned.`),
+      unsubscribe
+    ),
+  }
+}
+
+// ── The paid depth track ──
+//
+// Justin, 8 August: "build more paid customers emails about every aspect of
+// what they can do, the research and why we run it the way we do, the benefits
+// solutions parenting help child help everything possible, both types of users."
+//
+// Both types of users is the key phrase and the reason these are not more
+// feature tours. Two of the five are about what the CHILD experiences, which
+// nothing in the programme had covered: every previous email is written to the
+// parent about the parent's side of the glass.
+//
+// Topics were picked by auditing every existing subject line across templates,
+// the weekly programme and the reveals first. Everything here is ground that
+// none of the other forty odd emails already walk. Spaced three weeks apart,
+// because this is depth for people who have already bought rather than
+// onboarding, and there is no hurry.
+
+// Paid 4 · The child's side of the glass.
+export function paidChildSideEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: `What this looks like from ${childName}'s phone`,
+    html: wrapper(
+      heading('You have never seen their version.') +
+      p(`Everything I send you is about your side of the glass. ${childName} has a completely separate app, and most parents never see it, so here is what is actually on it.`) +
+      bullets([
+        `<strong>Their path.</strong> The same pathway you see, drawn as a road they walk, with the next step lit and the ones after it waiting.`,
+        `<strong>Their jobs and their stars.</strong> They tick, you approve. The stars buy screen time you both already agreed to, so the negotiation happened once instead of every day.`,
+        `<strong>Their lessons.</strong> Played on their own device, at their own pace, with the buddy they picked.`,
+        `<strong>Their week.</strong> What is coming, what is due, what they earned.`,
+      ]) +
+      p(`It is deliberately not a small copy of your app. Yours answers what do I do. Theirs answers what do I do next, which is a different question and the only one a child is actually asking.`) +
+      button('See their app', `${APP}/dashboard/phone-setup`) +
+      p(`Worth opening it with them once. Children are far more interested in a thing they can see the shape of.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Paid 5 · The disclosure tool. The most important email in the whole
+// programme and the one nothing else covered: every other script is the parent
+// starting a conversation, and this is the child starting one.
+export function paidTellYouEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'The words they will need one day',
+    html: wrapper(
+      heading('Every other script is you starting.') +
+      p(`Scripts, DiGi, the agreement, all of it is you opening a conversation. There is one tool here that works the other way round, and it is the one I would most want a family to have set up before they need it.`) +
+      p(`${childName} has words in their own app for telling you something has gone wrong online. Something they saw, something someone said, something they did and wish they had not. It gives them the sentence, because at eleven the problem is almost never that they do not want to tell you. It is that they cannot find the words and they are frightened of your face.`) +
+      p(`It comes with a promise about how you will react, and your side of that promise is written down for you to read first. That is the part that matters. A child who thinks the phone gets taken away tells you nothing, and then you find out in a much worse way, much later.`) +
+      button('Read the promise', `${APP}/dashboard/tell-a-parent`) +
+      p(`Five minutes now, and it sits there quietly for years. I hope it never gets used.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Paid 6 · Reading ahead, which is a genuine paid unlock and the one people
+// forget they have.
+export function paidReadAheadEmail(params: {
+  childName: string
+  stageName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, stageName, unsubscribe } = params
+  return {
+    subject: 'You can read the next four years',
+    html: wrapper(
+      heading('Your plan is not locked to today.') +
+      p(`${childName} is in the ${stageName} stage, so that is what the app shows you. But you paid for all five, and the other four are sitting there unlocked right now.`) +
+      bullets([
+        `<strong>Foundation, 4 to 7.</strong> First relationships with technology, before habits form.`,
+        `<strong>Builder, 8 to 10.</strong> Building digital habits before the algorithm learns them.`,
+        `<strong>Explorer, 11 to 13.</strong> The algorithm conversation, before social media. The critical window.`,
+        `<strong>Shaper, 13 to 15.</strong> Identity and digital footprint, while the relationship still holds.`,
+        `<strong>Independent, 16 plus.</strong> Real independence, before they leave home.`,
+      ]) +
+      p(`Reading one stage ahead is the single most useful thing you can do with this. Not to bring it forward, and not to worry earlier, but so the week it arrives you already know what it is and you are not learning it in the same hour you are handling it.`) +
+      button('Read ahead', `${APP}/dashboard/pathway`) +
+      p(`Twenty minutes on a Sunday buys you the whole of next year.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Paid 7 · The evidence under the balance number, and why it is a steer and
+// never a cap. This is the "why we run it the way we do" email.
+export function paidTheNumbersEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'Where the screen time number comes from',
+    html: wrapper(
+      heading('Nobody made that number up.') +
+      p(`The healthy range you see against ${childName}'s usage is drawn from the World Health Organization, the American Academy of Pediatrics, the Canadian movement guidelines and the Royal College of Paediatrics and Child Health. Four bodies, not one opinion.`) +
+      p(`Here is the part most apps leave out. Those bodies do not agree with each other on a single magic number, and the RCPCH in particular is careful to say the evidence does not support one. What the research actually supports is a different question: not how many hours, but what the hours are displacing. Sleep, moving about, being with people, the stuff a childhood is made of.`) +
+      p(`Which is why it is drawn as a range and called a steer, and why nothing here ever hard stops a child at a number. A cap tells you when to have a fight. A range tells you whether the shape of the week is right, and that is the thing you can actually act on.`) +
+      button('See the balance', `${APP}/dashboard/quests`) +
+      p(`If a day sits outside the range, that is information, not a verdict. Some weeks are like that and the sky stays up.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Paid 8 · The whole family, not one child. Second and third children get
+// added and then quietly forgotten by the parent, not by the product.
+export function paidWholeFamilyEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'If there is more than one of them',
+    html: wrapper(
+      heading('Your plan covers all of them.') +
+      p(`If you have another child, add them. It is the same subscription, not another one, and it takes about a minute in settings.`) +
+      p(`They get their own everything: their own stage, their own jobs and stars, their own lessons at their own age, their own passport. Not a shared list with names next to it, which is how siblings end up measured against each other by an app that should know better.`) +
+      p(`The reason this matters more than it sounds: the advice for a seven year old and a thirteen year old is genuinely opposite in places. What is right for the younger one is often the exact thing that damages trust with the older one. Two separate stages means DiGi answers for the child you are actually asking about rather than averaging them into a family.`) +
+      button('Add a child', `${APP}/dashboard/settings`) +
+      p(`And if ${childName} is your only one, ignore this. Nothing is missing.`),
+      unsubscribe
+    ),
+  }
+}

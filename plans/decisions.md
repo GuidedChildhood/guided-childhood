@@ -5813,3 +5813,101 @@ then one service deep dive a week: jobs and stars, the check in and
 evidence, scripts, the school week, device time, and the year ahead
 inviting a reply. Thirty programme emails over six months. Window
 widened to 200 days so the tail actually sends.
+
+## 8 August 2026 — emails go by state, not by signup date
+
+Justin: "the emails are not just new sign ups we need to be emailing everyone
+that registers including users so needs to know the difference between 1 just
+signed up, 2 using it but haven't paid, 3 paid users."
+
+**Two sessions were on emails at once today.** The other one (6a73d4f, 83dc5aa)
+re-paced the programme to weekly and carried it to week 26. That is length and
+pacing. This is who gets what, built on top of theirs rather than instead of it.
+Their day gates are untouched.
+
+**The window was the bug.** `gte('created_at', since)` meant a parent past the
+window was not loaded at all, so no win back, no trial nurture, nothing, for the
+rest of their life with the product, and nothing logged to say so. Widening it
+from 60 to 200 days moves the cliff rather than removing it. The query is now
+every onboarded profile, and the 200 day number survives as a guard on the
+onboarding block, where it belongs: without it, opening the query would restart
+week 1 for every existing member.
+
+**Paying members were the worst served group in the system.** They got the same
+onboarding as everyone and then nothing of their own, ever. Three service emails
+now: what the plan unlocks, an open door to reply, the questions members ask
+most. All three give rather than ask, because they already bought.
+
+**past_due sent nothing at all.** It fell through lifecycleState to 'unknown'.
+A failed card is an accident, not a decision, and it is the cheapest save in the
+system.
+
+**Sequences pace off email_log.sent_at, not signup.** That is what lets a win
+back run properly for someone who registered eleven months ago and lapsed last
+week. No migration needed.
+
+**Two claims were false and got cut before they shipped.** The draft paid email
+said cancel in settings, two taps, and the past due email offered an update your
+card link. **Neither exists.** There is no self serve cancel and no Stripe
+billing portal route anywhere in the app. Both now point at replying to a human,
+which is the path that actually works. The upgrade page still says "cancel any
+time" in its fear remover block, which is the same claim and is Justin's to
+decide on.
+
+**Lapsed keeps the onboarding programme.** Suppressing it was the plan until the
+trial clock got checked: a no card trial expires around day 14, so lapsed is the
+normal state for everyone who has not paid, and suppressing on it would have
+gutted the programme for most of the list.
+
+## 8 August 2026 — paid depth, weekly win back, and the member figures
+
+Justin: "build more paid customers emails about every aspect of what they can
+do, the research and why we run it the way we do... make sure we tease sign ups
+that disappear after trial ends and keep emailing them weekly to entice back...
+have all stats on insight board, users login patterns of users, non paid."
+
+**The win back no longer stops at three.** Justin asked for weekly, so seven
+teases follow the three win backs, one a week, ten emails over about eleven
+weeks. They reuse the pre signup teaser bank rather than adding seven templates,
+which is right rather than lazy: a lapsed parent is in exactly the position a
+lead is in, an email address and no subscription, and each teaser is already one
+service, one hook, one door. Only the unsubscribe link differs. `winBackLastEmail`
+lost its "this is the last one" framing, because it is no longer true.
+
+**Both sequences send one email per run, never a catch up burst.** With the
+window gone, every long standing member becomes eligible on the same day, and
+firing five at once would be the worst possible first impression of a track
+meant to reward paying.
+
+**The paid depth five were picked by auditing every existing subject first**,
+across templates, the weekly programme and the reveals, precisely because two
+sessions have now duplicated each other on this. Everything in the five is
+ground none of the other forty odd emails walk. Two of them are about what the
+CHILD experiences, which nothing had covered: every other email in the system is
+written to the parent about the parent's side of the glass. The disclosure tool
+email is the one worth keeping if only one survives.
+
+**The member figures answer the question the board could not.** It knew whether
+DiGi was working and what parents asked. It did not know how many people are
+here, how many pay, or whether they still turn up. Login has no home in our own
+tables, so it reads auth.users through the admin API, paginated, and says
+plainly when it stops being fine rather than leaving a silent cliff.
+
+## 8 August 2026 — the privacy policy contradicts the product
+
+**Found while sourcing a paid email about data.** The privacy page says: "We do
+not ask for a surname, a date of birth, a photo, or a school."
+
+**The app asks for a date of birth.** Settings has a birthday field per child
+(migration 083), stores `children.date_of_birth`, and derives the age band from
+it. `interests` is collected too (088) and the policy does not mention it.
+
+This is a published legal statement about children's personal data that the
+product contradicts, with ICO registration still outstanding. Two ways out and
+both are Justin's call, not a thing to quietly rewrite: stop collecting the
+birthday and keep the promise, or change the policy to describe what is actually
+collected and why.
+
+**No email in this batch mentions data or privacy**, which was the original plan
+for the set, because sending forty inboxes a claim that is currently untrue is
+the one thing worse than the page being wrong.
