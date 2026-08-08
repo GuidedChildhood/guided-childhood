@@ -176,7 +176,14 @@ export default function KidStreakTakeover({
           boxShadow: '0 5px 0 var(--terracotta-dark)',
         }}
       >
-        Brilliant
+        {/* Justin, 8 August 2026: "has weird brilliant bottom which should be
+            continue". He is right, and the reason is that the word is doing the
+            wrong job. Brilliant is praise, and praise belongs in the sentence
+            above, where it is about what the child actually did. On the button
+            it reads as the child congratulating themselves before they are
+            allowed to leave. A button should say what happens when you press
+            it. */}
+        Continue
       </button>
     </div>
   )

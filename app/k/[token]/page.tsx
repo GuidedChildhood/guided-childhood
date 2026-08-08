@@ -16,6 +16,7 @@ import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
 import { isChildVisible, type ChildVisibleAction } from '@/lib/school/child-items'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
+import { starWeekStart } from '@/lib/quests/star-week'
 import KidQuestScreen from './KidQuestScreen'
 import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
 import { getStickerBook } from '@/lib/stickers/book'
@@ -558,6 +559,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // Both reads fail soft, so a family on an older database simply sees no book.
   let kidStickers: KidSticker[] = []
   let celebrateStickers: string[] = []
+  let celebratedStickers: string[] = []
   try {
     const book = await getStickerBook(supabase, link.user_id, { id: link.child_id, age_band: ageBand ?? null })
     kidStickers = book.stickers.map(s => ({
@@ -568,11 +570,40 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       // sticker could only say "Locked" over a bare number.
       earn: s.earn, have: s.have, need: s.need,
     }))
+    // Both halves of the flag, because the child app needs each for a
+    // different thing: what is still owed a celebration, and what has already
+    // had one. Without the second, a Friend earned on the live path could be
+    // celebrated again on another device, which is the thing Justin actually
+    // saw. One read, two lists.
     const { data, error } = await supabase
-      .from('earned_stickers').select('sticker_key')
-      .eq('child_id', link.child_id).eq('celebrated', false)
-    if (!error) celebrateStickers = (data ?? []).map(r => String(r.sticker_key))
-  } catch { kidStickers = []; celebrateStickers = [] }
+      .from('earned_stickers').select('sticker_key, celebrated')
+      .eq('child_id', link.child_id)
+    if (!error) {
+      const rows = (data ?? []) as { sticker_key: string; celebrated?: boolean | null }[]
+      celebrateStickers = rows.filter(r => !r.celebrated).map(r => String(r.sticker_key))
+      celebratedStickers = rows.filter(r => r.celebrated).map(r => String(r.sticker_key))
+    }
+  } catch { kidStickers = []; celebrateStickers = []; celebratedStickers = [] }
+
+  // Has this child already seen the streak screen this star week?
+  //
+  // Justin, 8 August 2026: the streak should "come up once per week so reminds
+  // them once per week what they have achieved, as we show streaks in other
+  // places." It fired on every completed day, which for a child doing their
+  // five a day is every day.
+  //
+  // Read on its own and guarded, not folded into the children select above,
+  // because streak_week_seen arrives with migration 171, migrations here are
+  // run by hand, and naming a column that does not exist yet fails the WHOLE
+  // query it is part of. That query is the one that fetches the child's name
+  // and age band, so folding it in would have taken the child's home screen
+  // down between deploy and migration.
+  let streakWeekSeen: string | null = null
+  try {
+    const { data, error } = await supabase
+      .from('children').select('streak_week_seen').eq('id', link.child_id).maybeSingle()
+    if (!error) streakWeekSeen = (data as { streak_week_seen?: string | null } | null)?.streak_week_seen ?? null
+  } catch { streakWeekSeen = null }
 
   // The screens this family owns, for the timer picker. Fails soft: before
   // migration 106 there is no table, and the picker falls back to the four
@@ -593,6 +624,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       familyDevices={familyDevices}
       stickers={kidStickers}
       celebrateStickers={celebrateStickers}
+      celebratedStickers={celebratedStickers}
+      streakWeekSeen={streakWeekSeen}
+      starWeek={starWeekStart()}
       sheetsDone={sheetsDone}
       sheetStars={sheetStars}
       earnedStages={earnedStages}
