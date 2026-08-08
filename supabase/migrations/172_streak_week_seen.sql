@@ -1,4 +1,4 @@
--- Guided Childhood — Migration 171
+-- Guided Childhood — Migration 172
 -- The streak screen is a weekly reminder, not a daily one.
 --
 -- Justin, 8 August 2026: "only ever once for both, as would be annoying if

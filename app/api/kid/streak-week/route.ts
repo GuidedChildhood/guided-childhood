@@ -12,7 +12,7 @@ import { starWeekStart } from '@/lib/quests/star-week'
 // sends. A device with the wrong date would otherwise write a week key that
 // never matches, and the screen would be either stuck open or gone for good.
 //
-// Fails soft before migration 171. The column not being there means the screen
+// Fails soft before migration 172. The column not being there means the screen
 // behaves as it did, which is to say it shows on a completed day, and that is a
 // far better failure than a child's home screen erroring over a bookmark.
 

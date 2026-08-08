@@ -593,7 +593,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // five a day is every day.
   //
   // Read on its own and guarded, not folded into the children select above,
-  // because streak_week_seen arrives with migration 171, migrations here are
+  // because streak_week_seen arrives with migration 172, migrations here are
   // run by hand, and naming a column that does not exist yet fails the WHOLE
   // query it is part of. That query is the one that fetches the child's name
   // and age band, so folding it in would have taken the child's home screen
