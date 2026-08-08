@@ -20,9 +20,9 @@ const ELEVEN_DAYS_AGO = new Date(Date.now() - 11 * 86400_000).toISOString()
 const NEWS_ONLY: Catchup = {
   since: FOUR_DAYS_AGO, days: 4,
   lines: [
-    { key: 'friends', emoji: '🪐', text: 'Teo brought a new Planet Friend home' },
-    { key: 'lessons', emoji: '💡', text: 'Teo passed 2 lessons' },
-    { key: 'days', emoji: '⭐', text: 'Teo finished 3 full days, all five each time' },
+    { key: 'friends', emoji: '🪐', text: 'Teo has brought a new Planet Friend home' },
+    { key: 'lessons', emoji: '💡', text: 'Teo has passed 2 lessons' },
+    { key: 'days', emoji: '⭐', text: 'Teo has finished 3 full days, all five each time' },
     { key: 'stars', emoji: '✅', text: '11 jobs done and approved' },
   ],
   waiting: [],
@@ -31,7 +31,7 @@ const NEWS_ONLY: Catchup = {
 const BOTH: Catchup = {
   since: ELEVEN_DAYS_AGO, days: 11,
   lines: [
-    { key: 'days', emoji: '⭐', text: 'Teo finished 6 full days, all five each time' },
+    { key: 'days', emoji: '⭐', text: 'Teo has finished 6 full days, all five each time' },
     { key: 'sheets', emoji: '🖍️', text: '2 printables finished away from a screen' },
   ],
   waiting: [

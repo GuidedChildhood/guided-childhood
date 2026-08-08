@@ -6,7 +6,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import Celebration from '@/components/ui/Celebration'
 import { createClient } from '@/lib/supabase/client'
-import { trialEndsFromNow } from '@/lib/access'
 import {
   STAGES,
   AGE_BAND_OPTIONS,
@@ -282,10 +281,24 @@ export default function StarterPackPage() {
   }
 
   // Once the questions are done, write the account through: mark onboarding
-  // complete, start the 7 day trial, and create the child. This is what the
-  // old separate onboarding did, folded into the one flow so the child is
-  // never asked again. Best effort; if the session is not ready yet (email
+  // complete, start the free trial, and create the child. This is what the old
+  // separate onboarding did, folded into the one flow so the child is never
+  // asked again. Best effort; if the session is not ready yet (email
   // confirmation pending) the old onboarding remains the fallback.
+  //
+  // THE TRIAL IS NOT WRITTEN HERE ANY MORE, and that is the point rather than a
+  // tidy up. It used to set trial_ends_at straight onto the parent's own
+  // profile row from the browser, which meant two things.
+  //
+  // A client write can be repeated: run the starter pack again, or call the
+  // same update from the console, and the four days start again for ever.
+  //
+  // And granting it here REQUIRED trial_ends_at to be writable by
+  // `authenticated`, which is the same grant that let anyone set
+  // subscription_status to active and take the whole product free. Justin, 8
+  // August 2026: "we must make sure real users can not continue without
+  // subscribing." Migration 175 revokes both columns, and /api/trial/start
+  // grants the trial once, on the server, where the rule can be enforced.
   async function finishSetup() {
     try {
       const { data: { user } } = await supabase.auth.getUser()
@@ -293,9 +306,12 @@ export default function StarterPackPage() {
       const stg = ageBand ? getStageFromAgeBand(ageBand) : null
       await supabase.from('profiles').update({
         onboarding_complete: true,
-        trial_ends_at: trialEndsFromNow(),
         onboarding_answers: { ageBand, challenge, feeling, timeCommitment },
       }).eq('id', user.id)
+      // Best effort, like everything else in here. A trial that fails to start
+      // is a parent who sees the upgrade page a little early, which is a far
+      // better failure than a setup that cannot finish.
+      try { await fetch('/api/trial/start', { method: 'POST' }) } catch { /* onboarding is the fallback */ }
       const { data: existing } = await supabase.from('children').select('id').eq('parent_id', user.id).limit(1)
       if (!existing || existing.length === 0) {
         await supabase.from('children').insert({
