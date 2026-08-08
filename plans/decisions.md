@@ -5361,3 +5361,32 @@ size, four kid app sentences moved up a size. wiring-check gained a sixth
 check that fails CI on a body font sentence at 12px, because the rule was
 already written down when the ten happened, and a rule ignored ten times
 needs a check rather than an eleventh restatement.
+
+## 7 August 2026, evening: phase 3 of the type plan is claimed and approved
+
+**Justin approved the three volume pattern from the interactive mock.** One
+way to say "this needs you", used on both apps: a single butter Now row at
+the top of Home for the one thing a person is waiting on, tick and fold
+Today rows for jobs that can wait an hour, and a mono count chip for
+everything else. Three rules: only ever one Now, the volume is picked by who
+is waiting, nothing else on the screen glows. Rows stay white with ink text,
+after two rounds of colour review on his phone. The lasting lesson from
+those rounds: iOS paints button text in Apple link blue unless a colour is
+set explicitly, so every tappable row must carry its own ink.
+
+**Phase 3 is built (PR 726).** The Now slot reworks HomeLive: one butter row,
+approvals outrank the due check in, only one ever shows. The Today card
+replaces four Home cards (round up, deal review, device setup, child app
+nudge) with tick and fold rows that keep each card's honest dismissal
+semantics. One deliberate holdout: PushPrompt stays where it is because it
+owns the notification permission machinery and the setup anchor, and a row
+saying the same thing on the same screen would be a second voice. The count
+volume already existed as the quests tab chip. /ref-needs-you shows both
+pieces without a login.
+
+**Home now loads in two database waves, not ten (same PR 726).** Justin:
+"opening the app seems a little slow also". The Home server component ran
+about ten awaits in sequence, each a full round trip to the database before
+any HTML left the server, and the dashboard layout added one more on every
+page. Same reads, same meaning, now two parallel waves on Home and one on
+the layout. Nothing about what renders changed.

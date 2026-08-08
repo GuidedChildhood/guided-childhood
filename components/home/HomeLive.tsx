@@ -1,68 +1,69 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import LiveTimerChip from '@/components/home/LiveTimerChip'
-import WaitingOnYou from '@/components/quests/WaitingOnYou'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 
-// The one place on Home where somebody is waiting on you.
+// The Now slot: the one place on Home where somebody is waiting on you.
 //
-// Justin, holding up Duolingo's home: "after pathway is done for the day it
-// should move away leaving all the next important tabs. We can then use the pop
-// up for urgent stuff."
+// Phase 3 of the type plan, the pattern Justin approved from the mock: one
+// way to say "this needs you", at three volumes. This is volume one. A single
+// butter row at the top of Home, a pulse dot, a sentence naming who is
+// waiting, one tap. Nothing else in the app may use this treatment, and there
+// is only ever one: if two things qualify, the second waits its turn.
 //
-// WHAT THIS IS FOR. The parent's Home renders twenty three components in
-// sequence. Most are conditional, so nobody sees all of them, but the ones that
-// do fire compete for the same first screen with nothing deciding between them.
-// This is the first of the three slots that replace that: one fixed place for
-// anything with a person on the other end of it, so a parent learns where to
-// look once and it is always the same place.
+// WHAT EARNS A NOW. A person waiting on the parent right now. Two things
+// qualify today, in this order:
 //
-// WHY IT DOES NOT DISAPPEAR, which is the whole point of the wrapper.
+//   1. Approvals. A child has done jobs and is stood there waiting for the
+//      stars. The longest standing wait in the product and the reason the
+//      slot exists.
+//   2. The daily concern check in, when it is due. The streak of the whole
+//      concern loop depends on it, and the child on the other end of the
+//      concern is the person waiting, even if they do not know it.
 //
-// LiveTimerChip and WaitingOnYou both say the same thing in their own comments:
-// "Nothing renders here on a quiet day", "Silent when nothing waits". That
-// instinct is right about NOISE and wrong about POSITION. A slot that vanishes
-// teaches a parent nothing, because the absence of a card is indistinguishable
-// from a card that failed to load, from a feature they have never met. It is
-// the same complaint Justin made about the weekly round up disappearing on a
-// Monday: the quiet state has to be a sentence, not a gap.
+// A feature being new or unread never qualifies. Unread notifications that
+// are not approvals (ideas, DiGi) are a Today row, not a Now.
 //
-// Both references agree. Deel's Upcoming actions keeps its rows and writes "No
-// pending items to approve" with the button greyed rather than removed.
-// Airwallex's My tasks shows five cards, four of them reading "You're up to
-// date" with a grey tick and one carrying a count. Settled things stay visible
-// as one quiet line; only the outstanding one has weight.
+// WHY THE SLOT DOES NOT DISAPPEAR. A slot that vanishes teaches a parent
+// nothing, because the absence of a card is indistinguishable from a card
+// that failed to load. Deel's Upcoming actions and Airwallex's My tasks both
+// keep the place and write the calm state, so the quiet day is a sentence,
+// not a gap. Nothing is ever invented here: if there is genuinely nothing
+// waiting, this says so in grey and takes one line.
 //
-// NOTHING IS EVER INVENTED HERE. If there is genuinely nothing waiting, this
-// says so in grey and takes one line. A slot that manufactures urgency to
-// justify its own existence is exactly the pattern this product exists to argue
-// against, and a parent who is caught up has earned being told so.
+// Buttons and links carry an explicit ink colour throughout. iOS Safari
+// paints button text in Apple link blue otherwise, the lesson from the mock
+// review on Justin's phone.
 
-export default function HomeLive() {
-  // Whether anything is actually live. Read here rather than trusted from the
-  // children, because the two of them poll different endpoints on different
-  // clocks and the calm line must not flash in between.
-  const [busy, setBusy] = useState<boolean | null>(null)
+export default function HomeLive({
+  checkinDue = false,
+  childName = null,
+}: {
+  // Whether the daily concern check in is still waiting today, resolved by
+  // the server from the same reading the path uses, so the two can never
+  // disagree about whether the day still needs it.
+  checkinDue?: boolean
+  childName?: string | null
+}) {
+  // The approvals count, read here on the same cadence and the same wake ups
+  // the notifications bell uses. null means not answered yet.
+  const [urgent, setUrgent] = useState<number | null>(null)
 
   useEffect(() => {
     let live = true
     const refresh = () => {
-      Promise.all([
-        fetch('/api/notifications').then(r => r.json()).catch(() => ({ items: [] })),
-        fetch('/api/quests/time/active').then(r => r.json()).catch(() => ({ children: [] })),
-      ]).then(([notifs, timers]) => {
-        if (!live) return
-        const waiting = (notifs.items ?? []).length > 0
-        const onScreen = (timers.children ?? []).some(
-          (k: { session?: unknown; request?: unknown }) => k.session || k.request,
-        )
-        setBusy(waiting || onScreen)
-      })
+      fetch('/api/notifications')
+        .then(r => r.json())
+        .then(d => {
+          if (!live) return
+          const items = (d.items ?? []) as { urgent?: boolean }[]
+          setUrgent(items.filter(i => i.urgent).length)
+        })
+        .catch(() => { if (live) setUrgent(0) })
     }
     refresh()
-    // Same cadence and the same wake ups the two children already use, so the
-    // wrapper can never be a step behind what it is wrapping.
     const id = setInterval(refresh, 15000)
     const onVis = () => { if (!document.hidden) refresh() }
     window.addEventListener(NOTIFS_CHANGED_EVENT, refresh)
@@ -77,36 +78,75 @@ export default function HomeLive() {
     }
   }, [])
 
-  // The first paint, before either read has answered. Holds the height of the
-  // calm line so the page does not jump once it knows, and says nothing while
-  // it does not know: a slot that guesses "all clear" and then contradicts
-  // itself half a second later is worse than one that waits.
-  if (busy === null) return <div style={{ height: 46, marginBottom: 14 }} aria-hidden />
+  const name = childName && childName !== 'Your child' ? childName : null
 
-  if (!busy) {
-    return (
-      <div
-        style={{
+  // The one Now, or nothing. Approvals outrank the check in because the
+  // child is literally stood there; the check in takes the slot the moment
+  // the approvals clear.
+  const now =
+    urgent !== null && urgent > 0
+      ? {
+          href: '/dashboard/notifications',
+          title: `${urgent} ${urgent === 1 ? 'thing' : 'things'} to approve`,
+          line: name ? `${name} is waiting on you` : 'Your child is waiting on you',
+        }
+      : checkinDue
+        ? {
+            href: '/dashboard/daily#checkin',
+            title: 'Today’s check in is waiting',
+            line: 'One tap, how is it going',
+          }
+        : null
+
+  // First paint, before the approvals read has answered: hold the height of
+  // the calm line so the page does not jump, and say nothing while unsure.
+  if (urgent === null && !checkinDue) return <div style={{ height: 46, marginBottom: 14 }} aria-hidden />
+
+  return (
+    <>
+      <style>{`
+        @keyframes now-pulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50%      { transform: scale(0.6); opacity: 0.55; }
+        }
+        .now-pulse { animation: now-pulse 1.6s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) { .now-pulse { animation: none; } }
+      `}</style>
+      <LiveTimerChip />
+      {now ? (
+        <Link href={now.href} style={{ textDecoration: 'none', display: 'block', marginBottom: 14 }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 12,
+            background: 'var(--terracotta)', color: 'var(--ink)',
+            borderRadius: 16, padding: '14px 16px',
+            boxShadow: '0 4px 0 var(--terracotta-dark)',
+          }}>
+            <span aria-hidden className="now-pulse" style={{ flexShrink: 0, width: 10, height: 10, borderRadius: '50%', background: 'var(--ink)' }} />
+            <span style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
+                {now.title}
+              </span>
+              <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'rgba(26,26,46,0.72)', lineHeight: 1.3 }}>
+                {now.line}
+              </span>
+            </span>
+            <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)' }}>
+              →
+            </span>
+          </div>
+        </Link>
+      ) : (
+        <div style={{
           display: 'flex', alignItems: 'center', gap: 10,
           background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16,
           padding: '13px 16px', marginBottom: 14,
-        }}
-      >
-        <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: '#2F8F6B' }}>✓</span>
-        <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
-          Nothing waiting on you right now.
-        </span>
-      </div>
-    )
-  }
-
-  // Both, in this order, because a running timer is happening NOW and a queue
-  // of approvals has been happening for a while. Each still decides its own
-  // rows; this only decides that the slot exists.
-  return (
-    <>
-      <LiveTimerChip />
-      <WaitingOnYou />
+        }}>
+          <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: '#2F8F6B' }}>✓</span>
+          <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+            Nothing waiting on you right now.
+          </span>
+        </div>
+      )}
     </>
   )
 }
