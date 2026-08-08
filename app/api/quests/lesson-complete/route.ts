@@ -2,7 +2,18 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { KID_LESSONS, kidLessonQuestTitle, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
 import { getQuestGame } from '@/lib/quest-games/registry'
+import { getWeekBrief } from '@/lib/learning/this-week'
 import { sendPush } from '@/lib/push/send'
+
+// Monday of this week as an ISO instant, London week convention like the
+// rest of the quests system: the school week mission dedupes against it.
+function mondayIso(now: Date): string {
+  const d = new Date(now)
+  const day = (d.getDay() + 6) % 7
+  d.setDate(d.getDate() - day)
+  d.setHours(0, 0, 0, 0)
+  return d.toISOString()
+}
 
 // A kid finished a lesson on their quest link. Token is the auth, exactly
 // like quest ticks. Two lesson kinds share this endpoint:
@@ -16,7 +27,7 @@ import { sendPush } from '@/lib/push/send'
 //    replays never mint again.
 
 export async function POST(req: NextRequest) {
-  let body: { token?: string; lesson_key?: string; mission_id?: string; game_key?: string; correct?: number; total?: number; answers?: unknown }
+  let body: { token?: string; lesson_key?: string; mission_id?: string; game_key?: string; school_week?: boolean; correct?: number; total?: number; answers?: unknown }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
 
   const { token } = body
@@ -63,6 +74,64 @@ export async function POST(req: NextRequest) {
 
     await notifyParent(req, supabase, link, `finished a star lesson 🎬`, `Quiz score ${correct} of ${total}. ${mission.stars} stars landed in their bank.`)
     return NextResponse.json({ stars: mission.stars })
+  }
+
+  // ── This week at school (the weekly mission, phase 2 of the curriculum
+  //    plan). The child says they practised the week's school objective; it
+  //    becomes a one off quest with a pending tick, so the stars land
+  //    through the parent approve loop exactly like a game. The objective
+  //    is recomputed HERE from the child's date of birth, never trusted
+  //    from the client, and the dedupe is per week so it can be earned
+  //    again when school moves on. ──
+  if (body.school_week) {
+    const { data: child } = await supabase
+      .from('children')
+      .select('date_of_birth')
+      .eq('id', link.child_id)
+      .maybeSingle()
+    const brief = child?.date_of_birth ? await getWeekBrief(supabase, child.date_of_birth) : null
+    if (!brief || brief.preview) return NextResponse.json({ error: 'no school week' }, { status: 404 })
+
+    const title = `School: ${brief.questTitle}`
+    const monday = mondayIso(new Date())
+    const { data: existing } = await supabase
+      .from('family_quests')
+      .select('id')
+      .eq('user_id', link.user_id)
+      .eq('child_id', link.child_id)
+      .eq('title', title)
+      .gte('created_at', monday)
+      .limit(1)
+      .maybeSingle()
+    if (existing) return NextResponse.json({ ok: true, already: true, stars: 0 })
+
+    const { data: quest, error: questError } = await supabase
+      .from('family_quests')
+      .insert({
+        user_id: link.user_id,
+        child_id: link.child_id,
+        title,
+        emoji: '📘',
+        stars: 3,
+        schedule: 'once',
+      })
+      .select('id')
+      .single()
+    if (questError || !quest) {
+      return NextResponse.json({ error: questError?.message ?? 'could not save' }, { status: 500 })
+    }
+
+    await supabase.from('quest_ticks').insert({
+      quest_id: quest.id,
+      user_id: link.user_id,
+      child_id: link.child_id,
+      tick_date: new Date().toISOString().slice(0, 10),
+      status: 'pending',
+      ticked_by: 'child',
+    })
+
+    await notifyParent(req, supabase, link, 'practised this week’s school work 📘', `${brief.questTitle}, 3 stars. One tap to approve and they land.`)
+    return NextResponse.json({ ok: true, stars: 3 })
   }
 
   // ── Quest game (a game a child plays to earn stars) ──

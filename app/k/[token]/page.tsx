@@ -61,7 +61,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
 
   const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
-    supabase.from('children').select('name, age_band, buddy, accent, daily_limit_minutes').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('name, age_band, buddy, accent, daily_limit_minutes, date_of_birth').eq('id', link.child_id).maybeSingle(),
     supabase.from('family_quests')
       .select('id, title, emoji, stars, schedule, schedule_days, blocks_screens, created_at')
       .eq('user_id', link.user_id)
@@ -105,6 +105,41 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const lessonWeekStars = (missionRows ?? [])
     .filter(m => m.status === 'done' && m.completed_at && m.completed_at >= new Date(Date.now() - 7 * 86400000).toISOString())
     .reduce((sum, m) => sum + m.stars, 0)
+
+  // This week at school, phase 2 of the curriculum plan: the same weekly
+  // objective the parent sees lands here as ONE calm card a week, never a
+  // feed. The child taps that they practised it, the tap becomes a pending
+  // quest tick, and the stars land when the parent approves. In the school
+  // holidays there is no card at all.
+  let weekMission: { line: string; second: string | null; state: 'open' | 'pending' | 'done' } | null = null
+  const dob = (childRes.data as { date_of_birth?: string | null } | null)?.date_of_birth
+  if (dob) {
+    const { getWeekBrief } = await import('@/lib/learning/this-week')
+    const brief = await getWeekBrief(supabase, dob)
+    if (brief && !brief.preview) {
+      const monday = (() => {
+        const d = new Date()
+        d.setDate(d.getDate() - ((d.getDay() + 6) % 7))
+        d.setHours(0, 0, 0, 0)
+        return d.toISOString()
+      })()
+      const { data: schoolQuest } = await supabase
+        .from('family_quests')
+        .select('id, quest_ticks(status)')
+        .eq('user_id', link.user_id)
+        .eq('child_id', link.child_id)
+        .eq('title', `School: ${brief.questTitle}`)
+        .gte('created_at', monday)
+        .limit(1)
+        .maybeSingle()
+      const tickStatus = ((schoolQuest?.quest_ticks as { status: string }[] | null) ?? [])[0]?.status
+      weekMission = {
+        line: brief.lead,
+        second: brief.second ? brief.second.lead : null,
+        state: tickStatus === 'approved' ? 'done' : schoolQuest ? 'pending' : 'open',
+      }
+    }
+  }
 
   // The child's own streak: consecutive days with at least one quest
   // ticked, ending today or yesterday. Pending counts, because the tick
@@ -653,6 +688,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       goal={goalRes.data ?? null}
       streakDays={streakDays}
       missions={missions}
+      weekMission={weekMission}
       adventures={adventures}
       laterQuests={laterQuests}
       doneLessonKeys={doneLessonKeys}
