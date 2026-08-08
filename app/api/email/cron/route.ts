@@ -2,7 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl } from '@/lib/email'
-import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail } from '@/lib/email/templates'
+import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
@@ -49,9 +49,15 @@ async function handler(req: NextRequest) {
     process.env.SUPABASE_SERVICE_KEY!
   )
 
-  // Everyone who joined in the last 30 days is in lifecycle range;
-  // digests go to anyone who completed onboarding.
-  const since = new Date(Date.now() - 30 * 86400000).toISOString()
+  // Everyone still inside the lifecycle programme; digests go to anyone who
+  // completed onboarding.
+  //
+  // This window is a hard ceiling on the whole sequence, and a silent one: an
+  // email scheduled past it never sends, never errors and never logs. It was 30
+  // days when the programme ended at day 25. The curriculum and DiGi emails run
+  // to day 43, so 60 gives the last of them a fortnight of daily runs to land
+  // even if a run is missed, while still keeping the query off the full table.
+  const since = new Date(Date.now() - 60 * 86400000).toISOString()
   const [{ data: profiles }, { data: log }] = await Promise.all([
     supabase
       .from('profiles')
@@ -76,7 +82,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, trialEnding: 0, winback: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, trialEnding: 0, winback: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -181,6 +187,34 @@ async function handler(req: NextRequest) {
     }
     if (days >= 25 && !alreadySent(profile.id, 'reveal-passport')) {
       await deliver(profile.id, profile.email, 'reveal-passport', passportRevealEmail({ childName, unsubscribe }), 'revealPassport')
+    }
+
+    // Weeks 5 to 7. The first four weeks show the tools; these explain the
+    // thinking underneath them, because a parent this far in has stopped
+    // needing a tour and started asking whether the thing they are trusting is
+    // any good. Spaced every three days rather than every two: six straight
+    // weeks at onboarding pace stops reading as help.
+    if (days >= 28 && !alreadySent(profile.id, 'curriculum-strands')) {
+      await deliver(profile.id, profile.email, 'curriculum-strands', curriculumStrandsEmail({
+        childName, keyStage: stage.keyStage, unsubscribe,
+      }), 'curriculumStrands')
+    }
+    if (days >= 31 && !alreadySent(profile.id, 'curriculum-school')) {
+      await deliver(profile.id, profile.email, 'curriculum-school', curriculumSchoolEmail({
+        childName, stageName: stage.name, stageId: stage.id, unsubscribe,
+      }), 'curriculumSchool')
+    }
+    if (days >= 34 && !alreadySent(profile.id, 'digi-brain')) {
+      await deliver(profile.id, profile.email, 'digi-brain', digiBrainEmail({ childName, unsubscribe }), 'digiBrain')
+    }
+    if (days >= 37 && !alreadySent(profile.id, 'digi-learns')) {
+      await deliver(profile.id, profile.email, 'digi-learns', digiLearnsEmail({ unsubscribe }), 'digiLearns')
+    }
+    if (days >= 40 && !alreadySent(profile.id, 'digi-feedback-loop')) {
+      await deliver(profile.id, profile.email, 'digi-feedback-loop', digiFeedbackLoopEmail({ childName, unsubscribe }), 'digiFeedbackLoop')
+    }
+    if (days >= 43 && !alreadySent(profile.id, 'digi-checks')) {
+      await deliver(profile.id, profile.email, 'digi-checks', digiChecksEmail({ unsubscribe }), 'digiChecks')
     }
 
     // The status aware layer: branch on where the contact actually is, not on

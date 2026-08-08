@@ -5747,6 +5747,46 @@ and the real reporting route (CEOP), no invented statistics, no dashes.
 Machine validated against the slide contract before touching the
 database. Migration 173 (172 was claimed by streak week seen while this was being written).
 
+## 8 August 2026 — the email programme reaches six weeks
+
+Justin: "can we build on top of current emails that go to sign ups and count how
+many weeks we have covered and start adding more around school curriculum and
+how digi learns explaining simply the brain and why it will bring the top
+provider advice by feedback loop and updates from users."
+
+**Covered before this: fourteen emails, day 0 to day 25.** Three and a half
+weeks, then silence on the lifecycle track forever. Six more take it to day 43,
+twenty emails, just over six weeks.
+
+**The 30 day window was a silent ceiling.** The cron only loaded profiles created
+in the last 30 days, so anything scheduled past day 30 would never send, never
+error and never log. Six correct looking emails would have reached nobody. Now
+60 days.
+
+**Cadence drops to every three days.** Six straight weeks at onboarding pace
+stops reading as help.
+
+**The school email splits by stage, and that is the point of it rather than a
+refinement.** The five topics the July 2025 RSHE guidance adds (pornography,
+incel cultures, deepfakes, gambling, illegal behaviour) are secondary content.
+Listing them to the parent of a five year old is the fear pitch this company
+exists to argue against, and no caveat underneath rescues a list already read.
+Foundation and Builder get the KS1 and KS2 ground their child actually meets.
+
+**Curriculum claims held exactly where the code already holds them.**
+curriculum-badges.ts says outright that nothing there claims the family lessons
+are the school curriculum, only that they walk the same recognised ground. The
+emails say that and no more.
+
+**Every DiGi claim traces to running code**: knowledge-refresh reading real
+parent questions behind a human approval gate, rebuildWisdom reading the three
+places a success is recorded, getProvenSolutions weighting by evidence_count,
+the Monday eval suite that emails an all clear, the monthly answer review, and
+the flag link under every answer. The feedback email lifts "a good place to
+start and not a verdict" straight from the wisdom.ts comment rather than letting
+it grow more confident on the way into an inbox.
+
+No migration. email_log already takes any email_key.
 **The four day funnel's pushes, and the child's school week card (8 Aug).**
 Justin: yes to both. Three trial pushes ride the trial clock daily at
 08:30 UTC: days left 3 the value push leading with the family's own
