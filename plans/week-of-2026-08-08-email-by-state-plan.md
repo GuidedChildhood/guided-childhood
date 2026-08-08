@@ -80,10 +80,16 @@ it is. Two more follow, paced off the previous send rather than off signup:
 | --- | --- | --- |
 | `winback-1` | exists | the door is still open, the free tier is real |
 | `winback-2` | 7 days after 1 | what is sitting there unused, named for their child |
-| `winback-3` | 21 days after 2 | the founder rate while it exists, then I stop |
+| `winback-3` | 21 days after 2 | the founder rate, the one thing that runs out |
+| `wb-tease-*` | one a week after that | seven teasers, one service each |
 
-Three and stop. A fourth is nagging, and the free tier means they are still here
-if they change their mind.
+**Superseded the same day.** This started as three and stop, on the reasoning
+that a fourth is nagging. Justin then asked for the opposite: "make sure we tease
+sign ups that disappear after trial ends and keep emailing them weekly to entice
+back." So seven weekly teases follow the three, ten emails over about eleven
+weeks, reusing the pre signup teaser bank rather than seven new templates. A
+lapsed parent is in exactly the position a lead is in. `winBackLastEmail` lost
+its "this is the last one" framing, because it stopped being true.
 
 **Paid, the service help track.** Keyed on being `active` and paced off the
 previous send. This track is help, not selling, because they have already
@@ -94,14 +100,24 @@ bought:
 | `paid-1` | day 60, or on becoming active if later | what your plan actually unlocks, the parts most people never open |
 | `paid-2` | 14 days after 1 | reply to this email and I will answer it myself |
 | `paid-3` | 30 days after 2 | the things paid parents ask most, answered |
+| `paid-4` | 21 days after 3 | what this looks like from the child's phone |
+| `paid-5` | 21 days after 4 | the words a child needs to tell you something |
+| `paid-6` | 21 days after 5 | reading ahead, every stage unlocked |
+| `paid-7` | 21 days after 6 | where the screen time number comes from |
+| `paid-8` | 21 days after 7 | more than one child, same subscription |
+
+The depth five were added after Justin asked for "every aspect of what they can
+do... both types of users", and their topics were picked by auditing every
+existing subject line first, because two sessions had already duplicated each
+other on this once. Two of the five are about what the CHILD experiences, which
+nothing in the programme had covered.
 
 Starts at day 60 to stay clear of the dense opening weeks. Anyone upgrading
 later gets it on the next run, which is the right moment anyway: just after
 paying is exactly when to show someone what they bought.
 
 **Past due.** One email, plainly: the card failed, here is the link, nothing has
-been taken away yet. It is the cheapest save in the system and currently it does
-not exist.
+been taken away yet. It is the cheapest save in the system and it did not exist.
 
 ## Rules
 
@@ -119,6 +135,32 @@ not exist.
 
 - **No migration.** `email_log.sent_at` is already there and is all the pacing
   needs.
+- Both new sequences send **one email per run**, never a catch up burst. With
+  the window gone, every long standing member becomes eligible on the same day.
 - No preference centre, still. Worth doing, still not this change.
 - Not touching the weekly digest or monthly balance. Those already reach
   everyone and are reports rather than programme.
+
+
+## What this uncovered, and what was done about it
+
+Two published claims turned out to be false, both found by checking a link
+before writing copy around it rather than by anyone reporting them:
+
+1. **There was no way to cancel.** `/dashboard/upgrade` had promised "cancel any
+   time" since it was written. Fixed properly rather than in copy: a Stripe
+   hosted billing portal at `/api/stripe/portal`, with a Your plan section in
+   settings. It fixes card updates in the same stroke, which is what the past
+   due email needed and could not have.
+2. **The privacy policy said we do not ask for a date of birth.** The app has
+   asked for one since migration 083, and for interests since 088. The policy
+   now describes both, says they are optional, says what each is for, and says
+   they can be cleared. The product was not changed: the birthday is what moves
+   a child into the next stage on the right day, which is worth having and worth
+   describing honestly.
+
+**Still unverified, and deliberately left alone:** the same privacy sentence
+says we do not ask for a school. No UI was found that collects one, so it was
+left as written rather than rewritten on a guess. `profiles.school_id` and
+`school_region` exist and nothing in the parent app appears to set them, which
+is worth someone confirming before the ICO registration goes in.

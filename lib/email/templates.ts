@@ -1283,9 +1283,9 @@ export function paidCommonQuestionsEmail(params: {
         `<strong>My child moved up an age band, do I redo everything?</strong> No. Change their age in settings and the stage, scripts and lessons all follow. The passport keeps every stamp.`,
         `<strong>Can both parents have it?</strong> Yes. Same login, and the agreement is built to be signed by whoever is in the room.`,
         `<strong>${childName} says the app is babyish.</strong> Usually the age band is set low. It is the most common fix and it takes ten seconds.`,
-        `<strong>How do I cancel?</strong> Reply to this email and say stop. I do it the same day, no phone call, no retention maze, and I will not ask you to sit through three screens of reasons to stay. Your data stays until you ask me to delete it, and then it goes.`,
+        `<strong>How do I cancel?</strong> Settings, then Manage your plan. Two taps, no phone call, and no three screens of reasons to stay. Your data stays until you ask me to delete it, and then it goes.`,
       ]) +
-      button('Open your dashboard', `${APP}/dashboard`) +
+      button('Open settings', `${APP}/dashboard/settings#billing`) +
       p(`Putting cancelling in a list like that is deliberate. A plan you stay on because leaving is annoying is not a plan I want to be running.`),
       unsubscribe
     ),
@@ -1306,9 +1306,10 @@ export function pastDueEmail(params: {
     html: wrapper(
       heading('Nothing has been taken away.') +
       p(`${parentName}, your last payment did not go through. Almost always that is an expired card or a bank being cautious, rather than anything you did.`) +
-      p(`Everything is still switched on. Our payments provider will try the card again over the next few days and send you a secure link to update it, so most of the time this sorts itself out and you never think about it again.`) +
-      p(`If it keeps failing, or you would rather just deal with a person, reply to this email and I will sort it out with you directly.`) +
-      p(`And if you meant to stop, that is genuinely fine and you do not owe me an explanation. Say so in a reply and I will close it the same day. The free tier keeps everything you have earned.`),
+      p(`Everything is still switched on. Updating the card takes about thirty seconds in settings, and nothing else changes.`) +
+      button('Update your card', `${APP}/dashboard/settings#billing`) +
+      p(`And if you meant to stop, that is genuinely fine and you do not owe me an explanation. Cancelling is on the same screen, two taps, and the free tier keeps everything you have earned.`) +
+      p(`If anything about it is awkward, reply to this and I will sort it out with you directly.`),
       unsubscribe
     ),
   }
