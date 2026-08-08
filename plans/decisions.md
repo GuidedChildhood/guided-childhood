@@ -5409,3 +5409,18 @@ two taps (used it, not needed) that move it on, instead of looking stuck.
 The daily deck's reflective question rotates through three per stage by day
 instead of one laminated line. The deck's focus card stays fixed on purpose:
 it is the stage's one thing, and rotating it would unsay that.
+
+**schedule_followup loosened, on Justin's say so (8 Aug).** The tool DiGi
+never picked (0 uses against save_memory's 53) had a description that was
+four prohibitions in a trench coat. It now leads with plain permission the
+way save_memory does, asks for the four learning fields by name, and keeps
+one guardrail line: a follow up asks about something the family chose to
+try, never about something they did not. This is the tap that feeds
+digi_outcomes and everything the evidence ledger builds on it. Watch the
+digi_followups count over the coming week to see it working.
+
+**The wisdom pen gains its handle.** The founder rebuild route existed with
+no button, so the only way to fill the pen was to wait for Sunday. The
+wisdom review page now carries Run the rebuild now, same implementation as
+the cron, writes to the pen only, so the first batch can be pulled and
+reviewed today.
