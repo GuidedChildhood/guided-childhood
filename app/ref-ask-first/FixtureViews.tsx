@@ -1,9 +1,11 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import KidAskBanner from '@/components/kid/KidAskBanner'
 import DeviceTimeCard from '@/components/quests/DeviceTimeCard'
 import ScreenGateBanner from '@/components/quests/ScreenGateBanner'
 import ChildLinkShare from '@/components/quests/ChildLinkShare'
+import type { ActiveSession } from '@/lib/quests/device-time'
 
 // Fixture views: the REAL ask flow components with made up props, so the
 // child banner states, the picker, the parent's ask box with the locked
@@ -12,7 +14,51 @@ import ChildLinkShare from '@/components/quests/ChildLinkShare'
 
 const noop = () => { /* fixture */ }
 
+// The timer already running, for the ?view=timer capture. The end time has to
+// be built after mount (it is relative to now, and the server would render a
+// different one), and DeviceTimeCard reads its session once at mount, so the
+// card is held back until the session exists rather than handed a null.
+function RunningTimer() {
+  const [session, setSession] = useState<ActiveSession | null>(null)
+  useEffect(() => {
+    const now = Date.now()
+    setSession({
+      id: 'fx-session',
+      device: 'phone',
+      minutes: 20,
+      stars: 4,
+      endsAt: new Date(now + 20 * 60 * 1000).toISOString(),
+      startedAt: new Date(now).toISOString(),
+      treat: false,
+    })
+  }, [])
+  if (!session) return null
+  return (
+    <DeviceTimeCard
+      token="000000000000000000"
+      balanceStars={14}
+      initialSession={session}
+      usedTodayMinutes={20}
+      recommendedMinutes={90}
+      deviceTrust="ask"
+    />
+  )
+}
+
 export default function FixtureViews({ view }: { view: string }) {
+  if (view === 'timer') {
+    return (
+      <div style={{ minHeight: '100dvh', background: 'linear-gradient(180deg, #4C5057 0%, #34373D 100%)', padding: '28px 16px 40px', display: 'flex', justifyContent: 'center', fontFamily: 'var(--font-body)' }}>
+        <div style={{ width: 'min(100%, 460px)' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', margin: '0 0 12px' }}>
+            The timer running
+          </p>
+          <RunningTimer />
+        </div>
+      </div>
+    )
+  }
+
   if (view === 'parent') {
     return (
       <div style={{ minHeight: '100dvh', background: 'var(--cream)', padding: '28px 16px', display: 'flex', justifyContent: 'center', fontFamily: 'var(--font-body)' }}>
