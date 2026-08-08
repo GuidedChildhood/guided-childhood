@@ -287,7 +287,7 @@ export default function HomePage() {
             </p>
             <div className="fu" style={{ marginBottom: '12px' }}>
               <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-lg)', padding: '17px 42px' }}>
-                Start with the free check
+                Start for free
               </Link>
             </div>
             <p className="fu" style={{ fontSize: '.85rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '18px' }}>
@@ -989,7 +989,7 @@ export default function HomePage() {
           </p>
           <div style={{ marginBottom: '20px' }}>
             <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: 'var(--text-md)', padding: '17px 40px' }}>
-              Start with the free check
+              Start for free
             </Link>
           </div>
           <div style={{ fontSize: '.72rem', color: 'var(--ink-muted)' }}>
