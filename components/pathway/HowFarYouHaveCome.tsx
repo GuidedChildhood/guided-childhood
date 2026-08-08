@@ -26,8 +26,8 @@ import { createClient } from '@/lib/supabase/server'
 type EventRow = {
   concern_id: string
   event: string
-  severity: number | null
-  severity_at_start: number | null
+  score: number | null
+  score_at_start: number | null
   backfilled: boolean
   created_at: string
 }
@@ -37,8 +37,8 @@ type Journey = {
   status: string
   firstAt: string | null
   resolvedAt: string | null
-  startSeverity: number | null
-  endSeverity: number | null
+  startScore: number | null
+  endScore: number | null
   recurrences: number
   observed: boolean
 }
@@ -60,7 +60,7 @@ export default async function HowFarYouHaveCome() {
     supabase.from('concerns').select('id, label, status').eq('user_id', user.id),
     supabase
       .from('concern_events')
-      .select('concern_id, event, severity, severity_at_start, backfilled, created_at')
+      .select('concern_id, event, score, score_at_start, backfilled, created_at')
       .eq('user_id', user.id)
       .order('created_at', { ascending: true }),
   ])
@@ -87,21 +87,21 @@ export default async function HowFarYouHaveCome() {
     // The parent's own read of the start: the look back answer given at
     // resolution if they gave one, otherwise the earliest number they ever
     // recorded. Never invented when neither exists.
-    const startSeverity =
-      lastResolved?.severity_at_start ??
-      rows.find(r => typeof r.severity === 'number')?.severity ??
+    const startScore =
+      lastResolved?.score_at_start ??
+      rows.find(r => typeof r.score === 'number')?.score ??
       null
 
-    const endSeverity =
-      [...rows].reverse().find(r => typeof r.severity === 'number')?.severity ?? null
+    const endScore =
+      [...rows].reverse().find(r => typeof r.score === 'number')?.score ?? null
 
     journeys.push({
       label: c.label as string,
       status: c.status as string,
       firstAt: first.created_at,
       resolvedAt: lastResolved?.created_at ?? null,
-      startSeverity,
-      endSeverity: endSeverity === startSeverity && rows.length === 1 ? null : endSeverity,
+      startScore,
+      endScore: endScore === startScore && rows.length === 1 ? null : endScore,
       recurrences: rows.filter(r => r.event === 'recurred').length,
       // Only journeys with no reconstructed rows may carry a duration.
       observed: !rows.some(r => r.backfilled),
@@ -141,7 +141,7 @@ export default async function HowFarYouHaveCome() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {sorted.map((j, i) => {
-          const moved = typeof j.startSeverity === 'number' && typeof j.endSeverity === 'number'
+          const moved = typeof j.startScore === 'number' && typeof j.endScore === 'number'
           const tint = j.status === 'resolved' ? 'var(--tint-green)' : '#fff'
           return (
             <div key={i} style={{ background: tint, border: '1px solid var(--border)', borderRadius: '14px', padding: '12px 14px' }}>
@@ -157,7 +157,7 @@ export default async function HowFarYouHaveCome() {
               <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: '4px', lineHeight: 1.5 }}>
                 {moved && (
                   <span>
-                    {j.startSeverity} out of 10 at the start, {j.endSeverity} now.{' '}
+                    {j.startScore} out of 10 at the start, {j.endScore} now.{' '}
                   </span>
                 )}
                 {j.observed && j.firstAt && j.resolvedAt && (

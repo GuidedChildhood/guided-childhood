@@ -28,6 +28,53 @@ type Bank = { child_id: string; earned: number; spent: number; balance: number; 
 // Minutes banked above the weekly cap, spendable only while school is out.
 type HolidayBank = { childId: string; remaining: number; spendableNow: boolean; holidayTitle: string | null }
 
+// THE WAITING FOR YOU ROW, and why it needs its own rules.
+//
+// Justin, with a screenshot of "Please can I do the My Kindness Bucket List
+// printable" reading one word per line down a column about eighty pixels wide,
+// while the card itself ran off the side of the phone.
+//
+// Both symptoms are the same cause. The row was a flex line holding an emoji,
+// the sentence, an Add button and a dismiss, with both buttons at flexShrink 0.
+// The buttons plus gaps plus padding come to roughly two hundred and sixty
+// unshrinkable pixels, so on a 390px phone the sentence was handed about ninety,
+// which is narrower than the word "Kindness" in this weight. Every word wrapped.
+// And because a flex line cannot go below its own min content width, the card
+// then pushed wider than the screen and took the whole page with it.
+//
+// A shorter title would have hidden this rather than fixed it. These titles are
+// GENERATED from what a child asked for, so their length is not ours to control
+// and truncating one would hide the thing the parent is being asked to approve.
+// The layout has to survive a long one instead.
+//
+// So the row wraps. The sentence asks for 190px and takes a whole line of its
+// own when it cannot have that, the two buttons travel together and drop
+// beneath it right aligned, and anywhere lets a single freakish word break
+// rather than shove the card off the phone.
+const ASK_ROW: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap',
+  background: 'var(--tint-blue)', border: '1.5px solid var(--border)',
+  borderRadius: '14px', padding: '11px 14px',
+}
+
+const ASK_TEXT: React.CSSProperties = {
+  flex: '1 1 190px', minWidth: 0, overflowWrap: 'anywhere',
+  fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4,
+}
+
+// marginLeft auto so that on the wrapped layout the pair sits against the right
+// edge under the sentence, which is where a thumb already is, rather than
+// floating under the emoji.
+const ASK_ACTIONS: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0, marginLeft: 'auto',
+}
+
+const ASK_DISMISS: React.CSSProperties = {
+  background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
+  padding: '8px 10px', cursor: 'pointer', fontSize: 'var(--text-base)',
+  color: 'var(--ink-muted)', flexShrink: 0,
+}
+
 export default function QuestBoard() {
   const [children, setChildren] = useState<Child[]>([])
   const [quests, setQuests] = useState<Quest[]>([])
@@ -202,29 +249,24 @@ export default function QuestBoard() {
           {pendingAsks.map(a => {
             const childName = children.find(c => c.id === a.child_id)?.name ?? 'Your child'
             return (
-              <div key={a.id} style={{
-                display: 'flex', alignItems: 'center', gap: '10px',
-                background: 'var(--tint-blue)', border: '1.5px solid var(--border)',
-                borderRadius: '14px', padding: '11px 14px',
-              }}>
+              <div key={a.id} style={ASK_ROW}>
                 <span style={{ fontSize: 'var(--text-lg)' }}>{a.emoji}</span>
-                <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+                <span style={ASK_TEXT}>
                   {childName} pitched a quest: <strong>{a.title}</strong>
                   <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}> · their idea</span>
                 </span>
-                <Button variant="primary" size="sm" onClick={() => decideAsk(a.id, 'added')} style={{ flexShrink: 0 }}>
-                  Add it ⭐2
-                </Button>
-                <button
-                  onClick={() => decideAsk(a.id, 'declined')}
-                  aria-label="Not this time"
-                  style={{
-                    background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
-                    padding: '8px 10px', cursor: 'pointer', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', flexShrink: 0,
-                  }}
-                >
-                  ✕
-                </button>
+                <div style={ASK_ACTIONS}>
+                  <Button variant="primary" size="sm" onClick={() => decideAsk(a.id, 'added')} style={{ flexShrink: 0 }}>
+                    Add it ⭐2
+                  </Button>
+                  <button
+                    onClick={() => decideAsk(a.id, 'declined')}
+                    aria-label="Not this time"
+                    style={ASK_DISMISS}
+                  >
+                    ✕
+                  </button>
+                </div>
               </div>
             )
           })}
@@ -239,29 +281,24 @@ export default function QuestBoard() {
             const childName = children.find(c => c.id === t.child_id)?.name ?? 'Your child'
             if (!q) return null
             return (
-              <div key={t.id} style={{
-                display: 'flex', alignItems: 'center', gap: '10px',
-                background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-                borderRadius: '14px', padding: '11px 14px',
-              }}>
+              <div key={t.id} style={{ ...ASK_ROW, background: 'var(--terracotta-lt)', borderColor: 'var(--terracotta)' }}>
                 <span style={{ fontSize: 'var(--text-lg)' }}>{q.emoji}</span>
-                <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
+                <span style={ASK_TEXT}>
                   {childName} ticked <strong>{q.title}</strong>
                   <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}> · ⭐ {q.stars} = {q.stars * STAR_MINUTES} min</span>
                 </span>
-                <Button variant="primary" size="sm" onClick={() => decide(t.id, 'approve')} style={{ flexShrink: 0 }}>
-                  Approve
-                </Button>
-                <button
-                  onClick={() => decide(t.id, 'reject')}
-                  aria-label="Not done yet"
-                  style={{
-                    background: 'none', border: '1px solid var(--border)', borderRadius: '10px',
-                    padding: '8px 10px', cursor: 'pointer', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', flexShrink: 0,
-                  }}
-                >
-                  ✕
-                </button>
+                <div style={ASK_ACTIONS}>
+                  <Button variant="primary" size="sm" onClick={() => decide(t.id, 'approve')} style={{ flexShrink: 0 }}>
+                    Approve
+                  </Button>
+                  <button
+                    onClick={() => decide(t.id, 'reject')}
+                    aria-label="Not done yet"
+                    style={ASK_DISMISS}
+                  >
+                    ✕
+                  </button>
+                </div>
               </div>
             )
           })}

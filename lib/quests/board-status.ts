@@ -1,5 +1,6 @@
 import type { createClient } from '@/lib/supabase/server'
 import { getStarBanks } from '@/lib/quests/bank'
+import { chartWeekStart } from '@/lib/quests/star-week'
 
 // What is actually waiting for the parent, per tile on the Quests board.
 //
@@ -54,6 +55,16 @@ export type BoardStatus = {
    */
   starChartPrinted: boolean
   /**
+   * Saturday or Sunday, this family uses the paper chart, and there is no
+   * printed sheet for the Monday coming.
+   *
+   * A weekly OFFER rather than an outstanding action, which is why it is its
+   * own field rather than flipping starChartPrinted back to false: that flag
+   * means "never tried this" and a family with the chart on the fridge every
+   * week has very much tried it.
+   */
+  chartWeekDue: boolean
+  /**
    * A child asking for screen time right now, waiting on a yes.
    *
    * This one earns the loud badge for the same reason a ticked job does: a
@@ -71,6 +82,7 @@ const EMPTY: BoardStatus = {
   agreementSigned: true,
   starsToSpend: 0,
   starChartPrinted: true,
+  chartWeekDue: false,
   timeAsks: 0,
   timersRunning: 0,
 }
@@ -104,7 +116,11 @@ export async function getBoardStatus(
       .eq('user_id', userId).eq('status', 'open'),
     supabase.from('family_agreements').select('id').eq('user_id', userId).limit(1),
     kidsPromise,
-    supabase.from('star_chart_prints').select('id').eq('user_id', userId).limit(1),
+    // Both questions the chart gets asked, in one read: has this family EVER
+    // printed one, and is there one for the week that starts on Monday. The
+    // week_start column (migration 170) is what makes the second answerable;
+    // before it the tile had to answer both with the first.
+    supabase.from('star_chart_prints').select('id, week_start').eq('user_id', userId),
     // Asks go stale: the child's own screen drops a request after twelve hours
     // rather than leaving a parent answering yesterday's question, so the badge
     // counts the same window the answer screen does.
@@ -130,10 +146,38 @@ export async function getBoardStatus(
     } catch { starsToSpend = 0 }
   }
 
+  // THE SUNDAY CHART, and why it is a weekend only offer.
+  //
+  // Justin asked for the chart to be a Sunday thing, made ready for the week
+  // ahead. The badge before this went quiet on the first print and stayed quiet
+  // for good, which is right for "you have never tried this" and useless for a
+  // rhythm.
+  //
+  // Three rules, and each one is there to stop this becoming a nag:
+  //
+  //   Only a family who has ALREADY printed one. A family who has never used
+  //   the paper chart is being offered the thing, not chased about it, and that
+  //   is what the existing To print badge is for.
+  //   Only Saturday and Sunday. Making next week's chart is a weekend job, and
+  //   an offer that sits there all week is wallpaper by Wednesday.
+  //   Only when there is no print for the Monday coming. Print it and the tile
+  //   goes quiet until next weekend, which is the whole point.
+  //
+  // A failed read means no offer, matching how every other field here fails.
+  const printRows = chartPrints.error ? [] : (chartPrints.data ?? [])
+  const weekday = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'short' }).format(new Date())
+  const comingWeek = chartWeekStart()
+  const chartWeekDue =
+    !chartPrints.error
+    && printRows.length > 0
+    && (weekday === 'Sat' || weekday === 'Sun')
+    && !printRows.some(r => (r as { week_start?: string | null }).week_start === comingWeek)
+
   return {
     starsToSpend,
     // Unknown reads as printed, so a failure is silence rather than a nag.
-    starChartPrinted: chartPrints.error ? true : (chartPrints.data?.length ?? 0) > 0,
+    starChartPrinted: chartPrints.error ? true : printRows.length > 0,
+    chartWeekDue,
     // Ticks AND pitches, as one number.
     //
     // Justin: "on quest it says 1 in red on home page, click on it and you get

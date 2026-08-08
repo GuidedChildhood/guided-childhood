@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import type { YearView } from '@/lib/learning/year-view'
+import type { WeekBrief } from '@/lib/learning/this-week'
 
 // The reading surface for what a class is being taught this term.
 //
@@ -24,11 +25,12 @@ const CARD: React.CSSProperties = {
   padding: '18px', marginBottom: 14,
 }
 
-export default function LearningYear({ views, blurbs }: { views: YearView[]; blurbs: string[] }) {
+export default function LearningYear({ views, blurbs, briefs = [] }: { views: YearView[]; blurbs: string[]; briefs?: (WeekBrief | null)[] }) {
   const [active, setActive] = useState(0)
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const v = views[active]
   const blurb = blurbs[active]
+  const brief = briefs[active] ?? null
 
   const toggle = (key: string) => setOpen(o => ({ ...o, [key]: !o[key] }))
 
@@ -80,6 +82,70 @@ export default function LearningYear({ views, blurbs }: { views: YearView[]; blu
       )}
 
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 20px' }}>{blurb}</p>
+
+      {/* THIS WEEK AT SCHOOL, phase 1 of the curriculum depth plan: the one
+          objective the week is on, walked deterministically through the term
+          (see lib/learning/this-week.ts), with the two things a parent can do
+          with it. The anchor is what the Today card row on Home lands on. In
+          the holidays it previews what starts when they go back, said as a
+          preview, because "this week" in August would be a small lie. */}
+      {brief && (
+        <div id="this-week" style={{ ...CARD, borderColor: 'var(--terracotta)', scrollMarginTop: 80 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: 6 }}>
+            {brief.preview
+              ? `When they go back · Year ${brief.yearGroup}`
+              : `This week at school · week ${brief.weekOfTerm} of term`}
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--ink-muted)', marginBottom: 4 }}>
+            {brief.subjectLabel} · {brief.strand}
+          </div>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', margin: '0 0 8px', letterSpacing: '-0.01em', lineHeight: 1.25 }}>
+            {brief.lead}
+          </h2>
+          {brief.parts.length > 0 && (
+            <ul style={{ margin: '0 0 10px', paddingLeft: 20 }}>
+              {brief.parts.map(p => (
+                <li key={p} style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: 3 }}>{p}</li>
+              ))}
+            </ul>
+          )}
+          {brief.second && (
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
+              Also running: <strong>{brief.second.subjectLabel}</strong>, {brief.second.lead}
+            </p>
+          )}
+          {/* The dinner table version. A fixed frame rather than a sentence
+              grafted onto DfE text, because their objectives do not survive
+              being rewritten into questions and we quote, never paraphrase. */}
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.55, margin: '0 0 14px' }}>
+            The dinner table version: ask them to teach YOU this one. Children love being the teacher, and teaching it back is how you find out if it stuck.
+          </p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <Link
+              href={`/dashboard/quests/manage?title=${encodeURIComponent(brief.questTitle)}`}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 6, textDecoration: 'none',
+                background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: 12,
+                padding: '11px 15px', fontFamily: 'var(--font-display)', fontWeight: 800,
+                fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)',
+              }}
+            >
+              ⭐ Make it a job
+            </Link>
+            <Link
+              href="/dashboard/homework"
+              style={{
+                display: 'inline-flex', alignItems: 'center', textDecoration: 'none',
+                background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)',
+                borderRadius: 12, padding: '11px 15px', fontFamily: 'var(--font-display)',
+                fontWeight: 800, fontSize: 'var(--text-base)',
+              }}
+            >
+              How the school teaches it
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* No birthday: the ask, and nothing else. Everything on this page is
           derived from it, so offering a half page of guesses underneath would

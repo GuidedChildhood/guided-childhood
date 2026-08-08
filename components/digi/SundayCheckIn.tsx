@@ -149,9 +149,9 @@ export default function SundayCheckIn() {
           <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px', lineHeight: 1.4 }}>
             Five quick things, then DiGi sets a small plan for the week with you.
           </span>
-        </span>
-        <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: '#fff', background: 'var(--terracotta-dark)', borderRadius: '12px', padding: '10px 15px' }}>
-          Start
+          <span style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: '#fff', background: 'var(--terracotta-dark)', borderRadius: '12px', padding: '9px 15px' }}>
+            Start
+          </span>
         </span>
       </button>
     )

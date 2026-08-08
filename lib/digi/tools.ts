@@ -97,8 +97,13 @@ export const SAVE_MEMORY_TOOL: Anthropic.Tool = {
 
 export const SCHEDULE_FOLLOWUP_TOOL: Anthropic.Tool = {
   name: 'schedule_followup',
+  // Rewritten 8 August 2026 on Justin's say so. The old description carried
+  // four prohibitions and the model never once chose the tool (0 uses against
+  // save_memory's 53), which starved digi_outcomes and everything built on
+  // it. Plain permission first, the same shape save_memory's description has,
+  // with the one real guardrail kept as a single line at the end.
   description:
-    'Come back to this parent in a few days and ask how it went. Use it when you have suggested something they are going to try, where whether it worked is genuinely worth knowing and they should not have to carry the job of reporting back. Tell the parent you are doing it, in your own words, in the reply. Do not use it to chase, to nudge, or to create a reason to message someone who did not ask for one. If you would not want a message about it yourself, do not schedule it.',
+    'Come back to this parent in a few days and ask how their try went. Whenever your reply gives them something concrete to actually do, a script for tonight, a rule to hold for a week, a change to a routine, schedule the check in as part of giving the advice: it is how the family finds out what worked, and how you learn what holds for families like theirs. Fill in suggestion, topic, time_band and trigger so the answer can teach you something. Tell the parent you are doing it, in your own words, in the reply. A follow up asks about something they chose to try, never about something they did not.',
   input_schema: {
     type: 'object',
     properties: {
@@ -170,7 +175,7 @@ WHAT YOU CAN DO, NOT JUST SAY:
 - search_knowledge: the findings already in your context were chosen by matching the parent's words, which works when the question is the search and fails when the real question is underneath it. If what you were handed does not fit what they mean, search in your own words before you answer.
 - get_child_history: you have a summary of this family. Pull the detail when the specifics would make the answer better, especially to place something in time.
 - save_memory: when something is said that will still matter in a month, keep it. One sentence, and only if you would want it read back in six weeks.
-- schedule_followup: when you have suggested something they will go and try, come back and ask how it went rather than leaving them to report in. Tell them you are doing it. Never use it to chase.
+- schedule_followup: when your answer gives the family something concrete to try, book the check in as part of the advice. Suggesting without following up leaves the parent carrying the job of reporting back, and asking how it went is the half they cannot do for themselves. Tell them you are doing it.
 - web_search: two uses and no others.
   (1) THE LIVE WORLD. A named app, game, platform, device, or a change in UK law or guidance, where being out of date would make you wrong.
   (2) A NAMED RESEARCHER'S PUBLISHED WORK, when you want a specific figure, a paper title or a year that you are not certain of. Looking up what Orben actually found is a factual question about a real person's real papers, and the answer is on a university or journal page. Prefer this to stating a number from memory, always.

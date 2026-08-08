@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
-import { logConcernEvent, isSeverity } from '@/lib/concerns/events'
+import { logConcernEvent, isScore } from '@/lib/concerns/events'
 
 // The parent's own verdict on a concern from the Progress page: solved,
 // still going, or stuck and wanting help, plus happened again on a thing
@@ -15,16 +15,16 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  // severity: how bad it is right now, 0 to 10, optional.
-  // severityAtStart: asked only when marking something solved, looking back from
+  // score: where it is right now, 1 really tough to 10 going great, optional.
+  // scoreAtStart: asked only when marking something solved, looking back from
   // the end. That is the retrospective pre-test, and it exists because people
   // re-scale what a 7 means to them as they get to know their own problem. It is
   // the cheapest thing we can do to keep the before and after honest.
-  const { slug, status, severity, severityAtStart } = await request.json() as {
+  const { slug, status, score, scoreAtStart } = await request.json() as {
     slug?: string
     status?: string
-    severity?: unknown
-    severityAtStart?: unknown
+    score?: unknown
+    scoreAtStart?: unknown
   }
   if (!slug) return NextResponse.json({ error: 'slug required' }, { status: 400 })
   if (status !== 'resolved' && status !== 'open' && status !== 'recurred') {
@@ -61,7 +61,7 @@ export async function POST(request: Request) {
     // sorted is what stops the wisdom corpus reading every win as permanent.
     await logConcernEvent(supabase, user.id, slug, {
       event: 'recurred',
-      severity: isSeverity(severity) ? severity : null,
+      score: isScore(score) ? score : null,
       source: 'progress',
     })
 
@@ -78,9 +78,9 @@ export async function POST(request: Request) {
 
   await logConcernEvent(supabase, user.id, slug, {
     event: status === 'resolved' ? 'resolved' : 'reopened',
-    severity: isSeverity(severity) ? severity : null,
+    score: isScore(score) ? score : null,
     // Only meaningful on the way out, and only when they answered it.
-    severityAtStart: status === 'resolved' && isSeverity(severityAtStart) ? severityAtStart : null,
+    scoreAtStart: status === 'resolved' && isScore(scoreAtStart) ? scoreAtStart : null,
     source: 'progress',
   })
 

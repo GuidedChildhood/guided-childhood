@@ -58,18 +58,19 @@ export async function rebuildWisdom(): Promise<WisdomRebuild> {
   //
   // The concern signals come from the append only event log (migration 164)
   // rather than the concerns table, because the current row only knows where a
-  // family ended up. The log knows the shape: how bad it was, how bad it is
-  // now, how long it took, and whether it came back. "Bedtime went 8 to 3 over
-  // nine days for a 7 year old, and stayed down" is a pattern worth having.
+  // family ended up. The log knows the shape: where it started, where it is
+  // now, how long it took, and whether it came back. Scores climb as things
+  // get better, 1 really tough to 10 going great. "Bedtime went 2 to 8 over
+  // nine days for a 7 year old, and stayed up" is a pattern worth having.
   // "A family sorted bedtime", which is all this used to say, is not.
   //
   // Backfilled rows are excluded outright. Their timestamps were reconstructed
-  // when the log was created and they carry no severity, so including them
+  // when the log was created and they carry no score, so including them
   // would put invented durations in front of the model.
   const [concernsRes, eventsRes, scriptWorkedRes, reflectionsRes, childrenRes] = await Promise.all([
     admin.from('concerns').select('id, label, status, times_flagged, child_id').limit(600),
     admin.from('concern_events')
-      .select('concern_id, event, severity, severity_at_start, created_at')
+      .select('concern_id, event, score, score_at_start, created_at')
       .eq('backfilled', false)
       .order('created_at', { ascending: true })
       .limit(4000),
@@ -105,9 +106,9 @@ export async function rebuildWisdom(): Promise<WisdomRebuild> {
     const resolved = [...rows].reverse().find(r => r.event === 'resolved')
     const recurrences = rows.filter(r => r.event === 'recurred').length
 
-    const start = resolved?.severity_at_start ?? rows.find(r => typeof r.severity === 'number')?.severity ?? null
-    const end = [...rows].reverse().find(r => typeof r.severity === 'number')?.severity ?? null
-    const moved = typeof start === 'number' && typeof end === 'number' && end < start
+    const start = resolved?.score_at_start ?? rows.find(r => typeof r.score === 'number')?.score ?? null
+    const end = [...rows].reverse().find(r => typeof r.score === 'number')?.score ?? null
+    const moved = typeof start === 'number' && typeof end === 'number' && end > start
 
     const days = resolved
       ? Math.max(0, Math.round((new Date(resolved.created_at as string).getTime() - new Date(rows[0].created_at as string).getTime()) / 86400000))

@@ -5456,3 +5456,279 @@ Standing note for the child app: text sits on an anthracite background, so
 headings are white, never `var(--ink)`, and past states dim by colour, never by
 opacity. The balance page still sets `var(--ink)` on its h1 and is nearly
 invisible; it is on the list.
+
+**schedule_followup loosened, on Justin's say so (8 Aug).** The tool DiGi
+never picked (0 uses against save_memory's 53) had a description that was
+four prohibitions in a trench coat. It now leads with plain permission the
+way save_memory does, asks for the four learning fields by name, and keeps
+one guardrail line: a follow up asks about something the family chose to
+try, never about something they did not. This is the tap that feeds
+digi_outcomes and everything the evidence ledger builds on it. Watch the
+digi_followups count over the coming week to see it working.
+
+**The wisdom pen gains its handle.** The founder rebuild route existed with
+no button, so the only way to fill the pen was to wait for Sunday. The
+wisdom review page now carries Run the rebuild now, same implementation as
+the cron, writes to the pen only, so the first batch can be pulled and
+reviewed today.
+
+**The service catalogue is one file and it grew three entries (8 Aug).**
+Justin: "every single piece of service and benefit, why and problems solved,
+so we have it all saved somewhere." That file already existed as
+content/brand-story/service-post-map.md, eighteen services each with problem,
+what we made, hinge, hook and proof path. It now carries entries 19 to 21 for
+the week's builds (the child's own scripts, the evidence of how far you have
+come, DiGi's follow ups) and a standing rule in the header: when something
+new ships and a parent can touch it, it gets an entry the same week. Entry 21
+deliberately waits for real follow ups before it earns a Friday post.
+
+## 8 August 2026 — the star chart becomes a Sunday habit
+
+Justin: "can we add print my weekly star chart, customise it as a Sunday one, the
+five jobs rotation every Sunday ready for the week, or monthly, whatever you
+advise. I could not see it on printables on the child's phone."
+
+**Weekly, not monthly, and the reason is the reset.** The app already runs a
+star week from Monday to Monday in London, because that is when a child's
+earned minutes reset. A monthly chart would straddle four of those resets, so
+the sheet on the fridge and the numbers on the screen would disagree for three
+weeks out of every four. A month grid is also thirty columns on A4, which a six
+year old cannot use. Monthly is the right shape for a KEEPSAKE, the summary of
+what they earned, and that is a different artefact from a working chart.
+
+**Customised was already done.** Another session had the builder reading the
+family's real active jobs off the quests board. What it had no idea about was
+time: the chart printed undated, so a fridge ends up with three of them and
+nobody knowing which is live. Every sheet now carries "Week beginning Monday 10
+August", and on screen there are two chips, this week and next.
+
+**Sunday is the only day the offer appears.** chartWeekStart returns tomorrow's
+Monday on a Sunday and today's Monday every other day, so making the chart on
+Sunday afternoon gets you the week about to start, which is the only reason
+anybody makes one on a Sunday. Reprinting on Wednesday means the chart was lost,
+not that the week moved.
+
+**The chip names come from the server, not from the index.** On a Sunday the
+first week IS next week, and a chip reading "This week" over a Monday that has
+not happened would be a lie on the one control whose whole job is saying which
+week you are printing. So the server sends "The week ahead" and "The one after"
+on a Sunday, and "This week" and "Next week" otherwise.
+
+**Three rules keep the weekend badge an offer rather than a nag.** Only to a
+family who has already printed one (never printing is what the existing "To
+print" badge is for), only on Saturday and Sunday (an offer that sits there all
+week is wallpaper by Wednesday), and only when there is no print for the Monday
+coming. Print it and the tile goes quiet until next weekend.
+
+**Migration 170 is what made the weekly question answerable.** star_chart_prints
+knew only that a chart had been printed once, ever, and the tile was being asked
+to answer two different questions with that one fact. Existing rows are left
+null rather than backfilled to a guess: we know those charts were printed, we do
+not know which week they were for, and inventing one would either nag a family
+who printed on Sunday or go silent for one who did not.
+
+**The child's phone: not a bug.** The kid printables tab lists sheets from the
+printables registry, and the star chart is a parent tool that lives on the
+dashboard. A child cannot print and does not set their own jobs. Left as it is
+and flagged to Justin rather than quietly added, because putting it on a child's
+screen is a different feature and his call.
+
+**Checked** with every day of a week plus the October clock change week through
+chartWeekStart, and the new badge and week chips at 390px and 1280px in
+Chromium. The signed in builder page could not be reached in the sandbox, so the
+new markup was checked as a fixture rather than against the live page.
+
+## 8 August 2026 — the waiting for you row wrapped one word per line
+
+Justin, with a screenshot: "text issue here." A pitched quest reading
+"Please can I do the My Kindness Bucket List printable" down a column one word
+wide, while the card ran off the side of the phone.
+
+**Both symptoms, one cause.** The row was a flex line holding an emoji, the
+sentence, an Add button and a dismiss, with both buttons at flexShrink 0. The
+buttons plus gaps plus padding come to about 260 unshrinkable pixels, so the
+sentence was handed what was left. Measured in Chromium at the screenshot's own
+width: **26 pixels across 17 lines**. And because a flex line cannot go below
+its own min content width, the card then pushed wider than the screen and took
+the page with it.
+
+**A shorter title would have hidden this, not fixed it.** These titles are
+generated from what a child actually asked for, so their length is not ours to
+control, and truncating one would hide the thing the parent is being asked to
+approve. The layout has to survive a long one.
+
+**The row wraps now.** The sentence asks for 190px and takes a line of its own
+when it cannot have that, the two buttons travel together and drop beneath it
+right aligned where a thumb already is, and overflow-wrap anywhere stops one
+freakish word shoving the card off the phone. Measured after: 222px across 4
+lines at the same width, and desktop is untouched at one line either way.
+
+**The cost, named rather than hidden:** a short row like "Teo ticked Brush
+teeth" now also puts its button on a second line on a phone, because flex
+wrapping is decided by available width and not by how long the content happens
+to be. One basis cannot keep short rows inline and force long ones to wrap. The
+consistent two line row was chosen over occasionally saving thirty pixels.
+
+## 8 August 2026 — the child's timer looked paused when they left the app
+
+Justin: "I've noticed when you go off the child's app the timer pauses. That's
+a bug."
+
+**The countdown was never wrong. The recalculation stopped.** Every tick reads
+the wall clock (left = end minus now), so it has never decremented a counter and
+the number is correct the instant it is recomputed. What browsers throttle is
+the one second interval: down to about once a minute in a hidden tab, and
+suspended outright when a phone backgrounds the app. The digits freeze at
+whatever they last said.
+
+**The serious half was not the frozen display.** Switching to YouTube is exactly
+when the minutes are being spent, and if the block ran out while the app was in
+the background the expiry branch never ran: no alarm, no hand it back, no stop
+recorded. A timer whose whole job is to END was relying on the child watching it
+in order to finish.
+
+**Fixed by firing the tick on the way back in**, on visibilitychange, pageshow
+(a phone restoring from the back forward cache does not always raise the first)
+and focus. Guarded on visible so a child leaving does not spend their last
+seconds of attention on a jump.
+
+**Verified honestly.** Browser background throttling cannot be reproduced in a
+headless sandbox, and two attempts to force it (a second tab taking focus, then
+Page.setWebLifecycleState frozen over CDP) both left the page running normally,
+which is worth writing down so nobody repeats them. So the MECHANISM was tested
+instead: with the interval killed, the shipped code stays stuck on 4 seconds
+forever and never fires the finish, and the fixed code corrects to the true
+negative and fires the finish within one frame of the return event. The
+throttling itself still wants a look on a real phone.
+
+**The other per second intervals were left alone** (LiveTimerChip, StarSummary,
+SchoolActionsCard). They only paint a clock and self correct on the next tick,
+and none of them end a session, so a frozen second there is cosmetic.
+
+## 8 August 2026 — three from the child's app
+
+**The Quests tab did not go to quests.** Justin, with a screenshot. The tab row
+is sticky and setting the tab only swapped what was BELOW it, so a child tapping
+Quests halfway down the page stayed halfway down the page. The other two tabs
+were already scrolled into view when the five a day row or the shortcut tiles
+selected them, so the buttons themselves were the only route in that did
+nothing. And Quests does not belong at the tab row anyway: the jobs live in the
+ONE Today list ABOVE the tabs, so scrolling there lands a child on the balance
+gauge with their jobs off the top of the screen, which is exactly what the
+screenshot showed. Quests now goes to the jobs, the other two to the tabs.
+
+**Coming back mid screen.** That was the browser restoring the scroll position,
+which is right for an article and wrong for a board whose job is to say what to
+do next. The landing is chosen now rather than remembered: jobs left goes to the
+Today list, all done with new lessons opens Lessons, all done with new
+printables opens Printables, and nothing outstanding goes to the top, which is
+the honest answer to a child who has finished. Waits on seenHydrated, because
+until localStorage has loaded, seenLessons is empty and EVERYTHING counts as
+new, which would have sent every child to Lessons on every visit.
+
+**The week page is a calendar now.** Justin: "the colours of this page need to
+match Google Calendar colours mixed with touches of our brand." Mobbin first, as
+the rule says: Outlook, Toggl, Finch, Runna and Google's own are all LIGHT, and
+the reason is not taste. A calendar's whole job is to let coloured chips mean
+something, and colour coding on a dark ground either glows or goes muddy.
+
+So the page moved to butter, and each kind carries a real Google Calendar named
+colour as a wash with a solid rail down the left edge: Peacock for kit, Basil
+for homework, Grape for an event, Tangerine for a deadline, Banana for a
+payment, Flamingo for a notice, Graphite as the fallback. The rail shape is
+Toggl's and Outlook's, and it survives small sizes better than a filled block.
+Ink, Nunito and the chunky radii stay, so it reads as a calendar without
+stopping being ours. Banana for money on purpose: a payment is a grown up's job
+and a child should never read one as something they have to solve.
+
+**Scoped to this page, not to the token.** --kid-bg is used by five other child
+sub pages Justin has not asked about. A colour token is the wrong place to make
+a one page decision.
+
+## 8 August 2026 — Homepage rebuilt around one message
+Justin locked the hero: "A clear digital pathway from first screen to 16."
+Ten minutes a day is the single time claim, with the catch up promise
+(miss days, the pathway catches you up). Digital Health Checker is footer
+link only. Hero and stage cards use the Planet Friends CDN art with the
+passport as the finish line. Every CTA routes to /starter-pack including
+both paid pricing buttons (were /join). Page went from 2,930 lines and 34
+blocks to a 10 section spine; TRUST method, schools section and FAQ
+accordion left the homepage (live at /pathway, /schools, JSON-LD kept).
+Research base: research/homepage-audience-language.md and
+plans/homepage-section-audit.md.
+
+## 8 August 2026, evening: phase 1 of the curriculum depth plan is built
+
+**This week at school.** The 448 objectives gained a week: a deterministic
+walk through the term (lib/learning/this-week.ts), no model call, same
+objective all week, a new one on Monday. Delivered through what already
+existed: a Today card row that puts away until next Monday, a strip on the
+learning page with the objective and the dinner table frame, and Make it a
+job prefilling the quest composer through the pendingTitle mechanism it
+already had (two stars, the same weight as the homework templates). In the
+holidays it previews what starts when they go back, said as a preview,
+because this week in August would be a small lie. Other countries, per
+Justin's note: the curriculum slug is an explicit parameter, and a child we
+cannot place in the England system gets no brief rather than a wrong one.
+
+**The four day funnel got its countdown and its honest close (8 Aug).** The
+trial was already four days; what shouted 7 was one stale line on Home. The
+banner is now TrialCountdown: days while days are truthful, a live hours
+and minutes clock inside the last day counting to the real trial_ends_at,
+and an ended state that leads with the family's own numbers (jobs ticked,
+streak, or silence) and says what stays free. The techniques are the honest
+three, argued in the component: their own evidence, a real clock, true
+scarcity (the 50 cap is enforced in checkout and counted live on the
+upgrade page). The trial push sequence is planned in the week plan addendum
+and waits on Justin because it messages users.
+
+**The child's 404 on their own lessons, found and closed (8 Aug).** Justin's
+screenshot: a done lesson on the child app landing on Page not found. Three
+of Teo's passed lessons have no authored deck (slides null), the child
+lesson page hard 404s on a missing deck, and the kid home's focus lesson
+query did not carry the list page's no deck filter, so the app could offer
+a lesson its own page refuses to open. Two fixes: the kid home query now
+carries the same not null slides rule as the list, and a real lesson with
+no deck redirects to the child's lessons list instead of 404ing, because
+the links that land there are the app's own. Guessed or junk ids still 404.
+
+**The child's finished day folds to one line, and coming back starts at the
+top (8 Aug).** Justin, on Teo's screen: five crossed out rows under Today is
+done, and the app reopening wherever it was left. The five a day now folds
+to one proud line with the streak on it and a tap to reopen, the same rule
+the parent's path uses. The quests screen starts at the top on entry, and
+when the PWA resumes after five minutes or more away; a quick app switch
+never yanks the scroll.
+
+**The child lessons list gives the words the whole width (8 Aug).** Justin:
+"looks untidy text." The card was a three column flex, and at the child
+app's big text scale the fixed right column (chip, padlock, Go) starved
+titles into one word a line beside a field of empty card. The chip, the
+padlock and Go now sit under the words, which costs the sentence nothing
+at any scale.
+
+**The squeezed row sweep, and the layout rule it leaves behind (8 Aug).**
+Justin, on the parent Home next up card: "make sure we don't have messy
+text vertically like this." Same fault as the child lesson cards, all over
+the app: a flex row with a flex 1 sentence beside a fixed width padded
+pill and no wrap, so at larger phone text sizes the pill keeps its width
+and the sentence stacks one word a line. A sweep matched 54 rows; ten were
+real (Home next up and finish setting up, quests Share, Sunday check in
+Start, Back to today, install banner, job balance Review jobs, Spot
+something good, weekly roundup glances, manage jobs Done) and each moves
+the action under the words, or wraps where the button belongs beside short
+titles. The rule for new UI: a sentence and a fixed pill never share a
+flex row without a wrap. PR 740.
+
+**The check in is one slider, and the scale now climbs (8 Aug).** Justin:
+answering twice was too much, the number strip shut down on anyone who
+paused, nobody knew what 1 against 10 meant, and the scale should rise as
+things improve so every chart of a family's journey climbs. So the better
+same still hard chips and the six second timer are gone. One slider is the
+whole answer, the Apple Health mood pattern from the Mobbin pull in our own
+butter and ink: live word naming the number as it moves, both ends
+labelled, last time's score ghosted on the track, and the verdict computed
+by the server from the change since last time, never asked. Migration 171
+renames severity to score and inverts stored rows: 1 is really tough, 10
+is going great, up means better, everywhere and forever. Applied to the
+live database same day.

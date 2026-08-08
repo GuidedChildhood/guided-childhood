@@ -164,9 +164,9 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
               <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px', lineHeight: 1.45 }}>
                 Share the QR code to hand them their side. Nothing to install.
               </span>
-            </span>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '12px', padding: '10px 15px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
-              Share
+              <span style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '12px', padding: '9px 15px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+                Share
+              </span>
             </span>
           </div>
         </Link>

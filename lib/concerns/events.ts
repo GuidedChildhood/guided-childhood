@@ -27,10 +27,10 @@ export type ConcernLinkType = 'script' | 'lesson' | 'digi' | 'moment' | 'rightno
 
 export type ConcernEventInput = {
   event: ConcernEventName
-  /** 0 fine to 10 the worst it gets. Always optional, never blocking. */
-  severity?: number | null
-  /** Asked once at resolution: looking back, how bad was it at the start. */
-  severityAtStart?: number | null
+  /** 1 really tough to 10 going great. Up means better. Always optional, never blocking. */
+  score?: number | null
+  /** Asked once at resolution: looking back, where was it when this started. */
+  scoreAtStart?: number | null
   answer?: 'better' | 'same' | 'hard' | null
   source?: string | null
   linkedType?: ConcernLinkType | null
@@ -41,16 +41,16 @@ export type ConcernEventInput = {
 function clean(value: number | null | undefined): number | null {
   if (typeof value !== 'number' || !Number.isFinite(value)) return null
   const rounded = Math.round(value)
-  if (rounded < 0 || rounded > 10) return null
+  if (rounded < 1 || rounded > 10) return null
   return rounded
 }
 
 /**
- * True when a value is a usable 0 to 10 rating. Exported so routes can reject a
+ * True when a value is a usable 1 to 10 score. Exported so routes can reject a
  * bad payload explicitly rather than silently storing null and looking fine.
  */
-export function isSeverity(value: unknown): value is number {
-  return typeof value === 'number' && Number.isInteger(value) && value >= 0 && value <= 10
+export function isScore(value: unknown): value is number {
+  return typeof value === 'number' && Number.isInteger(value) && value >= 1 && value <= 10
 }
 
 /**
@@ -70,8 +70,8 @@ export async function logConcernEventById(
       concern_id: concernId,
       user_id: userId,
       event: input.event,
-      severity: clean(input.severity),
-      severity_at_start: clean(input.severityAtStart),
+      score: clean(input.score),
+      score_at_start: clean(input.scoreAtStart),
       answer: input.answer ?? null,
       source: input.source ?? null,
       linked_type: input.linkedType ?? null,
@@ -140,8 +140,8 @@ export async function logConcernEvents(
       concern_id: c.id as string,
       user_id: userId,
       event: input.event,
-      severity: clean(input.severity),
-      severity_at_start: clean(input.severityAtStart),
+      score: clean(input.score),
+      score_at_start: clean(input.scoreAtStart),
       answer: input.answer ?? null,
       source: input.source ?? null,
       linked_type: input.linkedType ?? null,

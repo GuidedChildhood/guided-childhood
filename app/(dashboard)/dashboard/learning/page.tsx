@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { buildYearView, yearBlurb, type YearView } from '@/lib/learning/year-view'
+import { getWeekBrief } from '@/lib/learning/this-week'
 import LearningYear from './LearningYear'
 
 // What your child is learning.
@@ -32,14 +33,16 @@ export default async function LearningPage() {
   const children = (kids ?? []).filter(k => k.name && k.name !== 'Your child')
 
   // Built for every child at once, so switching between them is instant and a
-  // two child family sees one page rather than two visits.
-  const views: YearView[] = await Promise.all(
-    children.map(c => buildYearView(supabase, {
+  // two child family sees one page rather than two visits. The week brief
+  // rides the same wave: one extra read per child, resolved in parallel.
+  const [views, briefs] = await Promise.all([
+    Promise.all(children.map(c => buildYearView(supabase, {
       id: c.id as string,
       name: c.name as string,
       date_of_birth: (c.date_of_birth as string | null) ?? null,
-    })),
-  )
+    }))),
+    Promise.all(children.map(c => getWeekBrief(supabase, (c.date_of_birth as string | null) ?? null))),
+  ]) as [YearView[], Awaited<ReturnType<typeof getWeekBrief>>[]]
 
   if (views.length === 0) {
     return (
@@ -61,5 +64,5 @@ export default async function LearningPage() {
     )
   }
 
-  return <LearningYear views={views} blurbs={views.map(yearBlurb)} />
+  return <LearningYear views={views} blurbs={views.map(yearBlurb)} briefs={briefs} />
 }

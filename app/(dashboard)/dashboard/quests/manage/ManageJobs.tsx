@@ -93,10 +93,12 @@ function isTab(v: string | null): v is TabKey {
 }
 
 export default function ManageJobs({
-  initialChild = null, initialTab = null,
+  initialChild = null, initialTab = null, initialTitle = null,
 }: {
   initialChild?: string | null
   initialTab?: string | null
+  /** Prefills the composer, the Make it a job tap from the week brief. */
+  initialTitle?: string | null
 } = {}) {
   // The pairing card, once the child actually has the app.
   //
@@ -139,7 +141,12 @@ export default function ManageJobs({
   // questions the typed path asks. Tapping one used to add it outright, which
   // meant the quicker of the two ways to add a job was the one that asked
   // nothing and took whatever the template said about repeating.
-  const [pending, setPending] = useState<{ title: string; emoji: string; stars: number } | null>(null)
+  // A title arriving on the URL (the week brief's Make it a job) seeds the
+  // same state, so it walks the same questions as any tapped suggestion. Two
+  // stars and the book, the same weight the school day templates carry.
+  const [pending, setPending] = useState<{ title: string; emoji: string; stars: number } | null>(
+    initialTitle ? { title: initialTitle, emoji: '📘', stars: 2 } : null,
+  )
   // Which question the composer is showing. The ideas below it are a way to
   // START a job, so they belong on the first question and on the confirmation
   // that offers another. While a question about the job in hand is open they
@@ -663,9 +670,12 @@ export default function ManageJobs({
                 {waiting.map(t => {
                   const q = questById.get(t.quest_id)
                   return (
-                    <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px' }}>
+                    <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px', flexWrap: 'wrap' }}>
                       <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1, flexShrink: 0 }}>{q?.emoji ?? '⭐'}</span>
-                      <span style={{ flex: 1, minWidth: 0 }}>
+                      {/* minWidth 140 so a long job title wraps the button to
+                          the next line instead of being squeezed one word a
+                          line beside it, same as the asks rows below. */}
+                      <span style={{ flex: 1, minWidth: 140 }}>
                         <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
                           {q?.title ?? 'A job'}
                         </span>

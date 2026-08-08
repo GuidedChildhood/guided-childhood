@@ -63,6 +63,38 @@ export function starWeekEnd(weekStart: string): string {
   return addDays(weekStart, 7)
 }
 
+/**
+ * The star week a chart printed NOW is for.
+ *
+ * Justin: "print my weekly star chart, customise it as a Sunday one, the five
+ * jobs rotation every Sunday ready for the week."
+ *
+ * Sunday is the day the chart gets made and Monday is the day the week starts,
+ * so on a Sunday this returns TOMORROW's Monday rather than the Monday six days
+ * gone. Print it on Sunday afternoon and the sheet on the fridge is for the
+ * week about to happen, which is the only reason anybody prints one on a
+ * Sunday. Every other day it is the week already running, because a parent
+ * reprinting on Wednesday has lost the chart, not moved to next week.
+ */
+export function chartWeekStart(now: Date = new Date()): string {
+  const weekday = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', weekday: 'short' }).format(now)
+  const current = starWeekStart(now)
+  return weekday === 'Sun' ? addDays(current, 7) : current
+}
+
+/**
+ * "Monday 10 August" for the sheet, and for the nudge that offers it.
+ *
+ * No year: the chart lives on a fridge for seven days and a year on it reads
+ * like a form. No dashes, per the copy rule, which rules out most of the tidy
+ * short formats.
+ */
+export function formatWeekBeginning(weekStart: string): string {
+  return new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/London', weekday: 'long', day: 'numeric', month: 'long',
+  }).format(new Date(`${weekStart}T12:00:00Z`))
+}
+
 /** Midnight London at the start of a YYYY-MM-DD day, as an instant. */
 export function londonMidnightIso(ymd: string): string {
   const guess = new Date(`${ymd}T00:00:00Z`)

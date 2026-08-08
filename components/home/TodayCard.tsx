@@ -39,6 +39,16 @@ import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 
 const DEAL_SNOOZE_KEY = 'gc_deal_review_snoozed'
 const DEAL_SNOOZE_DAYS = 14
+// The week brief's put away stores the Monday it was dismissed on, so the row
+// returns by itself when a new school week starts and never before.
+const WEEK_BRIEF_KEY = 'gc_week_brief_hidden'
+
+function mondayOf(d: Date): string {
+  const back = (d.getDay() + 6) % 7
+  const m = new Date(d)
+  m.setDate(d.getDate() - back)
+  return `${m.getFullYear()}-${String(m.getMonth() + 1).padStart(2, '0')}-${String(m.getDate()).padStart(2, '0')}`
+}
 
 type Row = {
   key: string
@@ -55,6 +65,7 @@ export default function TodayCard({
   childApp = null,
   dealReview = null,
   deviceSetup = null,
+  weekBrief = null,
 }: {
   // The child has never opened their app and the family has not chosen the
   // paper chart. Server decided, same reading ChildAppNudge used.
@@ -63,12 +74,16 @@ export default function TodayCard({
   dealReview?: { daysSinceChange: number } | null
   // The stage whose device settings have not been confirmed on this device.
   deviceSetup?: { stageId: number; stageName: string } | null
+  // This week at school: the one objective the class is on, phase 1 of the
+  // curriculum depth plan. Null without a birthday or outside Years 1 to 6.
+  weekBrief?: { childName: string | null; lead: string; preview: boolean } | null
 }) {
   const router = useRouter()
   const [review, setReview] = useState<Review | null>(null)
   const [ideas, setIdeas] = useState(0)
   const [dealSnoozed, setDealSnoozed] = useState(true)
   const [deviceConfirmed, setDeviceConfirmed] = useState(true)
+  const [weekHidden, setWeekHidden] = useState(true)
   // Rows put away this visit, so the fold is seen rather than instant.
   const [folding, setFolding] = useState<Set<string>>(new Set())
   const [gone, setGone] = useState<Set<string>>(new Set())
@@ -99,6 +114,7 @@ export default function TodayCard({
     if (deviceSetup) {
       try { setDeviceConfirmed(localStorage.getItem(`gc_device_setup_confirmed_${deviceSetup.stageId}`) === '1') } catch { setDeviceConfirmed(false) }
     }
+    try { setWeekHidden(localStorage.getItem(WEEK_BRIEF_KEY) === mondayOf(new Date())) } catch { setWeekHidden(false) }
     return () => window.removeEventListener(NOTIFS_CHANGED_EVENT, refresh)
   }, [deviceSetup])
 
@@ -112,6 +128,25 @@ export default function TodayCard({
   }
 
   const rows: Row[] = []
+
+  // The school week leads: it is the row that changes on a fixed day, which
+  // is what gives Monday a reason. Put away, it stays away until the next
+  // school week starts.
+  if (weekBrief && !weekHidden) {
+    const name = weekBrief.childName
+    rows.push({
+      key: 'week', emoji: '📘',
+      title: weekBrief.preview
+        ? (name ? `What ${name}'s class does when they go back` : 'What their class does when they go back')
+        : (name ? `What ${name}'s class is on this week` : 'What their class is on this week'),
+      line: weekBrief.lead,
+      href: '/dashboard/learning#this-week',
+      putAwayLabel: 'Put away until Monday',
+      putAway: () => {
+        try { localStorage.setItem(WEEK_BRIEF_KEY, mondayOf(new Date())) } catch { /* private mode */ }
+      },
+    })
+  }
 
   if (review && review.status !== 'read' && review.status !== 'dismissed') {
     rows.push({

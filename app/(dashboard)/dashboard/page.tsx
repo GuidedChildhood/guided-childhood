@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { hasFullAccess, inTrial, trialDaysLeft } from '@/lib/access'
+import { hasFullAccess, inTrial, TRIAL_DAYS } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getStageFromAgeBand, ageBandInList, type AgeBand, type ChallengeId, STAGES } from '@/lib/content/stages'
@@ -43,6 +43,7 @@ import MissionWelcome from '@/components/home/MissionWelcome'
 import CommunityBite from '@/components/community/CommunityBite'
 import HomeRows from '@/components/home/HomeRows'
 import TodayCard from '@/components/home/TodayCard'
+import TrialCountdown from '@/components/home/TrialCountdown'
 import HomeLive from '@/components/home/HomeLive'
 import HomeMain from '@/components/home/HomeMain'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
@@ -56,6 +57,7 @@ import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-l
 import { getDailyStreak } from '@/lib/pathway/streak'
 import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick } from '@/lib/pathway/jobs-streak'
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
+import { getWeekBrief } from '@/lib/learning/this-week'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
@@ -94,7 +96,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // Same reads, same order of meaning, one round trip of latency.
   const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
     supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes').eq('id', user.id).maybeSingle(),
-    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
+    supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
@@ -325,7 +327,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // last script's insight, the jobs board). Two waves total, not ten.
   const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
   const lastCompletion = lastCompletionResult.data
-  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes] = await Promise.all([
+  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
     getLiteracyStatuses(supabase, user.id, stage.id),
@@ -353,6 +355,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     child?.id
       ? supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', child.id).gte('tick_date', sinceJobs)
       : Promise.resolve({ data: null }),
+    // This week at school, for the Today card row. Null without a birthday or
+    // outside Years 1 to 6, the same honest gate every curriculum surface has.
+    getWeekBrief(supabase, (child as { date_of_birth?: string | null } | null)?.date_of_birth ?? null),
   ])
 
   // The lesson nudge pick, from the wave's reads: one age relevant film the
@@ -416,7 +421,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     || (Date.now() - new Date(lastCheckin.created_at).getTime()) > 28 * 24 * 60 * 60 * 1000
 
   const showTrial = inTrial(profile)
-  const trialLeft = trialDaysLeft(profile)
   const trialEnded = !isPaid && Boolean(profile?.trial_ends_at) && !showTrial
 
   // The child's jobs, read across for DiGi's greeting: whether today's jobs are
@@ -576,6 +580,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         childApp={!childAppLive && handoverChoice !== 'paper' ? { childName: child?.name ?? null } : null}
         dealReview={dealDaysSinceChange !== null && dealDaysSinceChange >= 14 ? { daysSinceChange: dealDaysSinceChange } : null}
         deviceSetup={setupComplete ? { stageId: stage.id, stageName: stage.name } : null}
+        weekBrief={weekBrief ? {
+          childName: child?.name && child.name !== 'Your child' ? child.name : null,
+          lead: weekBrief.lead,
+          preview: weekBrief.preview,
+        } : null}
       />
       {/* DiGi comes up first, once a day, greeting the family by name */}
       <DigiWelcomeSheet
@@ -598,35 +607,19 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           strands: literacyStrands,
         }}
       />
-      {/* Trial status: warm and forgiving during, a gentle offer after, never
-          a lockout. The everyday habit stays free either way. */}
-      {showTrial && (
-        <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-              ✨ Full access, {trialLeft} {trialLeft === 1 ? 'day' : 'days'} left
-            </span>
-            <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none', letterSpacing: '0.04em' }}>
-              See membership →
-            </Link>
-          </div>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
-            Everything is open while you settle in. Five to ten minutes a day, all the way to 16.
-          </p>
-        </div>
-      )}
-      {trialEnded && (
-        <div style={{ background: 'var(--deep-teal)', borderRadius: '16px', padding: '16px 18px', marginBottom: '18px' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: '#fff', marginBottom: '4px' }}>
-            Your 7 days of full access have finished
-          </div>
-          <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.8)', lineHeight: 1.55, margin: '0 0 12px' }}>
-            The daily habit, quests and your tracker stay free. The founder rate opens everything for £7.99 a month, for life.
-          </p>
-          <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-            Unlock everything again
-          </Link>
-        </div>
+      {/* Trial status: warm during, a real countdown inside the last day, an
+          honest close after, never a lockout. The three registers and the
+          honest techniques argument live in TrialCountdown. It used to say
+          7 days after the trial became 4, which is exactly why the number now
+          comes from TRIAL_DAYS rather than copy. */}
+      {(showTrial || trialEnded) && (
+        <TrialCountdown
+          trialEndsAt={(profile?.trial_ends_at as string | null) ?? null}
+          ended={trialEnded}
+          trialDays={TRIAL_DAYS}
+          jobsTicked={(jtRes.data ?? []).filter(t => (t as { status?: string }).status === 'approved').length}
+          streakCount={streak.count}
+        />
       )}
       {/* Welcome back, one beat, gone. Each open introduces a different thing
           the platform does, and what we do with what you tell it, so a parent
@@ -685,8 +678,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           Silent until the habit is done, so it never crowds the path. */}
       {dayComplete && (
         <Link href={nextUp.href} style={{ textDecoration: 'none', display: 'block', marginBottom: '22px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '15px', background: 'linear-gradient(135deg, #FFF7EA 0%, #FCEAC0 100%)', border: '1.5px solid var(--gold)', borderRadius: '22px', padding: '18px 20px', boxShadow: '0 10px 26px -12px rgba(198,144,24,0.45)' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '15px', background: 'linear-gradient(135deg, #FFF7EA 0%, #FCEAC0 100%)', border: '1.5px solid var(--gold)', borderRadius: '22px', padding: '18px 20px', boxShadow: '0 10px 26px -12px rgba(198,144,24,0.45)' }}>
             <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '15px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)', boxShadow: '0 3px 8px rgba(198,144,24,0.18)' }}>{nextUp.icon}</span>
+            {/* The words own the whole width, and Open sits under them. As a
+                third column the fixed Open pill starved the title into one
+                word a line at larger text sizes (Justin's screenshot,
+                8 August). */}
             <span style={{ flex: 1, minWidth: 0 }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '4px' }}>{nextUp.eyebrow}</span>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
@@ -695,8 +692,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               <span style={{ display: 'block', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', marginTop: '3px', lineHeight: 1.4 }}>
                 {nextUp.line}
               </span>
+              <span style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '9px 18px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
             </span>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '12px 20px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
           </div>
         </Link>
       )}
@@ -793,9 +790,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                 <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {doneCount} of {setupSteps.length} done{next ? ` · next: ${next.title.toLowerCase()}` : ''}
                 </span>
-              </span>
-              <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '11px', padding: '9px 16px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-                Continue
+                <span style={{ display: 'inline-block', marginTop: '8px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '11px', padding: '8px 15px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+                  Continue
+                </span>
               </span>
             </div>
           </Link>
