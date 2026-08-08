@@ -204,11 +204,33 @@ export default function TodayCard({
             }}
           >
             <div style={{ overflow: 'hidden' }}>
+              {/* The emoji tile sits left, the tick sits on the RIGHT edge:
+                  the thumb side, the way every Finch row ticks one handed
+                  (Mobbin capture, 8 Aug). Rows with no away state carry the
+                  quiet chevron there instead. */}
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 12,
                 background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14,
                 padding: '12px 13px', marginBottom: 8,
               }}>
+                <span aria-hidden style={{ flexShrink: 0, width: 26, height: 26, borderRadius: 8, background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-base)' }}>
+                  {row.emoji}
+                </span>
+                <button
+                  onClick={() => router.push(row.href)}
+                  style={{
+                    flex: 1, minWidth: 0, textAlign: 'left', background: 'none',
+                    border: 'none', padding: 0, cursor: 'pointer', font: 'inherit',
+                    color: 'var(--ink)',
+                  }}
+                >
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
+                    {row.title}
+                  </span>
+                  <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.35, marginTop: 1 }}>
+                    {row.line}
+                  </span>
+                </button>
                 {row.putAway ? (
                   <button
                     onClick={() => putAway(row.key, row.putAway!)}
@@ -227,28 +249,10 @@ export default function TodayCard({
                     ✓
                   </button>
                 ) : (
-                  <span aria-hidden style={{ flexShrink: 0, width: 26, height: 26, borderRadius: 8, background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-base)' }}>
-                    {row.emoji}
+                  <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>
+                    ›
                   </span>
                 )}
-                <button
-                  onClick={() => router.push(row.href)}
-                  style={{
-                    flex: 1, minWidth: 0, textAlign: 'left', background: 'none',
-                    border: 'none', padding: 0, cursor: 'pointer', font: 'inherit',
-                    color: 'var(--ink)',
-                  }}
-                >
-                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
-                    {row.title}
-                  </span>
-                  <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.35, marginTop: 1 }}>
-                    {row.line}
-                  </span>
-                </button>
-                <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>
-                  ›
-                </span>
               </div>
             </div>
           </div>

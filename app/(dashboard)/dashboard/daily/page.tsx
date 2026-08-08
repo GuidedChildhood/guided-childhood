@@ -201,21 +201,46 @@ export default async function DailyPage() {
     })
   }
 
-  // Card 4 — Reflective question (stage-based)
-  const questions: Record<number, string> = {
-    1: 'Has your child had any screen-free time today? Even 20 minutes of imaginative play builds the self-regulation they will need later.',
-    2: 'Do you know what your child did online yesterday? Not to check up on them. Just to be curious. One question at dinner is enough.',
-    3: 'Has anything changed in your child\'s mood or behaviour this week? Mood is often the first signal that something is happening online.',
-    4: 'When did you last have a conversation with your teenager that was not about a screen? Just a check.',
-    5: 'Is your young person building a digital life they will be proud of? That is the whole question at this stage.',
+  // Card 4 — Reflective question, a small pool per stage rotated by the day.
+  // One fixed question per stage meant a daily card that read identically
+  // every single morning, which is half of Justin's "the first card always
+  // seems the same". Three per stage, walked by the same dayIndex the moment
+  // card uses, keeps it a daily question rather than a laminated one.
+  const questions: Record<number, string[]> = {
+    1: [
+      'Has your child had any screen-free time today? Even 20 minutes of imaginative play builds the self-regulation they will need later.',
+      'Who chose what went on the screen last time, you or them? Handing over the choosing, inside your limits, is where self control starts.',
+      'What did your child do straight after the screen went off yesterday? The handover moment tells you more than the minutes do.',
+    ],
+    2: [
+      'Do you know what your child did online yesterday? Not to check up on them. Just to be curious. One question at dinner is enough.',
+      'When did your child last teach YOU something about a game or an app? Being the student for five minutes opens more doors than any rule.',
+      'Is the charging spot still working, or have devices crept back to bedrooms? Structure drifts quietly. A ten second check today.',
+    ],
+    3: [
+      'Has anything changed in your child\'s mood or behaviour this week? Mood is often the first signal that something is happening online.',
+      'Does your child know what you would do if they showed you something upsetting they had seen? If they expect calm, they will show you.',
+      'Which app got most of their time this week, and do you know what it feels like to use? Ten minutes inside it is worth a week of headlines.',
+    ],
+    4: [
+      'When did you last have a conversation with your teenager that was not about a screen? Just a check.',
+      'Would your teenager say you trust them online? Their answer, not yours, is the one that shapes what they tell you next.',
+      'What is one thing your teenager did online this week that deserved credit? Catch them doing it right, out loud.',
+    ],
+    5: [
+      'Is your young person building a digital life they will be proud of? That is the whole question at this stage.',
+      'Do they know how to walk away from an online space that turns nasty? Leaving well is a skill, and it is learnable.',
+      'What does their online presence say about them to someone who has never met them? Worth asking them, not telling them.',
+    ],
   }
+  const stageQuestions = questions[stage.id] ?? questions[3]
 
   cards.push({
     id: 'question',
     type: 'question',
     eyebrow: 'A question for today',
     headline: 'Just one thing to notice',
-    body: questions[stage.id] ?? questions[3],
+    body: stageQuestions[dayIndex % stageQuestions.length],
     accent: 'var(--terracotta)',
     icon: '?',
   })
