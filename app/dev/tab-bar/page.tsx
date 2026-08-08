@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import MobileTabBar from '@/components/dashboard/MobileTabBar'
+import OpenAtTheTop from '@/components/dashboard/OpenAtTheTop'
 
-// Dev harness for the bottom tab bar, and the reason it exists is a bug the
-// ref-* fixtures structurally could not catch.
+// Dev harness for the dashboard shell: the bottom tab bar and the come back
+// in at the top rule. It exists because of a bug class the ref-* fixtures
+// structurally could not catch.
 //
 // Justin, 8 August 2026, on the parent app: "is it strange that you can shift
 // all app left and right, is this normal practice for an app as seems a bit
@@ -77,6 +79,12 @@ export default function TabBarHarness() {
         fontFamily: 'var(--font-mono)', fontSize: 12, lineHeight: 1.7, whiteSpace: 'pre-wrap',
         background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 12, padding: 12,
       }}>{report}</pre>
+
+      {/* The other half of the shell: coming back in starts at the top. Mounted
+          here because this harness is the only place the dashboard chrome can
+          be driven without a login, and because the behaviour is impossible to
+          check by reading it. */}
+      <OpenAtTheTop />
 
       <MobileTabBar pendingAsks={2} />
     </div>
