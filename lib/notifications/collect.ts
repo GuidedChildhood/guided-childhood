@@ -134,10 +134,21 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       id: `device-${se.id}`, kind: 'device', icon: '⏱️', urgent: false,
       title: `${nameOf(se.child_id as string)} is on their screen time`,
       body: 'A device timer is running now',
-      // Straight to the timer card, not the top of a long board. A parent
-      // tapping "See the timer" on a running session wants the countdown, and
-      // landing them at the top left them to find it.
-      href: '/dashboard/quests#screen-time', at: new Date().toISOString(),
+      // Straight to the running countdown. A parent tapping "See the timer" on
+      // a live session wants the number, now.
+      //
+      // Justin, 8 August 2026: "See timer should actually take you to the
+      // ticking timer." It did not, and the reason is worth recording: this
+      // pointed at /dashboard/quests#screen-time back when the timer was a card
+      // on that board. The timer then moved to its own page, and the anchor was
+      // left behind pointing at a spacer div that now sits above the Balance
+      // and stats LINK. So the tap landed on the quests board, near a link to a
+      // different page, with no countdown anywhere on the screen.
+      //
+      // A hash into a page that no longer holds the thing is the quietest kind
+      // of broken link: nothing errors, the route resolves, and the parent is
+      // simply somewhere else.
+      href: '/dashboard/quests/timer', at: new Date().toISOString(),
     })
   }
 

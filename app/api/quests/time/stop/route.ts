@@ -102,7 +102,11 @@ export async function POST(req: NextRequest) {
         body: stoppedEarly
           ? `${usedMinutes} minute${usedMinutes === 1 ? '' : 's'} used on the ${deviceLabel(device)}, and it is on the balance. The rest of the stars went back.`
           : `The ${deviceLabel(device)} timer finished. ${usedMinutes} minute${usedMinutes === 1 ? '' : 's'} recorded.`,
-        url: '/dashboard/quests#screen-time',
+        // The timer's own page, not the old board anchor. Landing on a
+        // screen headed Start some screen time is right for both cases here:
+        // the session just ended, and starting the next one is the only thing
+        // a parent might want to do about it.
+        url: '/dashboard/quests/timer',
         // The timer finishing is urgent and needs acting on; handing the device
         // back early is good news that can wait. Same alert route, different
         // weight, so the one that matters is the one that stays on screen.

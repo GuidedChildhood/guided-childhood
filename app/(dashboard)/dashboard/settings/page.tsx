@@ -66,6 +66,9 @@ export default function SettingsPage() {
   // False before migration 088: the interests field hides and saves skip it.
   const [interestsSupported, setInterestsSupported] = useState(true)
   const [loading, setLoading] = useState(true)
+  // The billing portal button: cancelling, and fixing a card that failed.
+  const [portalBusy, setPortalBusy] = useState(false)
+  const [portalNote, setPortalNote] = useState('')
 
   // Profile form
   const [name, setName] = useState('')
@@ -210,6 +213,32 @@ export default function SettingsPage() {
     setKids(ks => ks.map(k => k.id === id ? { ...k, name: form.name.trim() || 'Your child', age_band: band, date_of_birth: dobFull || null, interests: form.interests.trim() || null } : k))
     patchForm(id, { saving: false, saved: true, ageBand: band })
     setTimeout(() => patchForm(id, { saved: false }), 2500)
+  }
+
+  // Cancelling and card changes both live in Stripe's own hosted portal. See
+  // app/api/stripe/portal/route.ts for why it is hosted rather than built here.
+  async function openBilling() {
+    setPortalBusy(true)
+    setPortalNote('')
+    try {
+      const res = await fetch('/api/stripe/portal', { method: 'POST' })
+      const data = await res.json().catch(() => null)
+      if (res.ok && data?.url) { window.location.href = data.url; return }
+      // Say what actually happened. A parent trying to cancel and hitting a
+      // dead button will reasonably assume they are being made to jump through
+      // hoops, which is the exact opposite of the promise on the upgrade page.
+      setPortalNote(
+        data?.error === 'portal_not_configured'
+          ? 'The billing page is not switched on yet. Email hello@guidedchildhood.com and I will sort it the same day.'
+          : data?.error === 'no_subscription'
+            ? 'There is no paid subscription on this account, so there is nothing to cancel.'
+            : 'Could not open the billing page. Email hello@guidedchildhood.com and I will sort it the same day.'
+      )
+    } catch {
+      setPortalNote('Could not open the billing page. Email hello@guidedchildhood.com and I will sort it the same day.')
+    } finally {
+      setPortalBusy(false)
+    }
   }
 
   async function signOut() {
@@ -524,6 +553,42 @@ export default function SettingsPage() {
       {/* What was agreed, when, and the button that takes the Article 9
           consent back. */}
       <YourAgreements joinedAt={profile?.created_at ?? null} consentAt={profile?.wellbeing_consent_at ?? null} />
+
+      {/* Your plan: the one place to change the card or stop paying.
+          The upgrade page has promised "cancel any time" since it was written
+          and there was no way to do it, which made the promise a trap. Shown
+          only to people who actually pay, because there is nothing here to
+          manage otherwise. */}
+      {isPaid && (
+        <section id="billing" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '24px' }}>
+          <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Your plan</h2>
+          <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
+            Change your card, see your invoices, or cancel. Cancelling takes two taps and there is no
+            retention maze. You keep the free tier and everything your family has earned.
+          </p>
+          <button
+            onClick={openBilling}
+            disabled={portalBusy}
+            style={{
+              background: 'none',
+              border: '2px solid var(--border)',
+              borderRadius: '16px',
+              padding: '10px 24px',
+              fontSize: 'var(--text-md)',
+              fontFamily: 'var(--font-body)',
+              fontWeight: 600,
+              color: 'var(--ink-muted)',
+              cursor: portalBusy ? 'default' : 'pointer',
+              opacity: portalBusy ? 0.6 : 1,
+            }}
+          >
+            {portalBusy ? 'Opening…' : 'Manage your plan'}
+          </button>
+          {portalNote && (
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: '12px' }}>{portalNote}</p>
+          )}
+        </section>
+      )}
 
       {/* Sign out */}
       <section id="sign-out" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
