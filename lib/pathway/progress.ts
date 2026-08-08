@@ -7,14 +7,6 @@ export type StageId = 'foundation' | 'builder' | 'explorer' | 'shaper' | 'indepe
 
 const STAGE_ORDER: StageId[] = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
 
-const AUDIENCE_TO_STAGE: Record<string, StageId> = {
-  age_7: 'foundation',
-  age_9: 'builder',
-  age_11: 'explorer',
-  age_13: 'shaper',
-  age_16: 'independent',
-}
-
 function deviceAgeToStage(minAge: number): StageId {
   if (minAge <= 7) return 'foundation'
   if (minAge <= 10) return 'builder'
@@ -66,7 +58,6 @@ export async function getStageProgress(
     { data: stageDeviceGuides },
     { data: deviceProgress },
     { data: lessonsForStage },
-    { data: aiLessonsAll },
     { data: lessonCompletions },
     { data: familyDevices },
   ] = await Promise.all([
@@ -75,8 +66,7 @@ export async function getStageProgress(
     supabase.from('device_guides').select('device_key, min_age'),
     supabase.from('device_setup_progress').select('device_key, status').eq('user_id', userId),
     supabase.from('lessons').select('id').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub'),
-    supabase.from('ai_lessons').select('id, audience').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']),
-    supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
+    supabase.from('lesson_completions').select('lesson_id, lesson_source, passed').eq('user_id', userId),
     // The family's own device list, from migration 106. Before that migration,
     // or before they have told us, this comes back empty and the catalogue
     // reading below is used exactly as it was.
@@ -128,14 +118,33 @@ export async function getStageProgress(
         return ownedInStage.length > 0 ? Math.round((done / ownedInStage.length) * 100) : 100
       })()
 
-  // Lessons: combine the general lessons table (already stage scoped) with
-  // ai_lessons (audience scoped, mapped to stage), then check completion.
-  const aiLessonsInStage = (aiLessonsAll ?? []).filter(l => AUDIENCE_TO_STAGE[l.audience] === stageId)
-  const totalLessonsInStage = (lessonsForStage?.length ?? 0) + aiLessonsInStage.length
-  const completedLessonKeys = new Set((lessonCompletions ?? []).map(c => `${c.lesson_source}:${c.lesson_id}`))
+  // Lessons. Counted exactly the way the Lessons page counts them, because
+  // for months the two disagreed in public.
+  //
+  // Justin, 8 August 2026: "It says 5 of 37 on passport page but click through
+  // is 3 of 29 so needs to be clear." Both numbers were wrong in the same
+  // direction and for two separate reasons, measured on the live database:
+  //
+  //   total  the passport added the 8 AI module lessons to the stage's 29
+  //          parent lessons and got 37. The Lessons page counts 29, and says
+  //          why: only the family library set moves the progress report,
+  //          because that is the set the child sees on their own page. The AI
+  //          modules ride along as bonus.
+  //   done   the passport counted ANY completion row, so a check that was
+  //          FAILED still ticked. Four rows, one of them failed, plus one AI,
+  //          reads as 5. The Lessons page counts passes only, and got 3.
+  //
+  // A failed run counting as done is the worse half: it inflates a parent's
+  // progress with work their child got wrong, which is the one number in the
+  // product that has to be honest. Both rules now match the Lessons page.
+  const passedCompletionKeys = new Set(
+    (lessonCompletions ?? [])
+      .filter(c => c.passed !== false)
+      .map(c => `${c.lesson_source}:${c.lesson_id}`)
+  )
+  const totalLessonsInStage = lessonsForStage?.length ?? 0
   const lessonsDone =
-    (lessonsForStage ?? []).filter(l => completedLessonKeys.has(`lesson:${l.id}`)).length +
-    aiLessonsInStage.filter(l => completedLessonKeys.has(`ai_lesson:${l.id}`)).length
+    (lessonsForStage ?? []).filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length
   const lessonsPct = totalLessonsInStage > 0 ? Math.round((lessonsDone / totalLessonsInStage) * 100) : 0
 
   // Lessons carry the most weight in the passport circle: the stamp is
@@ -170,7 +179,6 @@ export async function getAllStagesProgress(
     { data: deviceGuides },
     { data: deviceProgress },
     { data: lessons },
-    { data: aiLessons },
     { data: lessonCompletions },
     { data: familyDevices },
   ] = await Promise.all([
@@ -179,8 +187,7 @@ export async function getAllStagesProgress(
     supabase.from('device_guides').select('device_key, min_age'),
     supabase.from('device_setup_progress').select('device_key, status').eq('user_id', userId),
     supabase.from('lessons').select('id, stage_id').eq('audience', 'parent').neq('status', 'stub'),
-    supabase.from('ai_lessons').select('id, audience'),
-    supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
+    supabase.from('lesson_completions').select('lesson_id, lesson_source, passed').eq('user_id', userId),
     supabase.from('family_devices').select('guide_key, retired_at').eq('user_id', userId),
   ])
 
@@ -197,7 +204,11 @@ export async function getAllStagesProgress(
   // real devices, never all nineteen guides. A device set up counts as done.
   const notOwnedDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status === 'not_owned').map(d => d.device_key))
   const doneDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
-  const completedLessonKeys = new Set((lessonCompletions ?? []).map(c => `${c.lesson_source}:${c.lesson_id}`))
+  const passedCompletionKeys = new Set(
+    (lessonCompletions ?? [])
+      .filter(c => c.passed !== false)
+      .map(c => `${c.lesson_source}:${c.lesson_id}`)
+  )
   const streakPct = Math.min(Math.round((streakWeeks / 4) * 100), 100)
   // Their own list of what is in the house, when they have given us one.
   const stageOfGuide = guideStageLookup(deviceGuides)
@@ -222,15 +233,15 @@ export async function getAllStagesProgress(
       devicesPct = ownedInStage.length > 0 ? Math.round((devicesDone / ownedInStage.length) * 100) : 100
     }
 
+    // Same rule as the single stage version above and as the Lessons page:
+    // family library lessons only, and a pass only. See the long note there.
     const stageLessons = (lessons ?? []).filter(l => l.stage_id === stageId)
-    const aiInStage = (aiLessons ?? []).filter(l => AUDIENCE_TO_STAGE[l.audience] === stageId)
-    const totalLessons = stageLessons.length + aiInStage.length
+    const totalLessons = stageLessons.length
     const lessonsDone =
-      stageLessons.filter(l => completedLessonKeys.has(`lesson:${l.id}`)).length +
-      aiInStage.filter(l => completedLessonKeys.has(`ai_lesson:${l.id}`)).length
+      stageLessons.filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length
     const lessonsPct = totalLessons > 0 ? Math.round((lessonsDone / totalLessons) * 100) : 0
 
-    const totalContent = stageScripts.length + stageLessons.length + aiInStage.length
+    const totalContent = stageScripts.length + stageLessons.length
     const doneContent = scriptsDone + lessonsDone
     out[stageId] = {
       scriptsPct, streakPct, devicesPct, lessonsPct,
