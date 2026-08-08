@@ -93,14 +93,16 @@ export default function JobBalance({
       {/* When the day is heavy, the one move that keeps the good and drops the
           swamp: spread some jobs across the week. */}
       {a.suggestSpread && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, background: t.bg, border: `1px solid ${t.border}`, borderRadius: 14, padding: '11px 13px' }}>
-          <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
+        <div style={{ background: t.bg, border: `1px solid ${t.border}`, borderRadius: 14, padding: '11px 13px' }}>
+          {/* Button under the sentence, not beside it: a fixed side button
+              squeezed these words one a line at larger text sizes. */}
+          <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45 }}>
             <b style={{ fontWeight: 800 }}>Spread it across the week.</b> Move a couple to set days so no single day feels like a lot.
           </span>
           {onReview && (
             <button
               onClick={onReview}
-              style={{ flexShrink: 0, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 10, padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}
+              style={{ display: 'inline-block', marginTop: 9, background: '#fff', border: '1.5px solid var(--border)', borderRadius: 10, padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}
             >
               Review jobs
             </button>

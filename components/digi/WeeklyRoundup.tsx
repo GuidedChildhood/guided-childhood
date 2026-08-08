@@ -162,9 +162,12 @@ export default function WeeklyRoundup({ review, onContinue }: { review: Review; 
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--deep-teal)' }}>Worth a glance</span>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', marginTop: '8px' }}>
             {topGlances.map((g, i) => (
-              <Link key={i} href={g.href} style={{ display: 'flex', alignItems: 'center', gap: '11px', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '13px', padding: '11px 14px', textDecoration: 'none' }}>
-                <span style={{ flex: 1, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{g.text}</span>
-                <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: '#fff', background: 'var(--deep-teal)', borderRadius: '10px', padding: '7px 12px', whiteSpace: 'nowrap' }}>{g.cta} →</span>
+              <Link key={i} href={g.href} style={{ display: 'block', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '13px', padding: '11px 14px', textDecoration: 'none' }}>
+                {/* The pill sits under the sentence, not beside it: a fixed
+                    nowrap pill squeezed these words one a line at larger
+                    text sizes. */}
+                <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{g.text}</span>
+                <span style={{ display: 'inline-block', marginTop: '8px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: '#fff', background: 'var(--deep-teal)', borderRadius: '10px', padding: '7px 12px' }}>{g.cta} →</span>
               </Link>
             ))}
           </div>

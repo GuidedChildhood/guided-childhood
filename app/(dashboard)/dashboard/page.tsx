@@ -678,8 +678,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           Silent until the habit is done, so it never crowds the path. */}
       {dayComplete && (
         <Link href={nextUp.href} style={{ textDecoration: 'none', display: 'block', marginBottom: '22px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '15px', background: 'linear-gradient(135deg, #FFF7EA 0%, #FCEAC0 100%)', border: '1.5px solid var(--gold)', borderRadius: '22px', padding: '18px 20px', boxShadow: '0 10px 26px -12px rgba(198,144,24,0.45)' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '15px', background: 'linear-gradient(135deg, #FFF7EA 0%, #FCEAC0 100%)', border: '1.5px solid var(--gold)', borderRadius: '22px', padding: '18px 20px', boxShadow: '0 10px 26px -12px rgba(198,144,24,0.45)' }}>
             <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '15px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)', boxShadow: '0 3px 8px rgba(198,144,24,0.18)' }}>{nextUp.icon}</span>
+            {/* The words own the whole width, and Open sits under them. As a
+                third column the fixed Open pill starved the title into one
+                word a line at larger text sizes (Justin's screenshot,
+                8 August). */}
             <span style={{ flex: 1, minWidth: 0 }}>
               <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--gold-dark)', marginBottom: '4px' }}>{nextUp.eyebrow}</span>
               <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.01em' }}>
@@ -688,8 +692,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               <span style={{ display: 'block', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', marginTop: '3px', lineHeight: 1.4 }}>
                 {nextUp.line}
               </span>
+              <span style={{ display: 'inline-block', marginTop: '10px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '9px 18px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
             </span>
-            <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', background: 'var(--gold)', borderRadius: '13px', padding: '12px 20px', boxShadow: '0 4px 0 var(--gold-dark)' }}>Open</span>
           </div>
         </Link>
       )}
@@ -786,9 +790,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                 <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {doneCount} of {setupSteps.length} done{next ? ` · next: ${next.title.toLowerCase()}` : ''}
                 </span>
-              </span>
-              <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '11px', padding: '9px 16px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-                Continue
+                <span style={{ display: 'inline-block', marginTop: '8px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '11px', padding: '8px 15px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+                  Continue
+                </span>
               </span>
             </div>
           </Link>
