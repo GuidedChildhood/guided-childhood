@@ -5699,3 +5699,10 @@ to one proud line with the streak on it and a tap to reopen, the same rule
 the parent's path uses. The quests screen starts at the top on entry, and
 when the PWA resumes after five minutes or more away; a quick app switch
 never yanks the scroll.
+
+**The child lessons list gives the words the whole width (8 Aug).** Justin:
+"looks untidy text." The card was a three column flex, and at the child
+app's big text scale the fixed right column (chip, padlock, Go) starved
+titles into one word a line beside a field of empty card. The chip, the
+padlock and Go now sit under the words, which costs the sentence nothing
+at any scale.

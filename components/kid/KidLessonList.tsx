@@ -99,6 +99,13 @@ export default function KidLessonList({
                       {idx + 1}
                     </span>
                   </span>
+                  {/* The words get the whole width. This was a third column
+                      holding the chip or the Go button, and at the child
+                      app's big text scale it starved the title into one word
+                      a line with a field of empty card beside it (Justin's
+                      screenshot, 8 August: "looks untidy text"). The chip,
+                      the padlock and Go now sit UNDER the words, where they
+                      cost the sentence nothing at any scale. */}
                   <span style={{ flex: 1, minWidth: 0 }}>
                     {isNext && (
                       <span style={{
@@ -110,15 +117,14 @@ export default function KidLessonList({
                       </span>
                     )}
                     <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.25, letterSpacing: '-0.01em' }}>
-                      {item.title}
+                      {item.title}{item.locked ? ' 🔒' : ''}
                     </span>
                     <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '4px' }}>
                       {item.locked ? 'Ask your grown up to open this one' : isNext ? item.keyMessage : item.done ? item.keyMessage : `After lesson ${idx}, this one is waiting for you`}
                     </span>
-                  </span>
-                  <span style={{ flexShrink: 0, alignSelf: 'center' }}>
                     {item.done ? (
                       <span style={{
+                        display: 'inline-block', marginTop: '8px',
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em',
                         textTransform: 'uppercase', color: 'var(--terracotta-dark)',
                         background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
@@ -126,10 +132,9 @@ export default function KidLessonList({
                       }}>
                         ✓ Passed{item.score != null ? ` · ${item.score}` : ''}
                       </span>
-                    ) : item.locked ? (
-                      <span style={{ fontSize: 'var(--text-lg)' }}>🔒</span>
-                    ) : (
+                    ) : !item.locked ? (
                       <span style={{
+                        display: 'inline-block', marginTop: '10px',
                         fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
                         color: 'var(--ink)', background: isNext ? 'var(--terracotta)' : '#fff',
                         border: isNext ? 'none' : '1.5px solid var(--border)',
@@ -138,7 +143,7 @@ export default function KidLessonList({
                       }}>
                         Go ▶
                       </span>
-                    )}
+                    ) : null}
                   </span>
                 </>
               )
