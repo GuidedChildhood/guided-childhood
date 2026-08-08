@@ -209,7 +209,23 @@ h3 { font-size: clamp(1.2rem, 2vw, 1.5rem); }
   cursor: pointer;
   text-decoration: none;
   transition: transform 0.1s, box-shadow 0.1s;
-  white-space: nowrap;
+  /* Justin, 8 August 2026, on the founder rate button: "text doesn't quite
+     fit." It was spilling out of both sides of the button on a phone.
+     white-space: nowrap was the cause, and it was a trap set for every button
+     in the app, not just that one: a label that does not fit does not shrink
+     the button, it simply hangs outside it, and a button whose text sits on
+     the background is a button that looks broken.
+     Wrapping is strictly better in every case. A label that already fits will
+     never wrap, so nothing short changes. Only the ones that are currently
+     overflowing move, and they move from spilling to sitting on two lines.
+     text-wrap: balance splits those two lines evenly rather than leaving one
+     orphan word underneath, so a wrapped button still reads as designed.
+     This is also one less cause of the sideways scroll: a nowrap button wider
+     than its column pushes the whole page out. */
+  white-space: normal;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 .btn:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 var(--terracotta-dark); }
 .btn:active { transform: translateY(2px);  box-shadow: 0 2px 0 var(--terracotta-dark); }
