@@ -28,6 +28,14 @@ const STRAND: Record<string, string> = {
   identity:      'Self image and identity',
   social:        'Self image and identity',
   'social media':'Online relationships',
+  // The passport grid categories, filled in when the 44 stub lessons became
+  // real decks. Same honest one strand per category rule as above.
+  bullying:      'Online bullying',
+  information:   'Managing online information',
+  ownership:     'Copyright and ownership',
+  privacy:       'Privacy and security',
+  relationships: 'Online relationships',
+  reputation:    'Online reputation',
 }
 
 export type CurriculumBadges = {
