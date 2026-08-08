@@ -57,7 +57,7 @@ async function handler(req: NextRequest) {
   // days when the programme ended at day 25. The curriculum and DiGi emails run
   // to day 43, so 60 gives the last of them a fortnight of daily runs to land
   // even if a run is missed, while still keeping the query off the full table.
-  const since = new Date(Date.now() - 60 * 86400000).toISOString()
+  const since = new Date(Date.now() - 200 * 86400000).toISOString()
   const [{ data: profiles }, { data: log }] = await Promise.all([
     supabase
       .from('profiles')
@@ -145,22 +145,22 @@ async function handler(req: NextRequest) {
     // each only sent when that service is NOT set up yet, so it is a genuine
     // "here is why, here is where" nudge and never nags about something done.
     // The setup signal is only queried once the day and the log both allow it.
-    if (days >= 9 && !alreadySent(profile.id, 'svc-childphone') && !!child?.age_band && child.age_band !== '4-7') {
+    if (days >= 14 && !alreadySent(profile.id, 'svc-childphone') && !!child?.age_band && child.age_band !== '4-7') {
       const { data: link } = await supabase.from('kid_links').select('child_id').eq('user_id', profile.id).limit(1).maybeSingle()
       if (!link) await deliver(profile.id, profile.email, 'svc-childphone', childPhoneEmail({ childName, unsubscribe }), 'svcChildPhone')
     }
 
-    if (days >= 11 && !alreadySent(profile.id, 'svc-screentime')) {
+    if (days >= 21 && !alreadySent(profile.id, 'svc-screentime')) {
       const { count } = await supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', profile.id).eq('active', true)
       if ((count ?? 0) === 0) await deliver(profile.id, profile.email, 'svc-screentime', screenTimeEmail({ childName, unsubscribe }), 'svcScreenTime')
     }
 
-    if (days >= 13 && !alreadySent(profile.id, 'svc-lessons')) {
+    if (days >= 28 && !alreadySent(profile.id, 'svc-lessons')) {
       const { data: done } = await supabase.from('lesson_completions').select('lesson_id').eq('user_id', profile.id).limit(1).maybeSingle()
       if (!done) await deliver(profile.id, profile.email, 'svc-lessons', lessonsEmail({ childName, unsubscribe }), 'svcLessons')
     }
 
-    if (days >= 15 && !alreadySent(profile.id, 'svc-school')) {
+    if (days >= 35 && !alreadySent(profile.id, 'svc-school')) {
       const [{ data: conn }, { data: act }] = await Promise.all([
         supabase.from('school_connections').select('id').eq('user_id', profile.id).eq('active', true).maybeSingle(),
         supabase.from('school_actions').select('id').eq('user_id', profile.id).limit(1).maybeSingle(),
@@ -168,7 +168,7 @@ async function handler(req: NextRequest) {
       if (!conn && !act) await deliver(profile.id, profile.email, 'svc-school', schoolRemindersEmail({ childName, unsubscribe }), 'svcSchool')
     }
 
-    if (days >= 17 && !alreadySent(profile.id, 'svc-agreement')) {
+    if (days >= 42 && !alreadySent(profile.id, 'svc-agreement')) {
       const { data: agreement } = await supabase.from('family_agreements').select('id').eq('user_id', profile.id).limit(1).maybeSingle()
       if (!agreement) await deliver(profile.id, profile.email, 'svc-agreement', familyAgreementEmail({ childName, unsubscribe }), 'svcAgreement')
     }
@@ -176,16 +176,16 @@ async function handler(req: NextRequest) {
     // The pillar reveals: one warm feature spotlight each, spaced through the
     // third and fourth week so the free plan keeps giving. Sent once each, so a
     // parent who already lives in that feature simply never sees a second one.
-    if (days >= 19 && !alreadySent(profile.id, 'reveal-printables')) {
+    if (days >= 49 && !alreadySent(profile.id, 'reveal-printables')) {
       await deliver(profile.id, profile.email, 'reveal-printables', printablesRevealEmail({ childName, unsubscribe }), 'revealPrintables')
     }
-    if (days >= 21 && !alreadySent(profile.id, 'reveal-balance')) {
+    if (days >= 56 && !alreadySent(profile.id, 'reveal-balance')) {
       await deliver(profile.id, profile.email, 'reveal-balance', balanceRevealEmail({ childName, unsubscribe }), 'revealBalance')
     }
-    if (days >= 23 && !alreadySent(profile.id, 'reveal-mind')) {
+    if (days >= 63 && !alreadySent(profile.id, 'reveal-mind')) {
       await deliver(profile.id, profile.email, 'reveal-mind', mentalHealthRevealEmail({ unsubscribe }), 'revealMind')
     }
-    if (days >= 25 && !alreadySent(profile.id, 'reveal-passport')) {
+    if (days >= 70 && !alreadySent(profile.id, 'reveal-passport')) {
       await deliver(profile.id, profile.email, 'reveal-passport', passportRevealEmail({ childName, unsubscribe }), 'revealPassport')
     }
 
@@ -194,26 +194,26 @@ async function handler(req: NextRequest) {
     // needing a tour and started asking whether the thing they are trusting is
     // any good. Spaced every three days rather than every two: six straight
     // weeks at onboarding pace stops reading as help.
-    if (days >= 28 && !alreadySent(profile.id, 'curriculum-strands')) {
+    if (days >= 77 && !alreadySent(profile.id, 'curriculum-strands')) {
       await deliver(profile.id, profile.email, 'curriculum-strands', curriculumStrandsEmail({
         childName, keyStage: stage.keyStage, unsubscribe,
       }), 'curriculumStrands')
     }
-    if (days >= 31 && !alreadySent(profile.id, 'curriculum-school')) {
+    if (days >= 84 && !alreadySent(profile.id, 'curriculum-school')) {
       await deliver(profile.id, profile.email, 'curriculum-school', curriculumSchoolEmail({
         childName, stageName: stage.name, stageId: stage.id, unsubscribe,
       }), 'curriculumSchool')
     }
-    if (days >= 34 && !alreadySent(profile.id, 'digi-brain')) {
+    if (days >= 91 && !alreadySent(profile.id, 'digi-brain')) {
       await deliver(profile.id, profile.email, 'digi-brain', digiBrainEmail({ childName, unsubscribe }), 'digiBrain')
     }
-    if (days >= 37 && !alreadySent(profile.id, 'digi-learns')) {
+    if (days >= 98 && !alreadySent(profile.id, 'digi-learns')) {
       await deliver(profile.id, profile.email, 'digi-learns', digiLearnsEmail({ unsubscribe }), 'digiLearns')
     }
-    if (days >= 40 && !alreadySent(profile.id, 'digi-feedback-loop')) {
+    if (days >= 105 && !alreadySent(profile.id, 'digi-feedback-loop')) {
       await deliver(profile.id, profile.email, 'digi-feedback-loop', digiFeedbackLoopEmail({ childName, unsubscribe }), 'digiFeedbackLoop')
     }
-    if (days >= 43 && !alreadySent(profile.id, 'digi-checks')) {
+    if (days >= 112 && !alreadySent(profile.id, 'digi-checks')) {
       await deliver(profile.id, profile.email, 'digi-checks', digiChecksEmail({ unsubscribe }), 'digiChecks')
     }
 
