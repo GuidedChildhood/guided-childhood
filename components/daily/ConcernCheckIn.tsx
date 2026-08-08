@@ -3,34 +3,34 @@
 import { useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-// A running check in, not a one day question: this card asks about
-// whatever is still open, however many days it has been coming up, and
-// keeps asking every day until the family says it is better twice in a
-// row. One tap answers, the row folds away, and when every row is
-// answered the card becomes a single warm line. Answers post to the
-// concerns ledger, which moves each one along open → improving → resolved.
+// A running check in, not a one day question: this card asks about whatever
+// is still open, however many days it has been coming up, and keeps asking
+// until the family says it is better twice in a row.
 //
-// THE NUMBER, AND WHY IT NEVER COSTS A TAP
+// ONE SLIDER IS THE WHOLE ANSWER
 //
-// Better, same and still hard is too coarse to show distance travelled: a
-// parent who went from a screaming match every night to one grumble a week
-// reads the same as one who was mildly irritated. So after the chip, a 0 to 10
-// strip appears and the answer is held for a beat.
+// This used to ask twice: a better same or still hard chip, then an optional
+// 0 to 10 strip on a six second timer. Justin, 8 August: the strip shut down
+// on anyone who paused to think, answering twice was too much, and nobody
+// knew what the numbers meant. So the chips and the timer are gone, and the
+// answer is one slider, the Apple Health mood pattern in our own butter and
+// ink: a big live word that names the number as you move, both ends
+// labelled, and last time's number marked on the track so today's has
+// something to mean something against.
 //
-// The chip stays the whole interaction. If the parent taps a number we save it,
-// if they tap skip we save without it, and if they do neither the answer posts
-// itself after a few seconds and the row folds anyway. Nobody is ever made to
-// score their own family to get their card to go away.
-//
-// Holding the post rather than firing on the chip keeps one parent action to one
-// immutable event (migration 164). Posting twice would either double count the
-// check in or move the concern two steps along its arc for a single tap.
+// The scale runs UP: 1 is really tough, 10 is going great, so a family's
+// chart climbs as their weeks improve. Direction is computed on the server
+// by comparing with their last score, never asked. Nothing here is on a
+// countdown: the card sits open until the parent moves the slider, and only
+// their own release starts the short save beat, which a second touch cancels.
 
 export type ConcernCheckItem = {
   slug: string
   label: string
   timesFlagged: number
   lastFlaggedAt: string
+  /** Their previous 1 to 10, from the event log. Null before the first one. */
+  lastScore: number | null
 }
 
 function recencyLabel(item: ConcernCheckItem): string {
@@ -40,70 +40,82 @@ function recencyLabel(item: ConcernCheckItem): string {
   return `You flagged this ${daysSince} days ago`
 }
 
-type Answer = 'better' | 'same' | 'hard'
+// The live word above the slider. Same bands the whole app uses to talk
+// about the scale, so a 7 means the same thing everywhere.
+export function scoreWord(n: number): string {
+  if (n <= 2) return 'Really tough'
+  if (n <= 4) return 'Hard going'
+  if (n <= 6) return 'Up and down'
+  if (n <= 8) return 'Getting there'
+  return 'Going great'
+}
 
-const CHIPS: { answer: Answer; label: string }[] = [
-  { answer: 'better', label: 'Better' },
-  { answer: 'same', label: 'Same' },
-  { answer: 'hard', label: 'Still hard' },
-]
+// What their number means against their last one, shown in the beat before
+// the row folds. The maths mirrors the server's, which owns the real verdict.
+function verdictLine(n: number, last: number | null): string {
+  if (n >= 9) return 'That is nearly sorted. One more like this and we mark it done.'
+  if (last == null) return 'First mark down. Next check shows which way it is moving.'
+  if (n > last) return `Up from ${last}. The line is moving your way.`
+  if (n < last) return `Down from ${last}. DiGi has the next move when you want it.`
+  return `Holding at ${n}. Steady counts.`
+}
 
 const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)'
 const FOLD_MS = 550
-const FOLD_DELAY_MS = 500
-// How long the number strip waits before giving up and saving without one. Long
-// enough to notice and answer, short enough that an abandoned card still records
-// the tap the parent actually made.
-const RATING_GRACE_MS = 6000
-
-const SCALE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+// How long the chosen number and its verdict sit on screen before the row
+// folds. Long enough to read, and grabbing the slider again cancels it.
+const SAVE_BEAT_MS = 1600
 
 export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckItem[] }) {
-  // answered: the chip is chosen and highlighted. rating: the row is waiting on
-  // an optional number. folded: the row has collapsed out of the card. The gap
-  // between them is the beat the parent gets to see their answer land.
-  const [answered, setAnswered] = useState<Record<string, Answer>>({})
-  const [rating, setRating] = useState<Record<string, boolean>>({})
+  // value: where the slider sits. touched: they have moved it, so the live
+  // word shows and a release will save. saved: posted, verdict showing.
+  // folded: collapsed out of the card.
+  const [value, setValue] = useState<Record<string, number>>({})
+  const [touched, setTouched] = useState<Record<string, boolean>>({})
+  const [saved, setSaved] = useState<Record<string, boolean>>({})
   const [folded, setFolded] = useState<Record<string, boolean>>({})
   const router = useRouter()
 
-  // One post per concern, whichever path gets there first.
   const posted = useRef<Record<string, boolean>>({})
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
+  // The release handler fires in the same breath as the last change event,
+  // sometimes before React has re-rendered, so the freshest value lives in a
+  // ref rather than in the closure.
+  const liveValue = useRef<Record<string, number>>({})
 
   if (concerns.length === 0) return null
 
-  const allAnswered = concerns.every(c => answered[c.slug])
   const allFolded = concerns.every(c => folded[c.slug])
 
-  const send = (slug: string, choice: Answer, severity: number | null) => {
+  const post = (slug: string, body: Record<string, unknown>) => {
     if (posted.current[slug]) return
     posted.current[slug] = true
     if (timers.current[slug]) clearTimeout(timers.current[slug])
-
+    setSaved(prev => ({ ...prev, [slug]: true }))
     fetch('/api/daily/concern-check', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, answer: choice, severity }),
+      body: JSON.stringify({ slug, ...body }),
     })
       // The Home path strip reads this same data server side. Refresh the
       // router cache the moment an answer lands, so tapping Home right
       // after does not show the check in step as still glowing and undone.
       .then(() => router.refresh())
       .catch(() => {})
-
-    setRating(prev => ({ ...prev, [slug]: false }))
-    setTimeout(() => {
-      setFolded(prev => ({ ...prev, [slug]: true }))
-    }, FOLD_DELAY_MS)
+    setTimeout(() => setFolded(prev => ({ ...prev, [slug]: true })), 1800)
   }
 
-  const answer = (slug: string, choice: Answer) => {
-    if (answered[slug]) return
-    setAnswered(prev => ({ ...prev, [slug]: choice }))
-    setRating(prev => ({ ...prev, [slug]: true }))
-    // The safety net. If the parent walks away, their tap still counts.
-    timers.current[slug] = setTimeout(() => send(slug, choice, null), RATING_GRACE_MS)
+  // Release starts the beat; a fresh grab cancels it. Nothing saves until
+  // the parent has actually moved the slider.
+  const armSave = (slug: string) => {
+    if (posted.current[slug]) return
+    const n = liveValue.current[slug]
+    if (typeof n !== 'number') return
+    if (timers.current[slug]) clearTimeout(timers.current[slug])
+    timers.current[slug] = setTimeout(() => post(slug, { score: n }), SAVE_BEAT_MS)
+  }
+  const cancelSave = (slug: string) => {
+    if (timers.current[slug]) clearTimeout(timers.current[slug])
   }
 
   return (
@@ -114,7 +126,45 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       padding: '22px',
       marginBottom: '16px',
     }}>
-      {!(allAnswered && allFolded) ? (
+      {/* The slider chrome: the native input supplies the drag and the
+          accessibility, our own track underneath supplies the look. Only the
+          thumb of the input is visible. */}
+      <style>{`
+        .gc-scale-input {
+          -webkit-appearance: none;
+          appearance: none;
+          position: absolute;
+          inset: 0;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          background: transparent;
+          cursor: pointer;
+        }
+        .gc-scale-input::-webkit-slider-runnable-track { background: transparent; height: 100%; }
+        .gc-scale-input::-moz-range-track { background: transparent; height: 100%; }
+        .gc-scale-input::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 30px;
+          height: 30px;
+          margin-top: 5px;
+          border-radius: 50%;
+          background: #fff;
+          border: 2.5px solid var(--ink);
+          box-shadow: 0 3px 0 rgba(26,26,46,0.35);
+        }
+        .gc-scale-input::-moz-range-thumb {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background: #fff;
+          border: 2.5px solid var(--ink);
+          box-shadow: 0 3px 0 rgba(26,26,46,0.35);
+        }
+      `}</style>
+
+      {!allFolded ? (
         <>
           <div style={{
             fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -124,12 +174,18 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
             Still on the list
           </div>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
-            One tap each. How did these go today?
+            Slide to where each one is today. That is the whole answer.
           </p>
 
           {concerns.map(c => {
-            const chosen = answered[c.slug]
             const isFolded = folded[c.slug]
+            const isSaved = saved[c.slug]
+            const isTouched = touched[c.slug]
+            const n = value[c.slug] ?? c.lastScore ?? 5
+            // 1..10 mapped across the track, matching the thumb's travel:
+            // the 30px thumb keeps 15px in reserve at each end.
+            const pct = ((n - 1) / 9) * 100
+            const lastPct = c.lastScore != null ? ((c.lastScore - 1) / 9) * 100 : null
             return (
               <div
                 key={c.slug}
@@ -142,98 +198,111 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                 }}
               >
                 <div style={{ overflow: 'hidden' }}>
-                  <div style={{ padding: '9px 0' }}>
-                    <div style={{
-                      fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800,
-                      color: 'var(--ink)', marginBottom: '2px',
-                    }}>
-                      {c.label}
+                  <div style={{ padding: '9px 0 13px' }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px' }}>
+                      <div style={{
+                        fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800,
+                        color: 'var(--ink)', marginBottom: '2px',
+                      }}>
+                        {c.label}
+                      </div>
+                      {!isSaved && (
+                        <button
+                          onClick={() => post(c.slug, { answer: 'same', score: null })}
+                          style={{
+                            background: 'none', border: 'none', padding: 0,
+                            fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
+                            fontWeight: 700, color: 'var(--ink-muted)',
+                            textDecoration: 'underline', cursor: 'pointer', flexShrink: 0,
+                          }}
+                        >
+                          Skip
+                        </button>
+                      )}
                     </div>
                     <div style={{
                       fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
-                      color: 'var(--ink-muted)', marginBottom: '9px',
+                      color: 'var(--ink-muted)', marginBottom: '12px',
                     }}>
-                      {recencyLabel(c)}
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
-                      {CHIPS.map(chip => {
-                        const active = chosen === chip.answer
-                        return (
-                          <button
-                            key={chip.answer}
-                            onClick={() => answer(c.slug, chip.answer)}
-                            disabled={!!chosen}
-                            style={{
-                              padding: '12px 8px',
-                              borderRadius: '14px',
-                              border: `2px solid ${active ? 'var(--terracotta)' : 'var(--border)'}`,
-                              background: active ? 'var(--terracotta)' : '#fff',
-                              fontFamily: 'var(--font-display)',
-                              fontSize: 'var(--text-md)',
-                              fontWeight: 800,
-                              color: active ? 'var(--ink)' : 'var(--ink-soft)',
-                              cursor: chosen ? 'default' : 'pointer',
-                              opacity: chosen && !active ? 0.4 : 1,
-                              boxShadow: active ? '0 3px 0 var(--terracotta-dark)' : '0 3px 0 var(--border)',
-                              transition: 'all 0.5s ease',
-                            }}
-                          >
-                            {chip.label}
-                          </button>
-                        )
-                      })}
+                      {recencyLabel(c)}{c.lastScore != null ? ` · last time you said ${c.lastScore}` : ''}
                     </div>
 
-                    {rating[c.slug] && chosen && (
-                      <div style={{ marginTop: '12px' }}>
-                        <div style={{
-                          display: 'flex', alignItems: 'baseline', justifyContent: 'space-between',
-                          gap: '10px', marginBottom: '7px',
-                        }}>
-                          <span style={{
-                            fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
-                            fontWeight: 600, color: 'var(--ink-soft)',
-                          }}>
-                            How bad is it now? 0 is fine, 10 is the worst it gets.
+                    {/* The live readout. Before the first touch it invites,
+                        after it names the number, and once saved it says what
+                        the number means against last time. */}
+                    <div aria-live="polite" style={{ textAlign: 'center', marginBottom: '10px', minHeight: '2.4em' }}>
+                      {isSaved ? (
+                        <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.4 }}>
+                          {verdictLine(n, c.lastScore)}
+                        </span>
+                      ) : isTouched ? (
+                        <>
+                          <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                            {scoreWord(n)}
                           </span>
-                          <button
-                            onClick={() => send(c.slug, chosen, null)}
-                            style={{
-                              background: 'none', border: 'none', padding: 0,
-                              fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
-                              fontWeight: 700, color: 'var(--ink-muted)',
-                              textDecoration: 'underline', cursor: 'pointer', flexShrink: 0,
-                            }}
-                          >
-                            Skip
-                          </button>
-                        </div>
-                        <div style={{ display: 'flex', gap: '4px' }}>
-                          {SCALE.map(n => (
-                            <button
-                              key={n}
-                              onClick={() => send(c.slug, chosen, n)}
-                              aria-label={`${n} out of 10`}
-                              style={{
-                                flex: 1,
-                                minWidth: 0,
-                                padding: '9px 0',
-                                borderRadius: '9px',
-                                border: '1.5px solid var(--border)',
-                                background: '#fff',
-                                fontFamily: 'var(--font-mono)',
-                                fontSize: 'var(--text-xs)',
-                                fontWeight: 700,
-                                color: 'var(--ink-soft)',
-                                cursor: 'pointer',
-                              }}
-                            >
-                              {n}
-                            </button>
-                          ))}
-                        </div>
+                          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginTop: '2px' }}>
+                            {n} of 10
+                          </span>
+                        </>
+                      ) : (
+                        <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)' }}>
+                          Where is it today?
+                        </span>
+                      )}
+                    </div>
+
+                    {/* The track: butter fills to the thumb, a hollow ring
+                        remembers last time. */}
+                    <div style={{ position: 'relative', height: '40px', opacity: isSaved ? 0.55 : 1, transition: 'opacity 0.4s ease' }}>
+                      <div style={{
+                        position: 'absolute', left: '15px', right: '15px', top: '15px', height: '10px',
+                        borderRadius: '100px', background: 'var(--cream)', border: '1px solid var(--border)',
+                      }}>
+                        {isTouched && (
+                          <div style={{
+                            position: 'absolute', left: 0, top: '-1px', bottom: '-1px',
+                            width: `${pct}%`, borderRadius: '100px',
+                            background: 'var(--terracotta)', border: '1px solid var(--terracotta-dark)',
+                          }} />
+                        )}
+                        {lastPct != null && (
+                          <div aria-hidden style={{
+                            position: 'absolute', left: `${lastPct}%`, top: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: '16px', height: '16px', borderRadius: '50%',
+                            background: '#fff', border: '2px solid var(--ink-muted)',
+                          }} />
+                        )}
                       </div>
-                    )}
+                      <input
+                        className="gc-scale-input"
+                        type="range"
+                        min={1}
+                        max={10}
+                        step={1}
+                        value={n}
+                        disabled={!!isSaved}
+                        aria-label={`${c.label}: 1 really tough to 10 going great`}
+                        onChange={e => {
+                          const next = Number(e.target.value)
+                          liveValue.current[c.slug] = next
+                          setValue(prev => ({ ...prev, [c.slug]: next }))
+                          setTouched(prev => ({ ...prev, [c.slug]: true }))
+                        }}
+                        onPointerDown={() => cancelSave(c.slug)}
+                        onPointerUp={() => armSave(c.slug)}
+                        // Keyboard users get the same release-to-save rhythm.
+                        onKeyUp={() => armSave(c.slug)}
+                      />
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '18px', marginTop: '4px', padding: '0 4px' }}>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'left' }}>
+                        1<br />Really tough
+                      </span>
+                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'right' }}>
+                        10<br />Going great
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

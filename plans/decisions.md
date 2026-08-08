@@ -5719,3 +5719,16 @@ something good, weekly roundup glances, manage jobs Done) and each moves
 the action under the words, or wraps where the button belongs beside short
 titles. The rule for new UI: a sentence and a fixed pill never share a
 flex row without a wrap. PR 740.
+
+**The check in is one slider, and the scale now climbs (8 Aug).** Justin:
+answering twice was too much, the number strip shut down on anyone who
+paused, nobody knew what 1 against 10 meant, and the scale should rise as
+things improve so every chart of a family's journey climbs. So the better
+same still hard chips and the six second timer are gone. One slider is the
+whole answer, the Apple Health mood pattern from the Mobbin pull in our own
+butter and ink: live word naming the number as it moves, both ends
+labelled, last time's score ghosted on the track, and the verdict computed
+by the server from the change since last time, never asked. Migration 171
+renames severity to score and inverts stored rows: 1 is really tough, 10
+is going great, up means better, everywhere and forever. Applied to the
+live database same day.
