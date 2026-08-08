@@ -3,6 +3,7 @@ import webpush from 'web-push'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
+import { inChildQuietHours } from '@/lib/push/quiet-hours'
 
 // A parent pings their child's phone right now: a quest nudge, a come
 // off the screen call, dinner in ten. It only reaches a device where
@@ -20,6 +21,14 @@ export async function POST(req: NextRequest) {
 
   const { child_id, message } = await req.json()
   if (!child_id) return NextResponse.json({ error: 'child_id required' }, { status: 400 })
+
+  // Night time. The third and last door to a child's phone, and the only one
+  // with a person waiting on the answer, so it says so rather than reporting a
+  // silent zero: a parent who taps ping at 21:30 and is told "sent" would
+  // reasonably assume the phone buzzed.
+  if (inChildQuietHours()) {
+    return NextResponse.json({ sent: 0, reason: 'quiet_hours' })
+  }
 
   // The child must be this parent's own.
   const { data: child } = await supabase

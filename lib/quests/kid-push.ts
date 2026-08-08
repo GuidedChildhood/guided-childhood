@@ -1,6 +1,7 @@
 import webpush from 'web-push'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { oneRowPerDevice, DEVICE_COLUMNS, LEGACY_COLUMNS, isMissingColumn, type PushRow } from '@/lib/push/devices'
+import { inChildQuietHours } from '@/lib/push/quiet-hours'
 
 // A best effort nudge to the child's own device, through the reminders
 // they turned on from their quest link. Only ever from a parent to their
@@ -16,6 +17,12 @@ export async function pushToChild(
   title: string,
   body: string
 ) {
+  // Night time. This is the busiest of the three doors to a child's phone,
+  // about twenty five call sites, so the gate lives here rather than in each
+  // of them: the next feature that nudges a child gets it without knowing it
+  // exists, which is the only version of this that stays true.
+  if (inChildQuietHours()) return
+
   if (!process.env.VAPID_EMAIL || !process.env.VAPID_PRIVATE_KEY) return
   try {
     // Twice, because device_id arrives with migration 166 and migrations here
