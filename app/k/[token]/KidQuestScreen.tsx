@@ -264,6 +264,23 @@ export default function KidQuestScreen({
       if (raw) setLessonScore(JSON.parse(raw))
     } catch { /* fresh device */ }
   }, [])
+  // Coming back in starts at the top. Justin: "when go back in it should
+  // start at top." Two ways back exist: a fresh navigation (this mount) and
+  // the PWA resuming from the background, which does not remount, so the
+  // visibility change covers it. The five minute floor is what stops a child
+  // mid scroll being yanked to the top just for switching apps for a moment:
+  // only a real absence resets the screen to its start.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    let hiddenAt: number | null = null
+    const onVis = () => {
+      if (document.hidden) { hiddenAt = Date.now(); return }
+      if (hiddenAt !== null && Date.now() - hiddenAt > 5 * 60_000) window.scrollTo(0, 0)
+      hiddenAt = null
+    }
+    document.addEventListener('visibilitychange', onVis)
+    return () => document.removeEventListener('visibilitychange', onVis)
+  }, [])
   // The printable a grown up sent, shown at the top of the to do until the
   // child sends it to be confirmed (which also clears the assignment).
   const [assignedSent, setAssignedSent] = useState(false)
