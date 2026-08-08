@@ -9,6 +9,7 @@ import DigiGreeter from '@/components/marketing/DigiGreeter'
 import MarketingNav from '@/components/marketing/MarketingNav'
 import DigiCharacter from '@/components/digi/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
+import { CONTACT, hasAddress } from '@/lib/content/contact'
 
 export const metadata: Metadata = {
   title: 'Guided Childhood · A clear digital pathway from first screen to 16',
@@ -1019,6 +1020,31 @@ export default function HomePage() {
               <p style={{ fontSize: '.82rem', color: 'rgba(255,255,255,.5)', lineHeight: 1.7, maxWidth: '240px' }}>
                 A clear digital pathway from first screen to 16. For UK families. Built on the research.
               </p>
+
+              {/* WHO YOU ARE BUYING FROM, in words rather than behind a link.
+                  The email used to be the label on a Contact link and the name
+                  was in a copyright line at 35 per cent opacity, so a visitor
+                  could not tell who was behind this without opening the terms.
+                  It is a legal requirement for selling online as well as the
+                  decent thing, so it is set at a readable weight rather than
+                  tucked away at footnote grey. */}
+              <address style={{ fontStyle: 'normal', marginTop: '18px', fontSize: '.82rem', lineHeight: 1.7, color: 'rgba(255,255,255,.72)', maxWidth: '240px' }}>
+                <div style={{ fontWeight: 700, color: '#fff' }}>{CONTACT.founder}</div>
+                <div style={{ color: 'rgba(255,255,255,.6)' }}>{CONTACT.product}, by {CONTACT.business}</div>
+                {hasAddress() && (
+                  <div style={{ marginTop: '8px', color: 'rgba(255,255,255,.6)' }}>
+                    {CONTACT.address.map(line => (
+                      <div key={line}>{line}</div>
+                    ))}
+                  </div>
+                )}
+                <a
+                  href={`mailto:${CONTACT.email}`}
+                  style={{ display: 'inline-block', marginTop: '8px', color: 'var(--butter, #EDC35F)', fontWeight: 700, textDecoration: 'none' }}
+                >
+                  {CONTACT.email}
+                </a>
+              </address>
             </div>
 
             <div>
@@ -1055,7 +1081,7 @@ export default function HomePage() {
 
           <div style={{ borderTop: '1px solid rgba(255,255,255,.1)', paddingTop: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.64rem', color: 'rgba(255,255,255,.35)' }}>
-              © 2026 The Social Billboard · Justin Phillips
+              © 2026 {CONTACT.business} · {CONTACT.founder}
             </div>
             <div style={{ display: 'flex', gap: '16px' }}>
               {['Online Safety Act 2023', 'DfE', 'Ofcom', 'Statutory RSE'].map(tag => (

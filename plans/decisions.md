@@ -6062,3 +6062,30 @@ the sheet 96 pixels down.
 **Two fixtures added**, `/dev/lessons-filter` and `/dev/craft-anchors`, because
 neither page had one and both are behind auth. That is why controls a parent
 uses constantly had never been driven at all.
+
+## 8 August 2026 — contact details on the home page
+
+Justin: "Make sure we have contact details on home page my name address email
+hello@guided."
+
+**Two of the three existed and were hidden.** The email was the label on a
+Contact link in the footer column, so it was a mailto rather than something you
+could read, copy or check. The name sat in the copyright line at 35 per cent
+opacity. A visitor could not tell who they were buying from without opening the
+terms.
+
+**The address does not exist anywhere in the repo.** `lib/content/contact.ts`
+now holds all of it in one place, with `address` deliberately EMPTY and every
+render guarded by `hasAddress()`. Inventing a plausible looking address would be
+worse than having none: it is a legal statement about where a business can be
+served, and a wrong one is the version that actually costs something. **Waiting
+on Justin. One line to fill in and it appears.**
+
+**This is a legal requirement, not a nicety.** A UK business selling online has
+to give its name, a geographic address and an email, and they have to be easy to
+find. A mailto behind the word "Contact" is not that. Same footing as the ICO
+registration and the cancel route: promises the site makes that the site has to
+be able to keep.
+
+The copyright line now reads from the same constant, so the founder name cannot
+end up different in the two places it appears.
