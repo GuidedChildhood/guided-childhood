@@ -637,6 +637,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       sheetStars={sheetStars}
       earnedStages={earnedStages}
       completedStreaks={completedStreaks}
+      jobStreaks={jobStreaks}
+      completedDays={completedDays}
       assignedPrintable={assignedPrintable}
       token={token}
       agreementItems={agreementItems}

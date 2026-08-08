@@ -44,7 +44,7 @@ import KidFriendArrival from '@/components/kid/KidFriendArrival'
 import { FRIEND_ARRIVAL_VIDEO } from '@/lib/content/celebration-media'
 import KidWinPop, { type Win } from '@/components/kid/KidWinPop'
 import type { KidSticker } from '@/components/kid/KidStickers'
-import { friendsFromStreaks, isFriendMoment, streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
+import { friendsFromStreaks, isFriendMoment, streakCurrency, streaksToUnlockFriend } from '@/lib/pathway/streak-unlock'
 import { startErrorMessage, START_RETRY } from '@/lib/quests/start-errors'
 import Image from 'next/image'
 import { STAGE_CHARACTERS, characterForStage, type StageCharacter } from '@/lib/content/stage-characters'
@@ -136,7 +136,7 @@ export default function KidQuestScreen({
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
-  earnedStages = 0, completedStreaks = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
+  earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
 }: {
   token: string
@@ -224,6 +224,9 @@ export default function KidQuestScreen({
   stickers?: KidSticker[]
   /** Earned but not yet seen, so the book can pop the new ones exactly once. */
   celebrateStickers?: string[]
+  /** The two raw counters behind completedStreaks, needed to move it honestly. */
+  jobStreaks?: number
+  completedDays?: number
   /** Sticker keys this child has ALREADY been shown. Never shown again. */
   celebratedStickers?: string[]
   /** The star week this child last saw the streak screen in, or null. */
@@ -499,6 +502,34 @@ export default function KidQuestScreen({
   // A completed day is one more row in kid_days, so the live count is simply one
   // more. The server read still wins on the next load.
   const [liveStreaks, setLiveStreaks] = useState(completedStreaks)
+  const [liveDays, setLiveDays] = useState(completedDays)
+
+  // FINISHING A DAY DOES NOT ALWAYS ADD ONE.
+  //
+  // Justin, 8 August 2026, looking at Ada: "why only one more streak to get
+  // character, I'm not sure she has actually done enough ... please check
+  // wiring is all correct." He was right, and this was the fault.
+  //
+  // completedStreaks is a MAX of two counters, not a total: rows in job_streaks
+  // and completed days in kid_days, combined that way on purpose so overlapping
+  // work is not counted twice. Completing a day raises only the second one. So
+  // when job_streaks is the counter currently winning the max, a finished day
+  // moves the real number by NOTHING, and the old optimistic `+1` invented a
+  // streak that did not exist.
+  //
+  // Ada is the exact case: 1 job streak, 0 completed days, so 1. She finished
+  // her first day, the client made it 2, and 2 is the rung that brings Pebble
+  // home. The server still said 1 the whole time.
+  //
+  // It recomputes through the same function the server uses instead, so the two
+  // cannot disagree by construction.
+  const bumpDay = useCallback(() => {
+    const days = liveDays + 1
+    setLiveDays(days)
+    const next = streakCurrency(jobStreaks, days)
+    setLiveStreaks(next)
+    return next
+  }, [liveDays, jobStreaks])
 
   // THE STREAK SCREEN IS A WEEKLY REMINDER, NOT A DAILY ONE.
   //
@@ -1464,8 +1495,7 @@ export default function KidQuestScreen({
           onOpenJobs={() => document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
           onDayComplete={n => {
             playKidSound('done')
-            const next = liveStreaks + 1
-            setLiveStreaks(next)
+            const next = bumpDay()
             // The weekly reminder, if it is owed. When it is not, the day still
             // completes and the Friend still arrives: only the reminder is
             // skipped.
