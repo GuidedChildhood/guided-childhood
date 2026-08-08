@@ -5957,7 +5957,7 @@ stop any between 19:00 and 8:00 am."*
 `pushToChild` with about twenty five call sites, and a hand rolled webpush call
 in `/api/quests/ping`. The gate is in all three, at the bottom of each, so the
 next feature that nudges a child inherits it without knowing it exists. A rule
-enforced at the call sites would have been twenty seven places to forget.
+enforced at the call sites would have been thirty three places to forget.
 
 **The hour is read in London, never from the server clock.** Vercel runs UTC
 and the families are British. Through the summer a naive UTC check would let
@@ -5966,20 +5966,34 @@ about, and then hold the morning ones back until 09:00. `lib/time/london.ts`
 already existed and already survives the clocks changing.
 
 **Held, not queued.** A stopped push is dropped. A jobs reminder from 21:00 is
-not worth waking up to at 08:00, and every one of these already has a home on
+not worth waking up to at 07:00, and every one of these already has a home on
 the child's own page, which shows the same news at the next open.
 
-**THE PART THAT WAS NOT OBVIOUS: the rule silently switches off scheduled
-pushes whose cron sits inside the window.** Vercel cron schedules are UTC and
-fixed, so they drift an hour against London twice a year. Two were moved back
-an hour so they still fire: the evening jobs reminder (18:45 UTC was 19:45
-British in summer) and the school reminder to the child (18:00 UTC was 19:00
-British exactly).
+**THE WINDOW IS 19:00 TO 07:00, NOT THE 08:00 FIRST ASKED FOR.** Applying 08:00
+literally switched off two pushes that are deliberately before school: the
+school kit reminder and, in winter, the morning jobs reminder. Neither could be
+saved by moving its cron, because a fixed UTC schedule cannot be after 08:00
+London in winter without being 09:00 in summer, which is after the school run.
+Put to Justin as three options with the real times spelled out, and he chose
+the earlier boundary: "1". It still stops every hour he was complaining about.
 
-**Two morning ones cannot be fixed by moving them, and are Justin's call.** The
-school kit reminder at 07:45 British and the winter morning jobs reminder at
-07:15 are both deliberately before school, and the 08:00 boundary kills them. A
-fixed UTC cron cannot be after 08:00 London in winter without being 09:00 in
-summer, which is after the school run. Either the morning boundary becomes
-07:00, or the school run gets a named exception. Nothing was exempted on a
-guess.
+**THE PART THAT WAS NOT OBVIOUS: the rule silently switches off scheduled
+pushes whose cron sits inside the window.** Cron schedules are fixed UTC and
+drift an hour against London twice a year, so this has to be checked in both
+seasons or it looks fine for six months. Three moved:
+
+| cron | was | now | British time |
+| --- | --- | --- | --- |
+| evening jobs reminder | `45 18` | `45 17` | 19:45 to 18:45 summer |
+| school reminder to child | `0 18` | `0 17` | 19:00 to 18:00 summer |
+| school kit reminder | `45 6` | `5 7` | 06:45 winter, which was held, to 07:05 |
+
+The kit reminder is five minutes past the boundary rather than on it, because a
+cron that drifts a minute early would be silently dropped for a whole winter.
+
+**Knowingly left held: the star week rollover**, Monday 00:10, which tells a
+child they saved sticker credits or holiday minutes. Those two pushes now never
+fire. That is the rule working rather than a fault, a 01:10 buzz is exactly
+what was being complained about, and the news is waiting in their sticker book.
+If a child should be actively told, the fix is to move the telling into a
+morning cron rather than to weaken the window.

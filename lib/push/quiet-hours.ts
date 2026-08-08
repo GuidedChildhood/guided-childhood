@@ -5,9 +5,19 @@ import { londonNow } from '@/lib/time/london'
 // Justin, 8 August 2026: "Can we make sure we don't send late pwas to child
 // app. Should stop any between 19:00 and 8:00 am."
 //
-// Seven in the evening until eight in the morning, so the allowed window is
-// 08:00 to 18:59 and everything else is held. 19:00 exactly is already quiet,
-// 08:00 exactly is already awake.
+// Seven in the evening until seven in the morning, so the allowed window is
+// 07:00 to 18:59. 19:00 exactly is already quiet, 07:00 exactly is already
+// awake.
+//
+// WHY THE MORNING END IS 07:00 AND NOT THE 08:00 HE FIRST SAID. Applying 08:00
+// literally switched off two pushes that are deliberately before school: the
+// school kit reminder and, in winter, the morning jobs reminder. Neither could
+// be fixed by moving its cron, because a fixed UTC schedule cannot be after
+// 08:00 London in winter without being 09:00 in summer, which is after the
+// school run. Put to Justin as three options on 8 August with the times
+// spelled out, and he chose this one: "1". It still stops every hour he was
+// actually complaining about, and a 07:00 reminder about a PE kit is not the
+// thing anybody meant by a late notification.
 //
 // WHY THE HOUR IS READ IN LONDON AND NOT FROM THE SERVER CLOCK. Vercel runs in
 // UTC and the families are in the UK, which is an hour ahead for seven months
@@ -27,14 +37,14 @@ import { londonNow } from '@/lib/time/london'
 
 /** The first hour that is too late. 19:00 is quiet. */
 export const QUIET_FROM_HOUR = 19
-/** The first hour that is early enough. 08:00 is awake. */
-export const QUIET_UNTIL_HOUR = 8
+/** The first hour that is early enough. 07:00 is awake. */
+export const QUIET_UNTIL_HOUR = 7
 
 /**
  * Is it currently too late, or too early, to buzz a child's device?
  *
  * The window crosses midnight, so this is an OR rather than the range check it
- * looks like it should be. 19, 20 ... 23, 0, 1 ... 7 are all quiet.
+ * looks like it should be. 19, 20 ... 23, 0, 1 ... 6 are all quiet.
  */
 export function inChildQuietHours(at: Date = new Date()): boolean {
   const { hour } = londonNow(at)

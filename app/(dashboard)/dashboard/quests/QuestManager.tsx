@@ -634,7 +634,7 @@ export default function QuestManager() {
       // parent off to set up a phone that is already set up because the clock
       // says 21:00 is the wrong instruction confidently given.
       setPingResult(data?.reason === 'quiet_hours'
-        ? 'Held until the morning. Nothing buzzes their phone between 7pm and 8am, and it is waiting on their page for them.'
+        ? 'Held until the morning. Nothing buzzes their phone between 7pm and 7am, and it is waiting on their page for them.'
         : data?.sent > 0
         ? 'Ping sent ✓ It just landed on their phone.'
         : 'Their phone is not set up for pings yet. Open their quest link on their phone and tap Remind me about my quests. On iPhone, add it to the home screen first.')
