@@ -44,6 +44,14 @@ export async function POST() {
   // Grant only when trial_ends_at is still null AND they are not already
   // paying. Expressed as filters on the update rather than as an if, so two
   // requests racing cannot both see null and both write.
+  //
+  // The .neq depends on something worth naming, because it does not do what it
+  // looks like if that thing ever changes. In SQL, NULL <> 'active' is NULL,
+  // not true, so a row with no status would fail this filter and quietly never
+  // get a trial. It is safe here only because profiles.subscription_status is
+  // NOT NULL with default 'free', checked against the live schema. If that
+  // constraint is ever dropped, this needs to become an explicit
+  // "is null or neq active" or the trial silently stops being granted.
   const { data, error } = await admin
     .from('profiles')
     .update({ trial_ends_at: trialEndsFromNow() })
