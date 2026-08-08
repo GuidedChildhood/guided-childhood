@@ -14,6 +14,7 @@ import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
+import { isChildVisible, type ChildVisibleAction } from '@/lib/school/child-items'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import KidQuestScreen from './KidQuestScreen'
 import { toFamilyDevice, type FamilyDevice, type FamilyDeviceRow } from '@/lib/devices/family'
@@ -347,7 +348,11 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     .select('id, title, kind, due_date, due_time, recurs_weekday, sent_to_child, auto_send_to_child, cleared_on')
     .eq('user_id', link.user_id)
     .eq('status', 'open')
-    .or(`due_date.eq.${today},due_date.eq.${tomorrowDate},recurs_weekday.eq.${todayWeekday},recurs_weekday.eq.${tomorrowWeekday}`)
+  // The whole open list rather than only today and tomorrow, and it is one
+  // fewer query than it looks: the week viewer needs to know whether there is
+  // anything to look at before it offers a link, and a family's school list is
+  // a handful of rows, so narrowing it in SQL and then asking again for a count
+  // would cost more than reading it once.
   // Child appropriate kinds mirror to the child's own banner so they know
   // too: a PE kit or homework routine, never a parent only thing like a
   // payment. A weekly routine shows on its day by default (no need for the
@@ -355,13 +360,14 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // Tomorrow's child items also show, in their own calm heads up, so the
   // child can get the kit ready the night before, the same nudge the parent
   // gets by push.
-  const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
+  // The rule lives in lib/school/child-items now, shared with the week viewer,
+  // because two copies of "which reminders may a child see" is how a payment
+  // reminder eventually turns up on a nine year old's phone.
   const schoolToday = (schoolRows ?? [])
     .map(a => {
       const cleared = String((a as { cleared_on?: string | null }).cleared_on ?? '')
       const isRoutine = a.recurs_weekday != null
-      const childOk = isRoutine ? (a.auto_send_to_child || CHILD_KINDS.has(a.kind as string)) : (a.sent_to_child || CHILD_KINDS.has(a.kind as string))
-      if (!childOk) return null
+      if (!isChildVisible(a as ChildVisibleAction)) return null
       const dueToday = isRoutine ? a.recurs_weekday === todayWeekday : a.due_date === today
       const dueTomorrow = isRoutine ? a.recurs_weekday === tomorrowWeekday : a.due_date === tomorrowDate
       // A routine cleared for today steps back from today, but still shows a
@@ -378,6 +384,10 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       }
     })
     .filter((x): x is { id: string; title: string; kind: string; time: string | null; when: 'today' | 'tomorrow' } => x !== null)
+
+  // Is there a week worth opening? The link to it only appears when there is
+  // something on it, because a door onto an empty room is worse than no door.
+  const schoolWeekCount = (schoolRows ?? []).filter(a => isChildVisible(a as ChildVisibleAction)).length
 
   // Our family deal: the agreement the parent and child built and signed
   // together. The child sees it in Our deal, so the contract they agreed is
@@ -619,6 +629,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       weekChart={weekChart}
       requests={(requestsRes.data ?? []) as { id: string; title: string; emoji: string; status: string }[]}
       schoolToday={schoolToday}
+      schoolWeekCount={schoolWeekCount}
       notes={notes}
       contractLevel={contractLevelFor(ageBand ?? null)}
       contractAgreedAt={contractAgreedAt}

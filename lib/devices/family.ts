@@ -127,18 +127,47 @@ export function stageDevicePct(args: {
   }
 }
 
+/**
+ * Is this particular screen set up?
+ *
+ * One rule, in one place, because the devices page and the passport were each
+ * answering it separately and both got it wrong in the same way. A guide key
+ * covers a guide, not a screen: "iPhone and iPad" is one guide over two
+ * devices, so reading the guide told a family with both that the second one was
+ * already done. Migration 169 gives each screen its own row and this reads it.
+ *
+ * doneDeviceIds is null when that migration has not been applied yet, and only
+ * then does it fall back to the guide. The fallback is the old bug, kept
+ * deliberately for the window between deploy and migration, because the
+ * alternative is every family's ticks vanishing for a day.
+ *
+ * A screen with no guide behind it, a parent's own "Old laptop", is always
+ * done: there is nothing we have asked them to do with it.
+ */
+export function deviceIsDone(
+  d: FamilyDevice,
+  doneGuideKeys: Set<string>,
+  doneDeviceIds: Set<string> | null,
+): boolean {
+  if (!d.guideKey) return true
+  if (doneDeviceIds) return doneDeviceIds.has(d.id)
+  return doneGuideKeys.has(d.guideKey)
+}
+
 // How set up is this home? The number that replaces the catalogue percentage
-// on the passport. A device counts as done when the guide covering it has been
-// worked through, and a device with no guide behind it (a parent's own "Old
-// laptop") counts as done, because there is nothing we have asked them to do.
-export function homeSetupCount(devices: FamilyDevice[], doneGuideKeys: Set<string>): {
+// on the passport.
+export function homeSetupCount(
+  devices: FamilyDevice[],
+  doneGuideKeys: Set<string>,
+  doneDeviceIds: Set<string> | null = null,
+): {
   done: number
   total: number
   pct: number
   next: FamilyDevice | null
 } {
   const live = devices.filter(d => !d.retiredAt)
-  const isDone = (d: FamilyDevice) => !d.guideKey || doneGuideKeys.has(d.guideKey)
+  const isDone = (d: FamilyDevice) => deviceIsDone(d, doneGuideKeys, doneDeviceIds)
   const done = live.filter(isDone).length
   return {
     done,

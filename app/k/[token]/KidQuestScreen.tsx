@@ -132,7 +132,7 @@ export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [],
   adventures = [], bank = null, holidayLine = null, holidayMinutes = 0, holidaySpendable = false,
   usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
-  weekChart = [], schoolToday = [], notes = [], agreementItems = [], agreementSigned = false,
+  weekChart = [], schoolToday = [], schoolWeekCount = 0, notes = [], agreementItems = [], agreementSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
@@ -200,6 +200,9 @@ export default function KidQuestScreen({
   familyDevices?: FamilyDevice[]
   weekChart?: { label: string; count: number; today: boolean }[]
   schoolToday?: KidSchoolToday[]
+  /** How many school reminders this child has at all, so the week link only
+   *  appears when there is a week to look at. */
+  schoolWeekCount?: number
   notes?: { id: string; kind: string; title: string; body: string; read: boolean }[]
   // The stage library lesson passes, the same count the parent's progress
   // report uses, for the road's proof chip. Nulls fall back to the old count.
@@ -1244,7 +1247,7 @@ export default function KidQuestScreen({
         {/* From school today: the child sees the reminder their grown up sent
             through, and a timed one goes red as it nears, so it lands with
             them too, not only the parent. */}
-        <KidSchoolBanner items={schoolToday} />
+        <KidSchoolBanner items={schoolToday} token={token} weekCount={schoolWeekCount} />
 
         {/* A printable a grown up sent lands right at the top of the to do:
             print it, do it, then send it to be confirmed like any printable. */}
@@ -2925,7 +2928,10 @@ function NotesFromGrownUp({ token, notes }: {
   )
 }
 
-function KidSchoolBanner({ items }: { items: KidSchoolToday[] }) {
+// Exported so ref-kid-week can render it. Neither of its two shapes is
+// reachable by clicking: one needs a school reminder due today on a real kid
+// link, the other needs a week with something on it and nothing today.
+export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolToday[]; token: string; weekCount: number }) {
   // null until mounted, so the first client render matches the server and the
   // red only arrives once the clock is ticking on the child's own device.
   const [now, setNow] = useState<number | null>(null)
@@ -2936,7 +2942,34 @@ function KidSchoolBanner({ items }: { items: KidSchoolToday[] }) {
     return () => clearInterval(t)
   }, [items])
 
-  if (!items.length) return null
+  // Nothing today or tomorrow, but there is still a week to look at. A slim
+  // door rather than a card announcing an absence: "nothing from school today"
+  // as a permanent panel is a line a child reads once and then scrolls past
+  // every day after.
+  //
+  // Justin, 8 August 2026: "we could build same viewer on child's phone so they
+  // can see their week." The week is the answer to "is Cubs Thursday or
+  // Friday", which is asked on a day when nothing is due, so the way in cannot
+  // depend on something being due.
+  if (!items.length) {
+    if (weekCount === 0) return null
+    return (
+      <a
+        href={`/k/${token}/week`}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
+          background: '#fff', border: '2px solid var(--border)', borderRadius: 18,
+          boxShadow: '0 4px 0 var(--border)', padding: '12px 14px', marginBottom: 16,
+        }}
+      >
+        <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>🗓️</span>
+        <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
+          My week from school
+        </span>
+        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)' }}>→</span>
+      </a>
+    )
+  }
 
   const today = new Date(now ?? Date.now()).toISOString().slice(0, 10)
   const urgentOf = (time: string | null): boolean => {
@@ -3002,6 +3035,20 @@ function KidSchoolBanner({ items }: { items: KidSchoolToday[] }) {
           </div>
         </div>
       )}
+
+      {/* And the rest of the week, one tap away. Under the two days that
+          actually matter, never above them: today is the thing a child needs
+          and the week is the thing they occasionally want. */}
+      <a
+        href={`/k/${token}/week`}
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: '12px',
+          textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800,
+          fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)',
+        }}
+      >
+        See my whole week →
+      </a>
     </div>
   )
 }

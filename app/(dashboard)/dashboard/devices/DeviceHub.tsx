@@ -4,6 +4,7 @@ import { useState } from 'react'
 import DeviceCoverageBoard from './DeviceCoverageBoard'
 import DeviceList, { type DeviceGuide } from './DeviceList'
 import YourScreens from '@/components/devices/YourScreens'
+import type { FamilyDevice } from '@/lib/devices/family'
 
 // Owns the one shared truth for the devices page: which devices are set up,
 // which the family does not have yet, which guide is open, and what is mid
@@ -21,15 +22,21 @@ export default function DeviceHub({
   childName,
   initialCompleted,
   initialNotOwned = [],
+  initialDoneDevices = null,
 }: {
   devices: DeviceGuide[]
   childAge: number
   childName?: string | null
   initialCompleted: string[]
   initialNotOwned?: string[]
+  /** Screens ticked one by one. null when migration 169 has not been run. */
+  initialDoneDevices?: string[] | null
 }) {
   const [completed, setCompleted] = useState<Set<string>>(new Set(initialCompleted))
   const [notOwned, setNotOwned] = useState<Set<string>>(new Set(initialNotOwned))
+  const [doneDevices, setDoneDevices] = useState<Set<string> | null>(
+    initialDoneDevices ? new Set(initialDoneDevices) : null
+  )
   const [pending, setPending] = useState<string | null>(null)
   const [openKey, setOpenKey] = useState<string | null>(null)
   // The catalogue is shut until asked for. A coverage board tile still opens
@@ -58,6 +65,56 @@ export default function DeviceHub({
         method: isDone ? 'DELETE' : 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(isDone ? { device_key: key } : { device_key: key, status: 'done' }),
+      })
+    } catch { /* non blocking, the local state already moved */ }
+    setPending(null)
+  }
+
+  // Tick ONE screen, not every screen its guide happens to cover.
+  //
+  // Justin, 8 August 2026: "I've added these devices and it is automatically
+  // saying set up although I haven't." An iPad added that morning was already
+  // ticked, because the guide behind it, "iPhone and iPad", had been worked
+  // through on the iPhone in July. Screen Time is set on the device, so that
+  // tick was the app claiming a child was protected on a screen nobody had
+  // touched.
+  //
+  // The guide still goes green with it, because working through the settings on
+  // a real screen is exactly what the coverage board is counting. Only the
+  // reverse is no longer true.
+  //
+  // lastForGuide comes from the list itself: whether any other live screen this
+  // guide covers is still ticked. Unticking the iPad should not pull the board
+  // out from under an iPhone that is genuinely done.
+  async function toggleDevice(d: FamilyDevice, lastForGuide: boolean) {
+    if (!d.guideKey) return
+    // Before 169 there is nowhere to record a single screen, so this is the old
+    // behaviour rather than a button that silently does nothing.
+    if (doneDevices === null) { await toggle(d.guideKey); return }
+
+    const isDone = doneDevices.has(d.id)
+    setPending(d.id)
+    setDoneDevices(prev => {
+      const next = new Set(prev)
+      if (isDone) next.delete(d.id)
+      else next.add(d.id)
+      return next
+    })
+    if (isDone) {
+      if (lastForGuide) setCompleted(prev => { const n = new Set(prev); n.delete(d.guideKey as string); return n })
+    } else {
+      setCompleted(prev => new Set(prev).add(d.guideKey as string))
+      setNotOwned(prev => { const n = new Set(prev); n.delete(d.guideKey as string); return n })
+    }
+    try {
+      await fetch('/api/devices/complete', {
+        method: isDone ? 'DELETE' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          isDone
+            ? { device_key: d.guideKey, family_device_id: d.id }
+            : { device_key: d.guideKey, family_device_id: d.id, status: 'done' }
+        ),
       })
     } catch { /* non blocking, the local state already moved */ }
     setPending(null)
@@ -112,8 +169,9 @@ export default function DeviceHub({
         childName={childName}
         completed={completed}
         notOwned={notOwned}
+        doneDevices={doneDevices}
         pending={pending}
-        onToggleGuide={toggle}
+        onToggleDevice={toggleDevice}
         onNotOwned={markNotOwned}
       />
 
