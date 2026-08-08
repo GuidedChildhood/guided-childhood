@@ -5947,3 +5947,39 @@ statement so two tabs cannot both pass.
 correct because `profiles.subscription_status` is NOT NULL default `'free'`,
 checked against the live schema. If that constraint is ever dropped, the filter
 silently stops granting trials and must become an explicit is null or neq.
+
+## 8 August 2026 — nothing buzzes a child's phone at night
+
+**Justin:** *"Can we make sure we don't send late pwas to child app. Should
+stop any between 19:00 and 8:00 am."*
+
+**Three doors reach a child's device, not one.** `sendPush({audience:'kids'})`,
+`pushToChild` with about twenty five call sites, and a hand rolled webpush call
+in `/api/quests/ping`. The gate is in all three, at the bottom of each, so the
+next feature that nudges a child inherits it without knowing it exists. A rule
+enforced at the call sites would have been twenty seven places to forget.
+
+**The hour is read in London, never from the server clock.** Vercel runs UTC
+and the families are British. Through the summer a naive UTC check would let
+pushes through until 20:00 British, which is exactly the hour being complained
+about, and then hold the morning ones back until 09:00. `lib/time/london.ts`
+already existed and already survives the clocks changing.
+
+**Held, not queued.** A stopped push is dropped. A jobs reminder from 21:00 is
+not worth waking up to at 08:00, and every one of these already has a home on
+the child's own page, which shows the same news at the next open.
+
+**THE PART THAT WAS NOT OBVIOUS: the rule silently switches off scheduled
+pushes whose cron sits inside the window.** Vercel cron schedules are UTC and
+fixed, so they drift an hour against London twice a year. Two were moved back
+an hour so they still fire: the evening jobs reminder (18:45 UTC was 19:45
+British in summer) and the school reminder to the child (18:00 UTC was 19:00
+British exactly).
+
+**Two morning ones cannot be fixed by moving them, and are Justin's call.** The
+school kit reminder at 07:45 British and the winter morning jobs reminder at
+07:15 are both deliberately before school, and the 08:00 boundary kills them. A
+fixed UTC cron cannot be after 08:00 London in winter without being 09:00 in
+summer, which is after the school run. Either the morning boundary becomes
+07:00, or the school run gets a named exception. Nothing was exempted on a
+guess.
