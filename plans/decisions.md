@@ -5472,6 +5472,16 @@ wisdom review page now carries Run the rebuild now, same implementation as
 the cron, writes to the pen only, so the first batch can be pulled and
 reviewed today.
 
+**The service catalogue is one file and it grew three entries (8 Aug).**
+Justin: "every single piece of service and benefit, why and problems solved,
+so we have it all saved somewhere." That file already existed as
+content/brand-story/service-post-map.md, eighteen services each with problem,
+what we made, hinge, hook and proof path. It now carries entries 19 to 21 for
+the week's builds (the child's own scripts, the evidence of how far you have
+come, DiGi's follow ups) and a standing rule in the header: when something
+new ships and a parent can touch it, it gets an entry the same week. Entry 21
+deliberately waits for real follow ups before it earns a Friday post.
+
 ## 8 August 2026 — Homepage rebuilt around one message
 Justin locked the hero: "A clear digital pathway from first screen to 16."
 Ten minutes a day is the single time claim, with the catch up promise

@@ -3,10 +3,17 @@
 **Eighteen Fridays. Every service we have actually built, each one opened on a
 real parent problem. No dashes in any copy.**
 
-Verified against the live route and migration surface on 30 July 2026. Each
-entry carries its proof path so a claim can be checked in ten seconds. **If a
-service is not in this file, it does not get a Friday**, because the failure
-mode of a marketing calendar is describing something that is still in a plan.
+Verified against the live route and migration surface on 30 July 2026, and
+again on 8 August 2026 when entries 19 to 21 were added for the services built
+in the week between. Each entry carries its proof path so a claim can be
+checked in ten seconds. **If a service is not in this file, it does not get a
+Friday**, because the failure mode of a marketing calendar is describing
+something that is still in a plan.
+
+This file is also the standing record Justin asked for on 8 August: every
+piece of service, the benefit, why, and the problem it solves, all in one
+place. When something new ships and a parent can touch it, it gets an entry
+here the same week.
 
 The structure of every Friday post, from `weekly-rhythm.md`:
 
@@ -385,6 +392,87 @@ that fills itself in as lessons are taught.
 
 ---
 
+## 19 · The child who cannot find the words
+
+**Problem.** Something happens on the phone. A message that scared them, a game
+that turned nasty, a picture they should not have seen. The child knows it is
+wrong and does not know how to start the sentence, so they say nothing, and the
+parent finds out weeks later or never.
+
+**What we made.** The child's own scripts, in their app. Twenty five short
+openers written for children, sorted by the moment ("someone sent me
+something", "I saw a thing I did not like", "someone is being mean"), each one
+a sentence they can actually say out loud or show their parent. Beside them,
+five Tell a parent cards that teach the one idea underneath: telling is not
+grassing, and nothing gets taken away for being honest.
+
+**Hinge.** The parent side already promised no telling off for telling. This is
+the other half: the child holding the first sentence in their hand.
+
+**Hook.** "The hardest sentence a child ever says starts with Mum, something
+happened."
+
+**Proof.** `/k/[token]/tell` on the child's app, `/dashboard/tell-a-parent` on
+the parent's, migration `163_child_to_parent_scripts.sql`, tables
+`child_scripts` and `tell_a_parent_cards`. Scripts live in the database per
+non-negotiable 6.
+
+---
+
+## 20 · You cannot see how far you have come
+
+**Problem.** Parenting improvements are invisible from inside. The bedtime that
+was a war in March is quietly fine by June, and nobody notices, because the
+problems that got solved stop being thought about. Parents quit tools that are
+working because working looks like nothing happening.
+
+**What we made.** The evidence of the journey. Every concern a family raises is
+logged the day it is raised, checked in on daily with one tap and a zero to ten
+strip, and marked the day it settles, with a look back question that catches
+how bad it really was at the start. The pathway page then shows the record:
+what you came in with, what got resolved, how long each took, and honestly,
+what came back.
+
+**Hinge.** The same record feeds DiGi, so what worked for your family becomes
+part of how it helps the next one, once a human has read every line.
+
+**Hook.** "Write down the problem on the day it starts. In six weeks you will
+not believe it was ever that bad."
+
+**Proof.** `HowFarYouHaveCome` on `/dashboard/pathway`, migration
+`164_concern_events.sql` (append only, backfilled rows excluded from every
+duration), the check in strip in `components/daily/ConcernCheckIn.tsx`.
+Recurrences are counted and shown, per the honesty rules in
+`plans/evidence-of-outcomes-research.md`.
+
+---
+
+## 21 · Advice that never finds out if it worked
+
+**Problem.** Every parenting source hands out suggestions and walks away. The
+podcast does not ring back. The book does not ask how Tuesday went. So nobody,
+including the parent, ever quite learns what actually works for this child.
+
+**What we made.** DiGi keeps its promises. When it suggests something concrete,
+a script for tonight, a rule to hold for a week, it says it will check in, and
+a few days later a card arrives asking how it went. One tap answers it. The
+answer becomes part of the family's record and, stripped of names, part of
+what DiGi knows holds for families like yours.
+
+**Hinge.** This is the loop that makes entry 20 move: tried, checked, kept or
+dropped, written down.
+
+**Hook.** "Every parenting expert gives advice. Ours is the only one that
+rings back to ask if it worked."
+
+**Proof.** `schedule_followup` in `lib/digi/tools.ts`, the 07:15 cron
+`/api/cron/followups`, the I tried this button in
+`components/cards/MomentCard.tsx`, tables `digi_followups` and
+`digi_outcomes` (migration 147). Switched fully on 8 August 2026; treat the
+Friday for this one as earned once real follow ups have run for a few weeks.
+
+---
+
 ## The four month rotation
 
 | Week | Friday |
@@ -415,6 +503,12 @@ it only makes sense once someone has felt the problem it solves.
 
 Weeks 15 and 16 are pegged to the calendar: the holiday bank lands before the
 summer holidays, the phone bridge lands in the run up to September.
+
+Entries 19 and 20 join the rotation at the end of the current cycle or wherever
+a Friday opens up, in that order: the child's scripts first because the problem
+is the loudest, the evidence record second because it needs a few families to
+have lived it. Entry 21 waits until follow ups have genuinely run for a few
+weeks, per its own note; a post about keeping promises has to keep them first.
 
 ---
 
