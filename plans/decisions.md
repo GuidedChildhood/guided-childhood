@@ -5911,3 +5911,48 @@ collected and why.
 **No email in this batch mentions data or privacy**, which was the original plan
 for the set, because sending forty inboxes a claim that is currently untrue is
 the one thing worse than the page being wrong.
+
+## 8 August 2026 — the two false promises, fixed properly
+
+Justin: "Fix 1 and 2 and correct plan."
+
+**Cancelling now exists.** `/dashboard/upgrade` had promised "cancel any time"
+since it was written and there was no way to do it. Fixed in the product rather
+than in the copy: a Stripe hosted billing portal at `/api/stripe/portal` and a
+Your plan section in settings, shown only to people who actually pay.
+
+Hosted rather than built here on purpose. Cancelling and re-entering card
+details are the two flows where a subtle mistake costs someone real money, and
+Stripe's page is PCI handled, localised, and already knows about proration,
+trials and the real invoices. It also cannot drift out of step with what Stripe
+thinks the subscription is.
+
+**It fixes the card update in the same stroke**, which is what the past due
+email needed and could not have. Both emails that had been rewritten to say
+"reply to me" now point at the real screen again.
+
+**The portal has to be switched on once in the Stripe dashboard.** Until then
+the API returns a configuration error, and the button says the door is not open
+yet and gives an address, rather than showing a parent a dead button and letting
+them think cancelling is being made difficult.
+
+**The privacy policy now describes what is actually collected.** It said "We do
+not ask for a surname, a date of birth, a photo, or a school". The app has asked
+for a birthday since migration 083 and interests since 088. The policy now says
+both are optional, what each is for (the birthday moves a child into the next
+stage on the right day, the interests make scripts sound like your child), and
+that both can be cleared in settings. Verified against the save code: clearing
+the field writes null, and the age band falls back without it.
+
+**The product was not changed to match the policy**, which was the other option.
+The birthday earns its place, so the honest fix was to describe it rather than
+delete a working feature.
+
+**The effective date moved with the words.** A policy that changes and keeps its
+old date is the same problem one level up.
+
+**Left alone deliberately:** the same sentence says we do not ask for a school.
+No UI was found that collects one, so it stands as written rather than being
+rewritten on a guess. `profiles.school_id` and `school_region` exist and nothing
+in the parent app appears to set them. Worth confirming before the ICO
+registration goes in.
