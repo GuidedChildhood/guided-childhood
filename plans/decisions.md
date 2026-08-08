@@ -6063,6 +6063,56 @@ the sheet 96 pixels down.
 neither page had one and both are behind auth. That is why controls a parent
 uses constantly had never been driven at all.
 
+## 8 August 2026 — nothing buzzes a child's phone at night
+
+**Justin:** *"Can we make sure we don't send late pwas to child app. Should
+stop any between 19:00 and 8:00 am."*
+
+**Three doors reach a child's device, not one.** `sendPush({audience:'kids'})`,
+`pushToChild` with about twenty five call sites, and a hand rolled webpush call
+in `/api/quests/ping`. The gate is in all three, at the bottom of each, so the
+next feature that nudges a child inherits it without knowing it exists. A rule
+enforced at the call sites would have been thirty three places to forget.
+
+**The hour is read in London, never from the server clock.** Vercel runs UTC
+and the families are British. Through the summer a naive UTC check would let
+pushes through until 20:00 British, which is exactly the hour being complained
+about, and then hold the morning ones back until 09:00. `lib/time/london.ts`
+already existed and already survives the clocks changing.
+
+**Held, not queued.** A stopped push is dropped. A jobs reminder from 21:00 is
+not worth waking up to at 07:00, and every one of these already has a home on
+the child's own page, which shows the same news at the next open.
+
+**THE WINDOW IS 19:00 TO 07:00, NOT THE 08:00 FIRST ASKED FOR.** Applying 08:00
+literally switched off two pushes that are deliberately before school: the
+school kit reminder and, in winter, the morning jobs reminder. Neither could be
+saved by moving its cron, because a fixed UTC schedule cannot be after 08:00
+London in winter without being 09:00 in summer, which is after the school run.
+Put to Justin as three options with the real times spelled out, and he chose
+the earlier boundary: "1". It still stops every hour he was complaining about.
+
+**THE PART THAT WAS NOT OBVIOUS: the rule silently switches off scheduled
+pushes whose cron sits inside the window.** Cron schedules are fixed UTC and
+drift an hour against London twice a year, so this has to be checked in both
+seasons or it looks fine for six months. Three moved:
+
+| cron | was | now | British time |
+| --- | --- | --- | --- |
+| evening jobs reminder | `45 18` | `45 17` | 19:45 to 18:45 summer |
+| school reminder to child | `0 18` | `0 17` | 19:00 to 18:00 summer |
+| school kit reminder | `45 6` | `5 7` | 06:45 winter, which was held, to 07:05 |
+
+The kit reminder is five minutes past the boundary rather than on it, because a
+cron that drifts a minute early would be silently dropped for a whole winter.
+
+**Knowingly left held: the star week rollover**, Monday 00:10, which tells a
+child they saved sticker credits or holiday minutes. Those two pushes now never
+fire. That is the rule working rather than a fault, a 01:10 buzz is exactly
+what was being complained about, and the news is waiting in their sticker book.
+If a child should be actively told, the fix is to move the telling into a
+morning cron rather than to weaken the window.
+
 ## 8 August 2026 — contact details on the home page
 
 Justin: "Make sure we have contact details on home page my name address email
