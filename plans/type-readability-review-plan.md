@@ -158,3 +158,54 @@ which is doing a different job and doing it well.
 Phase 1 is an afternoon and carries almost all the value. Phase 2 is a long
 mechanical sweep best done once phase 1 has settled. Phase 3 needs Justin's
 eye on the three volume pattern before it is built. Phase 4 waits for Mobbin.
+
+## 5. Phase 4 run: the Mobbin pass, 8 August 2026
+
+Justin reconnected Mobbin and the captures came through, so the honesty note
+in the header is now settled: here is what the live screens say against what
+this document claimed from memory and best practice.
+
+**Confirmed by live captures.**
+
+- [Finch's home](https://mobbin.com/screens/b5d29fad-9c88-43e0-9aa0-05b7602ab48d)
+  is our Today card almost line for line: chunky white rows, one bold title a
+  size above body, a small grey category line, a fat tick circle, and one
+  plain count sentence above the list ("10 goals left for today!"). Their tab
+  bar carries tiny red count badges exactly like our quests chip. The three
+  volume pattern phase 3 built is what the best in this category actually ship.
+- [Finch's quiet state](https://mobbin.com/screens/6e24c2f2-42f4-42da-9450-5c021b7d3678)
+  puts the character and ONE pill button on an otherwise empty screen. One
+  glowing thing per screen, confirmed as built practice, not just doctrine.
+- [GoHenry's money screen](https://mobbin.com/screens/929c807f-7601-462d-82ba-85e6c61f7a6f)
+  runs counts even quieter than a chip: a grey subline word inside the row
+  ("Tasks · 1 to do"). Their one urgent thing
+  ([a missed allowance](https://mobbin.com/screens/94c2596d-e167-41d3-81c2-4992ccda2db6))
+  is a single soft pink sentence band at the top of the screen. One voice at
+  the top, everything else quiet: the Now row's shape, independently arrived at.
+- [Greenlight's parent home](https://mobbin.com/screens/7e97e03a-4c8e-47f3-8aab-2798ba5514ab)
+  leads a new account with a setup tile row and a bare "17% complete" bar, and
+  keeps notifications in one titled list section. Our one conductor setup path
+  and the folded From school section match it.
+- [Greenlight's chores empty state](https://mobbin.com/screens/03ce4a0b-ad29-45e2-af14-fd030a5b4ca5)
+  is a friendly sentence and one soft button ("No chores due today. Check back
+  tomorrow"), which is our calm Now slot line doing the same job.
+
+**Two things worth folding forward.**
+
+1. **Finch's tick sits on the right edge of the row, the thumb side; ours
+   sits on the left.** Every Finch row is tickable one handed without the
+   thumb crossing the screen. Worth trying on the Today card and the concern
+   check in when they next get touched: move the circle right, keep the emoji
+   tile left.
+2. **The count volume has a floor below the chip.** GoHenry writes counts as
+   a subline word inside the row it belongs to. Where a count already lives
+   inside a row (the setup line, the school fold), words beat a chip; the
+   chip earns its place only on a tab or card corner where there is no
+   sentence to join.
+
+**What could not be checked.** Good Inside is not on Mobbin; searches
+substitute other apps. The Good Inside claims in part 2 stay sourced from the
+reference notes in design-refs/good-inside-notes.md rather than live captures,
+and that is now a permanent state rather than a pending one.
+
+Phase 4 is done. All four phases of this plan are complete.
