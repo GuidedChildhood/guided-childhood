@@ -1,6 +1,7 @@
 'use client'
 import { useState, useRef, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
 import DigiHero from '@/components/digi/DigiHero'
 import ThinkingReassurance from '@/components/digi/ThinkingReassurance'
@@ -82,6 +83,7 @@ export default function DigiChat({
   // The route reads the stored conversation server side for context regardless
   // of what is on screen, so hiding it changes what the PARENT sees and nothing
   // about what DiGi knows.
+  const router = useRouter()
   const [messages, setMessages] = useState<Message[]>([])
   const [historyOpen, setHistoryOpen] = useState(false)
   const [input, setInput] = useState('')
@@ -542,6 +544,27 @@ export default function DigiChat({
     } finally {
       setLoading(false)
       setStreamingReply(false)
+
+      // THE PATHWAY TICK.
+      //
+      // Justin, 8 August 2026: "[the] last step is to ask digi a question but i
+      // did this and did not update the green tick and say done."
+      //
+      // Nothing was wrong with the data. The question landed in digi_questions
+      // at 07:19 UTC and getTodayLoop counts exactly that. What did not happen
+      // was the dashboard being asked again.
+      //
+      // /dashboard is a server component, and its rendered payload sits in the
+      // client router cache. Going back to it, by the "Today's pathway" link or
+      // by the back gesture, restores that payload rather than re-rendering it,
+      // so the parent is shown the version of the page from before they asked
+      // anything. Instant, and a day out of date.
+      //
+      // router.refresh clears that cache, so the tick is green when they get
+      // back. In the finally block, because a reply that failed halfway may
+      // still have written the row, and a wasted refresh costs nothing next to
+      // a step a parent completed and was told they had not.
+      try { router.refresh() } catch { /* nothing to refresh, no harm */ }
     }
   }
 
