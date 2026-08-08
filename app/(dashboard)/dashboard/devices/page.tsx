@@ -7,6 +7,8 @@ import DeviceHub from './DeviceHub'
 import DeviceSweepCard from '@/components/devices/DeviceSweepCard'
 import type { DeviceGuide } from './DeviceList'
 
+type ProgressRow = { device_key: string; status?: string; family_device_id?: string | null }
+
 const STAGE_MAP: Record<string, { id: string; label: string }> = {
   '4-7':   { id: 'foundation',  label: 'Foundation · Ages 4 to 7' },
   '8-10':  { id: 'builder',     label: 'Builder · Ages 8 to 10' },
@@ -46,7 +48,30 @@ export default async function DevicesPage({
   const stage = STAGE_MAP[ageBand] ?? STAGE_MAP['11-13']
   const childAge = { '4-7': 6, '8-10': 9, '11-13': 12, '13-15': 14, '16+': 16 }[ageBand] ?? 12
 
-  const [{ data: devicesData }, { data: stageNote }, { data: progressData }] = await Promise.all([
+  // Progress comes back in two scopes now: rows about a GUIDE, which is what
+  // the coverage board and the catalogue read, and rows about a SCREEN, added
+  // by migration 169 because one guide covers more than one screen and ticking
+  // the iPhone was ticking the iPad with it.
+  //
+  // Read in its own guarded pair rather than folded into the query below,
+  // because naming a column that does not exist yet fails the WHOLE query it
+  // is part of, and migrations here are run by hand. perDevice false means 169
+  // has not landed, and the page then behaves exactly as it did before.
+  async function readProgress(): Promise<{ rows: ProgressRow[]; perDevice: boolean }> {
+    const withDevice = await supabase
+      .from('device_setup_progress')
+      .select('device_key, status, family_device_id')
+      .eq('user_id', user!.id)
+    if (!withDevice.error) return { rows: (withDevice.data ?? []) as ProgressRow[], perDevice: true }
+
+    const legacy = await supabase
+      .from('device_setup_progress')
+      .select('device_key, status')
+      .eq('user_id', user!.id)
+    return { rows: (legacy.data ?? []) as ProgressRow[], perDevice: false }
+  }
+
+  const [{ data: devicesData }, { data: stageNote }, progress] = await Promise.all([
     supabase
       .from('device_guides')
       .select('device_key, name, category, emoji, min_age, subtitle, why, steps, note, sort_order')
@@ -56,19 +81,21 @@ export default async function DevicesPage({
       .select('desc_text, science')
       .eq('stage_id', stage.id)
       .maybeSingle(),
-    supabase
-      .from('device_setup_progress')
-      .select('device_key, status')
-      .eq('user_id', user.id),
+    readProgress(),
   ])
 
   const devices = (devicesData ?? []) as DeviceGuide[]
   // status is done (settings in place) or not_owned (we do not have this yet).
   // Before migration 090 there is no status column, so a missing value reads
   // as done, exactly as it did before.
-  const progressRows = (progressData ?? []) as { device_key: string; status?: string }[]
-  const completedKeys = progressRows.filter(p => (p.status ?? 'done') === 'done').map(p => p.device_key)
-  const notOwnedKeys = progressRows.filter(p => p.status === 'not_owned').map(p => p.device_key)
+  const guideRows = progress.rows.filter(p => !p.family_device_id)
+  const completedKeys = guideRows.filter(p => (p.status ?? 'done') === 'done').map(p => p.device_key)
+  const notOwnedKeys = guideRows.filter(p => p.status === 'not_owned').map(p => p.device_key)
+  // null, not an empty list, when 169 is not there. The two mean different
+  // things downstream: no screens ticked, versus we cannot tell yet.
+  const doneDeviceIds = progress.perDevice
+    ? progress.rows.filter(p => p.family_device_id && (p.status ?? 'done') === 'done').map(p => p.family_device_id as string)
+    : null
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px 48px' }}>
@@ -119,6 +146,7 @@ export default async function DevicesPage({
         childName={child?.name ?? null}
         initialCompleted={completedKeys}
         initialNotOwned={notOwnedKeys}
+        initialDoneDevices={doneDeviceIds}
       />
     </div>
   )
