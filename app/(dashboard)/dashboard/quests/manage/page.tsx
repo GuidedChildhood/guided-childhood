@@ -20,11 +20,15 @@ export const metadata = { title: 'Add a job · Guided Childhood' }
 export default async function ManageJobsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ child?: string; tab?: string }>
+  searchParams: Promise<{ child?: string; tab?: string; title?: string }>
 }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
-  const { child, tab } = await searchParams
-  return <ManageJobs initialChild={child ?? null} initialTab={tab ?? null} />
+  const { child, tab, title } = await searchParams
+  // A title on the URL prefills the composer: the Make it a job tap from the
+  // learning page's week brief. Capped so a mangled link cannot flood the
+  // input, and trimmed because the composer trusts its pending title.
+  const initialTitle = (title ?? '').trim().slice(0, 80) || null
+  return <ManageJobs initialChild={child ?? null} initialTab={tab ?? null} initialTitle={initialTitle} />
 }

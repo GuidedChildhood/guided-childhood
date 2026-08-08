@@ -5493,3 +5493,38 @@ blocks to a 10 section spine; TRUST method, schools section and FAQ
 accordion left the homepage (live at /pathway, /schools, JSON-LD kept).
 Research base: research/homepage-audience-language.md and
 plans/homepage-section-audit.md.
+
+## 8 August 2026, evening: phase 1 of the curriculum depth plan is built
+
+**This week at school.** The 448 objectives gained a week: a deterministic
+walk through the term (lib/learning/this-week.ts), no model call, same
+objective all week, a new one on Monday. Delivered through what already
+existed: a Today card row that puts away until next Monday, a strip on the
+learning page with the objective and the dinner table frame, and Make it a
+job prefilling the quest composer through the pendingTitle mechanism it
+already had (two stars, the same weight as the homework templates). In the
+holidays it previews what starts when they go back, said as a preview,
+because this week in August would be a small lie. Other countries, per
+Justin's note: the curriculum slug is an explicit parameter, and a child we
+cannot place in the England system gets no brief rather than a wrong one.
+
+**The four day funnel got its countdown and its honest close (8 Aug).** The
+trial was already four days; what shouted 7 was one stale line on Home. The
+banner is now TrialCountdown: days while days are truthful, a live hours
+and minutes clock inside the last day counting to the real trial_ends_at,
+and an ended state that leads with the family's own numbers (jobs ticked,
+streak, or silence) and says what stays free. The techniques are the honest
+three, argued in the component: their own evidence, a real clock, true
+scarcity (the 50 cap is enforced in checkout and counted live on the
+upgrade page). The trial push sequence is planned in the week plan addendum
+and waits on Justin because it messages users.
+
+**The child's 404 on their own lessons, found and closed (8 Aug).** Justin's
+screenshot: a done lesson on the child app landing on Page not found. Three
+of Teo's passed lessons have no authored deck (slides null), the child
+lesson page hard 404s on a missing deck, and the kid home's focus lesson
+query did not carry the list page's no deck filter, so the app could offer
+a lesson its own page refuses to open. Two fixes: the kid home query now
+carries the same not null slides rule as the list, and a real lesson with
+no deck redirects to the child's lessons list instead of 404ing, because
+the links that land there are the app's own. Guessed or junk ids still 404.

@@ -93,10 +93,12 @@ function isTab(v: string | null): v is TabKey {
 }
 
 export default function ManageJobs({
-  initialChild = null, initialTab = null,
+  initialChild = null, initialTab = null, initialTitle = null,
 }: {
   initialChild?: string | null
   initialTab?: string | null
+  /** Prefills the composer, the Make it a job tap from the week brief. */
+  initialTitle?: string | null
 } = {}) {
   // The pairing card, once the child actually has the app.
   //
@@ -139,7 +141,12 @@ export default function ManageJobs({
   // questions the typed path asks. Tapping one used to add it outright, which
   // meant the quicker of the two ways to add a job was the one that asked
   // nothing and took whatever the template said about repeating.
-  const [pending, setPending] = useState<{ title: string; emoji: string; stars: number } | null>(null)
+  // A title arriving on the URL (the week brief's Make it a job) seeds the
+  // same state, so it walks the same questions as any tapped suggestion. Two
+  // stars and the book, the same weight the school day templates carry.
+  const [pending, setPending] = useState<{ title: string; emoji: string; stars: number } | null>(
+    initialTitle ? { title: initialTitle, emoji: '📘', stars: 2 } : null,
+  )
   // Which question the composer is showing. The ideas below it are a way to
   // START a job, so they belong on the first question and on the confirmation
   // that offers another. While a question about the job in hand is open they

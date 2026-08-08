@@ -42,7 +42,14 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
   // No authored deck means this is not a child lesson yet: the text fields it
   // would fall back to are written to the grown up as an instruction. Enforced
   // here as well as in the list, so a shared or guessed link cannot reach one.
-  if (!lesson || lesson.audience !== 'parent' || lesson.status === 'stub' || !lesson.slides) notFound()
+  if (!lesson || lesson.audience !== 'parent' || lesson.status === 'stub') notFound()
+  // A REAL lesson with no deck redirects to the list rather than 404ing. The
+  // links that land here are the app's own: a done stone on the road, a share
+  // card, a focus row cached before the deck was pulled. A child tapping
+  // their own finished lesson must land on their lessons, never on an error
+  // page (Justin's screenshot, 8 August). The guessed link case above still
+  // 404s, because those ids do not exist at all.
+  if (!lesson.slides) redirect(`/k/${token}/lessons`)
 
   // Age gate, forward only: the child can open their own stage and earlier
   // ones, never ahead of their age.
