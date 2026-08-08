@@ -138,16 +138,39 @@ export default async function PrintablesPage() {
 
       {/* The builder: pick from the idea pool or write your own, then print.
           A member feature; free parents see it and are pointed to upgrade. */}
+      {/* THREE THINGS IN A ROW DO NOT FIT ON A PHONE.
+          Justin, 8 August 2026: "this looks messy."
+          Emoji, then a title and two lines of copy, then a nowrap call to
+          action, all in one flex row. On a 390 wide screen the two fixed ends
+          and the padding eat most of the width, so the middle column collapsed
+          to about a third and "Build your own bucket list" set one word per
+          line, with the call to action floating in the gap beside it.
+          It stacks below 640 instead: emoji and title on one line, the copy
+          under them, the call to action last. Side by side is kept on a laptop,
+          where there is genuinely room for it.
+          minWidth 0 on the text column as well, because a flex item defaults to
+          min-width auto and will not shrink below its longest word, which is
+          how a squeezed column ends up overflowing rather than wrapping. */}
+      <style>{`
+        .pr-builder { display: flex; align-items: center; gap: 16px; }
+        .pr-builder .pr-cta { margin-left: auto }
+        @media (max-width: 640px) {
+          .pr-builder { display: grid; grid-template-columns: auto 1fr; gap: 10px 12px; align-items: start }
+          .pr-builder .pr-text { grid-column: 2 }
+          .pr-builder .pr-cta { grid-column: 2; margin-left: 0 }
+        }
+      `}</style>
       <Link
         href={isPaid ? '/dashboard/printables/builder' : '/dashboard/upgrade'}
+        className="pr-builder"
         style={{
-          display: 'flex', alignItems: 'center', gap: '16px', textDecoration: 'none',
+          textDecoration: 'none',
           background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: '20px',
           padding: '18px 22px', marginBottom: '34px',
         }}
       >
         <span style={{ fontSize: 'var(--text-2xl)', lineHeight: 1 }} aria-hidden>✏️</span>
-        <span style={{ flex: 1 }}>
+        <span className="pr-text" style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
             Build your own bucket list{isPaid ? '' : ' 🔒'}
           </span>
@@ -155,7 +178,7 @@ export default async function PrintablesPage() {
             Pick from our ideas or write your own, put their name on it, and print a list that is completely yours.
           </span>
         </span>
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
+        <span className="pr-cta" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
           {isPaid ? 'Open the builder →' : 'Members →'}
         </span>
       </Link>

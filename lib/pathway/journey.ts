@@ -31,9 +31,25 @@ export async function getJourney(
   userId: string,
   stageId: StageId
 ): Promise<Journey> {
+  // The passport counts the same screens the devices page does, so it reads
+  // progress the same guarded way: per screen after migration 169, per guide
+  // before it. Naming a column that is not there yet fails the whole query, and
+  // migrations here are run by hand, so the fallback is not optional.
+  const readProgress = async (): Promise<{
+    rows: { device_key: string; status?: string; family_device_id?: string | null }[]
+    perDevice: boolean
+  }> => {
+    const withDevice = await supabase
+      .from('device_setup_progress').select('device_key, status, family_device_id').eq('user_id', userId)
+    if (!withDevice.error) return { rows: withDevice.data ?? [], perDevice: true }
+    const legacy = await supabase
+      .from('device_setup_progress').select('device_key, status').eq('user_id', userId)
+    return { rows: legacy.data ?? [], perDevice: false }
+  }
+
   const [
     { data: deviceGuides },
-    { data: deviceProgress },
+    progress,
     { data: concerns },
     { data: stageLessons },
     { data: aiLessons },
@@ -41,7 +57,7 @@ export async function getJourney(
     { data: familyDevices },
   ] = await Promise.all([
     supabase.from('device_guides').select('device_key, name, min_age').order('min_age', { ascending: true }),
-    supabase.from('device_setup_progress').select('device_key, status').eq('user_id', userId),
+    readProgress(),
     supabase.from('concerns').select('label, times_flagged').eq('user_id', userId).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(1),
     supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, title, audience').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']).order('sort_order', { ascending: true }),
@@ -58,10 +74,16 @@ export async function getJourney(
   //
   // Without a list it falls back to the age bucketed catalogue, minus anything
   // marked not in our home, which is what this row always showed.
-  const doneKeys = new Set((deviceProgress ?? []).filter(d => (d.status ?? 'done') === 'done').map(d => d.device_key))
-  const notOwnedKeys = new Set((deviceProgress ?? []).filter(d => d.status === 'not_owned').map(d => d.device_key))
+  const guideRows = progress.rows.filter(d => !d.family_device_id)
+  const doneKeys = new Set(guideRows.filter(d => (d.status ?? 'done') === 'done').map(d => d.device_key))
+  const notOwnedKeys = new Set(guideRows.filter(d => d.status === 'not_owned').map(d => d.device_key))
+  // null, not an empty set, before 169: no screens ticked and cannot tell yet
+  // are different answers, and only one of them should blank the passport.
+  const doneDeviceIds = progress.perDevice
+    ? new Set(progress.rows.filter(d => d.family_device_id && (d.status ?? 'done') === 'done').map(d => d.family_device_id as string))
+    : null
   const home = ((familyDevices ?? []) as FamilyDeviceRow[]).map(toFamilyDevice)
-  const homeCount = homeSetupCount(home, doneKeys)
+  const homeCount = homeSetupCount(home, doneKeys, doneDeviceIds)
 
   let devicesDoneCount: number
   let devicesTotal: number

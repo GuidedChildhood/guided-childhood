@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { readTrust } from '@/lib/quests/device-time'
+import { londonToday } from '@/lib/pathway/today'
+import { questDueToday } from '@/lib/quests/due'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
@@ -126,6 +128,50 @@ export async function GET() {
     }
   }
 
+  // JOBS STILL TO DO TODAY, per child.
+  //
+  // Justin, 8 August 2026: "when they ask to watch tv or use device give them
+  // the nudge to do tasks to unlock timer."
+  //
+  // ScreenGateBanner already does this, but only for jobs a parent has
+  // explicitly flagged as "before screens", and almost nobody has set that
+  // flag. So a family with ten jobs and none done sees no prompt at all when
+  // the timer is started, and the rule the child is held to on their own phone
+  // quietly does not exist on the grown up's.
+  //
+  // This is the plain count instead: due today, not yet approved. Not a gate.
+  // The parent still starts whatever they like, which is non negotiable one,
+  // DiGi and this product never allow or deny. It just stops the timer being
+  // the one screen in the app that does not know the jobs exist.
+  //
+  // Read on its own and failing soft to nothing, so a timer a parent needs in
+  // the moment can never be held up by a count that is only there to inform.
+  const jobsLeftBy = new Map<string, { count: number; first: string | null }>()
+  try {
+    const { data: dueJobs } = await supabase
+      .from('family_quests')
+      .select('id, title, child_id, active, schedule, schedule_days')
+      .eq('user_id', user.id).eq('active', true).in('child_id', ids)
+    const { data: ticksToday } = await supabase
+      .from('quest_ticks')
+      .select('quest_id, child_id, status')
+      .eq('user_id', user.id).eq('tick_date', londonToday()).in('child_id', ids)
+    const settled = new Set((ticksToday ?? [])
+      .filter(t => t.status === 'approved' || t.status === 'pending')
+      .map(t => `${t.child_id}|${t.quest_id}`))
+    for (const j of dueJobs ?? []) {
+      const cid = String(j.child_id ?? '')
+      if (!cid || settled.has(`${cid}|${j.id}`)) continue
+      // Due TODAY by its own schedule, not merely active. The quests board
+      // counts it this way ("0 of 10 done today"), and a timer saying 14 next
+      // to a board saying 10 is two numbers for one thing, which is worse than
+      // no number at all.
+      if (!questDueToday(String(j.schedule ?? 'daily'), (j.schedule_days as number[] | null) ?? null)) continue
+      const cur = jobsLeftBy.get(cid) ?? { count: 0, first: null }
+      jobsLeftBy.set(cid, { count: cur.count + 1, first: cur.first ?? String(j.title ?? '') })
+    }
+  } catch { /* informational only, never blocks the timer */ }
+
   return NextResponse.json({
     children: kids.map(c => {
       const ageBand = (c as { age_band?: string | null }).age_band ?? null
@@ -151,6 +197,7 @@ export async function GET() {
         sessionsToday: todayCountBy.get(c.id as string) ?? 0,
         giftOwed: giftOwedBy.get(c.id as string) ?? 0,
         agreedAt: agreedBy.get(c.id as string) ?? null,
+        jobsLeft: jobsLeftBy.get(c.id as string) ?? { count: 0, first: null },
       }
     }),
   })

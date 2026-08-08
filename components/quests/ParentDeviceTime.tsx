@@ -18,7 +18,7 @@ import PushPrompt from '@/components/push/PushPrompt'
 type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string; deviceName?: string | null }
 type DeviceRequest = { id: string; device: DeviceKey; minutes: number; deviceName?: string | null }
 type DeviceWeek = { device: DeviceKey; minutes: number; sessions: number }
-type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number; giftOwed?: number; agreedAt?: string | null }
+export type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number; giftOwed?: number; agreedAt?: string | null; jobsLeft?: { count: number; first: string | null } }
 
 // How a grant pays for itself: their earned stars (the default), a gift that
 // jobs pay back later, or a free bonus with no strings at all.
@@ -189,7 +189,11 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
   )
 }
 
-function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; onAlarm: () => void }) {
+// Exported so ref-timer-nudge can render one row with a made up child. The
+// jobs left banner only appears for a real parent whose real child has real
+// unticked jobs, which is not a state any fixture could reach through the API,
+// and a layout nobody can look at is a layout nobody has checked.
+export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; onAlarm: () => void }) {
   // The screens this family actually owns, so the grant names one rather than
   // picking an emoji out of four categories. Empty falls back to the four.
   const [pick, setPick] = useState<DevicePick>({ kind: 'tablet', familyDeviceId: null })
@@ -299,6 +303,9 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
   // nobody is looking at. Not yet declines it warmly.
   const [answered, setAnswered] = useState<'yes' | null>(null)
   const [jobsLeftAfterYes, setJobsLeftAfterYes] = useState(0)
+  // One nudge per view. A parent tapping Remind three times should not buzz
+  // their child three times, which is the fault we spent yesterday removing.
+  const [nudged, setNudged] = useState(false)
   async function approveRequest() {
     if (!kid.request || busy) return
     setBusy(true); setErr(null)
@@ -418,6 +425,53 @@ function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; 
           onDecline={declineRequest}
         />
       )}
+      {/* JOBS LEFT, BEFORE THE TIMER STARTS.
+          Justin, 8 August 2026: "when they ask to watch tv or use device give
+          them the nudge to do tasks to unlock timer."
+          The child's own app has said this for a while: ask for screens with
+          jobs outstanding and KidAskBanner answers "finish PE kit first". The
+          grown up's timer said nothing, so the rule the child is held to did
+          not exist on the screen where the time is actually granted.
+          ScreenGateBanner covers it only for jobs flagged "before screens", and
+          almost nobody sets that flag, so for most families it never appears.
+          Deliberately NOT a block. Start stays exactly where it was and does
+          exactly what it did: non negotiable one is that this product never
+          allows or denies, it shows the pathway and the grown up decides. This
+          is the fact and a one tap nudge, nothing more. */}
+      {!kid.session && !kid.request && (kid.jobsLeft?.count ?? 0) > 0 && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap',
+          background: 'var(--tint-butter, #FFF6DE)', border: '1.5px solid var(--terracotta)',
+          borderRadius: 12, padding: '10px 12px', margin: '0 0 11px',
+        }}>
+          <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.4, flex: 1, minWidth: 180 }}>
+            {kid.name} has {kid.jobsLeft!.count} job{kid.jobsLeft!.count === 1 ? '' : 's'} left today
+            {kid.jobsLeft!.first ? `, starting with ${kid.jobsLeft!.first}` : ''}.
+          </span>
+          <button
+            onClick={async () => {
+              if (nudged) return
+              setNudged(true)
+              try {
+                await fetch('/api/quests/nudge', {
+                  method: 'POST', headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ childId: kid.id }),
+                })
+              } catch { setNudged(false) }
+            }}
+            disabled={nudged}
+            style={{
+              background: nudged ? 'var(--tint-sage)' : '#fff', border: '1.5px solid var(--terracotta)',
+              borderRadius: 100, padding: '8px 14px', cursor: nudged ? 'default' : 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+              color: 'var(--ink)', flexShrink: 0,
+            }}
+          >
+            {nudged ? 'Nudged ✓' : `Remind ${kid.name}`}
+          </button>
+        </div>
+      )}
+
       {/* The yes is away: one calm line while the child taps Start. When jobs
           are still to do today, the same soft nudge the child gets shows here,
           so both sides are told to finish those first. Never a block. */}

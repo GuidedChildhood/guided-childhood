@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import GuideBody from './GuideBody'
 import type { DeviceGuide } from '@/app/(dashboard)/dashboard/devices/DeviceList'
 import {
-  DEVICE_SUGGESTIONS, deviceIcon, KIND_LABEL,
+  DEVICE_SUGGESTIONS, deviceIcon, deviceIsDone, KIND_LABEL,
   type FamilyDevice,
 } from '@/lib/devices/family'
 
@@ -39,8 +39,10 @@ type Props = {
   childName?: string | null
   completed: Set<string>
   notOwned: Set<string>
+  /** Screens ticked one by one. null when migration 169 has not been run. */
+  doneDevices: Set<string> | null
   pending: string | null
-  onToggleGuide: (key: string) => void
+  onToggleDevice: (device: FamilyDevice, lastForGuide: boolean) => void
   onNotOwned: (key: string) => void
 }
 
@@ -56,7 +58,7 @@ const LINK_BTN: React.CSSProperties = {
 }
 
 export default function YourScreens({
-  guides, childAge, childName, completed, notOwned, pending, onToggleGuide, onNotOwned,
+  guides, childAge, childName, completed, notOwned, doneDevices, pending, onToggleDevice, onNotOwned,
 }: Props) {
   const [devices, setDevices] = useState<FamilyDevice[] | null>(null)
   const [busy, setBusy] = useState(false)
@@ -118,11 +120,19 @@ export default function YourScreens({
   const retired = devices.filter(d => d.retiredAt)
   const name = childName && childName !== 'Your child' ? childName : null
 
-  // A device is done when the guide covering it has been worked through. One a
-  // parent named themselves, with no guide behind it, is not a job we set them,
-  // so it never sits there looking unfinished.
-  const isDone = (d: FamilyDevice) => !d.guideKey || completed.has(d.guideKey)
+  // A screen is done when THAT screen has been worked through, not when a guide
+  // that happens to cover it has. "iPhone and iPad" is one guide over two
+  // devices, and reading the guide is what told Justin an iPad he had just
+  // added was already set up. One a parent named themselves, with no guide
+  // behind it, is not a job we set them, so it never sits there looking
+  // unfinished. See deviceIsDone for the fallback before migration 169.
+  const isDone = (d: FamilyDevice) => deviceIsDone(d, completed, doneDevices)
   const doneCount = live.filter(isDone).length
+
+  // Is this the last screen still ticked for its guide? The guide row only
+  // comes off the board when it is.
+  const lastForGuide = (d: FamilyDevice) =>
+    !live.some(other => other.id !== d.id && other.guideKey === d.guideKey && isDone(other))
 
   // What to suggest. Age matched, not already in the house, not waved away, and
   // capped at four so it reads as a hint rather than a second catalogue.
@@ -176,7 +186,10 @@ export default function YourScreens({
             const guide = guideFor(d.guideKey)
             const done = isDone(d)
             const open = openId === d.id
-            const waiting = !!d.guideKey && pending === d.guideKey
+            // Pending is the screen's own id once each screen ticks on its own,
+            // so two Apple devices do not both sit there spinning. Before 169
+            // it is still the guide key, which is what toggling falls back to.
+            const waiting = pending === d.id || (!doneDevices && !!d.guideKey && pending === d.guideKey)
 
             return (
               <div key={d.id} style={{
@@ -238,7 +251,7 @@ export default function YourScreens({
                         isDone={done}
                         busy={waiting}
                         onToggle={() => {
-                          onToggleGuide(guide.device_key)
+                          onToggleDevice(d, lastForGuide(d))
                           // Marking it done settles the row back into the list
                           // rather than leaving the walkthrough hanging open.
                           if (!done) setOpenId(null)

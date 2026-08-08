@@ -138,7 +138,7 @@ export async function getCatchup(
     try { return (await fn()).count ?? 0 } catch { return 0 }
   }
 
-  const [stars, fullDays, sheets, friends, waitingSheets, waitingAsks] = await Promise.all([
+  const [stars, fullDays, sheets, friends, lessons, waitingSheets, waitingAsks] = await Promise.all([
     // Jobs the parent approved, which is the child's actual work landing.
     count(() => supabase.from('quest_ticks')
       .select('id', { count: 'exact', head: true })
@@ -154,6 +154,23 @@ export async function getCatchup(
     count(() => supabase.from('earned_stickers')
       .select('id', { count: 'exact', head: true })
       .eq('user_id', userId).like('sticker_key', 'friend-%').gte('created_at', sinceIso)),
+    // LESSONS PASSED.
+    //
+    // Justin, 8 August 2026: "can we update parents when lessons are watched by
+    // a child so we keep them updated that they are learning."
+    //
+    // The push already exists and is good: finish a lesson and the parent's
+    // phone names it and the score. What was missing is the other half, for the
+    // parent who was not looking at their phone at four o'clock on a Tuesday.
+    // A notification is a moment and it is gone; this is the record of it, and
+    // "they are learning" is a thing you feel from a week, not from one buzz.
+    //
+    // Only passes. Having a go is worth a push in the moment, because trying is
+    // the thing to encourage right then, but a summary of the week should
+    // report what stuck.
+    count(() => supabase.from('lesson_completions')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId).eq('passed', true).gte('completed_at', sinceIso)),
     // Waiting on the parent. Deliberately a separate list: news is a gift and a
     // request is a job, and running them together turns the good news into a
     // preamble for another demand.
@@ -181,6 +198,14 @@ export async function getCatchup(
     lines.push({
       key: 'days', emoji: '⭐',
       text: `${who} finished ${plural(fullDays, 'full day', 'full days')}, all five each time`,
+    })
+  }
+  // Above the jobs, because "they learned something" is the line a parent wants
+  // most and the one the product is actually for. Jobs are the mechanism.
+  if (lessons > 0) {
+    lines.push({
+      key: 'lessons', emoji: '💡',
+      text: `${who} passed ${plural(lessons, 'lesson', 'lessons')}`,
     })
   }
   if (stars > 0) {
