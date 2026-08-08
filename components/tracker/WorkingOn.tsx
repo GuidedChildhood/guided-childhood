@@ -28,7 +28,7 @@ const HELP_EMAIL = 'hello@guidedchildhood.com'
 // it. A win should never be held hostage to a follow up question.
 const SOLVE_GRACE_MS = 8000
 
-const SCALE = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+const SCALE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 export default function WorkingOn({
   concerns,
@@ -71,14 +71,14 @@ export default function WorkingOn({
 
   // Send the resolution. Called once per slug, either with the parent's
   // retrospective number or without it when they skip or drift away.
-  function sendSolved(slug: string, severityAtStart: number | null) {
+  function sendSolved(slug: string, scoreAtStart: number | null) {
     if (solvePosted.current[slug]) return
     solvePosted.current[slug] = true
     if (solveTimer.current) { clearTimeout(solveTimer.current); solveTimer.current = null }
     fetch('/api/concerns/status', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, status: 'resolved', severityAtStart }),
+      body: JSON.stringify({ slug, status: 'resolved', scoreAtStart }),
     }).catch(() => {})
   }
 
@@ -108,11 +108,11 @@ export default function WorkingOn({
     }, SOLVE_GRACE_MS)
   }
 
-  function answerLookBack(severityAtStart: number | null) {
+  function answerLookBack(scoreAtStart: number | null) {
     if (!pendingSolve) return
     const { slug } = pendingSolve
     setPendingSolve(null)
-    sendSolved(slug, severityAtStart)
+    sendSolved(slug, scoreAtStart)
   }
 
   // It came back. Reopen it, move it to the live list, and let the server
@@ -159,7 +159,7 @@ export default function WorkingOn({
           </div>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '8px' }}>
             <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)' }}>
-              Looking back now, how bad was it when you started? 0 is fine, 10 is the worst it gets.
+              Looking back now, where was it when you started? 1 is really tough, 10 is going great.
             </span>
             <button
               onClick={() => answerLookBack(null)}
