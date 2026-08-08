@@ -5,7 +5,8 @@ Re-read /plans/decisions.md after any compaction.
 
 ## CONTEXT ROUTING — load only what the task needs
 
-- Building any UI            → docs/05 + docs/07 (design system, motion rules)
+- Building any UI            → docs/05 + docs/07 (design system, motion rules) + .claude/skills/frontend-design (Anthropic's skill; our tokens always win where they conflict)
+- Verifying any UI           → .claude/skills/webapp-testing (Playwright screenshots, tap every button) alongside the Chrome DevTools check
 - Anything DiGi              → digi/01-philosophy.md (DIGI_MODEL env var, default claude-fable-5)
 - Characters / lessons       → digi-squad/README.md (Teo, Olga, Alma, DiGi Junior, UK animals)
 - Database work              → docs/02 only
