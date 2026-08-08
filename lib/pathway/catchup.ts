@@ -133,6 +133,13 @@ export async function getCatchup(
   const sinceIso = since.toISOString()
   const sinceDay = sinceIso.slice(0, 10)
   const who = childName ?? 'They'
+  // "has" for a name, "have" for They. Justin, 8 August 2026: "should say has
+  // finished." He is right, and the tense is the reason: these are things that
+  // happened while the parent was away and are still true when they read it,
+  // which is the present perfect, not the simple past. "Teo finished 3 full
+  // days" is a report on a closed period; "Teo has finished 3 full days" is
+  // where the child stands right now, which is what this card is for.
+  const hasHave = childName ? 'has' : 'have'
 
   const count = async (fn: () => PromiseLike<{ count: number | null }>): Promise<number> => {
     try { return (await fn()).count ?? 0 } catch { return 0 }
@@ -190,14 +197,14 @@ export async function getCatchup(
     lines.push({
       key: 'friends', emoji: '🪐',
       text: friends === 1
-        ? `${who} brought a new Planet Friend home`
-        : `${who} brought ${friends} new Planet Friends home`,
+        ? `${who} ${hasHave} brought a new Planet Friend home`
+        : `${who} ${hasHave} brought ${friends} new Planet Friends home`,
     })
   }
   if (fullDays > 0) {
     lines.push({
       key: 'days', emoji: '⭐',
-      text: `${who} finished ${plural(fullDays, 'full day', 'full days')}, all five each time`,
+      text: `${who} ${hasHave} finished ${plural(fullDays, 'full day', 'full days')}, all five each time`,
     })
   }
   // Above the jobs, because "they learned something" is the line a parent wants
@@ -205,7 +212,7 @@ export async function getCatchup(
   if (lessons > 0) {
     lines.push({
       key: 'lessons', emoji: '💡',
-      text: `${who} passed ${plural(lessons, 'lesson', 'lessons')}`,
+      text: `${who} ${hasHave} passed ${plural(lessons, 'lesson', 'lessons')}`,
     })
   }
   if (stars > 0) {
