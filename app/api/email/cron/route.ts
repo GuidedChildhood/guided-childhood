@@ -2,7 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl } from '@/lib/email'
-import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail } from '@/lib/email/templates'
+import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
@@ -105,7 +105,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, trialEnding: 0, winback: 0, winback2: 0, winback3: 0, pastDue: 0, paid1: 0, paid2: 0, paid3: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, trialEnding: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -317,6 +317,49 @@ async function handler(req: NextRequest) {
       }
     }
 
+    // Weekly teases after the three win backs, for the ones who disappear when
+    // the trial ends.
+    //
+    // Justin, 8 August: "make sure we tease sign ups that disappear after trial
+    // ends and keep emailing them weekly to entice back."
+    //
+    // These reuse the pre signup teaser bank rather than adding seven more
+    // templates, and that is the right call rather than a lazy one: a lapsed
+    // parent is in exactly the position a lead is in, holding an email address
+    // and no subscription, and each teaser is already one service, one hook,
+    // one door. The only difference is the unsubscribe link, which is theirs
+    // rather than the lead one, so it is passed in.
+    //
+    // Seven weeks of these on top of the three win backs is ten weekly emails
+    // over about eleven weeks, and then this track genuinely ends. The weekly
+    // digest carries on regardless.
+    const teases: [string, EmailContent, string][] = [
+      ['wb-tease-digi', digiTeaserEmail(unsubscribe), 'DiGi'],
+      ['wb-tease-scripts', scriptsTeaserEmail(unsubscribe), 'scripts'],
+      ['wb-tease-printables', printablesTeaserEmail(unsubscribe), 'printables'],
+      ['wb-tease-balance', balanceTeaserEmail(unsubscribe), 'balance'],
+      ['wb-tease-mind', mentalHealthTeaserEmail(unsubscribe), 'mind'],
+      ['wb-tease-safety', safetyTeaserEmail(unsubscribe), 'safety'],
+      ['wb-tease-passport', passportTeaserEmail(unsubscribe), 'passport'],
+    ]
+    if (state === 'lapsed') {
+      // One a week, in order, and only ever one per run: find the first unsent
+      // one and check a week has passed since whatever went before it. Sending
+      // the whole backlog at once to someone the cron reaches for the first
+      // time is the failure mode this guards against, and with the window now
+      // gone that is every lapsed parent from before today.
+      const prevKeys = ['winback-3', ...teases.map(t => t[0])]
+      for (let i = 0; i < teases.length; i++) {
+        const [key, content] = teases[i]
+        if (alreadySent(profile.id, key)) continue
+        const sincePrev = daysSinceSent(profile.id, prevKeys[i])
+        if (sincePrev != null && sincePrev >= 7) {
+          await deliver(profile.id, profile.email, key, content, 'winbackTease')
+        }
+        break // only the next one in the run, never a catch up burst
+      }
+    }
+
     // The failed card. Not a decision, an accident, and the cheapest save in
     // the system. past_due fell through lifecycleState to 'unknown' before
     // this, so a member who wanted to stay simply stopped being one, silently.
@@ -352,6 +395,35 @@ async function handler(req: NextRequest) {
       const since2 = daysSinceSent(profile.id, 'paid-2')
       if (since2 != null && since2 >= 30) {
         await deliver(profile.id, profile.email, 'paid-3', paidCommonQuestionsEmail({ childName, unsubscribe }), 'paid3')
+      }
+    }
+
+    // The paid depth track, three weeks apart, on ground none of the other
+    // forty odd emails walk. Two of the five are about what the CHILD
+    // experiences, which nothing had covered: every other email in the system
+    // is written to the parent about the parent's side of the glass.
+    //
+    // Same one at a time rule as the win back teases. With the window gone,
+    // every long standing member becomes eligible for this track on the same
+    // day, and firing five emails into their inbox at once would be the worst
+    // possible first impression of a track meant to reward paying.
+    const depth: [string, EmailContent, string][] = [
+      ['paid-4', paidChildSideEmail({ childName, unsubscribe }), 'paid4'],
+      ['paid-5', paidTellYouEmail({ childName, unsubscribe }), 'paid5'],
+      ['paid-6', paidReadAheadEmail({ childName, stageName: stage.name, unsubscribe }), 'paid6'],
+      ['paid-7', paidTheNumbersEmail({ childName, unsubscribe }), 'paid7'],
+      ['paid-8', paidWholeFamilyEmail({ childName, unsubscribe }), 'paid8'],
+    ]
+    if (state === 'active') {
+      const prevDepth = ['paid-3', 'paid-4', 'paid-5', 'paid-6', 'paid-7']
+      for (let i = 0; i < depth.length; i++) {
+        const [key, content, counter] = depth[i]
+        if (alreadySent(profile.id, key)) continue
+        const sincePrev = daysSinceSent(profile.id, prevDepth[i])
+        if (sincePrev != null && sincePrev >= 21) {
+          await deliver(profile.id, profile.email, key, content, counter)
+        }
+        break // one per run, never a catch up burst
       }
     }
   }
