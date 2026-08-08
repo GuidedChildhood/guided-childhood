@@ -21,6 +21,7 @@ const NEWS_ONLY: Catchup = {
   since: FOUR_DAYS_AGO, days: 4,
   lines: [
     { key: 'friends', emoji: '🪐', text: 'Teo brought a new Planet Friend home' },
+    { key: 'lessons', emoji: '💡', text: 'Teo passed 2 lessons' },
     { key: 'days', emoji: '⭐', text: 'Teo finished 3 full days, all five each time' },
     { key: 'stars', emoji: '✅', text: '11 jobs done and approved' },
   ],
