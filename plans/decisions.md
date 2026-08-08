@@ -6025,3 +6025,40 @@ pixels onto the Shaper route, and the list holds stage 4 tiles only.
 Writing the fixture also surfaced that the banner counts only ids starting with
 `lesson-`, the family library set, so a fixture with invented ids renders no
 card at all. Recorded because the next person to write one will hit it too.
+
+## 8 August 2026 — two more links that went nowhere, same cause
+
+Justin: "See timer should actually take you to the ticking timer" and "Play good
+night screens should take you there."
+
+**Both are the same failure: a link left behind when the thing it pointed at
+moved or never existed.** Nothing errors, the route resolves, and the parent is
+simply somewhere else. That is the quietest kind of broken link and the reason
+neither was ever reported as a bug by anything automated.
+
+**The timer.** Four places pointed at `/dashboard/quests#screen-time`: the bell
+notification, the device time cron push, the stop push, and the Screen timer
+tile on home. The timer moved to its own page at `/dashboard/quests/timer`, and
+the anchor was left behind on a spacer div that now sits above the Balance and
+stats LINK. So "See the timer" landed on the quests board, beside a link to a
+different page, with no countdown on screen. The spacer was also a duplicate id
+with the real timer card. All four now point at the timer page and the spacer
+is gone.
+
+**The game.** A job row is a plain div, which is right for "put your shoes away"
+and wrong for a job that names a game we made. `lib/quests/craft-links.ts` maps
+the nine game pack titles to their sheets, stripping a leading verb so "Play
+Goodnight Screens pairs" finds "Goodnight Screens pairs". Deliberately exact,
+never fuzzy: "Play fighting is not allowed" matches nothing, because landing a
+parent on the wrong sheet is worse than leaving the row as text.
+
+**The anchor alone would have been another dead link.** CraftPack renders only
+the selected age band, so six of the nine ids were not in the DOM at all. Proved
+by driving it: 3 of 9 present on the first run. The hash now chooses the band
+first, then scrolls after a frame, because the element does not exist at
+navigation time, which is exactly why it failed. All nine verified landing with
+the sheet 96 pixels down.
+
+**Two fixtures added**, `/dev/lessons-filter` and `/dev/craft-anchors`, because
+neither page had one and both are behind auth. That is why controls a parent
+uses constantly had never been driven at all.
