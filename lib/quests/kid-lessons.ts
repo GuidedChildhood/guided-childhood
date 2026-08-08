@@ -296,6 +296,30 @@ export function kidLessonBaseTitle(lesson: KidLesson): string {
   return `Lesson: ${lesson.title}`
 }
 
+/**
+ * The lesson behind a quest title, or null if the title is an ordinary job.
+ *
+ * Justin, 8 August 2026: "can we give the parent a tool to check a lesson by
+ * asking the question and give them the answer, so when they get confirmation a
+ * lesson is done they can test them."
+ *
+ * The approval row already carries everything needed to do that and nobody had
+ * joined it up: a finished lesson writes a quest titled by kidLessonBaseTitle
+ * above, and the lesson it names already holds its three questions and the
+ * right answer. So the parent tapping Yes on "Lesson: Password power" can be
+ * handed the exact questions their child just answered.
+ *
+ * Matched on the title the app itself wrote, and trimmed because a quest title
+ * is a text column a parent can rename. An unrecognised title is simply not a
+ * lesson, which is the correct answer for every ordinary job.
+ */
+export function kidLessonForQuestTitle(title: string | null | undefined): KidLesson | null {
+  const t = (title ?? '').trim()
+  if (!t.toLowerCase().startsWith('lesson:')) return null
+  const name = t.slice(t.indexOf(':') + 1).trim().toLowerCase()
+  return KID_LESSONS.find(l => l.title.toLowerCase() === name) ?? null
+}
+
 // Only the mini lessons that suit a child at this stage. Stage 1 (4 to 7)
 // has none by design, so a young child's kid screen shows quests and any
 // young game, never a reading quiz meant for an older child.

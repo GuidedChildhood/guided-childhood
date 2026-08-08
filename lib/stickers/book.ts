@@ -124,7 +124,32 @@ export async function getStickerBook(
     if (derived && !owned.has(s.key)) {
       toPersist.push({ user_id: userId, child_id: child.id, sticker_key: s.key, reason: s.rule.kind })
     }
-    return { ...s, earned: owned.has(s.key) || derived, have: Math.min(have, need), need }
+    // A FRIEND IS DERIVED, NEVER REMEMBERED.
+    //
+    // Justin, 8 August 2026, looking at Teo's book: "there is no way Teo has
+    // achieved these rewards, check maths." He was right. Teo has 3 full days,
+    // which buys Pebble at 2 and nothing else, and the book showed four
+    // Friends. Iris has 0 full days and showed three.
+    //
+    // The cause is the ratchet on the line below, and the live rows name it
+    // themselves: every wrong one carries reason 'stage'. They were written by
+    // the OLD stage route, where a parent finishing lessons handed every child
+    // in the house a Friend. That route was deleted from the code and migration
+    // 165 was written to clear the rows it left, and because a written row made
+    // the sticker earned FOREVER, neither could ever take effect. The book
+    // could not correct itself.
+    //
+    // The ratchet is right for a currency that falls. Credits are spent, so a
+    // child who banks fifty and buys something must not lose the sticker they
+    // earned at fifty. Completed days never fall. So for a Friend the ratchet
+    // protects nothing and preserves everything, including mistakes, and the
+    // derivation is always at least as generous as the row.
+    //
+    // Keeping it keyed on the RULE rather than on reason 'stage' matters: this
+    // fixes the class, so the next currency we get wrong corrects itself on the
+    // next read instead of needing a migration and a year of nobody noticing.
+    const ratchet = s.rule.kind === 'credits' || s.rule.kind === 'sheets'
+    return { ...s, earned: (ratchet && owned.has(s.key)) || derived, have: Math.min(have, need), need }
   })
 
   // Make the newly earned permanent. Idempotent and best effort: the derived

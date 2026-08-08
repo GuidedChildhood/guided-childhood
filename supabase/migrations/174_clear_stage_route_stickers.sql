@@ -1,0 +1,38 @@
+-- Guided Childhood — Migration 174
+-- Clear the stickers the old stage route handed out.
+--
+-- Justin, 8 August 2026, looking at Teo's passport: "there is no way Teo has
+-- achieved these rewards, check maths."
+--
+-- He was right, and the rows say so themselves. Every wrong one carries
+-- reason = 'stage', which was the route where a parent finishing lessons and
+-- scripts handed a Planet Friend to every child in the house. A child who had
+-- done nothing got them too. That route was deleted from the code, and
+-- migration 165 was written to clear what it left behind, and 165 was never
+-- run. So the rows outlived the rule that made them.
+--
+-- On the live database right now:
+--
+--   Teo    3 full days, holds 4 Friends. Three days buys Pebble at 2, nothing more.
+--   Iris   0 full days, holds 3 Friends. Nought buys nothing.
+--
+-- WHY reason = 'stage' AND NOT ALL FRIEND ROWS, which is what 165 did. A row
+-- written by the real rule carries reason 'friend', and deleting those too
+-- would take away Friends that completed days genuinely bought. The reason
+-- column is the honest line between the two, and it is worth using rather than
+-- sweeping the lot and trusting the reconcile to put the right ones back.
+--
+-- NOTHING LEGITIMATE IS LOST EITHER WAY. getStickerBook re-derives on the next
+-- read and re-persists whatever the child's own days have actually earned, so
+-- Teo opens his book and Pebble is still there.
+--
+-- The code half of this shipped alongside: a Friend is now derived on every
+-- read rather than remembered, so a wrong row can never again outlive the rule
+-- that made it. Without that, this migration would be undone by the first
+-- reconcile that ran.
+--
+-- Supabase editor rules: idempotent, no DO blocks, no semicolons inside string
+-- literals, flat statements only.
+
+delete from public.earned_stickers
+where reason = 'stage';

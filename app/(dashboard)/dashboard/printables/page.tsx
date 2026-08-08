@@ -183,6 +183,33 @@ export default async function PrintablesPage() {
         </span>
       </Link>
 
+      {/* The Planet Friends poster. Under the two builders because it is a
+          reward rather than a tool: it only says something once a child has
+          done the days. Justin: "let's give away of printing a poster sticker
+          sheet from achieving these." */}
+      <Link
+        href="/dashboard/printables/friends"
+        className="pr-builder"
+        style={{
+          textDecoration: 'none',
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--border)', borderRadius: '20px',
+          padding: '18px 22px', marginBottom: '34px',
+        }}
+      >
+        <span style={{ fontSize: 'var(--text-2xl)', lineHeight: 1 }} aria-hidden>🪐</span>
+        <span className="pr-text" style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+            {childName ? `${childName}'s Planet Friends poster` : 'The Planet Friends poster'}
+          </span>
+          <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, marginTop: '3px' }}>
+            The ones they have brought home, in colour to cut out and stick up. The ones still coming, in line art to colour in.
+          </span>
+        </span>
+        <span className="pr-cta" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', whiteSpace: 'nowrap' }}>
+          Print it →
+        </span>
+      </Link>
+
       <Section
         title={childName ? `Made for ${childName}` : 'Made for their age'}
         sub="The sheets that fit their stage right now."
