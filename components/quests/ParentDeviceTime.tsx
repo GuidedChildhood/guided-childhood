@@ -18,7 +18,7 @@ import PushPrompt from '@/components/push/PushPrompt'
 type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string; deviceName?: string | null }
 type DeviceRequest = { id: string; device: DeviceKey; minutes: number; deviceName?: string | null }
 type DeviceWeek = { device: DeviceKey; minutes: number; sessions: number }
-type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number; giftOwed?: number; agreedAt?: string | null; jobsLeft?: { count: number; first: string | null } }
+export type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number; giftOwed?: number; agreedAt?: string | null; jobsLeft?: { count: number; first: string | null } }
 
 // How a grant pays for itself: their earned stars (the default), a gift that
 // jobs pay back later, or a free bonus with no strings at all.
@@ -189,7 +189,11 @@ export default function ParentDeviceTime({ userId }: { userId?: string }) {
   )
 }
 
-function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; onAlarm: () => void }) {
+// Exported so ref-timer-nudge can render one row with a made up child. The
+// jobs left banner only appears for a real parent whose real child has real
+// unticked jobs, which is not a state any fixture could reach through the API,
+// and a layout nobody can look at is a layout nobody has checked.
+export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () => void; onAlarm: () => void }) {
   // The screens this family actually owns, so the grant names one rather than
   // picking an emoji out of four categories. Empty falls back to the four.
   const [pick, setPick] = useState<DevicePick>({ kind: 'tablet', familyDeviceId: null })
