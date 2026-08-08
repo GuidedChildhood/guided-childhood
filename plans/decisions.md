@@ -5956,3 +5956,39 @@ No UI was found that collects one, so it stands as written rather than being
 rewritten on a guess. `profiles.school_id` and `school_region` exist and nothing
 in the parent app appears to set them. Worth confirming before the ICO
 registration goes in.
+
+## 8 August 2026 — a parent could grant themselves the product
+
+**Justin, testing:** *"I was able to go around the block, maybe that's for
+testing, but we must make sure real users can not continue without
+subscribing."* It was not only the testing allowlist.
+
+**RLS decides which rows you may write. It never decides which columns.** The
+policy on `profiles` was `auth.uid() = id` with no column restriction, and
+`authenticated` held a table wide UPDATE grant, so any signed in parent could
+run `supabase.from('profiles').update({ subscription_status: 'active' })`
+against their own row from the browser console and have the whole product free,
+permanently. The same write on `trial_ends_at` restarted the trial as often as
+they liked. Neither needed a bug. It was the ordinary client the app ships.
+
+**Migration 175** revokes the table grant and grants back nineteen columns by
+name. Five are withheld for good: `subscription_status`, `subscription_tier`,
+`is_founder`, `trial_ends_at`, and `id` (the policy has no `WITH CHECK`, so a
+writable primary key is a row a user can point at somebody else).
+
+**A column level revoke cannot cut into a table level grant.** The first draft
+of 175 did exactly that and was a silent no op: the privilege survived and the
+migration looked like it had worked. It was caught only by running it live in a
+transaction and reading the privileges back. Any future attempt to narrow a
+column privilege has to be revoke then re grant, and has to be verified by
+reading `information_schema` afterwards rather than by trusting the SQL.
+
+**The trial moved to the server** (`/api/trial/start`, service role) because a
+client granted trial is repeatable, and granting it client side is what
+required the column to be writable in the first place. Check and write are one
+statement so two tabs cannot both pass.
+
+**`NULL <> 'active'` is NULL, not true.** The route's `.neq` filter is only
+correct because `profiles.subscription_status` is NOT NULL default `'free'`,
+checked against the live schema. If that constraint is ever dropped, the filter
+silently stops granting trials and must become an explicit is null or neq.
