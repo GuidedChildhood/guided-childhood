@@ -5390,3 +5390,13 @@ about ten awaits in sequence, each a full round trip to the database before
 any HTML left the server, and the dashboard layout added one more on every
 page. Same reads, same meaning, now two parallel waves on Home and one on
 the layout. Nothing about what renders changed.
+
+## 8 August 2026: the Mobbin pass closes the type plan
+
+Justin reconnected Mobbin and phase 4 ran: live captures of Finch, GoHenry
+and Greenlight confirm the three volume pattern, the type floor and the calm
+states we shipped. Two notes folded forward for future touches: Finch ticks
+on the thumb side (right edge) where ours tick left, and a count inside a row
+reads better as a subline word than a chip. Good Inside is not on Mobbin, so
+its part of the review stays sourced from our reference notes, permanently.
+All four phases of the type plan are now complete.
