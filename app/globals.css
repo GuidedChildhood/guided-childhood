@@ -472,10 +472,29 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   font-weight: 700;
   letter-spacing: 0.02em;
   text-align: center;
-  white-space: nowrap;
+  /* NEVER NOWRAP. Justin, 8 August 2026, sent a screenshot reading
+     "1011 to 1313 to 1516 plus": five labels running into each other into one
+     unreadable string.
+
+     It used to be nowrap above 420px on the reasoning that there was room up
+     there. There is not, and the measurement that said so missed two things.
+     body zoom 1.07 takes 6.5 per cent off every width, so a 390px phone lays
+     out at 364. And the media query is evaluated against the VIEWPORT, which
+     zoom does not touch, so the breakpoint and the real available width had
+     drifted apart: a phone could be over 420 by the query and under it in
+     fact. Five nowrap labels in a fifth of that is not a thing that fits at
+     any screen size worth designing for.
+
+     Wrapping is the honest answer and costs one line of height on the widest
+     label. min-width 0 because these sit in flex columns, which otherwise
+     refuse to shrink below their longest word and push the row wide. */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  line-height: 1.25;
 }
 @media (max-width: 420px) {
-  .mini-road-age { font-size: 0.625rem; letter-spacing: -0.01em; white-space: normal; }
+  .mini-road-age { font-size: 0.625rem; letter-spacing: -0.01em; }
 }
 /* Hover only for real pointers: on touch, :hover can stick after a tap
    and leave the wrong tab looking active until another tap clears it,

@@ -45,7 +45,10 @@ export default function DayCheckup({
   const name = childName && childName !== 'Your child' ? childName : 'your child'
 
   return (
-    <div style={{
+    <div id="home-check" style={{
+      // The anchor the fix pages come back to, so a parent lands on the list
+      // again rather than at the top of Home. See BackTo's home-check origin.
+      scrollMarginTop: 16,
       background: '#fff', border: '1.5px solid var(--border)', borderRadius: 22,
       padding: '20px 22px', marginBottom: 22, boxShadow: '0 3px 14px rgba(26,26,46,0.05)',
     }}>
@@ -70,7 +73,7 @@ export default function DayCheckup({
         <MiniRoad currentStage={stageNum} showDigi={false} />
       </div>
 
-      <StrandPills strands={strands} />
+      <StrandPills strands={strands} from="home-check" />
 
       {/* The lessons are the mechanism that moves the strands, so they sit
           under them rather than as a separate concern. */}

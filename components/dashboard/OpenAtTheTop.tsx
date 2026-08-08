@@ -52,6 +52,15 @@ export default function OpenAtTheTop() {
   const pathname = usePathname()
 
   useEffect(() => {
+    // AN ANCHOR ALWAYS WINS.
+    //
+    // A fix page's back link returns to /dashboard#home-check so the parent
+    // lands on the checkup list and can take the next red one. Forcing the top
+    // here would undo that on arrival and send them scrolling for the list
+    // after every single fix, which is the exact annoyance the return link was
+    // added to remove.
+    if (window.location.hash.length > 1) return
+
     // A fresh mount of a route. On a cold open this is the app starting, and on
     // an in app navigation it is a new page, which should also begin at its own
     // top rather than inheriting the last page's scroll.
