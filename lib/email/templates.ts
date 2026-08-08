@@ -1139,3 +1139,175 @@ export function digiChecksEmail(params: { unsubscribe: string }): EmailContent {
     ),
   }
 }
+
+// ── State tracks: everyone who registered, not just recent signups ──
+//
+// The onboarding programme is a function of how long someone has been here, so
+// it is keyed on days since signup and windowed. These are not. A parent who
+// lapsed, or paid, or had a card fail is in that state today whether they
+// joined last week or last year, and until now the windowed query meant anyone
+// past the window was invisible to the email system permanently.
+//
+// Paced off email_log.sent_at rather than a signup date, which is what lets a
+// sequence run for someone who registered eleven months ago.
+
+// ── Win back, for the ones who did not continue after the trial ──
+// winBackEmail above is the first. Three in total and then it stops. A fourth
+// is nagging, and the free tier means they are still here if they change their
+// mind. Each one gives a different reason rather than repeating the first
+// louder.
+
+// Win back 2, a week after the first. Names what is sitting unused, because
+// "come back" is not a reason and a specific unopened thing is.
+export function winBackUnusedEmail(params: {
+  childName: string
+  stageName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, stageName, unsubscribe } = params
+  return {
+    subject: `What is still sitting there for ${childName}`,
+    html: wrapper(
+      heading('Still yours, still free.') +
+      p(`Nothing was taken away when the trial ended. The free tier keeps a real amount of it, and most of it is the part parents tell me they miss without realising they had it.`) +
+      bullets([
+        `The <strong>${stageName}</strong> stage scripts, the exact words for the moment you are actually in`,
+        `The printables, star charts and the offline pack, still free to print tonight`,
+        `${childName}'s passport, which keeps every stamp they earned`,
+      ]) +
+      p(`It is all where you left it. No setting up again, no starting over.`) +
+      button('Open your dashboard', `${APP}/dashboard`) +
+      p(`And if the honest answer is that this is not what you need right now, that is a fine answer. You can stop these at the bottom.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Win back 3, three weeks later, and the last one. Says it is the last one,
+// because a sequence that quietly stops is indistinguishable from one that is
+// still going, and a parent deserves to know the pestering has an end.
+export function winBackLastEmail(params: {
+  childName: string
+  remaining: number
+  unsubscribe: string
+}): EmailContent {
+  const { childName, remaining, unsubscribe } = params
+  const founder = remaining > 0
+    ? p(`If you do come back, the founding rate is still there while it lasts. <strong>${remaining} of the 50 places are left</strong>, it locks £7.99 a month for life, and the counter is real because it is enforced in the code rather than in the copy.`)
+    : p(`The founding places have all gone now, so this is not me dangling anything. The normal plan is there when and if you want it.`)
+  return {
+    subject: 'Last one from me',
+    html: wrapper(
+      heading('This is the last of these.') +
+      p(`I will stop after this one, because three emails is the line between a reminder and a pest and I would rather be the first thing.`) +
+      p(`What I actually hope is that ${childName} is doing fine and you simply did not need this. That is the good ending and it happens more than you would think.`) +
+      founder +
+      button('Come back in', `${APP}/dashboard`) +
+      p(`Either way, thank you for giving it a go. The free tier stays yours for as long as you want it, and I am at this address if you ever need a hand.`),
+      unsubscribe
+    ),
+  }
+}
+
+// ── The paid service track ──
+// They already bought. So this is help, not selling, and every one of the three
+// gives something rather than asking for something. The paying members were the
+// worst served group in the system before this: the same onboarding as everyone
+// else, then nothing.
+
+// Paid 1 · What the plan actually unlocks. Most of the value is in the parts
+// nobody opens, and a parent paying for something they are not using is a
+// cancellation with a delay on it.
+export function paidUnlockedEmail(params: {
+  parentName: string
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { parentName, childName, unsubscribe } = params
+  return {
+    subject: 'The parts of your plan most people never open',
+    html: wrapper(
+      heading(`${parentName}, you are paying for more than you are using.`) +
+      p(`That is true of nearly everyone and it is my problem rather than yours, so here are the four things members most often have not touched.`) +
+      bullets([
+        `<strong>Every stage, not just this one.</strong> You can read ahead. What is coming at 11, at 13, at 16, is all unlocked, and reading it early is how the hard conversations stop being ambushes.`,
+        `<strong>DiGi without a limit.</strong> The free tier stops at three questions a day. Yours does not stop. Ask it the same thing three different ways at midnight if that is what it takes.`,
+        `<strong>The full script library.</strong> Over a hundred, searchable by the moment you are in rather than by topic.`,
+        `<strong>The family agreement builder.</strong> The rules decided together and signed by both of you, which is the single thing parents tell me changed the most in their house.`,
+      ]) +
+      button('Open your dashboard', `${APP}/dashboard`) +
+      p(`If one of those is not doing what you expected for ${childName}, tell me. That is what the next email is about.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Paid 2 · The open door. A real invitation to reply, sent to a small enough
+// group that it can be honoured. It is deliberately the shortest email in the
+// system: an ask this simple gets longer and less believable the more it is
+// dressed up.
+export function paidAskMeEmail(params: {
+  parentName: string
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { parentName, childName, unsubscribe } = params
+  return {
+    subject: 'Reply to this one',
+    html: wrapper(
+      heading('This is not an automated door.') +
+      p(`${parentName}, you pay for this, so you get me as well as the software.`) +
+      p(`If something about ${childName} and screens is not working, or the platform is not doing what you hoped, or there is a thing you wish existed here, hit reply and tell me. It comes to my actual inbox and I answer them myself.`) +
+      p(`The things members ask for in these replies are most of what gets built. Not a nice sentiment, just how the roadmap has genuinely worked so far.`) +
+      p(`No form, no ticket number. Just reply.`),
+      unsubscribe
+    ),
+  }
+}
+
+// Paid 3 · The questions that come back most. Closes the track by answering
+// rather than asking, and points at the one thing a paying parent is entitled
+// to know: how to leave.
+export function paidCommonQuestionsEmail(params: {
+  childName: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, unsubscribe } = params
+  return {
+    subject: 'The questions members ask most',
+    html: wrapper(
+      heading('Four answers, quickly.') +
+      bullets([
+        `<strong>My child moved up an age band, do I redo everything?</strong> No. Change their age in settings and the stage, scripts and lessons all follow. The passport keeps every stamp.`,
+        `<strong>Can both parents have it?</strong> Yes. Same login, and the agreement is built to be signed by whoever is in the room.`,
+        `<strong>${childName} says the app is babyish.</strong> Usually the age band is set low. It is the most common fix and it takes ten seconds.`,
+        `<strong>How do I cancel?</strong> Reply to this email and say stop. I do it the same day, no phone call, no retention maze, and I will not ask you to sit through three screens of reasons to stay. Your data stays until you ask me to delete it, and then it goes.`,
+      ]) +
+      button('Open your dashboard', `${APP}/dashboard`) +
+      p(`Putting cancelling in a list like that is deliberate. A plan you stay on because leaving is annoying is not a plan I want to be running.`),
+      unsubscribe
+    ),
+  }
+}
+
+// ── The failed card ──
+// Not a decision, an accident. This is the cheapest save in the system and it
+// did not exist: past_due fell through lifecycleState to 'unknown' and nothing
+// was ever sent, so a member who wanted to stay simply stopped being one.
+export function pastDueEmail(params: {
+  parentName: string
+  unsubscribe: string
+}): EmailContent {
+  const { parentName, unsubscribe } = params
+  return {
+    subject: 'Your card needs a quick look',
+    html: wrapper(
+      heading('Nothing has been taken away.') +
+      p(`${parentName}, your last payment did not go through. Almost always that is an expired card or a bank being cautious, rather than anything you did.`) +
+      p(`Everything is still switched on. Our payments provider will try the card again over the next few days and send you a secure link to update it, so most of the time this sorts itself out and you never think about it again.`) +
+      p(`If it keeps failing, or you would rather just deal with a person, reply to this email and I will sort it out with you directly.`) +
+      p(`And if you meant to stop, that is genuinely fine and you do not owe me an explanation. Say so in a reply and I will close it the same day. The free tier keeps everything you have earned.`),
+      unsubscribe
+    ),
+  }
+}

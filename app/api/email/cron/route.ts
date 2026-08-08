@@ -2,7 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl } from '@/lib/email'
-import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail } from '@/lib/email/templates'
+import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
@@ -50,25 +50,47 @@ async function handler(req: NextRequest) {
     process.env.SUPABASE_SERVICE_KEY!
   )
 
-  // Everyone still inside the lifecycle programme; digests go to anyone who
-  // completed onboarding.
+  // EVERYONE who finished onboarding. No created_at window.
   //
-  // This window is a hard ceiling on the whole sequence, and a silent one: an
-  // email scheduled past it never sends, never errors and never logs. It was 30
-  // days when the programme ended at day 25. The curriculum and DiGi emails run
-  // to day 43, so 60 gives the last of them a fortnight of daily runs to land
-  // even if a run is missed, while still keeping the query off the full table.
-  const since = new Date(Date.now() - 200 * 86400000).toISOString()
-  const [{ data: profiles }, { data: log }] = await Promise.all([
+  // Justin, 8 August 2026: "the emails are not just new sign ups we need to be
+  // emailing everyone that registers including users".
+  //
+  // The window used to be on this query, and wherever it was set it was a
+  // silent ceiling on the entire system: a parent who registered a day past it
+  // was not loaded at all, so no win back, no trial nurture, no service help,
+  // permanently and with nothing logged to say so. Widening it only moves the
+  // day that happens.
+  //
+  // It survives as a guard on the onboarding programme below (days <= 200),
+  // where it belongs: the 26 week programme genuinely IS a function of how long
+  // someone has been here, and without the guard, widening this query would
+  // have restarted it from week 1 for every existing member. The state tracks
+  // are not a function of tenure and now see the whole table.
+  //
+  // Everything the loop needs is read in bulk, because the loop now runs over
+  // every member and a query inside it would be one round trip per member.
+  const [{ data: profiles }, { data: log }, { data: children }] = await Promise.all([
     supabase
       .from('profiles')
       .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete')
-      .gte('created_at', since),
-    supabase.from('email_log').select('user_id, email_key'),
+      .eq('onboarding_complete', true),
+    supabase.from('email_log').select('user_id, email_key, sent_at'),
+    supabase.from('children').select('parent_id, name, age_band, stage_id').eq('is_primary', true),
   ])
 
   const sentKeys = new Set((log ?? []).map(l => `${l.user_id}:${l.email_key}`))
   const alreadySent = (userId: string, key: string) => sentKeys.has(`${userId}:${key}`)
+
+  // When a given email actually went out, so a sequence can pace itself off the
+  // previous send instead of off a signup date. That is what lets a win back
+  // run properly for someone who registered eleven months ago.
+  const sentAt = new Map((log ?? []).map(l => [`${l.user_id}:${l.email_key}`, l.sent_at as string]))
+  function daysSinceSent(userId: string, key: string): number | null {
+    const at = sentAt.get(`${userId}:${key}`)
+    return at ? daysSince(at) : null
+  }
+
+  const childByParent = new Map((children ?? []).map(c => [c.parent_id as string, c]))
 
   let founderRemaining: number | null = null
   async function getFounderRemaining(): Promise<number> {
@@ -83,7 +105,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, trialEnding: 0, winback: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, trialEnding: 0, winback: 0, winback2: 0, winback3: 0, pastDue: 0, paid1: 0, paid2: 0, paid3: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
 
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
@@ -98,19 +120,23 @@ async function handler(req: NextRequest) {
   }
 
   for (const profile of (profiles ?? []) as ProfileRow[]) {
-    if (!profile.email || profile.email_opt_out || !profile.onboarding_complete) continue
+    if (!profile.email || profile.email_opt_out) continue
     const days = daysSince(profile.created_at)
     const name = profile.full_name?.split(' ')[0] ?? 'there'
     const unsubscribe = unsubscribeUrl(profile.id)
 
-    const { data: child } = await supabase
-      .from('children')
-      .select('name, age_band, stage_id')
-      .eq('parent_id', profile.id)
-      .eq('is_primary', true)
-      .maybeSingle()
+    const child = childByParent.get(profile.id)
     const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
     const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
+
+    const state = lifecycleState(profile)
+
+    // ── Pass A · the 26 week onboarding programme ──
+    //
+    // The 200 day guard is what the query filter used to be. It has to live
+    // somewhere: without it, removing the window would start week 1 of the
+    // programme over again for every member who joined before it existed.
+    if (days <= 200) {
 
     // Day 0 welcome, the moment onboarding is done. Held to genuinely new
     // accounts (first couple of days) so switching this on never lands a
@@ -240,10 +266,14 @@ async function handler(req: NextRequest) {
       }
     }
 
-    // The status aware layer: branch on where the contact actually is, not on
-    // the day count. Trial nurture stops on payment (an active member is never
-    // in trial_ending or lapsed), and win back starts on lapse. Both send once.
-    const state = lifecycleState(profile)
+    } // end pass A
+
+    // ── Pass B · the state tracks, for everyone ──
+    //
+    // Branch on where the contact actually is rather than on tenure, with no
+    // window, so a parent who joined last year is reached exactly as one who
+    // joined last week. Trial nurture stops on payment (an active member is
+    // never in trial_ending or lapsed) and win back starts on lapse.
 
     if (state === 'trial_ending' && !alreadySent(profile.id, 'trial-ending')) {
       const left = trialDaysLeft(profile.trial_ends_at) ?? 1
@@ -258,6 +288,70 @@ async function handler(req: NextRequest) {
       const left = trialDaysLeft(profile.trial_ends_at)
       if (left == null || left <= -2) {
         await deliver(profile.id, profile.email, 'winback-1', winBackEmail({ childName, unsubscribe }), 'winback')
+      }
+    }
+
+    // Win back 2 and 3, paced off the previous send rather than off signup,
+    // which is the point: a parent who registered eleven months ago and lapsed
+    // last week gets a properly spaced sequence, where before they got one
+    // email or, past the window, none at all.
+    //
+    // Each step re-checks state, so paying at any point stops the rest of the
+    // sequence dead on the next run.
+    if (state === 'lapsed' && !alreadySent(profile.id, 'winback-2')) {
+      const since1 = daysSinceSent(profile.id, 'winback-1')
+      if (since1 != null && since1 >= 7) {
+        await deliver(profile.id, profile.email, 'winback-2', winBackUnusedEmail({
+          childName, stageName: stage.name, unsubscribe,
+        }), 'winback2')
+      }
+    }
+
+    if (state === 'lapsed' && !alreadySent(profile.id, 'winback-3')) {
+      const since2 = daysSinceSent(profile.id, 'winback-2')
+      if (since2 != null && since2 >= 21) {
+        const remaining = await getFounderRemaining()
+        await deliver(profile.id, profile.email, 'winback-3', winBackLastEmail({
+          childName, remaining, unsubscribe,
+        }), 'winback3')
+      }
+    }
+
+    // The failed card. Not a decision, an accident, and the cheapest save in
+    // the system. past_due fell through lifecycleState to 'unknown' before
+    // this, so a member who wanted to stay simply stopped being one, silently.
+    if (state === 'past_due' && !alreadySent(profile.id, 'past-due')) {
+      await deliver(profile.id, profile.email, 'past-due', pastDueEmail({ parentName: name, unsubscribe }), 'pastDue')
+    }
+
+    // The paid service track. They have already bought, so all three give
+    // rather than ask. Paying members were the worst served group in here
+    // before this: the same onboarding as everyone else, and nothing of their
+    // own, ever.
+    //
+    // Day 60 start keeps it clear of the dense opening weeks. Anyone who
+    // upgrades later than that gets it on the next run, which is the right
+    // moment anyway: just after they paid is exactly when to show them what
+    // they just bought.
+    if (state === 'active' && days >= 60 && !alreadySent(profile.id, 'paid-1')) {
+      await deliver(profile.id, profile.email, 'paid-1', paidUnlockedEmail({
+        parentName: name, childName, unsubscribe,
+      }), 'paid1')
+    }
+
+    if (state === 'active' && !alreadySent(profile.id, 'paid-2')) {
+      const since1 = daysSinceSent(profile.id, 'paid-1')
+      if (since1 != null && since1 >= 14) {
+        await deliver(profile.id, profile.email, 'paid-2', paidAskMeEmail({
+          parentName: name, childName, unsubscribe,
+        }), 'paid2')
+      }
+    }
+
+    if (state === 'active' && !alreadySent(profile.id, 'paid-3')) {
+      const since2 = daysSinceSent(profile.id, 'paid-2')
+      if (since2 != null && since2 >= 30) {
+        await deliver(profile.id, profile.email, 'paid-3', paidCommonQuestionsEmail({ childName, unsubscribe }), 'paid3')
       }
     }
   }

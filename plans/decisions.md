@@ -5813,3 +5813,48 @@ then one service deep dive a week: jobs and stars, the check in and
 evidence, scripts, the school week, device time, and the year ahead
 inviting a reply. Thirty programme emails over six months. Window
 widened to 200 days so the tail actually sends.
+
+## 8 August 2026 — emails go by state, not by signup date
+
+Justin: "the emails are not just new sign ups we need to be emailing everyone
+that registers including users so needs to know the difference between 1 just
+signed up, 2 using it but haven't paid, 3 paid users."
+
+**Two sessions were on emails at once today.** The other one (6a73d4f, 83dc5aa)
+re-paced the programme to weekly and carried it to week 26. That is length and
+pacing. This is who gets what, built on top of theirs rather than instead of it.
+Their day gates are untouched.
+
+**The window was the bug.** `gte('created_at', since)` meant a parent past the
+window was not loaded at all, so no win back, no trial nurture, nothing, for the
+rest of their life with the product, and nothing logged to say so. Widening it
+from 60 to 200 days moves the cliff rather than removing it. The query is now
+every onboarded profile, and the 200 day number survives as a guard on the
+onboarding block, where it belongs: without it, opening the query would restart
+week 1 for every existing member.
+
+**Paying members were the worst served group in the system.** They got the same
+onboarding as everyone and then nothing of their own, ever. Three service emails
+now: what the plan unlocks, an open door to reply, the questions members ask
+most. All three give rather than ask, because they already bought.
+
+**past_due sent nothing at all.** It fell through lifecycleState to 'unknown'.
+A failed card is an accident, not a decision, and it is the cheapest save in the
+system.
+
+**Sequences pace off email_log.sent_at, not signup.** That is what lets a win
+back run properly for someone who registered eleven months ago and lapsed last
+week. No migration needed.
+
+**Two claims were false and got cut before they shipped.** The draft paid email
+said cancel in settings, two taps, and the past due email offered an update your
+card link. **Neither exists.** There is no self serve cancel and no Stripe
+billing portal route anywhere in the app. Both now point at replying to a human,
+which is the path that actually works. The upgrade page still says "cancel any
+time" in its fear remover block, which is the same claim and is Justin's to
+decide on.
+
+**Lapsed keeps the onboarding programme.** Suppressing it was the plan until the
+trial clock got checked: a no card trial expires around day 14, so lapsed is the
+normal state for everyone who has not paid, and suppressing on it would have
+gutted the programme for most of the list.
