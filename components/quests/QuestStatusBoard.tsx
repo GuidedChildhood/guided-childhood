@@ -398,6 +398,20 @@ export default function QuestStatusBoard() {
               onClick={() => { setTouched(true); setActive(k) }}
               aria-pressed={on}
               style={{
+                // TOP ALIGNED, EXPLICITLY. Justin, 8 August 2026: "the numbers
+                // on top tabs need to be aligned."
+                //
+                // They were, in Chrome. WebKit vertically CENTRES the content
+                // of a <button> by default, and these four labels wrap to one,
+                // three and four lines, so each tile's content block is a
+                // different height and each number settled at a different
+                // level. Four numbers meant to be read as a row, none of them
+                // on the same line, and only on the phone.
+                //
+                // A flex column pinned to the start overrides that default, so
+                // the numbers sit on one line whatever the labels do.
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'flex-start', justifyContent: 'flex-start',
                 minWidth: 0, textAlign: 'left', cursor: 'pointer',
                 border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                 background: on ? 'var(--terracotta-lt)' : '#fff',
