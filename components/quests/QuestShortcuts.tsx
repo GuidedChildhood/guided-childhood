@@ -123,15 +123,23 @@ const TILES: Tile[] = [
     // same jobs on the fridge.
     href: '/dashboard/printables/star-chart', label: 'Build your star chart', sub: 'Type the jobs, then print it',
     icon: 'star', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#B8860B',
-    // Real, since migration 117: the print button writes a row, so this is a
-    // fact rather than a guess. Goes quiet on the first print and stays quiet,
-    // because a reprint is a nice to have, never a chase.
+    // Two different things this badge can say, and they are not the same
+    // question.
     //
-    // "To print", not "Not printed yet". These tiles are half a phone screen
-    // wide and the badge shares its row with the icon, so fifteen characters
-    // clipped to "Not prin...", which tells a parent nothing at all. Same
-    // shape as the devices tile's "To set up", and it fits.
-    badge: s => s.starChartPrinted ? null : 'To print',
+    // "To print" is real since migration 117: the print button writes a row, so
+    // a family who has never made one is a fact rather than a guess. It goes
+    // quiet on the first print and never comes back, because being chased about
+    // a thing you have already done is how a badge stops meaning anything.
+    //
+    // "For Monday" is the weekly rhythm Justin asked for, and only ever appears
+    // on a Saturday or Sunday, to a family who already prints the chart, when
+    // there is no sheet for the week about to start. See chartWeekDue: the
+    // three conditions are all there to keep this an offer rather than a nag.
+    //
+    // Both are short on purpose. These tiles are half a phone screen wide and
+    // the badge shares its row with the icon, so fifteen characters clipped to
+    // "Not prin...", which tells a parent nothing at all.
+    badge: s => !s.starChartPrinted ? 'To print' : s.chartWeekDue ? 'For Monday' : null,
   },
   {
     href: '/dashboard/printables', label: 'Printables', sub: 'Every other sheet',

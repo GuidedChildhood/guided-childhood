@@ -5481,3 +5481,59 @@ the week's builds (the child's own scripts, the evidence of how far you have
 come, DiGi's follow ups) and a standing rule in the header: when something
 new ships and a parent can touch it, it gets an entry the same week. Entry 21
 deliberately waits for real follow ups before it earns a Friday post.
+
+## 8 August 2026 — the star chart becomes a Sunday habit
+
+Justin: "can we add print my weekly star chart, customise it as a Sunday one, the
+five jobs rotation every Sunday ready for the week, or monthly, whatever you
+advise. I could not see it on printables on the child's phone."
+
+**Weekly, not monthly, and the reason is the reset.** The app already runs a
+star week from Monday to Monday in London, because that is when a child's
+earned minutes reset. A monthly chart would straddle four of those resets, so
+the sheet on the fridge and the numbers on the screen would disagree for three
+weeks out of every four. A month grid is also thirty columns on A4, which a six
+year old cannot use. Monthly is the right shape for a KEEPSAKE, the summary of
+what they earned, and that is a different artefact from a working chart.
+
+**Customised was already done.** Another session had the builder reading the
+family's real active jobs off the quests board. What it had no idea about was
+time: the chart printed undated, so a fridge ends up with three of them and
+nobody knowing which is live. Every sheet now carries "Week beginning Monday 10
+August", and on screen there are two chips, this week and next.
+
+**Sunday is the only day the offer appears.** chartWeekStart returns tomorrow's
+Monday on a Sunday and today's Monday every other day, so making the chart on
+Sunday afternoon gets you the week about to start, which is the only reason
+anybody makes one on a Sunday. Reprinting on Wednesday means the chart was lost,
+not that the week moved.
+
+**The chip names come from the server, not from the index.** On a Sunday the
+first week IS next week, and a chip reading "This week" over a Monday that has
+not happened would be a lie on the one control whose whole job is saying which
+week you are printing. So the server sends "The week ahead" and "The one after"
+on a Sunday, and "This week" and "Next week" otherwise.
+
+**Three rules keep the weekend badge an offer rather than a nag.** Only to a
+family who has already printed one (never printing is what the existing "To
+print" badge is for), only on Saturday and Sunday (an offer that sits there all
+week is wallpaper by Wednesday), and only when there is no print for the Monday
+coming. Print it and the tile goes quiet until next weekend.
+
+**Migration 170 is what made the weekly question answerable.** star_chart_prints
+knew only that a chart had been printed once, ever, and the tile was being asked
+to answer two different questions with that one fact. Existing rows are left
+null rather than backfilled to a guess: we know those charts were printed, we do
+not know which week they were for, and inventing one would either nag a family
+who printed on Sunday or go silent for one who did not.
+
+**The child's phone: not a bug.** The kid printables tab lists sheets from the
+printables registry, and the star chart is a parent tool that lives on the
+dashboard. A child cannot print and does not set their own jobs. Left as it is
+and flagged to Justin rather than quietly added, because putting it on a child's
+screen is a different feature and his call.
+
+**Checked** with every day of a week plus the October clock change week through
+chartWeekStart, and the new badge and week chips at 390px and 1280px in
+Chromium. The signed in builder page could not be reached in the sandbox, so the
+new markup was checked as a fixture rather than against the live page.
