@@ -5537,3 +5537,34 @@ screen is a different feature and his call.
 chartWeekStart, and the new badge and week chips at 390px and 1280px in
 Chromium. The signed in builder page could not be reached in the sandbox, so the
 new markup was checked as a fixture rather than against the live page.
+
+## 8 August 2026 — the waiting for you row wrapped one word per line
+
+Justin, with a screenshot: "text issue here." A pitched quest reading
+"Please can I do the My Kindness Bucket List printable" down a column one word
+wide, while the card ran off the side of the phone.
+
+**Both symptoms, one cause.** The row was a flex line holding an emoji, the
+sentence, an Add button and a dismiss, with both buttons at flexShrink 0. The
+buttons plus gaps plus padding come to about 260 unshrinkable pixels, so the
+sentence was handed what was left. Measured in Chromium at the screenshot's own
+width: **26 pixels across 17 lines**. And because a flex line cannot go below
+its own min content width, the card then pushed wider than the screen and took
+the page with it.
+
+**A shorter title would have hidden this, not fixed it.** These titles are
+generated from what a child actually asked for, so their length is not ours to
+control, and truncating one would hide the thing the parent is being asked to
+approve. The layout has to survive a long one.
+
+**The row wraps now.** The sentence asks for 190px and takes a line of its own
+when it cannot have that, the two buttons travel together and drop beneath it
+right aligned where a thumb already is, and overflow-wrap anywhere stops one
+freakish word shoving the card off the phone. Measured after: 222px across 4
+lines at the same width, and desktop is untouched at one line either way.
+
+**The cost, named rather than hidden:** a short row like "Teo ticked Brush
+teeth" now also puts its button on a second line on a phone, because flex
+wrapping is decided by available width and not by how long the content happens
+to be. One basis cannot keep short rows inline and force long ones to wrap. The
+consistent two line row was chosen over occasionally saving thirty pixels.
