@@ -5732,3 +5732,17 @@ by the server from the change since last time, never asked. Migration 171
 renames severity to score and inverts stored rows: 1 is really tough, 10
 is going great, up means better, everywhere and forever. Applied to the
 live database same day.
+
+**The shelf tells the truth: all 44 stub lessons are real now (8 Aug).**
+Justin: fix the 44 urgently, best ever lessons, child facing too. Every
+stub across the passport grid (five stages, nine categories) got a full
+deck in the proven seven slide arc, each teaching one named move a family
+uses the same day (the three word trick, shield up, the double check,
+stop tell report, the first meet plan). One deck serves both sides by
+design: the child app plays the same slides with the grown up script
+stripped, so these ARE the child facing versions. The craft rules are now
+standing: Rosenshine arc built into the player, wrong answers explained
+kindly, sensitive teenage lessons name the pattern honestly with no blame
+and the real reporting route (CEOP), no invented statistics, no dashes.
+Machine validated against the slide contract before touching the
+database. Migration 173 (172 was claimed by streak week seen while this was being written).
