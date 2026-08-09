@@ -1,6 +1,7 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { interestUrl } from '@/lib/email'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl } from '@/lib/email'
 import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
@@ -222,7 +223,7 @@ async function handler(req: NextRequest) {
         supabase.from('school_connections').select('id').eq('user_id', profile.id).eq('active', true).maybeSingle(),
         supabase.from('school_actions').select('id').eq('user_id', profile.id).limit(1).maybeSingle(),
       ])
-      if (!conn && !act) await deliver(profile.id, profile.email, 'svc-school', schoolRemindersEmail({ childName, unsubscribe }), 'svcSchool')
+      if (!conn && !act) await deliver(profile.id, profile.email, 'svc-school', schoolRemindersEmail({ childName, unsubscribe, yesUrl: interestUrl(profile.id, 'school-alerts', 'yes'), noUrl: interestUrl(profile.id, 'school-alerts', 'no') }), 'svcSchool')
     }
 
     if (days >= 42 && !alreadySent(profile.id, 'svc-agreement')) {

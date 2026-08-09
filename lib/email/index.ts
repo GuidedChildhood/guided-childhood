@@ -31,6 +31,14 @@ export function unsubscribeUrl(userId: string): string {
   return `${origin}/api/email/unsubscribe?u=${userId}&k=${unsubscribeToken(userId)}`
 }
 
+// "Would you use this?", as a link rather than a question they have to answer
+// in words. Signed with the same token as the unsubscribe link, so a guessed
+// URL cannot write a row and the count stays worth reading.
+export function interestUrl(userId: string, feature: string, answer: 'yes' | 'no'): string {
+  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+  return `${origin}/api/interest?u=${userId}&k=${unsubscribeToken(userId)}&f=${encodeURIComponent(feature)}&a=${answer}`
+}
+
 // The same one click stop, for someone who gave us their email before they had
 // an account. There is no user id to key off, so the address itself is signed.
 //
