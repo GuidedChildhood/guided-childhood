@@ -1,4 +1,4 @@
-import { parseSlides, autoSlidesFromLesson, type LessonSlide } from '@/lib/content/lesson-slides'
+import { parseSlides, autoSlidesFromLesson, type LessonSlide } from '@gc/shared/lesson-slides'
 import { stageQuizFor, STAGE_QUIZ_LENGTH, type StageQuizQuestion } from '@/lib/content/stage-quizzes'
 import type { createClient } from '@/lib/supabase/server'
 

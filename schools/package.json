@@ -1,0 +1,25 @@
+{
+  "name": "gc-schools",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The schools product: an open curriculum catalogue on the Oak model. No login, no accounts, no crons, no API routes. Reads the world readable school_lessons content through the anon key and nothing else.",
+  "scripts": {
+    "dev": "next dev -p 3100",
+    "build": "next build",
+    "start": "next start -p 3100"
+  },
+  "dependencies": {
+    "@gc/shared": "file:../shared",
+    "@supabase/supabase-js": "^2.108.1",
+    "gsap": "^3.15.0",
+    "next": "16.2.9",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}

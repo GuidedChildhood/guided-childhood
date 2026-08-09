@@ -6139,3 +6139,91 @@ be able to keep.
 
 The copyright line now reads from the same constant, so the founder name cannot
 end up different in the two places it appears.
+
+## 9 August 2026 — the address landed
+
+Justin: "The address is . Apple Acre, Winscombe, star , BS25 1QF"
+
+Filled into `lib/content/contact.ts`, so the homepage footer now carries the
+full set: name, business, postal address, email. That closes the last blank in
+the online selling requirement.
+
+**Written in Royal Mail order rather than the order he typed it**, which is the
+one judgement call here. Star is the hamlet, Winscombe is the post town for
+BS25, so the locality goes above the post town. Post addressed the other way
+still arrives, but the post town line is what sorting reads, and an address on
+a website is the one a solicitor or the ICO copies without checking it. Flagged
+to Justin rather than changed silently.
+
+**Worth doing next, not done here:** the same address belongs in the data
+controller section of the privacy page, which is where the ICO looks, and he is
+doing the ICO registration today. Left as his call rather than expanding a
+homepage job into the legal pages unasked.
+
+## 9 August 2026 — Guided Childhood is not by The Social Billboard
+
+Justin: "Not by the social billboard."
+
+The footer block read "Guided Childhood, by The Social Billboard". Wrong, and my
+line. Guided Childhood is its own thing. He founded both, which is what the
+about paragraph on the homepage already says, and that is a different claim from
+one being a product of the other.
+
+The footer now names Guided Childhood and nothing else, and the copyright line
+with it.
+
+**The same wrong attribution is on three other pages and predates this**, so it
+is flagged rather than swept: `/digitalwellbeing`, `/schools` and `/join` all
+carry "© 2026 The Social Billboard". Whether those are right depends on which
+venture owns each page, which is Justin's to say. The Digital Health Checker in
+particular may genuinely be a Social Billboard product.
+
+**The registered legal entity is still unknown.** `business` holds the trading
+name, not a company. If a company sits behind this, its registered name and
+number belong in the footer and on the terms page, and it is what the ICO
+registration going in today has to name.
+
+---
+
+## 2026-08-09 — The split, steps 1 to 4: shared package, tokens, the schools app exists
+
+JP approved the repo split (audit in the split audit artifact, plan in plans/split-plan.md) and steps 1 to 4 shipped in one day on PR #762. What exists now: shared/ (@gc/shared), holding the lesson slide grammar, the player and interactives, DigiCharacter, PrintBrand, curriculum badges, the new efcw.ts single source for the eight EfCW strands, the social media law flag, brand constants and tokens.css (the design tokens extracted verbatim from globals.css, pixel diffed before and after with Playwright: identical outside DiGi's animated speech bubble). The Supabase clients deliberately stay out of shared, and wiring check 7 fails the build if shared/ or schools/ ever imports an auth capable client, Stripe or the Anthropic SDK. And schools/ is a real second Next app on the Oak model: the schools marketing page as its homepage, the open curriculum catalogue, teach, the print room (minus named quizzes and certificates, which need pupils), all ten Hub documents and the class showcase re pointed at school_lessons. No login, no middleware, no crons, no API routes, and its only Supabase file is the anon read only client. Builds green with zero env in both apps. e2e/star-lessons.spec.ts is the gate for step 6: the send, play, quiz, stars land flow, run against a preview with a seeded kid token before and after the schema move. One audit correction recorded in the step 1 commit: the school_lesson entry in api/lessons/complete is live (the educator teach page posts it), not dead. Steps 5 to 9 wait for JP to schedule the cutover day. Owner actions: create the schools Vercel project (root directory schools/, domain schools.guidedchildhood.co.uk, two env vars: the Supabase URL and anon key) and say which domain is canonical, .com or .co.uk.
+
+---
+
+## 2026-08-09 — The cutover, steps 5 to 7: schools is its own product on its own domain
+
+JP merged the scaffold (PR #762), said the canonical domain is .com, and called the cutover. Steps 5 to 7 shipped the same day. Migration 176 drops the one cross product FK (kid_lesson_missions to school_lessons, the uuids and every sent mission survive); 177 creates the schools schema and moves the 11 schools tables and 4 membership functions into it, metadata only, revert is the same statement reversed. The parent app reads the schools curriculum through exactly one file now, lib/quests/star-lesson-catalogue.ts, which asks the schools schema first and falls back to public until 177 has run, so the deploy and the SQL can land in either order and Star Lessons never breaks (the kid page join became a second query because PostgREST embeds ride FKs). Step 7 retired the educator surface from the parent app: /educator, /class and the schools marketing page are gone, next.config 308s all three to schools.guidedchildhood.com with paths preserved, middleware no longer guards /educator, the login page is family only again, the twelve inbound links are absolute and the sitemap entry is gone. The parked educator accounts layer (classes, pupils, deliveries, judgements) keeps its tables in the schools schema, UI retired until schools accounts get their own design. Owner actions, in order: run 176 then 177 in the SQL editor, add schools to Settings, API, Exposed schemas IN THE SAME SITTING, create the schools Vercel project (root directory schools/, domain schools.guidedchildhood.com, the two public Supabase env vars), and message the two educator test accounts that the workspace moved. Both apps build green with empty env; the star lesson gate (e2e/star-lessons.spec.ts) is ready to run against production with a kid token before and after the SQL.
+
+## 2026-08-09 — Daily health sweep: push_subscriptions.device_id added to the required column watch
+
+Routine sweep. Schema check clean, all ten watched columns present. Found one
+real fault in the cron history: `/api/push/cron` failed on 7 August at 06:30,
+body read "column push_subscriptions.device_id does not exist", 200 status the
+whole time, same shape as the trial_ends_at outage. The column exists now (some
+migration since added it) and there has been no repeat, so nothing is on fire
+today, but the column was load bearing and not on the watch list, meaning the
+next time it goes missing the board would stay quiet again. Added it to
+REQUIRED_COLUMNS in lib/ops/health.ts, one line, same pattern as every other
+row there.
+
+Also found `/api/cron/job-reminders?band=morning=after_school` skipped its 8
+August 16:30 run entirely, no row, no error, while the morning and evening
+bands both fired fine that day. Reads as a single missed Vercel invocation for
+that one cron entry rather than a code fault, nothing in the route or the
+schedule explains it, and it has not recurred. Left alone. Worth a second look
+only if it happens again.
+
+Security and performance advisors: no ERROR level findings. Performance shows
+501 warnings, almost all `multiple_permissive_policies` and `auth_rls_initplan`
+on RLS policies across profiles, children, push_subscriptions and others, plus
+the usual unindexed foreign key and unused index notes. Pre-existing shape, not
+a new incident, not touched here. Security shows the RLS-enabled-no-policy
+notes on ops only tables (cron_runs and friends, expected, service key only),
+function search_path warnings on 4 functions, the vector extension living in
+public, several SECURITY DEFINER functions callable by anon, and leaked
+password protection still off. None of these are new since nothing in the repo
+or decisions.md shows an earlier sweep to diff against. Flagged, not fixed:
+each is a judgement call (revoking EXECUTE on functions the board itself calls,
+moving an extension, turning on leaked password checking) rather than a small
+certain fix.

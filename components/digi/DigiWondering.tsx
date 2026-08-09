@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // DiGi wondering: one gentle question, now and again, anywhere on the platform,
 // never a nag. Capped to once every few days, and it never shows if there is

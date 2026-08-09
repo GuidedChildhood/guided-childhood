@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // Telling a grown up: the child's own page, and the other half of the scripts
 // library.

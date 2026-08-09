@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 type Prompt = { id: string; kind: string; title: string; body: string; href?: string | null; outcome_id?: string | null }
 

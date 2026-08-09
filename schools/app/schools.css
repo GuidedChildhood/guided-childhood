@@ -1,0 +1,13 @@
+/* The schools app's own thin sheet. Tokens, buttons, cards and type all come
+   from @gc/shared/tokens.css, imported first in the root layout. Only what is
+   specific to teaching surfaces lives here. */
+
+/* The print pages: hide navigation chrome, keep the ink. */
+@media print {
+  .no-print { display: none !important; }
+  body { zoom: 1; background: #fff; }
+}
+
+/* The projector teach surface wants the full viewport with no site chrome
+   competing; the teach page opts its nav out with this. */
+.teach-shell { min-height: 100vh; background: var(--cream); }

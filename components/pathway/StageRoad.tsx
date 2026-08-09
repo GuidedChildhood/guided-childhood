@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { withOrigin } from '@/components/nav/BackTo'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGES } from '@/lib/content/stages'
 import { READINESS } from '@/lib/content/readiness'
 import { characterForStage } from '@/lib/content/stage-characters'

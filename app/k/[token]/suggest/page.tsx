@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import KidAskForJob, { type KidAsk } from '@/components/kid/KidAskForJob'
 
 // Ask for a job: the child's own page for pitching a quest to their grown up.

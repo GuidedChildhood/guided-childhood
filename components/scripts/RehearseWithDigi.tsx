@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { card, cardPad, eyebrow } from '@/components/scripts/card-system'
 import { characterByKey } from '@/lib/content/stage-characters'
 import { ladderStep, STEP_NOTE, BOUNDARY_LINES, CLOSE_LINES, AFTER_THE_STANDOFF } from '@/lib/content/refusal-ladder'

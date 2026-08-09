@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // The Sunday check in with DiGi. Once a week, proactively on a Sunday, DiGi asks
 // the parent five quick things: how they are, what went well, what was hardest,

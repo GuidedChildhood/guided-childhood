@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // DiGi hands over a script: the exact words for a moment this family is likely
 // to meet, one tap from the full thing. Shown by the flash up gate on its turn,

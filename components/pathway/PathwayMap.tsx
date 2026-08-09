@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // The Duolingo moment: a winding trail through the five stages with DiGi
 // walking it. On load, DiGi travels from the start of the path to the

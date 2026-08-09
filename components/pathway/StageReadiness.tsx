@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // The end of stage readiness read, DiGi's voice. As a family nears the end of a
 // stage, DiGi does the one thing a good teacher does before a milestone: reads

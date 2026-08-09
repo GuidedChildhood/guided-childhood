@@ -2,6 +2,7 @@
 // system, table based so every client renders it, Justin's voice
 // throughout. No dashes in any copy.
 
+import { EFCW_STRANDS } from '@gc/shared/efcw'
 import type { WeeklyReview } from '@/lib/digi/weekly-review'
 import type { MonthPace } from '@/lib/balance/pace'
 import { SCHOOL_EVENTS, yearGroupFromDob } from '@/lib/learning/calendar'
@@ -990,16 +991,7 @@ export function curriculumStrandsEmail(params: {
     html: wrapper(
       heading('There is a spine under the lessons.') +
       p(`The lessons are not a pile of good ideas. Every one of them sits on a strand of Education for a Connected World, the UKCIS framework schools use to plan online safety. There are eight, and between them they cover the whole of growing up online:`) +
-      bullets([
-        'Self image and identity',
-        'Online relationships',
-        'Online reputation',
-        'Online bullying',
-        'Managing online information',
-        'Health, wellbeing and lifestyle',
-        'Privacy and security',
-        'Copyright and ownership',
-      ]) +
+      bullets([...EFCW_STRANDS]) +
       p(`Open any lesson and you will see which strand it belongs to${ks}. That is how you can tell at a glance what ground ${childName} has covered and what is still ahead.`) +
       button('See the lessons', `${APP}/dashboard/lessons`) +
       p(`One thing I want to be straight about: this is not your school's scheme of work and it does not replace it. It walks the same recognised ground, so nothing ${childName} learns here is off on its own somewhere.`),

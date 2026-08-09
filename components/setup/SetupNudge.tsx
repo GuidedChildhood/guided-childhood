@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STEPS, type SetupFlags } from './SetupPath'
 
 // One minute into a visit, one gentle prompt: the next setup step that
