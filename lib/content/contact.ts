@@ -25,15 +25,18 @@ export const CONTACT = {
   /**
    * The geographic address, required for online selling.
    *
-   * EMPTY ON PURPOSE, waiting on Justin. Inventing one would be worse than
-   * having none: an address is a legal statement about where a business can be
-   * served, and a plausible looking wrong one is the failure that actually
-   * costs something. Every place that renders it checks for empty first, so the
-   * block simply omits the line until the real address lands here.
+   * Given by Justin, 9 August 2026: "Apple Acre, Winscombe, star, BS25 1QF".
+   *
+   * Written here in Royal Mail order rather than the order he typed it, which
+   * is the one judgement call in this file. Star is the hamlet and Winscombe is
+   * the post town for BS25, so the locality goes above the post town. Post
+   * addressed the other way round still arrives, but the post town line is what
+   * sorting reads, and an address on a website is the one a solicitor or the
+   * ICO copies without checking it.
    *
    * One line per row, in the order it would be written on an envelope.
    */
-  address: [] as string[],
+  address: ['Apple Acre', 'Star', 'Winscombe', 'BS25 1QF'] as string[],
 } as const
 
 /** True once a real address has been filled in above. */

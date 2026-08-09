@@ -6139,3 +6139,23 @@ be able to keep.
 
 The copyright line now reads from the same constant, so the founder name cannot
 end up different in the two places it appears.
+
+## 9 August 2026 — the address landed
+
+Justin: "The address is . Apple Acre, Winscombe, star , BS25 1QF"
+
+Filled into `lib/content/contact.ts`, so the homepage footer now carries the
+full set: name, business, postal address, email. That closes the last blank in
+the online selling requirement.
+
+**Written in Royal Mail order rather than the order he typed it**, which is the
+one judgement call here. Star is the hamlet, Winscombe is the post town for
+BS25, so the locality goes above the post town. Post addressed the other way
+still arrives, but the post town line is what sorting reads, and an address on
+a website is the one a solicitor or the ICO copies without checking it. Flagged
+to Justin rather than changed silently.
+
+**Worth doing next, not done here:** the same address belongs in the data
+controller section of the privacy page, which is where the ICO looks, and he is
+doing the ICO registration today. Left as his call rather than expanding a
+homepage job into the legal pages unasked.
