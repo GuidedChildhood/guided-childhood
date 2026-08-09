@@ -9,8 +9,6 @@
 // Emoji emblems are stand ins until the Higgsfield character stills land
 // (blocked on credits); the colour is the character's canonical accent.
 
-import { characterByKey } from '@/lib/content/stage-characters'
-
 export type KeyStage = 'EYFS' | 'KS1' | 'KS2' | 'KS3' | 'KS4' | 'KS5'
 
 export type CharacterKey = 'pebble' | 'bloop' | 'orbit' | 'digi' | 'nova' | 'cosmo'
@@ -19,10 +17,14 @@ export type CharacterKey = 'pebble' | 'bloop' | 'orbit' | 'digi' | 'nova' | 'cos
 // the whole platform. Each owns a strand of digital life and, roughly, an age
 // that tracks the key stages: Pebble the first safe steps, Bloop the habits,
 // Orbit the checks and big questions, Nova the choices, Cosmo the readiness
-// years. DiGi, the golden star, closes every lesson. Names and art come from
-// the one stage-characters source; the soft band and ink are the school card
-// tints. The emblem is a small stand in on the tightest chips where the art
-// would be too small to read.
+// years. DiGi, the golden star, closes every lesson. The cutout art URLs are
+// pinned here rather than imported from stage-characters, so this file has no
+// parent side dependency and can move with the schools product; if the cast
+// art is ever re rolled, update the URLs in both places (they change once a
+// month at most). The soft band and ink are the school card tints. The emblem
+// is a small stand in on the tightest chips where the art would be too small
+// to read.
+const ART = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
 export const CHARACTERS: Record<CharacterKey, {
   name: string
   emblem: string
@@ -31,12 +33,12 @@ export const CHARACTERS: Record<CharacterKey, {
   soft: string   // card header band
   ink: string    // text on the soft band
 }> = {
-  pebble: { name: 'Pebble', emblem: '🌱', img: characterByKey('pebble')?.cutout ?? '', accent: '#C99A28', soft: '#FBEED0', ink: '#7A5A0E' },
-  bloop: { name: 'Bloop', emblem: '🧩', img: characterByKey('bloop')?.cutout ?? '', accent: '#6C9E38', soft: '#E4F0D4', ink: '#3F5E1E' },
-  orbit: { name: 'Orbit', emblem: '🔭', img: characterByKey('orbit')?.cutout ?? '', accent: '#3E86BC', soft: '#DCEBF7', ink: '#1F4E6E' },
+  pebble: { name: 'Pebble', emblem: '🌱', img: ART + 'hf_20260723_135533_4b42a90b-68d8-4975-93a8-1600028de47e.png', accent: '#C99A28', soft: '#FBEED0', ink: '#7A5A0E' },
+  bloop: { name: 'Bloop', emblem: '🧩', img: ART + 'hf_20260723_135534_b8fa0227-f964-442f-849f-b72e42fb09f9.png', accent: '#6C9E38', soft: '#E4F0D4', ink: '#3F5E1E' },
+  orbit: { name: 'Orbit', emblem: '🔭', img: ART + 'hf_20260723_135535_d2a3f8b1-f5b8-473c-a1f2-27a97968efe6.png', accent: '#3E86BC', soft: '#DCEBF7', ink: '#1F4E6E' },
   digi: { name: 'DiGi', emblem: '⭐', img: '/digi-squad/DiGi-star.svg', accent: '#C99A28', soft: '#FDF4D9', ink: '#7A5A0E' },
-  nova: { name: 'Nova', emblem: '🧭', img: characterByKey('nova')?.cutout ?? '', accent: '#7E5AB0', soft: '#ECE3F7', ink: '#4A2F73' },
-  cosmo: { name: 'Cosmo', emblem: '🚀', img: characterByKey('cosmo')?.cutout ?? '', accent: '#CE7328', soft: '#FBE4D0', ink: '#8F4A12' },
+  nova: { name: 'Nova', emblem: '🧭', img: ART + 'hf_20260725_090735_80eecf61-9864-4a94-9800-da51aa2b7d3d.png', accent: '#7E5AB0', soft: '#ECE3F7', ink: '#4A2F73' },
+  cosmo: { name: 'Cosmo', emblem: '🚀', img: ART + 'hf_20260725_090730_c0428406-c720-4b1f-97e7-5aaea2d9bb6c.png', accent: '#CE7328', soft: '#FBE4D0', ink: '#8F4A12' },
 }
 
 // The named topics of the DfE RSHE statutory guidance published 15 July

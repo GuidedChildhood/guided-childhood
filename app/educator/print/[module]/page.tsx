@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { parseSlides, type ChoiceSlide } from '@/lib/content/lesson-slides'
-import PrintButton from './PrintButton'
+import PrintButton from '@/components/educator/PrintButton'
 import { PrintBrandFooter } from '@/components/brand/PrintBrand'
 
 // The paper pack: every printable a teacher needs for a lesson, generated
@@ -80,7 +80,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
     <main style={{ maxWidth: '740px', margin: '0 auto', background: '#fff', color: 'var(--ink)' }}>
       <div className="no-print" style={{ padding: '20px 8px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={mono}>Paper pack · print one, photocopy per pupil where marked</span>
-        <PrintButton />
+        <PrintButton label="Print the pack" />
       </div>
 
       {/* Page 1: teacher one pager */}

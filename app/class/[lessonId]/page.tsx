@@ -45,6 +45,7 @@ export default async function ClassLessonPage({ params }: { params: Promise<{ le
       backHref="/schools"
       completeEndpoint={null}
       classMode
+      classCtaHref="/schools"
       badges={badgesFor(lesson.stage_id, lesson.category)}
     />
   )

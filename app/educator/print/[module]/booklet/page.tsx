@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { parseSlides } from '@/lib/content/lesson-slides'
-import PrintButton from '../PrintButton'
+import PrintButton from '@/components/educator/PrintButton'
 
 // The pupil booklet: the little companion each child holds BEFORE and
 // DURING the lesson (JP brief, 6 Jul 2026). Photocopy per pupil, fold in
@@ -45,7 +45,7 @@ export default async function PupilBookletPage({ params }: { params: Promise<{ m
     <main style={{ maxWidth: '740px', margin: '0 auto', background: '#fff' }}>
       <div className="no-print" style={{ padding: '20px 8px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={mono}>Pupil booklet · photocopy per pupil</span>
-        <PrintButton />
+        <PrintButton label="Print the pack" />
       </div>
 
       {/* Cover */}

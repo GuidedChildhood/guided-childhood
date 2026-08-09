@@ -551,6 +551,7 @@ export default function LessonPlayer({
   completeBody,
   badges,
   classMode = false,
+  classCtaHref,
   initialIndex = 0,
 }: {
   lessonId: string
@@ -575,6 +576,11 @@ export default function LessonPlayer({
   // Whole class projector mode: everything bigger, arrow keys advance, and
   // the finish is the quiet signpost to the school curriculum tier.
   classMode?: boolean
+  // Where the classMode finish sends people. The player is shared by both
+  // products, so the destination belongs to the caller: the schools showcase
+  // passes its curriculum page, and once the products live on separate
+  // domains it becomes an absolute URL. No href, no CTA.
+  classCtaHref?: string
   // Open at a given slide (dev fixtures and deep links).
   initialIndex?: number
 }) {
@@ -745,9 +751,11 @@ export default function LessonPlayer({
           The full school curriculum goes deeper: complete schemes of work by key stage, teacher scripts, assessment and progress evidence for every child.
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxWidth: '340px', margin: '0 auto' }}>
-          <Link href="/schools" className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-md)' }}>
-            See the school curriculum
-          </Link>
+          {classCtaHref && (
+            <Link href={classCtaHref} className="btn btn-gold" style={{ justifyContent: 'center', fontSize: 'var(--text-md)' }}>
+              See the school curriculum
+            </Link>
+          )}
           <button onClick={runAgain} className="btn btn-outline" style={{ justifyContent: 'center', fontSize: 'var(--text-base)' }}>
             Play it again ↻
           </button>

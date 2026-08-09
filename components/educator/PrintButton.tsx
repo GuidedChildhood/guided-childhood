@@ -4,7 +4,7 @@
 export default function PrintButton({ label = 'Print this document' }: { label?: string }) {
   return (
     <>
-      <style>{`@media print { .gc-print-btn { display: none !important; } }`}</style>
+      <style>{`@media print { .gc-print-btn, .no-print { display: none !important; } }`}</style>
       <button
         className="gc-print-btn"
         onClick={() => window.print()}
