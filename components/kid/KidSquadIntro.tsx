@@ -180,9 +180,26 @@ export default function KidSquadIntro({
         cursor: autoPlay ? 'pointer' : 'default',
       }}
     >
+      {/* Justin, 9 August 2026: "can we make skip intro button bigger."
+          It was 12px mono at 55 percent white, no background, tucked in the
+          corner. That is the smallest control in the product and it is the
+          very first thing a child ever touches, on the one screen standing
+          between them and their jobs. A child who cannot find it sits through
+          the whole intro every time, or taps around the edge of it and misses.
+          Now a real chunky pill in the house style, 44px tall so it clears the
+          minimum tap target, with a border so it reads as a button rather than
+          as a label that happens to be tappable. */}
       <button
         onClick={(e) => { e.stopPropagation(); finish() }}
-        style={{ position: 'absolute', top: 16, right: 18, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'rgba(255,255,255,0.55)' }}
+        style={{
+          position: 'absolute', top: 14, right: 14,
+          minHeight: 44, padding: '10px 20px',
+          background: 'rgba(255,255,255,0.14)',
+          border: '1.5px solid rgba(255,255,255,0.45)',
+          borderRadius: 100, cursor: 'pointer',
+          fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
+          color: '#fff', letterSpacing: '0.01em',
+        }}
       >
         Skip
       </button>
