@@ -45,6 +45,26 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
     .eq('user_id', link.user_id)
     .eq('status', 'open')
 
+  // Who added what, read on its own and guarded, not folded into the select
+  // above. added_by arrives with migration 179, migrations here are run by
+  // hand, and naming a column that does not exist yet fails the WHOLE query it
+  // is part of. That query is the child's week itself, so folding it in would
+  // have taken this page down between deploy and migration. An error simply
+  // means every row reads as parent added, which is what every row was.
+  const addedBy = new Map<string, 'parent' | 'child'>()
+  try {
+    const { data, error } = await supabase
+      .from('school_actions')
+      .select('id, added_by')
+      .eq('user_id', link.user_id)
+      .eq('status', 'open')
+    if (!error) {
+      for (const r of (data ?? []) as { id: string; added_by?: string | null }[]) {
+        addedBy.set(String(r.id), r.added_by === 'child' ? 'child' : 'parent')
+      }
+    }
+  } catch { /* pre 179, every row is the parent's */ }
+
   const items: KidWeekItem[] = (rows ?? [])
     .filter(a => isChildVisible(a as { kind: string; recurs_weekday?: number | null; sent_to_child?: boolean | null; auto_send_to_child?: boolean | null }))
     .map(a => ({
@@ -55,6 +75,7 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
       weekday: (a.recurs_weekday as number | null) ?? null,
       time: typeof a.due_time === 'string' ? (a.due_time as string).slice(0, 5) : null,
       clearedOn: (a.cleared_on as string | null) ?? null,
+      addedBy: addedBy.get(a.id as string) ?? 'parent',
     }))
 
   return (
@@ -91,21 +112,23 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
           Everything from school, on the day it lands. Tap a day to see it.
         </p>
 
-        {items.length === 0 ? (
+        {/* An empty diary still shows the week, because the add button lives
+            under the day: since the child can put things on the diary
+            themselves, an empty week is an invitation, not a dead end. */}
+        {items.length === 0 && (
           <div style={{
             background: '#fff', border: '2px solid var(--border)', borderRadius: 20,
-            boxShadow: '0 5px 0 rgba(0,0,0,0.25)', padding: '20px 18px',
+            boxShadow: '0 5px 0 rgba(0,0,0,0.25)', padding: '20px 18px', marginBottom: 16,
           }}>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 6px', lineHeight: 1.3 }}>
               Nothing from school yet
             </p>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-              When your grown up adds a kit day or a club, it will show up here on its day.
+              When your grown up adds a kit day or a club, it will show up here on its day. Know something they missed? Pick a day and add it yourself.
             </p>
           </div>
-        ) : (
-          <KidSchoolWeek items={items} childName={name} />
         )}
+        <KidSchoolWeek items={items} childName={name} token={token} />
       </div>
     </div>
   )

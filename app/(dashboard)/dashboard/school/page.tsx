@@ -12,7 +12,7 @@ export default async function SchoolPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [actionsResult, childResult] = await Promise.all([
+  const [actionsResult, childResult, allChildrenResult] = await Promise.all([
     supabase
       .from('school_actions')
       .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child, cleared_on')
@@ -21,9 +21,37 @@ export default async function SchoolPage() {
       .order('due_date', { ascending: true, nullsFirst: false })
       .limit(30),
     supabase.from('children').select('name').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    supabase.from('children').select('id, name').eq('parent_id', user.id),
   ])
 
-  const actions: SchoolAction[] = actionsResult.data ?? []
+  // Who added what, read on its own and guarded rather than folded into the
+  // select above: added_by lands with migration 179, migrations run by hand,
+  // and naming a missing column fails the whole query it is part of, which
+  // here would blank the parent's school list between deploy and migration.
+  // An error just means every row reads as the parent's, which it was.
+  const provenance = new Map<string, { by: string; childId: string | null }>()
+  try {
+    const { data, error } = await supabase
+      .from('school_actions')
+      .select('id, added_by, added_by_child_id')
+      .eq('user_id', user.id)
+      .eq('status', 'open')
+    if (!error) {
+      for (const r of (data ?? []) as { id: string; added_by?: string | null; added_by_child_id?: string | null }[]) {
+        provenance.set(String(r.id), { by: r.added_by === 'child' ? 'child' : 'parent', childId: r.added_by_child_id ?? null })
+      }
+    }
+  } catch { /* pre 179, every row is the parent's */ }
+  const childNames = new Map((allChildrenResult.data ?? []).map(c => [String(c.id), c.name as string]))
+
+  const actions: SchoolAction[] = (actionsResult.data ?? []).map(a => {
+    const p = provenance.get(String(a.id))
+    return {
+      ...a,
+      added_by: p?.by ?? 'parent',
+      added_by_child_name: p?.childId ? childNames.get(p.childId) ?? null : null,
+    }
+  })
   const childName = childResult.data?.name ?? null
 
   return (
