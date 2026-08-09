@@ -23,13 +23,17 @@ function isoIn(days: number): string {
 }
 
 // A real week from a real family: two routines that come back every week, a
-// dated club, and a trip letter with a time on it.
+// dated club, a trip letter with a time on it, and two the child put on the
+// diary themselves, wearing the you added this badge (one a one off, one an
+// every week routine, since the add sheet can make both).
 const BUSY: KidWeekItem[] = [
   { id: 'a', title: 'PE kit, and the black shorts not the blue ones', kind: 'kit', dueDate: null, weekday: 2, time: null, clearedOn: null },
   { id: 'b', title: 'Reading record signed and in the bag', kind: 'homework', dueDate: null, weekday: 5, time: null, clearedOn: null },
   { id: 'c', title: 'Cubs', kind: 'event', dueDate: null, weekday: 4, time: '18:15', clearedOn: null },
   { id: 'd', title: 'Trip letter back in', kind: 'homework', dueDate: isoIn(1), time: '09:00', weekday: null, clearedOn: null },
   { id: 'e', title: 'Swimming kit', kind: 'kit', dueDate: isoIn(0), weekday: null, time: null, clearedOn: isoIn(0) },
+  { id: 'f', title: 'Bring football boots for lunchtime club', kind: 'kit', dueDate: isoIn(2), weekday: null, time: null, clearedOn: null, addedBy: 'child' },
+  { id: 'g', title: 'Spelling practice with Dad', kind: 'homework', dueDate: null, weekday: 1, time: null, clearedOn: null, addedBy: 'child' },
 ]
 
 // One thing, no time, nothing ticked. The commonest week there is.
@@ -49,14 +53,17 @@ export default function RefKidWeek() {
         </p>
 
         <p style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.72)', fontWeight: 700, margin: '0 0 8px' }}>
-          A busy week, with today already ticked off
+          A busy week with today ticked off, two child added items, and the add button
         </p>
-        <KidSchoolWeek items={BUSY} childName="Teo" />
+        {/* The token is a well formed fake: it draws the add button and the
+            sheet for the layout check, and a save simply reports it could not
+            save, which is itself a state worth seeing. */}
+        <KidSchoolWeek items={BUSY} childName="Teo" token="000000000000000000" />
 
         <p style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.72)', fontWeight: 700, margin: '34px 0 8px' }}>
           One thing all week, and six empty days
         </p>
-        <KidSchoolWeek items={QUIET} childName="Teo" />
+        <KidSchoolWeek items={QUIET} childName="Teo" token="000000000000000000" />
 
         {/* The two ways in, from the child's home screen. */}
         <p style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.72)', fontWeight: 700, margin: '34px 0 8px' }}>

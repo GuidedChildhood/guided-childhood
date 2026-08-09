@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { playKidSound } from '@/lib/sound/kidSounds'
+import KidSchoolAddSheet, { type KidNewDiaryItem } from './KidSchoolAddSheet'
 
 // THE CHILD'S OWN WEEK.
 //
@@ -29,10 +31,24 @@ import { useEffect, useState } from 'react'
 // Notion's weekly plan is the other half of the reference, day headings with
 // their items under them: https://mobbin.com/screens/3cb253aa-3a56-462b-9cee-76decd1366a6
 //
-// READ ONLY, ON PURPOSE. No tick, no delete, no add. Clearing a school reminder
-// is the grown up saying the thing is handled, and a child ticking "paid for
-// the trip" from their bedroom would put a wrong fact on their parent's list.
-// This screen answers a question. It does not take instructions.
+// NO TICK AND NO DELETE, ON PURPOSE. Clearing a school reminder is the grown
+// up saying the thing is handled, and a child ticking "paid for the trip" from
+// their bedroom would put a wrong fact on their parent's list.
+//
+// ADDING is different, and it is the child's from 9 August 2026. Justin: the
+// child "can add things themselves", and it must be obvious which items the
+// child added and which the parent added. A child telling the diary "swimming
+// kit on Friday" is a true fact about their own week, exactly the kind of
+// remembering this product wants to teach, and the grown up is pushed the
+// moment it lands. What the child adds wears its own badge, read from the
+// stored added_by column (migration 179), never guessed.
+//
+// The add itself is the parent calendar's entry system, copied. Justin: "can
+// we copy the parent calendar entry system we built as that worked well." One
+// big button under the day (the child viewer's shape, backed by GoHenry's
+// child task screen and Liven's day plus New task shape from the Mobbin sweep
+// for this build), opening the same sheet the parent's week uses, rebuilt in
+// KidSchoolAddSheet with the child kinds and the child's voice.
 //
 // The clock is the child's own. Nothing that needs it renders until the
 // component has mounted, so the server and the first client render agree and
@@ -50,6 +66,9 @@ export type KidWeekItem = {
   time: string | null
   /** The day this was ticked off by the grown up, if it has been. */
   clearedOn: string | null
+  /** Who put it on the diary. Missing reads as parent, which is what every
+   *  row before migration 179 truthfully was. */
+  addedBy?: 'parent' | 'child'
 }
 
 const KIND_EMOJI: Record<string, string> = {
@@ -119,9 +138,12 @@ function mondayOf(d: Date, weekOffset: number): Date {
   return out
 }
 
-export default function KidSchoolWeek({ items, childName }: {
+export default function KidSchoolWeek({ items, childName, token }: {
   items: KidWeekItem[]
   childName?: string | null
+  /** The kid link token, which is what lets the add save. No token, no add
+   *  button, which is what the layout fixture renders. */
+  token?: string
 }) {
   const [nowMs, setNowMs] = useState<number | null>(null)
   const [weekOffset, setWeekOffset] = useState(0)
@@ -129,11 +151,19 @@ export default function KidSchoolWeek({ items, childName }: {
   // clock arrives, so they land somewhere useful without having to tap at all.
   const [picked, setPicked] = useState<string | null>(null)
 
+  // What the child added in this visit, shown at once. The server holds the
+  // real row; this is only so the new item is on the day the moment they save.
+  const [added, setAdded] = useState<KidWeekItem[]>([])
+  const [addOpen, setAddOpen] = useState(false)
+  const [addNote, setAddNote] = useState<string | null>(null)
+
   useEffect(() => { setNowMs(Date.now()) }, [])
 
   const mounted = nowMs != null
   const monday = mounted ? mondayOf(new Date(nowMs), weekOffset) : null
   const todayIso = mounted ? iso(new Date(nowMs)) : ''
+
+  const allItems = [...items, ...added]
 
   const days = DAYS.map((d, i) => {
     const date = monday ? new Date(monday.getTime() + i * 86400000) : null
@@ -141,7 +171,7 @@ export default function KidSchoolWeek({ items, childName }: {
     const isToday = dateIso !== '' && dateIso === todayIso
     const isPast = mounted && dateIso !== '' && dateIso < todayIso
 
-    const on = items.filter(it => (
+    const on = allItems.filter(it => (
       it.weekday != null ? it.weekday === d.dow : (dateIso !== '' && it.dueDate === dateIso)
     ))
     // A routine is ticked off for one named day, so it only reads as done on
@@ -170,6 +200,45 @@ export default function KidSchoolWeek({ items, childName }: {
     // Back to automatic, so the new week opens on whatever is worth reading in
     // it rather than on the same weekday the child happened to be looking at.
     setPicked(null)
+    // A half typed add belongs to the day it was started on, not carried to a
+    // different week wearing the wrong date.
+    setAddOpen(false)
+  }
+
+  async function saveAdd(r: KidNewDiaryItem) {
+    if (!token) return
+    try {
+      const res = await fetch('/api/kid/school-add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, ...r }),
+      })
+      const d = await res.json().catch(() => null)
+      if (res.ok && d?.action) {
+        playKidSound('star')
+        if (d.alreadyThere) {
+          // The diary already had it, so nothing new is drawn: the row on the
+          // day IS the answer, and a second copy would be a lie.
+          setAddNote('That one is already on the list!')
+        } else {
+          setAdded(prev => [...prev, {
+            id: String(d.action.id), title: r.title, kind: r.kind,
+            dueDate: r.due_date, weekday: r.recurs_weekday,
+            time: r.due_time ? r.due_time.slice(0, 5) : null, clearedOn: null,
+            addedBy: 'child',
+          }])
+          setAddNote('Added! Your grown up can see it too.')
+        }
+        setAddOpen(false)
+        setTimeout(() => setAddNote(null), 3500)
+      } else {
+        setAddNote('That did not save. Try again in a minute.')
+        setTimeout(() => setAddNote(null), 3500)
+      }
+    } catch {
+      setAddNote('That did not save. Try again in a minute.')
+      setTimeout(() => setAddNote(null), 3500)
+    }
   }
 
   return (
@@ -308,7 +377,7 @@ export default function KidSchoolWeek({ items, childName }: {
                   }}>
                     {item.title}
                   </span>
-                  {(item.time || item.weekday != null || done) && (
+                  {(item.time || item.weekday != null || done || item.addedBy === 'child') && (
                     <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 5 }}>
                       {item.time && (
                         <span style={{
@@ -337,6 +406,19 @@ export default function KidSchoolWeek({ items, childName }: {
                           ✓ sorted
                         </span>
                       )}
+                      {/* Whose item this is, at a glance. Only the child's own
+                          wear a badge: everything else on the diary is the
+                          grown up's, and badging every row would badge none. */}
+                      {item.addedBy === 'child' && (
+                        <span style={{
+                          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                          color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
+                          border: '1px solid var(--terracotta)',
+                          borderRadius: 100, padding: '2px 8px',
+                        }}>
+                          ⭐ you added this
+                        </span>
+                      )}
                     </span>
                   )}
                 </span>
@@ -347,10 +429,53 @@ export default function KidSchoolWeek({ items, childName }: {
         )}
       </div>
 
-      {/* Says out loud whose list this is and who changes it, so a child is not
-          left hunting for a tick that is not theirs to make. */}
+      {/* The child's own way in. One big button under the day they are
+          looking at, opening the same add sheet the parent's calendar uses.
+          Only for today and the days still to come, because adding kit to
+          last Tuesday helps nobody. */}
+      {token && mounted && open && !open.isPast && (
+        <button
+          type="button"
+          onClick={() => { setAddOpen(true); playKidSound('tap') }}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            width: '100%', cursor: 'pointer', marginTop: 12, padding: '15px',
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+            color: 'var(--ink)', background: 'var(--terracotta)',
+            border: 'none', borderRadius: 16,
+            boxShadow: '0 5px 0 var(--terracotta-dark)',
+          }}
+        >
+          ＋ Add to {open.isToday ? 'today' : open.long}
+        </button>
+      )}
+
+      {addOpen && open && (
+        <KidSchoolAddSheet
+          dateIso={open.dateIso}
+          dow={open.dow}
+          dayLabel={open.isToday ? 'Today' : (open.date ? `${open.long} ${open.date.getDate()} ${open.date.toLocaleDateString('en-GB', { month: 'long' })}` : open.long)}
+          onCancel={() => setAddOpen(false)}
+          onAdd={saveAdd}
+        />
+      )}
+
+      {/* The saved toast, quiet and in flow rather than floating. */}
+      {addNote && (
+        <p style={{
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+          color: 'var(--ink)', background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
+          borderRadius: 14, padding: '11px 14px', margin: '10px 0 0', textAlign: 'center',
+        }}>
+          {addNote}
+        </p>
+      )}
+
+      {/* Says out loud whose list this is and how the two kinds of item read,
+          so a child is not left hunting for a tick that is not theirs to
+          make. */}
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 4px 0' }}>
-        This comes from the school reminders {childName ? `your grown up set up for you` : 'your grown up set up'}. They tick things off at their end, so all you need to do here is look.
+        Most of this comes from the school reminders {childName ? 'your grown up set up for you' : 'your grown up set up'}, and they tick things off at their end. Anything with a ⭐ you added this badge is yours: you put it on the diary, and your grown up can see it too.
       </p>
     </div>
   )

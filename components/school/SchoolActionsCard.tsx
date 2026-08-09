@@ -48,6 +48,25 @@ export type SchoolAction = {
   recurs_weekday?: number | null
   auto_send_to_child?: boolean
   cleared_on?: string | null
+  /** Who put it on the diary (migration 179). Missing reads as parent. */
+  added_by?: string | null
+  /** The adding child's name, resolved server side. Null when unknown. */
+  added_by_child_name?: string | null
+}
+
+// The child put this on the diary themselves, said plainly, because a parent
+// reading the family list needs to know which entries they did not write.
+function AddedByChild({ name }: { name?: string | null }) {
+  return (
+    <span style={{
+      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+      letterSpacing: '0.06em', textTransform: 'uppercase',
+      background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)',
+      border: '1px solid var(--terracotta)', borderRadius: '100px', padding: '2px 8px', flexShrink: 0,
+    }}>
+      ⭐ {name ? `${name} added this` : 'added by your child'}
+    </span>
+  )
 }
 
 const KIND_STYLE: Record<string, { label: string; bg: string; color: string }> = {
@@ -428,6 +447,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                 <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
                   {a.title}
                 </span>
+                {a.added_by === 'child' && <AddedByChild name={a.added_by_child_name} />}
                 {a.recurs_weekday === tomorrowWeekday && !clearedIds.has(a.id) && (
                   <span style={{
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
@@ -500,6 +520,7 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   }}>
                     {kindMeta.label}
                   </span>
+                  {a.added_by === 'child' && <AddedByChild name={a.added_by_child_name} />}
                   {due && (
                     <span style={{
                       display: 'inline-flex', alignItems: 'center', gap: '4px',
