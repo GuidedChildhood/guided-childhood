@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
-import { parseSlides, type ChoiceSlide } from '@/lib/content/lesson-slides'
+import { parseSlides, type ChoiceSlide } from '@gc/shared/lesson-slides'
 import PrintButton from '@/components/educator/PrintButton'
 
 // The personalised end of lesson quiz (JP brief, 6 Jul 2026): one page

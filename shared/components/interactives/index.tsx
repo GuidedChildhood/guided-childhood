@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '../DigiCharacter'
 
 // The interactive layer: the eighth slide type. A lesson row names a
 // component by key and passes config; the code lives here so a new

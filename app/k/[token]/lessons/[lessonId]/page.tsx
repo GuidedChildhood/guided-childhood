@@ -1,11 +1,11 @@
 import { notFound, redirect } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { parseSlides } from '@/lib/content/lesson-slides'
-import { badgesFor } from '@/lib/content/curriculum-badges'
+import { parseSlides } from '@gc/shared/lesson-slides'
+import { badgesFor } from '@gc/shared/curriculum-badges'
 import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
 import { hasFullAccess } from '@/lib/access'
-import LessonPlayer from '@/components/lessons/LessonPlayer'
+import LessonPlayer from '@gc/shared/components/LessonPlayer'
 
 // A family lesson, taken by the child themselves: the SAME cinematic player
 // the parent side uses, as a light full screen takeover over the kid app.

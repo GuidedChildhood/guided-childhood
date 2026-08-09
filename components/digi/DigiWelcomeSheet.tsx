@@ -9,7 +9,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import DigiCharacter from './DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { POPUP_DELAY, openPopup, closePopup } from '@/lib/ui/popupQueue'
 import { socialInsightFor, type SocialInsight } from '@/lib/content/social-insights'
 

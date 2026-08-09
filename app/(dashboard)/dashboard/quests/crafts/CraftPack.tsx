@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { craftBySlug } from '@/lib/quests/craft-links'
 import Link from 'next/link'
-import { PrintBrandFooter } from '@/components/brand/PrintBrand'
+import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 

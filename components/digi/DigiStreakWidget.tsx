@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
-import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
+import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
 
 // The DiGi widget: the Duolingo streak card charm, our way. Duolingo leans on
 // guilt (the dying owl, "ghosted by you"). We never do that, it breaks the one

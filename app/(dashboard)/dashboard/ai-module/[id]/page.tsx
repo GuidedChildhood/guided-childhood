@@ -2,9 +2,9 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
-import LessonPlayer from '@/components/lessons/LessonPlayer'
-import { parseSlides, autoSlidesFromLesson } from '@/lib/content/lesson-slides'
-import { badgesFor } from '@/lib/content/curriculum-badges'
+import LessonPlayer from '@gc/shared/components/LessonPlayer'
+import { parseSlides, autoSlidesFromLesson } from '@gc/shared/lesson-slides'
+import { badgesFor } from '@gc/shared/curriculum-badges'
 
 // The stage a lesson audience sits in, for the honest Key Stage chip.
 const AUDIENCE_STAGE: Record<string, string> = {

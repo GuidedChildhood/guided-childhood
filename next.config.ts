@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // The shared package ships as plain TypeScript (no build step), so Next
+  // compiles it alongside the app. Both apps carry this same line.
+  transpilePackages: ['@gc/shared'],
   images: {
     // DiGi the star is an SVG served through next/image (DigiCharacter). The
     // image optimizer refuses to serve SVGs unless this is set, which was

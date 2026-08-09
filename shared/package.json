@@ -1,0 +1,6 @@
+{
+  "name": "@gc/shared",
+  "version": "0.0.0",
+  "private": true,
+  "description": "What both Guided Childhood apps use and neither owns: design tokens, the lesson slide grammar and player, the character cast, EfCW strands, brand constants and the social media law flag. This package may never import auth, a Supabase client, Stripe or the Anthropic SDK; the wiring check enforces it."
+}

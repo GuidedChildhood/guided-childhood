@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
-import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
-import AnimatedIntro from '@/components/lessons/AnimatedIntro'
-import { ROSENSHINE_LABELS, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '@/lib/content/lesson-slides'
-import type { CurriculumBadges } from '@/lib/content/curriculum-badges'
-import Interactive from '@/components/lessons/interactives'
+import DigiCharacter, { type DigiMood } from './DigiCharacter'
+import AnimatedIntro from './AnimatedIntro'
+import { ROSENSHINE_LABELS, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '../lesson-slides'
+import type { CurriculumBadges } from '../curriculum-badges'
+import Interactive from './interactives'
 
 // The cinematic player, v3. One player build lifts every lesson at once
 // because slides are data: full bleed one idea slides on a cream stage,

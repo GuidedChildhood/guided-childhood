@@ -1,4 +1,4 @@
-import { SOCIAL_MEDIA_LAW, banContextForDigi, BANNED_PLATFORMS, banIsActive } from '@/lib/config/social-media-law'
+import { SOCIAL_MEDIA_LAW, banContextForDigi, BANNED_PLATFORMS, banIsActive } from '@gc/shared/social-media-law'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 

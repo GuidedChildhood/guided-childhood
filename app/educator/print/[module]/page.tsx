@@ -1,8 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
-import { parseSlides, type ChoiceSlide } from '@/lib/content/lesson-slides'
+import { parseSlides, type ChoiceSlide } from '@gc/shared/lesson-slides'
 import PrintButton from '@/components/educator/PrintButton'
-import { PrintBrandFooter } from '@/components/brand/PrintBrand'
+import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 
 // The paper pack: every printable a teacher needs for a lesson, generated
 // from the lesson row in one click. This is the paperwork killer promised

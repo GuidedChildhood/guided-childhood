@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // My lessons, the child's own list: the age right stage lessons from the
 // family library, on the kid dark theme. Presentational only, so the real

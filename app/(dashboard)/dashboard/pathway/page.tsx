@@ -12,7 +12,7 @@ import { getStageProgress, getAllStagesProgress, type StageId as ProgressStageId
 import { getJourney } from '@/lib/pathway/journey'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import PassportBook from '@/components/pathway/PassportBook'
 import PathwayIntro from '@/components/pathway/PathwayIntro'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'

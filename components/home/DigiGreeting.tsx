@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // The top of Home: DiGi greets in one short, mobile clean line, then one warm
 // line that reads across to the child's own app, whether their jobs are on

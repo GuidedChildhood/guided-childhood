@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
-import { SOCIAL_MEDIA_LAW } from '@/lib/config/social-media-law'
+import { SOCIAL_MEDIA_LAW } from '@gc/shared/social-media-law'
 import ScriptDetailView from '@/components/scripts/ScriptDetailView'
 import { scriptVoiceUrl } from '@/lib/content/script-voice'
 import { isScriptLocked } from '@/lib/content/free-script-limit'

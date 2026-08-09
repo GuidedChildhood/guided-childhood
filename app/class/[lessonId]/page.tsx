@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { parseSlides, autoSlidesFromLesson } from '@/lib/content/lesson-slides'
-import { badgesFor } from '@/lib/content/curriculum-badges'
-import LessonPlayer from '@/components/lessons/LessonPlayer'
+import { parseSlides, autoSlidesFromLesson } from '@gc/shared/lesson-slides'
+import { badgesFor } from '@gc/shared/curriculum-badges'
+import LessonPlayer from '@gc/shared/components/LessonPlayer'
 
 // Whole class mode: the schools showcase. The same cinematic player at 16:9
 // projector scale, read only, no auth, no completion write. The teacher

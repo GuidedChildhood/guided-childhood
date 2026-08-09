@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
-import { parseSlides } from '@/lib/content/lesson-slides'
+import { parseSlides } from '@gc/shared/lesson-slides'
 import PrintButton from '@/components/educator/PrintButton'
 
 // The pupil booklet: the little companion each child holds BEFORE and

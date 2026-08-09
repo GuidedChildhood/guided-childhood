@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // DiGi's fortnightly nudge on the Device Safety Hub: has a new device come
 // into the house, and do the settings still match the child's age. It shows

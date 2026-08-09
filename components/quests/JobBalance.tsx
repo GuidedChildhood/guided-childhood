@@ -1,7 +1,7 @@
 'use client'
 
 import { assessJobLoad, jobMinutes, type JobLite } from '@/lib/quests/job-load'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // DiGi's read on today's job load: a calm, science grounded check that the day
 // is balanced and not a swamp of chores. Responsibility helps a child, in the

@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
-import LessonPlayer from '@/components/lessons/LessonPlayer'
-import { parseSlides } from '@/lib/content/lesson-slides'
+import LessonPlayer from '@gc/shared/components/LessonPlayer'
+import { parseSlides } from '@gc/shared/lesson-slides'
 
 // The teach route: any live module, played full screen for the classroom.
 // One projector is enough. Teacher script panel available on every slide.

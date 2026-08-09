@@ -1,4 +1,4 @@
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGES } from '@/lib/content/stages'
 
 // The road to 16 at a glance: five stages as one connected road, DiGi standing

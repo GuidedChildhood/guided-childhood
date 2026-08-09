@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import HandoverPrompt, { type HandoverChild } from '@/components/home/HandoverPrompt'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import { pickWelcomeCards, cardAction, type WelcomeCard } from '@/lib/home/welcome-cards'

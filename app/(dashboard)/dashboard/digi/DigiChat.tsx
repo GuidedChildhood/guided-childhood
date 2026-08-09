@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
+import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
 import DigiHero from '@/components/digi/DigiHero'
 import ThinkingReassurance from '@/components/digi/ThinkingReassurance'
 

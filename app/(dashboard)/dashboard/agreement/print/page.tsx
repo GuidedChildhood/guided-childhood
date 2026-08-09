@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/agreement/PrintButton'
 import PrintFit from '@/components/agreement/PrintFit'
-import { PrintBrandHeader, PrintBrandFooter } from '@/components/brand/PrintBrand'
+import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 
 export const dynamic = 'force-dynamic'
 

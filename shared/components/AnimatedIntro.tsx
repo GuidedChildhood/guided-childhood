@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
-import { introCharacterFor } from '@/lib/lessons/intro-characters'
+import { introCharacterFor } from '../intro-characters'
 
 // The lesson intro: the real DiGi Squad character (the footballer, the
 // dancer, the celebration leap) plays in a clean framed clip while a

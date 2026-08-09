@@ -11,7 +11,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { screenBalanceInsight } from '@/lib/quests/screen-balance'
 import BalanceScales from '@/components/quests/BalanceScales'

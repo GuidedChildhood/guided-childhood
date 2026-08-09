@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation'
 import { MOMENT_PHOTOS } from '@/lib/content/moment-photos'
 import { scriptVoiceUrl } from '@/lib/content/script-voice'
 import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import ShareWithChildPanel, { type ShareChild } from '@/components/rightnow/ShareWithChildPanel'
 
 // The Right Now button: the emergency entry point in the centre of the
