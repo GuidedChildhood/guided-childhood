@@ -27,5 +27,6 @@
         }
       ]
     }
-  ]
+  ],
+  "installCommand": "cd .. && npm install"
 }

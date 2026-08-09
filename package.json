@@ -9,7 +9,7 @@
     "wiring": "node scripts/wiring-check.mjs"
   },
   "dependencies": {
-    "@gc/shared": "*",
+    "@gc/shared": "file:./shared",
     "@anthropic-ai/sdk": "^0.104.1",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.1",
