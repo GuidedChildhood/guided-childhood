@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from 'next'
 import { Nunito, IBM_Plex_Mono } from 'next/font/google'
+// Shared tokens first, then this app's own styles on top. The schools app
+// imports the same tokens file, which is what keeps the two products one
+// brand (split step 3, plans/split-plan.md).
+import '@gc/shared/tokens.css'
 import './globals.css'
 import PwaRegister from '@/components/PwaRegister'
 import UpdateBanner from '@/components/UpdateBanner'
