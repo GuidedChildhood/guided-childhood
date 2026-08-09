@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // After a parent has the script, DiGi gently asks if it helped. The answer feeds
 // the same signal DiGi already leans on (it will not push a script that failed,

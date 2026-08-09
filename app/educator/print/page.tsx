@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { CURRICULUM, CHARACTERS } from '@/lib/content/schools-curriculum'
+import { CURRICULUM, CHARACTERS } from '@gc/shared/schools-curriculum'
 
 // THE PRINT ROOM: every printable for every live module in one place.
 // Paper pack, pupil booklets, and named quizzes per class. No Canva,

@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // One door, two paths: families and schools sign in here. The path picker
 // sets the destination and the copy, and arriving with ?next=/educator...

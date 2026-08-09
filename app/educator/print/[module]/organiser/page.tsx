@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/educator/PrintButton'
-import { parseSlides, type ObjectiveSlide, type KeywordsSlide } from '@/lib/content/lesson-slides'
+import { parseSlides, type ObjectiveSlide, type KeywordsSlide } from '@gc/shared/lesson-slides'
 
 // The pupil Knowledge Organiser (Jigsaw PKO equivalent, cleaner): one
 // page per module. What I am learning, my words, the tool, and the

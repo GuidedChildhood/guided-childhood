@@ -1,4 +1,4 @@
-import { BRAND_NAME, BRAND_PATHWAY, BRAND_CATCHPHRASE, BRAND_DOMAIN, LOGO_GOLD, LOGO_BARS } from '@/lib/brand'
+import { BRAND_NAME, BRAND_PATHWAY, BRAND_CATCHPHRASE, BRAND_DOMAIN, LOGO_GOLD, LOGO_BARS } from '../brand'
 
 // The brand block for anything a family prints: the logo exactly as the
 // app header draws it, the name, the pathway line, and (in the footer)

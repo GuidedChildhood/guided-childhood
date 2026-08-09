@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER } from '@/lib/content/schools-curriculum'
+import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
 // THE CURRICULUM MAP: the shop window. One screen showing the whole
 // programme, Reception to Year 13, as character colour coded module cards

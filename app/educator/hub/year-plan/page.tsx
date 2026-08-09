@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/educator/PrintButton'
-import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@/lib/content/schools-curriculum'
+import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
 // The year at a glance: every key stage's modules spread across the three
 // terms, printable for the staffroom wall and the subject lead's file.

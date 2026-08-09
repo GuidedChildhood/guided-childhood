@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/educator/PrintButton'
-import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@/lib/content/schools-curriculum'
+import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
 // The parent pack: the whole programme explained for parents, built for
 // the consultation the 2025 guidance requires. Family questions pull live

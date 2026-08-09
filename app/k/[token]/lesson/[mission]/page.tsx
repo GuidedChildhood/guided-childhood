@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
-import LessonPlayer from '@/components/lessons/LessonPlayer'
-import { parseSlides } from '@/lib/content/lesson-slides'
+import LessonPlayer from '@gc/shared/components/LessonPlayer'
+import { parseSlides } from '@gc/shared/lesson-slides'
 
 // A star lesson, the kid version: opened from the child's own quest link,
 // no account, no login. The same lesson the schools product teaches, in

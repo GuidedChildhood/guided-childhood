@@ -4,7 +4,7 @@ import Link from 'next/link'
 import PrintButton from '../print/PrintButton'
 import { getStarBanks } from '@/lib/quests/bank'
 import { STAR_MINUTES } from '@/lib/quests/templates'
-import { PrintBrandHeader, PrintBrandFooter } from '@/components/brand/PrintBrand'
+import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 
 // The device time contract: the quest deal on paper, signed by both
 // sides. The quests that earn stars, the before screens clause, the

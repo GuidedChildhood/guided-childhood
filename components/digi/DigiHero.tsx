@@ -7,7 +7,7 @@
 // the head of the DiGi chat, the scripts and the school pages so every DiGi
 // surface opens the same way, never a copy of another brand.
 
-import DigiCharacter, { type DigiMood } from './DigiCharacter'
+import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
 
 export default function DigiHero({
   eyebrow,

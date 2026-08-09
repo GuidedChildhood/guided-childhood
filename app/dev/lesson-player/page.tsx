@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
-import LessonPlayer from '@/components/lessons/LessonPlayer'
-import type { LessonSlide } from '@/lib/content/lesson-slides'
+import LessonPlayer from '@gc/shared/components/LessonPlayer'
+import type { LessonSlide } from '@gc/shared/lesson-slides'
 
 // Dev only fixture: the cinematic player with a sample Rosenshine deck so
 // the design can be checked without a database or a signed in parent.

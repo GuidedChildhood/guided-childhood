@@ -7,7 +7,7 @@ import PassportSection from '@/components/marketing/PassportSection'
 import SeeInside from '@/components/marketing/SeeInside'
 import DigiGreeter from '@/components/marketing/DigiGreeter'
 import MarketingNav from '@/components/marketing/MarketingNav'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { CONTACT, hasAddress } from '@/lib/content/contact'
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // The fortnightly deal review. A family deal set once in week one quietly stops
 // matching the family by week six: the jobs change, the child gets older, the

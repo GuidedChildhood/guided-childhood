@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/educator/PrintButton'
-import { CURRICULUM } from '@/lib/content/schools-curriculum'
+import { CURRICULUM } from '@gc/shared/schools-curriculum'
 
 // The DSL crosswalk: every safeguarding flagged module, its statutory
 // hook and its disclosure guidance on one page. DSL notes pull live from

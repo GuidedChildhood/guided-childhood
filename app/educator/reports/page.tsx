@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/educator/PrintButton'
-import { CURRICULUM } from '@/lib/content/schools-curriculum'
+import { CURRICULUM } from '@gc/shared/schools-curriculum'
 
 // The coverage report: the head and governor view, printable for the
 // termly report and the inspection file. Generated from register taps,

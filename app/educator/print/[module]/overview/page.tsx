@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/educator/PrintButton'
-import { parseSlides, PHASE_LABELS, type LessonSlide } from '@/lib/content/lesson-slides'
+import { parseSlides, PHASE_LABELS, type LessonSlide } from '@gc/shared/lesson-slides'
 
 // The unit overview: the whole lesson on one printable page for planning
 // and the subject lead's file (the clean version of Jigsaw's Puzzle Map).

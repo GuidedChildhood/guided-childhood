@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { BRAND_NAME } from '@/lib/brand'
+import { BRAND_NAME } from '@gc/shared/brand'
 
 // THE TOOLKIT SHEET. A printable for children who have outgrown colouring in.
 //

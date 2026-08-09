@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
-import { parseSlides, type ChoiceSlide } from '@/lib/content/lesson-slides'
-import PrintButton from '../../PrintButton'
+import { parseSlides, type ChoiceSlide } from '@gc/shared/lesson-slides'
+import PrintButton from '@/components/educator/PrintButton'
 
 // The personalised end of lesson quiz (JP brief, 6 Jul 2026): one page
 // per pupil, name already printed from the class list, the exit checks
@@ -34,7 +34,7 @@ export default async function PersonalisedQuizPage({ params }: { params: Promise
     <main style={{ maxWidth: '740px', margin: '0 auto', background: '#fff' }}>
       <div className="no-print" style={{ padding: '20px 8px 0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={mono}>End of lesson quiz · one page per pupil, names printed · {roster.length} sheets</span>
-        <PrintButton />
+        <PrintButton label="Print the pack" />
       </div>
 
       {roster.map((pupil, pi) => (

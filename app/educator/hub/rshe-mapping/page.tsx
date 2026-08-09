@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/educator/PrintButton'
-import { CURRICULUM, RSHE_2025_TOPICS, KEY_STAGE_ORDER } from '@/lib/content/schools-curriculum'
+import { CURRICULUM, RSHE_2025_TOPICS, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
 // The RSHE 2025 mapping matrix: the document that survives the September
 // 2026 statutory switchover. Renders live from the curriculum manifest so

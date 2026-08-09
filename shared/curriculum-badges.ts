@@ -16,8 +16,11 @@ const KEY_STAGE: Record<string, string> = {
 }
 
 // Education for a Connected World strand from the lesson category. One
-// strand per category, the closest fit, never a stretch.
-const STRAND: Record<string, string> = {
+// strand per category, the closest fit, never a stretch. Values are typed
+// against the canonical strand list so a respelling cannot drift in.
+import type { EfcwStrand } from './efcw'
+
+const STRAND: Record<string, EfcwStrand> = {
   safety:        'Online relationships',
   online_risks:  'Privacy and security',
   screen_habits: 'Health, wellbeing and lifestyle',

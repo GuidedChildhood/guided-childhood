@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 import type { Notification } from '@/lib/notifications/collect'
 

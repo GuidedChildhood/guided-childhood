@@ -2,8 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PrintButton from '@/components/educator/PrintButton'
-import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@/lib/content/schools-curriculum'
-import { parseSlides, type KeywordsSlide } from '@/lib/content/lesson-slides'
+import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
+import { parseSlides, type KeywordsSlide } from '@gc/shared/lesson-slides'
 
 // The whole scheme vocabulary: every keyword from every module, grouped
 // by key stage, generated from the decks so it can never drift.

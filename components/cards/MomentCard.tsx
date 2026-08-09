@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
+import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
 import { momentImageForTitle } from '@/lib/content/moment-images'
 import { momentPhotoForTitle } from '@/lib/content/moment-photos'
 import { momentLook } from '@/lib/content/moment-look'

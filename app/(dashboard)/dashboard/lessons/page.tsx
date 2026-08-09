@@ -5,7 +5,7 @@ import { hasFullAccess } from '@/lib/access'
 import { freeLessonIds } from '@/lib/content/lesson-access'
 import { getParentLessons, getCompletionsForChild, durationLabel } from '@/lib/lessons/parent-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { keyStageFor, strandFor } from '@/lib/content/curriculum-badges'
+import { keyStageFor, strandFor } from '@gc/shared/curriculum-badges'
 import { lessonCoverForTitle, lessonCoverForAiCategory } from '@/lib/content/lesson-covers'
 import LessonsBrowser, { type WatchItem, type LibraryItem } from './LessonsBrowser'
 

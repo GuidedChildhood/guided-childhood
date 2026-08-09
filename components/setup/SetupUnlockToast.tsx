@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import type { SetupFlags } from './SetupPath'
 import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
 
