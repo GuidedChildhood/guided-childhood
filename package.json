@@ -9,7 +9,7 @@
     "wiring": "node scripts/wiring-check.mjs"
   },
   "dependencies": {
-    "@gc/shared": "file:./shared",
+    "@gc/shared": "*",
     "@anthropic-ai/sdk": "^0.104.1",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.1",
@@ -34,5 +34,9 @@
     "playwright": "^1.61.1",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "workspaces": [
+    "shared",
+    "schools"
+  ]
 }
