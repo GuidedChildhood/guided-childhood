@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createSchool, createClass } from './actions'
-import { CURRICULUM } from '@/lib/content/schools-curriculum'
+import { CURRICULUM } from '@gc/shared/schools-curriculum'
 
 // The educator workspace home: a premium dashboard. Hero greeting, a
 // coverage donut, gilded stat tiles, a class leaderboard by coverage, and

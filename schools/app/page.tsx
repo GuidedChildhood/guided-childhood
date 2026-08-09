@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import { CURRICULUM as MODULES, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
-import Reveal from './Reveal'
+import Reveal from '@/components/Reveal'
 
 export const metadata: Metadata = {
   title: 'For Schools | Guided Childhood',
@@ -47,7 +47,7 @@ function ProductMockup() {
         <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#E9B949' }} />
         <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#7BB662' }} />
         <span style={{ marginLeft: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', background: '#fff', borderRadius: '6px', padding: '3px 12px', flex: 1, maxWidth: '260px' }}>
-          guidedchildhood.app/educator/curriculum
+          schools.guidedchildhood.co.uk/curriculum
         </span>
       </div>
       {/* The map preview */}
@@ -92,10 +92,10 @@ export default function SchoolsPage() {
           ⭐ Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
         </Link>
         <nav style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-          <Link href="/" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>For parents</Link>
+          <a href="https://www.guidedchildhood.co.uk" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>For parents</a>
           <Link href="#curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Curriculum</Link>
           <Link href="#pricing" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Pricing</Link>
-          <Link href="/login?next=/educator" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Sign in</Link>
+          <Link href="/curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Open the catalogue</Link>
           <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '10px 22px', fontSize: 'var(--text-sm)', marginLeft: '6px' }}>
             Request a pilot
           </a>

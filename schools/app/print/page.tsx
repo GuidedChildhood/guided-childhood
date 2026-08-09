@@ -1,5 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
+import { anon as supabase } from '@/lib/supabase/anon'
 import Link from 'next/link'
 import { CURRICULUM, CHARACTERS } from '@gc/shared/schools-curriculum'
 
@@ -19,23 +18,14 @@ const linkStyle: React.CSSProperties = {
   padding: '8px 14px', background: '#fff',
 }
 
+export const revalidate = 3600
+
 export default async function PrintRoomPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
-  const { data: membership } = await supabase
-    .from('school_educators')
-    .select('school_id')
-    .eq('user_id', user.id)
-    .limit(1)
-    .maybeSingle()
-  if (!membership) redirect('/educator')
-
-  const [{ data: lessons }, { data: classes }] = await Promise.all([
-    supabase.from('school_lessons').select('module_id, title, key_stage, year_band').order('sort_order'),
-    supabase.from('school_classes').select('id, name').eq('school_id', membership.school_id).order('created_at'),
-  ])
+  const { data: lessons } = await supabase
+    .from('school_lessons')
+    .select('module_id, title, key_stage, year_band')
+    .order('sort_order')
 
   const manifestByModule = new Map(CURRICULUM.map(m => [m.moduleId, m]))
 
@@ -70,15 +60,10 @@ export default async function PrintRoomPage() {
                   {l.title}
                 </h2>
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                  <Link href={`/educator/print/${l.module_id}`} style={linkStyle}>Paper pack</Link>
-                  <Link href={`/educator/print/${l.module_id}/booklet`} style={linkStyle}>Pupil booklet</Link>
-                  <Link href={`/educator/print/${l.module_id}/organiser`} style={linkStyle}>Knowledge organiser</Link>
-                  <Link href={`/educator/print/${l.module_id}/overview`} style={linkStyle}>Unit overview</Link>
-                  {(classes ?? []).map(c => (
-                    <Link key={c.id} href={`/educator/print/${l.module_id}/quiz/${c.id}`} style={linkStyle}>
-                      Named quizzes · {c.name}
-                    </Link>
-                  ))}
+                  <Link href={`/print/${l.module_id}`} style={linkStyle}>Paper pack</Link>
+                  <Link href={`/print/${l.module_id}/booklet`} style={linkStyle}>Pupil booklet</Link>
+                  <Link href={`/print/${l.module_id}/organiser`} style={linkStyle}>Knowledge organiser</Link>
+                  <Link href={`/print/${l.module_id}/overview`} style={linkStyle}>Unit overview</Link>
                 </div>
               </div>
             )
@@ -89,26 +74,6 @@ export default async function PrintRoomPage() {
             </p>
           )}
 
-          {(classes ?? []).length > 0 && (
-            <div style={{
-              background: 'var(--warm)', border: '2px solid var(--gold)',
-              borderRadius: '20px', padding: '18px 20px',
-            }}>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '4px' }}>
-                Certificates 🏆
-              </h2>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '12px' }}>
-                The Digital Detective Award, one per pupil with names already printed.
-              </p>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {(classes ?? []).map(c => (
-                  <Link key={c.id} href={`/educator/print/certificates/${c.id}`} style={linkStyle}>
-                    {c.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </main>

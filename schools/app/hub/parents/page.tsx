@@ -1,7 +1,7 @@
-import { createClient } from '@/lib/supabase/server'
+import { anon as supabase } from '@/lib/supabase/anon'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import PrintButton from '@/components/educator/PrintButton'
+import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
 // The parent pack: the whole programme explained for parents, built for
@@ -13,10 +13,9 @@ const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'v
 
 type ParentNote = { family_question?: string; taught?: string }
 
+export const revalidate = 3600
+
 export default async function ParentPackPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
   const { data: lessons } = await supabase
     .from('school_lessons')
@@ -27,7 +26,7 @@ export default async function ParentPackPage() {
     <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
       <div style={{ maxWidth: '740px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-          <Link href="/educator/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
+          <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
           <PrintButton label="Print the parent pack" />
         </div>
 

@@ -1,7 +1,7 @@
-import { createClient } from '@/lib/supabase/server'
+import { anon as supabase } from '@/lib/supabase/anon'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import PrintButton from '@/components/educator/PrintButton'
+import PrintButton from '@/components/PrintButton'
 import { CURRICULUM, RSHE_2025_TOPICS, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
 // The RSHE 2025 mapping matrix: the document that survives the September
@@ -11,10 +11,9 @@ import { CURRICULUM, RSHE_2025_TOPICS, KEY_STAGE_ORDER } from '@gc/shared/school
 const mono: React.CSSProperties = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }
 const body: React.CSSProperties = { fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6 }
 
+export const revalidate = 3600
+
 export default async function RsheMappingPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
   const { data: lessons } = await supabase
     .from('school_lessons')
@@ -26,7 +25,7 @@ export default async function RsheMappingPage() {
     <main style={{ minHeight: '100vh', background: '#fff', padding: '32px 20px 80px' }}>
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         <div className="gc-print-btn" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
-          <Link href="/educator/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
+          <Link href="/hub" style={{ ...mono, textDecoration: 'none' }}>← The Hub</Link>
           <PrintButton />
         </div>
 

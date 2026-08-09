@@ -1,86 +1,28 @@
-import { createClient } from '@/lib/supabase/server'
-import { redirect } from 'next/navigation'
+import { anon as supabase } from '@/lib/supabase/anon'
 import Link from 'next/link'
 import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
-// THE CURRICULUM MAP: the shop window. One screen showing the whole
-// programme, Reception to Year 13, as character colour coded module cards
-// with coverage rings that fill as classes are taught. This is the screen
-// a head opens to see the year at a glance, and the screen that wins the
-// pilot demo (Jigsaw shows a colourful programme; we show a colourful
-// programme WITH live delivery evidence on it).
+// THE CURRICULUM MAP, open catalogue edition (the Oak model): the whole
+// programme, Reception to Year 13, as character colour coded module cards,
+// no login anywhere. The coverage rings from the educator workspace do not
+// exist here because this page has no idea who is looking, on purpose.
+
+export const revalidate = 3600
 
 const eyebrow: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
 }
 
-// Coverage ring: classes taught over total classes, drawn server side.
-function CoverageRing({ taught, total, accent }: { taught: number; total: number; accent: string }) {
-  const pct = total > 0 ? taught / total : 0
-  const r = 15
-  const c = 2 * Math.PI * r
-  return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-      <svg width="38" height="38" viewBox="0 0 38 38" role="img" aria-label={`${taught} of ${total} classes taught`}>
-        <circle cx="19" cy="19" r={r} fill="none" stroke="var(--border)" strokeWidth="4" />
-        <circle
-          cx="19" cy="19" r={r} fill="none" stroke={accent} strokeWidth="4"
-          strokeLinecap="round" strokeDasharray={`${c * pct} ${c}`}
-          transform="rotate(-90 19 19)"
-        />
-        {pct === 1 && total > 0 && (
-          <text x="19" y="24" textAnchor="middle" fontSize="14" fill={accent} fontWeight="900">✓</text>
-        )}
-      </svg>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink-muted)' }}>
-        {taught} of {total} classes
-      </span>
-    </span>
-  )
-}
-
 export default async function CurriculumMapPage() {
-  const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) redirect('/login')
 
-  const { data: membership } = await supabase
-    .from('school_educators')
-    .select('school_id')
-    .eq('user_id', user.id)
-    .limit(1)
-    .maybeSingle()
-  if (!membership) redirect('/educator')
-
-  const [{ data: classes }, { data: lessons }] = await Promise.all([
-    supabase.from('school_classes').select('id').eq('school_id', membership.school_id),
-    supabase.from('school_lessons').select('id, module_id'),
-  ])
-
-  const classIds = (classes ?? []).map(c => c.id)
-  const { data: deliveries } = classIds.length
-    ? await supabase.from('lesson_deliveries').select('lesson_id, class_id').in('class_id', classIds)
-    : { data: [] as { lesson_id: string; class_id: string }[] }
-
-  // module_id → set of classes that have been taught it
-  const lessonById = new Map((lessons ?? []).map(l => [l.id, l.module_id]))
+  const { data: lessons } = await supabase.from('school_lessons').select('id, module_id')
   const liveModules = new Set((lessons ?? []).map(l => l.module_id))
-  const taughtClasses = new Map<string, Set<string>>()
-  for (const d of deliveries ?? []) {
-    const moduleId = lessonById.get(d.lesson_id)
-    if (!moduleId) continue
-    if (!taughtClasses.has(moduleId)) taughtClasses.set(moduleId, new Set())
-    taughtClasses.get(moduleId)!.add(d.class_id)
-  }
-
-  const totalClasses = classIds.length
   const liveCount = CURRICULUM.filter(m => liveModules.has(m.moduleId)).length
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)', padding: '36px 20px 90px' }}>
       <div style={{ maxWidth: '980px', margin: '0 auto' }}>
-        <Link href="/educator" style={{ ...eyebrow, textDecoration: 'none' }}>← Workspace</Link>
         <div style={{ ...eyebrow, color: 'var(--green-dark)', margin: '14px 0 4px' }}>
           The whole programme · Reception to Year 13
         </div>
@@ -89,7 +31,7 @@ export default async function CurriculumMapPage() {
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>
           Twenty one modules covering all eight Education for a Connected World strands, taught by the DiGi Squad.
-          The ring on each card fills as your classes are taught, so this page is also your live coverage record.
+          Open the catalogue, pick a module, teach it today. No account, no download wall, no prep.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '34px' }}>
           {liveCount} of {CURRICULUM.length} modules live in the pilot · the rest are in production
@@ -116,7 +58,6 @@ export default async function CurriculumMapPage() {
                 {modules.map(m => {
                   const ch = CHARACTERS[m.character]
                   const live = liveModules.has(m.moduleId)
-                  const taught = taughtClasses.get(m.moduleId)?.size ?? 0
                   return (
                     <div key={m.moduleId} style={{
                       background: '#fff', border: `2px solid ${live ? ch.accent : 'var(--border)'}`,
@@ -167,7 +108,7 @@ export default async function CurriculumMapPage() {
 
                         <div style={{ marginTop: 'auto', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                           {live ? (
-                            <Link href={`/educator/teach/${m.moduleId}`} style={{
+                            <Link href={`/teach/${m.moduleId}`} style={{
                               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                               color: '#fff', background: ch.accent, borderRadius: '12px',
                               padding: '8px 14px', textDecoration: 'none',
@@ -179,7 +120,6 @@ export default async function CurriculumMapPage() {
                               In production
                             </span>
                           )}
-                          <CoverageRing taught={taught} total={totalClasses} accent={ch.accent} />
                         </div>
                       </div>
                     </div>
@@ -191,9 +131,8 @@ export default async function CurriculumMapPage() {
         })}
 
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-light)', lineHeight: 1.6, maxWidth: '640px' }}>
-          Every module ships with the lesson player, video beats, the teacher script, the paper pack, pupil booklets,
-          named quizzes, a parent note home, and one tap register and marking. Coverage on this page is your
-          printable evidence of delivery.
+          Every module ships with the lesson player, the word for word teacher script, the paper pack, pupil
+          booklets and a parent note home. Print anything from the print room; nothing needs an account.
         </p>
       </div>
     </main>
