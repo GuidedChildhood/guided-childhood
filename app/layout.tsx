@@ -49,11 +49,19 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_GB',
     siteName: 'Guided Childhood',
+    // Built from app/ref-og-card rather than drawn by hand or generated, so
+    // the wordmark is really Nunito and the butter is really the token. A
+    // relative path works because metadataBase is set above; without it Next
+    // would resolve this against localhost and every share would be blank.
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Guided Childhood, digital parenting for ages 4 to 16' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Guided Childhood, Digital Parenting for UK Families',
     description: 'The stage by stage guide to raising children with screens. Ages 4 to 16. Built on the research.',
+    // summary_large_image was already set with nothing behind it, which is
+    // what made every share a blank grey rectangle.
+    images: ['/og.png'],
   },
   robots: {
     index: true,
