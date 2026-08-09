@@ -1259,7 +1259,18 @@ export default function KidQuestScreen({
     }}>
       {/* First open ever: meet the Planet Friend for this child's stage, then
           the whole family they can earn. Overlays the app until they tap through. */}
-      {showIntro && <KidSquadIntro childName={childName} earnedFriends={earnedStages} completedStreaks={completedStreaks} onDone={() => setShowIntro(false)} />}
+      {showIntro && <KidSquadIntro childName={childName} earnedFriends={earnedStages} completedStreaks={completedStreaks} onDone={() => {
+        setShowIntro(false)
+        // Justin, 9 August 2026: "it then takes you to halfway down scrolled
+        // page, it should be the top." The intro is a fixed overlay, so the
+        // page underneath keeps whatever scroll position it had, and on a
+        // reopen that is wherever the child left off. Closing the intro is the
+        // start of a visit, so it starts at the top. Instant, not smooth,
+        // because html has scroll-behavior smooth and a child should not watch
+        // the page fly upward after tapping Skip.
+        try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior }) }
+        catch { window.scrollTo(0, 0) }
+      }} />}
 
       {/* Their own buddy says hello when the app opens, the Duolingo front
           door, once per session on their own colour. */}
