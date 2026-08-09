@@ -111,7 +111,29 @@ export default function KidAskForJob({
     setBusy(false)
   }
 
-  const ideas = KID_REQUEST_IDEAS.filter(i => !asks.some(a => a.title === i.title))
+  // Hide an idea only while it is STILL WAITING on a parent, not forever.
+  //
+  // Justin, 9 August 2026, from the child app: "it's one of the 5 ask for a job
+  // but it's a list that I cannot add one, can you check how this works and why
+  // I can't add one, it may be a restriction on too many jobs."
+  //
+  // It was not a restriction. Both caps were clear: the child had one ask
+  // pending against a limit of five, and none at all today against a limit of
+  // five. What had happened is that this line matched on title at ANY status,
+  // and the child had at some point asked for all seven presets and had every
+  // one approved. So the filter emptied the grid completely and the tap to ask
+  // route disappeared, leaving a free text box on a page that still says "tap
+  // one, or write your own". Nothing above it explains where the list went.
+  //
+  // An approved job is the opposite of a reason to hide the idea: it is proof
+  // the child likes doing it and the parent said yes. Helping with dinner again
+  // next week is exactly the behaviour this feature exists to produce. Only an
+  // ask still sitting in the queue is worth suppressing, because asking twice
+  // for the same undecided thing is the one case that genuinely clutters a
+  // parent's approvals.
+  const ideas = KID_REQUEST_IDEAS.filter(
+    i => !asks.some(a => a.title === i.title && a.status === 'pending'),
+  )
 
   return (
     <div>

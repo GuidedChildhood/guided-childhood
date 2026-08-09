@@ -6293,3 +6293,40 @@ JP: "we have way too much on Home Screen so let's organise better." His order, s
 **The reorder itself.** Diary always renders (a quiet day shows a slim door into the week, because the block a child adds to cannot vanish), the welcome greets by the child's clock, the streak strip is one line (JP: "don't let it dominate"), and the tab bar went solid white with a real border and full ink labels. ref-kid-home renders the whole real KidQuestScreen with a made up family, the first way to see the child home without a signed in child; ref-kid-five now imports the real component too (KidFiveADay takes initialState for fixtures).
 
 **Worth knowing:** migrations 177 AND 179 are merged but not applied; 179 is safe either side of the deploy (guarded reads, fallback insert), but the child add stores no provenance until it runs. The schools Vercel project failed every deploy this morning until it was reconfigured mid afternoon; the repo was never the fault (schools builds green locally with zero env).
+
+## 9 August 2026 — the ask for a job list emptied itself and never refilled
+
+Justin, from the child app: "it's one of the 5 ask for a job but it's a list
+that I cannot add one, can you check how this works and why I can't add one, it
+may be a restriction on too many jobs."
+
+**It was not a restriction, and both caps were checked against the live data
+before touching anything.** Teo had one ask pending against a limit of five, and
+none created today against a daily limit of five. Neither was close.
+
+**The cause was one filter.** KidAskForJob hid a preset idea if its title
+appeared in the child's recent asks at ANY status. Teo had, over a fortnight,
+asked for all seven presets and had every one approved. So the quick pick grid
+filtered to zero and did not render, leaving a bare text box under a line that
+still reads "tap one, or write your own". Nothing explains where the list went,
+which is exactly what Justin described.
+
+**Now it hides an idea only while it is still pending.** An approved job is the
+opposite of a reason to hide the idea: it is proof the child likes doing it and
+the parent said yes, and helping with dinner again next week is the behaviour
+the feature exists to produce. Only an undecided ask is worth suppressing,
+because asking twice for the same one clutters a parent's approvals.
+
+Verified against Teo's actual twelve rows: 0 chips before, 7 after, then driven
+in the browser at 390px on a new /dev/ask-for-job fixture.
+
+**Why it was never caught: the page cannot be opened locally at all.** It
+resolves a link token with the service role, so it 500s without the key, and
+there was no fixture. That is the same gap as the lessons and craft pages
+earlier today.
+
+**Two things in the same report are NOT touched, because they belong to PR 770**
+(the child home five a day rebuild, open and active): the Ask for a job card
+colours, and "Something kind" vanishing the instant it is tapped. Confirmed 770
+does not touch KidAskForJob or the suggest page, so this fix cannot collide, and
+the other two are passed to that lane rather than fixed twice.
