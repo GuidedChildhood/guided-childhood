@@ -8,11 +8,16 @@ import { useState } from 'react'
 // tap, best effort, and it says so plainly if their phone is not set up.
 
 export default function LessonSendButton({
-  childId, childName, title,
+  childId, childName, title, message, idleLabel,
 }: {
   childId: string | null
   childName: string
   title: string
+  /** Overrides the default "New lesson to play" wording. The Social Media
+      Ready module uses it, because nine lessons are not "a lesson". */
+  message?: string
+  /** Overrides the idle button text, for the same reason. */
+  idleLabel?: string
 }) {
   const [state, setState] = useState<'idle' | 'sending' | 'sent' | 'nodevice' | 'noserver' | 'quiet'>('idle')
 
@@ -23,7 +28,7 @@ export default function LessonSendButton({
       const res = await fetch('/api/quests/ping', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ child_id: childId, message: `New lesson to play: ${title} ⭐` }),
+        body: JSON.stringify({ child_id: childId, message: message ?? `New lesson to play: ${title} ⭐` }),
       })
       const data = await res.json().catch(() => ({}))
       // Four honest outcomes now: delivered, held because it is night on the
@@ -47,7 +52,7 @@ export default function LessonSendButton({
     : state === 'quiet' ? 'On their quests, no buzz after 7pm'
     : state === 'nodevice' ? 'On their quests (no ping set up)'
     : state === 'noserver' ? 'Pings not switched on yet'
-    : `📲 Send to ${childName}`
+    : idleLabel ?? `📲 Send to ${childName}`
 
   return (
     <button

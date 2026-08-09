@@ -325,7 +325,7 @@ export default function LessonsBrowser({
             age when showing all. The Social Media Ready module takes over the
             whole view when opened, so the spine reads as one ramp. */}
         {view === 'library' && moduleOn && (
-          <SocialMediaModule items={moduleItems} childName={childName} onBack={() => setModuleOn(false)} />
+          <SocialMediaModule items={moduleItems} childId={childId} childName={childName} onBack={() => setModuleOn(false)} />
         )}
         {view === 'library' && !moduleOn && (
           <>
@@ -621,7 +621,7 @@ function ModuleCard({ count, onOpen }: { count: number; onOpen: () => void }) {
 // ramp and the evidence, then every social media lesson in stage order, with a
 // quiet age divider so a parent sees it climb from 8 to 16. A back control
 // returns to the full library.
-function SocialMediaModule({ items, childName, onBack }: { items: LibraryItem[]; childName: string; onBack: () => void }) {
+function SocialMediaModule({ items, childId, childName, onBack }: { items: LibraryItem[]; childId: string | null; childName: string; onBack: () => void }) {
   const groups = STAGE_LIST
     .map(s => ({ s, items: items.filter(i => i.stageNum === s.num) }))
     .filter(g => g.items.length > 0)
@@ -644,6 +644,24 @@ function SocialMediaModule({ items, childName, onBack }: { items: LibraryItem[];
         <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
           The one topic parents worry about most, taught as a ramp, not a cliff. It climbs from what social media even is, through the settings that keep you private and the real dangers, to the honest mood check and taking the wheel at 16. Grounded in Orben, Odgers, Przybylski, Livingstone and Knibbs, so every lesson holds up to a hard question.
         </p>
+        {/* Justin, 8 August 2026: the module should come "with the ability to
+            send to child's phone to do". The nine lessons were already here
+            and there was no way to hand them over, so a parent had to find
+            each one separately to send it.
+
+            Its own wording rather than the per lesson default, because "New
+            lesson to play" is wrong for nine of them, and the ping deep links
+            to the child's own page where the set is already in order with the
+            next one marked. */}
+        <div style={{ marginTop: '14px' }}>
+          <LessonSendButton
+            childId={childId}
+            childName={childName}
+            title="Social Media Ready"
+            message={`The Social Media Ready lessons are on your page, ${items.length} of them in order. Start with the first one ⭐`}
+            idleLabel={`📲 Send all ${items.length} to ${childName}`}
+          />
+        </div>
       </div>
 
       {groups.map(g => (

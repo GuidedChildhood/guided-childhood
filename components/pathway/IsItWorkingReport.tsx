@@ -286,7 +286,20 @@ export default async function IsItWorkingReport(
       {/* What we are working on: the real list, with the parent's verdict.
           Not the same thing as the pathway's journey card above, which is the
           three strands and the next step. This is the concerns a parent has
-          actually flagged and whether they are shifting. */}
+          actually flagged and whether they are shifting.
+
+          The id is what the passport's "Moments to resolve" row now points at.
+          Justin, 8 August 2026: "this should take you to the actual 5 moments
+          then back to page." It did not, and the reason was that the number
+          and the link were reading two different tables: the count is open
+          rows in `concerns`, which is this list, and the link went to
+          /dashboard/moments, which is the general card library in
+          `daily_moments`. So a parent tapped "5 to resolve" and landed on a
+          browse page that did not contain their five anywhere.
+
+          scrollMarginTop matches the screen-balance anchor above so the
+          heading is not left under the sticky header. */}
+      <div id="working-on" style={{ scrollMarginTop: '80px' }} />
       <WorkingOn
         concerns={concerns.map(c => ({ slug: c.slug, label: c.label, status: c.status, times_flagged: c.times_flagged }))}
         solvedAlready={solvedCount}
