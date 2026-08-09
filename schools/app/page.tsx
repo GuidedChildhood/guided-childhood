@@ -47,7 +47,7 @@ function ProductMockup() {
         <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#E9B949' }} />
         <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#7BB662' }} />
         <span style={{ marginLeft: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', background: '#fff', borderRadius: '6px', padding: '3px 12px', flex: 1, maxWidth: '260px' }}>
-          schools.guidedchildhood.co.uk/curriculum
+          schools.guidedchildhood.com/curriculum
         </span>
       </div>
       {/* The map preview */}
@@ -92,7 +92,7 @@ export default function SchoolsPage() {
           ⭐ Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
         </Link>
         <nav style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-          <a href="https://www.guidedchildhood.co.uk" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>For parents</a>
+          <a href="https://www.guidedchildhood.com" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>For parents</a>
           <Link href="#curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Curriculum</Link>
           <Link href="#pricing" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Pricing</Link>
           <Link href="/curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Open the catalogue</Link>

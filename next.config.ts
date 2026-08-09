@@ -4,6 +4,19 @@ const nextConfig: NextConfig = {
   // The shared package ships as plain TypeScript (no build step), so Next
   // compiles it alongside the app. Both apps carry this same line.
   transpilePackages: ['@gc/shared'],
+  // The schools product moved to its own app and domain at the split
+  // cutover (plans/split-plan.md step 7). Old links keep working forever:
+  // the marketing page, the educator workspace and the class showcase all
+  // land on the schools site. 308s, so search engines move their index.
+  async redirects() {
+    const SCHOOLS = 'https://schools.guidedchildhood.com'
+    return [
+      { source: '/schools', destination: SCHOOLS, permanent: true },
+      { source: '/educator', destination: SCHOOLS, permanent: true },
+      { source: '/educator/:path*', destination: `${SCHOOLS}/:path*`, permanent: true },
+      { source: '/class/:lessonId', destination: `${SCHOOLS}/class/:lessonId`, permanent: true },
+    ]
+  },
   images: {
     // DiGi the star is an SVG served through next/image (DigiCharacter). The
     // image optimizer refuses to serve SVGs unless this is set, which was

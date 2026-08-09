@@ -1,7 +1,10 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-const protectedPrefixes = ['/dashboard', '/educator', '/admin', '/onboarding']
+// /educator left this list at the split cutover: the schools product lives
+// at schools.guidedchildhood.com with no login at all, and next.config.ts
+// redirects the old routes there.
+const protectedPrefixes = ['/dashboard', '/admin', '/onboarding']
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -68,8 +71,8 @@ export async function middleware(request: NextRequest) {
     }
 
     // Redirect authed users away from auth pages, honouring the next param
-    // (an educator sent to /login?next=/educator must land on /educator,
-    // not the parent dashboard).
+    // (a parent following a deep link into /dashboard/... must land there,
+    // not on the dashboard home).
     if (user && isAuthPage) {
       const url = request.nextUrl.clone()
       const next = url.searchParams.get('next')

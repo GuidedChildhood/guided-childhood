@@ -20,7 +20,7 @@ const plexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://schools.guidedchildhood.co.uk'),
+  metadataBase: new URL('https://schools.guidedchildhood.com'),
   title: {
     default: 'Digital Literacy Curriculum, Reception to Year 13 | Guided Childhood Schools',
     template: '%s | Guided Childhood Schools',
