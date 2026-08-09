@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { KID_REQUEST_IDEAS } from '@/lib/quests/templates'
 import { playKidSound } from '@/lib/sound/kidSounds'
+import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 
 // The child pitches their own job.
 //
@@ -37,11 +38,17 @@ export default function KidAskForJob({
   token,
   initialAsks,
   childName,
+  theme,
 }: {
   token: string
   initialAsks: KidAsk[]
   childName?: string
+  // The colour the child chose. Three lines here sit directly on the page
+  // background rather than inside the white card, so they were white on dark
+  // and would have vanished the moment the page took a pastel wash.
+  theme?: KidTheme
 }) {
+  const t = theme ?? resolveTheme(null)
   const [asks, setAsks] = useState<KidAsk[]>(initialAsks)
   const [text, setText] = useState('')
   const [busy, setBusy] = useState(false)
@@ -202,9 +209,10 @@ export default function KidAskForJob({
           had no way of ever seeing what happened next. */}
       {asks.length > 0 && (
         <div style={{ marginTop: '18px' }}>
-          {/* Light, because this sits on the dark kid background rather than
-              inside the white card. Ink colours here read as almost invisible. */}
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.66)', margin: '0 0 8px' }}>
+          {/* From the theme, because this sits on the page background rather
+              than inside the white card, and that background is whatever colour
+              the child picked. A fixed colour here is invisible on half of them. */}
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: t.inkMuted, margin: '0 0 8px' }}>
             Your ideas so far
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
@@ -221,7 +229,7 @@ export default function KidAskForJob({
           {/* Said plainly, because a child watching a WAITING row needs to know
               nothing is stuck and nobody is ignoring them. */}
           {pending > 0 && (
-            <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.5, margin: '10px 0 0' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: t.inkSoft, lineHeight: 1.5, margin: '10px 0 0' }}>
               {pending === 1 ? 'One idea is' : `${pending} ideas are`} with your grown up. They get a message on their phone, so it is not lost.
             </p>
           )}
@@ -235,7 +243,7 @@ export default function KidAskForJob({
       )}
 
       {childName && asks.length === 0 && (
-        <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.55, marginTop: '16px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: t.inkSoft, lineHeight: 1.55, marginTop: '16px' }}>
           Anything you think you could help with counts, {childName}. Even a small one.
         </p>
       )}

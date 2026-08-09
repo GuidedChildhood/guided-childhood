@@ -5,6 +5,7 @@ import { getFamilyRegion } from '@/lib/learning/region'
 import { nextTermTarget } from '@/lib/learning/term'
 import { ukToday } from '@/lib/kid/five-a-day'
 import KidHomework from '@/components/kid/KidHomework'
+import { resolveTheme } from '@/lib/kid/theme'
 
 // The homework row, as somewhere to put the homework.
 //
@@ -41,7 +42,7 @@ export default async function KidHomeworkPage({ params }: { params: Promise<{ to
   if (!link) notFound()
 
   const { data: child } = await supabase
-    .from('children').select('name, date_of_birth').eq('id', link.child_id).maybeSingle()
+    .from('children').select('name, date_of_birth, accent').eq('id', link.child_id).maybeSingle()
 
   const region = await getFamilyRegion(supabase, link.user_id).catch(() => 'uk' as const)
   const now = new Date()
@@ -93,6 +94,7 @@ export default async function KidHomeworkPage({ params }: { params: Promise<{ to
 
   return (
     <KidHomework
+      theme={resolveTheme(child?.accent as string | null)}
       token={token}
       childName={child?.name && child.name !== 'Your child' ? child.name : ''}
       note={(existing as { note?: string } | null)?.note ?? ''}

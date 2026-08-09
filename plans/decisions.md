@@ -6330,3 +6330,73 @@ earlier today.
 colours, and "Something kind" vanishing the instant it is tapped. Confirmed 770
 does not touch KidAskForJob or the suggest page, so this fix cannot collide, and
 the other two are passed to that lane rather than fixed twice.
+
+## 9 August 2026, later: the child's chosen colour, and a print window with no way out
+
+Two reports from Justin's phone, both on the child app.
+
+### 1. "This page needs to be app chosen colours"
+
+He was looking at Telling a grown up. The fault was not that page, it was the
+shape of the code. **Make it mine recoloured the home screen only**, because the
+whole theme (the twelve colours, the mixed hue wheel, the resolver) lived
+privately inside KidQuestScreen. Every other screen a child can reach fell back
+to the anthracite default in tokens.css. A child on Coral got a peach home and a
+slate grey everything else, which reads as a different app rather than a choice
+they made.
+
+**Moved to lib/kid/theme.ts, same reasoning as lib/kid/buddy.ts.** Two copies of
+what colour the child is means two answers and the child sees both. Ten screens
+now read it: tell, suggest, balance, lesson, lessons, adventures, homework,
+quiz, the lesson list and Ask for a job.
+
+**Moving the map alone would have shipped a worse bug.** The sub pages were
+written against a dark ground and hardcode white text on it. Handing them a
+pastel wash untouched would have printed white on cream. So a theme now carries
+its own foreground: the text that reads on it, the muted tone for mono eyebrows,
+a translucent panel that sits ON the background, and the shadow underneath. Dark
+themes get white overlays, light themes get ink ones, and a colour added later
+is legible everywhere the day it ships without visiting a single screen.
+
+Measured rather than eyeballed, on the mono eyebrow that sits directly on the
+background: **white at 0.66 over the Coral wash scores 1.15 to 1, which is
+invisible.** The themed ink scores 5.05. Graphite is unchanged at 4.61, so the
+default sees no difference at all. Sunshine and Mint were 1.09 before and are
+5.21 and 5.20 now.
+
+**One existing bug fell out of it.** KidHomework drew its heading, its intro and
+its back link in ink directly on the dark background: dark on dark, and barely
+readable on the default. Reading them from the theme fixes that too.
+
+**Left alone deliberately:** the jobs, week and deal screens, which are butter
+or white on purpose. The week page documents why (the colour coded school chips
+need a pale ground), and turning a deliberate light screen into a pastel wash is
+a design decision, not this bug.
+
+### 2. "When clicked printable it displays print, need a way back to platform"
+
+The window the child gets from Print it now contained an image and nothing else.
+On a desktop that is survivable, there is a tab to close. **Inside the installed
+app there is no address bar, no tabs and no back button**, so a child who printed
+the Kindness Bucket List was on a sheet with no control of any kind, and once the
+print dialog was dismissed the app behind it was out of reach.
+
+The parent side hit this on 6 August and was fixed by opening AWAY from the app,
+because a PDF served by a route is not ours to decorate. **This window is ours,
+we write every byte of it**, so it now carries its own way back: My quests, which
+closes it, and Print again, both hidden in @media print so the paper is still
+only the sheet.
+
+**A second failure the test surfaced.** The print dialog fires from the image's
+own onload, and the art is on the CDN. If that image fails, nothing at all used
+to happen: no picture, no dialog, no explanation, just a blank white page. It now
+says so, and the bar above it still works.
+
+**Lifted to lib/kid/print-sheet.ts so it could be driven at all.** It sat three
+thousand lines into a screen that needs a live link token, so nothing had ever
+opened that window except a child on a phone. That is precisely how it shipped
+with no way out. Six checks now run against the real thing on a new
+/dev/print-sheet fixture: both buttons present, the dialog fires, the bar is
+flex on screen and none on paper, the bar does not overlap the sheet, back
+actually closes the window, and a sheet that cannot load says so with Print
+again still reachable.

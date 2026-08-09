@@ -4,6 +4,7 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
 import { hasFullAccess } from '@/lib/access'
 import KidLessonList, { type KidLessonItem } from '@/components/kid/KidLessonList'
+import { resolveTheme } from '@/lib/kid/theme'
 
 // My lessons: the child's own list of the age right stage lessons from the
 // family library, opened from their quest link. No account, no login; the
@@ -36,7 +37,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
 
   const { data: child } = await supabase
     .from('children')
-    .select('name, age_band')
+    .select('name, age_band, accent')
     .eq('id', link.child_id)
     .maybeSingle()
   const stage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
@@ -148,6 +149,7 @@ export default async function KidLessonsPage({ params, searchParams }: {
 
   return (
     <KidLessonList
+      theme={resolveTheme(child?.accent as string | null)}
       backHref={`/k/${token}`}
       childName={child?.name ?? 'Superstar'}
       stageName={stage.name}

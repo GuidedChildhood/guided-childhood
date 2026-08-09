@@ -1,4 +1,5 @@
 import KidAskForJob, { type KidAsk } from '@/components/kid/KidAskForJob'
+import { resolveTheme } from '@/lib/kid/theme'
 
 // A harness for Ask for a job, built for the bug Justin found on the child app:
 // "it's one of the 5 ask for a job but it's a list that I cannot add one."
@@ -8,8 +9,14 @@ import KidAskForJob, { type KidAsk } from '@/components/kid/KidAskForJob'
 // the component the exact shape of Teo's real history: every one of the seven
 // preset ideas already asked and approved, one still pending, and two
 // printables. Before the fix that renders zero quick pick chips.
+//
+// It now takes ?accent= as well, for the second report on 9 August: "this page
+// needs to be app chosen colours." Three lines on this screen sit directly on
+// the page background rather than inside the white card, so they were the ones
+// at risk of going white on cream once the background could be a pastel wash.
+// ?accent=coral is the check that they did not.
 
-export const dynamic = 'force-static'
+export const dynamic = 'force-dynamic'
 
 const ASKS: KidAsk[] = [
   { id: '1', title: 'Kiss my dad', emoji: '💛', status: 'pending' },
@@ -26,11 +33,24 @@ const ASKS: KidAsk[] = [
   { id: '12', title: 'Clean my room', emoji: '🧹', status: 'added' },
 ]
 
-export default function AskForJobFixture() {
+export default async function AskForJobFixture({
+  searchParams,
+}: {
+  searchParams: Promise<{ accent?: string }>
+}) {
+  const { accent } = await searchParams
+  const theme = resolveTheme(accent ?? null)
+
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '22px 16px 50px' }}>
+    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px 50px' }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
-        <KidAskForJob token="0000000000000000ff" initialAsks={ASKS} childName="Teo" />
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.7rem', color: theme.ink, margin: '0 0 4px' }}>
+          Ask for a job
+        </h1>
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.inkMuted, margin: '0 0 16px' }}>
+          {theme.name}
+        </p>
+        <KidAskForJob token="0000000000000000ff" initialAsks={ASKS} childName="Teo" theme={theme} />
       </div>
     </div>
   )
