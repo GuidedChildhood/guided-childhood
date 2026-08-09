@@ -28,6 +28,20 @@ function button(label: string, url: string): string {
   </td></tr></table>`
 }
 
+// A yes and a no of equal weight. A big butter YES next to a grey no is a
+// leading question, and the whole point of asking is to find out whether to
+// build the thing, not to collect the answer we hoped for.
+function twoButtons(yesLabel: string, yesUrl: string, noLabel: string, noUrl: string): string {
+  const cell = (label: string, url: string, bg: string, border: string, colour: string) =>
+    `<td style="padding-right:10px"><table role="presentation" cellpadding="0" cellspacing="0"><tr><td style="background:${bg};border:1.5px solid ${border};border-radius:16px">
+      <a href="${url}" style="display:inline-block;padding:14px 22px;font-family:'IBM Plex Mono',Menlo,monospace;font-size:13px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;color:${colour};text-decoration:none">${label}</a>
+    </td></tr></table></td>`
+  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:26px 0"><tr>
+    ${cell(yesLabel, yesUrl, BUTTER, BUTTER_DARK, INK)}
+    ${cell(noLabel, noUrl, '#ffffff', '#EAEAF0', INK)}
+  </tr></table>`
+}
+
 function wrapper(body: string, unsubscribe: string): string {
   return `<!doctype html><html><body style="margin:0;padding:0;background:${CREAM}">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM};padding:32px 16px"><tr><td align="center">
@@ -242,16 +256,31 @@ export function lessonsEmail(params: { childName: string; unsubscribe: string })
 }
 
 // School reminders
-export function schoolRemindersEmail(params: { childName: string; unsubscribe: string }): EmailContent {
-  const { childName, unsubscribe } = params
+// Justin, 9 August 2026: "the school alerts system is not set up yet so maybe
+// we could say coming soon but let us know if this is a feature you would
+// use."
+//
+// It said "sorted" and "add your weekly routines once" about something that
+// does not exist yet, with a button to a page that cannot do it. That is the
+// worst kind of email: it spends trust it has not earned, and the parent finds
+// out at the click. Now it describes the idea in the future tense and asks the
+// one question worth asking before building it.
+//
+// Two links rather than a reply, because a reply cannot be counted, it lands
+// in an inbox somebody has to read, and hardly anybody writes a sentence to
+// answer yes or no. The yes list is also exactly who to tell when it ships.
+export function schoolRemindersEmail(params: {
+  childName: string; unsubscribe: string; yesUrl: string; noUrl: string
+}): EmailContent {
+  const { childName, unsubscribe, yesUrl, noUrl } = params
   return {
-    subject: 'Never miss another kit day',
+    subject: 'Would you use this one?',
     html: wrapper(
-      heading(`PE kit, forms and deadlines, sorted.`) +
-      p(`Add your weekly routines once, or forward a school email to your private address, and the night before you get a reminder while there is still time to pack the bag or sign the form. Nothing buried in an inbox.`) +
-      p(`The child friendly ones reach ${childName} too, so packing the swimming kit becomes their job, not only something you carry in your head.`) +
-      button('Set up school reminders', `${APP}/dashboard/school`) +
-      p(`It works whether or not your school ever emails you.`),
+      heading(`PE kit, forms and deadlines, coming soon.`) +
+      p(`Here is the idea. You add your weekly routines once, or forward a school email to a private address, and the night before you get a reminder while there is still time to pack the bag or sign the form. The child friendly ones would reach ${childName} too, so the swimming kit becomes their job rather than something you carry in your head.`) +
+      p(`It is not built yet, and before we build it we would rather know whether you actually want it. One tap, either way, and it genuinely decides what we do next.`) +
+      twoButtons('Yes, I would use this', yesUrl, 'Not for me', noUrl) +
+      p(`Either answer helps. If it is a yes, you will be the first to know when it lands.`),
       unsubscribe
     ),
   }

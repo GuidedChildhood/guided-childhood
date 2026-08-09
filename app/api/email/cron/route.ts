@@ -1,6 +1,7 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { interestUrl } from '@/lib/email'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl } from '@/lib/email'
 import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
@@ -107,9 +108,39 @@ async function handler(req: NextRequest) {
 
   const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, trialEnding: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
 
+  // ONE EMAIL PER PERSON PER RUN.
+  //
+  // Justin, 9 August 2026, with a screenshot of his inbox: three of ours at
+  // 09:00, svc-screentime, svc-school and svc-agreement, all to the same
+  // address. Checked against email_log and it was one account, not three test
+  // ones.
+  //
+  // The cause is that the service drip is written as independent `if (days >=
+  // N && !alreadySent(...))` blocks. Each one is correct on its own. Together
+  // they are not, because an account past day 42 that has set none of those
+  // services up satisfies every condition on the same run and gets the lot in
+  // one minute. The block's own comment says "one benefit email per service"
+  // and nothing in the code made that true.
+  //
+  // The guard lives here rather than in the twenty odd call sites, so every
+  // sender inherits it, including the pillar reveals below and anything added
+  // later. Same reasoning as the child quiet hours gate: a rule enforced at
+  // the call sites is a rule somebody forgets.
+  //
+  // Per RUN, not per day: the cron can fire more than once, and the email_log
+  // unique key already stops the same email going twice. What this stops is
+  // three DIFFERENT ones arriving together, which is the fastest way to get
+  // marked as spam by somebody who liked us yesterday.
+  const emailedThisRun = new Set<string>()
+
   async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
+    if (emailedThisRun.has(userId)) return
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
     if (logError) return // unique violation means another run got here first
+    // Claimed before the send, not after. Two emails cannot both be in flight
+    // for one person, and a send that fails still counts as this person's turn
+    // rather than freeing the slot for the next template in the same run.
+    emailedThisRun.add(userId)
     const sent = await sendEmail({ to: email, subject: content.subject, html: content.html })
     if (sent.ok) {
       results[counter] += 1
@@ -192,7 +223,7 @@ async function handler(req: NextRequest) {
         supabase.from('school_connections').select('id').eq('user_id', profile.id).eq('active', true).maybeSingle(),
         supabase.from('school_actions').select('id').eq('user_id', profile.id).limit(1).maybeSingle(),
       ])
-      if (!conn && !act) await deliver(profile.id, profile.email, 'svc-school', schoolRemindersEmail({ childName, unsubscribe }), 'svcSchool')
+      if (!conn && !act) await deliver(profile.id, profile.email, 'svc-school', schoolRemindersEmail({ childName, unsubscribe, yesUrl: interestUrl(profile.id, 'school-alerts', 'yes'), noUrl: interestUrl(profile.id, 'school-alerts', 'no') }), 'svcSchool')
     }
 
     if (days >= 42 && !alreadySent(profile.id, 'svc-agreement')) {
