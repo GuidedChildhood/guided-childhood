@@ -28,7 +28,6 @@ import HappyScene from '@/components/celebrate/HappyScene'
 import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
-import KidTodayList from '@/components/kid/KidTodayList'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
 import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
@@ -66,10 +65,8 @@ export type KidSchoolToday = { id: string; title: string; kind: string; time: st
 // Small, known sets, so the app stays on brand whatever they pick.
 // DiGi the guide, then the five Planet Friends, one per stage. A child only
 // ever chooses from the Friends they have earned; DiGi is always theirs.
-const BUDDY_MAP: Record<string, { name: string; img: string; stageId?: number }> = {
-  digi: { name: 'DiGi', img: '/digi-squad/DiGi-star.svg' },
-  ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { name: c.name, img: c.cutout, stageId: c.stageId }])),
-}
+// The map itself lives in lib/kid/buddy now, shared with the jobs page.
+import { BUDDY_MAP, DEFAULT_BUDDY } from '@/lib/kid/buddy'
 // Make it mine now recolours the whole screen, not just the ring. Each theme is
 // the full background the child lives in, plus the ink that reads on top of it
 // and the accent used on their rings and cards. The default is a premium dark
@@ -93,7 +90,6 @@ const ACCENT_MAP: Record<string, { name: string; hex: string; bg: string; ink: s
   bubblegum:{ name: 'Bubblegum',hex: '#DD6BA6', bg: 'linear-gradient(180deg, #FBE6F1 0%, #F6D2E5 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
   midnight: { name: 'Midnight', hex: '#6FA8DC', bg: 'linear-gradient(180deg, #2C3A57 0%, #202B40 100%)', ink: '#F7F7F5', inkSoft: 'rgba(255,255,255,0.74)' },
 }
-const DEFAULT_BUDDY = 'digi'
 const DEFAULT_ACCENT = 'graphite'
 
 // The eight the picker offers: one clean choice from each part of the
@@ -244,7 +240,6 @@ export default function KidQuestScreen({
   const [ticks, setTicks] = useState<Record<string, string>>(
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
   )
-  const [burst, setBurst] = useState<string | null>(null)
   const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on' | 'ios'>('hidden')
   const [showWelcome, setShowWelcome] = useState(false)
   const [toast, setToast] = useState<string | null>(null)
@@ -935,43 +930,9 @@ export default function KidQuestScreen({
     } catch { setRemindState('hidden') }
   }
 
-  async function toggle(quest: Quest) {
-    const current = ticks[quest.id]
-    if (current === 'approved') return // done is done
-
-    const untick = current === 'pending'
-    // Optimistic
-    setTicks(prev => {
-      const next = { ...prev }
-      if (untick) delete next[quest.id]
-      else next[quest.id] = 'pending'
-      return next
-    })
-    if (!untick) {
-      setBurst(quest.id)
-      setTimeout(() => setBurst(null), 900)
-      playKidSound('star')
-      // A squad friend springs up with the good news, rotating so it is not
-      // always the same face. The toast stays as the quiet backup line.
-      const cast: CharacterKey[] = ['orbit', 'nova', 'digi']
-      const who = cast[quest.title.length % cast.length]
-      setHappyNews({
-        character: who,
-        headline: `${quest.stars} star${quest.stars === 1 ? '' : 's'} on the way!`,
-        sub: 'Sent to your grown up. They tap approve and the stars are yours.',
-      })
-      setToast('Sent to your grown up! ⭐ Stars land when they tap approve.')
-      setTimeout(() => setToast(null), 3000)
-    }
-
-    try {
-      await fetch('/api/quests/tick', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, quest_id: quest.id, untick }),
-      })
-    } catch { /* optimistic state stands, the next load reconciles */ }
-  }
+  // Ticking a job moved to the jobs page (KidJobsScreen) with the list
+  // itself. This screen keeps only the read side of ticks: the five a day's
+  // jobs step and the ask banner still need to know what is done.
 
   // Watch for the grown up's yes landing while the child has the page open, so
   // a Waiting quest flips to Done live and a squad friend springs up to say so,
@@ -1051,7 +1012,9 @@ export default function KidQuestScreen({
   // their jobs off the top of the screen. Which is exactly what the screenshot
   // shows. Quests goes to the jobs; the other two go to the tabs.
   const goToTab = useCallback((key: 'quests' | 'lessons' | 'print') => {
-    const id = key === 'quests' ? 'kid-today' : 'kid-tabs'
+    // Quests goes to the five a day, which is the day itself now the separate
+    // Today list has folded into the jobs page.
+    const id = key === 'quests' ? 'kid-five' : 'kid-tabs'
     // Next frame, so the tab's content has rendered and the anchor is where it
     // will actually be rather than where it was a moment ago.
     requestAnimationFrame(() => {
@@ -1517,14 +1480,16 @@ export default function KidQuestScreen({
             moves it. */}
         <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
 
+        <div id="kid-five" style={{ scrollMarginTop: 96 }} />
         <KidFiveADay
           token={token}
           childName={childName}
           jobsAllDone={allDone}
           jobsProgress={{ done: doneCount, total: quests.length }}
+          newQuestCount={newQuestCount}
           readingMinutes={readingMinutesFor(ageBand)}
           moveJobs={moveJobs}
-          onOpenJobs={() => document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          onOpenJobs={() => { window.location.assign(`/k/${token}/jobs`) }}
           onDayComplete={n => {
             playKidSound('done')
             const next = bumpDay()
@@ -1550,51 +1515,12 @@ export default function KidQuestScreen({
           />
         )}
 
-        {/* The ONE Today list: every job due today, plus Learn and Move, each
-            with its stars, ticked in one flow. The buddy's line sits above it
-            and the quiet device rule sits under it. When gifted screen time
-            is still owed, the warm pay back row shows here too. */}
-        <div id="kid-today" style={{ scrollMarginTop: 96 }} />
-        <KidTodayList
-          newQuestCount={newQuestCount}
-          childName={childName}
-          stageId={stageId}
-          buddyName={BUDDY_MAP[chosenBuddy].name}
-          buddyImg={BUDDY_MAP[chosenBuddy].img}
-          buddyIsStar={chosenBuddy === 'digi'}
-          learnTitle={learnTile ? learnTile.title : null}
-          learnEmoji={learnTile ? learnTile.emoji : null}
-          learnStars={learnTile ? learnTile.stars : null}
-          learnDoneLive={dailyLearnDone}
-          allLessonsDone={!learnTarget}
-          quests={quests}
-          ticks={ticks}
-          onToggleQuest={q => toggle(q as Quest)}
-          burstQuestId={burst}
-          giftStarsOwed={giftStarsOwed}
-          inkSoft={theme.inkSoft}
-          onLearnTap={() => {
-            playKidSound('tap')
-            // A real library lesson opens its own player; the mini lessons
-            // stay in the Learn tab as before.
-            if (learnTile?.href) {
-              window.location.assign(learnTile.href)
-              return
-            }
-            setTab('lessons')
-            setActiveLesson(null)
-            setLessonTab(nextLesson || stageLessons.length > 0 ? 'learn' : 'watch')
-            setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 80)
-          }}
-          onCelebrate={() => {
-            playKidSound('done')
-            setHappyNews({
-              character: chosenBuddy as CharacterKey,
-              headline: 'Today is done! 🎉',
-              sub: `Every job, plus Learn and Move. Amazing work ${childName}!`,
-            })
-          }}
-        />
+        {/* The ONE Today list is gone from this screen. It repeated the five
+            a day's jobs, lesson and move as a second section directly under
+            it, which is Justin's row 5: "delete as a separate section, it
+            duplicates the five a day". The jobs themselves live on the jobs
+            page now (/k/[token]/jobs, the real KidTodayList in its jobs only
+            shape), which the five a day's jobs step opens. */}
 
         {/* The tile grid keeps only what is NOT a to do. Use my time leads,
             full width, carrying the device rule so a child reads it right
