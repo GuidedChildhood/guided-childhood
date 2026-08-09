@@ -6479,3 +6479,17 @@ accents land above it and take ink, which is what the rest of the design system
 already does on a chunky button. The switch earns its place on the hue wheel,
 where a mixed blue comes out genuinely dark. Worst case anywhere after the fix is
 **4.09 to 1** on large bold text, which needs 3.0.
+
+## 9 August 2026, the AI companion strand is the launch wedge
+
+Justin said yes to a product brief and build plan for the AI companion strand,
+the lead option from the new service landscape briefing. Decision recorded here:
+the strand ships as a standalone wedge that pulls families into the pathway, not
+a new SKU. It lives inside the existing subscription and the existing tables
+(lessons, school_lessons, scripts, ai_lessons, ai_updates), so it deepens the
+core offer rather than fragmenting it. Module 15 is already written in all three
+versions and the AI literacy architecture is already built, so the work is mostly
+wiring, not new content. Brief and phased build plan at
+plans/2026-08-09-ai-companion-strand-product-brief.md. The living updates layer
+(Phase D) stays fenced behind its own go-ahead and keeps the manual publish step,
+because auto drafted content for children is a safety call, not a convenience.
