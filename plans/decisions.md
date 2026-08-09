@@ -6233,3 +6233,49 @@ certain fix.
 ## 2026-08-09 — Holding pattern: the schools site stays off the domain until the platform is built
 
 JP is not attaching schools.guidedchildhood.com until the whole schools platform is ready. Two changes keep the world sensible in the meantime. The parent app's /schools, /educator and /class redirects now read SCHOOLS_SITE_URL (falling back to the schools project's vercel.app address) and are TEMPORARY 307s, so no browser or search engine caches the interim URL; at launch the env flips to the real domain and the redirects flip to permanent in one commit. And the schools app carries robots noindex until that same commit, so the vercel.app address never enters Google. Launch is now a two line change plus attaching the domain in Vercel.
+
+## 9 August 2026 — platform scripts, and the free tier that looked like a bug
+
+Justin, with two screenshots: "we really need many more moments and scripts for
+social media and AI as this is core ... every possible issue with Instagram,
+Facebook, TikTok and all top 10 social media platforms."
+
+**The screenshots showed 63 scripts and 3 on social media. That was the free
+tier on a test account.** Live: 296 scripts, 27 social media, 31 school and AI,
+21 gaming. The free counts match his screen exactly, category by category, and
+the Unlock all button was in the shot. Nothing was hidden or broken. Worth
+recording because the next person to look at a screenshot of a free account will
+reach for the same wrong conclusion.
+
+**The real gap was different and narrower.** Reading all 58 social and AI titles:
+Instagram appears in two, TikTok in one, and Snapchat, WhatsApp, YouTube,
+Discord, Roblox, Facebook, X and Twitch in none. The library is strong on themes
+and silent on the four apps a parent is holding when they go looking. A parent
+does not search for social comparison, they search for streaks.
+
+**Migration 180 adds sixteen platform scripts**, four platforms, across builder,
+explorer, shaper and independent, taking social media from 27 to 43 and adding
+two at builder where there was one.
+
+**I was wrong about the send to child button and corrected it.** I told Justin it
+did not exist. It does and it is complete: ScriptDepth renders the child note
+with send to their app, SMS, share and copy, and /api/scripts/expand generates
+the note when the stored field is null. Filling for_your_child by hand on all
+sixteen buys a written child version instead of a generated one, and nothing
+more than that. Said plainly rather than left as an implied win.
+
+**The research is cited in the migration header** so the next person can check
+it: Mumsnet threads and platform guides for Snapchat, the newspaper
+investigation for the TikTok algorithm, the WhatsApp group default that lets
+anyone holding a number add a child with no request to accept, and Instagram
+Teen Accounts.
+
+**One complication kept rather than buried.** Heitner's mentoring over
+monitoring is the philosophy match, but Livingstone's survey found restriction
+of peer to peer contact WAS associated with reduced risk while active co use was
+not necessarily. So none of the sixteen claim talking always beats a setting.
+The words come first, the setting sits in tonight, and where a setting is simply
+the right move the script says so.
+
+**Not in this batch, named so the gap stays visible:** YouTube, Discord, Roblox,
+Facebook, X, Twitch, and the moments and lessons, which are their own build.
