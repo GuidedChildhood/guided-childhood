@@ -14,8 +14,21 @@
 // find. A mailto behind the word "Contact" is not that.
 
 export const CONTACT = {
-  /** The trading name, as it appears in the copyright line and on invoices. */
-  business: 'The Social Billboard',
+  /**
+   * The name that carries the copyright line.
+   *
+   * Justin, 9 August 2026: "Not by the social billboard." Guided Childhood is
+   * its own thing, not a product of it. He founded both, which is what the
+   * about paragraph on the homepage says, and that is a different claim from
+   * one being owned by the other. So the footer names Guided Childhood and
+   * nothing else.
+   *
+   * NOT the registered legal entity, because nobody has told me what that is.
+   * If a company sits behind this, its registered name and number belong here
+   * and on the terms page, and that matters for the ICO registration going in
+   * today. Asked rather than guessed.
+   */
+  business: 'Guided Childhood',
   /** The product, which is what a visitor actually recognises. */
   product: 'Guided Childhood',
   /** The person behind it, because families buy from a person here. */
@@ -25,15 +38,18 @@ export const CONTACT = {
   /**
    * The geographic address, required for online selling.
    *
-   * EMPTY ON PURPOSE, waiting on Justin. Inventing one would be worse than
-   * having none: an address is a legal statement about where a business can be
-   * served, and a plausible looking wrong one is the failure that actually
-   * costs something. Every place that renders it checks for empty first, so the
-   * block simply omits the line until the real address lands here.
+   * Given by Justin, 9 August 2026: "Apple Acre, Winscombe, star, BS25 1QF".
+   *
+   * Written here in Royal Mail order rather than the order he typed it, which
+   * is the one judgement call in this file. Star is the hamlet and Winscombe is
+   * the post town for BS25, so the locality goes above the post town. Post
+   * addressed the other way round still arrives, but the post town line is what
+   * sorting reads, and an address on a website is the one a solicitor or the
+   * ICO copies without checking it.
    *
    * One line per row, in the order it would be written on an envelope.
    */
-  address: [] as string[],
+  address: ['Apple Acre', 'Star', 'Winscombe', 'BS25 1QF'] as string[],
 } as const
 
 /** True once a real address has been filled in above. */

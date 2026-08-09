@@ -6139,3 +6139,46 @@ be able to keep.
 
 The copyright line now reads from the same constant, so the founder name cannot
 end up different in the two places it appears.
+
+## 9 August 2026 — the address landed
+
+Justin: "The address is . Apple Acre, Winscombe, star , BS25 1QF"
+
+Filled into `lib/content/contact.ts`, so the homepage footer now carries the
+full set: name, business, postal address, email. That closes the last blank in
+the online selling requirement.
+
+**Written in Royal Mail order rather than the order he typed it**, which is the
+one judgement call here. Star is the hamlet, Winscombe is the post town for
+BS25, so the locality goes above the post town. Post addressed the other way
+still arrives, but the post town line is what sorting reads, and an address on
+a website is the one a solicitor or the ICO copies without checking it. Flagged
+to Justin rather than changed silently.
+
+**Worth doing next, not done here:** the same address belongs in the data
+controller section of the privacy page, which is where the ICO looks, and he is
+doing the ICO registration today. Left as his call rather than expanding a
+homepage job into the legal pages unasked.
+
+## 9 August 2026 — Guided Childhood is not by The Social Billboard
+
+Justin: "Not by the social billboard."
+
+The footer block read "Guided Childhood, by The Social Billboard". Wrong, and my
+line. Guided Childhood is its own thing. He founded both, which is what the
+about paragraph on the homepage already says, and that is a different claim from
+one being a product of the other.
+
+The footer now names Guided Childhood and nothing else, and the copyright line
+with it.
+
+**The same wrong attribution is on three other pages and predates this**, so it
+is flagged rather than swept: `/digitalwellbeing`, `/schools` and `/join` all
+carry "© 2026 The Social Billboard". Whether those are right depends on which
+venture owns each page, which is Justin's to say. The Digital Health Checker in
+particular may genuinely be a Social Billboard product.
+
+**The registered legal entity is still unknown.** `business` holds the trading
+name, not a company. If a company sits behind this, its registered name and
+number belong in the footer and on the terms page, and it is what the ICO
+registration going in today has to name.
