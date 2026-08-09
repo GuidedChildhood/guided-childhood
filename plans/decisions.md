@@ -6227,3 +6227,9 @@ or decisions.md shows an earlier sweep to diff against. Flagged, not fixed:
 each is a judgement call (revoking EXECUTE on functions the board itself calls,
 moving an extension, turning on leaked password checking) rather than a small
 certain fix.
+
+---
+
+## 2026-08-09 — Holding pattern: the schools site stays off the domain until the platform is built
+
+JP is not attaching schools.guidedchildhood.com until the whole schools platform is ready. Two changes keep the world sensible in the meantime. The parent app's /schools, /educator and /class redirects now read SCHOOLS_SITE_URL (falling back to the schools project's vercel.app address) and are TEMPORARY 307s, so no browser or search engine caches the interim URL; at launch the env flips to the real domain and the redirects flip to permanent in one commit. And the schools app carries robots noindex until that same commit, so the vercel.app address never enters Google. Launch is now a two line change plus attaching the domain in Vercel.
