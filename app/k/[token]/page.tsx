@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { questDueToday } from '@/lib/quests/due'
 import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
 import { getStarBanks } from '@/lib/quests/bank'
+import { starLessonTitles } from '@/lib/quests/star-lesson-catalogue'
 import { getHolidayBanks, holidayBankLine } from '@/lib/quests/holiday-bank'
 import { getFamilyRegion } from '@/lib/learning/region'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
@@ -91,14 +92,18 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
 
   // Star lessons sent to this child: pending ones to play, and stars from
   // lessons completed this week join the star bank alongside quest stars.
+  // Two queries rather than the old school_lessons(title) join: since the
+  // FK dropped in migration 176 there is no relationship for PostgREST to
+  // embed across, and the lessons live in the schools schema anyway.
   const { data: missionRows } = await supabase
     .from('kid_lesson_missions')
-    .select('id, stars, status, completed_at, school_lessons(title)')
+    .select('id, lesson_id, stars, status, completed_at')
     .eq('child_id', link.child_id)
     .order('sent_at', { ascending: false })
+  const missionTitles = await starLessonTitles(supabase, (missionRows ?? []).map(m => m.lesson_id))
   const missions = (missionRows ?? []).map(m => ({
     id: m.id,
-    title: (m.school_lessons as unknown as { title: string })?.title ?? 'A lesson from DiGi',
+    title: missionTitles.get(m.lesson_id) ?? 'A lesson from DiGi',
     stars: m.stars,
     status: m.status,
   }))

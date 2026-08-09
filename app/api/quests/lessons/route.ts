@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { listStarLessons, getStarLesson } from '@/lib/quests/star-lesson-catalogue'
 
 // Star Lessons, the parent side. GET returns children, the sendable
 // lesson list (the schools curriculum, which doubles as the homeschool
@@ -15,14 +16,13 @@ export async function GET(req: NextRequest) {
   // they are sending before they send it.
   const previewId = req.nextUrl.searchParams.get('lesson')
   if (previewId) {
-    const { data } = await supabase
-      .from('school_lessons').select('id, title, slides').eq('id', previewId).maybeSingle()
-    return NextResponse.json({ lesson: data })
+    const lesson = await getStarLesson(supabase, previewId, 'id, title, slides')
+    return NextResponse.json({ lesson })
   }
 
-  const [childrenRes, lessonsRes, missionsRes] = await Promise.all([
+  const [childrenRes, lessons, missionsRes] = await Promise.all([
     supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).order('created_at'),
-    supabase.from('school_lessons').select('id, module_id, title, key_stage, year_band, single_action_outcome').order('sort_order'),
+    listStarLessons(supabase),
     supabase.from('kid_lesson_missions')
       .select('id, child_id, lesson_id, stars, status, score_correct, score_total, sent_at, completed_at')
       .eq('user_id', user.id)
@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     children: childrenRes.data ?? [],
-    lessons: lessonsRes.data ?? [],
+    lessons: lessons ?? [],
     missions: missionsRes.data ?? [],
   })
 }
@@ -47,12 +47,10 @@ export async function POST(req: NextRequest) {
 
   const stars = Math.max(1, Math.min(10, Number(body.stars) || 3))
 
-  // The lesson must exist. If school_lessons has no rows (the curriculum
-  // migration has not been run on this database), say so plainly rather
-  // than throwing a foreign key error the parent cannot read.
-  const { data: lessonRow, error: lookupError } = await supabase
-    .from('school_lessons').select('id').eq('id', body.lesson_id).maybeSingle()
-  if (lookupError) return NextResponse.json({ error: 'lessons not set up' }, { status: 503 })
+  // The lesson must exist. Since migration 176 there is no FK to catch a
+  // bad id, so this guard is now the only thing standing between a typo
+  // and a mission pointing at nothing.
+  const lessonRow = await getStarLesson(supabase, body.lesson_id, 'id')
   if (!lessonRow) return NextResponse.json({ error: 'lessons not set up' }, { status: 503 })
 
   // Re-sending an already sent lesson updates the stars and resets it to
