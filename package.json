@@ -34,5 +34,9 @@
     "playwright": "^1.61.1",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "workspaces": [
+    "shared",
+    "schools"
+  ]
 }
