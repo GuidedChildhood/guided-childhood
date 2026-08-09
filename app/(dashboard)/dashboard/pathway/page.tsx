@@ -22,6 +22,8 @@ import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
 import { READINESS } from '@/lib/content/readiness'
 import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 import IsItWorkingReport from '@/components/pathway/IsItWorkingReport'
+import FiveADayReport from '@/components/pathway/FiveADayReport'
+import { getFiveADayReport } from '@/lib/kid/day-report'
 import HowFarYouHaveCome from '@/components/pathway/HowFarYouHaveCome'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getWeekParentReport } from '@/lib/balance/week-report'
@@ -55,6 +57,11 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // to the primary, so a second or third child gets their own pathway too.
   const primaryChild = pickChild(children, childParam)
   const currentStageNum = primaryChild?.stage_id ? stageIdToNum[primaryChild.stage_id] ?? null : null
+
+  // The child's own five a day, for the report under Is it working. Read with
+  // the parent's client so the existing RLS policy is what decides, and empty
+  // for a child with no app rather than an error.
+  const fiveADay = await getFiveADayReport(supabase, primaryChild?.id ?? null)
 
   const [currentStageProgress, journey, allStagesProgress] = primaryChild?.stage_id
     ? await Promise.all([
@@ -388,6 +395,19 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           once you have seen what it is measuring. */}
       <div id="is-it-working" style={{ scrollMarginTop: '84px' }} />
       <IsItWorkingReport childParam={childParam} parentReport={weekReport} />
+
+      {/* What the child themselves has been doing, which until 9 August 2026 a
+          parent could not see anywhere in the app. It sits with Is it working
+          because that is the question it answers from the child's side: the
+          report above is what the grown up has done, this is what the child
+          has. Renders nothing at all for a family whose child has no app. */}
+      {primaryChild?.name && (
+        <FiveADayReport
+          childName={primaryChild.name}
+          days={fiveADay.days}
+          today={fiveADay.today}
+        />
+      )}
 
       {/* The journey behind the report. Where every concern started, where it got
           to, how long it took, and which ones came back. Reads the append only

@@ -1440,6 +1440,7 @@ export default function KidQuestScreen({
         <KidFiveADay
           token={token}
           childName={childName}
+          theme={theme}
           jobsAllDone={allDone}
           jobsProgress={{ done: doneCount, total: quests.length }}
           newQuestCount={newQuestCount}

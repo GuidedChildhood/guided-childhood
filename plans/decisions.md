@@ -6400,3 +6400,82 @@ with no way out. Six checks now run against the real thing on a new
 flex on screen and none on paper, the bar does not overlap the sheet, back
 actually closes the window, and a sheet that cannot load says so with Print
 again still reachable.
+
+## 9 August 2026, third pass: the five a day actually asks, and a grown up can see it
+
+Justin, after PR 770 merged: "yep take them over." So the two items held back
+earlier are done here, plus the reminder and the tracking he asked for with them.
+
+### Something kind did not flash off. That WAS the behaviour.
+
+Seven of the twelve steps have `href: null`, and those rendered as a button whose
+whole handler was `mark(key)`. `mark` pushes the key into `done` optimistically
+on the same tick, so the row left the live slot and came back as a struck through
+line before his finger was off the glass. No confirmation, no undo.
+
+**And the row was dressed as a link.** Same `›` chevron as the steps that really
+do open a page, on seven of twelve. A child taps expecting to go somewhere and
+instead silently marks off a thing they have not done.
+
+**It also hollowed out the day.** A completed day banks screen time through
+`grantDayMinutes`, so the whole five could be cleared in about five seconds by a
+child who had done none of it. A list that can be finished without doing anything
+teaches a child the list is pretend, which costs more than any one step.
+
+**Now the tap opens a sheet.** Ideas first, because "something kind" is a lovely
+row and a useless instruction to a child standing in a kitchen trying to think of
+one. The confirm underneath is the only thing that marks anything, and Not yet
+closes and leaves the step exactly where it was. The chevron comes off any row
+that is not a link.
+
+Eight ideas for kindness, and the other six self tick steps get the same sheet
+with their own list, because the fault was the shape of the row rather than
+anything about kindness.
+
+### Track if done: the parent could not see ANY of it
+
+The bigger hole. The five a day has run since it shipped and **there was no
+parent view of it anywhere in the app.** Everything else a child does reaches a
+grown up: jobs go through approval, lesson passes land on the passport, an ask
+arrives as a push. The thing they do most went nowhere.
+
+- **Migration 181** adds `kid_days.notes`, keyed by step, so the report reads
+  "made someone a drink" rather than "kind ✓". Keyed rather than a `kind_note`
+  column because all seven steps share the sheet.
+- **`FiveADayReport`** sits under Is it working on the pathway page, which is the
+  section that already asks that question from the parent's side. Today in full,
+  then the week as counts. No percentage, no target, no red for an unfinished
+  day: four things done is four things done, and printing it as a failure is how
+  a good habit becomes another thing to be nagged about. Read with the parent's
+  own client so the existing RLS policy decides, not the service key.
+
+### The reminder
+
+`/api/cron/five-a-day` at **18:30**, built to `job-reminders` rules exactly: one
+push per child per day however many steps are open, nothing at all when the day
+is done or when the child never opened the app, only children with their own app
+and a subscription, and no fallback to chasing the parent. Wording names what is
+open and stops. No streak at risk, no countdown, nothing engineered to pull a
+child back, because the ICO Children's Code is explicit about that and the line
+has to hold in both files or it holds in neither.
+
+18:30 is after the evening job band at 17:45 with enough evening left to read a
+book or tidy a room. A reminder after the moment has gone is a telling off.
+
+### The colours
+
+The live step's edge, its shadow and the progress bar were all fixed terracotta,
+so a child on Ocean still got a terracotta card. All three read the accent now.
+
+**Two things the theme needed for that.** A shadow the same colour as the edge
+above it is not a shadow, so `hexDark` joins the theme, typed for the twelve
+named colours and computed for the hue wheel. And `onAccent`, because white on
+the Graphite accent scores **2.16 to 1** while ink on it scores 7.88: one fixed
+choice makes half the palette unreadable, which is exactly what the confirm
+button looked like on the first build of the sheet.
+
+The threshold is solved rather than picked, at luminance 0.209. All twelve named
+accents land above it and take ink, which is what the rest of the design system
+already does on a chunky button. The switch earns its place on the hue wheel,
+where a mixed blue comes out genuinely dark. Worst case anywhere after the fix is
+**4.09 to 1** on large bold text, which needs 3.0.

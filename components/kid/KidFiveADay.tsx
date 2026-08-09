@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { STEPS, type StepKey } from '@/lib/kid/five-a-day'
 import { playKidSound } from '@/lib/sound/kidSounds'
+import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
+import KidStepSheet from '@/components/kid/KidStepSheet'
 
 // The five a day card: the whole of a child's day, one step at a time.
 //
@@ -66,6 +68,7 @@ export default function KidFiveADay({
   onOpenJobs,
   onDayComplete,
   initialState = null,
+  theme,
 }: {
   token: string
   childName?: string
@@ -109,9 +112,19 @@ export default function KidFiveADay({
    * fixture renders the REAL component instead of a copy of its markup.
    */
   initialState?: DayState | null
+  /**
+   * The colour the child chose in Make it mine. Justin: "this should match app
+   * colours chosen." The live step's edge, its shadow and the progress bar were
+   * all fixed terracotta, so a child on Ocean still got a terracotta card.
+   */
+  theme?: KidTheme
 }) {
+  const t = theme ?? resolveTheme(null)
   const [state, setState] = useState<DayState | null>(initialState)
   const [busy, setBusy] = useState<StepKey | null>(null)
+  // The step whose sheet is open. A self tick step opens this instead of
+  // ticking, which is the whole of the "flashed off as soon as clicked" fix.
+  const [sheet, setSheet] = useState<StepKey | null>(null)
   // A finished day folds to one proud line; this reopens it. Not remembered
   // across loads on purpose, the same rule the parent's path uses: the point
   // of folding is that the next visit leads with the day done, not the list.
@@ -172,7 +185,7 @@ export default function KidFiveADay({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, moveJobs])
 
-  async function mark(step: StepKey, silent = false) {
+  async function mark(step: StepKey, silent = false, note: string | null = null) {
     if (busy) return
     setBusy(step)
     // Shown at once. A child who taps and sees nothing assumes it broke.
@@ -182,7 +195,7 @@ export default function KidFiveADay({
       const res = await fetch('/api/kid/day', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, step }),
+        body: JSON.stringify({ token, step, note }),
       })
       const d = await res.json().catch(() => null)
       if (!res.ok || !d?.ok) {
@@ -259,7 +272,7 @@ export default function KidFiveADay({
       <div style={{ height: 8, borderRadius: 100, background: 'var(--cream)', overflow: 'hidden', margin: '8px 0 14px' }}>
         <div style={{
           width: `${Math.round((doneCount / total) * 100)}%`, height: '100%',
-          background: 'var(--terracotta)', borderRadius: 100, transition: 'width 0.35s ease',
+          background: t.hex, borderRadius: 100, transition: 'width 0.35s ease',
         }} />
       </div>
 
@@ -297,6 +310,9 @@ export default function KidFiveADay({
           const def = STEPS[key]
           const isDone = false
           const href = def.href ? def.href(token) : null
+          // Jobs and the moving about jobs open the jobs page, so they count as
+          // going somewhere even though they have no href of their own.
+          const goesSomewhere = Boolean(href) || key === 'jobs' || (key === 'move' && Boolean(moveJobs))
 
           const inner = (
             <>
@@ -339,7 +355,12 @@ export default function KidFiveADay({
                   </span>
                 )}
               </span>
-              {!isDone && (
+              {/* Only on rows that really do go somewhere.
+                  A self tick step wore this too, which is half of why Justin
+                  tapped Something kind expecting a page and got a silent tick
+                  instead. The chevron is a promise about what happens next, and
+                  it was lying on seven of the twelve steps. */}
+              {!isDone && goesSomewhere && (
                 <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>
                   ›
                 </span>
@@ -353,9 +374,9 @@ export default function KidFiveADay({
             display: 'flex', alignItems: 'center', gap: '11px', width: '100%',
             textAlign: 'left', cursor: 'pointer',
             background: 'var(--cream)',
-            border: '2px solid var(--terracotta)',
+            border: `2px solid ${t.hex}`,
             borderRadius: '16px', padding: '14px 13px',
-            boxShadow: '0 4px 0 var(--terracotta-dark)',
+            boxShadow: `0 4px 0 ${t.hexDark}`,
             textDecoration: 'none',
           }
 
@@ -381,12 +402,18 @@ export default function KidFiveADay({
             )
           }
 
-          // The offline ones (reading, homework, move) are the child's own word
-          // for it. Deliberately not sent to a grown up to verify: the point is
-          // encouraging time away from the screen, and putting an approval gate
-          // on going outside would make it another thing to be checked on.
+          // The offline ones are the child's own word for it. Deliberately not
+          // sent to a grown up to verify: the point is encouraging time away
+          // from the screen, and putting an approval gate on going outside
+          // would make it another thing to be checked on.
+          //
+          // But the child's own word has to actually be ASKED FOR. This used to
+          // run mark() straight from the tap, which ticked the step and folded
+          // the row away on the same frame. Justin, 9 August: "something kind
+          // just flashed off as soon as clicked." Now it opens the sheet, which
+          // offers ideas and asks, and only the confirm in there marks anything.
           return (
-            <button key={key} onClick={() => mark(key)} disabled={busy === key} style={rowStyle}>
+            <button key={key} onClick={() => { playKidSound('tap'); setSheet(key) }} disabled={busy === key} style={rowStyle}>
               {inner}
             </button>
           )
@@ -414,6 +441,20 @@ export default function KidFiveADay({
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 2px 2px', textAlign: 'center' }}>
           Every single one, {childName}. Come back tomorrow to start a run.
         </p>
+      )}
+
+      {/* The sheet a self tick step opens. Confirming is the only thing that
+          marks anything; Not yet closes and leaves the step where it was. */}
+      {sheet && (
+        <KidStepSheet
+          step={sheet}
+          childName={childName}
+          readingMinutes={readingMinutes}
+          theme={t}
+          busy={busy === sheet}
+          onClose={() => setSheet(null)}
+          onConfirm={note => { const k = sheet; setSheet(null); void mark(k, true, note) }}
+        />
       )}
     </div>
   )
