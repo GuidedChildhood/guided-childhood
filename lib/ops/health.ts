@@ -179,6 +179,7 @@ const REQUIRED_COLUMNS: { table: string; column: string; breaks: string }[] = [
   { table: 'email_log', column: 'email_key', breaks: 'emails send twice or not at all' },
   { table: 'cron_runs', column: 'job', breaks: 'this board' },
   { table: 'spotlight_shown', column: 'spotlight_key', breaks: 'the weekly spotlight repeats itself' },
+  { table: 'push_subscriptions', column: 'device_id', breaks: 'every push send, silently: the route replies 200 with the failure in the body' },
 ]
 
 /**
