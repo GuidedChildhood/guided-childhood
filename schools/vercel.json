@@ -28,5 +28,6 @@
       ]
     }
   ],
-  "installCommand": "cd .. && npm install"
+  "installCommand": "cd .. && npm install",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . ../shared ../package.json ../package-lock.json"
 }
