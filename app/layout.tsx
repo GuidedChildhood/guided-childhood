@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Nunito, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
+import { SITE_URL } from '@/lib/config/site'
 import PwaRegister from '@/components/PwaRegister'
 import UpdateBanner from '@/components/UpdateBanner'
 
@@ -25,10 +26,14 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   // The domain every relative URL in this block resolves against. Without it
   // Next resolves Open Graph and Twitter image paths against localhost during
-  // the build and warns, and a share card that points at localhost shows
-  // nothing at all on WhatsApp, LinkedIn or Facebook. It is the same origin
-  // robots.ts and sitemap.ts already hardcode, so all three now agree.
-  metadataBase: new URL('https://www.guidedchildhood.co.uk'),
+  // the build and warns, and a share card pointing at localhost shows nothing
+  // at all on WhatsApp, LinkedIn or Facebook.
+  //
+  // Read from lib/config/site rather than written here, with robots.ts and
+  // sitemap.ts reading the same constant. All three used to hardcode it
+  // separately and all three were wrong together: see that file for why the
+  // domain is .com and why the app goes to app. and not www.
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Digital Literacy for Children Age 4 to 16, Research Based Pathway | Guided Childhood',
     template: '%s | Guided Childhood',

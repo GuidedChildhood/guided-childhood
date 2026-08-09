@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-const BASE_URL = 'https://www.guidedchildhood.co.uk'
+import { SITE_URL as BASE_URL } from '@/lib/config/site'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'] }[] = [
