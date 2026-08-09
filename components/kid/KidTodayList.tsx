@@ -91,24 +91,25 @@ export type TodayQuest = { id: string; title: string; emoji: string; stars: numb
 
 export default function KidTodayList({
   childName, stageId, buddyName, buddyImg, buddyIsStar,
-  learnTitle, learnEmoji, learnStars, learnDoneLive, allLessonsDone, onLearnTap,
+  learnTitle = null, learnEmoji = null, learnStars = null, learnDoneLive = false, allLessonsDone = false, onLearnTap = () => {},
   quests, ticks, onToggleQuest, burstQuestId,
   giftStarsOwed = 0,
   newQuestCount = 0,
   inkSoft,
   onCelebrate,
+  jobsOnly = false,
 }: {
   childName: string
   stageId: number
   buddyName: string
   buddyImg: string
   buddyIsStar: boolean
-  learnTitle: string | null
-  learnEmoji: string | null
-  learnStars: number | null
-  learnDoneLive: boolean
-  allLessonsDone: boolean
-  onLearnTap: () => void
+  learnTitle?: string | null
+  learnEmoji?: string | null
+  learnStars?: number | null
+  learnDoneLive?: boolean
+  allLessonsDone?: boolean
+  onLearnTap?: () => void
   quests: TodayQuest[]
   ticks: Record<string, string>
   onToggleQuest: (quest: TodayQuest) => void
@@ -118,6 +119,14 @@ export default function KidTodayList({
   newQuestCount?: number
   inkSoft: string
   onCelebrate: () => void
+  /**
+   * Just the jobs and the pay back row, no Learn and no Move. This is the
+   * jobs page's shape (the reorder, step 2): the five a day already carries
+   * the lesson and the moving about as steps of the day, so repeating them
+   * under the job list here would rebuild the exact duplication the home
+   * screen just lost.
+   */
+  jobsOnly?: boolean
 }) {
   // null until mounted so the first client paint matches the server; the
   // date driven bits settle right after, same pattern as the school banner.
@@ -149,9 +158,9 @@ export default function KidTodayList({
 
   const jobsTicked = quests.filter(q => ticks[q.id]).length
   const jobsAllDone = quests.every(q => ticks[q.id])
-  const allDone = jobsAllDone && learnDone && moveDone
-  const total = quests.length + 2
-  const doneCount = jobsTicked + Number(learnDone) + Number(moveDone)
+  const allDone = jobsAllDone && (jobsOnly || (learnDone && moveDone))
+  const total = quests.length + (jobsOnly ? 0 : 2)
+  const doneCount = jobsTicked + (jobsOnly ? 0 : Number(learnDone) + Number(moveDone))
 
   // The one big celebration, once per day, when the last row lands.
   useEffect(() => {
@@ -271,7 +280,7 @@ export default function KidTodayList({
     onTap: tickMove,
   }
 
-  const rows = [...jobRows, learnRow, moveRow]
+  const rows = jobsOnly ? jobRows : [...jobRows, learnRow, moveRow]
 
   // Jobs already sent to the grown up need nothing from the child, so they
   // fold behind one quiet button instead of filling the top of the page. The
@@ -490,7 +499,7 @@ export default function KidTodayList({
               Today is done
             </span>
             <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', marginTop: 2 }}>
-              Every job, plus Learn and Move. Amazing work {childName}!
+              {jobsOnly ? `Every single job. Amazing work ${childName}!` : `Every job, plus Learn and Move. Amazing work ${childName}!`}
             </span>
           </span>
           {buddyFace(54)}
