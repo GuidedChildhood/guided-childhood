@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { parseSlides } from '@gc/shared/lesson-slides'
+import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
 
 // A star lesson, the kid version: opened from the child's own quest link,
 // no account, no login. The same lesson the schools product teaches, in
@@ -31,9 +32,9 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
     .maybeSingle()
   if (!mission || mission.child_id !== link.child_id) notFound()
 
-  const [{ data: child }, { data: lesson }] = await Promise.all([
+  const [{ data: child }, lesson] = await Promise.all([
     supabase.from('children').select('name').eq('id', link.child_id).maybeSingle(),
-    supabase.from('school_lessons').select('id, title, character_cast, slides').eq('id', mission.lesson_id).maybeSingle(),
+    getStarLesson(supabase, mission.lesson_id, 'id, title, character_cast, slides'),
   ])
   if (!lesson) notFound()
 
