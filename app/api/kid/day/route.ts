@@ -98,14 +98,18 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const { token, step, available } = await request.json().catch(() => ({}))
+  const { token, step, available, note } = await request.json().catch(() => ({}))
   const link = await linkFor(typeof token === 'string' ? token : '')
   if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
   if (typeof step !== 'string' || !VALID.has(step as StepKey)) {
     return NextResponse.json({ error: 'unknown step' }, { status: 400 })
   }
 
-  const result = await markStep(link.admin, link.userId, link.childId, step as StepKey, available)
+  // What the child said they did, from the confirm sheet. Typed loosely here
+  // and sanitised in markStep, because it arrives from a client and ends up on
+  // a parent's screen.
+  const cleanNote = typeof note === 'string' ? note : null
+  const result = await markStep(link.admin, link.userId, link.childId, step as StepKey, available, cleanNote)
   if (!result.ok) {
     if (result.reason === 'not-part-of-today') {
       return NextResponse.json({ error: 'not part of today', steps: result.steps }, { status: 400 })

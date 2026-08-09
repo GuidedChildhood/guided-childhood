@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getParentLessonByCode, getCompletionsForChild, FIRST_COMPLETION_STARS, REDO_STARS } from '@/lib/lessons/parent-lessons'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import ParentLessonPlayer from '@/components/lessons/ParentLessonPlayer'
+import { resolveTheme } from '@/lib/kid/theme'
 
 // A watch together adventure, opened from the child's own quest link:
 // no account, no login, snuggle up with the grown up. The token scopes
@@ -26,11 +27,14 @@ export default async function KidAdventurePage({ params }: { params: Promise<{ t
   if (!link) notFound()
 
   const [{ data: child }, lessonData] = await Promise.all([
-    supabase.from('children').select('name, age_band').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('name, age_band, accent').eq('id', link.child_id).maybeSingle(),
     getParentLessonByCode(supabase, code),
   ])
   if (!lessonData) notFound()
   const { lesson, segments, cards } = lessonData
+  // The colour the child chose in Make it mine, rather than the anthracite
+  // default this screen used to be pinned to.
+  const theme = resolveTheme(child?.accent as string | null)
 
   // The age gate: visibility forward only. Current stage and below opens,
   // anything above stays out of reach even by URL.
@@ -43,12 +47,12 @@ export default async function KidAdventurePage({ params }: { params: Promise<{ t
   const stageName = STAGES.find(s => s.id === lesson.stage_id)?.name ?? `Stage ${lesson.stage_id}`
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '10px' }}>
           <Link href={`/k/${token}`} style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-            color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
+            color: theme.inkSoft, textDecoration: 'none',
           }}>
             ← My quests
           </Link>
@@ -62,10 +66,10 @@ export default async function KidAdventurePage({ params }: { params: Promise<{ t
         </div>
 
         <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', margin: '0 0 6px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: theme.inkMuted, margin: '0 0 6px' }}>
             Watch together with your grown up
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 6vw, 1.7rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.2, margin: 0 }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 6vw, 1.7rem)', color: theme.ink, letterSpacing: '-0.02em', lineHeight: 1.2, margin: 0 }}>
             {lesson.title}
           </h1>
         </div>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { playKidSound } from '@/lib/sound/kidSounds'
+import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 
 // The homework screen: a note in term time, what is coming up in the holidays.
 //
@@ -24,7 +25,7 @@ const SUBJECT_LABEL: Record<string, string> = {
 }
 
 export default function KidHomework({
-  token, childName, note, holidayTitle, coming,
+  token, childName, note, holidayTitle, coming, theme,
 }: {
   token: string
   childName?: string
@@ -33,6 +34,15 @@ export default function KidHomework({
   holidayTitle: string | null
   /** Next term's objectives. Null when we cannot place the child. */
   coming: Coming | null
+  /**
+   * The child's chosen colour.
+   *
+   * This screen had a second problem the theme work turned up. The heading, the
+   * sentence under it and the back link were all ink coloured and sat directly
+   * on the dark background, so they were dark on dark and barely readable on
+   * the default. Reading them from the theme fixes that at the same time.
+   */
+  theme?: KidTheme
 }) {
   const router = useRouter()
   const [text, setText] = useState(note)
@@ -72,22 +82,23 @@ export default function KidHomework({
     }
   }
 
+  const t = theme ?? resolveTheme(null)
   const CARD: React.CSSProperties = {
     background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: 22,
     padding: '16px 18px', marginBottom: 14, boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
   }
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: t.bg, padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: 560, margin: '0 auto' }}>
-        <Link href={`/k/${token}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: 16 }}>
+        <Link href={`/k/${token}`} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em', color: t.inkMuted, textDecoration: 'none', marginBottom: 16 }}>
           ← Back
         </Link>
 
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 6px', color: 'var(--ink)' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 7vw, 2.1rem)', letterSpacing: '-0.02em', lineHeight: 1.1, margin: '0 0 6px', color: t.ink }}>
           {showComing ? 'What is coming up' : 'Your homework'}
         </h1>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
+        <p style={{ fontSize: 'var(--text-md)', color: t.inkSoft, lineHeight: 1.5, margin: '0 0 18px' }}>
           {showComing
             ? `It is ${holidayTitle}, so there is no homework. Here is a quick look at what you will be doing when you go back. Nothing to do now.`
             : 'Write down what you have been set, so it is all in one place and you can see it later.'}
@@ -114,7 +125,7 @@ export default function KidHomework({
                 ))}
               </div>
             </section>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
+            <p style={{ fontSize: 'var(--text-base)', color: t.inkSoft, lineHeight: 1.5, margin: '0 0 14px' }}>
               You do not have to know any of this yet. That is what next term is for.
             </p>
             <button
@@ -176,7 +187,7 @@ export default function KidHomework({
               {busy ? 'Saving...' : 'Save it'}
             </button>
             {text.trim().length === 0 && (
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center', margin: '10px 0 0' }}>
+              <p style={{ fontSize: 'var(--text-base)', color: t.inkMuted, textAlign: 'center', margin: '10px 0 0' }}>
                 {childName ? `Write something first, ${childName}.` : 'Write something first.'}
               </p>
             )}

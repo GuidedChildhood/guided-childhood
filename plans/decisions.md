@@ -6234,6 +6234,52 @@ certain fix.
 
 JP is not attaching schools.guidedchildhood.com until the whole schools platform is ready. Two changes keep the world sensible in the meantime. The parent app's /schools, /educator and /class redirects now read SCHOOLS_SITE_URL (falling back to the schools project's vercel.app address) and are TEMPORARY 307s, so no browser or search engine caches the interim URL; at launch the env flips to the real domain and the redirects flip to permanent in one commit. And the schools app carries robots noindex until that same commit, so the vercel.app address never enters Google. Launch is now a two line change plus attaching the domain in Vercel.
 
+## 9 August 2026 — platform scripts, and the free tier that looked like a bug
+
+Justin, with two screenshots: "we really need many more moments and scripts for
+social media and AI as this is core ... every possible issue with Instagram,
+Facebook, TikTok and all top 10 social media platforms."
+
+**The screenshots showed 63 scripts and 3 on social media. That was the free
+tier on a test account.** Live: 296 scripts, 27 social media, 31 school and AI,
+21 gaming. The free counts match his screen exactly, category by category, and
+the Unlock all button was in the shot. Nothing was hidden or broken. Worth
+recording because the next person to look at a screenshot of a free account will
+reach for the same wrong conclusion.
+
+**The real gap was different and narrower.** Reading all 58 social and AI titles:
+Instagram appears in two, TikTok in one, and Snapchat, WhatsApp, YouTube,
+Discord, Roblox, Facebook, X and Twitch in none. The library is strong on themes
+and silent on the four apps a parent is holding when they go looking. A parent
+does not search for social comparison, they search for streaks.
+
+**Migration 180 adds sixteen platform scripts**, four platforms, across builder,
+explorer, shaper and independent, taking social media from 27 to 43 and adding
+two at builder where there was one.
+
+**I was wrong about the send to child button and corrected it.** I told Justin it
+did not exist. It does and it is complete: ScriptDepth renders the child note
+with send to their app, SMS, share and copy, and /api/scripts/expand generates
+the note when the stored field is null. Filling for_your_child by hand on all
+sixteen buys a written child version instead of a generated one, and nothing
+more than that. Said plainly rather than left as an implied win.
+
+**The research is cited in the migration header** so the next person can check
+it: Mumsnet threads and platform guides for Snapchat, the newspaper
+investigation for the TikTok algorithm, the WhatsApp group default that lets
+anyone holding a number add a child with no request to accept, and Instagram
+Teen Accounts.
+
+**One complication kept rather than buried.** Heitner's mentoring over
+monitoring is the philosophy match, but Livingstone's survey found restriction
+of peer to peer contact WAS associated with reduced risk while active co use was
+not necessarily. So none of the sixteen claim talking always beats a setting.
+The words come first, the setting sits in tonight, and where a setting is simply
+the right move the script says so.
+
+**Not in this batch, named so the gap stays visible:** YouTube, Discord, Roblox,
+Facebook, X, Twitch, and the moments and lessons, which are their own build.
+
 ---
 
 ## 2026-08-09 — The child's home screen, reorganised: three PRs, one thing at a time
@@ -6247,3 +6293,189 @@ JP: "we have way too much on Home Screen so let's organise better." His order, s
 **The reorder itself.** Diary always renders (a quiet day shows a slim door into the week, because the block a child adds to cannot vanish), the welcome greets by the child's clock, the streak strip is one line (JP: "don't let it dominate"), and the tab bar went solid white with a real border and full ink labels. ref-kid-home renders the whole real KidQuestScreen with a made up family, the first way to see the child home without a signed in child; ref-kid-five now imports the real component too (KidFiveADay takes initialState for fixtures).
 
 **Worth knowing:** migrations 177 AND 179 are merged but not applied; 179 is safe either side of the deploy (guarded reads, fallback insert), but the child add stores no provenance until it runs. The schools Vercel project failed every deploy this morning until it was reconfigured mid afternoon; the repo was never the fault (schools builds green locally with zero env).
+
+## 9 August 2026 — the ask for a job list emptied itself and never refilled
+
+Justin, from the child app: "it's one of the 5 ask for a job but it's a list
+that I cannot add one, can you check how this works and why I can't add one, it
+may be a restriction on too many jobs."
+
+**It was not a restriction, and both caps were checked against the live data
+before touching anything.** Teo had one ask pending against a limit of five, and
+none created today against a daily limit of five. Neither was close.
+
+**The cause was one filter.** KidAskForJob hid a preset idea if its title
+appeared in the child's recent asks at ANY status. Teo had, over a fortnight,
+asked for all seven presets and had every one approved. So the quick pick grid
+filtered to zero and did not render, leaving a bare text box under a line that
+still reads "tap one, or write your own". Nothing explains where the list went,
+which is exactly what Justin described.
+
+**Now it hides an idea only while it is still pending.** An approved job is the
+opposite of a reason to hide the idea: it is proof the child likes doing it and
+the parent said yes, and helping with dinner again next week is the behaviour
+the feature exists to produce. Only an undecided ask is worth suppressing,
+because asking twice for the same one clutters a parent's approvals.
+
+Verified against Teo's actual twelve rows: 0 chips before, 7 after, then driven
+in the browser at 390px on a new /dev/ask-for-job fixture.
+
+**Why it was never caught: the page cannot be opened locally at all.** It
+resolves a link token with the service role, so it 500s without the key, and
+there was no fixture. That is the same gap as the lessons and craft pages
+earlier today.
+
+**Two things in the same report are NOT touched, because they belong to PR 770**
+(the child home five a day rebuild, open and active): the Ask for a job card
+colours, and "Something kind" vanishing the instant it is tapped. Confirmed 770
+does not touch KidAskForJob or the suggest page, so this fix cannot collide, and
+the other two are passed to that lane rather than fixed twice.
+
+## 9 August 2026, later: the child's chosen colour, and a print window with no way out
+
+Two reports from Justin's phone, both on the child app.
+
+### 1. "This page needs to be app chosen colours"
+
+He was looking at Telling a grown up. The fault was not that page, it was the
+shape of the code. **Make it mine recoloured the home screen only**, because the
+whole theme (the twelve colours, the mixed hue wheel, the resolver) lived
+privately inside KidQuestScreen. Every other screen a child can reach fell back
+to the anthracite default in tokens.css. A child on Coral got a peach home and a
+slate grey everything else, which reads as a different app rather than a choice
+they made.
+
+**Moved to lib/kid/theme.ts, same reasoning as lib/kid/buddy.ts.** Two copies of
+what colour the child is means two answers and the child sees both. Ten screens
+now read it: tell, suggest, balance, lesson, lessons, adventures, homework,
+quiz, the lesson list and Ask for a job.
+
+**Moving the map alone would have shipped a worse bug.** The sub pages were
+written against a dark ground and hardcode white text on it. Handing them a
+pastel wash untouched would have printed white on cream. So a theme now carries
+its own foreground: the text that reads on it, the muted tone for mono eyebrows,
+a translucent panel that sits ON the background, and the shadow underneath. Dark
+themes get white overlays, light themes get ink ones, and a colour added later
+is legible everywhere the day it ships without visiting a single screen.
+
+Measured rather than eyeballed, on the mono eyebrow that sits directly on the
+background: **white at 0.66 over the Coral wash scores 1.15 to 1, which is
+invisible.** The themed ink scores 5.05. Graphite is unchanged at 4.61, so the
+default sees no difference at all. Sunshine and Mint were 1.09 before and are
+5.21 and 5.20 now.
+
+**One existing bug fell out of it.** KidHomework drew its heading, its intro and
+its back link in ink directly on the dark background: dark on dark, and barely
+readable on the default. Reading them from the theme fixes that too.
+
+**Left alone deliberately:** the jobs, week and deal screens, which are butter
+or white on purpose. The week page documents why (the colour coded school chips
+need a pale ground), and turning a deliberate light screen into a pastel wash is
+a design decision, not this bug.
+
+### 2. "When clicked printable it displays print, need a way back to platform"
+
+The window the child gets from Print it now contained an image and nothing else.
+On a desktop that is survivable, there is a tab to close. **Inside the installed
+app there is no address bar, no tabs and no back button**, so a child who printed
+the Kindness Bucket List was on a sheet with no control of any kind, and once the
+print dialog was dismissed the app behind it was out of reach.
+
+The parent side hit this on 6 August and was fixed by opening AWAY from the app,
+because a PDF served by a route is not ours to decorate. **This window is ours,
+we write every byte of it**, so it now carries its own way back: My quests, which
+closes it, and Print again, both hidden in @media print so the paper is still
+only the sheet.
+
+**A second failure the test surfaced.** The print dialog fires from the image's
+own onload, and the art is on the CDN. If that image fails, nothing at all used
+to happen: no picture, no dialog, no explanation, just a blank white page. It now
+says so, and the bar above it still works.
+
+**Lifted to lib/kid/print-sheet.ts so it could be driven at all.** It sat three
+thousand lines into a screen that needs a live link token, so nothing had ever
+opened that window except a child on a phone. That is precisely how it shipped
+with no way out. Six checks now run against the real thing on a new
+/dev/print-sheet fixture: both buttons present, the dialog fires, the bar is
+flex on screen and none on paper, the bar does not overlap the sheet, back
+actually closes the window, and a sheet that cannot load says so with Print
+again still reachable.
+
+## 9 August 2026, third pass: the five a day actually asks, and a grown up can see it
+
+Justin, after PR 770 merged: "yep take them over." So the two items held back
+earlier are done here, plus the reminder and the tracking he asked for with them.
+
+### Something kind did not flash off. That WAS the behaviour.
+
+Seven of the twelve steps have `href: null`, and those rendered as a button whose
+whole handler was `mark(key)`. `mark` pushes the key into `done` optimistically
+on the same tick, so the row left the live slot and came back as a struck through
+line before his finger was off the glass. No confirmation, no undo.
+
+**And the row was dressed as a link.** Same `›` chevron as the steps that really
+do open a page, on seven of twelve. A child taps expecting to go somewhere and
+instead silently marks off a thing they have not done.
+
+**It also hollowed out the day.** A completed day banks screen time through
+`grantDayMinutes`, so the whole five could be cleared in about five seconds by a
+child who had done none of it. A list that can be finished without doing anything
+teaches a child the list is pretend, which costs more than any one step.
+
+**Now the tap opens a sheet.** Ideas first, because "something kind" is a lovely
+row and a useless instruction to a child standing in a kitchen trying to think of
+one. The confirm underneath is the only thing that marks anything, and Not yet
+closes and leaves the step exactly where it was. The chevron comes off any row
+that is not a link.
+
+Eight ideas for kindness, and the other six self tick steps get the same sheet
+with their own list, because the fault was the shape of the row rather than
+anything about kindness.
+
+### Track if done: the parent could not see ANY of it
+
+The bigger hole. The five a day has run since it shipped and **there was no
+parent view of it anywhere in the app.** Everything else a child does reaches a
+grown up: jobs go through approval, lesson passes land on the passport, an ask
+arrives as a push. The thing they do most went nowhere.
+
+- **Migration 181** adds `kid_days.notes`, keyed by step, so the report reads
+  "made someone a drink" rather than "kind ✓". Keyed rather than a `kind_note`
+  column because all seven steps share the sheet.
+- **`FiveADayReport`** sits under Is it working on the pathway page, which is the
+  section that already asks that question from the parent's side. Today in full,
+  then the week as counts. No percentage, no target, no red for an unfinished
+  day: four things done is four things done, and printing it as a failure is how
+  a good habit becomes another thing to be nagged about. Read with the parent's
+  own client so the existing RLS policy decides, not the service key.
+
+### The reminder
+
+`/api/cron/five-a-day` at **18:30**, built to `job-reminders` rules exactly: one
+push per child per day however many steps are open, nothing at all when the day
+is done or when the child never opened the app, only children with their own app
+and a subscription, and no fallback to chasing the parent. Wording names what is
+open and stops. No streak at risk, no countdown, nothing engineered to pull a
+child back, because the ICO Children's Code is explicit about that and the line
+has to hold in both files or it holds in neither.
+
+18:30 is after the evening job band at 17:45 with enough evening left to read a
+book or tidy a room. A reminder after the moment has gone is a telling off.
+
+### The colours
+
+The live step's edge, its shadow and the progress bar were all fixed terracotta,
+so a child on Ocean still got a terracotta card. All three read the accent now.
+
+**Two things the theme needed for that.** A shadow the same colour as the edge
+above it is not a shadow, so `hexDark` joins the theme, typed for the twelve
+named colours and computed for the hue wheel. And `onAccent`, because white on
+the Graphite accent scores **2.16 to 1** while ink on it scores 7.88: one fixed
+choice makes half the palette unreadable, which is exactly what the confirm
+button looked like on the first build of the sheet.
+
+The threshold is solved rather than picked, at luminance 0.209. All twelve named
+accents land above it and take ink, which is what the rest of the design system
+already does on a chunky button. The switch earns its place on the hue wheel,
+where a mixed blue comes out genuinely dark. Worst case anywhere after the fix is
+**4.09 to 1** on large bold text, which needs 3.0.
