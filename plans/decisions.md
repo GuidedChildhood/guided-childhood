@@ -6279,3 +6279,17 @@ the right move the script says so.
 
 **Not in this batch, named so the gap stays visible:** YouTube, Discord, Roblox,
 Facebook, X, Twitch, and the moments and lessons, which are their own build.
+
+---
+
+## 2026-08-09 — The child's home screen, reorganised: three PRs, one thing at a time
+
+JP: "we have way too much on Home Screen so let's organise better." His order, shipped as three PRs so each could be looked at alone: school diary first, morning welcome, streaks small, five a day one at a time, use my time. Full plan in plans/2026-08-09-child-home-reorder.md.
+
+**The school diary takes child additions, with stored provenance.** Migration 179 adds added_by (parent or child, default parent, the truthful backfill) and added_by_child_id to school_actions. The child's week viewer gained the parent calendar's entry system, copied per JP ("can we copy the parent calendar entry system we built as that worked well"): an Add button on the open day opens the same sheet shape rebuilt in KidSchoolAddSheet, child kinds only (kit, homework, event), saving through the token authed /api/kid/school-add, which dedupes like the parent route, pushes the grown up on every add, and falls back to a bare insert until 179 is run. Child items wear a "you added this" badge on the child's chips and name the child on the parent's school page. Both surfaces read added_by in a guarded second query so neither breaks between deploy and the hand run SQL.
+
+**The five a day is one step at a time.** Done steps shrink to slim ticked lines, ONE live step shows with the loud edge, the rest wait behind a count. The duplicate Today list under it is gone from home; the jobs live at /k/[token]/jobs, which is the real KidTodayList in a jobs only shape (jobs plus the pay back message; Learn and Move stay steps of the five a day). Which jobs are due moved to lib/kid/jobs-read, called by both screens, so the five a day's count and the jobs page cannot disagree. The new job arrival notice moved onto the five a day's jobs step so it stays first glance.
+
+**The reorder itself.** Diary always renders (a quiet day shows a slim door into the week, because the block a child adds to cannot vanish), the welcome greets by the child's clock, the streak strip is one line (JP: "don't let it dominate"), and the tab bar went solid white with a real border and full ink labels. ref-kid-home renders the whole real KidQuestScreen with a made up family, the first way to see the child home without a signed in child; ref-kid-five now imports the real component too (KidFiveADay takes initialState for fixtures).
+
+**Worth knowing:** migrations 177 AND 179 are merged but not applied; 179 is safe either side of the deploy (guarded reads, fallback insert), but the child add stores no provenance until it runs. The schools Vercel project failed every deploy this morning until it was reconfigured mid afternoon; the repo was never the fault (schools builds green locally with zero env).

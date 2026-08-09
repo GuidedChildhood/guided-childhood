@@ -17,51 +17,47 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
   // Whole family home: a gentle, complete state instead of a progress bar.
   const done = !next
 
+  // A tidy little box, deliberately. Justin, 9 August 2026: "Streaks: keep
+  // this small and compact, in a tidy little box. Don't let it dominate the
+  // screen." One line of type, the dots beside it, the next Friend as a small
+  // face on the end. Streaks show in other places, so the home strip only has
+  // to say the number and the next prize.
   return (
     <div style={{
-      background: 'var(--terracotta-lt)', border: '1.5px solid #F1E4BE', borderRadius: 18,
-      padding: '13px 15px', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 12,
+      background: 'var(--terracotta-lt)', border: '1.5px solid #F1E4BE', borderRadius: 14,
+      padding: '8px 12px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10,
     }}>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 7 }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-            🔥 Streaks
-          </span>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-            {completedStreaks} earned
-          </span>
-        </div>
+      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
+        🔥 {completedStreaks}
+      </span>
 
-        {done ? (
-          <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
-            The whole family is home. Keep your streaks going to stay a superstar.
-          </div>
-        ) : (
-          <>
-            {/* One dot per streak in the rung being worked through. The rungs
-                are uneven, so this is no longer a fixed four, and it is capped
-                so the long run to Cosmo draws a bar rather than confetti. */}
-            <div style={{ display: 'flex', gap: 6, marginBottom: 6 }}>
-              {Array.from({ length: rungLength(completedStreaks) }).map((_, i) => (
-                <span key={i} style={{
-                  flex: 1, height: 9, borderRadius: 100,
-                  background: i < banked ? 'var(--terracotta)' : 'rgba(201,154,40,0.22)',
-                  transition: 'background 0.3s ease',
-                }} />
-              ))}
-            </div>
-            <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>
-              {toNext === 1
-                ? <>One more streak unlocks <b>{next!.name}</b>. So close!</>
-                : <><b>{toNext}</b> more streaks to unlock <b>{next!.name}</b>. Keep your jobs on time.</>}
-            </div>
-          </>
-        )}
-      </div>
+      {done ? (
+        <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.3 }}>
+          The whole family is home. Superstar.
+        </span>
+      ) : (
+        <>
+          {/* One dot per streak in the rung being worked through. The rungs
+              are uneven, so this is no longer a fixed four, and it is capped
+              so the long run to Cosmo draws a bar rather than confetti. */}
+          <span style={{ flex: 1, minWidth: 0, display: 'flex', gap: 4, alignItems: 'center' }}>
+            {Array.from({ length: rungLength(completedStreaks) }).map((_, i) => (
+              <span key={i} style={{
+                flex: 1, height: 7, borderRadius: 100, maxWidth: 26,
+                background: i < banked ? 'var(--terracotta)' : 'rgba(201,154,40,0.22)',
+                transition: 'background 0.3s ease',
+              }} />
+            ))}
+          </span>
+          <span style={{ flexShrink: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.3 }}>
+            {toNext === 1 ? <><b>1</b> more for <b>{next!.name}</b>!</> : <><b>{toNext}</b> more for <b>{next!.name}</b></>}
+          </span>
+        </>
+      )}
 
       {next && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={next.cutout} alt={next.name} width={54} height={54} style={{ objectFit: 'contain', flexShrink: 0, filter: 'grayscale(0.7) opacity(0.55) drop-shadow(0 4px 5px rgba(26,26,46,0.14))' }} />
+        <img src={next.cutout} alt={next.name} width={34} height={34} style={{ objectFit: 'contain', flexShrink: 0, filter: 'grayscale(0.7) opacity(0.55) drop-shadow(0 3px 4px rgba(26,26,46,0.14))' }} />
       )}
     </div>
   )
