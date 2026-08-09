@@ -1030,7 +1030,7 @@ export default function HomePage() {
                   tucked away at footnote grey. */}
               <address style={{ fontStyle: 'normal', marginTop: '18px', fontSize: '.82rem', lineHeight: 1.7, color: 'rgba(255,255,255,.72)', maxWidth: '240px' }}>
                 <div style={{ fontWeight: 700, color: '#fff' }}>{CONTACT.founder}</div>
-                <div style={{ color: 'rgba(255,255,255,.6)' }}>{CONTACT.product}, by {CONTACT.business}</div>
+                <div style={{ color: 'rgba(255,255,255,.6)' }}>{CONTACT.product}</div>
                 {hasAddress() && (
                   <div style={{ marginTop: '8px', color: 'rgba(255,255,255,.6)' }}>
                     {CONTACT.address.map(line => (
