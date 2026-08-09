@@ -36,7 +36,7 @@ export async function GET(req: NextRequest) {
         { onConflict: 'user_id,feature' },
       )
   } catch {
-    // Migration 176 is applied by hand, so there is a window where this code
+    // Migration 178 is applied by hand, so there is a window where this code
     // knows about a table the database has not got. A parent who taps a button
     // should still be thanked rather than shown an error for our deploy skew.
   }
