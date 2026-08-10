@@ -4,6 +4,7 @@ import ScriptReader from '@/components/scripts/ScriptReader'
 import RehearseWithDigi, { type RehearseFixture } from '@/components/scripts/RehearseWithDigi'
 import ScriptHelpPrompt from '@/components/scripts/ScriptHelpPrompt'
 import ScriptStatusButtons from '@/components/scripts/ScriptStatusButtons'
+import MarkReadOnEnd from '@/components/scripts/MarkReadOnEnd'
 import { card, cardPad, eyebrow } from '@/components/scripts/card-system'
 
 // The whole script detail page as one presentational view: the page route
@@ -44,7 +45,10 @@ type Props = {
   childId: string | null
   childHasApp: boolean
   workedRating: 'yes' | 'somewhat' | 'no' | null
-  scriptStatus: 'opened' | 'used' | 'not_needed'
+  scriptStatus: 'opened' | 'read' | 'used' | 'not_needed'
+  /** Arrived from the road or the passport, so the exits point back there. */
+  backToPathway?: boolean
+  stageSlug?: string | null
   prevScript: NavScript
   nextScript: NavScript
   depthInitial: { ifTheyPushBack?: string; checkBack?: string; forYourChild?: string }
@@ -63,6 +67,7 @@ const chip: React.CSSProperties = {
 export default function ScriptDetailView({
   script, sortOrder, showBanNote, voiceUrl, isPaid,
   childName, childPhone, childId, childHasApp, workedRating, scriptStatus,
+  backToPathway = false, stageSlug = null,
   prevScript, nextScript, depthInitial, rehearseFixture,
 }: Props) {
   const stageMeta = STAGE_META[script.stage_id] ?? STAGE_META.foundation
@@ -72,11 +77,14 @@ export default function ScriptDetailView({
 
       {/* Back and the deck door, one quiet row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px', flexWrap: 'wrap', gap: '8px' }}>
+        {/* Back to where they came from. A parent who followed their own
+            pathway here and is handed "All scripts" has been quietly moved to
+            a different place from the one they were in. */}
         <Link
-          href="/dashboard/scripts"
+          href={backToPathway ? '/dashboard/pathway' : '/dashboard/scripts'}
           style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
         >
-          ← All scripts
+          {backToPathway ? '← Back to the pathway' : '← All scripts'}
         </Link>
         <Link
           href={`/dashboard/scripts/${sortOrder}/deck`}
@@ -178,6 +186,12 @@ export default function ScriptDetailView({
           stageId={script.stage_id}
         />
 
+        {/* THE END OF THE SCRIPT, and the point at which reading it counts.
+            Justin, twice: once read through it needs to update the pathway. It
+            sits here rather than at the very bottom of the page on purpose: the
+            words end here, and everything below is what to do next. */}
+        <MarkReadOnEnd sortOrder={sortOrder} settled={scriptStatus === 'used' || scriptStatus === 'not_needed'} />
+
         {/* Did it help? DiGi asks, and the answer shapes what it suggests next. */}
         <ScriptHelpPrompt sortOrder={sortOrder} initialWorked={workedRating} />
         <ScriptStatusButtons sortOrder={sortOrder} status={scriptStatus} />
@@ -252,8 +266,25 @@ export default function ScriptDetailView({
         {/* The one tap way back to the daily path after doing this step, so a
             parent sent here from home always has a clear return to the next
             thing rather than reaching for the browser back button. */}
+        {/* Two exits when they came from the road, because after reading one
+            script the useful next move is either the NEXT script for this
+            stage or the road itself, and neither is the daily home page. */}
+        {backToPathway && stageSlug && (
+          <Link
+            href={`/dashboard/scripts/next?stage=${stageSlug}`}
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              background: '#fff', color: 'var(--ink)', textDecoration: 'none',
+              border: '1.5px solid var(--border)', borderRadius: 16, padding: '13px 20px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              marginBottom: 10,
+            }}
+          >
+            The next one for this stage →
+          </Link>
+        )}
         <Link
-          href="/dashboard"
+          href={backToPathway ? '/dashboard/pathway' : '/dashboard'}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
@@ -262,7 +293,7 @@ export default function ScriptDetailView({
             boxShadow: '0 5px 0 var(--terracotta-dark)',
           }}
         >
-          Continue your pathway →
+          {backToPathway ? 'Back to your pathway →' : 'Continue your pathway →'}
         </Link>
 
       </div>

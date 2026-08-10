@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
-// A parent says where they are with a script: used it, or it does not apply.
+// A parent says where they are with a script: read it, used it, or it does not
+// apply.
 //
 // Small route, and the only way a script_completions row ever leaves 'opened'.
 // Everything else about scripts writes 'opened' and nothing else, so this is
@@ -14,7 +15,11 @@ import { createClient } from '@/lib/supabase/server'
 
 export const dynamic = 'force-dynamic'
 
-const VALID = new Set(['used', 'not_needed'])
+// 'read' joins these with migration 183. Justin, twice: reading a script
+// through has to move the pathway. It is written by the end of the reader
+// coming into view, never by arriving, so a glance still counts for nothing and
+// migration 157's reasoning survives.
+const VALID = new Set(['read', 'used', 'not_needed'])
 
 export async function POST(req: NextRequest) {
   const { sortOrder, status, awayDays } = await req.json().catch(() => ({}))
@@ -35,6 +40,24 @@ export async function POST(req: NextRequest) {
     const days = Number.isFinite(awayDays) && awayDays > 0 ? Math.min(365, Math.round(awayDays)) : 90
     const d = new Date(Date.now() + days * 86_400_000)
     notNeededUntil = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(d)
+  }
+
+  // READ NEVER DEMOTES. A parent who marked a script used months ago and opens
+  // it again to reread should not have it quietly drop back to read, losing the
+  // fact that they actually had the conversation. Used and not needed are both
+  // things a person deliberately said; read is something we inferred from a
+  // scroll, and an inference must not overwrite a statement.
+  if (status === 'read') {
+    const { data: held } = await supabase
+      .from('script_completions')
+      .select('status')
+      .eq('user_id', user.id)
+      .eq('script_sort_order', sortOrder)
+      .maybeSingle()
+    const now = (held as { status?: string } | null)?.status
+    if (now === 'used' || now === 'not_needed') {
+      return NextResponse.json({ ok: true, status: now, unchanged: true })
+    }
   }
 
   const { error } = await supabase

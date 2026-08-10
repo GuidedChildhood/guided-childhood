@@ -6,6 +6,7 @@ import BrowseTile from '@/components/ui/BrowseTile'
 import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
 import { momentImageForTitle } from '@/lib/content/moment-images'
 import { getRecommendedScript } from '@/lib/pathway/recommend'
+import { countsTowardPathway } from '@/lib/pathway/script-status'
 import type { ChallengeId } from '@/lib/content/stages'
 import ScriptFinder from '@/components/scripts/ScriptFinder'
 
@@ -149,7 +150,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
   // counter below deliberately keeps counting opens, because opening a paid
   // script is exactly what that allowance is spent on.
   const completedOrders = new Set(
-    (completions ?? []).filter(c => (c as { status?: string }).status !== 'opened').map(c => c.script_sort_order)
+    (completions ?? []).filter(c => countsTowardPathway((c as { status?: string }).status)).map(c => c.script_sort_order)
   )
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge as ChallengeId | undefined
   const matchCategory = challenge ? CHALLENGE_TO_CATEGORY[challenge] : null
@@ -436,7 +437,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
             {STAGE_META[askedStage].label}, {STAGE_META[askedStage].ages.toLowerCase()}
           </p>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-            Your pathway fills in when you tell us a script landed. Open one, and at the bottom say you used it or that it does not apply. Reading on its own does not move it, because reading is not the conversation.
+            Your pathway fills in as you read these. Reach the end of one and it counts. Tell us you used it, or that it does not apply, and it counts for more, because the conversation is the thing and only you can tell us it happened.
           </p>
           <Link href="/dashboard/scripts" style={{ display: 'inline-block', marginTop: 8, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
             See every stage →

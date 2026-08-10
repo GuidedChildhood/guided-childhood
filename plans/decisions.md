@@ -6905,3 +6905,47 @@ neither on the page Justin photographed:
 his account and his data, so his exact home could not be loaded here. The guard
 makes the symptom impossible on any page, and the check makes the cause findable
 next time; the specific card, if there is one, is still unnamed.
+
+## 10 August 2026, the pathway hands over a script, and reading it counts
+
+Justin: "the pathway OS still not taking me to the related script, and then once
+read through needs to update pathway."
+
+**The pathway now does the choosing.** The road and the passport linked at
+/dashboard/scripts?stage=<slug>, which is a shelf. Even once the stage filter
+worked, a parent following "read the scripts" still had to pick one, and picking
+is exactly what the pathway is supposed to have done for them. They now link at
+/dashboard/scripts/next?stage=<slug>, a route with no page of its own that runs
+the same recommender pinned to that stage and redirects to the one script.
+preferFree for an unpaid parent, because following your own pathway into a
+paywall is the worst possible first impression of it.
+
+**Reading a script through now counts, and this rule has now been changed twice
+in opposite directions.** Migration 157 stopped opening from counting, for a good
+reason: a parent who scrolled through ten came back to ten ticks and a passport
+that disagreed with every one. Justin has asked twice for reading to count, and
+he is right that the rule as built was invisible: you read a whole script, went
+back, and nothing had moved, with nothing on screen having said it would not.
+
+Migration 183 adds the state in between:
+
+  opened      the page rendered. Still worth nothing.
+  read        they reached the END of the script. Counts.
+  used        they had the conversation. Counts and retires it.
+  not_needed  does not apply yet. Counts and comes back round.
+
+READ AND OPENED ARE NOT THE SAME THING, and that distinction is what lets both
+migrations be right at once. Read is written by the end of the reader coming into
+view, opened by arriving. Delete the difference and 157's bug is back the same
+afternoon, which is why the rule now lives alone in lib/pathway/script-status.ts
+with a check that asserts a browse through ten still moves nothing.
+
+Read never demotes: a parent who marked a script used months ago and opens it to
+reread keeps the used. An inference from a scroll must not overwrite something a
+person deliberately said. And read does not retire a script from the recommender,
+because having the words is not the same as having said them.
+
+Two pieces of copy were made untrue by this and were corrected in the same
+change: the passport task went back to "Read the scripts" (it had been changed to
+"Use" precisely because reading did not count), and the stage view no longer
+tells a parent that reading on its own does not move anything.
