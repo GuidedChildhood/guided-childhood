@@ -6493,3 +6493,39 @@ wiring, not new content. Brief and phased build plan at
 plans/2026-08-09-ai-companion-strand-product-brief.md. The living updates layer
 (Phase D) stays fenced behind its own go-ahead and keeps the manual publish step,
 because auto drafted content for children is a safety call, not a convenience.
+
+## 9 August 2026: the quiz battle joins the quest games
+
+Justin asked for research into the most popular educational games with a view
+to building our versions. The research (plans/week-of-2026-08-09-educational-
+games-plan.md, PR 774) found the engine already covers most of the popular
+formats. The one big missing loop was Prodigy's: the answer IS the attack,
+proven on 100 million children.
+
+**Built as a new `battle` mechanic on the quest games engine.** The child's
+Planet Friend faces a friendly trouble (the Muddle, the Tangle, the Trick
+Cloud) and every right answer powers a move. Three battles ship, one per band:
+Pebble and the Number Muddle (4 to 7), Bloop and the Times Tangle (8 to 10),
+Orbit and the Trick Cloud (11 up, media literacy).
+
+**The decisions that matter:**
+
+- No losing side, ever. A wrong answer means the move fizzles, the right
+  answer is shown kindly and the question rejoins the back of the queue. The
+  battle always ends in a win once the set is cleared. This is section 8 of
+  quest-games-plan applied to a battle: Prodigy's fun without Prodigy's
+  pressure. No timer, no randomness, fixed stars, calm finish.
+- The opponent is never a person or another child. It is confusion itself,
+  which means beating it is understanding, not beating someone.
+- Duolingo's streak pressure was explicitly researched and explicitly not
+  copied. The research batch note in the registry says which mechanic came
+  from which market leader, same as the 13 July batch.
+- New dev fixture at /dev/quest-game?game=<key> renders any registry game
+  with no database and no signed in parent, the quest games twin of
+  /dev/lesson-player. Gated by the dev layout like the rest.
+- No migration. Scoring rides the existing game_key branch of
+  lesson-complete, server side, deduped.
+
+Left for later sessions, in the plan: tracing for Foundation, word builder,
+story sequencer, an opt in adaptive layer, and the printable outdoor Batch 1
+which stays the named priority for offline play.

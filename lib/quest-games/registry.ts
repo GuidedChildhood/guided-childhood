@@ -75,7 +75,20 @@ export type CoinsGame = QuestGameMeta & {
   serves: number
 }
 
-export type QuestGame = PairsGame | JudgeGame | SumsGame | WheelGame | FishingGame | CoinsGame
+export type BattleGame = QuestGameMeta & {
+  mechanic: 'battle'
+  // DiGi Quiz Battle: the child's Planet Friend faces a friendly trouble and
+  // every right answer powers the Friend's move. The answer is the attack,
+  // the loop Prodigy proved on 100 million children, rebuilt to our rules:
+  // no losing, no timer, no randomness. A miss sends the question to the
+  // back of the queue, so clearing the set always ends the battle in a win.
+  hero: string             // Planet Friend key from stage-characters
+  opponent: { name: string; emoji: string; taunt: string; beaten: string }
+  moves: string[]          // move names cycled as answers land
+  questions: { q: string; options: string[]; answer: number }[]
+}
+
+export type QuestGame = PairsGame | JudgeGame | SumsGame | WheelGame | FishingGame | CoinsGame | BattleGame
 
 export const QUEST_GAMES: QuestGame[] = [
   {
@@ -525,6 +538,70 @@ export const QUEST_GAMES: QuestGame[] = [
       { item: 'triple scoop', price: 70 },
       { item: 'super sundae', price: 120 },
       { item: 'family tub', price: 250 },
+    ],
+  },
+  // ── The educational games research batch, 9 August 2026. The quiz battle
+  // is the loop the market leaders prove works best (Prodigy: the answer IS
+  // the attack), rebuilt to our rules in plans/quest-games-plan.md section 8.
+  // One battle per band, each fronted by that band's Planet Friend. ──
+  {
+    key: 'battle-number-muddle', mechanic: 'battle', isNew: true,
+    title: 'Pebble and the Number Muddle', emoji: '🌀', stage: 'Ages 4 to 7', stages: [1, 2], stars: 2,
+    blurb: 'The Muddle has mixed up all the numbers. Every right answer powers one of Pebble’s moves.',
+    hero: 'pebble',
+    opponent: {
+      name: 'The Muddle', emoji: '🌀',
+      taunt: 'I have muddled every number on the planet! You will never sort them out!',
+      beaten: 'The Muddle spins away, all sorted out. The numbers are safe again.',
+    },
+    moves: ['Pebble Bounce', 'Star Splash', 'Sunny Spin'],
+    questions: [
+      { q: '2 + 2', options: ['3', '4', '5'], answer: 1 },
+      { q: '5 + ? = 10', options: ['5', '4', '6'], answer: 0 },
+      { q: 'One more than 6', options: ['5', '7', '8'], answer: 1 },
+      { q: '10 take away 3', options: ['7', '6', '8'], answer: 0 },
+      { q: 'Double 3', options: ['5', '6', '9'], answer: 1 },
+      { q: 'How many sides has a triangle?', options: ['3', '4', '5'], answer: 0 },
+    ],
+  },
+  {
+    key: 'battle-times-tangle', mechanic: 'battle', isNew: true,
+    title: 'Bloop and the Times Tangle', emoji: '🪢', stage: 'Ages 8 to 10', stages: [2, 3], stars: 3,
+    blurb: 'The Tangle has knotted the times tables. Untangle them one answer at a time.',
+    hero: 'bloop',
+    opponent: {
+      name: 'The Tangle', emoji: '🪢',
+      taunt: 'I have tied every times table into knots! Good luck untangling these!',
+      beaten: 'The last knot falls open. The Tangle gives a little bow and unravels.',
+    },
+    moves: ['Bubble Pop', 'Builder Bash', 'Green Groove'],
+    questions: [
+      { q: '4 × 6', options: ['24', '28', '20'], answer: 0 },
+      { q: '7 × 3', options: ['24', '21', '27'], answer: 1 },
+      { q: '9 × 4', options: ['32', '40', '36'], answer: 2 },
+      { q: '8 × 6', options: ['48', '54', '42'], answer: 0 },
+      { q: '36 ÷ 6', options: ['5', '6', '7'], answer: 1 },
+      { q: '12 × 3', options: ['36', '33', '39'], answer: 0 },
+    ],
+  },
+  {
+    key: 'battle-trick-cloud', mechanic: 'battle', isNew: true,
+    title: 'Orbit and the Trick Cloud', emoji: '🌫️', stage: 'Ages 11 and up', stages: [3, 4, 5], stars: 4,
+    blurb: 'The Trick Cloud fills feeds with fakes and hooks. See through every one to clear the sky.',
+    hero: 'orbit',
+    opponent: {
+      name: 'The Trick Cloud', emoji: '🌫️',
+      taunt: 'My tricks catch grown adults every single day. You will fall for them too!',
+      beaten: 'The cloud thins to nothing. Tricks only work on people who cannot see them, and now you can.',
+    },
+    moves: ['Orbit Loop', 'Comet Swoosh', 'Truth Beam'],
+    questions: [
+      { q: 'Hurry, only 3 left, sale ends in 10 minutes! What is the trick?', options: ['A kind warning', 'Urgency to rush you', 'A maths puzzle'], answer: 1 },
+      { q: 'A celebrity video where the mouth looks blurry and the blinks are odd. Most likely?', options: ['A deepfake', 'A live news clip', 'Just bad wifi'], answer: 0 },
+      { q: 'Win a free phone, just enter your home address! What should you do?', options: ['Enter quickly', 'Ask a friend to enter', 'Close it and tell a grown up'], answer: 2 },
+      { q: 'A headline says: you will NOT believe what happened next. Why is it written like that?', options: ['To force the click', 'To save space', 'To be polite'], answer: 0 },
+      { q: 'One tiny account says a famous person died. No news site has it. Believe it?', options: ['Yes, share it fast', 'No, wait for a real source', 'Only if it gets likes'], answer: 1 },
+      { q: 'An influencer says a drink changed their life, with #ad at the end. What is the post?', options: ['A science report', 'A diary entry', 'A paid advert'], answer: 2 },
     ],
   },
 ]
