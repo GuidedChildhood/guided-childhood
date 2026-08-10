@@ -267,21 +267,36 @@ export async function POST(req: NextRequest) {
   // session that points back at it, so stopping early can trim it. Only the
   // star funded part is charged to the bank; the minutes stay whole, since that
   // is what the row is a record of.
-  const { data: spend, error: spendError } = await supabase.from('star_spends').insert({
-    user_id: link.user_id, child_id: link.child_id, stars: plan.starCost, minutes: mins,
-    note: holidayDrawn > 0
-      ? `Device time: ${screenName} (${holidayDrawn} holiday min)`
-      : `Device time: ${screenName}`,
-  }).select('id').single()
-  if (spendError) {
-    await refundToHolidayBank(supabase, link.user_id, link.child_id, holidayDrawn)
-    return NextResponse.json({ error: spendError.message }, { status: 500 })
+  //
+  // NO SPEND ROW WHEN THE STARS COST NOTHING. Justin, 16:55, "They said yes!"
+  // then "That did not start. Try again in a moment": a block paid entirely
+  // from the holiday bank plans a starCost of zero, and star_spends has a
+  // check of stars between 1 and 1000 (migration 047), so the insert died on
+  // the constraint and every fully holiday funded start 500ed. In the school
+  // holidays with an empty star week, which is August in one sentence, that
+  // was every start. The session row happily carries stars 0 and a null
+  // spend_id (052), and the stop route already guards both, so a zero star
+  // block simply has no bank row to trim, the same as there being nothing
+  // to refund.
+  let spendId: string | null = null
+  if (plan.starCost > 0) {
+    const { data: spend, error: spendError } = await supabase.from('star_spends').insert({
+      user_id: link.user_id, child_id: link.child_id, stars: plan.starCost, minutes: mins,
+      note: holidayDrawn > 0
+        ? `Device time: ${screenName} (${holidayDrawn} holiday min)`
+        : `Device time: ${screenName}`,
+    }).select('id').single()
+    if (spendError) {
+      await refundToHolidayBank(supabase, link.user_id, link.child_id, holidayDrawn)
+      return NextResponse.json({ error: spendError.message }, { status: 500 })
+    }
+    spendId = spend.id
   }
 
   const endsAt = new Date(Date.now() + mins * 60000).toISOString()
   const { data: session, error: sessionError } = await supabase.from('device_sessions').insert({
     user_id: link.user_id, child_id: link.child_id, device, minutes: mins, stars: plan.starCost,
-    spend_id: spend.id, ends_at: endsAt, treat,
+    spend_id: spendId, ends_at: endsAt, treat,
     // Spread rather than set, so a database still short of migration 138 keeps
     // taking sessions instead of rejecting every one of them on an unknown
     // column. Null there simply means infer from the device, as before.
@@ -293,7 +308,7 @@ export async function POST(req: NextRequest) {
     ...(homeDevice ? { family_device_id: homeDevice.id } : {}),
   }).select('id, device, minutes, stars, ends_at, started_at, treat').single()
   if (sessionError) {
-    await supabase.from('star_spends').delete().eq('id', spend.id)
+    if (spendId) await supabase.from('star_spends').delete().eq('id', spendId)
     await refundToHolidayBank(supabase, link.user_id, link.child_id, holidayDrawn)
     return NextResponse.json({ error: sessionError.message }, { status: 500 })
   }

@@ -6802,6 +6802,25 @@ Same class of bug as the daily look back card, ten days apart, and invisible for
 the same reason both times: correct on any single day, wrong across days, and
 nothing tested across days. scripts/check-recommend-rotation.mjs now does.
 
+## 10 August 2026, later — The child's chart is the full builder after all
+
+The first cut gave the child a fixed sheet of their board's jobs, on the
+reasoning that our suggestion menu should not invent jobs on a named child's
+chart. Justin saw it on Teo's phone and overruled it: "we create a custom
+version where they add the tasks... make sure we revert back to custom
+version on both parents and child's."
+
+So both phones now run the SAME StarChartBuilder, the whole custom version:
+real jobs ticked to start, the suggestion menu, the write your own box, the
+week chips, then print. The component grew a kid variant (softer words, a
+token authed print record route, a back link home) rather than a copy, so
+the two can never drift. The child adding a job to the chart still adds it
+to PAPER only, which on reflection is the point: the chart is theirs to
+compose, and the parent's board stays the parent's.
+
+The sheet preview also stopped crushing on narrow phones: it scrolls
+sideways on screen and prints exactly as before, on both apps.
+
 ## 10 August 2026, the method week
 
 Justin: "little nudges, best way to inform them use timer when child uses
@@ -6841,3 +6860,4 @@ card" complaint rebuilt in a third place in one day. Not now backs off: two days
 four, eight, then a fortnight, and the check asserts the GAP GROWS rather than
 counting appearances, because five spread over a month and five in five days are
 different things a count cannot tell apart.
+>>>>>>> origin/main

@@ -66,6 +66,11 @@ export type YourJob = Job & { childId: string | null }
 export default function StarChartBuilder({
   yourJobs = [], childOptions = [], defaultChildName = '',
   weeks = [],
+  variant = 'parent',
+  recordUrl = '/api/printables/star-chart-print',
+  recordBody = {},
+  backHref = '/dashboard/printables',
+  backLabel = 'All printables',
 }: {
   /** The family's real active jobs, straight off the quests board. */
   yourJobs?: YourJob[]
@@ -87,6 +92,20 @@ export default function StarChartBuilder({
    * Monday that has not happened yet is simply wrong.
    */
   weeks?: { start: string; label: string; name: string }[]
+  /**
+   * The SAME builder runs on the child's app. Justin, 10 August 2026, on the
+   * first child page being a fixed sheet: "we create a custom version where
+   * they add the tasks... make sure we revert back to custom version on both
+   * parents and child's." So the child gets the whole thing, picking and
+   * adding jobs included, and the two can never drift because they are one
+   * component. 'kid' softens the words to the child's voice; the print
+   * record posts to the token authed route via recordUrl and recordBody.
+   */
+  variant?: 'parent' | 'kid'
+  recordUrl?: string
+  recordBody?: Record<string, unknown>
+  backHref?: string
+  backLabel?: string
 } = {}) {
   const [childName, setChildName] = useState(defaultChildName)
   // WHICH WEEK. Defaults to the first, which is this week every day except
@@ -147,15 +166,19 @@ export default function StarChartBuilder({
       `}</style>
 
       <div className="no-print">
-        <Link href="/dashboard/printables" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
-          ← All printables
+        <Link href={backHref} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+          ← {backLabel}
         </Link>
-        <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '14px 0 8px' }}>Star chart builder</p>
+        <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '14px 0 8px' }}>
+          {variant === 'kid' ? 'My star chart' : 'Star chart builder'}
+        </p>
         <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 10 }}>
-          Put your own jobs on it, then print
+          {variant === 'kid' ? 'Pick your jobs, then print' : 'Put your own jobs on it, then print'}
         </h1>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 26, maxWidth: 560 }}>
-          One press prints two pages: the chart with your jobs on it, and a sheet of gold stars to cut out. Choose the jobs here and they print properly every time.
+          {variant === 'kid'
+            ? 'Put it on the fridge and do your jobs on paper all week. At the end of the week your grown up puts your stars in the app and they land in your bank.'
+            : 'One press prints two pages: the chart with your jobs on it, and a sheet of gold stars to cut out. Choose the jobs here and they print properly every time.'}
         </p>
 
         {/* Their name, its own tidy field with a label above it. */}
@@ -355,8 +378,16 @@ export default function StarChartBuilder({
       )}
 
       {/* The sheet itself, the SHARED one. What is on screen here is exactly
-          what prints, and exactly what the child's own print page prints. */}
-      <StarChartSheet name={name} weekLabel={week?.label ?? null} jobs={picked} />
+          what prints, and exactly what the child's own print page prints.
+          On a narrow phone the seven day columns crush the headers into each
+          other, so the preview scrolls sideways instead; print ignores the
+          wrapper entirely, the A4 page being wider than the minimum anyway. */}
+      <style>{`@media print { .sheet-scroll { overflow: visible !important } .sheet-scroll > div { min-width: 0 !important } }`}</style>
+      <div className="sheet-scroll" style={{ overflowX: 'auto' }}>
+        <div style={{ minWidth: 560 }}>
+          <StarChartSheet name={name} weekLabel={week?.label ?? null} jobs={picked} />
+        </div>
+      </div>
 
       {/* One tidy action bar, fixed low on the screen the Mobbin way, so the
           print button is always in reach however far the menu runs. */}
@@ -383,13 +414,15 @@ export default function StarChartBuilder({
             // so a slow or failed save can never stand between a parent and
             // their paper. Worst case the board's badge is out by one print.
             onClick={() => {
-              fetch('/api/printables/star-chart-print', {
+              fetch(recordUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 // The week goes with it (migration 170), so the weekend offer
                 // knows whether the fridge has a sheet for the Monday coming
                 // rather than only whether this family has ever printed one.
-                body: JSON.stringify({ weekStart: week?.start ?? null }),
+                // recordBody carries the child's link token when the builder
+                // runs on the child app, where there is no session.
+                body: JSON.stringify({ ...recordBody, weekStart: week?.start ?? null }),
               }).catch(() => { /* the chart still prints */ })
               window.print()
             }}
