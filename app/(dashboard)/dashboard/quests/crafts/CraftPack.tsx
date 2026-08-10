@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { craftBySlug } from '@/lib/quests/craft-links'
+import { fitSheetsToPage } from '@/lib/print/fit-to-page'
 import Link from 'next/link'
 import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { STAR_MINUTES } from '@/lib/quests/templates'
@@ -408,17 +409,85 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       })
     })
   }, [])
+  // Fit the sheets to the paper before any print dialog opens.
+  //
+  // Both routes are covered on purpose. The buttons call it directly, and the
+  // beforeprint listener catches the parent who reaches for Ctrl+P or the iOS
+  // share sheet, which is how Justin printed the pack in the photo that started
+  // this.
+  const packRef = useRef<HTMLDivElement>(null)
+  const fit = useCallback(() => fitSheetsToPage(packRef.current), [])
+  useEffect(() => {
+    window.addEventListener('beforeprint', fit)
+    return () => window.removeEventListener('beforeprint', fit)
+  }, [fit])
+
+  function printPack() {
+    fit()
+    window.print()
+  }
+
   function printWholePack() {
     setShowAll(true)
-    setTimeout(() => window.print(), 200)
+    // The extra sheets are not in the DOM until React has painted them, so the
+    // measuring has to wait for that, not merely for the print call.
+    setTimeout(() => { fit(); window.print() }, 200)
   }
 
   return (
-    <div style={{ maxWidth: '760px', margin: '0 auto', padding: '24px 20px 60px' }}>
+    <div ref={packRef} className="craft-pack" style={{ maxWidth: '760px', margin: '0 auto', padding: '24px 20px 60px' }}>
       <style>{`
+        /* The paper itself. Without a stated size the browser guesses from the
+           printer, and a US Letter guess against A4 art is where the ragged
+           bottom edge came from. */
+        @page { size: A4; margin: 10mm; }
+
+        /* The state fitSheetsToPage measures in: the sheets exactly as the
+           printer will see them, held on screen for the length of one frame. */
+        .print-measuring .no-print { display: none !important; }
+
         @media print {
           header, .bottom-tab-bar, .no-print, .rightnow-desktop { display: none !important; }
-          .craft-sheet { page-break-after: always; border-radius: 0 !important; margin-bottom: 0 !important; }
+
+          /* The reading gutters are for a phone. On paper they are 40px of the
+             page width thrown away, and thrown away in the one direction that
+             decides whether a sheet fits. */
+          .craft-pack { max-width: none !important; padding: 0 !important; }
+
+          /* One sheet, one page.
+             Justin, 10 August 2026: "this print pack has messy pages that
+             don't fit." Measured before touching it: THREE sheets printed as
+             FOUR pages, because page-break-after: always fired after the last
+             one too and produced a trailing blank carrying only the browser's
+             own header and footer. That is the near empty page 4 of 7 in his
+             screenshot.
+             So the break goes BETWEEN sheets rather than after each, and
+             break-inside stops a sheet splitting across two pages and leaving
+             a stub with three lines on it. */
+          .craft-sheet {
+            /* Both set by fitSheetsToPage, and only when a sheet is taller
+               than one page. Most sheets never get either and print as drawn.
+               The width is pinned alongside the zoom so the sheet scales down
+               whole, rather than reflowing wider as it shrinks. */
+            zoom: var(--fit, 1);
+            width: var(--fit-w, auto);
+            margin-left: auto;
+            margin-right: auto;
+            break-inside: avoid;
+            break-after: page;
+            border-radius: 0 !important;
+            margin-bottom: 0 !important;
+            box-shadow: none !important;
+          }
+          .craft-sheet:last-of-type { break-after: auto; }
+
+          /* A heading must not be the last thing on a page with its own
+             content overleaf. */
+          .craft-sheet h2, .craft-sheet h3 { break-after: avoid; }
+
+          /* Line art and the tint bands are the product here, and browsers
+             drop backgrounds when printing unless told not to. */
+          * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
       `}</style>
 
@@ -436,7 +505,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
           </p>
         </div>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-          <button onClick={() => window.print()} className="btn btn-gold" style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer' }}>
+          <button onClick={printPack} className="btn btn-gold" style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer' }}>
             Print this pack
           </button>
           <button onClick={printWholePack} style={{ padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)' }}>

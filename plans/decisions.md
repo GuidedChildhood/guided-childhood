@@ -6659,3 +6659,45 @@ several failures rotate between themselves.
 Proven across simulated days rather than by eye, which is the only way this
 class of bug is visible: the old code was correct in isolation and only wrong
 over time, so nothing we had could have caught it.
+
+## 10 August 2026, the game pack prints one sheet per page
+
+Justin, with a photo of the iOS print sheet showing page 4 of 7 nearly empty:
+"this print pack has messy pages that don't fit."
+
+**Measured first, at the width a printer really uses.** The whole offline pack is
+13 sheets and printed as 18 pages, because 5 sheets were taller than one page. A
+sheet 1.06 pages long does not print as a full page. It prints as a full page
+plus a second page carrying an inch of board game, which is the near empty page
+in the photo.
+
+**Three separate things were wrong**, and the first two were invisible because
+every check we had looks at a screen width:
+
+1. The reading gutters printed. 40px of page width thrown away in the one
+   direction that decides whether a sheet fits.
+2. `page-break-after: always` fired after the LAST sheet too, so every print
+   ended on a blank page carrying only the browser's header and footer.
+3. Nothing fitted the tall sheets to the paper at all.
+
+**The fix is measured, not hand tuned.** Before the print dialog opens, each
+sheet is laid out at the real printable width and shrunk in 5% steps until it
+fits. Sheets that already fit are untouched: 8 of 13 print exactly as designed.
+The alternative, tightening the padding on the five that overflowed, fixes
+today's pack and breaks again the next time somebody writes a sheet.
+
+**Two things that cost the most time, both worth writing down.**
+
+Body carries `zoom: 1.07` for readability, so a CSS px inside the app is not a px
+on the page. Asking for a 718px box got one 768 wide, every sheet measured 7%
+roomier than the paper, and five sheets were waved through as fitting. The code
+now asks the browser what it actually gave it rather than trusting the number.
+
+And the sheet has to be pinned to the printable width while it shrinks. Left to
+itself a zoomed block reflows into its new room, and the snakes and ladders board
+barely moved: its squares are a fifth of the sheet width by aspect ratio, so
+widening the sheet grew the board by as much as the zoom shrank it. At 40% it had
+only come down from 1430px to 1019.
+
+`scripts/check-print-fit.mjs` prints a real PDF and counts the pages, per age
+band and for the whole pack. 13 pages for 13 sheets, smallest scale 0.7.
