@@ -6529,3 +6529,19 @@ Orbit and the Trick Cloud (11 up, media literacy).
 Left for later sessions, in the plan: tracing for Foundation, word builder,
 story sequencer, an opt in adaptive layer, and the printable outdoor Batch 1
 which stays the named priority for offline play.
+
+## 10 August 2026: Trace with Pebble, the second research build
+
+Justin picked tracing as the next educational games build after the quiz
+battle merged (PR 774). Built as a new `trace` mechanic on the quest games
+engine (PR 775): the first six phonics letters in the order school teaches
+them (s a t p i n), traced with a finger stroke by stroke. Duolingo ABC's
+proven pattern in our butter and ink: faint letterform as the ground, a big
+start dot, guide points, the letter fills in gold behind the finger, Pebble
+cheers each one with its sound.
+
+The decisions: forgiving by design (generous hit radius, lifting a finger
+loses nothing, Start again is offered rather than forced), no timer, no
+failing, fixed stars, calm finish. Letters are registry data with stroke
+point paths, so more letters and numbers are data only, no code. No
+migration, scoring on the existing game_key route.
