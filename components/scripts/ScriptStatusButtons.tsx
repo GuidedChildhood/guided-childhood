@@ -28,7 +28,7 @@ export default function ScriptStatusButtons({
   sortOrder, status,
 }: {
   sortOrder: number
-  status: 'opened' | 'used' | 'not_needed'
+  status: 'opened' | 'read' | 'used' | 'not_needed'
 }) {
   const [current, setCurrent] = useState(status)
   const [busy, setBusy] = useState<string | null>(null)

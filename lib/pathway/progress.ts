@@ -1,3 +1,4 @@
+import { countsTowardPathway } from './script-status'
 import type { createClient } from '@/lib/supabase/server'
 import { stageDevicePct } from '@/lib/devices/family'
 
@@ -88,7 +89,7 @@ export async function getStageProgress(
   const stageScriptOrders = new Set((stageScripts ?? []).map(s => s.sort_order))
   const completedInStage = (userCompletedScripts ?? [])
     .filter(c => stageScriptOrders.has(c.script_sort_order))
-    .filter(c => (c as { status?: string }).status !== 'opened')
+    .filter(c => countsTowardPathway((c as { status?: string }).status))
     .length
   const scriptsPct = stageScriptOrders.size > 0 ? Math.round((completedInStage / stageScriptOrders.size) * 100) : 0
 
@@ -196,7 +197,7 @@ export async function getAllStagesProgress(
   // parent who saw them disagree would be right to stop trusting both.
   const completedScriptOrders = new Set(
     (completedScripts ?? [])
-      .filter(c => (c as { status?: string }).status !== 'opened')
+      .filter(c => countsTowardPathway((c as { status?: string }).status))
       .map(c => c.script_sort_order),
   )
   // Devices only count the ones a family actually has: a device marked not in

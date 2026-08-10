@@ -25,10 +25,17 @@ type ScriptRow = {
 
 export default async function ScriptDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ from?: string; stage?: string }>
 }) {
   const { id } = await params
+  // Arrived from the road or the passport, so the way back is the road and not
+  // the library. Read off the link rather than the referrer, matching the
+  // devices page and the scripts index.
+  const { from, stage } = await searchParams
+  const cameFromPathway = from === 'pathway' || from === 'passport'
   const sortOrder = parseInt(id, 10)
   if (isNaN(sortOrder) || sortOrder < 1) notFound()
 
@@ -95,7 +102,7 @@ export default async function ScriptDetailPage({
     supabase.from('script_completions').select('worked, status').eq('user_id', user.id).eq('script_sort_order', sortOrder).maybeSingle(),
   ])
   const workedRating = (myCompletion as { worked?: 'yes' | 'somewhat' | 'no' | null } | null)?.worked ?? null
-  const scriptStatus = ((myCompletion as { status?: string } | null)?.status ?? 'opened') as 'opened' | 'used' | 'not_needed'
+  const scriptStatus = ((myCompletion as { status?: string } | null)?.status ?? 'opened') as 'opened' | 'read' | 'used' | 'not_needed'
 
   // Does this child have their own app (a kid link)? If so the note goes
   // straight to their phone and their app, not out over SMS.
@@ -108,6 +115,8 @@ export default async function ScriptDetailPage({
     <ScriptDetailView
       script={script}
       sortOrder={sortOrder}
+      backToPathway={cameFromPathway}
+      stageSlug={stage ?? null}
       showBanNote={showBanNote}
       voiceUrl={scriptVoiceUrl(sortOrder)}
       isPaid={isPaid}

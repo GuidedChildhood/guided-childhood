@@ -109,6 +109,12 @@ export async function getRecommendedScript(
   //               left families with a pathway they could not finish. Demoted
   //               below anything unseen, so it comes back round rather than
   //               sitting at the top of the page being ignored again.
+  //   read        reached the end of (migration 183). Counts on the passport
+  //               and is STILL OFFERED, deliberately, in the same demoted place
+  //               as opened. Reading the words is not the same as having said
+  //               them, so the script has more to give this family and retiring
+  //               it on a scroll would take it away for a conversation that has
+  //               not happened yet. Only 'used' retires anything.
   const resolved = new Set<number>()
   const opened = new Set<number>()
   const returned = new Set<number>()
