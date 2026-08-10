@@ -236,7 +236,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   }))
   // Which school calendar this family keeps, so the card's holiday hold
   // reads the right country's holidays.
-  const { getFamilyRegion } = await import('@/lib/learning/region')
+  //
+  // Uses the module import at the top rather than a dynamic one. A dynamic
+  // import here declared a block scoped const of the same name in this same
+  // function body, which put the top level import into the temporal dead zone
+  // for the whole body, so the earlier term preview call threw a ReferenceError
+  // instead of harmlessly shadowing. Two green pull requests merged an hour
+  // apart produced it: git had no textual conflict to report.
   const familyRegion = await getFamilyRegion(supabase, user.id)
   const hasSchoolConnection = !!schoolConnectionResult.data
   // The child phone link step only belongs once a child is old enough to
