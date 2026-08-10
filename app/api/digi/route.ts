@@ -14,6 +14,7 @@ import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import { classifyLane, laneShape, missCandidates } from '@/lib/digi/lane'
 import { startTimer } from '@/lib/digi/timing'
 import { loadLaneKeywords } from '@/lib/digi/keywords'
+import { matchScripts, type MatchableScript } from '@/lib/digi/script-match'
 import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/digi/tools'
 import { consumeStream } from '@/lib/digi/stream'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
@@ -346,22 +347,20 @@ export async function POST(request: Request) {
   }
 
   // Scripts we already have that may fit what the parent just said, so DiGi can
-  // point them at the exact one rather than only talking in general. A light
-  // keyword match over the library; DiGi decides if one genuinely fits.
+  // point them at the exact one rather than only talking in general. DiGi still
+  // decides whether one genuinely fits; this only chooses what it gets to see.
+  //
+  // The picking moved to lib/digi/script-match on 10 August 2026. It used to
+  // count how MANY of the parent's words appeared and need two, which meant a
+  // parent who named one platform ("she wants tiktok") was handed nothing at
+  // all, so the newest and most specific scripts were the least reachable.
   let scriptLinkKnowledge = ''
   try {
     const { data: allScripts } = await supabase.from('scripts').select('sort_order, title, situation, category')
-    const stop = new Set(['this', 'that', 'with', 'have', 'they', 'them', 'their', 'when', 'what', 'about', 'from', 'want', 'wants', 'will', 'wont', 'does', 'been', 'kids', 'child'])
-    const words = [...new Set(String(message).toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length > 3 && !stop.has(w)))]
-    const scored = (allScripts ?? []).map(s => {
-      const hay = `${s.title} ${s.situation} ${s.category}`.toLowerCase()
-      let score = 0
-      for (const w of words) if (hay.includes(w)) score += 1
-      return { s, score }
-    }).filter(x => x.score >= 2).sort((a, b) => b.score - a.score).slice(0, 3)
-    if (scored.length > 0) {
+    const matched = matchScripts((allScripts ?? []) as MatchableScript[], String(message))
+    if (matched.length > 0) {
       scriptLinkKnowledge = `\n\nSCRIPTS WE ALREADY HAVE THAT MAY FIT WHAT THE PARENT JUST SAID. If one genuinely fits their situation, name it warmly in your reply and link it so they can open it, exactly in this markdown form [Script title](/dashboard/scripts/SORT_ORDER). Only ever link one of these real scripts, never invent a title or a link, and only when it truly fits:\n` +
-        scored.map(x => `- [${x.s.title}](/dashboard/scripts/${x.s.sort_order}) — ${x.s.situation}`).join('\n')
+        matched.map(s => `- [${s.title}](/dashboard/scripts/${s.sort_order}) — ${s.situation}`).join('\n')
     }
   } catch { /* scripts are a bonus, never block the reply */ }
 
