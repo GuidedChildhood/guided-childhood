@@ -586,6 +586,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           preview: weekBrief.preview,
         } : null}
       />
+      {/* The pre welcome hold: parser blocking on purpose, mirroring the
+          sheet's own gate for the first two visits. When DiGi is about to
+          greet, a cream cover (globals.css) hides Home until the sheet is on
+          screen, so the page never flashes under the greeting. The sheet
+          removes the attribute the moment it shows; the timeout is the
+          safety net. Settled families (count 2 plus) get no hold, because
+          their greeting deliberately arrives minutes later. */}
+      <script dangerouslySetInnerHTML={{ __html:
+        `(function(){try{if(sessionStorage.getItem('gc_digi_welcome_session'))return;var t=new Date().toISOString().slice(0,10);if(localStorage.getItem('gc_digi_welcome_'+t))return;if(localStorage.getItem('gc_digi_prompt_'+t))return;if(Number(localStorage.getItem('gc_welcome_count')||'0')>=2)return;document.documentElement.setAttribute('data-gc-hold','parent');setTimeout(function(){document.documentElement.removeAttribute('data-gc-hold')},3000)}catch(e){}})();`,
+      }} />
       {/* DiGi comes up first, once a day, greeting the family by name */}
       <DigiWelcomeSheet
         childrenInfo={welcomeChildren}

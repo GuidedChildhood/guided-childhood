@@ -5813,3 +5813,17 @@ then one service deep dive a week: jobs and stars, the check in and
 evidence, scripts, the school week, device time, and the year ahead
 inviting a reply. Thirty programme emails over six months. Window
 widened to 200 days so the tail actually sends.
+
+**The dial keeps its history, and the welcome stops flashing (8 Aug).**
+Justin, from his phone: the slider hid last time's position under the
+thumb, saved too fast, and folded away before the note could be read; the
+last check in should be a red dotted ring; and both apps flash their home
+screen under the welcome. So the check in is a dial now: thumb starts mid
+track, the red dotted ring (new --alert token, the one red in the system)
+holds last time's spot throughout, the save beat is slower, and the row
+LOCKS AND STAYS showing before and after instead of folding. The weekly
+round up gains a check ins section reading each concern's move against
+last week, up always good. And both apps carry a pre welcome hold: a
+parser blocking inline script covers the screen in the app's own colour
+before first paint whenever the welcome is about to show, and the welcome
+removes it the moment it is on screen, with a timeout as the safety net.

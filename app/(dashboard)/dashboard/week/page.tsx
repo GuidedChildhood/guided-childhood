@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@/components/digi/DigiCharacter'
-import WeeklyRoundup, { type Review } from '@/components/digi/WeeklyRoundup'
+import WeeklyRoundup, { type Review, type ScoreMove } from '@/components/digi/WeeklyRoundup'
 
 // The week just gone, on its own page. This is where the whole week's data is
 // gathered and read back to the parent: the balance, the wins, the one thing to
@@ -19,6 +19,7 @@ const READING_STEPS = [
 
 export default function WeekPage() {
   const [review, setReview] = useState<Review | null>(null)
+  const [scoreMoves, setScoreMoves] = useState<ScoreMove[]>([])
   const [loaded, setLoaded] = useState(false)
   const [busy, setBusy] = useState(false)
   const [step, setStep] = useState(0)
@@ -34,7 +35,7 @@ export default function WeekPage() {
     // Putting the card away is not the same as throwing the week away.
     fetch('/api/digi/weekly-review?any=1')
       .then(r => r.json())
-      .then(d => { setReview(d.review ?? null); setLoaded(true) })
+      .then(d => { setReview(d.review ?? null); setScoreMoves(d.scoreMoves ?? []); setLoaded(true) })
       .catch(() => setLoaded(true))
   }, [])
 
@@ -69,7 +70,7 @@ export default function WeekPage() {
       </Link>
 
       {!loaded ? null : review ? (
-        <WeeklyRoundup review={review} />
+        <WeeklyRoundup review={review} scoreMoves={scoreMoves} />
       ) : (
         <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '24px', padding: '28px 24px', textAlign: 'center' }}>
           <span style={{ display: 'inline-flex', width: 64, height: 64, borderRadius: '18px', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>

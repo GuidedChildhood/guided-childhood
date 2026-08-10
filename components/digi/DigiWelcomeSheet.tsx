@@ -103,6 +103,10 @@ export default function DigiWelcomeSheet({ childrenInfo, guide }: { childrenInfo
       }
       openPopup('welcome')
       setShow(true)
+      // Drop the pre welcome hold (set by the inline script on Home) the
+      // moment the sheet is actually on screen, so the cover hands straight
+      // to the greeting with no flash of the page between them.
+      document.documentElement.removeAttribute('data-gc-hold')
       requestAnimationFrame(() => requestAnimationFrame(() => setEntered(true)))
     }, delay)
     return () => clearTimeout(id)

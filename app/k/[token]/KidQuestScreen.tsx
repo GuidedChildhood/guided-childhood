@@ -734,6 +734,10 @@ export default function KidQuestScreen({
       setShowWelcome(true)
       localStorage.setItem('gc_kid_welcome', '1')
     }
+    // Drop the pre welcome hold (set by the inline script on the page) in
+    // the same breath the welcome decision is made, so the cover never
+    // outlives the greeting it exists to protect.
+    document.documentElement.removeAttribute('data-gc-hold')
     setSoundOn(soundEnabled())
   }, [])
 
