@@ -881,3 +881,19 @@ body.gc-input-focused .rightnow-fab { display: none; }
      the signal that something is happening, only the movement. */
   [style*="momentThink"] { animation: none !important; opacity: 0.55 !important; }
 }
+
+
+/* The pre welcome hold. A tiny inline script on each app's entry page sets
+   this attribute BEFORE first paint whenever the welcome overlay is about to
+   show, so neither app flashes its home screen under the greeting (Justin,
+   8 Aug). The welcome component removes the attribute the moment it is on
+   screen, and the script carries its own timeout so a stalled hydration can
+   never hold the cover forever. */
+html[data-gc-hold='parent'] body::before {
+  content: ''; position: fixed; inset: 0; z-index: 2147483000;
+  background: var(--cream);
+}
+html[data-gc-hold='kid'] body::before {
+  content: ''; position: fixed; inset: 0; z-index: 2147483000;
+  background: var(--kid-bg);
+}

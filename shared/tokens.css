@@ -25,6 +25,10 @@
   /* ── ACCENT (butter gold) ── */
   --terracotta:        #EDC35F;   /* butter, softened a step toward pastel (was #E9B949) */
   --terracotta-dark:   #C99A28;
+  /* The one red in the system, used sparingly and never decoratively: the
+     last check in ring on the concern dial. Added 8 Aug on Justin's ask for
+     a red dotted marker; warm enough to sit beside butter and ink. */
+  --alert:             #C94F3D;
   --terracotta-lt:     #FEF7E0;
   --deep-teal:         #2E2818;   /* dark sections (footer, CTA) — deep warm espresso, never black, never teal */
   --retro-green:       #2F8F6B;   /* warm retro green, from the School moment cards — for friendlier dark panels */

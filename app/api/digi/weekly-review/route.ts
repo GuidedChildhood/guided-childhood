@@ -36,7 +36,44 @@ export async function GET(req: NextRequest) {
     .order('week_start', { ascending: false })
     .limit(1)
     .maybeSingle()
-  return NextResponse.json({ review: data ?? null })
+
+  // The week's check in movement, computed live rather than stored: for each
+  // concern scored this week, the newest score against the last one before
+  // the week began. Scores climb as things improve (1 really tough, 10 going
+  // great), so up is good on every line this feeds. Best effort: a read
+  // error just means the round up shows no moves, never an error.
+  const scoreMoves: { label: string; from: number | null; to: number }[] = []
+  try {
+    const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString()
+    const [{ data: concerns }, { data: events }] = await Promise.all([
+      supabase.from('concerns').select('id, label').eq('user_id', user.id),
+      supabase.from('concern_events')
+        .select('concern_id, score, created_at')
+        .eq('user_id', user.id)
+        .not('score', 'is', null)
+        .order('created_at', { ascending: true })
+        .limit(400),
+    ])
+    const labelById = new Map((concerns ?? []).map(c => [c.id as string, c.label as string]))
+    const byConcern = new Map<string, { score: number; created_at: string }[]>()
+    for (const e of (events ?? []) as { concern_id: string; score: number; created_at: string }[]) {
+      const list = byConcern.get(e.concern_id)
+      if (list) list.push(e)
+      else byConcern.set(e.concern_id, [e])
+    }
+    for (const [concernId, rows] of byConcern) {
+      const thisWeek = rows.filter(r => r.created_at >= weekAgo)
+      if (thisWeek.length === 0) continue
+      const before = rows.filter(r => r.created_at < weekAgo)
+      scoreMoves.push({
+        label: labelById.get(concernId) ?? 'Something you raised',
+        from: before.length ? before[before.length - 1].score : null,
+        to: thisWeek[thisWeek.length - 1].score,
+      })
+    }
+  } catch { /* the round up simply shows no moves */ }
+
+  return NextResponse.json({ review: data ?? null, scoreMoves })
 }
 
 export async function PATCH(req: NextRequest) {

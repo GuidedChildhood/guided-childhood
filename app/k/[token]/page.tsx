@@ -664,7 +664,16 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   } catch { familyDevices = [] }
 
   return (
-    <KidQuestScreen
+    <>
+      {/* The pre welcome hold: runs before first paint, parser blocking on
+          purpose. If the one time welcome has not been seen, a same colour
+          cover (globals.css) hides the quest screen until the welcome is on
+          screen, so the app never flashes its home under the greeting. The
+          timeout is the safety net against a stalled hydration. */}
+      <script dangerouslySetInnerHTML={{ __html:
+        `(function(){try{if(localStorage.getItem('gc_kid_welcome')!=='1'){document.documentElement.setAttribute('data-gc-hold','kid');setTimeout(function(){document.documentElement.removeAttribute('data-gc-hold')},3000)}}catch(e){}})();`,
+      }} />
+      <KidQuestScreen
       familyDevices={familyDevices}
       stickers={kidStickers}
       celebrateStickers={celebrateStickers}
@@ -719,6 +728,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       deviceTrust={deviceTrust}
       initialAsk={initialAsk}
       initialNudges={initialNudges}
-    />
+      />
+    </>
   )
 }

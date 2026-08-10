@@ -43,7 +43,9 @@ export type Review = {
   status?: string
 }
 
-export default function WeeklyRoundup({ review, onContinue }: { review: Review; onContinue?: () => void }) {
+export type ScoreMove = { label: string; from: number | null; to: number }
+
+export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: { review: Review; onContinue?: () => void; scoreMoves?: ScoreMove[] }) {
   const s = review.stats ?? {}
   const firstName = s.children?.[0] && s.children[0] !== 'Your child' ? s.children[0] : 'your child'
   const starsEarned = s.starsEarned ?? 0
@@ -143,6 +145,31 @@ export default function WeeklyRoundup({ review, onContinue }: { review: Review; 
                 <span style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.4 }}>{w.text}</span>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* The week's check ins, read against last time. Scores climb as
+          things improve, so up is always good news here. Only concerns
+          actually scored this week appear; a quiet week shows nothing. */}
+      {scoreMoves.length > 0 && (
+        <div style={{ marginBottom: '15px' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>Your check ins this week</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '7px', marginTop: '8px' }}>
+            {scoreMoves.map((m, i) => {
+              const dir = m.from == null ? 'first' : m.to > m.from ? 'up' : m.to < m.from ? 'down' : 'level'
+              const bg = dir === 'up' ? 'var(--tint-green)' : dir === 'down' ? 'var(--terracotta-lt)' : 'var(--cream)'
+              const line = dir === 'first' ? `First score down at ${m.to} of 10.`
+                : dir === 'up' ? `Up from ${m.from} to ${m.to}. The line is climbing.`
+                : dir === 'down' ? `Down from ${m.from} to ${m.to}. Worth a look together.`
+                : `Holding at ${m.to}. Steady counts.`
+              return (
+                <div key={i} style={{ background: bg, borderRadius: '12px', padding: '10px 13px' }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)' }}>{m.label}</span>
+                  <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '1px' }}>{line}</span>
+                </div>
+              )
+            })}
           </div>
         </div>
       )}
