@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import StarChartSheet, { MAX_ROWS } from '@/components/printables/StarChartSheet'
 
 // Build the star chart, THEN print it. The paper chart has four blank rows for
 // a pen, which is fine on the fridge and useless before it is on the fridge: a
@@ -18,7 +19,9 @@ import Link from 'next/link'
 // builder for a free product that is not itself free is a door with no room
 // behind it.
 
-const MAX_ROWS = 11
+// MAX_ROWS lives with the sheet now (components/printables/StarChartSheet),
+// because the child's print page caps at the same eleven and two elevens is
+// how a chart one day prints with a row missing.
 
 type Job = { emoji: string; text: string; stars: number }
 
@@ -57,44 +60,6 @@ const POOL: { group: string; jobs: Job[] }[] = [
     ],
   },
 ]
-
-const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const
-// The same seven, taken from the Planet Friends, so the printed chart and the
-// app read as one thing.
-const DAY_INK = ['#C99A28', '#5C9433', '#3C82B4', '#7E56B4', '#C96C25', '#C4477E', '#2E8C84']
-const DAY_BG = ['#FDF3D8', '#E9F3DF', '#DCEBF7', '#EAE1F6', '#FBE7D8', '#FBE0EC', '#DDF0EE']
-
-// The Planet Family, one row on the cut-out sheet so the deal reads off the
-// page. Names, accent and soft tokens match the schools cast and the app.
-const FRIENDS = [
-  { key: 'pebble', name: 'Pebble', accent: '#C99A28', soft: '#FBEED0' },
-  { key: 'bloop', name: 'Bloop', accent: '#6C9E38', soft: '#E4F0D4' },
-  { key: 'orbit', name: 'Orbit', accent: '#3E86BC', soft: '#DCEBF7' },
-  { key: 'nova', name: 'Nova', accent: '#7E5AB0', soft: '#ECE3F7' },
-  { key: 'cosmo', name: 'Cosmo', accent: '#CE7328', soft: '#FBE4D0' },
-] as const
-
-// The star cell outline on the chart, drawn with a pen.
-function Star({ colour }: { colour: string }) {
-  return (
-    <svg viewBox="0 0 24 24" style={{ width: 18, height: 18, fill: 'none', stroke: colour, strokeWidth: 1.7, strokeLinejoin: 'round' }}>
-      <path d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z" />
-    </svg>
-  )
-}
-
-// The DiGi star, filled gold, for the cut-out tokens. Sized to sit in a chart
-// cell once it is snipped out.
-function GoldStar({ size = 46 }: { size?: number }) {
-  return (
-    <svg viewBox="0 0 24 24" style={{ width: size, height: size, display: 'block' }}>
-      <path
-        d="M12 2.4 l2.85 6.15 6.75 .68 -5.05 4.5 1.45 6.62 -6 -3.5 -6 3.5 1.45 -6.62 -5.05 -4.5 6.75 -.68z"
-        fill="#EDC35F" stroke="#C99A28" strokeWidth={1.3} strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
 
 export type YourJob = Job & { childId: string | null }
 
@@ -174,11 +139,9 @@ export default function StarChartBuilder({
       <style>{`
         @media print {
           /* Tidy: nothing from the app frame lands on the sheet, only the
-             chart and the cut-out page. */
+             chart and the cut-out page. The sheet's own print rules (page
+             size, sheet reset, page break) live with StarChartSheet. */
           header, .bottom-tab-bar, .rightnow-desktop, .no-print { display: none !important; }
-          @page { size: A4 portrait; margin: 10mm; }
-          .print-sheet { box-shadow: none !important; border: none !important; margin: 0 !important; padding: 0 !important; }
-          .cut-page { page-break-before: always; }
         }
         .chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
       `}</style>
@@ -391,150 +354,9 @@ export default function StarChartBuilder({
         </div>
       )}
 
-      {/* The sheet itself. What is on screen here is exactly what prints. */}
-      <div className="print-sheet" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: 22 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 14, marginBottom: 12 }}>
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-              The star reward chart
-            </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', lineHeight: 1.05 }}>
-              {name ? `${name}'s star chart` : 'My star chart'}
-            </div>
-            {/* WHICH WEEK THIS SHEET IS FOR, printed on it.
-                A chart with no date is the reason the fridge ends up with three
-                of them and nobody knowing which one is live. It also makes the
-                Monday reset visible on paper: the stars stop at Sunday and a
-                fresh sheet starts, which is exactly what the app does. */}
-            {week && (
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-soft)', marginTop: 4 }}>
-                Week beginning {week.label}
-              </div>
-            )}
-          </div>
-          <div style={{ textAlign: 'right', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-            1 star = 5 minutes
-            <div style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>
-              4 stars in a day = one Planet Friend
-            </div>
-          </div>
-        </div>
-
-        <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, tableLayout: 'fixed' }}>
-          <thead>
-            <tr>
-              <th style={{ background: 'var(--ink)', color: '#fff', textAlign: 'left', padding: '7px 10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', border: '1px solid var(--border)', width: '34%' }}>
-                My jobs
-              </th>
-              {DAYS.map((d, i) => (
-                <th key={d} style={{ background: DAY_BG[i], color: DAY_INK[i], padding: '7px 0', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', border: '1px solid var(--border)' }}>
-                  {d}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {picked.map((job, r) => (
-              <tr key={job.text}>
-                <td style={{ border: '1px solid var(--border)', padding: '6px 10px', background: r % 2 ? 'var(--cream)' : '#fff' }}>
-                  <span style={{ fontSize: 'var(--text-md)', marginRight: 7 }}>{job.emoji}</span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{job.text}</span>
-                </td>
-                {DAYS.map((d, i) => (
-                  <td key={d} style={{ border: '1px solid var(--border)', textAlign: 'center', height: 30, background: r % 2 ? 'var(--cream)' : '#fff' }}>
-                    <Star colour={DAY_INK[i]} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-            {Array.from({ length: blanks }, (_, b) => (
-              <tr key={`blank-${b}`}>
-                <td style={{ border: '1px solid var(--border)', padding: '6px 10px', background: (picked.length + b) % 2 ? 'var(--cream)' : '#fff' }}>
-                  <span style={{ fontSize: 'var(--text-md)', marginRight: 7 }}>✏️</span>
-                  <span style={{ display: 'inline-block', width: '62%', borderBottom: '1.4px dashed var(--ink-muted)', verticalAlign: 'middle', height: 14 }} />
-                </td>
-                {DAYS.map((d, i) => (
-                  <td key={d} style={{ border: '1px solid var(--border)', textAlign: 'center', height: 30, background: (picked.length + b) % 2 ? 'var(--cream)' : '#fff' }}>
-                    <Star colour={DAY_INK[i]} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-            <tr>
-              <td style={{ border: '1px solid var(--butter-dark)', padding: '7px 10px', background: 'var(--terracotta)' }}>
-                <span style={{ fontSize: 'var(--text-md)', marginRight: 7 }}>⭐</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>Stars today</span>
-              </td>
-              {DAYS.map(d => (
-                <td key={d} style={{ border: '1px solid var(--butter-dark)', height: 30, background: 'var(--terracotta)' }} />
-              ))}
-            </tr>
-          </tbody>
-        </table>
-
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 12, textAlign: 'center' }}>
-          Colour a star for every job done, or stick a gold star on from the next page. Four stars in a day brings a Planet Friend home, worth twenty minutes of screen time.
-        </p>
-      </div>
-
-      {/* Page two: the gold stars to cut out, then the Planet Family with the
-          deal written on it. Prints on its own sheet after the chart. */}
-      <div className="print-sheet cut-page" style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: 22, marginTop: 24 }}>
-        <div style={{ textAlign: 'center', marginBottom: 4 }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>
-            Cut out and keep
-          </div>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', letterSpacing: '-0.02em', color: 'var(--ink)', lineHeight: 1.1 }}>
-            {name ? `${name}'s gold stars` : 'Gold stars to cut out'}
-          </div>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px auto 0', maxWidth: 440 }}>
-            Snip along the dashes. Stick one on the chart for every job done. Each one fits a day square.
-          </p>
-        </div>
-
-        {/* The grid of cut-out stars, dashed guides around each so a child can
-            cut them cleanly. Sized to drop into a chart cell. */}
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 0,
-          border: '1.3px dashed var(--ink-muted)', borderRadius: 6, overflow: 'hidden',
-          margin: '16px 0 20px',
-        }}>
-          {Array.from({ length: 36 }, (_, i) => (
-            <div key={i} style={{
-              aspectRatio: '1 / 1', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              borderRight: '1.3px dashed var(--ink-muted)', borderBottom: '1.3px dashed var(--ink-muted)',
-            }}>
-              <GoldStar />
-            </div>
-          ))}
-        </div>
-
-        {/* The Planet Family and the deal, written plainly so a family reads it
-            straight off the sheet. */}
-        <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 16px 18px' }}>
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'center', marginBottom: 3 }}>
-            1 star = 5 minutes of screen time
-          </div>
-          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.5, marginBottom: 14 }}>
-            Four stars in a day brings one Planet Friend home, worth twenty minutes. Collect the whole family.
-          </div>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
-            {FRIENDS.map(f => (
-              <div key={f.key} style={{ textAlign: 'center', width: 96 }}>
-                <div style={{
-                  width: 84, height: 84, margin: '0 auto', borderRadius: '50%',
-                  background: f.soft, border: `2px solid ${f.accent}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden',
-                }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={`/printables/friends/${f.key}.png`} alt={f.name} style={{ width: '92%', height: '92%', objectFit: 'contain' }} />
-                </div>
-                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: f.accent, marginTop: 5 }}>{f.name}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* The sheet itself, the SHARED one. What is on screen here is exactly
+          what prints, and exactly what the child's own print page prints. */}
+      <StarChartSheet name={name} weekLabel={week?.label ?? null} jobs={picked} />
 
       {/* One tidy action bar, fixed low on the screen the Mobbin way, so the
           print button is always in reach however far the menu runs. */}

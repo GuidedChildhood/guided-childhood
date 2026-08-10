@@ -2460,6 +2460,12 @@ export default function KidQuestScreen({
             not, the ask still goes through so the grown up can sort it. */}
         {tab === 'print' && (
           <div>
+            {/* The star chart leads the tab. Justin, 10 August 2026: "this is
+                a key printable." It was parent only until then; now the child
+                prints the same chart the builder makes, with the family's
+                real jobs on it. */}
+            <KidStarChartHero token={token} />
+
             {/* The next Friend rides along on this screen too, so the one they
                 are working toward keeps showing up rather than living on one
                 tab. Seeing who is close is what keeps the streak going. */}
@@ -3081,6 +3087,40 @@ function NotesFromGrownUp({ token, notes }: {
         </div>
       ))}
     </div>
+  )
+}
+
+// The star chart's front door on the printables tab. Exported so the ref
+// fixture can render the real card logged out, the KidSchoolBanner precedent.
+export function KidStarChartHero({ token }: { token: string }) {
+  return (
+    <a
+      href={`/k/${token}/star-chart`}
+      onClick={() => playKidSound('tap')}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 13, textDecoration: 'none',
+        background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 18,
+        boxShadow: '0 5px 0 var(--terracotta-dark)', padding: '14px 16px', marginBottom: 12,
+      }}
+    >
+      <span aria-hidden style={{
+        width: 48, height: 48, borderRadius: 14, background: 'var(--terracotta-lt)', flexShrink: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)',
+      }}>
+        ⭐
+      </span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
+          My star chart
+        </span>
+        <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
+          Print it for the fridge with your own jobs on it. Do the week on paper and your grown up puts the stars in your bank.
+        </span>
+      </span>
+      <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>
+        →
+      </span>
+    </a>
   )
 }
 

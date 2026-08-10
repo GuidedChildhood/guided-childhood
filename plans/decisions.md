@@ -6660,6 +6660,37 @@ Proven across simulated days rather than by eye, which is the only way this
 class of bug is visible: the old code was correct in isolation and only wrong
 over time, so nothing we had could have caught it.
 
+## 10 August 2026 — The star chart on both phones
+
+Justin, from Teo's printables tab: "Where is the star chart on child's app,
+this is a key printable, plus parents should be able to enter the charts
+results on their app end of week to give stars if not done on child's phone."
+Two decisions taken with him: entry is one total per child, and the child can
+print the chart from their own app.
+
+**The sheet became one component.** The chart table and the gold star cut out
+page moved out of the parent's builder into components/printables/
+StarChartSheet, and both the builder and the new child page render it. The
+chart now prints from two places, so it had to be one piece of markup or the
+two papers drift, and a fridge with two slightly different charts is worse
+than a fridge with none.
+
+**The child's page prints their real jobs only.** /k/token/star-chart reads
+the family's active jobs filtered in SQL to the whole family ones plus this
+child's own, so a sibling's jobs never leave the database. No jobs prints
+blank pen rows rather than our suggestion menu: printing our guesses onto a
+named child's chart invents jobs the parent never agreed to. A child's print
+writes the same star_chart_prints row the parent's builder does, so it also
+quiets the quest board's To print badge.
+
+**End of week entry is week aware and replaces.** The fridge log card now
+names the week (this one or last, computed in London on the server) and the
+route stamps it into the star_bonuses note, then replaces that child's rows
+for that week rather than adding. Entering again corrects a slip instead of
+doubling the stars, which was the old card's quiet failure. The card lives
+under the star chart builder, where the printing already happens, and the
+child gets a push when their paper week lands in the bank.
+
 ## 10 August 2026, the game pack prints one sheet per page
 
 Justin, with a photo of the iOS print sheet showing page 4 of 7 nearly empty:
