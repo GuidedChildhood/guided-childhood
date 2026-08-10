@@ -2901,10 +2901,6 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
   completedStreaks?: number
   onPick: (next: { buddy?: string; accent?: string }) => void
 }) {
-  // A mixed colour reads back as h<hue>; the slider starts from it, or from a
-  // pleasant blue if the child is on a named colour.
-  const isCustom = /^h\d{1,3}$/.test(chosenAccent)
-  const [hue, setHue] = useState(isCustom ? Number(chosenAccent.slice(1)) : 210)
   const preview = resolveTheme(chosenAccent)
   return (
     <div onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 130, background: 'rgba(26,26,46,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
@@ -2994,37 +2990,11 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
           })}
         </div>
 
-        {/* Mix your own: slide to any colour and it becomes a soft wash the
-            same gentle way as the set ones. The knob wears the colour it will
-            set, and the swatch to the right sits in the same language as the six
-            pastels, so the mixed one reads as one more choice, not a gadget. */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Or mix your own</span>
-          <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-            <span aria-hidden style={{ width: 46, height: 46, borderRadius: '14px', background: resolveTheme(`h${hue}`).bg, boxShadow: isCustom ? '0 0 0 3px var(--cream), 0 0 0 6px var(--ink)' : 'inset 0 0 0 1.5px rgba(26,26,46,0.12)' }} />
-            <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: isCustom ? 'var(--ink)' : 'var(--ink-soft)' }}>Mine</span>
-          </span>
-        </div>
-        <input
-          className="mine-hue"
-          type="range" min={0} max={360} value={hue} aria-label="Mix your own colour"
-          onChange={e => { const h = Number(e.target.value); setHue(h); onPick({ accent: `h${h}` }) }}
-          style={{ ['--thumb' as unknown as string]: resolveTheme(`h${hue}`).hex, width: '100%', marginBottom: '4px' }}
-        />
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-light)', textAlign: 'center', marginBottom: '18px' }}>
-          Slide to find your colour
-        </div>
-        <style>{`
-          .mine-hue { -webkit-appearance: none; appearance: none; width: 100%; height: 30px; background: transparent; cursor: pointer; outline: none; }
-          .mine-hue::-webkit-slider-runnable-track { height: 16px; border-radius: 100px; border: 1.5px solid rgba(26,26,46,0.14); box-shadow: inset 0 1px 3px rgba(26,26,46,0.18);
-            background: linear-gradient(90deg, hsl(0,72%,62%), hsl(45,78%,60%), hsl(95,52%,54%), hsl(150,48%,52%), hsl(195,60%,56%), hsl(235,62%,64%), hsl(285,58%,64%), hsl(335,66%,63%), hsl(360,72%,62%)); }
-          .mine-hue::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 30px; height: 30px; border-radius: 50%; background: #fff; border: 5px solid var(--thumb); box-shadow: 0 3px 0 rgba(26,26,46,0.22); margin-top: -8px; cursor: grab; transition: border-color 0.1s; }
-          .mine-hue:active::-webkit-slider-thumb { cursor: grabbing; box-shadow: 0 2px 0 rgba(26,26,46,0.22); }
-          .mine-hue::-moz-range-track { height: 16px; border-radius: 100px; border: 1.5px solid rgba(26,26,46,0.14);
-            background: linear-gradient(90deg, hsl(0,72%,62%), hsl(45,78%,60%), hsl(95,52%,54%), hsl(150,48%,52%), hsl(195,60%,56%), hsl(235,62%,64%), hsl(285,58%,64%), hsl(335,66%,63%), hsl(360,72%,62%)); }
-          .mine-hue::-moz-range-thumb { width: 30px; height: 30px; border-radius: 50%; background: #fff; border: 5px solid var(--thumb); box-shadow: 0 3px 0 rgba(26,26,46,0.22); cursor: grab; }
-        `}</style>
-
+        {/* The mix your own hue slider lived here until 10 August 2026.
+            Justin, from the sheet on Teo's phone: "Don't need slider here."
+            Six named pastels are the choice; a child who mixed a colour before
+            it went keeps it, because resolveTheme still reads the stored
+            h<hue> value and the preview strip shows it. */}
         <button onClick={onClose} style={{ width: '100%', background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: '15px', padding: '14px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
           That&apos;s mine!
         </button>
