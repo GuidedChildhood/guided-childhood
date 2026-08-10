@@ -1,0 +1,440 @@
+[
+  {
+    "sort_order": 3000,
+    "title": "The full body tantrum",
+    "situation": "They are on the floor, screaming, and nothing you say is getting in.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3001,
+    "title": "Hitting when they are angry",
+    "situation": "They hit you, or a sibling, when the anger comes up faster than the words.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3002,
+    "title": "Biting",
+    "situation": "They have bitten another child, or you, and you are horrified.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3003,
+    "title": "Throwing things",
+    "situation": "Toys, food or the remote go flying when they do not get what they want.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3004,
+    "title": "Scared of the dark",
+    "situation": "Bedtime has become a negotiation about lights, doors and monsters.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3005,
+    "title": "Nightmares and waking in the night",
+    "situation": "They wake crying at two in the morning and cannot say what happened.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3006,
+    "title": "A huge worry about a small thing",
+    "situation": "Something you consider tiny has become the end of the world and you can feel your patience going.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3007,
+    "title": "I am rubbish at this",
+    "situation": "They give up on something hard and turn it on themselves.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3008,
+    "title": "They will not let you leave",
+    "situation": "Nursery, school or a babysitter, and the goodbye has become a scene at the door.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3009,
+    "title": "Whining that will not stop",
+    "situation": "The voice. It has been going for twenty minutes and you can feel yourself about to snap.",
+    "category": "everyday-routines"
+  },
+  {
+    "sort_order": 3010,
+    "title": "Accidents after being dry",
+    "situation": "They were reliably dry and now they are not, and you are washing sheets again.",
+    "category": "everyday-routines"
+  },
+  {
+    "sort_order": 3011,
+    "title": "Getting out of the house",
+    "situation": "Shoes, coat, door. Every single morning is a fight and you are always late.",
+    "category": "everyday-routines"
+  },
+  {
+    "sort_order": 3012,
+    "title": "After you lost your temper",
+    "situation": "You shouted. They are quiet now and you feel sick about it.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3013,
+    "title": "They told a lie",
+    "situation": "They have said something you know is not true, about something small.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3014,
+    "title": "They will not share",
+    "situation": "Another child wants the toy and yours is not letting go.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3015,
+    "title": "A new baby and the jealousy",
+    "situation": "The older one has gone backwards, or turned on the baby, since the birth.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3016,
+    "title": "Starting school",
+    "situation": "The first weeks, and they are exhausted, tearful or clinging.",
+    "category": "school-and-ai"
+  },
+  {
+    "sort_order": 3017,
+    "title": "Reading is a battle",
+    "situation": "The reading book comes out and so do the tears, theirs or yours.",
+    "category": "school-and-ai"
+  },
+  {
+    "sort_order": 3018,
+    "title": "Nobody played with me",
+    "situation": "They come out of school and tell you they had nobody at playtime.",
+    "category": "school-and-ai"
+  },
+  {
+    "sort_order": 3019,
+    "title": "Private parts and body rules",
+    "situation": "You want them to have the language and the rules before they need them.",
+    "category": "staying-safe"
+  },
+  {
+    "sort_order": 3020,
+    "title": "If you get lost",
+    "situation": "A busy shop, a park, a station, and you want them to know what to do before it happens.",
+    "category": "staying-safe"
+  },
+  {
+    "sort_order": 3100,
+    "title": "A feeling they cannot name",
+    "situation": "Something is clearly wrong and every question gets I do not know.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3101,
+    "title": "Anxious about school",
+    "situation": "Sunday nights, stomach aches, and a child who does not want to go in.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3102,
+    "title": "They tore up their own work",
+    "situation": "It was not good enough for them, so they destroyed it.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3103,
+    "title": "Left out of the friendship group",
+    "situation": "The group they were part of has closed and they are on the outside.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3104,
+    "title": "They said they hate themselves",
+    "situation": "It came out in the middle of an argument or a bad evening and it has frightened you.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3105,
+    "title": "A lie that got bigger",
+    "situation": "A small untruth has grown and they are now defending it hard.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3106,
+    "title": "Rudeness and answering back",
+    "situation": "The tone has turned and you are being spoken to in a way you will not accept.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3107,
+    "title": "It is not fair, they get more",
+    "situation": "The fairness accounting between siblings has become a full time job.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3108,
+    "title": "The nagging about jobs",
+    "situation": "You have asked four times and it still is not done.",
+    "category": "everyday-routines"
+  },
+  {
+    "sort_order": 3109,
+    "title": "They lose everything",
+    "situation": "Another jumper, another water bottle, another PE bag gone.",
+    "category": "everyday-routines"
+  },
+  {
+    "sort_order": 3110,
+    "title": "Falling behind at school",
+    "situation": "The report, or the teacher, has said they are behind and you are worried.",
+    "category": "school-and-ai"
+  },
+  {
+    "sort_order": 3111,
+    "title": "Being bullied at school",
+    "situation": "It is happening in the playground or the classroom and they have finally told you.",
+    "category": "school-and-ai"
+  },
+  {
+    "sort_order": 3113,
+    "title": "Someone they love has died",
+    "situation": "A grandparent, or a pet, and you do not know what to say.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3200,
+    "title": "Puberty and the mood swings",
+    "situation": "They are furious, then fine, then in tears, and none of it is about what it is about.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3201,
+    "title": "They have stopped talking to you",
+    "situation": "Answers have become one word and the door is shut more than it is open.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3202,
+    "title": "Their body is changing and they hate it",
+    "situation": "Mirrors, baggy clothes, and comments about how they look.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3203,
+    "title": "The friendship group turned on them",
+    "situation": "They have been dropped, and it may be playing out at school and online at once.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3204,
+    "title": "Telling them about a separation",
+    "situation": "You and their other parent are splitting up and you have to say it out loud.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3205,
+    "title": "Someone has died",
+    "situation": "A grandparent, a friend, or worse, and they are old enough to understand it fully.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3206,
+    "title": "Exam and test anxiety",
+    "situation": "SATs, entrance tests, or the first exams that feel like they count.",
+    "category": "school-and-ai"
+  },
+  {
+    "sort_order": 3207,
+    "title": "A new diagnosis",
+    "situation": "ADHD, autism, dyslexia, or an assessment that has named something.",
+    "category": "school-and-ai"
+  },
+  {
+    "sort_order": 3208,
+    "title": "Going out on their own",
+    "situation": "They want to walk into town with a friend and you are not sure.",
+    "category": "everyday-routines"
+  },
+  {
+    "sort_order": 3209,
+    "title": "Vapes, alcohol and the first offers",
+    "situation": "It has come up, at a party or from a friend, and you want to get ahead of it.",
+    "category": "staying-safe"
+  },
+  {
+    "sort_order": 3300,
+    "title": "They are self harming",
+    "situation": "You have seen marks, or they have told you, and you are frightened.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3302,
+    "title": "Their first break up",
+    "situation": "It has ended and the grief is completely out of proportion to how long it lasted.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3304,
+    "title": "They came home hours late",
+    "situation": "Curfew was eleven and they walked in at one, and you have spent two hours imagining the worst.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3305,
+    "title": "They want a part time job",
+    "situation": "They have asked, and you are weighing money and independence against school.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3400,
+    "title": "They cannot cook, wash or manage a bill",
+    "situation": "They are about to leave and you realise nobody has taught them any of it.",
+    "category": "everyday-routines"
+  },
+  {
+    "sort_order": 3401,
+    "title": "Learning to drive",
+    "situation": "Lessons have started and you are quietly terrified about the first year alone.",
+    "category": "everyday-routines"
+  },
+  {
+    "sort_order": 3402,
+    "title": "Money of their own",
+    "situation": "Wages, an overdraft, or a first credit offer, and no habits yet.",
+    "category": "everyday-routines"
+  },
+  {
+    "sort_order": 3403,
+    "title": "They are anxious about leaving",
+    "situation": "University, work or moving out, and the closer it gets the worse they are.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3404,
+    "title": "They failed something that mattered",
+    "situation": "Results, an audition, an application, and it has not gone their way.",
+    "category": "mood-confidence"
+  },
+  {
+    "sort_order": 3405,
+    "title": "Living at home as an adult",
+    "situation": "They are eighteen or over, still at home, and the old rules do not fit any more.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3406,
+    "title": "A choice you strongly disagree with",
+    "situation": "A course, a partner, a job, a plan you think is a mistake.",
+    "category": "family-rules"
+  },
+  {
+    "sort_order": 3407,
+    "title": "Consent, in relationships, properly",
+    "situation": "They are old enough for this to be a real conversation about their own relationships.",
+    "category": "staying-safe"
+  },
+  {
+    "sort_order": 3408,
+    "title": "University, or not",
+    "situation": "The decision is live and your hopes and theirs may not match.",
+    "category": "school-and-ai"
+  },
+  {
+    "sort_order": 9600,
+    "title": "Everyone is on Snapchat and they are not",
+    "situation": "Your child is eight to ten and says they are being left out of plans because the arranging happens on Snapchat. This is usually true, which is what makes it hard.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9601,
+    "title": "The streak they cannot lose",
+    "situation": "Your child is anxious about Snapstreaks, checking the app before school, on holiday, or handing their phone to a friend to keep a streak alive.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9602,
+    "title": "Snap Map is showing where they are",
+    "situation": "You have found that your child's location is visible on Snap Map, either to their whole friends list or to people they have never met in person.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9603,
+    "title": "It disappears, so nothing counts",
+    "situation": "Something happened on Snapchat, a message, an image, a threat, and your teenager says there is no point telling anyone because it has already gone.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9604,
+    "title": "The feed got dark and they did not choose it",
+    "situation": "Your child's TikTok feed has drifted towards sad, angry, extreme or frightening content, and they did not go looking for it.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9605,
+    "title": "They cannot settle to anything any more",
+    "situation": "Homework, a film, a conversation. Your child cannot stay with anything, and it started somewhere around the time short video became the main thing they watch.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9606,
+    "title": "They want to post videos of themselves",
+    "situation": "Your teenager wants to start posting to TikTok properly, with their face, their voice and their name attached.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9607,
+    "title": "Asking for Instagram, and what a Teen Account actually does",
+    "situation": "Your child is asking for Instagram and you do not know whether the protections you have heard about are real or marketing.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9608,
+    "title": "The second account you were not meant to find",
+    "situation": "You have discovered your teenager has another Instagram account, often a smaller private one for close friends.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9609,
+    "title": "A message from someone they do not know",
+    "situation": "An adult or a stranger has messaged your teenager on Instagram, and it may have been friendly, flattering, or gone on for a while before you heard about it.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9610,
+    "title": "Added to a group by someone they do not know",
+    "situation": "Your child has been added to a WhatsApp group full of strangers, or with content in it that has nothing to do with them.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9611,
+    "title": "Taken out of the group on purpose",
+    "situation": "Your child has been removed from a group chat, or added and removed repeatedly, and it is being done to hurt them.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9612,
+    "title": "The class group at eleven at night",
+    "situation": "The class WhatsApp group is going off late into the night and your child cannot leave it alone, or cannot leave it at all.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9613,
+    "title": "Something vile got forwarded into the group",
+    "situation": "A violent, sexual or otherwise disturbing image or video has been forwarded into a group chat your teenager is in.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9614,
+    "title": "Screenshots of a private chat going round",
+    "situation": "Something your teenager wrote in a private message has been screenshotted and shared with people it was never meant for.",
+    "category": "social-media"
+  },
+  {
+    "sort_order": 9615,
+    "title": "Cleaning up what is already out there",
+    "situation": "Your teenager is approaching sixteen and beyond, thinking about jobs, university or moving on, and there are years of posts behind them.",
+    "category": "social-media"
+  }
+]
