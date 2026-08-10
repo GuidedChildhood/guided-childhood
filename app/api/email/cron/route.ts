@@ -6,6 +6,7 @@ import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starter
 import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
+import { METHOD_WEEK } from '@/lib/email/method-week'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
@@ -70,13 +71,19 @@ async function handler(req: NextRequest) {
   //
   // Everything the loop needs is read in bulk, because the loop now runs over
   // every member and a query inside it would be one round trip per member.
-  const [{ data: profiles }, { data: log }, { data: children }] = await Promise.all([
+  const [{ data: profiles }, { data: log }, { data: children }, { data: firstQuests }, { data: firstSessions }, { data: firstLinks }] = await Promise.all([
     supabase
       .from('profiles')
       .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete')
       .eq('onboarding_complete', true),
     supabase.from('email_log').select('user_id, email_key, sent_at'),
     supabase.from('children').select('parent_id, name, age_band, stage_id').eq('is_primary', true),
+    // The method week's anchor, in bulk. See the block below for why it is
+    // first USE rather than signup. Each of these is guarded on its own so a
+    // table that is unavailable costs the anchor and nothing else.
+    supabase.from('family_quests').select('user_id, created_at'),
+    supabase.from('device_sessions').select('user_id, started_at'),
+    supabase.from('kid_links').select('user_id, created_at'),
   ])
 
   const sentKeys = new Set((log ?? []).map(l => `${l.user_id}:${l.email_key}`))
@@ -93,6 +100,31 @@ async function handler(req: NextRequest) {
 
   const childByParent = new Map((children ?? []).map(c => [c.parent_id as string, c]))
 
+  // THE METHOD WEEK'S ANCHOR: the day this family's loop became real.
+  //
+  // The earliest of their first job, their first timed session and their first
+  // child link. Not signup, on purpose. Days 0 to 7 already carry five emails,
+  // and a lecture about the timer on day one lands before there is a single
+  // screen session to apply it to. For one family the anchor is day two and for
+  // another it is day forty, and both get the method at the moment it means
+  // something rather than at the moment a calendar says so.
+  //
+  // Derived rather than stored: no migration, no write, and it cannot drift out
+  // of step with the rows it is supposed to describe.
+  const firstUse = new Map<string, string>()
+  const noteFirst = (rows: unknown[] | null, at: string) => {
+    for (const r of (rows ?? []) as Record<string, string>[]) {
+      const userId = r.user_id
+      const when = r[at]
+      if (!userId || !when) continue
+      const held = firstUse.get(userId)
+      if (!held || when < held) firstUse.set(userId, when)
+    }
+  }
+  noteFirst(firstQuests, 'created_at')
+  noteFirst(firstSessions, 'started_at')
+  noteFirst(firstLinks, 'created_at')
+
   let founderRemaining: number | null = null
   async function getFounderRemaining(): Promise<number> {
     if (founderRemaining === null) {
@@ -106,7 +138,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, trialEnding: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
 
   // ONE EMAIL PER PERSON PER RUN.
   //
@@ -196,6 +228,30 @@ async function handler(req: NextRequest) {
       const remaining = await getFounderRemaining()
       if (remaining > 0) {
         await deliver(profile.id, profile.email, 'day7-founder', day7FounderEmail({ remaining, unsubscribe }), 'day7')
+      }
+    }
+
+    // ── The method week ──
+    //
+    // Justin, 10 August 2026: "emails to show this one week", about the timer,
+    // the offline balance, and jobs done equals device time.
+    //
+    // It sits HERE, above the service drip and the reveals, because deliver()
+    // allows one email per person per run and the order in this file is
+    // therefore the priority order. A parent learning why the loop works beats
+    // a nudge about a feature they have not switched on.
+    //
+    // The programme already taught this at day 147 and day 175. That is five
+    // and six months in, months after a family has either found the habit alone
+    // or stopped trying. Content was never the gap; timing was.
+    const anchor = firstUse.get(profile.id)
+    if (anchor) {
+      const sinceUse = daysSince(anchor)
+      for (const step of METHOD_WEEK) {
+        if (sinceUse >= step.day && !alreadySent(profile.id, step.key)) {
+          await deliver(profile.id, profile.email, step.key, step.make({ childName, unsubscribe }), step.counter)
+          break // one a run, and the next one waits for tomorrow
+        }
       }
     }
 

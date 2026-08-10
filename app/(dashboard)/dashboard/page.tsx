@@ -64,6 +64,8 @@ import { getWeekBrief } from '@/lib/learning/this-week'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
+import { readNudgeFacts } from '@/lib/home/nudge-facts'
+import HabitNudge from '@/components/home/HabitNudge'
 import FoldSection from '@/components/dashboard/FoldSection'
 
 const WEEKLY_ACTIONS = [
@@ -160,6 +162,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const welcomeChildren = allKids
     .filter(k => k.name)
     .map(k => ({ name: k.name as string, ageBand: (k.age_band as string | null) ?? null }))
+
+  // The habit nudge facts. Awaited here rather than in the big Promise.all
+  // above because it needs the child list that block produces, and read behind
+  // its own guard so a nudge can never be the reason the home page fails.
+  const nudgeFacts = await readNudgeFacts(
+    supabase, user.id, allKids.map(k => k.id as string),
+  )
 
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
@@ -617,6 +626,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           Nothing happened means no card, and a parent who is here every day
           never sees it, which is the point. It is news. */}
       {catchup && <CatchupCard catchup={catchup} childName={child?.name ?? null} />}
+
+      {/* One quiet card, only when something is true, and only ever one.
+          Justin: "little nudges ... but not intrusive or annoying." It sits
+          below the news and above the day's list, which is where a thing worth
+          knowing but not worth interrupting for belongs. See
+          lib/home/habit-nudges.ts for why each rule earns its place. */}
+      {nudgeFacts && <HabitNudge facts={nudgeFacts} />}
 
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
 
