@@ -572,8 +572,20 @@ export default function KidPath({
   const column: React.CSSProperties = { display: 'flex', flexDirection: 'column', alignItems: 'center', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textDecoration: 'none' }
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--warm-bg, #F7F3EE)', padding: '22px 16px 60px', fontFamily: 'var(--font-body)' }}>
+    <div className="gc-path" style={{ minHeight: '100dvh', background: 'var(--warm-bg, #F7F3EE)', padding: '22px 16px 60px', fontFamily: 'var(--font-body)' }}>
       <style>{`
+        /* THE ROAD NARROWS WITH THE PHONE.
+           The stones serpentine up to 104px either side of centre, which needs
+           184px of room from the middle once a 150px label is under them. A
+           320px phone has about 150px, so the widest stones hung 32px off the
+           edge and the child's own path was the thing that did not fit.
+           A scale rather than a rewrite of the shape: the same curve, drawn
+           smaller, so nothing about the design changes on the phones where it
+           already fits. */
+        .gc-path { --path-drift: 1; }
+        @media (max-width: 380px) { .gc-path { --path-drift: 0.62; } }
+        @media (max-width: 340px) { .gc-path { --path-drift: 0.45; } }
+
         @keyframes gcPathPulse {
           0%, 100% { box-shadow: 0 6px 0 rgba(26,26,46,0.16), 0 0 0 0 rgba(237,195,95,0.6); }
           50% { box-shadow: 0 6px 0 rgba(26,26,46,0.16), 0 0 0 14px rgba(237,195,95,0); }
@@ -893,7 +905,7 @@ export default function KidPath({
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <div ref={isCurrent ? currentRef : undefined} aria-disabled={locked || undefined} style={{
                     display: 'flex', flexDirection: 'column', alignItems: 'center',
-                    transform: `translateX(${align}px)`, position: 'relative', paddingTop: isCurrent ? 34 : 0,
+                    transform: `translateX(calc(${align}px * var(--path-drift, 1)))`, position: 'relative', paddingTop: isCurrent ? 34 : 0,
                     filter: locked ? 'grayscale(1)' : undefined,
                     opacity: locked ? 0.42 : 1,
                     pointerEvents: locked ? 'none' : undefined,
@@ -929,7 +941,7 @@ export default function KidPath({
                 </div>
                 {i < stones.length - 1 && (
                   <div style={{ display: 'flex', justifyContent: 'center', padding: '6px 0' }}>
-                    <span aria-hidden style={{ height: 26, borderLeft: '4px dotted rgba(26,26,46,0.22)', transform: `translateX(${(drift(i) + drift(i + 1)) / 2}px)` }} />
+                    <span aria-hidden style={{ height: 26, borderLeft: '4px dotted rgba(26,26,46,0.22)', transform: `translateX(calc(${(drift(i) + drift(i + 1)) / 2}px * var(--path-drift, 1)))` }} />
                   </div>
                 )}
               </div>

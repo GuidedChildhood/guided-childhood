@@ -75,8 +75,13 @@ function films(): WatchItem[] {
 }
 
 export default function LessonsFilterFixture() {
+  // The same 20px gutters the real page has. Without them this fixture
+  // reported a 21px overflow that the product does not have: the sticky filter
+  // bar runs full bleed with margin 0 -20px, which needs a 20px padded column
+  // to cancel against. A fixture that lies about the layout is worse than no
+  // fixture, now that the overflow check reads it.
   return (
-    <div style={{ maxWidth: 560, margin: '0 auto' }}>
+    <div style={{ maxWidth: 560, margin: '0 auto', padding: '0 20px' }}>
       <LessonsBrowser
         childId="fixture-child"
         childName="Teo"

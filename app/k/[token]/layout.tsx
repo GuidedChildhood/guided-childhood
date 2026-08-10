@@ -33,5 +33,8 @@ export async function generateMetadata({ params }: { params: Promise<{ token: st
 }
 
 export default function KidLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>
+  // The child's app gets the same no sideways sliding guard as the parent's.
+  // See .gc-shell in shared/tokens.css for why it lives on a wrapper rather
+  // than on body, which is the version that breaks vertical scrolling.
+  return <div className="gc-shell">{children}</div>
 }

@@ -17,5 +17,8 @@ import { notFound } from 'next/navigation'
 // deployment, 'preview' on PR builds, and undefined locally.
 export default function DevLayout({ children }: { children: React.ReactNode }) {
   if (process.env.VERCEL_ENV === 'production') notFound()
-  return <>{children}</>
+  // The fixtures wear the app's shell, so the overflow check measures what a
+  // parent's phone measures. A fixture that is laid out more forgivingly than
+  // the app is a fixture that cannot catch the app's layout bugs.
+  return <div className="gc-shell">{children}</div>
 }

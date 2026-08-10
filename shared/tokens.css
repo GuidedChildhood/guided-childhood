@@ -175,6 +175,30 @@ body {
   zoom: 1.07;
 }
 
+/* THE APP DOES NOT SLIDE SIDEWAYS.
+   Justin, 10 August 2026, with a photo of the parent home on his phone:
+   "floating around on phone and not fitting." The screen was panned right, the
+   cards clipped off the left edge, a strip of background down the right.
+
+   Nothing in either app is meant to be read by scrolling horizontally. A real
+   side scroller, like the lesson filter chips, carries its own overflow-x and
+   keeps working inside its own box. What this stops is one misbehaving card
+   turning the whole page into a thing that slides under a thumb.
+
+   ON THE SHELL, NOT ON BODY, and that distinction is the whole note. Putting
+   overflow-x on body looks obviously right and is a disaster: the browser
+   PROPAGATES body's overflow to the viewport, and because overflow-y was
+   visible the pair resolved to hidden and hidden. Measured immediately after
+   trying it: document scrollHeight collapsed to exactly the window height on
+   every page. The whole app stopped scrolling vertically.
+
+   An ordinary element does not propagate, so clip here means what it says, and
+   position: sticky inside still resolves against the viewport rather than
+   against a new scroll container the way overflow: hidden would force. */
+.gc-shell {
+  overflow-x: clip;
+}
+
 h1, h2, h3, h4, h5 {
   font-family: var(--font-display);
   font-weight: 800;

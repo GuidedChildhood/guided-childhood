@@ -153,7 +153,12 @@ export default function KidAskForJob({
         </p>
 
         {ideas.length > 0 && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '9px', marginBottom: '14px' }}>
+          // minmax(0, 1fr) rather than 1fr, which is the difference between a
+          // column that can shrink and one that cannot. A grid item's default
+          // min width is auto, so a long word holds the track open and the pair
+          // runs off the edge: measured 7px over on a 320px phone, with "Read to
+          // someone smaller" doing the holding.
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '9px', marginBottom: '14px' }}>
             {ideas.map(idea => (
               <button
                 key={idea.title}
@@ -166,7 +171,7 @@ export default function KidAskForJob({
                 }}
               >
                 <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{idea.emoji}</span>
-                <span style={{ minWidth: 0 }}>{idea.title}</span>
+                <span style={{ minWidth: 0, overflowWrap: 'anywhere' }}>{idea.title}</span>
               </button>
             ))}
           </div>
