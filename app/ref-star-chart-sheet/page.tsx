@@ -1,13 +1,14 @@
 import StarChartSheet from '@/components/printables/StarChartSheet'
-import KidChartToolbar from '@/app/k/[token]/star-chart/KidChartToolbar'
+import StarChartBuilder from '@/app/(dashboard)/dashboard/printables/star-chart/StarChartBuilder'
 import { KidStarChartHero } from '@/app/k/[token]/KidQuestScreen'
 import FridgeChartLog from '@/components/quests/FridgeChartLog'
 
-// Layout fixture for the star chart on both phones: the shared printable
-// sheet in its three shapes, the child's toolbar above it, the hero card on
-// the child's print tab, and the parent's end of week entry card. All REAL
-// components with made up rows; the fake token means the print record POST
-// quietly fails, which is fine for a layout check.
+// Layout fixture for the star chart on both phones: the shared builder in
+// its kid variant (the child app page is exactly this), the hero card on the
+// child's print tab, the parent's end of week entry card, and the shared
+// printable sheet in its three shapes. All REAL components with made up
+// rows; the fake token means the print record POST quietly fails, which is
+// fine for a layout check.
 //
 // 404s in production via middleware, like every other ref-* page.
 
@@ -50,16 +51,10 @@ export default function RefStarChartSheet() {
         <Label>Child print tab hero card (KidQuestScreen print tab)</Label>
         <KidStarChartHero token="000000000000000000" />
 
-        <Label>Child toolbar, with jobs</Label>
-        <KidChartToolbar token="000000000000000000" weekStart="2026-08-10" hasJobs />
-
-        <Label>Child toolbar, no jobs yet</Label>
-        <KidChartToolbar token="000000000000000000" weekStart="2026-08-10" hasJobs={false} />
-
         <Label>Parent end of week entry (two children)</Label>
         <FridgeChartLog kids={[{ id: 'a', name: 'Teo' }, { id: 'b', name: 'Alma' }]} />
 
-        <Label>The sheet: five real jobs, named and dated (scrolls sideways on a narrow phone, like the child page)</Label>
+        <Label>The sheet: five real jobs, named and dated (scrolls sideways on a narrow phone)</Label>
         <div style={{ overflowX: 'auto' }}><div style={{ minWidth: 560 }}>
           <StarChartSheet name="Teo" weekLabel="Monday 10 August" jobs={FIVE_JOBS} />
         </div></div>
@@ -73,6 +68,23 @@ export default function RefStarChartSheet() {
         <div style={{ overflowX: 'auto' }}><div style={{ minWidth: 560 }}>
           <StarChartSheet name="Alma" weekLabel={null} jobs={ELEVEN_JOBS} />
         </div></div>
+
+        <Label>The kid variant of the shared builder (the child app page is exactly this)</Label>
+        <div style={{ background: 'var(--cream)', borderRadius: 16 }}>
+          <StarChartBuilder
+            variant="kid"
+            yourJobs={FIVE_JOBS.map(j => ({ ...j, childId: null }))}
+            defaultChildName="Teo"
+            weeks={[
+              { start: '2026-08-10', label: 'Monday 10 August', name: 'This week' },
+              { start: '2026-08-17', label: 'Monday 17 August', name: 'Next week' },
+            ]}
+            recordUrl="/api/kid/star-chart-print"
+            recordBody={{ token: '000000000000000000' }}
+            backHref="/k/000000000000000000?tab=print"
+            backLabel="My quests"
+          />
+        </div>
       </div>
     </div>
   )

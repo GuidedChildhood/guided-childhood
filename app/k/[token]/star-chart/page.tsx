@@ -1,24 +1,27 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { chartWeekStart, formatWeekBeginning } from '@/lib/quests/star-week'
-import StarChartSheet, { MAX_ROWS, type SheetJob } from '@/components/printables/StarChartSheet'
-import KidChartToolbar from './KidChartToolbar'
+import { chartWeekStart, starWeekEnd, formatWeekBeginning } from '@/lib/quests/star-week'
+import StarChartBuilder from '@/app/(dashboard)/dashboard/printables/star-chart/StarChartBuilder'
 
-// The child's own way to the star chart.
+// The child's own star chart builder.
 //
-// Justin, 10 August 2026, from Teo's printables tab: "Where is the star chart
-// on child's app, this is a key printable." The chart was parent only, built
-// and printed from the dashboard. This page prints the SAME sheet (the shared
-// StarChartSheet the builder renders) with the family's real jobs and this
-// child's name, straight from the child's app, no login.
+// Justin, 10 August 2026, twice. First, from Teo's printables tab: "Where is
+// the star chart on child's app, this is a key printable." Then, on the first
+// cut of this page being a fixed sheet: "This is not right as we create a
+// custom version where they add the tasks... make sure we revert back to
+// custom version on both parents and child's."
 //
-// The jobs are filtered IN SQL to the whole family ones plus this child's
-// own, so a sibling's jobs never leave the database. No jobs at all still
-// prints a perfectly usable chart: every missing row is a dashed pen line,
-// which is the paper workflow anyway. The builder's suggestion menu is
-// deliberately NOT used here: printing our guesses onto a named child's
-// chart invents jobs the parent never agreed to, and jobs that earn nothing
-// in the app teach the child the chart lies.
+// So this is the SAME StarChartBuilder the parent dashboard runs, the whole
+// custom version: their real jobs ticked to start, the suggestion menu, the
+// write your own box, the week chips, then print. One component on both
+// phones, so the two experiences can never drift.
+//
+// The starting jobs are filtered IN SQL to the whole family ones plus this
+// child's own, so a sibling's jobs never leave the database. The print
+// record posts to the token authed kid route (the builder's default route
+// needs a parent session this app does not have), writing the same
+// star_chart_prints row, so a child's print quiets the parent quest board's
+// To print badge exactly like a parent's.
 //
 // Same trust model as the rest of the child app: the link token scopes
 // everything to one child.
@@ -48,31 +51,39 @@ export default async function KidStarChartPage({ params }: { params: Promise<{ t
     .or(`child_id.is.null,child_id.eq.${link.child_id}`)
     .order('created_at', { ascending: true })
 
-  const jobs: SheetJob[] = (quests ?? [])
-    .slice(0, MAX_ROWS)
-    .map(q => ({ emoji: (q.emoji as string) || '⭐', text: q.title as string, stars: Number(q.stars) || 1 }))
+  // childId null on every row: the SQL filter already scoped the list to this
+  // child, and the builder's own child switcher never shows (childOptions is
+  // empty), so the rows just need to all be visible.
+  const yourJobs = (quests ?? []).map(q => ({
+    emoji: (q.emoji as string) || '⭐',
+    text: q.title as string,
+    stars: Number(q.stars) || 1,
+    childId: null,
+  }))
 
-  // The same Europe/London week rule the parent's builder uses: this week
-  // every day except Sunday, when the chart is for the week about to start.
-  const weekStart = chartWeekStart()
-  const weekLabel = formatWeekBeginning(weekStart)
+  // The same two weeks, named the same honest way, as the parent's builder.
+  const first = chartWeekStart()
+  const second = starWeekEnd(first)
+  const startsTomorrow = first > new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(new Date())
+  const weeks = [
+    { start: first, label: formatWeekBeginning(first), name: startsTomorrow ? 'The week ahead' : 'This week' },
+    { start: second, label: formatWeekBeginning(second), name: startsTomorrow ? 'The one after' : 'Next week' },
+  ]
 
   return (
-    // A light surface like the week page, because the sheet is white paper
-    // and the anthracite child background would swallow its edges.
-    <div style={{ minHeight: '100dvh', background: 'var(--butter)', padding: '18px 16px 60px', fontFamily: 'var(--font-body)' }}>
-      <div style={{ maxWidth: 820, margin: '0 auto' }}>
-        <KidChartToolbar token={token} weekStart={weekStart} hasJobs={jobs.length > 0} />
-        {/* On a narrow phone the seven day columns crush the headers into each
-            other, so the preview scrolls sideways instead. Print ignores the
-            wrapper entirely: the A4 page is wider than the minimum anyway. */}
-        <style>{`@media print { .sheet-scroll { overflow: visible !important } .sheet-scroll > div { min-width: 0 !important } }`}</style>
-        <div className="sheet-scroll" style={{ overflowX: 'auto' }}>
-          <div style={{ minWidth: 560 }}>
-            <StarChartSheet name={name} weekLabel={weekLabel} jobs={jobs} />
-          </div>
-        </div>
-      </div>
+    // A light surface, because the sheet is white paper and the anthracite
+    // child background would swallow its edges.
+    <div style={{ minHeight: '100dvh', background: 'var(--cream)', fontFamily: 'var(--font-body)' }}>
+      <StarChartBuilder
+        variant="kid"
+        yourJobs={yourJobs}
+        defaultChildName={name}
+        weeks={weeks}
+        recordUrl="/api/kid/star-chart-print"
+        recordBody={{ token }}
+        backHref={`/k/${token}?tab=print`}
+        backLabel="My quests"
+      />
     </div>
   )
 }
