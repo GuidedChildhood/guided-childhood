@@ -565,7 +565,7 @@ export default function StageRoad({
                     This stage&apos;s lessons →
                   </Link>
                   <Link
-                    href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}`}
+                    href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}&from=pathway`}
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                       background: '#fff', color: 'var(--ink)', textDecoration: 'none',
@@ -593,7 +593,7 @@ export default function StageRoad({
                     <p style={{ fontSize: 'var(--text-base)', fontStyle: 'italic', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 10px' }}>
                       &ldquo;{stage.parentQuote.replace(/^"/, '').replace(/"$/, '')}&rdquo;
                     </p>
-                    <Link href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}`} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+                    <Link href={`/dashboard/scripts?stage=${STAGE_SLUGS[stage.id - 1]}&from=pathway`} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
                       See the scripts →
                     </Link>
                   </div>

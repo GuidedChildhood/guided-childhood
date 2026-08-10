@@ -108,8 +108,27 @@ type ScriptRow = {
   sort_order: number
 }
 
-export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; cat?: string }> }) {
-  const { topic, cat } = await searchParams
+// Where a parent came from, so they can get back.
+//
+// Justin, 10 August 2026: "it's taking me here from the pathway but not allowing
+// me to either go back, or it doesn't update if I read it. Is this because I am
+// not paying?"
+//
+// It was not the paywall. The pathway and the passport have always linked here
+// as /dashboard/scripts?stage=<slug>, and this page only ever read `topic` and
+// `cat`. The stage was dropped on the floor. A parent who tapped "the words for
+// this stage" landed on the whole library, at the top, with no filter, nothing
+// saying why they were there and no way back to the road they came off.
+//
+// Read from the link rather than the referrer, matching the devices page: a
+// referrer is stripped by enough browsers that the back link would silently
+// change meaning depending on the reader's setup.
+// Both the road and the passport book live on /dashboard/pathway, so there is
+// one place to send them back to and no chance of guessing wrong.
+const PATHWAY_HREF = '/dashboard/pathway'
+
+export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; cat?: string; stage?: string; from?: string }> }) {
+  const { topic, cat, stage, from } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -169,7 +188,17 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     .map(k => ({ key: k, label: CATEGORY_META[k].label, n: catCounts.get(k) ?? 0 }))
   const activeCat = cat && CATEGORY_META[cat] ? cat : null
 
-  const byStage = (Object.keys(STAGE_META) as StageId[]).map(stageId => {
+  // The stage the pathway asked for, when it is one we have. Anything else is
+  // ignored rather than shown as an empty page: a bad slug in a link should
+  // degrade to the whole library, which is still useful.
+  const askedStage = stage && (stage in STAGE_META) ? (stage as StageId) : null
+  // A back link appears when the parent arrived from the road, and the stage
+  // link is enough on its own to know that they did.
+  const cameFromPathway = Boolean(askedStage) || from === 'pathway' || from === 'passport'
+
+  const byStage = (Object.keys(STAGE_META) as StageId[])
+    .filter(stageId => !askedStage || stageId === askedStage)
+    .map(stageId => {
     const items = scripts.filter(s => s.stage_id === stageId && (!activeCat || s.category === activeCat))
     // Scripts matching what this parent told us their main concern was
     // surface first within the stage, so that answer stays useful instead
@@ -202,6 +231,11 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
+      {cameFromPathway && (
+        <Link href={PATHWAY_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', textDecoration: 'none', marginBottom: 14 }}>
+          ← Back to the pathway
+        </Link>
+      )}
       <div style={{ marginBottom: '24px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Conversation tools</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>Scripts</h1>
@@ -387,6 +421,29 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         </p>
       )}
 
+      {/* Arrived from the road, so say what is being shown and what moves the
+          pathway on.
+
+          The second half is the other thing Justin hit: "it doesn't update if I
+          read it." Opening a script has counted for nothing on the passport
+          since migration 157, on purpose, because a parent who scrolls through
+          ten scripts has not had ten conversations. That is the right rule and
+          it was never said out loud anywhere, so the only way to learn it was to
+          read a script, go back, and find nothing had moved. */}
+      {askedStage && (
+        <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 16px', marginBottom: 18 }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 4px' }}>
+            {STAGE_META[askedStage].label}, {STAGE_META[askedStage].ages.toLowerCase()}
+          </p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+            Your pathway fills in when you tell us a script landed. Open one, and at the bottom say you used it or that it does not apply. Reading on its own does not move it, because reading is not the conversation.
+          </p>
+          <Link href="/dashboard/scripts" style={{ display: 'inline-block', marginTop: 8, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+            See every stage →
+          </Link>
+        </div>
+      )}
+
       {byStage.length === 0 && (
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 24px' }}>
           Nothing in that one yet. Try another, or search above for the moment you are actually in.
@@ -404,7 +461,11 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           bad connection, and Ctrl F still finds a title inside a closed one in
           most browsers. Nothing is hidden, it is stacked. */}
       {byStage.map(group => {
-        const isTheirs = group.stageId === currentStageId
+        // Open for their own stage, and open for the stage the pathway asked
+        // for. Without the second half, tapping "the words for this stage" on a
+        // stage that is not the child's own landed on a single folded row: the
+        // filter worked and the page still looked like it had done nothing.
+        const isTheirs = group.stageId === currentStageId || group.stageId === askedStage
         const header = (
           <span style={{ display: 'flex', alignItems: 'baseline', gap: '10px', flexWrap: 'wrap' }}>
             <span style={{

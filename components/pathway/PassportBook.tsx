@@ -494,7 +494,13 @@ export default function PassportBook({
                   const slug = STAGE_SLUGS[stamp.id - 1] ?? 'foundation'
                   const tasks: { label: string; done: boolean; detail: string; href: string }[] = [
                     { label: 'Watch the lessons', done: (stamp.lessonsPct ?? 0) >= 100, detail: lt > 0 ? `${ld} of ${lt} done` : `${stamp.lessonsPct ?? 0}%`, href: `/dashboard/lessons?stage=${stamp.id}` },
-                    { label: 'Read the scripts', done: (stamp.scriptsPct ?? 0) >= 100, detail: `${stamp.scriptsPct ?? 0}%`, href: `/dashboard/scripts?stage=${slug}` },
+                    // "Read the scripts" is what this said, and reading is
+                    // precisely what does NOT move it. Progress counts a parent
+                    // saying they used one or that it does not apply, which is
+                    // the right rule and was contradicted by its own label.
+                    // Justin read a script, came back, and found nothing had
+                    // changed, which is the label's fault rather than his.
+                    { label: 'Use the scripts', done: (stamp.scriptsPct ?? 0) >= 100, detail: `${stamp.scriptsPct ?? 0}%`, href: `/dashboard/scripts?stage=${slug}&from=pathway` },
                     { label: 'Set up the devices', done: (stamp.devicesPct ?? 0) >= 100, detail: `${stamp.devicesPct ?? 0}%`, href: '/dashboard/devices?from=passport' },
                     { label: 'Keep the daily habit', done: (stamp.streakPct ?? 0) >= 100, detail: `${stamp.streakPct ?? 0}%`, href: '/dashboard' },
                   ]

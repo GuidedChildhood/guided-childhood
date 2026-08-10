@@ -6732,3 +6732,41 @@ could see either of them. scripts/check-today-split.mjs runs the shape Justin hi
 and asserts the two counts can never be the same number again. The same silence
 was on the home screen, where a bare "+10" sat next to "0 minutes ready to use";
 it now says what the plus means.
+
+## 10 August 2026, the pathway link to the scripts was dropping its stage
+
+Justin: "it's taking me here from the pathway but not allowing me to either go
+back, or it doesn't update if I read it. Is this because I am not paying?"
+
+**It was not the paywall.** The road and the passport have always linked to
+/dashboard/scripts?stage=<slug>, and that page only ever read `topic` and `cat`.
+The stage went on the floor. A parent tapping "the words for this stage" landed
+on the whole library, at the top, with nothing saying why they were there and no
+way back to the road they came off.
+
+Three things, and the first two are the same bug seen twice:
+
+1. The stage is honoured. That stage leads, opened rather than folded, even when
+   it is not the child's own.
+2. A back link to the pathway, read off the link rather than the referrer,
+   matching the devices page.
+3. The passport task said "Read the scripts" and reading is precisely what does
+   NOT move it. Progress counts a parent saying they used one or that it does not
+   apply, which is the right rule and was contradicted by its own label. It says
+   "Use the scripts" now, and the stage view says the same thing in a sentence.
+
+**And the recommendation was not a recommendation.** Every signal the recommender
+has is a category. A family with no concerns logged and no devices listed scores
+every script zero, and the old loop then kept whichever script sorted first, for
+ever. On the free plan that is the first FREE script, which is how a script about
+a child coming out became the permanent recommendation for a family who had never
+raised it. Worse than unhelpful: it reads as the app having decided something
+about their child.
+
+A tie now rotates, one a day, by the day number. Only the tie: a family who has
+raised something four times still gets that topic every day, because variety is
+not a reason to change the subject on somebody who has told us what is wrong.
+
+Same class of bug as the daily look back card, ten days apart, and invisible for
+the same reason both times: correct on any single day, wrong across days, and
+nothing tested across days. scripts/check-recommend-rotation.mjs now does.

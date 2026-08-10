@@ -3,6 +3,7 @@ import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
 import { CONCERN_TO_CATEGORY, DEVICE_KIND_TO_CATEGORIES } from '@/lib/content/signal-map'
 import type { ChallengeId } from '@/lib/content/stages'
 import type { StageId } from './progress'
+import { chooseScript, scoreScript } from './recommend-pick'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -169,27 +170,17 @@ export async function getRecommendedScript(
   // all, which is a content gap rather than something to solve here.
   const searchable = opts?.preferFree && freeOnly.length > 0 ? freeOnly : pool
 
-  const scoreOf = (s: ScriptRow) => {
-    const signal = s.category ? byCategory.get(s.category) : undefined
-    let score = signal?.score ?? 0
-    // A script already glanced at loses to anything unseen carrying the same
-    // signal, and still beats a script with no signal at all.
-    if (opened.has(s.sort_order)) score -= 30
-    // One nudge for a script that was set aside and whose day has come, so a
-    // return actually happens rather than waiting for the category to win on
-    // its own.
-    if (returned.has(s.sort_order)) score += 15
-    return score
-  }
-
-  let chosen = searchable[0]
-  let best = scoreOf(chosen)
-  for (const s of searchable.slice(1)) {
-    const score = scoreOf(s)
-    // Strictly greater, so an equal score keeps the earlier sort order and the
-    // stage still reads in the sequence it was written in.
-    if (score > best) { chosen = s; best = score }
-  }
+  const chosen = chooseScript(searchable, {
+    scoreOfCategory: category => (category ? byCategory.get(category)?.score ?? 0 : 0),
+    opened,
+    returned,
+    dayIndex: dayIndex(),
+  })
+  const best = scoreScript(chosen, {
+    scoreOfCategory: category => (category ? byCategory.get(category)?.score ?? 0 : 0),
+    opened,
+    returned,
+  })
 
   const signal = chosen.category ? byCategory.get(chosen.category) : undefined
   const carried = best > 0 && !!signal
@@ -270,4 +261,15 @@ function article(label: string): string {
 /** Today in Europe/London, matching the date the status route writes. */
 function londonToday(): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(new Date())
+}
+
+/**
+ * Which day it is, as a number, for rotating between equally good scripts.
+ *
+ * Read off the London date rather than the raw clock, so the card turns over at
+ * a British midnight rather than at a UTC one, and so it holds still for the
+ * whole of a day rather than drifting through it.
+ */
+function dayIndex(): number {
+  return Math.floor(Date.parse(`${londonToday()}T00:00:00Z`) / 86400000)
 }
