@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { STAGES } from '@/lib/content/stages'
 import type { AgeBand } from '@/lib/content/stages'
+import { pickReview, agoLabel, type Completion } from '@/lib/pathway/review-pick'
 import DailyDeckViewer from './DailyDeckViewer'
 import type { DailyCard } from './DailyDeckViewer'
 import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
@@ -63,23 +64,31 @@ export default async function DailyPage() {
 
   const stage = STAGES.find(s => s.ageBand === (child?.age_band as AgeBand)) ?? STAGES[2]
 
-  // Last completed script for the review card
-  const { data: lastCompletion } = await supabase
+  // Everything they have completed, for the look back card.
+  //
+  // NOT limit 1. That was a pin rather than a rotation: until a parent completed
+  // a new script the card showed the same one every single day, which is what
+  // Justin was seeing. The whole history is read so the card can walk through
+  // it, and so a script they said did not work can be brought back on purpose.
+  // Twenty is plenty: a rotation longer than that stops feeling like a rotation.
+  const { data: completionRows } = await supabase
     .from('script_completions')
-    .select('script_sort_order, completed_at')
+    .select('script_sort_order, completed_at, worked')
     .eq('user_id', user.id)
     .order('completed_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
+    .limit(20)
 
-  let lastScript: { title: string; why_it_works: string } | null = null
-  if (lastCompletion) {
-    const { data: s } = await supabase
+  const completions = (completionRows ?? []) as Completion[]
+
+  // Titles for the completed scripts, so a flagged topic can be matched against
+  // what they already own. One query for the set rather than one per row.
+  const reviewTitles = new Map<number, string>()
+  if (completions.length > 0) {
+    const { data: titleRows } = await supabase
       .from('scripts')
-      .select('title, why_it_works')
-      .eq('sort_order', lastCompletion.script_sort_order)
-      .single()
-    if (s) lastScript = s
+      .select('sort_order, title')
+      .in('sort_order', completions.map(c => c.script_sort_order))
+    for (const r of titleRows ?? []) reviewTitles.set(r.sort_order as number, r.title as string)
   }
 
   // Pick a daily moment card — prefer topics flagged yesterday, otherwise use date rotation
@@ -121,6 +130,37 @@ export default async function DailyPage() {
   }
 
   const dayIndex = Math.floor(Date.now() / 86400000)
+
+  // Which past script to look back at today, and WHY, because the reason
+  // decides what the card is allowed to say. See lib/pathway/review-pick.
+  //
+  // The topic matcher reuses the keyword map below: if a check in flagged
+  // bedtime and they already own a bedtime script, that beats the rotation.
+  const review = pickReview(
+    completions,
+    dayIndex,
+    yesterdayMoments.length > 0
+      ? sortOrder => {
+          const title = reviewTitles.get(sortOrder)
+          if (!title) return false
+          const words = yesterdayMoments.flatMap(m => MOMENT_KEYWORDS[m] ?? [])
+          return words.some(w => title.toLowerCase().includes(w))
+        }
+      : undefined,
+  )
+
+  let lastScript: { title: string; why_it_works: string } | null = null
+  if (review) {
+    const { data: s } = await supabase
+      .from('scripts')
+      .select('title, why_it_works')
+      .eq('sort_order', review.sortOrder)
+      .maybeSingle()
+    if (s) lastScript = s
+  }
+  const reviewCompletedAt = review
+    ? completions.find(c => c.script_sort_order === review.sortOrder)?.completed_at ?? null
+    : null
   let momentScript: { title: string; situation: string; say_this: string; sort_order: number } | null = null
   let momentMatchedYesterday = false
 
@@ -166,18 +206,40 @@ export default async function DailyPage() {
   const greeting = ukHour < 12 ? 'Morning' : ukHour < 18 ? 'Afternoon' : 'Evening'
 
   // Card 1 — Review (if there's a last script) or Welcome
-  if (lastScript) {
+  if (lastScript && review) {
+    // The eyebrow and the opening line both change with the reason.
+    //
+    // "Last time you reached for the words for this one" is a claim about
+    // RECENCY. On the old card it was said every day about a script a parent
+    // had opened once, weeks ago, which is a product telling somebody something
+    // untrue about their own history. It is only said now when it is true.
+    const ago = reviewCompletedAt ? agoLabel(reviewCompletedAt) : ''
+    const when = ago ? ` You used it ${ago}.` : ''
+
+    const eyebrow =
+      review.reason === 'did-not-work' ? 'This one did not land'
+      : review.reason === 'flagged' ? 'You raised this again'
+      : review.reason === 'rotation' ? 'Worth another look'
+      : 'From last time'
+
+    const opener =
+      review.reason === 'did-not-work'
+        ? `${greeting}, ${firstName}. You told us this one did not work.${when} That is worth coming back to rather than leaving behind, so here is what it was trying to do:`
+      : review.reason === 'flagged'
+        ? `${greeting}, ${firstName}. This came up again in your check in, and you already have the words for it.${when} The thinking behind them:`
+      : review.reason === 'rotation'
+        ? `${greeting}, ${firstName}. One from your own shelf, number ${(dayIndex % review.total) + 1} of ${review.total}.${when} Thirty seconds on why it works, because the why is what makes it yours:`
+        : `${greeting}, ${firstName}. Last time you reached for the words for this one. Worth thirty seconds on why they do the heavy lifting, because the why is what makes them yours:`
+
     cards.push({
       id: 'review',
       type: 'review',
-      eyebrow: 'From last time',
+      eyebrow,
       headline: lastScript.title,
-      body: `${greeting}, ${firstName}. Last time you reached for the words for this one. Worth thirty seconds on why they do the heavy lifting, because the why is what makes them yours:\n\n${lastScript.why_it_works}`,
+      body: `${opener}\n\n${lastScript.why_it_works}`,
       accent: 'var(--terracotta)',
       icon: '↩',
-      action: lastCompletion
-        ? { label: 'Open the full script', href: `/dashboard/scripts/${lastCompletion.script_sort_order}` }
-        : undefined,
+      action: { label: 'Open the full script', href: `/dashboard/scripts/${review.sortOrder}` },
     })
   } else {
     cards.push({
