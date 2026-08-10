@@ -6820,3 +6820,44 @@ compose, and the parent's board stays the parent's.
 
 The sheet preview also stopped crushing on narrow phones: it scrolls
 sideways on screen and prints exactly as before, on both apps.
+
+## 10 August 2026, the method week
+
+Justin: "little nudges, best way to inform them use timer when child uses
+device, and list why this is useful, the methodology, and reconsider the balance
+of offline online, and teaching habits that jobs done equals device time. So
+emails to show this one week, but little pop ups, not intrusive or annoying."
+
+**The gap was timing, not content.** The lifecycle programme already teaches
+this: `week-jobs-stars` at day 147 and `week-device-time` at day 175. Five and
+six months in, months after a family has either found the habit alone or stopped
+trying. Everything needed to make the loop work was explained after the point
+where it was needed.
+
+**Anchored to first use, not to signup.** Days 0 to 7 already carry five emails,
+and a lecture about the timer on day one arrives before there is a screen
+session to apply it to. So the four method emails hang off the day the loop
+became real for that family: their first job, first timed session or first child
+link, whichever came first. For one family that is day two and for another day
+forty. Derived per run from rows we already hold, so no migration and nothing to
+drift out of step.
+
+They sit ABOVE the service drip in the file, which is the priority order: one
+email per person per run, and a parent learning why the loop works beats a nudge
+about a feature they have not switched on.
+
+**The nudges are silent by default.** Four rules, each fired only when it is true
+of this family right now, one per visit, one per day, never a modal. A parent
+doing it well sees nothing, which is the whole reason the cards keep meaning
+something when they do appear. Every card carries the method in a sentence,
+because a parent who understands why the timer works can keep the habit with the
+app shut.
+
+**The month simulation earned its keep on the first run.** A flat one day snooze
+put the same card back thirty times in thirty days, because a family with a job
+waiting on a yes has that fact true every morning. That is the "always the same
+card" complaint rebuilt in a third place in one day. Not now backs off: two days,
+four, eight, then a fortnight, and the check asserts the GAP GROWS rather than
+counting appearances, because five spread over a month and five in five days are
+different things a count cannot tell apart.
+>>>>>>> origin/main
