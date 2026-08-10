@@ -6611,3 +6611,14 @@ someone actually asks.
 Nothing to tick and nothing about performance, on either card. We hold no data
 on how a child is doing, and a preview is exactly where a product would be
 tempted to imply some.
+
+**The dial glides (10 Aug).** Justin: review that using it is not clunky.
+Driving it like a thumb found three clunks the screenshots missed: the
+thumb stepped in whole number jumps mid drag (now glides fractionally and
+snaps on release), nothing acknowledged the release until Saved popped in
+(a Saving cue now bridges the beat, and grabbing again still changes the
+answer), and the readout growing taller shoved the whole track downward
+mid interaction (height is now reserved for the longest note, so the
+track never moves). The dial also owns its touches outright so the page
+cannot scroll fight a horizontal drag, and keyboard arrows step whole
+numbers despite the fractional glide.
