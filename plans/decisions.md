@@ -6545,3 +6545,45 @@ loses nothing, Start again is offered rather than forced), no timer, no
 failing, fixed stars, calm finish. Letters are registry data with stroke
 point paths, so more letters and numbers are data only, no code. No
 migration, scoring on the existing game_key route.
+
+## 10 August 2026: the term preview
+
+Justin: "could we add a diary entry to give a preview note for term whats coming
+up and what the child could be learning?" and, on the shape, **"three subjects
+with one line each"**.
+
+**The data had been there the whole time.** `nextTermTarget()` has worked out
+the next term and year group since the homework page shipped, and
+`curriculum_objectives` has been seeded all along. What was missing was anybody
+seeing it: the parent had no preview anywhere, and the child only got one by
+opening the homework page during a holiday. So this is a reader, not a new
+source of truth, and there is no migration.
+
+**The window is a holiday and the first week back, NOT the last fortnight of
+term**, which is what I first pitched him. We hold whether a given day is a
+holiday and nothing else, so a fortnight before the end of term cannot be
+calculated without inventing a school calendar we do not have. The holiday is
+the honest moment anyway: "what are they doing next term" is a holiday question.
+
+**The line under each subject is its STRAND NAMES, not a summary.** Summarising
+the objectives with a model would put a paraphrase of statutory curriculum text
+in front of a parent as though it were the curriculum. Everywhere else this data
+appears the rule is quote, never paraphrase, and a preview is not a good enough
+reason to break it.
+
+**Joined with commas and no final "and", which looks wrong and is right.** The
+England strand names contain their own "and" ("Addition and subtraction",
+"Vocabulary, grammar and punctuation"), so a final "and" produced "addition and
+subtraction and multiplication and division" and a parent could not tell where
+one topic ended and the next began. Caught on the fixture at 390px before it
+went near a family.
+
+**Where it lands:** the parent's dashboard, dismissible per term in localStorage
+exactly as `SchoolAheadCard` already does; the child's own week, above the days
+rather than inside one, because it does not start on a Tuesday; and DiGi, gated
+on a narrow "what is coming next" question so it costs two reads only when
+someone actually asks.
+
+Nothing to tick and nothing about performance, on either card. We hold no data
+on how a child is doing, and a preview is exactly where a product would be
+tempted to imply some.

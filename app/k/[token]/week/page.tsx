@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { isChildVisible } from '@/lib/school/child-items'
 import KidSchoolWeek, { type KidWeekItem } from '@/components/kid/KidSchoolWeek'
+import KidTermPreview from '@/components/kid/KidTermPreview'
+import { buildTermPreview } from '@/lib/learning/term-preview'
+import { getFamilyRegion } from '@/lib/learning/region'
 
 // The child's own week from school.
 //
@@ -33,8 +36,18 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
   if (!link) notFound()
 
   const { data: child } = await supabase
-    .from('children').select('name').eq('id', link.child_id).maybeSingle()
+    .from('children').select('name, date_of_birth').eq('id', link.child_id).maybeSingle()
   const name = child?.name && child.name !== 'Your child' ? (child.name as string) : null
+
+  // What is coming at school, in the child's words. Null outside a holiday and
+  // the first week back, and null without a birthday, so most of the year this
+  // renders nothing at all.
+  const termPreview = await buildTermPreview(
+    supabase,
+    { date_of_birth: (child?.date_of_birth as string | null) ?? null },
+    new Date(),
+    await getFamilyRegion(supabase, link.user_id).catch(() => 'uk' as const),
+  )
 
   // Everything still open, and the week is picked on the child's own device, so
   // last week and next week work without another round trip. A family's school
@@ -111,6 +124,11 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
           Everything from school, on the day it lands. Tap a day to see it.
         </p>
+
+        {/* The shape of the next few months, above the week rather than inside
+            a day: it does not start on a Tuesday, and putting it on one would
+            be a lie about when it begins. */}
+        {termPreview && <KidTermPreview preview={termPreview} childName={name} />}
 
         {/* An empty diary still shows the week, because the add button lives
             under the day: since the child can put things on the diary

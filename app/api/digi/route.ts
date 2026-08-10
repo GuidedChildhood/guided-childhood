@@ -19,6 +19,8 @@ import { DIGI_TOOLS, TOOL_RULES, CLIENT_TOOL_NAMES, runDigiTool } from '@/lib/di
 import { consumeStream } from '@/lib/digi/stream'
 import { STATIC_SYSTEM } from '@/lib/digi/system'
 import { schoolSubjectFor, learningContextFor, learningRules } from '@/lib/learning/digi-context'
+import { asksAboutNextTerm, buildTermPreview, previewRules } from '@/lib/learning/term-preview'
+import { getFamilyRegion } from '@/lib/learning/region'
 import { deviceLabel } from '@/lib/quests/device-time'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -496,6 +498,26 @@ When a parent asks whether or for how long their child should use any device, do
     if (subject) {
       const learning = await learningContextFor(user.id, subject)
       if (learning) schoolKnowledge = `\n\n${learningRules(learning)}`
+    }
+
+    // What is coming NEXT, which is a different question from what they are
+    // being taught now and was previously answered only in generalities.
+    //
+    // Gated on the question rather than run every time: it costs two reads, and
+    // a parent asking about bedtime should not pay for a curriculum lookup.
+    // buildTermPreview returns null outside a holiday and the first week back,
+    // so even a matching question is silent for most of the year, which is
+    // correct: "what is she doing next term" in the middle of October is a
+    // question about a term nobody has started thinking about.
+    if (asksAboutNextTerm(String(message))) {
+      const region = await getFamilyRegion(supabase, user.id).catch(() => 'uk' as const)
+      const preview = await buildTermPreview(
+        supabase,
+        { date_of_birth: (child as { date_of_birth?: string | null } | null)?.date_of_birth ?? null },
+        new Date(),
+        region,
+      )
+      if (preview) schoolKnowledge += `\n\n${previewRules(preview, (child as { name?: string | null } | null)?.name ?? null)}`
     }
   } catch { /* school context is a bonus, never blocks the reply */ }
 

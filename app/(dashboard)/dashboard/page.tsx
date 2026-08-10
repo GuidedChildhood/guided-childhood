@@ -27,6 +27,9 @@ import { nextEventForChild, aroundWhen } from '@/lib/learning/calendar'
 import { academicYearStart } from '@/lib/learning/term'
 import { transitionFor, transitionAsk } from '@/lib/learning/transition'
 import SchoolAheadCard from '@/components/home/SchoolAheadCard'
+import TermPreviewCard from '@/components/home/TermPreviewCard'
+import { buildTermPreview } from '@/lib/learning/term-preview'
+import { getFamilyRegion } from '@/lib/learning/region'
 import DayCheckup from '@/components/home/DayCheckup'
 import PhoneBridgeCard from '@/components/home/PhoneBridgeCard'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
@@ -181,6 +184,21 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // school cards on one screen, and the phone conversation outranks the
   // calendar every time.
   const upcoming = phoneBridge ? null : dobRows.map(r => nextEventForChild(r.date_of_birth)).find(Boolean) ?? null
+  // What the class is doing next term, three subjects and a line each.
+  //
+  // Silent outside a school holiday and the first week back, so this is null
+  // for most of the year rather than a card that repeats itself daily. Reads
+  // the SELECTED child rather than the primary, so a family with two gets the
+  // preview for whoever they are looking at, like the rest of this screen.
+  const termPreview = child
+    ? await buildTermPreview(
+        supabase,
+        { date_of_birth: (child as { date_of_birth?: string | null }).date_of_birth ?? null },
+        new Date(),
+        await getFamilyRegion(supabase, user.id).catch(() => 'uk' as const),
+      )
+    : null
+
   const schoolAhead = upcoming
     ? {
         eventKey: upcoming.event.key,
@@ -640,6 +658,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* Otherwise, whatever school has coming, four to six weeks out. Early
           enough to be a head start rather than a warning. */}
       {schoolAhead && <SchoolAheadCard ahead={schoolAhead} />}
+
+      {/* What the class will be working on next term. Three subjects, one line
+          each, and one thing to do about it. Only in a holiday and the first
+          week back, because that is when the question is live. */}
+      {termPreview && (
+        <TermPreviewCard preview={termPreview} childName={(child?.name as string | null) ?? null} />
+      )}
 
       {/* DiGi greets in one line: who, where on the road, and what today
           costs in minutes, with the streak flame alongside. The h1 header

@@ -116,7 +116,7 @@ const SUBJECT_ORDER = ['reading', 'english', 'maths']
 
 type Client = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
 
-type ObjectiveRow = {
+export type ObjectiveRow = {
   id: string
   subject: string
   strand: string
