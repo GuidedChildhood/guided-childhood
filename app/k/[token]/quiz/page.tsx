@@ -4,6 +4,7 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { stageQuizPool } from '@/lib/pathway/stage-quiz-gather'
 import { READINESS } from '@/lib/content/readiness'
 import KidStageQuiz from '@/components/kid/KidStageQuiz'
+import { resolveTheme } from '@/lib/kid/theme'
 
 // The big check at the end of a stage, on the child's side. No account, no
 // login; the token scopes everything, exactly like their lessons.
@@ -31,7 +32,7 @@ export default async function KidStageQuizPage({ params }: {
 
   const { data: child } = await supabase
     .from('children')
-    .select('name, age_band')
+    .select('name, age_band, accent')
     .eq('id', link.child_id)
     .maybeSingle()
 
@@ -60,6 +61,7 @@ export default async function KidStageQuizPage({ params }: {
 
   return (
     <KidStageQuiz
+      theme={resolveTheme(child?.accent as string | null)}
       token={token}
       stageId={stage.id}
       stageName={stage.name}

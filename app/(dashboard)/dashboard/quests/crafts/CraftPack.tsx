@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { craftBySlug } from '@/lib/quests/craft-links'
 import Link from 'next/link'
-import { PrintBrandFooter } from '@/components/brand/PrintBrand'
+import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
@@ -61,16 +62,22 @@ const mono: React.CSSProperties = {
   letterSpacing: '0.12em', textTransform: 'uppercase',
 }
 
-function Sheet({ children, band, title, worth, lesson, plays }: {
+function Sheet({ children, band, title, worth, lesson, plays, slug }: {
   children: React.ReactNode
   band: string
   title: string
   worth: number
   lesson: string
   plays: string
+  // The anchor a job row links to, so tapping "Play Goodnight Screens pairs"
+  // on the quests board lands on that sheet rather than the top of a nine
+  // sheet page. Slugs live in lib/quests/craft-links.ts next to the titles
+  // they belong to, so the two cannot drift apart unnoticed.
+  slug: string
 }) {
   return (
-    <div className="craft-sheet" style={{
+    <div className="craft-sheet" id={slug} style={{
+      scrollMarginTop: 90,
       background: '#fff', border: '2px solid var(--ink)', borderRadius: '20px',
       padding: '28px', marginBottom: '24px', position: 'relative', overflow: 'hidden',
     }}>
@@ -376,6 +383,31 @@ export default function CraftPack({ childName = null }: { childName?: string | n
   // wants the paper set on the wall. Turning it on renders every sheet so a
   // single print run catches the lot.
   const [showAll, setShowAll] = useState(false)
+
+  // ARRIVING ON A SHEET, NOT ON THE PACK.
+  //
+  // A job row now links to a specific sheet, and only the selected band's
+  // sheets are in the DOM. So six of the nine anchors pointed at nothing:
+  // the route resolved, nothing errored, and the parent landed at the top of
+  // the young band wondering which one was meant. That is the same quiet kind
+  // of broken link this whole change is about.
+  //
+  // So the hash chooses the band, then the browser is given a frame to render
+  // it before the scroll. The scroll is done here rather than left to the
+  // browser because the element does not exist at navigation time, which is
+  // precisely why it failed.
+  useEffect(() => {
+    const slug = window.location.hash.slice(1)
+    if (!slug) return
+    const sheet = craftBySlug(slug)
+    if (!sheet) return
+    setBand(sheet.band)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.getElementById(slug)?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+      })
+    })
+  }, [])
   function printWholePack() {
     setShowAll(true)
     setTimeout(() => window.print(), 200)
@@ -457,7 +489,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {/* ------------------------------ 4 to 7 ------------------------------ */}
       {(showAll || band === 'young') && (
         <>
-          <Sheet band="Ages 4 to 7" title="Robot Parent" worth={3} plays="Simon Says" lesson="computers only do exactly what they are told, nothing more">
+          <Sheet band="Ages 4 to 7" title="Robot Parent" slug="robot-parent" worth={3} plays="Simon Says" lesson="computers only do exactly what they are told, nothing more">
             <div style={{ background: 'var(--cream)', borderRadius: '14px', padding: '14px 16px', marginBottom: '4px' }}>
               <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
                 <strong>How to play:</strong> cut out the cards. Your grown up is now a robot. Hand them a card and they must do it, exactly, in their best robot voice. Robots never guess and never do extra. That is how computers work too: they only follow instructions.
@@ -478,7 +510,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             </div>
           </Sheet>
 
-          <Sheet band="Ages 4 to 7" title="My Screen Rules door poster" worth={2} plays="a keep out sign, but yours" lesson="rules the child writes are rules the child keeps">
+          <Sheet band="Ages 4 to 7" title="My Screen Rules door poster" slug="screen-rules-poster" worth={2} plays="a keep out sign, but yours" lesson="rules the child writes are rules the child keeps">
             <div style={{ border: '3px solid var(--ink)', borderRadius: '18px', padding: '24px', textAlign: 'center', background: '#fff' }}>
               <img src="/digi-squad/DiGi-star.svg" alt="DiGi" style={{ width: '90px', height: '90px', marginBottom: '8px' }} />
               <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)', marginBottom: '4px' }}>this room belongs to</div>
@@ -502,7 +534,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             </div>
           </Sheet>
 
-          <Sheet band="Ages 4 to 7" title="Goodnight Screens pairs" worth={2} plays="the memory pairs game" lesson="switching a screen off becomes a normal, happy part of the day">
+          <Sheet band="Ages 4 to 7" title="Goodnight Screens pairs" slug="goodnight-screens-pairs" worth={2} plays="the memory pairs game" lesson="switching a screen off becomes a normal, happy part of the day">
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
               <strong>How to play:</strong> cut out the cards and lay them face down. Take turns flipping two. Find a matching pair and you keep it, but only after you say goodnight to it out loud: goodnight tablet! Most pairs wins. Bedtime for screens becomes the fun bit, not the fight.
             </p>
@@ -526,7 +558,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {/* ------------------------------ 8 to 10 ----------------------------- */}
       {(showAll || band === 'middle') && (
         <>
-          <Sheet band="Ages 8 to 10" title="Password Monster" worth={3} plays="Mad Libs" lesson="three random words beat any clever short password">
+          <Sheet band="Ages 8 to 10" title="Password Monster" slug="password-monster" worth={3} plays="Mad Libs" lesson="three random words beat any clever short password">
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
               <strong>How to play:</strong> pick one word from each column and squash them together. WobblyOctopus77! is a monster of a passphrase: long, silly, easy for you to remember and horrible for a computer to guess. Then draw your monster below. Never tell anyone your real one except your grown up.
             </p>
@@ -545,7 +577,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             </div>
           </Sheet>
 
-          <Sheet band="Ages 8 to 10" title="The Feed: snakes and ladders" worth={3} plays="snakes and ladders" lesson="the feed is built with traps and ladders, learn to spot both">
+          <Sheet band="Ages 8 to 10" title="The Feed: snakes and ladders" slug="the-feed-snakes-and-ladders" worth={3} plays="snakes and ladders" lesson="the feed is built with traps and ladders, learn to spot both">
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
               <strong>How to play:</strong> grab a dice and a counter each (coins work). Smart digital choices are ladders, screen traps are snakes. First to square 30 wins the remote for film night.
             </p>
@@ -575,7 +607,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             </div>
           </Sheet>
 
-          <Sheet band="Ages 8 to 10" title="Advert Detective Bingo" worth={3} plays="bingo" lesson="once you can spot the selling tricks, they stop working on you">
+          <Sheet band="Ages 8 to 10" title="Advert Detective Bingo" slug="advert-detective-bingo" worth={3} plays="bingo" lesson="once you can spot the selling tricks, they stop working on you">
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
               <strong>How to play:</strong> everyone gets a card for one normal evening of TV or YouTube. Spot a trick in the wild, cross it off, shout BINGO on a full line. Winner picks pudding. Grown ups play too and usually lose.
             </p>
@@ -598,7 +630,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
       {/* ------------------------------ 11 to 13 ---------------------------- */}
       {(showAll || band === 'older') && (
         <>
-          <Sheet band="Ages 11 to 13" title="Deepfake or Real: the family quiz" worth={3} plays="a TV quiz show" lesson="the tells of fake content, learned by beating your parents at it">
+          <Sheet band="Ages 11 to 13" title="Deepfake or Real: the family quiz" slug="deepfake-or-real" worth={3} plays="a TV quiz show" lesson="the tells of fake content, learned by beating your parents at it">
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
               <strong>How to play:</strong> cut out the cards. Take turns reading one aloud. Everyone votes real or fake before the reader flips it for the answer. Score a point for each correct call. The child usually wins this. That is the point.
             </p>
@@ -621,7 +653,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
             </p>
           </Sheet>
 
-          <Sheet band="Ages 11 to 13" title="Algorithm Architect" worth={3} plays="being the game maker for once" lesson="design the hook yourself and it never hooks you the same way again">
+          <Sheet band="Ages 11 to 13" title="Algorithm Architect" slug="algorithm-architect" worth={3} plays="being the game maker for once" lesson="design the hook yourself and it never hooks you the same way again">
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 14px' }}>
               <strong>The job:</strong> you are the algorithm. Your only goal is to keep a player watching as long as possible. Design the next six videos for someone who just watched one football clip. Use every trick: cliffhangers, outrage, one more thing.
             </p>
@@ -646,7 +678,7 @@ export default function CraftPack({ childName = null }: { childName?: string | n
 
       {/* ------------------------------ Family ------------------------------ */}
       {(showAll || band === 'family') && (
-        <Sheet band="The whole family" title="Device free dinner cards" worth={2} plays="a card deck in a jar" lesson="the best parental control ever invented is a conversation">
+        <Sheet band="The whole family" title="Device free dinner cards" slug="device-free-dinner-cards" worth={2} plays="a card deck in a jar" lesson="the best parental control ever invented is a conversation">
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.6, margin: '0 0 4px' }}>
             <strong>How to play:</strong> cut out the cards, keep them in a jar on the table. Phones sleep somewhere else during dinner, grown ups included. Youngest picks a card, everyone answers, no wrong answers.
           </p>

@@ -3,13 +3,21 @@
 import { useEffect, useState } from 'react'
 import { STEPS, type StepKey } from '@/lib/kid/five-a-day'
 import { playKidSound } from '@/lib/sound/kidSounds'
+import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
+import KidStepSheet from '@/components/kid/KidStepSheet'
 
-// The five a day card: the whole of a child's day, on one screen, no scrolling.
+// The five a day card: the whole of a child's day, one step at a time.
 //
-// Modelled on Duolingo's Daily Quests panel, which is the proven version of this
-// shape: a short list, one line each, its own progress, and a reward at the end.
-// Five one line rows fit a phone with room to spare, which is what actually
-// solves "no need to scroll". Tabs were never the fix for that.
+// Justin, 9 August 2026: "Tap to open one at a time: do the first, the second
+// appears, and so on. Not five open rows at once."
+//
+// So the card shows ONE live step. Done steps shrink to slim ticked lines
+// above it so the climb stays visible, the live step is the big obvious
+// thing, and what is still to come stays hidden behind a quiet count: the
+// next one appears the moment this one lands. Finch's goal list is the
+// reference from the Mobbin sweep for this build (one card leads, the rest
+// wait), translated into butter, ink and Nunito. The original Duolingo Daily
+// Quests shape (all five open at once) is what this replaces.
 //
 // What this deliberately does NOT do:
 //
@@ -54,10 +62,13 @@ export default function KidFiveADay({
   childName,
   jobsAllDone,
   jobsProgress,
+  newQuestCount = 0,
   readingMinutes,
   moveJobs,
   onOpenJobs,
   onDayComplete,
+  initialState = null,
+  theme,
 }: {
   token: string
   childName?: string
@@ -73,6 +84,14 @@ export default function KidFiveADay({
    * already worked; saying where they are up to did not.
    */
   jobsProgress?: { done: number; total: number } | null
+  /**
+   * Jobs added since this child last opened their app. The arrival banner
+   * lived on the separate Today list; now the jobs live behind this card's
+   * jobs step, the step itself has to be the thing that says so on first
+   * glance, or a parent's new job is invisible until the child happens to
+   * open the page.
+   */
+  newQuestCount?: number
   /** Minutes of reading to ask for, from the child's age band. */
   readingMinutes?: number
   /**
@@ -86,15 +105,33 @@ export default function KidFiveADay({
   onOpenJobs: () => void
   /** Fired once when the fifth step lands, for the celebration. */
   onDayComplete?: (streak: number) => void
+  /**
+   * A ready made day, for the ref fixtures only. When set, the card renders
+   * it and never calls /api/kid/day, which no fixture can answer. Production
+   * never passes this, so the real screen keeps the real fetch, and the
+   * fixture renders the REAL component instead of a copy of its markup.
+   */
+  initialState?: DayState | null
+  /**
+   * The colour the child chose in Make it mine. Justin: "this should match app
+   * colours chosen." The live step's edge, its shadow and the progress bar were
+   * all fixed terracotta, so a child on Ocean still got a terracotta card.
+   */
+  theme?: KidTheme
 }) {
-  const [state, setState] = useState<DayState | null>(null)
+  const t = theme ?? resolveTheme(null)
+  const [state, setState] = useState<DayState | null>(initialState)
   const [busy, setBusy] = useState<StepKey | null>(null)
+  // The step whose sheet is open. A self tick step opens this instead of
+  // ticking, which is the whole of the "flashed off as soon as clicked" fix.
+  const [sheet, setSheet] = useState<StepKey | null>(null)
   // A finished day folds to one proud line; this reopens it. Not remembered
   // across loads on purpose, the same rule the parent's path uses: the point
   // of folding is that the next visit leads with the day done, not the list.
   const [openAnyway, setOpenAnyway] = useState(false)
 
   useEffect(() => {
+    if (initialState) return
     let live = true
     fetch(`/api/kid/day?token=${encodeURIComponent(token)}`)
       .then(r => (r.ok ? r.json() : null))
@@ -148,7 +185,7 @@ export default function KidFiveADay({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, moveJobs])
 
-  async function mark(step: StepKey, silent = false) {
+  async function mark(step: StepKey, silent = false, note: string | null = null) {
     if (busy) return
     setBusy(step)
     // Shown at once. A child who taps and sees nothing assumes it broke.
@@ -158,7 +195,7 @@ export default function KidFiveADay({
       const res = await fetch('/api/kid/day', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, step }),
+        body: JSON.stringify({ token, step, note }),
       })
       const d = await res.json().catch(() => null)
       if (!res.ok || !d?.ok) {
@@ -235,15 +272,47 @@ export default function KidFiveADay({
       <div style={{ height: 8, borderRadius: 100, background: 'var(--cream)', overflow: 'hidden', margin: '8px 0 14px' }}>
         <div style={{
           width: `${Math.round((doneCount / total) * 100)}%`, height: '100%',
-          background: 'var(--terracotta)', borderRadius: 100, transition: 'width 0.35s ease',
+          background: t.hex, borderRadius: 100, transition: 'width 0.35s ease',
         }} />
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        {state.steps.map(key => {
+        {/* Done steps first, as slim ticked lines: the climb so far. */}
+        {state.steps.filter(key => state.done.includes(key)).map(key => {
           const def = STEPS[key]
-          const isDone = state.done.includes(key)
+          return (
+            <div key={key} style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              padding: '6px 10px', opacity: 0.68,
+            }}>
+              <span style={{
+                width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 'var(--text-sm)', lineHeight: 1,
+                background: 'var(--tint-sage)', border: '1.5px solid #2F8F6B',
+              }}>
+                ✓
+              </span>
+              <span style={{
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                color: 'var(--ink-muted)', textDecoration: 'line-through', lineHeight: 1.2,
+              }}>
+                {key === 'reading' && readingMinutes ? `${readingMinutes} minutes reading` : def.label}
+              </span>
+            </div>
+          )
+        })}
+
+        {/* The ONE live step. The next appears when this lands. */}
+        {(() => {
+          const key = state.steps.find(k => !state.done.includes(k))
+          if (!key) return null
+          const def = STEPS[key]
+          const isDone = false
           const href = def.href ? def.href(token) : null
+          // Jobs and the moving about jobs open the jobs page, so they count as
+          // going somewhere even though they have no href of their own.
+          const goesSomewhere = Boolean(href) || key === 'jobs' || (key === 'move' && Boolean(moveJobs))
 
           const inner = (
             <>
@@ -273,16 +342,25 @@ export default function KidFiveADay({
                   <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: '1px' }}>
                     {key === 'move' && moveJobs
                       ? `You have ${moveJobs.total === 1 ? 'a job' : `${moveJobs.total} jobs`} for this. Tap to see ${moveJobs.total === 1 ? 'it' : 'them'}`
-                      : key === 'jobs' && jobsProgress && jobsProgress.total > 0
-                        // Where they are up to, not a generic instruction. A
-                        // child who has done four of six is told so, and the
-                        // number is the reason to tap.
-                        ? `${jobsProgress.done} of ${jobsProgress.total} done. Tap to see the rest`
-                        : def.hint}
+                      : key === 'jobs' && newQuestCount > 0
+                        // A fresh job beats the running count: the child has
+                        // to hear something arrived on first glance.
+                        ? `✨ ${newQuestCount === 1 ? 'A new job just arrived' : `${newQuestCount} new jobs just arrived`}! Tap to see`
+                        : key === 'jobs' && jobsProgress && jobsProgress.total > 0
+                          // Where they are up to, not a generic instruction. A
+                          // child who has done four of six is told so, and the
+                          // number is the reason to tap.
+                          ? `${jobsProgress.done} of ${jobsProgress.total} done. Tap to see the rest`
+                          : def.hint}
                   </span>
                 )}
               </span>
-              {!isDone && (
+              {/* Only on rows that really do go somewhere.
+                  A self tick step wore this too, which is half of why Justin
+                  tapped Something kind expecting a page and got a silent tick
+                  instead. The chevron is a promise about what happens next, and
+                  it was lying on seven of the twelve steps. */}
+              {!isDone && goesSomewhere && (
                 <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>
                   ›
                 </span>
@@ -290,24 +368,24 @@ export default function KidFiveADay({
             </>
           )
 
+          // The live step wears the loud edge, because it is the one thing
+          // the card is asking for right now.
           const rowStyle: React.CSSProperties = {
             display: 'flex', alignItems: 'center', gap: '11px', width: '100%',
-            textAlign: 'left', cursor: isDone ? 'default' : 'pointer',
-            background: isDone ? 'transparent' : 'var(--cream)',
-            border: '1.5px solid ' + (isDone ? 'transparent' : 'rgba(26,26,46,0.07)'),
-            borderRadius: '15px', padding: '10px 12px',
-            textDecoration: 'none', opacity: isDone ? 0.72 : 1,
+            textAlign: 'left', cursor: 'pointer',
+            background: 'var(--cream)',
+            border: `2px solid ${t.hex}`,
+            borderRadius: '16px', padding: '14px 13px',
+            boxShadow: `0 4px 0 ${t.hexDark}`,
+            textDecoration: 'none',
           }
 
-          if (isDone) return <div key={key} style={rowStyle}>{inner}</div>
-
-          // Jobs stays on this screen: it is the list directly below, and sending
-          // a child somewhere else to do the thing they can already see would be
-          // navigation for its own sake.
-          // Move goes the same way when the board carries a job that IS moving
-          // about: it is the same list, a few rows down, so pointing at it beats
-          // asking for a second tick of the same hour outside. With no such job
-          // it falls through to the self tick below, unchanged.
+          // Jobs opens the jobs page, which is where the do these jobs list
+          // and the pay back message live now the home screen no longer
+          // repeats them under this card. Move goes the same way when the
+          // board carries a job that IS moving about, so a child is pointed
+          // at the real job rather than asked for a second tick of the same
+          // hour outside. With no such job it falls through to the self tick.
           if (key === 'jobs' || (key === 'move' && moveJobs)) {
             return (
               <button key={key} onClick={() => { playKidSound('tap'); onOpenJobs() }} style={rowStyle}>
@@ -324,16 +402,34 @@ export default function KidFiveADay({
             )
           }
 
-          // The offline ones (reading, homework, move) are the child's own word
-          // for it. Deliberately not sent to a grown up to verify: the point is
-          // encouraging time away from the screen, and putting an approval gate
-          // on going outside would make it another thing to be checked on.
+          // The offline ones are the child's own word for it. Deliberately not
+          // sent to a grown up to verify: the point is encouraging time away
+          // from the screen, and putting an approval gate on going outside
+          // would make it another thing to be checked on.
+          //
+          // But the child's own word has to actually be ASKED FOR. This used to
+          // run mark() straight from the tap, which ticked the step and folded
+          // the row away on the same frame. Justin, 9 August: "something kind
+          // just flashed off as soon as clicked." Now it opens the sheet, which
+          // offers ideas and asks, and only the confirm in there marks anything.
           return (
-            <button key={key} onClick={() => mark(key)} disabled={busy === key} style={rowStyle}>
+            <button key={key} onClick={() => { playKidSound('tap'); setSheet(key) }} disabled={busy === key} style={rowStyle}>
               {inner}
             </button>
           )
-        })}
+        })()}
+
+        {/* What is still hidden, said out loud so the appearing trick is a
+            promise rather than a mystery. */}
+        {total - doneCount > 1 && (
+          <p style={{
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.06em', color: 'var(--ink-muted)',
+            margin: '2px 2px 0', textAlign: 'center',
+          }}>
+            {total - doneCount - 1} more to come. The next appears when this one is done.
+          </p>
+        )}
       </div>
 
       {state.streak > 0 && (
@@ -345,6 +441,20 @@ export default function KidFiveADay({
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 2px 2px', textAlign: 'center' }}>
           Every single one, {childName}. Come back tomorrow to start a run.
         </p>
+      )}
+
+      {/* The sheet a self tick step opens. Confirming is the only thing that
+          marks anything; Not yet closes and leaves the step where it was. */}
+      {sheet && (
+        <KidStepSheet
+          step={sheet}
+          childName={childName}
+          readingMinutes={readingMinutes}
+          theme={t}
+          busy={busy === sheet}
+          onClose={() => setSheet(null)}
+          onConfirm={note => { const k = sheet; setSheet(null); void mark(k, true, note) }}
+        />
       )}
     </div>
   )

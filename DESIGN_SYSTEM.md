@@ -1,181 +1,94 @@
-# Guided Childhood — Design System
+# Guided Childhood design system
 
-One accent. Two fonts. Generous space. The opposite of busy.
+**Rewritten 9 Aug 2026 from the real tokens.** The previous version of this
+file documented a design system that never shipped (blue terracotta, Fraunces
+and Inter). The single source of truth is `shared/tokens.css`, imported first
+by every app's root layout; this file is the guided tour, never the authority.
+If this file and `shared/tokens.css` ever disagree, the CSS wins and this file
+gets fixed.
 
----
+## The one sentence
 
-## Colour
+Butter gold on warm cream, deep ink type set in Nunito, IBM Plex Mono for
+eyebrows and labels, chunky 16px radius buttons with a hard 5px drop shadow,
+GSAP for motion, and a pastel stage spine that walks from yellow (ages 4 to 7)
+to lavender (16+).
+
+## Core palette (from shared/tokens.css)
 
 | Token | Value | Use |
 |---|---|---|
-| `--white` | `#FFFFFF` | Primary background |
-| `--cream` | `#FBF7F0` | Alternate sections, announcement bar, cards |
-| `--ink` | `#2B2B2B` | All body text (never pure black) |
-| `--ink-soft` | `#5A5A5A` | Secondary text |
-| `--ink-muted` | `#8A8A8A` | Labels, eyebrows, placeholders |
-| `--border` | `#E8E2DA` | Dividers, card borders |
-| `--terracotta` | `#5B8FA8` | Single accent — ALL buttons, ALL links, emphasis |
-| `--terracotta-dark` | `#3D739A` | Button shadow, hover state |
-| `--terracotta-lt` | `#E3EEF7` | Light blue card tint |
+| `--cream` | `#F9F8F6` | Page ground of the marketing site and cards |
+| `--app-bg` | `#F1EFEA` | The app page behind white cards, one real step greyer |
+| `--white` | `#FFFFFF` | Card fills |
+| `--ink` | `#1A1A2E` | Headings and body text |
+| `--ink-soft` / `--ink-muted` / `--ink-light` | `#52526A` / `#8888A0` / `#AEAEC0` | Supporting text, receding order |
+| `--border` | `#EAEAF0` | Hairlines |
+| `--terracotta` | `#EDC35F` | THE accent: butter gold. The name is legacy, the colour is not terracotta |
+| `--terracotta-dark` | `#C99A28` | Button shadows, gold text on light grounds |
+| `--terracotta-lt` | `#FEF7E0` | Gold tint fills |
+| `--deep-teal` | `#2E2818` | Dark sections. Despite the name it is deep warm espresso, never teal, never black |
+| `--retro-green` / `--retro-green-dark` | `#2F8F6B` / `#236F52` | Friendlier dark panels |
+| `--danger` on `--danger-bg` | `#991B1B` on `#FEF2F2` | The "not this" side of scripts only |
+| `--kid-bg` | anthracite gradient `#4C5057 → #34373D` | The child app ground |
 
-### Stage pastels (muted, low saturation — backgrounds only)
-| Token | Value | Use |
-|---|---|---|
-| `--stage-1` | `#FBCAAE` | Ages 4–7 cards and tags |
-| `--stage-2` | `#B8DECE` | Ages 7–10 cards (muted mint) |
-| `--stage-3` | `#9ABCE0` | Ages 10–13 cards (pastel blue) |
-| `--stage-4` | `#C4B4E0` | Ages 13–16 cards (lavender) |
-| `--stage-5` | `#F0DC98` | Ages 16+ cards (amber) |
+## The stage spine
 
-**Rule:** No colour outside this list. No strong greens, no bright coral, no purple gradients.
+Five stages, each with a pastel ground, a bold band and a readable text
+colour. Ages 4 to 7 yellow (`--stage-1*`), 8 to 10 sky (`--stage-2*`),
+11 to 13 coral (`--stage-3*`), 13 to 15 pink (`--stage-4*`), 16+ lavender
+(`--stage-5*`). Pastels are card grounds, bolds are header bands and
+character colours, text tokens are the only colours ever set on a bold band.
 
----
+## Legacy aliases, read before styling anything
 
-## Typography
+`--gold` is NOT the accent gold: it aliases `--stage-1-bold` (`#FEF08A`).
+`--coral` and `--green-dark` both alias `--terracotta`. `--gold-dark`
+aliases `--terracotta-dark`. These aliases keep 300 odd older call sites
+rendering; new work names the real token, never the alias.
 
-```css
-/* Google Fonts import — always first in CSS */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;1,600&family=Inter:wght@400;500;600;700&display=swap');
+## Type
 
---font-display: 'Fraunces', Georgia, serif;   /* headings */
---font-body:    'Inter', system-ui, sans-serif; /* everything else */
-```
+- Fonts load via `next/font` in each app's root layout (self hosted,
+  preloaded): Nunito exposes `--font-nunito`, IBM Plex Mono exposes
+  `--font-ibm-plex-mono`. No CSS `@import` of fonts, ever.
+- `--font-display` and `--font-body` are both Nunito (display 800 to 900,
+  body 400 to 600). `--font-mono` is for `.eyebrow`, labels and chips,
+  uppercase with letter spacing.
+- The type scale lives in the tokens file (`--text-xs` up). Rule enforced by
+  the wiring check: `--text-xs` is for mono eyebrows and labels only, never
+  a body sentence.
+- `body { zoom: 1.07 }` is the one global readability dial for both apps.
+  Components compensating for it say so in a comment.
+- iOS Dynamic Type: `@supports (font: -apple-system-body)` adopts the system
+  body size on `html`; body reasserts Nunito so only the size comes through.
 
-### Scale
-| Role | Family | Weight | Size |
-|---|---|---|---|
-| Eyebrow | Inter | 600 | 11px, 0.1em tracking, uppercase |
-| Hero H1 | Fraunces | 600 | clamp(2.4rem, 5vw, 4rem) |
-| Section H2 | Fraunces | 600 | clamp(1.8rem, 3.5vw, 2.8rem) |
-| Card title | Fraunces | 600 | 1.2rem–1.5rem |
-| Body | Inter | 400 | 16px / 1.65 |
-| Body small | Inter | 400 | 14px |
-| Label | Inter | 600 | 11px |
-| Button | Inter | 600 | 15px |
+## Components (shared classes, in the tokens file)
 
-**Italic emphasis** in hero headings: Fraunces italic 600, terracotta colour.
+- **Buttons** `.btn` family: border radius 16px, `box-shadow: 0 5px 0
+  <shadow-colour>`, chunky, pressed state translates down. Gold buttons
+  shadow with `--terracotta-dark`.
+- **Cards** `.card`: white fill on cream or app-bg ground, `--border`
+  hairline, generous radius.
+- **Inputs** `.input`: same geometry as buttons, focus ring in gold.
+- **Stage badge** `.stage-badge`: bold band colour with its matching text
+  token.
+- **Layout**: `.section` 96px/64px padding, `.container` max width 1080px.
+- **Motion**: GSAP only. `.fu` fade ups for scroll reveals, never the hero
+  (the hero is still from first paint, on purpose, see the GSAP block
+  comment). `.lift` for cursor lift cards. `prefers-reduced-motion`
+  disables both.
 
----
+## The two apps
 
-## Spacing
+Both import `@gc/shared/tokens.css` first, then their own stylesheet on
+top. Parent only sections (bottom tab bar, DiGi card, pathway grid, squad
+section, announcement bar) live in `app/globals.css`. The schools app
+carries its own thin stylesheet for educator surfaces. Nothing product
+specific belongs in the tokens file.
 
-8px base scale: 8 / 16 / 24 / 32 / 48 / 64 / 80 / 96 / 128
+## Non negotiables (CLAUDE.md, repeated here on purpose)
 
-Section vertical padding: 96px desktop, 64px mobile.
-Card inner padding: 32px desktop, 24px mobile.
-Gap between cards: 24px.
-
----
-
-## Card
-
-One card style used everywhere.
-
-```css
-.card {
-  background: var(--cream);          /* or a tint colour */
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: 0 2px 12px rgba(43,43,43,0.06);
-}
-```
-
-No other card variants. No raised cards, no gradient borders, no glow.
-
----
-
-## Button
-
-One button style. Terracotta only.
-
-```css
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--terracotta);
-  color: #fff;
-  font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 15px;
-  padding: 14px 28px;
-  border-radius: 10px;
-  border: none;
-  box-shadow: 0 4px 0 var(--terracotta-dark);
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform 0.1s, box-shadow 0.1s;
-}
-.btn:hover  { transform: translateY(-1px); box-shadow: 0 5px 0 var(--terracotta-dark); }
-.btn:active { transform: translateY(2px);  box-shadow: 0 2px 0 var(--terracotta-dark); }
-```
-
-Outline variant (secondary actions only):
-```css
-.btn-outline {
-  background: transparent;
-  color: var(--terracotta);
-  border: 1.5px solid var(--terracotta);
-  box-shadow: none;
-}
-```
-
-**Rule:** No gold, green, coral, or any other coloured button anywhere.
-
----
-
-## Announcement Bar
-
-Cream background. Sits above nav. Dismissible.
-
-```html
-<div id="announce-bar" style="background:var(--cream);border-bottom:1px solid var(--border);padding:10px 24px;text-align:center;font-family:var(--font-body);font-size:14px;color:var(--ink-soft);position:relative">
-  The UK under-16 social media ban is coming. Spring 2027. Your child's preparation is yours to build.
-  <a href="/starter-pack" style="color:var(--terracotta);font-weight:600;margin-left:8px;text-decoration:none">Start here →</a>
-  <button onclick="document.getElementById('announce-bar').remove()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:18px;line-height:1">×</button>
-</div>
-```
-
----
-
-## Nav
-
-Links: Inter 500, charcoal, no underline. Active/hover: terracotta.
-Right: single terracotta "Get started →" button.
-
-Items: Find Your Stage · How It Works · Tools ▾ · For Schools · Pricing
-
-Tools dropdown contains:
-- Mental Health Checker → /digitalwellbeing
-- Safe YouTube Playlists → waitlist link
-- Why Digital Literacy Works → /digital-literacy
-
----
-
-## Tester Quote Block
-
-Sits just above the tools section. No stars, no photo.
-
-```html
-<blockquote style="font-family:var(--font-display);font-size:clamp(1.1rem,2vw,1.4rem);font-weight:600;color:var(--ink);line-height:1.5;margin:0 0 20px">
-  "..."
-</blockquote>
-<cite style="font-family:var(--font-body);font-size:14px;color:var(--ink-muted);font-style:normal">
-  Name · Role
-</cite>
-```
-
-Background: cream card, no border, generous padding.
-
----
-
-## Self-check before shipping
-
-- [ ] Only Fraunces and Inter used
-- [ ] Only terracotta for interactive elements
-- [ ] No gold, green, yellow, purple buttons
-- [ ] Card radius 16px, shadow matches spec
-- [ ] Announcement bar sits quietly, never competes
-- [ ] 375px: hero stacked, cards single column
-- [ ] 1440px: hero two-column, cards in row
+No Inter. No purple gradients. No generic AI patterns. No dashes in any
+copy. Mobile and desktop checked in Chrome DevTools before anything is
+declared done.

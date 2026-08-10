@@ -15,6 +15,7 @@ export type LifecycleState =
   | 'trialing' // no card trial running, more than two days left
   | 'trial_ending' // no card trial running, two days or less left
   | 'active' // paying, or a card door trial holding a place
+  | 'past_due' // was paying, the card failed, Stripe is retrying
   | 'lapsed' // trial ended or subscription cancelled, now on the free tier
   | 'unknown'
 
@@ -30,6 +31,12 @@ export function lifecycleState(p: {
 }): LifecycleState {
   const status = (p.subscription_status ?? '').toLowerCase()
   if (status === 'active') return 'active'
+  // A failed card, not a decision. They have not left and nothing has been
+  // taken away yet, so this is neither active nor lapsed and must not be
+  // treated as either: win back copy would be wrong, and silence loses a
+  // member who wanted to stay. It fell through to 'unknown' before this,
+  // which is why nothing was ever sent.
+  if (status === 'past_due') return 'past_due'
   if (status === 'canceled' || status === 'cancelled') return 'lapsed'
 
   const left = trialDaysLeft(p.trial_ends_at)

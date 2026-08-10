@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { PrintBrandHeader, PrintBrandFooter } from '@/components/brand/PrintBrand'
+import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 
 // The interactive bucket list maker. A family picks from the idea pool or
 // writes their own, we lay it out as a colour in sheet in the house style,

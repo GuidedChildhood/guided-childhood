@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import WeeklyRoundup, { type Review, type ScoreMove } from '@/components/digi/WeeklyRoundup'
 
 // The week just gone, on its own page. This is where the whole week's data is

@@ -6,7 +6,11 @@ export const metadata = {
   description: 'How Guided Childhood collects, uses and protects your family’s information, and your rights under UK data protection law.',
 }
 
-const EFFECTIVE = '15 July 2026'
+// Bumped 8 August 2026: the child section now describes the optional birthday
+// and interests, which the app had been collecting while this page said it did
+// not ask for a date of birth. A policy that changes and keeps its old date is
+// the same problem one level up, so the date moves with the words.
+const EFFECTIVE = '8 August 2026'
 
 const WRAP: CSSProperties = { maxWidth: '760px', margin: '0 auto', padding: '48px 22px 80px' }
 const H1: CSSProperties = { fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2rem, 6vw, 2.8rem)', letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '10px' }
@@ -33,7 +37,7 @@ export default function PrivacyPage() {
       <h2 style={H2}>What we collect</h2>
       <ul>
         <li style={LI}><strong>Your account:</strong> your name and email address, and your login details.</li>
-        <li style={LI}><strong>About your child:</strong> a first name and an age band, so the pathway and lessons fit their stage. We do not ask for a surname, a date of birth, a photo, or a school.</li>
+        <li style={LI}><strong>About your child:</strong> a first name and an age band, so the pathway and lessons fit their stage. You can also add their birthday and their interests if you want to, and both are optional. The birthday is only used to move them into the next stage on the right day instead of you having to remember, and the interests only to make the scripts and lessons sound like your child rather than a generic one. We do not ask for a surname, a photo, or a school, and you can clear the birthday and the interests at any time in settings.</li>
         <li style={LI}><strong>What you tell us:</strong> the wellbeing check ins you record, the concerns you flag, and the questions you ask DiGi.</li>
         <li style={LI}><strong>How you use the app:</strong> the quests, lessons and scripts you complete, so we can show your progress and pick the next step.</li>
         <li style={LI}><strong>Payment:</strong> your subscription is handled by Stripe. We never see or store your card number.</li>
@@ -41,7 +45,7 @@ export default function PrivacyPage() {
 
       <h2 style={H2}>Your child’s information</h2>
       <p style={P}>
-        Children do not have accounts and never log in. When you share a quest link with your child it is a private code that opens only their quests, with no way back to your account or anyone else’s. We hold the minimum about a child, a first name and an age band, and only because you chose to add it. You are always in control of it and can remove it at any time.
+        Children do not have accounts and never log in. When you share a quest link with your child it is a private code that opens only their quests, with no way back to your account or anyone else’s. We hold the minimum about a child, a first name and an age band, plus a birthday and interests if you chose to add them, and only ever because you chose to add them. You are always in control of it and can remove it at any time.
       </p>
 
       <h2 style={H2}>How your child is doing, and why we ask</h2>

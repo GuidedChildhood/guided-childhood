@@ -1,8 +1,9 @@
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
+import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 
 // My lessons, the child's own list: the age right stage lessons from the
-// family library, on the kid dark theme. Presentational only, so the real
+// family library, on whatever colour the child picked in Make it mine. Presentational only, so the real
 // token page and the dev fixture render the exact same thing. Passing a
 // lesson here writes the same pass the parent side shows as a tick, so the
 // child's work and the sofa lesson land in the same place.
@@ -18,7 +19,7 @@ export type KidLessonItem = {
 }
 
 export default function KidLessonList({
-  backHref, childName, stageName, ages, items, hrefFor, checkHref, checkPassed,
+  backHref, childName, stageName, ages, items, hrefFor, checkHref, checkPassed, theme,
 }: {
   backHref: string
   childName: string
@@ -29,15 +30,19 @@ export default function KidLessonList({
   // The big end of stage check. Absent when there is no link to send them to.
   checkHref?: string | null
   checkPassed?: boolean
+  // The child's chosen colour. Optional so the dev fixture still renders, and
+  // the fallback is the same anthracite this was hardcoded to before.
+  theme?: KidTheme
 }) {
   const doneCount = items.filter(i => i.done).length
+  const t = theme ?? resolveTheme(null)
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: t.bg, padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', gap: '10px' }}>
           <Link href={backHref} style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
+            color: t.inkSoft, textDecoration: 'none',
           }}>
             ← My quests
           </Link>
@@ -55,20 +60,20 @@ export default function KidLessonList({
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '6px' }}>
           <DigiCharacter mood="wave" size={56} once />
           <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: t.ink, letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
               My lessons
             </h1>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.66)', margin: '5px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: t.inkMuted, margin: '5px 0 0' }}>
               {stageName} stage · {ages}
             </p>
           </div>
         </div>
-        <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '10px 0 20px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: t.inkSoft, lineHeight: 1.6, margin: '10px 0 20px' }}>
           Picked for your age, {childName}. Do them in order, top to bottom, one a week is perfect. Pass one and your grown up sees the tick straight away.
         </p>
 
         {items.length === 0 ? (
-          <div style={{ background: 'rgba(255,255,255,0.08)', border: '1.5px solid rgba(255,255,255,0.16)', borderRadius: '20px', padding: '26px 20px', textAlign: 'center', color: 'rgba(255,255,255,0.8)', fontSize: 'var(--text-md)', lineHeight: 1.6 }}>
+          <div style={{ background: t.panel, border: `1.5px solid ${t.panelBorder}`, borderRadius: '20px', padding: '26px 20px', textAlign: 'center', color: t.inkSoft, fontSize: 'var(--text-md)', lineHeight: 1.6 }}>
             No lessons for your stage just yet. New ones land all the time, so check back soon.
           </div>
         ) : (

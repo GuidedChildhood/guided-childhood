@@ -3,25 +3,22 @@ import { useState } from 'react'
 import { createClient, isSupabaseConfigured } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
-// One door, two paths: families and schools sign in here. The path picker
-// sets the destination and the copy, and arriving with ?next=/educator...
-// preselects the school path, so a teacher never reads family copy again.
-
-type Path = 'family' | 'school'
+// The family door. The School path picker retired at the split cutover:
+// the schools product is an open catalogue on its own domain with no
+// login at all, so there is nothing for a teacher to sign in to here.
 
 export default function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const nextParam = searchParams.get('next')
-  const [path, setPath] = useState<Path>(nextParam?.startsWith('/educator') ? 'school' : 'family')
   const [email, setEmail] = useState(searchParams.get('email') ?? '')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const destination = nextParam ?? (path === 'school' ? '/educator' : '/dashboard')
+  const destination = nextParam ?? '/dashboard'
 
   // A sign in can fail for two very different reasons and only one of them is
   // the parent's fault. This form used to answer both with "email or password
@@ -71,41 +68,12 @@ export default function LoginForm() {
           </span>
         </Link>
 
-        {/* The path picker: same door, the right welcome */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '14px' }}>
-          {([['family', '🏡 Family'], ['school', '🏫 School']] as const).map(([key, label]) => {
-            const active = path === key
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setPath(key)}
-                style={{
-                  flex: 1, padding: '12px 10px', borderRadius: '14px', cursor: 'pointer',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                  background: active ? 'var(--gold, #F2C94C)' : '#fff',
-                  color: 'var(--ink)',
-                  border: active ? 'none' : '1.5px solid var(--border)',
-                  boxShadow: active ? '0 4px 0 var(--gold-hover, #E3B53A)' : 'none',
-                  transition: 'background 0.15s',
-                }}
-              >
-                {label}
-              </button>
-            )
-          })}
-        </div>
-
         <div className="card" style={{ borderRadius: '20px', boxShadow: '0 5px 0 var(--border)' }}>
           <div style={{ marginBottom: '26px' }}>
-            <p className="eyebrow" style={{ marginBottom: '8px' }}>
-              {path === 'school' ? 'Guided Childhood Schools' : 'Welcome back'}
-            </p>
+            <p className="eyebrow" style={{ marginBottom: '8px' }}>Welcome back</p>
             <h1 style={{ fontSize: 'var(--text-2xl)', marginBottom: '4px' }}>Sign in</h1>
             <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
-              {path === 'school'
-                ? 'Back to your classes, the curriculum map and the print room.'
-                : 'Continue your family’s pathway.'}
+              Continue your family’s pathway.
             </p>
           </div>
 
@@ -117,7 +85,7 @@ export default function LoginForm() {
               <input
                 className="input"
                 type="email"
-                placeholder={path === 'school' ? 'you@yourschool.sch.uk' : 'you@email.com'}
+                placeholder="you@email.com"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 required
@@ -147,7 +115,7 @@ export default function LoginForm() {
             )}
 
             <button type="submit" className="btn btn-gold" disabled={loading} style={{ marginTop: '4px' }}>
-              {loading ? 'Signing in...' : path === 'school' ? 'Into the workspace' : 'Sign in'}
+              {loading ? 'Signing in...' : 'Sign in'}
             </button>
           </form>
 
@@ -159,19 +127,10 @@ export default function LoginForm() {
         </div>
 
         <p style={{ marginTop: '24px', textAlign: 'center', color: 'var(--ink-muted)', fontSize: 'var(--text-md)' }}>
-          {path === 'school' ? (
-            <>Setting up your school?{' '}
-              <Link href="/signup?next=/educator" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>
-                Create your account
-              </Link>
-              {' '}then the workspace walks you through it.</>
-          ) : (
-            <>New here?{' '}
-              <Link href="/signup" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>
-                Start your pathway
-              </Link>
-            </>
-          )}
+          New here?{' '}
+          <Link href="/signup" style={{ color: 'var(--terracotta)', fontWeight: 600, textDecoration: 'none' }}>
+            Start your pathway
+          </Link>
         </p>
       </div>
     </div>

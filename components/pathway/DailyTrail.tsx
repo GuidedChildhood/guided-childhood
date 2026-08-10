@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { gsap } from 'gsap'
-import DigiCharacter, { type DigiMood } from '@/components/digi/DigiCharacter'
+import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
 import type { DailyTask } from '@/lib/pathway/daily-tasks'
 
 // The day at a glance, Duolingo style: five real tasks on a winding trail.

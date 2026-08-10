@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PlanChooser from '@/components/upgrade/PlanChooser'
+import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
 import { hasFullAccess } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
 
@@ -104,6 +105,8 @@ export default async function UpgradePage(
         </span>
       </div>
 
+      <WhatYouAreBuying />
+
       {/* Pricing */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
 
@@ -138,6 +141,10 @@ export default async function UpgradePage(
             <ul style={{ margin: '0 0 22px', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px' }}>
               {[
                 'Everything in the platform, for life at this rate',
+                // The loop itself, named in the list rather than only in the
+                // block above, because a parent skimming the ticks should see
+                // the one thing they cannot get anywhere else.
+                'Screen time they earn with jobs, reading and time outside',
                 'All 5 stages as your child grows',
                 'Unlimited DiGi conversations',
                 '100 plus expert scripts',

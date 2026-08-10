@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import PrintButton from './PrintButton'
-import { PrintBrandHeader, PrintBrandFooter } from '@/components/brand/PrintBrand'
+import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 
 // The printable quest sheet: one week per child, big tick boxes, fridge
 // ready. For under phone age children this IS the interface; the parent

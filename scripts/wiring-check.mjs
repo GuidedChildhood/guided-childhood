@@ -382,12 +382,51 @@ function checkSmallPrint() {
   }
 }
 
+// ── 7. The product boundary ──────────────────────────────────────────
+//
+// The split (plans/split-plan.md) rests on one promise: shared/ and the
+// schools app can never read a session, take a payment or call a model.
+// Promises kept by discipline decay; this one is a static fact about
+// imports, so it lives here with the other static facts. The moment a
+// file under shared/ or schools/ imports an auth capable Supabase
+// client, Stripe, the Anthropic SDK, push or email, the build fails
+// with the file named.
+
+function checkProductBoundary() {
+  const BANNED = [
+    '@supabase/ssr',
+    'lib/supabase/server',
+    'lib/supabase/admin',
+    'lib/supabase/client',
+    '@anthropic-ai/sdk',
+    'stripe',
+    'web-push',
+    'resend',
+  ]
+  const zones = [join(ROOT, 'shared'), join(ROOT, 'schools')]
+  for (const zone of zones) {
+    for (const f of walk(zone)) {
+      // The schools app owns exactly one Supabase file, the anon read only
+      // client. It may import @supabase/supabase-js (which carries no
+      // cookies and no session) but nothing on the banned list.
+      const src = read(f)
+      for (const b of BANNED) {
+        const needle = new RegExp(`from ['"][^'"]*${b.replace(/[/@]/g, m => '\\' + m)}['"]`)
+        if (needle.test(src)) {
+          errors.push(`${rel(f)} imports "${b}", which the product boundary forbids (plans/split-plan.md)`)
+        }
+      }
+    }
+  }
+}
+
 checkDeadLinks()
 checkOrphanComponents()
 checkUnwritableSteps()
 checkWeekWindows()
 checkMigrationNumbers()
 checkSmallPrint()
+checkProductBoundary()
 
 const line = '─'.repeat(64)
 

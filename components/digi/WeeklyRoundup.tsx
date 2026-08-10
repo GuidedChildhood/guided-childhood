@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import WriteIn from '@/components/ui/WriteIn'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { weekBalance, expertWeekTip } from '@/lib/quests/screen-balance'

@@ -1,8 +1,10 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
-import LessonPlayer from '@/components/lessons/LessonPlayer'
-import { parseSlides } from '@/lib/content/lesson-slides'
+import LessonPlayer from '@gc/shared/components/LessonPlayer'
+import { parseSlides } from '@gc/shared/lesson-slides'
+import { getStarLesson } from '@/lib/quests/star-lesson-catalogue'
+import { resolveTheme } from '@/lib/kid/theme'
 
 // A star lesson, the kid version: opened from the child's own quest link,
 // no account, no login. The same lesson the schools product teaches, in
@@ -31,11 +33,14 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
     .maybeSingle()
   if (!mission || mission.child_id !== link.child_id) notFound()
 
-  const [{ data: child }, { data: lesson }] = await Promise.all([
-    supabase.from('children').select('name').eq('id', link.child_id).maybeSingle(),
-    supabase.from('school_lessons').select('id, title, character_cast, slides').eq('id', mission.lesson_id).maybeSingle(),
+  const [{ data: child }, lesson] = await Promise.all([
+    supabase.from('children').select('name, accent').eq('id', link.child_id).maybeSingle(),
+    getStarLesson(supabase, mission.lesson_id, 'id, title, character_cast, slides'),
   ])
   if (!lesson) notFound()
+  // The colour the child chose in Make it mine, rather than the anthracite
+  // default this screen used to be pinned to.
+  const theme = resolveTheme(child?.accent as string | null)
 
   const rawSlides = parseSlides(lesson.slides)
   if (!rawSlides) notFound()
@@ -47,12 +52,12 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
   })
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '10px' }}>
           <Link href={`/k/${token}`} style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-            color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
+            color: theme.inkSoft, textDecoration: 'none',
           }}>
             ← My quests
           </Link>
@@ -66,10 +71,10 @@ export default async function KidLessonPage({ params }: { params: Promise<{ toke
         </div>
 
         <div style={{ textAlign: 'center', marginBottom: '16px' }}>
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.72)', margin: '0 0 6px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: theme.inkMuted, margin: '0 0 6px' }}>
             A star lesson for {child?.name ?? 'you'}
           </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 6vw, 1.7rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.2, margin: 0 }}>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.3rem, 6vw, 1.7rem)', color: theme.ink, letterSpacing: '-0.02em', lineHeight: 1.2, margin: 0 }}>
             {lesson.title}
           </h1>
         </div>

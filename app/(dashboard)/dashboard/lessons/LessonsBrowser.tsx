@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import BrowseTile from '@/components/ui/BrowseTile'
 import { literacyAreaFor } from '@/lib/content/literacy'
@@ -99,6 +99,41 @@ export default function LessonsBrowser({
     initialStage ?? ((initialView ?? 'together') === 'library' ? childStageNum : 'all')
   )
 
+  // The chip row scrolls sideways, and the child's own stage is the fifth chip
+  // along. On a phone only "All ages" and "Stage 1" fit, so the selected chip
+  // sat off screen and the row looked like nothing was filtered at all.
+  //
+  // Justin, 8 August 2026, on the See their lessons button: "This button doesn't
+  // [work] it should show just the age related lessons." It already did. The
+  // list underneath had been filtered to their stage since the tab was opened.
+  // What was missing was any way to SEE that, which is the same thing as it not
+  // working from where a parent is sitting.
+  const chipRowRef = useRef<HTMLDivElement>(null)
+  const listRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const row = chipRowRef.current
+    if (!row) return
+    const active = row.querySelector('[data-chip-active="1"]')
+    if (!active) return
+    // inline: center rather than nearest, so the selected chip lands in the
+    // middle with its neighbours either side. That reads as a position in a
+    // row you can move along, where a chip flush against the edge reads as the
+    // end of the list.
+    active.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' })
+  }, [stage, view])
+
+  // Setting the stage to the value it already holds is a no op, which is what
+  // the button did. Now it also takes the parent to the lessons, because the
+  // card sits above the list and tapping a button that changes something below
+  // the fold is indistinguishable from tapping a dead one.
+  function seeChildStage() {
+    setStage(childStageNum)
+    requestAnimationFrame(() => {
+      listRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' })
+    })
+  }
+
   const inStage = (n: number) => stage === 'all' || n === stage
   const watchForStage = watchItems.filter(w => inStage(w.stageNum))
   // A stage with no films of its own used to be a dead end that told a parent
@@ -176,9 +211,10 @@ export default function LessonsBrowser({
             ONE ramp from 8 to 16, and filtering it to a single stage would
             destroy the only thing it is for. */}
         {stageChips.length > 1 && !(view === 'library' && moduleOn) && (
-          <div style={{ display: 'flex', gap: '7px', overflowX: 'auto', paddingTop: '10px', scrollbarWidth: 'none' }}>
+          <div ref={chipRowRef} style={{ display: 'flex', gap: '7px', overflowX: 'auto', paddingTop: '10px', scrollbarWidth: 'none' }}>
             <button
               onClick={() => setStage('all')}
+              data-chip-active={stage === 'all' ? '1' : '0'}
               style={{
                 flexShrink: 0, padding: '7px 13px', borderRadius: '100px', cursor: 'pointer',
                 border: `1.5px solid ${stage === 'all' ? 'var(--terracotta)' : 'var(--border)'}`,
@@ -195,6 +231,7 @@ export default function LessonsBrowser({
                 <button
                   key={s.num}
                   onClick={() => setStage(s.num)}
+                  data-chip-active={on ? '1' : '0'}
                   style={{
                     flexShrink: 0, padding: '7px 13px', borderRadius: '100px', cursor: 'pointer',
                     border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
@@ -288,7 +325,7 @@ export default function LessonsBrowser({
             age when showing all. The Social Media Ready module takes over the
             whole view when opened, so the spine reads as one ramp. */}
         {view === 'library' && moduleOn && (
-          <SocialMediaModule items={moduleItems} childName={childName} onBack={() => setModuleOn(false)} />
+          <SocialMediaModule items={moduleItems} childId={childId} childName={childName} onBack={() => setModuleOn(false)} />
         )}
         {view === 'library' && !moduleOn && (
           <>
@@ -300,8 +337,12 @@ export default function LessonsBrowser({
               childName={childName}
               childStageNum={childStageNum}
               libraryItems={libraryItems}
-              onSeeStage={() => setStage(childStageNum)}
+              onSeeStage={seeChildStage}
             />
+            {/* Where See their lessons lands. Wrapping the list rather than
+                pointing at the first tile, so an empty stage still scrolls
+                somewhere and shows the reason instead of doing nothing. */}
+            <div ref={listRef} style={{ scrollMarginTop: 150 }} />
             {libForStage.length === 0 ? (
               <Empty>No library lessons at this stage yet. Try another stage above.</Empty>
             ) : (
@@ -463,7 +504,7 @@ function ProgressLessonsBanner({
   libraryItems: LibraryItem[]
   onSeeStage: () => void
 }) {
-  const [sendState, setSendState] = useState<'idle' | 'sending' | 'sent' | 'nodevice' | 'noserver'>('idle')
+  const [sendState, setSendState] = useState<'idle' | 'sending' | 'sent' | 'nodevice' | 'noserver' | 'quiet'>('idle')
   // Only the family library lessons count for the progress report ticks, the
   // same set the child's own page shows, so the AI module extras stay out of
   // this count.
@@ -484,7 +525,10 @@ function ProgressLessonsBanner({
         body: JSON.stringify({ child_id: childId, message: `Your ${stageMeta?.label ?? 'stage'} lessons are ready on your page. Pass one to light up your pathway ⭐` }),
       })
       const data = await res.json().catch(() => ({}))
+      // quiet_hours before the zero: a held push and an unsubscribed phone
+      // both report sent 0, and only one of them is the parent's to fix.
       if (!res.ok) setSendState('noserver')
+      else if (data?.reason === 'quiet_hours') setSendState('quiet')
       else if (data?.sent > 0) setSendState('sent')
       else setSendState('nodevice')
       setTimeout(() => setSendState('idle'), 5000)
@@ -493,6 +537,7 @@ function ProgressLessonsBanner({
 
   const sendLabel = sendState === 'sending' ? 'Sending...'
     : sendState === 'sent' ? `Pinged ${childName} ✓`
+    : sendState === 'quiet' ? 'On their page, no buzz after 7pm'
     : sendState === 'nodevice' ? 'On their page (no ping set up)'
     : sendState === 'noserver' ? 'Pings not switched on yet'
     : `📲 Send to ${childName}`
@@ -576,7 +621,7 @@ function ModuleCard({ count, onOpen }: { count: number; onOpen: () => void }) {
 // ramp and the evidence, then every social media lesson in stage order, with a
 // quiet age divider so a parent sees it climb from 8 to 16. A back control
 // returns to the full library.
-function SocialMediaModule({ items, childName, onBack }: { items: LibraryItem[]; childName: string; onBack: () => void }) {
+function SocialMediaModule({ items, childId, childName, onBack }: { items: LibraryItem[]; childId: string | null; childName: string; onBack: () => void }) {
   const groups = STAGE_LIST
     .map(s => ({ s, items: items.filter(i => i.stageNum === s.num) }))
     .filter(g => g.items.length > 0)
@@ -599,6 +644,24 @@ function SocialMediaModule({ items, childName, onBack }: { items: LibraryItem[];
         <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>
           The one topic parents worry about most, taught as a ramp, not a cliff. It climbs from what social media even is, through the settings that keep you private and the real dangers, to the honest mood check and taking the wheel at 16. Grounded in Orben, Odgers, Przybylski, Livingstone and Knibbs, so every lesson holds up to a hard question.
         </p>
+        {/* Justin, 8 August 2026: the module should come "with the ability to
+            send to child's phone to do". The nine lessons were already here
+            and there was no way to hand them over, so a parent had to find
+            each one separately to send it.
+
+            Its own wording rather than the per lesson default, because "New
+            lesson to play" is wrong for nine of them, and the ping deep links
+            to the child's own page where the set is already in order with the
+            next one marked. */}
+        <div style={{ marginTop: '14px' }}>
+          <LessonSendButton
+            childId={childId}
+            childName={childName}
+            title="Social Media Ready"
+            message={`The Social Media Ready lessons are on your page, ${items.length} of them in order. Start with the first one ⭐`}
+            idleLabel={`📲 Send all ${items.length} to ${childName}`}
+          />
+        </div>
       </div>
 
       {groups.map(g => (

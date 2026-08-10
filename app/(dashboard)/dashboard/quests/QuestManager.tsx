@@ -629,7 +629,13 @@ export default function QuestManager() {
         body: JSON.stringify({ child_id: activeChild, message }),
       })
       const data = await res.json()
-      setPingResult(data?.sent > 0
+      // quiet_hours is its own answer and is checked first. It comes back as
+      // sent 0, exactly like a phone with no subscription, and sending a
+      // parent off to set up a phone that is already set up because the clock
+      // says 21:00 is the wrong instruction confidently given.
+      setPingResult(data?.reason === 'quiet_hours'
+        ? 'Held until the morning. Nothing buzzes their phone between 7pm and 7am, and it is waiting on their page for them.'
+        : data?.sent > 0
         ? 'Ping sent ✓ It just landed on their phone.'
         : 'Their phone is not set up for pings yet. Open their quest link on their phone and tap Remind me about my quests. On iPhone, add it to the home screen first.')
     } catch {
@@ -871,7 +877,12 @@ export default function QuestManager() {
           {/* The balance and stats now live on their own page, opened from this
               button and from the Screen time quick tile, so the Quests page
               stays clean instead of carrying the whole scales card. */}
-          <div id="screen-time" style={{ scrollMarginTop: '80px' }} />
+          {/* The #screen-time anchor that used to sit here is gone. It was left
+              behind when the timer moved to its own page, so every link and
+              push aimed at it landed on this board next to a link to Balance
+              and stats, with no countdown on the screen at all. It also made a
+              duplicate id with the real timer card. They all point at
+              /dashboard/quests/timer now. */}
           <Link href="/dashboard/stats" style={{ ...card, display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none' }}>
             <span style={{ width: 44, height: 44, borderRadius: '50%', background: 'radial-gradient(circle at 40% 35%, #FFE9A8, #EDC35F)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', boxShadow: '0 3px 0 var(--terracotta-dark)', flexShrink: 0 }} aria-hidden>📊</span>
             <span style={{ flex: 1, minWidth: 0 }}>

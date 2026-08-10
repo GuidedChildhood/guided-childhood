@@ -1,6 +1,11 @@
 import type { Metadata, Viewport } from 'next'
 import { Nunito, IBM_Plex_Mono } from 'next/font/google'
+// Shared tokens first, then this app's own styles on top. The schools app
+// imports the same tokens file, which is what keeps the two products one
+// brand (split step 3, plans/split-plan.md).
+import '@gc/shared/tokens.css'
 import './globals.css'
+import { SITE_URL } from '@/lib/config/site'
 import PwaRegister from '@/components/PwaRegister'
 import UpdateBanner from '@/components/UpdateBanner'
 
@@ -23,6 +28,16 @@ const plexMono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
+  // The domain every relative URL in this block resolves against. Without it
+  // Next resolves Open Graph and Twitter image paths against localhost during
+  // the build and warns, and a share card pointing at localhost shows nothing
+  // at all on WhatsApp, LinkedIn or Facebook.
+  //
+  // Read from lib/config/site rather than written here, with robots.ts and
+  // sitemap.ts reading the same constant. All three used to hardcode it
+  // separately and all three were wrong together: see that file for why the
+  // domain is .com and why the app goes to app. and not www.
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'Digital Literacy for Children Age 4 to 16, Research Based Pathway | Guided Childhood',
     template: '%s | Guided Childhood',
@@ -33,16 +48,24 @@ export const metadata: Metadata = {
   creator: 'Guided Childhood',
   publisher: 'Guided Childhood',
   openGraph: {
-    title: 'Guided Childhood, The Stage-by-Stage Digital Parenting Guide',
+    title: 'Guided Childhood, The Stage by Stage Digital Parenting Guide',
     description: 'From first screen at age 4 to full independence at 16. Exact scripts for every hard moment. DiGi your evidence led guide. For UK families.',
     type: 'website',
     locale: 'en_GB',
     siteName: 'Guided Childhood',
+    // Built from app/ref-og-card rather than drawn by hand or generated, so
+    // the wordmark is really Nunito and the butter is really the token. A
+    // relative path works because metadataBase is set above; without it Next
+    // would resolve this against localhost and every share would be blank.
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Guided Childhood, digital parenting for ages 4 to 16' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Guided Childhood, Digital Parenting for UK Families',
-    description: 'The stage-by-stage guide to raising children with screens. Ages 4 to 16. Built on the research.',
+    description: 'The stage by stage guide to raising children with screens. Ages 4 to 16. Built on the research.',
+    // summary_large_image was already set with nothing behind it, which is
+    // what made every share a blank grey rectangle.
+    images: ['/og.png'],
   },
   robots: {
     index: true,

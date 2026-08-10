@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 
 // Meet the family: a small warm intro that sits on the passport tab where the

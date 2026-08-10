@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation'
 import InsightsBoard from '@/components/insights/InsightsBoard'
 import ManagementReviewPanel, { type ManagementFindingRow } from '@/components/insights/ManagementReviewPanel'
 import DigiChecksPanel from '@/components/insights/DigiChecksPanel'
+import MembersPanel from '@/components/insights/MembersPanel'
 import LaneMissesPanel from '@/components/insights/LaneMissesPanel'
 import { createAdminClient } from '@/lib/supabase/admin'
 
@@ -39,6 +40,10 @@ export default async function InsightsPage() {
   return (
     <>
       <ManagementReviewPanel row={review} />
+      {/* Who is actually here, who pays, and are they coming back. Directly
+          under the week's read because it is the same question at the level
+          above DiGi: the machine can be running perfectly for nobody. */}
+      <MembersPanel />
       {/* Below the week's read, above the daily detail. It answers "is the
           machine actually running", which is the question you only think to ask
           after it has quietly not been for a month. */}

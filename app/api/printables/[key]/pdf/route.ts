@@ -3,7 +3,7 @@ import { PDFDocument, StandardFonts, rgb, type PDFPage, type PDFFont } from 'pdf
 import { createClient } from '@/lib/supabase/server'
 import { getPrintable } from '@/lib/printables/registry'
 import { hasFullAccess } from '@/lib/access'
-import { BRAND_NAME, BRAND_PATHWAY, BRAND_CATCHPHRASE, BRAND_DOMAIN, LOGO_BARS } from '@/lib/brand'
+import { BRAND_NAME, BRAND_PATHWAY, BRAND_CATCHPHRASE, BRAND_DOMAIN, LOGO_BARS } from '@gc/shared/brand'
 
 // A real PDF download: the sheet artwork embedded on branded A4 pages,
 // fetched server side (the CDN is reachable from here) and streamed as

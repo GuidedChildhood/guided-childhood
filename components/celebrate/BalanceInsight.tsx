@@ -8,7 +8,7 @@
 // because a screen that teaches balance has to model it.
 
 import { useMemo, useState } from 'react'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import BalanceDial from '@/components/celebrate/BalanceDial'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { insightsForStage, type InsightCharacter, type InsightTheme } from '@/lib/content/child-insights'

@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { STAGES } from '@/lib/content/stages'
 import PrintButton from './PrintButton'
-import { PrintBrandFooter } from '@/components/brand/PrintBrand'
+import { PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 
 export const metadata = {
   title: 'Conversation Scripts | Guided Childhood',
-  description: 'Word-for-word scripts for every stage of digital parenting. Screen time, bedroom rules, the algorithm conversation, online safety. Five stages, ages 4 to 16.',
+  description: 'Word for word scripts for every stage of digital parenting. Screen time, bedroom rules, the algorithm conversation, online safety. Five stages, ages 4 to 16.',
 }
 
 const STAGE_COLORS = [

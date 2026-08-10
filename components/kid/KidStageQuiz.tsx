@@ -2,11 +2,12 @@
 
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { sampleFromPool, STAGE_QUIZ_PASS, STAGE_QUIZ_LENGTH, type StageQuizQuestion } from '@/lib/content/stage-quizzes'
+import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 
-// The big check at the end of a stage, on the child's side, on the kid dark
-// theme. The questions are the ones their own lessons already asked, gathered
+// The big check at the end of a stage, on the child's side, in whatever colour
+// the child picked in Make it mine. The questions are the ones their own lessons already asked, gathered
 // server side, so nothing here is new to them: it is the whole stage said back.
 //
 // Never framed as a test they can fail. Falling short says which lessons to go
@@ -33,7 +34,7 @@ function shuffleOptions(item: StageQuizQuestion, seed: number): Shuffled {
 }
 
 export default function KidStageQuiz({
-  token, stageId, stageName, stampName, childName, pool, alreadyPassed, lessonsHref,
+  token, stageId, stageName, stampName, childName, pool, alreadyPassed, lessonsHref, theme,
 }: {
   token: string
   stageId: number
@@ -43,6 +44,9 @@ export default function KidStageQuiz({
   pool: StageQuizQuestion[]
   alreadyPassed: boolean
   lessonsHref: string
+  // The child's chosen colour, so the check is not the one screen that snaps
+  // back to slate grey. Optional, and the fallback is that same slate grey.
+  theme?: KidTheme
 }) {
   // A fresh seed each mount, so coming back gives a fresh five and a fresh
   // answer order. Client only, so Date is fine here.
@@ -86,22 +90,28 @@ export default function KidStageQuiz({
     else { setStep(s => s + 1); setPicked(null) }
   }
 
+  const t = theme ?? resolveTheme(null)
   const shell: React.CSSProperties = {
-    minHeight: '100dvh', background: 'var(--kid-bg)', padding: '22px 16px 50px',
+    minHeight: '100dvh', background: t.bg, padding: '22px 16px 50px',
     fontFamily: 'var(--font-body)',
   }
   const card: React.CSSProperties = {
-    background: 'rgba(255,255,255,0.06)', border: '1.5px solid rgba(255,255,255,0.14)',
+    background: t.panel, border: `1.5px solid ${t.panelBorder}`,
     borderRadius: 20, padding: '20px 18px 22px',
   }
   const display: React.CSSProperties = {
-    fontFamily: 'var(--font-display)', fontWeight: 800, color: '#fff',
+    fontFamily: 'var(--font-display)', fontWeight: 800, color: t.ink,
   }
+  // The answer they chose and got wrong, and the ones they did not choose. Both
+  // are a wash OVER the card, so on a dark theme they lighten and on a pastel
+  // one they darken. Fixed white did the first and vanished on the second.
+  const dimPicked = t.dark ? 'rgba(255,255,255,0.28)' : 'rgba(26,26,46,0.16)'
+  const dimRest   = t.dark ? 'rgba(255,255,255,0.14)' : 'rgba(26,26,46,0.07)'
   const button = (bg: string): React.CSSProperties => ({
     display: 'block', width: '100%', textAlign: 'left', cursor: 'pointer',
     background: bg, color: 'var(--ink)', border: 'none', borderRadius: 16,
     padding: '14px 16px', marginBottom: 10, fontSize: 'var(--text-base)',
-    fontFamily: 'var(--font-body)', fontWeight: 600, boxShadow: '0 5px 0 rgba(0,0,0,0.22)',
+    fontFamily: 'var(--font-body)', fontWeight: 600, boxShadow: `0 5px 0 ${t.shadow}`,
   })
 
   const head = (mood: 'wave' | 'happy' | 'speak' | 'thinking') => (
@@ -115,7 +125,7 @@ export default function KidStageQuiz({
 
   const back = (
     <Link href={lessonsHref} style={{
-      ...display, fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
+      ...display, fontSize: 'var(--text-base)', color: t.inkSoft, textDecoration: 'none',
     }}>
       ← My lessons
     </Link>
@@ -133,7 +143,7 @@ export default function KidStageQuiz({
               <h1 style={{ ...display, fontSize: 'var(--text-xl)', margin: '0 0 8px' }}>
                 You already passed this one
               </h1>
-              <p style={{ color: 'rgba(255,255,255,0.82)', margin: 0, fontSize: 'var(--text-base)' }}>
+              <p style={{ color: t.inkSoft, margin: 0, fontSize: 'var(--text-base)' }}>
                 The {stampName} stamp is yours, {childName}. You can have another go any time you
                 fancy it, and your stamp stays put either way.
               </p>
@@ -159,7 +169,7 @@ export default function KidStageQuiz({
               <h1 style={{ ...display, fontSize: 'var(--text-xl)', margin: '0 0 8px' }}>
                 {finished.passed ? `That is the ${stampName} stamp earned` : 'Good go, not quite yet'}
               </h1>
-              <p style={{ color: 'rgba(255,255,255,0.82)', margin: '0 0 14px', fontSize: 'var(--text-base)' }}>
+              <p style={{ color: t.inkSoft, margin: '0 0 14px', fontSize: 'var(--text-base)' }}>
                 {finished.score} of {questions.length} right.{' '}
                 {finished.passed
                   ? `Everything ${stageName} was built to teach you, you have got. Your grown up will see it on the pathway.`
@@ -182,7 +192,7 @@ export default function KidStageQuiz({
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
           {back}
           <div style={{ ...card, marginTop: 18 }}>
-            <p style={{ color: 'rgba(255,255,255,0.82)', margin: 0, fontSize: 'var(--text-base)' }}>
+            <p style={{ color: t.inkSoft, margin: 0, fontSize: 'var(--text-base)' }}>
               The big check is not ready yet. Have a look at your lessons and come back soon.
             </p>
           </div>
@@ -203,11 +213,11 @@ export default function KidStageQuiz({
               <h1 style={{ ...display, fontSize: 'var(--text-xl)', margin: '0 0 8px' }}>
                 The big {stageName} check
               </h1>
-              <p style={{ color: 'rgba(255,255,255,0.82)', margin: '0 0 6px', fontSize: 'var(--text-base)' }}>
+              <p style={{ color: t.inkSoft, margin: '0 0 6px', fontSize: 'var(--text-base)' }}>
                 {STAGE_QUIZ_LENGTH} questions, {childName}, and you have met every one of them
                 before. They come straight from your own lessons.
               </p>
-              <p style={{ color: 'rgba(255,255,255,0.62)', margin: '0 0 16px', fontSize: 'var(--text-base)' }}>
+              <p style={{ color: t.inkMuted, margin: '0 0 16px', fontSize: 'var(--text-base)' }}>
                 Get {STAGE_QUIZ_PASS} right and the {stampName} stamp is yours. Get it wrong and
                 nothing bad happens, you can come again.
               </p>
@@ -246,13 +256,13 @@ export default function KidStageQuiz({
             const bg = picked === null
               ? 'var(--warm)'
               : isAnswer ? 'var(--sage)'
-              : i === picked ? 'rgba(255,255,255,0.28)'
-              : 'rgba(255,255,255,0.14)'
+              : i === picked ? dimPicked
+              : dimRest
             return (
               <button key={i} onClick={() => choose(i)} disabled={picked !== null} style={{
                 ...button(bg),
                 cursor: picked === null ? 'pointer' : 'default',
-                color: picked !== null && !isAnswer && i !== picked ? 'rgba(255,255,255,0.7)' : 'var(--ink)',
+                color: picked !== null && !isAnswer && i !== picked ? t.inkMuted : 'var(--ink)',
               }}>
                 {opt}
               </button>
@@ -261,8 +271,8 @@ export default function KidStageQuiz({
 
           {picked !== null && (
             <div style={{ marginTop: 6 }}>
-              <p style={{ color: 'rgba(255,255,255,0.86)', fontSize: 'var(--text-base)', margin: '0 0 14px' }}>
-                <strong style={{ color: '#fff' }}>{picked === q.answer ? 'Yes. ' : 'Not this time. '}</strong>
+              <p style={{ color: t.ink, fontSize: 'var(--text-base)', margin: '0 0 14px' }}>
+                <strong style={{ color: t.ink }}>{picked === q.answer ? 'Yes. ' : 'Not this time. '}</strong>
                 {q.why}
               </p>
               <button onClick={next} disabled={saving} style={{ ...button('var(--butter)'), textAlign: 'center', marginBottom: 0 }}>

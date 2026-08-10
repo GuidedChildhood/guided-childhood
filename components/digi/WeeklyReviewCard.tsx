@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import type { Review } from '@/components/digi/WeeklyRoundup'
 
 // The round up nudge at the top of Home. The full round up is a page of its

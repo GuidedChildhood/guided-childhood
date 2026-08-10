@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { questDueToday } from '@/lib/quests/due'
-import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
+import { readKidJobs } from '@/lib/kid/jobs-read'
 import { getStarBanks } from '@/lib/quests/bank'
+import { starLessonTitles } from '@/lib/quests/star-lesson-catalogue'
 import { getHolidayBanks, holidayBankLine } from '@/lib/quests/holiday-bank'
 import { getFamilyRegion } from '@/lib/learning/region'
 import { KID_LESSONS, kidLessonBaseTitle } from '@/lib/quests/kid-lessons'
@@ -60,18 +60,11 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const today = new Date().toISOString().slice(0, 10)
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
 
-  const [childRes, questsRes, todayTicksRes, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
+  const [childRes, jobs, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
     supabase.from('children').select('name, age_band, buddy, accent, daily_limit_minutes, date_of_birth').eq('id', link.child_id).maybeSingle(),
-    supabase.from('family_quests')
-      .select('id, title, emoji, stars, schedule, schedule_days, blocks_screens, created_at')
-      .eq('user_id', link.user_id)
-      .eq('active', true)
-      .or(`child_id.eq.${link.child_id},child_id.is.null`)
-      .order('created_at'),
-    supabase.from('quest_ticks')
-      .select('quest_id, status')
-      .eq('child_id', link.child_id)
-      .eq('tick_date', today),
+    // Which jobs are due and ticked, through the same read the jobs page
+    // uses, so the two screens can never disagree about the day.
+    readKidJobs(supabase, link.user_id, link.child_id),
     supabase.from('quest_ticks')
       .select('quest_id, status')
       .eq('child_id', link.child_id)
@@ -91,14 +84,18 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
 
   // Star lessons sent to this child: pending ones to play, and stars from
   // lessons completed this week join the star bank alongside quest stars.
+  // Two queries rather than the old school_lessons(title) join: since the
+  // FK dropped in migration 176 there is no relationship for PostgREST to
+  // embed across, and the lessons live in the schools schema anyway.
   const { data: missionRows } = await supabase
     .from('kid_lesson_missions')
-    .select('id, stars, status, completed_at, school_lessons(title)')
+    .select('id, lesson_id, stars, status, completed_at')
     .eq('child_id', link.child_id)
     .order('sent_at', { ascending: false })
+  const missionTitles = await starLessonTitles(supabase, (missionRows ?? []).map(m => m.lesson_id))
   const missions = (missionRows ?? []).map(m => ({
     id: m.id,
-    title: (m.school_lessons as unknown as { title: string })?.title ?? 'A lesson from DiGi',
+    title: missionTitles.get(m.lesson_id) ?? 'A lesson from DiGi',
     stars: m.stars,
     status: m.status,
   }))
@@ -176,38 +173,19 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     return { label: 'MTWTFSS'[i], count, today: off === 0 }
   })
 
-  // A printable ask that was turned into a job on an older build (before the
-  // decide endpoint stopped doing that) is not a real job, so it never shows in
-  // the child's list as one. New asks never reach here at all.
-  const realQuests = (questsRes.data ?? []).filter(q => !isPrintableAskTitle(q.title as string))
-  const quests = realQuests.filter(q => questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
-  const laterQuests = realQuests
-    .filter(q => !questDueToday(q.schedule, (q as { schedule_days?: number[] | null }).schedule_days))
-    .map(q => ({ title: q.title, emoji: q.emoji, schedule: q.schedule }))
-  const starsByQuest = new Map((questsRes.data ?? []).map(q => [q.id, q.stars]))
+  // The jobs read itself (due, later, ticks, once history) moved to
+  // lib/kid/jobs-read, shared with the jobs page. What stays here is only
+  // what this screen builds on top of it.
+  const { dueQuests, laterQuests, todayTicks, tickedOnceEver, rawQuests } = jobs
+  const starsByQuest = new Map(rawQuests.map(q => [q.id, q.stars]))
   const weekStars = (weekTicksRes.data ?? []).reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
     + lessonWeekStars
 
-  // Once quests stay due until ticked, then leave the list on later days
-  // (today's tick still shows today, as waiting or done). Finished kid
-  // lessons are recognised by their quest title.
-  const onceIds = (questsRes.data ?? []).filter(q => q.schedule === 'once').map(q => q.id)
-  const { data: onceTicks } = onceIds.length
-    ? await supabase.from('quest_ticks')
-        .select('quest_id, tick_date')
-        .in('quest_id', onceIds)
-        .neq('status', 'rejected')
-    : { data: [] as { quest_id: string; tick_date: string }[] }
-  const tickedOnceBeforeToday = new Set(
-    (onceTicks ?? []).filter(t => String(t.tick_date) < today).map(t => t.quest_id)
-  )
-  const tickedOnceEver = new Set((onceTicks ?? []).map(t => t.quest_id))
-  const dueQuests = quests.filter(q => !(q.schedule === 'once' && tickedOnceBeforeToday.has(q.id)))
-
+  // Finished kid lessons are recognised by their quest title.
   const doneLessonKeys = KID_LESSONS
     .filter(l => {
       const base = kidLessonBaseTitle(l)
-      return (questsRes.data ?? []).some(q => String(q.title).startsWith(base) && tickedOnceEver.has(q.id))
+      return rawQuests.some(q => String(q.title).startsWith(base) && tickedOnceEver.has(q.id))
     })
     .map(l => l.key)
 
@@ -692,7 +670,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       accent={(childRes.data?.accent as string | null) ?? null}
       stageId={stageId}
       quests={dueQuests}
-      todayTicks={todayTicksRes.data ?? []}
+      todayTicks={todayTicks}
       weekStars={weekStars}
       goal={goalRes.data ?? null}
       streakDays={streakDays}

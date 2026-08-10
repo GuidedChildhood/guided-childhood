@@ -31,6 +31,8 @@ export interface DayRow {
   done: StepKey[]
   completed_at: string | null
   streak_awarded: boolean
+  /** Per step, what the child said they did. Empty until one is confirmed. */
+  notes?: Record<string, string> | null
 }
 
 /**
@@ -85,7 +87,7 @@ export async function loadDay(
 ): Promise<{ day: string; row: DayRow }> {
   const day = ukToday()
   const { data: existing } = await admin
-    .from('kid_days').select('steps, done, completed_at, streak_awarded')
+    .from('kid_days').select('steps, done, completed_at, streak_awarded, notes')
     .eq('child_id', childId).eq('day', day).maybeSingle()
   if (existing) return { day, row: existing as DayRow }
 
@@ -99,7 +101,7 @@ export async function loadDay(
   await admin.from('kid_days')
     .upsert({ user_id: userId, child_id: childId, day, steps, done: [] }, { onConflict: 'child_id,day', ignoreDuplicates: true })
   const { data: row } = await admin
-    .from('kid_days').select('steps, done, completed_at, streak_awarded')
+    .from('kid_days').select('steps, done, completed_at, streak_awarded, notes')
     .eq('child_id', childId).eq('day', day).maybeSingle()
   return { day, row: (row as DayRow) ?? { steps, done: [], completed_at: null, streak_awarded: false } }
 }
@@ -219,6 +221,12 @@ export async function markStep(
   childId: string,
   step: StepKey,
   available?: Partial<Record<StepKey, boolean>>,
+  /**
+   * What the child said they did, when the confirm sheet offered ideas and they
+   * picked one. Null is the normal case and a complete answer: they did the
+   * step, they just did their own version of it.
+   */
+  note?: string | null,
 ): Promise<MarkResult> {
   const { day, row } = await loadDay(admin, userId, childId, available)
   const steps = row.steps as StepKey[]
@@ -234,6 +242,16 @@ export async function markStep(
   // landed even if the pool later changes what today would have been.
   const patch: Record<string, unknown> = { done, updated_at: new Date().toISOString() }
   if (complete && !row.completed_at) patch.completed_at = new Date().toISOString()
+
+  // What they said they did, merged into whatever is already there rather than
+  // replacing it, so confirming a second step does not wipe the first. Trimmed
+  // and capped, because it reaches a parent's screen and it arrives from a
+  // client. Only written when there is something to write: a step confirmed
+  // without picking an idea leaves no key at all.
+  if (typeof note === 'string' && note.trim()) {
+    const existing = (row.notes ?? {}) as Record<string, string>
+    patch.notes = { ...existing, [step]: note.trim().slice(0, 80) }
+  }
 
   const { error } = await admin
     .from('kid_days').update(patch).eq('child_id', childId).eq('day', day)

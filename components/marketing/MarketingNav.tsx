@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 const LINKS = [
   { label: 'Find Your Stage', href: '#stages', section: 'stages' },
   { label: 'How It Works', href: '#how-it-works', section: 'how-it-works' },
-  { label: 'For Schools', href: '/schools', section: null },
+  { label: 'For Schools', href: 'https://schools.guidedchildhood.com', section: null },
   { label: 'Pricing', href: '#pricing', section: 'pricing' },
 ]
 

@@ -14,7 +14,7 @@
 // If a lesson needs a copy edit for a factual change, that lesson has
 // hardcoded a volatile fact and must be refactored to pull from here.
 
-import { SOCIAL_MEDIA_LAW, BANNED_PLATFORMS } from './social-media-law'
+import { SOCIAL_MEDIA_LAW, BANNED_PLATFORMS } from '@gc/shared/social-media-law'
 
 export const LANDSCAPE_CONFIG = {
   last_reviewed: '2026-07-02',

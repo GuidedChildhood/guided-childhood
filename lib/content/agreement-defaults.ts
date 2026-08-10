@@ -1,5 +1,5 @@
 import type { StageId } from '@/lib/pathway/progress'
-import { banIsActive } from '@/lib/config/social-media-law'
+import { banIsActive } from '@gc/shared/social-media-law'
 
 // Starting points for the family agreement builder, calibrated per stage.
 // These are openers for a negotiation at the kitchen table, not rules to

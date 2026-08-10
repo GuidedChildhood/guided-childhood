@@ -9,6 +9,7 @@ import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { questDueToday } from '@/lib/quests/due'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import MarkStepOnArrival from '@/components/kid/MarkStepOnArrival'
+import { resolveTheme } from '@/lib/kid/theme'
 
 // Check my balance, as a page that exists.
 //
@@ -45,10 +46,13 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
 
   const { data: child } = await supabase
     .from('children')
-    .select('name, age_band')
+    .select('name, age_band, accent')
     .eq('id', link.child_id)
     .maybeSingle()
 
+  // The colour the child chose in Make it mine, rather than the anthracite
+  // default this screen used to be pinned to.
+  const theme = resolveTheme(child?.accent as string | null)
   const today = new Date().toISOString().slice(0, 10)
   const [banks, usedMap, region, questsRes, ticksRes] = await Promise.all([
     getStarBanks(supabase, link.user_id, [link.child_id]),
@@ -95,7 +99,7 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
   }
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
       {/* Reading it IS the step. See the note in MarkStepOnArrival. */}
       <MarkStepOnArrival token={token} step="balance" />
       <div style={{ maxWidth: 560, margin: '0 auto' }}>

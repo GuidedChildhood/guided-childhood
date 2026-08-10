@@ -1,4 +1,4 @@
-import { PrintBrandHeader, PrintBrandFooter } from '@/components/brand/PrintBrand'
+import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
 
 // Our family deal, on paper, for the fridge. The same deal both sides already
 // see on their screens, laid out big enough to read from across a kitchen:

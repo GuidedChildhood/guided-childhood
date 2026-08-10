@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { PDFDocument, StandardFonts, rgb, type PDFPage, type PDFFont } from 'pdf-lib'
 import { getMagnet, type Magnet } from '@/lib/magnets/registry'
-import { BRAND_NAME, BRAND_PATHWAY, BRAND_CATCHPHRASE, BRAND_DOMAIN, LOGO_BARS } from '@/lib/brand'
+import { BRAND_NAME, BRAND_PATHWAY, BRAND_CATCHPHRASE, BRAND_DOMAIN, LOGO_BARS } from '@gc/shared/brand'
 
 // The lead magnet as a real, self contained PDF. Built entirely from
 // vector text and the brand mark, so it needs no artwork and no CDN: it

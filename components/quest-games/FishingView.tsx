@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import type { FishingGame } from '@/lib/quest-games/registry'
 
 // ── fishing view ──────────────────────────────────────────────────────

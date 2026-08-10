@@ -28,7 +28,6 @@ import HappyScene from '@/components/celebrate/HappyScene'
 import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
-import KidTodayList from '@/components/kid/KidTodayList'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
 import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
@@ -66,67 +65,19 @@ export type KidSchoolToday = { id: string; title: string; kind: string; time: st
 // Small, known sets, so the app stays on brand whatever they pick.
 // DiGi the guide, then the five Planet Friends, one per stage. A child only
 // ever chooses from the Friends they have earned; DiGi is always theirs.
-const BUDDY_MAP: Record<string, { name: string; img: string; stageId?: number }> = {
-  digi: { name: 'DiGi', img: '/digi-squad/DiGi-star.svg' },
-  ...Object.fromEntries(STAGE_CHARACTERS.map(c => [c.key, { name: c.name, img: c.cutout, stageId: c.stageId }])),
-}
-// Make it mine now recolours the whole screen, not just the ring. Each theme is
-// the full background the child lives in, plus the ink that reads on top of it
-// and the accent used on their rings and cards. The default is a premium dark
-// anthracite, and the colour bar lets them own it. Ids stay the same as before
-// so a child who already picked one keeps it.
-// Graphite is a lighter, premium anthracite that keeps white text. Every colour
-// is a soft pastel wash with dark readable ink, all built the same gentle way so
-// none looks heavier than the others. The accent stays a deeper tone so rings
-// and card edges still read on white.
-const ACCENT_MAP: Record<string, { name: string; hex: string; bg: string; ink: string; inkSoft: string }> = {
-  graphite: { name: 'Graphite', hex: '#E7A33E', bg: 'linear-gradient(180deg, #4C5057 0%, #34373D 100%)', ink: '#F7F7F5', inkSoft: 'rgba(255,255,255,0.74)' },
-  ocean:    { name: 'Ocean',    hex: '#2E8B9E', bg: 'linear-gradient(180deg, #DCEEF6 0%, #C6E0EE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
-  grass:    { name: 'Grass',    hex: '#57A06A', bg: 'linear-gradient(180deg, #E1F1E6 0%, #CBE7D4 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
-  sunshine: { name: 'Sunshine', hex: '#E19A2E', bg: 'linear-gradient(180deg, #FBEFCF 0%, #F6E3AE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
-  coral:    { name: 'Coral',    hex: '#E56B57', bg: 'linear-gradient(180deg, #FBE3DB 0%, #F6D0C4 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
-  berry:    { name: 'Berry',    hex: '#C65B8E', bg: 'linear-gradient(180deg, #F8E2EC 0%, #F1CEDE 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
-  sky:      { name: 'Sky',      hex: '#4C9FD6', bg: 'linear-gradient(180deg, #E4F1FB 0%, #CFE6F7 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
-  mint:     { name: 'Mint',     hex: '#3FA98A', bg: 'linear-gradient(180deg, #E0F4EC 0%, #C9ECDD 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
-  lavender: { name: 'Lavender', hex: '#8A72C9', bg: 'linear-gradient(180deg, #EEE9FA 0%, #E0D6F3 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
-  peach:    { name: 'Peach',    hex: '#E58A4E', bg: 'linear-gradient(180deg, #FCECDC 0%, #F8DBC2 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
-  bubblegum:{ name: 'Bubblegum',hex: '#DD6BA6', bg: 'linear-gradient(180deg, #FBE6F1 0%, #F6D2E5 100%)', ink: 'var(--ink)', inkSoft: 'rgba(26,26,46,0.60)' },
-  midnight: { name: 'Midnight', hex: '#6FA8DC', bg: 'linear-gradient(180deg, #2C3A57 0%, #202B40 100%)', ink: '#F7F7F5', inkSoft: 'rgba(255,255,255,0.74)' },
-}
-const DEFAULT_BUDDY = 'digi'
-const DEFAULT_ACCENT = 'graphite'
-
-// The eight the picker offers: one clean choice from each part of the
-// spectrum plus a dark, so the row is a proper rainbow with no two the same
-// family. The other named colours stay in ACCENT_MAP so a child who already
-// picked one keeps it, they are just no longer offered as fresh duplicates.
-const PICKER_ACCENTS = ['coral', 'peach', 'sunshine', 'mint', 'sky', 'lavender', 'bubblegum', 'midnight']
-
-// A mixed colour: the child slides the hue wheel and gets their own soft pastel
-// wash, built the exact gentle way as the named ones (light background, dark
-// readable ink, a deeper accent for rings and edges), so any colour they land
-// on still looks on brand and never heavier than the others. Stored as h<hue>.
-function hueWash(h: number): { name: string; hex: string; bg: string; ink: string; inkSoft: string } {
-  return {
-    name: 'Mine',
-    hex: `hsl(${h}, 52%, 45%)`,
-    bg: `linear-gradient(180deg, hsl(${h}, 60%, 93%) 0%, hsl(${h}, 54%, 87%) 100%)`,
-    ink: 'var(--ink)',
-    inkSoft: 'rgba(26,26,46,0.60)',
-  }
-}
-// Resolve whatever is saved into a full theme: a named colour, a mixed hue, or
-// the default if it is neither.
-function resolveTheme(accent: string): { name: string; hex: string; bg: string; ink: string; inkSoft: string } {
-  if (ACCENT_MAP[accent]) return ACCENT_MAP[accent]
-  const m = /^h(\d{1,3})$/.exec(accent)
-  if (m) return hueWash(Math.max(0, Math.min(360, Number(m[1]))))
-  return ACCENT_MAP[DEFAULT_ACCENT]
-}
-// Is this a saved accent we recognise (named or mixed hue)?
-function knownAccent(a: string | null | undefined): a is string {
-  return typeof a === 'string' && (Boolean(ACCENT_MAP[a]) || /^h\d{1,3}$/.test(a))
-}
+// The map itself lives in lib/kid/buddy now, shared with the jobs page.
+import { BUDDY_MAP, DEFAULT_BUDDY } from '@/lib/kid/buddy'
+// Make it mine recolours the whole screen, not just the ring, and now it
+// recolours every OTHER screen the child can reach too. The map, the picker set
+// and the resolver moved to lib/kid/theme on 9 August 2026 because they were
+// private to this file, which is why Telling a grown up and Ask for a job stayed
+// anthracite while the home screen went the colour the child picked. Same
+// reasoning as lib/kid/buddy: one answer to what colour the child is.
+import { resolveTheme, knownAccent, DEFAULT_ACCENT, PICKER_ACCENTS } from '@/lib/kid/theme'
+// Print it now. Lifted to lib/kid/print-sheet on 9 August 2026 so the window it
+// writes could be driven in a test: it needs a live link token to reach from
+// here, so nothing had ever opened it except a child.
+import { printSheet } from '@/lib/kid/print-sheet'
 
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
@@ -138,6 +89,7 @@ export default function KidQuestScreen({
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
+  fiveADayInitial = null,
 }: {
   token: string
   childName: string
@@ -235,6 +187,9 @@ export default function KidQuestScreen({
   streakWeekSeen?: string | null
   /** The star week we are in now, stamped on the server. */
   starWeek?: string
+  /** Fixture only: a ready made five a day, so ref-kid-home can render this
+   *  whole screen without the API. Production never passes it. */
+  fiveADayInitial?: import('@/components/kid/KidFiveADay').DayState | null
 }) {
   // Only the games, mini lessons and printables that suit this child's
   // stage, so a young child never meets an older child's content.
@@ -244,9 +199,12 @@ export default function KidQuestScreen({
   const [ticks, setTicks] = useState<Record<string, string>>(
     Object.fromEntries(todayTicks.map(t => [t.quest_id, t.status]))
   )
-  const [burst, setBurst] = useState<string | null>(null)
   const [remindState, setRemindState] = useState<'hidden' | 'offer' | 'on' | 'ios'>('hidden')
   const [showWelcome, setShowWelcome] = useState(false)
+  // The welcome greets by the child's clock. Null until mounted so the server
+  // render and the first client render agree, then the real hour arrives.
+  const [greetHour, setGreetHour] = useState<number | null>(null)
+  useEffect(() => { setGreetHour(new Date().getHours()) }, [])
   const [toast, setToast] = useState<string | null>(null)
   const [askedMore, setAskedMore] = useState(false)
   // Opens on quests, unless a link said otherwise.
@@ -809,21 +767,6 @@ export default function KidQuestScreen({
     setAskBusy(false)
   }
 
-  // Print it now: the child can send the sheet to a printer themselves, not
-  // only ask a grown up. The sheet art is public on the CDN, so a small
-  // print window shows just the page and prints it. If a popup is blocked,
-  // opening the image straight is the fallback so the button never dead ends.
-  function printSheet(sheetUrl: string, title: string) {
-    const w = window.open('', '_blank')
-    if (!w) { window.open(sheetUrl, '_blank'); return }
-    w.document.write(
-      `<!doctype html><html><head><title>${title}</title>` +
-      `<style>@page{margin:8mm}html,body{margin:0;padding:0}img{width:100%;display:block}</style></head>` +
-      `<body><img src="${sheetUrl}" alt="${title}" onload="setTimeout(function(){window.focus();window.print()},250)"></body></html>`
-    )
-    w.document.close()
-  }
-
   async function askForMore() {
     setAskedMore(true)
     setToast('Asked! Your grown up just got a ping ⭐')
@@ -939,43 +882,9 @@ export default function KidQuestScreen({
     } catch { setRemindState('hidden') }
   }
 
-  async function toggle(quest: Quest) {
-    const current = ticks[quest.id]
-    if (current === 'approved') return // done is done
-
-    const untick = current === 'pending'
-    // Optimistic
-    setTicks(prev => {
-      const next = { ...prev }
-      if (untick) delete next[quest.id]
-      else next[quest.id] = 'pending'
-      return next
-    })
-    if (!untick) {
-      setBurst(quest.id)
-      setTimeout(() => setBurst(null), 900)
-      playKidSound('star')
-      // A squad friend springs up with the good news, rotating so it is not
-      // always the same face. The toast stays as the quiet backup line.
-      const cast: CharacterKey[] = ['orbit', 'nova', 'digi']
-      const who = cast[quest.title.length % cast.length]
-      setHappyNews({
-        character: who,
-        headline: `${quest.stars} star${quest.stars === 1 ? '' : 's'} on the way!`,
-        sub: 'Sent to your grown up. They tap approve and the stars are yours.',
-      })
-      setToast('Sent to your grown up! ⭐ Stars land when they tap approve.')
-      setTimeout(() => setToast(null), 3000)
-    }
-
-    try {
-      await fetch('/api/quests/tick', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, quest_id: quest.id, untick }),
-      })
-    } catch { /* optimistic state stands, the next load reconciles */ }
-  }
+  // Ticking a job moved to the jobs page (KidJobsScreen) with the list
+  // itself. This screen keeps only the read side of ticks: the five a day's
+  // jobs step and the ask banner still need to know what is done.
 
   // Watch for the grown up's yes landing while the child has the page open, so
   // a Waiting quest flips to Done live and a squad friend springs up to say so,
@@ -1055,7 +964,9 @@ export default function KidQuestScreen({
   // their jobs off the top of the screen. Which is exactly what the screenshot
   // shows. Quests goes to the jobs; the other two go to the tabs.
   const goToTab = useCallback((key: 'quests' | 'lessons' | 'print') => {
-    const id = key === 'quests' ? 'kid-today' : 'kid-tabs'
+    // Quests goes to the five a day, which is the day itself now the separate
+    // Today list has folded into the jobs page.
+    const id = key === 'quests' ? 'kid-five' : 'kid-tabs'
     // Next frame, so the tab's content has rendered and the anchor is where it
     // will actually be rather than where it was a moment ago.
     requestAnimationFrame(() => {
@@ -1263,7 +1174,18 @@ export default function KidQuestScreen({
     }}>
       {/* First open ever: meet the Planet Friend for this child's stage, then
           the whole family they can earn. Overlays the app until they tap through. */}
-      {showIntro && <KidSquadIntro childName={childName} earnedFriends={earnedStages} completedStreaks={completedStreaks} onDone={() => setShowIntro(false)} />}
+      {showIntro && <KidSquadIntro childName={childName} earnedFriends={earnedStages} completedStreaks={completedStreaks} onDone={() => {
+        setShowIntro(false)
+        // Justin, 9 August 2026: "it then takes you to halfway down scrolled
+        // page, it should be the top." The intro is a fixed overlay, so the
+        // page underneath keeps whatever scroll position it had, and on a
+        // reopen that is wherever the child left off. Closing the intro is the
+        // start of a visit, so it starts at the top. Instant, not smooth,
+        // because html has scroll-behavior smooth and a child should not watch
+        // the page fly upward after tapping Skip.
+        try { window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior }) }
+        catch { window.scrollTo(0, 0) }
+      }} />}
 
       {/* Their own buddy says hello when the app opens, the Duolingo front
           door, once per session on their own colour. */}
@@ -1365,8 +1287,21 @@ export default function KidQuestScreen({
           </div>
         )}
 
-        {/* Header, with the little sound switch tucked in the corner so a
-            child (or a grown up) can turn the sounds off any time. */}
+        {/* THE ORDER IS JUSTIN'S, 9 August 2026: school diary first, the
+            morning welcome second, streaks small third, the five a day
+            fourth, use my time after it. "we have way too much on Home
+            Screen so let's organise better." */}
+
+        {/* 1. THE SCHOOL DIARY, the first thing on the page: what school
+            needs today and tomorrow, the way into the whole week, and since
+            step 1 of this reorder, the place the child adds their own
+            entries. */}
+        <KidSchoolBanner items={schoolToday} token={token} weekCount={schoolWeekCount} />
+
+        {/* 2. THE MORNING WELCOME, with the little sound switch tucked in
+            the corner so a child (or a grown up) can turn the sounds off any
+            time. The eyebrow greets by the child's own clock, mounted after
+            first paint so the server and the first client render agree. */}
         <div style={{ position: 'relative', textAlign: 'center', marginBottom: '18px' }}>
           <button
             onClick={() => { const next = !soundOn; setSoundOn(next); setSoundEnabled(next); if (next) playKidSound('tap') }}
@@ -1380,7 +1315,7 @@ export default function KidQuestScreen({
             {soundOn ? '🔊' : '🔇'}
           </button>
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: theme.inkSoft, marginBottom: 6 }}>
-            Today&apos;s quests
+            {greetHour === null ? 'Hello' : greetHour < 12 ? 'Good morning' : greetHour < 18 ? 'Good afternoon' : 'Good evening'}
           </p>
           <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.7rem, 8vw, 2.2rem)', color: theme.ink, letterSpacing: '-0.02em', margin: 0 }}>
             Go {childName}!
@@ -1456,11 +1391,6 @@ export default function KidQuestScreen({
           }}
         />
 
-        {/* From school today: the child sees the reminder their grown up sent
-            through, and a timed one goes red as it nears, so it lands with
-            them too, not only the parent. */}
-        <KidSchoolBanner items={schoolToday} token={token} weekCount={schoolWeekCount} />
-
         {/* A printable a grown up sent lands right at the top of the to do:
             print it, do it, then send it to be confirmed like any printable. */}
         {assignedPrintable && !assignedSent && (
@@ -1510,14 +1440,18 @@ export default function KidQuestScreen({
             moves it. */}
         <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
 
+        <div id="kid-five" style={{ scrollMarginTop: 96 }} />
         <KidFiveADay
           token={token}
           childName={childName}
+          theme={theme}
           jobsAllDone={allDone}
           jobsProgress={{ done: doneCount, total: quests.length }}
+          newQuestCount={newQuestCount}
           readingMinutes={readingMinutesFor(ageBand)}
           moveJobs={moveJobs}
-          onOpenJobs={() => document.getElementById('kid-today')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+          initialState={fiveADayInitial}
+          onOpenJobs={() => { window.location.assign(`/k/${token}/jobs`) }}
           onDayComplete={n => {
             playKidSound('done')
             const next = bumpDay()
@@ -1543,51 +1477,12 @@ export default function KidQuestScreen({
           />
         )}
 
-        {/* The ONE Today list: every job due today, plus Learn and Move, each
-            with its stars, ticked in one flow. The buddy's line sits above it
-            and the quiet device rule sits under it. When gifted screen time
-            is still owed, the warm pay back row shows here too. */}
-        <div id="kid-today" style={{ scrollMarginTop: 96 }} />
-        <KidTodayList
-          newQuestCount={newQuestCount}
-          childName={childName}
-          stageId={stageId}
-          buddyName={BUDDY_MAP[chosenBuddy].name}
-          buddyImg={BUDDY_MAP[chosenBuddy].img}
-          buddyIsStar={chosenBuddy === 'digi'}
-          learnTitle={learnTile ? learnTile.title : null}
-          learnEmoji={learnTile ? learnTile.emoji : null}
-          learnStars={learnTile ? learnTile.stars : null}
-          learnDoneLive={dailyLearnDone}
-          allLessonsDone={!learnTarget}
-          quests={quests}
-          ticks={ticks}
-          onToggleQuest={q => toggle(q as Quest)}
-          burstQuestId={burst}
-          giftStarsOwed={giftStarsOwed}
-          inkSoft={theme.inkSoft}
-          onLearnTap={() => {
-            playKidSound('tap')
-            // A real library lesson opens its own player; the mini lessons
-            // stay in the Learn tab as before.
-            if (learnTile?.href) {
-              window.location.assign(learnTile.href)
-              return
-            }
-            setTab('lessons')
-            setActiveLesson(null)
-            setLessonTab(nextLesson || stageLessons.length > 0 ? 'learn' : 'watch')
-            setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 80)
-          }}
-          onCelebrate={() => {
-            playKidSound('done')
-            setHappyNews({
-              character: chosenBuddy as CharacterKey,
-              headline: 'Today is done! 🎉',
-              sub: `Every job, plus Learn and Move. Amazing work ${childName}!`,
-            })
-          }}
-        />
+        {/* The ONE Today list is gone from this screen. It repeated the five
+            a day's jobs, lesson and move as a second section directly under
+            it, which is Justin's row 5: "delete as a separate section, it
+            duplicates the five a day". The jobs themselves live on the jobs
+            page now (/k/[token]/jobs, the real KidTodayList in its jobs only
+            shape), which the five a day's jobs step opens. */}
 
         {/* The tile grid keeps only what is NOT a to do. Use my time leads,
             full width, carrying the device rule so a child reads it right
@@ -2116,14 +2011,19 @@ export default function KidQuestScreen({
             cause rather than adding a seventh.
             Opaque background, because a translucent strip over moving content is
             unreadable, and a shadow so it reads as floating above the list. */}
+        {/* MORE VISIBLE, per the reorder brief: "Make the tabs more
+            visible." A solid white bar with a real border and a deeper
+            shadow instead of a cream strip that melted into the page, the
+            labels a size up in full ink, the icons bigger, the tap targets
+            taller. Same three tabs, same sticky behaviour. */}
         <div
           id="kid-tabs"
           style={{
             position: 'sticky', top: 0, zIndex: 30,
-            display: 'flex', gap: '4px', background: 'var(--cream)',
-            border: '1.5px solid rgba(26,26,46,0.1)', borderRadius: '18px',
-            padding: '4px', marginBottom: '16px', scrollMarginTop: '12px',
-            boxShadow: '0 6px 16px rgba(26,26,46,0.10)',
+            display: 'flex', gap: '4px', background: '#fff',
+            border: '2px solid rgba(26,26,46,0.16)', borderRadius: '18px',
+            padding: '5px', marginBottom: '16px', scrollMarginTop: '12px',
+            boxShadow: '0 5px 0 rgba(26,26,46,0.12), 0 10px 24px rgba(26,26,46,0.16)',
           }}
         >
           {([['quests', 'Quests', 'star', 0], ['lessons', 'Lessons', 'lessons', totalNewLessons], ['print', 'Printables', 'printables', newPrint]] as const).map(([key, label, icon, dot]) => {
@@ -2134,16 +2034,16 @@ export default function KidQuestScreen({
                 onClick={() => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
                 style={{
                   position: 'relative',
-                  flex: 1, padding: '10px 4px', borderRadius: '14px', cursor: 'pointer', border: 'none',
+                  flex: 1, padding: '12px 4px', borderRadius: '14px', cursor: 'pointer', border: 'none',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
                   background: on ? 'var(--terracotta)' : 'transparent',
-                  color: on ? 'var(--ink)' : 'var(--ink-soft)',
+                  color: 'var(--ink)',
                   boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
                   transition: 'background 0.15s',
                 }}
               >
-                <KidIcon name={icon as KidIconName} size={21} color={on ? 'var(--ink)' : 'var(--ink-soft)'} />
+                <KidIcon name={icon as KidIconName} size={24} color={on ? 'var(--ink)' : 'var(--ink-soft)'} />
                 {label}
                 {dot > 0 && (
                   <span style={{
@@ -3077,7 +2977,7 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
         </div>
         <div style={{ display: 'flex', gap: '9px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
           {PICKER_ACCENTS.map(id => {
-            const a = ACCENT_MAP[id]
+            const a = resolveTheme(id)
             const on = chosenAccent === id
             return (
               <button key={id} onClick={() => onPick({ accent: id })} aria-label={a.name} aria-pressed={on} style={{ flexShrink: 0, cursor: 'pointer', background: 'none', border: 'none', padding: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
@@ -3095,7 +2995,7 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>Or mix your own</span>
           <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
-            <span aria-hidden style={{ width: 46, height: 46, borderRadius: '14px', background: hueWash(hue).bg, boxShadow: isCustom ? '0 0 0 3px var(--cream), 0 0 0 6px var(--ink)' : 'inset 0 0 0 1.5px rgba(26,26,46,0.12)' }} />
+            <span aria-hidden style={{ width: 46, height: 46, borderRadius: '14px', background: resolveTheme(`h${hue}`).bg, boxShadow: isCustom ? '0 0 0 3px var(--cream), 0 0 0 6px var(--ink)' : 'inset 0 0 0 1.5px rgba(26,26,46,0.12)' }} />
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: isCustom ? 'var(--ink)' : 'var(--ink-soft)' }}>Mine</span>
           </span>
         </div>
@@ -3103,7 +3003,7 @@ function MakeItMine({ onClose, chosenBuddy, chosenAccent, earnedStages = 0, comp
           className="mine-hue"
           type="range" min={0} max={360} value={hue} aria-label="Mix your own colour"
           onChange={e => { const h = Number(e.target.value); setHue(h); onPick({ accent: `h${h}` }) }}
-          style={{ ['--thumb' as unknown as string]: hueWash(hue).hex, width: '100%', marginBottom: '4px' }}
+          style={{ ['--thumb' as unknown as string]: resolveTheme(`h${hue}`).hex, width: '100%', marginBottom: '4px' }}
         />
         <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-light)', textAlign: 'center', marginBottom: '18px' }}>
           Slide to find your colour
@@ -3190,17 +3090,18 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
     return () => clearInterval(t)
   }, [items])
 
-  // Nothing today or tomorrow, but there is still a week to look at. A slim
-  // door rather than a card announcing an absence: "nothing from school today"
-  // as a permanent panel is a line a child reads once and then scrolls past
-  // every day after.
+  // Nothing today or tomorrow. Still a door, never null: since the reorder
+  // made the diary the first thing on the page and the child can add their
+  // own entries, an absent block would hide the way in on exactly the quiet
+  // day a child has something to put on it. A slim door rather than a card
+  // announcing an absence, and when the whole diary is empty the door says
+  // what adding is for.
   //
-  // Justin, 8 August 2026: "we could build same viewer on child's phone so they
-  // can see their week." The week is the answer to "is Cubs Thursday or
-  // Friday", which is asked on a day when nothing is due, so the way in cannot
-  // depend on something being due.
+  // Justin, 8 August 2026: "we could build same viewer on child's phone so
+  // they can see their week." The week is the answer to "is Cubs Thursday or
+  // Friday", which is asked on a day when nothing is due, so the way in
+  // cannot depend on something being due.
   if (!items.length) {
-    if (weekCount === 0) return null
     return (
       <a
         href={`/k/${token}/week`}
@@ -3211,8 +3112,13 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
         }}
       >
         <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>🗓️</span>
-        <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-          My week from school
+        <span style={{ flex: 1, minWidth: 0 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
+            My school diary
+          </span>
+          <span style={{ display: 'block', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 1 }}>
+            {weekCount === 0 ? 'Nothing on it yet. Add PE kit, clubs and homework' : 'Nothing due today. See the week, add your own'}
+          </span>
         </span>
         <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)' }}>→</span>
       </a>
@@ -3295,7 +3201,7 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
           fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)',
         }}
       >
-        See my whole week →
+        See my school diary →
       </a>
     </div>
   )

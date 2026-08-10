@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import { resolveTheme } from '@/lib/kid/theme'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // Telling a grown up: the child's own page, and the other half of the scripts
 // library.
@@ -62,13 +63,17 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
 
   const { data: child } = await supabase
     .from('children')
-    .select('name, age_band')
+    .select('name, age_band, accent')
     .eq('id', link.child_id)
     .maybeSingle()
 
   const stage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
   const stageSlug = stage.name.toLowerCase()
   const childName = child?.name && child.name !== 'Your child' ? child.name : ''
+  // The colour the child chose in Make it mine. Justin, 9 August 2026: "this
+  // page needs to be app chosen colours." It was hardcoded to the anthracite
+  // default, so a child on Coral got a peach home and a slate grey this.
+  const theme = resolveTheme(child?.accent as string | null)
 
   const [{ data: cardRow }, { data: scriptRows }] = await Promise.all([
     supabase
@@ -91,12 +96,12 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
   const label = { fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' as const }
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '22px 16px 60px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px 60px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ marginBottom: '18px' }}>
           <Link href={`/k/${token}`} style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
+            color: theme.inkSoft, textDecoration: 'none',
           }}>
             ← My quests
           </Link>
@@ -105,15 +110,15 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '6px' }}>
           <DigiCharacter mood="wave" size={56} once />
           <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: theme.ink, letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
               Telling a grown up
             </h1>
-            <p style={{ ...label, color: 'rgba(255,255,255,0.66)', margin: '5px 0 0' }}>
+            <p style={{ ...label, color: theme.inkMuted, margin: '5px 0 0' }}>
               The words, and what happens after
             </p>
           </div>
         </div>
-        <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '10px 0 20px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: theme.inkSoft, lineHeight: 1.6, margin: '10px 0 20px' }}>
           Some things are hard to start saying{childName ? `, ${childName}` : ''}. These are the exact words, ready to borrow. You can read one out loud, or just hand them your phone with it open.
         </p>
 
@@ -121,7 +126,7 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
             The promise first. Everything under it depends on a child believing
             this bit, and a child who does not believe it will not scroll. */}
         {card && (
-          <section style={{ background: 'var(--cream)', borderRadius: '22px', padding: '20px 18px', marginBottom: '18px', boxShadow: '0 5px 0 rgba(0,0,0,0.18)' }}>
+          <section style={{ background: 'var(--cream)', borderRadius: '22px', padding: '20px 18px', marginBottom: '18px', boxShadow: `0 5px 0 ${theme.shadow}` }}>
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.02em', lineHeight: 1.15, margin: '0 0 8px' }}>
               {card.headline}
             </h2>
@@ -189,7 +194,7 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
             should not have to read four they are not in. */}
         {scripts.length > 0 && (
           <section>
-            <div style={{ ...label, color: 'rgba(255,255,255,0.66)', margin: '0 0 10px 2px' }}>
+            <div style={{ ...label, color: theme.inkMuted, margin: '0 0 10px 2px' }}>
               {scripts.length} things that are hard to say
             </div>
 
@@ -251,9 +256,9 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
         {/* Childline stands on its own at the bottom rather than only inside the
             scripts. A child who finds nothing here that fits their situation
             still leaves the page with somewhere to go. */}
-        <div style={{ marginTop: '20px', background: 'rgba(255,255,255,0.09)', border: '1.5px solid rgba(255,255,255,0.16)', borderRadius: '18px', padding: '16px' }}>
-          <div style={{ ...label, color: 'rgba(255,255,255,0.66)', marginBottom: '6px' }}>If none of these fit</div>
-          <p style={{ fontSize: 'var(--text-md)', color: 'rgba(255,255,255,0.86)', lineHeight: 1.55, margin: 0 }}>
+        <div style={{ marginTop: '20px', background: theme.panel, border: `1.5px solid ${theme.panelBorder}`, borderRadius: '18px', padding: '16px' }}>
+          <div style={{ ...label, color: theme.inkMuted, marginBottom: '6px' }}>If none of these fit</div>
+          <p style={{ fontSize: 'var(--text-md)', color: theme.ink, lineHeight: 1.55, margin: 0 }}>
             Childline is free on 0800 1111, any time of day or night. It does not show up on the phone bill, and you do not have to give your name.
           </p>
         </div>

@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
-import DigiCharacter from '@/components/digi/DigiCharacter'
+import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import KidAskForJob, { type KidAsk } from '@/components/kid/KidAskForJob'
+import { resolveTheme } from '@/lib/kid/theme'
 
 // Ask for a job: the child's own page for pitching a quest to their grown up.
 //
@@ -33,7 +34,7 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
 
   const { data: child } = await supabase
     .from('children')
-    .select('name')
+    .select('name, accent')
     .eq('id', link.child_id)
     .maybeSingle()
 
@@ -52,14 +53,17 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
   const asks = ((rows ?? []) as { id: string; title: string; emoji: string; status: string }[])
     .map(r => ({ id: r.id, title: r.title, emoji: r.emoji, status: r.status })) as KidAsk[]
   const childName = child?.name && child.name !== 'Your child' ? child.name : ''
+  // The colour the child chose in Make it mine, rather than the anthracite
+  // default this page was pinned to.
+  const theme = resolveTheme(child?.accent as string | null)
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)', padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
+    <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ marginBottom: '18px' }}>
           <Link href={`/k/${token}`} style={{
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            color: 'rgba(255,255,255,0.78)', textDecoration: 'none',
+            color: theme.inkSoft, textDecoration: 'none',
           }}>
             ← My quests
           </Link>
@@ -68,19 +72,19 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '6px' }}>
           <DigiCharacter mood="wave" size={56} once />
           <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: '#F7F7F5', letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: theme.ink, letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
               Ask for a job
             </h1>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.66)', margin: '5px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.inkMuted, margin: '5px 0 0' }}>
               Your idea, their yes
             </p>
           </div>
         </div>
-        <p style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, margin: '10px 0 20px' }}>
+        <p style={{ fontSize: 'var(--text-base)', color: theme.inkSoft, lineHeight: 1.6, margin: '10px 0 20px' }}>
           Think of something you could do to help{childName ? `, ${childName}` : ''}. Your grown up gets it on their phone and can turn it into a real job with stars.
         </p>
 
-        <KidAskForJob token={token} initialAsks={asks} childName={childName || undefined} />
+        <KidAskForJob token={token} initialAsks={asks} childName={childName || undefined} theme={theme} />
       </div>
     </div>
   )

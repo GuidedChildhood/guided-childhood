@@ -1,11 +1,12 @@
 import { notFound, redirect } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
-import { parseSlides } from '@/lib/content/lesson-slides'
-import { badgesFor } from '@/lib/content/curriculum-badges'
+import { parseSlides } from '@gc/shared/lesson-slides'
+import { badgesFor } from '@gc/shared/curriculum-badges'
 import { freeLessonIds, nextOpenLessonId } from '@/lib/content/lesson-access'
 import { hasFullAccess } from '@/lib/access'
-import LessonPlayer from '@/components/lessons/LessonPlayer'
+import LessonPlayer from '@gc/shared/components/LessonPlayer'
+import { resolveTheme } from '@/lib/kid/theme'
 
 // A family lesson, taken by the child themselves: the SAME cinematic player
 // the parent side uses, as a light full screen takeover over the kid app.
@@ -33,7 +34,7 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
   if (!link) notFound()
 
   const [{ data: child }, { data: lesson }] = await Promise.all([
-    supabase.from('children').select('age_band').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('age_band, accent').eq('id', link.child_id).maybeSingle(),
     supabase.from('lessons')
       .select('id, stage_id, category, title, the_idea, why_it_matters, try_this, key_message, sort_order, status, audience, slides')
       .eq('id', lessonId)
@@ -43,6 +44,9 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
   // would fall back to are written to the grown up as an instruction. Enforced
   // here as well as in the list, so a shared or guessed link cannot reach one.
   if (!lesson || lesson.audience !== 'parent' || lesson.status === 'stub') notFound()
+  // The colour the child chose in Make it mine, rather than the anthracite
+  // default this screen used to be pinned to.
+  const theme = resolveTheme(child?.accent as string | null)
   // A REAL lesson with no deck redirects to the list rather than 404ing. The
   // links that land here are the app's own: a done stone on the road, a share
   // card, a focus row cached before the deck was pulled. A child tapping
@@ -91,7 +95,7 @@ export default async function KidStageLessonPage({ params }: { params: Promise<{
   })
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--kid-bg)' }}>
+    <div style={{ minHeight: '100dvh', background: theme.bg }}>
       <LessonPlayer
         lessonId={lesson.id}
         lessonSource="lesson"

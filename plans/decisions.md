@@ -5827,3 +5827,745 @@ last week, up always good. And both apps carry a pre welcome hold: a
 parser blocking inline script covers the screen in the app's own colour
 before first paint whenever the welcome is about to show, and the welcome
 removes it the moment it is on screen, with a timeout as the safety net.
+## 8 August 2026 — emails go by state, not by signup date
+
+Justin: "the emails are not just new sign ups we need to be emailing everyone
+that registers including users so needs to know the difference between 1 just
+signed up, 2 using it but haven't paid, 3 paid users."
+
+**Two sessions were on emails at once today.** The other one (6a73d4f, 83dc5aa)
+re-paced the programme to weekly and carried it to week 26. That is length and
+pacing. This is who gets what, built on top of theirs rather than instead of it.
+Their day gates are untouched.
+
+**The window was the bug.** `gte('created_at', since)` meant a parent past the
+window was not loaded at all, so no win back, no trial nurture, nothing, for the
+rest of their life with the product, and nothing logged to say so. Widening it
+from 60 to 200 days moves the cliff rather than removing it. The query is now
+every onboarded profile, and the 200 day number survives as a guard on the
+onboarding block, where it belongs: without it, opening the query would restart
+week 1 for every existing member.
+
+**Paying members were the worst served group in the system.** They got the same
+onboarding as everyone and then nothing of their own, ever. Three service emails
+now: what the plan unlocks, an open door to reply, the questions members ask
+most. All three give rather than ask, because they already bought.
+
+**past_due sent nothing at all.** It fell through lifecycleState to 'unknown'.
+A failed card is an accident, not a decision, and it is the cheapest save in the
+system.
+
+**Sequences pace off email_log.sent_at, not signup.** That is what lets a win
+back run properly for someone who registered eleven months ago and lapsed last
+week. No migration needed.
+
+**Two claims were false and got cut before they shipped.** The draft paid email
+said cancel in settings, two taps, and the past due email offered an update your
+card link. **Neither exists.** There is no self serve cancel and no Stripe
+billing portal route anywhere in the app. Both now point at replying to a human,
+which is the path that actually works. The upgrade page still says "cancel any
+time" in its fear remover block, which is the same claim and is Justin's to
+decide on.
+
+**Lapsed keeps the onboarding programme.** Suppressing it was the plan until the
+trial clock got checked: a no card trial expires around day 14, so lapsed is the
+normal state for everyone who has not paid, and suppressing on it would have
+gutted the programme for most of the list.
+
+## 8 August 2026 — paid depth, weekly win back, and the member figures
+
+Justin: "build more paid customers emails about every aspect of what they can
+do, the research and why we run it the way we do... make sure we tease sign ups
+that disappear after trial ends and keep emailing them weekly to entice back...
+have all stats on insight board, users login patterns of users, non paid."
+
+**The win back no longer stops at three.** Justin asked for weekly, so seven
+teases follow the three win backs, one a week, ten emails over about eleven
+weeks. They reuse the pre signup teaser bank rather than adding seven templates,
+which is right rather than lazy: a lapsed parent is in exactly the position a
+lead is in, an email address and no subscription, and each teaser is already one
+service, one hook, one door. Only the unsubscribe link differs. `winBackLastEmail`
+lost its "this is the last one" framing, because it is no longer true.
+
+**Both sequences send one email per run, never a catch up burst.** With the
+window gone, every long standing member becomes eligible on the same day, and
+firing five at once would be the worst possible first impression of a track
+meant to reward paying.
+
+**The paid depth five were picked by auditing every existing subject first**,
+across templates, the weekly programme and the reveals, precisely because two
+sessions have now duplicated each other on this. Everything in the five is
+ground none of the other forty odd emails walk. Two of them are about what the
+CHILD experiences, which nothing had covered: every other email in the system is
+written to the parent about the parent's side of the glass. The disclosure tool
+email is the one worth keeping if only one survives.
+
+**The member figures answer the question the board could not.** It knew whether
+DiGi was working and what parents asked. It did not know how many people are
+here, how many pay, or whether they still turn up. Login has no home in our own
+tables, so it reads auth.users through the admin API, paginated, and says
+plainly when it stops being fine rather than leaving a silent cliff.
+
+## 8 August 2026 — the privacy policy contradicts the product
+
+**Found while sourcing a paid email about data.** The privacy page says: "We do
+not ask for a surname, a date of birth, a photo, or a school."
+
+**The app asks for a date of birth.** Settings has a birthday field per child
+(migration 083), stores `children.date_of_birth`, and derives the age band from
+it. `interests` is collected too (088) and the policy does not mention it.
+
+This is a published legal statement about children's personal data that the
+product contradicts, with ICO registration still outstanding. Two ways out and
+both are Justin's call, not a thing to quietly rewrite: stop collecting the
+birthday and keep the promise, or change the policy to describe what is actually
+collected and why.
+
+**No email in this batch mentions data or privacy**, which was the original plan
+for the set, because sending forty inboxes a claim that is currently untrue is
+the one thing worse than the page being wrong.
+
+## 8 August 2026 — the two false promises, fixed properly
+
+Justin: "Fix 1 and 2 and correct plan."
+
+**Cancelling now exists.** `/dashboard/upgrade` had promised "cancel any time"
+since it was written and there was no way to do it. Fixed in the product rather
+than in the copy: a Stripe hosted billing portal at `/api/stripe/portal` and a
+Your plan section in settings, shown only to people who actually pay.
+
+Hosted rather than built here on purpose. Cancelling and re-entering card
+details are the two flows where a subtle mistake costs someone real money, and
+Stripe's page is PCI handled, localised, and already knows about proration,
+trials and the real invoices. It also cannot drift out of step with what Stripe
+thinks the subscription is.
+
+**It fixes the card update in the same stroke**, which is what the past due
+email needed and could not have. Both emails that had been rewritten to say
+"reply to me" now point at the real screen again.
+
+**The portal has to be switched on once in the Stripe dashboard.** Until then
+the API returns a configuration error, and the button says the door is not open
+yet and gives an address, rather than showing a parent a dead button and letting
+them think cancelling is being made difficult.
+
+**The privacy policy now describes what is actually collected.** It said "We do
+not ask for a surname, a date of birth, a photo, or a school". The app has asked
+for a birthday since migration 083 and interests since 088. The policy now says
+both are optional, what each is for (the birthday moves a child into the next
+stage on the right day, the interests make scripts sound like your child), and
+that both can be cleared in settings. Verified against the save code: clearing
+the field writes null, and the age band falls back without it.
+
+**The product was not changed to match the policy**, which was the other option.
+The birthday earns its place, so the honest fix was to describe it rather than
+delete a working feature.
+
+**The effective date moved with the words.** A policy that changes and keeps its
+old date is the same problem one level up.
+
+**Left alone deliberately:** the same sentence says we do not ask for a school.
+No UI was found that collects one, so it stands as written rather than being
+rewritten on a guess. `profiles.school_id` and `school_region` exist and nothing
+in the parent app appears to set them. Worth confirming before the ICO
+registration goes in.
+
+## 8 August 2026 — a parent could grant themselves the product
+
+**Justin, testing:** *"I was able to go around the block, maybe that's for
+testing, but we must make sure real users can not continue without
+subscribing."* It was not only the testing allowlist.
+
+**RLS decides which rows you may write. It never decides which columns.** The
+policy on `profiles` was `auth.uid() = id` with no column restriction, and
+`authenticated` held a table wide UPDATE grant, so any signed in parent could
+run `supabase.from('profiles').update({ subscription_status: 'active' })`
+against their own row from the browser console and have the whole product free,
+permanently. The same write on `trial_ends_at` restarted the trial as often as
+they liked. Neither needed a bug. It was the ordinary client the app ships.
+
+**Migration 175** revokes the table grant and grants back nineteen columns by
+name. Five are withheld for good: `subscription_status`, `subscription_tier`,
+`is_founder`, `trial_ends_at`, and `id` (the policy has no `WITH CHECK`, so a
+writable primary key is a row a user can point at somebody else).
+
+**A column level revoke cannot cut into a table level grant.** The first draft
+of 175 did exactly that and was a silent no op: the privilege survived and the
+migration looked like it had worked. It was caught only by running it live in a
+transaction and reading the privileges back. Any future attempt to narrow a
+column privilege has to be revoke then re grant, and has to be verified by
+reading `information_schema` afterwards rather than by trusting the SQL.
+
+**The trial moved to the server** (`/api/trial/start`, service role) because a
+client granted trial is repeatable, and granting it client side is what
+required the column to be writable in the first place. Check and write are one
+statement so two tabs cannot both pass.
+
+**`NULL <> 'active'` is NULL, not true.** The route's `.neq` filter is only
+correct because `profiles.subscription_status` is NOT NULL default `'free'`,
+checked against the live schema. If that constraint is ever dropped, the filter
+silently stops granting trials and must become an explicit is null or neq.
+
+## 8 August 2026 — the See their lessons button was already right, and looked broken
+
+Justin, from his phone: "This button doesn't [work] it should show just the age
+related lessons."
+
+**It was already showing just those.** `onSeeStage` called `setStage(childStageNum)`,
+and the Lessons tab sets exactly that on entry, so the button was setting the
+filter to the value it already held. A no op. The list underneath had been
+filtered to the child's stage the whole time.
+
+**Two things made it read as broken, and both are real.**
+
+1. **The selected chip sat off screen.** The chip row scrolls sideways and the
+   child's own stage is the fifth chip. On a 390px phone only "All ages" and
+   "Stage 1" fit, so the row looked like nothing was selected. From where a
+   parent is sitting, an invisible filter and no filter are the same thing.
+   The active chip now scrolls itself into view, centred, whenever the stage or
+   the view changes.
+2. **Tapping it moved nothing on screen.** The card sits above the list, so even
+   a real filter change happens below the fold. The button now also scrolls the
+   list into view, so it lands somewhere.
+
+**The browser had no fixture at all**, which is why one control a parent uses
+constantly had never been driven outside a signed in session. `/dev/lessons-filter`
+renders it with a Stage 4 child and lessons across all five stages, the shape
+that makes the overflow visible. Driven in Chromium at 390px: the chip reads
+"Stage 4 · 13 to 15 · Teo" and is on screen at load, the tap moves the page 325
+pixels onto the Shaper route, and the list holds stage 4 tiles only.
+
+Writing the fixture also surfaced that the banner counts only ids starting with
+`lesson-`, the family library set, so a fixture with invented ids renders no
+card at all. Recorded because the next person to write one will hit it too.
+
+## 8 August 2026 — two more links that went nowhere, same cause
+
+Justin: "See timer should actually take you to the ticking timer" and "Play good
+night screens should take you there."
+
+**Both are the same failure: a link left behind when the thing it pointed at
+moved or never existed.** Nothing errors, the route resolves, and the parent is
+simply somewhere else. That is the quietest kind of broken link and the reason
+neither was ever reported as a bug by anything automated.
+
+**The timer.** Four places pointed at `/dashboard/quests#screen-time`: the bell
+notification, the device time cron push, the stop push, and the Screen timer
+tile on home. The timer moved to its own page at `/dashboard/quests/timer`, and
+the anchor was left behind on a spacer div that now sits above the Balance and
+stats LINK. So "See the timer" landed on the quests board, beside a link to a
+different page, with no countdown on screen. The spacer was also a duplicate id
+with the real timer card. All four now point at the timer page and the spacer
+is gone.
+
+**The game.** A job row is a plain div, which is right for "put your shoes away"
+and wrong for a job that names a game we made. `lib/quests/craft-links.ts` maps
+the nine game pack titles to their sheets, stripping a leading verb so "Play
+Goodnight Screens pairs" finds "Goodnight Screens pairs". Deliberately exact,
+never fuzzy: "Play fighting is not allowed" matches nothing, because landing a
+parent on the wrong sheet is worse than leaving the row as text.
+
+**The anchor alone would have been another dead link.** CraftPack renders only
+the selected age band, so six of the nine ids were not in the DOM at all. Proved
+by driving it: 3 of 9 present on the first run. The hash now chooses the band
+first, then scrolls after a frame, because the element does not exist at
+navigation time, which is exactly why it failed. All nine verified landing with
+the sheet 96 pixels down.
+
+**Two fixtures added**, `/dev/lessons-filter` and `/dev/craft-anchors`, because
+neither page had one and both are behind auth. That is why controls a parent
+uses constantly had never been driven at all.
+
+## 8 August 2026 — nothing buzzes a child's phone at night
+
+**Justin:** *"Can we make sure we don't send late pwas to child app. Should
+stop any between 19:00 and 8:00 am."*
+
+**Three doors reach a child's device, not one.** `sendPush({audience:'kids'})`,
+`pushToChild` with about twenty five call sites, and a hand rolled webpush call
+in `/api/quests/ping`. The gate is in all three, at the bottom of each, so the
+next feature that nudges a child inherits it without knowing it exists. A rule
+enforced at the call sites would have been thirty three places to forget.
+
+**The hour is read in London, never from the server clock.** Vercel runs UTC
+and the families are British. Through the summer a naive UTC check would let
+pushes through until 20:00 British, which is exactly the hour being complained
+about, and then hold the morning ones back until 09:00. `lib/time/london.ts`
+already existed and already survives the clocks changing.
+
+**Held, not queued.** A stopped push is dropped. A jobs reminder from 21:00 is
+not worth waking up to at 07:00, and every one of these already has a home on
+the child's own page, which shows the same news at the next open.
+
+**THE WINDOW IS 19:00 TO 07:00, NOT THE 08:00 FIRST ASKED FOR.** Applying 08:00
+literally switched off two pushes that are deliberately before school: the
+school kit reminder and, in winter, the morning jobs reminder. Neither could be
+saved by moving its cron, because a fixed UTC schedule cannot be after 08:00
+London in winter without being 09:00 in summer, which is after the school run.
+Put to Justin as three options with the real times spelled out, and he chose
+the earlier boundary: "1". It still stops every hour he was complaining about.
+
+**THE PART THAT WAS NOT OBVIOUS: the rule silently switches off scheduled
+pushes whose cron sits inside the window.** Cron schedules are fixed UTC and
+drift an hour against London twice a year, so this has to be checked in both
+seasons or it looks fine for six months. Three moved:
+
+| cron | was | now | British time |
+| --- | --- | --- | --- |
+| evening jobs reminder | `45 18` | `45 17` | 19:45 to 18:45 summer |
+| school reminder to child | `0 18` | `0 17` | 19:00 to 18:00 summer |
+| school kit reminder | `45 6` | `5 7` | 06:45 winter, which was held, to 07:05 |
+
+The kit reminder is five minutes past the boundary rather than on it, because a
+cron that drifts a minute early would be silently dropped for a whole winter.
+
+**Knowingly left held: the star week rollover**, Monday 00:10, which tells a
+child they saved sticker credits or holiday minutes. Those two pushes now never
+fire. That is the rule working rather than a fault, a 01:10 buzz is exactly
+what was being complained about, and the news is waiting in their sticker book.
+If a child should be actively told, the fix is to move the telling into a
+morning cron rather than to weaken the window.
+
+## 8 August 2026 — contact details on the home page
+
+Justin: "Make sure we have contact details on home page my name address email
+hello@guided."
+
+**Two of the three existed and were hidden.** The email was the label on a
+Contact link in the footer column, so it was a mailto rather than something you
+could read, copy or check. The name sat in the copyright line at 35 per cent
+opacity. A visitor could not tell who they were buying from without opening the
+terms.
+
+**The address does not exist anywhere in the repo.** `lib/content/contact.ts`
+now holds all of it in one place, with `address` deliberately EMPTY and every
+render guarded by `hasAddress()`. Inventing a plausible looking address would be
+worse than having none: it is a legal statement about where a business can be
+served, and a wrong one is the version that actually costs something. **Waiting
+on Justin. One line to fill in and it appears.**
+
+**This is a legal requirement, not a nicety.** A UK business selling online has
+to give its name, a geographic address and an email, and they have to be easy to
+find. A mailto behind the word "Contact" is not that. Same footing as the ICO
+registration and the cancel route: promises the site makes that the site has to
+be able to keep.
+
+The copyright line now reads from the same constant, so the founder name cannot
+end up different in the two places it appears.
+
+## 9 August 2026 — the address landed
+
+Justin: "The address is . Apple Acre, Winscombe, star , BS25 1QF"
+
+Filled into `lib/content/contact.ts`, so the homepage footer now carries the
+full set: name, business, postal address, email. That closes the last blank in
+the online selling requirement.
+
+**Written in Royal Mail order rather than the order he typed it**, which is the
+one judgement call here. Star is the hamlet, Winscombe is the post town for
+BS25, so the locality goes above the post town. Post addressed the other way
+still arrives, but the post town line is what sorting reads, and an address on
+a website is the one a solicitor or the ICO copies without checking it. Flagged
+to Justin rather than changed silently.
+
+**Worth doing next, not done here:** the same address belongs in the data
+controller section of the privacy page, which is where the ICO looks, and he is
+doing the ICO registration today. Left as his call rather than expanding a
+homepage job into the legal pages unasked.
+
+## 9 August 2026 — Guided Childhood is not by The Social Billboard
+
+Justin: "Not by the social billboard."
+
+The footer block read "Guided Childhood, by The Social Billboard". Wrong, and my
+line. Guided Childhood is its own thing. He founded both, which is what the
+about paragraph on the homepage already says, and that is a different claim from
+one being a product of the other.
+
+The footer now names Guided Childhood and nothing else, and the copyright line
+with it.
+
+**The same wrong attribution is on three other pages and predates this**, so it
+is flagged rather than swept: `/digitalwellbeing`, `/schools` and `/join` all
+carry "© 2026 The Social Billboard". Whether those are right depends on which
+venture owns each page, which is Justin's to say. The Digital Health Checker in
+particular may genuinely be a Social Billboard product.
+
+**The registered legal entity is still unknown.** `business` holds the trading
+name, not a company. If a company sits behind this, its registered name and
+number belong in the footer and on the terms page, and it is what the ICO
+registration going in today has to name.
+
+---
+
+## 2026-08-09 — The split, steps 1 to 4: shared package, tokens, the schools app exists
+
+JP approved the repo split (audit in the split audit artifact, plan in plans/split-plan.md) and steps 1 to 4 shipped in one day on PR #762. What exists now: shared/ (@gc/shared), holding the lesson slide grammar, the player and interactives, DigiCharacter, PrintBrand, curriculum badges, the new efcw.ts single source for the eight EfCW strands, the social media law flag, brand constants and tokens.css (the design tokens extracted verbatim from globals.css, pixel diffed before and after with Playwright: identical outside DiGi's animated speech bubble). The Supabase clients deliberately stay out of shared, and wiring check 7 fails the build if shared/ or schools/ ever imports an auth capable client, Stripe or the Anthropic SDK. And schools/ is a real second Next app on the Oak model: the schools marketing page as its homepage, the open curriculum catalogue, teach, the print room (minus named quizzes and certificates, which need pupils), all ten Hub documents and the class showcase re pointed at school_lessons. No login, no middleware, no crons, no API routes, and its only Supabase file is the anon read only client. Builds green with zero env in both apps. e2e/star-lessons.spec.ts is the gate for step 6: the send, play, quiz, stars land flow, run against a preview with a seeded kid token before and after the schema move. One audit correction recorded in the step 1 commit: the school_lesson entry in api/lessons/complete is live (the educator teach page posts it), not dead. Steps 5 to 9 wait for JP to schedule the cutover day. Owner actions: create the schools Vercel project (root directory schools/, domain schools.guidedchildhood.co.uk, two env vars: the Supabase URL and anon key) and say which domain is canonical, .com or .co.uk.
+
+---
+
+## 2026-08-09 — The cutover, steps 5 to 7: schools is its own product on its own domain
+
+JP merged the scaffold (PR #762), said the canonical domain is .com, and called the cutover. Steps 5 to 7 shipped the same day. Migration 176 drops the one cross product FK (kid_lesson_missions to school_lessons, the uuids and every sent mission survive); 177 creates the schools schema and moves the 11 schools tables and 4 membership functions into it, metadata only, revert is the same statement reversed. The parent app reads the schools curriculum through exactly one file now, lib/quests/star-lesson-catalogue.ts, which asks the schools schema first and falls back to public until 177 has run, so the deploy and the SQL can land in either order and Star Lessons never breaks (the kid page join became a second query because PostgREST embeds ride FKs). Step 7 retired the educator surface from the parent app: /educator, /class and the schools marketing page are gone, next.config 308s all three to schools.guidedchildhood.com with paths preserved, middleware no longer guards /educator, the login page is family only again, the twelve inbound links are absolute and the sitemap entry is gone. The parked educator accounts layer (classes, pupils, deliveries, judgements) keeps its tables in the schools schema, UI retired until schools accounts get their own design. Owner actions, in order: run 176 then 177 in the SQL editor, add schools to Settings, API, Exposed schemas IN THE SAME SITTING, create the schools Vercel project (root directory schools/, domain schools.guidedchildhood.com, the two public Supabase env vars), and message the two educator test accounts that the workspace moved. Both apps build green with empty env; the star lesson gate (e2e/star-lessons.spec.ts) is ready to run against production with a kid token before and after the SQL.
+
+## 2026-08-09 — Daily health sweep: push_subscriptions.device_id added to the required column watch
+
+Routine sweep. Schema check clean, all ten watched columns present. Found one
+real fault in the cron history: `/api/push/cron` failed on 7 August at 06:30,
+body read "column push_subscriptions.device_id does not exist", 200 status the
+whole time, same shape as the trial_ends_at outage. The column exists now (some
+migration since added it) and there has been no repeat, so nothing is on fire
+today, but the column was load bearing and not on the watch list, meaning the
+next time it goes missing the board would stay quiet again. Added it to
+REQUIRED_COLUMNS in lib/ops/health.ts, one line, same pattern as every other
+row there.
+
+Also found `/api/cron/job-reminders?band=morning=after_school` skipped its 8
+August 16:30 run entirely, no row, no error, while the morning and evening
+bands both fired fine that day. Reads as a single missed Vercel invocation for
+that one cron entry rather than a code fault, nothing in the route or the
+schedule explains it, and it has not recurred. Left alone. Worth a second look
+only if it happens again.
+
+Security and performance advisors: no ERROR level findings. Performance shows
+501 warnings, almost all `multiple_permissive_policies` and `auth_rls_initplan`
+on RLS policies across profiles, children, push_subscriptions and others, plus
+the usual unindexed foreign key and unused index notes. Pre-existing shape, not
+a new incident, not touched here. Security shows the RLS-enabled-no-policy
+notes on ops only tables (cron_runs and friends, expected, service key only),
+function search_path warnings on 4 functions, the vector extension living in
+public, several SECURITY DEFINER functions callable by anon, and leaked
+password protection still off. None of these are new since nothing in the repo
+or decisions.md shows an earlier sweep to diff against. Flagged, not fixed:
+each is a judgement call (revoking EXECUTE on functions the board itself calls,
+moving an extension, turning on leaked password checking) rather than a small
+certain fix.
+
+---
+
+## 2026-08-09 — Holding pattern: the schools site stays off the domain until the platform is built
+
+JP is not attaching schools.guidedchildhood.com until the whole schools platform is ready. Two changes keep the world sensible in the meantime. The parent app's /schools, /educator and /class redirects now read SCHOOLS_SITE_URL (falling back to the schools project's vercel.app address) and are TEMPORARY 307s, so no browser or search engine caches the interim URL; at launch the env flips to the real domain and the redirects flip to permanent in one commit. And the schools app carries robots noindex until that same commit, so the vercel.app address never enters Google. Launch is now a two line change plus attaching the domain in Vercel.
+
+## 9 August 2026 — platform scripts, and the free tier that looked like a bug
+
+Justin, with two screenshots: "we really need many more moments and scripts for
+social media and AI as this is core ... every possible issue with Instagram,
+Facebook, TikTok and all top 10 social media platforms."
+
+**The screenshots showed 63 scripts and 3 on social media. That was the free
+tier on a test account.** Live: 296 scripts, 27 social media, 31 school and AI,
+21 gaming. The free counts match his screen exactly, category by category, and
+the Unlock all button was in the shot. Nothing was hidden or broken. Worth
+recording because the next person to look at a screenshot of a free account will
+reach for the same wrong conclusion.
+
+**The real gap was different and narrower.** Reading all 58 social and AI titles:
+Instagram appears in two, TikTok in one, and Snapchat, WhatsApp, YouTube,
+Discord, Roblox, Facebook, X and Twitch in none. The library is strong on themes
+and silent on the four apps a parent is holding when they go looking. A parent
+does not search for social comparison, they search for streaks.
+
+**Migration 180 adds sixteen platform scripts**, four platforms, across builder,
+explorer, shaper and independent, taking social media from 27 to 43 and adding
+two at builder where there was one.
+
+**I was wrong about the send to child button and corrected it.** I told Justin it
+did not exist. It does and it is complete: ScriptDepth renders the child note
+with send to their app, SMS, share and copy, and /api/scripts/expand generates
+the note when the stored field is null. Filling for_your_child by hand on all
+sixteen buys a written child version instead of a generated one, and nothing
+more than that. Said plainly rather than left as an implied win.
+
+**The research is cited in the migration header** so the next person can check
+it: Mumsnet threads and platform guides for Snapchat, the newspaper
+investigation for the TikTok algorithm, the WhatsApp group default that lets
+anyone holding a number add a child with no request to accept, and Instagram
+Teen Accounts.
+
+**One complication kept rather than buried.** Heitner's mentoring over
+monitoring is the philosophy match, but Livingstone's survey found restriction
+of peer to peer contact WAS associated with reduced risk while active co use was
+not necessarily. So none of the sixteen claim talking always beats a setting.
+The words come first, the setting sits in tonight, and where a setting is simply
+the right move the script says so.
+
+**Not in this batch, named so the gap stays visible:** YouTube, Discord, Roblox,
+Facebook, X, Twitch, and the moments and lessons, which are their own build.
+
+---
+
+## 2026-08-09 — The child's home screen, reorganised: three PRs, one thing at a time
+
+JP: "we have way too much on Home Screen so let's organise better." His order, shipped as three PRs so each could be looked at alone: school diary first, morning welcome, streaks small, five a day one at a time, use my time. Full plan in plans/2026-08-09-child-home-reorder.md.
+
+**The school diary takes child additions, with stored provenance.** Migration 179 adds added_by (parent or child, default parent, the truthful backfill) and added_by_child_id to school_actions. The child's week viewer gained the parent calendar's entry system, copied per JP ("can we copy the parent calendar entry system we built as that worked well"): an Add button on the open day opens the same sheet shape rebuilt in KidSchoolAddSheet, child kinds only (kit, homework, event), saving through the token authed /api/kid/school-add, which dedupes like the parent route, pushes the grown up on every add, and falls back to a bare insert until 179 is run. Child items wear a "you added this" badge on the child's chips and name the child on the parent's school page. Both surfaces read added_by in a guarded second query so neither breaks between deploy and the hand run SQL.
+
+**The five a day is one step at a time.** Done steps shrink to slim ticked lines, ONE live step shows with the loud edge, the rest wait behind a count. The duplicate Today list under it is gone from home; the jobs live at /k/[token]/jobs, which is the real KidTodayList in a jobs only shape (jobs plus the pay back message; Learn and Move stay steps of the five a day). Which jobs are due moved to lib/kid/jobs-read, called by both screens, so the five a day's count and the jobs page cannot disagree. The new job arrival notice moved onto the five a day's jobs step so it stays first glance.
+
+**The reorder itself.** Diary always renders (a quiet day shows a slim door into the week, because the block a child adds to cannot vanish), the welcome greets by the child's clock, the streak strip is one line (JP: "don't let it dominate"), and the tab bar went solid white with a real border and full ink labels. ref-kid-home renders the whole real KidQuestScreen with a made up family, the first way to see the child home without a signed in child; ref-kid-five now imports the real component too (KidFiveADay takes initialState for fixtures).
+
+**Worth knowing:** migrations 177 AND 179 are merged but not applied; 179 is safe either side of the deploy (guarded reads, fallback insert), but the child add stores no provenance until it runs. The schools Vercel project failed every deploy this morning until it was reconfigured mid afternoon; the repo was never the fault (schools builds green locally with zero env).
+
+## 9 August 2026 — the ask for a job list emptied itself and never refilled
+
+Justin, from the child app: "it's one of the 5 ask for a job but it's a list
+that I cannot add one, can you check how this works and why I can't add one, it
+may be a restriction on too many jobs."
+
+**It was not a restriction, and both caps were checked against the live data
+before touching anything.** Teo had one ask pending against a limit of five, and
+none created today against a daily limit of five. Neither was close.
+
+**The cause was one filter.** KidAskForJob hid a preset idea if its title
+appeared in the child's recent asks at ANY status. Teo had, over a fortnight,
+asked for all seven presets and had every one approved. So the quick pick grid
+filtered to zero and did not render, leaving a bare text box under a line that
+still reads "tap one, or write your own". Nothing explains where the list went,
+which is exactly what Justin described.
+
+**Now it hides an idea only while it is still pending.** An approved job is the
+opposite of a reason to hide the idea: it is proof the child likes doing it and
+the parent said yes, and helping with dinner again next week is the behaviour
+the feature exists to produce. Only an undecided ask is worth suppressing,
+because asking twice for the same one clutters a parent's approvals.
+
+Verified against Teo's actual twelve rows: 0 chips before, 7 after, then driven
+in the browser at 390px on a new /dev/ask-for-job fixture.
+
+**Why it was never caught: the page cannot be opened locally at all.** It
+resolves a link token with the service role, so it 500s without the key, and
+there was no fixture. That is the same gap as the lessons and craft pages
+earlier today.
+
+**Two things in the same report are NOT touched, because they belong to PR 770**
+(the child home five a day rebuild, open and active): the Ask for a job card
+colours, and "Something kind" vanishing the instant it is tapped. Confirmed 770
+does not touch KidAskForJob or the suggest page, so this fix cannot collide, and
+the other two are passed to that lane rather than fixed twice.
+
+## 9 August 2026, later: the child's chosen colour, and a print window with no way out
+
+Two reports from Justin's phone, both on the child app.
+
+### 1. "This page needs to be app chosen colours"
+
+He was looking at Telling a grown up. The fault was not that page, it was the
+shape of the code. **Make it mine recoloured the home screen only**, because the
+whole theme (the twelve colours, the mixed hue wheel, the resolver) lived
+privately inside KidQuestScreen. Every other screen a child can reach fell back
+to the anthracite default in tokens.css. A child on Coral got a peach home and a
+slate grey everything else, which reads as a different app rather than a choice
+they made.
+
+**Moved to lib/kid/theme.ts, same reasoning as lib/kid/buddy.ts.** Two copies of
+what colour the child is means two answers and the child sees both. Ten screens
+now read it: tell, suggest, balance, lesson, lessons, adventures, homework,
+quiz, the lesson list and Ask for a job.
+
+**Moving the map alone would have shipped a worse bug.** The sub pages were
+written against a dark ground and hardcode white text on it. Handing them a
+pastel wash untouched would have printed white on cream. So a theme now carries
+its own foreground: the text that reads on it, the muted tone for mono eyebrows,
+a translucent panel that sits ON the background, and the shadow underneath. Dark
+themes get white overlays, light themes get ink ones, and a colour added later
+is legible everywhere the day it ships without visiting a single screen.
+
+Measured rather than eyeballed, on the mono eyebrow that sits directly on the
+background: **white at 0.66 over the Coral wash scores 1.15 to 1, which is
+invisible.** The themed ink scores 5.05. Graphite is unchanged at 4.61, so the
+default sees no difference at all. Sunshine and Mint were 1.09 before and are
+5.21 and 5.20 now.
+
+**One existing bug fell out of it.** KidHomework drew its heading, its intro and
+its back link in ink directly on the dark background: dark on dark, and barely
+readable on the default. Reading them from the theme fixes that too.
+
+**Left alone deliberately:** the jobs, week and deal screens, which are butter
+or white on purpose. The week page documents why (the colour coded school chips
+need a pale ground), and turning a deliberate light screen into a pastel wash is
+a design decision, not this bug.
+
+### 2. "When clicked printable it displays print, need a way back to platform"
+
+The window the child gets from Print it now contained an image and nothing else.
+On a desktop that is survivable, there is a tab to close. **Inside the installed
+app there is no address bar, no tabs and no back button**, so a child who printed
+the Kindness Bucket List was on a sheet with no control of any kind, and once the
+print dialog was dismissed the app behind it was out of reach.
+
+The parent side hit this on 6 August and was fixed by opening AWAY from the app,
+because a PDF served by a route is not ours to decorate. **This window is ours,
+we write every byte of it**, so it now carries its own way back: My quests, which
+closes it, and Print again, both hidden in @media print so the paper is still
+only the sheet.
+
+**A second failure the test surfaced.** The print dialog fires from the image's
+own onload, and the art is on the CDN. If that image fails, nothing at all used
+to happen: no picture, no dialog, no explanation, just a blank white page. It now
+says so, and the bar above it still works.
+
+**Lifted to lib/kid/print-sheet.ts so it could be driven at all.** It sat three
+thousand lines into a screen that needs a live link token, so nothing had ever
+opened that window except a child on a phone. That is precisely how it shipped
+with no way out. Six checks now run against the real thing on a new
+/dev/print-sheet fixture: both buttons present, the dialog fires, the bar is
+flex on screen and none on paper, the bar does not overlap the sheet, back
+actually closes the window, and a sheet that cannot load says so with Print
+again still reachable.
+
+## 9 August 2026, third pass: the five a day actually asks, and a grown up can see it
+
+Justin, after PR 770 merged: "yep take them over." So the two items held back
+earlier are done here, plus the reminder and the tracking he asked for with them.
+
+### Something kind did not flash off. That WAS the behaviour.
+
+Seven of the twelve steps have `href: null`, and those rendered as a button whose
+whole handler was `mark(key)`. `mark` pushes the key into `done` optimistically
+on the same tick, so the row left the live slot and came back as a struck through
+line before his finger was off the glass. No confirmation, no undo.
+
+**And the row was dressed as a link.** Same `›` chevron as the steps that really
+do open a page, on seven of twelve. A child taps expecting to go somewhere and
+instead silently marks off a thing they have not done.
+
+**It also hollowed out the day.** A completed day banks screen time through
+`grantDayMinutes`, so the whole five could be cleared in about five seconds by a
+child who had done none of it. A list that can be finished without doing anything
+teaches a child the list is pretend, which costs more than any one step.
+
+**Now the tap opens a sheet.** Ideas first, because "something kind" is a lovely
+row and a useless instruction to a child standing in a kitchen trying to think of
+one. The confirm underneath is the only thing that marks anything, and Not yet
+closes and leaves the step exactly where it was. The chevron comes off any row
+that is not a link.
+
+Eight ideas for kindness, and the other six self tick steps get the same sheet
+with their own list, because the fault was the shape of the row rather than
+anything about kindness.
+
+### Track if done: the parent could not see ANY of it
+
+The bigger hole. The five a day has run since it shipped and **there was no
+parent view of it anywhere in the app.** Everything else a child does reaches a
+grown up: jobs go through approval, lesson passes land on the passport, an ask
+arrives as a push. The thing they do most went nowhere.
+
+- **Migration 181** adds `kid_days.notes`, keyed by step, so the report reads
+  "made someone a drink" rather than "kind ✓". Keyed rather than a `kind_note`
+  column because all seven steps share the sheet.
+- **`FiveADayReport`** sits under Is it working on the pathway page, which is the
+  section that already asks that question from the parent's side. Today in full,
+  then the week as counts. No percentage, no target, no red for an unfinished
+  day: four things done is four things done, and printing it as a failure is how
+  a good habit becomes another thing to be nagged about. Read with the parent's
+  own client so the existing RLS policy decides, not the service key.
+
+### The reminder
+
+`/api/cron/five-a-day` at **18:30**, built to `job-reminders` rules exactly: one
+push per child per day however many steps are open, nothing at all when the day
+is done or when the child never opened the app, only children with their own app
+and a subscription, and no fallback to chasing the parent. Wording names what is
+open and stops. No streak at risk, no countdown, nothing engineered to pull a
+child back, because the ICO Children's Code is explicit about that and the line
+has to hold in both files or it holds in neither.
+
+18:30 is after the evening job band at 17:45 with enough evening left to read a
+book or tidy a room. A reminder after the moment has gone is a telling off.
+
+### The colours
+
+The live step's edge, its shadow and the progress bar were all fixed terracotta,
+so a child on Ocean still got a terracotta card. All three read the accent now.
+
+**Two things the theme needed for that.** A shadow the same colour as the edge
+above it is not a shadow, so `hexDark` joins the theme, typed for the twelve
+named colours and computed for the hue wheel. And `onAccent`, because white on
+the Graphite accent scores **2.16 to 1** while ink on it scores 7.88: one fixed
+choice makes half the palette unreadable, which is exactly what the confirm
+button looked like on the first build of the sheet.
+
+The threshold is solved rather than picked, at luminance 0.209. All twelve named
+accents land above it and take ink, which is what the rest of the design system
+already does on a chunky button. The switch earns its place on the hue wheel,
+where a mixed blue comes out genuinely dark. Worst case anywhere after the fix is
+**4.09 to 1** on large bold text, which needs 3.0.
+
+## 9 August 2026, the AI companion strand is the launch wedge
+
+Justin said yes to a product brief and build plan for the AI companion strand,
+the lead option from the new service landscape briefing. Decision recorded here:
+the strand ships as a standalone wedge that pulls families into the pathway, not
+a new SKU. It lives inside the existing subscription and the existing tables
+(lessons, school_lessons, scripts, ai_lessons, ai_updates), so it deepens the
+core offer rather than fragmenting it. Module 15 is already written in all three
+versions and the AI literacy architecture is already built, so the work is mostly
+wiring, not new content. Brief and phased build plan at
+plans/2026-08-09-ai-companion-strand-product-brief.md. The living updates layer
+(Phase D) stays fenced behind its own go-ahead and keeps the manual publish step,
+because auto drafted content for children is a safety call, not a convenience.
+
+## 9 August 2026: the quiz battle joins the quest games
+
+Justin asked for research into the most popular educational games with a view
+to building our versions. The research (plans/week-of-2026-08-09-educational-
+games-plan.md, PR 774) found the engine already covers most of the popular
+formats. The one big missing loop was Prodigy's: the answer IS the attack,
+proven on 100 million children.
+
+**Built as a new `battle` mechanic on the quest games engine.** The child's
+Planet Friend faces a friendly trouble (the Muddle, the Tangle, the Trick
+Cloud) and every right answer powers a move. Three battles ship, one per band:
+Pebble and the Number Muddle (4 to 7), Bloop and the Times Tangle (8 to 10),
+Orbit and the Trick Cloud (11 up, media literacy).
+
+**The decisions that matter:**
+
+- No losing side, ever. A wrong answer means the move fizzles, the right
+  answer is shown kindly and the question rejoins the back of the queue. The
+  battle always ends in a win once the set is cleared. This is section 8 of
+  quest-games-plan applied to a battle: Prodigy's fun without Prodigy's
+  pressure. No timer, no randomness, fixed stars, calm finish.
+- The opponent is never a person or another child. It is confusion itself,
+  which means beating it is understanding, not beating someone.
+- Duolingo's streak pressure was explicitly researched and explicitly not
+  copied. The research batch note in the registry says which mechanic came
+  from which market leader, same as the 13 July batch.
+- New dev fixture at /dev/quest-game?game=<key> renders any registry game
+  with no database and no signed in parent, the quest games twin of
+  /dev/lesson-player. Gated by the dev layout like the rest.
+- No migration. Scoring rides the existing game_key branch of
+  lesson-complete, server side, deduped.
+
+Left for later sessions, in the plan: tracing for Foundation, word builder,
+story sequencer, an opt in adaptive layer, and the printable outdoor Batch 1
+which stays the named priority for offline play.
+
+## 10 August 2026: Trace with Pebble, the second research build
+
+Justin picked tracing as the next educational games build after the quiz
+battle merged (PR 774). Built as a new `trace` mechanic on the quest games
+engine (PR 775): the first six phonics letters in the order school teaches
+them (s a t p i n), traced with a finger stroke by stroke. Duolingo ABC's
+proven pattern in our butter and ink: faint letterform as the ground, a big
+start dot, guide points, the letter fills in gold behind the finger, Pebble
+cheers each one with its sound.
+
+The decisions: forgiving by design (generous hit radius, lifting a finger
+loses nothing, Start again is offered rather than forced), no timer, no
+failing, fixed stars, calm finish. Letters are registry data with stroke
+point paths, so more letters and numbers are data only, no code. No
+migration, scoring on the existing game_key route.
+
+## 10 August 2026: syllabus games are next week's plan
+
+Justin, after Trace with Pebble merged (PR 775): he wants to start building
+games that cover the syllabus a child is about to study, and wants it planned
+next week. Brief captured in plans/week-of-2026-08-17-syllabus-games-brief.md
+for the Monday session to pick up: curriculum mapped by year group and term,
+derived from date_of_birth and the calendar, delivered as new registry data on
+the existing mechanics, surfaced as a coming up at school shelf. Both quiz
+battle (PR 774) and tracing (PR 775) merged today, so the engine now has
+eight mechanics for the syllabus work to draw on.
