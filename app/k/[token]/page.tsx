@@ -14,7 +14,7 @@ import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
 import { getPrintable } from '@/lib/printables/registry'
-import { isChildVisible, type ChildVisibleAction } from '@/lib/school/child-items'
+import { isChildVisible, isHeldForHolidays, type ChildVisibleAction } from '@/lib/school/child-items'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
 import { starWeekStart } from '@/lib/quests/star-week'
 import KidQuestScreen from './KidQuestScreen'
@@ -383,13 +383,38 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // The rule lives in lib/school/child-items now, shared with the week viewer,
   // because two copies of "which reminders may a child see" is how a payment
   // reminder eventually turns up on a nine year old's phone.
+
+  // Which routines keep going in the school holidays. Read on its own and
+  // guarded, not folded into the select above: runs_in_holidays lands with
+  // migration 182, migrations run by hand, and naming a missing column fails
+  // the whole query it is part of, which here would blank the child's school
+  // banner. An error reads as "school time", the truthful default, which is
+  // also what holds every routine in August before the column exists.
+  const runsInHolidays = new Map<string, boolean>()
+  try {
+    const { data, error } = await supabase
+      .from('school_actions')
+      .select('id, runs_in_holidays')
+      .eq('user_id', link.user_id)
+      .eq('status', 'open')
+    if (!error) {
+      for (const r of (data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
+        runsInHolidays.set(String(r.id), r.runs_in_holidays === true)
+      }
+    }
+  } catch { /* pre 182, every routine is school time */ }
+
+  const tomorrowDay = new Date(Date.now() + 86400000)
   const schoolToday = (schoolRows ?? [])
     .map(a => {
       const cleared = String((a as { cleared_on?: string | null }).cleared_on ?? '')
       const isRoutine = a.recurs_weekday != null
       if (!isChildVisible(a as ChildVisibleAction)) return null
-      const dueToday = isRoutine ? a.recurs_weekday === todayWeekday : a.due_date === today
-      const dueTomorrow = isRoutine ? a.recurs_weekday === tomorrowWeekday : a.due_date === tomorrowDate
+      const hold = { recurs_weekday: a.recurs_weekday as number | null, runs_in_holidays: runsInHolidays.get(a.id as string) ?? false }
+      const dueToday = (isRoutine ? a.recurs_weekday === todayWeekday : a.due_date === today)
+        && !isHeldForHolidays(hold, new Date(), region)
+      const dueTomorrow = (isRoutine ? a.recurs_weekday === tomorrowWeekday : a.due_date === tomorrowDate)
+        && !isHeldForHolidays(hold, tomorrowDay, region)
       // A routine cleared for today steps back from today, but still shows a
       // tomorrow heads up if it comes round again tomorrow.
       const when: 'today' | 'tomorrow' | null =

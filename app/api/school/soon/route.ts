@@ -3,6 +3,9 @@ import { londonNow } from '@/lib/time/london'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendPush } from '@/lib/push/send'
+import { isHeldForHolidays } from '@/lib/school/child-items'
+import { DEFAULT_REGION, isRegion } from '@/lib/learning/region'
+import type { Region } from '@/lib/learning/holidays'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -102,9 +105,43 @@ async function handler(req: NextRequest) {
       .eq('status', 'open').eq('recurs_weekday', uk.weekday).not('due_time', 'is', null),
   ])
 
+  // The holiday hold, matching the screens and the other two crons: a school
+  // time routine rests through the school holidays, so its hour before alert
+  // stays quiet too. Dated one offs are never held, they were typed on
+  // purpose. Guarded reads (migrations 182 and 129 run by hand); errors read
+  // as school time and UK.
+  const holidayFlag = new Map<string, boolean>()
+  try {
+    const ids = (routines.data ?? []).map(r => r.id)
+    if (ids.length) {
+      const { data, error } = await supabase
+        .from('school_actions').select('id, runs_in_holidays').in('id', ids)
+      if (!error) for (const r of (data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
+        holidayFlag.set(String(r.id), r.runs_in_holidays === true)
+      }
+    }
+  } catch { /* pre 182, school time */ }
+  const regionOf = new Map<string, Region>()
+  try {
+    const userIds = [...new Set((routines.data ?? []).map(r => r.user_id as string))]
+    if (userIds.length) {
+      const { data, error } = await supabase
+        .from('profiles').select('id, school_region').in('id', userIds)
+      if (!error) for (const p of (data ?? []) as { id: string; school_region?: unknown }[]) {
+        if (isRegion(p.school_region)) regionOf.set(String(p.id), p.school_region)
+      }
+    }
+  } catch { /* pre 129, UK */ }
+  const todayDate = new Date(`${today}T12:00:00`)
+  const liveRoutines = ((routines.data ?? []) as Action[]).filter(a => !isHeldForHolidays(
+    { recurs_weekday: uk.weekday, runs_in_holidays: holidayFlag.get(String(a.id)) ?? false },
+    todayDate,
+    regionOf.get(String(a.user_id)) ?? DEFAULT_REGION,
+  ))
+
   const seen = new Set<string>()
   const due: { action: Action; minutesAway: number }[] = []
-  for (const a of [...(dated.data ?? []), ...(routines.data ?? [])] as Action[]) {
+  for (const a of [...(dated.data ?? []), ...liveRoutines] as Action[]) {
     if (seen.has(a.id)) continue
     seen.add(a.id)
     const at = timeToMinutes(a.due_time)

@@ -46,6 +46,9 @@ export async function POST(req: NextRequest) {
     ? body.recurs_weekday
     : null
   const autoSendToChild = recursWeekday !== null && body.auto_send_to_child === true
+  // School time or home life (migration 182). Only a weekly routine carries
+  // it: school time routines rest through the school holidays.
+  const runsInHolidays = recursWeekday !== null && body.runs_in_holidays === true
 
   // Already on the list? Then this is the same reminder being typed again, not
   // a second one. Justin's Thursday had PE kit, PE, Pe and Pr all open at once,
@@ -78,24 +81,36 @@ export async function POST(req: NextRequest) {
   )
   if (dupe) return NextResponse.json({ action: dupe, alreadyThere: true })
 
-  const { data, error } = await supabase
+  const insertRow = {
+    user_id: user.id, kind, title, detail,
+    due_date: recursWeekday !== null ? null : dueDate,
+    // A routine keeps no date, because a weekly thing has no single one. It
+    // does have a time of day, and this used to throw it away: Cubs every
+    // Tuesday stored a weekday and nothing else, so the child's card had no
+    // when to show and no reminder could fire an hour before something whose
+    // hour was never recorded.
+    due_time: dueTime,
+    recurs_weekday: recursWeekday,
+    auto_send_to_child: autoSendToChild,
+    status: 'open',
+  }
+  // runs_in_holidays lands with migration 182, run by hand, so the insert
+  // retries without it rather than failing the save before the SQL has run.
+  let { data, error } = await supabase
     .from('school_actions')
-    .insert({
-      user_id: user.id, kind, title, detail,
-      due_date: recursWeekday !== null ? null : dueDate,
-      // A routine keeps no date, because a weekly thing has no single one. It
-      // does have a time of day, and this used to throw it away: Cubs every
-      // Tuesday stored a weekday and nothing else, so the child's card had no
-      // when to show and no reminder could fire an hour before something whose
-      // hour was never recorded.
-      due_time: dueTime,
-      recurs_weekday: recursWeekday,
-      auto_send_to_child: autoSendToChild,
-      status: 'open',
-    })
+    .insert({ ...insertRow, runs_in_holidays: runsInHolidays })
     .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child')
     .single()
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (error) {
+    const retry = await supabase
+      .from('school_actions')
+      .insert(insertRow)
+      .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child')
+      .single()
+    data = retry.data
+    error = retry.error
+  }
+  if (error || !data) return NextResponse.json({ error: error?.message ?? 'could not save' }, { status: 500 })
 
   // Tell both phones it has been added, with a link that adds it straight to
   // their calendar. Best effort, so a push hiccup never blocks the save.
@@ -110,12 +125,53 @@ export async function POST(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
-  const { id, status, clear_today } = await req.json()
+  const { id, status, clear_today, edit } = await req.json()
   if (!id) return NextResponse.json({ error: 'missing id' }, { status: 400 })
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
+
+  // Editing in place. Justin, 10 August 2026: "a way for them to click in
+  // and simply stop it edit it if wrong." Stop already existed (Done and
+  // Dismiss); this is the edit half, taking the same fields as POST and
+  // keeping the row's identity, history and sent to child state.
+  if (edit && typeof edit === 'object') {
+    const title = typeof edit.title === 'string' ? edit.title.trim().slice(0, 140) : ''
+    if (title.length < 2) return NextResponse.json({ error: 'title too short' }, { status: 400 })
+    const kind = KINDS.includes(edit.kind) ? edit.kind : 'notice'
+    const dueDate = typeof edit.due_date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(edit.due_date) ? edit.due_date : null
+    const dueTime = typeof edit.due_time === 'string' && /^\d{2}:\d{2}$/.test(edit.due_time) ? edit.due_time : null
+    const recursWeekday = Number.isInteger(edit.recurs_weekday) && edit.recurs_weekday >= 0 && edit.recurs_weekday <= 6
+      ? edit.recurs_weekday
+      : null
+    const patch = {
+      kind, title,
+      due_date: recursWeekday !== null ? null : dueDate,
+      due_time: dueTime,
+      recurs_weekday: recursWeekday,
+      auto_send_to_child: recursWeekday !== null && edit.auto_send_to_child === true,
+      // A fixed reminder starts fresh: a routine cleared for today that gets
+      // its day changed should show on the new day, not stay stepped back.
+      cleared_on: null,
+    }
+    // Same soft landing as POST: runs_in_holidays waits on migration 182.
+    let { error } = await supabase
+      .from('school_actions')
+      .update({ ...patch, runs_in_holidays: recursWeekday !== null && edit.runs_in_holidays === true })
+      .eq('id', id).eq('user_id', user.id)
+    if (error) {
+      const retry = await supabase.from('school_actions').update(patch).eq('id', id).eq('user_id', user.id)
+      error = retry.error
+    }
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    const { data } = await supabase
+      .from('school_actions')
+      .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child, cleared_on')
+      .eq('id', id).eq('user_id', user.id)
+      .maybeSingle()
+    return NextResponse.json({ ok: true, action: data ?? null })
+  }
 
   // Clear a weekly routine for today only: it stays open and comes back on its
   // next day, rather than being marked done or removed. The date is stamped

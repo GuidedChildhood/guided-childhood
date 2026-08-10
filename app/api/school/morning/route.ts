@@ -3,6 +3,9 @@ import { londonNow } from '@/lib/time/london'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendPush } from '@/lib/push/send'
+import { isHeldForHolidays } from '@/lib/school/child-items'
+import { DEFAULT_REGION, isRegion } from '@/lib/learning/region'
+import type { Region } from '@/lib/learning/holidays'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -31,10 +34,43 @@ async function handler(req: NextRequest) {
 
   const { dateStr: today, weekday } = ukToday()
 
-  const [{ data: dueToday }, { data: routines }] = await Promise.all([
+  const [{ data: dueToday }, { data: routineRows }] = await Promise.all([
     supabase.from('school_actions').select('user_id, title, kind').eq('status', 'open').eq('due_date', today),
-    supabase.from('school_actions').select('user_id, title, kind').eq('status', 'open').eq('recurs_weekday', weekday),
+    supabase.from('school_actions').select('id, user_id, title, kind').eq('status', 'open').eq('recurs_weekday', weekday),
   ])
+
+  // The holiday hold: a school time routine rests through the school
+  // holidays, so the morning push skips it, the same rule the screens and
+  // the evening remind keep. Both reads guarded (migrations 182 and 129 run
+  // by hand); errors read as school time and UK.
+  const holidayFlag = new Map<string, boolean>()
+  try {
+    const ids = (routineRows ?? []).map(r => r.id)
+    if (ids.length) {
+      const { data, error } = await supabase
+        .from('school_actions').select('id, runs_in_holidays').in('id', ids)
+      if (!error) for (const r of (data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
+        holidayFlag.set(String(r.id), r.runs_in_holidays === true)
+      }
+    }
+  } catch { /* pre 182, school time */ }
+  const regionOf = new Map<string, Region>()
+  try {
+    const userIds = [...new Set((routineRows ?? []).map(r => r.user_id as string))]
+    if (userIds.length) {
+      const { data, error } = await supabase
+        .from('profiles').select('id, school_region').in('id', userIds)
+      if (!error) for (const p of (data ?? []) as { id: string; school_region?: unknown }[]) {
+        if (isRegion(p.school_region)) regionOf.set(String(p.id), p.school_region)
+      }
+    }
+  } catch { /* pre 129, UK */ }
+  const todayDate = new Date(`${today}T12:00:00`)
+  const routines = (routineRows ?? []).filter(r => !isHeldForHolidays(
+    { recurs_weekday: weekday, runs_in_holidays: holidayFlag.get(String(r.id)) ?? false },
+    todayDate,
+    regionOf.get(String(r.user_id)) ?? DEFAULT_REGION,
+  ))
 
   // The parent hears about everything; the child only about the things they
   // can act on themselves (kit, events, homework), never payments or notices.

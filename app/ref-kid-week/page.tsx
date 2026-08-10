@@ -29,7 +29,9 @@ function isoIn(days: number): string {
 const BUSY: KidWeekItem[] = [
   { id: 'a', title: 'PE kit, and the black shorts not the blue ones', kind: 'kit', dueDate: null, weekday: 2, time: null, clearedOn: null },
   { id: 'b', title: 'Reading record signed and in the bag', kind: 'homework', dueDate: null, weekday: 5, time: null, clearedOn: null },
-  { id: 'c', title: 'Cubs', kind: 'event', dueDate: null, weekday: 4, time: '18:15', clearedOn: null },
+  // Cubs runs all year, so it keeps its colour in the holidays; every other
+  // routine here is school time and shows the on hold pill through August.
+  { id: 'c', title: 'Cubs', kind: 'event', dueDate: null, weekday: 4, time: '18:15', clearedOn: null, runsInHolidays: true },
   { id: 'd', title: 'Trip letter back in', kind: 'homework', dueDate: isoIn(1), time: '09:00', weekday: null, clearedOn: null },
   { id: 'e', title: 'Swimming kit', kind: 'kit', dueDate: isoIn(0), weekday: null, time: null, clearedOn: isoIn(0) },
   { id: 'f', title: 'Bring football boots for lunchtime club', kind: 'kit', dueDate: isoIn(2), weekday: null, time: null, clearedOn: null, addedBy: 'child' },

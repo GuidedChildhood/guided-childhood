@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { playKidSound } from '@/lib/sound/kidSounds'
+import { isHeldForHolidays } from '@/lib/school/child-items'
+import type { Region } from '@/lib/learning/holidays'
 import KidSchoolAddSheet, { type KidNewDiaryItem } from './KidSchoolAddSheet'
+import KidDiaryItemSheet from './KidDiaryItemSheet'
 
 // THE CHILD'S OWN WEEK.
 //
@@ -69,6 +72,9 @@ export type KidWeekItem = {
   /** Who put it on the diary. Missing reads as parent, which is what every
    *  row before migration 179 truthfully was. */
   addedBy?: 'parent' | 'child'
+  /** A weekly routine that keeps going in the school holidays. Missing reads
+   *  as school time (migration 182), which holds it back in the holidays. */
+  runsInHolidays?: boolean
 }
 
 const KIND_EMOJI: Record<string, string> = {
@@ -138,12 +144,14 @@ function mondayOf(d: Date, weekOffset: number): Date {
   return out
 }
 
-export default function KidSchoolWeek({ items, childName, token }: {
+export default function KidSchoolWeek({ items, childName, token, region = 'uk' }: {
   items: KidWeekItem[]
   childName?: string | null
   /** The kid link token, which is what lets the add save. No token, no add
    *  button, which is what the layout fixture renders. */
   token?: string
+  /** Which school calendar this family keeps, for the holiday hold. */
+  region?: Region
 }) {
   const [nowMs, setNowMs] = useState<number | null>(null)
   const [weekOffset, setWeekOffset] = useState(0)
@@ -156,6 +164,13 @@ export default function KidSchoolWeek({ items, childName, token }: {
   const [added, setAdded] = useState<KidWeekItem[]>([])
   const [addOpen, setAddOpen] = useState(false)
   const [addNote, setAddNote] = useState<string | null>(null)
+  // What the child fixed or took off in this visit, applied over the server's
+  // rows the same way added is.
+  const [edits, setEdits] = useState<Map<string, KidWeekItem>>(new Map())
+  const [removed, setRemoved] = useState<Set<string>>(new Set())
+  // The item whose sheet is open, and whether its edit sheet is open on top.
+  const [openItem, setOpenItem] = useState<KidWeekItem | null>(null)
+  const [editOpen, setEditOpen] = useState(false)
 
   useEffect(() => { setNowMs(Date.now()) }, [])
 
@@ -164,6 +179,8 @@ export default function KidSchoolWeek({ items, childName, token }: {
   const todayIso = mounted ? iso(new Date(nowMs)) : ''
 
   const allItems = [...items, ...added]
+    .filter(it => !removed.has(it.id))
+    .map(it => edits.get(it.id) ?? it)
 
   const days = DAYS.map((d, i) => {
     const date = monday ? new Date(monday.getTime() + i * 86400000) : null
@@ -175,8 +192,16 @@ export default function KidSchoolWeek({ items, childName, token }: {
       it.weekday != null ? it.weekday === d.dow : (dateIso !== '' && it.dueDate === dateIso)
     ))
     // A routine is ticked off for one named day, so it only reads as done on
-    // the day it was actually cleared on.
-    const list = on.map(it => ({ item: it, done: it.clearedOn === dateIso && dateIso !== '' }))
+    // the day it was actually cleared on. A school time routine on a holiday
+    // day is held: still drawn, never urgent, wearing the on hold pill.
+    const list = on.map(it => ({
+      item: it,
+      done: it.clearedOn === dateIso && dateIso !== '',
+      held: date != null && isHeldForHolidays(
+        { recurs_weekday: it.weekday, runs_in_holidays: it.runsInHolidays },
+        date, region,
+      ),
+    }))
     list.sort((x, y) => (x.item.time ?? '99').localeCompare(y.item.time ?? '99'))
     return { ...d, date, dateIso, isToday, isPast, list }
   })
@@ -186,9 +211,11 @@ export default function KidSchoolWeek({ items, childName, token }: {
   // Monday. Pressing on to next week and landing on an empty Monday, with dots
   // sitting on Tuesday and Thursday, is a screen that makes you do the work
   // twice.
-  const auto = days.find(d => d.isToday) ?? days.find(d => d.list.some(x => !x.done)) ?? days[0]
+  // Held items count as nothing to remember, because that is the point of the
+  // hold: a child in August should read an empty week, not a quieter list.
+  const auto = days.find(d => d.isToday) ?? days.find(d => d.list.some(x => !x.done && !x.held)) ?? days[0]
   const open = (picked ? days.find(d => d.dateIso === picked) : null) ?? auto
-  const weekCount = days.reduce((n, d) => n + d.list.filter(x => !x.done).length, 0)
+  const weekCount = days.reduce((n, d) => n + d.list.filter(x => !x.done && !x.held).length, 0)
 
   const range = monday
     ? `${monday.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} to ${new Date(monday.getTime() + 6 * 86400000).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}`
@@ -241,6 +268,74 @@ export default function KidSchoolWeek({ items, childName, token }: {
     }
   }
 
+  // Fixing one of the child's own items: same endpoint, PATCH, scoped server
+  // side to rows this child added. Optimistic through the edits map so the
+  // chip is right the moment they save.
+  async function saveEdit(item: KidWeekItem, r: KidNewDiaryItem) {
+    if (!token) return
+    try {
+      const res = await fetch('/api/kid/school-add', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, id: item.id, ...r }),
+      })
+      if (res.ok) {
+        playKidSound('star')
+        setEdits(prev => new Map(prev).set(item.id, {
+          ...item,
+          title: r.title, kind: r.kind,
+          dueDate: r.due_date, weekday: r.recurs_weekday,
+          time: r.due_time ? r.due_time.slice(0, 5) : null,
+          runsInHolidays: r.runs_in_holidays,
+        }))
+        setAddNote('Fixed! Your grown up can see the change too.')
+      } else {
+        setAddNote('That did not save. Try again in a minute.')
+      }
+    } catch {
+      setAddNote('That did not save. Try again in a minute.')
+    }
+    setEditOpen(false)
+    setOpenItem(null)
+    setTimeout(() => setAddNote(null), 3500)
+  }
+
+  async function removeItem(item: KidWeekItem) {
+    if (!token) return
+    try {
+      const res = await fetch('/api/kid/school-add', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, id: item.id }),
+      })
+      if (res.ok) {
+        playKidSound('tap')
+        setRemoved(prev => new Set(prev).add(item.id))
+        setAddNote('Off the diary. Your grown up knows.')
+      } else {
+        setAddNote('That did not work. Try again in a minute.')
+      }
+    } catch {
+      setAddNote('That did not work. Try again in a minute.')
+    }
+    setOpenItem(null)
+    setTimeout(() => setAddNote(null), 3500)
+  }
+
+  // A grown up's item that looks wrong: one tap tells the grown up, naming
+  // the item, and the fix happens on the phone that can make it.
+  async function flagItem(item: KidWeekItem) {
+    if (!token) return
+    try {
+      await fetch('/api/kid/school-flag', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, id: item.id }),
+      })
+      playKidSound('tap')
+    } catch { /* the sheet already told them, the next tap tries again */ }
+  }
+
   return (
     <div>
       {/* Which week */}
@@ -282,7 +377,7 @@ export default function KidSchoolWeek({ items, childName, token }: {
       <div style={{ display: 'flex', gap: 5, marginBottom: 16 }}>
         {days.map(d => {
           const isOpen = d.dateIso !== '' && d.dateIso === open?.dateIso
-          const hasSomething = d.list.some(x => !x.done)
+          const hasSomething = d.list.some(x => !x.done && !x.held)
           return (
             <button
               key={d.short}
@@ -346,24 +441,32 @@ export default function KidSchoolWeek({ items, childName, token }: {
           </p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-            {open!.list.map(({ item, done }) => {
+            {open!.list.map(({ item, done, held }) => {
               const c = KIND_COLOUR[item.kind] ?? KIND_FALLBACK
+              // A held routine drops its kind colour entirely: grey wash,
+              // grey rail, the on hold pill below. It must never look urgent
+              // in the holidays, because the whole fault this fixes was Show
+              // and tell shouting in red mid August.
+              const quiet = done || held
               return (
-              <div
+              <button
+                type="button"
+                onClick={() => { playKidSound('tap'); setOpenItem(item) }}
                 key={`${item.id}-${open!.dateIso}`}
                 style={{
-                  display: 'flex', alignItems: 'flex-start', gap: 11,
+                  display: 'flex', alignItems: 'flex-start', gap: 11, width: '100%',
+                  textAlign: 'left', cursor: 'pointer', font: 'inherit',
                   // The calendar chip: a wash of the kind's colour with a solid
                   // rail down the left. Done rows drop to plain cream, because a
                   // finished thing should stop competing for the eye with the
                   // things that still need doing.
-                  background: done ? 'var(--cream)' : c.wash,
-                  borderLeft: `5px solid ${done ? 'var(--border)' : c.rail}`,
+                  background: quiet ? 'var(--cream)' : c.wash,
+                  borderLeft: `5px solid ${quiet ? 'var(--border)' : c.rail}`,
                   border: '1.5px solid var(--border)',
                   borderLeftWidth: 5,
-                  borderLeftColor: done ? 'var(--border)' : c.rail,
+                  borderLeftColor: quiet ? 'var(--border)' : c.rail,
                   borderRadius: 14, padding: '11px 12px',
-                  opacity: done ? 0.6 : 1,
+                  opacity: quiet ? 0.6 : 1,
                 }}
               >
                 <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1.1, flexShrink: 0 }}>
@@ -377,7 +480,7 @@ export default function KidSchoolWeek({ items, childName, token }: {
                   }}>
                     {item.title}
                   </span>
-                  {(item.time || item.weekday != null || done || item.addedBy === 'child') && (
+                  {(item.time || item.weekday != null || done || held || item.addedBy === 'child') && (
                     <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 5 }}>
                       {item.time && (
                         <span style={{
@@ -406,6 +509,15 @@ export default function KidSchoolWeek({ items, childName, token }: {
                           ✓ sorted
                         </span>
                       )}
+                      {held && !done && (
+                        <span style={{
+                          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                          color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)',
+                          borderRadius: 100, padding: '2px 8px',
+                        }}>
+                          ⛱️ on hold for the holidays
+                        </span>
+                      )}
                       {/* Whose item this is, at a glance. Only the child's own
                           wear a badge: everything else on the diary is the
                           grown up's, and badging every row would badge none. */}
@@ -422,7 +534,7 @@ export default function KidSchoolWeek({ items, childName, token }: {
                     </span>
                   )}
                 </span>
-              </div>
+              </button>
               )
             })}
           </div>
@@ -457,6 +569,44 @@ export default function KidSchoolWeek({ items, childName, token }: {
           dayLabel={open.isToday ? 'Today' : (open.date ? `${open.long} ${open.date.getDate()} ${open.date.toLocaleDateString('en-GB', { month: 'long' })}` : open.long)}
           onCancel={() => setAddOpen(false)}
           onAdd={saveAdd}
+        />
+      )}
+
+      {/* Tap in on an item: the child's own can be fixed or taken off, a
+          grown up's can be flagged. Justin: "we need a way for them to click
+          in and simply stop it edit it if wrong." */}
+      {openItem && !editOpen && open && (
+        <KidDiaryItemSheet
+          item={openItem}
+          held={open.date != null && isHeldForHolidays(
+            { recurs_weekday: openItem.weekday, runs_in_holidays: openItem.runsInHolidays },
+            open.date, region,
+          )}
+          onClose={() => setOpenItem(null)}
+          onEdit={token && openItem.addedBy === 'child' ? () => setEditOpen(true) : undefined}
+          onRemove={token && openItem.addedBy === 'child' ? () => removeItem(openItem) : undefined}
+          onFlag={token && openItem.addedBy !== 'child' ? () => flagItem(openItem) : undefined}
+        />
+      )}
+
+      {openItem && editOpen && open && (
+        <KidSchoolAddSheet
+          dateIso={openItem.dueDate ?? open.dateIso}
+          dow={openItem.weekday ?? open.dow}
+          dayLabel={openItem.weekday != null
+            ? `Every ${DAYS.find(d => d.dow === openItem.weekday)?.long ?? open.long}`
+            : (openItem.dueDate
+              ? new Date(`${openItem.dueDate}T00:00:00`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
+              : open.long)}
+          initial={{
+            title: openItem.title,
+            kind: openItem.kind,
+            repeats: openItem.weekday != null,
+            time: openItem.time,
+            runsInHolidays: openItem.runsInHolidays ?? false,
+          }}
+          onCancel={() => { setEditOpen(false); setOpenItem(null) }}
+          onAdd={r => saveEdit(openItem, r)}
         />
       )}
 

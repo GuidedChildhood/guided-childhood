@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 import SchoolWeek from './SchoolWeek'
 import SchoolAddSheet, { type NewReminder } from './SchoolAddSheet'
+import { isHeldForHolidays } from '@/lib/school/child-items'
+import type { Region } from '@/lib/learning/holidays'
 
 // Sunday first, matching recurs_weekday and JS getDay, so an index is never
 // shifted by one on the way between them.
@@ -52,6 +54,9 @@ export type SchoolAction = {
   added_by?: string | null
   /** The adding child's name, resolved server side. Null when unknown. */
   added_by_child_name?: string | null
+  /** A routine that keeps going in the school holidays (migration 182).
+   *  Missing reads as school time, which rests through the holidays. */
+  runs_in_holidays?: boolean | null
 }
 
 // The child put this on the diary themselves, said plainly, because a parent
@@ -119,7 +124,7 @@ function dueInfo(dueDate: string | null, dueTime: string | null | undefined, now
   return { text: 'Today', tone: 'today' }
 }
 
-export default function SchoolActionsCard({ actions: initial, childName }: { actions: SchoolAction[]; childName?: string | null }) {
+export default function SchoolActionsCard({ actions: initial, childName, region = 'uk' }: { actions: SchoolAction[]; childName?: string | null; region?: Region }) {
   const [actions, setActions] = useState(initial)
   const [sendingId, setSendingId] = useState<string | null>(null)
   const [testing, setTesting] = useState(false)
@@ -130,6 +135,10 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
   const [addDay, setAddDay] = useState<{ dateIso: string; dow: number } | null>(null)
 
   const [weekOffset, setWeekOffset] = useState(0)
+  // The reminder being edited, opening the same sheet the add uses, filled
+  // in. Justin, 10 August 2026: "a way for them to click in and simply stop
+  // it edit it if wrong."
+  const [editItem, setEditItem] = useState<SchoolAction | null>(null)
   // The full list underneath, which repeats every item the week already shows.
   //
   // It is not redundant: it is the only place with Send to Teo, the calendar
@@ -240,6 +249,29 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         if (r.auto_send_to_child && data.action.id) sendToChild(data.action.id)
       }
     } catch { /* non blocking, the week still shows what is there */ }
+  }
+
+  // Saving an edit: the same fields the add takes, PATCHed onto the row so
+  // it keeps its identity, history and sent to child state.
+  const editFromSheet = async (id: string, r: NewReminder) => {
+    try {
+      const res = await fetch('/api/school/actions', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, edit: r }),
+      })
+      const data = await res.json()
+      if (data.ok) {
+        // The server row leads, but runs_in_holidays rides on migration 182
+        // and is not in the returned select, so the sheet's value fills it.
+        setActions(list => list.map(x => x.id === id
+          ? { ...x, ...(data.action ?? {}), title: r.title, kind: r.kind, due_date: r.due_date, due_time: r.due_time, recurs_weekday: r.recurs_weekday, auto_send_to_child: r.auto_send_to_child, runs_in_holidays: r.runs_in_holidays, cleared_on: null }
+          : x))
+        setClearedIds(s => { const n = new Set(s); n.delete(id); return n })
+        notifsChanged()
+        setEditItem(null)
+      }
+    } catch { /* non blocking, the sheet stays open to try again */ }
   }
 
   const sendToChild = async (id: string) => {
@@ -396,6 +428,33 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
         />
       )}
 
+      {/* The same sheet, editing. The day it opens on is the reminder's own:
+          a one off's date, a routine's weekday mapped onto this week. */}
+      {editItem && (() => {
+        const e = editItem
+        const isRoutine = e.recurs_weekday != null
+        const dateIso = !isRoutine && e.due_date ? e.due_date : todayIso()
+        const dow = isRoutine ? (e.recurs_weekday as number) : new Date(`${dateIso}T00:00:00`).getDay()
+        return (
+          <SchoolAddSheet
+            dateIso={dateIso}
+            dow={dow}
+            dayLabel={isRoutine ? `Every ${WEEKDAY_NAME[dow]}` : dayLabel(dateIso, dow)}
+            childName={childName}
+            initial={{
+              title: e.title,
+              kind: e.kind,
+              repeats: isRoutine,
+              time: e.due_time ? String(e.due_time).slice(0, 5) : null,
+              toChild: isRoutine ? Boolean(e.auto_send_to_child) : Boolean(e.sent_to_child),
+              runsInHolidays: e.runs_in_holidays === true,
+            }}
+            onCancel={() => setEditItem(null)}
+            onAdd={r => editFromSheet(e.id, r)}
+          />
+        )
+      })()}
+
 
       {/* The drawer. Only offered when there is something in it. */}
       {(recurring.length > 0 || oneOff.length > 0) && (
@@ -432,11 +491,21 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   first, and the controls drop to a second line rather than
                   off the screen. */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {recurring.map(a => (
+            {recurring.map(a => {
+              // On hold through the school holidays: a school time routine
+              // rests, says so calmly, and never counts down to tomorrow.
+              // This is the parent's view of the exact fault Justin caught on
+              // Teo's phone, Show and tell firing red mid August.
+              const held = nowMs != null && isHeldForHolidays(
+                { recurs_weekday: a.recurs_weekday, runs_in_holidays: a.runs_in_holidays },
+                new Date(nowMs), region,
+              )
+              return (
               <div key={a.id} style={{
                 display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 14px',
                 flexWrap: 'wrap',
-                borderRadius: '12px', background: 'var(--tint-sage)', border: '1px solid var(--border)',
+                borderRadius: '12px', background: held ? 'var(--cream)' : 'var(--tint-sage)', border: '1px solid var(--border)',
+                opacity: held ? 0.75 : 1,
               }}>
                 <span style={{
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
@@ -447,8 +516,25 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                 <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
                   {a.title}
                 </span>
+                {/* School time or home life, always visible so the two kinds
+                    of routine can be told apart at a glance. */}
+                <span style={{
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                  color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)',
+                  borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
+                }}>
+                  {a.runs_in_holidays ? '🏖️ holidays too' : '🏫 school time'}
+                </span>
                 {a.added_by === 'child' && <AddedByChild name={a.added_by_child_name} />}
-                {a.recurs_weekday === tomorrowWeekday && !clearedIds.has(a.id) && (
+                {held ? (
+                  <span style={{
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                    color: 'var(--ink-muted)', background: '#fff', border: '1px solid var(--border)',
+                    borderRadius: '100px', padding: '3px 9px', flexShrink: 0,
+                  }}>
+                    ⛱️ on hold until school is back
+                  </span>
+                ) : a.recurs_weekday === tomorrowWeekday && !clearedIds.has(a.id) && (
                   <span style={{
                     fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
                     background: 'var(--terracotta-lt)', color: 'var(--terracotta-dark)', border: '1px solid var(--terracotta)',
@@ -465,8 +551,8 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                 {/* A routine can be cleared just for today: it stays in this
                     list for next week and only steps back from today's
                     reminders (and the notifications bell on its day). Delete
-                    ends it for good. */}
-                {clearedIds.has(a.id) ? (
+                    ends it for good, Edit fixes it in place. */}
+                {!held && (clearedIds.has(a.id) ? (
                   <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>Cleared for today ✓</span>
                 ) : (
                   <button
@@ -475,7 +561,13 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   >
                     Clear for today ✓
                   </button>
-                )}
+                ))}
+                <button
+                  onClick={() => setEditItem(a)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)', flexShrink: 0, padding: 0 }}
+                >
+                  Edit
+                </button>
                 <button
                   onClick={() => settle(a.id, 'dismissed')}
                   style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', flexShrink: 0 }}
@@ -483,7 +575,8 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                   Delete
                 </button>
               </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       )}
@@ -551,6 +644,12 @@ export default function SchoolActionsCard({ actions: initial, childName }: { act
                     style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', padding: 0 }}
                   >
                     Dismiss
+                  </button>
+                  <button
+                    onClick={() => setEditItem(a)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', padding: 0 }}
+                  >
+                    ✏️ Edit
                   </button>
                   <a
                     href={`/api/school/${a.id}/ics`}
