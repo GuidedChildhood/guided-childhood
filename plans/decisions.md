@@ -6860,4 +6860,48 @@ card" complaint rebuilt in a third place in one day. Not now backs off: two days
 four, eight, then a fortnight, and the check asserts the GAP GROWS rather than
 counting appearances, because five spread over a month and five in five days are
 different things a count cannot tell apart.
->>>>>>> origin/main
+
+## 10 August 2026, the app does not slide sideways
+
+Justin, with a photo of the parent home on his phone: "floating around on phone
+and not fitting." The screen was panned right, the cards clipped off the left
+edge, a strip of background down the right.
+
+**Nothing we had could have caught it.** Every screenshot is one page at one
+width, and a page 20px too wide looks perfectly normal in a screenshot because
+the extra is off frame. The symptom only exists in the hand, where a thumb finds
+it. `scripts/check-mobile-overflow.mjs` now walks 72 routes at 390px and 320px
+and asks the one question a screenshot cannot: is the document wider than the
+window.
+
+**The guard is on the shell, not on body, and that distinction is the whole
+entry.** Putting `overflow-x` on body looks obviously right and is a disaster:
+the browser PROPAGATES body's overflow to the viewport, and because `overflow-y`
+was visible the pair resolved to hidden and hidden. Measured immediately after
+trying it: document scrollHeight collapsed to exactly the window height on every
+page. The whole app had stopped scrolling vertically. On `.gc-shell`, an
+ordinary element, `clip` means what it says and `position: sticky` inside still
+resolves against the viewport.
+
+The check tests that guard by BEHAVIOUR rather than by reading the declaration
+back, because a propagated overflow reports `visible` on body while working
+perfectly. It drops a 900px element in the shell and asks whether the document
+grew. Proven both ways: with the rule, 390 to 390; with it commented out, 390 to
+908.
+
+**Two real overflows found and fixed on the way**, both the same shape and
+neither on the page Justin photographed:
+
+- The child's ask for a job grid used `1fr 1fr`. A grid item's default min width
+  is auto, so "Read to someone smaller" held the track open and the pair ran 7px
+  off a 320px phone. `minmax(0, 1fr)`.
+- The child's path serpentines up to 104px either side of centre, which needs
+  184px of room once a 150px label sits under it. A 320px phone has about 150px,
+  so the widest stones hung 32px off the edge and the child's own path was the
+  thing that did not fit. The curve now scales with the phone rather than being
+  redrawn.
+
+**What this does NOT do is prove Justin's screen is fixed.** The dashboard needs
+his account and his data, so his exact home could not be loaded here. The guard
+makes the symptom impossible on any page, and the check makes the cause findable
+next time; the specific card, if there is one, is still unnamed.

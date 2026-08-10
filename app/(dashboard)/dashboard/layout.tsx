@@ -52,7 +52,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const isPaid = profile?.subscription_status === 'active'
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--app-bg)', display: 'flex', flexDirection: 'column' }}>
+    <div className="gc-shell" style={{ minHeight: '100dvh', background: 'var(--app-bg)', display: 'flex', flexDirection: 'column' }}>
       {/* Desktop top nav */}
       <header style={{
         display: 'none',
