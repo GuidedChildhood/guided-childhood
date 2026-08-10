@@ -6,7 +6,6 @@ import { getFamilyRegion } from '@/lib/learning/region'
 import KidSchoolWeek, { type KidWeekItem } from '@/components/kid/KidSchoolWeek'
 import KidTermPreview from '@/components/kid/KidTermPreview'
 import { buildTermPreview } from '@/lib/learning/term-preview'
-import { getFamilyRegion } from '@/lib/learning/region'
 
 // The child's own week from school.
 //
