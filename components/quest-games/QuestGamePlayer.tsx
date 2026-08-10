@@ -8,6 +8,7 @@ import WheelView from './WheelView'
 import FishingView from './FishingView'
 import CoinsView from './CoinsView'
 import BattleView from './BattleView'
+import TraceView from './TraceView'
 
 // The in app quest game player. Renders a game by its mechanic, calm and
 // finite, ending in a warm finish that names the stars. Scoring wiring (send
@@ -68,6 +69,8 @@ export default function QuestGamePlayer({ game, onComplete, onClose }: {
             <CoinsView game={game} onDone={finish} />
           ) : game.mechanic === 'battle' ? (
             <BattleView game={game} onDone={finish} />
+          ) : game.mechanic === 'trace' ? (
+            <TraceView game={game} onDone={finish} />
           ) : (
             <JudgeView game={game} onDone={finish} />
           )}

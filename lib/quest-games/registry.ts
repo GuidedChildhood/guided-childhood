@@ -88,7 +88,18 @@ export type BattleGame = QuestGameMeta & {
   questions: { q: string; options: string[]; answer: number }[]
 }
 
-export type QuestGame = PairsGame | JudgeGame | SumsGame | WheelGame | FishingGame | CoinsGame | BattleGame
+export type TraceGame = QuestGameMeta & {
+  mechanic: 'trace'
+  // Trace with Pebble: letter formation the way Duolingo ABC proved it, one
+  // stroke at a time with a start dot and guide points, rebuilt to our rules:
+  // no timer, no failing, generous touch targets. Strokes are point paths in
+  // a 100 x 140 box, in the stroke order school teaches. Letters are data,
+  // so later sets (more letters, numbers) need no code.
+  guide: string            // Planet Friend key who cheers each letter
+  items: { glyph: string; sound: string; strokes: [number, number][][] }[]
+}
+
+export type QuestGame = PairsGame | JudgeGame | SumsGame | WheelGame | FishingGame | CoinsGame | BattleGame | TraceGame
 
 export const QUEST_GAMES: QuestGame[] = [
   {
@@ -602,6 +613,39 @@ export const QUEST_GAMES: QuestGame[] = [
       { q: 'A headline says: you will NOT believe what happened next. Why is it written like that?', options: ['To force the click', 'To save space', 'To be polite'], answer: 0 },
       { q: 'One tiny account says a famous person died. No news site has it. Believe it?', options: ['Yes, share it fast', 'No, wait for a real source', 'Only if it gets likes'], answer: 1 },
       { q: 'An influencer says a drink changed their life, with #ad at the end. What is the post?', options: ['A science report', 'A diary entry', 'A paid advert'], answer: 2 },
+    ],
+  },
+  // ── Trace with Pebble, 10 August 2026. The first six phonics letters in
+  // the order school teaches them (s a t p i n), traced stroke by stroke. ──
+  {
+    key: 'trace-first-letters', mechanic: 'trace', isNew: true,
+    title: 'Trace with Pebble', emoji: '✏️', stage: 'Ages 4 to 7', stages: [1], stars: 2,
+    blurb: 'Learn to write your first six letters with your finger, the same order school teaches them.',
+    guide: 'pebble',
+    items: [
+      { glyph: 's', sound: 'sss, the snake sound', strokes: [
+        [[64, 60], [52, 52], [38, 54], [31, 64], [36, 74], [50, 80], [61, 87], [64, 98], [55, 107], [40, 108], [30, 100]],
+      ] },
+      { glyph: 'a', sound: 'a, as in apple', strokes: [
+        [[64, 64], [54, 53], [40, 54], [31, 65], [29, 80], [33, 95], [45, 104], [58, 102], [64, 93]],
+        [[64, 55], [64, 110]],
+      ] },
+      { glyph: 't', sound: 't, as in tap', strokes: [
+        [[48, 32], [48, 95], [52, 105], [60, 107]],
+        [[32, 62], [66, 62]],
+      ] },
+      { glyph: 'p', sound: 'p, as in pig', strokes: [
+        [[34, 58], [34, 132]],
+        [[34, 66], [46, 55], [60, 58], [67, 70], [66, 84], [57, 96], [44, 99], [34, 92]],
+      ] },
+      { glyph: 'i', sound: 'i, as in ink', strokes: [
+        [[50, 58], [50, 106]],
+        [[50, 40]],
+      ] },
+      { glyph: 'n', sound: 'n, as in net', strokes: [
+        [[36, 55], [36, 106]],
+        [[36, 78], [40, 62], [50, 55], [60, 58], [65, 70], [65, 106]],
+      ] },
     ],
   },
 ]
