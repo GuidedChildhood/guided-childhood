@@ -6611,3 +6611,40 @@ someone actually asks.
 Nothing to tick and nothing about performance, on either card. We hold no data
 on how a child is doing, and a preview is exactly where a product would be
 tempted to imply some.
+
+## 10 August 2026: the look back card was pinned, not rotating
+
+Justin, on the daily check in: "this keeps coming up every day I do it, can you
+check the logic on this and make sure it rotates and is truly intuitive."
+
+**It was `LIMIT 1` on `script_completions`.** Not a rotation, a pin: until a
+parent completed a NEW script the card showed the same one every day forever.
+Justin had been looking at "A low mood that will not lift" since he opened it.
+
+**The copy made it worse than repetitive.** "Last time you reached for the words
+for this one" is a claim about recency, said every morning about a script opened
+weeks ago. A product telling somebody something untrue about their own history
+is worse than one that repeats.
+
+**Three rules now, and the card says which one applied**, because "worth another
+look" and "this one did not land" are different messages and a parent can tell
+instantly whether we are being useful or filling a slot.
+
+1. A script they marked as not having worked, which is the exception to no
+   repeats that Justin asked for.
+2. A script matching a topic their recent check in flagged.
+3. Otherwise rotate one a day through everything they have completed.
+
+Stateless: the rotation is a function of the day number and the list, so no last
+shown column, nothing written on read, and two devices agree on the same day.
+
+**A flaw I built and then caught.** The first version of rule 1 simply returned
+the failure, which quietly rebuilt the exact bug it was written to fix: one
+script marked as not working would have pinned the card forever, and a parent
+would have been shown their own worst moment every morning indefinitely. A
+failure now holds the card for thirty days and then rejoins the rotation, and
+several failures rotate between themselves.
+
+Proven across simulated days rather than by eye, which is the only way this
+class of bug is visible: the old code was correct in isolation and only wrong
+over time, so nothing we had could have caught it.
