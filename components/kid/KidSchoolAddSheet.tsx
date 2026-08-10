@@ -48,10 +48,13 @@ export type KidNewDiaryItem = {
   due_time: string | null
   /** 0 to 6, Sunday first. Null when it is a one off. */
   recurs_weekday: number | null
+  /** A weekly routine that keeps going in the school holidays. School time
+   *  only is the default, which is what stops PE kit firing in August. */
+  runs_in_holidays: boolean
 }
 
 export default function KidSchoolAddSheet({
-  dateIso, dow, dayLabel, onCancel, onAdd,
+  dateIso, dow, dayLabel, onCancel, onAdd, initial = null,
 }: {
   /** The day that was tapped, as YYYY-MM-DD. */
   dateIso: string
@@ -61,12 +64,17 @@ export default function KidSchoolAddSheet({
   dayLabel: string
   onCancel: () => void
   onAdd: (r: KidNewDiaryItem) => Promise<void> | void
+  /** Editing one of the child's own items: the sheet opens filled in and the
+   *  button says Save. Null is a fresh add, exactly as before. */
+  initial?: { title: string; kind: string; repeats: boolean; time: string | null; runsInHolidays: boolean } | null
 }) {
-  const [title, setTitle] = useState('')
-  const [kind, setKind] = useState('kit')
-  const [repeats, setRepeats] = useState(false)
-  const [time, setTime] = useState('')
+  const [title, setTitle] = useState(initial?.title ?? '')
+  const [kind, setKind] = useState(initial?.kind ?? 'kit')
+  const [repeats, setRepeats] = useState(initial?.repeats ?? false)
+  const [time, setTime] = useState(initial?.time ?? '')
+  const [inHolidays, setInHolidays] = useState(initial?.runsInHolidays ?? false)
   const [saving, setSaving] = useState(false)
+  const editing = initial !== null
 
   const nameRef = useRef<HTMLInputElement>(null)
   useEffect(() => { nameRef.current?.focus() }, [])
@@ -88,6 +96,7 @@ export default function KidSchoolAddSheet({
         due_date: repeats ? null : dateIso,
         due_time: time || null,
         recurs_weekday: repeats ? dow : null,
+        runs_in_holidays: repeats ? inHolidays : false,
       })
     } finally { setSaving(false) }
   }
@@ -124,7 +133,7 @@ export default function KidSchoolAddSheet({
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
             }}>
-              Add to your diary
+              {editing ? 'Fix your diary' : 'Add to your diary'}
             </span>
             <h2 style={{
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
@@ -229,6 +238,43 @@ export default function KidSchoolAddSheet({
           ))}
         </div>
 
+        {/* THE HOLIDAYS QUESTION, only for an every week routine, because a
+            dated one off in the holidays was typed on purpose. This is what
+            stops PE kit firing in August: school time is the default and the
+            diary holds those routines back through the school holidays. */}
+        {repeats && (
+          <>
+            <span style={LABEL}>In the school holidays</span>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+              {[
+                { on: false, top: 'School time only', sub: 'Has a rest in the holidays' },
+                { on: true, top: 'Holidays too', sub: 'Keeps going all year' },
+              ].map(o => (
+                <button
+                  key={String(o.on)}
+                  onClick={() => setInHolidays(o.on)}
+                  style={{
+                    flex: 1, textAlign: 'left', cursor: 'pointer',
+                    background: inHolidays === o.on ? 'var(--tint-butter, #FFF6DE)' : '#fff',
+                    border: `2px solid ${inHolidays === o.on ? 'var(--terracotta)' : 'var(--border)'}`,
+                    borderRadius: 14, padding: '11px 12px',
+                  }}
+                >
+                  <span style={{
+                    display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900,
+                    fontSize: 'var(--text-base)', color: 'var(--ink)',
+                  }}>
+                    {o.on ? '🏖️ ' : '🏫 '}{o.top}
+                  </span>
+                  <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 2 }}>
+                    {o.sub}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
         {/* 3. TIME, optional, because most school things are all day. */}
         <span style={LABEL}>Time, if it has one</span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
@@ -288,7 +334,7 @@ export default function KidSchoolAddSheet({
               boxShadow: title.trim().length >= 2 ? '0 5px 0 var(--terracotta-dark)' : 'none',
             }}
           >
-            {saving ? 'Adding…' : repeats ? `Add every ${DAY_NAMES[dow]}` : 'Add it'}
+            {saving ? 'Saving…' : editing ? 'Save it' : repeats ? `Add every ${DAY_NAMES[dow]}` : 'Add it'}
           </button>
         </div>
       </div>

@@ -212,7 +212,32 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       }
     : null
 
-  const schoolActions: SchoolAction[] = schoolActionsResult.data ?? []
+  // Which routines keep going in the school holidays, read guarded because
+  // runs_in_holidays lands with migration 182, run by hand, and naming a
+  // missing column fails the whole query it is part of. An error reads as
+  // school time, which rests every routine through the holidays, the
+  // truthful default for a school diary.
+  const schoolHolidayFlags = new Map<string, boolean>()
+  try {
+    const { data, error } = await supabase
+      .from('school_actions')
+      .select('id, runs_in_holidays')
+      .eq('user_id', user.id)
+      .eq('status', 'open')
+    if (!error) {
+      for (const r of (data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
+        schoolHolidayFlags.set(String(r.id), r.runs_in_holidays === true)
+      }
+    }
+  } catch { /* pre 182 */ }
+  const schoolActions: SchoolAction[] = (schoolActionsResult.data ?? []).map((a: SchoolAction) => ({
+    ...a,
+    runs_in_holidays: schoolHolidayFlags.get(String(a.id)) ?? false,
+  }))
+  // Which school calendar this family keeps, so the card's holiday hold
+  // reads the right country's holidays.
+  const { getFamilyRegion } = await import('@/lib/learning/region')
+  const familyRegion = await getFamilyRegion(supabase, user.id)
   const hasSchoolConnection = !!schoolConnectionResult.data
   // The child phone link step only belongs once a child is old enough to
   // have a phone. We record around 9 as the point that starts, so any band
@@ -1001,7 +1026,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           alert={schoolActions.length > 0}
           open={schoolActions.length > 0}
         >
-          <SchoolActionsCard actions={schoolActions} childName={child?.name} />
+          <SchoolActionsCard actions={schoolActions} childName={child?.name} region={familyRegion} />
         </FoldSection>
       </div>
 

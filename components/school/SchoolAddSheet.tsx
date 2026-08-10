@@ -52,10 +52,14 @@ export type NewReminder = {
   recurs_weekday: number | null
   /** Their phone gets it too. */
   auto_send_to_child: boolean
+  /** A weekly routine that keeps going in the school holidays (migration
+   *  182). School time only is the default, which is what stops PE kit
+   *  firing in the middle of August. */
+  runs_in_holidays: boolean
 }
 
 export default function SchoolAddSheet({
-  dateIso, dow, dayLabel, childName, onCancel, onAdd,
+  dateIso, dow, dayLabel, childName, onCancel, onAdd, initial = null,
 }: {
   /** The day that was tapped, as YYYY-MM-DD. */
   dateIso: string
@@ -66,17 +70,23 @@ export default function SchoolAddSheet({
   childName?: string | null
   onCancel: () => void
   onAdd: (r: NewReminder) => Promise<void> | void
+  /** Editing an existing reminder: the sheet opens filled in and the button
+   *  says Save. Justin, 10 August 2026: "a way for them to click in and
+   *  simply stop it edit it if wrong." Null is a fresh add, as before. */
+  initial?: { title: string; kind: string; repeats: boolean; time: string | null; toChild: boolean; runsInHolidays: boolean } | null
 }) {
-  const [title, setTitle] = useState('')
-  const [kind, setKind] = useState('notice')
-  const [repeats, setRepeats] = useState(false)
-  const [time, setTime] = useState('')
+  const [title, setTitle] = useState(initial?.title ?? '')
+  const [kind, setKind] = useState(initial?.kind ?? 'notice')
+  const [repeats, setRepeats] = useState(initial?.repeats ?? false)
+  const [time, setTime] = useState(initial?.time ?? '')
   // Defaults ON. The whole point of a school reminder in this product is that
   // the child is told as well, and a parent who does not want that can turn it
   // off in one tap. Defaulting it off meant the useful half was opt in and
   // almost nobody found it.
-  const [toChild, setToChild] = useState(true)
+  const [toChild, setToChild] = useState(initial?.toChild ?? true)
+  const [inHolidays, setInHolidays] = useState(initial?.runsInHolidays ?? false)
   const [saving, setSaving] = useState(false)
+  const editing = initial !== null
 
   const nameRef = useRef<HTMLInputElement>(null)
   useEffect(() => { nameRef.current?.focus() }, [])
@@ -99,6 +109,7 @@ export default function SchoolAddSheet({
         due_time: time || null,
         recurs_weekday: repeats ? dow : null,
         auto_send_to_child: toChild,
+        runs_in_holidays: repeats ? inHolidays : false,
       })
     } finally { setSaving(false) }
   }
@@ -135,7 +146,7 @@ export default function SchoolAddSheet({
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
               letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
             }}>
-              New reminder
+              {editing ? 'Edit reminder' : 'New reminder'}
             </span>
             <h2 style={{
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
@@ -217,6 +228,45 @@ export default function SchoolAddSheet({
           ))}
         </div>
 
+        {/* SCHOOL TIME OR HOME LIFE, only for a weekly routine. Justin, 10
+            August 2026, on Show and tell firing mid summer holidays: "we need
+            to know if it's school time reminders or home life reminders."
+            School time is the default and those routines rest through the
+            school holidays; a club that runs all year opts in to holidays
+            too. A dated one off never asks, it was typed on purpose. */}
+        {repeats && (
+          <>
+            <span style={LABEL}>In the school holidays</span>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+              {[
+                { on: false, top: 'School time only', sub: 'Pauses in the holidays' },
+                { on: true, top: 'Holidays too', sub: 'Keeps going all year' },
+              ].map(o => (
+                <button
+                  key={String(o.on)}
+                  onClick={() => setInHolidays(o.on)}
+                  style={{
+                    flex: 1, textAlign: 'left', cursor: 'pointer',
+                    background: inHolidays === o.on ? 'var(--tint-butter, #FFF6DE)' : '#fff',
+                    border: `2px solid ${inHolidays === o.on ? 'var(--terracotta)' : 'var(--border)'}`,
+                    borderRadius: 14, padding: '11px 12px',
+                  }}
+                >
+                  <span style={{
+                    display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900,
+                    fontSize: 'var(--text-base)', color: 'var(--ink)',
+                  }}>
+                    {o.on ? '🏖️ ' : '🏫 '}{o.top}
+                  </span>
+                  <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: 2 }}>
+                    {o.sub}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </>
+        )}
+
         {/* 3. TIME, optional. Most of these are all day, which is exactly why
             the week is day rows and not an hour grid. */}
         <span style={LABEL}>Time, if it has one</span>
@@ -296,7 +346,7 @@ export default function SchoolAddSheet({
               boxShadow: title.trim() ? '0 5px 0 var(--terracotta-dark)' : 'none',
             }}
           >
-            {saving ? 'Adding...' : repeats ? `Add every ${DAY_NAMES[dow]}` : 'Add it'}
+            {saving ? 'Saving...' : editing ? 'Save changes' : repeats ? `Add every ${DAY_NAMES[dow]}` : 'Add it'}
           </button>
         </div>
       </div>

@@ -92,16 +92,18 @@ export async function POST(request: NextRequest) {
     auto_send_to_child: recursWeekday !== null,
     status: 'open',
   }
-  // Provenance rides on migration 179, and migrations here are run by hand.
-  // If the columns are not there yet the add still has to work, so the insert
-  // retries bare: the row lands reading as parent added until 179 runs, which
-  // is a wrong badge for a day, not a broken button.
+  // Provenance rides on migration 179 and the holidays flag on 182, and
+  // migrations here are run by hand. If the columns are not there yet the add
+  // still has to work, so the insert retries bare: the row lands reading as
+  // parent added and school time until the SQL runs, which is a wrong badge
+  // for a day, not a broken button.
+  const runsInHolidays = recursWeekday !== null && body?.runs_in_holidays === true
   let saved = null
   let error = null
   {
     const res = await admin
       .from('school_actions')
-      .insert({ ...row, added_by: 'child', added_by_child_id: link.child_id })
+      .insert({ ...row, added_by: 'child', added_by_child_id: link.child_id, runs_in_holidays: runsInHolidays })
       .select('id, kind, title, due_date')
       .single()
     saved = res.error ? null : res.data
@@ -131,4 +133,118 @@ export async function POST(request: NextRequest) {
   await admin.from('kid_links').update({ last_seen_at: new Date().toISOString() }).eq('token', token)
 
   return NextResponse.json({ action: saved })
+}
+
+// The child's own rows, and ONLY the child's own rows. Both verbs check that
+// the row being touched carries this child's id in added_by_child_id, so a
+// grown up's reminder can never be edited or removed from a child link, and
+// neither can a sibling's. Justin: "a way for them to click in and simply
+// stop it edit it if wrong", scoped to what is theirs.
+
+async function ownRow(admin: ReturnType<typeof createAdminClient>, userId: string, childId: string, id: string) {
+  const { data, error } = await admin
+    .from('school_actions')
+    .select('id, title, added_by, added_by_child_id')
+    .eq('id', id)
+    .eq('user_id', userId)
+    .eq('status', 'open')
+    .maybeSingle()
+  if (error || !data) return null
+  const d = data as { id: string; title: string; added_by?: string | null; added_by_child_id?: string | null }
+  return d.added_by === 'child' && d.added_by_child_id === childId ? d : null
+}
+
+export async function PATCH(request: NextRequest) {
+  const body = await request.json().catch(() => null)
+  const token = typeof body?.token === 'string' ? body.token : ''
+  if (!/^[0-9a-f]{18}$/.test(token)) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
+
+  const admin = createAdminClient()
+  const { data: link } = await admin
+    .from('kid_links').select('user_id, child_id').eq('token', token).maybeSingle()
+  if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
+
+  const id = typeof body?.id === 'string' ? body.id : ''
+  const row = id ? await ownRow(admin, link.user_id, link.child_id, id) : null
+  if (!row) return NextResponse.json({ error: 'not yours to change' }, { status: 403 })
+
+  const title = typeof body?.title === 'string' ? body.title.replace(/\s+/g, ' ').trim().slice(0, 140) : ''
+  if (title.length < 2) return NextResponse.json({ error: 'title too short' }, { status: 400 })
+  const kind = CHILD_KINDS.has(body?.kind) ? (body.kind as string) : 'kit'
+  const dueDate = typeof body?.due_date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(body.due_date) ? body.due_date : null
+  const dueTime = typeof body?.due_time === 'string' && /^\d{2}:\d{2}$/.test(body.due_time) ? body.due_time : null
+  const recursWeekday = Number.isInteger(body?.recurs_weekday) && body.recurs_weekday >= 0 && body.recurs_weekday <= 6
+    ? (body.recurs_weekday as number)
+    : null
+
+  const patch = {
+    kind,
+    title,
+    due_date: recursWeekday !== null ? null : dueDate,
+    due_time: dueTime,
+    recurs_weekday: recursWeekday,
+    auto_send_to_child: recursWeekday !== null,
+  }
+  // Same soft landing as the add: before migration 182 the holidays column is
+  // not there, so the update retries without it rather than failing the fix.
+  let error = null
+  {
+    const res = await admin
+      .from('school_actions')
+      .update({ ...patch, runs_in_holidays: recursWeekday !== null && body?.runs_in_holidays === true })
+      .eq('id', id)
+    error = res.error
+  }
+  if (error) {
+    const res = await admin.from('school_actions').update(patch).eq('id', id)
+    error = res.error
+  }
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // The grown up hears about the change, same as the add.
+  try {
+    const { data: child } = await admin.from('children').select('name').eq('id', link.child_id).maybeSingle()
+    const who = (child?.name as string | undefined) || 'Your child'
+    await sendPush({
+      userId: link.user_id,
+      title: `${who} fixed a school diary entry ✏️`,
+      body: title,
+      url: '/dashboard/school',
+    })
+  } catch { /* best effort */ }
+
+  return NextResponse.json({ ok: true })
+}
+
+export async function DELETE(request: NextRequest) {
+  const body = await request.json().catch(() => null)
+  const token = typeof body?.token === 'string' ? body.token : ''
+  if (!/^[0-9a-f]{18}$/.test(token)) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
+
+  const admin = createAdminClient()
+  const { data: link } = await admin
+    .from('kid_links').select('user_id, child_id').eq('token', token).maybeSingle()
+  if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
+
+  const id = typeof body?.id === 'string' ? body.id : ''
+  const row = id ? await ownRow(admin, link.user_id, link.child_id, id) : null
+  if (!row) return NextResponse.json({ error: 'not yours to remove' }, { status: 403 })
+
+  // Dismissed, not deleted: the same stop the parent's Dismiss uses, so the
+  // row keeps its history and nothing a child taps is ever unrecoverable.
+  const { error } = await admin.from('school_actions').update({ status: 'dismissed' }).eq('id', id)
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  try {
+    const { data: child } = await admin.from('children').select('name').eq('id', link.child_id).maybeSingle()
+    const who = (child?.name as string | undefined) || 'Your child'
+    await sendPush({
+      userId: link.user_id,
+      title: `${who} took an entry off the school diary 🗑️`,
+      body: row.title,
+      url: '/dashboard/school',
+    })
+  } catch { /* best effort */ }
+
+  return NextResponse.json({ ok: true })
 }

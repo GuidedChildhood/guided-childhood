@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import { getFamilyRegion } from '@/lib/learning/region'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 
 // The school section: your live alerts first (the things you need to know,
@@ -44,12 +45,32 @@ export default async function SchoolPage() {
   } catch { /* pre 179, every row is the parent's */ }
   const childNames = new Map((allChildrenResult.data ?? []).map(c => [String(c.id), c.name as string]))
 
+  // Which routines keep going in the school holidays, guarded the same way
+  // and for the same reason: runs_in_holidays lands with migration 182. An
+  // error reads as school time, which rests every routine in the holidays.
+  const runsInHolidays = new Map<string, boolean>()
+  try {
+    const { data, error } = await supabase
+      .from('school_actions')
+      .select('id, runs_in_holidays')
+      .eq('user_id', user.id)
+      .eq('status', 'open')
+    if (!error) {
+      for (const r of (data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
+        runsInHolidays.set(String(r.id), r.runs_in_holidays === true)
+      }
+    }
+  } catch { /* pre 182, every routine is school time */ }
+
+  const region = await getFamilyRegion(supabase, user.id)
+
   const actions: SchoolAction[] = (actionsResult.data ?? []).map(a => {
     const p = provenance.get(String(a.id))
     return {
       ...a,
       added_by: p?.by ?? 'parent',
       added_by_child_name: p?.childId ? childNames.get(p.childId) ?? null : null,
+      runs_in_holidays: runsInHolidays.get(String(a.id)) ?? false,
     }
   })
   const childName = childResult.data?.name ?? null
@@ -66,7 +87,7 @@ export default async function SchoolPage() {
 
       {/* Live alerts, stored in school_actions, shown here in the app itself */}
       <div id="school-actions" style={{ marginBottom: '28px' }}>
-        <SchoolActionsCard actions={actions} childName={childName} />
+        <SchoolActionsCard actions={actions} childName={childName} region={region} />
       </div>
 
       {/* Email forwarding is coming soon: the automatic pull from school emails

@@ -5,6 +5,9 @@ import { createClient } from '@supabase/supabase-js'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { schoolReminderEmail } from '@/lib/email/templates'
 import { sendPush } from '@/lib/push/send'
+import { isHeldForHolidays } from '@/lib/school/child-items'
+import { DEFAULT_REGION, isRegion } from '@/lib/learning/region'
+import type { Region } from '@/lib/learning/holidays'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -46,11 +49,49 @@ async function handler(req: NextRequest) {
     .eq('status', 'open')
     .eq('due_date', tomorrow)
 
-  const { data: routines } = await supabase
+  const { data: routineRows } = await supabase
     .from('school_actions')
-    .select('user_id, title, kind, auto_send_to_child')
+    .select('id, user_id, title, kind, auto_send_to_child')
     .eq('status', 'open')
     .eq('recurs_weekday', weekday)
+
+  // THE HOLIDAY HOLD. A school time routine rests through the school
+  // holidays, so tonight's push must not fire for one whose tomorrow is a
+  // holiday. Justin caught the display half of this on Teo's phone (Show and
+  // tell, red, mid August); this is the push half, or the phone would still
+  // buzz about a reminder the screens have learned to hold.
+  //
+  // Both reads are guarded: runs_in_holidays lands with migration 182 and
+  // school_region with 129, both run by hand. Errors read as school time and
+  // UK, the platform's defaults.
+  const holidayFlag = new Map<string, boolean>()
+  try {
+    const ids = (routineRows ?? []).map(r => r.id)
+    if (ids.length) {
+      const { data, error } = await supabase
+        .from('school_actions').select('id, runs_in_holidays').in('id', ids)
+      if (!error) for (const r of (data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
+        holidayFlag.set(String(r.id), r.runs_in_holidays === true)
+      }
+    }
+  } catch { /* pre 182, school time */ }
+  const regionOf = new Map<string, Region>()
+  try {
+    const userIds = [...new Set((routineRows ?? []).map(r => r.user_id as string))]
+    if (userIds.length) {
+      const { data, error } = await supabase
+        .from('profiles').select('id, school_region').in('id', userIds)
+      if (!error) for (const p of (data ?? []) as { id: string; school_region?: unknown }[]) {
+        if (isRegion(p.school_region)) regionOf.set(String(p.id), p.school_region)
+      }
+    }
+  } catch { /* pre 129, UK */ }
+  const tomorrowDate = new Date(`${tomorrow}T12:00:00`)
+  const routines = (routineRows ?? []).filter(r => !isHeldForHolidays(
+    { recurs_weekday: weekday, runs_in_holidays: holidayFlag.get(String(r.id)) ?? false },
+    tomorrowDate,
+    regionOf.get(String(r.user_id)) ?? DEFAULT_REGION,
+  ))
 
   const byUser = new Map<string, string[]>()
   for (const a of dueTomorrow ?? []) {

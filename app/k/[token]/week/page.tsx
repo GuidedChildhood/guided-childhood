@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { isChildVisible } from '@/lib/school/child-items'
+import { getFamilyRegion } from '@/lib/learning/region'
 import KidSchoolWeek, { type KidWeekItem } from '@/components/kid/KidSchoolWeek'
 import KidTermPreview from '@/components/kid/KidTermPreview'
 import { buildTermPreview } from '@/lib/learning/term-preview'
@@ -78,6 +79,28 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
     }
   } catch { /* pre 179, every row is the parent's */ }
 
+  // Which routines keep going in the school holidays, same guarded shape as
+  // the provenance read above and for the same reason: runs_in_holidays lands
+  // with migration 182 and this page must not break either side of it. An
+  // error reads as school time, which holds every routine in the holidays.
+  const runsInHolidays = new Map<string, boolean>()
+  try {
+    const { data, error } = await supabase
+      .from('school_actions')
+      .select('id, runs_in_holidays')
+      .eq('user_id', link.user_id)
+      .eq('status', 'open')
+    if (!error) {
+      for (const r of (data ?? []) as { id: string; runs_in_holidays?: boolean | null }[]) {
+        runsInHolidays.set(String(r.id), r.runs_in_holidays === true)
+      }
+    }
+  } catch { /* pre 182, every routine is school time */ }
+
+  // Which school calendar this family keeps, so the week knows when the
+  // holidays are for the hold pills.
+  const region = await getFamilyRegion(supabase, link.user_id)
+
   const items: KidWeekItem[] = (rows ?? [])
     .filter(a => isChildVisible(a as { kind: string; recurs_weekday?: number | null; sent_to_child?: boolean | null; auto_send_to_child?: boolean | null }))
     .map(a => ({
@@ -89,6 +112,7 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
       time: typeof a.due_time === 'string' ? (a.due_time as string).slice(0, 5) : null,
       clearedOn: (a.cleared_on as string | null) ?? null,
       addedBy: addedBy.get(a.id as string) ?? 'parent',
+      runsInHolidays: runsInHolidays.get(a.id as string) ?? false,
     }))
 
   return (
@@ -146,7 +170,7 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
             </p>
           </div>
         )}
-        <KidSchoolWeek items={items} childName={name} token={token} />
+        <KidSchoolWeek items={items} childName={name} token={token} region={region} />
       </div>
     </div>
   )
