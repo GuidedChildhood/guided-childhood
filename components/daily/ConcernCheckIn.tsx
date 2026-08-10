@@ -69,10 +69,13 @@ function verdictLine(n: number, last: number | null): string {
 const SAVE_BEAT_MS = 2600
 
 export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckItem[] }) {
-  // value: where the dial sits once touched. touched: the live word shows
-  // and release will save. saved: posted, the row is locked and stays.
+  // value: where the dial sits once touched, FRACTIONAL while dragging so
+  // the thumb glides rather than stepping (the step 1 version felt clunky
+  // under a thumb). touched: the live word shows and release will save.
+  // pending: released, the save beat is running. saved: posted and locked.
   const [value, setValue] = useState<Record<string, number>>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
+  const [pending, setPending] = useState<Record<string, boolean>>({})
   const [saved, setSaved] = useState<Record<string, boolean>>({})
   const router = useRouter()
 
@@ -105,13 +108,20 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
 
   const armSave = (slug: string) => {
     if (posted.current[slug]) return
-    const n = liveValue.current[slug]
-    if (typeof n !== 'number') return
+    const raw = liveValue.current[slug]
+    if (typeof raw !== 'number') return
+    // Snap the glide to its whole number on release, so the thumb settles
+    // exactly on the score that will be saved.
+    const n = Math.min(10, Math.max(1, Math.round(raw)))
+    liveValue.current[slug] = n
+    setValue(prev => ({ ...prev, [slug]: n }))
+    setPending(prev => ({ ...prev, [slug]: true }))
     if (timers.current[slug]) clearTimeout(timers.current[slug])
     timers.current[slug] = setTimeout(() => post(slug, { score: n }), SAVE_BEAT_MS)
   }
   const cancelSave = (slug: string) => {
     if (timers.current[slug]) clearTimeout(timers.current[slug])
+    setPending(prev => ({ ...prev, [slug]: false }))
   }
 
   return (
@@ -137,6 +147,9 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
           margin: 0;
           background: transparent;
           cursor: pointer;
+          /* The dial owns its touches: the page never scroll fights a
+             horizontal drag, which was most of the clunky feel on a phone. */
+          touch-action: none;
         }
         .gc-scale-input:disabled { cursor: default; }
         .gc-scale-input::-webkit-slider-runnable-track { background: transparent; height: 100%; }
@@ -176,9 +189,13 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       {concerns.map(c => {
         const isSaved = saved[c.slug]
         const isTouched = touched[c.slug]
+        const isPending = pending[c.slug]
         // The thumb starts mid track, never on top of the last time ring, so
-        // the ring is visible from the first glance.
+        // the ring is visible from the first glance. The raw value glides
+        // fractionally under the thumb; the words and the save always use
+        // the rounded score.
         const n = value[c.slug] ?? 5
+        const shown = Math.min(10, Math.max(1, Math.round(n)))
         const pct = ((n - 1) / 9) * 100
         const lastPct = c.lastScore != null ? ((c.lastScore - 1) / 9) * 100 : null
         return (
@@ -214,14 +231,18 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
             {/* The live readout: an invitation before the first touch, the
                 word and number while dialling, and the comparison note once
                 the save beat starts. The note STAYS after saving. */}
-            <div aria-live="polite" style={{ textAlign: 'center', marginBottom: '10px', minHeight: '2.6em' }}>
+            {/* Height reserved for the word plus the note at its longest, so
+                the track NEVER shifts under a thumb mid drag as the text
+                changes. Layout jump during a drag is the definition of
+                clunky, and the first cut here had exactly that bug. */}
+            <div aria-live="polite" style={{ textAlign: 'center', marginBottom: '10px', minHeight: '6.4em' }}>
               {isTouched ? (
                 <>
                   <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.01em' }}>
-                    {scoreWord(n)}
+                    {scoreWord(shown)}
                   </span>
                   <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45, marginTop: '3px' }}>
-                    {verdictLine(n, c.lastScore)}{isSaved ? ' Saved.' : ''}
+                    {verdictLine(shown, c.lastScore)}{isSaved ? ' Saved.' : isPending ? ' Saving.' : ''}
                   </span>
                 </>
               ) : isSaved ? (
@@ -264,7 +285,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                 type="range"
                 min={1}
                 max={10}
-                step={1}
+                step={0.01}
                 value={n}
                 disabled={!!isSaved}
                 aria-label={`${c.label}: 1 really tough to 10 going great`}
@@ -274,9 +295,21 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                   setValue(prev => ({ ...prev, [c.slug]: next }))
                   setTouched(prev => ({ ...prev, [c.slug]: true }))
                 }}
+                aria-valuetext={`${shown} of 10, ${scoreWord(shown)}`}
                 onPointerDown={() => cancelSave(c.slug)}
                 onPointerUp={() => armSave(c.slug)}
-                // Keyboard users get the same release-to-save rhythm.
+                // Keyboard users step whole numbers (the fractional step is
+                // only there so a drag glides), same release-to-save rhythm.
+                onKeyDown={e => {
+                  if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return
+                  e.preventDefault()
+                  cancelSave(c.slug)
+                  const dir = e.key === 'ArrowRight' || e.key === 'ArrowUp' ? 1 : -1
+                  const next = Math.min(10, Math.max(1, Math.round(value[c.slug] ?? 5) + dir))
+                  liveValue.current[c.slug] = next
+                  setValue(prev => ({ ...prev, [c.slug]: next }))
+                  setTouched(prev => ({ ...prev, [c.slug]: true }))
+                }}
                 onKeyUp={() => armSave(c.slug)}
               />
             </div>
