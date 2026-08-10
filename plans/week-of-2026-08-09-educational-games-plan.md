@@ -76,3 +76,13 @@ offline play.
 - Fixture first, no database: play every path in the browser.
 - Playwright screenshots, mobile and desktop, tap every button.
 - Confirm the star lands as a pending quest tick once and cannot be farmed.
+
+## CLAIMED 10 August: Trace with Pebble
+
+Justin picked tracing as the next build. A new `trace` mechanic on the quest
+games engine, our version of Duolingo ABC's core loop for Foundation (4 to 7),
+the thinnest stage. First game: the first six phonics letters in school order
+(s a t p i n), finger traced stroke by stroke with a start dot and guide
+points, Pebble cheering each one. Forgiving input, generous touch targets, no
+timer, fixed stars, calm finish. Letters are game data, so later sets (more
+letters, numbers) are data only. No migration.
