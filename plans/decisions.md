@@ -6545,3 +6545,14 @@ loses nothing, Start again is offered rather than forced), no timer, no
 failing, fixed stars, calm finish. Letters are registry data with stroke
 point paths, so more letters and numbers are data only, no code. No
 migration, scoring on the existing game_key route.
+
+## 10 August 2026: syllabus games are next week's plan
+
+Justin, after Trace with Pebble merged (PR 775): he wants to start building
+games that cover the syllabus a child is about to study, and wants it planned
+next week. Brief captured in plans/week-of-2026-08-17-syllabus-games-brief.md
+for the Monday session to pick up: curriculum mapped by year group and term,
+derived from date_of_birth and the calendar, delivered as new registry data on
+the existing mechanics, surfaced as a coming up at school shelf. Both quiz
+battle (PR 774) and tracing (PR 775) merged today, so the engine now has
+eight mechanics for the syllabus work to draw on.
