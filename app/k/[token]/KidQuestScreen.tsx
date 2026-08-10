@@ -1671,6 +1671,14 @@ export default function KidQuestScreen({
                   {pendingStars > 0 && <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)' }}> +{pendingStars}</span>}
                 </span>
                 <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)', marginTop: '1px' }}>{bankBalance * STAR_MINUTES} minutes ready to use</span>
+                {/* A bare "+10" is not an explanation. A child who has just
+                    ticked a job and sees zero minutes needs the words, not a
+                    symbol they have to work out. */}
+                {pendingStars > 0 && (
+                  <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: '2px' }}>
+                    {pendingStars * STAR_MINUTES} more waiting on a grown up to say yes
+                  </span>
+                )}
               </span>
               {streakDays > 0 && (
                 <span style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '14px', padding: '8px 11px' }}>

@@ -7,8 +7,10 @@ import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { getFamilyRegion } from '@/lib/learning/region'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { questDueToday } from '@/lib/quests/due'
+import { splitToday } from '@/lib/quests/today-split'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import MarkStepOnArrival from '@/components/kid/MarkStepOnArrival'
+import { WaitingNote, TodayJobs } from '@/components/kid/BalanceToday'
 import { resolveTheme } from '@/lib/kid/theme'
 
 // Check my balance, as a page that exists.
@@ -79,14 +81,14 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
   const mine = ((questsRes.data ?? []) as Q[])
     .filter(q => q.child_id === null || q.child_id === link.child_id)
     .filter(q => questDueToday(q.schedule, q.schedule_days))
-  const doneIds = new Set(
-    ((ticksRes.data ?? []) as { quest_id: string; child_id: string | null; status: string }[])
-      .filter(t => t.status !== 'rejected' && (t.child_id === null || t.child_id === link.child_id))
-      .map(t => t.quest_id)
-  )
-  const todo = mine.filter(q => !doneIds.has(q.id))
-  const earnedToday = mine.filter(q => doneIds.has(q.id)).reduce((s, q) => s + (Number(q.stars) || 1), 0)
-  const stillToEarn = todo.reduce((s, q) => s + (Number(q.stars) || 1), 0)
+  // TICKED IS NOT THE SAME AS EARNED, and this page used to say it was. The
+  // reasoning lives in lib/quests/today-split.ts, next to the sums.
+  const { approvedIds, waitingIds, earned: earnedToday, waiting: waitingToday, stillToEarn } =
+    splitToday(
+      mine,
+      (ticksRes.data ?? []) as { quest_id: string; child_id: string | null; status: string }[],
+      link.child_id,
+    )
 
   const name = child?.name && child.name !== 'Your child' ? child.name : ''
   // Inside the guide or past it. Both are fine and neither is a mark: the
@@ -131,6 +133,7 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '8px 0 0' }}>
             One star is {STAR_MINUTES} minutes. These are yours, they do not disappear at the end of the day.
           </p>
+          <WaitingNote stars={waitingToday} />
         </section>
 
         {/* And what has been used. Second, deliberately: a child should meet
@@ -169,56 +172,15 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 8 }}>
             Today, job by job
           </div>
-          {mine.length === 0 ? (
-            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-              No jobs set for today.
-            </p>
-          ) : (
-            <>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 10px' }}>
-                <strong>{earnedToday} star{earnedToday === 1 ? '' : 's'}</strong> earned so far today
-                {stillToEarn > 0 && <>, and <strong>{stillToEarn} more</strong> still there to be had, worth {stillToEarn * STAR_MINUTES} minutes.</>}
-                {stillToEarn === 0 && <>. Everything for today is done.</>}
-              </p>
-              {/* An outstanding job is a link to the job, not a line about it.
-                  Justin: it "lets them know what jobs are outstanding but can
-                  they actually click to go to those jobs". A child reading a
-                  list of what they still owe, with no way through to it, has to
-                  remember the list and go and find it, which is the moment the
-                  page stops being useful. A done one is just a record and has
-                  nowhere to go. */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {mine.map(q => {
-                  const done = doneIds.has(q.id)
-                  const row = (
-                    <>
-                      <span aria-hidden style={{ fontSize: 'var(--text-md)', flexShrink: 0, opacity: done ? 0.55 : 1 }}>{done ? '✓' : q.emoji}</span>
-                      <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35, textDecoration: done ? 'line-through' : 'none', opacity: done ? 0.55 : 1 }}>
-                        {q.title}
-                      </span>
-                      <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: done ? 'var(--ink-muted)' : 'var(--terracotta-dark)' }}>
-                        {q.stars * STAR_MINUTES} min
-                      </span>
-                      {!done && (
-                        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink-muted)' }}>›</span>
-                      )}
-                    </>
-                  )
-                  const base: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: 9 }
-                  if (done) return <div key={q.id} style={base}>{row}</div>
-                  return (
-                    <Link
-                      key={q.id}
-                      href={`/k/${token}#kid-today`}
-                      style={{ ...base, textDecoration: 'none', color: 'inherit', borderRadius: 10, margin: '0 -6px', padding: '4px 6px' }}
-                    >
-                      {row}
-                    </Link>
-                  )
-                })}
-              </div>
-            </>
-          )}
+          <TodayJobs
+            jobs={mine}
+            approvedIds={approvedIds}
+            waitingIds={waitingIds}
+            earned={earnedToday}
+            waiting={waitingToday}
+            stillToEarn={stillToEarn}
+            token={token}
+          />
         </section>
 
         {/* Banked for the holidays, when there is any. Silent at zero, because

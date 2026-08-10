@@ -6690,3 +6690,114 @@ for that week rather than adding. Entering again corrects a slip instead of
 doubling the stars, which was the old card's quiet failure. The card lives
 under the star chart builder, where the printing already happens, and the
 child gets a push when their paper week lands in the bank.
+
+## 10 August 2026, the game pack prints one sheet per page
+
+Justin, with a photo of the iOS print sheet showing page 4 of 7 nearly empty:
+"this print pack has messy pages that don't fit."
+
+**Measured first, at the width a printer really uses.** The whole offline pack is
+13 sheets and printed as 18 pages, because 5 sheets were taller than one page. A
+sheet 1.06 pages long does not print as a full page. It prints as a full page
+plus a second page carrying an inch of board game, which is the near empty page
+in the photo.
+
+**Three separate things were wrong**, and the first two were invisible because
+every check we had looks at a screen width:
+
+1. The reading gutters printed. 40px of page width thrown away in the one
+   direction that decides whether a sheet fits.
+2. `page-break-after: always` fired after the LAST sheet too, so every print
+   ended on a blank page carrying only the browser's header and footer.
+3. Nothing fitted the tall sheets to the paper at all.
+
+**The fix is measured, not hand tuned.** Before the print dialog opens, each
+sheet is laid out at the real printable width and shrunk in 5% steps until it
+fits. Sheets that already fit are untouched: 8 of 13 print exactly as designed.
+The alternative, tightening the padding on the five that overflowed, fixes
+today's pack and breaks again the next time somebody writes a sheet.
+
+**Two things that cost the most time, both worth writing down.**
+
+Body carries `zoom: 1.07` for readability, so a CSS px inside the app is not a px
+on the page. Asking for a 718px box got one 768 wide, every sheet measured 7%
+roomier than the paper, and five sheets were waved through as fitting. The code
+now asks the browser what it actually gave it rather than trusting the number.
+
+And the sheet has to be pinned to the printable width while it shrinks. Left to
+itself a zoomed block reflows into its new room, and the snakes and ladders board
+barely moved: its squares are a fifth of the sheet width by aspect ratio, so
+widening the sheet grew the board by as much as the zoom shrank it. At 40% it had
+only come down from 1430px to 1019.
+
+`scripts/check-print-fit.mjs` prints a real PDF and counts the pages, per age
+band and for the whole pack. 13 pages for 13 sheets, smallest scale 0.7.
+
+## 10 August 2026, ticked is not the same as earned
+
+Justin, having ticked the first of his five a day on the child app: "strange, I
+did the first one of five on the child's app but when I check balance it says 0
+stars?"
+
+**The screen was telling him both things at once.** The top card read zero,
+because the star bank counts only APPROVED ticks. The card twenty lines below it
+read ten, because it counted every tick that was not rejected. Two sums, both
+right about their own question, contradicting each other on one screen.
+
+A child cannot resolve that, and the wrong reading is the damaging one: "10 stars
+earned so far today" above a balance of zero looks like the app losing their
+work, which is the one thing this page exists to prove it never does.
+
+**Approved stays the definition of earned.** The whole product is a parent saying
+yes, and stars that appear before the yes are stars nobody gave. So the fix is
+not to count pending as earned, it is to name it: banked and waiting are counted
+apart, and the waiting stars are told they are waiting and that nothing is lost.
+
+Three states now where there were two. A ticked job used to be struck through
+with a tick beside it, exactly like an approved one. Done is now the only thing
+allowed to look done.
+
+The sums moved to lib/quests/today-split.ts, which is the actual lesson here: the
+two disagreeing numbers lived in the middle of a server component where nothing
+could see either of them. scripts/check-today-split.mjs runs the shape Justin hit
+and asserts the two counts can never be the same number again. The same silence
+was on the home screen, where a bare "+10" sat next to "0 minutes ready to use";
+it now says what the plus means.
+
+## 10 August 2026, the pathway link to the scripts was dropping its stage
+
+Justin: "it's taking me here from the pathway but not allowing me to either go
+back, or it doesn't update if I read it. Is this because I am not paying?"
+
+**It was not the paywall.** The road and the passport have always linked to
+/dashboard/scripts?stage=<slug>, and that page only ever read `topic` and `cat`.
+The stage went on the floor. A parent tapping "the words for this stage" landed
+on the whole library, at the top, with nothing saying why they were there and no
+way back to the road they came off.
+
+Three things, and the first two are the same bug seen twice:
+
+1. The stage is honoured. That stage leads, opened rather than folded, even when
+   it is not the child's own.
+2. A back link to the pathway, read off the link rather than the referrer,
+   matching the devices page.
+3. The passport task said "Read the scripts" and reading is precisely what does
+   NOT move it. Progress counts a parent saying they used one or that it does not
+   apply, which is the right rule and was contradicted by its own label. It says
+   "Use the scripts" now, and the stage view says the same thing in a sentence.
+
+**And the recommendation was not a recommendation.** Every signal the recommender
+has is a category. A family with no concerns logged and no devices listed scores
+every script zero, and the old loop then kept whichever script sorted first, for
+ever. On the free plan that is the first FREE script, which is how a script about
+a child coming out became the permanent recommendation for a family who had never
+raised it. Worse than unhelpful: it reads as the app having decided something
+about their child.
+
+A tie now rotates, one a day, by the day number. Only the tie: a family who has
+raised something four times still gets that topic every day, because variety is
+not a reason to change the subject on somebody who has told us what is wrong.
+
+Same class of bug as the daily look back card, ten days apart, and invisible for
+the same reason both times: correct on any single day, wrong across days, and
+nothing tested across days. scripts/check-recommend-rotation.mjs now does.
