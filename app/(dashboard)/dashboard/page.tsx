@@ -235,8 +235,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     runs_in_holidays: schoolHolidayFlags.get(String(a.id)) ?? false,
   }))
   // Which school calendar this family keeps, so the card's holiday hold
-  // reads the right country's holidays.
-  const { getFamilyRegion } = await import('@/lib/learning/region')
+  // reads the right country's holidays. The import at the top arrived with
+  // the term preview; this reuses it.
   const familyRegion = await getFamilyRegion(supabase, user.id)
   const hasSchoolConnection = !!schoolConnectionResult.data
   // The child phone link step only belongs once a child is old enough to
