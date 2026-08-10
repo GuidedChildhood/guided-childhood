@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import StarChartBuilder from './StarChartBuilder'
+import FridgeChartLog from '@/components/quests/FridgeChartLog'
 import { chartWeekStart, starWeekEnd, formatWeekBeginning } from '@/lib/quests/star-week'
 
 // The star chart, typed before it is printed.
@@ -81,11 +82,28 @@ export default async function StarChartPage() {
   ]
 
   return (
-    <StarChartBuilder
-      yourJobs={yourJobs}
-      childOptions={childOptions}
-      defaultChildName={childName}
-      weeks={weeks}
-    />
+    <>
+      <StarChartBuilder
+        yourJobs={yourJobs}
+        childOptions={childOptions}
+        defaultChildName={childName}
+        weeks={weeks}
+      />
+      {/* End of the paper week: the same entry card as the printables page,
+          here because THIS is where the quest board's star chart tile lands.
+          Print the week and enter the week from one place. no-print, so a
+          parent printing the chart never gets this card on the sheet. The
+          negative margin claws back most of the builder wrapper's 120px page
+          end padding, so the card sits near the builder rather than a screen
+          below it. */}
+      {childOptions.length > 0 && (
+        <div className="no-print" style={{ maxWidth: 820, margin: '0 auto', padding: '0 20px 120px', marginTop: -80 }}>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em', margin: '0 0 10px' }}>
+            End of the paper week?
+          </h2>
+          <FridgeChartLog kids={childOptions} />
+        </div>
+      )}
+    </>
   )
 }
