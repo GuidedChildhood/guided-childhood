@@ -54,13 +54,14 @@ export type TermPreview = {
 // Deliberately things that need nothing bought and no adult sitting down for an
 // hour. A suggestion a family cannot act on today is a suggestion that teaches
 // them to skip the card.
+// Three subjects, because three subjects is all we hold: 228 maths, 165 english
+// and 55 reading objectives, and nothing else. Science, history and geography
+// were in an earlier draft of this map and were quietly dishonest, promising
+// lines for subjects that can never appear.
 const TRY_AT_HOME: Record<string, string> = {
   maths: 'Count something real together. Change, ingredients, or the minutes until tea.',
   english: 'Read the same book they are reading and ask them what they think happens next.',
-  science: 'Ask them to explain one thing they saw today. Explaining it is the learning.',
-  history: 'Ask which bit they would have hated living through, and why.',
-  geography: 'Find one place from it on a map, and one place you have been near it.',
-  computing: 'Ask them to teach you the thing they did. Teaching it is the test.',
+  reading: 'Ask them to tell you what happened, then what they think happens next.',
 }
 
 const FALLBACK_TRY = 'Ask them to tell you one thing they learned, and one thing they did not get.'

@@ -53,6 +53,14 @@ export default function KidTermPreview({
         You will meet all of this{name ? `, ${name}` : ''}. Nobody expects you to know it yet.
       </p>
 
+      {/* The same caveat as the parent's card, in the child's register. A child
+          who is told "you will do fractions in the spring" and then does not is
+          being told the app was wrong, and the app was not: their school simply
+          ordered the year differently, which schools are entitled to do. */}
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 12px' }}>
+        Every school does these in its own order, so yours might do them at a different time.
+      </p>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {preview.subjects.map(s => (
           <div key={s.label} style={{

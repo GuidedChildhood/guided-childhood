@@ -117,6 +117,23 @@ export default function TermPreviewCard({
         </div>
       )}
 
+      {/* THE TERM IS OURS. THE WORDING IS NOT.
+          Migration 114 says this at length and then says exactly what to do
+          about it: "A sheet is therefore honest about the year and approximate
+          about the term. If that is ever surfaced to a parent as a claim about
+          their school's plan, it needs a caveat, because their school may
+          sequence differently."
+          This card is the first thing to surface a term to a parent, so the
+          caveat lands here. The programmes of study are set out year by year and
+          say nothing about terms: schools must cover the year by the end of the
+          year and may order it however they like. Which term a strand sits in is
+          our own sequencing, following the order the programme of study lists
+          the strands in. Without this line the card quietly claims to know a
+          school's plan, which it does not. */}
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 12px' }}>
+        Every school covers the year in its own order, so yours may reach these at a different time. The words are the national curriculum. The term is our guide to it, not your school's plan. We are adding sheets and games for these as we go, so there is something to do with it rather than only something to read.
+      </p>
+
       <Link href="/dashboard/learning" style={{
         fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
         color: 'var(--terracotta-dark)', textDecoration: 'none',

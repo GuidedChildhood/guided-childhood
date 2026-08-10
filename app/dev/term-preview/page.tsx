@@ -31,9 +31,12 @@ const PREVIEW: TermPreview = {
       tryThis: 'Read the same book they are reading and ask them what they think happens next.',
     },
     {
-      label: 'Science',
-      line: 'States of matter',
-      tryThis: 'Ask them to explain one thing they saw today. Explaining it is the learning.',
+      // Reading, not Science. We hold maths, english and reading and nothing
+      // else, so a fixture showing Science would advertise coverage that does
+      // not exist and would quietly hide that the third slot is reading.
+      label: 'Reading',
+      line: 'Comprehension, Word reading',
+      tryThis: 'Ask them to tell you one thing they learned, and one thing they did not get.',
     },
   ],
 }
