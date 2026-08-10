@@ -235,9 +235,15 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     runs_in_holidays: schoolHolidayFlags.get(String(a.id)) ?? false,
   }))
   // Which school calendar this family keeps, so the card's holiday hold
-  // reads the right country's holidays. Uses the top level import: a second
-  // dynamic import here shadowed it across the whole function and broke the
-  // earlier use above (the temporal dead zone), failing every build.
+  // reads the right country's holidays. The import at the top arrived with the
+  // term preview and this reuses it.
+  //
+  // It must stay a plain reuse. A second, dynamic import of the same name here
+  // declared a block scoped const that shadowed the top level one across the
+  // WHOLE function, which put the earlier call above into the temporal dead
+  // zone: not a harmless shadow, a ReferenceError on the path every signed in
+  // parent takes. Two separately green pull requests produced it, because git
+  // had no textual conflict to report in either.
   const familyRegion = await getFamilyRegion(supabase, user.id)
   const hasSchoolConnection = !!schoolConnectionResult.data
   // The child phone link step only belongs once a child is old enough to
