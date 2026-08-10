@@ -21,7 +21,7 @@ Three faults in one screenshot:
 
 ## The build
 
-**Migration 180: school time or home life, stored.** One column on
+**Migration 182: school time or home life, stored.** One column on
 school_actions: `runs_in_holidays boolean not null default false`. False is a
 school time reminder and pauses in the school holidays; true is a home life
 one (a club that runs all year) and keeps going. Only WEEKLY ROUTINES are
@@ -55,7 +55,7 @@ time.
 
 ## Order
 
-1. Migration 180 claimed in the draft PR at the start.
+1. Migration 182 claimed in the draft PR at the start.
 2. lib/school/child-items grows the shared held-today rule so the banner,
    week, and crons cannot drift.
 3. APIs, then the four surfaces, then fixtures and screenshots at 320, 390,

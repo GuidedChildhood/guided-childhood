@@ -1,4 +1,4 @@
--- Guided Childhood — Migration 180
+-- Guided Childhood — Migration 182
 -- School time or home life, stored on the reminder.
 --
 -- Justin, 10 August 2026, from Teo's phone: a Show and tell weekly routine
