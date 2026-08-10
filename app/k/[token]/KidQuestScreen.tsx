@@ -1662,32 +1662,47 @@ export default function KidQuestScreen({
           return (
         <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', overflow: 'hidden' }}>
           <button onClick={() => { setDeviceOpen(o => !o); setPickNow(false); playKidSound('tap') }} aria-expanded={deviceOpen} style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <span style={{ flexShrink: 0, width: 52, height: 52, borderRadius: '14px', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="star" size={28} color="var(--terracotta-dark)" /></span>
+            {/* TWO ROWS, NOT ONE. Justin, 16:47, with the card wrapping one
+                word per line: "need to look tidier not messy." The star count,
+                the minutes line and the waiting line all lived in the middle
+                column of a flex row, between a fixed icon and a fixed streak
+                chip, so on a phone they got about a third of the card and
+                wrapped into a tall ribbon. The count stays up top where the
+                column is fine for one number; the sentences drop below the
+                row where they own the card's full width and wrap like prose.
+                The bare +10 after the count is gone too: the waiting line
+                says the same thing in words, and saying it twice is where
+                the clutter started. */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>My balance</span>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1.05 }}>
+                {/* nowrap on both lines: an eyebrow snapped in half mid word
+                    ("MY BALAN / CE") was the 320 wide failure. The decorative
+                    star tile that used to lead this row is gone for the same
+                    reason: on a 320 phone its 44px plus gaps were exactly the
+                    width the words needed, and a card that already says
+                    balance, stars and streak does not need a fourth ornament
+                    squeezing the one line that carries the number. */}
+                <span style={{ display: 'block', whiteSpace: 'nowrap', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>My balance</span>
+                <span style={{ display: 'block', whiteSpace: 'nowrap', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)', color: 'var(--ink)', lineHeight: 1.05 }}>
                   {bankBalance} <span style={{ fontSize: 'var(--text-md)' }}>stars</span>
-                  {pendingStars > 0 && <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)' }}> +{pendingStars}</span>}
                 </span>
-                <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)', marginTop: '1px' }}>{bankBalance * STAR_MINUTES} minutes ready to use</span>
-                {/* A bare "+10" is not an explanation. A child who has just
-                    ticked a job and sees zero minutes needs the words, not a
-                    symbol they have to work out. */}
-                {pendingStars > 0 && (
-                  <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: '2px' }}>
-                    {pendingStars * STAR_MINUTES} more waiting on a grown up to say yes
-                  </span>
-                )}
               </span>
               {streakDays > 0 && (
-                <span style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '14px', padding: '8px 11px' }}>
-                  <span style={{ display: 'flex', justifyContent: 'center', lineHeight: 1 }}><KidIcon name="flame" size={20} color="var(--terracotta-dark)" /></span>
+                <span style={{ flexShrink: 0, textAlign: 'center', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '6px 9px' }}>
+                  <span style={{ display: 'flex', justifyContent: 'center', lineHeight: 1 }}><KidIcon name="flame" size={18} color="var(--terracotta-dark)" /></span>
                   <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)' }}>{streakDays}</span>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</span>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.02em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>day streak</span>
                 </span>
               )}
               <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', transform: deviceOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
+            </div>
+            <div style={{ marginTop: '-2px' }}>
+              <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)', lineHeight: 1.4 }}>{bankBalance * STAR_MINUTES} minutes ready to use</span>
+              {pendingStars > 0 && (
+                <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: '2px', lineHeight: 1.4 }}>
+                  {pendingStars * STAR_MINUTES} more waiting on a grown up to say yes
+                </span>
+              )}
             </div>
             {/* The hero: the balance we celebrate, or the gentle nudge to a job. */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: healthy ? 'var(--tint-sage)' : 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px' }}>
