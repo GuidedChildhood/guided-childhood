@@ -6701,3 +6701,34 @@ only come down from 1430px to 1019.
 
 `scripts/check-print-fit.mjs` prints a real PDF and counts the pages, per age
 band and for the whole pack. 13 pages for 13 sheets, smallest scale 0.7.
+
+## 10 August 2026, ticked is not the same as earned
+
+Justin, having ticked the first of his five a day on the child app: "strange, I
+did the first one of five on the child's app but when I check balance it says 0
+stars?"
+
+**The screen was telling him both things at once.** The top card read zero,
+because the star bank counts only APPROVED ticks. The card twenty lines below it
+read ten, because it counted every tick that was not rejected. Two sums, both
+right about their own question, contradicting each other on one screen.
+
+A child cannot resolve that, and the wrong reading is the damaging one: "10 stars
+earned so far today" above a balance of zero looks like the app losing their
+work, which is the one thing this page exists to prove it never does.
+
+**Approved stays the definition of earned.** The whole product is a parent saying
+yes, and stars that appear before the yes are stars nobody gave. So the fix is
+not to count pending as earned, it is to name it: banked and waiting are counted
+apart, and the waiting stars are told they are waiting and that nothing is lost.
+
+Three states now where there were two. A ticked job used to be struck through
+with a tick beside it, exactly like an approved one. Done is now the only thing
+allowed to look done.
+
+The sums moved to lib/quests/today-split.ts, which is the actual lesson here: the
+two disagreeing numbers lived in the middle of a server component where nothing
+could see either of them. scripts/check-today-split.mjs runs the shape Justin hit
+and asserts the two counts can never be the same number again. The same silence
+was on the home screen, where a bare "+10" sat next to "0 minutes ready to use";
+it now says what the plus means.
