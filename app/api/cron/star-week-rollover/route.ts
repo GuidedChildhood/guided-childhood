@@ -5,6 +5,7 @@ import { getStarBanks } from '@/lib/quests/bank'
 import { getFamilyRegion } from '@/lib/learning/region'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import {
   previousStarWeekStart,
   MINUTES_PER_STICKER_CREDIT,
@@ -99,20 +100,32 @@ async function handler(request: Request) {
       // more jobs than the cap allowed, and that effort must not be lost just
       // because the other reward did not apply.
       if (bank.weekSurplus > 0) {
-        holidayRows.push({
-          user_id: userId,
-          child_id: bank.child_id,
-          minutes: bank.weekSurplus * STAR_MINUTES,
-          stars: bank.weekSurplus,
-          week_start: week,
-          // Both required by the key since migration 137. on_date is the
-          // Monday for a rollover, which is what makes "one rollover per child
-          // per week" the same guarantee it always was, now said in a way that
-          // leaves room for the daily grants beside it.
-          source: 'rollover',
-          on_date: week,
-        })
-        tellHoliday.push({ userId, childId: bank.child_id, minutes: bank.weekSurplus * STAR_MINUTES })
+        // CAPPED at one day's screen guide for their age, per week. Justin,
+        // 11 August 2026, at a bank showing 485 minutes: "way too many
+        // holiday minutes." The surplus used to convert whole, so one heavy
+        // week banked four hours and the holiday pot quietly became a way
+        // around the entire balance system. One extra day's worth is still a
+        // real prize for a big week, and it keeps the pot what it was meant
+        // to be: a treat, not a second allowance. The guide is holiday aware
+        // and by age, so the cap grows up with the child.
+        const guide = Math.max(0, recommendedDailyMinutes(child?.age_band ?? null, { on: new Date(`${week}T12:00:00Z`), region }))
+        const banked = Math.min(bank.weekSurplus * STAR_MINUTES, guide)
+        if (banked > 0) {
+          holidayRows.push({
+            user_id: userId,
+            child_id: bank.child_id,
+            minutes: banked,
+            stars: Math.round(banked / STAR_MINUTES),
+            week_start: week,
+            // Both required by the key since migration 137. on_date is the
+            // Monday for a rollover, which is what makes "one rollover per child
+            // per week" the same guarantee it always was, now said in a way that
+            // leaves room for the daily grants beside it.
+            source: 'rollover',
+            on_date: week,
+          })
+          tellHoliday.push({ userId, childId: bank.child_id, minutes: banked })
+        }
       }
 
       const unused = bank.balance * STAR_MINUTES
