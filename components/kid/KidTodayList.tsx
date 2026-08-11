@@ -98,6 +98,7 @@ export default function KidTodayList({
   inkSoft,
   onCelebrate,
   jobsOnly = false,
+  onSwapAsk,
 }: {
   childName: string
   stageId: number
@@ -127,6 +128,13 @@ export default function KidTodayList({
    * screen just lost.
    */
   jobsOnly?: boolean
+  /**
+   * When set, an unticked job offers a quiet "swap this job" line under the
+   * card. Justin, 11 August 2026: a child should be able to negotiate a job
+   * to a different task, "gives them more control". Only the jobs page
+   * passes it, so the home screen's list stays as calm as it is.
+   */
+  onSwapAsk?: (quest: TodayQuest) => void
 }) {
   // null until mounted so the first client paint matches the server; the
   // date driven bits settle right after, same pattern as the school banner.
@@ -310,9 +318,15 @@ export default function KidTodayList({
   const rowCard = (r: Row) => {
     const done = r.state === 'done'
     const waiting = r.state === 'waiting'
+    // The swap line: only a real, unticked job can be traded, and only where
+    // the page opted in. Outside the card's tap target, because a mis-tap
+    // that TICKS the job a child was trying to swap teaches them not to try.
+    const swapQuest = onSwapAsk && r.kind === 'Job' && r.state === 'todo'
+      ? quests.find(q => q.id === r.key)
+      : undefined
     return (
+      <div key={r.key}>
       <button
-        key={r.key}
         onClick={r.onTap}
         disabled={!r.tappable}
         style={{
@@ -365,6 +379,21 @@ export default function KidTodayList({
           {r.burst && <KidTickBurst />}
         </span>
       </button>
+      {swapQuest && (
+        <button
+          onClick={() => onSwapAsk?.(swapQuest)}
+          style={{
+            display: 'block', margin: '7px 17px 0', background: 'none', border: 'none',
+            cursor: 'pointer', padding: 0, fontFamily: 'var(--font-mono)',
+            fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em',
+            textTransform: 'uppercase', color: inkSoft,
+            textDecoration: 'underline', textUnderlineOffset: '3px',
+          }}
+        >
+          🔁 Ask to swap this job
+        </button>
+      )}
+      </div>
     )
   }
 

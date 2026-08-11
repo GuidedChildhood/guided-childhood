@@ -282,6 +282,24 @@ export async function POST(req: NextRequest) {
       .maybeSingle()
     if (!request) return NextResponse.json({ error: 'unknown request' }, { status: 404 })
 
+    // A swap ask trades one of today's jobs for this new one (migration 184).
+    // Read in its own guarded query so a database still short of the column
+    // treats the ask as an ordinary pitch rather than failing the decide.
+    let swapOld: { id: string; title: string; stars: number; child_id: string | null } | null = null
+    try {
+      const { data: swapRow } = await supabase
+        .from('quest_requests').select('swap_quest_id').eq('id', request.id).maybeSingle()
+      const swapId = (swapRow as { swap_quest_id?: string | null } | null)?.swap_quest_id
+      if (swapId) {
+        const { data: oldQ } = await supabase
+          .from('family_quests')
+          .select('id, title, stars, child_id')
+          .eq('id', swapId).eq('user_id', user.id).eq('active', true)
+          .maybeSingle()
+        if (oldQ) swapOld = oldQ as { id: string; title: string; stars: number; child_id: string | null }
+      }
+    } catch { /* pre migration 184: an ordinary pitch */ }
+
     if (body.decision === 'added') {
       // A printable ask is not a job: turning "Please can I do the X printable"
       // into a family_quest would drop the child's own asking phrase into their
@@ -295,7 +313,13 @@ export async function POST(req: NextRequest) {
           'Your grown up said yes. Open your Printables to colour it in and earn the stars.'
         )
       } else {
-        const stars = Math.min(10, Math.max(1, Number(body.stars) || 2))
+        // A swap is like for like: the new job is worth what the old one was,
+        // whatever default the deciding surface happened to send, because a
+        // trade that quietly changed the price is not the trade the child
+        // proposed or the parent read.
+        const stars = swapOld
+          ? Math.min(10, Math.max(1, Number(swapOld.stars) || 2))
+          : Math.min(10, Math.max(1, Number(body.stars) || 2))
         const schedule = ['daily', 'weekdays', 'weekend', 'once'].includes(body.schedule) ? body.schedule : 'once'
         const { error: questError } = await supabase.from('family_quests').insert({
           user_id: user.id,
@@ -306,10 +330,24 @@ export async function POST(req: NextRequest) {
           schedule,
         })
         if (questError) return NextResponse.json({ error: questError.message }, { status: 500 })
+
+        // The other half of the trade: the old job comes off the board, but
+        // ONLY when it belongs to this child alone. A whole family job also
+        // belongs to their siblings, and one child's swap must never delete a
+        // job from somebody else's day; there it stays, and the parent can
+        // retire it by hand from Manage if they want to.
+        if (swapOld && swapOld.child_id === request.child_id) {
+          await supabase.from('family_quests')
+            .update({ active: false })
+            .eq('id', swapOld.id).eq('user_id', user.id)
+        }
+
         await pushToChild(
           createAdminClient(), user.id, request.child_id,
-          'Your quest idea is on! ⭐',
-          `"${request.title}" is now a real quest worth ${stars} star${stars === 1 ? '' : 's'}, that is ${stars * STAR_MINUTES} minutes. Go get it.`
+          swapOld ? 'Your swap is on! 🔁' : 'Your quest idea is on! ⭐',
+          swapOld
+            ? `"${request.title}" takes the place of "${swapOld.title}", worth the same ${stars} star${stars === 1 ? '' : 's'}. Go get it.`
+            : `"${request.title}" is now a real quest worth ${stars} star${stars === 1 ? '' : 's'}, that is ${stars * STAR_MINUTES} minutes. Go get it.`
         )
       }
     } else {
