@@ -1,5 +1,7 @@
 'use client'
 
+import FoldSection from '@/components/dashboard/FoldSection'
+
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 import { QUEST_TEMPLATES, PLAY_PAYS_WHY, STAR_MINUTES } from '@/lib/quests/templates'
@@ -950,10 +952,19 @@ export default function QuestManager() {
                     )}
                   </div>
                   {pingResult && <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>{pingResult}</p>}
-                  <div style={{ background: 'var(--tint-sage)', borderRadius: '12px', padding: '12px 14px' }}>
-                    <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-                      One private page, and it is safe
-                    </div>
+                  {/* REASSURANCE IS ONBOARDING COPY, and onboarding copy stops
+                      being news after one read.
+                      Justin, 11 August 2026: "use this principle for each page,
+                      do not have the whole thing all down each page, just a one
+                      line explaining what it is and the ability to expand or
+                      reduce."
+                      Three ticks about privacy are exactly right the first time
+                      a parent considers sending a link to their child, and
+                      exactly wallpaper on the fortieth visit to this board. The
+                      collapsed row still carries the answer, which is that it is
+                      safe, so a parent who wants the detail is one tap away and
+                      a parent who has already read it gets their board back. */}
+                  <FoldSection label="One private page, and it is safe" value="Private">
                     <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '6px' }}>
                       {[
                         'Nothing to install, no login, no messages',
@@ -966,7 +977,7 @@ export default function QuestManager() {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </FoldSection>
                 </div>
                 {/* What they see: the real child page */}
                 <div style={{ flex: '0 0 118px', textAlign: 'center' }}>
