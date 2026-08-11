@@ -7153,3 +7153,48 @@ the quest rails; the two no longer leak into each other. The old quest
 rows already on boards are cleaned by one SQL statement in the pull
 request, matched by title against sent school actions rather than deleted
 by guesswork.
+
+## 11 August 2026, five free scripts, because 312 was never the number that mattered
+
+Justin, on being told the free pool was five scripts: "but we have over 100
+scripts?" He is right, there are 312. The recommender narrows twice before it
+ranks anything: to the child's stage, then to free if the parent has not paid.
+
+Free scripts per category per stage, and the zeros are the story:
+
+```
+                    foundation  builder  explorer  shaper  independent
+  screen time            6         2         2       0         0
+  gaming                 1         0         0       0         1
+  everyday routines      9         1         0       0         1
+  school and AI          2         2         0       0         0
+  staying safe           2         2         1       0         1
+  mood and confidence    4         5         4       3         1
+```
+
+**Read the bottom row against the rest.** Mood and confidence is the only
+category with free scripts at every stage, so on the free plan it wins by
+default at the older stages, and it is also where the heaviest scripts in the
+library live. That is the mechanism behind the screenshot: a free family with a
+teenager was funnelled into mood scripts because there was nothing else free to
+give them. Migration 185 stopped the heavy three being offered unprompted.
+Migration 186 gives the recommender something honest to offer instead.
+
+Five, filling the five zeros where the commonest signals land, since devices map
+to screen time and gaming and so do most concerns: builder gaming, explorer
+gaming, shaper screen time, shaper gaming, independent screen time.
+
+**The canon, at the strength it actually supports.** Odgers for preparation over
+fear, Przybylski for the Goldilocks middle, which is why not one of the five
+ends in a confiscation, Orben for staging them rather than writing one rule for
+all ages, Knibbs for never taking the device away when a child tells you
+something, Deci and Ryan for why "it is just a game" is the least useful
+sentence a parent can say, and Dr Becky for a good kid having a hard time.
+
+**No statistic is quoted that the scripts do not need.** The reasoning is in
+WHY_IT_WORKS in plain words. A number ages and a mechanism does not, and a
+parent at half past six needs the reason rather than the citation.
+
+Verified by running 185 and 186 against a real Postgres 16 rather than reading
+them: both apply clean, 186 is idempotent across two runs, and 185 flags 3303
+while deliberately leaving "Puberty and the mood swings" alone.
