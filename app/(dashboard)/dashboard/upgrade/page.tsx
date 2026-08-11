@@ -6,6 +6,37 @@ import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
 import { hasFullAccess } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
 
+// What a parent calls the page they were heading for. Only the ones somebody
+// actually gets bounced off, in their words rather than the route's: nobody
+// taps "tracker" thinking "/dashboard/tracker".
+const PAGE_NAMES: Record<string, string> = {
+  '/dashboard/scripts': 'The scripts',
+  '/dashboard/digi': 'DiGi',
+  '/dashboard/lessons': 'The lessons',
+  '/dashboard/pathway': 'The pathway',
+  '/dashboard/printables': 'The printables',
+  '/dashboard/quests': 'The quest board',
+  '/dashboard/tracker': 'The wellbeing tracker',
+  '/dashboard/agreement': 'The family agreement',
+  '/dashboard/daily': 'Your day',
+  '/dashboard/moments': 'The moments',
+  '/dashboard/learning': 'What school is doing',
+  '/dashboard/homework': 'The homework helper',
+  '/dashboard/insights': 'Your insights',
+  '/dashboard/keepsakes': 'The keepsakes',
+  '/dashboard/week': 'Your week',
+  '/dashboard': 'Your home page',
+}
+
+/** The friendliest name for a path, matching the longest prefix that fits. */
+function pageNameFor(path: string | undefined): string | null {
+  if (!path || !path.startsWith('/dashboard')) return null
+  const hit = Object.keys(PAGE_NAMES)
+    .filter(k => path === k || path.startsWith(k + '/'))
+    .sort((a, b) => b.length - a.length)[0]
+  return hit ? PAGE_NAMES[hit] : null
+}
+
 async function getFounderCount(): Promise<number> {
   try {
     const supabase = await createClient()
@@ -21,14 +52,19 @@ async function getFounderCount(): Promise<number> {
 }
 
 export default async function UpgradePage(
-  { searchParams }: { searchParams: Promise<{ sheet?: string }> },
+  { searchParams }: { searchParams: Promise<{ sheet?: string; from?: string }> },
 ) {
   // Which sheet sent them here, when a Print button did. The printables route
   // redirects a signed in parent without access to this page rather than
   // answering a whole browser tab with raw JSON, and it names the sheet so the
   // wall says what they were reaching for instead of being generic.
-  const { sheet } = await searchParams
+  const { sheet, from } = await searchParams
   const wantedSheet = sheet ? getPrintable(sheet)?.title ?? null : null
+  // And which PAGE sent them, when the paywall in the middleware did. Same
+  // reasoning as the sheet above: a parent bounced here off a tap knows what
+  // they were reaching for, and a wall that cannot name it reads as the app
+  // having lost their place rather than as a price.
+  const wantedPage = pageNameFor(from)
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -90,6 +126,17 @@ export default async function UpgradePage(
             fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, fontWeight: 600,
           }}>
             🖨️ {wantedSheet} is a member sheet. Unlock below and it prints straight away.
+          </p>
+        )}
+        {/* Named, and only when there is a name for it. A generic "you need to
+            upgrade" makes a parent work out what they lost. */}
+        {!wantedSheet && wantedPage && (
+          <p style={{
+            display: 'inline-block', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+            borderRadius: '14px', padding: '10px 16px', margin: '0 0 14px',
+            fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.5, fontWeight: 600,
+          }}>
+            {wantedPage} is part of the membership. Unlock below and you land straight back on it.
           </p>
         )}
         <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-lg)', maxWidth: '440px', margin: '0 auto' }}>
