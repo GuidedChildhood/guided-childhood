@@ -1084,7 +1084,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           alert={schoolActions.length > 0}
           open={schoolActions.length > 0}
         >
-          <SchoolActionsCard actions={schoolActions} childName={child?.name} region={familyRegion} />
+          {/* compact: the fold above already says From school, so the card does
+              not say it a second time on the same screen. */}
+          <SchoolActionsCard actions={schoolActions} childName={child?.name} region={familyRegion} compact />
         </FoldSection>
       </div>
 
