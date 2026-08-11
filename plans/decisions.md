@@ -6985,3 +6985,78 @@ child walking into a road while looking down is not a screen time conversation.
 Artwork is outstanding: the five new tiles show their emoji, which is the right
 fallback and not the finished thing. They need a Higgsfield batch to match the
 fifteen illustrated ones.
+
+## 11 August 2026, the recommender starts reading what parents measure
+
+Justin, on the same recommended card for a third day: "why are we using this
+script as next one, shouldn't we have a better script that relates to dips on
+check in or previous moments, can we make sure it puts the most relevant script
+for the user and rotates them as we have a lot?"
+
+**wellbeing_checks has held five scores out of five, per child, per week, since
+migration 001, and the recommender had never read one of them.** It read
+concerns, the devices in the house and the answer picked at signup. A parent
+marking sleep at two out of five for a month was being offered scripts on the
+strength of owning a tablet.
+
+**A dip weighs between a concern and a device, on purpose.** A concern is a
+family SAYING a thing is a problem, which is the strongest signal there is. A
+dip is a family MEASURING one, quieter but harder to argue with. Both beat the
+fact that there is a console in the hall. The band lands at 75 to 110, above
+devices at 50 and never above the weakest raised concern.
+
+Only 1 and 2 out of 5 count. Three is the middle of the scale and reading it as
+a cry for help would hand every family a mood script for ever. Only the last
+four weeks are consulted: a month is long enough to tell a run from a bad week,
+and short enough that a family who turned things around is not still being
+handed the old problem.
+
+Open communication maps to MOOD AND CONFIDENCE rather than staying safe. A child
+who has stopped talking is not yet a child in danger, and treating it as one
+puts a frightening script in front of a parent who described a quiet fortnight.
+
+## 11 August 2026, the suggestion chip stops throwing the question away
+
+Justin: "can we make scripts suggestions actually pull up scripts that relate to
+the question, and the ability to search others?"
+
+DiGi's "Scripts for moments like this" chip went to /dashboard/scripts, the
+whole library, with the question dropped at the door. A parent described a
+bedtime row, was offered scripts for moments like this, and arrived at an
+alphabetical list of everything we have ever written.
+
+The chip carries the last thing they typed as ?q=, the page seeds its finder,
+and the finder ranks with lib/digi/script-match instead of the substring test it
+had been doing. **That matcher weights rare words over common ones**, which is
+the difference between "he screams when I take the tablet" finding the tablet
+scripts and finding every script containing the word "he".
+
+Seeded, not locked. The second thing a parent does on that page is search for
+something else, so the box stays a search box.
+
+## 11 August 2026, a family job was never off their app
+
+Justin, on a job filed under "To do with you" with the child app plainly set up
+on the same screen: "why does this say not on their app as in this case there is
+a child app set up as you can see? Also if the system works out there is no app
+how will these tasks be added?"
+
+**The bucket rule read a job with no child named on it as a job with no app to
+send it to.** Backwards. A whole family job carries child_id null on purpose,
+meaning everybody, and lib/kid/jobs-read.ts fetches a child's list with
+child_id.eq.<id>,child_id.is.null, so it is already on every linked child's
+screen. The board was the only part of the system that did not know, and it was
+telling a parent to do by hand a job their child could already tick. The rule
+now lives in lib/quests/job-pile.ts with the reasoning and eight checks beside
+it.
+
+**Then the second question, which is the one that mattered.** The pile the board
+described as yours to mark had nothing to mark with: the Yes button was gated on
+the waiting pile. Every "To do with you" row now carries a Done button, using
+the printed sheet path the approve route has had all along.
+
+It says DONE, not Yes, because nobody has claimed anything and the parent is the
+one recording it. **No bulk version on that pile.** Saying yes to all in the
+waiting pile agrees to claims a child made one by one; there is no equivalent
+claim here, so a mark all done would be six jobs recorded as finished in one tap
+with none of them checked, and the stars it hands out are real minutes.
