@@ -28,6 +28,58 @@ export function scoreScript(s: Pick<ScriptRow, 'sort_order' | 'category'>, sc: S
 }
 
 /**
+ * The scripts that are allowed to speak first.
+ *
+ * ── Why this exists ──────────────────────────────────────────────────────────
+ *
+ * Justin, 11 August 2026: a shaper family on the free plan was handed "They
+ * have told you they are gay, bi or trans" as their recommended next script,
+ * while that same account's open concerns were morning screen time, ending
+ * screen time and gaming.
+ *
+ * The free pool at that stage is five scripts and three of them are the
+ * heaviest in the library. Two had been used, the family's real signals pointed
+ * at categories holding no free script at all, so everything left scored zero
+ * and the day rotation below picked between the survivors like a coin.
+ *
+ * The rotation is right and stays. The mistake was ever letting these scripts
+ * into a tie. A script that ASSERTS something about a child, that they are self
+ * harming, that they have come out, that somebody has died, that they are being
+ * bullied, is not a suggestion. Put in front of a parent who has said nothing of
+ * the kind, it is the app telling them something about their child.
+ *
+ * ── Why the bar is never, rather than "only with a signal" ───────────────────
+ *
+ * The first version of this rule let a flagged script through when its own
+ * category was carrying a score. Run against the real account it was written
+ * for, it let the coming out script straight back in, because that family had
+ * an open concern called "evening neediness" and both of them file under mood
+ * and confidence.
+ *
+ * That is the whole problem in one line. Our signals are CATEGORIES, eight
+ * shelves wide, and every one of these scripts is a specific event. There is no
+ * amount of "mood and confidence" that is evidence a child has come out, and no
+ * amount of "staying safe" that is evidence a child is being bullied. A rule
+ * that pretends otherwise is the same guess with a longer excuse.
+ *
+ * So they are never recommended, and nothing else changes: they stay in the
+ * library, in the category browse, in search, and in Right Now, where the
+ * parent is the one describing the situation. Every route to them that starts
+ * with the parent is untouched. The only route closed is the one where we speak
+ * first.
+ *
+ * If scripts ever carry the concern slugs they answer, rather than a category,
+ * this can be relaxed to an exact match. Until then the honest bar is never.
+ */
+export function eligibleScripts<T extends Pick<ScriptRow, 'sort_order'>>(
+  pool: T[],
+  flagged: ReadonlySet<number>,
+): T[] {
+  if (flagged.size === 0) return pool
+  return pool.filter(s => !flagged.has(s.sort_order))
+}
+
+/**
  * The one script to put in front of this family today.
  *
  * ── A TIE IS NOT A CHOICE, and it used to be resolved as one ────────────────

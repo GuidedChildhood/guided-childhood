@@ -7061,6 +7061,54 @@ waiting pile agrees to claims a child made one by one; there is no equivalent
 claim here, so a mark all done would be six jobs recorded as finished in one tap
 with none of them checked, and the stars it hands out are real minutes.
 
+## 11 August 2026, the recommender was guessing, and it guessed at a hard script
+
+Justin, screenshot of his own Scripts page: "Recommended next: They have told
+you they are gay, bi or trans." His open concerns that morning were morning
+screen time, ending screen time and gaming. Three faults stacked, found by
+reading the live database rather than the code.
+
+**The Right Now keys were never mapped.** The rescue writes rightnow-<situation>
+into concerns.slug and not one of those slugs was in CONCERN_TO_CATEGORY. They
+are the LARGEST source of concern flags on the platform: rightnow-bedtime and
+rightnow-something-else led the whole table on nine flags each, ahead of every
+mapped slug. The loudest thing a parent ever does has scored zero since the
+rescue shipped. The categories were not a new judgement either; the rescue route
+already holds one per situation, uses it to pick the script, and throws it away
+when it writes the concern.
+
+**A fixed table was never going to be enough.** Two of the three writers do not
+use a fixed vocabulary: DiGi invents the slug from the conversation and the
+custom box takes what was typed. morning-screen-time, screen-time-endings,
+after-school-tv are three ways of writing the same thing and all scored nothing.
+There is a keyword pass now, running only when the table has no answer, reading
+slug and label together, returning null rather than guessing.
+
+**SOME SCRIPTS ARE NEVER A GUESS.** The free pool at shaper is five scripts and
+three are the heaviest in the library: self harming, a low mood that will not
+lift, a child coming out. Two had been used, his signals pointed at categories
+holding no free script at all, so both survivors scored zero and the rotation
+picked between them like a coin. Migration 185 marks the twelve that assert
+something about a child and they are never recommended. (185, not the 184 the
+branch first claimed: 184 was taken by the swap asks column merged the same
+morning, the exact collision the sync rules exist for.)
+
+**Never, rather than only with a signal.** The first version of the rule was the
+softer one and it failed on the very account it was written for: he had an open
+concern called "evening neediness", which files under mood and confidence, and
+so does a child coming out. Our signals are CATEGORIES, eight shelves wide, and
+every one of these scripts is a specific event. No amount of mood and confidence
+is evidence a child has come out. Kept as a test so nobody retries it.
+
+Everything that starts with the parent is untouched: browse, category filters,
+search, and Right Now. The only route closed is the one where we speak first.
+
+**Still open, and it is content rather than code.** A free family at shaper has
+no free script in screen time, gaming or everyday routines, which are exactly
+the categories his signals point at. The recommendation is honest now and still
+not relevant, because there is nothing free to be relevant with. One free script
+in each of those three at shaper would close it.
+
 ## 11 August 2026 — Jobs done goes straight home, and a child can propose a swap
 
 Justin, from Teo's jobs page. Two decisions.
@@ -7105,3 +7153,48 @@ the quest rails; the two no longer leak into each other. The old quest
 rows already on boards are cleaned by one SQL statement in the pull
 request, matched by title against sent school actions rather than deleted
 by guesswork.
+
+## 11 August 2026, five free scripts, because 312 was never the number that mattered
+
+Justin, on being told the free pool was five scripts: "but we have over 100
+scripts?" He is right, there are 312. The recommender narrows twice before it
+ranks anything: to the child's stage, then to free if the parent has not paid.
+
+Free scripts per category per stage, and the zeros are the story:
+
+```
+                    foundation  builder  explorer  shaper  independent
+  screen time            6         2         2       0         0
+  gaming                 1         0         0       0         1
+  everyday routines      9         1         0       0         1
+  school and AI          2         2         0       0         0
+  staying safe           2         2         1       0         1
+  mood and confidence    4         5         4       3         1
+```
+
+**Read the bottom row against the rest.** Mood and confidence is the only
+category with free scripts at every stage, so on the free plan it wins by
+default at the older stages, and it is also where the heaviest scripts in the
+library live. That is the mechanism behind the screenshot: a free family with a
+teenager was funnelled into mood scripts because there was nothing else free to
+give them. Migration 185 stopped the heavy three being offered unprompted.
+Migration 186 gives the recommender something honest to offer instead.
+
+Five, filling the five zeros where the commonest signals land, since devices map
+to screen time and gaming and so do most concerns: builder gaming, explorer
+gaming, shaper screen time, shaper gaming, independent screen time.
+
+**The canon, at the strength it actually supports.** Odgers for preparation over
+fear, Przybylski for the Goldilocks middle, which is why not one of the five
+ends in a confiscation, Orben for staging them rather than writing one rule for
+all ages, Knibbs for never taking the device away when a child tells you
+something, Deci and Ryan for why "it is just a game" is the least useful
+sentence a parent can say, and Dr Becky for a good kid having a hard time.
+
+**No statistic is quoted that the scripts do not need.** The reasoning is in
+WHY_IT_WORKS in plain words. A number ages and a mechanism does not, and a
+parent at half past six needs the reason rather than the citation.
+
+Verified by running 185 and 186 against a real Postgres 16 rather than reading
+them: both apply clean, 186 is idempotent across two runs, and 185 flags 3303
+while deliberately leaving "Puberty and the mood swings" alone.

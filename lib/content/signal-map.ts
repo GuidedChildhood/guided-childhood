@@ -51,6 +51,34 @@ export const CONCERN_TO_CATEGORY: Record<string, string> = {
   siblings: 'everyday-routines',
   routines: 'everyday-routines',
 
+  // ── THE RIGHT NOW KEYS ───────────────────────────────────────────────────
+  //
+  // The rescue flow writes `rightnow-<situation>` into concerns.slug, and not
+  // one of those slugs has ever been in this map. Across the whole platform
+  // they are the LARGEST source of concern flags there is: on 11 August 2026,
+  // rightnow-bedtime and rightnow-something-else led the table on nine flags
+  // each, ahead of every mapped slug in the file.
+  //
+  // So the single loudest thing a parent ever does, tapping the red button
+  // mid row and telling us exactly what is happening, has been scoring zero in
+  // the recommender since the rescue shipped.
+  //
+  // The categories are not a new judgement. app/api/rightnow/route.ts already
+  // holds a category per situation, uses it to pick the rescue script, and then
+  // throws it away when it writes the concern. These are the same values, and
+  // the two should be changed together.
+  'rightnow-wont-get-up': 'screen-time',
+  'rightnow-morning-tv': 'screen-time',
+  'rightnow-tv-off': 'screen-time',
+  'rightnow-phone-handover': 'screen-time',
+  'rightnow-bedtime': 'screen-time',
+  'rightnow-sibling-fight': 'screen-time',
+  'rightnow-homework': 'screen-time',
+  // Deliberately absent: rightnow-something-else and rightnow-custom. Both mean
+  // "not one of the seven", so pinning either to a category would be inventing
+  // a signal. They fall through to the keyword pass below, which reads the real
+  // words the parent typed.
+
   // ── THE DAILY MOMENT KEYS ────────────────────────────────────────────────
   //
   // The end of day tagger writes the MOMENT KEY straight into concerns.slug,
@@ -85,6 +113,71 @@ export const CONCERN_TO_CATEGORY: Record<string, string> = {
   dinner: 'everyday-routines',
   clothes: 'everyday-routines',
   fighting: 'everyday-routines',
+}
+
+/**
+ * The keyword pass, for slugs nobody wrote down in advance.
+ *
+ * ── Why a fixed table was never going to be enough ───────────────────────────
+ *
+ * CONCERN_TO_CATEGORY is a fixed vocabulary, and two of the three things that
+ * write to concerns.slug do not use a fixed vocabulary. DiGi files a concern
+ * during a conversation and invents the slug from what the parent said, and the
+ * Right Now custom box takes whatever they typed. Real rows on 11 August 2026:
+ *
+ *   morning-screen-time      screen-time-endings      evening-neediness
+ *   after-school-tv          open-communication-teen  ai-deepfake-literacy
+ *   sleep-mood-dip           online-safety            high-energy-activity
+ *
+ * Every one of those is a parent telling us something specific and every one
+ * scored zero. Three of them are the words "screen time" with a hyphen in a
+ * different place.
+ *
+ * So this is a second pass, not a replacement: the exact table still wins,
+ * because it carries editorial judgements that a keyword cannot (friendship
+ * belongs in social media, sleep belongs in screen time). This only runs when
+ * the table has no answer, and returns null rather than guessing when nothing
+ * matches, because a wrong category is worse than no category.
+ *
+ * ORDER MATTERS. The first rule that matches wins, so the most specific
+ * phrases come first and the loosest single words come last.
+ */
+const CONCERN_KEYWORDS: [RegExp, string][] = [
+  // Sleep, first and on its own, because it is the one word that would
+  // otherwise be caught by a later rule and land somewhere plausible and wrong.
+  // "sleep-mood-dip" reads as mood if the mood rule gets there first, and the
+  // judgement in CONCERN_TO_CATEGORY above is explicit that on this platform a
+  // sleep problem is a device in a bedroom.
+  [/sleep|bed[\s_-]?time|wake|waking|tired|late[\s_-]?night/i, 'screen-time'],
+  // Screens, which is most of them and the reason the product exists.
+  [/screen[\s_-]?time|screens?\b|tv\b|telly|tablet|ipad|device|handover|hand[\s_-]?over|switch[\s_-]?off|turn[\s_-]?off|youtube|netflix/i, 'screen-time'],
+  [/gaming|game[sr]?\b|console|xbox|playstation|roblox|fortnite|minecraft|switch\b/i, 'gaming'],
+  [/social[\s_-]?media|instagram|snapchat|tiktok|whatsapp|group[\s_-]?chat|friendship|friends?\b|follow(er|ing)/i, 'social-media'],
+  // Anything that is a child at risk goes to staying safe, and it is listed
+  // above mood on purpose: a grooming worry filed as a mood worry would hand a
+  // parent a script about confidence.
+  [/safety|safe\b|stranger|groom|predator|scam|porn|nude|explicit|inappropriate|content|bully|bullied|sextort/i, 'staying-safe'],
+  [/school|homework|teacher|revision|exam|\bai\b|chatgpt|deepfake|cheating/i, 'school-and-ai'],
+  [/mood|anxi|worry|worried|sad|low\b|confidence|self[\s_-]?esteem|angry|anger|meltdown|emotional|neediness|clingy|communication|talking|withdraw/i, 'mood-confidence'],
+  [/rules?|boundar|deal\b|contract|pocket[\s_-]?money|phone[\s_-]?request|first[\s_-]?phone|age[\s_-]?limit/i, 'family-rules'],
+  [/sleep|bed(time)?|wake|waking|tired|morning|routine|dinner|meal|snack|teeth|dress|lunch|sibling|fight|chore/i, 'everyday-routines'],
+]
+
+/**
+ * The category a concern points at: the exact table first, then the words.
+ *
+ * `label` is the human sentence stored beside the slug, which is often richer
+ * than the slug itself ("using seith too much" against rightnow-custom), so
+ * both are read.
+ */
+export function categoryForConcern(slug: string, label?: string | null): string | null {
+  const exact = CONCERN_TO_CATEGORY[slug]
+  if (exact) return exact
+  const text = `${slug} ${label ?? ''}`.replace(/[_-]/g, ' ')
+  for (const [re, category] of CONCERN_KEYWORDS) {
+    if (re.test(text)) return category
+  }
+  return null
 }
 
 /**
