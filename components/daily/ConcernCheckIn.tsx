@@ -81,6 +81,8 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
 
   const posted = useRef<Record<string, boolean>>({})
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
+  // Each row's element, so a finished one can hand over to the next.
+  const rows = useRef<Record<string, HTMLDivElement | null>>({})
   // The release handler can fire before React re-renders the last change
   // event, so the freshest value lives in a ref rather than in the closure.
   const liveValue = useRef<Record<string, number>>({})
@@ -89,11 +91,43 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
 
   const allSaved = concerns.every(c => saved[c.slug])
 
+  // Hand over to the next one that still needs an answer.
+  //
+  // Justin: "a gentle little scroll to the next one, so they know this is set
+  // and move on to the next one." Two jobs in one movement. It confirms the
+  // one just answered is finished, because the card would not be moving if it
+  // were not, and it puts the next question where their thumb already is
+  // rather than leaving them to find it.
+  //
+  // GENTLE MEANS GENTLE. Smooth, centred rather than jammed to the top, and
+  // only ever to a row that is still unanswered, so a parent working back up
+  // the list is never dragged forwards. On the last one nothing moves at all:
+  // the all checked line appears directly underneath and yanking the page at
+  // the moment somebody finishes reads as the app losing interest.
+  //
+  // A parent who has asked their system for less motion gets a jump instead of
+  // a glide, which is the same handover without the movement.
+  const handOver = (fromSlug: string, done: Record<string, boolean>) => {
+    const i = concerns.findIndex(c => c.slug === fromSlug)
+    const next = concerns.slice(i + 1).find(c => !done[c.slug])
+    const el = next ? rows.current[next.slug] : null
+    if (!el) return
+    const still = typeof window !== 'undefined'
+      && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    el.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'center' })
+  }
+
   const post = (slug: string, body: Record<string, unknown>) => {
     if (posted.current[slug]) return
     posted.current[slug] = true
     if (timers.current[slug]) clearTimeout(timers.current[slug])
-    setSaved(prev => ({ ...prev, [slug]: true }))
+    setSaved(prev => {
+      const next = { ...prev, [slug]: true }
+      // After paint, so the row being left has already settled into its saved
+      // state and the scroll lands on a card that has stopped changing.
+      requestAnimationFrame(() => handOver(slug, next))
+      return next
+    })
     fetch('/api/daily/concern-check', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -173,6 +207,33 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
           border: 2.5px solid var(--ink);
           box-shadow: 0 3px 0 rgba(26,26,46,0.35);
         }
+
+        /* SET, not merely moved.
+           Justin, 11 August 2026: "can we show today's rating circle as green
+           only once dragged into position, and a gentle little scroll to the
+           next one, so they know this is set and move on to the next one."
+
+           Green lands on RELEASE rather than on the first pixel of the drag,
+           and that distinction is the whole point. Mid drag the number is still
+           changing, so a green thumb would be saying done about something that
+           is not done. On release it snaps to a whole number and the answer is
+           the one that will be saved, which is the moment the parent has
+           actually decided. Grabbing it again during the save beat takes the
+           green back off, because it is genuinely undecided again.
+
+           The same green as the all checked tick at the bottom of the card, so
+           a set dial and a finished card are saying the same thing in the same
+           colour. */
+        .gc-scale-input.is-set::-webkit-slider-thumb {
+          background: var(--tint-green);
+          border-color: var(--retro-green);
+          box-shadow: 0 3px 0 var(--retro-green-dark);
+        }
+        .gc-scale-input.is-set::-moz-range-thumb {
+          background: var(--tint-green);
+          border-color: var(--retro-green);
+          box-shadow: 0 3px 0 var(--retro-green-dark);
+        }
       `}</style>
 
       <div style={{
@@ -199,7 +260,11 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
         const pct = ((n - 1) / 9) * 100
         const lastPct = c.lastScore != null ? ((c.lastScore - 1) / 9) * 100 : null
         return (
-          <div key={c.slug} style={{ padding: '9px 0 15px' }}>
+          <div
+            key={c.slug}
+            ref={el => { rows.current[c.slug] = el }}
+            style={{ padding: '9px 0 15px', scrollMarginTop: '16px' }}
+          >
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px' }}>
               <div style={{
                 fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800,
@@ -281,7 +346,10 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                 )}
               </div>
               <input
-                className="gc-scale-input"
+                // Green once it is set, which is on release rather than on the
+                // first pixel of the drag. Skipping never turns it green: the
+                // dial was never moved, so there is nothing to confirm.
+                className={`gc-scale-input${(isPending || (isSaved && isTouched)) ? ' is-set' : ''}`}
                 type="range"
                 min={1}
                 max={10}
