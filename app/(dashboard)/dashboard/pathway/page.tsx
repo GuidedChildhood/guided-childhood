@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { STAGES, type ChallengeId } from '@/lib/content/stages'
 import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
+import SchoolChest from '@/components/pathway/SchoolChest'
+import { sheetTarget, sheetLabel } from '@/lib/learning/term'
 import StageRoad from '@/components/pathway/StageRoad'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
@@ -33,7 +35,9 @@ import { gatherChildPassportToDo } from '@/lib/pathway/passport-todo-gather'
 import SocialRoadNova from '@/components/pathway/SocialRoadNova'
 import { getSocialRoad } from '@/lib/pathway/social-road'
 
-type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null }
+// date_of_birth joined the select on 11 August 2026 for the school chest, which
+// needs the year group and term rather than the age band.
+type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null; date_of_birth: string | null }
 
 export default async function PathwayPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
   const supabase = await createClient()
@@ -43,7 +47,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
 
   const [profileResult, childrenResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
-    supabase.from('children').select('id, name, age_band, stage_id, is_primary, streak_weeks').eq('parent_id', user.id).order('is_primary', { ascending: false }),
+    supabase.from('children').select('id, name, age_band, stage_id, is_primary, streak_weeks, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
   ])
 
   const isPaid = hasFullAccess(profileResult.data, user.email)
@@ -231,6 +235,14 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // It used to be one long scroll with everything equally loud, so a parent
   // who came to check one thing read all of it or gave up. These are anchors
   // rather than routes: nothing moved, it can just be reached now.
+  // The child's year and term, for the school chest beside the road, using the
+  // same helper the learning sheet does so the two can never disagree. Null
+  // before a birthday is set, which the chest handles by naming the child
+  // instead of the year.
+  const schoolDob = primaryChild?.date_of_birth ? new Date(primaryChild.date_of_birth) : null
+  const schoolTarget = schoolDob && !Number.isNaN(schoolDob.getTime()) ? sheetTarget(schoolDob, new Date()) : null
+  const schoolYearLabel = schoolTarget ? sheetLabel(schoolTarget) : null
+
   const SECTIONS: SectionTile[] = [
     { href: '#is-it-working', label: 'Is it working', sub: 'The honest read on where you are',
       icon: '📈', bg: 'var(--tint-sage)', accent: '#9CC3B4' },
@@ -367,6 +379,19 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           childName={primaryChild?.name ?? undefined}
           stageStatus={stageStatus}
         />
+      </div>
+
+      {/* SCHOOL, BESIDE THE ROAD RATHER THAN ON IT.
+          Justin asked the question directly: a step stone on the pathway, or a
+          chest next to the diagram that does not have to be done? It is the
+          chest, and the reasoning is in SchoolChest: the five stones are STAGES,
+          years wide each, and a school term measured in weeks does not belong on
+          that scale. Stones also gate, so a curriculum checker as a stone would
+          be a thing a parent could be BEHIND on, which is the fastest way to
+          make somebody avoid a genuinely useful page. His own phrasing settles
+          it: "does not have to be done". */}
+      <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
+        <SchoolChest childName={primaryChild?.name ?? null} yearLabel={schoolYearLabel} />
       </div>
 
       {/* Meet the family: DiGi and the Planet Friends the child grows up with,

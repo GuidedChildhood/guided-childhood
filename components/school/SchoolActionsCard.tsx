@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 import SchoolWeek from './SchoolWeek'
+import FoldSection from '@/components/dashboard/FoldSection'
 import SchoolAddSheet, { type NewReminder } from './SchoolAddSheet'
 import { isHeldForHolidays } from '@/lib/school/child-items'
 import type { Region } from '@/lib/learning/holidays'
@@ -124,7 +125,18 @@ function dueInfo(dueDate: string | null, dueTime: string | null | undefined, now
   return { text: 'Today', tone: 'today' }
 }
 
-export default function SchoolActionsCard({ actions: initial, childName, region = 'uk' }: { actions: SchoolAction[]; childName?: string | null; region?: Region }) {
+export default function SchoolActionsCard({ actions: initial, childName, region = 'uk', compact = false }: {
+  actions: SchoolAction[]
+  childName?: string | null
+  region?: Region
+  /**
+   * Inside something that already names this section, so the card drops its own
+   * eyebrow and title rather than saying "From school" twice on one screen.
+   * True on Home, where the FoldSection above it is already the heading. False
+   * on /dashboard/school, where this card IS the page.
+   */
+  compact?: boolean
+}) {
   const [actions, setActions] = useState(initial)
   const [sendingId, setSendingId] = useState<string | null>(null)
   const [testing, setTesting] = useState(false)
@@ -135,6 +147,7 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
   const [addDay, setAddDay] = useState<{ dateIso: string; dow: number } | null>(null)
 
   const [weekOffset, setWeekOffset] = useState(0)
+
   // The reminder being edited, opening the same sheet the add uses, filled
   // in. Justin, 10 August 2026: "a way for them to click in and simply stop
   // it edit it if wrong."
@@ -155,6 +168,23 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
     const t = setInterval(() => setNowMs(Date.now()), 30000)
     return () => clearInterval(t)
   }, [])
+
+  // What the folded week row says, so folding it costs no information. Counted
+  // off the same live list the grid draws, never a second source of truth.
+  const dueThisWeek = actions.filter(a => {
+    if (!a.due_date) return false
+    const d = new Date(`${a.due_date}T00:00:00`)
+    if (Number.isNaN(d.getTime())) return false
+    // nowMs is null until mount, so the week is anchored on the real clock
+    // only once there is one. Before that it falls back to today, which is
+    // what every other date reader in this file does.
+    const now = new Date(nowMs ?? Date.now())
+    const start = new Date(now); start.setHours(0, 0, 0, 0)
+    start.setDate(start.getDate() - ((start.getDay() + 6) % 7) + weekOffset * 7)
+    const end = new Date(start); end.setDate(end.getDate() + 7)
+    return d >= start && d < end
+  }).length
+
 
   // Due springs to the top. Weekly routines sort by how soon their day comes
   // round (today first, one cleared for today drops to the back until next
@@ -348,17 +378,56 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
       {/* A calm pulse, only ever on the last hour and overdue cards, so the
           card gets your eye exactly when the time is close. */}
       <style>{`@keyframes gcSchoolPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(229,72,77,0.0) } 50% { box-shadow: 0 0 0 4px rgba(229,72,77,0.12) } }`}</style>
-      <div style={{ marginBottom: '14px' }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
-          From school
+      {/* THE MANUAL IS NOT THE CARD.
+          Justin, 11 August 2026, with a screenshot of this filling a phone:
+          "on the home page things like this need to be shrunk behind an
+          expandable tab, otherwise it makes the home page messy. Use this
+          principle for each page, do not have the whole thing all down each
+          page, just a one line explaining what it is and the ability to expand
+          or reduce."
+
+          Two separate things were on screen every single time a parent opened
+          the app: the section's own heading, which the fold above it on Home
+          already said, and a four line explanation of what the feature is,
+          which is onboarding copy that stops being news after the first read.
+          Neither was wrong. Both were permanent.
+
+          So the heading goes when something else is already saying it, and the
+          explanation goes behind a line that a parent can open on the day they
+          want it and never again. What is left on screen is what is actually
+          due, which is the only part that changes. */}
+      {!compact && (
+        <div style={{ marginBottom: '12px' }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '6px' }}>
+            From school
+          </div>
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.02em' }}>
+            Things you need to know
+          </div>
         </div>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', letterSpacing: '-0.02em', marginBottom: '6px' }}>
-          Things you need to know
-        </div>
+      )}
+      <FoldSection label="How this works" value="Forwarded emails">
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
           Kit days, payments and deadlines DiGi pulls from your forwarded school emails, plus anything you add. They show here every time you open the app, and as a reminder on your phone if notifications are on.
         </p>
-      </div>
+        <button
+          onClick={sendTest}
+          disabled={testing}
+          style={{
+            marginTop: '12px',
+            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
+            padding: '8px 16px', cursor: testing ? 'wait' : 'pointer',
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink-soft)',
+          }}
+        >
+          {testing ? 'Sending...' : 'Send a test'}
+        </button>
+        {testResult && (
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 0 0' }}>
+            {testResult}
+          </p>
+        )}
+      </FoldSection>
       {/* Actions row: wraps cleanly on a phone and a laptop. */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
         {/* One way to add a reminder, not two. This used to toggle a separate
@@ -377,27 +446,23 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
         >
           + Add reminder
         </button>
-        <button
-          onClick={sendTest}
-          disabled={testing}
-          style={{
-            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
-            padding: '8px 16px', cursor: testing ? 'wait' : 'pointer',
-            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink-soft)',
-          }}
-        >
-          {testing ? 'Sending...' : 'Send a test'}
-        </button>
       </div>
-      {testResult && (
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '-8px 0 14px' }}>
-          {testResult}
-        </p>
-      )}
 
-      {/* The week, above the lists. The lists still hold the detail and the
-          send to child controls; this is the shape of the week, which is the
-          thing a list of rows can never show. */}
+      {/* THE WEEK, BEHIND A LINE THAT STILL CARRIES ITS ANSWER.
+          The grid is genuinely useful, and it is also seven rows of mostly
+          empty days that a parent scrolls past to reach the thing that is
+          actually due. Folded, the row still says how many are due, so nothing
+          is lost but the height. That is the rule FoldSection was built on:
+          you lose the detail, never the answer. */}
+      {/* CLOSED BY DEFAULT, even when things are due, and that is the whole
+          argument rather than a default chosen carelessly. The lists below this
+          already show every due item with its date, its detail and its send to
+          child control. The grid adds the SHAPE of the week, which is a real
+          thing a list cannot show and a nice to have rather than the answer.
+          Auto opening it put seven rows of mostly empty days between a parent
+          and the thing that was actually due. The collapsed row still says how
+          many, so nothing is lost but the height. */}
+      <FoldSection label="This week" value={`${dueThisWeek} due`}>
       <SchoolWeek
         actions={actions}
         nowMs={nowMs}
@@ -416,6 +481,7 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
         // off or every week, and whether the child's phone gets it too.
         onAdd={(dateIso, dow) => setAddDay({ dateIso, dow })}
       />
+      </FoldSection>
 
       {addDay && (
         <SchoolAddSheet
