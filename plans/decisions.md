@@ -7083,3 +7083,25 @@ board when it belongs to this child alone, because one child's swap must
 never delete a job from a sibling's day. Built on the existing pitch
 pipeline (quest_requests) plus one column, migration 184, so the caps and
 the child's status list all came for free.
+
+## 11 August 2026 — School reminders stopped being jobs
+
+Justin, from Teo's balance page with Cubs sitting in the job list: "surely
+that does not affect balance, as just alerts not jobs."
+
+Two code paths were quietly converting school reminders into one star jobs:
+the parent's send to child button, and the weekly reminder cron, which
+minted a FRESH quest for every routine every week. Both predate the child
+app having a school diary of its own. Once Cubs is a quest it is a job
+everywhere jobs exist: the balance page, the star chart, the five a day's
+all jobs done gate, and it earns a star for being reminded of something,
+which devalues the star a bed made earns.
+
+Both paths now send a reminder and nothing else: the action is marked sent
+to child, which is exactly what makes it appear in the child's own school
+diary, and the push points there. Alerts live on the school rails, which
+are already holiday aware and editable from the child's tap; jobs live on
+the quest rails; the two no longer leak into each other. The old quest
+rows already on boards are cleaned by one SQL statement in the pull
+request, matched by title against sent school actions rather than deleted
+by guesswork.

@@ -18,12 +18,9 @@ export const maxDuration = 60
 // DiGi caught it from a school email or the parent typed it in by
 // hand, gets one push tonight while there is still time to pack the
 // kit or sign the form, grouped into a single message per family. A
-// weekly routine marked auto_send_to_child also gets its own quest on
-// the child's page every week it comes round, no parent tap needed.
-
-const KIND_EMOJI: Record<string, string> = {
-  kit: '🎒', payment: '💷', homework: '📖', event: '📅', deadline: '⏰', notice: '📌',
-}
+// weekly routine marked auto_send_to_child nudges the child's phone
+// too, every week it comes round, no parent tap needed. A nudge only:
+// it stopped minting quests on 11 August 2026, see the note below.
 
 function ukTomorrow(): { dateStr: string; weekday: number } {
   return { dateStr: londonDateIn(1), weekday: londonWeekdayIn(1) }
@@ -41,7 +38,6 @@ async function handler(req: NextRequest) {
   )
 
   const { dateStr: tomorrow, weekday } = ukTomorrow()
-  const today = new Date().toISOString().slice(0, 10)
 
   const { data: dueTomorrow } = await supabase
     .from('school_actions')
@@ -164,40 +160,28 @@ async function handler(req: NextRequest) {
   }
 
   // The weekly routines that also nudge the child, every week, automatically.
+  //
+  // A NUDGE, no longer a quest. This loop used to mint a fresh one star
+  // family_quests row for every routine every week, which is how Cubs and
+  // Show and tell ended up sitting in Teo's balance page and on his star
+  // chart as jobs. Justin, 11 August 2026: "surely that does not affect
+  // balance, as just alerts not jobs." The routine already shows in the
+  // child's own school diary (auto_send_to_child is exactly what
+  // isChildVisible reads), so the push is all that is left to do, and the
+  // star economy stays for actual jobs.
   for (const routine of (routines ?? []).filter(r => r.auto_send_to_child)) {
     try {
       const { data: child } = await supabase
         .from('children')
-        .select('id, name')
+        .select('id')
         .eq('parent_id', routine.user_id)
         .eq('is_primary', true)
         .maybeSingle()
       if (!child) continue
 
-      // One quest per week: skip if this routine already sent today.
-      const { data: existing } = await supabase
-        .from('family_quests')
-        .select('id')
-        .eq('user_id', routine.user_id)
-        .eq('child_id', child.id)
-        .eq('title', routine.title)
-        .gte('created_at', `${today}T00:00:00Z`)
-        .maybeSingle()
-      if (existing) continue
-
-      const { data: quest } = await supabase
-        .from('family_quests')
-        .insert({
-          user_id: routine.user_id, child_id: child.id, title: routine.title,
-          emoji: KIND_EMOJI[routine.kind] ?? '📌', stars: 1, schedule: 'once',
-        })
-        .select('id')
-        .single()
-      if (!quest) continue
-
       await sendPush({
           userId: routine.user_id, audience: 'kids',
-          title: 'From home ⭐', body: `${routine.title}. Tick it off on your quests when it is sorted.`, url: '/',
+          title: 'From school 🎒', body: `Tomorrow: ${routine.title}. It is in your school diary.`, url: '/',
         })
       childSent++
     } catch { /* best effort, next week tries again */ }
