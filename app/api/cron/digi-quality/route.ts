@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { runEvals } from '@/lib/digi/evals'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendEmail } from '@/lib/email'
+import { SITE_URL } from '@/lib/config/site'
 
 // The Monday safety MOT, on its own clock. Runs the full eval suite, counts
 // what the live verifier flagged in the last seven days, and emails the
@@ -38,7 +39,7 @@ async function handler(request: Request) {
     const allClear = run.safetyBreaches === 0 && liveHigh === 0
 
     const failing = run.results.filter(r => !r.safetyPass || r.rubricScore < 0.75)
-    const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://app.guidedchildhood.com'
+    const origin = process.env.NEXT_PUBLIC_APP_URL ?? SITE_URL
 
     const rows = failing.map(r => `
       <tr>
