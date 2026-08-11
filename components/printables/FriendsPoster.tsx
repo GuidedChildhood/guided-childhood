@@ -1,5 +1,6 @@
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { FRIEND_STREAKS } from '@/lib/pathway/streak-unlock'
+import SheetScale from '@/components/printables/SheetScale'
 
 // THE PLANET FRIENDS POSTER.
 //
@@ -90,7 +91,10 @@ export default function FriendsPoster({ childName, fullDays }: FriendsPosterProp
     : 9
 
   return (
-    <div className="fp-frame">
+    // 794 by 1123 CSS pixels IS 210mm by 297mm: browsers hold 1mm at
+    // 96px/25.4 exactly, so the scaler's numbers and the sheet's mm units
+    // are the same ruler.
+    <SheetScale sheetWidth={794} sheetHeight={1123}>
       <div className="fp-sheet">
         <style>{`
         @page { size: A4 portrait; margin: 0; }
@@ -120,29 +124,14 @@ export default function FriendsPoster({ childName, fullDays }: FriendsPosterProp
             border-radius: 3px;
             margin-bottom: 28px;
           }
-          /* A safety net rather than the plan. The zoom steps below are still
-             sized to fit the sheet inside the phone, so this should never
-             actually scroll. It is here so that if a browser rounds the zoom
-             the wrong way, the overflow is a few pixels inside this box rather
-             than the whole page sliding sideways under the thumb. */
-          .fp-frame { overflow-x: auto; }
         }
 
-        /* A4 is 210mm and a phone is not. zoom, not transform, because zoom
-           changes the layout box: a transform would look right and still
-           reserve 210mm, which is sideways scroll on the body. */
-        @media screen and (max-width: 860px) { .fp-sheet { zoom: 0.82 } }
-        @media screen and (max-width: 700px) { .fp-sheet { zoom: 0.66 } }
-        @media screen and (max-width: 560px) { .fp-sheet { zoom: 0.50 } }
-        @media screen and (max-width: 430px) { .fp-sheet { zoom: 0.40 } }
-        /* A step the curriculum sheet does not have, and measuring found why it
-           is needed. A 320px phone lays out at 299 once body zoom 1.07 has
-           taken its cut, and a page's own 16px sides leave 267. A 210mm sheet
-           is 794px, so it needs 0.33 or less, and at 0.42 it was 374 wide and
-           pushed the body sideways. The breakpoint is read against the
-           VIEWPORT, which the body zoom does not touch, so the number here is
-           deliberately generous. */
-        @media screen and (max-width: 380px) { .fp-sheet { zoom: 0.33 } }
+        /* The zoom media query steps that used to live here are gone.
+           Chromium honoured them and Safari did not: on Teo's iPhone the
+           sheet laid out at full A4 size inside a phone column, the title
+           clipped to "Teo's Pla…" and the cards collided. The fitting is now
+           MEASURED by the SheetScale wrapper around this sheet, a plain
+           transform every browser treats identically. */
 
         @media print {
           .fp-sheet { box-shadow: none; border-radius: 0; margin: 0; }
@@ -319,6 +308,6 @@ export default function FriendsPoster({ childName, fullDays }: FriendsPosterProp
           </div>
         </div>
       </div>
-    </div>
+    </SheetScale>
   )
 }

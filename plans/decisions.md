@@ -7232,3 +7232,29 @@ anything. An approved ask is exempt, the parent has already looked. Fails
 open on any read error, because a broken brake must never strand a child
 who earned their time. The first non-negotiable holds: a pathway, never a
 deny.
+
+## 11 August 2026 — Printables that fit the phone and never strand the child
+
+Justin, two screenshots. The Planet Friends poster scrambled on Teo's
+iPhone, title chopped to "Teo's Pla", cards overlapping, no print button.
+And Teo stranded on a bare image of the Summer Bucket List with no bar, no
+back, no way home.
+
+**The poster was a Safari fault, not a layout fault.** The sheet fitted
+phones with CSS zoom steps in media queries; Chromium honours those and
+Safari does not, so every check we ran showed a perfect sheet while the
+phone in the kitchen showed a collision. The fitting is now MEASURED: a
+SheetScale wrapper watches its own width and scales the sheet with a plain
+transform, which every browser treats identically. Print resets it, so
+paper still gets true size. The lesson for every future sheet: never fit a
+fixed print layout with zoom media queries, wrap it in SheetScale.
+
+**The poster page also gained the one button it exists for.** Print, in
+place, no popup.
+
+**The child's sheets print in place now.** The popup window fell back to
+opening the raw image when the installed app blocked it, and standalone
+apps have no back button of any kind. There is no window any more: the
+sheet opens as an overlay on the page the child is already on, a bar with
+Back and Print, the print rule hides everything else. Nothing can be
+blocked and nothing can strand, because nothing leaves.

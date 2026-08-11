@@ -74,10 +74,13 @@ import { BUDDY_MAP, DEFAULT_BUDDY } from '@/lib/kid/buddy'
 // anthracite while the home screen went the colour the child picked. Same
 // reasoning as lib/kid/buddy: one answer to what colour the child is.
 import { resolveTheme, knownAccent, DEFAULT_ACCENT, PICKER_ACCENTS } from '@/lib/kid/theme'
-// Print it now. Lifted to lib/kid/print-sheet on 9 August 2026 so the window it
-// writes could be driven in a test: it needs a live link token to reach from
-// here, so nothing had ever opened it except a child.
-import { printSheet, printPack } from '@/lib/kid/print-sheet'
+// Print it now, without ever stranding the child. Two sessions fixed the
+// same dead end on the same day from opposite ends, and both halves are
+// kept: IMAGE sheets open as an overlay ON this page (KidSheetOverlay,
+// nothing to popup block, nowhere to strand), and PDF packs go through
+// printPack, the written window that carries its own way back.
+import KidSheetOverlay, { type OverlaySheet } from '@/components/kid/KidSheetOverlay'
+import { printPack } from '@/lib/kid/print-sheet'
 
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
@@ -411,6 +414,8 @@ export default function KidQuestScreen({
   // a tap. It starts open only when a timer is already running, so a live
   // countdown is never hidden.
   const [deviceOpen, setDeviceOpen] = useState(Boolean(activeSession))
+  // The sheet being printed in place, or null. See KidSheetOverlay.
+  const [printOverlay, setPrintOverlay] = useState<OverlaySheet | null>(null)
   // When the child taps the big Use my time button we want the timer open on the
   // set and start screen straight away, not the calm balance view. This flag
   // lands them right there; browsing the balance card leaves it false.
@@ -1228,6 +1233,10 @@ export default function KidQuestScreen({
       {/* Happy news: a squad friend springs up with the good news */}
       <HappyNews item={happyNews} onClose={() => setHappyNews(null)} />
 
+      {/* A sheet being printed, in place. Nothing to block, nowhere to strand.
+          Keyed by the sheet, so one failed load never haunts the next open. */}
+      <KidSheetOverlay key={printOverlay?.url ?? 'none'} sheet={printOverlay} onClose={() => setPrintOverlay(null)} />
+
       {/* The sent it toast */}
       {toast && (
         <div style={{
@@ -1430,7 +1439,7 @@ export default function KidQuestScreen({
                 onClick={() => {
                   playKidSound('tap')
                   if (assignedPrintable.pdfColourIn) printPack(assignedPrintable.pdfColourIn, assignedPrintable.title)
-                  else printSheet(assignedPrintable.sheetUrl, assignedPrintable.title)
+                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title })
                 }}
                 style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
                 🖨️ Print it
@@ -2624,12 +2633,11 @@ export default function KidQuestScreen({
                             </p>
                           )}
                           <button
-                            // Both doors now carry the way back. The PDF packs
-                            // used to go straight to window.open, which lands a
-                            // child in the browser's own viewer with nothing of
-                            // ours on it and, inside the installed app, no tab
-                            // to return to. See printPack.
-                            onClick={() => { playKidSound('tap'); if (p.pdfColourIn) { printPack(p.pdfColourIn, p.title) } else { printSheet(p.sheetUrl, p.title) } }}
+                            // Both doors carry the way back. PDF packs go
+                            // through printPack's written window; image sheets
+                            // open in place as the overlay, which nothing can
+                            // block because nothing leaves the page.
+                            onClick={() => { playKidSound('tap'); if (p.pdfColourIn) { printPack(p.pdfColourIn, p.title) } else { setPrintOverlay({ url: p.sheetUrl, title: p.title }) } }}
                             style={{
                               width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
                               cursor: 'pointer', marginBottom: '7px',
