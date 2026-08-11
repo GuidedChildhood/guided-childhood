@@ -6949,3 +6949,39 @@ Two pieces of copy were made untrue by this and were corrected in the same
 change: the passport task went back to "Read the scripts" (it had been changed to
 "Use" precisely because reading did not count), and the stage view no longer
 tells a parent that reading on its own does not move anything.
+
+## 11 August 2026, the screen moments were missing from the screen product
+
+Justin, on the end of day tagger: "we should have struggle to come off device,
+and TV first thing morning, phones in car, at restaurant, walking in street, as
+moments need to solve."
+
+**Every tile on that screen was a routine that would exist if screens had never
+been invented.** Teeth brushing, packed lunch, school bag, sibling fighting. A
+parent opened the one screen in the product that asks what went wrong today and
+had no way to say the handover was a fight. Five added:
+
+  come_off       Coming off a device      the five o'clock handover
+  tv_morning     TV first thing           leads the morning, because it is
+  phone_car      Phones in the car
+  phone_out      Phones when eating out
+  phone_street   Phones while walking
+
+**Out and about is a new part of the day**, not a category. The car, the
+restaurant and the pavement are the three places a phone causes trouble and none
+of them is a time of day; a family can meet all three between four and seven on
+a Saturday.
+
+**The half that makes them worth anything.** That screen promises "we will show
+you the right scripts tomorrow", and it keeps that promise through one lookup:
+the moment key is written straight into concerns.slug, and the recommender
+scores a script category from the slug. Every moment key was unmapped, so the
+promise had never been kept for any of the fifteen tiles, silently, since the
+tagger shipped. All twenty are mapped now.
+
+Phones in the street maps to STAYING SAFE rather than screen time on purpose. A
+child walking into a road while looking down is not a screen time conversation.
+
+Artwork is outstanding: the five new tiles show their emoji, which is the right
+fallback and not the finished thing. They need a Higgsfield batch to match the
+fifteen illustrated ones.
