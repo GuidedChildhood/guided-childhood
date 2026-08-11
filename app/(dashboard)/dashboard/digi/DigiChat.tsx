@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
 import DigiHero from '@/components/digi/DigiHero'
 import ThinkingReassurance from '@/components/digi/ThinkingReassurance'
+import { schoolChipFor } from '@/lib/digi/school-chip'
 
 function DigiAvatar({ size = 26, mood = 'idle' }: { size?: number; mood?: DigiMood }) {
   return <DigiCharacter size={size} mood={mood} />
@@ -1017,6 +1018,19 @@ export default function DigiChat({
                 // opens on the matches and stays editable, which is both.
                 { icon: '❝', label: 'Scripts for moments like this', href: lastAsk ? `/dashboard/scripts?q=${encodeURIComponent(lastAsk)}` : '/dashboard/scripts' },
                 { icon: '🎬', label: 'A lesson to watch together', href: '/dashboard/lessons' },
+                // The school pages, but ONLY when the question was a school
+                // question. Justin, 11 August 2026: "DiGi prompts now and
+                // again, not too often, especially when tired questions or
+                // homework questions are asked in DiGi."
+                //
+                // Not too often is the design rather than a counter. A chip
+                // advertising the curriculum checker under every answer becomes
+                // furniture in a week, and furniture does not get tapped. The
+                // cap is relevance: see lib/digi/school-chip.ts, which stays
+                // silent on screens, social media and a parent's own tiredness,
+                // and speaks on homework, the class, and a child who is
+                // shattered every school morning.
+                ...(schoolChipFor(lastAsk) ? [schoolChipFor(lastAsk)!] : []),
               ].map(r => (
                 <Link key={r.href} href={r.href} style={{
                   display: 'inline-flex', alignItems: 'center', gap: '7px',

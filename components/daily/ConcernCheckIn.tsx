@@ -7,22 +7,34 @@ import { useRouter } from 'next/navigation'
 // is still open, however many days it has been coming up, and keeps asking
 // until the family says it is better twice in a row.
 //
-// ONE DIAL IS THE WHOLE ANSWER, AND IT STAYS ON SCREEN
+// ONE NUMBER IS THE WHOLE ANSWER, AND IT STAYS ON SCREEN
 //
-// The scale runs UP: 1 is really tough, 10 is going great, so a family's
-// chart climbs as their weeks improve. Last check in sits on the track as a
-// red dotted ring the whole time, so today's number is always read against
-// it, and the thumb starts in the middle rather than on top of the marker
-// (Justin, 8 August: the first version hid last time under the handle, saved
-// too fast, and folded away before the note could be read).
+// The scale runs UP: 1 is really tough, 10 is going great, so a family's chart
+// climbs as their weeks improve. Last check in keeps its red dotted ring on the
+// same scale the whole time, so today's number is always read against it.
 //
-// So now: slide, let go, and a note appears saying where today sits against
-// last time. The row then LOCKS AND STAYS, dotted ring for last time, filled
-// track for today, so the before and after of every check in is left on
-// screen rather than vanishing. Nothing here is ever on a countdown before
-// the parent has moved anything, and a fresh grab during the save beat
-// cancels it. Direction is computed on the server from the event log, never
-// asked.
+// ── TEN TAPS, NOT A DRAG (11 August 2026) ────────────────────────────────────
+//
+// Justin, twice: "the sliders here are still clunky, is there a better way to
+// give a 1 to 10 rating."
+//
+// He was right, and the reason is that a drag was always the wrong instrument.
+// A slider is for a continuous quantity you dial in. This is ten discrete
+// answers and the parent knows which one they want before they touch the
+// screen, so a drag made them press, aim and release to say a number they had
+// already picked, while fighting the page scroll the whole way.
+//
+// Every piece of cleverness this card had needed existed to prop that up: a
+// fractional step so the thumb glided rather than stepped, touch-action none so
+// the page did not scroll away mid drag, a reserved text height so the track
+// could not shift under a moving thumb. All of it is gone. Ten targets you can
+// see, one tap each, chosen and committed in the same movement.
+//
+// What survives, because it was never the problem: the save beat, so the
+// comparison line can be read and the answer changed; the row LOCKING AND
+// STAYING afterwards, so the before and after of every check in is left on
+// screen; the green that means set; and the gentle hand over to the next one.
+// Direction is computed on the server from the event log, never asked.
 
 export type ConcernCheckItem = {
   slug: string
@@ -65,14 +77,14 @@ function verdictLine(n: number, last: number | null): string {
 }
 
 // How long the note sits before the answer posts. Long enough to read the
-// comparison, and grabbing the dial again cancels it and starts over.
+// comparison, and tapping a different number starts it over.
 const SAVE_BEAT_MS = 2600
 
 export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckItem[] }) {
-  // value: where the dial sits once touched, FRACTIONAL while dragging so
-  // the thumb glides rather than stepping (the step 1 version felt clunky
-  // under a thumb). touched: the live word shows and release will save.
-  // pending: released, the save beat is running. saved: posted and locked.
+  // value: the number tapped, always a whole one now that there is no drag to
+  // glide. touched: something has been picked, so the word and the comparison
+  // show. pending: the save beat is running and can still be changed. saved:
+  // posted and locked.
   const [value, setValue] = useState<Record<string, number>>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [pending, setPending] = useState<Record<string, boolean>>({})
@@ -83,8 +95,9 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
   const timers = useRef<Record<string, ReturnType<typeof setTimeout>>>({})
   // Each row's element, so a finished one can hand over to the next.
   const rows = useRef<Record<string, HTMLDivElement | null>>({})
-  // The release handler can fire before React re-renders the last change
-  // event, so the freshest value lives in a ref rather than in the closure.
+  // The number as of the last tap, outside React's batching, so the timer that
+  // fires two and a half seconds later posts what the parent actually chose
+  // rather than what the closure captured.
   const liveValue = useRef<Record<string, number>>({})
 
   if (concerns.length === 0) return null
@@ -140,23 +153,20 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       .catch(() => {})
   }
 
-  const armSave = (slug: string) => {
+  // One tap picks the number AND commits it, because with ten targets there is
+  // nothing to aim at while moving and nothing to release. The save beat stays:
+  // it is what lets a parent read the comparison line and change their mind,
+  // and tapping a different number inside it simply starts the beat again.
+  const pick = (slug: string, n: number) => {
     if (posted.current[slug]) return
-    const raw = liveValue.current[slug]
-    if (typeof raw !== 'number') return
-    // Snap the glide to its whole number on release, so the thumb settles
-    // exactly on the score that will be saved.
-    const n = Math.min(10, Math.max(1, Math.round(raw)))
     liveValue.current[slug] = n
     setValue(prev => ({ ...prev, [slug]: n }))
-    setPending(prev => ({ ...prev, [slug]: true }))
+    setTouched(prev => ({ ...prev, [slug]: true }))
     if (timers.current[slug]) clearTimeout(timers.current[slug])
+    setPending(prev => ({ ...prev, [slug]: true }))
     timers.current[slug] = setTimeout(() => post(slug, { score: n }), SAVE_BEAT_MS)
   }
-  const cancelSave = (slug: string) => {
-    if (timers.current[slug]) clearTimeout(timers.current[slug])
-    setPending(prev => ({ ...prev, [slug]: false }))
-  }
+
 
   return (
     <div style={{
@@ -170,71 +180,6 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
           accessibility, our own track underneath supplies the look. Only the
           thumb of the input is visible. The tall hit area is deliberate:
           thumbs, not cursors. */}
-      <style>{`
-        .gc-scale-input {
-          -webkit-appearance: none;
-          appearance: none;
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          margin: 0;
-          background: transparent;
-          cursor: pointer;
-          /* The dial owns its touches: the page never scroll fights a
-             horizontal drag, which was most of the clunky feel on a phone. */
-          touch-action: none;
-        }
-        .gc-scale-input:disabled { cursor: default; }
-        .gc-scale-input::-webkit-slider-runnable-track { background: transparent; height: 100%; }
-        .gc-scale-input::-moz-range-track { background: transparent; height: 100%; }
-        .gc-scale-input::-webkit-slider-thumb {
-          -webkit-appearance: none;
-          appearance: none;
-          width: 34px;
-          height: 34px;
-          margin-top: 11px;
-          border-radius: 50%;
-          background: #fff;
-          border: 2.5px solid var(--ink);
-          box-shadow: 0 3px 0 rgba(26,26,46,0.35);
-        }
-        .gc-scale-input::-moz-range-thumb {
-          width: 34px;
-          height: 34px;
-          border-radius: 50%;
-          background: #fff;
-          border: 2.5px solid var(--ink);
-          box-shadow: 0 3px 0 rgba(26,26,46,0.35);
-        }
-
-        /* SET, not merely moved.
-           Justin, 11 August 2026: "can we show today's rating circle as green
-           only once dragged into position, and a gentle little scroll to the
-           next one, so they know this is set and move on to the next one."
-
-           Green lands on RELEASE rather than on the first pixel of the drag,
-           and that distinction is the whole point. Mid drag the number is still
-           changing, so a green thumb would be saying done about something that
-           is not done. On release it snaps to a whole number and the answer is
-           the one that will be saved, which is the moment the parent has
-           actually decided. Grabbing it again during the save beat takes the
-           green back off, because it is genuinely undecided again.
-
-           The same green as the all checked tick at the bottom of the card, so
-           a set dial and a finished card are saying the same thing in the same
-           colour. */
-        .gc-scale-input.is-set::-webkit-slider-thumb {
-          background: var(--tint-green);
-          border-color: var(--retro-green);
-          box-shadow: 0 3px 0 var(--retro-green-dark);
-        }
-        .gc-scale-input.is-set::-moz-range-thumb {
-          background: var(--tint-green);
-          border-color: var(--retro-green);
-          box-shadow: 0 3px 0 var(--retro-green-dark);
-        }
-      `}</style>
 
       <div style={{
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -244,7 +189,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
         Still on the list
       </div>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
-        Slide to where each one is today. That is the whole answer. The red ring is where it was last time.
+        Tap where each one is today. That is the whole answer. The red ring is where it was last time.
       </p>
 
       {concerns.map(c => {
@@ -257,8 +202,6 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
         // the rounded score.
         const n = value[c.slug] ?? 5
         const shown = Math.min(10, Math.max(1, Math.round(n)))
-        const pct = ((n - 1) / 9) * 100
-        const lastPct = c.lastScore != null ? ((c.lastScore - 1) / 9) * 100 : null
         return (
           <div
             key={c.slug}
@@ -293,93 +236,101 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
               {recencyLabel(c)}{c.lastScore != null ? ` · last time you said ${c.lastScore}` : ''}
             </div>
 
-            {/* The live readout: an invitation before the first touch, the
-                word and number while dialling, and the comparison note once
-                the save beat starts. The note STAYS after saving. */}
-            {/* Height reserved for the word plus the note at its longest, so
-                the track NEVER shifts under a thumb mid drag as the text
-                changes. Layout jump during a drag is the definition of
-                clunky, and the first cut here had exactly that bug. */}
-            <div aria-live="polite" style={{ textAlign: 'center', marginBottom: '10px', minHeight: '6.4em' }}>
-              {isTouched ? (
-                <>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.01em' }}>
-                    {scoreWord(shown)}
-                  </span>
-                  <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45, marginTop: '3px' }}>
-                    {verdictLine(shown, c.lastScore)}{isSaved ? ' Saved.' : isPending ? ' Saving.' : ''}
-                  </span>
-                </>
-              ) : isSaved ? (
-                <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.45 }}>
-                  Skipped for today. It stays on the list.
-                </span>
-              ) : (
-                <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)' }}>
-                  Where is it today?
-                </span>
-              )}
+            {/* One line above the dots, and one only. Everything the answer
+                produces now sits BELOW them.
+
+                The old readout lived up here and reserved 6.4em of empty space
+                on every row, because with a drag the text growing would have
+                shifted the track under a moving thumb. That reservation was the
+                single biggest thing making this card enormous: three concerns
+                meant three screenfuls of mostly nothing.
+
+                With taps there is no thumb to shift under, and putting the
+                result underneath means the dots never move at all, even when a
+                parent changes their mind and the sentence under them gets
+                longer. Same protection, no empty space. */}
+            <div style={{ textAlign: 'center', marginBottom: '8px', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)' }}>
+              {isTouched ? scoreWord(shown) : isSaved ? 'Skipped for today' : 'Where is it today?'}
             </div>
 
-            {/* The track: butter fills to the thumb once touched, and the red
-                dotted ring holds last check in's spot the whole time, before
-                and after saving. */}
-            <div style={{ position: 'relative', height: '56px' }}>
-              <div style={{
-                position: 'absolute', left: '17px', right: '17px', top: '23px', height: '10px',
-                borderRadius: '100px', background: 'var(--cream)', border: '1px solid var(--border)',
-              }}>
-                {isTouched && (
-                  <div style={{
-                    position: 'absolute', left: 0, top: '-1px', bottom: '-1px',
-                    width: `${pct}%`, borderRadius: '100px',
-                    background: 'var(--terracotta)', border: '1px solid var(--terracotta-dark)',
-                  }} />
-                )}
-                {lastPct != null && (
-                  <div aria-hidden style={{
-                    position: 'absolute', left: `${lastPct}%`, top: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '22px', height: '22px', borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.85)', border: '2.5px dotted var(--alert)',
-                  }} />
-                )}
-              </div>
-              <input
-                // Green once it is set, which is on release rather than on the
-                // first pixel of the drag. Skipping never turns it green: the
-                // dial was never moved, so there is nothing to confirm.
-                className={`gc-scale-input${(isPending || (isSaved && isTouched)) ? ' is-set' : ''}`}
-                type="range"
-                min={1}
-                max={10}
-                step={0.01}
-                value={n}
-                disabled={!!isSaved}
-                aria-label={`${c.label}: 1 really tough to 10 going great`}
-                onChange={e => {
-                  const next = Number(e.target.value)
-                  liveValue.current[c.slug] = next
-                  setValue(prev => ({ ...prev, [c.slug]: next }))
-                  setTouched(prev => ({ ...prev, [c.slug]: true }))
-                }}
-                aria-valuetext={`${shown} of 10, ${scoreWord(shown)}`}
-                onPointerDown={() => cancelSave(c.slug)}
-                onPointerUp={() => armSave(c.slug)}
-                // Keyboard users step whole numbers (the fractional step is
-                // only there so a drag glides), same release-to-save rhythm.
-                onKeyDown={e => {
-                  if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) return
-                  e.preventDefault()
-                  cancelSave(c.slug)
-                  const dir = e.key === 'ArrowRight' || e.key === 'ArrowUp' ? 1 : -1
-                  const next = Math.min(10, Math.max(1, Math.round(value[c.slug] ?? 5) + dir))
-                  liveValue.current[c.slug] = next
-                  setValue(prev => ({ ...prev, [c.slug]: next }))
-                  setTouched(prev => ({ ...prev, [c.slug]: true }))
-                }}
-                onKeyUp={() => armSave(c.slug)}
-              />
+            {/* TEN TAPS, NOT A DRAG.
+                Justin, twice: "the sliders here are still clunky, is there a
+                better way to give a 1 to 10 rating."
+
+                He is right, and the reason is that a drag was always the wrong
+                instrument. A slider is for a continuous quantity you dial in.
+                This is ten discrete answers, and the parent already knows which
+                one they want before they touch the screen. A drag makes them
+                press, aim, and release to say a number they had picked a second
+                earlier, and on a phone it fights the page scroll the whole way.
+                Every bit of cleverness this card has needed, the fractional
+                glide, the touch-action, the reserved height so the track cannot
+                shift mid drag, existed to make a drag survive a gesture it was
+                not suited to.
+
+                Ten targets you can see, one tap each. The number is chosen and
+                committed in the same movement, there is nothing to aim at while
+                moving, and nothing to release.
+
+                LAST TIME KEEPS ITS RED RING, in the same place on the same
+                scale, so the comparison is spatial before anybody reads a word:
+                you can see whether today is left or right of last time. */}
+            <div
+              role="radiogroup"
+              aria-label={`${c.label}: 1 really tough to 10 going great`}
+              style={{ display: 'flex', gap: '5px', justifyContent: 'space-between', padding: '2px 0' }}
+            >
+              {Array.from({ length: 10 }, (_, i) => i + 1).map(dot => {
+                const chosen = isTouched && shown === dot
+                const filled = isTouched && dot <= shown
+                const wasLast = c.lastScore === dot
+                return (
+                  <button
+                    key={dot}
+                    role="radio"
+                    aria-checked={chosen}
+                    aria-label={`${dot} out of 10, ${scoreWord(dot)}`}
+                    disabled={!!isSaved}
+                    onClick={() => pick(c.slug, dot)}
+                    style={{
+                      // A 30px dot inside a 44px tall button. The dot is what
+                      // you read, the button is what your thumb hits, and the
+                      // two are not the same size on purpose.
+                      flex: '1 1 0', minWidth: 0, height: '44px', padding: 0,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: 'none', border: 'none',
+                      cursor: isSaved ? 'default' : 'pointer',
+                    }}
+                  >
+                    <span
+                      aria-hidden
+                      style={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        width: '100%', maxWidth: '30px', aspectRatio: '1',
+                        borderRadius: '50%',
+                        fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 700,
+                        // Set is green, exactly as the dial was, so a finished
+                        // row and the all checked tick agree on one colour.
+                        background: chosen && (isPending || isSaved) ? 'var(--tint-green)'
+                          : chosen ? 'var(--terracotta)'
+                          : filled ? 'var(--terracotta-lt)'
+                          : '#fff',
+                        border: chosen && (isPending || isSaved) ? '2.5px solid var(--retro-green)'
+                          : chosen ? '2.5px solid var(--terracotta-dark)'
+                          // Last time, held on the scale the whole time, before
+                          // and after today's answer lands.
+                          : wasLast ? '2px dotted var(--alert)'
+                          : '1.5px solid var(--border)',
+                        color: 'var(--ink)',
+                        boxShadow: chosen ? '0 2px 0 rgba(26,26,46,0.18)' : 'none',
+                        transition: 'background 0.14s, border-color 0.14s',
+                      }}
+                    >
+                      {dot}
+                    </span>
+                  </button>
+                )
+              })}
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', gap: '18px', marginTop: '4px', padding: '0 4px' }}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'left' }}>
@@ -389,6 +340,20 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                 10<br />Going great
               </span>
             </div>
+
+            {/* What it means, under the dots, so nothing above ever moves.
+                It STAYS after saving: the before and after of every check in is
+                left on screen rather than vanishing, which is the whole reason
+                a parent can see the line climbing over weeks. */}
+            {(isTouched || isSaved) && (
+              <div aria-live="polite" style={{ textAlign: 'center', marginTop: '8px' }}>
+                <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45 }}>
+                  {isTouched
+                    ? `${verdictLine(shown, c.lastScore)}${isSaved ? ' Saved.' : isPending ? ' Saving.' : ''}`
+                    : 'Skipped for today. It stays on the list.'}
+                </span>
+              </div>
+            )}
           </div>
         )
       })}

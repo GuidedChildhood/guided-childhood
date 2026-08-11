@@ -19,7 +19,15 @@ import LearningYear from './LearningYear'
 export const metadata = { title: 'What they are learning · Guided Childhood' }
 export const dynamic = 'force-dynamic'
 
-export default async function LearningPage() {
+export default async function LearningPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>
+}) {
+  // ?tab= so a link can name where it lands. DiGi's homework chip promises the
+  // decoder, and a chip whose destination does not keep its promise is worse
+  // than no chip at all.
+  const { tab } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -64,5 +72,5 @@ export default async function LearningPage() {
     )
   }
 
-  return <LearningYear views={views} blurbs={views.map(yearBlurb)} briefs={briefs} />
+  return <LearningYear views={views} blurbs={views.map(yearBlurb)} briefs={briefs} initialTab={tab ?? null} />
 }
