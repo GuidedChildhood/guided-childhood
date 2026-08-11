@@ -214,21 +214,15 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     return { stageId, meta: STAGE_META[stageId], items: sorted }
   }).filter(group => group.items.length > 0)
 
-  // The promise is 5 free scripts, but is_free marks every script that is
-  // ELIGIBLE to be a free read (dozens, spanning every panic moment), not
-  // a personal allowance. Counting the flag itself never changed as this
-  // parent read more, which is the "stuck at some big number, never
-  // updates" bug. The real, personal, moving number is how many DISTINCT
-  // free scripts THIS parent has actually opened so far.
-  // A weekly renewing allowance, not a lifetime cap: only free scripts
-  // opened in the last seven days count against the week, and every one
-  // already opened stays open forever. The ceiling refreshes, never walls.
-  const FREE_SCRIPTS_PER_WEEK = 2
-  const weekAgoIso = new Date(Date.now() - 7 * 86400000).toISOString()
-  const freeScriptOrders = new Set(scripts.filter(s => s.is_free).map(s => s.sort_order))
-  const freeScriptsReadCount = (completions ?? []).filter(c => freeScriptOrders.has(c.script_sort_order) && String(c.completed_at) >= weekAgoIso).length
-  const freeScriptsLeft = Math.max(0, FREE_SCRIPTS_PER_WEEK - freeScriptsReadCount)
-  const freeAllowanceUsedUp = !isPaid && freeScriptsReadCount >= FREE_SCRIPTS_PER_WEEK
+  // The weekly free allowance used to be worked out here: two free scripts a
+  // week, a renewing ceiling drawn from the scripts carrying is_free.
+  //
+  // Justin, 11 August 2026, twice: "I don't want the scripts free so that needs
+  // to be paywalled, as everything should be 4 days free paywall." So there is
+  // no allowance left to count. The trial is the free offer and lib/access.ts
+  // is the whole rule: an active membership, a trial that has not run out, or
+  // the founder allowlist. See migration 187, which closes the same door in the
+  // database so a script is unreachable as well as unopenable.
 
   return (
     <div style={{ maxWidth: '720px', margin: '0 auto', padding: '24px 20px' }}>
@@ -299,7 +293,13 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {topicScripts.map((script, i) => {
               const isDone = completedOrders.has(script.sort_order)
-              const isLocked = !isPaid && !isDone && (!script.is_free || freeAllowanceUsedUp)
+              // Locked is now simply not a member. See migration 187: there is
+              // no free tier left for is_free to open, and the row itself is
+              // gone for a non member anyway, because this page reads through
+              // the parent's own session and the policy hides it. Belt and
+              // braces on purpose, so the list cannot ever render a tile the
+              // database would refuse to open.
+              const isLocked = !isPaid
               return (
                 <Link
                   key={script.id}
@@ -348,26 +348,31 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         </Link>
       )}
 
+      {/* The four days are up. This card used to be the free plan's weekly
+          allowance with a progress bar, which is the thing that no longer
+          exists, so it said a parent had free scripts waiting that they did
+          not. What it has to do now is name the deadline that has passed and
+          say plainly what a membership opens.
+
+          NOT AN APOLOGY AND NOT A WALL WITH NOTHING BEHIND IT. The daily path,
+          the jobs, the stars and the printables all keep working without a
+          membership, and saying so is the difference between a parent who
+          upgrades later and one who stops opening the app. */}
       {!isPaid && (
         <div style={{ background: 'var(--stage-5)', border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '16px 20px', marginBottom: '24px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '10px' }}>
             <div>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Free plan</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Your free days are up</span>
               <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', marginTop: '4px', fontWeight: 600 }}>
-                {freeAllowanceUsedUp
-                  ? "That is your free scripts for this week. Fresh ones unlock in a few days, and every one you have opened stays yours to reread."
-                  : `${freeScriptsReadCount} of ${FREE_SCRIPTS_PER_WEEK} free scripts this week, ${freeScriptsLeft} left. They refresh every week.`}
+                Every script is part of the membership now. All {scripts.length} of them, the exact words for the conversations that are coming, and DiGi whenever you want them rewritten for your own child.
               </p>
             </div>
             <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ flexShrink: 0, padding: '10px 20px', fontSize: 'var(--text-base)' }}>
               Unlock all
             </Link>
           </div>
-          <div style={{ height: '8px', borderRadius: '8px', background: 'rgba(0,0,0,0.08)', overflow: 'hidden', marginBottom: '10px' }}>
-            <div style={{ height: '100%', borderRadius: '8px', background: 'var(--terracotta)', width: `${Math.min(100, (freeScriptsReadCount / FREE_SCRIPTS_PER_WEEK) * 100)}%`, transition: 'width 0.4s ease' }} />
-          </div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
-            Scripts are one part of it. Your daily path on the Home tab, a moment card, a check in, and a few free DiGi messages, never runs out and never needs membership. That is where the everyday habit lives, keep that going regardless.
+            Your daily path on the Home tab keeps going either way. The jobs, the stars, the five a day and the printables do not need a membership and never will, so keep that going whatever you decide about the rest.
           </p>
         </div>
       )}
@@ -496,10 +501,9 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '12px' }}>
             {group.items.map(script => {
               const isDone = completedOrders.has(script.sort_order)
-              // A free script already opened stays open forever. A free
-              // script never opened locks once the 5 are used up, same as
-              // a script that was never flagged free at all.
-              const isLocked = !isPaid && !isDone && (!script.is_free || freeAllowanceUsedUp)
+              // Locked is now simply not a member. The weekly free allowance
+              // this used to consult is gone with migration 187.
+              const isLocked = !isPaid
               const cat = CATEGORY_META[script.category]
               return (
                 <BrowseTile

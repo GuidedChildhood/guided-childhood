@@ -536,7 +536,7 @@ export default function SettingsPage() {
         ) : (
           <>
             <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
-              You are on the free plan. Upgrade to unlock all five stages, unlimited DiGi, and the full script library.
+              Your free days are up. A membership opens all five stages, unlimited DiGi and every script. The daily path, the jobs and the stars carry on either way.
             </p>
             <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-block', padding: '10px 24px', fontSize: 'var(--text-md)', textDecoration: 'none' }}>
               Upgrade now

@@ -10,6 +10,13 @@ import MarketingNav from '@/components/marketing/MarketingNav'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { CONTACT, hasAddress } from '@/lib/content/contact'
+// The live origin, from the one place it is written down. This page had five
+// copies of https://www.guidedchildhood.co.uk hardcoded, a domain the business
+// does not own, in the two things that decide which address Google indexes:
+// the canonical and the Organization and WebSite structured data. The 9 August
+// pass fixed robots, the sitemap and the metadataBase and missed the home page,
+// which is the page all of it points at.
+import { SITE_URL } from '@/lib/config/site'
 
 export const metadata: Metadata = {
   title: 'Guided Childhood · A clear digital pathway from first screen to 16',
@@ -23,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'A clear digital pathway from first screen to 16.',
     description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests, all science backed, finished with their Digital Passport. Free to start.',
-    url: 'https://www.guidedchildhood.co.uk',
+    url: SITE_URL,
     type: 'website',
     locale: 'en_GB',
   },
@@ -33,7 +40,7 @@ export const metadata: Metadata = {
     description: 'What to do, when to do it, how to do it. Age by age lessons, habits and quests, all science backed, finished with their Digital Passport.',
   },
   alternates: {
-    canonical: 'https://www.guidedchildhood.co.uk',
+    canonical: SITE_URL,
   },
 }
 
@@ -153,7 +160,7 @@ export default function HomePage() {
             '@type': 'Organization',
             name: 'Guided Childhood',
             description: 'A clear digital pathway from first screen to 16. Age by age lessons, habits and quests for UK families, all science backed, finished with their Digital Passport.',
-            url: 'https://www.guidedchildhood.co.uk',
+            url: SITE_URL,
             foundingDate: '2024',
             founder: { '@type': 'Person', name: 'Justin Phillips' },
             areaServed: { '@type': 'Country', name: 'United Kingdom' },
@@ -164,11 +171,11 @@ export default function HomePage() {
             '@context': 'https://schema.org',
             '@type': 'WebSite',
             name: 'Guided Childhood',
-            url: 'https://www.guidedchildhood.co.uk',
+            url: SITE_URL,
             description: 'A clear digital pathway from first screen to 16.',
             potentialAction: {
               '@type': 'SearchAction',
-              target: 'https://www.guidedchildhood.co.uk/search?q={search_term_string}',
+              target: `${SITE_URL}/search?q={search_term_string}`,
               'query-input': 'required name=search_term_string',
             },
           },

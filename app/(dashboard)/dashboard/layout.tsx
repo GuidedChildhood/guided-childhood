@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { paymentNeedsAttention } from '@/lib/access'
 import NavTabs from '@/components/dashboard/NavTabs'
 import NotificationsBell from '@/components/dashboard/NotificationsBell'
 import MobileTabBar from '@/components/dashboard/MobileTabBar'
@@ -49,7 +50,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const pendingAsks = (ticksRes.count ?? 0) + (asksRes.count ?? 0)
   const profile = (profileRes as { data: { full_name: string | null; subscription_tier: string | null; subscription_status: string | null } | null }).data
 
-  const isPaid = profile?.subscription_status === 'active'
+  // A subscription that is mid retry is still a subscription, so it must not
+  // wear an Upgrade chip. See lib/access.ts: past_due keeps everything while
+  // Stripe works through its retries.
+  const isPaid = profile?.subscription_status === 'active' || profile?.subscription_status === 'past_due'
+  const cardBounced = paymentNeedsAttention(profile)
 
   return (
     <div className="gc-shell" style={{ minHeight: '100dvh', background: 'var(--app-bg)', display: 'flex', flexDirection: 'column' }}>
@@ -107,6 +112,44 @@ export default async function DashboardLayout({ children }: { children: React.Re
             to. One place for every destination. useSearchParams needs the
             boundary, and the bar is nothing until the param is there anyway. */}
         <Suspense fallback={null}><BackToToday /></Suspense>
+        {/* THE CARD BOUNCED, and this is the only thing standing between a
+            family and losing the app without ever being told.
+            Justin, 11 August 2026: "so will this work if payment is not
+            received even though they subscribed?"
+            Nothing is taken away here. Stripe retries a failed charge for about
+            three weeks and they keep everything throughout, so this is not a
+            wall, it is the one warning before the retries run out and the
+            subscription cancels itself. On every page, because the page a
+            parent happens to open is not something we get to choose. */}
+        {cardBounced && (
+          <div style={{ padding: '12px 16px 0' }}>
+            <div style={{
+              maxWidth: 720, margin: '0 auto', display: 'flex', alignItems: 'center',
+              gap: 12, flexWrap: 'wrap', background: 'var(--danger-bg)',
+              border: '1.5px solid var(--danger-border)', borderRadius: 16, padding: '13px 16px',
+            }}>
+              <div style={{ flex: 1, minWidth: 220 }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>
+                  Your last payment did not go through
+                </div>
+                <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '3px 0 0' }}>
+                  Nothing has changed yet and everything still works. Your bank is being asked again over the next few weeks, and updating the card now takes a minute and settles it.
+                </p>
+              </div>
+              <Link
+                href="/dashboard/settings#billing"
+                style={{
+                  flexShrink: 0, textDecoration: 'none', background: 'var(--terracotta)',
+                  color: 'var(--ink)', borderRadius: 12, padding: '11px 16px',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                  boxShadow: '0 3px 0 var(--terracotta-dark)',
+                }}
+              >
+                Update the card
+              </Link>
+            </div>
+          </div>
+        )}
         {children}
       </main>
 

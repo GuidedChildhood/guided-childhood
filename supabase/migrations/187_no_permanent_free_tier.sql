@@ -1,0 +1,60 @@
+-- Guided Childhood — Migration 187
+-- The free plan closes. Four days, then it is a membership.
+--
+-- Justin, 11 August 2026, twice: "I don't want the scripts free so that needs to
+-- be paywalled, as everything should be 4 days free paywall."
+--
+-- ── WHAT WAS ACTUALLY BEING GIVEN AWAY ──────────────────────────────────────
+--
+-- Two separate free offers have been running side by side, and only one of them
+-- was ever decided.
+--
+--   The trial     four days, everything open. Correct, and unchanged. It is
+--                 already four rather than seven, for the reason written in
+--                 lib/access.ts: the thing this product has to prove happens
+--                 daily, and a parent who is going to get it gets it by day
+--                 three.
+--
+--   The free plan a PERMANENT tier underneath it. 63 scripts carry is_free, the
+--                 anon policy below made every one of them world readable, and
+--                 the app handed out two a week for ever on a renewing weekly
+--                 allowance. Nothing about that was a decision anybody made
+--                 recently. It is migration 001, from before there was a trial.
+--
+-- The second one is what closes here. After four days there is no free tier, no
+-- renewing allowance, and no script that reads without a membership.
+--
+-- ── WHY THE POLICY AND NOT THE COLUMN ───────────────────────────────────────
+--
+-- is_free stays exactly as it is, on all 63 rows. It is data about which scripts
+-- we would use as a sample, and deleting it would throw away a real editorial
+-- judgement to express a pricing one. What changes is that it no longer grants
+-- anybody anything: access is the membership, and only the membership.
+--
+-- That also makes this reversible. Reinstating a free tier is one create policy,
+-- rather than a re-run of the judgement about which 63 scripts it should be.
+--
+-- ── THE ANON POLICY WAS ALREADY DEAD ────────────────────────────────────────
+--
+-- The comment on it in 001 says "including anon, for the static /scripts page".
+-- That page does not read this table. It renders from lib/content/stages, a file
+-- in the repo, and has done for a long time. So the public marketing shop window
+-- is untouched by this: it never came from here.
+--
+-- What the policy was actually doing was handing 63 scripts to anyone holding
+-- the anon key, which ships in the browser bundle by design. That is the same
+-- shape as the profiles hole found on 8 August: the screen enforced the rule and
+-- the row did not.
+--
+-- ── WHAT REMAINS, AND IT IS THE WHOLE RULE ──────────────────────────────────
+--
+-- The policy from migration 148 stays as the only way in, and it already says
+-- exactly what lib/access.ts says: an active subscription, or a trial that has
+-- not run out. Nothing here needs to restate it.
+--
+-- Supabase editor rules: idempotent, no DO blocks, flat statements only.
+
+drop policy if exists "Free scripts are public" on public.scripts;
+
+comment on column public.scripts.is_free is
+  'Editorial only: this script is one we would show as a sample. It grants no access. Reading any script needs an active subscription or a live trial, which is the policy from migration 148. See migration 187 for why the tier was closed rather than the column dropped.';

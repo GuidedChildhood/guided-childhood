@@ -1,40 +1,52 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
-// The free plan gives a weekly renewing allowance of scripts, not a
-// lifetime cap. The Duolingo shape: a soft ceiling that refreshes, never a
-// permanent wall. A free script already opened stays open forever, nothing
-// free ever degrades; a free script never opened locks only once this
-// week's allowance is used, and the allowance returns every week.
-export const FREE_SCRIPTS_PER_WEEK = 2
+// Is this script locked?
+//
+// Justin, 11 August 2026, twice: "I don't want the scripts free so that needs to
+// be paywalled, as everything should be 4 days free paywall."
+//
+// ── WHAT THIS USED TO DO ────────────────────────────────────────────────────
+//
+// A permanent free tier underneath the trial, in the Duolingo shape: two free
+// scripts a week, a soft ceiling that refreshed rather than a wall, drawn from
+// the 63 scripts carrying is_free. A free script already opened stayed open for
+// ever, and the allowance came back every Monday.
+//
+// It was a reasonable design and it is not the one being sold. The trial is the
+// free offer: four days, everything open, and then a membership. Two free offers
+// running side by side meant a parent could sit on the second one indefinitely
+// and never meet the first one's deadline, which is the deadline the product
+// converts on.
+//
+// ── AND IT IS NOW ONE LINE ──────────────────────────────────────────────────
+//
+// Paid means an active subscription, a trial that has not run out, or the
+// founder allowlist. That is lib/access.ts and it has not changed. Everything
+// else is locked, which is what the sentence above says.
+//
+// The database says the same thing rather than trusting this. Migration 187
+// drops the anon policy that made those 63 rows world readable, so a script is
+// unreachable as well as unopenable. The screen and the row agreeing is the
+// lesson from the profiles hole on 8 August, and from the scripts policy in 148:
+// a paywall enforced only in the client is a paywall with a browser console
+// sized door in it.
+//
+// is_free is still on those 63 rows and still means something, just not this.
+// It marks the scripts we would use as a sample. It grants nothing.
 
-function weekAgoIso(): string {
-  return new Date(Date.now() - 7 * 86400000).toISOString()
-}
-
+/**
+ * True when the parent cannot open this script.
+ *
+ * Deliberately still async and still taking the client and the user id. Every
+ * caller awaits it, and a free tier is the kind of thing that comes back: when
+ * it does, it comes back here, with the arguments it needs already in place,
+ * rather than by rethreading a signature through half a dozen routes.
+ */
 export async function isScriptLocked(
-  supabase: SupabaseClient,
-  userId: string,
+  _supabase: SupabaseClient,
+  _userId: string,
   isPaid: boolean,
-  script: { sort_order: number; is_free: boolean }
+  _script: { sort_order: number; is_free: boolean }
 ): Promise<boolean> {
-  if (isPaid) return false
-  if (!script.is_free) return true
-
-  const { data: existing } = await supabase
-    .from('script_completions')
-    .select('id')
-    .eq('user_id', userId)
-    .eq('script_sort_order', script.sort_order)
-    .maybeSingle()
-  if (existing) return false
-
-  // Only free scripts opened in the last seven days count against the week.
-  const [{ data: completions }, { data: freeScripts }] = await Promise.all([
-    supabase.from('script_completions').select('script_sort_order').eq('user_id', userId).gte('completed_at', weekAgoIso()),
-    supabase.from('scripts').select('sort_order').eq('is_free', true),
-  ])
-  const freeOrders = new Set((freeScripts ?? []).map(s => s.sort_order))
-  const usedThisWeek = (completions ?? []).filter(c => freeOrders.has(c.script_sort_order)).length
-
-  return usedThisWeek >= FREE_SCRIPTS_PER_WEEK
+  return !isPaid
 }

@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { hasFullAccess, needsMembership } from '@/lib/access'
 
 // /educator left this list at the split cutover: the schools product lives
 // at schools.guidedchildhood.com with no login at all, and next.config.ts
@@ -68,6 +69,38 @@ export async function middleware(request: NextRequest) {
       url.pathname = '/login'
       url.searchParams.set('next', pathname)
       return NextResponse.redirect(url)
+    }
+
+    // ── THE PAYWALL ────────────────────────────────────────────────────────
+    //
+    // Justin, 11 August 2026: "yes everything is behind the paywall after 4
+    // days and if not subscribed."
+    //
+    // HERE RATHER THAN IN THE PAGES, and that is the whole point. The paywall
+    // used to be a per feature check and only about fifteen files out of the
+    // thirty seven dashboard routes had one, which is not a policy, it is a
+    // list of the places somebody remembered. One gate on the way in covers
+    // every route that exists and, more usefully, every route nobody has
+    // written yet. A new page is behind the paywall by being a page.
+    //
+    // needsMembership is a pure function of the path and it runs FIRST, so the
+    // profile read below only happens on a path that could actually be
+    // blocked. Settings, billing and the upgrade page cost no query at all.
+    if (user && isProtected && needsMembership(pathname)) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('subscription_status, trial_ends_at')
+        .eq('id', user.id)
+        .maybeSingle()
+
+      if (!hasFullAccess(profile, user.email)) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard/upgrade'
+        // Where they were going, so the upgrade page can say what it opens and
+        // send them back there afterwards rather than dumping them on Home.
+        url.searchParams.set('from', pathname)
+        return NextResponse.redirect(url)
+      }
     }
 
     // Redirect authed users away from auth pages, honouring the next param
