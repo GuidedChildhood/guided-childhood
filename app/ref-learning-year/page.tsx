@@ -84,5 +84,28 @@ export default async function RefLearningYear({ searchParams }: { searchParams: 
     }
   }
 
-  return <LearningYear views={[v]} blurbs={[yearBlurb(v)]} />
+  // THE SUMMARY, which this fixture has never rendered.
+  //
+  // LearningYear takes an optional briefs prop and the fixture has never passed
+  // one, so "This week at school", the card a parent actually arrives for, has
+  // been invisible here since it shipped. That mattered on 11 August 2026, when
+  // the page gained tabs underneath the summary: a fixture with no summary
+  // cannot show whether the summary stayed above them.
+  //
+  // Blocked views deliberately get nothing, matching the page, which never
+  // shows a week to a family whose year group we cannot work out.
+  const brief = v.blocked === null ? {
+    yearGroup: v.yearGroup ?? 4,
+    term: 'summer' as const,
+    preview: false,
+    weekOfTerm: 3,
+    subjectLabel: 'Maths',
+    strand: 'Multiplication and division',
+    lead: 'recall multiplication and division facts for multiplication tables up to 12 × 12',
+    parts: [],
+    second: { subjectLabel: 'English', strand: 'Writing transcription (spelling)', lead: 'spell further homophones' },
+    questTitle: 'Practise times tables',
+  } : null
+
+  return <LearningYear views={[v]} blurbs={[yearBlurb(v)]} briefs={[brief]} />
 }
