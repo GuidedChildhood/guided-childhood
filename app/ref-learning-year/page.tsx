@@ -51,8 +51,8 @@ function base(name: string): YearView {
   }
 }
 
-export default async function RefLearningYear({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
-  const { view } = await searchParams
+export default async function RefLearningYear({ searchParams }: { searchParams: Promise<{ view?: string; tab?: string }> }) {
+  const { view, tab } = await searchParams
 
   let v: YearView
   if (view === 'nodob') {
@@ -107,5 +107,5 @@ export default async function RefLearningYear({ searchParams }: { searchParams: 
     questTitle: 'Practise times tables',
   } : null
 
-  return <LearningYear views={[v]} blurbs={[yearBlurb(v)]} briefs={[brief]} />
+  return <LearningYear views={[v]} blurbs={[yearBlurb(v)]} briefs={[brief]} initialTab={tab ?? null} />
 }

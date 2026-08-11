@@ -63,9 +63,23 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: 'homework', label: 'Homework' },
 ]
 
-export default function LearningYear({ views, blurbs, briefs = [] }: { views: YearView[]; blurbs: string[]; briefs?: (WeekBrief | null)[] }) {
+export default function LearningYear({
+  views, blurbs, briefs = [], initialTab,
+}: {
+  views: YearView[]
+  blurbs: string[]
+  briefs?: (WeekBrief | null)[]
+  /** Which tab the link asked for, from ?tab=. Anything unknown falls to the term. */
+  initialTab?: string | null
+}) {
   const [active, setActive] = useState(0)
-  const [tab, setTab] = useState<TabKey>('term')
+  // A link can name its tab, so DiGi's "make sense of that homework" chip lands
+  // on the decoder rather than on the term list with the decoder one tap away.
+  // A promise in a chip label that the destination does not keep is worse than
+  // no chip. Unknown values fall back rather than showing an empty page.
+  const [tab, setTab] = useState<TabKey>(
+    TABS.some(t => t.key === initialTab) ? (initialTab as TabKey) : 'term'
+  )
   const [open, setOpen] = useState<Record<string, boolean>>({})
   const v = views[active]
   const blurb = blurbs[active]
