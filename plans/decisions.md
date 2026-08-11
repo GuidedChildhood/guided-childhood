@@ -7060,3 +7060,26 @@ one recording it. **No bulk version on that pile.** Saying yes to all in the
 waiting pile agrees to claims a child made one by one; there is no equivalent
 claim here, so a mark all done would be six jobs recorded as finished in one tap
 with none of them checked, and the stars it hands out are real minutes.
+
+## 11 August 2026 — Jobs done goes straight home, and a child can propose a swap
+
+Justin, from Teo's jobs page. Two decisions.
+
+**The finished jobs page walks the child back itself.** Ticking the last job
+celebrates, ticks the five a day's jobs step from right there (so the home
+screen already shows the next step when it paints), and then navigates home
+after a short beat. The done state stays for a child who wanders back to
+look, but nobody is left parked on a finished list when the next step of
+their day is waiting.
+
+**Negotiating a job is an ask, never a self serve change.** Justin: "should
+we give child ability to click negotiate job so can change it to a
+different task as gives them more control?" Yes, and the shape matters: the
+child proposes the trade (a quiet swap line under each unticked job opens a
+sheet with ideas and a write your own box), the parent gets both halves of
+it on the board they already answer, and the yes swaps like for like: the
+new job is worth what the old one was, and the old one only comes off the
+board when it belongs to this child alone, because one child's swap must
+never delete a job from a sibling's day. Built on the existing pitch
+pipeline (quest_requests) plus one column, migration 184, so the caps and
+the child's status list all came for free.

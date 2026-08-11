@@ -23,7 +23,7 @@ type Child = { id: string; name: string }
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; schedule_days?: number[] | null; child_id: string | null }
 type Tick = { id: string; quest_id: string; child_id: string | null; tick_date: string; status: string }
 type Goal = { child_id: string; title: string; stars_needed: number; daily_stars: number | null }
-type Ask = { id: string; child_id: string; title: string; emoji: string; status: string }
+type Ask = { id: string; child_id: string; title: string; emoji: string; status: string; swap_quest_id?: string | null }
 type Bank = { child_id: string; earned: number; spent: number; balance: number; minutes: number }
 // Minutes banked above the weekly cap, spendable only while school is out.
 type HolidayBank = { childId: string; remaining: number; spendableNow: boolean; holidayTitle: string | null }
@@ -248,16 +248,23 @@ export default function QuestBoard() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
           {pendingAsks.map(a => {
             const childName = children.find(c => c.id === a.child_id)?.name ?? 'Your child'
+            // A swap ask names both halves of the trade, so the yes is an
+            // informed one. The old job comes off their board with the yes
+            // when it is theirs alone; a whole family job stays for the
+            // siblings. Yes keeps the old job's stars, like for like.
+            const swapOld = a.swap_quest_id ? quests.find(q => q.id === a.swap_quest_id) : undefined
             return (
               <div key={a.id} style={ASK_ROW}>
-                <span style={{ fontSize: 'var(--text-lg)' }}>{a.emoji}</span>
+                <span style={{ fontSize: 'var(--text-lg)' }}>{swapOld ? '🔁' : a.emoji}</span>
                 <span style={ASK_TEXT}>
-                  {childName} pitched a quest: <strong>{a.title}</strong>
+                  {swapOld
+                    ? <>{childName} asks to swap <strong>{swapOld.title}</strong> for <strong>{a.title}</strong></>
+                    : <>{childName} pitched a quest: <strong>{a.title}</strong></>}
                   <span style={{ color: 'var(--ink-muted)', fontWeight: 500 }}> · their idea</span>
                 </span>
                 <div style={ASK_ACTIONS}>
                   <Button variant="primary" size="sm" onClick={() => decideAsk(a.id, 'added')} style={{ flexShrink: 0 }}>
-                    Add it ⭐2
+                    {swapOld ? 'Swap it' : 'Add it ⭐2'}
                   </Button>
                   <button
                     onClick={() => decideAsk(a.id, 'declined')}

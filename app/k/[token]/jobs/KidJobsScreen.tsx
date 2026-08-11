@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import KidTodayList, { type TodayQuest } from '@/components/kid/KidTodayList'
+import KidSwapSheet from './KidSwapSheet'
 import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { buddyFor } from '@/lib/kid/buddy'
@@ -30,6 +31,7 @@ export default function KidJobsScreen({
   const [burst, setBurst] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
   const [happyNews, setHappyNews] = useState<HappyNewsItem | null>(null)
+  const [swapFor, setSwapFor] = useState<TodayQuest | null>(null)
   const who = buddyFor(buddy)
 
   // The same tick flow as the home screen: optimistic to pending, a burst and
@@ -120,6 +122,20 @@ export default function KidJobsScreen({
       `}</style>
       <HappyNews item={happyNews} onClose={() => setHappyNews(null)} />
 
+      {/* The swap sheet: propose trading this job for a different task. */}
+      {swapFor && (
+        <KidSwapSheet
+          token={token}
+          quest={swapFor}
+          onClose={() => setSwapFor(null)}
+          onSent={msg => {
+            setSwapFor(null)
+            setToast(msg)
+            setTimeout(() => setToast(null), 4200)
+          }}
+        />
+      )}
+
       {toast && (
         <div style={{
           position: 'fixed', top: 'max(16px, env(safe-area-inset-top))', left: '16px', right: '16px', zIndex: 50,
@@ -181,13 +197,31 @@ export default function KidJobsScreen({
             burstQuestId={burst}
             giftStarsOwed={giftStarsOwed}
             inkSoft="rgba(26,26,46,0.60)"
+            onSwapAsk={q => { playKidSound('tap'); setSwapFor(q) }}
             onCelebrate={() => {
               playKidSound('done')
               setHappyNews({
                 character: who.key === 'digi' ? 'digi' : (who.key as CharacterKey),
                 headline: 'Every job is done! 🎉',
-                sub: `The whole list, ${childName}. Head back for the rest of your five a day.`,
+                sub: `The whole list, ${childName}. Back to your five a day…`,
               })
+              // Straight back to the next step, no tap needed. Justin, 11
+              // August 2026: "Once today's jobs are done can it return
+              // straight to next step on homepage."
+              //
+              // Two halves. The step is ticked FROM HERE, fire and forget
+              // (the ask page's own pattern), so the five a day already shows
+              // the next step the moment home paints rather than ticking jobs
+              // in front of the child a beat after they arrive. Then a short
+              // pause so the celebration lands as a celebration, and a full
+              // navigation rather than a client push, so home renders fresh
+              // from the server exactly as if they had walked back.
+              fetch('/api/kid/day', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token, step: 'jobs' }),
+              }).catch(() => { /* home's own effect ticks it on arrival */ })
+              setTimeout(() => { window.location.assign(`/k/${token}`) }, 1800)
             }}
           />
         )}
