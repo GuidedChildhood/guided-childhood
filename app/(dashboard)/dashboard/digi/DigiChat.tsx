@@ -972,7 +972,12 @@ export default function DigiChat({
         {/* Between chats, a quiet drop in: a couple of places that help with what
             they just asked, the Good Inside feel. Only once the answer is settled,
             never mid stream, and easy to ignore, so it never distracts. */}
-        {messages.length > 0 && messages[messages.length - 1].role === 'assistant' && !streamingReply && !loading && (
+        {messages.length > 0 && messages[messages.length - 1].role === 'assistant' && !streamingReply && !loading && (() => {
+          // What they actually asked, so the scripts link can carry it. Same
+          // read as the flag box uses: the last thing the parent typed, not the
+          // last thing DiGi said.
+          const lastAsk = [...messages].reverse().find(m => m.role === 'user')?.content?.slice(0, 140) ?? ''
+          return (
           <div style={{ marginBottom: '26px' }}>
             {/* Answered, so the useful next move is almost never another
                 question. It is going back and doing the thing. The pathway
@@ -1003,7 +1008,14 @@ export default function DigiChat({
             </div>
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {[
-                { icon: '❝', label: 'Scripts for moments like this', href: '/dashboard/scripts' },
+                // The question goes WITH them. This said "scripts for moments
+                // like this" and linked to the whole library, so a parent who
+                // had just described their evening was handed 236 scripts and
+                // left to find the one. Justin, 11 August 2026: "can we make
+                // script suggestions actually pull up scripts that relate to
+                // the question, and ability to search others." The finder
+                // opens on the matches and stays editable, which is both.
+                { icon: '❝', label: 'Scripts for moments like this', href: lastAsk ? `/dashboard/scripts?q=${encodeURIComponent(lastAsk)}` : '/dashboard/scripts' },
                 { icon: '🎬', label: 'A lesson to watch together', href: '/dashboard/lessons' },
               ].map(r => (
                 <Link key={r.href} href={r.href} style={{
@@ -1078,7 +1090,8 @@ export default function DigiChat({
               )}
             </div>
           </div>
-        )}
+          )
+        })()}
 
         {loading && (!streamingReply || thinkingFloor) && (
           <div style={{ marginBottom: '26px' }}>
