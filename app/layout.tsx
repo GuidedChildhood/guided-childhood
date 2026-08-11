@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Nunito, IBM_Plex_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
 // Shared tokens first, then this app's own styles on top. The schools app
 // imports the same tokens file, which is what keeps the two products one
 // brand (split step 3, plans/split-plan.md).
@@ -13,16 +13,33 @@ import UpdateBanner from '@/components/UpdateBanner'
 // was render blocking and flashed a generic system font before Nunito arrived,
 // which is what made the type read cheap for a beat on first paint. Self hosted
 // and preloaded, the brand font is there from the first frame.
-const nunito = Nunito({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
-  style: ['normal', 'italic'],
+//
+// VENDORED IN THE REPO, not fetched from Google at build time. 11 August 2026:
+// two production deploys in a row died in 21 seconds with module-not-found on
+// nunito_*.module.css, which is what next/font/google looks like when the
+// build machine cannot reach Google Fonts for a moment. A brand whose whole
+// pitch includes ban resilience should not have a build that falls over when
+// one third party has a bad minute. The woff2 files live in app/fonts (six
+// files, about 140KB, OFL licensed, latin subset from the fontsource
+// packages): Nunito as a VARIABLE font, one file per style covering every
+// weight the old list named and the ones between, and IBM Plex Mono as the
+// four static weights it actually ships. Same CSS variables, same swap, so
+// nothing downstream moves.
+const nunito = localFont({
+  src: [
+    { path: './fonts/nunito-latin-wght-normal.woff2', weight: '200 1000', style: 'normal' },
+    { path: './fonts/nunito-latin-wght-italic.woff2', weight: '200 1000', style: 'italic' },
+  ],
   variable: '--font-nunito',
   display: 'swap',
 })
-const plexMono = IBM_Plex_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+const plexMono = localFont({
+  src: [
+    { path: './fonts/ibm-plex-mono-latin-400-normal.woff2', weight: '400', style: 'normal' },
+    { path: './fonts/ibm-plex-mono-latin-500-normal.woff2', weight: '500', style: 'normal' },
+    { path: './fonts/ibm-plex-mono-latin-600-normal.woff2', weight: '600', style: 'normal' },
+    { path: './fonts/ibm-plex-mono-latin-700-normal.woff2', weight: '700', style: 'normal' },
+  ],
   variable: '--font-ibm-plex-mono',
   display: 'swap',
 })
