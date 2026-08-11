@@ -7215,3 +7215,20 @@ parent at half past six needs the reason rather than the citation.
 Verified by running 185 and 186 against a real Postgres 16 rather than reading
 them: both apply clean, 186 is idempotent across two runs, and 185 flags 3303
 while deliberately leaving "Puberty and the mood swings" alone.
+
+## 11 August 2026 — The gentle brake on a big screen day
+
+The economy audit found the one gap in the healthy usage envelope: a child
+in watch or trusted mode could spend several days of guide in one sitting,
+alerted but never slowed, because the weekly cap bounds the week and
+nothing bounds the day. Justin: "yes gentle block."
+
+Gentle means it is not a block. Past one and a half times the day's guide,
+the science's own well over line, a self started timer turns into an ASK:
+the parent's push says plainly that this block would take today well past
+the healthy amount, and one tap runs it as a treat or says not today. The
+guide is holiday aware, so summer gets its slack before the brake touches
+anything. An approved ask is exempt, the parent has already looked. Fails
+open on any read error, because a broken brake must never strand a child
+who earned their time. The first non-negotiable holds: a pathway, never a
+deny.
