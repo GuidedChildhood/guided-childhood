@@ -7154,6 +7154,23 @@ rows already on boards are cleaned by one SQL statement in the pull
 request, matched by title against sent school actions rather than deleted
 by guesswork.
 
+## 11 August 2026 — The holiday bank gets a weekly ceiling
+
+Justin, at Teo's bank showing 485 minutes: "way too many holiday minutes."
+
+The number was real rather than double counted: two July testing weeks each
+banked four hours, because the Monday rollover converted EVERYTHING earned
+above the weekly cap into holiday minutes, uncapped. Meant kindly, effort
+must not be lost, but unbounded it turns the holiday pot into a way around
+the entire balance system: a child who piles up one huge week walks into
+August with a second allowance.
+
+One week can now bank at most one day's screen guide for the child's age,
+holiday aware, so the cap grows up with them. Still a real prize for a big
+week, no longer a loophole. The five minute daily grants were already
+bounded and are untouched. The test rows that prompted this are trimmed by
+hand in SQL, not by a migration, because they are one account's test data.
+
 ## 11 August 2026, five free scripts, because 312 was never the number that mattered
 
 Justin, on being told the free pool was five scripts: "but we have over 100
