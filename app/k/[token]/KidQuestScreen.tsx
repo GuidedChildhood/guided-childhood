@@ -1439,7 +1439,7 @@ export default function KidQuestScreen({
                 onClick={() => {
                   playKidSound('tap')
                   if (assignedPrintable.pdfColourIn) printPack(assignedPrintable.pdfColourIn, assignedPrintable.title)
-                  else printSheet(assignedPrintable.sheetUrl, assignedPrintable.title)
+                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title })
                 }}
                 style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
                 🖨️ Print it
