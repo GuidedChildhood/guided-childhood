@@ -83,7 +83,7 @@ export default function NewScriptForm({ prefillSituation }: { prefillSituation?:
       </div>
 
       <label style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18, cursor: 'pointer', fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-        <input type="checkbox" checked={f.is_free} onChange={set('is_free')} /> Free on the free plan
+        <input type="checkbox" checked={f.is_free} onChange={set('is_free')} /> Show as a sample (grants no access)
       </label>
 
       {error && <p style={{ color: 'var(--danger)', fontSize: 'var(--text-base)', marginBottom: 12 }}>{error}</p>}

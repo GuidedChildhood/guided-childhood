@@ -1697,7 +1697,7 @@ function ResultScreen({
               'Your stage pathway, saved and ready',
               'Daily moments with the exact words',
               '3 DiGi conversations a day',
-              '5 free scripts to start with',
+              'Every script, free for your first 4 days',
               'The wellbeing tracker',
               'Device setting checklists',
             ].map((item, i) => (
