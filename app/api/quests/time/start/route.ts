@@ -8,6 +8,7 @@ import { isDeviceKey, isActivityKey, asksActivity, minutesToStars, deviceLabel, 
 import { questDueToday } from '@/lib/quests/due'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { wouldExceedGuide } from '@/lib/quests/daily-guide'
+import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { jobsTodayCount } from '@/lib/pathway/jobs-streak'
 import { getFamilyRegion } from '@/lib/learning/region'
 import { sendPush } from '@/lib/push/send'
@@ -137,7 +138,35 @@ export async function POST(req: NextRequest) {
   // parent has already looked and said yes, and a gate that overrules a parent's
   // yes is the app deciding it knows better than they do.
   const gateToday = new Date().toISOString().slice(0, 10)
-  const willJustAsk = trust === 'ask' && !approvedAsk
+
+  // THE GENTLE BRAKE. Justin, 11 August 2026, on the economy audit: "yes
+  // gentle block." A child trusted to start their own timer could spend
+  // several days of guide in one sitting, alerted but never slowed. Past one
+  // and a half times the day's guide, the science's own "well over" line, a
+  // self start now turns into an ASK rather than a session: the parent gets
+  // it with the day's picture and one tap runs it as a treat or says not
+  // today. Never a flat block, which is the first non-negotiable: the
+  // pathway is ask, not no. An approved ask is exempt, the parent has
+  // already looked; an ask mode child was always going to ask anyway. The
+  // guide is holiday aware, so summer evenings get their bit of slack before
+  // the brake touches anything. Fails open: if the reads fail, the start
+  // behaves exactly as before, because a broken brake must never strand a
+  // child who earned their time.
+  const region = await getFamilyRegion(supabase, link.user_id)
+  let overDayLine = false
+  if (!approvedAsk && trust !== 'ask') {
+    try {
+      const usedMap = await getMinutesUsedToday(supabase, link.user_id, [link.child_id])
+      const used = usedMap.get(link.child_id) ?? 0
+      const guide = recommendedDailyMinutes(
+        (childRow as { age_band?: string | null } | null)?.age_band ?? null,
+        { on: new Date(), region },
+      )
+      overDayLine = guide > 0 && used + mins > guide * 1.5
+    } catch { /* fail open */ }
+  }
+
+  const willJustAsk = (trust === 'ask' || overDayLine) && !approvedAsk
   if (!willJustAsk && !approvedAsk) {
     const { data: gateQuests } = await supabase
       .from('family_quests')
@@ -177,7 +206,6 @@ export async function POST(req: NextRequest) {
   // had two answers, and the card can say "5 holiday minutes, ready now" while
   // this refuses to spend them. Exactly the lie the comment above says was
   // fixed: they fixed the pocket and left the calendar.
-  const region = await getFamilyRegion(supabase, link.user_id)
   const [holidayBank] = await getHolidayBanks(supabase, link.user_id, [link.child_id], new Date(), region)
   const plan = planSpend(mins, bank?.balance ?? 0, holidayBank?.remaining ?? 0, holidayBank?.spendableNow ?? false)
   if (!bank || !plan.enough) {
@@ -190,8 +218,10 @@ export async function POST(req: NextRequest) {
 
   // Ask first: record the ask and nudge the parent, but do not start or spend.
   // The parent says yes from their screen time card or the locked banner, and
-  // the child's own Start button then begins the timer.
-  if (trust === 'ask' && !approvedAsk) {
+  // the child's own Start button then begins the timer. This branch also
+  // carries the gentle brake: a trusted child past the day's line lands here
+  // instead of starting, and the only difference is the words on the push.
+  if (willJustAsk) {
     // Clear any earlier pending or approved but unstarted ask so one child
     // never stacks a queue.
     await supabase.from('device_requests')
@@ -223,12 +253,20 @@ export async function POST(req: NextRequest) {
     try {
       await sendPush({
           userId: link.user_id,
-          title: `${childName} is asking for screen time ⏳`,
-          body: `${mins} minutes on ${onScreen}, that is ${stars} star${stars === 1 ? '' : 's'}.${jobsLine} Tap to say yes on your board.`,
+          title: overDayLine
+            ? `${childName} wants more screen time today ⏳`
+            : `${childName} is asking for screen time ⏳`,
+          // The brake's ask says WHY it became an ask, so the yes is an
+          // informed one: this block would take today well past the healthy
+          // amount for their age. Yes runs it as a treat, exactly like any
+          // grant past the guide.
+          body: overDayLine
+            ? `${mins} more minutes on ${onScreen} would take today well past the healthy amount for their age.${jobsLine} Yes runs it as a treat, or say not today.`
+            : `${mins} minutes on ${onScreen}, that is ${stars} star${stars === 1 ? '' : 's'}.${jobsLine} Tap to say yes on your board.`,
           url: '/dashboard/quests',
         })
     } catch { /* best effort */ }
-    return NextResponse.json({ pending: true, request: askRow ?? { device, minutes: mins } })
+    return NextResponse.json({ pending: true, request: askRow ?? { device, minutes: mins }, overGuide: overDayLine })
   }
 
   // A start the grown up said yes to past the day's healthy amount is a
