@@ -4,6 +4,7 @@ import { CONCERN_TO_CATEGORY, DEVICE_KIND_TO_CATEGORIES } from '@/lib/content/si
 import type { ChallengeId } from '@/lib/content/stages'
 import type { StageId } from './progress'
 import { chooseScript, scoreScript } from './recommend-pick'
+import { dipsFrom, type WellbeingCheck } from './checkin-dips'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -15,7 +16,7 @@ export interface RecommendedScript {
   matchesChallenge: boolean
   /** Why this one, in words a parent can check against their own life. Null when nothing but stage order chose it. */
   reason: string | null
-  reasonKey: 'concern' | 'device' | 'challenge' | 'returning' | 'opened' | null
+  reasonKey: 'concern' | 'dip' | 'device' | 'challenge' | 'returning' | 'opened' | null
 }
 
 // The single best next script for this family.
@@ -29,17 +30,24 @@ export interface RecommendedScript {
 // about a console every week was still being handed morning scripts, and the
 // library looked like a shelf rather than something paying attention.
 //
-// THREE SIGNALS NOW, and the order between them is the whole argument:
+// FOUR SIGNALS NOW, and the order between them is the whole argument:
 //
 //   1. LIVE CONCERNS, hardest. A concern row is written when this family
 //      actually raised something, in DiGi, in a moment, or in right now. It is
 //      the closest thing we have to "previous conversations" and it is the only
 //      signal that carries a count: something flagged four times is four times
 //      the thing something flagged once is.
-//   2. THE DEVICES IN THE HOUSE. A console in the hall is real evidence that
-//      gaming scripts will land. Weaker than a concern, because owning a thing
-//      is not the same as struggling with it.
-//   3. THE SIGNUP ANSWER, weakest, and kept rather than dropped because on day
+//   2. DIPS ON THE WEEKLY CHECK IN. Justin, 11 August 2026: "shouldn't we have
+//      a better script that relates to dips on check in or previous moments."
+//      wellbeing_checks has held five scores out of five per child per week
+//      since migration 001 and this function had never read one of them. A
+//      concern is a family SAYING something is wrong; a dip is a family
+//      MEASURING it, which is quieter and harder to argue with. See
+//      checkin-dips.ts.
+//   3. THE DEVICES IN THE HOUSE. A console in the hall is real evidence that
+//      gaming scripts will land. Weaker than both of the above, because owning
+//      a thing is not the same as struggling with it.
+//   4. THE SIGNUP ANSWER, weakest, and kept rather than dropped because on day
 //      one it is the only thing we know.
 //
 // NO PENALTIES, ONLY EVIDENCE. It is tempting to demote gaming scripts for a
@@ -61,7 +69,7 @@ export async function getRecommendedScript(
 ): Promise<RecommendedScript | null> {
   const today = londonToday()
 
-  const [{ data: scripts }, { data: completions }, { data: concerns }, { data: devices }] = await Promise.all([
+  const [{ data: scripts }, { data: completions }, { data: concerns }, { data: devices }, { data: checks }] = await Promise.all([
     supabase
       .from('scripts')
       .select('sort_order, title, situation, category, is_free')
@@ -87,6 +95,17 @@ export async function getRecommendedScript(
       .eq('user_id', userId)
       .is('retired_at', null)
       .limit(20),
+    // The weekly check in, which this has never read. See checkin-dips.ts: five
+    // scores out of five that a parent sits down and gives us on purpose, and
+    // the recommender was ranking on the strength of owning a tablet instead.
+    // Every child, because a dip is a dip whichever of them it is about and the
+    // scripts are chosen per stage rather than per child anyway.
+    supabase
+      .from('wellbeing_checks')
+      .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication')
+      .eq('parent_id', userId)
+      .order('week_start', { ascending: false })
+      .limit(12),
   ])
 
   if (!scripts || scripts.length === 0) return null
@@ -158,7 +177,16 @@ export async function getRecommendedScript(
     )
   }
 
-  // 2. Devices. One score whichever device raised it, because two tablets are
+  // 2. Check in dips, which sit between a concern and a device on purpose.
+  //
+  // A concern is a family SAYING something is a problem, the strongest signal
+  // there is. A dip is a family MEASURING one, quieter and harder to argue
+  // with, and both beat the fact that there is a console in the hall.
+  for (const dip of dipsFrom((checks ?? []) as WellbeingCheck[])) {
+    offer(dip.category, dip.score, dip.reason, 'dip')
+  }
+
+  // 3. Devices. One score whichever device raised it, because two tablets are
   // not twice the reason.
   for (const d of (devices ?? []) as DeviceRow[]) {
     for (const category of DEVICE_KIND_TO_CATEGORIES[d.kind] ?? []) {
@@ -166,7 +194,7 @@ export async function getRecommendedScript(
     }
   }
 
-  // 3. The signup answer.
+  // 4. The signup answer.
   const challengeCategory = challenge ? CHALLENGE_TO_CATEGORY[challenge] ?? null : null
   offer(challengeCategory, 25, 'Matches what you told us at the start', 'challenge')
 

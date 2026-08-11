@@ -128,8 +128,8 @@ type ScriptRow = {
 // one place to send them back to and no chance of guessing wrong.
 const PATHWAY_HREF = '/dashboard/pathway'
 
-export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; cat?: string; stage?: string; from?: string }> }) {
-  const { topic, cat, stage, from } = await searchParams
+export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; cat?: string; stage?: string; from?: string; q?: string }> }) {
+  const { topic, cat, stage, from, q } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -247,9 +247,14 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
 
       {/* Find my script: search all the scripts in plain words, and if there is
           no fit, ask DiGi and it lands in the founder insights to be written. */}
+      {/* Seeded from DiGi's "scripts for moments like this", which used to
+          drop a parent at the top of a library of 236 with the question they
+          had just asked left behind. Capped at a sentence: this is a search
+          box, not a transcript. */}
       <ScriptFinder
         scripts={scripts.map(s => ({ sort_order: s.sort_order, title: s.title, situation: s.situation, category: s.category, is_free: s.is_free }))}
         isPaid={isPaid}
+        initialQuery={(q ?? '').slice(0, 140)}
       />
 
       {/* The other direction.

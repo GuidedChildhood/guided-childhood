@@ -1,31 +1,56 @@
 'use client'
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
+import { matchScripts } from '@/lib/digi/script-match'
 
 // Find my script. A parent types the problem in their own words and we surface
 // the closest scripts as they type. If nothing fits, DiGi takes the ask and it
 // lands in the founder insights so the next script is written from real demand.
+//
+// ── Two changes on 11 August 2026 ────────────────────────────────────────────
+//
+// Justin: "can we make script suggestions actually pull up scripts that relate
+// to the question, rather, and ability to search others."
+//
+// So DiGi's "scripts for moments like this" now arrives here with the parent's
+// own question in the box (initialQuery), showing the matches immediately
+// rather than dropping them at the top of a library of 236 and wishing them
+// luck. The box stays editable, which is the second half of his ask.
+//
+// And the ranking moved to matchScripts, the whole word IDF matcher already
+// used to pick DiGi's links. What was here was substring matching, the exact
+// bug already fixed once on the DiGi side: "ai" matched "said", "afraid" and
+// "again", so a parent asking about AI homework got toilet training scripts.
+// Two searches over the same library disagreeing with each other is worse than
+// either being wrong on its own.
 
 type Lite = { sort_order: number; title: string; situation: string; category: string; is_free: boolean }
 
-export default function ScriptFinder({ scripts, isPaid }: { scripts: Lite[]; isPaid: boolean }) {
-  const [q, setQ] = useState('')
+export default function ScriptFinder({
+  scripts,
+  isPaid,
+  initialQuery = '',
+}: {
+  scripts: Lite[]
+  isPaid: boolean
+  /** What the parent asked DiGi, so the answer is already on screen. */
+  initialQuery?: string
+}) {
+  const [q, setQ] = useState(initialQuery)
   const [asked, setAsked] = useState(false)
   const [sending, setSending] = useState(false)
 
   const query = q.trim().toLowerCase()
   const results = useMemo(() => {
     if (query.length < 2) return []
-    const words = query.split(/\s+/).filter(Boolean)
-    const scored = scripts.map(s => {
-      const hay = `${s.title} ${s.situation} ${s.category}`.toLowerCase()
-      let score = 0
-      for (const w of words) if (hay.includes(w)) score += hay.includes(` ${w}`) || hay.startsWith(w) ? 2 : 1
-      if (s.title.toLowerCase().includes(query)) score += 4
-      return { s, score }
-    }).filter(x => x.score > 0).sort((a, b) => b.score - a.score).slice(0, 6)
-    return scored.map(x => x.s)
-  }, [query, scripts])
+    // The same matcher DiGi uses to choose which script to link. Whole words,
+    // weighted by how rare each one is across the library, so "phone" narrows
+    // less than "sextortion" and neither of them matches a word it merely sits
+    // inside.
+    const hits = matchScripts(scripts, q, 6)
+    const bySort = new Map(scripts.map(s => [s.sort_order, s]))
+    return hits.map(h => bySort.get(h.sort_order)).filter((s): s is Lite => Boolean(s))
+  }, [query, q, scripts])
 
   const askDigi = async () => {
     if (query.length < 4 || sending) return

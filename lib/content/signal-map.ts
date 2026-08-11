@@ -50,6 +50,41 @@ export const CONCERN_TO_CATEGORY: Record<string, string> = {
 
   siblings: 'everyday-routines',
   routines: 'everyday-routines',
+
+  // ── THE DAILY MOMENT KEYS ────────────────────────────────────────────────
+  //
+  // The end of day tagger writes the MOMENT KEY straight into concerns.slug,
+  // so a moment that is not named here scores nothing and the promise on that
+  // screen, "we will show you the right scripts tomorrow", is not kept. Every
+  // key that has an obvious home gets one.
+  //
+  // The five screen moments Justin asked for on 11 August are the ones this
+  // matters most for: a parent flagging the handover fight and being handed a
+  // script about packed lunches would be worse than being handed nothing.
+  come_off: 'screen-time',
+  tv_morning: 'screen-time',
+  tv_eve: 'screen-time',
+  phone_car: 'screen-time',
+  phone_out: 'family-rules',
+  // Not screen time. A child walking into a road while looking down is a
+  // safety conversation, and the words for it are the staying safe ones.
+  phone_street: 'staying-safe',
+
+  // The routine tiles, which have been writing unmapped slugs since the tagger
+  // shipped. Cheap to fix while the file is open.
+  bedtime: 'screen-time',
+  homework: 'school-and-ai',
+  morning: 'everyday-routines',
+  teeth: 'everyday-routines',
+  dressed: 'everyday-routines',
+  bag: 'everyday-routines',
+  lunch: 'everyday-routines',
+  dropoff: 'everyday-routines',
+  pickup: 'everyday-routines',
+  snacks: 'everyday-routines',
+  dinner: 'everyday-routines',
+  clothes: 'everyday-routines',
+  fighting: 'everyday-routines',
 }
 
 /**
