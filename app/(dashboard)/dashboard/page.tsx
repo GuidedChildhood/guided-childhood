@@ -28,6 +28,8 @@ import { academicYearStart } from '@/lib/learning/term'
 import { transitionFor, transitionAsk } from '@/lib/learning/transition'
 import SchoolAheadCard from '@/components/home/SchoolAheadCard'
 import TermPreviewCard from '@/components/home/TermPreviewCard'
+import ChildAppGone from '@/components/home/ChildAppGone'
+import { linkHealth, daysSinceSeen } from '@/lib/kid/link-health'
 import { buildTermPreview } from '@/lib/learning/term-preview'
 import { getFamilyRegion } from '@/lib/learning/region'
 import DayCheckup from '@/components/home/DayCheckup'
@@ -267,6 +269,23 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // side, so until this is true Home says so plainly.
   const childAppLive = (kidLinksResult.data ?? [])
     .some(k => k.child_id === child?.id && !!k.last_seen_at)
+  // AND WHETHER IT IS STILL THERE, which the boolean above cannot say.
+  //
+  // Justin, 11 August 2026: "I've lost the app on my child's phone, deleted,
+  // and this may happen to users, so if we are able to see the app gone we can
+  // flag a quick share this code to put it back."
+  //
+  // childAppLive is true once the child has EVER opened their app, and stays
+  // true for ever. A family whose app was opened in March and deleted in April
+  // looks identical here to one using it this morning. The timestamp has been
+  // sitting in the same rows the whole time. See lib/kid/link-health.ts for why
+  // the threshold is a slow one.
+  const childLastSeen = (kidLinksResult.data ?? [])
+    .filter(k => k.child_id === child?.id)
+    .map(k => (k.last_seen_at as string | null) ?? null)
+    .sort((a, b) => String(b ?? '').localeCompare(String(a ?? '')))[0] ?? null
+  const childApp = linkHealth(childLastSeen)
+  const childAppDays = daysSinceSeen(childLastSeen)
   const setupFlags = {
     agreement: !!agreementResult.data,
     quests: (questsCountResult.count ?? 0) > 0,
@@ -635,6 +654,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {nudgeFacts && <HabitNudge facts={nudgeFacts} />}
 
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
+
+      {/* The child's app has gone off their phone, and until now nothing said
+          so. High on Home rather than folded away down the page, because this
+          is a family whose child side has stopped working, which is most of
+          what they came for. One line even so: it opens on a tap. */}
+      <ChildAppGone health={childApp} childName={child?.name ?? null} childId={child?.id ?? null} days={childAppDays} />
 
       {/* THE TODAY CARD, volume two: everything that used to be its own
           banner or nudge card on this screen is a tick and fold row in here
