@@ -74,13 +74,13 @@ import { BUDDY_MAP, DEFAULT_BUDDY } from '@/lib/kid/buddy'
 // anthracite while the home screen went the colour the child picked. Same
 // reasoning as lib/kid/buddy: one answer to what colour the child is.
 import { resolveTheme, knownAccent, DEFAULT_ACCENT, PICKER_ACCENTS } from '@/lib/kid/theme'
-// Print it now, IN PLACE. The popup window this used (lib/kid/print-sheet)
-// dead ended inside the installed app when the popup was blocked: the
-// fallback opened the raw image, which in standalone has no back button of
-// any kind. Justin, 11 August 2026, with Teo stranded on the Summer Bucket
-// List. The overlay never leaves the page, so there is nothing to block and
-// nowhere to strand.
+// Print it now, without ever stranding the child. Two sessions fixed the
+// same dead end on the same day from opposite ends, and both halves are
+// kept: IMAGE sheets open as an overlay ON this page (KidSheetOverlay,
+// nothing to popup block, nowhere to strand), and PDF packs go through
+// printPack, the written window that carries its own way back.
 import KidSheetOverlay, { type OverlaySheet } from '@/components/kid/KidSheetOverlay'
+import { printPack } from '@/lib/kid/print-sheet'
 
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
@@ -173,7 +173,7 @@ export default function KidQuestScreen({
   focusLesson?: { id: string; title: string; emoji: string; stars: number } | null
   // A printable a grown up sent to this child, shown at the top of the to do:
   // print it, do it, then send it to be confirmed like any printable.
-  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; previewUrl: string } | null
+  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; previewUrl: string } | null
   // The sticker book, which used to live at the foot of the road. It moved here
   // with the road itself, because migration 109's once only pop is the only
   // server side celebration the child app has ever had and it must not go down
@@ -1404,9 +1404,22 @@ export default function KidQuestScreen({
             print it, do it, then send it to be confirmed like any printable. */}
         {assignedPrintable && !assignedSent && (
           <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 18, padding: '14px 16px', marginBottom: 16, boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
-            {/* The real product cover, so the child sees exactly what is coming. */}
-            <div style={{ position: 'relative', width: '100%', height: 132, borderRadius: 12, overflow: 'hidden', marginBottom: 10, background: 'var(--cream)', border: '1.5px solid var(--border)' }}>
-              <Image src={assignedPrintable.previewUrl} alt="" fill sizes="(max-width: 480px) 100vw, 420px" style={{ objectFit: 'cover', objectPosition: 'top' }} />
+            {/* The real product cover, so the child sees exactly what is coming.
+                A SHEET OF PAPER, not a letterbox. Justin, 11 August 2026, on
+                this exact card: "again this thumbnail does not look good."
+                It was 132px of full width with object-fit cover, so an A4 page
+                was cropped down to its top inch: the title, the top of the
+                picture, and nothing that told a child what they were about to
+                print. Now the whole page is shown at the shape of the paper,
+                standing on the card like the printable it is. */}
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+              <div style={{
+                position: 'relative', width: 152, height: 215, borderRadius: 8,
+                overflow: 'hidden', background: '#fff',
+                border: '1.5px solid var(--border)', boxShadow: '0 4px 0 rgba(26,26,46,0.10)',
+              }}>
+                <Image src={assignedPrintable.previewUrl} alt="" fill sizes="152px" style={{ objectFit: 'contain' }} />
+              </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
               <span style={{ fontSize: 'var(--text-2xl)', lineHeight: 1 }}>{assignedPrintable.emoji}</span>
@@ -1419,10 +1432,18 @@ export default function KidQuestScreen({
               Print it and do it away from the screen. Then show your grown up for {assignedPrintable.stars} stars.
             </p>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              <a href={assignedPrintable.sheetUrl} target="_blank" rel="noopener noreferrer" onClick={() => playKidSound('tap')}
-                style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
+              {/* Through the same door as every other printable. This was a
+                  bare link to the CDN, so the one printable a grown up had gone
+                  out of their way to send was the one with no way back from it. */}
+              <button
+                onClick={() => {
+                  playKidSound('tap')
+                  if (assignedPrintable.pdfColourIn) printPack(assignedPrintable.pdfColourIn, assignedPrintable.title)
+                  else printSheet(assignedPrintable.sheetUrl, assignedPrintable.title)
+                }}
+                style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
                 🖨️ Print it
-              </a>
+              </button>
               <button onClick={sendAssignedPrintable}
                 style={{ flex: 1, background: 'var(--terracotta)', color: 'var(--ink)', border: 'none', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
                 I did it ⭐{assignedPrintable.stars}
@@ -2579,8 +2600,11 @@ export default function KidQuestScreen({
                   return (
                     <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
-                        <div style={{ position: 'relative', width: 76, height: 76, borderRadius: '15px', flexShrink: 0, overflow: 'hidden', background: '#EFE9DD' }}>
-                          <Image src={p.previewUrl} alt="" fill sizes="76px" style={{ objectFit: 'cover' }} />
+                        {/* Paper shaped, and the whole page in it. A square tile
+                            cropping an A4 portrait threw away a third of every
+                            sheet before the child had seen any of it. */}
+                        <div style={{ position: 'relative', width: 68, height: 96, borderRadius: '9px', flexShrink: 0, overflow: 'hidden', background: '#fff', border: '1.5px solid var(--border)' }}>
+                          <Image src={p.previewUrl} alt="" fill sizes="68px" style={{ objectFit: 'contain' }} />
                           <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
                             ⭐ {p.stars}
                           </span>
@@ -2609,7 +2633,11 @@ export default function KidQuestScreen({
                             </p>
                           )}
                           <button
-                            onClick={() => { playKidSound('tap'); if (p.pdfColourIn) { window.open(p.pdfColourIn, '_blank') } else { setPrintOverlay({ url: p.sheetUrl, title: p.title }) } }}
+                            // Both doors carry the way back. PDF packs go
+                            // through printPack's written window; image sheets
+                            // open in place as the overlay, which nothing can
+                            // block because nothing leaves the page.
+                            onClick={() => { playKidSound('tap'); if (p.pdfColourIn) { printPack(p.pdfColourIn, p.title) } else { setPrintOverlay({ url: p.sheetUrl, title: p.title }) } }}
                             style={{
                               width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
                               cursor: 'pointer', marginBottom: '7px',
