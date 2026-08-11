@@ -7060,3 +7060,49 @@ one recording it. **No bulk version on that pile.** Saying yes to all in the
 waiting pile agrees to claims a child made one by one; there is no equivalent
 claim here, so a mark all done would be six jobs recorded as finished in one tap
 with none of them checked, and the stars it hands out are real minutes.
+
+## 11 August 2026, the recommender was guessing, and it guessed at a hard script
+
+Justin, screenshot of his own Scripts page: "Recommended next: They have told
+you they are gay, bi or trans." His open concerns that morning were morning
+screen time, ending screen time and gaming. Three faults stacked, found by
+reading the live database rather than the code.
+
+**The Right Now keys were never mapped.** The rescue writes rightnow-<situation>
+into concerns.slug and not one of those slugs was in CONCERN_TO_CATEGORY. They
+are the LARGEST source of concern flags on the platform: rightnow-bedtime and
+rightnow-something-else led the whole table on nine flags each, ahead of every
+mapped slug. The loudest thing a parent ever does has scored zero since the
+rescue shipped. The categories were not a new judgement either; the rescue route
+already holds one per situation, uses it to pick the script, and throws it away
+when it writes the concern.
+
+**A fixed table was never going to be enough.** Two of the three writers do not
+use a fixed vocabulary: DiGi invents the slug from the conversation and the
+custom box takes what was typed. morning-screen-time, screen-time-endings,
+after-school-tv are three ways of writing the same thing and all scored nothing.
+There is a keyword pass now, running only when the table has no answer, reading
+slug and label together, returning null rather than guessing.
+
+**SOME SCRIPTS ARE NEVER A GUESS.** The free pool at shaper is five scripts and
+three are the heaviest in the library: self harming, a low mood that will not
+lift, a child coming out. Two had been used, his signals pointed at categories
+holding no free script at all, so both survivors scored zero and the rotation
+picked between them like a coin. Migration 184 marks the twelve that assert
+something about a child and they are never recommended.
+
+**Never, rather than only with a signal.** The first version of the rule was the
+softer one and it failed on the very account it was written for: he had an open
+concern called "evening neediness", which files under mood and confidence, and
+so does a child coming out. Our signals are CATEGORIES, eight shelves wide, and
+every one of these scripts is a specific event. No amount of mood and confidence
+is evidence a child has come out. Kept as a test so nobody retries it.
+
+Everything that starts with the parent is untouched: browse, category filters,
+search, and Right Now. The only route closed is the one where we speak first.
+
+**Still open, and it is content rather than code.** A free family at shaper has
+no free script in screen time, gaming or everyday routines, which are exactly
+the categories his signals point at. The recommendation is honest now and still
+not relevant, because there is nothing free to be relevant with. One free script
+in each of those three at shaper would close it.
