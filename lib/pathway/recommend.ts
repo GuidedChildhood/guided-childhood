@@ -1,9 +1,9 @@
 import type { createClient } from '@/lib/supabase/server'
 import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
-import { CONCERN_TO_CATEGORY, DEVICE_KIND_TO_CATEGORIES } from '@/lib/content/signal-map'
+import { categoryForConcern, DEVICE_KIND_TO_CATEGORIES } from '@/lib/content/signal-map'
 import type { ChallengeId } from '@/lib/content/stages'
 import type { StageId } from './progress'
-import { chooseScript, scoreScript } from './recommend-pick'
+import { chooseScript, eligibleScripts, scoreScript } from './recommend-pick'
 import { dipsFrom, type WellbeingCheck } from './checkin-dips'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
@@ -110,6 +110,24 @@ export async function getRecommendedScript(
 
   if (!scripts || scripts.length === 0) return null
 
+  // Which scripts may only speak when spoken to (migration 184).
+  //
+  // Asked for in its own query, and failing soft, ON PURPOSE. Selecting the
+  // column alongside the rest would tie this function to the migration having
+  // run: on a deploy that landed first, the whole select would error, scripts
+  // would come back empty, and every family would lose their recommended card
+  // until somebody opened the SQL editor. Separated, the worst case is that the
+  // guard is not yet in force, which is exactly where we are today anyway.
+  const flagged = new Set<number>()
+  try {
+    const { data: guarded } = await supabase
+      .from('scripts')
+      .select('sort_order')
+      .eq('stage_id', stageId)
+      .eq('only_on_signal', true)
+    for (const g of (guarded ?? []) as { sort_order: number }[]) flagged.add(g.sort_order)
+  } catch { /* column not there yet, so nothing is guarded */ }
+
   // WHAT COUNTS AS FINISHED, which is the other half of Justin's ask: "there
   // also needs to know that the scripts had been done, and rerun them to
   // finish the pathway."
@@ -170,7 +188,10 @@ export async function getRecommendedScript(
     // small lie about the one thing they most want us to have heard.
     const weight = Math.min(5, raised)
     offer(
-      CONCERN_TO_CATEGORY[c.slug] ?? null,
+      // Slug first, then the words. Two of the three things that write a
+      // concern do not use a fixed vocabulary, so the exact table alone was
+      // dropping the loudest signals on the platform. See signal-map.ts.
+      categoryForConcern(c.slug, c.label),
       100 + weight * 10,
       concernReason(c.label, raised),
       'concern',
@@ -198,23 +219,23 @@ export async function getRecommendedScript(
   const challengeCategory = challenge ? CHALLENGE_TO_CATEGORY[challenge] ?? null : null
   offer(challengeCategory, 25, 'Matches what you told us at the start', 'challenge')
 
-  const freeOnly = opts?.preferFree ? pool.filter(s => s.is_free) : []
+  const scoreOf = (category: string | null) => (category ? byCategory.get(category)?.score ?? 0 : 0)
+
+  // Scripts that assert something about a child never speak first. The rule,
+  // and the morning it was written on, are in eligibleScripts.
+  const eligible = eligibleScripts(pool, flagged)
+  // Never strand a family with no card at all. If the guard emptied the pool
+  // there was nothing honest left to recommend anyway.
+  if (eligible.length === 0) return null
+
+  const freeOnly = opts?.preferFree ? eligible.filter(s => s.is_free) : []
   // Restricted to free scripts when the parent cannot open a paid one, and
   // only falling back to the whole pool when the stage holds no free script at
   // all, which is a content gap rather than something to solve here.
-  const searchable = opts?.preferFree && freeOnly.length > 0 ? freeOnly : pool
+  const searchable = opts?.preferFree && freeOnly.length > 0 ? freeOnly : eligible
 
-  const chosen = chooseScript(searchable, {
-    scoreOfCategory: category => (category ? byCategory.get(category)?.score ?? 0 : 0),
-    opened,
-    returned,
-    dayIndex: dayIndex(),
-  })
-  const best = scoreScript(chosen, {
-    scoreOfCategory: category => (category ? byCategory.get(category)?.score ?? 0 : 0),
-    opened,
-    returned,
-  })
+  const chosen = chooseScript(searchable, { scoreOfCategory: scoreOf, opened, returned, dayIndex: dayIndex() })
+  const best = scoreScript(chosen, { scoreOfCategory: scoreOf, opened, returned })
 
   const signal = chosen.category ? byCategory.get(chosen.category) : undefined
   const carried = best > 0 && !!signal

@@ -16,7 +16,7 @@
 //
 // Usage: node --experimental-strip-types scripts/check-recommend-rotation.mjs
 
-import { chooseScript, scoreScript } from '../lib/pathway/recommend-pick.ts'
+import { chooseScript, eligibleScripts as guard, scoreScript } from '../lib/pathway/recommend-pick.ts'
 
 const S = (sort_order, category) => ({ sort_order, category })
 const POOL = [S(1, 'mood-confidence'), S(2, 'screen-time'), S(3, 'gaming'), S(4, 'family-rules')]
@@ -69,6 +69,56 @@ check('a returning script gets its nudge',
 check('one script is simply that script', chooseScript([S(5, null)], { ...NONE, dayIndex: BASE }).sort_order === 5)
 check('a negative day number does not fall off the end',
   POOL.some(s => s.sort_order === chooseScript(POOL, { ...NONE, dayIndex: -3 }).sort_order))
+
+// ── THE COIN TOSS THAT PICKED A COMING OUT SCRIPT ───────────────────────────
+//
+// Justin, 11 August 2026, screenshot of his own Scripts page: "Recommended
+// next: They have told you they are gay, bi or trans."
+//
+// This is the real account, read off the database that morning. Shaper stage,
+// free plan, so the pool is the five free shaper scripts. 3300 was set aside
+// and 3301 and 10 were used, so two survive: 3303, a child coming out, and
+// 3304, coming home hours late. The family's live concerns were morning screen
+// time, ending screen time and gaming, none of which has a free script at that
+// stage, so both survivors scored zero and the rotation picked between them.
+
+const FREE_SHAPER = [
+  { sort_order: 3303, category: 'mood-confidence' },  // they have come out
+  { sort_order: 3304, category: 'family-rules' },     // came home hours late
+]
+const GUARDED = new Set([3300, 3303])
+// What his account actually scored: screen time and gaming, both real, neither
+// mood-confidence.
+// Read off his account: gaming and routines led, and mood and confidence was
+// live too, on an open concern called "evening neediness".
+const HIS_SCORES = { 'screen-time': 110, gaming: 120, 'everyday-routines': 120, 'mood-confidence': 110 }
+const scoreOf = c => HIS_SCORES[c] ?? 0
+
+const left = guard(FREE_SHAPER, GUARDED)
+check('a coming out script is not offered as the next thing to read',
+  !left.some(s => s.sort_order === 3303), left.map(s => s.sort_order).join(', '))
+check('and the ordinary script beside it still is',
+  left.some(s => s.sort_order === 3304))
+
+// THE VERSION OF THIS RULE THAT DID NOT WORK, kept as a test because it is the
+// trap anyone rewriting this will fall into. The first attempt let a flagged
+// script through when its own CATEGORY carried a score. That family had an open
+// concern called "evening neediness", which files under mood and confidence,
+// and so does a child coming out. Category is eight shelves wide and every one
+// of these scripts is a specific event, so no category score is ever evidence.
+check('a mood signal is still not evidence a child has come out',
+  !guard(FREE_SHAPER, GUARDED).some(s => s.sort_order === 3303),
+  `his real mood-confidence score that morning was ${scoreOf('mood-confidence')}`)
+
+// Nothing flagged means nothing filtered, which is the state of the world until
+// migration 184 runs.
+check('an unmigrated database behaves exactly as before',
+  guard(FREE_SHAPER, new Set()).length === 2)
+
+// The guard must never be the thing that empties the board on its own: an
+// unflagged script always survives whatever its score.
+check('an unflagged script survives a zero score',
+  guard([{ sort_order: 999, category: 'staying-safe' }], GUARDED).length === 1)
 
 console.log(`\n${failures === 0 ? 'all passed' : failures + ' failed'}`)
 process.exit(failures === 0 ? 0 : 1)
