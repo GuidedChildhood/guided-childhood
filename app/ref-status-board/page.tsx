@@ -19,13 +19,26 @@ import QuestStatusBoard from '@/components/quests/QuestStatusBoard'
 
 const TODAY = new Date().toISOString().slice(0, 10)
 
+// Two children, one app between them, and a job addressed to nobody in
+// particular. That last one is the case Justin caught on 11 August: a whole
+// family job carries child_id null, the child app fetches it anyway, and the
+// board still filed it under "To do with you" next to a working kid link. A
+// fixture with one child and no family job could never have shown it.
 const STUB = {
-  children: [{ id: 'c1', name: 'Teo', use_mode: 'app' }],
+  children: [
+    { id: 'c1', name: 'Teo', use_mode: 'app' },
+    { id: 'c2', name: 'Alma', use_mode: 'sheet' },
+  ],
   links: [{ child_id: 'c1', token: '000000000000000000' }],
   quests: [
     { id: 'q1', child_id: 'c1', title: 'Lesson: Password power', emoji: '🔐', stars: 2, schedule: 'daily', schedule_days: null },
     { id: 'q2', child_id: 'c1', title: 'Tidy your room', emoji: '🧹', stars: 1, schedule: 'daily', schedule_days: null },
     { id: 'q3', child_id: 'c1', title: 'Reading, twenty minutes', emoji: '📚', stars: 2, schedule: 'daily', schedule_days: null },
+    // On Teo's app already, because a family job is fetched with
+    // child_id.eq.<id>,child_id.is.null. This used to land in To do with you.
+    { id: 'q4', child_id: null, title: 'Lay the table', emoji: '🍽️', stars: 1, schedule: 'daily', schedule_days: null },
+    // Genuinely the parent's to mark: Alma has no app, so nobody can tick it.
+    { id: 'q5', child_id: 'c2', title: 'Feed the cat', emoji: '🐈', stars: 1, schedule: 'daily', schedule_days: null },
   ],
   // One waiting, one on their app, none with you, eight done: the exact shape
   // of Justin's screenshot, so the tile labels wrap the way his did.

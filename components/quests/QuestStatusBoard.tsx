@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { kidLessonForQuestTitle } from '@/lib/quests/kid-lessons'
 import { craftForQuestTitle, craftHref } from '@/lib/quests/craft-links'
+import { pileFor } from '@/lib/quests/job-pile'
 import LessonCheck from './LessonCheck'
 
 // Where every job actually is.
@@ -29,8 +30,8 @@ import LessonCheck from './LessonCheck'
 //                     are NOT theirs yet. This is the only bucket that costs
 //                     somebody something if it is ignored.
 //   On their app      sent, on the child's list, not ticked yet. Path A.
-//   To do with you    no child app, so nobody can tick it but the parent. This
-//                     is the printed sheet and fridge flow. Path B.
+//   To do with you    nobody can tick it from a phone, so the parent marks it.
+//                     This is the printed sheet and fridge flow. Path B.
 //   Done              approved. The stars are real minutes.
 //
 // Rejected has no tile on purpose. A parent who said no does not need it
@@ -58,7 +59,7 @@ const TILE_LABEL: Record<BucketKey, string> = {
 const BUCKET_BLURB: Record<BucketKey, string> = {
   waiting: 'They say these are done. The stars are not theirs until you agree.',
   sent: 'On their list right now. Nothing for you to do until they tick it.',
-  withyou: 'No app on their side, so these are yours to mark when they are done.',
+  withyou: 'Nobody can tick these from a phone, so mark them here as they happen.',
   done: 'Agreed by you, and already counted as minutes.',
 }
 
@@ -166,8 +167,10 @@ export default function QuestStatusBoard() {
     }
 
     // Today's jobs with no tick on them yet. Which bucket depends only on
-    // whether that child has an app to receive it, which IS the difference
-    // between path A and path B.
+    // whether the job can reach an app at all, which IS the difference between
+    // path A and path B. The rule itself lives in lib/quests/job-pile.ts, with
+    // the reasoning and a check beside it.
+    const childIds = data.children.map(c => c.id)
     const tickedToday = new Set(
       data.ticks.filter(t => t.tick_date === todayStr && t.status !== 'rejected').map(t => t.quest_id)
     )
@@ -178,8 +181,7 @@ export default function QuestStatusBoard() {
         who: nameOf.get(q.child_id ?? '') ?? 'Anyone',
         childId: q.child_id ?? undefined,
       }
-      if (q.child_id && hasApp.has(q.child_id)) out.sent.push(row)
-      else out.withyou.push(row)
+      out[pileFor(q.child_id, hasApp, childIds)].push(row)
     }
 
     return out
@@ -200,21 +202,29 @@ export default function QuestStatusBoard() {
   // The comment on the old link said a second approve button "could fall out of
   // step with the first". Both call the same endpoint with the same tick id, so
   // there is nothing to fall out of step: the row IS the tick.
-  async function approve(tickId: string): Promise<boolean> {
+  //
+  // Two shapes, one endpoint. A waiting row IS a pending tick, so it goes by
+  // tick_id and gets agreed. A "to do with you" row is a quest nobody has
+  // claimed yet, so it goes by quest_id, which is the printed sheet path the
+  // approve route has always had: it lands straight in as approved, ticked by
+  // the parent, and it promotes any pending tick rather than doubling it.
+  async function approve(id: string, kind: 'tick' | 'quest'): Promise<boolean> {
     try {
       const res = await fetch('/api/quests/approve', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tick_id: tickId, decision: 'approve' }),
+        body: kind === 'tick'
+          ? JSON.stringify({ tick_id: id, decision: 'approve' })
+          : JSON.stringify({ quest_id: id }),
       })
       return res.ok
     } catch { return false }
   }
 
-  async function sayYes(tickId: string) {
+  async function sayYes(id: string, kind: 'tick' | 'quest') {
     if (busyKey || allBusy) return
-    setBusyKey(tickId); setFailed(null)
-    const ok = await approve(tickId)
-    if (ok) setAgreed(prev => new Set(prev).add(tickId))
+    setBusyKey(id); setFailed(null)
+    const ok = await approve(id, kind)
+    if (ok) setAgreed(prev => new Set(prev).add(id))
     else setFailed('That did not save. Try again.')
     setBusyKey(null)
   }
@@ -227,7 +237,7 @@ export default function QuestStatusBoard() {
     // how one of them quietly loses a race with another.
     const done: string[] = []
     for (const id of ids) {
-      if (await approve(id)) done.push(id)
+      if (await approve(id, 'tick')) done.push(id)
     }
     if (done.length > 0) setAgreed(prev => new Set([...prev, ...done]))
     // Named, not swallowed. A partial failure used to be indistinguishable from
@@ -269,10 +279,21 @@ export default function QuestStatusBoard() {
   // Nothing needs the parent when both piles that cost somebody something are
   // empty. Sent and Done are information: a job on a child's app is not a task
   // for the grown up, and a job already agreed is a receipt.
-  // Anything agreed in this panel leaves the waiting pile at once, so the tile
-  // count, the list and the button all drop together on the same tap.
-  const stillWaiting = buckets.waiting.filter(r => !agreed.has(r.key))
-  const needsYou = stillWaiting.length + buckets.withyou.length
+  //
+  // Anything agreed in this panel leaves its pile at once and lands in Done, so
+  // the tile counts, the list and the button all move together on the same tap
+  // and the four numbers still add up to the same total afterwards. Waiting was
+  // already doing the leaving half; the tiles were reading the raw buckets, so
+  // a row could vanish from the list under a number that had not moved.
+  const justAgreed = [...buckets.waiting, ...buckets.withyou].filter(r => agreed.has(r.key))
+  const visible: typeof buckets = {
+    waiting: buckets.waiting.filter(r => !agreed.has(r.key)),
+    sent: buckets.sent,
+    withyou: buckets.withyou.filter(r => !agreed.has(r.key)),
+    done: [...justAgreed.map(r => ({ ...r, note: 'Today' })), ...buckets.done],
+  }
+  const stillWaiting = visible.waiting
+  const needsYou = stillWaiting.length + visible.withyou.length
 
   // The board defaults to Waiting on you, which is right when there IS one and
   // wrong the rest of the time: with nothing waiting and three jobs sent, a
@@ -282,11 +303,14 @@ export default function QuestStatusBoard() {
   // parent's own choice the moment they make one.
   const best: BucketKey =
     stillWaiting.length ? 'waiting'
-    : buckets.withyou.length ? 'withyou'
-    : buckets.sent.length ? 'sent'
+    : visible.withyou.length ? 'withyou'
+    : visible.sent.length ? 'sent'
     : 'done'
   const shown = touched ? active : best
-  const rows = shown === 'waiting' ? stillWaiting : buckets[shown]
+  const rows = visible[shown]
+  // Both piles a parent settles from here. Waiting agrees to a child's claim,
+  // To do with you records one nobody could claim.
+  const canMark = shown === 'waiting' || shown === 'withyou'
 
   // Caught up, so say it in a line rather than a card.
   //
@@ -391,7 +415,7 @@ export default function QuestStatusBoard() {
           are looking at can never disagree. */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 7, marginBottom: 15 }}>
         {(['waiting', 'sent', 'withyou', 'done'] as BucketKey[]).map(k => {
-          const n = buckets[k].length
+          const n = visible[k].length
           const on = shown === k
           // Only the waiting pile is ever urgent, because it is the only one
           // where somebody is out of pocket while it sits there.
@@ -484,14 +508,25 @@ export default function QuestStatusBoard() {
                   {craft ? ' · TAP TO OPEN' : ''}
                 </span>
               </span>
-              {/* One tap, on the row that names the job. Only the waiting pile
-                  has anything to agree to: Done is a receipt, and the other two
-                  are not the parent's to tick from here. */}
-              {shown === 'waiting' && (
+              {/* One tap, on the row that names the job.
+                  Waiting says Yes, because the child has claimed it and the
+                  parent is agreeing. To do with you says Done, because nobody
+                  has claimed anything and the parent is the one recording it.
+
+                  Justin, 11 August 2026: "put a Done control on the To do with
+                  you rows, because marking is the entire point of that bucket."
+                  It was the one pile the board described as yours to mark and
+                  then gave you nothing to mark with, so a parent read the
+                  instruction, looked for the button, and went off to find the
+                  board further down the page instead.
+
+                  Sent and Done still have no button. A job on a child's app is
+                  theirs to tick, and a job already agreed is a receipt. */}
+              {canMark && (
                 <button
-                  onClick={() => sayYes(r.key)}
+                  onClick={() => sayYes(r.key, shown === 'waiting' ? 'tick' : 'quest')}
                   disabled={busyKey === r.key || allBusy}
-                  aria-label={`Say yes to ${r.title}`}
+                  aria-label={shown === 'waiting' ? `Say yes to ${r.title}` : `Mark ${r.title} done`}
                   style={{
                     flexShrink: 0, border: 'none', borderRadius: 11, cursor: (busyKey === r.key || allBusy) ? 'default' : 'pointer',
                     background: 'var(--terracotta)', color: 'var(--ink)', padding: '9px 14px',
@@ -500,7 +535,7 @@ export default function QuestStatusBoard() {
                     opacity: (busyKey === r.key || allBusy) ? 0.6 : 1,
                   }}
                 >
-                  {busyKey === r.key ? '...' : 'Yes'}
+                  {busyKey === r.key ? '...' : shown === 'waiting' ? 'Yes' : 'Done'}
                 </button>
               )}
             </div>
@@ -535,7 +570,14 @@ export default function QuestStatusBoard() {
           Justin: "there are no items to say yes to, so it should be clever
           enough not to ask." Every other reader here was already using `shown`,
           which is why the tiles, the blurb and the list were all right and only
-          the button was wrong. */}
+          the button was wrong.
+
+          Waiting only, deliberately, now that To do with you has its own Done
+          buttons. Saying yes to all in the waiting pile agrees to claims a
+          child has already made one by one. There is no equivalent claim on the
+          other pile, so a Mark all done there would be a parent recording six
+          jobs as finished in one tap having checked none of them, and the stars
+          it hands out are real minutes. */}
       {shown === 'waiting' && rows.length > 0 && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginTop: 13 }}>
           <button
