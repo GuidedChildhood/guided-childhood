@@ -154,7 +154,29 @@ export default async function LearningSheetPage({
           </p>
         </div>
       )}
+      {/* ONE SHEET PER SUBJECT PER CHILD, AND THE KEY IS WHAT MAKES THAT TRUE.
+          Justin, 11 August 2026, with a screenshot of the Reading tab: "we did
+          the maths as tricky and it confirmed, and reading??? So they need to be
+          separate."
+
+          The subject tabs are links, so switching them is a navigation, but the
+          component lands back in the same position in the same tree and React
+          keeps its state. LearningSheet holds two pieces of state that are ONLY
+          true of one subject: which objectives were ticked as tricky, and
+          whether the sheet has been finished.
+
+          So finishing maths and tapping Reading carried the finished card
+          straight over, and then made it worse than a stale card: the tick list
+          still held MATHS objective ids while the objectives prop had become the
+          READING ones, nothing matched, and the card told a parent their child
+          had not flagged anything as tricky, minutes after they had flagged
+          something as tricky.
+
+          Keying on the subject and the child gives each one its own component
+          instance, so switching tabs starts a fresh sheet, which is what a tab
+          has always looked like it did. */}
       <LearningSheet
+        key={`${child.id}:${subject}`}
         childId={child.id}
         childName={child.name && child.name !== 'Your child' ? child.name : 'your child'}
         yearGroup={target.yearGroup}
