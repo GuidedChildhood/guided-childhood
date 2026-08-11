@@ -47,8 +47,11 @@ export default async function LearningSheetPage({
 
   const shell = (body: React.ReactNode) => (
     <div style={wrap}>
-      <Link href="/dashboard/printables" style={{ ...eyebrow, color: 'var(--ink-muted)', textDecoration: 'none' }}>
-        ← Printables
+      {/* The Get ahead tab, which is the only way in. This sheet is not listed
+          on the printables index at all, so "back to printables" was a one way
+          door into a section that does not contain the thing you just left. */}
+      <Link href="/dashboard/learning?tab=ahead" style={{ ...eyebrow, color: 'var(--ink-muted)', textDecoration: 'none' }}>
+        ← What they are learning
       </Link>
       <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(26px, 7vw, 32px)', color: 'var(--ink)', lineHeight: 1.15, letterSpacing: '-0.02em', margin: '14px 0 18px' }}>
         Where they are at school

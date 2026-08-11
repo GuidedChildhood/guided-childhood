@@ -35,6 +35,15 @@ import type { WeekBrief } from '@/lib/learning/this-week'
 // there. A page about what a class is being taught was behaving like a corner
 // of the print shop.
 //
+// AND THE TABS ALONE DID NOT FIX IT, which this comment claimed for a day.
+// Justin, 11 August 2026, having to say it a second time: "make sure navigation
+// goes back to what the child is learning, not printables." The tabs were built
+// and both destinations kept their back links, so the loop described above was
+// still exactly what happened. Those two links now return here, to the tab they
+// were launched from. Naming the fault and calling it fixed is not the same as
+// fixing it, and a comment that says so is worse than no comment, because the
+// next person reads it and believes the job is done.
+//
 // So the three things you can do with a term are now three peers, named, on the
 // page itself, and the printable is one item inside one of them rather than the
 // exit:
