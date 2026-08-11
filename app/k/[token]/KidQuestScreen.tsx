@@ -74,10 +74,13 @@ import { BUDDY_MAP, DEFAULT_BUDDY } from '@/lib/kid/buddy'
 // anthracite while the home screen went the colour the child picked. Same
 // reasoning as lib/kid/buddy: one answer to what colour the child is.
 import { resolveTheme, knownAccent, DEFAULT_ACCENT, PICKER_ACCENTS } from '@/lib/kid/theme'
-// Print it now. Lifted to lib/kid/print-sheet on 9 August 2026 so the window it
-// writes could be driven in a test: it needs a live link token to reach from
-// here, so nothing had ever opened it except a child.
-import { printSheet } from '@/lib/kid/print-sheet'
+// Print it now, IN PLACE. The popup window this used (lib/kid/print-sheet)
+// dead ended inside the installed app when the popup was blocked: the
+// fallback opened the raw image, which in standalone has no back button of
+// any kind. Justin, 11 August 2026, with Teo stranded on the Summer Bucket
+// List. The overlay never leaves the page, so there is nothing to block and
+// nowhere to strand.
+import KidSheetOverlay, { type OverlaySheet } from '@/components/kid/KidSheetOverlay'
 
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
@@ -411,6 +414,8 @@ export default function KidQuestScreen({
   // a tap. It starts open only when a timer is already running, so a live
   // countdown is never hidden.
   const [deviceOpen, setDeviceOpen] = useState(Boolean(activeSession))
+  // The sheet being printed in place, or null. See KidSheetOverlay.
+  const [printOverlay, setPrintOverlay] = useState<OverlaySheet | null>(null)
   // When the child taps the big Use my time button we want the timer open on the
   // set and start screen straight away, not the calm balance view. This flag
   // lands them right there; browsing the balance card leaves it false.
@@ -1227,6 +1232,10 @@ export default function KidQuestScreen({
 
       {/* Happy news: a squad friend springs up with the good news */}
       <HappyNews item={happyNews} onClose={() => setHappyNews(null)} />
+
+      {/* A sheet being printed, in place. Nothing to block, nowhere to strand.
+          Keyed by the sheet, so one failed load never haunts the next open. */}
+      <KidSheetOverlay key={printOverlay?.url ?? 'none'} sheet={printOverlay} onClose={() => setPrintOverlay(null)} />
 
       {/* The sent it toast */}
       {toast && (
@@ -2600,7 +2609,7 @@ export default function KidQuestScreen({
                             </p>
                           )}
                           <button
-                            onClick={() => { if (p.pdfColourIn) { playKidSound('tap'); window.open(p.pdfColourIn, '_blank') } else { printSheet(p.sheetUrl, p.title) } }}
+                            onClick={() => { playKidSound('tap'); if (p.pdfColourIn) { window.open(p.pdfColourIn, '_blank') } else { setPrintOverlay({ url: p.sheetUrl, title: p.title }) } }}
                             style={{
                               width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
                               cursor: 'pointer', marginBottom: '7px',

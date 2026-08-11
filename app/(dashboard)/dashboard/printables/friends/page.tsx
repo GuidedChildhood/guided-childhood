@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import FriendsPoster from '@/components/printables/FriendsPoster'
+import PrintPosterButton from './PrintPosterButton'
 import { streakCurrency } from '@/lib/pathway/streak-unlock'
 
 // The Planet Friends poster, built for one child on the day it is printed.
@@ -105,6 +106,7 @@ export default async function FriendsPosterPage({
         </div>
       )}
 
+      <PrintPosterButton />
       <FriendsPoster childName={child.name as string} fullDays={fullDays} />
     </>
   )
