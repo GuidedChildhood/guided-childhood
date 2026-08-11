@@ -45,12 +45,52 @@ if (!ACCESS_ALLOWLIST.includes('justin@thesocialbillboard.com')) {
   ACCESS_ALLOWLIST.push('justin@thesocialbillboard.com')
 }
 
+// A subscription that is trying to pay is still a subscription.
+//
+// Justin, 11 August 2026: "so will this work if payment is not received even
+// though they subscribed?"
+//
+// It would not have, and after this morning's change it would have been much
+// worse than it used to be. The webhook writes past_due the moment a renewal
+// charge fails, and this function only accepted 'active', so the first bounced
+// payment locked a family out. Before the paywall moved into the middleware
+// that cost them about fifteen screens. After it, it costs them the entire
+// product, on a Tuesday, over an expired card.
+//
+// Stripe does not give up when a charge fails. It retries for around three
+// weeks, and most of those retries succeed: a card replaced, a bank that
+// blocked a foreign transaction, a balance that arrives on payday. Throughout
+// that window the family is a paying customer who intends to keep paying.
+//
+// So past_due keeps its access and STRIPE decides when it is over, which it
+// already tells us: when the retries finally fail it either cancels the
+// subscription, firing customer.subscription.deleted, or leaves it unpaid,
+// and the webhook maps both of those to 'cancelled'. That is the door closing,
+// and it closes on Stripe's judgement rather than on a first failed charge.
+//
+// The asymmetry is deliberate. Letting a lapsed family keep the app for three
+// more weeks costs a few pounds. Locking a paying family out of the thing they
+// use with their child every morning costs the family.
+const PAYING_STATUSES = ['active', 'past_due'] as const
+
 export function hasFullAccess(profile: AccessProfile | null | undefined, email?: string | null): boolean {
   if (email && ACCESS_ALLOWLIST.includes(email.trim().toLowerCase())) return true
   if (!profile) return false
-  if (profile.subscription_status === 'active') return true
+  if ((PAYING_STATUSES as readonly string[]).includes(profile.subscription_status ?? '')) return true
   if (profile.trial_ends_at) return new Date(profile.trial_ends_at).getTime() > Date.now()
   return false
+}
+
+/**
+ * A payment has bounced and Stripe is still retrying.
+ *
+ * They keep everything, and they need telling, because the one way this goes
+ * wrong is silently: three weeks of retries fail, the subscription cancels, and
+ * the first a family hears about it is the app shutting. The card takes a
+ * minute to fix in the billing portal while the door is still open.
+ */
+export function paymentNeedsAttention(profile: AccessProfile | null | undefined): boolean {
+  return profile?.subscription_status === 'past_due'
 }
 
 export function inTrial(profile: AccessProfile | null | undefined): boolean {

@@ -19,7 +19,7 @@
 //
 // Usage: node --experimental-strip-types scripts/check-paywall-paths.mjs
 
-import { needsMembership, hasFullAccess, TRIAL_DAYS } from '../lib/access.ts'
+import { needsMembership, hasFullAccess, paymentNeedsAttention, TRIAL_DAYS } from '../lib/access.ts'
 
 let failures = 0
 const check = (name, ok, detail = '') => {
@@ -95,6 +95,33 @@ check('the founder is never locked out of his own product',
   hasFullAccess(null, 'justin@thesocialbillboard.com'))
 check('and the check on that is not case sensitive',
   hasFullAccess(null, 'Justin@TheSocialBillboard.com '))
+
+// ── A SUBSCRIPTION THAT IS TRYING TO PAY ────────────────────────────────────
+//
+// Justin, 11 August 2026: "so will this work if payment is not received even
+// though they subscribed?" It would not have. The webhook writes past_due on
+// the first failed renewal, and before this only 'active' got through, so a
+// bounced charge locked a paying family out of the whole product. Stripe
+// retries for about three weeks and most of those retries succeed.
+check('a card that bounced this morning still gets in',
+  hasFullAccess({ subscription_status: 'past_due', trial_ends_at: null }))
+check('and it is flagged so they can fix it before Stripe gives up',
+  paymentNeedsAttention({ subscription_status: 'past_due' }))
+
+// AND THE DOOR STILL CLOSES. Stripe decides when the retries are over, and
+// the webhook maps both of its endings onto cancelled.
+check('once Stripe gives up, they are out',
+  !hasFullAccess({ subscription_status: 'cancelled', trial_ends_at: null }))
+check('a cancelled account is not asked to fix a card',
+  !paymentNeedsAttention({ subscription_status: 'cancelled' }))
+check('and neither is a healthy one',
+  !paymentNeedsAttention({ subscription_status: 'active' }))
+check('nor an account with no profile at all', !paymentNeedsAttention(null))
+
+// The webhook maps a Stripe side trial onto active, so this is belt and braces
+// against that mapping ever being removed.
+check('an unknown status is not waved through',
+  !hasFullAccess({ subscription_status: 'incomplete_expired', trial_ends_at: null }))
 
 // ── THE NUMBER ──────────────────────────────────────────────────────────────
 check('the trial is four days, which is what he asked for', TRIAL_DAYS === 4, String(TRIAL_DAYS))
