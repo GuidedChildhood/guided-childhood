@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import TutorLessonCard from '@/components/learning/TutorLessonCard'
 
 // Paste the homework, get back what it is.
 //
@@ -144,6 +145,23 @@ export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
                   <div style={{ ...label, color: 'var(--terracotta-dark)', marginBottom: 6 }}>One thing to do tonight</div>
                   <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.55, margin: 0 }}>{result.help}</p>
                 </div>
+              )}
+
+              {/* The tutor, offered the moment we know what the homework is.
+                  A decode tells the parent what it is, which helps the parent
+                  and does nothing for the child, who still has to learn it.
+                  This is the other half, and it sits here rather than at the
+                  bottom because a parent who has read the answer stops
+                  scrolling. Keyed on the matches so a second decode offers a
+                  lesson about the new homework rather than the old one. */}
+              {child && result.matches.length > 0 && (
+                <TutorLessonCard
+                  key={result.matches.map(m => m.id).join(',')}
+                  childId={child.id}
+                  childName={child.name}
+                  objectiveIds={result.matches.map(m => m.id)}
+                  homework={text}
+                />
               )}
 
               {result.watch && (

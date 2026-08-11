@@ -90,6 +90,7 @@ export default function KidQuestScreen({
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
   deviceTrust = 'ask', initialAsk = null, initialNudges = [],
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
+  tutorLesson = null,
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
   fiveADayInitial = null,
@@ -174,6 +175,11 @@ export default function KidQuestScreen({
   // A printable a grown up sent to this child, shown at the top of the to do:
   // print it, do it, then send it to be confirmed like any printable.
   assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; previewUrl: string } | null
+  // A tutor lesson a grown up read and sent, written from this child's own
+  // homework. It sits at the top of the to do rather than joining the five a
+  // day rotation, for the same reason the printable above does: a grown up
+  // chose this deliberately, and it should not depend on a dice roll.
+  tutorLesson?: { id: string; title: string; emoji: string | null; stars: number; subject: string | null } | null
   // The sticker book, which used to live at the foot of the road. It moved here
   // with the road itself, because migration 109's once only pop is the only
   // server side celebration the child app has ever had and it must not go down
@@ -1399,6 +1405,49 @@ export default function KidQuestScreen({
             }).catch(() => { /* it is gone locally either way */ })
           }}
         />
+
+        {/* A lesson a grown up sent, written for this child from the homework
+            they were stuck on. Above the printable because it is the newer
+            thing and it expires in a child's head faster: homework is tonight.
+            One tap opens the real player, which is where the stars are earned.
+
+            The framing on the card is the whole feature in two lines. A child
+            who reads "your grown up thought this would help" is being given
+            something; a child who reads "you found this hard" is being told
+            something. It is the same lesson either way. */}
+        {tutorLesson && (
+          <a
+            href={`/k/${token}/tutor/${tutorLesson.id}`}
+            onClick={() => playKidSound('tap')}
+            style={{
+              display: 'block', textDecoration: 'none', background: '#fff',
+              border: '2px solid var(--retro-green)', borderRadius: 18,
+              padding: '14px 16px', marginBottom: 16, boxShadow: '0 5px 0 var(--retro-green-dark, #2E7D5B)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+              <span style={{ fontSize: 'var(--text-2xl)', lineHeight: 1 }}>{tutorLesson.emoji ?? '📘'}</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--retro-green-dark, #2E7D5B)' }}>
+                  A lesson just for you
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
+                  {tutorLesson.title}
+                </div>
+              </div>
+            </div>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
+              Your grown up read this one first and thought it would help. It takes a few minutes.
+            </p>
+            <div style={{
+              textAlign: 'center', background: 'var(--retro-green)', color: '#fff', borderRadius: 14,
+              padding: '12px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+              boxShadow: '0 4px 0 var(--retro-green-dark, #2E7D5B)',
+            }}>
+              Start it ⭐{tutorLesson.stars}
+            </div>
+          </a>
+        )}
 
         {/* A printable a grown up sent lands right at the top of the to do:
             print it, do it, then send it to be confirmed like any printable. */}

@@ -109,7 +109,7 @@ export async function getStarBanks(
   const weekEndDate = starWeekEnd(weekStartDate)
   const weekEndIso = londonMidnightIso(weekEndDate)
 
-  const [questsRes, ticksRes, missionsRes, spendsRes, watchTogetherRes, bonusesRes] = await Promise.all([
+  const [questsRes, ticksRes, missionsRes, spendsRes, watchTogetherRes, bonusesRes, tutorRes] = await Promise.all([
     // Every quest ever, active or removed: old ticks still count
     supabase.from('family_quests').select('id, stars, child_id').eq('user_id', userId),
     supabase.from('quest_ticks').select('quest_id, child_id, status, tick_date').eq('user_id', userId),
@@ -123,6 +123,13 @@ export async function getStarBanks(
     // Bonus stars granted outside the quest loop (fair play weeks). The table
     // lands with migration 086; before it the read errors and counts nothing.
     supabase.from('star_bonuses').select('child_id, stars, created_at').eq('user_id', userId),
+    // Tutor lessons (migration 188): a lesson DiGi wrote from the child's own
+    // homework, sent by a parent, finished on the child's phone. Same shape as
+    // the star lesson missions above, and it has to be counted here or the
+    // stars a child earns finishing one are a number on a screen and nothing
+    // else. Before the migration the read errors and counts nothing, exactly
+    // like star_bonuses did.
+    supabase.from('tutor_lessons').select('child_id, stars, done_at').eq('user_id', userId),
   ])
 
   const starsByQuest = new Map(
@@ -158,6 +165,12 @@ export async function getStarBanks(
           .filter(b => b.child_id === childId)
           .filter(b => !inWeek || (String(b.created_at ?? '') >= weekStartIso && String(b.created_at ?? '') < weekEndIso))
           .reduce((sum, b) => sum + (Number(b.stars) || 0), 0)
+        // A finished tutor lesson. done_at is the only thing that pays, and it
+        // is written once, so a child replaying one cannot earn twice.
+        + (tutorRes.data ?? [])
+          .filter(t => t.child_id === childId && t.done_at)
+          .filter(t => !inWeek || (String(t.done_at ?? '') >= weekStartIso && String(t.done_at ?? '') < weekEndIso))
+          .reduce((sum, t) => sum + (Number(t.stars) || 0), 0)
       const spent = (spendsRes.data ?? [])
         .filter(s => s.child_id === childId)
         .filter(s => !inWeek || (String(s.created_at ?? '') >= weekStartIso && String(s.created_at ?? '') < weekEndIso))
