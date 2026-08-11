@@ -111,7 +111,7 @@ check('a mood signal is still not evidence a child has come out',
   `his real mood-confidence score that morning was ${scoreOf('mood-confidence')}`)
 
 // Nothing flagged means nothing filtered, which is the state of the world until
-// migration 184 runs.
+// migration 185 runs.
 check('an unmigrated database behaves exactly as before',
   guard(FREE_SHAPER, new Set()).length === 2)
 

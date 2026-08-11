@@ -7088,8 +7088,10 @@ slug and label together, returning null rather than guessing.
 three are the heaviest in the library: self harming, a low mood that will not
 lift, a child coming out. Two had been used, his signals pointed at categories
 holding no free script at all, so both survivors scored zero and the rotation
-picked between them like a coin. Migration 184 marks the twelve that assert
-something about a child and they are never recommended.
+picked between them like a coin. Migration 185 marks the twelve that assert
+something about a child and they are never recommended. (185, not the 184 the
+branch first claimed: 184 was taken by the swap asks column merged the same
+morning, the exact collision the sync rules exist for.)
 
 **Never, rather than only with a signal.** The first version of the rule was the
 softer one and it failed on the very account it was written for: he had an open
@@ -7106,3 +7108,48 @@ no free script in screen time, gaming or everyday routines, which are exactly
 the categories his signals point at. The recommendation is honest now and still
 not relevant, because there is nothing free to be relevant with. One free script
 in each of those three at shaper would close it.
+
+## 11 August 2026 — Jobs done goes straight home, and a child can propose a swap
+
+Justin, from Teo's jobs page. Two decisions.
+
+**The finished jobs page walks the child back itself.** Ticking the last job
+celebrates, ticks the five a day's jobs step from right there (so the home
+screen already shows the next step when it paints), and then navigates home
+after a short beat. The done state stays for a child who wanders back to
+look, but nobody is left parked on a finished list when the next step of
+their day is waiting.
+
+**Negotiating a job is an ask, never a self serve change.** Justin: "should
+we give child ability to click negotiate job so can change it to a
+different task as gives them more control?" Yes, and the shape matters: the
+child proposes the trade (a quiet swap line under each unticked job opens a
+sheet with ideas and a write your own box), the parent gets both halves of
+it on the board they already answer, and the yes swaps like for like: the
+new job is worth what the old one was, and the old one only comes off the
+board when it belongs to this child alone, because one child's swap must
+never delete a job from a sibling's day. Built on the existing pitch
+pipeline (quest_requests) plus one column, migration 184, so the caps and
+the child's status list all came for free.
+
+## 11 August 2026 — School reminders stopped being jobs
+
+Justin, from Teo's balance page with Cubs sitting in the job list: "surely
+that does not affect balance, as just alerts not jobs."
+
+Two code paths were quietly converting school reminders into one star jobs:
+the parent's send to child button, and the weekly reminder cron, which
+minted a FRESH quest for every routine every week. Both predate the child
+app having a school diary of its own. Once Cubs is a quest it is a job
+everywhere jobs exist: the balance page, the star chart, the five a day's
+all jobs done gate, and it earns a star for being reminded of something,
+which devalues the star a bed made earns.
+
+Both paths now send a reminder and nothing else: the action is marked sent
+to child, which is exactly what makes it appear in the child's own school
+diary, and the push points there. Alerts live on the school rails, which
+are already holiday aware and editable from the child's tap; jobs live on
+the quest rails; the two no longer leak into each other. The old quest
+rows already on boards are cleaned by one SQL statement in the pull
+request, matched by title against sent school actions rather than deleted
+by guesswork.

@@ -2,15 +2,22 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { sendPush } from '@/lib/push/send'
 
-// Turn a school action into something the child actually does, not just
-// something the parent reads. It lands as a one off quest on the
-// child's own quest page, ticks and approves through the normal star
-// rails, and a push goes straight to the child's phone if they have
-// reminders on.
-
-const KIND_EMOJI: Record<string, string> = {
-  kit: '🎒', payment: '💷', homework: '📖', event: '📅', deadline: '⏰', notice: '📌',
-}
+// Send a school reminder to the child's phone.
+//
+// A REMINDER, not a job. This route used to convert the action into a one
+// off family_quests row worth a star, which predates the child app having a
+// school diary of its own. Justin, 11 August 2026, from Teo's balance page
+// with Cubs sitting in the job list: "surely that does not affect balance,
+// as just alerts not jobs." He is right: an alert that earns stars is a job
+// by another name, it crowds the balance page, the star chart and the five
+// a day's all jobs done gate, and it teaches the child that being reminded
+// of Cubs is worth the same as making their bed.
+//
+// So sending now does exactly two things: marks the action sent_to_child,
+// which is precisely what makes it appear in the child's own school diary
+// (lib/school/child-items isChildVisible), and pushes their phone pointing
+// at that diary. The reminder lives its whole life on the school rails,
+// which are already holiday aware and editable from the child's own tap.
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -37,31 +44,17 @@ export async function POST(req: NextRequest) {
     .maybeSingle()
   if (!child) return NextResponse.json({ error: 'No child on the account yet' }, { status: 400 })
 
-  const { data: quest, error: questError } = await supabase
-    .from('family_quests')
-    .insert({
-      user_id: user.id,
-      child_id: child.id,
-      title: action.title,
-      emoji: KIND_EMOJI[action.kind] ?? '📌',
-      stars: 1,
-      schedule: 'once',
-    })
-    .select('id')
-    .single()
-  if (questError || !quest) {
-    return NextResponse.json({ error: questError?.message ?? 'could not save' }, { status: 500 })
-  }
-
-  await supabase.from('school_actions').update({ sent_to_child: true }).eq('id', action.id)
+  const { error } = await supabase
+    .from('school_actions').update({ sent_to_child: true }).eq('id', action.id)
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   // Straight to the child's phone, best effort.
   try {
     await sendPush({
         userId: user.id,
         audience: 'kids',
-        title: 'From home ⭐',
-        body: `${action.title}. Tick it off on your quests when it is sorted.`,
+        title: 'From school 🎒',
+        body: `${action.title}. It is in your school diary.`,
         url: '/',
       })
   } catch { /* best effort */ }

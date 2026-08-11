@@ -57,7 +57,7 @@ import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
 type Child = { id: string; name: string }
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null }
 type Tick = { id: string; quest_id: string; child_id: string | null; status: string; tick_date: string }
-type Ask = { id: string; child_id: string | null; title: string; status: string }
+type Ask = { id: string; child_id: string | null; title: string; status: string; swap_quest_id?: string | null }
 
 type TabKey = 'add' | 'agree' | 'theirs'
 
@@ -698,21 +698,32 @@ export default function ManageJobs({
           {myAsks.length > 0 && (
             <section style={CARD}>
               <h2 style={H2}>{name} asked for {myAsks.length === 1 ? 'this' : 'these'}</h2>
-              <p style={SUB}>A job they thought of themselves. Say yes and it goes straight on their board.</p>
+              <p style={SUB}>A job they thought of themselves. Say yes and it goes straight on their board. A swap trades the old job away, worth the same stars.</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {myAsks.map(a => (
+                {myAsks.map(a => {
+                  // A swap ask names what it trades away. The old job comes
+                  // off their board with the yes when it is theirs alone; a
+                  // whole family job stays for the siblings.
+                  const swapOld = a.swap_quest_id ? quests.find(q => q.id === a.swap_quest_id) : undefined
+                  return (
                   <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, border: '1.5px solid var(--border)', borderRadius: 14, padding: '10px 12px', flexWrap: 'wrap' }}>
                     <span style={{ flex: 1, minWidth: 140, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.3 }}>
                       {a.title}
+                      {swapOld && (
+                        <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: 1 }}>
+                          🔁 instead of {swapOld.title}
+                        </span>
+                      )}
                     </span>
                     <button onClick={() => decideAsk(a.id, 'added')} disabled={busy} className="btn btn-gold" style={{ flexShrink: 0, padding: '9px 16px', fontSize: 'var(--text-base)' }}>
-                      Yes, add it
+                      {swapOld ? 'Yes, swap it' : 'Yes, add it'}
                     </button>
                     <button onClick={() => decideAsk(a.id, 'declined')} disabled={busy} style={{ ...LINK_BTN, color: 'var(--ink-muted)' }}>
                       Not this one
                     </button>
                   </div>
-                ))}
+                  )
+                })}
               </div>
             </section>
           )}

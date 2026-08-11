@@ -110,7 +110,7 @@ export async function getRecommendedScript(
 
   if (!scripts || scripts.length === 0) return null
 
-  // Which scripts may only speak when spoken to (migration 184).
+  // Which scripts may only speak when spoken to (migration 185).
   //
   // Asked for in its own query, and failing soft, ON PURPOSE. Selecting the
   // column alongside the rest would tie this function to the migration having
