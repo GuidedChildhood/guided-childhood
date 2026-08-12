@@ -838,7 +838,7 @@ export default function OnboardingPage() {
           <div style={{ animation: 'fadeUp 0.45s ease 0.45s both' }}>
             <button
               style={{ ...BTN, animation: 'btnGlow 2.2s ease-in-out 2.2s infinite' }}
-              onClick={() => setScreen('founding')}
+              onClick={() => setScreen('first-task')}
             >
               Sounds good
             </button>
@@ -854,12 +854,31 @@ export default function OnboardingPage() {
     const remaining = founderSpots?.remaining ?? null
     const soldOut = founderSpots?.sold_out ?? false
 
+    // THE LAST DOOR BEFORE THE PLATFORM.
+    //
+    // Justin, 12 August 2026: "still no pay option setting up. I reset again
+    // and it needs the option to pop up just before it goes into the platform."
+    //
+    // It used to sit in the MIDDLE of setup, between DiGi's introduction and
+    // the first task, with two more screens after it. Two problems with that,
+    // and he hit both.
+    //
+    // A parent in the middle of setup is not deciding anything yet, they are
+    // getting through a wizard, so an offer there is furniture to be tapped
+    // past. And onboarding_complete is written EARLIER than this, back when the
+    // personalisation saves, which means a reload anywhere in the middle sends
+    // the init guard straight to the dashboard and this screen is skipped for
+    // ever. The one screen in the product that asks for money was the one a
+    // refresh could permanently delete.
+    //
+    // Last now: setup done, notifications asked, first task in hand, and then
+    // the choice, with the platform on the other side of it.
     async function skipToApp() {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
         await supabase.from('profiles').update({ onboarding_complete: true }).eq('id', user.id)
       }
-      setScreen('first-task')
+      router.push(notifDest === 'script' ? '/dashboard/scripts/recommended' : '/dashboard')
     }
 
     return (
@@ -1048,7 +1067,11 @@ export default function OnboardingPage() {
   // reminder is an easy, obvious yes.
 
   if (screen === 'notifications') {
-    const goNext = () => router.push(notifDest === 'script' ? '/dashboard/scripts/recommended' : '/dashboard')
+    // Onward to the founding choice, which is now the last screen rather than
+    // a middle one. Where they actually LAND after choosing is still notifDest,
+    // and skipToApp on that screen carries it, so a parent who came here for a
+    // script still gets their script.
+    const goNext = () => setScreen('founding')
 
     async function enableNotifications() {
       setNotifStatus('asking')
