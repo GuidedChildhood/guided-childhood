@@ -125,6 +125,66 @@ rotation is the right engine. Extend it. Do not write a second one.
 
 ---
 
+## 3b. The check in is the FIRST task, because the first one is the baseline
+
+Justin, signing off on 12 August 2026:
+
+> "I love this and will rotate different services, but it does need to track what
+> it includes, e.g. lessons for the child's age band, check ins to have a
+> baseline. Should be first task, not sure why check in was not there? First ever
+> time could set the baseline. So these bouncing will give things new each day
+> then rotate, it could be part of next up. Eventually we will have a process
+> that works each time they log in so it leads them all the way, with emphasis on
+> logging check ins, learning, DiGi, lessons, quests. Important checking in for
+> both parent and child progress, and making the movement of check ins and their
+> update a super useful page, as well as getting them to help the child inscribe
+> the passport to 16."
+
+**He noticed a real thing, and the code agrees with him.** In
+`lib/pathway/daily-tasks.ts` the check in step is conditional:
+
+```ts
+...(hasLiveConcerns ? [{ key: 'checkin', ... }] : [])
+```
+
+The comment above it argues that an empty concern list means nothing to check in
+ON, and that showing a green tick against a step nobody has touched is a lie. All
+true, and it answers a different question from the one Justin is asking.
+
+**The first check in is not a check in on anything. It is the baseline.** It is
+where the numbers on the journey table come from, the "8 out of 10 at the start"
+that makes "9 now" mean something. A family that never does one has nothing to
+measure against for as long as they stay, and the whole payoff page is empty for
+them for ever.
+
+So: on day one, the check in leads, and it is framed as **where are things now**
+rather than as a review of concerns that do not exist yet. After that, the
+existing rule is right and stays: no live concerns, no step.
+
+### The bonus needs to know what it is offering
+
+The bouncing coin is currently the week's planet, which is a fixed rotation of
+six. Justin wants it to **track what is actually available to that family**:
+
+- The child's lessons filtered to their **age band**, not the whole library
+- Whether a **check in** is due or has never happened
+- What is genuinely new since yesterday
+
+That is the same signal set as the daily lead, which is why he is right that it
+"could be part of next up". One picker, two surfaces: the lead says do this, the
+bonus says here is something new. They must never offer the same thing on the
+same day.
+
+### And the passport is a shared job, not a report
+
+The last line is the one to build towards: **getting them to help the child
+inscribe the passport to 16.** That reframes the passport from a record a parent
+reads to a thing the two of them fill in together, which is a different product
+and a better one. Worth holding in view while doing job 5, even though it is
+larger than tomorrow.
+
+---
+
 ## 2. Planet Friends, not generic planets
 
 The six coins use `PlanetArt`, a drawn sphere with a motif. They should be the
