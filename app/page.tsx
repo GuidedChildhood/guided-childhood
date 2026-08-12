@@ -139,8 +139,6 @@ const TESTIMONIALS = [
 
 const HF = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
 const PHOTO_FAMILY_GRASS = HF + 'hf_20260812_114033_5c4f1927-62b5-4b85-98a7-f11dd12dc2cd.png'
-const PHOTO_BALANCE = HF + 'hf_20260812_114033_dfa0a0bf-cc45-46c0-a8d7-a1a9a6d7093b.png'
-const PHOTO_CHILD_PLAYING = HF + 'hf_20260812_114033_3c294adc-a52e-4256-bc89-6752ad24e219.png'
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -400,15 +398,7 @@ export default function HomePage() {
           Every answer you find says ban it all, or give in and dread it. Neither one teaches your child a single thing. <strong style={{ color: 'var(--ink)' }}>There is a third way, a guided one.</strong>
         </p>
         <div className="fu hero-circle" style={{ maxWidth: '640px', margin: '44px auto 0', position: 'relative', padding: '30px 0' }}>
-          <div style={{ width: 'min(72vw, 400px)', aspectRatio: '1', borderRadius: '50%', overflow: 'hidden', margin: '0 auto', boxShadow: '0 24px 70px rgba(26,26,46,0.16)' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={PHOTO_BALANCE}
-              alt="A family laughing together on the grass, their phone left face down beside them, screen time fights ended"
-              loading="lazy"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
-          </div>
+          <div aria-hidden style={{ width: 'min(72vw, 400px)', aspectRatio: '1', borderRadius: '50%', margin: '0 auto', background: 'radial-gradient(circle at 38% 32%, #FAEDC2 0%, var(--stage-1) 55%, var(--terracotta-lt) 100%)', boxShadow: '0 24px 70px rgba(26,26,46,0.10), inset 0 0 0 1.5px var(--border)' }} />
           <div className="chip-row">
             {[
               ['\uD83C\uDF19', 'Bedtime battles', 'var(--stage-1-bold)'],
