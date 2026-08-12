@@ -25,7 +25,8 @@ export const metadata: Metadata = {
     'digital parenting UK', 'screen time scripts', 'digital literacy for children',
     'child screen time advice', 'social media age UK', 'digital parenting pathway',
     'digital passport for children', 'screen time arguments', 'under 16 social media ban',
-    'online safety for children UK',
+    'online safety for children UK', 'AI literacy for kids', 'screen time rewards',
+    'chores for screen time', 'safe device settings by age',
   ],
   openGraph: {
     title: 'A clear digital pathway from first screen to 16.',
@@ -116,15 +117,6 @@ const MOMENTS = [
   },
 ]
 
-// ── Researchers ──────────────────────────────────────────────────────────────
-
-const RESEARCHERS = [
-  { name: 'Prof. Candice Odgers', uni: 'UC Irvine · Duke University', finding: 'Effects depend on vulnerability and environment, not just the device. Structure is protective.' },
-  { name: 'Dr. Amy Orben', uni: 'Cambridge MRC · Oxford', finding: 'Developmental sensitivity windows: 11 to 13 for girls, 14 to 15 for boys. These are the stages we protect most carefully.' },
-  { name: 'Prof. Andrew Przybylski', uni: 'Oxford Internet Institute', finding: 'The Goldilocks effect. Moderate use is not inherently harmful. Too much, too early, structured wrong: that is where risk lives.' },
-  { name: 'Prof. Sonia Livingstone', uni: 'LSE, London', finding: 'Children need skills and agency, not just restrictions. Every stage builds graduated digital skills.' },
-]
-
 // ── The only real testimonials. Never invent a fourth. ───────────────────────
 
 const TESTIMONIALS = [
@@ -142,11 +134,20 @@ const TESTIMONIALS = [
   },
 ]
 
+// ── Photography (Higgsfield Soul, candid editorial). To swap a photo, replace
+//    the URL. The bright 12 Aug batch lives in the Higgsfield gallery. ───────
+
+const HF = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
+const PHOTO_FAMILY_GRASS = HF + 'hf_20260812_112546_70b0216c-ba04-4f9a-94f1-1395aa248fa8.png'
+const PHOTO_BALANCE = HF + 'hf_20260812_112546_ef791ba6-2f03-44cd-9238-1130b8712369.png'
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
   return (
-    <div style={{ background: '#fff', overflowX: 'hidden' }}>
+    <div className="home-v2" style={{ background: '#fff', overflowX: 'hidden' }}>
+
+      <style>{`.home-v2 h2{font-family:var(--font-display);font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--ink)} .home-v2 .lead{font-size:1.05rem} .home-v2 .body-lg{font-size:1rem}`}</style>
 
       <AnnouncementBar />
       <HomeReveals />
@@ -212,6 +213,16 @@ export default function HomePage() {
                 '@type': 'Question',
                 name: 'Does Guided Childhood prepare my child for the UK under 16 social media ban?',
                 acceptedAnswer: { '@type': 'Answer', text: 'Yes, that is the core of it. The UK ban delays social media access until 16 but does not teach children anything. Guided Childhood builds the judgement in the years before: a five stage pathway from age 4, lessons in misinformation, algorithms and AI literacy, and a Digital Passport earned stage by stage, so 16 arrives as a step rather than a cliff edge. Arriving with habits beats arriving with rules.' },
+              },
+              {
+                '@type': 'Question',
+                name: 'How do children earn screen time on Guided Childhood?',
+                acceptedAnswer: { '@type': 'Answer', text: 'Children tick off real jobs and chores in their own app, and outside play pays the most. Stars land in their star bank, and stars buy agreed screen time on the star timer. Because the deal is theirs, the daily argument ends. Families without a child device run the whole thing from the parent app.' },
+              },
+              {
+                '@type': 'Question',
+                name: 'How do I teach my child about AI and chatbots?',
+                acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood includes age by age AI literacy lessons: what an AI chatbot is, why it sounds confident when it is wrong, how algorithms and recommendation feeds work, and how to spot AI generated content. By 16 your child is AI literate, not just supervised.' },
               },
               {
                 '@type': 'Question',
@@ -287,7 +298,7 @@ export default function HomePage() {
             <p className="fu eyebrow" style={{ marginBottom: '18px' }}>
               For parents of children aged 4 to 16
             </p>
-            <h1 className="fu" style={{ fontSize: 'clamp(2.5rem, 4.4vw, 3.5rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-.035em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '18px' }}>
+            <h1 className="fu" style={{ fontSize: 'clamp(2.9rem, 5.2vw, 4.2rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-.035em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '18px' }}>
               A clear digital pathway from first screen to 16.
             </h1>
             <p className="fu" style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '26px' }}>
@@ -299,7 +310,7 @@ export default function HomePage() {
               </Link>
             </div>
             <p className="fu" style={{ fontSize: '.85rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '18px' }}>
-              No card required
+              Three questions. Two minutes. Free. No card required.
             </p>
             <div className="fu" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', background: 'var(--cream)', border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '8px 16px', marginBottom: '22px' }}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700, letterSpacing: '.09em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>Founding rate</span>
@@ -308,7 +319,7 @@ export default function HomePage() {
             {/* Proof bar: named research beside the one real hero quote */}
             <div className="fu proof-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 26px', alignItems: 'center', maxWidth: '520px' }}>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-light)', lineHeight: 1.65, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
-                Built on the research of Candice Odgers, Amy Orben and Sonia Livingstone. Aligned with NHS and NSPCC guidance.
+                Science backed, every lesson checked against the research weekly. Aligned with NHS and NSPCC guidance.
               </p>
               <div style={{ flex: '0 1 200px', minWidth: '180px', borderLeft: '2px solid var(--terracotta)', paddingLeft: '16px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>Parent quote</div>
@@ -352,6 +363,20 @@ export default function HomePage() {
         <p className="fu" style={{ maxWidth: '640px', margin: '40px auto 0', textAlign: 'center', fontSize: '.92rem', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
           Every answer you find says ban it all, or give in and dread it. Neither one teaches your child a single thing. <strong style={{ color: 'var(--ink)' }}>There is a third way, a guided one.</strong>
         </p>
+        <figure className="fu" style={{ maxWidth: '980px', margin: '36px auto 0' }}>
+          <div style={{ borderRadius: '26px', overflow: 'hidden', border: '1.5px solid var(--border)', boxShadow: '0 24px 70px rgba(26,26,46,0.14)' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={PHOTO_FAMILY_GRASS}
+              alt="A family laughing together on the grass, their phone left face down beside them"
+              loading="lazy"
+              style={{ width: '100%', display: 'block', aspectRatio: '2.2 / 1', objectFit: 'cover' }}
+            />
+          </div>
+          <figcaption style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.06em', color: 'var(--ink-muted)', marginTop: '12px' }}>
+            The phone is still there. The fight is not.
+          </figcaption>
+        </figure>
       </section>
 
       {/* ================================================================
@@ -367,11 +392,11 @@ export default function HomePage() {
                 Ask anything, any hour
               </p>
               <h2 className="fu" style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-                <span>It&rsquo;s 11 o&rsquo;clock and you&rsquo;ve just seen something on their phone.</span>
+                <span>The expert in your pocket at 11 o&rsquo;clock.</span>
                 <DigiCharacter mood="wave" size={56} />
               </h2>
               <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '12px' }}>
-                You cannot ring anyone. You cannot think straight. You just need to know what to do before they wake up. DiGi has read every study so you do not have to. Tell it what happened and it gives you a researched answer and the exact words to use tomorrow morning.
+                It&rsquo;s 11 o&rsquo;clock and you&rsquo;ve just seen something on their phone. You cannot ring anyone. You cannot think straight. You just need to know what to do before they wake up. DiGi has read every study so you do not have to. Tell it what happened and it gives you a researched answer and the exact words to use tomorrow morning.
               </p>
               <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '12px' }}>
                 Not general advice. The script for tonight.
@@ -604,14 +629,12 @@ export default function HomePage() {
           {/* The inventory, eight parts, one line each */}
           <div className="fu" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '14px', marginBottom: '18px' }}>
             {[
-              ['DiGi, your always on guide', 'A researched answer and the exact words, any hour.'],
-              ['Age by age lessons', 'Algorithms, misinformation, AI, kindness online. Taught at home, ten minutes at a time.'],
-              ['Quests and the star timer', 'Real jobs earn stars. Stars buy agreed screen time.'],
-              ['Their own app', 'They check their jobs, request new ones, and watch their own device balance. Screen time becomes something they manage, not something done to them.'],
-              ['Scripts for this week\'s fights', 'Say this, not this, and why. 160 of them, printable.'],
-              ['The family agreement', 'Agreed rules hold. Imposed rules do not.'],
-              ['The wellbeing tracker', 'Mood and balance signals, for your child and for you.'],
-              ['The road to 16', 'Curriculum tracking with passport stamps, stage by stage.'],
+              ['Daily tips that fit tonight', 'A script and a tip for the exact fight you are having. Ten minutes a day, and the pathway catches you up whenever life happens.'],
+              ['Chores earn screen time', 'Your child ticks real jobs in their own app, stars land in their star bank, stars buy agreed device time. The fight ends because the deal is theirs.'],
+              ['Balance, watched together', 'Safe device settings by age, matched with the reward star system. Outside play pays the most stars, and the wellbeing tracker shows the balance shifting.'],
+              ['Lessons in social media, gaming and AI', 'Age by age lessons so they can spot an algorithm, a fake and an AI chatbot long before 16. Social media and AI literate, not just supervised.'],
+              ['School calendar reminders', 'Term dates, homework rhythms and school activity messages home, so the plan fits real weeks, not perfect ones.'],
+              ['The Digital Passport', 'Every stage stamped, every page earned. Tap each page open above, done by 16.'],
             ].map(([title, body]) => (
               <div key={title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '18px 18px 16px' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '.92rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.01em', marginBottom: '6px' }}>{title}</div>
@@ -686,7 +709,7 @@ export default function HomePage() {
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
             <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What changes and when</p>
             <h2 className="fu" style={{ margin: 0 }}>
-              Tonight. This term. <span style={{ color: 'var(--terracotta)' }}>Sixteen.</span>
+              Tonight. This term. Sixteen. <span style={{ color: 'var(--terracotta)' }}>Always.</span>
             </h2>
           </div>
 
@@ -703,9 +726,14 @@ export default function HomePage() {
                 tint: 'var(--stage-2-bold)',
               },
               {
-                label: 'Sixteen',
+                label: 'At 16',
                 body: 'They walk into social media the way you wanted them to. Ready, not just released. Passport stamped, habits set, and they still come to you.',
                 tint: 'var(--stage-5-bold)',
+              },
+              {
+                label: 'Always',
+                body: '"I trust myself as a parent again." The rules become a relationship. That is the whole point.',
+                tint: 'var(--stage-4-bold)',
               },
             ].map(act => (
               <div key={act.label} className="fu" style={{ background: '#fff', borderRadius: '20px', border: '1px solid var(--border)', boxShadow: '0 5px 0 var(--border)', padding: '28px 24px' }}>
@@ -826,19 +854,15 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* The bench beside him */}
-          <div className="fu" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '14px', marginBottom: '18px' }}>
-            {RESEARCHERS.map(r => (
-              <div key={r.name} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '20px 18px' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.9rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.01em' }}>{r.name}</div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '4px 0 10px' }}>{r.uni}</div>
-                <p style={{ fontSize: '.78rem', color: 'var(--ink-soft)', lineHeight: 1.65, margin: 0 }}>{r.finding}</p>
-              </div>
-            ))}
+          {/* Science backed, said once, names live on the evidence page */}
+          <div className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px 24px', textAlign: 'center' }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', margin: '0 0 6px' }}>
+              Science backed. Every lesson and every DiGi answer is checked against the research weekly.
+            </p>
+            <p style={{ fontSize: '.82rem', color: 'var(--ink-muted)', margin: 0 }}>
+              Built on the leading research into children and the digital world. <Link href="/evidence" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>See the evidence</Link>
+            </p>
           </div>
-          <p className="fu" style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.05em', color: 'var(--ink-muted)', margin: 0 }}>
-            DiGi&rsquo;s answers are checked against the science every week.
-          </p>
         </div>
       </section>
 
