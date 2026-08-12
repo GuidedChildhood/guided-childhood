@@ -3252,7 +3252,7 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
         <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>🗓️</span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-            My school diary
+            My calendar
           </span>
           <span style={{ display: 'block', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 1 }}>
             {weekCount === 0 ? 'Nothing on it yet. Add PE kit, clubs and homework' : 'Nothing due today. See the week, add your own'}
@@ -3309,7 +3309,7 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
       {todayItems.length > 0 && (
         <>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: anyUrgent ? '#B93B3F' : 'var(--terracotta-dark)', marginBottom: '9px' }}>
-            {anyUrgent ? '🔴 Don’t forget, it is nearly time' : '🏫 From school today'}
+            {anyUrgent ? '🔴 Don’t forget, it is nearly time' : '🗓️ To remember today'}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {todayItems.map(i => row(i, urgentOf(i.time)))}
@@ -3339,7 +3339,7 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
           fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)',
         }}
       >
-        See my school diary →
+        See my calendar →
       </a>
     </div>
   )

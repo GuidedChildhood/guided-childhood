@@ -145,7 +145,7 @@ export default async function KidWeekPage({ params }: { params: Promise<{ token:
           {name ? `${name}'s week` : 'Your week'}
         </h1>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
-          Everything from school, on the day it lands. Tap a day to see it.
+          School things and your own reminders, on the day they land. Tap a day to see it.
         </p>
 
         {/* The shape of the next few months, above the week rather than inside

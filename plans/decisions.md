@@ -7578,3 +7578,18 @@ theirs to state, whatever kind the parent filed it under. One offs and
 unsent grown up rows stay out of reach as before. Justin's Swimming kit
 row flipped by hand in the live database so it works today, not after
 the deploy.
+
+## 12 August 2026 — The calendar stops claiming everything is from school
+
+Justin, on Swimming kit under a "From school today" banner: "it's a bit
+misleading to say from school today, it should be something like see my
+calendar or reminders." The diary carries school items AND the family's
+own reminders, and a banner that says school over a swimming kit the
+family added is telling the child a small lie every day.
+
+Renamed by what it actually is. The home banner header is now "🗓️ To
+remember today", the slim door and the way in say "My calendar", the
+week page's subtitle says school things and your own reminders, and the
+pushes stop claiming a sender: "On your calendar", "For tomorrow",
+"Reminders for tomorrow". The red nearly time header stays exactly as it
+was, urgency needs no rename.
