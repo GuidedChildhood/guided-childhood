@@ -102,7 +102,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // round trip to the database before a single byte of HTML leaves the
   // server, which is the whole of "opening the app seems a little slow".
   // Same reads, same order of meaning, one round trip of latency.
-  const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
+  const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
     supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes').eq('id', user.id).maybeSingle(),
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
@@ -126,7 +126,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     supabase.from('kid_links').select('child_id, last_seen_at').eq('user_id', user.id),
     // The problem this family is working on right now: the most recently
     // flagged live concern, for the focus bar above the path.
-    supabase.from('concerns').select('label, status').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(1).maybeSingle(),
     // The birthday is a setup step now, not a welcome card and not a day three
     // reveal. The read fails soft to done before migration 083, so a deploy
     // without the column never shows a step nobody can finish.
@@ -982,44 +981,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           whole platform framed the way the parent experiences it: my problem,
           the clear route to the solution. Falls back to the challenge they
           told us at signup, and stays silent when there is nothing live. */}
-      {(() => {
-        const focusConcern = focusConcernResult.data
-        const challengeLabels: Record<string, string> = {
-          morning_tv: 'Morning TV battles', controller_fights: 'Controller fights',
-          wont_put_down: 'Will not put the device down', bedtime_screens: 'Bedtime screens',
-          mood_after_screens: 'Mood after screens', something_else: '',
-          screens_takeover: 'Screens are taking over', mood_changes: 'Mood changes after phone use',
-          gaming: 'Gaming concerns', online_safety: 'Online safety worries',
-          start_conversation: 'Starting the conversation', asking_for_phone: 'Asking for a phone',
-        }
-        const challengeKey = (profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? ''
-        const label = focusConcern?.label ?? challengeLabels[challengeKey] ?? ''
-        if (!label) return null
-        const improving = focusConcern?.status === 'improving'
-        const scriptHref = todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts'
-        return (
-          <Link href={scriptHref} style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '10px',
-              background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-              borderRadius: '14px', padding: '11px 14px',
-            }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
-                Your focus
-              </span>
-              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {label}
-                <span style={{ fontWeight: 600, color: improving ? 'var(--stage-1-text)' : 'var(--ink-muted)' }}>
-                  {' '}· {focusConcern ? (improving ? 'getting better' : 'working on it') : 'your starting focus'}
-                </span>
-              </span>
-              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
-                The words for tonight →
-              </span>
-            </div>
-          </Link>
-        )
-      })()}
+      {/* Your focus moved to the pathway on 12 August 2026. Justin: "focus,
+          words for tonight, can be their appearance on pathway, not here on
+          home." Home is today; the pathway is the journey, and a strip naming
+          the one thing a family is working on is a sentence about the journey.
+          It lives in components/pathway/FocusStrip.tsx. */}
 
       {/* The glanceable stat row: streak, stars in the bank, today's quests,
           the three numbers a parent wants at a glance. */}
