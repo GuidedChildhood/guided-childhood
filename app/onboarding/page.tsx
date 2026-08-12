@@ -7,7 +7,7 @@ import { recommendedDailyMinutes, termTimeDailyMinutes, bucketDailyGuide } from 
 import { holidayOn } from '@/lib/learning/holidays'
 import { BUCKET_META, BUCKET_ORDER } from '@/lib/balance/parent-report'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
-import { trialEndsFromNow } from '@/lib/access'
+import { trialEndsFromNow, TRIAL_DAYS } from '@/lib/access'
 import Celebration from '@/components/ui/Celebration'
 import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
 import { getDeviceId } from '@/lib/push/device-id'
@@ -880,10 +880,22 @@ export default function OnboardingPage() {
             marginBottom: '14px',
             boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
           }}>
+            {/* THE NUMBER COMES FROM TRIAL_DAYS, and that is the fix rather
+                than a tidy up. This screen said SEVEN days, in five places,
+                while lib/access has said four since the trial was shortened.
+                Checkout reads TRIAL_DAYS for Stripe's trial_period_days, so a
+                parent was told seven, handed a card form, and given four. A
+                false promise anywhere is bad; a false promise on the screen
+                where somebody types their card number is the worst place in
+                the product to have one.
+                Justin, 12 August 2026: "we should be saying this is free for 4
+                days but upgrade to founder member as they sign up."
+                Interpolating the constant means the copy and the charge cannot
+                drift apart again the next time the trial length changes. */}
             {!soldOut ? (
               <>
                 <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  Your 7 days are already running. Add your card now to hold one of the 50 founder places and lock in £7.99 a month for life. Nothing is charged for 7 days, and you can cancel any time before then.
+                  Your {TRIAL_DAYS} free days are already running. Add your card now to hold one of the 50 founder places and lock in £7.99 a month for life. Nothing is charged for {TRIAL_DAYS} days, and you can cancel any time before then.
                 </p>
 
                 {/* Availability counter — ink on white, not coloured bg */}
@@ -902,19 +914,19 @@ export default function OnboardingPage() {
                   <input type="hidden" name="tier" value="founder" />
                   <input type="hidden" name="from" value="onboarding" />
                   <button type="submit" style={BTN}>
-                    Hold my founder place. 7 days free, then £7.99 for life
+                    Hold my founder place. {TRIAL_DAYS} days free, then £7.99 for life
                   </button>
                 </form>
               </>
             ) : (
               <>
                 <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  The 50 founder places have been claimed. Your 7 days are already running. Add your card to continue automatically after, nothing charged for 7 days, cancel any time.
+                  The 50 founder places have been claimed. Your {TRIAL_DAYS} free days are already running. Add your card to continue automatically after, nothing charged for {TRIAL_DAYS} days, cancel any time.
                 </p>
                 <form action="/api/stripe/checkout" method="POST">
                   <input type="hidden" name="tier" value="standard" />
                   <input type="hidden" name="from" value="onboarding" />
-                  <button type="submit" style={BTN}>Keep my access. 7 days free, then standard rate</button>
+                  <button type="submit" style={BTN}>Keep my access. {TRIAL_DAYS} days free, then standard rate</button>
                 </form>
               </>
             )}
@@ -934,7 +946,7 @@ export default function OnboardingPage() {
             Start free without a card
           </button>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-light)', textAlign: 'center', marginTop: 10, lineHeight: 1.5 }}>
-            Full access for your 7 days. After that the daily habit, quests and tracker stay free, and the founder rate stays open for you if you want everything back. No card now, no charge without your say.
+            Full access for your {TRIAL_DAYS} free days. After that the daily habit, quests and tracker stay free, and the founder rate stays open for you if you want everything back. No card now, no charge without your say.
           </p>
         </div>
       </div>

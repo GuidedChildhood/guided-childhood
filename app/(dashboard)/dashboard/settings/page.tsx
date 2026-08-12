@@ -224,15 +224,22 @@ export default function SettingsPage() {
       const res = await fetch('/api/stripe/portal', { method: 'POST' })
       const data = await res.json().catch(() => null)
       if (res.ok && data?.url) { window.location.href = data.url; return }
+      // NOTHING TO MANAGE MEANS SEND THEM WHERE THEY CAN BUY, not a dead end.
+      // Justin, 12 August 2026: "manage my plan and upgrade are not working,
+      // they should take to a payment page." He was right, and the reason was
+      // this branch: an account with no Stripe customer got the sentence
+      // "there is no paid subscription on this account, so there is nothing to
+      // cancel." True, and useless. Somebody who taps Manage plan wants to do
+      // something about their plan, and for a parent without one the only
+      // thing worth doing is start one.
+      if (data?.error === 'no_subscription') { router.push('/dashboard/upgrade'); return }
       // Say what actually happened. A parent trying to cancel and hitting a
       // dead button will reasonably assume they are being made to jump through
       // hoops, which is the exact opposite of the promise on the upgrade page.
       setPortalNote(
         data?.error === 'portal_not_configured'
           ? 'The billing page is not switched on yet. Email hello@guidedchildhood.com and I will sort it the same day.'
-          : data?.error === 'no_subscription'
-            ? 'There is no paid subscription on this account, so there is nothing to cancel.'
-            : 'Could not open the billing page. Email hello@guidedchildhood.com and I will sort it the same day.'
+          : 'Could not open the billing page. Email hello@guidedchildhood.com and I will sort it the same day.'
       )
     } catch {
       setPortalNote('Could not open the billing page. Email hello@guidedchildhood.com and I will sort it the same day.')
@@ -525,13 +532,22 @@ export default function SettingsPage() {
             <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px', lineHeight: 1.5 }}>
               Manage your subscription, update payment details, or download invoices through Stripe's secure billing portal.
             </p>
-            <a
-              href="/api/stripe/portal"
+            {/* A BUTTON, NOT A LINK, and this was a dead control.
+                It was <a href="/api/stripe/portal">, which is a GET. That route
+                only exports POST, so every tap returned 405 Method Not Allowed
+                and dumped a parent on a blank error page. It never worked, in
+                any environment, since the day it was written.
+                openBilling is the handler next door that already does this
+                properly: POST, read the url, and say something true when it
+                cannot open. */}
+            <button
+              onClick={openBilling}
+              disabled={portalBusy}
               className="btn btn-green"
-              style={{ display: 'inline-block', padding: '10px 24px', fontSize: 'var(--text-md)', textDecoration: 'none' }}
+              style={{ padding: '10px 24px', fontSize: 'var(--text-md)', cursor: portalBusy ? 'default' : 'pointer', opacity: portalBusy ? 0.6 : 1 }}
             >
-              Manage billing
-            </a>
+              {portalBusy ? 'Opening…' : 'Manage billing'}
+            </button>
           </>
         ) : (
           <>

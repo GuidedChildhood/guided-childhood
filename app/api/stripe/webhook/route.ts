@@ -155,7 +155,7 @@ export async function POST(request: Request) {
       if (userId) {
         // A card up front trial reports status 'trialing'. Treat it as full
         // access, same as active, so the founder who added a card is never
-        // locked out during their 14 free days.
+        // locked out during their free days.
         const status = (sub.status === 'active' || sub.status === 'trialing')
           ? 'active'
           : sub.status === 'past_due' ? 'past_due' : 'cancelled'
