@@ -871,7 +871,7 @@ export default function OnboardingPage() {
             Founding members · 50 places
           </p>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4.5vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--ink)', marginBottom: '28px' }}>
-            Be one of the first 50.
+            Two ways in. Pick one.
           </h1>
 
           <div style={{
@@ -894,8 +894,11 @@ export default function OnboardingPage() {
                 drift apart again the next time the trial length changes. */}
             {!soldOut ? (
               <>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
+                  Option one · Founder
+                </div>
                 <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  Your {TRIAL_DAYS} free days are already running. Add your card now to hold one of the 50 founder places and lock in £7.99 a month for life. Nothing is charged for {TRIAL_DAYS} days, and you can cancel any time before then.
+                  Add your card now to hold one of the 50 founder places and lock in £7.99 a month for life. You still get all {TRIAL_DAYS} free days first: nothing is charged until they are up, and you can cancel any time before then.
                 </p>
 
                 {/* Availability counter — ink on white, not coloured bg */}
@@ -932,22 +935,42 @@ export default function OnboardingPage() {
             )}
           </div>
 
-          <button
-            type="button"
-            onClick={skipToApp}
-            style={{
-              display: 'block', width: '100%', marginTop: '14px',
-              padding: '15px 24px', background: '#fff',
-              border: '2px solid var(--ink)', borderRadius: 16,
-              color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-              cursor: 'pointer', textAlign: 'center',
-            }}
-          >
-            Start free without a card
-          </button>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-light)', textAlign: 'center', marginTop: 10, lineHeight: 1.5 }}>
-            Full access for your {TRIAL_DAYS} free days. After that the daily habit, quests and tracker stay free, and the founder rate stays open for you if you want everything back. No card now, no charge without your say.
-          </p>
+          {/* TWO OPTIONS, DRAWN THE SAME, and that is the change Justin asked
+              for: "it should be pay now to get founder rate, or continue for 4
+              day free trial, but a proper decision so it has to make payment."
+              This was a pitch with an escape hatch: a full white card making
+              the founder case, and then a bare outlined button underneath. A
+              bare button under a card does not read as a CHOICE, it reads as
+              the way out of the thing above it, so a parent who would have paid
+              never actually weighed the two.
+              Both are cards now, both labelled, and the free one keeps its own
+              case rather than being an apology. The founder card stays first
+              and stays the warmer one, because it is the better deal for anyone
+              who is going to stay, and there is no reason to hide that. */}
+          <div style={{
+            background: '#fff', border: '1.5px solid var(--border)',
+            borderRadius: 20, padding: '22px 24px', marginTop: '14px',
+          }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+              Option two · No card
+            </div>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
+              The same {TRIAL_DAYS} free days, nothing to enter. After that the daily habit, the quests and the tracker stay free, and the founder rate is still there if you want everything back.
+            </p>
+            <button
+              type="button"
+              onClick={skipToApp}
+              style={{
+                display: 'block', width: '100%',
+                padding: '15px 24px', background: '#fff',
+                border: '2px solid var(--ink)', borderRadius: 16,
+                color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+                cursor: 'pointer', textAlign: 'center',
+              }}
+            >
+              Start free without a card
+            </button>
+          </div>
         </div>
       </div>
     )
