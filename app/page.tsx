@@ -681,7 +681,7 @@ export default function HomePage() {
             Plus printables in English and Spanish, 24 age gated learning games, and school activity messages home. No device of their own yet? Everything works through your app, so a six year old can hold their first jobs list years before their first phone.
           </p>
           <p className="fu" style={{ textAlign: 'center', fontSize: '.98rem', color: 'var(--ink-muted)', margin: '0 0 44px' }}>
-            For schools: <Link href="/schools" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>see the school programme</Link>
+            For schools: <Link href="https://www.guidedchildhood.com/schools" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>see the school programme</Link>
           </p>
 
           <SeeInside />
@@ -1123,7 +1123,7 @@ export default function HomePage() {
 
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Tools</div>
-              {[['Free Starter Pack', '/starter-pack'], ['Digital Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', '/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
+              {[['Free Starter Pack', '/starter-pack'], ['Digital Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', 'https://www.guidedchildhood.com/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: '10px' }}>
                   <Link
                     href={href}
