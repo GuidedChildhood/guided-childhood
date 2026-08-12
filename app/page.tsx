@@ -320,7 +320,7 @@ export default function HomePage() {
             {/* Proof bar: named research beside the one real hero quote */}
             <div className="fu proof-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 26px', alignItems: 'center', maxWidth: '520px' }}>
               <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-light)', lineHeight: 1.65, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
-                Science backed, every lesson checked against the research weekly. Aligned with NHS and NSPCC guidance.
+                Built on five of the world's leading researchers in children, social media and mental health, and live data from more than ten national bodies. Reviewed weekly, because the landscape never sits still.
               </p>
               <div style={{ flex: '0 1 200px', minWidth: '180px', borderLeft: '2px solid var(--terracotta)', paddingLeft: '16px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>Parent quote</div>
@@ -343,16 +343,25 @@ export default function HomePage() {
                 src={PHOTO_CHILD_PLAYING}
                 alt="A child laughing on a garden swing, tablet left on the picnic blanket, screen time earned and balanced"
                 loading="eager"
-                style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', objectPosition: '22% center' }}
+                style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', objectPosition: '80% center' }}
               />
-              <div style={{ position: 'absolute', right: '18px', bottom: '-24px', width: 'clamp(120px, 34%, 158px)', borderRadius: '22px', border: '6px solid var(--stage-1-bold)', overflow: 'hidden', boxShadow: '0 18px 44px rgba(26,26,46,0.22)', background: 'var(--stage-1)' }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/marketing/kid-page.png"
-                  alt="The child app: quests, a star bank and screen time earned by doing chores"
-                  loading="eager"
-                  style={{ width: '100%', display: 'block', aspectRatio: '390 / 560', objectFit: 'cover', objectPosition: 'top' }}
-                />
+              <div aria-label="The child app: quests, a star bank and screen time earned by doing chores" style={{ position: 'absolute', right: '18px', bottom: '-24px', width: 'clamp(126px, 34%, 162px)', borderRadius: '22px', border: '6px solid var(--stage-1-bold)', overflow: 'hidden', boxShadow: '0 18px 44px rgba(26,26,46,0.22)', background: 'var(--pastel-pink)', padding: '10px 9px 12px' }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.44rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)', textAlign: 'center' }}>Today&rsquo;s quests</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.78rem', fontWeight: 900, color: 'var(--ink)', textAlign: 'center', margin: '2px 0 7px' }}>Go Sofia!</div>
+                <div style={{ background: 'var(--terracotta)', borderRadius: '10px', padding: '6px 8px', marginBottom: '7px', boxShadow: '0 2px 0 var(--terracotta-dark)' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '.72rem', fontWeight: 900, color: 'var(--ink)' }}>&#11088; 21 stars</div>
+                  <div style={{ fontSize: '.5rem', fontWeight: 700, color: 'var(--ink)', opacity: .85 }}>= 105 min screen time</div>
+                </div>
+                {[
+                  ['Make your bed', '\u2713', 'var(--retro-green)'],
+                  ['Read 20 minutes', '+2\u2B50', 'var(--ink-muted)'],
+                  ['Play outside', '+5\u2B50', 'var(--ink-muted)'],
+                ].map(([label, badge, badgeColor]) => (
+                  <div key={label} style={{ background: '#fff', borderRadius: '8px', padding: '5px 7px', marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px' }}>
+                    <span style={{ fontSize: '.54rem', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
+                    <span style={{ fontSize: '.5rem', fontWeight: 900, color: badgeColor, flexShrink: 0 }}>{badge}</span>
+                  </div>
+                ))}
               </div>
             </div>
             <div aria-hidden style={{ position: 'relative', minHeight: '190px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
@@ -913,10 +922,10 @@ export default function HomePage() {
           {/* Science backed, said once, names live on the evidence page */}
           <div className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px 24px', textAlign: 'center' }}>
             <p style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', margin: '0 0 6px' }}>
-              Science backed. Every lesson and every DiGi answer is checked against the research weekly.
+              The science moves. So do we.
             </p>
             <p style={{ fontSize: '.9rem', color: 'var(--ink-muted)', margin: 0 }}>
-              Built on the leading research into children and the digital world. <Link href="/evidence" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>See the evidence</Link>
+              Five leading researchers in children, social media and mental health. Live data from more than ten national associations, NHS and NSPCC among them. Every lesson and every DiGi answer reviewed weekly against the newest findings, so tonight's guidance matches the world your child is actually in. <Link href="/evidence" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>See the evidence</Link>
             </p>
           </div>
         </div>
