@@ -71,7 +71,9 @@ async function fulfilShopOrder(session: Stripe.Checkout.Session) {
         lines, totalLabel, childName,
         unsubscribe: unsubscribeUrl(order.user_id as string),
       })
-      await sendEmail({ to, subject: mail.subject, html: mail.html })
+      // A receipt for money that just left their account. Never throttled and
+      // never suppressed: it is a record of a transaction, not our programme.
+      await sendEmail({ to, subject: mail.subject, html: mail.html, kind: 'transactional' })
     }
 
     const desk = process.env.SHOP_FULFILMENT_EMAIL
@@ -80,7 +82,7 @@ async function fulfilShopOrder(session: Stripe.Checkout.Session) {
         orderId, email: to ?? 'unknown', lines, totalLabel, childName,
         shipping: shipping.join('<br>') || 'No address collected',
       })
-      await sendEmail({ to: desk, subject: mail.subject, html: mail.html })
+      await sendEmail({ to: desk, subject: mail.subject, html: mail.html, kind: 'operational' })
     }
   } catch { /* the order is paid and recorded, which is the part that matters */ }
 }

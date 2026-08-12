@@ -128,7 +128,10 @@ Stage context: ${name} is Stage ${stage.id} (${stage.name}, ${stage.ages}). ${st
             childName: name === 'your child' ? 'your child' : name,
             unsubscribe: unsubscribeUrl(user.id),
           })
-          const sent = await sendEmail({ to: profile.email, subject: content.subject, html: content.html })
+          // They signed up thirty seconds ago. A lead who had a nurture on
+          // Tuesday and joins on Thursday must still be welcomed, so this is
+          // a reply rather than a programme send.
+          const sent = await sendEmail({ to: profile.email, subject: content.subject, html: content.html, kind: 'transactional' })
           if (!sent.ok) {
             await service.from('email_log').delete().eq('user_id', user.id).eq('email_key', 'welcome')
           }

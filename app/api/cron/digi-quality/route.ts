@@ -77,6 +77,7 @@ async function handler(request: Request) {
         ? `DiGi weekly check: all clear, ${run.passed}/${run.cases}`
         : `DiGi weekly check: ${run.safetyBreaches} breach${run.safetyBreaches === 1 ? '' : 'es'}, ${run.passed}/${run.cases} passed`,
       html,
+      kind: 'operational',
     })
 
     return NextResponse.json({

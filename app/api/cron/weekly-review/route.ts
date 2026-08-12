@@ -101,7 +101,7 @@ async function handler(request: Request) {
               const parentName = (prof.full_name as string | null)?.split(' ')[0] ?? 'there'
               const childLabel = review.stats.children.filter(Boolean).join(' and ') || 'your child'
               const content = weeklyReviewEmail({ parentName, childLabel, review, unsubscribe: unsubscribeUrl(userId), poll })
-              const sent = await sendEmail({ to: prof.email as string, subject: content.subject, html: content.html })
+              const sent = await sendEmail({ to: prof.email as string, subject: content.subject, html: content.html, key })
               if (!sent.ok) await admin.from('email_log').delete().eq('user_id', userId).eq('email_key', key)
             }
           }

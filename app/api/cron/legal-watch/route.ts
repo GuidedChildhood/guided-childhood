@@ -123,6 +123,7 @@ What should we be looking at this quarter?`,
         to: FOUNDER_EMAIL,
         subject: `Quarterly legal watch: ${rows.length} to look at`,
         html: `<p>The quarterly check flagged ${rows.length} thing${rows.length === 1 ? '' : 's'} worth reading.</p><ul>${lines}</ul><p><strong>This is not legal advice and none of it says you are compliant.</strong> Each one is a prompt to open the source and check it yourself, or put it to a solicitor. They are on the insights board.</p>`,
+        kind: 'operational',
       })
     }
 
