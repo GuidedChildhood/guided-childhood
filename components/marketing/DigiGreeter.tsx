@@ -4,7 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import gsap from 'gsap'
 
-// DiGi pops up once per visit and types the message out word by word, like
+// DiGi pops up once per visit, after five quiet minutes on the page and
+// only if sign up has not been clicked (Justin, 12 Aug 2026), typing like
 // a friend talking, inside a proper speech bubble with a tail. The golden
 // star, the same character the child meets inside. It answers the hero: the
 // problem is on the page, DiGi gives the calm answer, then the door. Warm
@@ -30,7 +31,15 @@ export default function DigiGreeter() {
 
   useEffect(() => {
     if (sessionStorage.getItem('gc_digi_greeted')) return
+    // A parent who taps any sign up button needs no nudge: mark the visit
+    // greeted and stand down before the five minutes are up.
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as HTMLElement).closest?.('a[href="/starter-pack"]')
+      if (a) sessionStorage.setItem('gc_digi_greeted', '1')
+    }
+    document.addEventListener('click', onClick, true)
     const t = setTimeout(() => {
+      if (sessionStorage.getItem('gc_digi_greeted')) return
       setShow(true)
       sessionStorage.setItem('gc_digi_greeted', '1')
       const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -39,8 +48,8 @@ export default function DigiGreeter() {
           { y: 40, scale: 0.6, opacity: 0 },
           { y: 0, scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(1.7)' })
       }
-    }, 2000)
-    return () => clearTimeout(t)
+    }, 5 * 60 * 1000)
+    return () => { clearTimeout(t); document.removeEventListener('click', onClick, true) }
   }, [])
 
   // Type the current bubble out word by word.
