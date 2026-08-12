@@ -20,6 +20,7 @@ import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
+import { schoolTakesTheTop } from '@/lib/home/school-spotlight'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import { allBirthdaysIn } from '@/lib/setup/flags'
@@ -101,7 +102,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // round trip to the database before a single byte of HTML leaves the
   // server, which is the whole of "opening the app seems a little slow".
   // Same reads, same order of meaning, one round trip of latency.
-  const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, focusConcernResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
+  const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
     supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes').eq('id', user.id).maybeSingle(),
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
@@ -125,7 +126,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     supabase.from('kid_links').select('child_id, last_seen_at').eq('user_id', user.id),
     // The problem this family is working on right now: the most recently
     // flagged live concern, for the focus bar above the path.
-    supabase.from('concerns').select('label, status').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(1).maybeSingle(),
     // The birthday is a setup step now, not a welcome card and not a day three
     // reveal. The read fails soft to done before migration 083, so a deploy
     // without the column never shows a step nobody can finish.
@@ -561,27 +561,45 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     }
   })
 
-  const nextUp: { eyebrow: string; title: string; line: string; href: string; icon: string } =
+  // ── SAID ONCE, ON THE NICER CARD (12 August 2026) ──────────────────────────
+  //
+  // Justin, with a screenshot of DiGi saying "Teo has jobs to do today, see the
+  // jobs" directly above a card saying "Teo's quests, jobs to check off": "we
+  // should just keep the Teo's jobs as it looks nicer and it's doing the same as
+  // the afternoon one, although make sure we don't break any logic behind it."
+  //
+  // Three of these four branches are about jobs, and whenever one of them is
+  // showing, DiGi's greeting was saying the same thing one line higher with a
+  // smaller tap target. `coversJobs` is how the greeting knows to stay quiet.
+  //
+  // It is a flag rather than a deletion because the fourth branch is the
+  // passport, and on that day the greeting's jobs line is the only place a
+  // parent hears "jobs on track, 3 days on the trot", which is worth saying and
+  // is not said anywhere else on this screen.
+  const nextUp: { eyebrow: string; title: string; line: string; href: string; icon: string; coversJobs: boolean } =
     jobsStatus === 'pending'
       ? {
           eyebrow: "Today's habit done",
           title: questsChildName ? `${questsChildName}'s quests` : 'Family quests',
           line: 'Jobs to check off and any asks to answer',
-          href: '/dashboard/quests', icon: '⭐',
+          // The anchor came off the greeting's link when that line went quiet,
+          // so it moves here. Landing on the board rather than the top of the
+          // page is the whole difference between one tap and three.
+          href: '/dashboard/quests#quest-board', icon: '⭐', coversJobs: true,
         }
       : noQuestsYet
       ? {
           eyebrow: "Today's habit done",
           title: 'Set their first jobs',
           line: 'Real world jobs are what earn screen time, so nothing else starts moving until these exist.',
-          href: '/dashboard/quests', icon: '🧹',
+          href: '/dashboard/quests', icon: '🧹', coversJobs: true,
         }
       : stageLessonsLeft > 0
       ? {
           eyebrow: "Today's habit done",
           title: 'Move the passport on',
           line: `${stageLessons!.passed} of ${stageLessons!.total} lessons passed at ${stage.name}. Pass the rest to stamp this stage.`,
-          href: '/dashboard/pathway', icon: '🛂',
+          href: '/dashboard/pathway', icon: '🛂', coversJobs: false,
         }
       : {
           eyebrow: "Today's habit done",
@@ -589,14 +607,59 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           line: jobsStatus === 'on_track'
             ? "Today's jobs are done. Check any asks and set tomorrow's"
             : 'Set the jobs and screen time to get the stars flowing',
-          href: '/dashboard/quests', icon: '⭐',
+          href: '/dashboard/quests', icon: '⭐', coversJobs: true,
         }
+
+  // ── THE SCHOOL CARD COMES TO THE TOP ONCE A WEEK ───────────────────────────
+  //
+  // Justin, 12 August 2026: "this is just the alert calendar for school tasks.
+  // Make sure this is in rotation to top once a week."
+  //
+  // It lives near the bottom, folded, and on most days that is right: it says
+  // nothing waiting and costs one line. But it holds kit days, payments and
+  // deadlines, and those are not things to discover on the morning they fall
+  // due. So one day a week it takes the top instead, and any day something is
+  // actually waiting it takes the top regardless. See lib/home/school-spotlight.
+  //
+  // It MOVES rather than being drawn twice. Home already had one thing said in
+  // two places today and he caught it within the hour.
+  const schoolOnTop = schoolTakesTheTop(schoolActions.length)
+  const schoolBlock = (
+    <>
+      {/* Things you need to know: open school actions from forwarded school
+            emails, or added by hand. The id is the anchor the setup path's
+            school step points at, so Go lands right here, not on a separate
+            page the parent then has to hunt through for the add form. */}
+        {/* Open only when school has actually sent something.
+            The biggest component on Home at 675 lines, and on most days it is a
+            card saying there is nothing. Folded it costs one line and still says
+            so; with actions waiting it opens itself and carries a red count,
+            because a school deadline is the one thing here a parent cannot
+            afford to scroll past. Same rule as the quest tabs. */}
+        <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
+          <FoldSection
+            label="From school"
+            value={schoolActions.length === 0 ? 'Nothing waiting' : undefined}
+            count={schoolActions.length}
+            alert={schoolActions.length > 0}
+            open={schoolActions.length > 0}
+          >
+            {/* compact: the fold above already says From school, so the card does
+                not say it a second time on the same screen. */}
+            <SchoolActionsCard actions={schoolActions} childName={child?.name} region={familyRegion} compact />
+          </FoldSection>
+        </div>
+    </>
+  )
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
       {/* More than one child: butter pills at the top switch whose day this
           is. Every reading below recomputes for the selected child. */}
       <ChildSwitcher kids={allKids} selectedId={child?.id ?? null} basePath="/dashboard" />
+
+      {/* Its day at the top, or a school deadline actually waiting. */}
+      {schoolOnTop && schoolBlock}
 
       {/* ── THE FIRST SCREEN ────────────────────────────────────────────────
           Two things, in this order, and then everything else.
@@ -769,6 +832,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             jobsStatus={jobsStatus}
             jobsStreakDays={jobsStreakDays}
             balanceHref="/dashboard/quests"
+            nextUpCoversJobs={nextUp.coversJobs}
           />
         )
       })()}
@@ -917,44 +981,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           whole platform framed the way the parent experiences it: my problem,
           the clear route to the solution. Falls back to the challenge they
           told us at signup, and stays silent when there is nothing live. */}
-      {(() => {
-        const focusConcern = focusConcernResult.data
-        const challengeLabels: Record<string, string> = {
-          morning_tv: 'Morning TV battles', controller_fights: 'Controller fights',
-          wont_put_down: 'Will not put the device down', bedtime_screens: 'Bedtime screens',
-          mood_after_screens: 'Mood after screens', something_else: '',
-          screens_takeover: 'Screens are taking over', mood_changes: 'Mood changes after phone use',
-          gaming: 'Gaming concerns', online_safety: 'Online safety worries',
-          start_conversation: 'Starting the conversation', asking_for_phone: 'Asking for a phone',
-        }
-        const challengeKey = (profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? ''
-        const label = focusConcern?.label ?? challengeLabels[challengeKey] ?? ''
-        if (!label) return null
-        const improving = focusConcern?.status === 'improving'
-        const scriptHref = todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts'
-        return (
-          <Link href={scriptHref} style={{ textDecoration: 'none', display: 'block', marginBottom: '12px' }}>
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '10px',
-              background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-              borderRadius: '14px', padding: '11px 14px',
-            }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
-                Your focus
-              </span>
-              <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {label}
-                <span style={{ fontWeight: 600, color: improving ? 'var(--stage-1-text)' : 'var(--ink-muted)' }}>
-                  {' '}· {focusConcern ? (improving ? 'getting better' : 'working on it') : 'your starting focus'}
-                </span>
-              </span>
-              <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>
-                The words for tonight →
-              </span>
-            </div>
-          </Link>
-        )
-      })()}
+      {/* Your focus moved to the pathway on 12 August 2026. Justin: "focus,
+          words for tonight, can be their appearance on pathway, not here on
+          home." Home is today; the pathway is the journey, and a strip naming
+          the one thing a family is working on is a sentence about the journey.
+          It lives in components/pathway/FocusStrip.tsx. */}
 
       {/* The glanceable stat row: streak, stars in the bank, today's quests,
           the three numbers a parent wants at a glance. */}
@@ -1066,29 +1097,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         </div>
       )}
 
-      {/* Things you need to know: open school actions from forwarded school
-          emails, or added by hand. The id is the anchor the setup path's
-          school step points at, so Go lands right here, not on a separate
-          page the parent then has to hunt through for the add form. */}
-      {/* Open only when school has actually sent something.
-          The biggest component on Home at 675 lines, and on most days it is a
-          card saying there is nothing. Folded it costs one line and still says
-          so; with actions waiting it opens itself and carries a red count,
-          because a school deadline is the one thing here a parent cannot
-          afford to scroll past. Same rule as the quest tabs. */}
-      <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
-        <FoldSection
-          label="From school"
-          value={schoolActions.length === 0 ? 'Nothing waiting' : undefined}
-          count={schoolActions.length}
-          alert={schoolActions.length > 0}
-          open={schoolActions.length > 0}
-        >
-          {/* compact: the fold above already says From school, so the card does
-              not say it a second time on the same screen. */}
-          <SchoolActionsCard actions={schoolActions} childName={child?.name} region={familyRegion} compact />
-        </FoldSection>
-      </div>
+      {/* Its usual place, unless today is its day at the top. See
+          schoolBlock above for the whole reasoning. */}
+      {!schoolOnTop && schoolBlock}
 
       {/* School email promo: only when school is the current setup step, or
           once the core setup is complete, so it waits its turn like the rest. */}

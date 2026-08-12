@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import FocusStrip, { CHALLENGE_LABELS } from '@/components/pathway/FocusStrip'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -221,11 +222,17 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // gaming and one whose parent worries about comparison get different guidance,
   // the honest version of a boy and girl pathway.
   const { data: topConcern } = await supabase
-    .from('concerns').select('slug, label')
+    .from('concerns').select('slug, label, status')
     .eq('user_id', user.id).neq('status', 'resolved')
     .order('times_flagged', { ascending: false }).limit(1).maybeSingle()
   const concernSlug = (topConcern as { slug?: string } | null)?.slug as ChallengeId | undefined
   const concernLabel = (topConcern as { label?: string } | null)?.label ?? null
+  // Your focus, moved here from Home on 12 August 2026. See FocusStrip for why.
+  // The label falls back to the challenge they picked at onboarding, so a family
+  // who has not flagged anything yet still sees what they came in for.
+  const focusImproving = (topConcern as { status?: string } | null)?.status === 'improving'
+  const onboardingChallenge = (profileResult.data?.onboarding_answers as Record<string, string> | null)?.challenge ?? ''
+  const focusLabel = concernLabel ?? CHALLENGE_LABELS[onboardingChallenge] ?? ''
   const kidLabel = primaryChild?.name && primaryChild.name !== 'Your child' ? primaryChild.name : 'your child'
 
   // The page in six doors, in the order a parent actually wants them: is this
@@ -281,6 +288,18 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           Nothing was broken, the hero simply did not share the page's column. */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto', marginBottom: '20px' }}>
         <ChildSwitcher kids={children} selectedId={primaryChild?.id ?? null} basePath="/dashboard/pathway" />
+
+        {/* The one thing this family is working on, and the words for it. It
+            sat on Home until Justin moved it: "focus, words for tonight, can be
+            their appearance on pathway, not here on home." It reads better
+            among the stages and the stamps, where a parent is already looking
+            at progress, than it did above a list of today's jobs. */}
+        <FocusStrip
+          label={focusLabel}
+          improving={focusImproving}
+          hasConcern={!!concernLabel}
+          scriptHref="/dashboard/scripts/recommended"
+        />
         <div className="pathway-hero">
           {/* The promise, folded away after the first visit.
 

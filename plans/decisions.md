@@ -7457,3 +7457,62 @@ Five stacked full width targets rather than ten dots in a row: five words do not
 fit across 390 without truncating the longest, and a truncated answer is a worse
 answer. It is also the shape Visible and Superpower use for this exact job, many
 things to rate, rated often, in one pass.
+
+## 12 August 2026 — Two things the pathway was getting wrong
+
+Justin: "I did ask DiGi a preset question but it did not update pathway... looks
+like pathway did update but took a while after doing DiGi."
+
+**It was never a refresh problem, which is why the refresh did not fix it.** A
+router.refresh() was added on 8 August for this exact complaint and the complaint
+came back. The pathway step reads one thing: whether a digi_questions row exists
+today. That row was written inside Next's after(), which only starts once the
+response has finished streaming, and it sat at the BACK of that block behind a
+second blocking Anthropic call and an embedding call. DigiChat refreshes the
+instant the stream drains, so the refresh went looking for a row that was still
+two API round trips away, found nothing, and drew the step as not done. It landed
+seconds later, which is what a parent sees as "it updated but took a while".
+
+A write ordering race, not a staleness bug. So the write moved in front of the
+read: the row is claimed with an empty response before the Response is returned,
+and after() fills the answer in. The tick is true before the parent sees their
+first word. Falls back to the old insert if the claim fails, so a bad moment
+costs the instant tick rather than the record.
+
+**And the trophy at the end of the road was lit by age.** `current >= 5` comes
+from the child's birthday, so a sixteen year old whose family had done nothing
+got a gold "Sixteen, ready. Social media walked into with open eyes", and a
+thirteen year old whose family had finished all five stages got a greyed out one.
+The page already said the opposite in its own closing line, "nothing is marked
+done just because of your child's age". The trophy was the one thing on it not
+listening.
+
+It reads stageStatus now, the same blend the passport stamps from, so it needs no
+new prop and a missing reading means not lit. Sixteen and not finished gets an
+honest line under it rather than an unexplained grey trophy.
+
+## 12 August 2026 — The school card is the alert calendar, and it gets a day
+
+Justin, on the From school card: "the forward email part is parked for now, this
+is just the alert calendar for school tasks. Make sure this is in rotation to top
+once a week."
+
+**Parked, not removed.** The explainer and its Send a test button come off the
+card behind `SCHOOL_EMAIL_FORWARDING_LIVE`. Everything behind them still runs:
+the inbound address and its signing secret, the parser, the reminder cron, and
+any action that arrives by email still lands in the list exactly as before. What
+is switched off is the card ADVERTISING a way in that is not being pushed yet, so
+unparking is one word rather than an archaeology exercise.
+
+**The lift is timed rather than queued.** A rotation position would surface the
+card on an arbitrary week. Sunday surfaces it on the day a parent looks at the
+week coming, which is when a card about Tuesday's PE kit is worth something. One
+day in seven, every week, which is what makes it a habit rather than a surprise.
+
+And any day something is actually waiting, it takes the top regardless. That
+exception is the one that matters: holding a deadline the school has already sent
+until Sunday would be the feature working against itself.
+
+It MOVES rather than being drawn twice. Home had one thing said in two places
+this morning and he caught it within the hour, so the position comes from a
+single boolean and the card renders once either way.

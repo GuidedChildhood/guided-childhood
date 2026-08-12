@@ -785,17 +785,27 @@ When a parent asks whether or for how long their child should use any device, do
       }
     } catch { /* memory is best effort, never blocks the reply */ }
 
+    // The row already exists, claimed before the stream started so the pathway
+    // could tick immediately (see the note by the Response above). All that is
+    // left is to put the answer in it. If the claim failed, insert as before,
+    // so a bad moment costs the instant tick rather than the record.
     try {
-      await supabase.from('digi_questions').insert({
-        user_id: user.id,
-        child_id: child?.id ?? null,
-        stage_id: stage.id,
-        question: message,
-        response: mainResponse,
-        // Stored so the insight agent and the research updater can ignore the
-        // questions that were never about a child. See migration 141.
-        lane,
-      })
+      if (questionRowId) {
+        await createAdminClient().from('digi_questions')
+          .update({ response: mainResponse })
+          .eq('id', questionRowId)
+      } else {
+        await supabase.from('digi_questions').insert({
+          user_id: user.id,
+          child_id: child?.id ?? null,
+          stage_id: stage.id,
+          question: message,
+          response: mainResponse,
+          // Stored so the insight agent and the research updater can ignore the
+          // questions that were never about a child. See migration 141.
+          lane,
+        })
+      }
     } catch { /* best-effort */ }
 
     // The safety verifier's cheap deterministic pass runs on the finished
@@ -937,6 +947,49 @@ When a parent asks whether or for how long their child should use any device, do
       }
     },
   })
+
+  // ── THE PATHWAY TICK IS WRITTEN BEFORE THE REPLY, NOT AFTER ────────────────
+  //
+  // Justin, 12 August 2026: "I did ask DiGi a preset question but it did not
+  // update pathway... looks like pathway did update but took a while."
+  //
+  // The row below is the ONLY thing the pathway step reads (lib/pathway/
+  // daily-tasks.ts asks whether a digi_questions row exists today). It used to
+  // be written inside the after() block, which by definition only starts once
+  // the response has finished streaming, and it sat at the BACK of that block
+  // behind a second blocking Anthropic call and an embedding call.
+  //
+  // Meanwhile DigiChat's finally block fires router.refresh() the instant the
+  // stream drains. So the refresh went looking for a row that was still two API
+  // round trips away from existing, found nothing, drew the step as not done,
+  // and the row landed seconds later. Exactly "it updated but took a while".
+  //
+  // A refresh was added on 8 August for this same complaint and did not fix it,
+  // because the fault was never on the read side. It is a write ordering race,
+  // so the write moves in front of the read: claim the row here, fill in the
+  // answer in after() once there is one. The tick is true before the parent
+  // sees their first word.
+  //
+  // Admin client because `response` is NOT NULL in migration 001 and users hold
+  // no UPDATE policy on this table, only SELECT and INSERT. Best effort: a
+  // failed claim costs the instant tick and nothing else, since after() still
+  // writes the row the old way when there is no id to update.
+  let questionRowId: string | null = null
+  try {
+    const { data: claimed } = await createAdminClient()
+      .from('digi_questions')
+      .insert({
+        user_id: user.id,
+        child_id: child?.id ?? null,
+        stage_id: stage.id,
+        question: message,
+        response: '',
+        lane,
+      })
+      .select('id')
+      .single()
+    questionRowId = (claimed?.id as string | undefined) ?? null
+  } catch { /* the tick waits for after(), which is where it used to live */ }
 
   return new Response(body, {
     headers: {
