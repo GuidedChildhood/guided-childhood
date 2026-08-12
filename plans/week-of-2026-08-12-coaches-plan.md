@@ -66,6 +66,26 @@ That is the build. The coaches are the front door; the plan is the product.
    the coach is what the concern maps to. The concern slugs already exist and
    the pathway already maps them to stage actions.
 
+   **And the way in is a button INSIDE DiGi, not a directory page.** Justin, 12
+   August 2026, approving this: "we will eventually have it as a button, like a
+   help button. Where school work is mentioned in DiGi it says need help with
+   school work, pick a coach, for example."
+
+   That is the better design and it changes the build. A coaches page is a place
+   a parent has to decide to visit, which means it gets visited once out of
+   curiosity and then never. A button that appears in the reply, at the moment
+   they have just typed the problem in their own words, needs no decision at all:
+   the parent has already told us what is wrong, so we already know which coach.
+
+   It also solves the "do not become a second DiGi" risk in the note below by
+   construction. The coach cannot be a parallel conversation with its own
+   history if it is offered from inside the only conversation there is.
+
+   Mechanically this is lane detection, which already exists: `app/api/digi`
+   classifies a message into a lane and records lane misses. The coach offer is
+   one more thing a lane can carry, so a school work lane offers the school work
+   coach and a sleep lane offers a different one. No new classifier.
+
 3. **The session is a DiGi conversation with a coach's system prompt.** Not a new
    model, not a new safety layer: `callDigi` with the `DIGI_MODEL` ladder and the
    existing lane rules, plus the coach's specialism as context. Same
@@ -78,6 +98,16 @@ That is the build. The coaches are the front door; the plan is the product.
 5. **The plan is the thing that gets followed up.** A week later DiGi asks how it
    went, and that answer feeds `checkin_shifts` (migration 190) like everything
    else, so the brain learns which plans actually move a rating.
+
+6. **The weekly email can carry more than one service.** Justin: "on emails
+   weekly we can add more than one service on some emails."
+
+   Worth stating the constraint that governs it, because it is the exact fault
+   we fixed on 12 August: the floor is now per ADDRESS, not per programme
+   (`lib/email/address-guard.ts`, migration 189). So putting the coaches into a
+   weekly email must mean a SECOND SECTION of the email that already goes, never
+   a second email. Two programmes each correctly sending one is how five parents
+   got two emails 1.1 seconds apart.
 
 ---
 
