@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PlanChooser from '@/components/upgrade/PlanChooser'
 import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
-import { hasFullAccess } from '@/lib/access'
+import { hasPaidPlan } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
 
 // What a parent calls the page they were heading for. Only the ones somebody
@@ -78,7 +78,11 @@ export default async function UpgradePage(
   // Already unlocked (subscriber, live trial, or the founder). The old
   // silent redirect home made every Unlock link feel broken: you tapped
   // upgrade and just landed on Home with no explanation. Say it instead.
-  if (hasFullAccess(profile, user.email)) {
+  // hasPaidPlan, NOT hasFullAccess. See lib/access.ts for the full argument:
+  // hasFullAccess is true throughout the free days, so asking it here made this
+  // page refuse to sell to every parent in their trial, which is the only
+  // window where the founder offer has any urgency.
+  if (hasPaidPlan(profile)) {
     return (
       <div style={{ maxWidth: '520px', margin: '0 auto', padding: '48px 20px', textAlign: 'center' }}>
         <div style={{ fontSize: '2.6rem', marginBottom: '14px' }}>🎉</div>

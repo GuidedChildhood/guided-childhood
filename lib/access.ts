@@ -82,6 +82,31 @@ export function hasFullAccess(profile: AccessProfile | null | undefined, email?:
 }
 
 /**
+ * Are they actually PAYING us, as opposed to merely having access?
+ *
+ * Justin, 12 August 2026, after setting up on a brand new email in a private
+ * window and still being told there was nothing to buy: "set up with new email
+ * and still saying no plan to set up, so please investigate."
+ *
+ * hasFullAccess answers "may this person use everything", and during the free
+ * days the honest answer is yes. The upgrade page was asking THAT question to
+ * decide whether to show the paywall, so every parent in their trial was met
+ * with "you already have everything, nothing to unlock" and could not buy.
+ *
+ * Those are two different questions and they only agree once the trial is over.
+ * The trial is precisely the window where the founder offer has its urgency, so
+ * the one page built to sell was dark for the only people ready to be sold to.
+ *
+ * The allowlist is deliberately NOT consulted here. It is a grant of access, not
+ * a record of payment, and letting it answer this question is how the confusion
+ * started.
+ */
+export function hasPaidPlan(profile: AccessProfile | null | undefined): boolean {
+  if (!profile) return false
+  return (PAYING_STATUSES as readonly string[]).includes(profile.subscription_status ?? '')
+}
+
+/**
  * A payment has bounced and Stripe is still retrying.
  *
  * They keep everything, and they need telling, because the one way this goes
