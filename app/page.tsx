@@ -7,6 +7,7 @@ import PassportSection from '@/components/marketing/PassportSection'
 import SeeInside from '@/components/marketing/SeeInside'
 import DigiGreeter from '@/components/marketing/DigiGreeter'
 import MarketingNav from '@/components/marketing/MarketingNav'
+import HeaderActions from '@/components/marketing/HeaderActions'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { CONTACT, hasAddress } from '@/lib/content/contact'
@@ -278,14 +279,15 @@ export default function HomePage() {
 
         <MarketingNav />
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(7px, 1.5vw, 13px)', flexShrink: 0 }}>
-          <Link href="/login" className="hdr-login">
-            Log in
-          </Link>
-          <Link href="/starter-pack" className="btn btn-green hdr-cta">
-            Get Started
-          </Link>
-        </div>
+        {/* The two buttons know whether they are talking to a stranger or a
+            member. Signed in, they read Account and My dashboard instead of Log
+            in and Get Started, so a parent who types the brand into the address
+            bar is not sold a trial for the thing they already pay for.
+            The check runs in the BROWSER, inside HeaderActions, so this page
+            stays static for the people who have never heard of us. See that
+            file for why a server side session read would have been the wrong
+            trade. */}
+        <HeaderActions />
       </header>
 
       {/* ================================================================
