@@ -148,7 +148,7 @@ export default function HomePage() {
   return (
     <div className="home-v2" style={{ background: '#fff', overflowX: 'hidden' }}>
 
-      <style>{`.home-v2 h2{font-family:var(--font-display);font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--ink)} .home-v2 .lead{font-size:1.05rem} .home-v2 .body-lg{font-size:1rem} .hero-circle .chip-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px} .hero-circle .chip{position:static} @media(min-width:820px){.hero-circle .chip-row{display:contents} .hero-circle .chip{position:absolute} .hero-circle .chip-1{top:10%;left:-4%} .hero-circle .chip-2{top:-2%;right:2%} .hero-circle .chip-3{top:44%;right:-8%} .hero-circle .chip-4{bottom:6%;right:4%} .hero-circle .chip-5{bottom:14%;left:-6%}}`}</style>
+      <style>{`.home-v2 h2{font-family:var(--font-display);font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--ink)} .home-v2 .lead{font-size:1.05rem} .home-v2 .body-lg{font-size:1rem} .hero-circle .chip-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px} .hero-circle .chip{position:static} @media(min-width:820px){.hero-circle .chip-row{display:contents} .hero-circle .chip{position:absolute} .hero-circle .chip-1{top:10%;left:-4%} .hero-circle .chip-2{top:-2%;right:2%} .hero-circle .chip-3{top:44%;right:-8%} .hero-circle .chip-4{bottom:6%;right:4%} .hero-circle .chip-5{bottom:14%;left:-6%}} @media(max-width:430px){.home-v2 .brand-word{display:none}}`}</style>
 
       <AnnouncementBar />
       <HomeReveals />
@@ -271,7 +271,7 @@ export default function HomePage() {
               ))}
             </div>
           </div>
-          <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(0.9rem, 4vw, 1rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.03em' }}>
+          <span className="brand-word" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(0.9rem, 4vw, 1rem)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.03em' }}>
             Guided Childhood
           </span>
         </Link>
