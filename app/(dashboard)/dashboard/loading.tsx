@@ -60,11 +60,21 @@ export default function DashboardLoading() {
         Loading
       </span>
 
-      {/* DiGi's greeting: the round avatar and its speech bubble. */}
+      {/* DiGi's greeting: the round avatar and its speech bubble.
+          GREY, LIKE EVERY OTHER BLOCK, and that is a fix rather than a taste
+          call. Justin, 12 August 2026: "every time we change to another tab at
+          home it puts a yellow circle flash between screens."
+          This circle was drawn in terracotta with a terracotta border, so it
+          was the ONLY coloured thing in a grey skeleton. Colour in a skeleton
+          reads as content, and content that appears for 200ms and then vanishes
+          reads as a glitch. The eye goes straight to it, which is the opposite
+          of what a placeholder is for.
+          A skeleton should be one quiet tone throughout: it is saying "the page
+          is on its way", not "here is a thing". */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 18 }}>
         <div aria-hidden style={{
           width: 44, height: 44, borderRadius: '50%', flexShrink: 0,
-          background: 'var(--terracotta-lt)', border: '2px solid var(--terracotta)',
+          background: 'var(--border)', opacity: 0.55,
           animation: 'gcPulse 1.4s ease-in-out infinite',
         }} />
         <div style={{ flex: 1 }}><Block height={62} radius={18} /></div>
