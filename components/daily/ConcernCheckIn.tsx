@@ -112,14 +112,30 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
   // were not, and it puts the next question where their thumb already is
   // rather than leaving them to find it.
   //
-  // GENTLE MEANS GENTLE. Smooth, centred rather than jammed to the top, and
-  // only ever to a row that is still unanswered, so a parent working back up
-  // the list is never dragged forwards. On the last one nothing moves at all:
-  // the all checked line appears directly underneath and yanking the page at
-  // the moment somebody finishes reads as the app losing interest.
+  // TO THE TOP OF THE NEXT ONE, NOT ITS MIDDLE (12 August 2026)
   //
-  // A parent who has asked their system for less motion gets a jump instead of
-  // a glide, which is the same handover without the movement.
+  // Justin, with a photograph of the next question's title sliced off by the
+  // status bar: "when I click a line it's good but it scrolls down and puts the
+  // next one at the top where I can't see it. It just needs to go to the next
+  // one."
+  //
+  // This was `block: 'center'`, and centring is the bug. A row is a title, a
+  // history line, a question, ten targets and two labels, which on a phone is
+  // taller than the screen it has to fit in. scrollIntoView centres the whole
+  // element, so the taller the row the further its top is pushed above the
+  // viewport, and the first thing to disappear is the one thing the parent
+  // needs: which concern they are being asked about. Centring only ever looked
+  // right on the desktop check where the rows fit.
+  //
+  // `start` aligns the top instead, so the title is always the first thing
+  // there, and scroll-margin-top on the row keeps it clear of the notch on a
+  // saved to home screen app and of the sticky nav on desktop.
+  //
+  // What has not changed: only ever to a row that is still unanswered, so a
+  // parent working back up the list is never dragged forwards; nothing moves on
+  // the last one, because yanking the page at the moment somebody finishes
+  // reads as the app losing interest; and a jump rather than a glide for anyone
+  // who has asked their system for less motion.
   const handOver = (fromSlug: string, done: Record<string, boolean>) => {
     const i = concerns.findIndex(c => c.slug === fromSlug)
     const next = concerns.slice(i + 1).find(c => !done[c.slug])
@@ -127,7 +143,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
     if (!el) return
     const still = typeof window !== 'undefined'
       && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    el.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'center' })
+    el.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' })
   }
 
   const post = (slug: string, body: Record<string, unknown>) => {
@@ -206,7 +222,11 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
           <div
             key={c.slug}
             ref={el => { rows.current[c.slug] = el }}
-            style={{ padding: '9px 0 15px', scrollMarginTop: '16px' }}
+            // The hand over aligns to the top of this row, so the margin is what
+            // keeps the title clear of the notch on a saved to home screen app
+            // and of the 64px sticky nav on desktop. 16px was enough when the
+            // scroll centred and is not now.
+            style={{ padding: '9px 0 15px', scrollMarginTop: 'calc(env(safe-area-inset-top, 0px) + 76px)' }}
           >
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px' }}>
               <div style={{
