@@ -82,7 +82,7 @@ export default function SeeInside() {
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
                   {tile.title}
                 </div>
-                <p style={{ fontSize: '.86rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '4px 0 0' }}>
+                <p style={{ fontSize: '.96rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '4px 0 0' }}>
                   {tile.sub}
                 </p>
               </figcaption>
