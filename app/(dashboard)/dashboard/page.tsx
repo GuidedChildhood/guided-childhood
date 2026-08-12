@@ -23,7 +23,6 @@ import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import { schoolTakesTheTop, countWaitingToday } from '@/lib/home/school-spotlight'
 import { pickNextUp } from '@/lib/home/next-up'
 import { isHeldForHolidays } from '@/lib/school/child-items'
-import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import { allBirthdaysIn } from '@/lib/setup/flags'
 import { nextEventForChild, aroundWhen } from '@/lib/learning/calendar'
@@ -35,7 +34,7 @@ import ChildAppGone from '@/components/home/ChildAppGone'
 import { linkHealth, daysSinceSeen } from '@/lib/kid/link-health'
 import { buildTermPreview } from '@/lib/learning/term-preview'
 import { getFamilyRegion } from '@/lib/learning/region'
-import DayCheckup from '@/components/home/DayCheckup'
+import QuietLine from '@/components/home/QuietLine'
 import PhoneBridgeCard from '@/components/home/PhoneBridgeCard'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
@@ -639,6 +638,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // silent about jobs waiting, which is the opposite of what the change was for.
   const nextUpCoversJobs = dayComplete && nextUp.coversJobs
 
+  // How many things the day checkup would have raised. The card it replaces
+  // counted an amber strand or lessons still waiting; the line counts the same
+  // things, so "worth a look" and the four strands on the pathway can never
+  // disagree about how many there are.
+  const checkupNeeds = literacyStrands.filter(s => s.tone !== 'green').length
+    + (stageLessonsLeft > 0 ? 1 : 0)
+
   // ── THE SCHOOL CARD COMES TO THE TOP ONCE A WEEK ───────────────────────────
   //
   // Justin, 12 August 2026: "this is just the alert calendar for school tasks.
@@ -884,10 +890,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         )
       })()}
 
-      {/* The monthly community bite, now BELOW today rather than above it. One
-          question a month is worth having and is not worth the second slot on
-          the screen: a parent who has not done their day yet has something
-          better to do than answer it. Silent once answered, until next month. */}
+      {/* The monthly community bite. Left as it is: Justin did not pick it off,
+          and it is already silent once answered, so it costs nothing on the
+          other twenty nine days of the month. */}
       <CommunityBite />
 
       {/* Day done, so lead with quests. A returning parent whose daily habit is
@@ -917,19 +922,24 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         </Link>
       )}
 
-      {/* And then the wider check on the child, which used to be step one of
-          DiGi's morning walk. It came before the day's one thing, which is the
-          wrong way round: follow the path first, check on the child after.
-          Silent unless a strand is red or lessons are waiting, so silence
-          honestly means checked and fine. */}
-      {dayComplete && (
-        <DayCheckup
-          childName={child?.name ?? null}
-          stageNum={stage.id}
-          stageName={stage.name}
-          strands={literacyStrands}
-          lessonsLeft={stageLessonsLeft}
-          lessonsTotal={stageLessons?.total ?? 0}
+      {/* The wider check on the child, now ONE LINE. Justin: "they should be
+          some link or one line to click for these when they pop up, but not
+          taking up too much space."
+          The card was never wrong, it was the wrong size for the moment it
+          appears in: it lands the instant a parent finishes their day, which is
+          the exact second they are least interested in a second screen of
+          reading. The line still only appears when something is genuinely amber
+          (see checkupNeeds below), so silence still honestly means checked and
+          fine, and the full picture is one tap away on the pathway where the
+          four strands already live in full. */}
+      {dayComplete && checkupNeeds > 0 && (
+        <QuietLine
+          eyebrow="Worth a look"
+          icon="🧭"
+          label={checkupNeeds === 1
+            ? 'One thing to check on for them'
+            : `${checkupNeeds} things to check on for them`}
+          href="/dashboard/pathway#four-things"
         />
       )}
 
@@ -1034,9 +1044,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           the one thing a family is working on is a sentence about the journey.
           It lives in components/pathway/FocusStrip.tsx. */}
 
-      {/* The glanceable stat row: streak, stars in the bank, today's quests,
-          the three numbers a parent wants at a glance. */}
-      <HomeStats streakCount={streak.count} streakTotal={streak.total} />
+      {/* THE STAT ROW IS GONE. Justin picked it off Home on 12 August 2026.
+          Streak, stars, today's quests: three numbers, and the streak is
+          already on the Today card a few hundred pixels above, so the row
+          mostly restated something a parent had just read. The stars and the
+          quest count live on the Quests page, which is a permanent tab. */}
 
       {/* Push notification opt-in. Rendered whenever check ins are not yet on
           (so the enable button is always reachable, including when a parent
