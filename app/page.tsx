@@ -9,6 +9,7 @@ import DigiGreeter from '@/components/marketing/DigiGreeter'
 import BackToTop from '@/components/marketing/BackToTop'
 import MarketingNav from '@/components/marketing/MarketingNav'
 import HeaderActions from '@/components/marketing/HeaderActions'
+import FounderBadge from '@/components/marketing/FounderBadge'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { CONTACT, hasAddress } from '@/lib/content/contact'
@@ -314,10 +315,18 @@ export default function HomePage() {
             <p className="fu" style={{ fontSize: '.85rem', color: 'var(--ink-muted)', fontWeight: 600, marginBottom: '18px' }}>
               Three questions. Two minutes. Free. No card required.
             </p>
-            <div className="fu" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', background: 'var(--cream)', border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '8px 16px', marginBottom: '22px' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700, letterSpacing: '.09em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>Founding rate</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: '.96rem', fontWeight: 800, color: 'var(--ink)' }}>First 50 families, 7.99 a month for life</span>
-            </div>
+            {/* The badge reads the REAL seat count now. It used to be this
+                sentence hardcoded, which meant that after the fiftieth sale the
+                shopfront would have gone on advertising 7.99 for life while
+                checkout refused to sell it. See FounderBadge for why it counts
+                in the browser rather than on the server.
+
+                Merge note, 12 August 2026: main bumped this line from .86rem to
+                .96rem while this branch was replacing the block. That size is
+                carried forward inside FounderBadge rather than lost, which is
+                the whole reason this conflict was worth reading rather than
+                resolving by picking a side. */}
+            <FounderBadge />
             {/* Proof bar: named research beside the one real hero quote */}
             <div className="fu proof-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 26px', alignItems: 'center', maxWidth: '520px' }}>
               <p style={{ fontSize: 'clamp(.86rem, .7rem + .35vw, 1rem)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.65, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
