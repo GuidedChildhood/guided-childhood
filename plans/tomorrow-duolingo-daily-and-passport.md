@@ -68,6 +68,40 @@ affected child with no migration.
 
 ---
 
+## 0c. The child handover belongs in setup, with a real no device answer
+
+Justin, 12 August 2026, looking at the "Teo has a side of this too" card sitting
+in TODAY on Home: "should appear at top first time they start, and as part of
+setup, or they select no device and opt for magnetic quests at this age."
+
+It lives in `components/home/ChildAppNudge.tsx`, surfaced through
+`components/home/TodayCard.tsx`.
+
+**Two changes, and the second is the interesting one.**
+
+**It moves into setup.** Getting the child side onto a phone is not a nudge, it
+is half the product. A parent who never does it has a parent app and nothing
+else, and today the only prompt is a card on Home competing with everything else
+in TODAY. It should be a step, at the top, the first time.
+
+**And "no device" has to be a real answer, not a dismissal.** A six year old
+does not have a phone, and for that family the star system still works: it runs
+on the printed chart and the magnets on the fridge instead of a screen. Today
+the card offers "share the code, or choose the paper chart" as a secondary line.
+For a younger child the paper route IS the route, and it should be offered as an
+equal choice rather than a consolation.
+
+Onboarding already asks which devices are in the house, so the answer is
+probably already sitting there. Worth checking whether the age band alone should
+choose the default: under about seven, lead with paper; older, lead with the
+code.
+
+**Do not turn this into a lockout.** A parent who picks paper must still be able
+to hand over a phone later without hunting, and one who picks the code must be
+able to print the chart. Both doors stay open, only the leading one changes.
+
+---
+
 ## 1. The to do list that was meant to be there
 
 Already designed in `plans/home-is-the-daily-page.md`, so this is execution. The
