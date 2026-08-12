@@ -146,7 +146,7 @@ export default function HomePage() {
   return (
     <div className="home-v2" style={{ background: '#fff', overflowX: 'hidden' }}>
 
-      <style>{`.home-v2 h2{font-family:var(--font-display);font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--ink)} .home-v2 .lead{font-size:1.05rem} .home-v2 .body-lg{font-size:1rem} .hero-circle .chip-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px} .hero-circle .chip{position:static} @media(min-width:820px){.hero-circle .chip-row{display:contents} .hero-circle .chip{position:absolute} .hero-circle .chip-1{top:10%;left:-4%} .hero-circle .chip-2{top:-2%;right:2%} .hero-circle .chip-3{top:44%;right:-8%} .hero-circle .chip-4{bottom:6%;right:4%} .hero-circle .chip-5{bottom:14%;left:-6%}} @media(max-width:430px){.home-v2 .brand-word{display:none}}`}</style>
+      <style>{`.home-v2 h2{font-family:var(--font-display);font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--ink)} .home-v2 .lead{font-size:1.05rem} .home-v2 .body-lg{font-size:1rem} .hero-circle .chip-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px} .hero-circle .chip{position:static;max-width:100%} @media(max-width:819px){.hero-circle .chip span:last-child{white-space:normal!important}} @media(min-width:820px){.hero-circle .chip-row{display:contents} .hero-circle .chip{position:absolute} .hero-circle .chip-1{top:26%;left:-7%} .hero-circle .chip-2{top:-3%;right:0} .hero-circle .chip-3{top:52%;right:-8%} .hero-circle .chip-4{bottom:2%;right:6%} .hero-circle .chip-5{bottom:16%;left:-7%}} @media(max-width:430px){.home-v2 .brand-word{display:none}}`}</style>
 
       <AnnouncementBar />
       <HomeReveals />
@@ -333,39 +333,34 @@ export default function HomePage() {
               rising stage by stage toward the passport. House art from the CDN,
               the same characters the child meets inside the product. */}
           <div className="fu hero-path" style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-            {/* The child app in the world it builds: phone over a pastel panel
-                with real outdoor play behind it */}
-            <div style={{ position: 'relative', background: 'var(--stage-2)', borderRadius: '28px', border: '1.5px solid var(--border)', overflow: 'hidden', minHeight: '250px' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={PHOTO_FAMILY_GRASS}
-                alt="A family laughing together on the grass, their phone left face down beside them, screen time earned and balanced"
-                loading="eager"
-                style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', objectPosition: '30% center' }}
-              />
-              <div aria-label="The child app: quests, a star bank and screen time earned by doing chores" style={{ position: 'absolute', right: '14px', bottom: '14px', width: 'clamp(78px, 17%, 92px)', aspectRatio: '9 / 18.5', borderRadius: '16px', border: '4px solid var(--ink)', overflow: 'hidden', boxShadow: '0 14px 34px rgba(26,26,46,0.25)', background: 'var(--pastel-pink)', display: 'flex', flexDirection: 'column', padding: '13px 6px 9px' }}>
-                {/* Dynamic island */}
-                <div aria-hidden style={{ position: 'absolute', top: '6px', left: '50%', transform: 'translateX(-50%)', width: '32%', height: '7px', background: 'var(--ink)', borderRadius: '100px' }} />
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.36rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', textAlign: 'center' }}>Today&rsquo;s quests</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.6rem', fontWeight: 900, color: 'var(--ink)', textAlign: 'center', margin: '1px 0 5px' }}>Go Sofia!</div>
-                <div style={{ background: 'var(--terracotta)', borderRadius: '8px', padding: '4px 6px', marginBottom: '5px', boxShadow: '0 2px 0 var(--terracotta-dark)' }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '.56rem', fontWeight: 900, color: 'var(--ink)' }}>&#11088; 21 stars</div>
-                  <div style={{ fontSize: '.4rem', fontWeight: 700, color: 'var(--ink)', opacity: .85 }}>= 105 min screen time</div>
+        <div className="fu hero-circle" style={{ position: 'relative', padding: '26px 0' }}>
+          <div style={{ width: 'min(72vw, 380px)', aspectRatio: '1', borderRadius: '50%', overflow: 'hidden', margin: '0 auto', boxShadow: '0 24px 70px rgba(26,26,46,0.16)' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={PHOTO_FAMILY_GRASS}
+              alt="A family laughing together on the grass, their phone left face down beside them"
+              loading="eager"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+          </div>
+          <div className="chip-row">
+            {[
+              ['\uD83C\uDF19', 'Bedtime battles', 'var(--stage-1-bold)'],
+              ['\u2B50', 'Do your chores and earn device time', 'var(--stage-2-bold)'],
+              ['\uD83D\uDEE1\uFE0F', 'Balanced, safe device use', 'var(--stage-2)'],
+              ['\uD83D\uDCF1', 'Social media, ready by 16', 'var(--stage-3-bold)'],
+              ['\uD83E\uDD16', 'AI chatbots, explained', 'var(--stage-5-bold)'],
+            ].map((chip, i) => {
+              const [icon, label, tint] = chip as [string, string, string]
+              return (
+                <div key={label} className={`chip chip-${i + 1}`} style={{ display: 'flex', alignItems: 'center', gap: '9px', background: '#fff', border: '1px solid var(--border)', borderRadius: '13px', padding: '9px 14px 9px 9px', boxShadow: '0 8px 24px rgba(26,26,46,0.12)' }}>
+                  <span aria-hidden style={{ width: 32, height: 32, borderRadius: '9px', background: tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>{icon}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '.98rem', fontWeight: 800, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{label}</span>
                 </div>
-                {[
-                  ['Make your bed', '\u2713', 'var(--retro-green)'],
-                  ['Read 20 minutes', '+2\u2B50', 'var(--ink-muted)'],
-                  ['Play outside', '+5\u2B50', 'var(--ink-muted)'],
-                ].map(([label, badge, badgeColor]) => (
-                  <div key={label} style={{ background: '#fff', borderRadius: '7px', padding: '3px 5px', marginBottom: '3px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px' }}>
-                    <span style={{ fontSize: '.42rem', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
-                    <span style={{ fontSize: '.4rem', fontWeight: 900, color: badgeColor, flexShrink: 0 }}>{badge}</span>
-                  </div>
-                ))}
-                {/* Home indicator */}
-                <div aria-hidden style={{ marginTop: 'auto', width: '38%', height: '3px', background: 'var(--ink)', opacity: .35, borderRadius: '100px', alignSelf: 'center' }} />
-              </div>
-            </div>
+              )
+            })}
+          </div>
+        </div>
             <div aria-hidden style={{ position: 'relative', minHeight: '190px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: 'clamp(2px, 1vw, 12px)', width: '100%', maxWidth: '480px', justifyContent: 'center', position: 'relative', paddingBottom: '30px' }}>
               {STAGE_CHARACTERS.map((c, i) => (
@@ -397,27 +392,6 @@ export default function HomePage() {
         <p className="fu" style={{ maxWidth: '720px', margin: '40px auto 0', textAlign: 'center', fontSize: 'clamp(.98rem, .8rem + .4vw, 1.18rem)', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
           Every answer you find says ban it all, or give in and dread it. Neither one teaches your child a single thing. <strong style={{ color: 'var(--ink)' }}>There is a third way, a guided one.</strong>
         </p>
-        <div className="fu hero-circle" style={{ maxWidth: '640px', margin: '44px auto 0', position: 'relative', padding: '30px 0' }}>
-          <div aria-hidden style={{ width: 'min(72vw, 400px)', aspectRatio: '1', borderRadius: '50%', margin: '0 auto', background: 'radial-gradient(circle at 38% 32%, #FAEDC2 0%, var(--stage-1) 55%, var(--terracotta-lt) 100%)', boxShadow: '0 24px 70px rgba(26,26,46,0.10), inset 0 0 0 1.5px var(--border)' }} />
-          <div className="chip-row">
-            {[
-              ['\uD83C\uDF19', 'Bedtime battles', 'var(--stage-1-bold)'],
-              ['\u2B50', 'Do your chores and earn device time', 'var(--stage-2-bold)'],
-              ['\uD83D\uDEE1\uFE0F', 'Balanced, safe device use', 'var(--stage-2)'],
-              ['\uD83D\uDCF1', 'Social media, ready by 16', 'var(--stage-3-bold)'],
-              ['\uD83E\uDD16', 'AI chatbots, explained', 'var(--stage-5-bold)'],
-            ].map((chip, i) => {
-              const [icon, label, tint] = chip as [string, string, string]
-              return (
-                <div key={label} className={`chip chip-${i + 1}`} style={{ display: 'flex', alignItems: 'center', gap: '9px', background: '#fff', border: '1px solid var(--border)', borderRadius: '13px', padding: '9px 14px 9px 9px', boxShadow: '0 8px 24px rgba(26,26,46,0.12)' }}>
-                  <span aria-hidden style={{ width: 32, height: 32, borderRadius: '9px', background: tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>{icon}</span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '.98rem', fontWeight: 800, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{label}</span>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
         {/* Everything else inside, said at whisper volume: one loud image,
             one quiet pill row. How the best sites show breadth without
             crowding. */}
