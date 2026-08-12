@@ -55,18 +55,34 @@ const TILES: (SectionTile & { key: string })[] = [
   },
 ]
 
-export default function HomeMain({ questsBadge }: { questsBadge?: string | null }) {
-  const tiles: SectionTile[] = TILES.map(t => ({
-    href: t.href, label: t.label, sub: t.sub, icon: t.icon, bg: t.bg, accent: t.accent,
-    ...(t.key === 'quests' && questsBadge ? { badge: questsBadge } : {}),
-  }))
+// ── THE FIVE TILES ARE GONE (12 August 2026) ────────────────────────────────
+//
+// Justin: "we wanted a clean up of home page, so if we prompt for everything is
+// there each time they log in, we only need to be showing relevant bits. Loads
+// of stuff. So of course pathway and the navigation system, but then the tabs
+// showing everything."
+//
+// The tabs already show everything, and that is the whole argument. Three of
+// these five tiles went to Quests, Passport and DiGi, which are three of the
+// six buttons on the tab bar at the bottom of the screen, permanently visible,
+// one tap away, lit when you are on them. A tile that repeats a button already
+// on screen is not navigation, it is scroll.
+//
+// The other two are covered too. School is on Home as its own card, in the what
+// next rotation, and as a planet under the pathway. The shop lives on
+// /dashboard/explore with everything else.
+//
+// So what is left is the one thing here that was never duplicated: the door to
+// the rest. TILES is kept rather than deleted because it is the record of what
+// used to be here and what each thing was called, and reinstating a tile is a
+// smaller job than reinventing one.
 
+export default function HomeMain({ questsBadge: _questsBadge }: { questsBadge?: string | null }) {
   return (
     <>
-      <SectionTiles tiles={tiles} />
-
-      {/* One door, not a second grid. Everything the platform does is still one
-          tap away, it simply is not all on this screen at once. */}
+      {/* One door, not a grid and not a repeat of the tab bar. Everything the
+          platform does is still one tap away, it simply is not all on this
+          screen at once. */}
       <Link
         href="/dashboard/explore"
         style={{
