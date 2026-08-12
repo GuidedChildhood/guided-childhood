@@ -300,6 +300,33 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
     setTimeout(() => setAddNote(null), 3500)
   }
 
+  // The child says a routine keeps going in the holidays. Works on ANY
+  // routine on their diary, a grown up's included, because it is one field in
+  // one direction: it can wake a resting reminder up for the holidays, never
+  // rename, move or stop one. Justin, 12 August 2026, on Swimming kit held in
+  // mid August: "kid should be able to at least add its in holidays as well."
+  async function holidaysToo(item: KidWeekItem) {
+    if (!token) return
+    try {
+      const res = await fetch('/api/kid/school-add', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, id: item.id }),
+      })
+      if (res.ok) {
+        playKidSound('star')
+        setEdits(prev => new Map(prev).set(item.id, { ...item, runsInHolidays: true }))
+        setAddNote('On for the holidays too! Your grown up knows.')
+      } else {
+        setAddNote('That did not save. Try again in a minute.')
+      }
+    } catch {
+      setAddNote('That did not save. Try again in a minute.')
+    }
+    setOpenItem(null)
+    setTimeout(() => setAddNote(null), 3500)
+  }
+
   async function removeItem(item: KidWeekItem) {
     if (!token) return
     try {
@@ -586,6 +613,9 @@ export default function KidSchoolWeek({ items, childName, token, region = 'uk' }
           onEdit={token && openItem.addedBy === 'child' ? () => setEditOpen(true) : undefined}
           onRemove={token && openItem.addedBy === 'child' ? () => removeItem(openItem) : undefined}
           onFlag={token && openItem.addedBy !== 'child' ? () => flagItem(openItem) : undefined}
+          onHolidaysToo={token && openItem.weekday != null && openItem.runsInHolidays !== true
+            ? () => holidaysToo(openItem)
+            : undefined}
         />
       )}
 

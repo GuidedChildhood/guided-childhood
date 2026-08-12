@@ -7538,3 +7538,19 @@ so the server now tells it: one head count of the child's push
 subscriptions rides in as hasReminders, and every prompt path yields to
 it. A family with reminders anywhere sees the quiet "Reminders on" line;
 only a family with truly nothing set up is ever asked.
+
+## 12 August 2026 — The child can wake a routine up for the holidays
+
+Justin, on Swimming kit resting behind the holidays hold in mid August:
+"kid should be able to at least add its in holidays as well." Swimming is
+exactly the thing that keeps going when school stops, and the person
+standing at the pool knows it.
+
+The child add sheet already asked the holidays question and the child's
+own rows already carried the full edit. The gap was a grown up's routine:
+tap in and all a child could do was tell them it looked wrong. Now any
+weekly routine still marked school time only shows one more button on its
+sheet: "It happens in the holidays too." One field, one direction. It can
+wake a resting reminder up, never rename, move or stop one, so the rule
+that a child never edits a grown up's reminder stands. The grown up gets
+a push each time and can flip it back from their calendar.
