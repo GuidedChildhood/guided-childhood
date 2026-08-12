@@ -145,6 +145,7 @@ ${bank}`,
         to: FOUNDER_EMAIL,
         subject: `${rows.length} device guide ${rows.length === 1 ? 'change' : 'changes'} to review`,
         html: `<p>The monthly device guide check found ${rows.length} thing${rows.length === 1 ? '' : 's'} worth your eye.</p><ul>${lines}</ul><p>Nothing is live until you approve it. Every one needs checking against its source first, because a wrong setting is worse than no setting.</p>`,
+        kind: 'operational',
       })
     }
 

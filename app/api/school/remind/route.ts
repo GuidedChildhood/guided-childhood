@@ -131,6 +131,9 @@ async function handler(req: NextRequest) {
         const { ok } = await sendEmail({
           to: email,
           ...schoolReminderEmail({ titles, adjustUrl: `${origin}/dashboard/school`, unsubscribe: unsubscribeUrl(userId) }),
+          // The parent set this up themselves and it is about tomorrow morning.
+          // Throttling it to one a week would simply break the feature.
+          kind: 'transactional',
         })
         if (ok) emailed++
       } catch { /* best effort */ }

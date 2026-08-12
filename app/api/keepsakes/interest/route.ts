@@ -85,6 +85,7 @@ export async function POST(req: NextRequest) {
       <strong>Email:</strong> ${email}${childName ? `<br/><strong>Child:</strong> ${childName}` : ''}${note ? `<br/><strong>Note:</strong> ${note}` : ''}</p>
       <p style="color:#8a8a9a;font-size:13px">Sent from the keepsakes coming soon form.</p>
     </div>`,
+    kind: 'operational',
   })
   notified = sent.ok
   if (!sent.ok) console.error('[keepsakes/interest] notification not sent:', sent.error)

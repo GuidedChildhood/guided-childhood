@@ -40,6 +40,7 @@ export async function POST(request: Request) {
           <p style="font-size:17px;font-weight:700">&ldquo;${p.replace(/</g, '&lt;').slice(0, 400)}&rdquo;</p>
           <p><a href="${origin}/dashboard/insights" style="color:#C29018;font-weight:700">See it in the insights board</a>, where you can write it in a couple of minutes.</p>
         </div>`,
+        kind: 'operational',
       })
     } catch { /* email is best effort */ }
   }

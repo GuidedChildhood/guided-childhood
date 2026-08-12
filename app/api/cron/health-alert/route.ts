@@ -116,7 +116,7 @@ async function handler(req: NextRequest) {
   }
 
   const { subject, html } = healthAlertEmail(health)
-  const result = await sendEmail({ to: FOUNDER_EMAIL, subject, html })
+  const result = await sendEmail({ to: FOUNDER_EMAIL, subject, html, kind: 'operational' })
 
   return NextResponse.json({
     ok: result.ok,

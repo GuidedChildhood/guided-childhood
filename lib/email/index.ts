@@ -1,5 +1,6 @@
 import { Resend } from 'resend'
 import { createHmac } from 'crypto'
+import { maySendProgramme, recordProgrammeSend } from './address-guard'
 
 let _resend: Resend | null = null
 
@@ -92,12 +93,57 @@ export function starterCtaUrl(email: string): string {
   return `${origin}/api/go/starter?e=${encodeURIComponent(addr)}&k=${starterCtaToken(addr)}`
 }
 
+/**
+ * Why this email exists, which decides whether the one a week floor applies.
+ *
+ * 'programme'     we decided to send it: a drip, a digest, a nurture, a win
+ *                 back, a nudge. Throttled to one per address per six days
+ *                 across every system, and never sent to an address that has
+ *                 asked to be forgotten. THIS IS THE DEFAULT, on purpose. A
+ *                 future feature that forgets to say gets throttled, which
+ *                 shows up as a missing email; forgetting the other way shows
+ *                 up as a parent getting thirty.
+ *
+ * 'transactional' the person is waiting for it right now: the printable they
+ *                 just asked for, a school reminder they set up themselves, a
+ *                 receipt, a password link. Never throttled, never suppressed,
+ *                 because none of it is ours to withhold.
+ *
+ * 'operational'   it goes to us, not to a parent. Health alerts, refresh
+ *                 reports, the founder desk. Throttling our own alarms would be
+ *                 daft and suppressing them impossible, since there is nobody
+ *                 to unsubscribe.
+ */
+export type EmailKind = 'programme' | 'transactional' | 'operational'
+
 export async function sendEmail(params: {
   to: string
   subject: string
   html: string
-}): Promise<{ ok: boolean; error?: string }> {
+  kind?: EmailKind
+  /** Which programme, for the record on the address. Diagnostic only. */
+  key?: string
+}): Promise<{ ok: boolean; error?: string; skipped?: 'suppressed' | 'too_soon' }> {
   if (!emailConfigured()) return { ok: false, error: 'RESEND_API_KEY not set' }
+
+  const kind = params.kind ?? 'programme'
+
+  // The shared floor. One row per address, one check, every system.
+  //
+  // Justin, 12 August 2026: "we must be careful only to send one once per week
+  // from all systems." It sits here rather than in each programme because the
+  // fault was two programmes each sending exactly one, 1.1 seconds apart, each
+  // correctly deduped against a ledger that could not see the other.
+  //
+  // Reported as skipped rather than as an error, and that distinction matters
+  // to the callers: a programme that treats a failed send as "try again
+  // tomorrow" will roll its own ledger back and retry, which is precisely the
+  // right behaviour here. It is not an error, it is a not yet.
+  if (kind === 'programme') {
+    const verdict = await maySendProgramme(params.to)
+    if (!verdict.allowed) return { ok: false, skipped: verdict.reason, error: verdict.reason }
+  }
+
   try {
     const { error } = await client().emails.send({
       from: EMAIL_FROM,
@@ -106,6 +152,7 @@ export async function sendEmail(params: {
       html: params.html,
     })
     if (error) return { ok: false, error: error.message }
+    if (kind === 'programme') await recordProgrammeSend(params.to, params.key)
     return { ok: true }
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : 'send failed' }

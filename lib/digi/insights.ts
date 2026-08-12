@@ -178,7 +178,12 @@ Priority is 1 highest to 5 lowest.`
 
   const text = await callModel(prompt)
   const match = text.match(/\{[\s\S]*\}/)
-  const report: InsightReport = match ? JSON.parse(match[0]) : { summary: text.slice(0, 800), themes: [], gaps: [], recommendations: [] }
+  const fallback: InsightReport = { summary: text.slice(0, 800), themes: [], gaps: [], recommendations: [] }
+  // A cut off or malformed reply must not fail the whole run: the cron would
+  // report down for the day and the founder gets nothing, over a model hiccup
+  // rather than a real fault. Same guard legal-watch already uses.
+  let report: InsightReport
+  try { report = match ? JSON.parse(match[0]) : fallback } catch { report = fallback }
   return { generatedAt: new Date().toISOString(), days, count: questions.length, report }
 }
 

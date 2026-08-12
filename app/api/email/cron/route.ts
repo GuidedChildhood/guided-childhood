@@ -2,7 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { interestUrl } from '@/lib/email'
-import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl } from '@/lib/email'
+import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl, type EmailKind } from '@/lib/email'
 import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
@@ -138,7 +138,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
 
   // ONE EMAIL PER PERSON PER RUN.
   //
@@ -165,7 +165,7 @@ async function handler(req: NextRequest) {
   // marked as spam by somebody who liked us yesterday.
   const emailedThisRun = new Set<string>()
 
-  async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string) {
+  async function deliver(userId: string, email: string, key: string, content: { subject: string; html: string }, counter: string, kind: EmailKind = 'programme') {
     if (emailedThisRun.has(userId)) return
     const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
     if (logError) return // unique violation means another run got here first
@@ -173,11 +173,15 @@ async function handler(req: NextRequest) {
     // for one person, and a send that fails still counts as this person's turn
     // rather than freeing the slot for the next template in the same run.
     emailedThisRun.add(userId)
-    const sent = await sendEmail({ to: email, subject: content.subject, html: content.html })
+    const sent = await sendEmail({ to: email, subject: content.subject, html: content.html, kind, key })
     if (sent.ok) {
       results[counter] += 1
     } else {
-      results.errors += 1
+      // A throttle is not a failure, it is a not yet, and counting it as an
+      // error would have the health alert crying wolf every morning. Either way
+      // the log row goes back so the same email is due again tomorrow.
+      if (sent.skipped) results.throttled += 1
+      else results.errors += 1
       await supabase.from('email_log').delete().eq('user_id', userId).eq('email_key', key)
     }
   }
@@ -451,7 +455,10 @@ async function handler(req: NextRequest) {
     // the system. past_due fell through lifecycleState to 'unknown' before
     // this, so a member who wanted to stay simply stopped being one, silently.
     if (state === 'past_due' && !alreadySent(profile.id, 'past-due')) {
-      await deliver(profile.id, profile.email, 'past-due', pastDueEmail({ parentName: name, unsubscribe }), 'pastDue')
+      // Their card stopped working and Stripe is counting down to cutting
+      // them off. Holding this back because they read a digest on Tuesday
+      // would cost them the membership they are trying to keep.
+      await deliver(profile.id, profile.email, 'past-due', pastDueEmail({ parentName: name, unsubscribe }), 'pastDue', 'transactional')
     }
 
     // The paid service track. They have already bought, so all three give
@@ -542,17 +549,37 @@ async function handler(req: NextRequest) {
       .from('profiles').select('email').in('email', leadEmails)
     const hasAccount = new Set((existing ?? []).map(p => (p.email as string)?.toLowerCase()))
 
+    // Deduped by address, not by row. Two rows can carry the same address, and
+    // then this loop would run twice for one person: same email, same minute.
+    // It has never happened because the table has a unique index on email, but
+    // the guard below was trusted to catch it and it cannot, so the honest fix
+    // is to not generate the duplicate in the first place.
+    const seen = new Set<string>()
     for (const email of leadEmails) {
-      if (hasAccount.has(email.toLowerCase())) continue
+      const key = email.toLowerCase()
+      if (hasAccount.has(key)) continue
+      if (seen.has(key)) continue
+      seen.add(key)
       // Stamp first so a send failure never re-sends on the next run.
-      const { error: stampErr } = await supabase
+      //
+      // AND READ THE ROW BACK, which is the whole point of the select. This
+      // used to test `error` alone, and an update that matches no rows is not
+      // an error in Postgres: it is a success that changed nothing. So the
+      // check that was supposed to mean "I claimed this lead" actually meant
+      // "the database was reachable", and every racing run sailed through it.
+      const { data: claimed, error: stampErr } = await supabase
         .from('starter_leads').update({ nurtured_at: new Date().toISOString() })
         .eq('email', email).is('nurtured_at', null)
-      if (stampErr) continue
-      const sent = await sendEmail({ to: email, ...leadNurtureEmail(leadUnsubscribeUrl(email), starterCtaUrl(email)) })
+        .select('email')
+      if (stampErr || !claimed || claimed.length === 0) continue
+      const sent = await sendEmail({
+        to: email, key: 'lead-nurture',
+        ...leadNurtureEmail(leadUnsubscribeUrl(email), starterCtaUrl(email)),
+      })
       if (sent.ok) results.leadNurture += 1
       else {
-        results.errors += 1
+        if (sent.skipped) results.throttled += 1
+        else results.errors += 1
         await supabase.from('starter_leads').update({ nurtured_at: null }).eq('email', email)
       }
     }
@@ -602,10 +629,17 @@ async function handler(req: NextRequest) {
       const deliverLead = async (email: string, key: string, content: EmailContent) => {
         const { error: logErr } = await supabase.from('lead_email_log').insert({ email, email_key: key })
         if (logErr) return // unique violation means another run got here first
-        const sent = await sendEmail({ to: email, subject: content.subject, html: content.html })
+        const sent = await sendEmail({ to: email, subject: content.subject, html: content.html, key })
         if (sent.ok) results.leadTeaser += 1
         else {
-          results.errors += 1
+          // The shared floor lives here in practice. On 12 August five leads got
+          // a nurture and a teaser 1.1 seconds apart, because this block and the
+          // one above run in the same pass over overlapping windows and each
+          // deduped perfectly against a ledger the other could not see. Now the
+          // second one is turned away by the address itself and comes back in
+          // six days, which is what a drip is supposed to feel like.
+          if (sent.skipped) results.throttled += 1
+          else results.errors += 1
           await supabase.from('lead_email_log').delete().eq('email', email).eq('email_key', key)
         }
       }

@@ -7348,3 +7348,59 @@ live and deliberately ungated); the community poll is live, days 1 to 7 of
 each month, seeded to July 2027; conversations are stored and reused
 (rolling 12 turns plus one extracted digi_memory fact per turn, semantic
 retrieval), that half was already healthy.
+
+## 12 August 2026 — One email a week, from all systems, and erasure that sticks
+
+Justin, after thirty copies of one email landed in his inbox at 09:01: "we must
+be careful only to send one once per week from all systems. It may be due to our
+deleting cleaning up users."
+
+He was right about the cause, by a route nobody had thought of.
+
+**The thirty were a false alarm.** Thirty four separate starter_leads rows each
+got exactly one email, and thirty two of those rows are plus alias variants of
+his own two addresses. Gmail funnels every plus alias into one inbox. Of 37
+leads in the table, 36 are his own test signups and one is a real person, who
+got one email. No loop sent anything twice.
+
+**What was really wrong is that deleting an account resurrects the person as a
+lead.** starter_leads is keyed by address, not by user id, so it does not cascade
+with auth.users. Those 34 had been correctly suppressed for a month by the rule
+that a lead who already has an account never gets a start your trial email. The
+overnight cleanup deleted the accounts, the suppression evaporated with them,
+and the backlog went out at once. A real parent using Delete my account would
+have got the same treatment the next morning: "your pathway is a couple of
+minutes away", then the whole seven email drip, sent to somebody who had just
+asked to be forgotten. That is the privacy policy being broken by the feature
+built to keep it.
+
+**And the one per week rule genuinely was broken.** Five addresses got two
+emails 1.1 seconds apart, a nurture and a teaser. The two blocks run in the same
+pass over overlapping windows and each deduped perfectly against its own ledger.
+Three ledgers existed and not one could answer "when did we last write to this
+person", because each only knew its own programme.
+
+So the floor lives inside sendEmail, not in any programme, the same way the
+child quiet hours gate lives inside pushToChild: the next feature that writes to
+a parent gets it without knowing it exists. Migration 189 adds one row per
+address carrying last_sent_at and suppressed_at. Six days rather than seven,
+because the weekly digest drifts a few seconds week on week and a seven day
+floor would let it suppress itself, which is exactly how the digest died last
+time.
+
+**Programme is the default kind, on purpose.** Fifteen files opt out and every
+one is either ours (health alerts, refresh reports) or something a parent is
+waiting for right now (the printable they just asked for, a school reminder they
+set up, a receipt, the welcome thirty seconds after signing up, the past due
+warning). Forgetting to mark a new send shows up as a missing email. Forgetting
+the other way shows up as a parent getting thirty.
+
+**A suppression survives an erasure, which looks wrong and is not.** Deleting
+every trace of someone who asked to be forgotten is how you email them again.
+Their account and their lead row are genuinely gone; one address and one
+timestamp stay, for the sole purpose of never contacting them again. A fresh
+magnet download lifts it, because that is them asking.
+
+Also fixed: the nurture claimed a lead by testing the update for an error, and
+an update matching zero rows is not an error in Postgres. That check meant "the
+database was reachable", not "I claimed this lead". It now reads the row back.

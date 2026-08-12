@@ -37,7 +37,7 @@ async function handler(request: Request) {
 
   // Nothing to say on a quiet week, so no empty email lands.
   if (payload.count > 0 && emailConfigured()) {
-    try { await sendEmail({ to: FOUNDER_EMAIL, subject: `DiGi weekly insight: ${payload.count} questions`, html: renderInsightsEmail(payload) }) }
+    try { await sendEmail({ to: FOUNDER_EMAIL, subject: `DiGi weekly insight: ${payload.count} questions`, html: renderInsightsEmail(payload), kind: 'operational' }) }
     catch { /* best effort */ }
   }
 
