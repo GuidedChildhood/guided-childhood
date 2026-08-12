@@ -55,12 +55,32 @@ const IDEA_POOL: { group: string; ideas: Idea[] }[] = [
 
 const MAX_ITEMS = 12
 
-export default function BucketBuilder() {
-  const [title, setTitle] = useState('Our Bucket List')
-  const [childName, setChildName] = useState('')
+// One builder, both phones, the StarChartBuilder precedent exactly.
+// Justin, 12 August 2026, on the builder living only on the parent
+// dashboard: "but should be on child app also." The kid variant swaps the
+// back link, prefills their name, and turns Add to quests into an ask
+// through the child request pipeline, because a child never writes to the
+// family quest list directly, they ask and a grown up says yes.
+export default function BucketBuilder({
+  variant = 'parent',
+  kidToken = null,
+  defaultChildName = '',
+  backHref = '/dashboard/printables',
+  backLabel = 'All printables',
+}: {
+  variant?: 'parent' | 'kid'
+  kidToken?: string | null
+  defaultChildName?: string
+  backHref?: string
+  backLabel?: string
+} = {}) {
+  const kid = variant === 'kid'
+  const [title, setTitle] = useState(kid ? 'My Bucket List' : 'Our Bucket List')
+  const [childName, setChildName] = useState(defaultChildName)
   const [picked, setPicked] = useState<Idea[]>([])
   const [custom, setCustom] = useState('')
   const [added, setAdded] = useState(false)
+  const [askNote, setAskNote] = useState<string | null>(null)
 
   function toggle(idea: Idea) {
     setPicked(prev => prev.some(p => p.text === idea.text)
@@ -80,12 +100,34 @@ export default function BucketBuilder() {
   async function addToQuests() {
     if (added || picked.length === 0) return
     setAdded(true)
+    const questTitle = `Finish the ${title.trim() || 'Bucket List'} sheet`
+    if (kid && kidToken) {
+      // The ask pipeline, same as pitching any job from the child app. The
+      // grown up gets the push and one tap makes it real with stars on it.
+      try {
+        const res = await fetch('/api/quests/request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token: kidToken, title: questTitle, emoji: '🖨️' }),
+        })
+        if (!res.ok) {
+          setAdded(false)
+          setAskNote('That did not send. Ask again in a minute, or just hand the finished sheet to your grown up.')
+          setTimeout(() => setAskNote(null), 4000)
+        }
+      } catch {
+        setAdded(false)
+        setAskNote('That did not send. Ask again in a minute, or just hand the finished sheet to your grown up.')
+        setTimeout(() => setAskNote(null), 4000)
+      }
+      return
+    }
     try {
       await fetch('/api/quests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: `Finish the ${title.trim() || 'Bucket List'} sheet`,
+          title: questTitle,
           emoji: '🖨️', stars: 5, schedule: 'once', child_id: null,
         }),
       })
@@ -106,15 +148,17 @@ export default function BucketBuilder() {
 
       {/* Controls, hidden on paper */}
       <div className="no-print">
-        <Link href="/dashboard/printables" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
-          ← All printables
+        <Link href={backHref} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+          ← {backLabel}
         </Link>
         <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '14px 0 8px' }}>Bucket list builder</p>
         <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '10px' }}>
-          Build your own bucket list
+          {kid ? 'Build your bucket list' : 'Build your own bucket list'}
         </h1>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px', maxWidth: '540px' }}>
-          Pick up to {MAX_ITEMS} ideas or write your own, put their name on it, print it for the fridge. The finished page is worth 5 stars through the quest list.
+          {kid
+            ? `Pick up to ${MAX_ITEMS} things you want to do, or write your own. Print it for the fridge, and the finished page is worth 5 stars.`
+            : `Pick up to ${MAX_ITEMS} ideas or write your own, put their name on it, print it for the fridge. The finished page is worth 5 stars through the quest list.`}
         </p>
 
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '18px' }}>
@@ -196,9 +240,21 @@ export default function BucketBuilder() {
               fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
             }}
           >
-            {added ? 'On the quest list ✓' : 'Add to quests · ⭐ 5'}
+            {kid
+              ? (added ? 'Asked! They will say yes or not ✓' : 'Ask to make it a job · ⭐ 5')
+              : (added ? 'On the quest list ✓' : 'Add to quests · ⭐ 5')}
           </button>
         </div>
+
+        {askNote && (
+          <p style={{
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+            color: 'var(--ink)', background: 'var(--tint-sage)', border: '1.5px solid var(--border)',
+            borderRadius: 14, padding: '11px 14px', margin: '0 0 20px',
+          }}>
+            {askNote}
+          </p>
+        )}
       </div>
 
       {/* The sheet itself: what prints. The list lives INSIDE a big drawn

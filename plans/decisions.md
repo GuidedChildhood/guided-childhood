@@ -7593,3 +7593,66 @@ week page's subtitle says school things and your own reminders, and the
 pushes stop claiming a sender: "On your calendar", "For tomorrow",
 "Reminders for tomorrow". The red nearly time header stays exactly as it
 was, urgency needs no rename.
+
+## 12 August 2026 — The Friend sheets become proper printables
+
+Justin, on Bloop's colour in: "We need proper printable here not image."
+The Pebble, Bloop and Orbit printables pointed at photographed mockups of
+the sheet lying on a table, a picture OF a printable rather than one. All
+five Friend sheets now print the character's clean line art from
+stage-characters, the same single source the poster draws from, and the
+overlay composes the sheet properly: the Friend's name and stage printed
+as crisp text above the art with a row of stars to colour, so what lands
+on paper is a real colouring sheet. The card thumbnails keep the full
+colour art, the shop window rule unchanged.
+
+## 12 August 2026 — The planner cover gets the whole family, and the reading list gets a page to fill
+
+Justin, from the planner PDF: "These planner need a cover with high
+fidelity planner family images all together." The cover's lone DiGi star
+is now the whole team: DiGi and all five Planet Friends in matching
+portrait cards with their names, rebuilt into all three PDF editions and
+the preview. Found on the way: the Pebble, Bloop and Orbit cutouts in
+public/printables/friends have destroyed alpha regions (bleached holes
+through their faces on any pale ground). The cover uses clean art from
+other packs for Pebble and Bloop, and Orbit was repaired by inpainting
+inside his silhouette. The damaged originals are still what the Planet
+Friends poster renders; replacing those needs fresh art, noted for the
+next art session.
+
+And the reading bucket list prints a second page: "Books I want to
+read", ten numbered dotted lines, asked for from Teo's phone. It is a
+registry field (writeIn) plus one overlay block, so any future sheet can
+carry a write in page by data alone.
+
+## 12 August 2026 — The bucket list builder lands on the child app
+
+Justin, on it living only on the parent dashboard: "but should be on
+child app also." The StarChartBuilder precedent exactly: the SAME
+BucketBuilder component now runs on both phones through a kid variant,
+so the two can never drift. On the child's side it prefills their name,
+the back link goes home, and Add to quests becomes an ask through the
+child request pipeline, because a child never writes to the family quest
+list directly, they ask and a grown up says yes. The way in is a card on
+the print tab right under the star chart's.
+
+## 12 August 2026 — The overlay prints every page of a craft
+
+Justin, printing the bucket craft: "it also failed when trying to
+print." The two page Bucket List Craft, the detailed one where a child
+cuts out and builds an actual paper bucket, was losing its second page:
+the overlay only knew one url, so the craft printed its list and dropped
+the cut out bucket it exists for. The overlay now takes the extra pages
+and prints each as its own sheet of paper, threaded through the print
+tab and the assigned printable card alike.
+
+## 12 August 2026 — The best three lead the printables
+
+Justin: "order printables so star chart then bucket customisable then
+planner as these are the best 3 and would like them near the top of list
+when they click printables." The star chart and bucket builders were
+already the cards above every grid on both apps, so the one move needed
+was the School Year Planner: it now leads the registry array, which puts
+it first in the child's sheet list and first in the parent's Made for
+grid. Top of printables on both phones now reads star chart, bucket
+builder, planner.

@@ -86,6 +86,21 @@ function appRoutes() {
   return [...routes]
 }
 
+// Redirects declared in next.config.ts are reachable URLs too: /schools is
+// served by a redirect to the schools app (the holding pattern until the
+// real domain attaches), not by a page file, and the nav links to it. A
+// :param or :param* segment counts as one wildcard, same as [dynamic].
+function redirectSources() {
+  const out = []
+  try {
+    const src = readFileSync(join(ROOT, 'next.config.ts'), 'utf8')
+    let m
+    const re = /source:\s*['"`]([^'"`]+)['"`]/g
+    while ((m = re.exec(src))) out.push(m[1].replace(/:[^/]+/g, '*').replace(/\/$/, ''))
+  } catch { /* no config, nothing to add */ }
+  return out
+}
+
 function routeMatches(href, routes) {
   const want = href.split('/').filter(Boolean)
   return routes.some(r => {
@@ -97,7 +112,7 @@ function routeMatches(href, routes) {
 }
 
 function checkDeadLinks() {
-  const routes = appRoutes()
+  const routes = appRoutes().concat(redirectSources())
   const seen = new Set()
   for (const [f, src] of SOURCE) {
     if (rel(f).startsWith('app' + sep + 'ref-') || rel(f).includes(sep + 'dev' + sep)) continue

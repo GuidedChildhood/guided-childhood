@@ -56,8 +56,13 @@ const LABEL: React.CSSProperties = {
   letterSpacing: '.09em', textTransform: 'uppercase',
   color: 'var(--terracotta-dark)', whiteSpace: 'nowrap',
 }
+// .96rem, not .86rem, and that number came from main rather than from here.
+// While this component was replacing the hardcoded badge on the home page,
+// main bumped that sentence up a size because it was reading small next to the
+// headline. Carrying it across is the reason the merge conflict was worth
+// reading instead of resolving by picking a side.
 const TEXT: React.CSSProperties = {
-  fontFamily: 'var(--font-display)', fontSize: '.86rem', fontWeight: 800,
+  fontFamily: 'var(--font-display)', fontSize: '.96rem', fontWeight: 800,
   color: 'var(--ink)',
 }
 

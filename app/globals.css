@@ -726,10 +726,48 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   border-radius: 100px;
   padding: 3px;
 }
-/* Hide on mobile. The style lives on the class, not inline on the element,
-   so this media query can actually win, an inline display would override it
-   and leave the desktop nav overflowing off the top of the phone. */
-@media (max-width: 720px) { .nav-links-desktop { display: none; } }
+/* Hide below 1021px: five pills plus the logo and the two header capsules
+   need about a thousand pixels before they all fit. The style lives on the
+   class, not inline on the element, so this media query can actually win,
+   an inline display would override it and leave the desktop nav overflowing
+   off the top of the phone. */
+@media (max-width: 1060px) { .nav-links-desktop { display: none; } }
+
+/* The mobile stand-in: a menu button that opens the same links as a
+   dropdown sheet anchored to the sticky header (sticky is a positioned
+   element, so the absolute sheet hangs from the header's bottom edge and
+   never collides with the announcement bar above it). */
+.nav-burger {
+  display: none;
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--cream);
+  cursor: pointer;
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 4px;
+  padding: 0; flex-shrink: 0;
+}
+.nav-burger span { display: block; width: 16px; height: 2px; border-radius: 2px; background: var(--ink); }
+@media (max-width: 1060px) { .nav-burger { display: inline-flex; } }
+.nav-sheet {
+  position: absolute;
+  top: calc(100% + 8px); left: 12px; right: 12px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 18px 50px rgba(26,26,46,0.16);
+  padding: 8px;
+  display: flex; flex-direction: column;
+  z-index: 400;
+}
+.nav-sheet a {
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.02rem;
+  color: var(--ink); text-decoration: none;
+  padding: 13px 16px; border-radius: 11px;
+}
+.nav-sheet a:hover { background: var(--cream); }
 
 /* ── HEADER CTAS ── the two premium capsules on the right of the marketing
    header: Log in as a clear ghost pill, Get Started as the solid butter one,

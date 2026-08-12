@@ -18,6 +18,13 @@ const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3
 // should see who they are about to colour, in full colour, the same art they
 // meet in the app. The sheet they print is still the clean line art.
 const friendArt = (key: string) => characterByKey(key)?.img ?? ''
+// The sheet a Friend printable actually prints: the character's own clean
+// black and white line art from stage-characters, the single source the
+// poster already draws from. Three of these used to point at photographed
+// mockups of the sheet on a table, which is a picture OF a printable, not a
+// printable. Justin, 12 August 2026: "We need proper printable here not
+// image."
+const friendColouring = (key: string) => characterByKey(key)?.colouring ?? ''
 
 export type Printable = {
   key: string
@@ -46,6 +53,13 @@ export type Printable = {
   // of the single generated sheet.
   pdfColour?: string
   pdfColourIn?: string
+  // A composed sheet: the child app prints crisp HTML text above the art
+  // (name, kicker line) instead of relying on words baked into the image.
+  sheetHeading?: { name: string; kicker: string }
+  // A write in page printed after the sheet: a titled set of dotted lines.
+  // Justin, 12 August 2026, on the reading list: "add here a place of them
+  // adding books they want to read."
+  writeIn?: { title: string; blurb: string; lines: number }
   /**
    * Free to download without a membership. Almost nothing is: the printables
    * are a member feature and the preview is the sell. The exception is the
@@ -65,6 +79,20 @@ export type Printable = {
 }
 
 export const PRINTABLES: Printable[] = [
+  // THE BEST THREE LEAD. Justin, 12 August 2026: "order printables so star
+  // chart then bucket customisable then planner as these are the best 3."
+  // The two builders are cards above every grid on both apps, so the planner
+  // leading this array puts the three of them at the top of the list a
+  // family actually sees.
+  {
+    key: 'school-year-planner',
+    title: 'My School Year Planner', emoji: '🗓️', kind: 'challenge',
+    stages: [2, 3, 4], minutes: 'All year', setting: 'anywhere', skill: 'Organisation',
+    stars: 5,
+    blurb: 'Twelve months to fill in, room for the dates that matter, and space for a name and class. A whole year, planned.',
+    sheetUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
+    previewUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
+  },
   {
     key: 'summer-bucket-list',
     title: 'My Summer Bucket List', emoji: '☀️', kind: 'bucket',
@@ -101,6 +129,11 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2, 3, 4], minutes: 'A month of stories', setting: 'anywhere', skill: 'Reading',
     stars: 5,
     blurb: 'Eight ways to read: outside, to someone, about space, a book they chose themselves.',
+    writeIn: {
+      title: 'Books I want to read',
+      blurb: 'Spotted one that looks brilliant? Write it down here so you never forget it.',
+      lines: 10,
+    },
     sheetUrl: BASE + 'hf_20260723_213701_edd87579-52fb-4064-afe7-2ec65759e841.png',
     sheetUrlEs: BASE + 'hf_20260722_122923_526700d3-41c9-417f-8b31-f781821d8582.png',
     previewUrl: BASE + 'hf_20260713_125344_3aaa7475-b816-4b0b-8d3f-932fd86f48f2.png',
@@ -156,7 +189,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 1 Planet Friend, full of curiosity and wonder. Colour Pebble in however you like.',
-    sheetUrl: BASE + 'hf_20260723_121101_b9370321-6338-41b6-8c06-220c937d6705.png',
+    sheetUrl: friendColouring('pebble'),
+    sheetHeading: { name: 'Pebble', kicker: 'My Stage 1 Planet Friend' },
     previewUrl: friendArt('pebble'),
   },
   {
@@ -165,7 +199,8 @@ export const PRINTABLES: Printable[] = [
     stages: [2], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 2 Planet Friend, creative and clever. Bring Bloop to life with colour.',
-    sheetUrl: BASE + 'hf_20260723_121102_5535f574-b642-4f8f-bcc3-8d4a7ff2c334.png',
+    sheetUrl: friendColouring('bloop'),
+    sheetHeading: { name: 'Bloop', kicker: 'My Stage 2 Planet Friend' },
     previewUrl: friendArt('bloop'),
   },
   {
@@ -174,7 +209,8 @@ export const PRINTABLES: Printable[] = [
     stages: [3], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 3 Planet Friend, always exploring. Colour Orbit ready for the next big question.',
-    sheetUrl: BASE + 'hf_20260723_121113_c6a1b8e9-da55-43d5-bf5f-9bdf7ffa9954.png',
+    sheetUrl: friendColouring('orbit'),
+    sheetHeading: { name: 'Orbit', kicker: 'My Stage 3 Planet Friend' },
     previewUrl: friendArt('orbit'),
   },
   {
@@ -183,7 +219,8 @@ export const PRINTABLES: Printable[] = [
     stages: [4], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
-    sheetUrl: BASE + 'hf_20260725_090749_b565097d-be3d-403d-8435-2817497807bc.png',
+    sheetUrl: friendColouring('nova'),
+    sheetHeading: { name: 'Nova', kicker: 'My Stage 4 Planet Friend' },
     previewUrl: friendArt('nova'),
   },
   {
@@ -192,7 +229,8 @@ export const PRINTABLES: Printable[] = [
     stages: [5], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
-    sheetUrl: BASE + 'hf_20260725_090756_3600a3d8-266c-40ca-af9c-b890f0223bed.png',
+    sheetUrl: friendColouring('cosmo'),
+    sheetHeading: { name: 'Cosmo', kicker: 'My Stage 5 Planet Friend' },
     previewUrl: friendArt('cosmo'),
   },
   // Brought over from the Etsy shop into the app library, redrawn in the house
@@ -298,15 +336,6 @@ export const PRINTABLES: Printable[] = [
     blurb: 'Colour and label your left and right hands, follow the arrows, and work out which way to go.',
     sheetUrl: BASE + 'hf_20260725_001930_01e5df7c-cf07-4c46-8fd8-2924b3d8ea53.png',
     previewUrl: BASE + 'hf_20260725_001930_01e5df7c-cf07-4c46-8fd8-2924b3d8ea53.png',
-  },
-  {
-    key: 'school-year-planner',
-    title: 'My School Year Planner', emoji: '🗓️', kind: 'challenge',
-    stages: [2, 3, 4], minutes: 'All year', setting: 'anywhere', skill: 'Organisation',
-    stars: 5,
-    blurb: 'Twelve months to fill in, room for the dates that matter, and space for a name and class. A whole year, planned.',
-    sheetUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
-    previewUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
   },
   // The flagship. A premium, newspaper styled booklet that teaches the whole
   // deal on paper: real jobs earn stars, one star is five minutes of screen
