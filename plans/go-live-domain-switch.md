@@ -120,8 +120,25 @@ one: two copies of the daily digest, two of the weekly review, two morning
 pushes at 07:15, two lots of school reminders at 17:00. Every family on the list
 getting everything twice.
 
-**Prove it before changing anything.** Every run writes a row to `cron_runs`, so
-the question answers itself:
+### ANSWERED, 12 AUGUST 2026: THEY ARE NOT DOUBLED. NOTHING TO DISABLE.
+
+Checked against `cron_runs`. Every job runs exactly once. Count the runs against
+what a single project should produce and it is not close, it is exact:
+
+| Job | Schedule | Runs in 2 days | One project should give |
+| --- | --- | --- | --- |
+| `/api/cron/device-time` | every minute | 2879 | 2880 |
+| `/api/school/soon` | every 15 min | 193 | 192 |
+| `/api/push/cron` | every 30 min | 96 | 96 |
+| every daily job (digest, weekly review, morning push, school remind, and the rest) | daily | 2 | 2 |
+
+Two projects firing would have given 5760 device-time runs and 4 of every daily
+job. So `guided-childhood` has no crons registered, and **step 1 on the day is
+already done. Do not disable anything.**
+
+### The query in the original plan was misleading, and this is why
+
+It was:
 
     select job, date_trunc('minute', started_at) as minute, count(*)
     from cron_runs
@@ -130,13 +147,36 @@ the question answers itself:
     having count(*) > 1
     order by minute desc;
 
-Rows back means two projects are firing the same job at the same minute. No rows
-means only one project has crons after all, and there is nothing to do here.
+with the rule "rows back means two projects are firing". **It returns 35 rows
+here, and they mean nothing.** Almost all of them are `device-time`, which runs
+EVERY MINUTE, so a run that starts at 05:21:59.8 and the next at 05:22:00.1 land
+in the same minute bucket and look like a duplicate. That is clock jitter on a
+per minute job, at 1.3 percent of runs, not a second project.
 
-**If it is doubled**, turn the crons off on `guided-childhood` rather than
+Following the old rule literally would have had somebody disable a working set
+of crons on launch day on the strength of rounding.
+
+**Count the runs instead, and compare against the schedule.** That is the query
+that actually answers it:
+
+    select job, count(*) as runs, min(started_at), max(started_at)
+    from cron_runs
+    where started_at > now() - interval '2 days'
+    group by 1 order by runs desc;
+
+A doubled job shows roughly TWICE what its schedule allows across the window. A
+daily job showing 4 in two days is doubled. One showing 2 is fine.
+
+**If it ever is doubled**, turn the crons off on `guided-childhood` rather than
 deleting the project: Settings, Cron Jobs, disable. Deleting is a bigger move
 than this needs and the old project is still a working rollback target while the
 domain moves.
+
+One thing the count does surface, and it is not a duplicate: `settings-nudge`
+ran once in two days where a daily job should run twice. That is a MISSED run,
+consistent with Vercel documenting crons as best effort, which
+`plans/go-live-two-manual-steps.md` already recorded happening on 31 July. Worth
+knowing, not worth fixing.
 
 ---
 
@@ -318,16 +358,17 @@ launch, both together in one commit:
    on a weekly renewing allowance. Separately, 135 lessons with their full slide
    decks are world readable at the database level, so the screens hold the paywall
    and the rows do not. Both close together. Tracked as its own piece of work.
-3. **Whether the 33 crons are firing twice**, one set per Vercel project. The
-   query is in step 1. This one is already happening rather than waiting for
-   launch, so it is worth ten minutes today.
+3. ~~**Whether the 33 crons are firing twice**, one set per Vercel project.~~
+   **CLOSED, 12 August 2026. They are not.** Every job runs exactly once,
+   counted against its own schedule rather than guessed at. The evidence and the
+   corrected query are in step 1. Nothing to disable on the day.
 
 ---
 
 ## The order on the day
 
-1. Run the duplicate cron query in step 1 and, if it comes back with rows,
-   disable the crons on the guided-childhood project.
+1. ~~Run the duplicate cron query~~ **Already done, 12 August 2026: the crons
+   are NOT doubled and there is nothing to disable. Skip to step 2.**
 2. Add the four domains, add the DNS records, wait for the certificates.
 3. Set the app URL variable, then redeploy.
 4. Supabase site URL and redirect URL.
