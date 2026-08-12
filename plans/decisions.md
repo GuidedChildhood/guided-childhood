@@ -7593,3 +7593,15 @@ week page's subtitle says school things and your own reminders, and the
 pushes stop claiming a sender: "On your calendar", "For tomorrow",
 "Reminders for tomorrow". The red nearly time header stays exactly as it
 was, urgency needs no rename.
+
+## 12 August 2026 — The Friend sheets become proper printables
+
+Justin, on Bloop's colour in: "We need proper printable here not image."
+The Pebble, Bloop and Orbit printables pointed at photographed mockups of
+the sheet lying on a table, a picture OF a printable rather than one. All
+five Friend sheets now print the character's clean line art from
+stage-characters, the same single source the poster draws from, and the
+overlay composes the sheet properly: the Friend's name and stage printed
+as crisp text above the art with a row of stars to colour, so what lands
+on paper is a real colouring sheet. The card thumbnails keep the full
+colour art, the shop window rule unchanged.

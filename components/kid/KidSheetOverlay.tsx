@@ -17,7 +17,12 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 // sheet below it, and a print rule that hides everything except the sheet.
 // Nothing can be blocked and nothing can strand, because nothing leaves.
 
-export type OverlaySheet = { url: string; title: string }
+// When a heading rides along, the overlay composes a proper sheet: the name
+// and kicker printed as crisp text above the art, instead of trusting words
+// baked into an image. Justin, 12 August 2026, on a photographed mockup of
+// the Bloop sheet standing in for the sheet itself: "We need proper
+// printable here not image."
+export type OverlaySheet = { url: string; title: string; heading?: { name: string; kicker: string } }
 
 export default function KidSheetOverlay({ sheet, onClose }: {
   sheet: OverlaySheet | null
@@ -72,6 +77,36 @@ export default function KidSheetOverlay({ sheet, onClose }: {
         <p style={{ padding: '30px 22px', textAlign: 'center', fontSize: 'var(--text-md)', fontWeight: 700, lineHeight: 1.55, color: 'var(--ink)' }}>
           That sheet did not come through. Check the wifi and try again, or ask a grown up to print it for you.
         </p>
+      ) : sheet.heading ? (
+        // The composed sheet: crisp text, clean art, a sprinkle of stars to
+        // colour. What lands on paper is a real colouring sheet, not a photo
+        // of one.
+        <div style={{ maxWidth: 700, margin: '0 auto', padding: '26px 22px 40px', textAlign: 'center' }}>
+          <div style={{
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(44px, 13vw, 72px)',
+            letterSpacing: '0.04em', textTransform: 'uppercase', lineHeight: 1, color: '#1A1A2E',
+          }}>
+            {sheet.heading.name}
+          </div>
+          <div style={{
+            fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-md)',
+            letterSpacing: '0.14em', textTransform: 'uppercase', color: '#1A1A2E', margin: '10px 0 4px',
+          }}>
+            {sheet.heading.kicker}
+          </div>
+          <div aria-hidden style={{ fontSize: 'var(--text-xl)', letterSpacing: '0.35em', color: '#1A1A2E', margin: '6px 0 2px' }}>
+            ☆ ☆ ☆ ☆ ☆
+          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={sheet.url}
+            alt={sheet.title}
+            loading="eager"
+            decoding="sync"
+            onError={() => setFailed(true)}
+            style={{ width: '100%', display: 'block' }}
+          />
+        </div>
       ) : (
         // eslint-disable-next-line @next/next/no-img-element
         <img

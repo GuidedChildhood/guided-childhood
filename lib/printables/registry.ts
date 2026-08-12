@@ -18,6 +18,13 @@ const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3
 // should see who they are about to colour, in full colour, the same art they
 // meet in the app. The sheet they print is still the clean line art.
 const friendArt = (key: string) => characterByKey(key)?.img ?? ''
+// The sheet a Friend printable actually prints: the character's own clean
+// black and white line art from stage-characters, the single source the
+// poster already draws from. Three of these used to point at photographed
+// mockups of the sheet on a table, which is a picture OF a printable, not a
+// printable. Justin, 12 August 2026: "We need proper printable here not
+// image."
+const friendColouring = (key: string) => characterByKey(key)?.colouring ?? ''
 
 export type Printable = {
   key: string
@@ -46,6 +53,9 @@ export type Printable = {
   // of the single generated sheet.
   pdfColour?: string
   pdfColourIn?: string
+  // A composed sheet: the child app prints crisp HTML text above the art
+  // (name, kicker line) instead of relying on words baked into the image.
+  sheetHeading?: { name: string; kicker: string }
   /**
    * Free to download without a membership. Almost nothing is: the printables
    * are a member feature and the preview is the sell. The exception is the
@@ -156,7 +166,8 @@ export const PRINTABLES: Printable[] = [
     stages: [1], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 1 Planet Friend, full of curiosity and wonder. Colour Pebble in however you like.',
-    sheetUrl: BASE + 'hf_20260723_121101_b9370321-6338-41b6-8c06-220c937d6705.png',
+    sheetUrl: friendColouring('pebble'),
+    sheetHeading: { name: 'Pebble', kicker: 'My Stage 1 Planet Friend' },
     previewUrl: friendArt('pebble'),
   },
   {
@@ -165,7 +176,8 @@ export const PRINTABLES: Printable[] = [
     stages: [2], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 2 Planet Friend, creative and clever. Bring Bloop to life with colour.',
-    sheetUrl: BASE + 'hf_20260723_121102_5535f574-b642-4f8f-bcc3-8d4a7ff2c334.png',
+    sheetUrl: friendColouring('bloop'),
+    sheetHeading: { name: 'Bloop', kicker: 'My Stage 2 Planet Friend' },
     previewUrl: friendArt('bloop'),
   },
   {
@@ -174,7 +186,8 @@ export const PRINTABLES: Printable[] = [
     stages: [3], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 3 Planet Friend, always exploring. Colour Orbit ready for the next big question.',
-    sheetUrl: BASE + 'hf_20260723_121113_c6a1b8e9-da55-43d5-bf5f-9bdf7ffa9954.png',
+    sheetUrl: friendColouring('orbit'),
+    sheetHeading: { name: 'Orbit', kicker: 'My Stage 3 Planet Friend' },
     previewUrl: friendArt('orbit'),
   },
   {
@@ -183,7 +196,8 @@ export const PRINTABLES: Printable[] = [
     stages: [4], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 4 Planet Friend, thoughtful and kind. Colour Nova your way.',
-    sheetUrl: BASE + 'hf_20260725_090749_b565097d-be3d-403d-8435-2817497807bc.png',
+    sheetUrl: friendColouring('nova'),
+    sheetHeading: { name: 'Nova', kicker: 'My Stage 4 Planet Friend' },
     previewUrl: friendArt('nova'),
   },
   {
@@ -192,7 +206,8 @@ export const PRINTABLES: Printable[] = [
     stages: [5], minutes: 'One sitting', setting: 'anywhere', skill: 'Creativity',
     stars: 5,
     blurb: 'Your Stage 5 Planet Friend, confident and independent. Colour Cosmo ready to lead.',
-    sheetUrl: BASE + 'hf_20260725_090756_3600a3d8-266c-40ca-af9c-b890f0223bed.png',
+    sheetUrl: friendColouring('cosmo'),
+    sheetHeading: { name: 'Cosmo', kicker: 'My Stage 5 Planet Friend' },
     previewUrl: friendArt('cosmo'),
   },
   // Brought over from the Etsy shop into the app library, redrawn in the house
