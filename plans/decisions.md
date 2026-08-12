@@ -7258,3 +7258,47 @@ apps have no back button of any kind. There is no window any more: the
 sheet opens as an overlay on the page the child is already on, a bar with
 Back and Print, the print rule hides everything else. Nothing can be
 blocked and nothing can strand, because nothing leaves.
+
+## 11 August 2026 — The private tutor, phase 1: homework in, a real lesson out
+
+Justin: "the homework decoder, can it match whatever evidence we can research
+for typical homework given for a particular part of the syllabus, then can we
+develop a lesson to match that can be sent to a child... let's build this plan
+to make it the best private tutor to work at every stage."
+
+**Most of this already existed, pointed the other way.** `/api/learning/make-quest`
+already turned curriculum objectives into a job on a child's phone, running child
+to parent: the child flags what was hard on a practice sheet and one small task
+comes back. This is the same pipeline reversed, plus the one thing genuinely
+missing, a route that writes a playable lesson. Nothing in the product generated
+slides before; every deck was authored by hand in a migration.
+
+**No model runs on the child's phone, and now that is enforced.** The deck is
+generated on the parent's session, read by the parent, and stored. What a child
+opens is a row. Migration 064 said this in 2026 (always from the parent, never a
+message from us to the child) and a comment enforces nothing, so
+`scripts/check-child-has-no-model.mjs` reads all 84 files under the child side of
+the product and fails on the SDK, the API host, a model id, or DIGI_MODEL. That
+is what the `slides` column on `tutor_lessons` is for: it is not a cache, it is
+the architecture.
+
+**The generator is narrow on purpose.** Six slide types out of the contract's
+fifteen. `stat` wants a real figure with a real source, `video` wants a URL that
+exists, `scenario` is a fabricated social post, and a model asked for a maths
+lesson will cheerfully produce all three. Objective ids are revalidated against
+the year we sent, exactly as the decoder does.
+
+**Two guarantees are tested rather than prompted.** A deck needs two gradeable
+questions or the player's 70 percent pass is decided by one tap, and no deficit
+word may reach a child: no tricky, no struggling, no behind, no catch up, right
+down inside the feedback on a wrong answer, which is exactly where a well meaning
+model puts it. Both live in `lib/learning/tutor-deck.ts` as pure functions so
+`check-tutor-deck.mjs` can throw the bad cases at them without spending a token.
+
+**No grades, ever.** The player sends its correct and total counts and
+`/api/kid/tutor-complete` writes neither. `done_at` says they finished it. The
+parent hears that it happened, not how it went.
+
+**And the navigation went back to what the child is learning.** Both back links
+read Printables and now read the learning surface, on the tab they were launched
+from. A comment claiming this was already fixed has been corrected.

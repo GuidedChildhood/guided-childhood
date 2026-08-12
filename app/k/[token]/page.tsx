@@ -541,6 +541,25 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     if (p) assignedPrintable = { key: p.key, title: p.title, emoji: p.emoji, stars: p.stars, sheetUrl: p.sheetUrl, pdfColourIn: p.pdfColourIn, previewUrl: p.previewUrl }
   }
 
+  // A tutor lesson a grown up read and sent (migration 188). The oldest one
+  // still open leads, the same rule as the printable above, so a parent sending
+  // two does not bury the first. Fails soft to none before the migration runs:
+  // the read errors, the card is absent, and nothing else on the page notices.
+  let tutorLesson: { id: string; title: string; emoji: string | null; stars: number; subject: string | null } | null = null
+  {
+    const { data } = await supabase.from('tutor_lessons')
+      .select('id, title, emoji, stars, subject')
+      .eq('child_id', link.child_id)
+      .not('sent_at', 'is', null).is('done_at', null).is('cleared_at', null)
+      .order('sent_at', { ascending: true }).limit(1).maybeSingle()
+    if (data) tutorLesson = {
+      id: String(data.id), title: String(data.title),
+      emoji: (data.emoji as string | null) ?? null,
+      stars: Number(data.stars) || 3,
+      subject: (data.subject as string | null) ?? null,
+    }
+  }
+
   // The Planet Friends this child has earned, so the app only ever offers those.
   //
   // The family's finished pathway stages used to count toward this, taken as a
@@ -690,6 +709,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       jobStreaks={jobStreaks}
       completedDays={completedDays}
       assignedPrintable={assignedPrintable}
+      tutorLesson={tutorLesson}
       token={token}
       agreementItems={agreementItems}
       agreementSigned={agreementSigned}

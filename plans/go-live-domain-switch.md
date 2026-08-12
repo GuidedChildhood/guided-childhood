@@ -100,17 +100,43 @@ which is the page all of them point at. Everything now reads `SITE_URL` from
 
 ---
 
-## 1. Settle which Vercel project is production
+---
 
-**Before anything else, and I could not settle it from the repo.** Two projects
-deploy this same codebase, `guided-childhood` and `guided-childhood-app`, and
-neither has a root directory set. `vercel.json` at the repo root registers 33 cron
-jobs, so both projects will have picked them up.
+## 1. The production project is guided-childhood-app
 
-Which one is production, and are those 33 jobs running twice a day each?
+Justin, 11 August 2026, asked which of the two it was: **"app one."** So
+`guided-childhood-app` is production, and that is the project the domains go on
+and the one whose environment variables matter.
 
-**Skip it and:** you attach the domain to the wrong project, or you spend launch
-week wondering why some families get two of every email.
+### Which leaves the other one, and it is not harmless
+
+`guided-childhood` deploys the same repository with no root directory set, so it
+has its own production deployment of this code. `vercel.json` at the repo root
+registers 33 cron jobs, and Vercel registers them per project, against whatever
+that project's production deployment is.
+
+**So the schedule is almost certainly running twice.** Not a launch risk, a live
+one: two copies of the daily digest, two of the weekly review, two morning
+pushes at 07:15, two lots of school reminders at 17:00. Every family on the list
+getting everything twice.
+
+**Prove it before changing anything.** Every run writes a row to `cron_runs`, so
+the question answers itself:
+
+    select job, date_trunc('minute', started_at) as minute, count(*)
+    from cron_runs
+    where started_at > now() - interval '2 days'
+    group by 1, 2
+    having count(*) > 1
+    order by minute desc;
+
+Rows back means two projects are firing the same job at the same minute. No rows
+means only one project has crons after all, and there is nothing to do here.
+
+**If it is doubled**, turn the crons off on `guided-childhood` rather than
+deleting the project: Settings, Cron Jobs, disable. Deleting is a bigger move
+than this needs and the old project is still a working rollback target while the
+domain moves.
 
 ---
 
@@ -272,13 +298,16 @@ launch, both together in one commit:
    on a weekly renewing allowance. Separately, 135 lessons with their full slide
    decks are world readable at the database level, so the screens hold the paywall
    and the rows do not. Both close together. Tracked as its own piece of work.
-3. **Which Vercel project is production**, and whether the crons are doubled.
+3. **Whether the 33 crons are firing twice**, one set per Vercel project. The
+   query is in step 1. This one is already happening rather than waiting for
+   launch, so it is worth ten minutes today.
 
 ---
 
 ## The order on the day
 
-1. Answer the two projects question.
+1. Run the duplicate cron query in step 1 and, if it comes back with rows,
+   disable the crons on the guided-childhood project.
 2. Add the four domains, add the DNS records, wait for the certificates.
 3. Set the app URL variable, then redeploy.
 4. Supabase site URL and redirect URL.
