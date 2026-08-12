@@ -525,6 +525,19 @@ export function weeklyReviewEmail(params: {
                </tr></table>
              </td></tr></table>`).join('')}
              <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:13px;color:${INK_MUTED};margin-top:10px">${poll.total} ${poll.total === 1 ? 'family' : 'families'} answered. Whatever your week looked like, you are in good company.</div>
+             <!-- THE WAY IN, which this section did not have.
+                  The poll only lives on Home, and it disappears the moment it
+                  is answered, so a parent who did not open the app that month
+                  was never asked. This email then told them what every other
+                  family said and gave them no way to be one of them. The
+                  reassurance is the point of the section, and being counted is
+                  most of the reassurance.
+                  Worded so it costs nothing if they have already answered,
+                  rather than asking per family whether they have, which would
+                  be one more query per parent per send for a sentence. -->
+             <div style="margin-top:12px">
+               <a href="${APP}/dashboard" style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;font-weight:800;color:${BUTTER_DARK};text-decoration:none">Not added yours yet? It takes one tap &rsaquo;</a>
+             </div>
            </div>`
         : '') +
       button('See the full week', `${APP}/dashboard`) +
