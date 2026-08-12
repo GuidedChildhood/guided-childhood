@@ -345,23 +345,23 @@ export default function HomePage() {
                 loading="eager"
                 style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', objectPosition: '80% center' }}
               />
-              <div aria-label="The child app: quests, a star bank and screen time earned by doing chores" style={{ position: 'absolute', right: '18px', bottom: '-20px', width: 'clamp(96px, 24%, 118px)', aspectRatio: '9 / 18.5', borderRadius: '20px', border: '5px solid var(--ink)', overflow: 'hidden', boxShadow: '0 18px 44px rgba(26,26,46,0.25)', background: 'var(--pastel-pink)', display: 'flex', flexDirection: 'column', padding: '16px 8px 12px' }}>
+              <div aria-label="The child app: quests, a star bank and screen time earned by doing chores" style={{ position: 'absolute', right: '14px', bottom: '14px', width: 'clamp(78px, 17%, 92px)', aspectRatio: '9 / 18.5', borderRadius: '16px', border: '4px solid var(--ink)', overflow: 'hidden', boxShadow: '0 14px 34px rgba(26,26,46,0.25)', background: 'var(--pastel-pink)', display: 'flex', flexDirection: 'column', padding: '13px 6px 9px' }}>
                 {/* Dynamic island */}
-                <div aria-hidden style={{ position: 'absolute', top: '6px', left: '50%', transform: 'translateX(-50%)', width: '34%', height: '9px', background: 'var(--ink)', borderRadius: '100px' }} />
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.42rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', textAlign: 'center' }}>Today&rsquo;s quests</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.74rem', fontWeight: 900, color: 'var(--ink)', textAlign: 'center', margin: '1px 0 6px' }}>Go Sofia!</div>
-                <div style={{ background: 'var(--terracotta)', borderRadius: '9px', padding: '5px 7px', marginBottom: '6px', boxShadow: '0 2px 0 var(--terracotta-dark)' }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '.68rem', fontWeight: 900, color: 'var(--ink)' }}>&#11088; 21 stars</div>
-                  <div style={{ fontSize: '.48rem', fontWeight: 700, color: 'var(--ink)', opacity: .85 }}>= 105 min screen time</div>
+                <div aria-hidden style={{ position: 'absolute', top: '6px', left: '50%', transform: 'translateX(-50%)', width: '32%', height: '7px', background: 'var(--ink)', borderRadius: '100px' }} />
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.36rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-soft)', textAlign: 'center' }}>Today&rsquo;s quests</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.6rem', fontWeight: 900, color: 'var(--ink)', textAlign: 'center', margin: '1px 0 5px' }}>Go Sofia!</div>
+                <div style={{ background: 'var(--terracotta)', borderRadius: '8px', padding: '4px 6px', marginBottom: '5px', boxShadow: '0 2px 0 var(--terracotta-dark)' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '.56rem', fontWeight: 900, color: 'var(--ink)' }}>&#11088; 21 stars</div>
+                  <div style={{ fontSize: '.4rem', fontWeight: 700, color: 'var(--ink)', opacity: .85 }}>= 105 min screen time</div>
                 </div>
                 {[
                   ['Make your bed', '\u2713', 'var(--retro-green)'],
                   ['Read 20 minutes', '+2\u2B50', 'var(--ink-muted)'],
                   ['Play outside', '+5\u2B50', 'var(--ink-muted)'],
                 ].map(([label, badge, badgeColor]) => (
-                  <div key={label} style={{ background: '#fff', borderRadius: '8px', padding: '4px 6px', marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px' }}>
-                    <span style={{ fontSize: '.5rem', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
-                    <span style={{ fontSize: '.46rem', fontWeight: 900, color: badgeColor, flexShrink: 0 }}>{badge}</span>
+                  <div key={label} style={{ background: '#fff', borderRadius: '7px', padding: '3px 5px', marginBottom: '3px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px' }}>
+                    <span style={{ fontSize: '.42rem', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
+                    <span style={{ fontSize: '.4rem', fontWeight: 900, color: badgeColor, flexShrink: 0 }}>{badge}</span>
                   </div>
                 ))}
                 {/* Home indicator */}
