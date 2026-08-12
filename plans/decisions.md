@@ -7645,3 +7645,14 @@ the overlay only knew one url, so the craft printed its list and dropped
 the cut out bucket it exists for. The overlay now takes the extra pages
 and prints each as its own sheet of paper, threaded through the print
 tab and the assigned printable card alike.
+
+## 12 August 2026 — The best three lead the printables
+
+Justin: "order printables so star chart then bucket customisable then
+planner as these are the best 3 and would like them near the top of list
+when they click printables." The star chart and bucket builders were
+already the cards above every grid on both apps, so the one move needed
+was the School Year Planner: it now leads the registry array, which puts
+it first in the child's sheet list and first in the parent's Made for
+grid. Top of printables on both phones now reads star chart, bucket
+builder, planner.
