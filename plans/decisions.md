@@ -7554,3 +7554,14 @@ sheet: "It happens in the holidays too." One field, one direction. It can
 wake a resting reminder up, never rename, move or stop one, so the rule
 that a child never edits a grown up's reminder stands. The grown up gets
 a push each time and can flip it back from their calendar.
+
+## 12 August 2026 — The term preview goes behind a door
+
+Justin, with the full preview filling Teo's screen above the week itself:
+"This should all hide behind a button saying want to see what next term
+covers? Not prominent." The week page's job is this week; the syllabus is
+the thing a child occasionally wonders about, not the thing they came
+for. The card now starts as one slim line, "Want to see what next term
+covers?", and opens on a tap with a close in the corner. When it appears
+at all stays gated as before: only around a term boundary, only with a
+birthday to pin the year group.
