@@ -7,6 +7,8 @@ import { STAGES, type ChallengeId } from '@/lib/content/stages'
 import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
 import SchoolChest from '@/components/pathway/SchoolChest'
+import PlanetCard from '@/components/pathway/PlanetCard'
+import { planetOfTheWeek } from '@/lib/pathway/planets'
 import { sheetTarget, sheetLabel } from '@/lib/learning/term'
 import StageRoad from '@/components/pathway/StageRoad'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
@@ -18,6 +20,7 @@ import { pickChild } from '@/lib/children/select'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import PassportBook from '@/components/pathway/PassportBook'
 import PathwayIntro from '@/components/pathway/PathwayIntro'
+import PathwayComplete from '@/components/pathway/PathwayComplete'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
 import MeetTheFriends from '@/components/pathway/MeetTheFriends'
 import StageReadiness from '@/components/pathway/StageReadiness'
@@ -106,6 +109,14 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   )
 
   const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
+
+  // All five stamps genuinely earned. Read from contentComplete, the same
+  // source the passport and the road's trophy use, so the celebration can never
+  // fire on a stage the family has not actually finished. Age is deliberately
+  // not in it: a sixteen year old whose family did nothing has walked no road.
+  const allStagesEarned = !!allStagesProgress
+    && (['foundation', 'builder', 'explorer', 'shaper', 'independent'] as ProgressStageId[])
+      .every(slug => allStagesProgress[slug].contentComplete)
 
   // One live literacy reading for the whole page, shared by the four strands
   // card and the end of stage check below, so they never disagree.
@@ -300,6 +311,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           hasConcern={!!concernLabel}
           scriptHref="/dashboard/scripts/recommended"
         />
+        {/* THE END OF THE ROAD, WHEN IT ARRIVES.
+            Justin: "when pathway is done and celebration."
+            Until now the trophy at the bottom of the road lit up and that was
+            the whole ceremony: no moment, no sentence, nothing anywhere in the
+            app acknowledging that a family had finished a twelve year journey.
+            The confetti has been fired for a lesson pass and a quest game since
+            the design audit; the one thing the product is built to reach had
+            none of it.
+            It sits ABOVE the intro rather than down by the trophy, because on
+            the day it lands it is the most important thing on the page, and
+            nobody should have to scroll past the explanation of a road they
+            have already walked to be told they walked it. Same reading as the
+            passport, so it can never light without the five stamps being real. */}
+        {allStagesEarned && <PathwayComplete childName={primaryChild?.name ?? null} />}
+
         <div className="pathway-hero">
           {/* The promise, folded away after the first visit.
 
@@ -398,6 +424,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           childName={primaryChild?.name ?? undefined}
           stageStatus={stageStatus}
         />
+      </div>
+
+      {/* ONE PLANET A WEEK, DIRECTLY UNDER THE ROAD.
+          Justin: "make it planets, make it more parent focussed but like
+          duolingo, so something that attracts them to click and not much text",
+          and earlier, on where it goes: "just giving insight to what we offer,
+          do not interfering with pathway."
+          So it sits UNDER the road rather than beside it. Beside it was the
+          first reading of his brief and it is wrong on a 390 wide phone, where
+          anything next to the road either squeezes the road or wraps under it
+          anyway, badly. Under the road it interferes with nothing and it is the
+          next thing the eye reaches. The rotation, and why it is a week rather
+          than a menu, is in lib/pathway/planets.ts. */}
+      <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
+        <PlanetCard startIndex={planetOfTheWeek()} />
       </div>
 
       {/* SCHOOL, BESIDE THE ROAD RATHER THAN ON IT.

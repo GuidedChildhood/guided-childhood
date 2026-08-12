@@ -680,7 +680,32 @@ When a parent asks whether or for how long their child should use any device, do
       }
     } catch { /* never at the cost of the reply */ }
 
-    if (!responseText.trim()) return
+    if (!responseText.trim()) {
+      // NO ANSWER CAME, SO THE CLAIM IS WITHDRAWN.
+      //
+      // The row was inserted before the stream so the pathway could tick the
+      // moment a parent asked, instead of a minute later behind the model call.
+      // That is right when a reply arrives and wrong when one does not, because
+      // lib/pathway/daily-tasks.ts asks only whether a row exists today. Left in
+      // place, an empty row ticks "ask DiGi a question" green for a conversation
+      // that ended by apologising and telling them to ask again.
+      //
+      // It is not only the rare empty model reply either: the catch around the
+      // stream sets fullText to '' on ANY throw, so a dropped connection or the
+      // client's own timeout lands here too, and the client's retry would then
+      // claim a SECOND row for the same question, inflating the weekly count
+      // Justin reads and double counting the sentence in the theme tally.
+      //
+      // A read side filter cannot fix this: response is '' for the whole of a
+      // successful stream as well, which is the entire point of claiming early.
+      // So the write side takes it back.
+      if (questionRowId) {
+        try {
+          await createAdminClient().from('digi_questions').delete().eq('id', questionRowId)
+        } catch { /* best effort, exactly as the claim itself is */ }
+      }
+      return
+    }
 
     // Extract the reflective question from the response (after the marker line).
     // The reflection is written last, so a long reply can chop it off mid word.

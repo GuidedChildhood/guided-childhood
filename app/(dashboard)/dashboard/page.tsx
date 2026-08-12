@@ -18,10 +18,11 @@ import DigiDiscoverNudge from '@/components/digi/DigiDiscoverNudge'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
 import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
-import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
+import { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
-import { schoolTakesTheTop } from '@/lib/home/school-spotlight'
-import HomeStats from '@/components/dashboard/HomeStats'
+import { schoolTakesTheTop, countWaitingToday } from '@/lib/home/school-spotlight'
+import { pickNextUp } from '@/lib/home/next-up'
+import { isHeldForHolidays } from '@/lib/school/child-items'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import { allBirthdaysIn } from '@/lib/setup/flags'
 import { nextEventForChild, aroundWhen } from '@/lib/learning/calendar'
@@ -33,7 +34,7 @@ import ChildAppGone from '@/components/home/ChildAppGone'
 import { linkHealth, daysSinceSeen } from '@/lib/kid/link-health'
 import { buildTermPreview } from '@/lib/learning/term-preview'
 import { getFamilyRegion } from '@/lib/learning/region'
-import DayCheckup from '@/components/home/DayCheckup'
+import QuietLine from '@/components/home/QuietLine'
 import PhoneBridgeCard from '@/components/home/PhoneBridgeCard'
 import { MAX_HANDOVER_ASKS } from '@/lib/handover'
 import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
@@ -108,7 +109,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
-    supabase.from('school_actions').select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(20),
+    // cleared_on rides along for countWaitingToday: a weekly routine cleared
+    // today is not waiting on anybody until it comes round again next week.
+    supabase.from('school_actions').select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child, cleared_on').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(20),
     supabase.from('school_connections').select('id').eq('user_id', user.id).eq('active', true).maybeSingle(),
     supabase.from('family_agreements').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),
@@ -165,12 +168,24 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     .filter(k => k.name)
     .map(k => ({ name: k.name as string, ageBand: (k.age_band as string | null) ?? null }))
 
-  // The habit nudge facts. Awaited here rather than in the big Promise.all
-  // above because it needs the child list that block produces, and read behind
-  // its own guard so a nudge can never be the reason the home page fails.
-  const nudgeFacts = await readNudgeFacts(
-    supabase, user.id, allKids.map(k => k.id as string),
-  )
+  // ── THE THIRD WAVE, WHICH USED TO BE THREE SEPARATE WAITS ──────────────────
+  //
+  // Justin: "going to home seems to not be that quick in general."
+  //
+  // Both of these need the child list wave one produces, so neither can join
+  // it, and both were sitting on their own await: the page stopped, went to the
+  // database, came back, stopped again. Worse, getFamilyRegion was called TWICE
+  // on every single load, once here and once for the term preview two hundred
+  // lines down, for a value that cannot change inside one render. That was a
+  // whole round trip spent asking a question we had already had answered.
+  //
+  // One wave, one region, read once and passed to everything that wants it.
+  // Both still fail soft: a nudge or a missing region must never be the reason
+  // Home does not render.
+  const [nudgeFacts, familyRegion] = await Promise.all([
+    readNudgeFacts(supabase, user.id, allKids.map(k => k.id as string)),
+    getFamilyRegion(supabase, user.id).catch(() => 'uk' as const),
+  ])
 
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
@@ -206,7 +221,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         supabase,
         { date_of_birth: (child as { date_of_birth?: string | null }).date_of_birth ?? null },
         new Date(),
-        await getFamilyRegion(supabase, user.id).catch(() => 'uk' as const),
+        familyRegion,
       )
     : null
 
@@ -255,7 +270,23 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // zone: not a harmless shadow, a ReferenceError on the path every signed in
   // parent takes. Two separately green pull requests produced it, because git
   // had no textual conflict to report in either.
-  const familyRegion = await getFamilyRegion(supabase, user.id)
+  // The second call to getFamilyRegion used to live here. It is gone: the
+  // region is read once in the third wave above and used everywhere, which is
+  // one fewer round trip on every load of this page. The warning above still
+  // stands and is now easier to honour, because there is exactly one binding.
+
+  // How many school reminders are ACTUALLY waiting today, as opposed to how
+  // many rows are open. A weekly routine is one open row for ever, so counting
+  // rows made "something is waiting" permanently true and pinned the card to
+  // the top of Home every day; holiday held routines counted too, so all summer
+  // it carried a red badge for items the card itself was greying out. Read once
+  // here because two things need it: where the card sits, and the school entry
+  // in the what next rotation. See lib/home/school-spotlight.
+  const schoolWaitingToday = countWaitingToday(
+    schoolActions,
+    new Date(),
+    a => isHeldForHolidays(a as Parameters<typeof isHeldForHolidays>[0], new Date(), familyRegion),
+  )
   const hasSchoolConnection = !!schoolConnectionResult.data
   // The child phone link step only belongs once a child is old enough to
   // have a phone. We record around 9 as the point that starts, so any band
@@ -405,7 +436,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // last script's insight, the jobs board). Two waves total, not ten.
   const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
   const lastCompletion = lastCompletionResult.data
-  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief] = await Promise.all([
+  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief, familyDevicesRes, deviceSetupRes] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
     getLiteracyStatuses(supabase, user.id, stage.id),
@@ -436,6 +467,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // This week at school, for the Today card row. Null without a birthday or
     // outside Years 1 to 6, the same honest gate every curriculum surface has.
     getWeekBrief(supabase, (child as { date_of_birth?: string | null } | null)?.date_of_birth ?? null),
+    // The family's devices and how many have been walked through, for the three
+    // device entries in the what next rotation. Inside this wave rather than
+    // after it, so they cost no extra round trip: the whole point of the two
+    // wave shape is that one more read here is free and one more await is not.
+    supabase.from('family_devices').select('id').eq('user_id', user.id).is('retired_at', null),
+    supabase.from('device_setup_progress').select('device_key, status').eq('user_id', user.id),
   ])
 
   // The lesson nudge pick, from the wave's reads: one age relevant film the
@@ -576,39 +613,52 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // passport, and on that day the greeting's jobs line is the only place a
   // parent hears "jobs on track, 3 days on the trot", which is worth saying and
   // is not said anywhere else on this screen.
-  const nextUp: { eyebrow: string; title: string; line: string; href: string; icon: string; coversJobs: boolean } =
-    jobsStatus === 'pending'
-      ? {
-          eyebrow: "Today's habit done",
-          title: questsChildName ? `${questsChildName}'s quests` : 'Family quests',
-          line: 'Jobs to check off and any asks to answer',
-          // The anchor came off the greeting's link when that line went quiet,
-          // so it moves here. Landing on the board rather than the top of the
-          // page is the whole difference between one tap and three.
-          href: '/dashboard/quests#quest-board', icon: '⭐', coversJobs: true,
-        }
-      : noQuestsYet
-      ? {
-          eyebrow: "Today's habit done",
-          title: 'Set their first jobs',
-          line: 'Real world jobs are what earn screen time, so nothing else starts moving until these exist.',
-          href: '/dashboard/quests', icon: '🧹', coversJobs: true,
-        }
-      : stageLessonsLeft > 0
-      ? {
-          eyebrow: "Today's habit done",
-          title: 'Move the passport on',
-          line: `${stageLessons!.passed} of ${stageLessons!.total} lessons passed at ${stage.name}. Pass the rest to stamp this stage.`,
-          href: '/dashboard/pathway', icon: '🛂', coversJobs: false,
-        }
-      : {
-          eyebrow: "Today's habit done",
-          title: questsChildName ? `${questsChildName}'s quests` : 'Family quests',
-          line: jobsStatus === 'on_track'
-            ? "Today's jobs are done. Check any asks and set tomorrow's"
-            : 'Set the jobs and screen time to get the stars flowing',
-          href: '/dashboard/quests', icon: '⭐', coversJobs: true,
-        }
+  // ── AND IT ROTATES NOW (12 August 2026) ────────────────────────────────────
+  //
+  // Justin: "are we rotating what's next between review quests, guide watch
+  // time, check watch balance, check school reminders, check device settings,
+  // check all devices added and set up, add any new devices, lessons, passport?
+  // We should rotate these."
+  //
+  // It was a four branch chain and the first match won for ever, so a family
+  // with jobs running and lessons done read the same sentence every day for
+  // weeks while five whole parts of the app went unmentioned. The nine, the
+  // order, the two that jump the queue and why a day rather than a week are all
+  // in lib/home/next-up.ts. Everything below is signals it already holds.
+  const deviceSetup = (deviceSetupRes.data ?? []) as { device_key: string; status: string }[]
+  const nextUp = pickNextUp({
+    childName: questsChildName,
+    stageName: stage.name,
+    jobsStatus,
+    noQuestsYet,
+    lessonsLeft: stageLessonsLeft,
+    lessonsPassed: stageLessons?.passed ?? 0,
+    lessonsTotal: stageLessons?.total ?? 0,
+    watchTogetherLeft: Math.max(0, watchTogether.total - watchTogether.done),
+    balanceAmber: (literacyStatuses.balance?.tone ?? 'green') !== 'green',
+    schoolWaiting: schoolWaitingToday,
+    // Ever added a reminder or connected an inbox. The same "once set up, stays
+    // set up" reading the setup path uses, so the entry does not vanish the
+    // moment the open list empties.
+    hasSchool: !!anySchoolActionResult.data || hasSchoolConnection,
+    deviceCount: (familyDevicesRes.data ?? []).length,
+    devicesSetUp: deviceSetup.filter(d => d.status === 'done').length,
+  })
+
+  // The greeting only goes quiet about jobs when the card that says it instead
+  // is ACTUALLY ON THE PAGE. That card is wrapped in {dayComplete && ...}, so
+  // passing coversJobs on its own silenced the greeting for the whole of the
+  // morning before the habit was done, on a screen where nothing else mentioned
+  // jobs at all. Three of the four branches set coversJobs, so Home was simply
+  // silent about jobs waiting, which is the opposite of what the change was for.
+  const nextUpCoversJobs = dayComplete && nextUp.coversJobs
+
+  // How many things the day checkup would have raised. The card it replaces
+  // counted an amber strand or lessons still waiting; the line counts the same
+  // things, so "worth a look" and the four strands on the pathway can never
+  // disagree about how many there are.
+  const checkupNeeds = literacyStrands.filter(s => s.tone !== 'green').length
+    + (stageLessonsLeft > 0 ? 1 : 0)
 
   // ── THE SCHOOL CARD COMES TO THE TOP ONCE A WEEK ───────────────────────────
   //
@@ -623,33 +673,52 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   //
   // It MOVES rather than being drawn twice. Home already had one thing said in
   // two places today and he caught it within the hour.
-  const schoolOnTop = schoolTakesTheTop(schoolActions.length)
+  //
+  // The count handed over is what is WAITING TODAY, not how many rows are open,
+  // and the difference is a bug that shipped. A weekly routine is one open row
+  // for ever, so "PE kit, every Tuesday" made the exception permanently true
+  // and the card sat at the top every day of the week. Holiday held routines
+  // counted too, so all summer the top of Home carried a red badge for items
+  // the card itself was greying out as "on hold until school is back".
+  // countWaitingToday is where the rule lives, with the reasoning. It is worked
+  // out up with the other school reads rather than here, because the what next
+  // rotation needs the same number and two places counting it separately is how
+  // one screen ends up quoting two different figures for the same morning.
+  // ── ONE LINE, AND IT OPENS THE CALENDAR ────────────────────────────────────
+  //
+  // Justin, 12 August 2026, with Home on his phone: "the From school should
+  // just be a one line school calendar view that we designed. This looks too
+  // big a box and we had a nice calendar view before for both child and parent.
+  // Can we get that back? It should just be a see calendar which has school and
+  // child alerts, a one line. It looked great, then you click it and you get the
+  // calendar view." And: "we also asked for these sorts of things to be
+  // collapsed behind one line, so keep the homepage an easy short scroll."
+  //
+  // He is right, and the box had grown without anybody deciding it should. On
+  // Home it was a fold containing an Add button, a second fold for the week and
+  // a third row for the full list: three controls and two counts, to say a thing
+  // that on most days is "nothing today". The calendar itself, the part worth
+  // looking at, was the one piece you could not see without two taps.
+  //
+  // So Home carries the ANSWER and the door, and /dashboard/school carries the
+  // calendar. That is the whole of it. The line still moves to the top of the
+  // page on its day or when something is due, because where it sits is what
+  // makes it a habit, and it still reads the same schoolWaitingToday as the what
+  // next rotation so the two can never disagree.
+  const schoolOnTop = schoolTakesTheTop(schoolWaitingToday)
   const schoolBlock = (
-    <>
-      {/* Things you need to know: open school actions from forwarded school
-            emails, or added by hand. The id is the anchor the setup path's
-            school step points at, so Go lands right here, not on a separate
-            page the parent then has to hunt through for the add form. */}
-        {/* Open only when school has actually sent something.
-            The biggest component on Home at 675 lines, and on most days it is a
-            card saying there is nothing. Folded it costs one line and still says
-            so; with actions waiting it opens itself and carries a red count,
-            because a school deadline is the one thing here a parent cannot
-            afford to scroll past. Same rule as the quest tabs. */}
-        <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
-          <FoldSection
-            label="From school"
-            value={schoolActions.length === 0 ? 'Nothing waiting' : undefined}
-            count={schoolActions.length}
-            alert={schoolActions.length > 0}
-            open={schoolActions.length > 0}
-          >
-            {/* compact: the fold above already says From school, so the card does
-                not say it a second time on the same screen. */}
-            <SchoolActionsCard actions={schoolActions} childName={child?.name} region={familyRegion} compact />
-          </FoldSection>
-        </div>
-    </>
+    <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
+      <QuietLine
+        eyebrow="Calendar"
+        icon="📅"
+        label={schoolWaitingToday === 0
+          ? 'School and child alerts, nothing due today'
+          : schoolWaitingToday === 1
+          ? 'One thing due today at school'
+          : `${schoolWaitingToday} things due today at school`}
+        href="/dashboard/school"
+      />
+    </div>
   )
 
   return (
@@ -832,15 +901,14 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             jobsStatus={jobsStatus}
             jobsStreakDays={jobsStreakDays}
             balanceHref="/dashboard/quests"
-            nextUpCoversJobs={nextUp.coversJobs}
+            nextUpCoversJobs={nextUpCoversJobs}
           />
         )
       })()}
 
-      {/* The monthly community bite, now BELOW today rather than above it. One
-          question a month is worth having and is not worth the second slot on
-          the screen: a parent who has not done their day yet has something
-          better to do than answer it. Silent once answered, until next month. */}
+      {/* The monthly community bite. Left as it is: Justin did not pick it off,
+          and it is already silent once answered, so it costs nothing on the
+          other twenty nine days of the month. */}
       <CommunityBite />
 
       {/* Day done, so lead with quests. A returning parent whose daily habit is
@@ -870,19 +938,24 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         </Link>
       )}
 
-      {/* And then the wider check on the child, which used to be step one of
-          DiGi's morning walk. It came before the day's one thing, which is the
-          wrong way round: follow the path first, check on the child after.
-          Silent unless a strand is red or lessons are waiting, so silence
-          honestly means checked and fine. */}
-      {dayComplete && (
-        <DayCheckup
-          childName={child?.name ?? null}
-          stageNum={stage.id}
-          stageName={stage.name}
-          strands={literacyStrands}
-          lessonsLeft={stageLessonsLeft}
-          lessonsTotal={stageLessons?.total ?? 0}
+      {/* The wider check on the child, now ONE LINE. Justin: "they should be
+          some link or one line to click for these when they pop up, but not
+          taking up too much space."
+          The card was never wrong, it was the wrong size for the moment it
+          appears in: it lands the instant a parent finishes their day, which is
+          the exact second they are least interested in a second screen of
+          reading. The line still only appears when something is genuinely amber
+          (see checkupNeeds below), so silence still honestly means checked and
+          fine, and the full picture is one tap away on the pathway where the
+          four strands already live in full. */}
+      {dayComplete && checkupNeeds > 0 && (
+        <QuietLine
+          eyebrow="Worth a look"
+          icon="🧭"
+          label={checkupNeeds === 1
+            ? 'One thing to check on for them'
+            : `${checkupNeeds} things to check on for them`}
+          href="/dashboard/pathway#four-things"
         />
       )}
 
@@ -987,9 +1060,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           the one thing a family is working on is a sentence about the journey.
           It lives in components/pathway/FocusStrip.tsx. */}
 
-      {/* The glanceable stat row: streak, stars in the bank, today's quests,
-          the three numbers a parent wants at a glance. */}
-      <HomeStats streakCount={streak.count} streakTotal={streak.total} />
+      {/* THE STAT ROW IS GONE. Justin picked it off Home on 12 August 2026.
+          Streak, stars, today's quests: three numbers, and the streak is
+          already on the Today card a few hundred pixels above, so the row
+          mostly restated something a parent had just read. The stars and the
+          quest count live on the Quests page, which is a permanent tab. */}
 
       {/* Push notification opt-in. Rendered whenever check ins are not yet on
           (so the enable button is always reachable, including when a parent

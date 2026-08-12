@@ -470,15 +470,21 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
           actually due. Folded, the row still says how many are due, so nothing
           is lost but the height. That is the rule FoldSection was built on:
           you lose the detail, never the answer. */}
-      {/* CLOSED BY DEFAULT, even when things are due, and that is the whole
-          argument rather than a default chosen carelessly. The lists below this
-          already show every due item with its date, its detail and its send to
-          child control. The grid adds the SHAPE of the week, which is a real
-          thing a list cannot show and a nice to have rather than the answer.
-          Auto opening it put seven rows of mostly empty days between a parent
-          and the thing that was actually due. The collapsed row still says how
-          many, so nothing is lost but the height. */}
-      <FoldSection label="This week" value={`${dueThisWeek} due`}>
+      {/* THE WEEK, PLAINLY, WITH NO FOLD IN FRONT OF IT.
+          Justin, 12 August 2026: "the from school has completely lost the new
+          calendar system we built, please get it back."
+          It had not been deleted. It was behind a fold that started closed,
+          inside Home's own fold that also starts closed, so the grid was two
+          taps and a scroll from the screen a parent opens most. The old
+          reasoning (seven rows of mostly empty days between a parent and the
+          thing actually due) is sound in isolation and wrong in context: that
+          is not a quieter calendar, it is a hidden one.
+          The wrapper is gone rather than just defaulted open, because SchoolWeek
+          already draws its own header with the week range, the count and the
+          arrows. Keeping both meant the card said "This week" twice and quoted
+          two different numbers, the fold counting what is due today and the grid
+          counting the week. If the height becomes a problem again the fix is to
+          put the due lists above the grid, not to fold it away. */}
       <SchoolWeek
         actions={actions}
         nowMs={nowMs}
@@ -497,7 +503,6 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
         // off or every week, and whether the child's phone gets it too.
         onAdd={(dateIso, dow) => setAddDay({ dateIso, dow })}
       />
-      </FoldSection>
 
       {addDay && (
         <SchoolAddSheet

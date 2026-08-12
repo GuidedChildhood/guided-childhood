@@ -62,13 +62,9 @@ export default function FocusStrip({
   )
 }
 
-/** The onboarding challenge, in the words a parent would use, for families who
- *  have not flagged a concern yet. Kept beside the strip because it is only
- *  ever read to fill it. */
-export const CHALLENGE_LABELS: Record<string, string> = {
-  bedtime: 'Bedtime and screens', homework: 'Homework and focus',
-  mood_after_screens: 'Mood after screens', something_else: '',
-  screens_takeover: 'Screens are taking over', mood_changes: 'Mood changes after phone use',
-  gaming: 'Gaming concerns', online_safety: 'Online safety worries',
-  start_conversation: 'Starting the conversation', asking_for_phone: 'Asking for a phone',
-}
+/** Re-exported so the pathway page's import does not have to change, and so
+ *  anything reaching for the labels still finds them next to the strip that
+ *  uses them. The map itself lives in lib/pathway/challenge-labels.ts, out of
+ *  this JSX file, because burying it here is how it drifted out of step with
+ *  onboarding in the first place and how a check script was unable to notice. */
+export { CHALLENGE_LABELS } from '@/lib/pathway/challenge-labels'
