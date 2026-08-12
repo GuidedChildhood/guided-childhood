@@ -7565,3 +7565,16 @@ for. The card now starts as one slim line, "Want to see what next term
 covers?", and opens on a tap with a close in the corner. When it appears
 at all stays gated as before: only around a term boundary, only with a
 birthday to pin the year group.
+
+## 12 August 2026 — The holidays button judges by sight, not by kind
+
+Justin tapped "It happens in the holidays too" on Swimming kit and the
+pill stayed. The row was a parent added NOTICE, sent to the child, so it
+sat on Teo's week wearing the hold pill while the new button's server
+check, which only accepted the child kinds, refused it as not his. The
+check now uses the same shared isChildVisible rule as the week page
+itself: if a routine is on the child's diary, its holidays truth is
+theirs to state, whatever kind the parent filed it under. One offs and
+unsent grown up rows stay out of reach as before. Justin's Swimming kit
+row flipped by hand in the live database so it works today, not after
+the deploy.

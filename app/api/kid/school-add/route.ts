@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { CHILD_KINDS } from '@/lib/school/child-items'
+import { CHILD_KINDS, isChildVisible } from '@/lib/school/child-items'
 import { sendPush } from '@/lib/push/send'
 
 // The child adds to their own school diary.
@@ -241,14 +241,18 @@ export async function PUT(request: NextRequest) {
   const id = typeof body?.id === 'string' ? body.id : ''
   const { data: row } = await admin
     .from('school_actions')
-    .select('id, title, kind, recurs_weekday')
+    .select('id, title, kind, recurs_weekday, sent_to_child, auto_send_to_child')
     .eq('id', id)
     .eq('user_id', link.user_id)
     .eq('status', 'open')
     .maybeSingle()
-  // Only a weekly routine of a child kind: a one off has no holidays to run
-  // in, and payments and notices are not a child's to touch.
-  if (!row || row.recurs_weekday == null || !CHILD_KINDS.has(row.kind as string)) {
+  // Only a weekly routine (a one off has no holidays to run in), and only one
+  // the child can SEE, judged by the same shared rule as their week page. The
+  // first version checked the child kinds instead and refused Justin's own
+  // test: Swimming kit was a parent added notice, sent to the child, so it sat
+  // on Teo's week wearing the hold pill while the button said not yours. If a
+  // routine is on their diary, its holidays truth is theirs to state.
+  if (!row || row.recurs_weekday == null || !isChildVisible(row as { kind: string; recurs_weekday?: number | null; sent_to_child?: boolean | null; auto_send_to_child?: boolean | null })) {
     return NextResponse.json({ error: 'not a routine on your diary' }, { status: 403 })
   }
 
