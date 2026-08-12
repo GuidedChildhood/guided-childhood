@@ -148,7 +148,7 @@ export default function HomePage() {
   return (
     <div className="home-v2" style={{ background: '#fff', overflowX: 'hidden' }}>
 
-      <style>{`.home-v2 h2{font-family:var(--font-display);font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--ink)} .home-v2 .lead{font-size:1.05rem} .home-v2 .body-lg{font-size:1rem}`}</style>
+      <style>{`.home-v2 h2{font-family:var(--font-display);font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--ink)} .home-v2 .lead{font-size:1.05rem} .home-v2 .body-lg{font-size:1rem} .hero-circle .chip-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px} .hero-circle .chip{position:static} @media(min-width:820px){.hero-circle .chip-row{display:contents} .hero-circle .chip{position:absolute} .hero-circle .chip-1{top:10%;left:-4%} .hero-circle .chip-2{top:-2%;right:2%} .hero-circle .chip-3{top:44%;right:-8%} .hero-circle .chip-4{bottom:6%;right:4%} .hero-circle .chip-5{bottom:14%;left:-6%}}`}</style>
 
       <AnnouncementBar />
       <HomeReveals />
@@ -343,9 +343,9 @@ export default function HomePage() {
                 src={PHOTO_CHILD_PLAYING}
                 alt="A child laughing on a garden swing, tablet left on the picnic blanket, screen time earned and balanced"
                 loading="eager"
-                style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover' }}
+                style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', objectPosition: '22% center' }}
               />
-              <div style={{ position: 'absolute', right: '18px', bottom: '-24px', width: 'clamp(120px, 34%, 158px)', borderRadius: '22px', border: '5px solid var(--ink)', overflow: 'hidden', boxShadow: '0 18px 44px rgba(26,26,46,0.3)', background: 'var(--stage-1)' }}>
+              <div style={{ position: 'absolute', right: '18px', bottom: '-24px', width: 'clamp(120px, 34%, 158px)', borderRadius: '22px', border: '6px solid var(--stage-1-bold)', overflow: 'hidden', boxShadow: '0 18px 44px rgba(26,26,46,0.22)', background: 'var(--stage-1)' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/marketing/kid-page.png"
@@ -396,21 +396,37 @@ export default function HomePage() {
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
           </div>
+          <div className="chip-row">
+            {[
+              ['\uD83C\uDF19', 'Bedtime battles', 'var(--stage-1-bold)'],
+              ['\u2B50', 'Chores = device time', 'var(--stage-2-bold)'],
+              ['\uD83D\uDEE1\uFE0F', 'Balanced, safe device use', 'var(--stage-2)'],
+              ['\uD83D\uDCF1', 'Social media, ready by 16', 'var(--stage-3-bold)'],
+              ['\uD83E\uDD16', 'AI chatbots, explained', 'var(--stage-5-bold)'],
+            ].map((chip, i) => {
+              const [icon, label, tint] = chip as [string, string, string]
+              return (
+                <div key={label} className={`chip chip-${i + 1}`} style={{ display: 'flex', alignItems: 'center', gap: '9px', background: '#fff', border: '1px solid var(--border)', borderRadius: '13px', padding: '9px 14px 9px 9px', boxShadow: '0 8px 24px rgba(26,26,46,0.12)' }}>
+                  <span aria-hidden style={{ width: 32, height: 32, borderRadius: '9px', background: tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>{icon}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '.88rem', fontWeight: 800, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{label}</span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Everything else inside, said at whisper volume: one loud image,
+            one quiet pill row. How the best sites show breadth without
+            crowding. */}
+        <div className="fu" style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', maxWidth: '760px', margin: '24px auto 0' }}>
           {[
-            ['\uD83C\uDF19', 'Bedtime battles', 'var(--stage-1-bold)', { top: '8%', left: '0' }],
-            ['\u2B50', 'Chores = device time', 'var(--stage-2-bold)', { top: '2%', right: '0' }],
-            ['\uD83D\uDCF1', 'Social media, ready by 16', 'var(--stage-3-bold)', { bottom: '18%', right: '0' }],
-            ['\uD83E\uDD16', 'AI chatbots, explained', 'var(--stage-5-bold)', { bottom: '4%', left: '4%' }],
-            ['\uD83C\uDF33', 'Outside play pays most', 'var(--stage-2)', { top: '46%', left: '-2%' }],
-          ].map(chip => {
-            const [icon, label, tint, pos] = chip as [string, string, string, React.CSSProperties]
-            return (
-              <div key={label} style={{ position: 'absolute', ...pos, display: 'flex', alignItems: 'center', gap: '9px', background: '#fff', border: '1px solid var(--border)', borderRadius: '13px', padding: '9px 14px 9px 9px', boxShadow: '0 8px 24px rgba(26,26,46,0.12)' }}>
-                <span aria-hidden style={{ width: 32, height: 32, borderRadius: '9px', background: tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>{icon}</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: '.88rem', fontWeight: 800, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{label}</span>
-              </div>
-            )
-          })}
+            'The habit forming star system', '160 scripts', '100 lessons', 'Printables',
+            'Homework help', 'School syllabus tracking', 'Outside play pays most', 'The wellbeing tracker',
+          ].map(item => (
+            <span key={item} style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '7px 14px' }}>
+              {item}
+            </span>
+          ))}
         </div>
         <div className="fu" style={{ textAlign: 'center', marginTop: '28px' }}>
           <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 34px' }}>
