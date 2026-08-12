@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import BetaTag from '@/components/ui/BetaTag'
+import ChestSpark from './ChestSpark'
 
 // School, sitting beside the road rather than on it.
 //
@@ -65,11 +66,20 @@ export default function SchoolChest({
 
   return (
     <div style={{
+      position: 'relative',
       background: opened ? '#fff' : 'var(--stage-1)',
       border: `1.5px solid ${opened ? 'var(--border)' : 'var(--terracotta)'}`,
       borderRadius: 20, padding: '17px 18px',
       boxShadow: opened ? 'none' : '0 4px 0 rgba(26,26,46,0.06)',
     }}>
+      {/* Justin: "I want it sparking next to the pathway, like a shooting star."
+          The chest is drawn small and quiet on purpose, and the cost of that
+          restraint is that it reads as scenery: he has been looking straight at
+          it and reporting it as missing. A badge or a red dot would fix the
+          noticing and break the meaning, because those say something is waiting
+          on you and nothing here ever is. A shooting star says look over here
+          and nothing more. It stops for good once the chest has been opened. */}
+      <ChestSpark active={!opened} />
       <div style={{ display: 'flex', alignItems: 'center', gap: 9, flexWrap: 'wrap', marginBottom: 6 }}>
         <span style={{
           fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
