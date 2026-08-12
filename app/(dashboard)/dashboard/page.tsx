@@ -21,6 +21,7 @@ import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import { schoolTakesTheTop, countWaitingToday } from '@/lib/home/school-spotlight'
+import { pickNextUp } from '@/lib/home/next-up'
 import { isHeldForHolidays } from '@/lib/school/child-items'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
@@ -259,6 +260,19 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // parent takes. Two separately green pull requests produced it, because git
   // had no textual conflict to report in either.
   const familyRegion = await getFamilyRegion(supabase, user.id)
+
+  // How many school reminders are ACTUALLY waiting today, as opposed to how
+  // many rows are open. A weekly routine is one open row for ever, so counting
+  // rows made "something is waiting" permanently true and pinned the card to
+  // the top of Home every day; holiday held routines counted too, so all summer
+  // it carried a red badge for items the card itself was greying out. Read once
+  // here because two things need it: where the card sits, and the school entry
+  // in the what next rotation. See lib/home/school-spotlight.
+  const schoolWaitingToday = countWaitingToday(
+    schoolActions,
+    new Date(),
+    a => isHeldForHolidays(a as Parameters<typeof isHeldForHolidays>[0], new Date(), familyRegion),
+  )
   const hasSchoolConnection = !!schoolConnectionResult.data
   // The child phone link step only belongs once a child is old enough to
   // have a phone. We record around 9 as the point that starts, so any band
@@ -408,7 +422,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // last script's insight, the jobs board). Two waves total, not ten.
   const sinceJobs = new Date(Date.now() - 60 * 86400000).toISOString().slice(0, 10)
   const lastCompletion = lastCompletionResult.data
-  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief] = await Promise.all([
+  const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief, familyDevicesRes, deviceSetupRes] = await Promise.all([
     getDailyStreak(supabase, user.id),
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid),
     getLiteracyStatuses(supabase, user.id, stage.id),
@@ -439,6 +453,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // This week at school, for the Today card row. Null without a birthday or
     // outside Years 1 to 6, the same honest gate every curriculum surface has.
     getWeekBrief(supabase, (child as { date_of_birth?: string | null } | null)?.date_of_birth ?? null),
+    // The family's devices and how many have been walked through, for the three
+    // device entries in the what next rotation. Inside this wave rather than
+    // after it, so they cost no extra round trip: the whole point of the two
+    // wave shape is that one more read here is free and one more await is not.
+    supabase.from('family_devices').select('id').eq('user_id', user.id).is('retired_at', null),
+    supabase.from('device_setup_progress').select('device_key, status').eq('user_id', user.id),
   ])
 
   // The lesson nudge pick, from the wave's reads: one age relevant film the
@@ -579,39 +599,37 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // passport, and on that day the greeting's jobs line is the only place a
   // parent hears "jobs on track, 3 days on the trot", which is worth saying and
   // is not said anywhere else on this screen.
-  const nextUp: { eyebrow: string; title: string; line: string; href: string; icon: string; coversJobs: boolean } =
-    jobsStatus === 'pending'
-      ? {
-          eyebrow: "Today's habit done",
-          title: questsChildName ? `${questsChildName}'s quests` : 'Family quests',
-          line: 'Jobs to check off and any asks to answer',
-          // The anchor came off the greeting's link when that line went quiet,
-          // so it moves here. Landing on the board rather than the top of the
-          // page is the whole difference between one tap and three.
-          href: '/dashboard/quests#quest-board', icon: '⭐', coversJobs: true,
-        }
-      : noQuestsYet
-      ? {
-          eyebrow: "Today's habit done",
-          title: 'Set their first jobs',
-          line: 'Real world jobs are what earn screen time, so nothing else starts moving until these exist.',
-          href: '/dashboard/quests', icon: '🧹', coversJobs: true,
-        }
-      : stageLessonsLeft > 0
-      ? {
-          eyebrow: "Today's habit done",
-          title: 'Move the passport on',
-          line: `${stageLessons!.passed} of ${stageLessons!.total} lessons passed at ${stage.name}. Pass the rest to stamp this stage.`,
-          href: '/dashboard/pathway', icon: '🛂', coversJobs: false,
-        }
-      : {
-          eyebrow: "Today's habit done",
-          title: questsChildName ? `${questsChildName}'s quests` : 'Family quests',
-          line: jobsStatus === 'on_track'
-            ? "Today's jobs are done. Check any asks and set tomorrow's"
-            : 'Set the jobs and screen time to get the stars flowing',
-          href: '/dashboard/quests', icon: '⭐', coversJobs: true,
-        }
+  // ── AND IT ROTATES NOW (12 August 2026) ────────────────────────────────────
+  //
+  // Justin: "are we rotating what's next between review quests, guide watch
+  // time, check watch balance, check school reminders, check device settings,
+  // check all devices added and set up, add any new devices, lessons, passport?
+  // We should rotate these."
+  //
+  // It was a four branch chain and the first match won for ever, so a family
+  // with jobs running and lessons done read the same sentence every day for
+  // weeks while five whole parts of the app went unmentioned. The nine, the
+  // order, the two that jump the queue and why a day rather than a week are all
+  // in lib/home/next-up.ts. Everything below is signals it already holds.
+  const deviceSetup = (deviceSetupRes.data ?? []) as { device_key: string; status: string }[]
+  const nextUp = pickNextUp({
+    childName: questsChildName,
+    stageName: stage.name,
+    jobsStatus,
+    noQuestsYet,
+    lessonsLeft: stageLessonsLeft,
+    lessonsPassed: stageLessons?.passed ?? 0,
+    lessonsTotal: stageLessons?.total ?? 0,
+    watchTogetherLeft: Math.max(0, watchTogether.total - watchTogether.done),
+    balanceAmber: (literacyStatuses.balance?.tone ?? 'green') !== 'green',
+    schoolWaiting: schoolWaitingToday,
+    // Ever added a reminder or connected an inbox. The same "once set up, stays
+    // set up" reading the setup path uses, so the entry does not vanish the
+    // moment the open list empties.
+    hasSchool: !!anySchoolActionResult.data || hasSchoolConnection,
+    deviceCount: (familyDevicesRes.data ?? []).length,
+    devicesSetUp: deviceSetup.filter(d => d.status === 'done').length,
+  })
 
   // The greeting only goes quiet about jobs when the card that says it instead
   // is ACTUALLY ON THE PAGE. That card is wrapped in {dayComplete && ...}, so
@@ -641,12 +659,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // and the card sat at the top every day of the week. Holiday held routines
   // counted too, so all summer the top of Home carried a red badge for items
   // the card itself was greying out as "on hold until school is back".
-  // countWaitingToday is where the rule lives, with the reasoning.
-  const schoolWaitingToday = countWaitingToday(
-    schoolActions,
-    new Date(),
-    a => isHeldForHolidays(a as Parameters<typeof isHeldForHolidays>[0], new Date(), familyRegion),
-  )
+  // countWaitingToday is where the rule lives, with the reasoning. It is worked
+  // out up with the other school reads rather than here, because the what next
+  // rotation needs the same number and two places counting it separately is how
+  // one screen ends up quoting two different figures for the same morning.
   const schoolOnTop = schoolTakesTheTop(schoolWaitingToday)
   const schoolBlock = (
     <>
