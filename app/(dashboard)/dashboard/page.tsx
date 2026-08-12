@@ -182,9 +182,29 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // One wave, one region, read once and passed to everything that wants it.
   // Both still fail soft: a nudge or a missing region must never be the reason
   // Home does not render.
-  const [nudgeFacts, familyRegion] = await Promise.all([
+  const [nudgeFacts, familyRegion, visit] = await Promise.all([
     readNudgeFacts(supabase, user.id, allKids.map(k => k.id as string)),
     getFamilyRegion(supabase, user.id).catch(() => 'uk' as const),
+    // The visit marks, rolled here rather than four hundred lines down, where
+    // they were the last blocking await left on this page.
+    //
+    // It looks like it should be riskier than it is, because it WRITES: it
+    // stamps home_last_at and moves home_catchup_from. But read rollVisit and
+    // the dependency is only supabase and the user id. It deliberately does its
+    // own profile read rather than taking those two columns from the page's
+    // main select, because they arrive with migration 168 and naming a column
+    // that does not exist fails the whole query it is part of. So it was never
+    // waiting on anything computed between wave one and where it used to sit.
+    //
+    // Nothing else on this page reads or writes those two columns during a
+    // render, so moving the stamp earlier changes no other reading. The only
+    // thing that shifts is `now`, by milliseconds, against a threshold measured
+    // in hours.
+    //
+    // It stays best effort inside itself: a home page that will not render
+    // because a timestamp could not be saved is a far worse bug than a summary
+    // that shows twice.
+    rollVisit(supabase, user.id),
   ])
 
   const dailyDone = !!dailySessionResult.data?.completed_at
@@ -555,9 +575,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // overview of what is waiting from their child, not the finished path. This
   // reads the same "day done" the greeting and the path use, so the lead only
   // changes once the daily loop is genuinely complete.
-  // The visit marks roll first, then the summary reads the gap they describe.
-  // Both fail soft to no card: this sits on a page with plenty else on it.
-  const visit = await rollVisit(supabase, user.id)
+  // The visit marks rolled up in the third wave, so all that is left here is
+  // the summary of the gap they describe, and only on the rare load where there
+  // IS a gap. Both fail soft to no card: this sits on a page with plenty else
+  // on it.
   const catchup = visit
     ? await getCatchup(supabase, user.id, child?.id ?? null, child?.name ?? null, visit.since)
     : null
