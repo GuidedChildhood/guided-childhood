@@ -547,7 +547,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // pdfColourIn travels separately rather than being folded into sheetUrl.
   // It used to overwrite it, so the screen could not tell a built pack from a
   // single image and handed a PDF to a print window that renders an <img>.
-  let assignedPrintable: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; previewUrl: string } | null = null
+  let assignedPrintable: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; previewUrl: string; sheetHeading?: { name: string; kicker: string } } | null = null
   {
     const { data } = await supabase.from('printable_assignments')
       .select('printable_key')
@@ -556,7 +556,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     const p = data ? getPrintable(String(data.printable_key)) : null
     // The finished products print their real colour in edition; the card shows
     // the real cover so the child sees exactly what a grown up sent.
-    if (p) assignedPrintable = { key: p.key, title: p.title, emoji: p.emoji, stars: p.stars, sheetUrl: p.sheetUrl, pdfColourIn: p.pdfColourIn, previewUrl: p.previewUrl }
+    if (p) assignedPrintable = { key: p.key, title: p.title, emoji: p.emoji, stars: p.stars, sheetUrl: p.sheetUrl, pdfColourIn: p.pdfColourIn, previewUrl: p.previewUrl, sheetHeading: p.sheetHeading }
   }
 
   // A tutor lesson a grown up read and sent (migration 188). The oldest one
