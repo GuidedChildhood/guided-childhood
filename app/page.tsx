@@ -313,7 +313,7 @@ export default function HomePage() {
             </p>
             <div className="fu" style={{ display: 'inline-flex', alignItems: 'center', gap: '9px', background: 'var(--cream)', border: '1.5px solid var(--terracotta)', borderRadius: '100px', padding: '8px 16px', marginBottom: '22px' }}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700, letterSpacing: '.09em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', whiteSpace: 'nowrap' }}>Founding rate</span>
-              <span style={{ fontFamily: 'var(--font-display)', fontSize: '.86rem', fontWeight: 800, color: 'var(--ink)' }}>First 50 families, 7.99 a month for life</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontSize: '.96rem', fontWeight: 800, color: 'var(--ink)' }}>First 50 families, 7.99 a month for life</span>
             </div>
             {/* Proof bar: named research beside the one real hero quote */}
             <div className="fu proof-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 26px', alignItems: 'center', maxWidth: '520px' }}>
@@ -322,7 +322,7 @@ export default function HomePage() {
               </p>
               <div style={{ flex: '0 1 200px', minWidth: '180px', borderLeft: '2px solid var(--terracotta)', paddingLeft: '16px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>Parent quote</div>
-                <p style={{ fontSize: '.86rem', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
+                <p style={{ fontSize: '.96rem', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
                   &ldquo;With DiGi I can ask for help at every step.&rdquo; <span style={{ fontStyle: 'normal', fontWeight: 700 }}>Rachel</span>
                 </p>
               </div>
@@ -385,7 +385,7 @@ export default function HomePage() {
               {/* The destination: the passport, earned at the top of the path */}
               <div style={{ position: 'absolute', top: '-52px', right: '-6px', transform: 'rotate(6deg)', background: 'linear-gradient(160deg, #6B2333 0%, #571C2A 60%, #4A1723 100%)', borderRadius: '8px 10px 10px 8px', padding: '12px 14px', boxShadow: '0 10px 26px rgba(0,0,0,0.25), inset 0 0 0 1.5px rgba(237,195,95,0.55)', textAlign: 'center' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.5rem', fontWeight: 700, letterSpacing: '.22em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.85)', marginBottom: '4px' }}>Digital</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.9rem', fontWeight: 800, color: '#EDC35F', letterSpacing: '.02em' }}>PASSPORT</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 800, color: '#EDC35F', letterSpacing: '.02em' }}>PASSPORT</div>
               </div>
             </div>
             <div style={{ position: 'absolute', bottom: '18px', left: '50%', transform: 'translateX(-50%)', width: 'min(100%, 460px)', borderBottom: '2px dashed var(--terracotta)', opacity: .5 }} />
@@ -411,7 +411,7 @@ export default function HomePage() {
               return (
                 <div key={label} className={`chip chip-${i + 1}`} style={{ display: 'flex', alignItems: 'center', gap: '9px', background: '#fff', border: '1px solid var(--border)', borderRadius: '13px', padding: '9px 14px 9px 9px', boxShadow: '0 8px 24px rgba(26,26,46,0.12)' }}>
                   <span aria-hidden style={{ width: 32, height: 32, borderRadius: '9px', background: tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>{icon}</span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '.88rem', fontWeight: 800, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{label}</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: '.98rem', fontWeight: 800, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{label}</span>
                 </div>
               )
             })}
@@ -461,7 +461,7 @@ export default function HomePage() {
                 Not general advice. The script for tonight.
               </p>
               <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '28px' }}>
-                <strong>And DiGi remembers.</strong> What you tell us matters: your child&rsquo;s age, their stage, what happened last month. Every answer starts from your family&rsquo;s history, not from zero.
+                <strong>And DiGi remembers.</strong>{' '}What you tell us matters: your child&rsquo;s age, their stage, what happened last month. Every answer starts from your family&rsquo;s history, not from zero.
               </p>
               <ul className="fu" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '28px' }}>
                 {[
@@ -842,7 +842,7 @@ export default function HomePage() {
                     )}
                   </div>
                   <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    <p style={{ fontSize: '.92rem', color: 'var(--ink)', fontStyle: 'italic', lineHeight: 1.6, margin: '0 0 14px', flex: 1 }}>
+                    <p style={{ fontSize: '1.04rem', color: 'var(--ink)', fontStyle: 'italic', lineHeight: 1.6, margin: '0 0 14px', flex: 1 }}>
                       {s.quote}
                     </p>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
@@ -918,7 +918,7 @@ export default function HomePage() {
             <p style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', margin: '0 0 6px' }}>
               The science moves. So do we.
             </p>
-            <p style={{ fontSize: '.9rem', color: 'var(--ink-muted)', margin: 0 }}>
+            <p style={{ fontSize: '1rem', color: 'var(--ink-muted)', margin: 0 }}>
               Five leading researchers in children, social media and mental health. Live data from more than ten national associations, NHS and NSPCC among them. Every lesson and every DiGi answer reviewed weekly against the newest findings, so tonight's guidance matches the world your child is actually in. <Link href="/evidence" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>See the evidence</Link>
             </p>
           </div>
@@ -961,7 +961,7 @@ export default function HomePage() {
           <div className="fu" style={{ background: 'var(--terracotta)', borderRadius: '14px', padding: '14px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,.8)', flexShrink: 0 }}>Limited</span>
-              <span style={{ fontSize: '.88rem', fontWeight: 600, color: '#fff' }}>
+              <span style={{ fontSize: '.98rem', fontWeight: 600, color: '#fff' }}>
                 Founder Rate: first 50 members only. Lock in{' '}
                 <strong>£7.99/month for life.</strong>
               </span>
@@ -1040,7 +1040,7 @@ export default function HomePage() {
                 <div style={{ height: '1px', background: 'var(--border)', margin: '0 0 18px' }} />
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '24px', flex: 1 }}>
                   {plan.features.map(([check, label], fi) => (
-                    <li key={fi} style={{ display: 'flex', gap: '9px', fontSize: '.9rem', color: 'var(--ink-soft)', alignItems: 'flex-start' }}>
+                    <li key={fi} style={{ display: 'flex', gap: '9px', fontSize: '1rem', color: 'var(--ink-soft)', alignItems: 'flex-start' }}>
                       <span style={{ fontWeight: 900, fontSize: '.74rem', marginTop: '2px', flexShrink: 0, color: 'var(--terracotta)' }}>{check}</span>
                       {label}
                     </li>
@@ -1107,7 +1107,7 @@ export default function HomePage() {
                 </div>
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: '#fff', letterSpacing: '-.02em' }}>Guided Childhood</span>
               </div>
-              <p style={{ fontSize: '.9rem', color: 'rgba(255,255,255,.5)', lineHeight: 1.7, maxWidth: '240px' }}>
+              <p style={{ fontSize: '1rem', color: 'rgba(255,255,255,.5)', lineHeight: 1.7, maxWidth: '240px' }}>
                 A clear digital pathway from first screen to 16. For UK families. Built on the research.
               </p>
 
@@ -1118,7 +1118,7 @@ export default function HomePage() {
                   It is a legal requirement for selling online as well as the
                   decent thing, so it is set at a readable weight rather than
                   tucked away at footnote grey. */}
-              <address style={{ fontStyle: 'normal', marginTop: '18px', fontSize: '.9rem', lineHeight: 1.7, color: 'rgba(255,255,255,.72)', maxWidth: '240px' }}>
+              <address style={{ fontStyle: 'normal', marginTop: '18px', fontSize: '1rem', lineHeight: 1.7, color: 'rgba(255,255,255,.72)', maxWidth: '240px' }}>
                 <div style={{ fontWeight: 700, color: '#fff' }}>{CONTACT.founder}</div>
                 <div style={{ color: 'rgba(255,255,255,.6)' }}>{CONTACT.product}</div>
                 {hasAddress() && (
@@ -1141,7 +1141,7 @@ export default function HomePage() {
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Guides</div>
               {[['Stage 1 · Ages 4 to 7', '#stages'], ['Stage 2 · Ages 8 to 10', '#stages'], ['Stage 3 · Ages 11 to 13', '#stages'], ['Stage 4 · Ages 13 to 15', '#stages'], ['Stage 5 · Ages 16+', '#stages']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: '10px' }}>
-                  <Link href={href} style={{ fontSize: '.86rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500, lineHeight: 1.4 }}>{label}</Link>
+                  <Link href={href} style={{ fontSize: '.96rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500, lineHeight: 1.4 }}>{label}</Link>
                 </div>
               ))}
             </div>
@@ -1153,7 +1153,7 @@ export default function HomePage() {
                   <Link
                     href={href}
                     {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    style={{ fontSize: '.86rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}
+                    style={{ fontSize: '.96rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}
                   >{label}</Link>
                 </div>
               ))}
@@ -1163,7 +1163,7 @@ export default function HomePage() {
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Company</div>
               {[['About', '/pathway'], ['Contact', 'mailto:hello@guidedchildhood.com'], ['Privacy', '/privacy'], ['Terms', '/terms'], ['Login', '/login']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: '10px' }}>
-                  <Link href={href} style={{ fontSize: '.86rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
+                  <Link href={href} style={{ fontSize: '.96rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
                 </div>
               ))}
             </div>

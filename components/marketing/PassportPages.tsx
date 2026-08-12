@@ -84,10 +84,10 @@ export default function PassportPages() {
               <img src={friend.cutout} alt={`${friend.name}, this stage's Planet Friend`} loading="lazy" style={{ width: '52px', height: 'auto', flexShrink: 0 }} />
             )}
           </div>
-          <p style={{ fontSize: '.88rem', color: 'var(--ink-soft)', lineHeight: 1.7, margin: '0 0 12px' }}>
+          <p style={{ fontSize: '.98rem', color: 'var(--ink-soft)', lineHeight: 1.7, margin: '0 0 12px' }}>
             {r.body}
           </p>
-          <p style={{ fontSize: '.82rem', color: 'var(--ink)', lineHeight: 1.65, margin: 0, paddingTop: '10px', borderTop: '1px dashed var(--border)' }}>
+          <p style={{ fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.65, margin: 0, paddingTop: '10px', borderTop: '1px dashed var(--border)' }}>
             <strong style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', display: 'block', marginBottom: '4px' }}>This stage in one habit</strong>
             {r.focus}
           </p>
