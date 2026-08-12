@@ -30,7 +30,7 @@ export async function POST(request: Request) {
   }
 
   if (alsoEmail && payload.count > 0 && emailConfigured()) {
-    try { await sendEmail({ to: FOUNDER_EMAIL, subject: `DiGi insight: ${payload.count} questions, ${payload.days} days`, html: renderInsightsEmail(payload) }) }
+    try { await sendEmail({ to: FOUNDER_EMAIL, subject: `DiGi insight: ${payload.count} questions, ${payload.days} days`, html: renderInsightsEmail(payload), kind: 'operational' }) }
     catch { /* email is best effort, the report still returns */ }
   }
 

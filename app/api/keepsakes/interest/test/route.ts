@@ -40,6 +40,7 @@ export async function POST() {
       <p>This is a test of the keepsake interest notification.</p>
       <p>If this arrived, a real signup on the coming soon form will reach you the same way.</p>
     </div>`,
+    kind: 'operational',
   })
 
   return NextResponse.json({

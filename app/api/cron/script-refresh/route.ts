@@ -151,6 +151,7 @@ async function handler(req: NextRequest) {
             <p><a href="${origin}/dashboard/insights" style="color:#C29018;font-weight:700">Review the drafts</a></p>
             <p style="color:#8888A0;font-size:13px">Nothing enters the live library until you approve it.</p>
           </div>`,
+          kind: 'operational',
         })
       } catch { /* email is best effort */ }
     }

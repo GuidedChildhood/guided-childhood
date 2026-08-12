@@ -128,7 +128,7 @@ export async function deliverOnce(
 ): Promise<'sent' | 'skipped' | 'failed'> {
   const { error: logError } = await supabase.from('email_log').insert({ user_id: userId, email_key: key })
   if (logError) return 'skipped' // unique violation: another run got here first
-  const sent = await sendEmail({ to: email, subject: content.subject, html: content.html })
+  const sent = await sendEmail({ to: email, subject: content.subject, html: content.html, key })
   if (sent.ok) return 'sent'
   await supabase.from('email_log').delete().eq('user_id', userId).eq('email_key', key)
   return 'failed'

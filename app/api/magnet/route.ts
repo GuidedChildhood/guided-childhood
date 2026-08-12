@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getMagnet } from '@/lib/magnets/registry'
 import { sendEmail } from '@/lib/email'
+import { unsuppressAddress } from '@/lib/email/address-guard'
 import { magnetEmail } from '@/lib/email/templates'
 import { sendPush } from '@/lib/push/send'
 
@@ -42,6 +43,12 @@ export async function POST(req: NextRequest) {
     // Upsert on email, writing only these columns, so a lead who already
     // did the starter quiz keeps their saved answers and stage. The
     // source records where this touch came from.
+    // A fresh opt in lifts an old suppression. Someone who deleted their
+    // account in March and asks us for a printable in September has just told
+    // us they want to hear from us, and honouring the older instruction over
+    // the newer one is not respecting their wishes, it is ignoring them.
+    await unsuppressAddress(email)
+
     await supabase
       .from('starter_leads')
       .upsert(
@@ -50,7 +57,7 @@ export async function POST(req: NextRequest) {
       )
 
     // Deliver the download to their inbox. Best effort.
-    await sendEmail({ to: email, ...magnetEmail({ magnetTitle: magnet.title, downloadUrl }) })
+    await sendEmail({ to: email, ...magnetEmail({ magnetTitle: magnet.title, downloadUrl }), kind: 'transactional' })
 
     if (!existing) await notifyFounder(req, supabase, email, magnet.slug)
   } catch {
