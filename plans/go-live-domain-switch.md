@@ -253,6 +253,35 @@ endpoint, so this is a **new value**, not the one you already have.
 **Skip it and:** parents pay and nothing happens. The money arrives, the
 membership does not turn on.
 
+### DONE, 12 AUGUST 2026, AND NOT THE WAY THIS PLAN SAID
+
+The endpoint already existed. `memorable-legacy` was sitting there pointed at
+`https://app.guidedchildhood.com/api/stripe/webhook`, Active, on the right four
+events. So it was **edited, not added**, and that matters: editing keeps the
+signing secret, which means `STRIPE_WEBHOOK_SECRET` did not change and no
+redeploy was needed. Following the instruction above literally would have minted
+a second endpoint, a second secret, and an env change nobody needed.
+
+Two other endpoints live in the same list, `vibrant-glow-thin` and
+`tsb-production`, both on `api.wellbeing.guidedchildhood.com`. They belong to the
+wellbeing product, not this app, and `tsb-production` has 236 real deliveries
+against it. Leave both alone.
+
+**There is no synthetic test in live mode.** Stripe only offers "send test
+webhook" against a sandbox, which is what the banner across the top of that
+screen is telling you, so the row menu is Edit, Disable, Delete and nothing else.
+Do not go hunting for a test button that live mode does not have.
+
+What was verified instead: opening the endpoint URL in a browser returns **405
+Method Not Allowed**. That is the correct answer and it is the proof, because the
+route exports POST only, so a browser GET reaching the handler at all means the
+domain is serving the app at that path. A 404 would have meant it was not.
+
+What 405 does NOT prove is that the secret matches, because only a genuinely
+Stripe signed request can test that. That gets confirmed by the first real
+signup: error rate stays at 0% and Activity shows a bump. A flat line and 0%
+today mean nothing has been delivered yet, not that anything is wrong.
+
 ---
 
 ## 6. If Stripe is going to live mode at the same time
