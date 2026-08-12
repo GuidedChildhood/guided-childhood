@@ -18,7 +18,7 @@ import DigiDiscoverNudge from '@/components/digi/DigiDiscoverNudge'
 import { getSuggestions, type Suggestion } from '@/lib/alerts/suggestions'
 import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
-import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
+import { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import { schoolTakesTheTop, countWaitingToday } from '@/lib/home/school-spotlight'
 import { pickNextUp } from '@/lib/home/next-up'
@@ -684,40 +684,41 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // out up with the other school reads rather than here, because the what next
   // rotation needs the same number and two places counting it separately is how
   // one screen ends up quoting two different figures for the same morning.
+  // ── ONE LINE, AND IT OPENS THE CALENDAR ────────────────────────────────────
+  //
+  // Justin, 12 August 2026, with Home on his phone: "the From school should
+  // just be a one line school calendar view that we designed. This looks too
+  // big a box and we had a nice calendar view before for both child and parent.
+  // Can we get that back? It should just be a see calendar which has school and
+  // child alerts, a one line. It looked great, then you click it and you get the
+  // calendar view." And: "we also asked for these sorts of things to be
+  // collapsed behind one line, so keep the homepage an easy short scroll."
+  //
+  // He is right, and the box had grown without anybody deciding it should. On
+  // Home it was a fold containing an Add button, a second fold for the week and
+  // a third row for the full list: three controls and two counts, to say a thing
+  // that on most days is "nothing today". The calendar itself, the part worth
+  // looking at, was the one piece you could not see without two taps.
+  //
+  // So Home carries the ANSWER and the door, and /dashboard/school carries the
+  // calendar. That is the whole of it. The line still moves to the top of the
+  // page on its day or when something is due, because where it sits is what
+  // makes it a habit, and it still reads the same schoolWaitingToday as the what
+  // next rotation so the two can never disagree.
   const schoolOnTop = schoolTakesTheTop(schoolWaitingToday)
   const schoolBlock = (
-    <>
-      {/* Things you need to know: open school actions from forwarded school
-            emails, or added by hand. The id is the anchor the setup path's
-            school step points at, so Go lands right here, not on a separate
-            page the parent then has to hunt through for the add form. */}
-        {/* Open only when school has actually sent something.
-            The biggest component on Home at 675 lines, and on most days it is a
-            card saying there is nothing. Folded it costs one line and still says
-            so; with actions waiting it opens itself and carries a red count,
-            because a school deadline is the one thing here a parent cannot
-            afford to scroll past. Same rule as the quest tabs. */}
-        <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
-          <FoldSection
-            // Justin, 12 August 2026: "From school is misleading as a title."
-            // He is right, and it had been quietly wrong for a while. Most of
-            // what is in this drawer was typed by the PARENT: the PE kit
-            // routine, the swimming day, the trip money. "From school" claims a
-            // school sent it, which for a family with no connected inbox is
-            // never true of anything in there. His own description of the card
-            // is the honest name: the alert calendar for school tasks.
-            label="School reminders"
-            value={schoolActions.length === 0 ? 'Nothing waiting' : undefined}
-            count={schoolActions.length}
-            alert={schoolWaitingToday > 0}
-            open={schoolWaitingToday > 0}
-          >
-            {/* compact: the fold above already names it, so the card does
-                not say it a second time on the same screen. */}
-            <SchoolActionsCard actions={schoolActions} childName={child?.name} region={familyRegion} compact />
-          </FoldSection>
-        </div>
-    </>
+    <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
+      <QuietLine
+        eyebrow="Calendar"
+        icon="📅"
+        label={schoolWaitingToday === 0
+          ? 'School and child alerts, nothing due today'
+          : schoolWaitingToday === 1
+          ? 'One thing due today at school'
+          : `${schoolWaitingToday} things due today at school`}
+        href="/dashboard/school"
+      />
+    </div>
   )
 
   return (
