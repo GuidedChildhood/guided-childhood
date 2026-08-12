@@ -138,8 +138,9 @@ const TESTIMONIALS = [
 //    the URL. The bright 12 Aug batch lives in the Higgsfield gallery. ───────
 
 const HF = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
-const PHOTO_FAMILY_GRASS = HF + 'hf_20260812_112546_70b0216c-ba04-4f9a-94f1-1395aa248fa8.png'
-const PHOTO_BALANCE = HF + 'hf_20260812_112546_ef791ba6-2f03-44cd-9238-1130b8712369.png'
+const PHOTO_FAMILY_GRASS = HF + 'hf_20260812_114033_5c4f1927-62b5-4b85-98a7-f11dd12dc2cd.png'
+const PHOTO_BALANCE = HF + 'hf_20260812_114033_dfa0a0bf-cc45-46c0-a8d7-a1a9a6d7093b.png'
+const PHOTO_CHILD_PLAYING = HF + 'hf_20260812_114033_3c294adc-a52e-4256-bc89-6752ad24e219.png'
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -323,7 +324,7 @@ export default function HomePage() {
               </p>
               <div style={{ flex: '0 1 200px', minWidth: '180px', borderLeft: '2px solid var(--terracotta)', paddingLeft: '16px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '4px' }}>Parent quote</div>
-                <p style={{ fontSize: '.78rem', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
+                <p style={{ fontSize: '.86rem', color: 'var(--ink-soft)', fontStyle: 'italic', lineHeight: 1.5, margin: 0 }}>
                   &ldquo;With DiGi I can ask for help at every step.&rdquo; <span style={{ fontStyle: 'normal', fontWeight: 700 }}>Rachel</span>
                 </p>
               </div>
@@ -333,16 +334,37 @@ export default function HomePage() {
           {/* The signature: the road to 16, drawn with the five Planet Friends
               rising stage by stage toward the passport. House art from the CDN,
               the same characters the child meets inside the product. */}
-          <div className="fu hero-path" aria-hidden style={{ position: 'relative', minHeight: '380px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
+          <div className="fu hero-path" style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+            {/* The child app in the world it builds: phone over a pastel panel
+                with real outdoor play behind it */}
+            <div style={{ position: 'relative', background: 'var(--stage-2)', borderRadius: '28px', border: '1.5px solid var(--border)', overflow: 'hidden', minHeight: '250px' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={PHOTO_CHILD_PLAYING}
+                alt="A child laughing on a garden swing, tablet left on the picnic blanket, screen time earned and balanced"
+                loading="eager"
+                style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover' }}
+              />
+              <div style={{ position: 'absolute', right: '18px', bottom: '-24px', width: 'clamp(120px, 34%, 158px)', borderRadius: '22px', border: '5px solid var(--ink)', overflow: 'hidden', boxShadow: '0 18px 44px rgba(26,26,46,0.3)', background: 'var(--stage-1)' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/marketing/kid-page.png"
+                  alt="The child app: quests, a star bank and screen time earned by doing chores"
+                  loading="eager"
+                  style={{ width: '100%', display: 'block', aspectRatio: '390 / 560', objectFit: 'cover', objectPosition: 'top' }}
+                />
+              </div>
+            </div>
+            <div aria-hidden style={{ position: 'relative', minHeight: '190px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: 'clamp(2px, 1vw, 12px)', width: '100%', maxWidth: '480px', justifyContent: 'center', position: 'relative', paddingBottom: '30px' }}>
               {STAGE_CHARACTERS.map((c, i) => (
-                <div key={c.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', transform: `translateY(-${i * 34}px)`, flex: '0 0 auto' }}>
+                <div key={c.key} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', transform: `translateY(-${i * 24}px)`, flex: '0 0 auto' }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={c.cutout}
                     alt=""
                     loading={i < 2 ? 'eager' : 'lazy'}
-                    style={{ width: 'clamp(52px, 7vw, 84px)', height: 'auto', filter: 'drop-shadow(0 6px 10px rgba(26,26,46,0.18))' }}
+                    style={{ width: 'clamp(44px, 5.5vw, 66px)', height: 'auto', filter: 'drop-shadow(0 6px 10px rgba(26,26,46,0.18))' }}
                   />
                   <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.56rem', fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--ink-muted)', whiteSpace: 'nowrap' }}>
                     {c.ages.replace('Ages ', '')}
@@ -350,33 +372,51 @@ export default function HomePage() {
                 </div>
               ))}
               {/* The destination: the passport, earned at the top of the path */}
-              <div style={{ position: 'absolute', top: '-64px', right: '-6px', transform: 'rotate(6deg)', background: 'linear-gradient(160deg, #6B2333 0%, #571C2A 60%, #4A1723 100%)', borderRadius: '8px 10px 10px 8px', padding: '12px 14px', boxShadow: '0 10px 26px rgba(0,0,0,0.25), inset 0 0 0 1.5px rgba(237,195,95,0.55)', textAlign: 'center' }}>
+              <div style={{ position: 'absolute', top: '-52px', right: '-6px', transform: 'rotate(6deg)', background: 'linear-gradient(160deg, #6B2333 0%, #571C2A 60%, #4A1723 100%)', borderRadius: '8px 10px 10px 8px', padding: '12px 14px', boxShadow: '0 10px 26px rgba(0,0,0,0.25), inset 0 0 0 1.5px rgba(237,195,95,0.55)', textAlign: 'center' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.5rem', fontWeight: 700, letterSpacing: '.22em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.85)', marginBottom: '4px' }}>Digital</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.82rem', fontWeight: 800, color: '#EDC35F', letterSpacing: '.02em' }}>PASSPORT</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.9rem', fontWeight: 800, color: '#EDC35F', letterSpacing: '.02em' }}>PASSPORT</div>
               </div>
             </div>
             <div style={{ position: 'absolute', bottom: '18px', left: '50%', transform: 'translateX(-50%)', width: 'min(100%, 460px)', borderBottom: '2px dashed var(--terracotta)', opacity: .5 }} />
+            </div>
           </div>
         </div>
 
         {/* The ban framing, small, directly under the promise */}
-        <p className="fu" style={{ maxWidth: '640px', margin: '40px auto 0', textAlign: 'center', fontSize: '.92rem', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
+        <p className="fu" style={{ maxWidth: '640px', margin: '40px auto 0', textAlign: 'center', fontSize: '.98rem', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
           Every answer you find says ban it all, or give in and dread it. Neither one teaches your child a single thing. <strong style={{ color: 'var(--ink)' }}>There is a third way, a guided one.</strong>
         </p>
-        <figure className="fu" style={{ maxWidth: '980px', margin: '36px auto 0' }}>
-          <div style={{ borderRadius: '26px', overflow: 'hidden', border: '1.5px solid var(--border)', boxShadow: '0 24px 70px rgba(26,26,46,0.14)' }}>
+        <div className="fu hero-circle" style={{ maxWidth: '640px', margin: '44px auto 0', position: 'relative', padding: '30px 0' }}>
+          <div style={{ width: 'min(72vw, 400px)', aspectRatio: '1', borderRadius: '50%', overflow: 'hidden', margin: '0 auto', boxShadow: '0 24px 70px rgba(26,26,46,0.16)' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={PHOTO_FAMILY_GRASS}
-              alt="A family laughing together on the grass, their phone left face down beside them"
+              alt="A family laughing together on the grass, their phone left face down beside them, screen time fights ended"
               loading="lazy"
-              style={{ width: '100%', display: 'block', aspectRatio: '2.2 / 1', objectFit: 'cover' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
           </div>
-          <figcaption style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.06em', color: 'var(--ink-muted)', marginTop: '12px' }}>
-            The phone is still there. The fight is not.
-          </figcaption>
-        </figure>
+          {[
+            ['\uD83C\uDF19', 'Bedtime battles', 'var(--stage-1-bold)', { top: '8%', left: '0' }],
+            ['\u2B50', 'Chores = device time', 'var(--stage-2-bold)', { top: '2%', right: '0' }],
+            ['\uD83D\uDCF1', 'Social media, ready by 16', 'var(--stage-3-bold)', { bottom: '18%', right: '0' }],
+            ['\uD83E\uDD16', 'AI chatbots, explained', 'var(--stage-5-bold)', { bottom: '4%', left: '4%' }],
+            ['\uD83C\uDF33', 'Outside play pays most', 'var(--stage-2)', { top: '46%', left: '-2%' }],
+          ].map(chip => {
+            const [icon, label, tint, pos] = chip as [string, string, string, React.CSSProperties]
+            return (
+              <div key={label} style={{ position: 'absolute', ...pos, display: 'flex', alignItems: 'center', gap: '9px', background: '#fff', border: '1px solid var(--border)', borderRadius: '13px', padding: '9px 14px 9px 9px', boxShadow: '0 8px 24px rgba(26,26,46,0.12)' }}>
+                <span aria-hidden style={{ width: 32, height: 32, borderRadius: '9px', background: tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>{icon}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '.88rem', fontWeight: 800, color: 'var(--ink)', whiteSpace: 'nowrap' }}>{label}</span>
+              </div>
+            )
+          })}
+        </div>
+        <div className="fu" style={{ textAlign: 'center', marginTop: '28px' }}>
+          <Link href="/starter-pack" className="btn btn-gold" style={{ fontSize: 'var(--text-md)', padding: '15px 34px' }}>
+            Fix your fight first
+          </Link>
+        </div>
       </section>
 
       {/* ================================================================
@@ -395,13 +435,13 @@ export default function HomePage() {
                 <span>The expert in your pocket at 11 o&rsquo;clock.</span>
                 <DigiCharacter mood="wave" size={56} />
               </h2>
-              <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '12px' }}>
+              <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '12px' }}>
                 It&rsquo;s 11 o&rsquo;clock and you&rsquo;ve just seen something on their phone. You cannot ring anyone. You cannot think straight. You just need to know what to do before they wake up. DiGi has read every study so you do not have to. Tell it what happened and it gives you a researched answer and the exact words to use tomorrow morning.
               </p>
-              <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '12px' }}>
+              <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '12px' }}>
                 Not general advice. The script for tonight.
               </p>
-              <p className="fu" style={{ fontSize: '.94rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '28px' }}>
+              <p className="fu" style={{ fontSize: '1rem', color: 'var(--ink)', lineHeight: 1.82, marginBottom: '28px' }}>
                 <strong>And DiGi remembers.</strong> What you tell us matters: your child&rsquo;s age, their stage, what happened last month. Every answer starts from your family&rsquo;s history, not from zero.
               </p>
               <ul className="fu" style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '28px' }}>
@@ -411,7 +451,7 @@ export default function HomePage() {
                   'Covers screen time, gaming, social media, mood, sleep and online safety',
                   'Built on Odgers, Orben, Przybylski, Livingstone and the NHS guidance',
                 ].map((item, i) => (
-                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '.9rem', color: 'var(--ink-soft)' }}>
+                  <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '.97rem', color: 'var(--ink-soft)' }}>
                     <span style={{ color: 'var(--terracotta)', fontWeight: 900, flexShrink: 0, marginTop: '2px' }}>✓</span>
                     {item}
                   </li>
@@ -514,7 +554,7 @@ export default function HomePage() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontSize: '.9rem',
+                    fontSize: '.97rem',
                     flexShrink: 0,
                     textDecoration: 'none',
                     boxShadow: '0 3px 0 var(--terracotta-dark)',
@@ -580,7 +620,7 @@ export default function HomePage() {
                 <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em', margin: '0 0 10px' }}>
                   {step.title}
                 </h3>
-                <p style={{ fontSize: '.9rem', color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
+                <p style={{ fontSize: '.97rem', color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
                   {step.body}
                 </p>
               </div>
@@ -637,16 +677,16 @@ export default function HomePage() {
               ['The Digital Passport', 'Every stage stamped, every page earned. Tap each page open above, done by 16.'],
             ].map(([title, body]) => (
               <div key={title} style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '16px', padding: '18px 18px 16px' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.92rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.01em', marginBottom: '6px' }}>{title}</div>
-                <p style={{ fontSize: '.8rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>{body}</p>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.98rem', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.01em', marginBottom: '6px' }}>{title}</div>
+                <p style={{ fontSize: '.98rem', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0 }}>{body}</p>
               </div>
             ))}
           </div>
 
-          <p className="fu" style={{ textAlign: 'center', fontSize: '.8rem', color: 'var(--ink-muted)', lineHeight: 1.7, maxWidth: '620px', margin: '0 auto 10px' }}>
+          <p className="fu" style={{ textAlign: 'center', fontSize: '.98rem', color: 'var(--ink-muted)', lineHeight: 1.7, maxWidth: '620px', margin: '0 auto 10px' }}>
             Plus printables in English and Spanish, 24 age gated learning games, and school activity messages home. No device of their own yet? Everything works through your app, so a six year old can hold their first jobs list years before their first phone.
           </p>
-          <p className="fu" style={{ textAlign: 'center', fontSize: '.8rem', color: 'var(--ink-muted)', margin: '0 0 44px' }}>
+          <p className="fu" style={{ textAlign: 'center', fontSize: '.98rem', color: 'var(--ink-muted)', margin: '0 0 44px' }}>
             For schools: <Link href="https://schools.guidedchildhood.com" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>see the school programme</Link>
           </p>
 
@@ -691,7 +731,7 @@ export default function HomePage() {
                 <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', letterSpacing: '-.02em', margin: '0 0 10px' }}>
                   {col.title}
                 </h3>
-                <p style={{ fontSize: '.87rem', color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
+                <p style={{ fontSize: '.95rem', color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
                   {col.body}
                 </p>
               </div>
@@ -740,7 +780,7 @@ export default function HomePage() {
                 <div style={{ display: 'inline-block', background: act.tint, borderRadius: '100px', padding: '5px 14px', fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--ink)', marginBottom: '14px' }}>
                   {act.label}
                 </div>
-                <p style={{ fontSize: '.9rem', color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
+                <p style={{ fontSize: '.97rem', color: 'var(--ink-soft)', lineHeight: 1.7, margin: 0 }}>
                   {act.body}
                 </p>
               </div>
@@ -783,7 +823,7 @@ export default function HomePage() {
                     )}
                   </div>
                   <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    <p style={{ fontSize: '.83rem', color: 'var(--ink)', fontStyle: 'italic', lineHeight: 1.6, margin: '0 0 14px', flex: 1 }}>
+                    <p style={{ fontSize: '.92rem', color: 'var(--ink)', fontStyle: 'italic', lineHeight: 1.6, margin: '0 0 14px', flex: 1 }}>
                       {s.quote}
                     </p>
                     <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
@@ -842,10 +882,10 @@ export default function HomePage() {
                 <span style={{ color: 'var(--terracotta)' }}>three hours</span>{' '}
                 and realised the conversation I was missing
               </h2>
-              <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.85, marginBottom: '14px' }}>
+              <p className="fu" style={{ fontSize: '.98rem', color: 'var(--ink)', lineHeight: 1.85, marginBottom: '14px' }}>
                 I am Justin Phillips, founder of The Social Billboard and Guided Childhood. I am not a researcher. I read the researchers. Then I built a platform that translates what they found into something parents can actually use this week.
               </p>
-              <p className="fu" style={{ fontSize: '.92rem', color: 'var(--ink)', lineHeight: 1.85, marginBottom: '28px' }}>
+              <p className="fu" style={{ fontSize: '.98rem', color: 'var(--ink)', lineHeight: 1.85, marginBottom: '28px' }}>
                 The problem is not the phone. The problem is nobody gave parents a map. A law about social media does not give you one. Guided Childhood does.
               </p>
               <Link href="/starter-pack" className="btn btn-gold fu" style={{ fontSize: 'var(--text-base)' }}>
@@ -859,7 +899,7 @@ export default function HomePage() {
             <p style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', margin: '0 0 6px' }}>
               Science backed. Every lesson and every DiGi answer is checked against the research weekly.
             </p>
-            <p style={{ fontSize: '.82rem', color: 'var(--ink-muted)', margin: 0 }}>
+            <p style={{ fontSize: '.9rem', color: 'var(--ink-muted)', margin: 0 }}>
               Built on the leading research into children and the digital world. <Link href="/evidence" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>See the evidence</Link>
             </p>
           </div>
@@ -969,7 +1009,7 @@ export default function HomePage() {
                   {plan.name}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px', marginBottom: '5px' }}>
-                  {plan.period && <span style={{ fontSize: '.9rem', fontWeight: 700, color: 'var(--ink)' }}>£</span>}
+                  {plan.period && <span style={{ fontSize: '.97rem', fontWeight: 700, color: 'var(--ink)' }}>£</span>}
                   <span style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3vw, 2.8rem)', fontWeight: 900, color: 'var(--ink)', lineHeight: 1, letterSpacing: '-.04em' }}>
                     {plan.price.replace('£', '')}
                   </span>
@@ -981,7 +1021,7 @@ export default function HomePage() {
                 <div style={{ height: '1px', background: 'var(--border)', margin: '0 0 18px' }} />
                 <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '24px', flex: 1 }}>
                   {plan.features.map(([check, label], fi) => (
-                    <li key={fi} style={{ display: 'flex', gap: '9px', fontSize: '.81rem', color: 'var(--ink-soft)', alignItems: 'flex-start' }}>
+                    <li key={fi} style={{ display: 'flex', gap: '9px', fontSize: '.9rem', color: 'var(--ink-soft)', alignItems: 'flex-start' }}>
                       <span style={{ fontWeight: 900, fontSize: '.74rem', marginTop: '2px', flexShrink: 0, color: 'var(--terracotta)' }}>{check}</span>
                       {label}
                     </li>
@@ -1048,7 +1088,7 @@ export default function HomePage() {
                 </div>
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: '#fff', letterSpacing: '-.02em' }}>Guided Childhood</span>
               </div>
-              <p style={{ fontSize: '.82rem', color: 'rgba(255,255,255,.5)', lineHeight: 1.7, maxWidth: '240px' }}>
+              <p style={{ fontSize: '.9rem', color: 'rgba(255,255,255,.5)', lineHeight: 1.7, maxWidth: '240px' }}>
                 A clear digital pathway from first screen to 16. For UK families. Built on the research.
               </p>
 
@@ -1059,7 +1099,7 @@ export default function HomePage() {
                   It is a legal requirement for selling online as well as the
                   decent thing, so it is set at a readable weight rather than
                   tucked away at footnote grey. */}
-              <address style={{ fontStyle: 'normal', marginTop: '18px', fontSize: '.82rem', lineHeight: 1.7, color: 'rgba(255,255,255,.72)', maxWidth: '240px' }}>
+              <address style={{ fontStyle: 'normal', marginTop: '18px', fontSize: '.9rem', lineHeight: 1.7, color: 'rgba(255,255,255,.72)', maxWidth: '240px' }}>
                 <div style={{ fontWeight: 700, color: '#fff' }}>{CONTACT.founder}</div>
                 <div style={{ color: 'rgba(255,255,255,.6)' }}>{CONTACT.product}</div>
                 {hasAddress() && (
@@ -1082,7 +1122,7 @@ export default function HomePage() {
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Guides</div>
               {[['Stage 1 · Ages 4 to 7', '#stages'], ['Stage 2 · Ages 8 to 10', '#stages'], ['Stage 3 · Ages 11 to 13', '#stages'], ['Stage 4 · Ages 13 to 15', '#stages'], ['Stage 5 · Ages 16+', '#stages']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: '10px' }}>
-                  <Link href={href} style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500, lineHeight: 1.4 }}>{label}</Link>
+                  <Link href={href} style={{ fontSize: '.86rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500, lineHeight: 1.4 }}>{label}</Link>
                 </div>
               ))}
             </div>
@@ -1094,7 +1134,7 @@ export default function HomePage() {
                   <Link
                     href={href}
                     {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                    style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}
+                    style={{ fontSize: '.86rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}
                   >{label}</Link>
                 </div>
               ))}
@@ -1104,7 +1144,7 @@ export default function HomePage() {
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Company</div>
               {[['About', '/pathway'], ['Contact', 'mailto:hello@guidedchildhood.com'], ['Privacy', '/privacy'], ['Terms', '/terms'], ['Login', '/login']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: '10px' }}>
-                  <Link href={href} style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
+                  <Link href={href} style={{ fontSize: '.86rem', color: 'rgba(255,255,255,.6)', textDecoration: 'none', fontWeight: 500 }}>{label}</Link>
                 </div>
               ))}
             </div>
