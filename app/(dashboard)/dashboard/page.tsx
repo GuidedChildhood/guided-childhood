@@ -168,12 +168,24 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     .filter(k => k.name)
     .map(k => ({ name: k.name as string, ageBand: (k.age_band as string | null) ?? null }))
 
-  // The habit nudge facts. Awaited here rather than in the big Promise.all
-  // above because it needs the child list that block produces, and read behind
-  // its own guard so a nudge can never be the reason the home page fails.
-  const nudgeFacts = await readNudgeFacts(
-    supabase, user.id, allKids.map(k => k.id as string),
-  )
+  // ── THE THIRD WAVE, WHICH USED TO BE THREE SEPARATE WAITS ──────────────────
+  //
+  // Justin: "going to home seems to not be that quick in general."
+  //
+  // Both of these need the child list wave one produces, so neither can join
+  // it, and both were sitting on their own await: the page stopped, went to the
+  // database, came back, stopped again. Worse, getFamilyRegion was called TWICE
+  // on every single load, once here and once for the term preview two hundred
+  // lines down, for a value that cannot change inside one render. That was a
+  // whole round trip spent asking a question we had already had answered.
+  //
+  // One wave, one region, read once and passed to everything that wants it.
+  // Both still fail soft: a nudge or a missing region must never be the reason
+  // Home does not render.
+  const [nudgeFacts, familyRegion] = await Promise.all([
+    readNudgeFacts(supabase, user.id, allKids.map(k => k.id as string)),
+    getFamilyRegion(supabase, user.id).catch(() => 'uk' as const),
+  ])
 
   const dailyDone = !!dailySessionResult.data?.completed_at
   const lastFeedback = lastFeedbackResult.data
@@ -209,7 +221,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         supabase,
         { date_of_birth: (child as { date_of_birth?: string | null }).date_of_birth ?? null },
         new Date(),
-        await getFamilyRegion(supabase, user.id).catch(() => 'uk' as const),
+        familyRegion,
       )
     : null
 
@@ -258,7 +270,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // zone: not a harmless shadow, a ReferenceError on the path every signed in
   // parent takes. Two separately green pull requests produced it, because git
   // had no textual conflict to report in either.
-  const familyRegion = await getFamilyRegion(supabase, user.id)
+  // The second call to getFamilyRegion used to live here. It is gone: the
+  // region is read once in the third wave above and used everywhere, which is
+  // one fewer round trip on every load of this page. The warning above still
+  // stands and is now easier to honour, because there is exactly one binding.
 
   // How many school reminders are ACTUALLY waiting today, as opposed to how
   // many rows are open. A weekly routine is one open row for ever, so counting
