@@ -345,23 +345,27 @@ export default function HomePage() {
                 loading="eager"
                 style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', objectPosition: '80% center' }}
               />
-              <div aria-label="The child app: quests, a star bank and screen time earned by doing chores" style={{ position: 'absolute', right: '18px', bottom: '-24px', width: 'clamp(104px, 27%, 134px)', borderRadius: '22px', border: '6px solid var(--ink)', overflow: 'hidden', boxShadow: '0 18px 44px rgba(26,26,46,0.22)', background: 'var(--pastel-pink)', padding: '10px 9px 12px' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.44rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)', textAlign: 'center' }}>Today&rsquo;s quests</div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.78rem', fontWeight: 900, color: 'var(--ink)', textAlign: 'center', margin: '2px 0 7px' }}>Go Sofia!</div>
-                <div style={{ background: 'var(--terracotta)', borderRadius: '10px', padding: '6px 8px', marginBottom: '7px', boxShadow: '0 2px 0 var(--terracotta-dark)' }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '.72rem', fontWeight: 900, color: 'var(--ink)' }}>&#11088; 21 stars</div>
-                  <div style={{ fontSize: '.5rem', fontWeight: 700, color: 'var(--ink)', opacity: .85 }}>= 105 min screen time</div>
+              <div aria-label="The child app: quests, a star bank and screen time earned by doing chores" style={{ position: 'absolute', right: '18px', bottom: '-20px', width: 'clamp(96px, 24%, 118px)', aspectRatio: '9 / 18.5', borderRadius: '20px', border: '5px solid var(--ink)', overflow: 'hidden', boxShadow: '0 18px 44px rgba(26,26,46,0.25)', background: 'var(--pastel-pink)', display: 'flex', flexDirection: 'column', padding: '16px 8px 12px' }}>
+                {/* Dynamic island */}
+                <div aria-hidden style={{ position: 'absolute', top: '6px', left: '50%', transform: 'translateX(-50%)', width: '34%', height: '9px', background: 'var(--ink)', borderRadius: '100px' }} />
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.42rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--ink-soft)', textAlign: 'center' }}>Today&rsquo;s quests</div>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '.74rem', fontWeight: 900, color: 'var(--ink)', textAlign: 'center', margin: '1px 0 6px' }}>Go Sofia!</div>
+                <div style={{ background: 'var(--terracotta)', borderRadius: '9px', padding: '5px 7px', marginBottom: '6px', boxShadow: '0 2px 0 var(--terracotta-dark)' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '.68rem', fontWeight: 900, color: 'var(--ink)' }}>&#11088; 21 stars</div>
+                  <div style={{ fontSize: '.48rem', fontWeight: 700, color: 'var(--ink)', opacity: .85 }}>= 105 min screen time</div>
                 </div>
                 {[
                   ['Make your bed', '\u2713', 'var(--retro-green)'],
                   ['Read 20 minutes', '+2\u2B50', 'var(--ink-muted)'],
                   ['Play outside', '+5\u2B50', 'var(--ink-muted)'],
                 ].map(([label, badge, badgeColor]) => (
-                  <div key={label} style={{ background: '#fff', borderRadius: '8px', padding: '5px 7px', marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px' }}>
-                    <span style={{ fontSize: '.54rem', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
-                    <span style={{ fontSize: '.5rem', fontWeight: 900, color: badgeColor, flexShrink: 0 }}>{badge}</span>
+                  <div key={label} style={{ background: '#fff', borderRadius: '8px', padding: '4px 6px', marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4px' }}>
+                    <span style={{ fontSize: '.5rem', fontWeight: 700, color: 'var(--ink)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{label}</span>
+                    <span style={{ fontSize: '.46rem', fontWeight: 900, color: badgeColor, flexShrink: 0 }}>{badge}</span>
                   </div>
                 ))}
+                {/* Home indicator */}
+                <div aria-hidden style={{ marginTop: 'auto', width: '38%', height: '3px', background: 'var(--ink)', opacity: .35, borderRadius: '100px', alignSelf: 'center' }} />
               </div>
             </div>
             <div aria-hidden style={{ position: 'relative', minHeight: '190px', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}>
