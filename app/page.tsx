@@ -573,7 +573,7 @@ export default function HomePage() {
       {/* ================================================================
           3 · WE DRIVE YOU — what to do, when, how
           ================================================================ */}
-      <section aria-label="We drive you" style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px' }}>
+      <section id="how-it-works" aria-label="We drive you" style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '44px' }}>
             <p className="eyebrow fu" style={{ color: 'var(--terracotta)', marginBottom: '12px' }}>What to do, when, how</p>
@@ -844,7 +844,7 @@ export default function HomePage() {
       {/* ================================================================
           8 · JUSTIN AND THE RESEARCH BENCH
           ================================================================ */}
-      <section aria-label="Founder and research" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px' }}>
+      <section id="about" aria-label="Founder and research" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px', scrollMarginTop: '70px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
           <div className="two-col-wide" style={{ marginBottom: '52px' }}>
             <div style={{ textAlign: 'center' }}>
