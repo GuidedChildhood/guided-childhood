@@ -28,7 +28,7 @@ const KIND_LABEL: Record<string, string> = {
 }
 
 export default function KidDiaryItemSheet({
-  item, held, onClose, onEdit, onRemove, onFlag,
+  item, held, onClose, onEdit, onRemove, onFlag, onHolidaysToo,
 }: {
   item: KidWeekItem
   /** On hold for the school holidays right now, said plainly in the sheet. */
@@ -39,8 +39,13 @@ export default function KidDiaryItemSheet({
   onRemove?: () => Promise<void> | void
   /** Present only for a grown up's items. */
   onFlag?: () => Promise<void> | void
+  /** Present on any weekly routine still marked school time only. One tap,
+   *  one direction: the child says it keeps going in the holidays, and their
+   *  grown up is told. Justin, 12 August 2026, on Swimming kit resting in mid
+   *  August: "kid should be able to at least add its in holidays as well." */
+  onHolidaysToo?: () => Promise<void> | void
 }) {
-  const [busy, setBusy] = useState<'remove' | 'flag' | null>(null)
+  const [busy, setBusy] = useState<'remove' | 'flag' | 'holidays' | null>(null)
   const [flagged, setFlagged] = useState(false)
 
   useEffect(() => {
@@ -138,6 +143,20 @@ export default function KidDiaryItemSheet({
           }}>
             ⛱️ It is the school holidays, so this one is having a rest. It comes back when school does.
           </p>
+        )}
+
+        {/* The way out of a wrong rest, right where the rest is announced. A
+            routine the hold got wrong, swimming that carries on all summer, is
+            fixed by the person standing at the pool: one tap, no editing, and
+            the grown up is told. */}
+        {onHolidaysToo && (
+          <button
+            disabled={busy === 'holidays'}
+            onClick={async () => { setBusy('holidays'); try { await onHolidaysToo() } finally { setBusy(null) } }}
+            style={{ ...BTN, background: 'var(--tint-butter, #FFF6DE)', border: '2px solid var(--terracotta)', boxShadow: '0 4px 0 var(--terracotta-dark)', marginBottom: 8 }}
+          >
+            {busy === 'holidays' ? 'Turning it on…' : '🏖️ It happens in the holidays too'}
+          </button>
         )}
 
         {mine ? (

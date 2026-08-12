@@ -88,7 +88,7 @@ export default function KidQuestScreen({
   usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], schoolWeekCount = 0, notes = [], agreementItems = [], agreementSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
-  deviceTrust = 'ask', initialAsk = null, initialNudges = [],
+  deviceTrust = 'ask', initialAsk = null, initialNudges = [], hasReminders = false,
   stageLessonsPassed = null, stageLessonsTotal = null, focusLesson = null, assignedPrintable = null,
   tutorLesson = null,
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
@@ -125,6 +125,11 @@ export default function KidQuestScreen({
   // on first paint; the poll keeps them live after that.
   initialAsk?: KidAskState | null
   initialNudges?: KidNudge[]
+  // Whether this child's reminders already work somewhere, read from the
+  // server. On an iPhone the installed app and Safari share nothing, so
+  // without this the same phone that already buzzes was asked to set
+  // reminders up every time the link was opened from a message.
+  hasReminders?: boolean
   buddy?: string | null
   accent?: string | null
   stageId?: number
@@ -717,6 +722,13 @@ export default function KidQuestScreen({
 
   useEffect(() => {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      // Reminders already work somewhere for this child, the server said so.
+      // Justin, 12 August 2026: "still prompting on childs phone to set up
+      // notification even though i have set that up." That was this exact
+      // path: a link opened from a text lands in plain Safari, which shares
+      // nothing with the installed app that already buzzes, so it asked
+      // again. The quiet confirmation is truthful either way.
+      if (hasReminders) { setRemindState('on'); return }
       // iPhone in plain Safari: Apple only allows reminders once the page
       // lives on the Home Screen, so show the how to instead of nothing.
       const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent)
@@ -726,9 +738,14 @@ export default function KidQuestScreen({
       return
     }
     if (localStorage.getItem('gc_kid_reminders') === '1' || Notification.permission === 'granted') {
-      setRemindState(Notification.permission === 'granted' ? 'on' : 'offer')
+      // Turned on here once but the permission is gone: only re offer when no
+      // other device is covering the child, the same rule as below.
+      setRemindState(Notification.permission === 'granted' || hasReminders ? 'on' : 'offer')
       return
     }
+    // A browser that could subscribe but has not: if this child's reminders
+    // already run on another device or install, say so instead of asking again.
+    if (hasReminders) { setRemindState('on'); return }
     // A recent Not now keeps us quiet for three days. Checked here rather than
     // inside the prompt so the offer never flashes up and vanish on load.
     if (Notification.permission !== 'denied' && !remindersSnoozed()) setRemindState('offer')

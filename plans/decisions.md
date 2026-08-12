@@ -7526,3 +7526,42 @@ day, then the sent lesson and printable, then the reminders offer. The five a da
 the day, so nothing a grown up sends sits on top of it; the sheet is
 simply the next thing seen. One block moved in KidQuestScreen, nothing
 else changed.
+
+## 12 August 2026 — Stop asking a phone that already buzzes
+
+Justin: "still prompting on childs phone to set up notification even
+though i have set that up." The link opened from a text lands in plain
+Safari, and on an iPhone Safari and the installed app share nothing, so
+the same phone that already gets reminders was told to add the app to the
+Home Screen and turn them on. The client cannot know better on its own,
+so the server now tells it: one head count of the child's push
+subscriptions rides in as hasReminders, and every prompt path yields to
+it. A family with reminders anywhere sees the quiet "Reminders on" line;
+only a family with truly nothing set up is ever asked.
+
+## 12 August 2026 — The child can wake a routine up for the holidays
+
+Justin, on Swimming kit resting behind the holidays hold in mid August:
+"kid should be able to at least add its in holidays as well." Swimming is
+exactly the thing that keeps going when school stops, and the person
+standing at the pool knows it.
+
+The child add sheet already asked the holidays question and the child's
+own rows already carried the full edit. The gap was a grown up's routine:
+tap in and all a child could do was tell them it looked wrong. Now any
+weekly routine still marked school time only shows one more button on its
+sheet: "It happens in the holidays too." One field, one direction. It can
+wake a resting reminder up, never rename, move or stop one, so the rule
+that a child never edits a grown up's reminder stands. The grown up gets
+a push each time and can flip it back from their calendar.
+
+## 12 August 2026 — The term preview goes behind a door
+
+Justin, with the full preview filling Teo's screen above the week itself:
+"This should all hide behind a button saying want to see what next term
+covers? Not prominent." The week page's job is this week; the syllabus is
+the thing a child occasionally wonders about, not the thing they came
+for. The card now starts as one slim line, "Want to see what next term
+covers?", and opens on a tap with a close in the corner. When it appears
+at all stays gated as before: only around a term boundary, only with a
+birthday to pin the year group.

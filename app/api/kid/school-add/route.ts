@@ -216,6 +216,63 @@ export async function PATCH(request: NextRequest) {
   return NextResponse.json({ ok: true })
 }
 
+// The child says a routine is on in the holidays too. One field, one
+// direction, any routine on their diary, a grown up's included.
+//
+// Justin, 12 August 2026, on Swimming kit resting behind the hold in mid
+// August: "kid should be able to at least add its in holidays as well."
+// The child knows their own week best, and swimming is exactly the thing
+// that keeps going when school stops. This deliberately does not breach the
+// rule that a child never edits a grown up's reminder: it cannot rename,
+// move, retime or stop anything, and it only ever turns a routine ON in the
+// holidays, never off, so a mis tap adds a reminder the grown up is told
+// about and can undo, rather than silencing one. The child's own rows keep
+// the full edit through PATCH.
+export async function PUT(request: NextRequest) {
+  const body = await request.json().catch(() => null)
+  const token = typeof body?.token === 'string' ? body.token : ''
+  if (!/^[0-9a-f]{18}$/.test(token)) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
+
+  const admin = createAdminClient()
+  const { data: link } = await admin
+    .from('kid_links').select('user_id, child_id').eq('token', token).maybeSingle()
+  if (!link) return NextResponse.json({ error: 'unknown link' }, { status: 404 })
+
+  const id = typeof body?.id === 'string' ? body.id : ''
+  const { data: row } = await admin
+    .from('school_actions')
+    .select('id, title, kind, recurs_weekday')
+    .eq('id', id)
+    .eq('user_id', link.user_id)
+    .eq('status', 'open')
+    .maybeSingle()
+  // Only a weekly routine of a child kind: a one off has no holidays to run
+  // in, and payments and notices are not a child's to touch.
+  if (!row || row.recurs_weekday == null || !CHILD_KINDS.has(row.kind as string)) {
+    return NextResponse.json({ error: 'not a routine on your diary' }, { status: 403 })
+  }
+
+  const { error } = await admin
+    .from('school_actions')
+    .update({ runs_in_holidays: true })
+    .eq('id', id)
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // The grown up hears, same as every other child change to the shared diary.
+  try {
+    const { data: child } = await admin.from('children').select('name').eq('id', link.child_id).maybeSingle()
+    const who = (child?.name as string | undefined) || 'Your child'
+    await sendPush({
+      userId: link.user_id,
+      title: `${who} says this one is on in the holidays too 🏖️`,
+      body: row.title as string,
+      url: '/dashboard/school',
+    })
+  } catch { /* best effort */ }
+
+  return NextResponse.json({ ok: true })
+}
+
 export async function DELETE(request: NextRequest) {
   const body = await request.json().catch(() => null)
   const token = typeof body?.token === 'string' ? body.token : ''
