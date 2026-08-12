@@ -127,12 +127,27 @@ export default function TrialCountdown({
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
           ✨ Full access · {daysLeft} {daysLeft === 1 ? 'day' : 'days'} left
         </span>
-        <Link href="/dashboard/upgrade" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none', letterSpacing: '0.04em' }}>
-          See membership →
+        {/* A REAL BUTTON, NOT A MONO TEXT LINK, and Justin found this by
+            trying to buy his own product: "I signed up again but there is no
+            clear way to sign up and pay."
+            The route existed. It was "See membership" set in the mono label
+            face at the smallest size in the system, sitting where an eyebrow
+            usually goes, which is the styling this app uses for captions a
+            parent is meant to skim past. So the one control on Home that takes
+            money was drawn to be ignored, and it worked.
+            The last day branch above already uses a proper chunky button. This
+            is the same offer four days earlier, and there is no argument for
+            making it harder to accept while somebody is still keen. */}
+        <Link href="/dashboard/upgrade" style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '9px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+          Become a founder
         </Link>
       </div>
+      {/* The price and the cap belong here rather than only at the end. A
+          parent deciding on day one cannot decide on nothing, and the founder
+          rate is the one offer in the product with a real deadline attached to
+          it: fifty families, enforced in checkout, gone for ever after that. */}
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
-        Everything is open while you settle in. Five to ten minutes a day, all the way to 16.
+        Everything is open while you settle in. Add your card any time in these {trialDays} days to hold a founder place: £7.99 a month for life, capped at 50 families.
       </p>
     </div>
   )

@@ -116,6 +116,12 @@ export default async function HowFarYouHaveCome() {
     return (b.firstAt ?? '').localeCompare(a.firstAt ?? '')
   })
 
+  // Still going at the top, sorted folded underneath. The old single list put
+  // resolved FIRST, so a family with a good record opened this to a wall of
+  // green before reaching anything they could act on.
+  const live = sorted.filter(j => j.status !== 'resolved')
+  const done = sorted.filter(j => j.status === 'resolved')
+
   const solved = journeys.filter(j => j.status === 'resolved').length
   const cameBack = journeys.filter(j => j.recurrences > 0).length
 
@@ -139,41 +145,40 @@ export default async function HowFarYouHaveCome() {
           : 'Everything you have raised so far, and where each one has got to.'}
       </p>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {sorted.map((j, i) => {
-          const moved = typeof j.startScore === 'number' && typeof j.endScore === 'number'
-          const tint = j.status === 'resolved' ? 'var(--tint-green)' : '#fff'
-          return (
-            <div key={i} style={{ background: tint, border: '1px solid var(--border)', borderRadius: '14px', padding: '12px 14px' }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px' }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)' }}>
-                  {j.label}
-                </span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0, textTransform: 'uppercase', letterSpacing: '.08em' }}>
-                  {j.status === 'resolved' ? 'Sorted' : j.status === 'improving' ? 'Turning' : 'Live'}
-                </span>
-              </div>
+      {/* A TABLE, NOT A STACK OF CARDS, and Justin found this the hard way:
+          "this is not readable and needs to be a neat table, as Mobbin would
+          advise." He was looking at a dozen identical fat cards, most of them
+          the SORTED ones, every single one saying "on the list since you raised
+          it" under a bold heading. A card is a container for something worth
+          reading on its own. These are ROWS in a list, and drawing them as
+          cards spent a whole screen saying almost nothing.
 
-              <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: '4px', lineHeight: 1.5 }}>
-                {moved && (
-                  <span>
-                    {j.startScore} out of 10 at the start, {j.endScore} now.{' '}
-                  </span>
-                )}
-                {j.observed && j.firstAt && j.resolvedAt && (
-                  <span>Took {daysBetween(j.firstAt, j.resolvedAt)} {plural(daysBetween(j.firstAt, j.resolvedAt), 'day', 'days')}. </span>
-                )}
-                {j.recurrences > 0 && (
-                  <span>Came back {j.recurrences} {plural(j.recurrences, 'time', 'times')}. </span>
-                )}
-                {!moved && !j.recurrences && !(j.observed && j.resolvedAt) && (
-                  <span>On the list since you raised it.</span>
-                )}
-              </div>
-            </div>
-          )
-        })}
+          So: one line each, the label on the left, the movement in the middle,
+          the state on the right. A family with fifteen concerns can now take
+          the whole picture in at a glance instead of scrolling through it. */}
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        {live.map((j, i) => <JourneyRow key={'l' + i} j={j} first={i === 0} />)}
       </div>
+
+      {/* The sorted ones fold away, because they are the bulk of the list and
+          the least urgent part of it. Not hidden: the count is right there and
+          one tap opens them. A parent scrolling for what is still live should
+          not have to wade through everything that is already fine. */}
+      {done.length > 0 && (
+        <details style={{ marginTop: live.length > 0 ? '14px' : 0 }}>
+          <summary style={{
+            cursor: 'pointer', listStyle: 'none',
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+            padding: '9px 0', borderTop: '1px solid var(--border)',
+          }}>
+            {done.length} sorted, tap to see them
+          </summary>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {done.map((j, i) => <JourneyRow key={'d' + i} j={j} first={i === 0} />)}
+          </div>
+        </details>
+      )}
 
       {cameBack > 0 && (
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, marginTop: '14px' }}>
@@ -181,6 +186,54 @@ export default async function HowFarYouHaveCome() {
           hiding: the ones that keep returning are the ones to build a proper plan around.
         </p>
       )}
+    </div>
+  )
+}
+
+// One journey, one line.
+//
+// The movement is the only number worth showing and it is shown as "8 to 9"
+// rather than "8 out of 10 at the start, 9 now", because the sentence was
+// three times the width of the fact and every row repeated it. Out of ten is
+// the scale the whole check in uses, so it does not need restating fifteen
+// times down one page.
+function JourneyRow({ j, first }: { j: Journey; first: boolean }) {
+  const moved = typeof j.startScore === 'number' && typeof j.endScore === 'number'
+  const state = j.status === 'resolved' ? 'Sorted' : j.status === 'improving' ? 'Turning' : 'Live'
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'baseline', gap: '10px',
+      padding: '9px 0',
+      borderTop: first ? 'none' : '1px solid var(--border)',
+    }}>
+      <span style={{
+        flex: 1, minWidth: 0,
+        fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
+        lineHeight: 1.35,
+      }}>
+        {j.label}
+        {j.recurrences > 0 && (
+          <span style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-sm)' }}>
+            {' '}· back {j.recurrences}x
+          </span>
+        )}
+      </span>
+      {moved && (
+        <span style={{
+          flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)',
+          fontWeight: 700, color: 'var(--ink-soft)', minWidth: '48px', textAlign: 'right',
+        }}>
+          {j.startScore} to {j.endScore}
+        </span>
+      )}
+      <span style={{
+        flexShrink: 0, width: '58px', textAlign: 'right',
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+        letterSpacing: '.06em', textTransform: 'uppercase',
+        color: j.status === 'resolved' ? 'var(--stage-1-text)' : 'var(--ink-muted)',
+      }}>
+        {state}
+      </span>
     </div>
   )
 }
