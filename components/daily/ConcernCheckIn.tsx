@@ -7,42 +7,64 @@ import { useRouter } from 'next/navigation'
 // is still open, however many days it has been coming up, and keeps asking
 // until the family says it is better twice in a row.
 //
-// ONE NUMBER IS THE WHOLE ANSWER, AND IT STAYS ON SCREEN
+// ── THREE ANSWERS, NOT TEN (12 August 2026) ──────────────────────────────────
 //
-// The scale runs UP: 1 is really tough, 10 is going great, so a family's chart
-// climbs as their weeks improve. Last check in keeps its red dotted ring on the
-// same scale the whole time, so today's number is always read against it.
+// Justin: "is there an easier but just as accurate way to check in? 1 to 10 is
+// confusing. I know we need to see previous rating and we record movement, but
+// this needs to be quick and easy to go through."
 //
-// ── TEN TAPS, NOT A DRAG (11 August 2026) ────────────────────────────────────
+// He is right on both counts and the research agrees. Reliability climbs
+// steeply from two points to about five and then flattens; ten buys nothing but
+// effort, and a single item ten point self report drifts about a point on its
+// own with nothing having changed, so half the movement a chart like this
+// celebrates is noise. Every clinical instrument that gets repeated week after
+// week uses four or five. Nobody serious uses ten.
 //
-// Justin, twice: "the sliders here are still clunky, is there a better way to
-// give a 1 to 10 rating."
+// And this app never used the ten anyway. scoreWord below collapses the scale
+// into five bands, so a 7 and an 8 both read "Getting there" everywhere in the
+// product. The ten point scale was a five point scale wearing a ten point coat,
+// and the only place the extra grain did anything was the direction check,
+// which is exactly where it turned drift into "the line is climbing".
 //
-// He was right, and the reason is that a drag was always the wrong instrument.
-// A slider is for a continuous quantity you dial in. This is ten discrete
-// answers and the parent knows which one they want before they touch the
-// screen, so a drag made them press, aim and release to say a number they had
-// already picked, while fighting the page scroll the whole way.
+// So the parent answers the question they can actually answer: is this better,
+// the same, or harder than last time? Three targets across one row, the whole
+// card short enough that every concern fits one screen.
 //
-// Every piece of cleverness this card had needed existed to prop that up: a
-// fractional step so the thumb glided rather than stepped, touch-action none so
-// the page did not scroll away mid drag, a reserved text height so the track
-// could not shift under a moving thumb. All of it is gone. Ten targets you can
-// see, one tap each, chosen and committed in the same movement.
+// THE NUMBER IS NOT GONE, IT IS DERIVED. The server moves a level one step per
+// answer and stores it, so the progress chart, the pathway history and DiGi's
+// wisdom bank all keep reading exactly what they read before. See
+// app/api/daily/concern-check/route.ts for why a derived level is the more
+// honest number.
 //
-// What survives, because it was never the problem: the save beat, so the
-// comparison line can be read and the answer changed; the row LOCKING AND
-// STAYING afterwards, so the before and after of every check in is left on
-// screen; the green that means set; and the gentle hand over to the next one.
-// Direction is computed on the server from the event log, never asked.
+// What survives, because none of it was the problem: the save beat, so the
+// verdict can be read and the answer changed; the row LOCKING AND STAYING
+// afterwards, so the before and after of every check in is left on screen; the
+// green that means set; and the hand over to the next one.
 
 export type ConcernCheckItem = {
   slug: string
   label: string
   timesFlagged: number
   lastFlaggedAt: string
-  /** Their previous 1 to 10, from the event log. Null before the first one. */
+  /** Their previous 1 to 10, from the event log. Null before the first one.
+   *  Still read so a family part way through the old scale keeps its history. */
   lastScore: number | null
+  /** What they said last time, which is now the thing shown back to them.
+   *  Null before the first check in. */
+  lastAnswer?: 'better' | 'same' | 'hard' | null
+}
+
+/** The three answers, in the order they are shown. Better first because it is
+ *  the one we are working towards, and putting the bad news last means a parent
+ *  scanning left to right is not met with "harder" before anything else. */
+export const ANSWERS = [
+  { key: 'better' as const, label: 'Better', hint: 'Than last time' },
+  { key: 'same' as const, label: 'The same', hint: 'No real change' },
+  { key: 'hard' as const, label: 'Harder', hint: 'Tougher week' },
+]
+
+const ANSWER_WORD: Record<string, string> = {
+  better: 'better', same: 'the same', hard: 'harder',
 }
 
 function recencyLabel(item: ConcernCheckItem): string {
@@ -62,18 +84,22 @@ export function scoreWord(n: number): string {
   return 'Going great'
 }
 
-// What their number means against their last one. Shown when the save beat
-// starts and left on screen afterwards. The maths mirrors the server's,
-// which owns the real verdict.
-function verdictLine(n: number, last: number | null): string {
-  if (last == null) {
-    return n >= 9
-      ? 'First mark down, and nearly sorted already. One more like this and we mark it done.'
-      : 'First mark down. Your next check in reads against this one.'
+// What their answer means, shown when the save beat starts and left on screen
+// afterwards. Words, not numbers, because a direction is what was asked.
+//
+// The dip line is the one that matters most. A parent who says it got harder
+// has just told us something difficult about their own week, and the answer to
+// that is never a frown or a score going down. It is a next move.
+function verdictLine(answer: 'better' | 'same' | 'hard', lastAnswer?: string | null): string {
+  if (answer === 'better') {
+    return lastAnswer === 'better'
+      ? 'Better again. Two in a row, so we can call this one sorted.'
+      : 'Better than last time. That is the direction.'
   }
-  if (n > last) return `Today ${n}, last check in ${last}. The line is climbing.`
-  if (n < last) return `Today ${n}, last check in ${last}. A dip is information, not a verdict. DiGi has the next move when you want it.`
-  return `Holding at ${n}, same as last check in. Steady counts.`
+  if (answer === 'hard') {
+    return 'Harder this time. A dip is information, not a verdict. DiGi has the next move whenever you want it.'
+  }
+  return 'About the same. Steady counts, and it stays on the list.'
 }
 
 // How long the note sits before the answer posts. Long enough to read the
@@ -85,7 +111,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
   // glide. touched: something has been picked, so the word and the comparison
   // show. pending: the save beat is running and can still be changed. saved:
   // posted and locked.
-  const [value, setValue] = useState<Record<string, number>>({})
+  const [value, setValue] = useState<Record<string, 'better' | 'same' | 'hard'>>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [pending, setPending] = useState<Record<string, boolean>>({})
   const [saved, setSaved] = useState<Record<string, boolean>>({})
@@ -98,7 +124,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
   // The number as of the last tap, outside React's batching, so the timer that
   // fires two and a half seconds later posts what the parent actually chose
   // rather than what the closure captured.
-  const liveValue = useRef<Record<string, number>>({})
+  const liveValue = useRef<Record<string, 'better' | 'same' | 'hard'>>({})
 
   if (concerns.length === 0) return null
 
@@ -169,20 +195,17 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       .catch(() => {})
   }
 
-  // One tap picks the number AND commits it, because with ten targets there is
-  // nothing to aim at while moving and nothing to release. The save beat stays:
-  // it is what lets a parent read the comparison line and change their mind,
-  // and tapping a different number inside it simply starts the beat again.
-  const pick = (slug: string, n: number) => {
+  // One tap picks the answer AND commits it. Three targets, each one a word a
+  // parent can say out loud about their own week, and no aiming.
+  const pick = (slug: string, answer: 'better' | 'same' | 'hard') => {
     if (posted.current[slug]) return
-    liveValue.current[slug] = n
-    setValue(prev => ({ ...prev, [slug]: n }))
+    liveValue.current[slug] = answer
+    setValue(prev => ({ ...prev, [slug]: answer }))
     setTouched(prev => ({ ...prev, [slug]: true }))
     if (timers.current[slug]) clearTimeout(timers.current[slug])
     setPending(prev => ({ ...prev, [slug]: true }))
-    timers.current[slug] = setTimeout(() => post(slug, { score: n }), SAVE_BEAT_MS)
+    timers.current[slug] = setTimeout(() => post(slug, { answer }), SAVE_BEAT_MS)
   }
-
 
   return (
     <div style={{
@@ -205,19 +228,13 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
         Still on the list
       </div>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
-        Tap where each one is today. That is the whole answer. The red ring is where it was last time.
+        One tap each, against how it was last time. That is the whole answer.
       </p>
 
       {concerns.map(c => {
         const isSaved = saved[c.slug]
         const isTouched = touched[c.slug]
         const isPending = pending[c.slug]
-        // The thumb starts mid track, never on top of the last time ring, so
-        // the ring is visible from the first glance. The raw value glides
-        // fractionally under the thumb; the words and the save always use
-        // the rounded score.
-        const n = value[c.slug] ?? 5
-        const shown = Math.min(10, Math.max(1, Math.round(n)))
         return (
           <div
             key={c.slug}
@@ -253,112 +270,72 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
               color: 'var(--ink-muted)', marginBottom: '12px',
             }}>
-              {recencyLabel(c)}{c.lastScore != null ? ` · last time you said ${c.lastScore}` : ''}
+              {/* What they said last time, which is the "previous rating" he
+                  asked to keep. A word now rather than a number, because a word
+                  is what they gave us. Falls back to the old number for a
+                  family part way through the ten point scale. */}
+              {recencyLabel(c)}
+              {c.lastAnswer ? ` \u00b7 last time you said ${ANSWER_WORD[c.lastAnswer]}`
+                : c.lastScore != null ? ` \u00b7 last time you said ${c.lastScore} out of 10` : ''}
             </div>
 
-            {/* One line above the dots, and one only. Everything the answer
-                produces now sits BELOW them.
+            {/* THREE ANSWERS ACROSS ONE ROW.
+                A word each, big enough for a thumb without aiming, and the
+                whole row is one line tall instead of the ten dots plus their
+                two end labels. That is what makes every concern fit one screen,
+                which in turn is what makes the hand over scroll a courtesy
+                rather than the only way to reach the next question.
 
-                The old readout lived up here and reserved 6.4em of empty space
-                on every row, because with a drag the text growing would have
-                shifted the track under a moving thumb. That reservation was the
-                single biggest thing making this card enormous: three concerns
-                meant three screenfuls of mostly nothing.
-
-                With taps there is no thumb to shift under, and putting the
-                result underneath means the dots never move at all, even when a
-                parent changes their mind and the sentence under them gets
-                longer. Same protection, no empty space. */}
-            <div style={{ textAlign: 'center', marginBottom: '8px', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)' }}>
-              {isTouched ? scoreWord(shown) : isSaved ? 'Skipped for today' : 'Where is it today?'}
-            </div>
-
-            {/* TEN TAPS, NOT A DRAG.
-                Justin, twice: "the sliders here are still clunky, is there a
-                better way to give a 1 to 10 rating."
-
-                He is right, and the reason is that a drag was always the wrong
-                instrument. A slider is for a continuous quantity you dial in.
-                This is ten discrete answers, and the parent already knows which
-                one they want before they touch the screen. A drag makes them
-                press, aim, and release to say a number they had picked a second
-                earlier, and on a phone it fights the page scroll the whole way.
-                Every bit of cleverness this card has needed, the fractional
-                glide, the touch-action, the reserved height so the track cannot
-                shift mid drag, existed to make a drag survive a gesture it was
-                not suited to.
-
-                Ten targets you can see, one tap each. The number is chosen and
-                committed in the same movement, there is nothing to aim at while
-                moving, and nothing to release.
-
-                LAST TIME KEEPS ITS RED RING, in the same place on the same
-                scale, so the comparison is spatial before anybody reads a word:
-                you can see whether today is left or right of last time. */}
+                The hint under each word does the job the 1 and 10 labels used
+                to: it says what the answer is being measured against, which is
+                last time rather than some absolute idea of a good week. */}
             <div
               role="radiogroup"
-              aria-label={`${c.label}: 1 really tough to 10 going great`}
-              style={{ display: 'flex', gap: '5px', justifyContent: 'space-between', padding: '2px 0' }}
+              aria-label={`${c.label}: better, the same, or harder than last time`}
+              style={{ display: 'flex', gap: '8px' }}
             >
-              {Array.from({ length: 10 }, (_, i) => i + 1).map(dot => {
-                const chosen = isTouched && shown === dot
-                const filled = isTouched && dot <= shown
-                const wasLast = c.lastScore === dot
+              {ANSWERS.map(a => {
+                const chosen = isTouched && value[c.slug] === a.key
                 return (
                   <button
-                    key={dot}
+                    key={a.key}
                     role="radio"
                     aria-checked={chosen}
-                    aria-label={`${dot} out of 10, ${scoreWord(dot)}`}
+                    aria-label={`${a.label}. ${a.hint}`}
                     disabled={!!isSaved}
-                    onClick={() => pick(c.slug, dot)}
+                    onClick={() => pick(c.slug, a.key)}
                     style={{
-                      // A 30px dot inside a 44px tall button. The dot is what
-                      // you read, the button is what your thumb hits, and the
-                      // two are not the same size on purpose.
-                      flex: '1 1 0', minWidth: 0, height: '44px', padding: 0,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: 'none', border: 'none',
-                      cursor: isSaved ? 'default' : 'pointer',
+                      flex: '1 1 0', minWidth: 0, padding: '12px 6px',
+                      borderRadius: '16px', cursor: isSaved ? 'default' : 'pointer',
+                      // Set is green, the same green the all checked tick uses,
+                      // so a finished row and the summary agree on one colour.
+                      background: chosen && (isPending || isSaved) ? 'var(--tint-green)'
+                        : chosen ? 'var(--terracotta-lt)'
+                        : '#fff',
+                      border: chosen && (isPending || isSaved) ? '2.5px solid var(--retro-green)'
+                        : chosen ? '2.5px solid var(--terracotta-dark)'
+                        : '1.5px solid var(--border)',
+                      boxShadow: chosen ? '0 3px 0 rgba(26,26,46,0.14)' : 'none',
+                      opacity: isSaved && !chosen ? 0.45 : 1,
+                      transition: 'background 0.14s, border-color 0.14s, opacity 0.14s',
                     }}
                   >
-                    <span
-                      aria-hidden
-                      style={{
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        width: '100%', maxWidth: '30px', aspectRatio: '1',
-                        borderRadius: '50%',
-                        fontFamily: 'var(--font-mono)', fontSize: '0.7rem', fontWeight: 700,
-                        // Set is green, exactly as the dial was, so a finished
-                        // row and the all checked tick agree on one colour.
-                        background: chosen && (isPending || isSaved) ? 'var(--tint-green)'
-                          : chosen ? 'var(--terracotta)'
-                          : filled ? 'var(--terracotta-lt)'
-                          : '#fff',
-                        border: chosen && (isPending || isSaved) ? '2.5px solid var(--retro-green)'
-                          : chosen ? '2.5px solid var(--terracotta-dark)'
-                          // Last time, held on the scale the whole time, before
-                          // and after today's answer lands.
-                          : wasLast ? '2px dotted var(--alert)'
-                          : '1.5px solid var(--border)',
-                        color: 'var(--ink)',
-                        boxShadow: chosen ? '0 2px 0 rgba(26,26,46,0.18)' : 'none',
-                        transition: 'background 0.14s, border-color 0.14s',
-                      }}
-                    >
-                      {dot}
+                    <span style={{
+                      display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
+                      fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.15,
+                    }}>
+                      {a.label}
+                    </span>
+                    <span aria-hidden style={{
+                      display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.62rem',
+                      fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
+                      color: 'var(--ink-muted)', marginTop: '3px', lineHeight: 1.2,
+                    }}>
+                      {a.hint}
                     </span>
                   </button>
                 )
               })}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '18px', marginTop: '4px', padding: '0 4px' }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'left' }}>
-                1<br />Really tough
-              </span>
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'var(--ink-muted)', textAlign: 'right' }}>
-                10<br />Going great
-              </span>
             </div>
 
             {/* What it means, under the dots, so nothing above ever moves.
@@ -368,8 +345,8 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
             {(isTouched || isSaved) && (
               <div aria-live="polite" style={{ textAlign: 'center', marginTop: '8px' }}>
                 <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45 }}>
-                  {isTouched
-                    ? `${verdictLine(shown, c.lastScore)}${isSaved ? ' Saved.' : isPending ? ' Saving.' : ''}`
+                  {isTouched && value[c.slug]
+                    ? `${verdictLine(value[c.slug], c.lastAnswer)}${isSaved ? ' Saved.' : isPending ? ' Saving.' : ''}`
                     : 'Skipped for today. It stays on the list.'}
                 </span>
               </div>
@@ -390,7 +367,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 'var(--text-sm)', color: 'var(--ink)', flexShrink: 0,
           }}>✓</span>
-          All checked. Small steps, kept up, are how this turns. The rings show how far each one has moved.
+          All checked. Small steps, kept up, are how this turns, and every answer moves the line on your progress page.
         </div>
       )}
     </div>

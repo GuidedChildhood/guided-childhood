@@ -45,20 +45,31 @@ export default async function DailyPage() {
   const checkIns = ((concernsResult.data ?? []) as { id: string; slug: string; label: string; times_flagged: number; last_flagged_at: string }[])
     .filter(c => c.slug && !GENERIC_CONCERN_SLUGS.has(c.slug) && (c.label ?? '').trim().toLowerCase() !== 'something else')
 
-  // Last time's 1 to 10 for each check in, so the slider can mark it on the
-  // track and the verdict can say which way the line moved. A second wave by
-  // necessity: it needs the concern ids from the first.
+  // What they said last time for each check in, so the card can show it back
+  // and the verdict can name the move. A second wave by necessity: it needs the
+  // concern ids from the first.
+  //
+  // Both shapes are read. `answer` is what the card asks for now, better, same
+  // or hard; `score` is the ten point number families gave until 12 August, and
+  // it is still shown to anyone whose last check in predates the change so
+  // their history does not go blank on them.
   const lastScoreByConcern = new Map<string, number>()
+  const lastAnswerByConcern = new Map<string, 'better' | 'same' | 'hard'>()
   if (checkIns.length > 0) {
     const { data: scoreRows } = await supabase
       .from('concern_events')
-      .select('concern_id, score, created_at')
+      .select('concern_id, score, answer, created_at')
       .in('concern_id', checkIns.map(c => c.id))
-      .not('score', 'is', null)
       .order('created_at', { ascending: false })
-      .limit(60)
-    for (const r of (scoreRows ?? []) as { concern_id: string; score: number }[]) {
-      if (!lastScoreByConcern.has(r.concern_id)) lastScoreByConcern.set(r.concern_id, r.score)
+      .limit(120)
+    for (const r of (scoreRows ?? []) as { concern_id: string; score: number | null; answer: string | null }[]) {
+      if (typeof r.score === 'number' && !lastScoreByConcern.has(r.concern_id)) {
+        lastScoreByConcern.set(r.concern_id, r.score)
+      }
+      if ((r.answer === 'better' || r.answer === 'same' || r.answer === 'hard')
+          && !lastAnswerByConcern.has(r.concern_id)) {
+        lastAnswerByConcern.set(r.concern_id, r.answer)
+      }
     }
   }
 
@@ -352,6 +363,7 @@ export default async function DailyPage() {
             timesFlagged: c.times_flagged,
             lastFlaggedAt: c.last_flagged_at,
             lastScore: lastScoreByConcern.get(c.id) ?? null,
+            lastAnswer: lastAnswerByConcern.get(c.id) ?? null,
           }))} />
         </div>
       )}

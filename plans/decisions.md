@@ -7404,3 +7404,53 @@ magnet download lifts it, because that is them asking.
 Also fixed: the nurture claimed a lead by testing the update for an error, and
 an update matching zero rows is not an error in Postgres. That check meant "the
 database was reachable", not "I claimed this lead". It now reads the row back.
+
+## 12 August 2026 — The check in asks the question a parent can answer
+
+Justin, with two screenshots of the daily check in: "when I click a line it's
+good but it scrolls down and puts the next one at the top where I can't see it.
+It just needs to go to the next one. Is there an easier but just as accurate way
+to check in? 1 to 10 is confusing. I know we need to see previous rating and we
+record movement, but this needs to be quick and easy to go through."
+
+**The scroll bug was centring.** The hand over used `block: 'center'`, and a
+concern row on a 390 wide phone is taller than the screen. Centring a thing
+taller than the viewport pushes its top above the fold, and the first casualty
+was the title, so a parent was handed a question without knowing what it was
+about. `block: 'start'` plus a real scroll margin. It only ever looked right on
+the desktop check, where the rows fit.
+
+**Ten points became three answers: better, the same, harder.** Justin chose this
+over five points after reading both costs. The evidence is with him. Rating
+scale reliability climbs steeply to about five points and then flattens, ten
+buys effort rather than accuracy, and a single item ten point self report drifts
+about a point on its own, so a good share of the movement the chart was
+celebrating was noise. Every clinical instrument that gets repeated uses four or
+five.
+
+And the app never used the ten. `scoreWord` collapsed it into five bands, so 7
+and 8 both read "Getting there" everywhere. The ten point scale was a five point
+scale wearing a ten point coat, and the one place the extra grain did anything
+was the direction check, which is exactly where drift became "the line is
+climbing".
+
+**The number is derived rather than dropped, which is what makes this cheap.**
+The server moves a level one step per answer and stores it, so the progress
+chart, the pathway history and DiGi's wisdom bank read exactly what they read
+before. The resolution machine needed nothing at all: it always ran on better,
+same and hard, and the score was layered over the top on 8 August. Underneath,
+this is the shape it already had.
+
+The two costs Justin accepted, and how each is handled. The chart loses its
+absolute level: answered by deriving one, which is the more honest number
+anyway, since nobody knows whether bedtime is a 7 or an 8 but everybody knows
+whether this week was worse than last. And a 7 to 8 move no longer reads as
+progress: that is the point rather than the price.
+
+**Previous rating still shows**, as the words they actually gave: "last time you
+said better". A family part way through the old scale still sees their number,
+so nobody's history goes blank on the day this ships.
+
+The rows are now short enough that all three concerns fit one phone screen,
+which turns the hand over scroll from the only way to reach the next question
+into a courtesy.
