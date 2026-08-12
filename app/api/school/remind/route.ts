@@ -119,7 +119,7 @@ async function handler(req: NextRequest) {
       ? `Tomorrow: ${titles[0]}. Sort it tonight while it is easy.`
       : `Tomorrow: ${titles.slice(0, 3).join(', ')}${titles.length > 3 ? ', and more' : ''}. Sort tonight while it is easy.`
     try {
-      const res = await sendPush({ userId, title: 'From school, due tomorrow', body, url: '/dashboard/school' })
+      const res = await sendPush({ userId, title: 'Reminders for tomorrow 🗓️', body, url: '/dashboard/school' })
       const result = res
       if (result.sent > 0) sent++
     } catch { /* best effort */ }
@@ -156,7 +156,7 @@ async function handler(req: NextRequest) {
       ? `Tomorrow: ${titles[0]}. Get it ready tonight ⭐`
       : `Tomorrow: ${titles.slice(0, 3).join(', ')}. Get them ready tonight ⭐`
     try {
-      const res = await sendPush({ userId, audience: 'kids', title: 'From school 🎒', body, url: '/' })
+      const res = await sendPush({ userId, audience: 'kids', title: 'For tomorrow 🎒', body, url: '/' })
       const result = res
       if (result.sent > 0) childSent++
     } catch { /* best effort */ }
@@ -184,7 +184,7 @@ async function handler(req: NextRequest) {
 
       await sendPush({
           userId: routine.user_id, audience: 'kids',
-          title: 'From school 🎒', body: `Tomorrow: ${routine.title}. It is in your school diary.`, url: '/',
+          title: 'For tomorrow 🗓️', body: `Tomorrow: ${routine.title}. It is on your calendar.`, url: '/',
         })
       childSent++
     } catch { /* best effort, next week tries again */ }

@@ -53,8 +53,8 @@ export async function POST(req: NextRequest) {
     await sendPush({
         userId: user.id,
         audience: 'kids',
-        title: 'From school 🎒',
-        body: `${action.title}. It is in your school diary.`,
+        title: 'On your calendar 🗓️',
+        body: `${action.title}. It is on your calendar.`,
         url: '/',
       })
   } catch { /* best effort */ }

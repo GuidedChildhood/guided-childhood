@@ -7565,3 +7565,31 @@ for. The card now starts as one slim line, "Want to see what next term
 covers?", and opens on a tap with a close in the corner. When it appears
 at all stays gated as before: only around a term boundary, only with a
 birthday to pin the year group.
+
+## 12 August 2026 — The holidays button judges by sight, not by kind
+
+Justin tapped "It happens in the holidays too" on Swimming kit and the
+pill stayed. The row was a parent added NOTICE, sent to the child, so it
+sat on Teo's week wearing the hold pill while the new button's server
+check, which only accepted the child kinds, refused it as not his. The
+check now uses the same shared isChildVisible rule as the week page
+itself: if a routine is on the child's diary, its holidays truth is
+theirs to state, whatever kind the parent filed it under. One offs and
+unsent grown up rows stay out of reach as before. Justin's Swimming kit
+row flipped by hand in the live database so it works today, not after
+the deploy.
+
+## 12 August 2026 — The calendar stops claiming everything is from school
+
+Justin, on Swimming kit under a "From school today" banner: "it's a bit
+misleading to say from school today, it should be something like see my
+calendar or reminders." The diary carries school items AND the family's
+own reminders, and a banner that says school over a swimming kit the
+family added is telling the child a small lie every day.
+
+Renamed by what it actually is. The home banner header is now "🗓️ To
+remember today", the slim door and the way in say "My calendar", the
+week page's subtitle says school things and your own reminders, and the
+pushes stop claiming a sender: "On your calendar", "For tomorrow",
+"Reminders for tomorrow". The red nearly time header stays exactly as it
+was, urgency needs no rename.
