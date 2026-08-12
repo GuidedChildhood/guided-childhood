@@ -287,10 +287,30 @@ launch, both together in one commit:
 
 ## Still open, and none of it is DNS
 
-1. **Migrations 183, 185 and 186 have still not been confirmed as run.** 185 and
-   186 are the ones that stop the recommender offering the "they have told you
-   they are gay, bi or trans" script to families who never signalled anything.
-   Until they run, that is live for everybody who reaches the recommender.
+1. ~~**Migrations 183, 185 and 186 have still not been confirmed as run.**~~
+   **CLOSED, 12 August 2026. Everything up to and including 190 is applied**,
+   checked against the production database rather than the file list:
+
+   | | how it was confirmed |
+   | --- | --- |
+   | 183 | the `script_completions_status_check` constraint includes `read` and `not_needed` |
+   | 185 | `scripts.only_on_signal` exists |
+   | 186 | the new gaming script is in the table |
+   | 187 | the "Free scripts are public" policy is gone |
+   | 188 | `tutor_lessons` exists |
+   | 189 | `email_addresses` exists |
+   | 190 | `checkin_shifts` exists |
+
+   So the concern this item was really about is closed too: 185 is live, and the
+   recommender no longer offers the "they have told you they are gay, bi or
+   trans" script to families who never signalled anything.
+
+   One warning for whoever checks this next, because it nearly produced a wrong
+   answer here: **probe the thing the migration actually changes.** 183 first
+   came back missing because the probe looked for a `script_reads` table. There
+   is no such table. 183 alters a CHECK CONSTRAINT on `script_completions`, and
+   reading the constraint is what settles it.
+
 2. **The paywall.** Justin, 11 August: *"I don't want the scripts free so that
    needs to be paywalled, as everything should be 4 days free paywall."* The trial
    is already 4 days. What is not is the permanent free plan sitting beside it: 63
