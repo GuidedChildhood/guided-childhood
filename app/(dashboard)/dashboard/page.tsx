@@ -561,27 +561,45 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     }
   })
 
-  const nextUp: { eyebrow: string; title: string; line: string; href: string; icon: string } =
+  // ── SAID ONCE, ON THE NICER CARD (12 August 2026) ──────────────────────────
+  //
+  // Justin, with a screenshot of DiGi saying "Teo has jobs to do today, see the
+  // jobs" directly above a card saying "Teo's quests, jobs to check off": "we
+  // should just keep the Teo's jobs as it looks nicer and it's doing the same as
+  // the afternoon one, although make sure we don't break any logic behind it."
+  //
+  // Three of these four branches are about jobs, and whenever one of them is
+  // showing, DiGi's greeting was saying the same thing one line higher with a
+  // smaller tap target. `coversJobs` is how the greeting knows to stay quiet.
+  //
+  // It is a flag rather than a deletion because the fourth branch is the
+  // passport, and on that day the greeting's jobs line is the only place a
+  // parent hears "jobs on track, 3 days on the trot", which is worth saying and
+  // is not said anywhere else on this screen.
+  const nextUp: { eyebrow: string; title: string; line: string; href: string; icon: string; coversJobs: boolean } =
     jobsStatus === 'pending'
       ? {
           eyebrow: "Today's habit done",
           title: questsChildName ? `${questsChildName}'s quests` : 'Family quests',
           line: 'Jobs to check off and any asks to answer',
-          href: '/dashboard/quests', icon: '⭐',
+          // The anchor came off the greeting's link when that line went quiet,
+          // so it moves here. Landing on the board rather than the top of the
+          // page is the whole difference between one tap and three.
+          href: '/dashboard/quests#quest-board', icon: '⭐', coversJobs: true,
         }
       : noQuestsYet
       ? {
           eyebrow: "Today's habit done",
           title: 'Set their first jobs',
           line: 'Real world jobs are what earn screen time, so nothing else starts moving until these exist.',
-          href: '/dashboard/quests', icon: '🧹',
+          href: '/dashboard/quests', icon: '🧹', coversJobs: true,
         }
       : stageLessonsLeft > 0
       ? {
           eyebrow: "Today's habit done",
           title: 'Move the passport on',
           line: `${stageLessons!.passed} of ${stageLessons!.total} lessons passed at ${stage.name}. Pass the rest to stamp this stage.`,
-          href: '/dashboard/pathway', icon: '🛂',
+          href: '/dashboard/pathway', icon: '🛂', coversJobs: false,
         }
       : {
           eyebrow: "Today's habit done",
@@ -589,7 +607,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           line: jobsStatus === 'on_track'
             ? "Today's jobs are done. Check any asks and set tomorrow's"
             : 'Set the jobs and screen time to get the stars flowing',
-          href: '/dashboard/quests', icon: '⭐',
+          href: '/dashboard/quests', icon: '⭐', coversJobs: true,
         }
 
   return (
@@ -769,6 +787,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             jobsStatus={jobsStatus}
             jobsStreakDays={jobsStreakDays}
             balanceHref="/dashboard/quests"
+            nextUpCoversJobs={nextUp.coversJobs}
           />
         )
       })()}

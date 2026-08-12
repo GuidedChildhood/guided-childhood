@@ -9,7 +9,7 @@ import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 export default function DigiGreeting({
   firstName, childName, stageNum, minutesLeft, dayDone,
-  jobsStatus, jobsStreakDays = 0, balanceHref,
+  jobsStatus, jobsStreakDays = 0, balanceHref, nextUpCoversJobs = false,
 }: {
   firstName: string
   childName?: string
@@ -24,6 +24,10 @@ export default function DigiGreeting({
   jobsStatus?: 'on_track' | 'pending' | 'none'
   jobsStreakDays?: number
   balanceHref?: string
+  /** The card directly underneath is already about the jobs, so this line would
+   *  be the same thing said twice, one line apart, with the smaller tap target
+   *  of the two. See the note above the jobs line below. */
+  nextUpCoversJobs?: boolean
 }) {
   const kid = childName && childName !== 'Your child' ? childName : 'Your child'
   const ukHour = Number(new Date().toLocaleString('en-GB', { timeZone: 'Europe/London', hour: 'numeric', hour12: false }))
@@ -37,9 +41,28 @@ export default function DigiGreeting({
   // The jobs read, in the child's name, connecting the parent view to the
   // child's own app. When there are jobs still to do it lands straight on the
   // jobs; when done it goes to the screen and jobs balance.
+  // ── SAID ONCE, ON THE NICER CARD (12 August 2026) ──────────────────────────
+  //
+  // Justin, with a screenshot of this line reading "Teo has jobs to do today,
+  // see the jobs" directly above a card reading "Teo's quests, jobs to check
+  // off": "we should just keep the Teo's jobs as it looks nicer and it's doing
+  // the same as the afternoon one, although make sure we don't break any logic
+  // behind it."
+  //
+  // He is right, and the card wins on every count: a real button, a bigger tap
+  // target, an icon, and room to say what is actually waiting. This line was
+  // the same sentence in a smaller font one line higher.
+  //
+  // SO IT GOES QUIET, IT DOES NOT GO AWAY, and the difference matters. Three of
+  // the four cards below are about jobs; the fourth is the passport. On a
+  // passport day this is the only place a parent hears "jobs on track, 3 days on
+  // the trot", which is worth telling them and is said nowhere else on the
+  // screen. Deleting the line would have quietly taken that with it.
+  //
+  // The deep link to the board moved to the card rather than being dropped.
   const pending = jobsStatus === 'pending'
-  const jobsLine =
-    jobsStatus === 'on_track'
+  const jobsLine = nextUpCoversJobs ? null
+    : jobsStatus === 'on_track'
       ? (jobsStreakDays >= 2 ? `Jobs on track, ${jobsStreakDays} days on the trot` : 'Jobs on track, all done today')
       : pending ? `${kid} has jobs to do today`
       : jobsStatus === 'none' ? 'No jobs set yet' : null
