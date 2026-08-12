@@ -808,7 +808,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           lib/home/habit-nudges.ts for why each rule earns its place. */}
       {nudgeFacts && <HabitNudge facts={nudgeFacts} />}
 
-      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
+      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonusIndex={planetOfTheWeek()} />
 
       {/* THE SIX COINS, DIRECTLY UNDER THE LOOP.
           Justin: "it is on the passport pathway, which is fine, but it needs to
