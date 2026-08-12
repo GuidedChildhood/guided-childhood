@@ -340,10 +340,10 @@ export default function HomePage() {
             <div style={{ position: 'relative', background: 'var(--stage-2)', borderRadius: '28px', border: '1.5px solid var(--border)', overflow: 'hidden', minHeight: '250px' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={PHOTO_CHILD_PLAYING}
-                alt="A child laughing on a garden swing, tablet left on the picnic blanket, screen time earned and balanced"
+                src={PHOTO_BALANCE}
+                alt="A family laughing together on the grass, their phone left face down beside them, screen time earned and balanced"
                 loading="eager"
-                style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', objectPosition: '80% center' }}
+                style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', objectPosition: '30% center' }}
               />
               <div aria-label="The child app: quests, a star bank and screen time earned by doing chores" style={{ position: 'absolute', right: '14px', bottom: '14px', width: 'clamp(78px, 17%, 92px)', aspectRatio: '9 / 18.5', borderRadius: '16px', border: '4px solid var(--ink)', overflow: 'hidden', boxShadow: '0 14px 34px rgba(26,26,46,0.25)', background: 'var(--pastel-pink)', display: 'flex', flexDirection: 'column', padding: '13px 6px 9px' }}>
                 {/* Dynamic island */}
@@ -403,7 +403,7 @@ export default function HomePage() {
           <div style={{ width: 'min(72vw, 400px)', aspectRatio: '1', borderRadius: '50%', overflow: 'hidden', margin: '0 auto', boxShadow: '0 24px 70px rgba(26,26,46,0.16)' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={PHOTO_FAMILY_GRASS}
+              src={PHOTO_BALANCE}
               alt="A family laughing together on the grass, their phone left face down beside them, screen time fights ended"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
