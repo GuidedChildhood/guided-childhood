@@ -1406,15 +1406,58 @@ export default function KidQuestScreen({
           }}
         />
 
-        {/* A lesson a grown up sent, written for this child from the homework
-            they were stuck on. Above the printable because it is the newer
-            thing and it expires in a child's head faster: homework is tonight.
-            One tap opens the real player, which is where the stars are earned.
+        {/* The five a day, first on the screen.
+            Justin: "make it 5 steps per day ... once the system knows they sent
+            a job, a big celebration animation and 1 streak achieved."
+            Above everything, because it IS the day: one card, five one line
+            rows, no scrolling. The list below is still the detail for step one,
+            which is why Your jobs scrolls to it rather than navigating away. */}
+        {/* The run, above everything, including the day that feeds it.
+            Justin: "streak count needs to be at very top."
 
-            The framing on the card is the whole feature in two lines. A child
-            who reads "your grown up thought this would help" is being given
-            something; a child who reads "you found this hard" is being told
-            something. It is the same lesson either way. */}
+            It used to render three times, once inside each of the Quests,
+            Lessons and Printables tabs, so that it stayed visible whichever tab
+            a child was on. Above the tabs it is visible on all three by simply
+            being there, which is what the three copies were working around. One
+            bar, one number, and it now counts completed days rather than only
+            the jobs run, so the five a day directly under it is visibly what
+            moves it. */}
+        <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
+
+        <div id="kid-five" style={{ scrollMarginTop: 96 }} />
+        <KidFiveADay
+          token={token}
+          childName={childName}
+          theme={theme}
+          jobsAllDone={allDone}
+          jobsProgress={{ done: doneCount, total: quests.length }}
+          newQuestCount={newQuestCount}
+          readingMinutes={readingMinutesFor(ageBand)}
+          moveJobs={moveJobs}
+          initialState={fiveADayInitial}
+          onOpenJobs={() => { window.location.assign(`/k/${token}/jobs`) }}
+          onDayComplete={n => {
+            playKidSound('done')
+            const next = bumpDay()
+            // The weekly reminder, if it is owed. When it is not, the day still
+            // completes and the Friend still arrives: only the reminder is
+            // skipped.
+            if (streakDueThisWeek) { setStreakWon(n); markStreakWeekSeen() }
+            else openArrivalIfEarned(next)
+          }}
+        />
+
+        {/* What a grown up sent, straight after the five a day. These two
+            cards used to land above everything, poster on top of the day
+            itself. Justin, 12 August 2026: "put your 5 a day above any
+            printable here." The day comes first; what was sent is the next
+            thing the child sees. The lesson stays above the printable because
+            it is the newer thing and it expires in a child's head faster:
+            homework is tonight. The framing on the lesson card is the whole
+            feature in two lines. A child who reads "your grown up thought
+            this would help" is being given something; a child who reads "you
+            found this hard" is being told something. It is the same lesson
+            either way. */}
         {tutorLesson && (
           <a
             href={`/k/${token}/tutor/${tutorLesson.id}`}
@@ -1449,8 +1492,8 @@ export default function KidQuestScreen({
           </a>
         )}
 
-        {/* A printable a grown up sent lands right at the top of the to do:
-            print it, do it, then send it to be confirmed like any printable. */}
+        {/* The sent printable: print it, do it, then send it to be
+            confirmed like any printable. */}
         {assignedPrintable && !assignedSent && (
           <div style={{ background: '#fff', border: '2px solid var(--terracotta)', borderRadius: 18, padding: '14px 16px', marginBottom: 16, boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
             {/* The real product cover, so the child sees exactly what is coming.
@@ -1500,47 +1543,6 @@ export default function KidQuestScreen({
             </div>
           </div>
         )}
-
-        {/* The five a day, first on the screen.
-            Justin: "make it 5 steps per day ... once the system knows they sent
-            a job, a big celebration animation and 1 streak achieved."
-            Above everything, because it IS the day: one card, five one line
-            rows, no scrolling. The list below is still the detail for step one,
-            which is why Your jobs scrolls to it rather than navigating away. */}
-        {/* The run, above everything, including the day that feeds it.
-            Justin: "streak count needs to be at very top."
-
-            It used to render three times, once inside each of the Quests,
-            Lessons and Printables tabs, so that it stayed visible whichever tab
-            a child was on. Above the tabs it is visible on all three by simply
-            being there, which is what the three copies were working around. One
-            bar, one number, and it now counts completed days rather than only
-            the jobs run, so the five a day directly under it is visibly what
-            moves it. */}
-        <StreakBar completedStreaks={completedStreaks} earnedStages={earnedStages} />
-
-        <div id="kid-five" style={{ scrollMarginTop: 96 }} />
-        <KidFiveADay
-          token={token}
-          childName={childName}
-          theme={theme}
-          jobsAllDone={allDone}
-          jobsProgress={{ done: doneCount, total: quests.length }}
-          newQuestCount={newQuestCount}
-          readingMinutes={readingMinutesFor(ageBand)}
-          moveJobs={moveJobs}
-          initialState={fiveADayInitial}
-          onOpenJobs={() => { window.location.assign(`/k/${token}/jobs`) }}
-          onDayComplete={n => {
-            playKidSound('done')
-            const next = bumpDay()
-            // The weekly reminder, if it is owed. When it is not, the day still
-            // completes and the Friend still arrives: only the reminder is
-            // skipped.
-            if (streakDueThisWeek) { setStreakWon(n); markStreakWeekSeen() }
-            else openArrivalIfEarned(next)
-          }}
-        />
 
         {/* Reminders, asked ABOVE the jobs rather than below everything. This
             used to sit at the very bottom of the screen, which is why a child
