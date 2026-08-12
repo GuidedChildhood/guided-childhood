@@ -20,7 +20,8 @@ import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
-import { schoolTakesTheTop } from '@/lib/home/school-spotlight'
+import { schoolTakesTheTop, countWaitingToday } from '@/lib/home/school-spotlight'
+import { isHeldForHolidays } from '@/lib/school/child-items'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import { allBirthdaysIn } from '@/lib/setup/flags'
@@ -108,7 +109,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
-    supabase.from('school_actions').select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(20),
+    // cleared_on rides along for countWaitingToday: a weekly routine cleared
+    // today is not waiting on anybody until it comes round again next week.
+    supabase.from('school_actions').select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child, cleared_on').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(20),
     supabase.from('school_connections').select('id').eq('user_id', user.id).eq('active', true).maybeSingle(),
     supabase.from('family_agreements').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),
@@ -610,6 +613,14 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           href: '/dashboard/quests', icon: '⭐', coversJobs: true,
         }
 
+  // The greeting only goes quiet about jobs when the card that says it instead
+  // is ACTUALLY ON THE PAGE. That card is wrapped in {dayComplete && ...}, so
+  // passing coversJobs on its own silenced the greeting for the whole of the
+  // morning before the habit was done, on a screen where nothing else mentioned
+  // jobs at all. Three of the four branches set coversJobs, so Home was simply
+  // silent about jobs waiting, which is the opposite of what the change was for.
+  const nextUpCoversJobs = dayComplete && nextUp.coversJobs
+
   // ── THE SCHOOL CARD COMES TO THE TOP ONCE A WEEK ───────────────────────────
   //
   // Justin, 12 August 2026: "this is just the alert calendar for school tasks.
@@ -623,7 +634,20 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   //
   // It MOVES rather than being drawn twice. Home already had one thing said in
   // two places today and he caught it within the hour.
-  const schoolOnTop = schoolTakesTheTop(schoolActions.length)
+  //
+  // The count handed over is what is WAITING TODAY, not how many rows are open,
+  // and the difference is a bug that shipped. A weekly routine is one open row
+  // for ever, so "PE kit, every Tuesday" made the exception permanently true
+  // and the card sat at the top every day of the week. Holiday held routines
+  // counted too, so all summer the top of Home carried a red badge for items
+  // the card itself was greying out as "on hold until school is back".
+  // countWaitingToday is where the rule lives, with the reasoning.
+  const schoolWaitingToday = countWaitingToday(
+    schoolActions,
+    new Date(),
+    a => isHeldForHolidays(a as Parameters<typeof isHeldForHolidays>[0], new Date(), familyRegion),
+  )
+  const schoolOnTop = schoolTakesTheTop(schoolWaitingToday)
   const schoolBlock = (
     <>
       {/* Things you need to know: open school actions from forwarded school
@@ -641,8 +665,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             label="From school"
             value={schoolActions.length === 0 ? 'Nothing waiting' : undefined}
             count={schoolActions.length}
-            alert={schoolActions.length > 0}
-            open={schoolActions.length > 0}
+            alert={schoolWaitingToday > 0}
+            open={schoolWaitingToday > 0}
           >
             {/* compact: the fold above already says From school, so the card does
                 not say it a second time on the same screen. */}
@@ -832,7 +856,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             jobsStatus={jobsStatus}
             jobsStreakDays={jobsStreakDays}
             balanceHref="/dashboard/quests"
-            nextUpCoversJobs={nextUp.coversJobs}
+            nextUpCoversJobs={nextUpCoversJobs}
           />
         )
       })()}
