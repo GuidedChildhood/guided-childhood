@@ -21,6 +21,11 @@ export type InsightReport = {
   themes?: { label: string; count: number; stages?: string[]; example?: string }[]
   gaps?: { topic: string; whatParentsAsk?: string; coverage?: 'none' | 'partial'; note?: string }[]
   recommendations?: { type: string; title: string; why: string; priority: number }[]
+  // Changes to the SYSTEM the outcome data argues for, distinct from content
+  // to add. Justin: "give me ways of improving the system or change the
+  // system to suggest solutions based on data." Grounded in the check in
+  // shifts: what keeps preceding a rating rise, what keeps preceding a fall.
+  system_changes?: { change: string; evidence: string; priority: number }[]
 }
 export type InsightPayload = { generatedAt: string; days: number; count: number; report: InsightReport }
 
@@ -85,6 +90,38 @@ export async function runDigiInsights(daysRaw: number): Promise<InsightPayload> 
     admin.from('script_completions').select('script_sort_order, worked'),
   ])
 
+  // The outcome evidence: weekly rating shifts against what families did in
+  // those weeks (migration 190). Directions and action shapes only, no notes,
+  // no ids. This is what turns the report from "what parents ask" into "what
+  // actually moves the needle and what the system should do differently".
+  const { data: shiftRows } = await admin
+    .from('checkin_shifts')
+    .select('direction, had_plan, actions')
+    .gte('week_start', new Date(Date.now() - Math.max(days, 28) * 86_400_000).toISOString().slice(0, 10))
+    .limit(800)
+  const shiftTally = { up: 0, down: 0, flat: 0, downWithPlan: 0 }
+  const actionsBefore = { up: new Map<string, number>(), down: new Map<string, number>() }
+  for (const s of shiftRows ?? []) {
+    const dir = s.direction as 'up' | 'down' | 'flat'
+    shiftTally[dir] += 1
+    if (dir === 'down' && s.had_plan) shiftTally.downWithPlan += 1
+    if (dir === 'up' || dir === 'down') {
+      for (const a of (Array.isArray(s.actions) ? (s.actions as { kind?: string; detail?: string }[]) : [])) {
+        if (!a.detail) continue
+        const key = clip(a.detail, 110)
+        actionsBefore[dir].set(key, (actionsBefore[dir].get(key) ?? 0) + 1)
+      }
+    }
+  }
+  const topActions = (m: Map<string, number>) =>
+    [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8).map(([detail, n]) => `${detail} (${n})`)
+  const shiftBlock =
+    (shiftRows ?? []).length > 0
+      ? `\nWHAT MOVED FAMILIES' OWN WEEKLY RATINGS (from the check in learning loop, de-identified. ${shiftTally.up} weeks rose, ${shiftTally.down} fell of which ${shiftTally.downWithPlan} fell with an agreed plan running, ${shiftTally.flat} were flat):
+${topActions(actionsBefore.up).length ? `Most common actions in weeks that ROSE:\n${topActions(actionsBefore.up).map(a => `- ${a}`).join('\n')}` : 'No actions recorded in rising weeks yet.'}
+${topActions(actionsBefore.down).length ? `Most common actions in weeks that FELL:\n${topActions(actionsBefore.down).map(a => `- ${a}`).join('\n')}` : ''}`
+      : ''
+
   // Direct requests, de-duplicated lightly so repeated asks read as demand.
   const directRequests = [...new Set((requestsRes.data ?? []).map(r => clip(String(r.problem), 160)).filter(Boolean))].slice(0, 40)
 
@@ -125,16 +162,18 @@ Device guides (${inventory.deviceGuides.length}): ${inventory.deviceGuides.join(
 Research base topics: ${inventory.research.join(' | ')}
 ${directRequests.length ? `\nSCRIPTS PARENTS ASKED FOR BY NAME (they searched and found no fit, the most direct demand there is):\n${directRequests.map(r => `- ${r}`).join('\n')}` : ''}
 ${failingScripts.length ? `\nSCRIPTS THAT ARE FAILING (parents opened them and said they did not help, strong candidates to rewrite):\n${failingScripts.map(f => `- ${f}`).join('\n')}` : ''}
+${shiftBlock}
 
 Do this:
 1. Theme the questions into the recurring things parents are dealing with, with a rough count and which stages they cluster in.
 2. Find the gaps: themes that come up but that our scripts, lessons, guides or research do not cover well. Mark whether we have nothing or only partial coverage.
 3. Recommend concrete additions, ranked by how often the need came up and how load bearing it is. Each recommendation is a specific thing to build: a named script, a named lesson, a device guide, a research addition, or a philosophy or voice adjustment. Weight the direct script requests heavily, they are demand we can see. Where a script is failing, recommend rewriting it by name rather than adding a new one.
+4. When the rating shift data is present, read it like natural selection: what keeps appearing in weeks that rose is what the system should push more of and earlier, what keeps appearing in weeks that fell deserves caution or a rework. Propose up to three system_changes, each a concrete change to how the PLATFORM behaves (what DiGi suggests first, what the weekly plan defaults to, what gets recommended when), each grounded in the counts above. No shift data, or too little to trust, means an empty system_changes list, never an invented one.
 
 Guardrails: never suggest anything that would have DiGi allow or deny rather than give a calibrated pathway. Justin's voice is warm, plain, direct, no dashes. Ground every gap in the actual questions above, never invent demand.
 
 Reply with ONLY valid JSON, no prose, in exactly this shape:
-{"summary":"2 to 3 sentences on the headline of what parents needed this period","themes":[{"label":"short name","count":number,"stages":["stage names"],"example":"one real paraphrased question"}],"gaps":[{"topic":"short name","whatParentsAsk":"one line","coverage":"none|partial","note":"why it matters"}],"recommendations":[{"type":"script|lesson|device_guide|research|philosophy","title":"the specific thing to build","why":"one or two lines tied to the questions","priority":1}]}
+{"summary":"2 to 3 sentences on the headline of what parents needed this period","themes":[{"label":"short name","count":number,"stages":["stage names"],"example":"one real paraphrased question"}],"gaps":[{"topic":"short name","whatParentsAsk":"one line","coverage":"none|partial","note":"why it matters"}],"recommendations":[{"type":"script|lesson|device_guide|research|philosophy","title":"the specific thing to build","why":"one or two lines tied to the questions","priority":1}],"system_changes":[{"change":"the specific behaviour change","evidence":"the counts that argue for it","priority":1}]}
 Priority is 1 highest to 5 lowest.`
 
   const text = await callModel(prompt)
@@ -171,6 +210,11 @@ export function renderInsightsEmail(payload: InsightPayload): string {
     <ol style="font-size:14px;line-height:1.6;color:#1A1A2E">
       ${recs.map(x => `<li><strong>${x.title}</strong> <span style="color:#8888AA">(${x.type})</span><br>${x.why}</li>`).join('')}
     </ol>
+    ${(payload.report.system_changes ?? []).length ? `
+    <h3 style="margin-top:24px">What the outcome data says to change</h3>
+    <ol style="font-size:14px;line-height:1.6;color:#1A1A2E">
+      ${(payload.report.system_changes ?? []).slice().sort((a, b) => a.priority - b.priority).map(x => `<li><strong>${x.change}</strong><br><span style="color:#52526A">${x.evidence}</span></li>`).join('')}
+    </ol>` : ''}
     <p style="color:#8888AA;font-size:12px;margin-top:24px">Open the dashboard insights page for the full themes and gaps.</p>
   </div>`
 }

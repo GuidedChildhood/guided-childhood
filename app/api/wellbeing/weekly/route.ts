@@ -74,7 +74,57 @@ export async function POST(req: NextRequest) {
 
   if (body.mode === 'suggest') {
     const childName = await firstChildName(supabase, user.id)
-    const plan = await generateWeeklyPlan({ parentMood: mood, wentWell, hardest: hardestLabels, focus, childName })
+
+    // The selection pressure: last week's agreed plan, whether the family's
+    // own rating then moved (checkin_shifts, migration 190), and anything
+    // they told a follow up card did not work. Best effort, the plan must
+    // never fail because the learning tables are empty.
+    let lastPlan: { steps: string[]; moved: 'up' | 'down' | 'flat' | null } | null = null
+    let didNotWork: string[] = []
+    try {
+      const [prevPlanRes, shiftRes, failedRes] = await Promise.all([
+        supabase
+          .from('wellbeing_checkins')
+          .select('week_start, plan, plan_agreed')
+          .eq('user_id', user.id)
+          .eq('plan_agreed', true)
+          .lt('week_start', mondayOf(new Date()))
+          .order('week_start', { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+        supabase
+          .from('checkin_shifts')
+          .select('week_start, direction, had_plan')
+          .eq('user_id', user.id)
+          .order('week_start', { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+        supabase
+          .from('digi_outcomes')
+          .select('suggestion, answered_at')
+          .eq('user_id', user.id)
+          .eq('verdict', 'no')
+          .order('answered_at', { ascending: false })
+          .limit(4),
+      ])
+      const prevSteps = (Array.isArray(prevPlanRes.data?.plan) ? (prevPlanRes.data.plan as { title?: string }[]) : [])
+        .map(p => p.title)
+        .filter((t): t is string => Boolean(t))
+      if (prevSteps.length > 0) {
+        // The shift only speaks for the plan when it covers the week the plan
+        // was live; an older shift row says nothing about last week's steps.
+        const shiftSpeaksForPlan =
+          shiftRes.data?.week_start && prevPlanRes.data?.week_start &&
+          String(shiftRes.data.week_start) >= String(prevPlanRes.data.week_start)
+        lastPlan = {
+          steps: prevSteps,
+          moved: shiftSpeaksForPlan ? ((shiftRes.data?.direction as 'up' | 'down' | 'flat') ?? null) : null,
+        }
+      }
+      didNotWork = (failedRes.data ?? []).map(r => String(r.suggestion).slice(0, 120))
+    } catch { /* learning inputs are a bonus, never block the plan */ }
+
+    const plan = await generateWeeklyPlan({ parentMood: mood, wentWell, hardest: hardestLabels, focus, childName, lastPlan, didNotWork })
     return NextResponse.json({ plan })
   }
 

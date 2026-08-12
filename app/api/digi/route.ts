@@ -9,7 +9,9 @@ import { getRecommendedScript } from '@/lib/pathway/recommend'
 import type { StageId } from '@/lib/pathway/progress'
 import { getExpertKnowledge, getFamilyMemory, getWhatWorked, getPathwayPosition } from '@/lib/digi/brain'
 import { getAggregateWisdom, getProvenSolutions } from '@/lib/digi/wisdom'
-import { getTriedAlready } from '@/lib/digi/outcomes'
+import { getTriedAlready, getRatedForSituation } from '@/lib/digi/outcomes'
+import { getRatingShifts } from '@/lib/digi/rating-loop'
+import { inferSituation } from '@/lib/digi/situation'
 import { lexicalFlags, highestSeverity } from '@/lib/digi/safety'
 import { classifyLane, laneShape, missCandidates } from '@/lib/digi/lane'
 import { startTimer } from '@/lib/digi/timing'
@@ -153,6 +155,8 @@ export async function POST(request: Request) {
     whatWorked,
     agreementResult,
     weekSessionsResult,
+    sundayCheckinResult,
+    ratingShifts,
     // The routing vocabulary, in here rather than next to classifyLane on
     // purpose. This round is already thirteen queries wide, so the read hides
     // behind the slowest of them and the database backed list costs nothing on
@@ -240,6 +244,18 @@ export async function POST(request: Request) {
       .select('device, minutes')
       .eq('user_id', user.id)
       .gte('started_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()),
+    // The Sunday check in and its agreed plan. This existed for months and
+    // DiGi never read it, so it could not say "last Sunday you agreed X, how
+    // is it going", which is the single most listening thing it could say.
+    supabase
+      .from('wellbeing_checkins')
+      .select('week_start, parent_mood, focus, plan, plan_agreed')
+      .eq('user_id', user.id)
+      .order('week_start', { ascending: false })
+      .limit(2),
+    // What moved the family's own weekly rating, and what they did that week.
+    // Written by the checkin-learning cron, migration 190.
+    getRatingShifts(supabase, user.id),
     loadLaneKeywords(supabase),
   ])
   timer.mark('gather1')
@@ -301,10 +317,18 @@ export async function POST(request: Request) {
     : []
 
   // Second parallel round trip for the queries that depend on the first
-  const [expertKnowledge, aggregateWisdom, provenSolutions, triedAlready, recommended, matchingScriptsResult, pathwayPosition] = await Promise.all([
+  // The counted cross family evidence needs a situation shape to look up, so
+  // one is guessed from the message's own words, no model call. A miss costs
+  // nothing: no topic, no query, and the block tells DiGi to ignore a bad fit.
+  const situation = inferSituation(String(message))
+  const [expertKnowledge, aggregateWisdom, provenSolutions, ratedForSituation, triedAlready, recommended, matchingScriptsResult, pathwayPosition] = await Promise.all([
     wantsResearch ? getExpertKnowledge(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
     wantsResearch ? getAggregateWisdom(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
     wantsResearch ? getProvenSolutions(supabase, child?.age_band ?? null, message) : Promise.resolve(''),
+    // Built with migration 147 and never called until now: what parents in the
+    // same situation shape actually told us worked, counted, three verdicts
+    // minimum before anything is offered as working elsewhere.
+    wantsResearch ? getRatedForSituation(supabase, child?.age_band ?? null, situation.topic, situation.time_band) : Promise.resolve(''),
     // What this family has already tried and what they told us happened. Not
     // gated on wantsResearch: a parent's own verdict on their own child is not
     // research, it is the thing DiGi must not contradict or repeat back to
@@ -338,6 +362,21 @@ export async function POST(request: Request) {
         ? 'This directly matches the main concern they told us about at signup.'
         : ''
     nextStepKnowledge = `\n\nRECOMMENDED NEXT STEP ON THE PATHWAY: The next script this parent has not yet used is "${recommended.title}" (${recommended.situation}). ${why} If the conversation naturally allows it, or if they ask what to do next, mention this specific script by name as the next concrete step, do not just give generic advice when a specific next step already exists.`
+  }
+
+  // The agreed Sunday plan, so DiGi can coach inside the week the family has
+  // already chosen rather than beside it, and can ask how it is actually going.
+  let sundayPlanKnowledge = ''
+  {
+    type SundayRow = { week_start: string; parent_mood: number | null; focus: string | null; plan: { title?: string }[] | null; plan_agreed: boolean | null }
+    const sundayRows = (sundayCheckinResult.data ?? []) as SundayRow[]
+    const agreed = sundayRows.find(r => r.plan_agreed && Array.isArray(r.plan) && r.plan.length > 0)
+    if (agreed) {
+      const steps = (agreed.plan ?? []).map(p => p.title).filter(Boolean).join('; ')
+      const mood = typeof agreed.parent_mood === 'number' ? ` The parent rated their own week ${agreed.parent_mood} out of 5.` : ''
+      const focus = agreed.focus ? ` They want the week to feel like: ${agreed.focus}.` : ''
+      sundayPlanKnowledge = `\n\nTHE PLAN THIS FAMILY AGREED AT THEIR SUNDAY CHECK IN (week of ${agreed.week_start}):\n${steps}.${focus}${mood}\nCoach inside this plan, never against it. When the conversation touches what the plan covers, refer to it as the thing they chose, ask warmly how it is going, and build on it rather than starting fresh. If it is clearly not working, say so plainly and offer a different angle.`
+    }
   }
 
   let scriptFeedbackKnowledge = ''
@@ -537,7 +576,7 @@ When a parent asks whether or for how long their child should use any device, do
     // prompt, and an override that arrives before the thing it overrides reads
     // as a suggestion. PRECEDENCE stays first: it decides what outranks what,
     // and safety leading is not negotiable for any lane.
-    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + triedAlready + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
+    PRECEDENCE + pathwayPosition + deviceGuideKnowledge + screenLifeKnowledge + scriptFeedbackKnowledge + scriptLinkKnowledge + momentLinkKnowledge + nextStepKnowledge + concernsKnowledge + whatWorked + sundayPlanKnowledge + ratingShifts + triedAlready + ratedForSituation + provenSolutions + aggregateWisdom + expertKnowledge + familyMemory + schoolKnowledge + laneShape(lane) + TOOL_RULES,
   )
 
   // Drop any malformed or empty entries before the history reaches the model:
@@ -942,24 +981,54 @@ function buildSystemPrompt(
 AI LITERACY KNOWLEDGE (the platform's curated, accurate framing on AI. When a parent asks about AI, chatbots, deepfakes, hallucinations, or using AI with their child, ground your answer in this. Do not contradict it, and never claim to know the very latest model release):
 ${aiKnowledge}` : ''
 
-  // Build tracker context
+  // Build tracker context.
+  //
+  // Two things used to be thrown away here. The five dimensions were averaged
+  // into one number, so six weeks of sleep at 1 out of 5 presented as a bland
+  // 3.4 and DiGi never saw the thing that was actually wrong. And the trend
+  // compared only the newest week with the oldest, so a family that went 5 to
+  // 1 to 5 read as stable. The dimensions are named now and the trend
+  // compares the average of the newer half of the window with the older half.
   let trackerContext = ''
   if (trackerHistory.length > 0) {
+    const DIMS: [keyof TrackerEntry, string][] = [
+      ['mood_score', 'mood'],
+      ['sleep_score', 'sleep'],
+      ['social_score', 'friendships'],
+      ['screen_mood_score', 'mood after screens'],
+      ['open_communication', 'talking openly'],
+    ]
     const weekAvg = (t: TrackerEntry) => {
-      const vals = [t.mood_score, t.sleep_score, t.social_score, t.screen_mood_score, t.open_communication]
-        .filter((v): v is number => typeof v === 'number')
+      const vals = DIMS.map(([k]) => t[k]).filter((v): v is number => typeof v === 'number')
       return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null
     }
-    trackerContext = `\nWELLBEING TRACKER — PARENT'S OWN DATA (last ${trackerHistory.length} weeks, 1 to 5 scale):\n`
+    const dimLine = (t: TrackerEntry) =>
+      DIMS.filter(([k]) => typeof t[k] === 'number').map(([k, label]) => `${label} ${t[k]}`).join(', ')
+    trackerContext = `\nWELLBEING TRACKER — PARENT'S OWN DATA (last ${trackerHistory.length} weeks, each score 1 to 5):\n`
     trackerContext += trackerHistory.map(t => {
       const avg = weekAvg(t)
-      return `  ${t.week_start}: ${avg !== null ? avg.toFixed(1) : 'n/a'}/5, concern ${t.concern_level}${t.notes ? ` — "${t.notes}"` : ''}`
+      const dims = dimLine(t)
+      return `  ${t.week_start}: ${dims || 'no scores'}${avg !== null ? ` (avg ${avg.toFixed(1)})` : ''}, concern ${t.concern_level}${t.notes ? ` — "${t.notes}"` : ''}`
     }).join('\n')
+
     const scores = trackerHistory.map(weekAvg).filter((v): v is number => v !== null)
     if (scores.length >= 2) {
-      const trend = scores[0] > scores[scores.length - 1] ? 'improving' : scores[0] < scores[scores.length - 1] ? 'declining' : 'stable'
-      const avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)
-      trackerContext += `\n  Average: ${avg}/5. Trend: ${trend}.`
+      // trackerHistory arrives newest first. Halves, not endpoints.
+      const half = Math.floor(scores.length / 2)
+      const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length
+      const newer = mean(scores.slice(0, half || 1))
+      const older = mean(scores.slice(half || 1))
+      const trend = newer - older >= 0.2 ? 'improving' : older - newer >= 0.2 ? 'declining' : 'steady'
+      trackerContext += `\n  Overall average: ${mean(scores).toFixed(1)}/5. Trend across the window: ${trend}.`
+    }
+
+    // The dimension that is actually low, named, because that is the one the
+    // answer should be about even when the average looks fine.
+    for (const [key, label] of DIMS) {
+      const vals = trackerHistory.map(t => t[key]).filter((v): v is number => typeof v === 'number')
+      if (vals.length >= 2 && vals.reduce((a, b) => a + b, 0) / vals.length <= 2.5) {
+        trackerContext += `\n  Worth noticing: ${label} has been low across these weeks. Weigh it in your answer even when the question is about something else.`
+      }
     }
   }
 

@@ -67,7 +67,7 @@ export async function rebuildWisdom(): Promise<WisdomRebuild> {
   // Backfilled rows are excluded outright. Their timestamps were reconstructed
   // when the log was created and they carry no score, so including them
   // would put invented durations in front of the model.
-  const [concernsRes, eventsRes, scriptWorkedRes, reflectionsRes, childrenRes] = await Promise.all([
+  const [concernsRes, eventsRes, scriptWorkedRes, reflectionsRes, childrenRes, shiftsRes] = await Promise.all([
     admin.from('concerns').select('id, label, status, times_flagged, child_id').limit(600),
     admin.from('concern_events')
       .select('concern_id, event, score, score_at_start, created_at')
@@ -77,6 +77,13 @@ export async function rebuildWisdom(): Promise<WisdomRebuild> {
     admin.from('script_completions').select('script_sort_order, worked, user_id').eq('worked', 'yes').limit(600),
     admin.from('digi_feedback').select('question, parent_response').not('parent_response', 'is', null).limit(600),
     admin.from('children').select('id, parent_id, age_band'),
+    // The check in shifts: a family's own weekly rating moving, paired with
+    // what they did that week (migration 190). The shapes and directions are
+    // read, never a parent's notes, same de-identification rule as the rest.
+    admin.from('checkin_shifts')
+      .select('child_id, direction, avg_now, avg_prev, actions, had_plan')
+      .gte('week_start', new Date(Date.now() - 60 * 86_400_000).toISOString().slice(0, 10))
+      .limit(600),
   ])
 
   const children = childrenRes.data ?? []
@@ -144,6 +151,27 @@ export async function rebuildWisdom(): Promise<WisdomRebuild> {
       text: `Reflection: "${(r.question as string).slice(0, 140)}" the parent said "${(r.parent_response as string).slice(0, 160)}".`,
       age: null as string | null,
     }))
+
+  // What moved a family's own weekly rating, and what they did that week. A
+  // rise with recorded actions is the most direct win signal the platform
+  // holds, because the family measured it themselves. A fall under a live
+  // agreed plan is the equally direct miss: the plan was tried and the week
+  // got harder. Flat weeks teach nothing and are skipped.
+  for (const s of shiftsRes.data ?? []) {
+    const age = s.child_id ? ageByChild.get(s.child_id as string) ?? null : null
+    const acts = (Array.isArray(s.actions) ? (s.actions as { detail?: string }[]) : [])
+      .map(a => a.detail)
+      .filter((d): d is string => Boolean(d))
+      .slice(0, 4)
+    const from = Number(s.avg_prev)
+    const to = Number(s.avg_now)
+    const scale = Number.isFinite(from) && Number.isFinite(to) ? ` It went from ${from} to ${to} out of 5.` : ''
+    if (s.direction === 'up' && acts.length > 0) {
+      wins.push({ kind: 'rating', text: `A family's weekly wellbeing rating rose.${scale} That week they: ${acts.join('; ')}.`, age })
+    } else if (s.direction === 'down' && s.had_plan) {
+      misses.push({ kind: 'rating', text: `A family's weekly wellbeing rating fell in a week with an agreed plan running${acts.length ? ` (${acts.join('; ')})` : ''}.${scale}`, age })
+    }
+  }
 
   // The misses count as signal too. A run with nothing but failures still has
   // something worth telling DiGi, and reporting the total as wins only would
