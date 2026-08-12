@@ -22,7 +22,15 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 // baked into an image. Justin, 12 August 2026, on a photographed mockup of
 // the Bloop sheet standing in for the sheet itself: "We need proper
 // printable here not image."
-export type OverlaySheet = { url: string; title: string; heading?: { name: string; kicker: string } }
+export type OverlaySheet = {
+  url: string
+  title: string
+  heading?: { name: string; kicker: string }
+  // A write in page after the sheet: a titled set of dotted lines, printed
+  // as its own second page. Justin, 12 August 2026, on the reading list:
+  // "add here a place of them adding books they want to read."
+  writeIn?: { title: string; blurb: string; lines: number }
+}
 
 export default function KidSheetOverlay({ sheet, onClose }: {
   sheet: OverlaySheet | null
@@ -44,6 +52,7 @@ export default function KidSheetOverlay({ sheet, onClose }: {
         .kid-sheet-overlay, .kid-sheet-overlay * { visibility: visible !important; }
         .kid-sheet-overlay { position: absolute !important; inset: 0 !important; overflow: visible !important; }
         .kid-sheet-overlay .kid-sheet-bar { display: none !important; }
+        .kid-sheet-writein { page-break-before: always; break-before: page; }
         @page { margin: 8mm; }
       }`}</style>
 
@@ -117,6 +126,30 @@ export default function KidSheetOverlay({ sheet, onClose }: {
           onError={() => setFailed(true)}
           style={{ width: '100%', display: 'block' }}
         />
+      )}
+
+      {/* The write in page, its own sheet of paper when printed. On screen it
+          sits under the sheet so a child scrolling knows page two is coming. */}
+      {!failed && sheet.writeIn && (
+        <div className="kid-sheet-writein" style={{ maxWidth: 700, margin: '0 auto', padding: '30px 26px 60px' }}>
+          <div style={{
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(30px, 9vw, 44px)',
+            lineHeight: 1.1, color: '#1A1A2E', textAlign: 'center',
+          }}>
+            {sheet.writeIn.title}
+          </div>
+          <p style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: '#52526A', lineHeight: 1.5, textAlign: 'center', margin: '10px 0 26px' }}>
+            {sheet.writeIn.blurb}
+          </p>
+          {Array.from({ length: sheet.writeIn.lines }, (_, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'flex-end', gap: 12, height: 46 }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)', color: '#9A9AB0', paddingBottom: 4 }}>
+                {i + 1}.
+              </span>
+              <div style={{ flex: 1, borderBottom: '2.5px dotted #B9B9CC', height: '100%' }} />
+            </div>
+          ))}
+        </div>
       )}
     </div>
   )

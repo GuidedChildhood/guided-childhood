@@ -7605,3 +7605,22 @@ overlay composes the sheet properly: the Friend's name and stage printed
 as crisp text above the art with a row of stars to colour, so what lands
 on paper is a real colouring sheet. The card thumbnails keep the full
 colour art, the shop window rule unchanged.
+
+## 12 August 2026 — The planner cover gets the whole family, and the reading list gets a page to fill
+
+Justin, from the planner PDF: "These planner need a cover with high
+fidelity planner family images all together." The cover's lone DiGi star
+is now the whole team: DiGi and all five Planet Friends in matching
+portrait cards with their names, rebuilt into all three PDF editions and
+the preview. Found on the way: the Pebble, Bloop and Orbit cutouts in
+public/printables/friends have destroyed alpha regions (bleached holes
+through their faces on any pale ground). The cover uses clean art from
+other packs for Pebble and Bloop, and Orbit was repaired by inpainting
+inside his silhouette. The damaged originals are still what the Planet
+Friends poster renders; replacing those needs fresh art, noted for the
+next art session.
+
+And the reading bucket list prints a second page: "Books I want to
+read", ten numbered dotted lines, asked for from Teo's phone. It is a
+registry field (writeIn) plus one overlay block, so any future sheet can
+carry a write in page by data alone.

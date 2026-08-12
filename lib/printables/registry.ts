@@ -56,6 +56,10 @@ export type Printable = {
   // A composed sheet: the child app prints crisp HTML text above the art
   // (name, kicker line) instead of relying on words baked into the image.
   sheetHeading?: { name: string; kicker: string }
+  // A write in page printed after the sheet: a titled set of dotted lines.
+  // Justin, 12 August 2026, on the reading list: "add here a place of them
+  // adding books they want to read."
+  writeIn?: { title: string; blurb: string; lines: number }
   /**
    * Free to download without a membership. Almost nothing is: the printables
    * are a member feature and the preview is the sell. The exception is the
@@ -111,6 +115,11 @@ export const PRINTABLES: Printable[] = [
     stages: [1, 2, 3, 4], minutes: 'A month of stories', setting: 'anywhere', skill: 'Reading',
     stars: 5,
     blurb: 'Eight ways to read: outside, to someone, about space, a book they chose themselves.',
+    writeIn: {
+      title: 'Books I want to read',
+      blurb: 'Spotted one that looks brilliant? Write it down here so you never forget it.',
+      lines: 10,
+    },
     sheetUrl: BASE + 'hf_20260723_213701_edd87579-52fb-4064-afe7-2ec65759e841.png',
     sheetUrlEs: BASE + 'hf_20260722_122923_526700d3-41c9-417f-8b31-f781821d8582.png',
     previewUrl: BASE + 'hf_20260713_125344_3aaa7475-b816-4b0b-8d3f-932fd86f48f2.png',

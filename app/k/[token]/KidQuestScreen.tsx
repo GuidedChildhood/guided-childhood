@@ -2705,7 +2705,7 @@ export default function KidQuestScreen({
                             // through printPack's written window; image sheets
                             // open in place as the overlay, which nothing can
                             // block because nothing leaves the page.
-                            onClick={() => { playKidSound('tap'); if (p.pdfColourIn) { printPack(p.pdfColourIn, p.title) } else { setPrintOverlay({ url: p.sheetUrl, title: p.title, heading: p.sheetHeading }) } }}
+                            onClick={() => { playKidSound('tap'); if (p.pdfColourIn) { printPack(p.pdfColourIn, p.title) } else { setPrintOverlay({ url: p.sheetUrl, title: p.title, heading: p.sheetHeading, writeIn: p.writeIn }) } }}
                             style={{
                               width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
                               cursor: 'pointer', marginBottom: '7px',
