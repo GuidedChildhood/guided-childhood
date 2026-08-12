@@ -201,7 +201,7 @@ export default function BanWorkaroundsPage() {
       <header style={{ position: 'sticky', top: 0, zIndex: 300, height: '60px', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(247,243,238,.97)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border)' }}>
         <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: '.95rem', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-.01em', textDecoration: 'none' }}>Guided Childhood</Link>
         <nav className="nav-links-desktop" style={{ gap: '2px' }}>
-          {[['For parents', '/'], ['For schools', 'https://schools.guidedchildhood.com'], ['Join', '/join']].map(([label, href]) => (
+          {[['For parents', '/'], ['For schools', '/schools'], ['Join', '/join']].map(([label, href]) => (
             <Link key={label} href={href} style={{ fontFamily: 'var(--font-body)', fontSize: '.82rem', fontWeight: 500, color: 'var(--ink-soft)', padding: '6px 13px', borderRadius: '100px', textDecoration: 'none' }}>{label}</Link>
           ))}
         </nav>
@@ -285,7 +285,7 @@ export default function BanWorkaroundsPage() {
               <p style={{ color: 'var(--ink-soft)', lineHeight: 1.7, marginBottom: '32px' }}>
                 Schools are already managing the fallout before the ban arrives. These signals suggest workaround use is happening in your school community right now.
               </p>
-              <Link href="https://schools.guidedchildhood.com" className="btn btn-ink" style={{ fontSize: '.78rem', padding: '12px 24px' }}>
+              <Link href="/schools" className="btn btn-ink" style={{ fontSize: '.78rem', padding: '12px 24px' }}>
                 Schools resources
               </Link>
             </div>
@@ -479,7 +479,7 @@ export default function BanWorkaroundsPage() {
       <footer style={{ padding: '32px 24px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         <Link href="/" style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '.88rem', color: 'var(--ink)', textDecoration: 'none' }}>Guided Childhood</Link>
         <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-          {[['Home', '/'], ['For schools', 'https://schools.guidedchildhood.com'], ['Join', '/join'], ['Digital wellbeing', 'https://www.guidedchildhood.com/digitalwellbeing']].map(([label, href]) => (
+          {[['Home', '/'], ['For schools', '/schools'], ['Join', '/join'], ['Digital wellbeing', 'https://www.guidedchildhood.com/digitalwellbeing']].map(([label, href]) => (
             <Link
               key={label} href={href}
               {...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
