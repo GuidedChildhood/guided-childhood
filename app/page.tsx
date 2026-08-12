@@ -345,7 +345,7 @@ export default function HomePage() {
                 loading="eager"
                 style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', objectPosition: '80% center' }}
               />
-              <div aria-label="The child app: quests, a star bank and screen time earned by doing chores" style={{ position: 'absolute', right: '18px', bottom: '-24px', width: 'clamp(126px, 34%, 162px)', borderRadius: '22px', border: '6px solid var(--stage-1-bold)', overflow: 'hidden', boxShadow: '0 18px 44px rgba(26,26,46,0.22)', background: 'var(--pastel-pink)', padding: '10px 9px 12px' }}>
+              <div aria-label="The child app: quests, a star bank and screen time earned by doing chores" style={{ position: 'absolute', right: '18px', bottom: '-24px', width: 'clamp(104px, 27%, 134px)', borderRadius: '22px', border: '6px solid var(--ink)', overflow: 'hidden', boxShadow: '0 18px 44px rgba(26,26,46,0.22)', background: 'var(--pastel-pink)', padding: '10px 9px 12px' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.44rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--ink-soft)', textAlign: 'center' }}>Today&rsquo;s quests</div>
                 <div style={{ fontFamily: 'var(--font-display)', fontSize: '.78rem', fontWeight: 900, color: 'var(--ink)', textAlign: 'center', margin: '2px 0 7px' }}>Go Sofia!</div>
                 <div style={{ background: 'var(--terracotta)', borderRadius: '10px', padding: '6px 8px', marginBottom: '7px', boxShadow: '0 2px 0 var(--terracotta-dark)' }}>
@@ -408,7 +408,7 @@ export default function HomePage() {
           <div className="chip-row">
             {[
               ['\uD83C\uDF19', 'Bedtime battles', 'var(--stage-1-bold)'],
-              ['\u2B50', 'Chores = device time', 'var(--stage-2-bold)'],
+              ['\u2B50', 'Do your chores and earn device time', 'var(--stage-2-bold)'],
               ['\uD83D\uDEE1\uFE0F', 'Balanced, safe device use', 'var(--stage-2)'],
               ['\uD83D\uDCF1', 'Social media, ready by 16', 'var(--stage-3-bold)'],
               ['\uD83E\uDD16', 'AI chatbots, explained', 'var(--stage-5-bold)'],
