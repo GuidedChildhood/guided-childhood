@@ -2579,6 +2579,10 @@ export default function KidQuestScreen({
                 real jobs on it. */}
             <KidStarChartHero token={token} />
 
+            {/* The bucket list builder, the child's way in. Same component
+                as the parent dashboard's, so the two can never drift. */}
+            <KidBucketHero token={token} />
+
             {/* The next Friend rides along on this screen too, so the one they
                 are working toward keeps showing up rather than living on one
                 tab. Seeing who is close is what keeps the streak going. */}
@@ -3205,6 +3209,41 @@ export function KidStarChartHero({ token }: { token: string }) {
         </span>
         <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
           Print it for the fridge with your own jobs on it. Do the week on paper and your grown up puts the stars in your bank.
+        </span>
+      </span>
+      <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>
+        →
+      </span>
+    </a>
+  )
+}
+
+// The bucket list builder's front door, right under the star chart's.
+// Justin, 12 August 2026: "but should be on child app also." Same builder
+// as the parent dashboard, reached the child's way.
+export function KidBucketHero({ token }: { token: string }) {
+  return (
+    <a
+      href={`/k/${token}/bucket`}
+      onClick={() => playKidSound('tap')}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 13, textDecoration: 'none',
+        background: '#fff', border: '2px solid var(--border)', borderRadius: 18,
+        boxShadow: '0 4px 0 var(--border)', padding: '14px 16px', marginBottom: 12,
+      }}
+    >
+      <span aria-hidden style={{
+        width: 48, height: 48, borderRadius: 14, background: 'var(--tint-sage, #EAF3EE)', flexShrink: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-2xl)',
+      }}>
+        🪣
+      </span>
+      <span style={{ flex: 1, minWidth: 0 }}>
+        <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.15 }}>
+          Build your bucket list
+        </span>
+        <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
+          Pick what you want to do, write your own, print it for the fridge. Finish the page for 5 stars.
         </span>
       </span>
       <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>

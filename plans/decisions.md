@@ -7624,3 +7624,14 @@ And the reading bucket list prints a second page: "Books I want to
 read", ten numbered dotted lines, asked for from Teo's phone. It is a
 registry field (writeIn) plus one overlay block, so any future sheet can
 carry a write in page by data alone.
+
+## 12 August 2026 — The bucket list builder lands on the child app
+
+Justin, on it living only on the parent dashboard: "but should be on
+child app also." The StarChartBuilder precedent exactly: the SAME
+BucketBuilder component now runs on both phones through a kid variant,
+so the two can never drift. On the child's side it prefills their name,
+the back link goes home, and Add to quests becomes an ask through the
+child request pipeline, because a child never writes to the family quest
+list directly, they ask and a grown up says yes. The way in is a card on
+the print tab right under the star chart's.
