@@ -31,6 +31,11 @@ export type WeekStats = {
   momentsList: string[]
   lessonsDone: string[]
   scriptsTried: string[]
+  // What the family's own weekly check in rating did, and what they did that
+  // week, from checkin_shifts (migration 190). The review's job is to hand
+  // this back to the parent in plain words, which is the "summarise this to
+  // the user" half of the learning loop.
+  ratingShift: { direction: 'up' | 'down' | 'flat'; summary: string } | null
 }
 
 export type WeeklyReview = {
@@ -56,7 +61,7 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
   const startIso = start.toISOString()
   const endIso = new Date(start.getTime() + 7 * 86_400_000).toISOString()
 
-  const [childRes, ticksRes, questsRes, spendsRes, schoolRes, momentsRes] = await Promise.all([
+  const [childRes, ticksRes, questsRes, spendsRes, schoolRes, momentsRes, shiftRes] = await Promise.all([
     admin.from('children').select('name, age_band').eq('parent_id', userId),
     admin.from('quest_ticks').select('quest_id, tick_date, status')
       .eq('user_id', userId).eq('status', 'approved')
@@ -67,6 +72,13 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
     admin.from('school_actions').select('id').eq('user_id', userId).eq('status', 'open'),
     admin.from('moment_completions').select('completed_on, daily_moments(title)')
       .eq('user_id', userId).gte('completed_on', weekStart).lt('completed_on', endIso.slice(0, 10)),
+    // The freshest rating shift, only if it is recent enough to still be
+    // about this family's current fortnight rather than ancient history.
+    admin.from('checkin_shifts').select('week_start, direction, summary')
+      .eq('user_id', userId)
+      .gte('week_start', new Date(start.getTime() - 14 * 86_400_000).toISOString().slice(0, 10))
+      .order('week_start', { ascending: false })
+      .limit(1).maybeSingle(),
   ])
 
   // The learning and the words tried this week: lessons completed (the literacy
@@ -141,6 +153,9 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
     )].slice(0, 6),
     lessonsDone,
     scriptsTried,
+    ratingShift: shiftRes.data?.summary
+      ? { direction: shiftRes.data.direction as 'up' | 'down' | 'flat', summary: String(shiftRes.data.summary) }
+      : null,
   }
 }
 
@@ -160,6 +175,7 @@ function templateReview(stats: WeekStats): Omit<WeeklyReview, 'week_start' | 'st
   const parts: string[] = []
   parts.push(`Good week. ${stats.questsApproved} quest${stats.questsApproved === 1 ? '' : 's'} done across ${stats.activeDays} day${stats.activeDays === 1 ? '' : 's'}, and ${stats.starsEarned} stars earned, that is ${mins} minutes of screen time worked for rather than just given.`)
   if (stats.topQuest) parts.push(`${kid} leaned into "${stats.topQuest}" the most.`)
+  if (stats.ratingShift?.direction === 'up') parts.push(`And your own check in says the week felt better too. Whatever you did differently, it is working, keep going with exactly that.`)
   const watch = stats.deviceMinutes > mins + 60
     ? 'A little more screen time went out than was earned this week. No alarm, just worth a glance so the deal stays real.'
     : null
@@ -190,7 +206,10 @@ This family's week (their own numbers, nothing compared to anyone else):
 - Calm parenting moments handled: ${stats.momentsDone}${stats.momentsList.length ? ` (the ones they read: ${stats.momentsList.join(', ')})` : ''}
 - Open school reminders: ${stats.schoolOpen}
 - Lessons completed this week (the digital literacy path moving): ${stats.lessonsDone.length ? stats.lessonsDone.join(', ') : 'none this week'}
-- Scripts tried, and whether the words worked: ${stats.scriptsTried.length ? stats.scriptsTried.join(', ') : 'none this week'}${reflectionBlock}
+- Scripts tried, and whether the words worked: ${stats.scriptsTried.length ? stats.scriptsTried.join(', ') : 'none this week'}${stats.ratingShift ? `
+- Their own weekly wellbeing check in: ${stats.ratingShift.summary}` : ''}${reflectionBlock}
+${stats.ratingShift ? `
+The wellbeing line above is the one to hand back plainly. ${stats.ratingShift.direction === 'up' ? 'The rating rose, so name what they did that week and say it looks like it is working, keep going with exactly that.' : stats.ratingShift.direction === 'down' ? 'The rating dipped. No alarm and no blame, but say it moved and suggest one different angle for the coming week rather than more of the same.' : 'The rating held steady. Say so warmly and pick one small new thing worth trying, since what changed nothing does not need repeating.'}` : ''}
 
 Plan the future from all of this, not just the counts. The suggestion should be the single best next step on the family's road to 16, safe, AI literate and digitally aware: build on a script that worked, revisit one that did not with a different angle, continue a moment they read, or the next lesson on the path. Name the real thing, never a vague keep it up.
 

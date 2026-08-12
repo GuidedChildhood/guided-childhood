@@ -7303,6 +7303,52 @@ parent hears that it happened, not how it went.
 read Printables and now read the learning surface, on the tab they were launched
 from. A comment claiming this was already fixed has been corrected.
 
+## 12 August 2026 — The check in data goes onto the DiGi brain
+
+Justin: "we must make sure that the check in data goes onto digi brain. Digi
+must learn what we did when the rating goes up ... like natural selection we
+need to examine what works and why from data ... and add it into the thinking
+process of digi."
+
+**The audit first, because half the loop already existed and half was dead.**
+The weekly child tracker reached DiGi chat as one averaged number per week
+with an endpoint to endpoint trend. The Sunday check in, including the agreed
+weekly plan, reached DiGi not at all. Nothing anywhere connected a rating
+moving to what the family did that week. And getRatedForSituation, the cross
+family verdict retrieval built with migration 147, had zero callers.
+
+**Migration 190, checkin_shifts, is the join that was missing.** One row per
+child per week: did the rating move against the previous week, per dimension,
+plus everything the family did in the window (scripts and verdicts, the
+agreed plan, answered follow ups, moments, lessons). Written Sundays 05:30 by
+/api/cron/checkin-learning, half an hour before the wisdom rebuild so wisdom
+reads fresh shifts. A rise files a digi_memory win, what they did the week
+things got better. A fall under a live plan files the observation that earns
+a different plan next Sunday, which is the natural selection: what worked is
+kept and leaned on, what did not is varied, per family and across families.
+
+**DiGi's thinking now carries** the agreed Sunday plan, the shifts block
+(what moved the needle for this family), per dimension tracker lines with the
+low dimension named instead of averaged away, an honest halves trend, and the
+cross family verdicts via a keyword situation guesser (lib/digi/situation.ts,
+no model call) that finally wires getRatedForSituation. The weekly plan
+generator is told what last week's plan was and whether the rating then
+moved, and is forbidden from handing the same plan back when it did not. The
+Sunday review hands the shift back to the parent in plain words. The insight
+email gains a system_changes section: what the outcome data says the platform
+itself should do differently.
+
+**The quick check in stopped poisoning the data.** It upserted on the same
+week key as the full form and overwrote the notes and concern level. Merged
+now, never clobbered, since the brain learns from these rows.
+
+**Also answered, no build:** the child's path chest is unreachable dead code
+since the child pathway was removed on purpose (the parent School Chest is
+live and deliberately ungated); the community poll is live, days 1 to 7 of
+each month, seeded to July 2027; conversations are stored and reused
+(rolling 12 turns plus one extracted digi_memory fact per turn, semantic
+retrieval), that half was already healthy.
+
 ## 12 August 2026 — One email a week, from all systems, and erasure that sticks
 
 Justin, after thirty copies of one email landed in his inbox at 09:01: "we must

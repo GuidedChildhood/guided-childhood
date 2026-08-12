@@ -21,6 +21,13 @@ export type PlanAnswers = {
   hardest: string[] // concern labels, human readable
   focus: string | null // what they want next week to feel like
   childName: string
+  // The selection pressure. What last week's agreed plan was and whether the
+  // family's own weekly rating then moved, plus anything they have told us
+  // outright did not work. A plan that did not move things must not be handed
+  // back with the date changed: that is the natural selection Justin asked
+  // for, variation when the environment says no.
+  lastPlan?: { steps: string[]; moved: 'up' | 'down' | 'flat' | null } | null
+  didNotWork?: string[]
 }
 
 export type PlanStep = { title: string; why: string; expert: string }
@@ -71,6 +78,11 @@ Their answers this week:
 - What felt hardest: ${a.hardest.join(', ') || 'not said'}
 - What they want next week to feel like: ${a.focus ?? 'not said'}
 - Child: ${a.childName}
+${a.lastPlan && a.lastPlan.steps.length > 0 ? `
+What was agreed LAST week: ${a.lastPlan.steps.join('; ')}.
+What the family's own weekly wellbeing rating then did: ${a.lastPlan.moved === 'up' ? 'it rose. Build on that plan, keep what is clearly working and take the next small step from it.' : a.lastPlan.moved === 'down' ? 'it fell. Do not repeat those steps. Offer a genuinely different angle on the same goal and say, gently, that we are trying something different this week.' : a.lastPlan.moved === 'flat' ? 'it did not move. Do not hand the same plan back with a new date. Keep at most one step that deserves more time and change the angle on the rest.' : 'we do not know yet. You may build on it or vary it, but never copy it word for word.'}` : ''}
+${a.didNotWork && a.didNotWork.length > 0 ? `
+Things this family has told us plainly did not work, never suggest these again unchanged: ${a.didNotWork.join('; ')}.` : ''}
 
 Return ONLY compact JSON, no prose around it:
 {"steps":[{"title":"a short doable step, a few words","why":"one warm sentence on why it helps, tied to their answer","expert":"the IDEA it draws on, never a person's name, eg Connection before correction, Two things are true, The calm confident boundary, Emotion coaching"}]}
