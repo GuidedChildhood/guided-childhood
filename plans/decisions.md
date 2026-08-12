@@ -7490,3 +7490,29 @@ listening.
 It reads stageStatus now, the same blend the passport stamps from, so it needs no
 new prop and a missing reading means not lit. Sixteen and not finished gets an
 honest line under it rather than an unexplained grey trophy.
+
+## 12 August 2026 — The school card is the alert calendar, and it gets a day
+
+Justin, on the From school card: "the forward email part is parked for now, this
+is just the alert calendar for school tasks. Make sure this is in rotation to top
+once a week."
+
+**Parked, not removed.** The explainer and its Send a test button come off the
+card behind `SCHOOL_EMAIL_FORWARDING_LIVE`. Everything behind them still runs:
+the inbound address and its signing secret, the parser, the reminder cron, and
+any action that arrives by email still lands in the list exactly as before. What
+is switched off is the card ADVERTISING a way in that is not being pushed yet, so
+unparking is one word rather than an archaeology exercise.
+
+**The lift is timed rather than queued.** A rotation position would surface the
+card on an arbitrary week. Sunday surfaces it on the day a parent looks at the
+week coming, which is when a card about Tuesday's PE kit is worth something. One
+day in seven, every week, which is what makes it a habit rather than a surprise.
+
+And any day something is actually waiting, it takes the top regardless. That
+exception is the one that matters: holding a deadline the school has already sent
+until Sunday would be the feature working against itself.
+
+It MOVES rather than being drawn twice. Home had one thing said in two places
+this morning and he caught it within the hour, so the position comes from a
+single boolean and the card renders once either way.

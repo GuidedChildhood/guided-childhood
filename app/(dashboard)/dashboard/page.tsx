@@ -20,6 +20,7 @@ import DigiStreakWidget from '@/components/digi/DigiStreakWidget'
 import AddChildName from '@/components/dashboard/AddChildName'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
+import { schoolTakesTheTop } from '@/lib/home/school-spotlight'
 import HomeStats from '@/components/dashboard/HomeStats'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import { allBirthdaysIn } from '@/lib/setup/flags'
@@ -610,11 +611,56 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           href: '/dashboard/quests', icon: '⭐', coversJobs: true,
         }
 
+  // ── THE SCHOOL CARD COMES TO THE TOP ONCE A WEEK ───────────────────────────
+  //
+  // Justin, 12 August 2026: "this is just the alert calendar for school tasks.
+  // Make sure this is in rotation to top once a week."
+  //
+  // It lives near the bottom, folded, and on most days that is right: it says
+  // nothing waiting and costs one line. But it holds kit days, payments and
+  // deadlines, and those are not things to discover on the morning they fall
+  // due. So one day a week it takes the top instead, and any day something is
+  // actually waiting it takes the top regardless. See lib/home/school-spotlight.
+  //
+  // It MOVES rather than being drawn twice. Home already had one thing said in
+  // two places today and he caught it within the hour.
+  const schoolOnTop = schoolTakesTheTop(schoolActions.length)
+  const schoolBlock = (
+    <>
+      {/* Things you need to know: open school actions from forwarded school
+            emails, or added by hand. The id is the anchor the setup path's
+            school step points at, so Go lands right here, not on a separate
+            page the parent then has to hunt through for the add form. */}
+        {/* Open only when school has actually sent something.
+            The biggest component on Home at 675 lines, and on most days it is a
+            card saying there is nothing. Folded it costs one line and still says
+            so; with actions waiting it opens itself and carries a red count,
+            because a school deadline is the one thing here a parent cannot
+            afford to scroll past. Same rule as the quest tabs. */}
+        <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
+          <FoldSection
+            label="From school"
+            value={schoolActions.length === 0 ? 'Nothing waiting' : undefined}
+            count={schoolActions.length}
+            alert={schoolActions.length > 0}
+            open={schoolActions.length > 0}
+          >
+            {/* compact: the fold above already says From school, so the card does
+                not say it a second time on the same screen. */}
+            <SchoolActionsCard actions={schoolActions} childName={child?.name} region={familyRegion} compact />
+          </FoldSection>
+        </div>
+    </>
+  )
+
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
       {/* More than one child: butter pills at the top switch whose day this
           is. Every reading below recomputes for the selected child. */}
       <ChildSwitcher kids={allKids} selectedId={child?.id ?? null} basePath="/dashboard" />
+
+      {/* Its day at the top, or a school deadline actually waiting. */}
+      {schoolOnTop && schoolBlock}
 
       {/* ── THE FIRST SCREEN ────────────────────────────────────────────────
           Two things, in this order, and then everything else.
@@ -1085,29 +1131,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         </div>
       )}
 
-      {/* Things you need to know: open school actions from forwarded school
-          emails, or added by hand. The id is the anchor the setup path's
-          school step points at, so Go lands right here, not on a separate
-          page the parent then has to hunt through for the add form. */}
-      {/* Open only when school has actually sent something.
-          The biggest component on Home at 675 lines, and on most days it is a
-          card saying there is nothing. Folded it costs one line and still says
-          so; with actions waiting it opens itself and carries a red count,
-          because a school deadline is the one thing here a parent cannot
-          afford to scroll past. Same rule as the quest tabs. */}
-      <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
-        <FoldSection
-          label="From school"
-          value={schoolActions.length === 0 ? 'Nothing waiting' : undefined}
-          count={schoolActions.length}
-          alert={schoolActions.length > 0}
-          open={schoolActions.length > 0}
-        >
-          {/* compact: the fold above already says From school, so the card does
-              not say it a second time on the same screen. */}
-          <SchoolActionsCard actions={schoolActions} childName={child?.name} region={familyRegion} compact />
-        </FoldSection>
-      </div>
+      {/* Its usual place, unless today is its day at the top. See
+          schoolBlock above for the whole reasoning. */}
+      {!schoolOnTop && schoolBlock}
 
       {/* School email promo: only when school is the current setup step, or
           once the core setup is complete, so it waits its turn like the rest. */}
