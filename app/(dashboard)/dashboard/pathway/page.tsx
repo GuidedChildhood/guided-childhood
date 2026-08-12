@@ -7,6 +7,8 @@ import { STAGES, type ChallengeId } from '@/lib/content/stages'
 import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
 import SchoolChest from '@/components/pathway/SchoolChest'
+import PlanetCard from '@/components/pathway/PlanetCard'
+import { planetOfTheWeek } from '@/lib/pathway/planets'
 import { sheetTarget, sheetLabel } from '@/lib/learning/term'
 import StageRoad from '@/components/pathway/StageRoad'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
@@ -398,6 +400,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           childName={primaryChild?.name ?? undefined}
           stageStatus={stageStatus}
         />
+      </div>
+
+      {/* ONE PLANET A WEEK, DIRECTLY UNDER THE ROAD.
+          Justin: "make it planets, make it more parent focussed but like
+          duolingo, so something that attracts them to click and not much text",
+          and earlier, on where it goes: "just giving insight to what we offer,
+          do not interfering with pathway."
+          So it sits UNDER the road rather than beside it. Beside it was the
+          first reading of his brief and it is wrong on a 390 wide phone, where
+          anything next to the road either squeezes the road or wraps under it
+          anyway, badly. Under the road it interferes with nothing and it is the
+          next thing the eye reaches. The rotation, and why it is a week rather
+          than a menu, is in lib/pathway/planets.ts. */}
+      <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
+        <PlanetCard startIndex={planetOfTheWeek()} />
       </div>
 
       {/* SCHOOL, BESIDE THE ROAD RATHER THAN ON IT.
