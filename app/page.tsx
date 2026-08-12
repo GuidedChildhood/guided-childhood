@@ -338,7 +338,7 @@ export default function HomePage() {
             <div style={{ position: 'relative', background: 'var(--stage-2)', borderRadius: '28px', border: '1.5px solid var(--border)', overflow: 'hidden', minHeight: '250px' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={PHOTO_BALANCE}
+                src={PHOTO_FAMILY_GRASS}
                 alt="A family laughing together on the grass, their phone left face down beside them, screen time earned and balanced"
                 loading="eager"
                 style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, objectFit: 'cover', objectPosition: '30% center' }}
