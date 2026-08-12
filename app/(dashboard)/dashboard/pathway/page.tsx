@@ -20,6 +20,7 @@ import { pickChild } from '@/lib/children/select'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import PassportBook from '@/components/pathway/PassportBook'
 import PathwayIntro from '@/components/pathway/PathwayIntro'
+import PathwayComplete from '@/components/pathway/PathwayComplete'
 import { type Stamp, type StampStatus } from '@/components/pathway/PassportStamps'
 import MeetTheFriends from '@/components/pathway/MeetTheFriends'
 import StageReadiness from '@/components/pathway/StageReadiness'
@@ -108,6 +109,14 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   )
 
   const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
+
+  // All five stamps genuinely earned. Read from contentComplete, the same
+  // source the passport and the road's trophy use, so the celebration can never
+  // fire on a stage the family has not actually finished. Age is deliberately
+  // not in it: a sixteen year old whose family did nothing has walked no road.
+  const allStagesEarned = !!allStagesProgress
+    && (['foundation', 'builder', 'explorer', 'shaper', 'independent'] as ProgressStageId[])
+      .every(slug => allStagesProgress[slug].contentComplete)
 
   // One live literacy reading for the whole page, shared by the four strands
   // card and the end of stage check below, so they never disagree.
@@ -302,6 +311,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           hasConcern={!!concernLabel}
           scriptHref="/dashboard/scripts/recommended"
         />
+        {/* THE END OF THE ROAD, WHEN IT ARRIVES.
+            Justin: "when pathway is done and celebration."
+            Until now the trophy at the bottom of the road lit up and that was
+            the whole ceremony: no moment, no sentence, nothing anywhere in the
+            app acknowledging that a family had finished a twelve year journey.
+            The confetti has been fired for a lesson pass and a quest game since
+            the design audit; the one thing the product is built to reach had
+            none of it.
+            It sits ABOVE the intro rather than down by the trophy, because on
+            the day it lands it is the most important thing on the page, and
+            nobody should have to scroll past the explanation of a road they
+            have already walked to be told they walked it. Same reading as the
+            passport, so it can never light without the five stamps being real. */}
+        {allStagesEarned && <PathwayComplete childName={primaryChild?.name ?? null} />}
+
         <div className="pathway-hero">
           {/* The promise, folded away after the first visit.
 

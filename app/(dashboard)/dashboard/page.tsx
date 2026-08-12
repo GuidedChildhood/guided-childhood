@@ -678,13 +678,20 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             afford to scroll past. Same rule as the quest tabs. */}
         <div id="school-actions" style={{ scrollMarginTop: '64px' }}>
           <FoldSection
-            label="From school"
+            // Justin, 12 August 2026: "From school is misleading as a title."
+            // He is right, and it had been quietly wrong for a while. Most of
+            // what is in this drawer was typed by the PARENT: the PE kit
+            // routine, the swimming day, the trip money. "From school" claims a
+            // school sent it, which for a family with no connected inbox is
+            // never true of anything in there. His own description of the card
+            // is the honest name: the alert calendar for school tasks.
+            label="School reminders"
             value={schoolActions.length === 0 ? 'Nothing waiting' : undefined}
             count={schoolActions.length}
             alert={schoolWaitingToday > 0}
             open={schoolWaitingToday > 0}
           >
-            {/* compact: the fold above already says From school, so the card does
+            {/* compact: the fold above already names it, so the card does
                 not say it a second time on the same screen. */}
             <SchoolActionsCard actions={schoolActions} childName={child?.name} region={familyRegion} compact />
           </FoldSection>
