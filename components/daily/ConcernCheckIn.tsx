@@ -7,39 +7,41 @@ import { useRouter } from 'next/navigation'
 // is still open, however many days it has been coming up, and keeps asking
 // until the family says it is better twice in a row.
 //
-// ── THREE ANSWERS, NOT TEN (12 August 2026) ──────────────────────────────────
+// ── FIVE WORDS, NOT TEN NUMBERS (12 August 2026) ─────────────────────────────
 //
 // Justin: "is there an easier but just as accurate way to check in? 1 to 10 is
 // confusing. I know we need to see previous rating and we record movement, but
 // this needs to be quick and easy to go through."
 //
-// He is right on both counts and the research agrees. Reliability climbs
-// steeply from two points to about five and then flattens; ten buys nothing but
-// effort, and a single item ten point self report drifts about a point on its
-// own with nothing having changed, so half the movement a chart like this
-// celebrates is noise. Every clinical instrument that gets repeated week after
-// week uses four or five. Nobody serious uses ten.
+// He is right, and the research agrees. Rating scale reliability climbs steeply
+// from two points to about five and then flattens; ten buys effort rather than
+// accuracy, and a single item ten point self report drifts about a point on its
+// own with nothing having changed, so a good share of the movement a chart like
+// this celebrates is noise. Every clinical instrument that gets repeated week
+// after week uses four or five. Nobody serious uses ten.
 //
-// And this app never used the ten anyway. scoreWord below collapses the scale
-// into five bands, so a 7 and an 8 both read "Getting there" everywhere in the
-// product. The ten point scale was a five point scale wearing a ten point coat,
-// and the only place the extra grain did anything was the direction check,
-// which is exactly where it turned drift into "the line is climbing".
+// And this app was already a five point scale wearing a ten point coat.
+// scoreWord below has always collapsed the range into exactly five bands, so a
+// 7 and an 8 both read "Getting there" everywhere in the product, and the only
+// place the extra grain did anything was the direction check, which is exactly
+// where it turned a wobble into "the line is climbing".
 //
-// So the parent answers the question they can actually answer: is this better,
-// the same, or harder than last time? Three targets across one row, the whole
-// card short enough that every concern fits one screen.
+// So the five bands become the answer, in their own words. THE SCALE UNDERNEATH
+// DOES NOT CHANGE: each word posts the top of its band (2, 4, 6, 8, 10), the
+// column stays 1 to 10, and the progress chart, the pathway history and DiGi's
+// wisdom bank all read exactly what they read before. A family part way through
+// the old scale keeps every number they ever gave, and their last one still
+// lights up whichever word it belonged to.
 //
-// THE NUMBER IS NOT GONE, IT IS DERIVED. The server moves a level one step per
-// answer and stores it, so the progress chart, the pathway history and DiGi's
-// wisdom bank all keep reading exactly what they read before. See
-// app/api/daily/concern-check/route.ts for why a derived level is the more
-// honest number.
+// The server compares BANDS rather than raw numbers now, so a legacy 7 followed
+// by "Getting there" reads as holding rather than as progress. See
+// app/api/daily/concern-check/route.ts.
 //
 // What survives, because none of it was the problem: the save beat, so the
 // verdict can be read and the answer changed; the row LOCKING AND STAYING
 // afterwards, so the before and after of every check in is left on screen; the
-// green that means set; and the hand over to the next one.
+// green that means set; the red ring on last time; and the hand over to the
+// next one.
 
 export type ConcernCheckItem = {
   slug: string
@@ -49,22 +51,29 @@ export type ConcernCheckItem = {
   /** Their previous 1 to 10, from the event log. Null before the first one.
    *  Still read so a family part way through the old scale keeps its history. */
   lastScore: number | null
-  /** What they said last time, which is now the thing shown back to them.
-   *  Null before the first check in. */
-  lastAnswer?: 'better' | 'same' | 'hard' | null
 }
 
-/** The three answers, in the order they are shown. Better first because it is
- *  the one we are working towards, and putting the bad news last means a parent
- *  scanning left to right is not met with "harder" before anything else. */
-export const ANSWERS = [
-  { key: 'better' as const, label: 'Better', hint: 'Than last time' },
-  { key: 'same' as const, label: 'The same', hint: 'No real change' },
-  { key: 'hard' as const, label: 'Harder', hint: 'Tougher week' },
-]
+/** The five bands, worst to best, which is the direction the scale has always
+ *  run: a family's line climbs as their weeks improve.
+ *
+ *  `score` is the TOP of each band, so scoreWord(score) returns the same word
+ *  back. That is what keeps a five word question and a 1 to 10 column honest
+ *  with each other, and it means "Going great" posts a 10, which is still the
+ *  9 or above that tips a concern towards resolved. */
+export const BANDS = [
+  { score: 2, label: 'Really tough' },
+  { score: 4, label: 'Hard going' },
+  { score: 6, label: 'Up and down' },
+  { score: 8, label: 'Getting there' },
+  { score: 10, label: 'Going great' },
+] as const
 
-const ANSWER_WORD: Record<string, string> = {
-  better: 'better', same: 'the same', hard: 'harder',
+/** Which of the five a number belongs to. 1 to 5, matching BANDS by index+1.
+ *  Reads a legacy 1 to 10 score just as happily as a new one, which is how last
+ *  time's ring still lands on the right word for a family who has been checking
+ *  in since before this changed. */
+export function bandOf(n: number): number {
+  return Math.ceil(Math.min(10, Math.max(1, n)) / 2)
 }
 
 function recencyLabel(item: ConcernCheckItem): string {
@@ -84,22 +93,28 @@ export function scoreWord(n: number): string {
   return 'Going great'
 }
 
-// What their answer means, shown when the save beat starts and left on screen
-// afterwards. Words, not numbers, because a direction is what was asked.
+// What their answer means against their last one, shown when the save beat
+// starts and left on screen afterwards. Words, because words are what was
+// asked, and the number is nobody's business but the chart's.
 //
-// The dip line is the one that matters most. A parent who says it got harder
-// has just told us something difficult about their own week, and the answer to
-// that is never a frown or a score going down. It is a next move.
-function verdictLine(answer: 'better' | 'same' | 'hard', lastAnswer?: string | null): string {
-  if (answer === 'better') {
-    return lastAnswer === 'better'
-      ? 'Better again. Two in a row, so we can call this one sorted.'
-      : 'Better than last time. That is the direction.'
+// The dip line is the one that matters most. A parent who says this week was
+// harder has just told us something difficult about their own week, and the
+// answer to that is never a frown or a lower score. It is a next move.
+function verdictLine(score: number, last: number | null): string {
+  const word = scoreWord(score)
+  if (last == null) {
+    return score >= 9
+      ? `First one down, and already going great. One more like this and we mark it done.`
+      : `First one down: ${word.toLowerCase()}. Your next check in reads against this one.`
   }
-  if (answer === 'hard') {
-    return 'Harder this time. A dip is information, not a verdict. DiGi has the next move whenever you want it.'
+  const lastWord = scoreWord(last)
+  if (bandOf(score) > bandOf(last)) {
+    return `${word} today, ${lastWord.toLowerCase()} last time. The line is climbing.`
   }
-  return 'About the same. Steady counts, and it stays on the list.'
+  if (bandOf(score) < bandOf(last)) {
+    return `${word} today, ${lastWord.toLowerCase()} last time. A dip is information, not a verdict. DiGi has the next move whenever you want it.`
+  }
+  return `Holding at ${word.toLowerCase()}, same as last check in. Steady counts.`
 }
 
 // How long the note sits before the answer posts. Long enough to read the
@@ -111,7 +126,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
   // glide. touched: something has been picked, so the word and the comparison
   // show. pending: the save beat is running and can still be changed. saved:
   // posted and locked.
-  const [value, setValue] = useState<Record<string, 'better' | 'same' | 'hard'>>({})
+  const [value, setValue] = useState<Record<string, number>>({})
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [pending, setPending] = useState<Record<string, boolean>>({})
   const [saved, setSaved] = useState<Record<string, boolean>>({})
@@ -124,7 +139,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
   // The number as of the last tap, outside React's batching, so the timer that
   // fires two and a half seconds later posts what the parent actually chose
   // rather than what the closure captured.
-  const liveValue = useRef<Record<string, 'better' | 'same' | 'hard'>>({})
+  const liveValue = useRef<Record<string, number>>({})
 
   if (concerns.length === 0) return null
 
@@ -195,16 +210,16 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
       .catch(() => {})
   }
 
-  // One tap picks the answer AND commits it. Three targets, each one a word a
-  // parent can say out loud about their own week, and no aiming.
-  const pick = (slug: string, answer: 'better' | 'same' | 'hard') => {
+  // One tap picks the band AND commits it. Five words, each one a thing a
+  // parent would actually say about their own week, and no aiming.
+  const pick = (slug: string, score: number) => {
     if (posted.current[slug]) return
-    liveValue.current[slug] = answer
-    setValue(prev => ({ ...prev, [slug]: answer }))
+    liveValue.current[slug] = score
+    setValue(prev => ({ ...prev, [slug]: score }))
     setTouched(prev => ({ ...prev, [slug]: true }))
     if (timers.current[slug]) clearTimeout(timers.current[slug])
     setPending(prev => ({ ...prev, [slug]: true }))
-    timers.current[slug] = setTimeout(() => post(slug, { answer }), SAVE_BEAT_MS)
+    timers.current[slug] = setTimeout(() => post(slug, { score }), SAVE_BEAT_MS)
   }
 
   return (
@@ -228,7 +243,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
         Still on the list
       </div>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
-        One tap each, against how it was last time. That is the whole answer.
+        One tap each, in your own words. The red ring is where it was last time.
       </p>
 
       {concerns.map(c => {
@@ -270,43 +285,49 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
               color: 'var(--ink-muted)', marginBottom: '12px',
             }}>
-              {/* What they said last time, which is the "previous rating" he
-                  asked to keep. A word now rather than a number, because a word
-                  is what they gave us. Falls back to the old number for a
-                  family part way through the ten point scale. */}
+              {/* What they said last time, which is the previous rating Justin
+                  asked to keep. Shown as the WORD rather than the number, even
+                  for a legacy 1 to 10 score, because the word is what the five
+                  buttons below are offering and a parent should not have to
+                  translate between the two. The ring on the button says the same
+                  thing spatially; this says it in prose. */}
               {recencyLabel(c)}
-              {c.lastAnswer ? ` \u00b7 last time you said ${ANSWER_WORD[c.lastAnswer]}`
-                : c.lastScore != null ? ` \u00b7 last time you said ${c.lastScore} out of 10` : ''}
+              {c.lastScore != null ? ` \u00b7 last time you said ${scoreWord(c.lastScore).toLowerCase()}` : ''}
             </div>
 
-            {/* THREE ANSWERS ACROSS ONE ROW.
-                A word each, big enough for a thumb without aiming, and the
-                whole row is one line tall instead of the ten dots plus their
-                two end labels. That is what makes every concern fit one screen,
-                which in turn is what makes the hand over scroll a courtesy
-                rather than the only way to reach the next question.
+            {/* FIVE WORDS, STACKED.
+                Stacked rather than side by side because five words do not fit
+                across 390 without truncating the longest of them, and a
+                truncated answer is a worse answer. Down the page each one is a
+                full width target with the word at a readable size, which is
+                also the shape Visible and Superpower use for exactly this job:
+                many things to rate, rated often, in one pass.
 
-                The hint under each word does the job the 1 and 10 labels used
-                to: it says what the answer is being measured against, which is
-                last time rather than some absolute idea of a good week. */}
+                LAST TIME KEEPS ITS RED RING, on whichever word it belonged to,
+                so the comparison is spatial before anybody reads a sentence.
+                bandOf() reads a legacy 1 to 10 score just as well as a new one,
+                so a family who has been checking in for weeks sees their ring
+                land exactly where it should on the day this changes. */}
             <div
               role="radiogroup"
-              aria-label={`${c.label}: better, the same, or harder than last time`}
-              style={{ display: 'flex', gap: '8px' }}
+              aria-label={`${c.label}: how is it now, really tough to going great`}
+              style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
             >
-              {ANSWERS.map(a => {
-                const chosen = isTouched && value[c.slug] === a.key
+              {BANDS.map(b => {
+                const chosen = isTouched && value[c.slug] === b.score
+                const wasLast = c.lastScore != null && bandOf(c.lastScore) === bandOf(b.score)
                 return (
                   <button
-                    key={a.key}
+                    key={b.score}
                     role="radio"
                     aria-checked={chosen}
-                    aria-label={`${a.label}. ${a.hint}`}
+                    aria-label={wasLast ? `${b.label}, what you said last time` : b.label}
                     disabled={!!isSaved}
-                    onClick={() => pick(c.slug, a.key)}
+                    onClick={() => pick(c.slug, b.score)}
                     style={{
-                      flex: '1 1 0', minWidth: 0, padding: '12px 6px',
-                      borderRadius: '16px', cursor: isSaved ? 'default' : 'pointer',
+                      display: 'flex', alignItems: 'center', gap: '10px',
+                      width: '100%', padding: '13px 15px', textAlign: 'left',
+                      borderRadius: '14px', cursor: isSaved ? 'default' : 'pointer',
                       // Set is green, the same green the all checked tick uses,
                       // so a finished row and the summary agree on one colour.
                       background: chosen && (isPending || isSaved) ? 'var(--tint-green)'
@@ -314,25 +335,43 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                         : '#fff',
                       border: chosen && (isPending || isSaved) ? '2.5px solid var(--retro-green)'
                         : chosen ? '2.5px solid var(--terracotta-dark)'
+                        // Last time, held the whole time, before and after
+                        // today's answer lands.
+                        : wasLast ? '2px dotted var(--alert)'
                         : '1.5px solid var(--border)',
                       boxShadow: chosen ? '0 3px 0 rgba(26,26,46,0.14)' : 'none',
                       opacity: isSaved && !chosen ? 0.45 : 1,
                       transition: 'background 0.14s, border-color 0.14s, opacity 0.14s',
                     }}
                   >
-                    <span style={{
-                      display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800,
-                      fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.15,
-                    }}>
-                      {a.label}
-                    </span>
+                    {/* The rung. It GROWS down the five, so they read as a
+                        scale going somewhere rather than as five unrelated
+                        options, and a parent can see which end they are at
+                        without reading a word. Length rather than opacity,
+                        because five shades of the same grey is a difference
+                        nobody notices on a phone in a kitchen. */}
                     <span aria-hidden style={{
-                      display: 'block', fontFamily: 'var(--font-mono)', fontSize: '0.62rem',
-                      fontWeight: 700, letterSpacing: '0.04em', textTransform: 'uppercase',
-                      color: 'var(--ink-muted)', marginTop: '3px', lineHeight: 1.2,
+                      flexShrink: 0, width: `${8 + bandOf(b.score) * 7}px`, height: '9px',
+                      borderRadius: '5px',
+                      background: chosen ? 'var(--retro-green)'
+                        : wasLast ? 'var(--alert)'
+                        : 'var(--border)',
+                    }} />
+                    <span style={{
+                      flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800,
+                      fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2,
                     }}>
-                      {a.hint}
+                      {b.label}
                     </span>
+                    {wasLast && !chosen && (
+                      <span style={{
+                        flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '0.6rem',
+                        fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                        color: 'var(--alert)',
+                      }}>
+                        Last time
+                      </span>
+                    )}
                   </button>
                 )
               })}
@@ -346,7 +385,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
               <div aria-live="polite" style={{ textAlign: 'center', marginTop: '8px' }}>
                 <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45 }}>
                   {isTouched && value[c.slug]
-                    ? `${verdictLine(value[c.slug], c.lastAnswer)}${isSaved ? ' Saved.' : isPending ? ' Saving.' : ''}`
+                    ? `${verdictLine(value[c.slug], c.lastScore)}${isSaved ? ' Saved.' : isPending ? ' Saving.' : ''}`
                     : 'Skipped for today. It stays on the list.'}
                 </span>
               </div>
@@ -367,7 +406,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 'var(--text-sm)', color: 'var(--ink)', flexShrink: 0,
           }}>✓</span>
-          All checked. Small steps, kept up, are how this turns, and every answer moves the line on your progress page.
+          All checked. Small steps, kept up, are how this turns. The rings show how far each one has moved.
         </div>
       )}
     </div>

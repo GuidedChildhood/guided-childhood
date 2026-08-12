@@ -7420,37 +7420,40 @@ was the title, so a parent was handed a question without knowing what it was
 about. `block: 'start'` plus a real scroll margin. It only ever looked right on
 the desktop check, where the rows fit.
 
-**Ten points became three answers: better, the same, harder.** Justin chose this
-over five points after reading both costs. The evidence is with him. Rating
-scale reliability climbs steeply to about five points and then flattens, ten
-buys effort rather than accuracy, and a single item ten point self report drifts
-about a point on its own, so a good share of the movement the chart was
+**Ten points became the five words the app already used.** Justin picked five
+over three. The evidence is with him either way: rating scale reliability climbs
+steeply to about five points and then flattens, ten buys effort rather than
+accuracy, and a single item ten point self report drifts about a point on its own
+with nothing having changed, so a good share of the movement the chart was
 celebrating was noise. Every clinical instrument that gets repeated uses four or
 five.
 
-And the app never used the ten. `scoreWord` collapsed it into five bands, so 7
-and 8 both read "Getting there" everywhere. The ten point scale was a five point
-scale wearing a ten point coat, and the one place the extra grain did anything
-was the direction check, which is exactly where drift became "the line is
-climbing".
+And the app never used the ten. `scoreWord` collapsed it into exactly five bands,
+so 7 and 8 both read "Getting there" everywhere. The ten point scale was a five
+point scale wearing a ten point coat, and the one place the extra grain did
+anything was the direction check, which is exactly where drift became "the line
+is climbing".
 
-**The number is derived rather than dropped, which is what makes this cheap.**
-The server moves a level one step per answer and stores it, so the progress
-chart, the pathway history and DiGi's wisdom bank read exactly what they read
-before. The resolution machine needed nothing at all: it always ran on better,
-same and hard, and the score was layered over the top on 8 August. Underneath,
-this is the shape it already had.
+**The scale underneath did not change, which is what made this cheap.** Each word
+posts the TOP of its band (2, 4, 6, 8, 10), so `scoreWord(score)` returns the
+same word back, the column stays 1 to 10, and the progress chart, the pathway
+history and DiGi's wisdom bank read exactly what they read before. "Going great"
+posts a 10, which is still the 9 or above that tips a concern towards resolved,
+so even that fast path survives untouched.
 
-The two costs Justin accepted, and how each is handled. The chart loses its
-absolute level: answered by deriving one, which is the more honest number
-anyway, since nobody knows whether bedtime is a 7 or an 8 but everybody knows
-whether this week was worse than last. And a 7 to 8 move no longer reads as
-progress: that is the point rather than the price.
+**The server compares bands rather than raw numbers now.** A legacy 7 followed by
+today's "Getting there" is an 8, and by raw comparison that reads as progress
+when the parent has just said it is the same as it was. That is the original
+fault in miniature, so the comparison moved with the scale. Bands only change
+when a parent picks a different word.
 
-**Previous rating still shows**, as the words they actually gave: "last time you
-said better". A family part way through the old scale still sees their number,
-so nobody's history goes blank on the day this ships.
+**Last time keeps its red ring**, on whichever word it belonged to. `bandOf()`
+reads a legacy odd score as happily as a new one, so nobody's history goes blank
+or lands in the wrong place on the day this ships. The rung beside each word
+grows down the five, in length rather than in shade, because five tints of the
+same grey is a difference nobody notices on a phone in a kitchen.
 
-The rows are now short enough that all three concerns fit one phone screen,
-which turns the hand over scroll from the only way to reach the next question
-into a courtesy.
+Five stacked full width targets rather than ten dots in a row: five words do not
+fit across 390 without truncating the longest, and a truncated answer is a worse
+answer. It is also the shape Visible and Superpower use for this exact job, many
+things to rate, rated often, in one pass.

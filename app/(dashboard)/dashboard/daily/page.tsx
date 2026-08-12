@@ -49,26 +49,22 @@ export default async function DailyPage() {
   // and the verdict can name the move. A second wave by necessity: it needs the
   // concern ids from the first.
   //
-  // Both shapes are read. `answer` is what the card asks for now, better, same
-  // or hard; `score` is the ten point number families gave until 12 August, and
-  // it is still shown to anyone whose last check in predates the change so
-  // their history does not go blank on them.
+  // The card asks for one of five bands now and posts the top of each (2, 4, 6,
+  // 8, 10), so this stays a plain read of the last score. An ODD number here is
+  // a legacy answer from the ten point scale and is handled rather than
+  // ignored: bandOf() rounds it to the word it belonged to, so the ring lands in
+  // the right place for a family who has been checking in for weeks.
   const lastScoreByConcern = new Map<string, number>()
-  const lastAnswerByConcern = new Map<string, 'better' | 'same' | 'hard'>()
   if (checkIns.length > 0) {
     const { data: scoreRows } = await supabase
       .from('concern_events')
-      .select('concern_id, score, answer, created_at')
+      .select('concern_id, score, created_at')
       .in('concern_id', checkIns.map(c => c.id))
       .order('created_at', { ascending: false })
       .limit(120)
-    for (const r of (scoreRows ?? []) as { concern_id: string; score: number | null; answer: string | null }[]) {
+    for (const r of (scoreRows ?? []) as { concern_id: string; score: number | null }[]) {
       if (typeof r.score === 'number' && !lastScoreByConcern.has(r.concern_id)) {
         lastScoreByConcern.set(r.concern_id, r.score)
-      }
-      if ((r.answer === 'better' || r.answer === 'same' || r.answer === 'hard')
-          && !lastAnswerByConcern.has(r.concern_id)) {
-        lastAnswerByConcern.set(r.concern_id, r.answer)
       }
     }
   }
@@ -363,7 +359,6 @@ export default async function DailyPage() {
             timesFlagged: c.times_flagged,
             lastFlaggedAt: c.last_flagged_at,
             lastScore: lastScoreByConcern.get(c.id) ?? null,
-            lastAnswer: lastAnswerByConcern.get(c.id) ?? null,
           }))} />
         </div>
       )}

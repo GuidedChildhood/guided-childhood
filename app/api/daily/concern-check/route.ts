@@ -54,53 +54,37 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Concern not found' }, { status: 404 })
   }
 
-  // Last time's number, needed either way: to compare against a score, or to
-  // move on from when the answer is a direction.
-  const { data: lastEvent } = await supabase
-    .from('concern_events')
-    .select('score')
-    .eq('concern_id', concern.id)
-    .not('score', 'is', null)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle()
-  const last = lastEvent?.score as number | null | undefined
-
-  // ── THE ANSWER IS A DIRECTION AGAIN (12 August 2026) ───────────────────────
-  //
-  // Justin: "1 to 10 is confusing. I know we need to see previous rating and we
-  // record movement, but this needs to be quick and easy to go through."
-  //
-  // So the parent answers better, same or harder, and the number is DERIVED
-  // here rather than asked for. That is the whole trick, and it is what lets a
-  // three tap answer keep everything the ten point scale was feeding:
-  //
-  //   the progress chart      reads score and score_at_start, and still gets
-  //                           both, built from the moves actually reported
-  //   DiGi's wisdom bank      reads the same rows, unchanged
-  //   the resolution machine  already ran on better, same and hard. The score
-  //                           was layered over the top on 8 August; underneath,
-  //                           this is the shape it always had.
-  //
-  // A derived level is also the more honest number. Nobody knows whether
-  // bedtime is a 7 or an 8, and the app never used the difference: scoreWord
-  // collapses ten points into five bands, so 7 and 8 both read "Getting there".
-  // What a parent genuinely does know is whether this week was better than last
-  // week, and a line built from those is a record of what they told us rather
-  // than of what they guessed.
   let verdict: 'better' | 'same' | 'hard'
-  let derived: number | null = null
   if (legacyAnswer) {
     verdict = legacyAnswer
-    // Start in the middle when there is no history, because the first answer
-    // is about a week we have no number for. Then one step per check in, and
-    // clamped, so a long good run tops out at 10 rather than running away.
-    const base = typeof last === 'number' ? last : 5
-    derived = Math.min(10, Math.max(1, base + (verdict === 'better' ? 1 : verdict === 'hard' ? -1 : 0)))
   } else {
+    const { data: lastEvent } = await supabase
+      .from('concern_events')
+      .select('score')
+      .eq('concern_id', concern.id)
+      .not('score', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+    const last = lastEvent?.score as number | null | undefined
     const s = score as number
+    // ── COMPARED BY BAND, NOT BY RAW NUMBER (12 August 2026) ────────────────
+    //
+    // The card now asks for one of five bands rather than a number out of ten,
+    // and the five it offers are exactly the five scoreWord has always used:
+    // 1-2 really tough, 3-4 hard going, 5-6 up and down, 7-8 getting there,
+    // 9-10 going great. Each answer posts the top of its band, so the column
+    // keeps its 1 to 10 shape and every reader of it carries on unchanged.
+    //
+    // The comparison has to move with it. Raw numbers would call a legacy 7
+    // followed by today's "getting there" (an 8) an improvement, when the
+    // parent has just told us it is the same as it was. Worse, that was the
+    // old fault in miniature: a one point wobble inside a band reading as
+    // progress is precisely the drift Justin was being shown as a climbing
+    // line. Bands only move when the parent picks a different word.
+    const band = (n: number) => Math.ceil(Math.min(10, Math.max(1, n)) / 2)
     verdict = s >= 9 ? 'better'
-      : typeof last === 'number' ? (s > last ? 'better' : s < last ? 'hard' : 'same')
+      : typeof last === 'number' ? (band(s) > band(last) ? 'better' : band(s) < band(last) ? 'hard' : 'same')
       : 'same'
   }
 
@@ -124,9 +108,7 @@ export async function POST(request: Request) {
   await logConcernEventById(supabase, user.id, concern.id as string, {
     event: status === 'resolved' ? 'resolved' : 'checked',
     answer: verdict,
-    // The derived level for a direction answer, the raw one for a score.
-    // Either way a number lands on the row, so the chart never sees a gap.
-    score: isScore(score) ? score : derived,
+    score: isScore(score) ? score : null,
     source: 'daily',
   })
 

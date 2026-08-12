@@ -45,7 +45,7 @@ for (const [name, width, height] of [['mobile', 390, 844], ['desktop', 1280, 900
 
   // Answer the first one. The save beat is 2.6s, and the hand over fires when
   // it lands, so the wait is the real thing rather than an arbitrary pause.
-  await page.getByRole('radio', { name: /^Better/ }).first().click()
+  await page.getByRole('radio', { name: /^Getting there/ }).first().click()
   await page.waitForTimeout(3600)
   await page.screenshot({ path: `${OUT}/handover-${name}-1.png`, fullPage: false })
 
