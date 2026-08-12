@@ -133,6 +133,36 @@ export default function MissionWelcome({
       return
     }
 
+    // ── ONE HELLO A DAY, NOT TWO ────────────────────────────────────────────
+    //
+    // Justin, 12 August 2026: "check that we are not accidentally showing the
+    // Welcome flow twice."
+    //
+    // We were. There are two welcomes on Home, this one and DiGi's sheet, and
+    // until now neither knew the other existed. Each gated itself perfectly
+    // against ITSELF, on its own separate keys, so on a first visit of the day
+    // both fired and a parent was greeted twice before reaching anything.
+    //
+    // DiGi's sheet has priority, because it is the one that comes up first and
+    // speaks to the family by name. This one is the quieter second beat, so it
+    // is the one that stands down. It is not lost, it simply waits for a day
+    // DiGi is not already talking, which is the same rule GREET_DAYS above
+    // already applies for a different reason.
+    //
+    // Reading DiGi's keys rather than sharing one, deliberately. A shared key
+    // would mean whichever component mounted first claimed the day, and on a
+    // server rendered page that order is not something to build a rule on.
+    // Naming the other component's keys is uglier and it is deterministic.
+    let digiGreetingToday = false
+    try {
+      const stamp = new Date().toISOString().slice(0, 10)
+      digiGreetingToday =
+        sessionStorage.getItem('gc_digi_welcome_session') !== null ||
+        localStorage.getItem('gc_digi_welcome_' + stamp) !== null ||
+        localStorage.getItem('gc_digi_prompt_' + stamp) !== null
+    } catch { /* private mode: fall through and greet, one hello beats none */ }
+    if (digiGreetingToday) { openDecision = { cards: null, handover: false, dismissed: true }; return }
+
     let greeted = false
     try { greeted = sessionStorage.getItem(OPEN_KEY) === today.stamp } catch { /* private mode, greet them */ }
     if (greeted) { openDecision = { cards: null, handover: false, dismissed: true }; return }
