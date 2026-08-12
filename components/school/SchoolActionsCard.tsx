@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { SCHOOL_EMAIL_FORWARDING_LIVE } from '@/lib/config/school'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 import SchoolWeek from './SchoolWeek'
 import FoldSection from '@/components/dashboard/FoldSection'
@@ -406,28 +407,43 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
           </div>
         </div>
       )}
-      <FoldSection label="How this works" value="Forwarded emails">
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
-          Kit days, payments and deadlines DiGi pulls from your forwarded school emails, plus anything you add. They show here every time you open the app, and as a reminder on your phone if notifications are on.
-        </p>
-        <button
-          onClick={sendTest}
-          disabled={testing}
-          style={{
-            marginTop: '12px',
-            background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
-            padding: '8px 16px', cursor: testing ? 'wait' : 'pointer',
-            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink-soft)',
-          }}
-        >
-          {testing ? 'Sending...' : 'Send a test'}
-        </button>
-        {testResult && (
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 0 0' }}>
-            {testResult}
+      {/* FORWARDED EMAILS, PARKED (12 August 2026)
+          Justin: "the forward email part is parked for now, this is just the
+          alert calendar for school tasks."
+
+          So the explainer and its Send a test button come off the card. The
+          whole forwarding pipeline is untouched behind them: the inbound
+          address, its signing secret, the parser and /api/school/remind all
+          still work, and any action that arrives by email still lands in this
+          list exactly as before. What has gone is the card ADVERTISING a way in
+          that is not being pushed yet.
+
+          One flag, so unparking is one word rather than an archaeology exercise.
+          The test button lives on in git and comes back with it. */}
+      {SCHOOL_EMAIL_FORWARDING_LIVE && (
+        <FoldSection label="How this works" value="Forwarded emails">
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
+            Kit days, payments and deadlines DiGi pulls from your forwarded school emails, plus anything you add. They show here every time you open the app, and as a reminder on your phone if notifications are on.
           </p>
-        )}
-      </FoldSection>
+          <button
+            onClick={sendTest}
+            disabled={testing}
+            style={{
+              marginTop: '12px',
+              background: '#fff', border: '1.5px solid var(--border)', borderRadius: '100px',
+              padding: '8px 16px', cursor: testing ? 'wait' : 'pointer',
+              fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink-soft)',
+            }}
+          >
+            {testing ? 'Sending...' : 'Send a test'}
+          </button>
+          {testResult && (
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '10px 0 0' }}>
+              {testResult}
+            </p>
+          )}
+        </FoldSection>
+      )}
       {/* Actions row: wraps cleanly on a phone and a laptop. */}
       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '14px' }}>
         {/* One way to add a reminder, not two. This used to toggle a separate

@@ -7404,3 +7404,115 @@ magnet download lifts it, because that is them asking.
 Also fixed: the nurture claimed a lead by testing the update for an error, and
 an update matching zero rows is not an error in Postgres. That check meant "the
 database was reachable", not "I claimed this lead". It now reads the row back.
+
+## 12 August 2026 — The check in asks the question a parent can answer
+
+Justin, with two screenshots of the daily check in: "when I click a line it's
+good but it scrolls down and puts the next one at the top where I can't see it.
+It just needs to go to the next one. Is there an easier but just as accurate way
+to check in? 1 to 10 is confusing. I know we need to see previous rating and we
+record movement, but this needs to be quick and easy to go through."
+
+**The scroll bug was centring.** The hand over used `block: 'center'`, and a
+concern row on a 390 wide phone is taller than the screen. Centring a thing
+taller than the viewport pushes its top above the fold, and the first casualty
+was the title, so a parent was handed a question without knowing what it was
+about. `block: 'start'` plus a real scroll margin. It only ever looked right on
+the desktop check, where the rows fit.
+
+**Ten points became the five words the app already used.** Justin picked five
+over three. The evidence is with him either way: rating scale reliability climbs
+steeply to about five points and then flattens, ten buys effort rather than
+accuracy, and a single item ten point self report drifts about a point on its own
+with nothing having changed, so a good share of the movement the chart was
+celebrating was noise. Every clinical instrument that gets repeated uses four or
+five.
+
+And the app never used the ten. `scoreWord` collapsed it into exactly five bands,
+so 7 and 8 both read "Getting there" everywhere. The ten point scale was a five
+point scale wearing a ten point coat, and the one place the extra grain did
+anything was the direction check, which is exactly where drift became "the line
+is climbing".
+
+**The scale underneath did not change, which is what made this cheap.** Each word
+posts the TOP of its band (2, 4, 6, 8, 10), so `scoreWord(score)` returns the
+same word back, the column stays 1 to 10, and the progress chart, the pathway
+history and DiGi's wisdom bank read exactly what they read before. "Going great"
+posts a 10, which is still the 9 or above that tips a concern towards resolved,
+so even that fast path survives untouched.
+
+**The server compares bands rather than raw numbers now.** A legacy 7 followed by
+today's "Getting there" is an 8, and by raw comparison that reads as progress
+when the parent has just said it is the same as it was. That is the original
+fault in miniature, so the comparison moved with the scale. Bands only change
+when a parent picks a different word.
+
+**Last time keeps its red ring**, on whichever word it belonged to. `bandOf()`
+reads a legacy odd score as happily as a new one, so nobody's history goes blank
+or lands in the wrong place on the day this ships. The rung beside each word
+grows down the five, in length rather than in shade, because five tints of the
+same grey is a difference nobody notices on a phone in a kitchen.
+
+Five stacked full width targets rather than ten dots in a row: five words do not
+fit across 390 without truncating the longest, and a truncated answer is a worse
+answer. It is also the shape Visible and Superpower use for this exact job, many
+things to rate, rated often, in one pass.
+
+## 12 August 2026 — Two things the pathway was getting wrong
+
+Justin: "I did ask DiGi a preset question but it did not update pathway... looks
+like pathway did update but took a while after doing DiGi."
+
+**It was never a refresh problem, which is why the refresh did not fix it.** A
+router.refresh() was added on 8 August for this exact complaint and the complaint
+came back. The pathway step reads one thing: whether a digi_questions row exists
+today. That row was written inside Next's after(), which only starts once the
+response has finished streaming, and it sat at the BACK of that block behind a
+second blocking Anthropic call and an embedding call. DigiChat refreshes the
+instant the stream drains, so the refresh went looking for a row that was still
+two API round trips away, found nothing, and drew the step as not done. It landed
+seconds later, which is what a parent sees as "it updated but took a while".
+
+A write ordering race, not a staleness bug. So the write moved in front of the
+read: the row is claimed with an empty response before the Response is returned,
+and after() fills the answer in. The tick is true before the parent sees their
+first word. Falls back to the old insert if the claim fails, so a bad moment
+costs the instant tick rather than the record.
+
+**And the trophy at the end of the road was lit by age.** `current >= 5` comes
+from the child's birthday, so a sixteen year old whose family had done nothing
+got a gold "Sixteen, ready. Social media walked into with open eyes", and a
+thirteen year old whose family had finished all five stages got a greyed out one.
+The page already said the opposite in its own closing line, "nothing is marked
+done just because of your child's age". The trophy was the one thing on it not
+listening.
+
+It reads stageStatus now, the same blend the passport stamps from, so it needs no
+new prop and a missing reading means not lit. Sixteen and not finished gets an
+honest line under it rather than an unexplained grey trophy.
+
+## 12 August 2026 — The school card is the alert calendar, and it gets a day
+
+Justin, on the From school card: "the forward email part is parked for now, this
+is just the alert calendar for school tasks. Make sure this is in rotation to top
+once a week."
+
+**Parked, not removed.** The explainer and its Send a test button come off the
+card behind `SCHOOL_EMAIL_FORWARDING_LIVE`. Everything behind them still runs:
+the inbound address and its signing secret, the parser, the reminder cron, and
+any action that arrives by email still lands in the list exactly as before. What
+is switched off is the card ADVERTISING a way in that is not being pushed yet, so
+unparking is one word rather than an archaeology exercise.
+
+**The lift is timed rather than queued.** A rotation position would surface the
+card on an arbitrary week. Sunday surfaces it on the day a parent looks at the
+week coming, which is when a card about Tuesday's PE kit is worth something. One
+day in seven, every week, which is what makes it a habit rather than a surprise.
+
+And any day something is actually waiting, it takes the top regardless. That
+exception is the one that matters: holding a deadline the school has already sent
+until Sunday would be the feature working against itself.
+
+It MOVES rather than being drawn twice. Home had one thing said in two places
+this morning and he caught it within the hour, so the position comes from a
+single boolean and the card renders once either way.

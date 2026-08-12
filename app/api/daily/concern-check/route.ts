@@ -68,8 +68,23 @@ export async function POST(request: Request) {
       .maybeSingle()
     const last = lastEvent?.score as number | null | undefined
     const s = score as number
+    // ── COMPARED BY BAND, NOT BY RAW NUMBER (12 August 2026) ────────────────
+    //
+    // The card now asks for one of five bands rather than a number out of ten,
+    // and the five it offers are exactly the five scoreWord has always used:
+    // 1-2 really tough, 3-4 hard going, 5-6 up and down, 7-8 getting there,
+    // 9-10 going great. Each answer posts the top of its band, so the column
+    // keeps its 1 to 10 shape and every reader of it carries on unchanged.
+    //
+    // The comparison has to move with it. Raw numbers would call a legacy 7
+    // followed by today's "getting there" (an 8) an improvement, when the
+    // parent has just told us it is the same as it was. Worse, that was the
+    // old fault in miniature: a one point wobble inside a band reading as
+    // progress is precisely the drift Justin was being shown as a climbing
+    // line. Bands only move when the parent picks a different word.
+    const band = (n: number) => Math.ceil(Math.min(10, Math.max(1, n)) / 2)
     verdict = s >= 9 ? 'better'
-      : typeof last === 'number' ? (s > last ? 'better' : s < last ? 'hard' : 'same')
+      : typeof last === 'number' ? (band(s) > band(last) ? 'better' : band(s) < band(last) ? 'hard' : 'same')
       : 'same'
   }
 
