@@ -37,6 +37,37 @@ Two things to check while in there:
 
 ---
 
+## 0b. The child's link must carry the domain, not whatever the parent was on
+
+Justin, 12 August 2026: "we need to fix the child app so it is not a vercel link
+but the domain, share, or how best to handle it."
+
+He is holding `https://guided-childhood-app.vercel.app/k/99b1ed22760113662c`.
+
+**The cause is two lines.** `components/quests/ChildLinkShare.tsx` and
+`components/quests/QrHandoverModal.tsx` both build the link as
+`window.location.origin + '/k/' + token`. So the child is handed whatever
+address the PARENT happened to be on at the moment they shared it. Share from a
+preview deployment and the link on that child's phone is a preview URL.
+
+**Why this is worse than it looks.** That link is not a page a child visits once.
+It goes on their home screen and stays there for years, it is what the push
+notifications open, and a child cannot fix it themselves. A preview deployment
+can be deleted, and when it is, every child linked from it is cut off with no
+error a parent would understand.
+
+**The fix.** Build it from the canonical `SITE_URL` in `lib/config/site.ts`,
+which is already `https://www.guidedchildhood.com`, rather than from the
+browser. One import and two edits.
+
+**Then check what is already out there.** Any `kid_links` shared before this is
+still carrying whatever origin it was created from. Worth asking whether the
+token itself is stored with an origin anywhere, or whether the link is only ever
+assembled at share time. If it is assembled fresh each time, re-sharing fixes an
+affected child with no migration.
+
+---
+
 ## 1. The to do list that was meant to be there
 
 Already designed in `plans/home-is-the-daily-page.md`, so this is execution. The
