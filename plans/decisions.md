@@ -7526,3 +7526,15 @@ day, then the sent lesson and printable, then the reminders offer. The five a da
 the day, so nothing a grown up sends sits on top of it; the sheet is
 simply the next thing seen. One block moved in KidQuestScreen, nothing
 else changed.
+
+## 12 August 2026 — Stop asking a phone that already buzzes
+
+Justin: "still prompting on childs phone to set up notification even
+though i have set that up." The link opened from a text lands in plain
+Safari, and on an iPhone Safari and the installed app share nothing, so
+the same phone that already gets reminders was told to add the app to the
+Home Screen and turn them on. The client cannot know better on its own,
+so the server now tells it: one head count of the child's push
+subscriptions rides in as hasReminders, and every prompt path yields to
+it. A family with reminders anywhere sees the quiet "Reminders on" line;
+only a family with truly nothing set up is ever asked.

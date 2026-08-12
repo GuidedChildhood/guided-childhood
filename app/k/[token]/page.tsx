@@ -524,6 +524,24 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
     if (!error) initialNudges = (data ?? []).map(n => ({ id: String(n.id), message: String(n.message) }))
   }
 
+  // Whether this child's reminders already work SOMEWHERE. The client cannot
+  // know this on its own: on an iPhone the installed app and Safari share
+  // nothing, so a child following their link from a text message was shown
+  // "add me to your Home Screen, then turn reminders on" on a phone that
+  // already buzzes. Justin, 12 August 2026: "still prompting on childs phone
+  // to set up notification even though i have set that up." One head count,
+  // failing soft to false, and the prompt only ever asks a family that truly
+  // has nothing set up.
+  let hasReminders = false
+  {
+    const { count, error } = await supabase
+      .from('push_subscriptions')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', link.user_id)
+      .eq('child_id', link.child_id)
+    if (!error) hasReminders = (count ?? 0) > 0
+  }
+
   // A printable a grown up sent straight to this child lands at the top of
   // their to do. The oldest open one leads. Fails soft to none before 089.
   // pdfColourIn travels separately rather than being folded into sheetUrl.
@@ -751,6 +769,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       deviceTrust={deviceTrust}
       initialAsk={initialAsk}
       initialNudges={initialNudges}
+      hasReminders={hasReminders}
       />
     </>
   )
