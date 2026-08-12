@@ -7624,3 +7624,24 @@ And the reading bucket list prints a second page: "Books I want to
 read", ten numbered dotted lines, asked for from Teo's phone. It is a
 registry field (writeIn) plus one overlay block, so any future sheet can
 carry a write in page by data alone.
+
+## 12 August 2026 — The bucket list builder lands on the child app
+
+Justin, on it living only on the parent dashboard: "but should be on
+child app also." The StarChartBuilder precedent exactly: the SAME
+BucketBuilder component now runs on both phones through a kid variant,
+so the two can never drift. On the child's side it prefills their name,
+the back link goes home, and Add to quests becomes an ask through the
+child request pipeline, because a child never writes to the family quest
+list directly, they ask and a grown up says yes. The way in is a card on
+the print tab right under the star chart's.
+
+## 12 August 2026 — The overlay prints every page of a craft
+
+Justin, printing the bucket craft: "it also failed when trying to
+print." The two page Bucket List Craft, the detailed one where a child
+cuts out and builds an actual paper bucket, was losing its second page:
+the overlay only knew one url, so the craft printed its list and dropped
+the cut out bucket it exists for. The overlay now takes the extra pages
+and prints each as its own sheet of paper, threaded through the print
+tab and the assigned printable card alike.
