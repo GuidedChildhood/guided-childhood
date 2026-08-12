@@ -79,6 +79,20 @@ export type Printable = {
 }
 
 export const PRINTABLES: Printable[] = [
+  // THE BEST THREE LEAD. Justin, 12 August 2026: "order printables so star
+  // chart then bucket customisable then planner as these are the best 3."
+  // The two builders are cards above every grid on both apps, so the planner
+  // leading this array puts the three of them at the top of the list a
+  // family actually sees.
+  {
+    key: 'school-year-planner',
+    title: 'My School Year Planner', emoji: '🗓️', kind: 'challenge',
+    stages: [2, 3, 4], minutes: 'All year', setting: 'anywhere', skill: 'Organisation',
+    stars: 5,
+    blurb: 'Twelve months to fill in, room for the dates that matter, and space for a name and class. A whole year, planned.',
+    sheetUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
+    previewUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
+  },
   {
     key: 'summer-bucket-list',
     title: 'My Summer Bucket List', emoji: '☀️', kind: 'bucket',
@@ -322,15 +336,6 @@ export const PRINTABLES: Printable[] = [
     blurb: 'Colour and label your left and right hands, follow the arrows, and work out which way to go.',
     sheetUrl: BASE + 'hf_20260725_001930_01e5df7c-cf07-4c46-8fd8-2924b3d8ea53.png',
     previewUrl: BASE + 'hf_20260725_001930_01e5df7c-cf07-4c46-8fd8-2924b3d8ea53.png',
-  },
-  {
-    key: 'school-year-planner',
-    title: 'My School Year Planner', emoji: '🗓️', kind: 'challenge',
-    stages: [2, 3, 4], minutes: 'All year', setting: 'anywhere', skill: 'Organisation',
-    stars: 5,
-    blurb: 'Twelve months to fill in, room for the dates that matter, and space for a name and class. A whole year, planned.',
-    sheetUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
-    previewUrl: BASE + 'hf_20260723_183708_00cedad0-7425-4b44-bb8d-4c3f3de98a43.jpeg',
   },
   // The flagship. A premium, newspaper styled booklet that teaches the whole
   // deal on paper: real jobs earn stars, one star is five minutes of screen
