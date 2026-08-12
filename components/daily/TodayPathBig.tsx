@@ -7,6 +7,8 @@ import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 import { TASK_MINUTES } from '@/lib/pathway/task-minutes'
 import { nextHint } from '@/components/daily/TodayPathStrip'
+import PlanetArt from '@/components/pathway/PlanetArt'
+import { PLANETS } from '@/lib/pathway/planets'
 
 // Today's loop as the BIG vertical winding path, Duolingo sized: the same
 // engine as TodayPathStrip (same tasks, same minute budget, same copy), only
@@ -57,8 +59,13 @@ function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked:
   )
 }
 
-export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, streakCount = 0 }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number }) {
+export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, streakCount = 0, bonusIndex }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number; bonusIndex?: number }) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
+  // This week's planet, as the bonus beside the road. Server chosen so the
+  // first render matches, exactly as PlanetCoins does it.
+  const bonus = typeof bonusIndex === 'number' && bonusIndex >= 0 && bonusIndex < PLANETS.length
+    ? PLANETS[bonusIndex]
+    : null
   const pathRef = useRef<HTMLDivElement>(null)
   // A step finished since the last look at Home gets its half second of
   // delight, exactly as the strip did: the node pops and DiGi says so.
@@ -82,6 +89,10 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   const toBudgetMin = Math.max(0, minutes - investedMinutes)
   const nextWeight = TASK_MINUTES[tasks[currentIndex].key] ?? 0
   const pressure = !dayDone && !allDone
+  // Hang the bonus off a row that leans LEFT, so a 58px coin at the right edge
+  // can never touch a node that has already meandered that way. Skips the last
+  // row, which is the finish flag and wants nothing beside it.
+  const bonusRow = tasks.findIndex((_, i) => i < tasks.length - 1 && MEANDER[i % MEANDER.length] < 0)
 
   function pickMinutes(m: number) {
     setMinutes(m)
@@ -204,9 +215,20 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           50%      { transform: translateY(-3px); }
         }
         .todaypathbig-throb { animation: todaypathbig-throb 1.4s ease-in-out infinite; }
+        @keyframes todaypathbig-bounce {
+          0%, 100% { transform: translateY(0); }
+          50%      { transform: translateY(-7px); }
+        }
+        .todaypathbig-bounce { animation: todaypathbig-bounce 1.9s ease-in-out infinite; }
+        @keyframes todaypathbig-twinkle {
+          0%, 100% { opacity: 1;   transform: scale(1); }
+          45%      { opacity: .35; transform: scale(.8); }
+        }
+        .todaypathbig-twinkle { animation: todaypathbig-twinkle 2.7s ease-in-out infinite; }
         @media (prefers-reduced-motion: reduce) {
           .todaypathbig-pulse-ring { animation: none; opacity: 0.35; }
           .todaypathbig-throb { animation: none; }
+          .todaypathbig-bounce, .todaypathbig-twinkle { animation: none; }
         }
       `}</style>
 
@@ -281,6 +303,54 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
               )}
 
               <div data-path-node style={{ position: 'relative', zIndex: 1 }}>
+                {/* THE BONUS, BESIDE THE ROAD, DUOLINGO STYLE.
+                    Justin, 12 August 2026: "can these go on the right of the
+                    green line to do today, sparking and bouncing as a bonus
+                    like Duolingo."
+                    It hangs off a row whose node leans LEFT, which is why the
+                    index is checked against MEANDER rather than picked by eye:
+                    on a 390 wide phone a node offset to the right and a 60px
+                    coin at the right edge would touch, and the whole point is
+                    that the bonus never gets in the road's way.
+                    It bounces rather than pulses. A pulse is the language the
+                    CURRENT step uses, and two things pulsing on one path means
+                    neither reads as the next thing to do. A bounce says "over
+                    here" without ever saying "you are behind". */}
+                {bonus && i === bonusRow && (
+                  <Link
+                    href={bonus.href}
+                    aria-label={bonus.title}
+                    style={{
+                      position: 'absolute', right: 0, top: '50%',
+                      transform: 'translateY(-50%)',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
+                      textDecoration: 'none', zIndex: 2,
+                    }}
+                  >
+                    <span className="todaypathbig-bounce" style={{
+                      position: 'relative',
+                      width: 58, height: 58, borderRadius: '100px',
+                      background: bonus.tint, border: `2px solid ${bonus.ring}`,
+                      boxShadow: `0 4px 0 ${bonus.ring}`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    }}>
+                      <PlanetArt motif={bonus.key} body={bonus.body} ring={bonus.ring} tint="transparent" size={46} alt={bonus.alt} />
+                      {/* The spark. One small star at the shoulder, twinkling
+                          out of step with the bounce so the two never lock into
+                          looking like a single mechanical loop. */}
+                      <span aria-hidden className="todaypathbig-twinkle" style={{
+                        position: 'absolute', top: -4, right: -2,
+                        fontSize: '15px', lineHeight: 1,
+                      }}>✨</span>
+                    </span>
+                    <span style={{
+                      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                      letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+                    }}>
+                      Bonus
+                    </span>
+                  </Link>
+                )}
                 <Link
                   href={task.href}
                   aria-label={isDoneNode ? `${task.label}, done` : isCurrent ? `${task.label}, up next` : task.label}
