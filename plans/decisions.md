@@ -7516,3 +7516,13 @@ until Sunday would be the feature working against itself.
 It MOVES rather than being drawn twice. Home had one thing said in two places
 this morning and he caught it within the hour, so the position comes from a
 single boolean and the card renders once either way.
+
+## 12 August 2026 — The five a day above any printable
+
+Justin, from Teo's home screen: "put your 5 a day above any printable
+here." A printable a grown up sends used to land above everything on the
+child's home screen, poster on top of the day. Order now: streak, five a
+day, then the sent lesson and printable, then the reminders offer. The five a day IS
+the day, so nothing a grown up sends sits on top of it; the sheet is
+simply the next thing seen. One block moved in KidQuestScreen, nothing
+else changed.
