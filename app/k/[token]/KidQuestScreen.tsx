@@ -179,7 +179,7 @@ export default function KidQuestScreen({
   focusLesson?: { id: string; title: string; emoji: string; stars: number } | null
   // A printable a grown up sent to this child, shown at the top of the to do:
   // print it, do it, then send it to be confirmed like any printable.
-  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; previewUrl: string; sheetHeading?: { name: string; kicker: string } } | null
+  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; previewUrl: string; sheetHeading?: { name: string; kicker: string }; extraSheetUrls?: string[] } | null
   // A tutor lesson a grown up read and sent, written from this child's own
   // homework. It sits at the top of the to do rather than joining the five a
   // day rotation, for the same reason the printable above does: a grown up
@@ -1548,7 +1548,7 @@ export default function KidQuestScreen({
                 onClick={() => {
                   playKidSound('tap')
                   if (assignedPrintable.pdfColourIn) printPack(assignedPrintable.pdfColourIn, assignedPrintable.title)
-                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, heading: assignedPrintable.sheetHeading })
+                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading })
                 }}
                 style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
                 🖨️ Print it
@@ -2709,7 +2709,7 @@ export default function KidQuestScreen({
                             // through printPack's written window; image sheets
                             // open in place as the overlay, which nothing can
                             // block because nothing leaves the page.
-                            onClick={() => { playKidSound('tap'); if (p.pdfColourIn) { printPack(p.pdfColourIn, p.title) } else { setPrintOverlay({ url: p.sheetUrl, title: p.title, heading: p.sheetHeading, writeIn: p.writeIn }) } }}
+                            onClick={() => { playKidSound('tap'); if (p.pdfColourIn) { printPack(p.pdfColourIn, p.title) } else { setPrintOverlay({ url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn }) } }}
                             style={{
                               width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
                               cursor: 'pointer', marginBottom: '7px',

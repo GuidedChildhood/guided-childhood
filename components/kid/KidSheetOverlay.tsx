@@ -25,6 +25,10 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 export type OverlaySheet = {
   url: string
   title: string
+  // The remaining pages of a multi page sheet (the crafts). Each prints as
+  // its own sheet of paper. Justin, 12 August 2026, on the two page bucket
+  // craft losing its cut out page: "it also failed when trying to print."
+  extraUrls?: string[]
   heading?: { name: string; kicker: string }
   // A write in page after the sheet: a titled set of dotted lines, printed
   // as its own second page. Justin, 12 August 2026, on the reading list:
@@ -53,6 +57,7 @@ export default function KidSheetOverlay({ sheet, onClose }: {
         .kid-sheet-overlay { position: absolute !important; inset: 0 !important; overflow: visible !important; }
         .kid-sheet-overlay .kid-sheet-bar { display: none !important; }
         .kid-sheet-writein { page-break-before: always; break-before: page; }
+        .kid-sheet-extra { page-break-before: always; break-before: page; }
         @page { margin: 8mm; }
       }`}</style>
 
@@ -127,6 +132,23 @@ export default function KidSheetOverlay({ sheet, onClose }: {
           style={{ width: '100%', display: 'block' }}
         />
       )}
+
+      {/* The remaining pages of a multi page craft, each its own sheet of
+          paper. These used to be dropped entirely: the overlay only knew one
+          url, so the bucket craft printed its list page and lost the cut out
+          bucket it exists for. */}
+      {!failed && (sheet.extraUrls ?? []).map(u => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={u}
+          className="kid-sheet-extra"
+          src={u}
+          alt={sheet.title}
+          loading="eager"
+          decoding="sync"
+          style={{ width: '100%', display: 'block', marginTop: 14 }}
+        />
+      ))}
 
       {/* The write in page, its own sheet of paper when printed. On screen it
           sits under the sheet so a child scrolling knows page two is coming. */}
