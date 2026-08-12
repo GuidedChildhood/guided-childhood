@@ -295,27 +295,36 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
               {c.lastScore != null ? ` \u00b7 last time you said ${scoreWord(c.lastScore).toLowerCase()}` : ''}
             </div>
 
-            {/* FIVE WORDS, STACKED.
+            {/* FIVE WORDS, STACKED, AND THE ONE YOU PICK BECOMES A BUTTON.
+                Justin: "is there a tidy way with the yellow we use on buttons,
+                make it a bit slicker?"
+
+                Yes, and it is more than tidier. The butter gold with the solid
+                shadow under it is what every real action in this product looks
+                like, so a chosen answer that wears it reads as a thing you did
+                rather than a thing that got highlighted. The unchosen four stay
+                quiet and white, which is what makes the chosen one carry.
+
                 Stacked rather than side by side because five words do not fit
                 across 390 without truncating the longest of them, and a
-                truncated answer is a worse answer. Down the page each one is a
-                full width target with the word at a readable size, which is
-                also the shape Visible and Superpower use for exactly this job:
-                many things to rate, rated often, in one pass.
+                truncated answer is a worse answer. It is also the shape Visible
+                and Superpower use for exactly this job: many things to rate,
+                rated often, in one pass.
 
                 LAST TIME KEEPS ITS RED RING, on whichever word it belonged to,
                 so the comparison is spatial before anybody reads a sentence.
                 bandOf() reads a legacy 1 to 10 score just as well as a new one,
                 so a family who has been checking in for weeks sees their ring
-                land exactly where it should on the day this changes. */}
+                land where it should on the day this changes. */}
             <div
               role="radiogroup"
               aria-label={`${c.label}: how is it now, really tough to going great`}
-              style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}
+              style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}
             >
               {BANDS.map(b => {
                 const chosen = isTouched && value[c.slug] === b.score
                 const wasLast = c.lastScore != null && bandOf(c.lastScore) === bandOf(b.score)
+                const rung = bandOf(b.score)
                 return (
                   <button
                     key={b.score}
@@ -325,44 +334,70 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                     disabled={!!isSaved}
                     onClick={() => pick(c.slug, b.score)}
                     style={{
-                      display: 'flex', alignItems: 'center', gap: '10px',
-                      width: '100%', padding: '13px 15px', textAlign: 'left',
-                      borderRadius: '14px', cursor: isSaved ? 'default' : 'pointer',
-                      // Set is green, the same green the all checked tick uses,
-                      // so a finished row and the summary agree on one colour.
-                      background: chosen && (isPending || isSaved) ? 'var(--tint-green)'
-                        : chosen ? 'var(--terracotta-lt)'
-                        : '#fff',
-                      border: chosen && (isPending || isSaved) ? '2.5px solid var(--retro-green)'
-                        : chosen ? '2.5px solid var(--terracotta-dark)'
+                      display: 'flex', alignItems: 'center', gap: '12px',
+                      width: '100%', padding: '12px 14px', textAlign: 'left',
+                      borderRadius: '16px', cursor: isSaved ? 'default' : 'pointer',
+                      // The house button, exactly: butter gold, a solid shadow
+                      // rather than a blur, and it presses down when it lands.
+                      background: chosen ? 'var(--terracotta)' : '#fff',
+                      border: chosen ? '1.5px solid var(--terracotta-dark)'
                         // Last time, held the whole time, before and after
-                        // today's answer lands.
+                        // today's answer arrives.
                         : wasLast ? '2px dotted var(--alert)'
                         : '1.5px solid var(--border)',
-                      boxShadow: chosen ? '0 3px 0 rgba(26,26,46,0.14)' : 'none',
-                      opacity: isSaved && !chosen ? 0.45 : 1,
-                      transition: 'background 0.14s, border-color 0.14s, opacity 0.14s',
+                      // Raised while the save beat runs, because it can still be
+                      // changed, then it PRESSES DOWN at the moment it commits.
+                      // That press is what saved looks like now. It used to turn
+                      // green, which said saved by throwing away the brand
+                      // colour at the one moment the row matters.
+                      boxShadow: chosen && !isSaved ? '0 4px 0 var(--terracotta-dark)'
+                        : chosen ? '0 1px 0 var(--terracotta-dark)'
+                        : 'none',
+                      transform: chosen && isSaved ? 'translateY(3px)' : 'none',
+                      opacity: isSaved && !chosen ? 0.4 : 1,
+                      transition: 'background .14s, border-color .14s, box-shadow .14s, transform .14s, opacity .14s',
                     }}
                   >
-                    {/* The rung. It GROWS down the five, so they read as a
-                        scale going somewhere rather than as five unrelated
-                        options, and a parent can see which end they are at
-                        without reading a word. Length rather than opacity,
-                        because five shades of the same grey is a difference
-                        nobody notices on a phone in a kitchen. */}
+                    {/* The rung. It GROWS down the five, so they read as a scale
+                        going somewhere rather than as five unrelated options,
+                        and a parent can see which end they are at without
+                        reading a word. Length rather than shade, because five
+                        tints of one colour is a difference nobody notices on a
+                        phone in a kitchen.
+
+                        The track behind it keeps every word on the same left
+                        edge, so the five read as a column rather than a
+                        staircase. */}
                     <span aria-hidden style={{
-                      flexShrink: 0, width: `${8 + bandOf(b.score) * 7}px`, height: '9px',
-                      borderRadius: '5px',
-                      background: chosen ? 'var(--retro-green)'
-                        : wasLast ? 'var(--alert)'
-                        : 'var(--border)',
-                    }} />
+                      flexShrink: 0, width: '36px', height: '10px',
+                      display: 'flex', alignItems: 'center',
+                    }}>
+                      <span style={{
+                        width: `${6 + rung * 6}px`, height: '10px', borderRadius: '5px',
+                        background: chosen ? 'var(--ink)'
+                          : wasLast ? 'var(--alert)'
+                          : 'var(--terracotta)',
+                        opacity: chosen || wasLast ? 1 : 0.55,
+                        transition: 'background .14s, opacity .14s',
+                      }} />
+                    </span>
                     <span style={{
                       flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800,
                       fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2,
                     }}>
                       {b.label}
                     </span>
+                    {/* Saved still says saved, in the green the all checked line
+                        uses, but as a tick on the row rather than by repainting
+                        it. The answer keeps the colour of the thing you chose. */}
+                    {chosen && isSaved && (
+                      <span aria-hidden style={{
+                        flexShrink: 0, width: '20px', height: '20px', borderRadius: '50%',
+                        background: 'var(--retro-green)', color: '#fff',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        fontSize: '0.7rem', fontWeight: 900,
+                      }}>✓</span>
+                    )}
                     {wasLast && !chosen && (
                       <span style={{
                         flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '0.6rem',
