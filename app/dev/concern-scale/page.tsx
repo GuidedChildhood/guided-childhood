@@ -16,6 +16,10 @@ export default function ConcernScaleFixture() {
     <div style={{ background: 'var(--cream)', minHeight: '100dvh', padding: '30px 20px' }}>
       <div style={{ maxWidth: '480px', margin: '0 auto' }}>
         <ConcernCheckIn concerns={[
+          // One low, so the ring sits at the bottom of the five. One with no
+          // history at all, so nothing is ringed. And one carrying an ODD legacy
+          // score from the ten point scale, which must still ring the right word
+          // rather than nothing: 7 is "getting there", the fourth band.
           { slug: 'online-safety', label: 'Online safety', timesFlagged: 2, lastFlaggedAt: dayAgo, lastScore: 3 },
           { slug: 'staying-asleep', label: 'Staying asleep', timesFlagged: 1, lastFlaggedAt: dayAgo, lastScore: null },
           { slug: 'rightnow-phone-handover', label: 'Phone handover fight', timesFlagged: 4, lastFlaggedAt: dayAgo, lastScore: 6 },

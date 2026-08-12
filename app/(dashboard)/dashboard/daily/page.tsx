@@ -45,20 +45,27 @@ export default async function DailyPage() {
   const checkIns = ((concernsResult.data ?? []) as { id: string; slug: string; label: string; times_flagged: number; last_flagged_at: string }[])
     .filter(c => c.slug && !GENERIC_CONCERN_SLUGS.has(c.slug) && (c.label ?? '').trim().toLowerCase() !== 'something else')
 
-  // Last time's 1 to 10 for each check in, so the slider can mark it on the
-  // track and the verdict can say which way the line moved. A second wave by
-  // necessity: it needs the concern ids from the first.
+  // What they said last time for each check in, so the card can show it back
+  // and the verdict can name the move. A second wave by necessity: it needs the
+  // concern ids from the first.
+  //
+  // The card asks for one of five bands now and posts the top of each (2, 4, 6,
+  // 8, 10), so this stays a plain read of the last score. An ODD number here is
+  // a legacy answer from the ten point scale and is handled rather than
+  // ignored: bandOf() rounds it to the word it belonged to, so the ring lands in
+  // the right place for a family who has been checking in for weeks.
   const lastScoreByConcern = new Map<string, number>()
   if (checkIns.length > 0) {
     const { data: scoreRows } = await supabase
       .from('concern_events')
       .select('concern_id, score, created_at')
       .in('concern_id', checkIns.map(c => c.id))
-      .not('score', 'is', null)
       .order('created_at', { ascending: false })
-      .limit(60)
-    for (const r of (scoreRows ?? []) as { concern_id: string; score: number }[]) {
-      if (!lastScoreByConcern.has(r.concern_id)) lastScoreByConcern.set(r.concern_id, r.score)
+      .limit(120)
+    for (const r of (scoreRows ?? []) as { concern_id: string; score: number | null }[]) {
+      if (typeof r.score === 'number' && !lastScoreByConcern.has(r.concern_id)) {
+        lastScoreByConcern.set(r.concern_id, r.score)
+      }
     }
   }
 

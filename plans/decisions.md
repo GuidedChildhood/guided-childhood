@@ -7404,3 +7404,56 @@ magnet download lifts it, because that is them asking.
 Also fixed: the nurture claimed a lead by testing the update for an error, and
 an update matching zero rows is not an error in Postgres. That check meant "the
 database was reachable", not "I claimed this lead". It now reads the row back.
+
+## 12 August 2026 — The check in asks the question a parent can answer
+
+Justin, with two screenshots of the daily check in: "when I click a line it's
+good but it scrolls down and puts the next one at the top where I can't see it.
+It just needs to go to the next one. Is there an easier but just as accurate way
+to check in? 1 to 10 is confusing. I know we need to see previous rating and we
+record movement, but this needs to be quick and easy to go through."
+
+**The scroll bug was centring.** The hand over used `block: 'center'`, and a
+concern row on a 390 wide phone is taller than the screen. Centring a thing
+taller than the viewport pushes its top above the fold, and the first casualty
+was the title, so a parent was handed a question without knowing what it was
+about. `block: 'start'` plus a real scroll margin. It only ever looked right on
+the desktop check, where the rows fit.
+
+**Ten points became the five words the app already used.** Justin picked five
+over three. The evidence is with him either way: rating scale reliability climbs
+steeply to about five points and then flattens, ten buys effort rather than
+accuracy, and a single item ten point self report drifts about a point on its own
+with nothing having changed, so a good share of the movement the chart was
+celebrating was noise. Every clinical instrument that gets repeated uses four or
+five.
+
+And the app never used the ten. `scoreWord` collapsed it into exactly five bands,
+so 7 and 8 both read "Getting there" everywhere. The ten point scale was a five
+point scale wearing a ten point coat, and the one place the extra grain did
+anything was the direction check, which is exactly where drift became "the line
+is climbing".
+
+**The scale underneath did not change, which is what made this cheap.** Each word
+posts the TOP of its band (2, 4, 6, 8, 10), so `scoreWord(score)` returns the
+same word back, the column stays 1 to 10, and the progress chart, the pathway
+history and DiGi's wisdom bank read exactly what they read before. "Going great"
+posts a 10, which is still the 9 or above that tips a concern towards resolved,
+so even that fast path survives untouched.
+
+**The server compares bands rather than raw numbers now.** A legacy 7 followed by
+today's "Getting there" is an 8, and by raw comparison that reads as progress
+when the parent has just said it is the same as it was. That is the original
+fault in miniature, so the comparison moved with the scale. Bands only change
+when a parent picks a different word.
+
+**Last time keeps its red ring**, on whichever word it belonged to. `bandOf()`
+reads a legacy odd score as happily as a new one, so nobody's history goes blank
+or lands in the wrong place on the day this ships. The rung beside each word
+grows down the five, in length rather than in shade, because five tints of the
+same grey is a difference nobody notices on a phone in a kitchen.
+
+Five stacked full width targets rather than ten dots in a row: five words do not
+fit across 390 without truncating the longest, and a truncated answer is a worse
+answer. It is also the shape Visible and Superpower use for this exact job, many
+things to rate, rated often, in one pass.
