@@ -338,6 +338,27 @@ export default function StageRoad({
   const current = currentStageNum ?? 0
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   const currentReadiness = current > 0 ? READINESS[current - 1] : null
+
+  // ── THE TROPHY IS EARNED, NOT AGED INTO (12 August 2026) ───────────────────
+  //
+  // It was lit by `current >= 5`, and current comes from the child's AGE. So a
+  // sixteen year old whose family had done nothing at all got a gold trophy
+  // reading "Sixteen, ready. Social media walked into with open eyes", and a
+  // thirteen year old whose family had finished all five stages got a greyed
+  // out one. Both are the wrong way round, and the second is the crueller.
+  //
+  // The page already says the opposite in its own closing line: "Nothing is
+  // marked done just because of your child's age." This is the one thing on it
+  // that was not listening.
+  //
+  // stageStatus is the same blend the passport stamps from, keyed by stage, so
+  // the road can answer this itself without a new prop. Absent or partial means
+  // not proven, which means not lit: a trophy is not something to award on a
+  // missing reading.
+  const allStagesDone = !!stageStatus && [1, 2, 3, 4, 5].every(n => stageStatus[n]?.complete)
+  // Sixteen and not finished is a real and common place to be, and a grey
+  // trophy with no explanation reads as broken rather than as honest.
+  const atEndNotDone = current >= 5 && !allStagesDone
   const isComplete = (id: number) => !!stageStatus?.[id]?.complete
 
   return (
@@ -611,20 +632,22 @@ export default function StageRoad({
         }}>
           <div style={{
             width: 76, height: 76, borderRadius: 22,
-            background: current >= 5 ? 'var(--terracotta)' : 'var(--cream)',
-            border: current >= 5 ? 'none' : '3px solid var(--border)',
-            boxShadow: current >= 5 ? '0 6px 0 var(--terracotta-dark)' : '0 6px 0 var(--border)',
+            background: allStagesDone ? 'var(--terracotta)' : 'var(--cream)',
+            border: allStagesDone ? 'none' : '3px solid var(--border)',
+            boxShadow: allStagesDone ? '0 6px 0 var(--terracotta-dark)' : '0 6px 0 var(--border)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-3xl)',
-            filter: current >= 5 ? 'none' : 'grayscale(1) opacity(0.6)',
+            filter: allStagesDone ? 'none' : 'grayscale(1) opacity(0.6)',
           }}>
             🏆
           </div>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.01em', color: current >= 5 ? 'var(--ink)' : 'var(--ink-soft)' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.01em', color: allStagesDone ? 'var(--ink)' : 'var(--ink-soft)' }}>
               Sixteen, ready
             </div>
             <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: 2, maxWidth: 240 }}>
-              Social media walked into with open eyes, not fallen into off a cliff
+              {atEndNotDone
+                ? 'The age is here. This one lights up when all five stages are stamped, and every one of them still counts.'
+                : 'Social media walked into with open eyes, not fallen into off a cliff'}
             </div>
           </div>
         </div>
