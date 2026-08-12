@@ -317,7 +317,7 @@ export default function HomePage() {
             </div>
             {/* Proof bar: named research beside the one real hero quote */}
             <div className="fu proof-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 26px', alignItems: 'center', maxWidth: '520px' }}>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(.68rem, .5rem + .35vw, .86rem)', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-soft)', lineHeight: 1.7, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
+              <p style={{ fontSize: 'clamp(.86rem, .7rem + .35vw, 1rem)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.65, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
                 Built on five of the world's leading researchers in children, social media and mental health, and live data from more than ten national bodies. Reviewed weekly, because the landscape never sits still.
               </p>
               <div style={{ flex: '0 1 200px', minWidth: '180px', borderLeft: '2px solid var(--terracotta)', paddingLeft: '16px' }}>
@@ -400,7 +400,7 @@ export default function HomePage() {
             'The habit forming star system', '160 scripts', '100 lessons', 'Printables',
             'Homework help', 'School syllabus tracking', 'Outside play pays most', 'The wellbeing tracker',
           ].map(item => (
-            <span key={item} style={{ fontFamily: 'var(--font-mono)', fontSize: '.7rem', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '7px 14px' }}>
+            <span key={item} style={{ fontSize: '.84rem', fontWeight: 600, color: 'var(--ink-soft)', background: '#fff', border: '1px solid var(--border)', borderRadius: '100px', padding: '7px 14px' }}>
               {item}
             </span>
           ))}
