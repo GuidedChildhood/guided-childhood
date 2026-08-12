@@ -317,7 +317,7 @@ export default function HomePage() {
             </div>
             {/* Proof bar: named research beside the one real hero quote */}
             <div className="fu proof-bar" style={{ display: 'flex', flexWrap: 'wrap', gap: '18px 26px', alignItems: 'center', maxWidth: '520px' }}>
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-light)', lineHeight: 1.65, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'clamp(.68rem, .5rem + .35vw, .86rem)', fontWeight: 600, letterSpacing: '.04em', color: 'var(--ink-soft)', lineHeight: 1.7, flex: '1 1 260px', minWidth: '240px', margin: 0 }}>
                 Built on five of the world's leading researchers in children, social media and mental health, and live data from more than ten national bodies. Reviewed weekly, because the landscape never sits still.
               </p>
               <div style={{ flex: '0 1 200px', minWidth: '180px', borderLeft: '2px solid var(--terracotta)', paddingLeft: '16px' }}>
@@ -394,7 +394,7 @@ export default function HomePage() {
         </div>
 
         {/* The ban framing, small, directly under the promise */}
-        <p className="fu" style={{ maxWidth: '640px', margin: '40px auto 0', textAlign: 'center', fontSize: '.98rem', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
+        <p className="fu" style={{ maxWidth: '720px', margin: '40px auto 0', textAlign: 'center', fontSize: 'clamp(.98rem, .8rem + .4vw, 1.18rem)', color: 'var(--ink-soft)', lineHeight: 1.7 }}>
           Every answer you find says ban it all, or give in and dread it. Neither one teaches your child a single thing. <strong style={{ color: 'var(--ink)' }}>There is a third way, a guided one.</strong>
         </p>
         <div className="fu hero-circle" style={{ maxWidth: '640px', margin: '44px auto 0', position: 'relative', padding: '30px 0' }}>
