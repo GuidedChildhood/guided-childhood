@@ -53,6 +53,8 @@ import TodayCard from '@/components/home/TodayCard'
 import TrialCountdown from '@/components/home/TrialCountdown'
 import HomeLive from '@/components/home/HomeLive'
 import HomeMain from '@/components/home/HomeMain'
+import PlanetCoins from '@/components/home/PlanetCoins'
+import { planetOfTheWeek } from '@/lib/pathway/planets'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
@@ -807,6 +809,20 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {nudgeFacts && <HabitNudge facts={nudgeFacts} />}
 
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} />
+
+      {/* THE SIX COINS, DIRECTLY UNDER THE LOOP.
+          Justin: "it is on the passport pathway, which is fine, but it needs to
+          be on the pathway five a day tabs a parent does", and then "all needs
+          to be neat pages hidden behind coins, planets, with quick words to say
+          what it is and to its own page".
+          The planets were built onto the passport page, which is the page a
+          parent opens occasionally. Home is the page they open daily, so an
+          introduction to the rest of the product was living behind the least
+          visited door: he looked straight past it twice and reported it
+          missing, which is the whole argument in one observation.
+          Under the loop rather than above it, because the loop is what they
+          came for and these are where they wander afterwards. */}
+      <PlanetCoins featured={planetOfTheWeek()} />
 
       {/* The child's app has gone off their phone, and until now nothing said
           so. High on Home rather than folded away down the page, because this

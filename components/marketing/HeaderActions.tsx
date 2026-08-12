@@ -68,8 +68,16 @@ export default function HeaderActions() {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(7px, 1.5vw, 13px)', flexShrink: 0 }}>
+      {/* "Settings", not "Account", and that came from Justin using it:
+          "when I click Account, when I visit the homepage again, it takes me to
+          the settings page." It always did, because settings IS where the plan,
+          the billing and the family live and there is no separate account page.
+          The word was writing a cheque the destination did not cash. Settings
+          is the plainer word and it is the one on the door it opens, which
+          matters most on a laptop where the header is read rather than tapped
+          past. */}
       <Link href={member ? '/dashboard/settings' : '/login'} className="hdr-login">
-        {member ? 'Account' : 'Log in'}
+        {member ? 'Settings' : 'Log in'}
       </Link>
       <Link href={member ? '/dashboard' : '/starter-pack'} className="btn btn-green hdr-cta">
         {member ? 'My dashboard' : 'Get Started'}

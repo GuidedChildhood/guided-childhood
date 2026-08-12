@@ -40,6 +40,18 @@ export type Planet = {
   href: string
   /** Four to six bold words. This is the whole pitch. */
   title: string
+  /**
+   * Two or three words, for the coin row on Home.
+   *
+   * Justin, 12 August 2026: "all needs to be neat pages hidden behind coins,
+   * planets, with quick words to say what it is and to its own page, tidy neat
+   * easy to read."
+   *
+   * It is a separate field rather than a truncated `title` because a coin is
+   * about 100px wide and a cut off sentence is worse than a short one. Two
+   * words that survive a 390 wide phone beat six that wrap to three lines.
+   */
+  short: string
   /** One grey line under it. Never two. */
   line: string
   /** The planet's body colour. */
@@ -57,6 +69,7 @@ export const PLANETS: Planet[] = [
     key: 'school',
     href: '/dashboard/school',
     title: 'Never miss a school date',
+    short: 'School dates',
     line: 'Kit days, trips and payments, all in one place.',
     body: '#8FB8DC', ring: '#5E8FBE', tint: 'var(--stage-2)',
     alt: 'A blue planet with a small calendar beside it',
@@ -65,6 +78,7 @@ export const PLANETS: Planet[] = [
     key: 'quests',
     href: '/dashboard/quests',
     title: 'Turn jobs into screen time',
+    short: 'Screen time',
     line: 'Stars they earn become minutes they choose.',
     body: '#EDC35F', ring: '#C99A28', tint: 'var(--stage-1)',
     alt: 'A gold planet with a star beside it',
@@ -73,6 +87,7 @@ export const PLANETS: Planet[] = [
     key: 'digi',
     href: '/dashboard/digi',
     title: 'Ask DiGi anything tonight',
+    short: 'Ask DiGi',
     line: 'One hard moment, one calm answer.',
     body: '#F0A48E', ring: '#D4785F', tint: 'var(--stage-3)',
     alt: 'A coral planet with a speech bubble beside it',
@@ -81,6 +96,7 @@ export const PLANETS: Planet[] = [
     key: 'learning',
     href: '/dashboard/learning',
     title: 'Homework into a real lesson',
+    short: 'Homework',
     line: 'Paste it in and a lesson lands on their phone.',
     // Grass green rather than the sage it started as. Sage and the teal below
     // it were four degrees apart on the wheel and read as the same planet twice
@@ -93,6 +109,7 @@ export const PLANETS: Planet[] = [
     key: 'scripts',
     href: '/dashboard/scripts',
     title: 'The words for a hard moment',
+    short: 'What to say',
     line: 'Say the thing you meant to say.',
     body: '#B9A8E8', ring: '#8B76C4', tint: 'var(--stage-5)',
     alt: 'A lilac planet with quote marks beside it',
@@ -101,6 +118,7 @@ export const PLANETS: Planet[] = [
     key: 'balance',
     href: '/dashboard/stats',
     title: 'See their week honestly',
+    short: 'Their week',
     line: 'What they watched, and what it is doing.',
     body: '#45A8B0', ring: '#256E77', tint: '#DEF0F2',
     alt: 'A teal planet with an hourglass beside it',
