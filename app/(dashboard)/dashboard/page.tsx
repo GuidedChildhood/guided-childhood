@@ -55,8 +55,7 @@ import TodayCard from '@/components/home/TodayCard'
 import TrialCountdown from '@/components/home/TrialCountdown'
 import HomeLive from '@/components/home/HomeLive'
 import HomeMain from '@/components/home/HomeMain'
-import PlanetCoins from '@/components/home/PlanetCoins'
-import { planetOfTheWeek } from '@/lib/pathway/planets'
+import MomentsToday from '@/components/home/MomentsToday'
 import { investedMinutes } from '@/lib/pathway/task-minutes'
 import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import DigiLessonNudge from '@/components/lessons/DigiLessonNudge'
@@ -110,7 +109,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, liveConcernsResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
     supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes, first_checkin_at, plan_choice').eq('id', user.id).maybeSingle(),
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
-    supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
+    // moment_feedback rides along so the day timeline on Home knows what has
+    // already been flagged today, from here or from the deck. One extra column
+    // on a read that was already happening.
+    supabase.from('daily_sessions').select('completed_at, moment_feedback').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
     // cleared_on rides along for countWaitingToday: a weekly routine cleared
@@ -848,19 +850,27 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           the road and the coin never offer the same thing on the same day. */}
       <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonus={friendToday} />
 
-      {/* THE SIX COINS, DIRECTLY UNDER THE LOOP.
-          Justin: "it is on the passport pathway, which is fine, but it needs to
-          be on the pathway five a day tabs a parent does", and then "all needs
-          to be neat pages hidden behind coins, planets, with quick words to say
-          what it is and to its own page".
-          The planets were built onto the passport page, which is the page a
-          parent opens occasionally. Home is the page they open daily, so an
-          introduction to the rest of the product was living behind the least
-          visited door: he looked straight past it twice and reported it
-          missing, which is the whole argument in one observation.
-          Under the loop rather than above it, because the loop is what they
-          came for and these are where they wander afterwards. */}
-      <PlanetCoins featured={planetOfTheWeek()} />
+      {/* ── THE DAY, WHERE THE SIX COINS USED TO BE ──────────────────────────
+          Justin, 13 August 2026: "we can also now lose the planets underneath
+          the pathway", and separately: "the timeline is orphaned."
+
+          Both moves are the same move. The coins were six services on a
+          rotation, and the Planet Friend beside the road is now six services
+          on a rotation, so Home was running the same idea twice on one screen,
+          which is one too many. The Friend won because it is a character with
+          a reason to tap rather than a row of discs.
+
+          What belongs in that space is the day itself. MomentTimeline was
+          mounted only at the END of the daily deck, so a parent met it after
+          finishing a page they open occasionally. It is the thing that CREATES
+          concerns, and nothing else in the product does: no moment, no
+          concern, no check in, no journey. Putting it on the page they open
+          every morning is the difference between a family with a list and a
+          family with an empty one.
+
+          It is not the check in and must never read like one. This asks what
+          happened; the check in asks how it is going. See MomentsToday. */}
+      <MomentsToday savedToday={(dailySessionResult.data?.moment_feedback as string[] | null) ?? []} />
 
       {/* The child's app has gone off their phone, and until now nothing said
           so. High on Home rather than folded away down the page, because this

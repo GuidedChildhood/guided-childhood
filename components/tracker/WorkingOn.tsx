@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useRef, useState } from 'react'
+import HappyNews, { type HappyNewsItem, type CharacterKey } from '@/components/celebrate/HappyNews'
 
 // The heart of Progress: not a graph, but the real list of what this
 // family is working on, and the parent's own verdict on each. Solved
@@ -48,6 +49,9 @@ export default function WorkingOn({
   const [helped, setHelped] = useState<Record<string, boolean>>({})
   const [solvedList, setSolvedList] = useState(recentSolved)
   const [showSolved, setShowSolved] = useState(false)
+  // The celebration when a concern is finally solved. Null the rest of the
+  // time; HappyNews takes itself away after a few seconds.
+  const [happy, setHappy] = useState<HappyNewsItem | null>(null)
   const [pendingSolve, setPendingSolve] = useState<{ slug: string; label: string } | null>(null)
 
   // One resolution post per slug, whichever path gets there first.
@@ -84,6 +88,31 @@ export default function WorkingOn({
 
   function markSolved(slug: string) {
     const done = live.find(c => c.slug === slug)
+
+    // ── THE PARENT GETS THE CELEBRATION TOO ────────────────────────────────
+    //
+    // Justin, 13 August 2026: "HappyNews exists but is only wired into the
+    // child app. Wire it to the moment being resolved, so solving one is a
+    // small celebration rather than a row quietly disappearing."
+    //
+    // He is describing exactly what happened here: a parent solved something
+    // they had been working on for weeks and the row simply vanished from the
+    // list. The child's side has had a Friend spring up with confetti for
+    // months. The person doing the actual work got a disappearing row.
+    //
+    // Same component, no second version. The Friend rotates by the concern's
+    // own name rather than at random, so the same problem is always greeted by
+    // the same face and it reads as somebody who has been following along.
+    const cast: CharacterKey[] = ['digi', 'pebble', 'bloop', 'orbit', 'nova', 'cosmo']
+    let hash = 0
+    for (let i = 0; i < slug.length; i++) hash = (hash * 31 + slug.charCodeAt(i)) >>> 0
+    setHappy({
+      character: cast[hash % cast.length],
+      headline: 'One off the list',
+      // The label back in their own words, because "one off the list" alone
+      // could be about anything and the win is that it was THIS one.
+      sub: done ? `${done.label} is sorted. That stays on your record.` : undefined,
+    })
     setLive(prev => prev.filter(c => c.slug !== slug))
     setSolvedNow(n => n + 1)
     // Drop it onto the sorted list too so it can be reopened straight away
@@ -148,6 +177,10 @@ export default function WorkingOn({
 
   return (
     <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px', padding: '18px 20px', marginBottom: '20px' }}>
+      {/* Fixed to the bottom of the viewport by the component itself, so it
+          rides above whatever the parent is looking at and does not push the
+          list around as it arrives. */}
+      <HappyNews item={happy} onClose={() => setHappy(null)} />
       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '14px' }}>
         What we are working on
       </div>
