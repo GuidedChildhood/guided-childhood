@@ -88,13 +88,32 @@ export default async function DashboardLayout({ children }: { children: React.Re
           <NavTabs pendingAsks={pendingAsks ?? 0} />
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <NotificationsBell />
-            {!isPaid && (
-              <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ padding: '10px 20px', fontSize: 'var(--text-base)' }}>
-                Upgrade
-              </Link>
-            )}
+            {/* ── SAY WHAT THE BUTTON DOES, AND WHAT THE LINK IS ───────────
+                Justin, 13 August 2026: "tab top left has name but should say
+                settings, next to Start subscription, which obviously if they
+                pay changes to Manage subscription."
+
+                Two small lies were being told up here. "Upgrade" is the word
+                for moving between paid plans, and nobody here has one yet, so
+                it read as an add on rather than as the way to start; and the
+                one route to billing, the card, cancelling and signing out was
+                labelled with the parent's own name, which names WHOSE account
+                it is rather than what happens when you tap it.
+
+                Both now say the thing they do, and the button swaps with the
+                subscription rather than vanishing, so a member always has a
+                way to their billing from any page. */}
+            <Link
+              href={isPaid ? '/dashboard/settings#billing' : '/dashboard/upgrade'}
+              className={isPaid ? undefined : 'btn btn-gold'}
+              style={isPaid
+                ? { fontFamily: 'var(--font-mono)', fontSize: '.72rem', fontWeight: 600, color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '.04em' }
+                : { padding: '10px 20px', fontSize: 'var(--text-base)' }}
+            >
+              {isPaid ? 'Manage subscription' : 'Start subscription'}
+            </Link>
             <Link href="/dashboard/settings" style={{ fontFamily: 'var(--font-mono)', fontSize: '.72rem', fontWeight: 600, color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '.04em' }}>
-              {profile?.full_name ?? 'Account'}
+              Settings
             </Link>
           </div>
         </div>

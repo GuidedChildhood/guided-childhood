@@ -33,7 +33,7 @@ function groups(scriptHref: string): Group[] {
         { href: '/dashboard/moments', label: 'Moments', sub: 'The words for any battle', emoji: '⚡' },
         { href: scriptHref, label: 'Tonight’s script', sub: 'Picked for you today', emoji: '💬' },
         { href: '/dashboard/scripts', label: 'Rehearsals', sub: 'Practise the words with DiGi', emoji: '🎭' },
-        { href: '/dashboard/daily#checkin', label: 'Check in', sub: 'Thirty seconds on the worry', emoji: '🪴' },
+        { href: '/dashboard/checkin', label: 'Check in', sub: 'Thirty seconds on the worry', emoji: '🪴' },
       ],
     },
     {

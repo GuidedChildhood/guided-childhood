@@ -6,7 +6,7 @@ import { gsap } from 'gsap'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 
-// Today's loop as a horizontal five node path strip: the seed of the
+// Today's loop as a horizontal path strip: the seed of the
 // full node path home. Done nodes fill in their pastel with a tick, the
 // current node glows butter with DiGi standing on it, future nodes wait
 // in grey. Every node is a link straight to its task.
@@ -24,6 +24,20 @@ export function nextHint(key: TodayLoopTask['key']): string {
   const hour = new Date().getHours()
   const daypart = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
   const hints: Record<TodayLoopTask['key'], Record<string, string>> = {
+    // Setup stays on the road until every step is green, so its hint has to
+    // read as progress rather than as the same nag every morning.
+    setup: {
+      morning: 'One more piece of setup, then it is done for good',
+      afternoon: 'Finish setting up: one step at a time, nothing long',
+      evening: 'A quiet minute to finish setting up',
+    },
+    // Whichever is live. The label on the node says which, so the hint covers
+    // both without promising the wrong one.
+    quests: {
+      morning: 'Jobs and stars: set them, or say yes to what is waiting',
+      afternoon: 'Anything your child has done or asked for',
+      evening: 'Tick off the day and set tomorrow',
+    },
     checkin: {
       morning: 'Start the day: thirty seconds on how yesterday’s worry went',
       afternoon: 'Thirty seconds on how yesterday’s worry went',
@@ -55,6 +69,8 @@ export function nextHint(key: TodayLoopTask['key']): string {
 
 const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon: string }> = {
   checkin: { fill: 'var(--tint-sage)',    tick: 'var(--ink)',          icon: '🪴' },
+  setup:   { fill: 'var(--stage-4-bold)', tick: 'var(--stage-4-text)', icon: '🧰' },
+  quests:  { fill: 'var(--gold)',         tick: 'var(--ink)',          icon: '⭐' },
   moment:  { fill: 'var(--stage-1-bold)', tick: 'var(--stage-1-text)', icon: '☀️' },
   script:  { fill: 'var(--stage-2-bold)', tick: 'var(--stage-2-text)', icon: '💬' },
   digi:    { fill: 'var(--stage-5-bold)', tick: 'var(--stage-5-text)', icon: '✦' },

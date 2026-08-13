@@ -5,8 +5,6 @@ import type { AgeBand } from '@/lib/content/stages'
 import { pickReview, agoLabel, type Completion } from '@/lib/pathway/review-pick'
 import DailyDeckViewer from './DailyDeckViewer'
 import type { DailyCard } from './DailyDeckViewer'
-import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
-import { seedBaselineConcerns } from '@/lib/concerns/baseline'
 
 export default async function DailyPage() {
   const supabase = await createClient()
@@ -16,23 +14,11 @@ export default async function DailyPage() {
   const today = new Date().toISOString().split('T')[0]
   const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
 
-  const [profileResult, childResult, sessionResult, yesterdaySession, concernsResult] = await Promise.all([
-    // first_checkin_at and the onboarding answers ride along so a family who
-    // has never checked in can be handed their BASELINE. See below.
-    supabase.from('profiles').select('full_name, first_checkin_at, onboarding_answers').eq('id', user.id).single(),
+  const [profileResult, childResult, sessionResult, yesterdaySession] = await Promise.all([
+    supabase.from('profiles').select('full_name').eq('id', user.id).single(),
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_sessions').select('moment_feedback').eq('user_id', user.id).eq('session_date', yesterday).maybeSingle(),
-    // Live concerns flagged before today and not yet checked today: these
-    // become the one tap check in card above the moments tagger.
-    supabase.from('concerns')
-      .select('id, slug, label, times_flagged, last_flagged_at')
-      .eq('user_id', user.id)
-      .in('status', ['open', 'improving'])
-      .lt('last_flagged_at', today)
-      .or(`last_checked_at.is.null,last_checked_at.lt.${today}`)
-      .order('last_flagged_at', { ascending: false })
-      .limit(5),
   ])
 
   const child = childResult.data
@@ -40,63 +26,6 @@ export default async function DailyPage() {
   const alreadyDone = !!sessionResult.data?.completed_at
   const streak = child?.streak_weeks ?? 0
   const yesterdayMoments: string[] = (yesterdaySession.data?.moment_feedback as string[] | null) ?? []
-  // The generic Something else catch all is a picker, not a real moment, so it
-  // is never a rateable check in row: only the specific moment a parent lands
-  // on is tracked. Guard it out of the list defensively even if an old row
-  // exists.
-  const GENERIC_CONCERN_SLUGS = new Set(['something-else', 'something_else', 'other'])
-  const liveCheckIns = ((concernsResult.data ?? []) as { id: string; slug: string; label: string; times_flagged: number; last_flagged_at: string }[])
-    .filter(c => c.slug && !GENERIC_CONCERN_SLUGS.has(c.slug) && (c.label ?? '').trim().toLowerCase() !== 'something else')
-
-  // ── THE FIRST ONE IS THE BASELINE ──────────────────────────────────────────
-  //
-  // Justin, 12 August 2026: "First ever time could set the baseline."
-  //
-  // Two things were in the way and only one of them was the loop. The card
-  // above needs concerns to ask about, and a new family has none: of the eight
-  // most recent accounts, six named a worry in the wizard and had ZERO concern
-  // rows, because onboarding_answers has never been read as a concern. So the
-  // parent told us what was hard in the first two minutes and the app behaved
-  // as though they had not.
-  //
-  // seedBaselineConcerns finally records that answer, once, only on an empty
-  // ledger. Then the SAME card asks it, which is the whole point: no separate
-  // first run form to maintain, asking the same question in different words.
-  //
-  // The flagged before today rule is deliberately not applied here. That rule
-  // exists so nobody is asked to review something they raised this morning,
-  // and a baseline is not a review of anything. It is where the line starts.
-  const neverCheckedIn = !profileResult.data?.first_checkin_at
-  const baselineConcerns = neverCheckedIn && liveCheckIns.length === 0
-    ? await seedBaselineConcerns(supabase, user.id, profileResult.data?.onboarding_answers)
-    : []
-  const isBaseline = baselineConcerns.length > 0
-  const checkIns = isBaseline ? baselineConcerns : liveCheckIns
-
-  // What they said last time for each check in, so the card can show it back
-  // and the verdict can name the move. A second wave by necessity: it needs the
-  // concern ids from the first.
-  //
-  // The card asks for one of five bands now and posts the top of each (2, 4, 6,
-  // 8, 10), so this stays a plain read of the last score. An ODD number here is
-  // a legacy answer from the ten point scale and is handled rather than
-  // ignored: bandOf() rounds it to the word it belonged to, so the ring lands in
-  // the right place for a family who has been checking in for weeks.
-  const lastScoreByConcern = new Map<string, number>()
-  if (checkIns.length > 0) {
-    const { data: scoreRows } = await supabase
-      .from('concern_events')
-      .select('concern_id, score, created_at')
-      .in('concern_id', checkIns.map(c => c.id))
-      .order('created_at', { ascending: false })
-      .limit(120)
-    for (const r of (scoreRows ?? []) as { concern_id: string; score: number | null }[]) {
-      if (typeof r.score === 'number' && !lastScoreByConcern.has(r.concern_id)) {
-        lastScoreByConcern.set(r.concern_id, r.score)
-      }
-    }
-  }
-
   const stage = STAGES.find(s => s.ageBand === (child?.age_band as AgeBand)) ?? STAGES[2]
 
   // Everything they have completed, for the look back card.
@@ -376,23 +305,13 @@ export default async function DailyPage() {
 
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh' }}>
-      {/* Always on the page, whatever state today's moment deck is in, so
-          the pathway's Check in link always lands somewhere answerable
-          and can actually flip to done. */}
-      {checkIns.length > 0 && (
-        <div id="checkin" style={{ maxWidth: '480px', margin: '0 auto', padding: '20px 20px 0' }}>
-          <ConcernCheckIn
-            baseline={isBaseline}
-            concerns={checkIns.map(c => ({
-              slug: c.slug,
-              label: c.label,
-              timesFlagged: c.times_flagged,
-              lastFlaggedAt: c.last_flagged_at,
-              lastScore: lastScoreByConcern.get(c.id) ?? null,
-            }))}
-          />
-        </div>
-      )}
+      {/* THE CHECK IN IS NOT ON THIS PAGE ANY MORE, and that is the point.
+          Justin, 13 August 2026: "check in is different from moments."
+          It lived here, above the deck, and every link to it was
+          /dashboard/daily#checkin, so asking to check in landed a parent on
+          the moments page. It has its own page now: /dashboard/checkin, loaded
+          by lib/checkin/today.ts. A reading and a moment are two different
+          questions and they no longer share a screen. */}
       <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} />
     </div>
   )

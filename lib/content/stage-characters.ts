@@ -22,6 +22,37 @@
 
 const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
 
+// ── THE FIVE FRIENDS SHIP WITH THE CODE ─────────────────────────────────────
+//
+// Justin handed over the five character files on 13 August. They are the same
+// images the `img` field already pointed at on the CDN, plus a Nova that was
+// not referenced anywhere, so this is the finished cast rather than a redraw.
+//
+// They live in public/digi-squad/friends now, at 512 square, which is four
+// times the largest place any of them is drawn.
+//
+// WHY LOCAL RATHER THAN THE CDN. These are the face of the product on the one
+// screen a parent opens every morning, and an image that is one network hop
+// away is an image that is sometimes not there. It is not hypothetical: the
+// CDN is unreachable from the build container, so every preview and every
+// screenshot of the Planet Friend beside the road drew an empty circle, which
+// is exactly what a parent on a bad train connection would have seen.
+//
+// THEY ARE CUT OUT, which is Justin's follow up on the same day: "I need them
+// made transparent." The art arrives standing on a cream ground with its own
+// drop shadow, and a Friend that carries a beige square around with it cannot
+// sit on a coloured card, a dark header or the road. scripts/make-friend
+// cutouts.py is how they were lifted, and it is kept because the next piece of
+// character art will need the same treatment.
+//
+// So `img` and `cutout` are now the same file. They were only ever different
+// because one had a background, and now neither does. Both fields stay, since
+// forty files read one or the other and a rename would be a large diff to say
+// nothing.
+//
+// `colouring` stays on the CDN: it is black and white line art for printables
+// and genuinely is a different picture.
+
 export type StageCharacter = {
   stageId: number          // 1 Foundation to 5 Independent
   key: string              // stable id used by the buddy picker and saves
@@ -41,8 +72,8 @@ export type StageCharacter = {
 export const STAGE_CHARACTERS: StageCharacter[] = [
   {
     stageId: 1, key: 'pebble', name: 'Pebble',
-    img: BASE + 'hf_20260723_133334_be547506-54bd-4ecd-836a-a5e080b12a7a.png',
-    cutout: BASE + 'hf_20260723_135533_4b42a90b-68d8-4975-93a8-1600028de47e.png',
+    img: '/digi-squad/friends/pebble.png',
+    cutout: '/digi-squad/friends/pebble.png',
     colouring: BASE + 'hf_20260724_111510_303dc497-fe84-4539-a0f3-00f56f132c9a.png',
     ages: 'Ages 4 to 7', colour: '#E6B93E', action: 'Explore',
     blurb: 'Full of curiosity and wonder. Every big journey starts small.',
@@ -52,8 +83,8 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
   },
   {
     stageId: 2, key: 'bloop', name: 'Bloop',
-    img: BASE + 'hf_20260723_133337_be90a6e3-85ba-4191-a715-dc9a658fb439.png',
-    cutout: BASE + 'hf_20260723_135534_b8fa0227-f964-442f-849f-b72e42fb09f9.png',
+    img: '/digi-squad/friends/bloop.png',
+    cutout: '/digi-squad/friends/bloop.png',
     colouring: BASE + 'hf_20260724_130028_f1485ff8-e1b1-44f0-85d4-87c12ef7af25.png',
     ages: 'Ages 8 to 10', colour: '#7CB342', action: 'Create',
     blurb: 'Creative and clever. Building skills and strong foundations.',
@@ -63,8 +94,8 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
   },
   {
     stageId: 3, key: 'orbit', name: 'Orbit',
-    img: BASE + 'hf_20260723_133343_3cb59e81-8df1-4382-81c2-6bc741c4596a.png',
-    cutout: BASE + 'hf_20260723_135535_d2a3f8b1-f5b8-473c-a1f2-27a97968efe6.png',
+    img: '/digi-squad/friends/orbit.png',
+    cutout: '/digi-squad/friends/orbit.png',
     colouring: BASE + 'hf_20260724_130030_bca37824-1a9f-4744-9044-c97de3da8abe.png',
     ages: 'Ages 11 to 13', colour: '#4C9FD6', action: 'Explore',
     blurb: 'Exploring bigger worlds and asking big questions.',
@@ -74,8 +105,8 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
   },
   {
     stageId: 4, key: 'nova', name: 'Nova',
-    img: BASE + 'hf_20260725_083831_3ddf2672-53e8-4e87-9bbd-be69d40ec545.png',
-    cutout: BASE + 'hf_20260725_090735_80eecf61-9864-4a94-9800-da51aa2b7d3d.png',
+    img: '/digi-squad/friends/nova.png',
+    cutout: '/digi-squad/friends/nova.png',
     colouring: BASE + 'hf_20260725_090749_b565097d-be3d-403d-8435-2817497807bc.png',
     ages: 'Ages 13 to 15', colour: '#9B72CF', action: 'Guide',
     blurb: 'Learning to make good choices and shape your path.',
@@ -85,8 +116,8 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
   },
   {
     stageId: 5, key: 'cosmo', name: 'Cosmo',
-    img: BASE + 'hf_20260723_185244_0c2a39ff-cee0-448c-865d-596c43c2c46d.png',
-    cutout: BASE + 'hf_20260725_090730_c0428406-c720-4b1f-97e7-5aaea2d9bb6c.png',
+    img: '/digi-squad/friends/cosmo.png',
+    cutout: '/digi-squad/friends/cosmo.png',
     colouring: BASE + 'hf_20260725_090756_3600a3d8-266c-40ca-af9c-b890f0223bed.png',
     ages: 'Ages 16+', colour: '#E8873C', action: 'Lead',
     blurb: 'Confident and independent. Ready to lead your own future.',

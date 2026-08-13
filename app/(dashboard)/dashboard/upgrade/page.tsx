@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import PlanChooser from '@/components/upgrade/PlanChooser'
 import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
+import CheckoutError from '@/components/upgrade/CheckoutError'
 import { hasPaidPlan } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
 
@@ -52,13 +53,13 @@ async function getFounderCount(): Promise<number> {
 }
 
 export default async function UpgradePage(
-  { searchParams }: { searchParams: Promise<{ sheet?: string; from?: string }> },
+  { searchParams }: { searchParams: Promise<{ sheet?: string; from?: string; error?: string }> },
 ) {
   // Which sheet sent them here, when a Print button did. The printables route
   // redirects a signed in parent without access to this page rather than
   // answering a whole browser tab with raw JSON, and it names the sheet so the
   // wall says what they were reaching for instead of being generic.
-  const { sheet, from } = await searchParams
+  const { sheet, from, error } = await searchParams
   const wantedSheet = sheet ? getPrintable(sheet)?.title ?? null : null
   // And which PAGE sent them, when the paywall in the middleware did. Same
   // reasoning as the sheet above: a parent bounced here off a tap knows what
@@ -118,6 +119,17 @@ export default async function UpgradePage(
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '32px 20px' }}>
+      {/* ── WHEN CHECKOUT COULD NOT START ────────────────────────────────────
+          Justin, 13 August 2026, on a blank browser error at the founder
+          button: "first we need to diagnose the link to founder member and
+          subscriptions not working."
+
+          The route already redirected here with ?error=founder_sold_out and
+          this page had never read it, so a sold out founder place looked
+          exactly like a broken button. Every reason is named now, in words a
+          parent can act on, and the checkout route logs the technical detail
+          for us rather than putting it on screen. */}
+      {error && <CheckoutError reason={error} />}
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <p className="eyebrow" style={{ marginBottom: '8px', color: 'var(--terracotta)' }}>Guided Childhood</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }}>

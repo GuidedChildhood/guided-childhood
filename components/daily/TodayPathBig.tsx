@@ -7,9 +7,20 @@ import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 import { TASK_MINUTES } from '@/lib/pathway/task-minutes'
 import { nextHint } from '@/components/daily/TodayPathStrip'
-import PlanetArt from '@/components/pathway/PlanetArt'
-import { PLANETS } from '@/lib/pathway/planets'
+import type { FriendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 
+// ── THE THING IS CALLED TODAY ───────────────────────────────────────────────
+//
+// Justin, 13 August 2026: "can we have another name for that green trail, as I
+// call it to do list but can be confusing?" He picked Today.
+//
+// The heading here has said "Today with Teo" for a while, so the name was
+// already right on screen and simply written down nowhere, which is how it
+// kept getting called the to do list in conversation. It is not a to do list:
+// a to do list is a chores app, it is a thing you add to, and it makes a
+// parent responsible for filling it. This is the opposite. It is one question,
+// answered for them: what am I doing today.
+//
 // Today's loop as the BIG vertical winding path, Duolingo sized: the same
 // engine as TodayPathStrip (same tasks, same minute budget, same copy), only
 // rendered tall. Fat circular nodes with the pressed 3D edge, a gentle left
@@ -32,7 +43,7 @@ const GREEN = '#2F8F6B'
 const GREEN_DARK = '#236F52'
 
 const NODE_ICON: Record<TodayLoopTask['key'], string> = {
-  checkin: '🪴', moment: '☀️', script: '💬', digi: '✦', done: '🏁',
+  checkin: '🪴', setup: '🧰', moment: '☀️', script: '💬', quests: '⭐', digi: '✦', done: '🏁',
 }
 
 function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked: boolean }) {
@@ -59,13 +70,20 @@ function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked:
   )
 }
 
-export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, streakCount = 0, bonusIndex }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number; bonusIndex?: number }) {
+export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, streakCount = 0, bonus = null }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number; bonus?: FriendOfTheDay | null }) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
-  // This week's planet, as the bonus beside the road. Server chosen so the
-  // first render matches, exactly as PlanetCoins does it.
-  const bonus = typeof bonusIndex === 'number' && bonusIndex >= 0 && bonusIndex < PLANETS.length
-    ? PLANETS[bonusIndex]
-    : null
+  // ── THE PLANET FRIEND BESIDE THE ROAD ─────────────────────────────────────
+  //
+  // Justin, 13 August 2026: "we need actual Planet Friend characters to rotate
+  // services and pop up on the daily pathway. Every 2 days we can have a new
+  // one explaining why to click and do."
+  //
+  // It used to be a drawn sphere with a motif, which is a planet in the
+  // astronomy sense and meant nothing. Now it is the cast the child already
+  // knows by name from their own app, carrying one service and the reason to
+  // open it. Picked on the server so the first paint matches, and picked
+  // AGAINST the daily lead so the road and the coin never offer the same thing
+  // on the same day. See lib/pathway/friend-of-the-day.
   const pathRef = useRef<HTMLDivElement>(null)
   // A step finished since the last look at Home gets its half second of
   // delight, exactly as the strip did: the node pops and DiGi says so.
@@ -89,10 +107,16 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   const toBudgetMin = Math.max(0, minutes - investedMinutes)
   const nextWeight = TASK_MINUTES[tasks[currentIndex].key] ?? 0
   const pressure = !dayDone && !allDone
-  // Hang the bonus off a row that leans LEFT, so a 58px coin at the right edge
-  // can never touch a node that has already meandered that way. Skips the last
-  // row, which is the finish flag and wants nothing beside it.
-  const bonusRow = tasks.findIndex((_, i) => i < tasks.length - 1 && MEANDER[i % MEANDER.length] < 0)
+  // Hang the Friend off a row that leans LEFT, so a coin at the right edge can
+  // never touch a node that has already meandered that way.
+  //
+  // Never the FIRST row and never the last. The first carries the current node
+  // and its Go callout, which is the one thing on this screen a parent must
+  // not have to look past, and drawing a character beside it crowded exactly
+  // that. The last is the finish flag and wants nothing beside it. The
+  // references bear this out: Duolingo stands its characters against the
+  // middle of the trail, never against the node you are about to tap.
+  const bonusRow = tasks.findIndex((_, i) => i >= 1 && i < tasks.length - 1 && MEANDER[i % MEANDER.length] < 0)
 
   function pickMinutes(m: number) {
     setMinutes(m)
@@ -318,36 +342,79 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                     here" without ever saying "you are behind". */}
                 {bonus && i === bonusRow && (
                   <Link
-                    href={bonus.href}
-                    aria-label={bonus.title}
+                    href={bonus.service.href}
+                    aria-label={`${bonus.friend.name} says: ${bonus.service.title}`}
                     style={{
                       position: 'absolute', right: 0, top: '50%',
                       transform: 'translateY(-50%)',
                       display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4,
-                      textDecoration: 'none', zIndex: 2,
+                      textDecoration: 'none', zIndex: 2, maxWidth: 96,
                     }}
                   >
+                    {/* THE FRIEND STANDS BESIDE THE ROAD, which is where the
+                        Duolingo references put their characters: off the path,
+                        never a node on it, so nothing about them can be
+                        mistaken for a step a parent has to take. */}
                     <span className="todaypathbig-bounce" style={{
                       position: 'relative',
-                      width: 58, height: 58, borderRadius: '100px',
-                      background: bonus.tint, border: `2px solid ${bonus.ring}`,
-                      boxShadow: `0 4px 0 ${bonus.ring}`,
+                      width: 62, height: 62, borderRadius: '100px',
+                      background: '#fff',
+                      border: `2.5px solid ${bonus.friend.colour}`,
+                      boxShadow: `0 4px 0 ${bonus.friend.colour}`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      // NO overflow clip. It was here to crop the old art's
+                      // cream square into the circle, and it took the shooting
+                      // star with it, which sits proud of the top right corner
+                      // on purpose. The art is cut out now, so there is
+                      // nothing to crop and the star is visible again.
                     }}>
-                      <PlanetArt motif={bonus.key} body={bonus.body} ring={bonus.ring} tint="transparent" size={46} alt={bonus.alt} />
-                      {/* The spark. One small star at the shoulder, twinkling
-                          out of step with the bounce so the two never lock into
+                      {/* THE REAL CHARACTER ART, shipped with the code rather
+                          than fetched from the CDN. This is the face of the
+                          product on the screen a parent opens every morning,
+                          and an image one network hop away is an image that is
+                          sometimes not there.
+
+                          The art is cut out, so the Friend FLOATS on the
+                          white disc rather than bringing a cream square with
+                          it. Contained rather than cover, and inset a little,
+                          so nothing is cropped at the edges: Orbit's antenna
+                          and Pebble's stalk both reach the top of the frame
+                          and a cover fit would behead them. */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={bonus.friend.cutout}
+                        alt=""
+                        aria-hidden="true"
+                        width={54}
+                        height={54}
+                        style={{ display: 'block', width: 54, height: 54, objectFit: 'contain' }}
+                      />
+                      {/* THE SHOOTING STAR STAYS. Justin: "I like the shooting
+                          star." One small star at the shoulder, twinkling out
+                          of step with the bounce so the two never lock into
                           looking like a single mechanical loop. */}
                       <span aria-hidden className="todaypathbig-twinkle" style={{
-                        position: 'absolute', top: -4, right: -2,
+                        position: 'absolute', top: -2, right: -1,
                         fontSize: '15px', lineHeight: 1,
                       }}>✨</span>
                     </span>
+                    {/* WHO IT IS, then WHY TO TAP. The name earns the tap on
+                        its own once a family knows the cast, and the line
+                        under it is the service's own pitch rather than a
+                        second one written here. */}
                     <span style={{
                       fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-                      letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+                      letterSpacing: '.06em', textTransform: 'uppercase', color: bonus.friend.colour,
+                      textAlign: 'center',
                     }}>
-                      Bonus
+                      {bonus.friend.name}
+                    </span>
+                    <span style={{
+                      fontFamily: 'var(--font-display)', fontWeight: 700,
+                      fontSize: 'var(--text-xs)', color: 'var(--ink-soft)',
+                      textAlign: 'center', lineHeight: 1.3,
+                    }}>
+                      {bonus.service.short}
                     </span>
                   </Link>
                 )}
@@ -393,8 +460,15 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                       )}
                     </div>
 
-                    {/* DiGi sits beside the current node, the guide on the road */}
-                    {isCurrent && (
+                    {/* DiGi sits beside the current node, the guide on the road.
+                        EXCEPT ON DIGI'S OWN DAY. DiGi is one of the rotating
+                        cast as well as the guide, so once every twelve days it
+                        is also the Friend standing further down the road, and
+                        drawing it twice on one screen is the same thing said in
+                        two places, which is the fault Justin catches within the
+                        hour every time. The Friend further down wins, because
+                        that one is carrying a message. */}
+                    {isCurrent && bonus?.friend.key !== 'digi' && (
                       <div style={{
                         position: 'absolute', top: '50%',
                         [digiOnRight ? 'left' : 'right']: NODE + 8,

@@ -5,6 +5,42 @@ import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 
+// ── WHY THIS ROUTE NOW EXPLAINS ITSELF ──────────────────────────────────────
+//
+// Justin, 13 August 2026, with a screenshot of a blank browser error on
+// https://www.guidedchildhood.com/api/stripe/checkout: "first we need to
+// diagnose the link to founder member and subscriptions not working."
+//
+// Every Stripe call in here was unguarded, so anything Stripe disliked, a key
+// that is not set on this Vercel project, a price id from the other mode, an
+// outage, came out as HTTP 500 and Chrome's "This page isn't working". On the
+// one route in the product that takes money. There was nothing on the screen
+// for a parent, and nothing for us either.
+//
+// Three changes, none of which alter the happy path:
+//   1  the configuration is checked BEFORE Stripe is called, so a missing key
+//      or price says which one rather than throwing,
+//   2  every Stripe call is wrapped, with the real reason logged for us and a
+//      plain sentence for the parent,
+//   3  a GET says what this is instead of 500ing, because the address is
+//      pasteable and somebody will paste it.
+//
+// All failures land on /dashboard/upgrade with ?error=, which that page now
+// reads. It already redirected there with error=founder_sold_out and the page
+// had never displayed it.
+
+/** Back to the till with a reason a human can act on, never a bare 500. */
+function fail(reason: string): NextResponse {
+  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.guidedchildhood.com'
+  return NextResponse.redirect(`${origin}/dashboard/upgrade?error=${reason}`, { status: 302 })
+}
+
+// A checkout is a POST from a form. Somebody opening the address directly used
+// to get a 500, which reads as the payment system being down.
+export async function GET() {
+  return fail('use_the_button')
+}
+
 export async function POST(request: Request) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -23,8 +59,27 @@ export async function POST(request: Request) {
     : await request.json().catch(() => ({ tier: 'annual' }))
 
   const tier = body.tier as keyof typeof STRIPE_PRICES
-  if (!STRIPE_PRICES[tier]) {
+
+  // ── THE CONFIGURATION, CHECKED BEFORE STRIPE IS TOUCHED ──────────────────
+  //
+  // These two are the likeliest cause of a dead Claim founder rate button and
+  // they are invisible from the code: an env var set on the wrong Vercel
+  // project reaches nothing, which this repo has been bitten by before (see
+  // lib/config/site.ts on NEXT_PUBLIC_APP_URL). Naming which one is missing
+  // turns a white error page into a one line fix.
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error('[checkout] STRIPE_SECRET_KEY is not set on this deployment')
+    return fail('no_stripe_key')
+  }
+  if (!(tier in STRIPE_PRICES)) {
     return NextResponse.json({ error: 'Invalid tier' }, { status: 400 })
+  }
+  if (!STRIPE_PRICES[tier]) {
+    // The tier is real, the price id for it is empty. STRIPE_PRICE_FOUNDER and
+    // friends are per environment, so this is a configuration gap rather than
+    // a bad request, and it must not be reported as the parent's fault.
+    console.error(`[checkout] no price id configured for tier "${tier}"`)
+    return fail(`no_price_${tier}`)
   }
 
   // Enforce founder cap. Count seats held in Stripe (active or trialing), the
@@ -35,10 +90,7 @@ export async function POST(request: Request) {
   if (tier === 'founder') {
     const held = await getFounderCount().catch(() => 0)
     if (held >= FOUNDER_CAP) {
-      return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/upgrade?error=founder_sold_out`,
-        { status: 302 }
-      )
+      return fail('founder_sold_out')
     }
   }
 
@@ -51,12 +103,18 @@ export async function POST(request: Request) {
   let customerId = profile?.stripe_customer_id
 
   if (!customerId) {
-    const customer = await stripe.customers.create({
-      email: profile?.email ?? user.email,
-      metadata: { supabase_user_id: user.id },
-    })
-    customerId = customer.id
-    await supabase.from('profiles').update({ stripe_customer_id: customerId }).eq('id', user.id)
+    try {
+      const customer = await stripe.customers.create({
+        email: profile?.email ?? user.email,
+        metadata: { supabase_user_id: user.id },
+      })
+      customerId = customer.id
+      await supabase.from('profiles').update({ stripe_customer_id: customerId }).eq('id', user.id)
+    } catch (e) {
+      // Almost always an unusable key: right shape, wrong account, or revoked.
+      console.error('[checkout] could not create the Stripe customer:', e)
+      return fail('stripe_unreachable')
+    }
   }
 
   const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
@@ -93,7 +151,9 @@ export async function POST(request: Request) {
   const isTrialDoor = body.from === 'onboarding' || body.from === 'choose'
   const trialDays = trialDaysToGrant(profile as AccessProfile | null)
 
-  const session = await stripe.checkout.sessions.create({
+  let session
+  try {
+    session = await stripe.checkout.sessions.create({
     customer: customerId,
     mode: 'subscription',
     line_items: [{ price: STRIPE_PRICES[tier], quantity: 1 }],
@@ -113,7 +173,18 @@ export async function POST(request: Request) {
       metadata: { tier, user_id: user.id },
       ...(isTrialDoor ? { trial_period_days: trialDays } : {}),
     },
-  })
+    })
+  } catch (e) {
+    // The usual suspect is a price id from the other Stripe mode: a live key
+    // cannot see a test price and says so only here, at the last call.
+    console.error('[checkout] Stripe refused the checkout session:', e)
+    return fail('stripe_refused')
+  }
+
+  if (!session?.url) {
+    console.error('[checkout] Stripe returned a session with no url')
+    return fail('stripe_refused')
+  }
 
   // NOTHING IS RECORDED HERE, and that is deliberate.
   //
@@ -124,5 +195,5 @@ export async function POST(request: Request) {
   // webhook closing the loop is the whole record. A parent who abandons the
   // form meets the two doors again, which is honest, and the free door is
   // still right there.
-  return NextResponse.redirect(session.url!, { status: 302 })
+  return NextResponse.redirect(session.url, { status: 302 })
 }

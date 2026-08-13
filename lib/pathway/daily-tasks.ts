@@ -16,16 +16,38 @@ export interface DailyTask {
 }
 
 export interface TodayLoopTask {
-  key: 'checkin' | 'moment' | 'script' | 'digi' | 'done'
+  key: 'checkin' | 'setup' | 'moment' | 'script' | 'quests' | 'digi' | 'done'
   label: string
   href: string
   done: boolean
 }
 
-// Today's loop for the home path strip: the five nodes of the daily
-// rhythm (check in, moment, script, DiGi, done), each resolved against
-// real completion data for TODAY only. This is the seed of the full
-// node path home: same shape, one day's slice.
+// ── TODAY. THE ORDER IS THE DESIGN. ─────────────────────────────────────────
+//
+// Justin, 13 August 2026: "check in is different from moments so should be
+// check in, set up (which stays until all ticked), then moments, then scripts,
+// then set up quests for device use."
+//
+// So the day runs:
+//
+//   1  CHECK IN     how it is going, and on day one where things are now. It
+//                   leads because it is the only step that measures anything,
+//                   and the first one is the baseline everything later is read
+//                   against. Its own page now, never the moments deck.
+//   2  SET UP       and it STAYS until every step is ticked. A half set up
+//                   family is the single biggest reason this product does not
+//                   work for somebody, and setup was a card competing with
+//                   everything else on Home rather than a rung on the road.
+//   3  MOMENT       what actually happened today.
+//   4  SCRIPT       the words for tonight.
+//   5  QUESTS       the jobs that earn the screen time, which is what device
+//                   use runs on. Whichever is live: no jobs yet, set the
+//                   first; anything waiting from the child, approve it.
+//   6  DIGI         first day only. See below.
+//
+// It is called Today, which is the name Justin picked on 13 August over
+// "to do list", because a to do list is a chores app and this is the one
+// question the product answers: what am I doing today.
 // A free account must never be routed from "the words for tonight" into
 // the script reader's paywall redirect. Prefer a free script, then check
 // the weekly allowance; if even that is spent, the honest link is the
@@ -54,7 +76,13 @@ export async function getTodayLoop(
    * loop. Passed in rather than read here because the dashboard already has
    * the profile row in hand and this runs on every open.
    */
-  firstCheckInAt: string | null = null
+  firstCheckInAt: string | null = null,
+  /**
+   * Setup, from the dashboard's own flags. Null when it is finished, in which
+   * case the step drops off the road for good. Passed in because the page
+   * already computes it for SetupPath and the two must never disagree.
+   */
+  setupNextStep: string | null = null,
 ): Promise<TodayLoopTask[]> {
   const today = londonToday()
   // The instant today began in London, not UTC midnight. Through British summer
@@ -70,6 +98,9 @@ export async function getTodayLoop(
     { data: digiToday },
     { data: momentCompletionsToday },
     { data: anyConcerns },
+    { count: questCount },
+    { count: ticksWaiting },
+    { count: asksWaiting },
   ] = await Promise.all([
     // Concerns flagged before today that have not been checked today:
     // the same query the daily deck uses to build its check in card.
@@ -89,7 +120,17 @@ export async function getTodayLoop(
     // is not the same thing as having checked in, and only one of those two is
     // worth a tick. See the comment where the step is built.
     supabase.from('concerns').select('slug').eq('user_id', userId).in('status', ['open', 'improving']).limit(1),
+    // The quests step decides between "set the first job" and "approve what is
+    // waiting", so it needs both. Head counts, in the wave that was already
+    // going, so this costs no extra round trip. The same two tables the nav
+    // badge counts, so the rung and the red number can never disagree.
+    supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('active', true),
+    supabase.from('quest_ticks').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'pending'),
+    supabase.from('quest_requests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'pending'),
   ])
+
+  const anyQuests = (questCount ?? 0) > 0
+  const questsWaiting = (ticksWaiting ?? 0) + (asksWaiting ?? 0)
 
   const scriptHref = await safeScriptHref(supabase, userId, isPaid, recommended)
   // Doing a moment counts whether it came from the daily deck (a session) or
@@ -130,13 +171,30 @@ export async function getTodayLoop(
     ...(hasLiveConcerns || neverCheckedIn ? [{
       key: 'checkin' as const,
       label: neverCheckedIn ? 'Where things are now' : 'Check in',
-      href: '/dashboard/daily#checkin',
+      href: '/dashboard/checkin',
       // Never checked in is never done, whatever the concern list says. The
       // baseline is a thing that has happened or has not.
       //
       // Otherwise a real reading: they have concerns, and none is still
       // waiting on them today, so the tick was genuinely earned.
       done: neverCheckedIn ? false : (pendingConcerns ?? []).length === 0,
+    }] : []),
+    // ── SETUP, AND IT STAYS UNTIL IT IS ALL TICKED ─────────────────────────
+    //
+    // Justin: "then set up for first time until all green and continue set up
+    // appear every day on the to do list."
+    //
+    // A rung rather than a card, because a card on Home competes with
+    // everything else on Home and setup is the thing that decides whether any
+    // of the rest works. It disappears for good the moment the last step goes
+    // green, so it can never become furniture.
+    ...(setupNextStep ? [{
+      key: 'setup' as const,
+      label: 'Set up',
+      href: '/dashboard/setup',
+      // Never done while a step is outstanding. That is the whole point of it
+      // staying: a half green road is an honest one.
+      done: false,
     }] : []),
     {
       key: 'moment',
@@ -150,12 +208,43 @@ export async function getTodayLoop(
       href: scriptHref,
       done: (scriptToday ?? []).length > 0,
     },
+    // ── QUESTS: WHICHEVER IS LIVE, IN THIS ORDER ───────────────────────────
+    //
+    // Justin asked whether this step is adding the first job or approving what
+    // is outstanding, and the answer he picked is both, in that order. A family
+    // with no jobs cannot approve anything, and a family whose child has ticked
+    // something has a real person waiting on them, which beats housekeeping.
+    //
+    // The same order the Home card already uses, so the two surfaces can never
+    // tell a parent different things about their own quests.
     {
-      key: 'digi',
-      label: 'DiGi',
+      key: 'quests',
+      label: !anyQuests ? 'First job' : questsWaiting > 0 ? 'Approve' : 'Quests',
+      href: !anyQuests ? '/dashboard/quests' : '/dashboard/quests#quest-board',
+      // Nothing waiting and jobs already set is a genuinely finished step.
+      // No jobs at all is never done, because that is the thing the whole star
+      // system runs on and a tick against it would be a lie.
+      done: anyQuests && questsWaiting === 0,
+    },
+    // ── DIGI, ON THE FIRST DAY ONLY ────────────────────────────────────────
+    //
+    // Justin, 13 August 2026: "I think it's useful to have there if only the
+    // first ever today so they are aware of it."
+    //
+    // Exactly right, and it is an introduction rather than a task. DiGi is on
+    // the tab bar and behind the Help now button every day for ever, so a
+    // standing rung that says "talk to DiGi" is an invitation pretending to be
+    // a step, and every other rung here is a concrete thing with an end. On
+    // day one it is neither: it is how a parent finds out DiGi is there at all.
+    //
+    // Keyed off the same first check in stamp as the baseline, so the whole of
+    // day one hangs on one timestamp rather than two different ideas of new.
+    ...(neverCheckedIn ? [{
+      key: 'digi' as const,
+      label: 'Meet DiGi',
       href: '/dashboard/digi',
       done: (digiToday ?? []).length > 0,
-    },
+    }] : []),
   ]
 
   tasks.push({
