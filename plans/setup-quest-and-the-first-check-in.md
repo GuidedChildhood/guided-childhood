@@ -120,17 +120,59 @@ asks about three children at once is a form rather than a habit.
 
 ## The email that starts it
 
-The welcome email links to `/dashboard/setup` and says why in one line. It is
-transactional, sent on signup, so it never spends the week's one programme slot.
+The welcome email links to `/dashboard/setup` and says why in one line.
+
+**It already exists**, and this is the answer to a question Justin asked twice.
+`welcomeEmail` in `lib/email/templates.ts` opens "Welcome, Justin", is sent on
+signup by `/api/onboarding/digi`, and carries the subject "Your first script is
+ready". So the welcome and the first script email are the SAME email wearing the
+wrong subject line, which is why the sequence looked like it was missing one.
+
+It is a rewrite, not a new email. The plumbing, the unsubscribe, the send on
+signup and the weekly floor are already there and working.
+
+**It sends as `programme`, not transactional**, and that is Justin correcting me:
+
+> "so if they get this welcome email the next email after that needs to be a week
+> apart."
+
+He is right. The rule is one email a week FROM ALL SYSTEMS, and a welcome is a
+real email in a real inbox. Transactional would exempt it from the floor, the
+programme would fire the next morning, and a new parent would get two emails in
+two days. Sending it as programme stamps the shared clock in
+`email_addresses.last_sent_at` and the existing six day floor pushes everything
+else out by a week on its own. No new machinery.
 
 Order agreed:
 
 | When | Email | Kind |
 | --- | --- | --- |
-| On signup | Welcome, the pathway to sixteen, and finish setting up | transactional |
-| Week 1 | Your first script is ready | programme |
-| Trial ending | The founder offer | transactional |
+| On signup | Welcome, the pathway to sixteen, finish setting up | **programme** |
+| A week later | Your first script is ready | programme |
+| Trial ending | The founder offer | programme |
 | Ongoing | The weekly programme | programme |
+
+Consequence worth naming: "Your first script is ready" now arrives a week after
+signup rather than the next day, because the welcome is doing the first touch.
+
+### What the rewrite has to say
+
+From Justin's brief, and the ordering matters more than the list:
+
+1. Thank you for joining, plainly.
+2. The destination: **safe and social media ready at sixteen**.
+3. The shape: **ten minutes a day**, small tasks, a habit rather than a course.
+4. The pieces, briefly and not as a feature list: scripts for the fights,
+   lessons for the moments, AI and social media, printables.
+5. The one that is genuinely ours, and it should lead the pieces: **jobs and
+   chores earn the screen time, at the balance the research supports.**
+6. The passport, filled in with the child, to sixteen.
+7. One button: **finish setting up**.
+
+His own question was whether to put all of it in the welcome or a bit each week.
+A bit each week. The welcome names the destination and the shape and gives one
+step. The weekly programme teaches one piece at a time. All of it at once reads
+as a feature list, and what sells is the promise plus the first small move.
 
 ## Still to fix first
 
@@ -139,3 +181,44 @@ up. Both lead programmes DO exclude members, but only on an exact email match,
 so anybody who joined the waitlist with one address and signed up with another
 keeps getting it. Fix: mark the lead converted at signup rather than trying to
 match addresses later.
+
+---
+
+## The baseline, and the progress that follows it
+
+Justin, 13 August 2026:
+
+> "make sure we save the baseline so we know what they came in to the service
+> concerned about, so we can really track progress and report it. I think we have
+> that built, it just doesn't display very smartly at the moment, so can we
+> revisit that as it lives on the passport page and it is a mess. The progress
+> that follows the check in numbers changing etc. The check in we put for welcome
+> is the check in we have already designed that we use every day."
+
+**One check in component, two jobs.** Not a special first run screen. The same
+daily check in a family uses for ever, and the FIRST time they complete it the
+numbers it records become the baseline. Nothing extra to build on the input side,
+which is the point: a separate baseline form would be a second thing to maintain
+and would ask the same questions in different words.
+
+**It is already stored.** `concern_events` (migration 164) holds
+`score_at_start` and `score`, and `HowFarYouHaveCome` already reconstructs the
+journey from them. So the data is right and Justin is correct that the fault is
+the display.
+
+**Half of that display was fixed on 12 August**: the concern list became a table,
+live first, sorted folded, "8 to 9" instead of a sentence. What is still missing
+is the part he means by "the progress that follows the check in numbers
+changing":
+
+- **Movement over time, not just start and end.** Two numbers cannot show a
+  concern that got worse before it turned. The events are all there.
+- **A read a parent can say out loud.** "Bedtime went from 5 to 8 over six weeks"
+  is the sentence. The table shows the numbers and never says it.
+- **Where it lives.** Its own page rather than buried down the pathway scroll,
+  which is section 5 of this plan.
+
+**Do not invent a score.** No composite, no overall family number. Every reading
+stays tied to the concern the parent named, because a made up index is exactly
+the kind of thing this product refuses elsewhere and it would not survive a
+parent asking where it came from.
