@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import QRCode from 'qrcode'
+import { SITE_URL } from '@/lib/config/site'
 
 // The fastest hand over: a big QR the child's own phone or tablet scans right
 // there in the room, so the grown up watches their app open on the child's
@@ -19,7 +20,11 @@ export default function QrHandoverModal({ token, childName, onClose }: {
   const [url, setUrl] = useState('')
 
   useEffect(() => {
-    const u = `${window.location.origin}/k/${token}`
+    // The live domain, never the address the parent happens to be on. A code
+    // scanned off this screen goes onto a child's home screen and stays there
+    // for years, so a preview origin baked into it outlives the deployment it
+    // came from. Same reasoning, and the same constant, as ChildLinkShare.
+    const u = `${SITE_URL}/k/${token}`
     setUrl(u)
     QRCode.toDataURL(u, { width: 460, margin: 1, color: { dark: '#1A1A2E', light: '#FFFFFF' } })
       .then(setQr).catch(() => setQr(null))

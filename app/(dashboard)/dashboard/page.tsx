@@ -22,6 +22,7 @@ import { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import { schoolTakesTheTop, countWaitingToday } from '@/lib/home/school-spotlight'
 import { pickNextUp } from '@/lib/home/next-up'
+import { CHALLENGE_LABELS } from '@/lib/pathway/challenge-labels'
 import { isHeldForHolidays } from '@/lib/school/child-items'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
 import { allBirthdaysIn } from '@/lib/setup/flags'
@@ -105,7 +106,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // round trip to the database before a single byte of HTML leaves the
   // server, which is the whole of "opening the app seems a little slow".
   // Same reads, same order of meaning, one round trip of latency.
-  const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
+  const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, liveConcernsResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
     supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes, first_checkin_at, plan_choice').eq('id', user.id).maybeSingle(),
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
@@ -116,6 +117,14 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     supabase.from('school_actions').select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child, cleared_on').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(20),
     supabase.from('school_connections').select('id').eq('user_id', user.id).eq('active', true).maybeSingle(),
     supabase.from('family_agreements').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
+    // The concern queue, for the daily lead. The pathway has carried the two
+    // best blocks on it, Your focus and Work through what comes up, and the
+    // pathway is the page a parent opens occasionally. Ordered the same way
+    // the pathway orders its focus, most flagged first, so the two surfaces
+    // can never name a different concern as the one being worked on.
+    supabase.from('concerns').select('slug, label, status, times_flagged')
+      .eq('user_id', user.id).in('status', ['open', 'improving'])
+      .order('times_flagged', { ascending: false }).limit(20),
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', user.id).limit(1).maybeSingle(),
     supabase.from('daily_sessions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
@@ -651,6 +660,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // order, the two that jump the queue and why a day rather than a week are all
   // in lib/home/next-up.ts. Everything below is signals it already holds.
   const deviceSetup = (deviceSetupRes.data ?? []) as { device_key: string; status: string }[]
+  // Most flagged first, which is the same order the pathway picks its focus in,
+  // so Home and the pathway can never name a different concern as the one being
+  // worked on.
+  const liveConcerns = (liveConcernsResult.data ?? []) as { slug: string; label: string; status: string; times_flagged: number }[]
   const nextUp = pickNextUp({
     childName: questsChildName,
     stageName: stage.name,
@@ -668,6 +681,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     hasSchool: !!anySchoolActionResult.data || hasSchoolConnection,
     deviceCount: (familyDevicesRes.data ?? []).length,
     devicesSetUp: deviceSetup.filter(d => d.status === 'done').length,
+    // Your focus and the concern queue, moved off the pathway on 13 August.
+    // The label falls back to the challenge named at onboarding, exactly as
+    // the pathway's own strip does, so a family who has not flagged anything
+    // yet still sees what they came in for.
+    focusLabel: liveConcerns[0]?.label ?? CHALLENGE_LABELS[challenge ?? ''] ?? null,
+    focusImproving: liveConcerns[0]?.status === 'improving',
+    concernsLive: liveConcerns.length,
+    // The script the loop already chose for today, so the focus card and the
+    // loop's own script step can never send a parent to two different places.
+    scriptHref: todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts',
   })
 
   // The greeting only goes quiet about jobs when the card that says it instead
