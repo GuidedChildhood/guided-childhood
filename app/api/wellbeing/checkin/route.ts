@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { CHALLENGE_OPTIONS } from '@/lib/content/stages'
 import { logConcernEvents } from '@/lib/concerns/events'
+import { markFirstCheckIn } from '@/lib/checkin/first'
 
 // The check in speaks the starter quiz's concern language, so a tick maps
 // straight to a ledger slug and label.
@@ -79,6 +80,11 @@ export async function POST(req: NextRequest) {
       }
     }
   } catch { /* the ledger never blocks the check in */ }
+
+  // First one ever is the baseline, and the moment the two doors may be
+  // shown. Same stamp as the daily check, so either route can be a family's
+  // first. See lib/checkin/first.
+  await markFirstCheckIn(supabase, user.id)
 
   return NextResponse.json({ ok: true })
 }

@@ -12,7 +12,9 @@ import Celebration from '@/components/ui/Celebration'
 import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
 import { getDeviceId } from '@/lib/push/device-id'
 
-type Screen = 'init' | 'welcome' | 'children' | 'devices' | 'challenges' | 'loading' | 'digi-intro' | 'founding' | 'first-task' | 'notifications'
+// No 'founding' any more. The two doors moved to /dashboard/choose, after the
+// first check in, and setup no longer asks anybody for money.
+type Screen = 'init' | 'welcome' | 'children' | 'devices' | 'challenges' | 'loading' | 'digi-intro' | 'first-task' | 'notifications'
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
@@ -26,11 +28,6 @@ interface DigiData {
   taskQuestion: string
   taskAction: string
   taskScript: string
-}
-
-interface FounderSpots {
-  remaining: number
-  sold_out: boolean
 }
 
 const CHALLENGES = [
@@ -175,7 +172,6 @@ export default function OnboardingPage() {
   const [challenges, setChallenges] = useState<string[]>([])
   const [timeCommitment, setTimeCommitment] = useState<StarterAnswers['timeCommitment']>(undefined)
   const [digiData, setDigiData] = useState<DigiData | null>(null)
-  const [founderSpots, setFounderSpots] = useState<FounderSpots | null>(null)
   const [saving, setSaving] = useState(false)
   // True when the starter quiz already gave us age and challenges, so
   // onboarding skips re asking them and goes straight to the pathway.
@@ -259,10 +255,9 @@ export default function OnboardingPage() {
         }
       } catch {}
 
-      fetch('/api/founder-spots')
-        .then(r => r.json())
-        .then((d: FounderSpots) => setFounderSpots(d))
-        .catch(() => setFounderSpots({ remaining: 50, sold_out: false }))
+      // The founder seat count used to be fetched here for a screen at the end
+      // of setup. That screen has moved to /dashboard/choose, which reads the
+      // count on the server, so setup no longer calls Stripe at all.
 
       if (!done) { done = true; setScreen('welcome') }
     }
@@ -850,151 +845,6 @@ export default function OnboardingPage() {
 
   // ── FOUNDING ──────────────────────────────────────────────────────────────
 
-  if (screen === 'founding') {
-    const remaining = founderSpots?.remaining ?? null
-    const soldOut = founderSpots?.sold_out ?? false
-
-    // THE LAST DOOR BEFORE THE PLATFORM.
-    //
-    // Justin, 12 August 2026: "still no pay option setting up. I reset again
-    // and it needs the option to pop up just before it goes into the platform."
-    //
-    // It used to sit in the MIDDLE of setup, between DiGi's introduction and
-    // the first task, with two more screens after it. Two problems with that,
-    // and he hit both.
-    //
-    // A parent in the middle of setup is not deciding anything yet, they are
-    // getting through a wizard, so an offer there is furniture to be tapped
-    // past. And onboarding_complete is written EARLIER than this, back when the
-    // personalisation saves, which means a reload anywhere in the middle sends
-    // the init guard straight to the dashboard and this screen is skipped for
-    // ever. The one screen in the product that asks for money was the one a
-    // refresh could permanently delete.
-    //
-    // Last now: setup done, notifications asked, first task in hand, and then
-    // the choice, with the platform on the other side of it.
-    async function skipToApp() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user) {
-        await supabase.from('profiles').update({ onboarding_complete: true }).eq('id', user.id)
-      }
-      router.push(notifDest === 'script' ? '/dashboard/scripts/recommended' : '/dashboard')
-    }
-
-    return (
-      <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
-        <style>{ANIM}</style>
-        <div style={{ maxWidth: 480, width: '100%' }}>
-
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-light)', marginBottom: '12px' }}>
-            Founding members · 50 places
-          </p>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.8rem, 4.5vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--ink)', marginBottom: '28px' }}>
-            Two ways in. Pick one.
-          </h1>
-
-          <div style={{
-            background: '#fff', border: '1.5px solid var(--border)',
-            borderRadius: 20, padding: '28px 24px',
-            marginBottom: '14px',
-            boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
-          }}>
-            {/* THE NUMBER COMES FROM TRIAL_DAYS, and that is the fix rather
-                than a tidy up. This screen said SEVEN days, in five places,
-                while lib/access has said four since the trial was shortened.
-                Checkout reads TRIAL_DAYS for Stripe's trial_period_days, so a
-                parent was told seven, handed a card form, and given four. A
-                false promise anywhere is bad; a false promise on the screen
-                where somebody types their card number is the worst place in
-                the product to have one.
-                Justin, 12 August 2026: "we should be saying this is free for 4
-                days but upgrade to founder member as they sign up."
-                Interpolating the constant means the copy and the charge cannot
-                drift apart again the next time the trial length changes. */}
-            {!soldOut ? (
-              <>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '8px' }}>
-                  Option one · Founder
-                </div>
-                <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  Add your card now to hold one of the 50 founder places and lock in £7.99 a month for life. You still get all {TRIAL_DAYS} free days first: nothing is charged until they are up, and you can cancel any time before then.
-                </p>
-
-                {/* Availability counter — ink on white, not coloured bg */}
-                <div style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  border: '1.5px solid var(--border)',
-                  borderRadius: '100px', padding: '7px 16px', marginBottom: '24px',
-                }}>
-                  <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--terracotta)', flexShrink: 0 }} />
-                  <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)', color: 'var(--ink)' }}>
-                    {remaining !== null ? `${remaining} of 50 places left` : 'Loading availability...'}
-                  </span>
-                </div>
-
-                <form action="/api/stripe/checkout" method="POST">
-                  <input type="hidden" name="tier" value="founder" />
-                  <input type="hidden" name="from" value="onboarding" />
-                  <button type="submit" style={BTN}>
-                    Hold my founder place. {TRIAL_DAYS} days free, then £7.99 for life
-                  </button>
-                </form>
-              </>
-            ) : (
-              <>
-                <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                  The 50 founder places have been claimed. Your {TRIAL_DAYS} free days are already running. Add your card to continue automatically after, nothing charged for {TRIAL_DAYS} days, cancel any time.
-                </p>
-                <form action="/api/stripe/checkout" method="POST">
-                  <input type="hidden" name="tier" value="standard" />
-                  <input type="hidden" name="from" value="onboarding" />
-                  <button type="submit" style={BTN}>Keep my access. {TRIAL_DAYS} days free, then standard rate</button>
-                </form>
-              </>
-            )}
-          </div>
-
-          {/* TWO OPTIONS, DRAWN THE SAME, and that is the change Justin asked
-              for: "it should be pay now to get founder rate, or continue for 4
-              day free trial, but a proper decision so it has to make payment."
-              This was a pitch with an escape hatch: a full white card making
-              the founder case, and then a bare outlined button underneath. A
-              bare button under a card does not read as a CHOICE, it reads as
-              the way out of the thing above it, so a parent who would have paid
-              never actually weighed the two.
-              Both are cards now, both labelled, and the free one keeps its own
-              case rather than being an apology. The founder card stays first
-              and stays the warmer one, because it is the better deal for anyone
-              who is going to stay, and there is no reason to hide that. */}
-          <div style={{
-            background: '#fff', border: '1.5px solid var(--border)',
-            borderRadius: 20, padding: '22px 24px', marginTop: '14px',
-          }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-              Option two · No card
-            </div>
-            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
-              The same {TRIAL_DAYS} free days, nothing to enter. After that the daily habit, the quests and the tracker stay free, and the founder rate is still there if you want everything back.
-            </p>
-            <button
-              type="button"
-              onClick={skipToApp}
-              style={{
-                display: 'block', width: '100%',
-                padding: '15px 24px', background: '#fff',
-                border: '2px solid var(--ink)', borderRadius: 16,
-                color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                cursor: 'pointer', textAlign: 'center',
-              }}
-            >
-              Start free without a card
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   // ── FIRST TASK ────────────────────────────────────────────────────────────
 
   if (screen === 'first-task') {
@@ -1067,11 +917,20 @@ export default function OnboardingPage() {
   // reminder is an easy, obvious yes.
 
   if (screen === 'notifications') {
-    // Onward to the founding choice, which is now the last screen rather than
-    // a middle one. Where they actually LAND after choosing is still notifDest,
-    // and skipToApp on that screen carries it, so a parent who came here for a
-    // script still gets their script.
-    const goNext = () => setScreen('founding')
+    // ── THE LAST SCREEN OF SETUP, AND THE OFFER IS NOT ON IT ────────────────
+    //
+    // The founding choice used to be here, and before that in the middle of
+    // the wizard. Both were wrong for the same reason and one of them was
+    // barely reachable: onboarding_complete is written four screens earlier,
+    // at personalisation, so any reload between DiGi's introduction and this
+    // point sent the parent to the dashboard and deleted the one screen that
+    // asks for money, for good.
+    //
+    // Justin, 13 August 2026: the block belongs AFTER the first check in, "by
+    // then they have given something and seen something back". So setup ends
+    // where it always meant to, in the app, and /dashboard/choose is the one
+    // place the two doors live now. Nothing here decides anything about money.
+    const goNext = () => router.push(notifDest === 'script' ? '/dashboard/scripts/recommended' : '/dashboard')
 
     async function enableNotifications() {
       setNotifStatus('asking')

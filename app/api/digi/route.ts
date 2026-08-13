@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { firstText, makeDashStripper } from '@/lib/digi/text'
-import { hasFullAccess } from '@/lib/access'
+import { hasFullAccess, hasPaidPlan, isAllowlisted } from '@/lib/access'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS, digiModelsFor } from '@/lib/config/digi'
 import { NextResponse, after } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
@@ -273,12 +273,34 @@ export async function POST(request: Request) {
 
   const isPaid = hasFullAccess(profile, user.email)
 
+  // ── WHO THE THREE A DAY ACTUALLY APPLIES TO ─────────────────────────────
+  //
+  // Justin, 13 August 2026, on door two: "No card. Four days. Restricted to
+  // three DiGi messages, which is ALREADY BUILT."
+  //
+  // It was built and it was reaching nobody. The limit asked hasFullAccess,
+  // which is true for the whole trial, so a parent with no card had no limit
+  // for four days and then lost everything at once. The difference between
+  // the two doors was invisible for exactly as long as anybody was looking at
+  // it.
+  //
+  // hasPaidPlan is the card question and it already exists for this reason.
+  // The allowlist is asked separately and by name, because it is a grant of
+  // access rather than a record of payment and the founder must never be
+  // capped on his own product.
+  //
+  // A SEPARATE VARIABLE, not a redefinition of isPaid, on purpose: isPaid
+  // also drives preferFree in the recommendation below, which changes the
+  // RECOMMENDED NEXT STEP block DiGi is thinking with. Changing the rate
+  // limit is not a reason to quietly change what DiGi says.
+  const cardOnFile = hasPaidPlan(profile) || isAllowlisted(user.email)
+
   const today = new Date().toISOString().split('T')[0]
   const isNewDay = !convData || convData.last_message_date !== today
   const currentCount = isNewDay ? 0 : (convData?.messages_today ?? 0)
 
-  // Rate limiting for free tier — checked before any streaming starts
-  if (!isPaid && currentCount >= FREE_DAILY_LIMIT) {
+  // Rate limiting for the no card door — checked before any streaming starts
+  if (!cardOnFile && currentCount >= FREE_DAILY_LIMIT) {
     return NextResponse.json({ error: 'Daily limit reached', messagesUsedToday: currentCount }, { status: 429 })
   }
 

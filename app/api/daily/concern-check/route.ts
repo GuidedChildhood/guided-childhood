@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { logConcernEventById, isScore } from '@/lib/concerns/events'
+import { markFirstCheckIn } from '@/lib/checkin/first'
 
 // The morning after a concern is flagged, the daily loop asks how it went.
 //
@@ -111,6 +112,10 @@ export async function POST(request: Request) {
     score: isScore(score) ? score : null,
     source: 'daily',
   })
+
+  // The first one is the baseline, and it is also what earns the right to ask
+  // them to choose a way in. Both read one timestamp. See lib/checkin/first.
+  await markFirstCheckIn(supabase, user.id)
 
   return NextResponse.json({ saved: true, status, verdict })
 }
