@@ -128,10 +128,25 @@ Stage context: ${name} is Stage ${stage.id} (${stage.name}, ${stage.ages}). ${st
             childName: name === 'your child' ? 'your child' : name,
             unsubscribe: unsubscribeUrl(user.id),
           })
-          // They signed up thirty seconds ago. A lead who had a nurture on
-          // Tuesday and joins on Thursday must still be welcomed, so this is
-          // a reply rather than a programme send.
-          const sent = await sendEmail({ to: profile.email, subject: content.subject, html: content.html, kind: 'transactional' })
+          // ── PROGRAMME, NOT TRANSACTIONAL, AND THAT IS THE POINT ────────────
+          //
+          // Justin, 13 August 2026: "so if they get this welcome email the next
+          // email after that needs to be a week apart."
+          //
+          // The rule is one email a week from all systems, and a welcome is a
+          // real email in a real inbox. Transactional exempts it from the six
+          // day floor in sendEmail, so the programme would fire the next
+          // morning and a brand new parent would get two emails in two days.
+          // Sending it as programme stamps the shared clock in
+          // email_addresses.last_sent_at and the floor pushes everything else
+          // out by a week on its own. No new machinery.
+          //
+          // What this costs, named rather than discovered: a lead who had a
+          // nurture in the last six days and joins today will not get the
+          // welcome. That is the floor working, and being quiet for a few days
+          // is a far smaller harm to somebody who has just heard from us than
+          // the thirty emails that made the floor necessary.
+          const sent = await sendEmail({ to: profile.email, subject: content.subject, html: content.html, kind: 'programme' })
           if (!sent.ok) {
             await service.from('email_log').delete().eq('user_id', user.id).eq('email_key', 'welcome')
           }

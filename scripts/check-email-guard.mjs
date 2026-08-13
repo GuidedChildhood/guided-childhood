@@ -94,7 +94,14 @@ const ALLOWED_OPT_OUTS = {
   'app/api/magnet/route.ts': 'transactional',            // the file they just asked for
   'app/api/school/remind/route.ts': 'transactional',     // a reminder they set up, about tomorrow
   'app/api/stripe/webhook/route.ts': 'both',             // their receipt, and the fulfilment desk
-  'app/api/onboarding/digi/route.ts': 'transactional',   // welcome, thirty seconds after signing up
+  // The welcome used to be here, exempt from the floor because it goes out
+  // thirty seconds after signing up. It sends as programme now, on Justin's
+  // correction of 13 August: the rule is one email a week from all systems,
+  // and a welcome is a real email in a real inbox. Exempting it meant the
+  // programme fired the next morning and a brand new parent got two emails in
+  // two days. This list is the record of what is deliberately outside the
+  // floor, so an entry for a file that no longer opts out is a lie about the
+  // policy, and this check is right to say so.
   'app/api/email/cron/route.ts': 'transactional',        // the past due card warning only
 }
 

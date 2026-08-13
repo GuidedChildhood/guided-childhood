@@ -7656,3 +7656,108 @@ was the School Year Planner: it now leads the registry array, which puts
 it first in the child's sheet list and first in the parent's Made for
 grid. Top of printables on both phones now reads star chart, bucket
 builder, planner.
+
+## 13 August 2026 — Nobody was ever asked to pay, and the reason was placement
+
+Justin: "Nothing blocks on sign up, so nobody is ever asked to pay."
+
+**The database agreed with him before any code was read.** Ten of the eleven
+accounts on the platform read subscription_status 'free'. The one that does not
+dates from 12 July.
+
+**The two door screen DID exist**, last in onboarding, written carefully, and
+it was very nearly unreachable. `onboarding_complete` is written four screens
+earlier, at personalisation, and the init guard sends anybody carrying that
+flag straight to the dashboard. So any reload, closed tab or locked phone
+between DiGi's introduction and the final tap deleted the one screen in the
+product that asks for money, permanently, for that parent. A comment on that
+screen had already diagnosed exactly this in the same words and the write was
+never moved.
+
+**So the ask moved rather than the write**, which is the better answer anyway:
+a parent mid wizard is getting through a wizard, not deciding anything. The
+block now lands after the first check in, when they have given something and
+had something back. Migration 191 adds plan_choice, plan_choice_at and
+first_checkin_at, applied to zgkdfiwtnzqmtfgfsxzo.
+
+The gate lives in the middleware beside the paywall, on the profile read that
+already happens, so it costs no extra round trip and covers every dashboard
+route including ones nobody has written yet. It runs AFTER hasFullAccess on
+purpose: a family whose free days are gone meets the upgrade page and standard
+pricing rather than a choice with one live option.
+
+**Nothing is recorded on the way out to Stripe.** Marking the founder door
+taken before payment would let anybody who opens the card form and closes it
+walk past the block having paid nothing. Paying clears it, because
+needsPlanChoice already answers no for an active subscription. The one
+concession is a skip when Stripe returns them carrying upgraded=1, so a parent
+who has just typed their card number is never thrown back onto the choice
+screen while the webhook lands.
+
+**The founder door grants the days they have left, not a flat four.** It is
+taken partway through the trial, so TRIAL_DAYS would quietly hand out a longer
+trial than the copy promises and nothing at all would charge a card on a day
+they were told was free.
+
+**The three DiGi messages a day were built and reaching nobody.** The limit
+asked hasFullAccess, true for the whole trial, so a parent with no card had no
+limit for four days and then lost everything at once: the difference between
+the two doors was invisible for exactly as long as anybody was looking at it.
+It asks hasPaidPlan now, with the allowlist asked separately by name. isPaid is
+untouched, because it also drives preferFree in the recommendation DiGi thinks
+with, and changing a rate limit is not a reason to change what DiGi says.
+
+## 13 August 2026 — The first check in is the baseline, and a new family had nothing to check in on
+
+The check in step was conditional on live concerns, so a new family never saw
+one. That rule is right and stays. The FIRST one answers a different question:
+it is where the numbers on the journey come from, and a family that never does
+one has nothing to measure against for as long as they stay.
+
+**The harder half was that there was nothing to ask about.** Onboarding asks
+what is hard and writes it to onboarding_answers, and nothing has ever read it
+as a concern: of the eight most recent accounts, six named a worry and had zero
+concern rows. The parent told us in the first two minutes and the app behaved as
+though they had not. seedBaselineConcerns records that answer, once, only on a
+completely empty ledger, so it can never race a real concern raised through
+DiGi or Right now.
+
+Then the same card asks it, with only the framing changed. A separate first run
+form would be a second thing to maintain asking the same question in different
+words. Drawing it at /ref-baseline-checkin immediately caught a baseline row
+saying "You flagged this yesterday" about something named minutes earlier.
+
+## 13 August 2026 — The daily lead carries the pathway's best two
+
+Your focus and Work through what comes up were the two best blocks in the
+product and both lived on the page a parent opens occasionally. Both are in the
+Home rotation now, through the existing picker rather than a second one:
+eleven items, same day index, same walk forward, same rule that a real need
+wins and suggestions take turns. The focus card lands on the script the loop
+has already chosen, so Home and the loop can never send a parent to two
+different places for the same words.
+
+## 13 August 2026 — The welcome email, and the child link that outlived its deployment
+
+The welcome and the first script email were the same email in the wrong hat,
+which is why the sequence looked like it was missing one. Rewritten in Justin's
+order, with jobs and chores earning the screen time leading the pieces because
+it is the part nobody else has, and one button to setup rather than to a
+script. It sends as programme now, so the six day floor pushes everything else
+out by a week on its own; check-email-guard caught the stale opt out entry the
+same minute.
+
+The child link was built from window.location.origin, so a child was handed
+whatever address the parent happened to be on. The plan said two edits. There
+were five, including the WhatsApp and SMS links, which are how the link
+actually travels.
+
+**Not done today and not started:** the setup quest reshape, the what is
+working dashboard, the passport tidy and the monthly shop. The Planet Friends
+bonus is waiting on Justin's Duolingo screenshots, per his own instruction to
+ask before designing that layout.
+
+**Left failing and worth knowing:** scripts/check-concern-dots.mjs asserts ten
+dots in a row at 390 and 320. That is the design deliberately replaced on 12
+August by five stacked full width words, so the check is stale rather than the
+component broken. It guards the check in card, so it wants rewriting.

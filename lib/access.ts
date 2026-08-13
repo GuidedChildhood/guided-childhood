@@ -17,6 +17,10 @@ export const TRIAL_DAYS = 4
 export type AccessProfile = {
   subscription_status?: string | null
   trial_ends_at?: string | null
+  /** Which door they took: 'founder', 'free', or null while still owed. */
+  plan_choice?: string | null
+  /** Their first ever check in, which is what earns the right to ask. */
+  first_checkin_at?: string | null
 }
 
 // The founder and any test logins are never paywalled on their own product.
@@ -73,8 +77,21 @@ if (!ACCESS_ALLOWLIST.includes('justin@thesocialbillboard.com')) {
 // use with their child every morning costs the family.
 const PAYING_STATUSES = ['active', 'past_due'] as const
 
+/**
+ * The founder and the test logins, asked directly.
+ *
+ * hasFullAccess consults the same list on its first line, but "may they use
+ * everything" and "are they exempt from a limit" are different questions, and
+ * a caller that needs the second one should not have to infer it from an
+ * answer about access. The DiGi message cap is the first caller.
+ */
+export function isAllowlisted(email?: string | null): boolean {
+  if (!email) return false
+  return ACCESS_ALLOWLIST.includes(email.trim().toLowerCase())
+}
+
 export function hasFullAccess(profile: AccessProfile | null | undefined, email?: string | null): boolean {
-  if (email && ACCESS_ALLOWLIST.includes(email.trim().toLowerCase())) return true
+  if (isAllowlisted(email)) return true
   if (!profile) return false
   if ((PAYING_STATUSES as readonly string[]).includes(profile.subscription_status ?? '')) return true
   if (profile.trial_ends_at) return new Date(profile.trial_ends_at).getTime() > Date.now()
@@ -134,6 +151,65 @@ export function trialDaysLeft(profile: AccessProfile | null | undefined): number
 // The trial start value to write at onboarding completion.
 export function trialEndsFromNow(): string {
   return new Date(Date.now() + TRIAL_DAYS * 86400000).toISOString()
+}
+
+// ── THE TWO DOORS ───────────────────────────────────────────────────────────
+//
+// Justin, 13 August 2026, on a platform where ten of eleven accounts read
+// 'free': "One block, shown AFTER the first check in, not at sign up. By then
+// they have given something and seen something back."
+//
+// The offer used to be the last screen of onboarding, and it was very nearly
+// unreachable. onboarding_complete is written four screens before it, at
+// personalisation, and the init guard sends anybody carrying that flag
+// straight to the dashboard. Any pause between DiGi's introduction and the
+// final tap, a reload, a phone locking, deleted the one screen that asks for
+// money, permanently, for that parent. A comment on that screen had already
+// diagnosed exactly this and the write was never moved.
+//
+// So the ask moved instead of the write, which is the better answer anyway: a
+// parent mid wizard is getting through a wizard, not deciding anything.
+
+/**
+ * Is the two door block owed on this request?
+ *
+ * Deliberately pure and deliberately narrow: it never consults the allowlist
+ * and never looks at the trial clock. Whether they may USE the product is
+ * hasFullAccess's question and it runs first, so a family whose trial has run
+ * out meets the upgrade page rather than a choice they can no longer make.
+ *
+ * Null profile is a no. A failed read must never conjure a payment screen in
+ * front of a paying family.
+ */
+export function needsPlanChoice(profile: AccessProfile | null | undefined): boolean {
+  if (!profile) return false
+  if (profile.plan_choice) return false
+  // Never checked in, never asked. There is nothing to have got value from
+  // yet, which is the entire argument for putting the block where it is.
+  if (!profile.first_checkin_at) return false
+  // Already paying, by any route. The question answers itself.
+  if ((PAYING_STATUSES as readonly string[]).includes(profile.subscription_status ?? '')) return false
+  return true
+}
+
+/**
+ * Whole free days still owed, for Stripe's trial_period_days.
+ *
+ * The founder door is taken DURING the free days, so charging four more from
+ * that moment would quietly hand out a longer trial than the copy promises,
+ * and passing nothing would charge a card on a day the parent was told was
+ * free. Either way the screen and the receipt disagree, which is the fault
+ * this file already carries a comment about.
+ *
+ * Floored at 1 rather than 0: Stripe rejects a zero day trial, and a parent
+ * choosing founder in the last hours of their trial gets the rest of that day
+ * free rather than an error at the card form. Capped at TRIAL_DAYS so no
+ * route can mint a longer trial than the product offers.
+ */
+export function trialDaysToGrant(profile: AccessProfile | null | undefined): number {
+  if (!profile?.trial_ends_at) return TRIAL_DAYS
+  const days = Math.ceil((new Date(profile.trial_ends_at).getTime() - Date.now()) / 86400000)
+  return Math.min(TRIAL_DAYS, Math.max(1, days))
 }
 
 // ── WHAT STAYS OPEN WHEN THE FOUR DAYS ARE UP ───────────────────────────────

@@ -1,6 +1,10 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { hasFullAccess, needsMembership } from '@/lib/access'
+import { hasFullAccess, needsMembership, needsPlanChoice } from '@/lib/access'
+
+// Where the two doors live. Exempt from its own redirect, or the block would
+// bounce against itself for ever.
+const CHOOSE_PATH = '/dashboard/choose'
 
 // /educator left this list at the split cutover: the schools product lives
 // at schools.guidedchildhood.com with no login at all, and next.config.ts
@@ -89,7 +93,7 @@ export async function middleware(request: NextRequest) {
     if (user && isProtected && needsMembership(pathname)) {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('subscription_status, trial_ends_at')
+        .select('subscription_status, trial_ends_at, plan_choice, first_checkin_at')
         .eq('id', user.id)
         .maybeSingle()
 
@@ -98,6 +102,38 @@ export async function middleware(request: NextRequest) {
         url.pathname = '/dashboard/upgrade'
         // Where they were going, so the upgrade page can say what it opens and
         // send them back there afterwards rather than dumping them on Home.
+        url.searchParams.set('from', pathname)
+        return NextResponse.redirect(url)
+      }
+
+      // ── THE TWO DOORS, AFTER THE FIRST CHECK IN ──────────────────────────
+      //
+      // The same read, one more question, no extra round trip: both columns
+      // ride along on the profile this gate already loads.
+      //
+      // AFTER hasFullAccess on purpose. A family whose free days have run out
+      // cannot take the free door any more, so they meet the upgrade page and
+      // its standard pricing rather than a choice with one live option.
+      //
+      // The open prefixes above are untouched, so settings, billing, orders
+      // and the upgrade page stay reachable throughout. A block a parent
+      // cannot get out of, or cancel from, is a chargeback rather than a
+      // customer, and that argument is already written into needsMembership.
+      // JUST PAID, WEBHOOK NOT LANDED YET. Stripe sends them back carrying
+      // upgraded=1 and the profile can take a second or two to say active.
+      // Without this, a parent who has just typed their card number is thrown
+      // back onto the screen asking them to choose, which reads as the payment
+      // having failed. It skips one screen and grants nothing: access is still
+      // hasFullAccess's answer, above, and the block returns on the next
+      // navigation if the payment genuinely never completed.
+      const justPaid = request.nextUrl.searchParams.has('upgraded')
+
+      if (pathname !== CHOOSE_PATH && !justPaid && needsPlanChoice(profile)) {
+        const url = request.nextUrl.clone()
+        url.pathname = CHOOSE_PATH
+        url.search = ''
+        // Where they were headed, so both doors put them back on it rather
+        // than on Home. A parent who tapped Quests wanted Quests.
         url.searchParams.set('from', pathname)
         return NextResponse.redirect(url)
       }

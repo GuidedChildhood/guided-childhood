@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import QRCode from 'qrcode'
+import { SITE_URL } from '@/lib/config/site'
 
 // More ways to hand the child's app over, for families with no WhatsApp, no
 // child phone, or a very young child. A private QR the child's own tablet
@@ -29,7 +30,24 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
   }
 
   useEffect(() => {
-    const u = `${window.location.origin}/k/${token}`
+    // THE DOMAIN, NEVER THE PARENT'S CURRENT ADDRESS.
+    //
+    // Justin, 12 August 2026, holding a phone: "we need to fix the child app
+    // so it is not a vercel link but the domain."
+    //
+    // Built from window.location.origin, a child was handed whatever address
+    // the PARENT happened to be on at the moment they shared. Share from a
+    // preview deployment and the link on that child's home screen is a preview
+    // URL, and this is not a page a child visits once: it goes on the home
+    // screen and stays for years, it is what every push notification opens,
+    // and a child cannot fix it themselves. Preview deployments get deleted,
+    // and when one is, that child is cut off with no error a parent could
+    // diagnose.
+    //
+    // SITE_URL is the one place the live origin is written down. The QR and
+    // the copied text are built from the same string, so they can never
+    // disagree either.
+    const u = `${SITE_URL}/k/${token}`
     setUrl(u)
     QRCode.toDataURL(u, { width: 220, margin: 1, color: { dark: '#1A1A2E', light: '#FFFFFF' } })
       .then(setQr).catch(() => setQr(null))

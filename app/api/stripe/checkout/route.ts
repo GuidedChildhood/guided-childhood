@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { stripe, STRIPE_PRICES, FOUNDER_CAP, getFounderCount } from '@/lib/stripe'
-import { TRIAL_DAYS } from '@/lib/access'
+import { trialDaysToGrant, type AccessProfile } from '@/lib/access'
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
@@ -15,7 +15,11 @@ export async function POST(request: Request) {
 
   const formData = await request.formData().catch(() => null)
   const body = formData
-    ? { tier: formData.get('tier') as string, from: formData.get('from') as string | null }
+    ? {
+        tier: formData.get('tier') as string,
+        from: formData.get('from') as string | null,
+        next: formData.get('next') as string | null,
+      }
     : await request.json().catch(() => ({ tier: 'annual' }))
 
   const tier = body.tier as keyof typeof STRIPE_PRICES
@@ -40,7 +44,7 @@ export async function POST(request: Request) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('email, stripe_customer_id')
+    .select('email, stripe_customer_id, trial_ends_at, subscription_status')
     .eq('id', user.id)
     .single()
 
@@ -61,16 +65,33 @@ export async function POST(request: Request) {
   // (the activation moment), same as the free path, instead of the
   // dashboard. The recommended redirect prefers free scripts for accounts
   // the webhook has not upgraded yet, so this can never hit the paywall.
+  // Back where they were headed when the block caught them, so a parent who
+  // tapped Quests and was asked to choose still gets Quests. Only ever an
+  // internal dashboard path, never anything off the form.
+  const safeNext = body.next && body.next.startsWith('/dashboard') && !body.next.startsWith('//')
+    ? body.next
+    : null
   const successUrl = body.from === 'onboarding'
     ? `${origin}/dashboard/scripts/recommended?upgraded=1`
-    : `${origin}/dashboard?upgraded=1`
+    : body.from === 'choose'
+      ? `${origin}${safeNext ?? '/dashboard'}${(safeNext ?? '/dashboard').includes('?') ? '&' : '?'}upgraded=1`
+      : `${origin}/dashboard?upgraded=1`
 
-  // Door two from onboarding: card now, nothing charged for the trial length,
-  // then it continues automatically. Everywhere else (an existing trial user
-  // upgrading from the dashboard) charges straight away, so nobody ever gets
-  // two free trials. The card is always collected so the founder place is
-  // genuinely held.
-  const isOnboardingTrial = body.from === 'onboarding'
+  // The founder door: card now, nothing charged while the free days they
+  // already have are still running, then it continues automatically.
+  //
+  // The DAYS COME FROM THEIR OWN CLOCK, not from TRIAL_DAYS, and that is the
+  // point of trialDaysToGrant. This door is taken partway through the free
+  // days, so a flat four would quietly hand out a longer trial than the copy
+  // promises, and none at all would charge a card on a day they were told was
+  // free. Either way the screen and the receipt disagree, which this file
+  // already carries a comment about from the last time it happened.
+  //
+  // An existing member upgrading from the dashboard charges straight away, so
+  // nobody ever gets two free trials. The card is always collected so the
+  // founder place is genuinely held.
+  const isTrialDoor = body.from === 'onboarding' || body.from === 'choose'
+  const trialDays = trialDaysToGrant(profile as AccessProfile | null)
 
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
@@ -90,9 +111,18 @@ export async function POST(request: Request) {
     metadata: { tier, user_id: user.id },
     subscription_data: {
       metadata: { tier, user_id: user.id },
-      ...(isOnboardingTrial ? { trial_period_days: TRIAL_DAYS } : {}),
+      ...(isTrialDoor ? { trial_period_days: trialDays } : {}),
     },
   })
 
+  // NOTHING IS RECORDED HERE, and that is deliberate.
+  //
+  // Marking the founder door taken on the way OUT to Stripe would let anybody
+  // who opens the card form and closes it walk past the block having paid
+  // nothing and without the free door's limits. Paying is what clears it:
+  // needsPlanChoice already answers no for an active subscription, so the
+  // webhook closing the loop is the whole record. A parent who abandons the
+  // form meets the two doors again, which is honest, and the free door is
+  // still right there.
   return NextResponse.redirect(session.url!, { status: 302 })
 }

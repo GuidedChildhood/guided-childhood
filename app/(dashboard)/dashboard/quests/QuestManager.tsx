@@ -1,6 +1,7 @@
 'use client'
 
 import FoldSection from '@/components/dashboard/FoldSection'
+import { SITE_URL } from '@/lib/config/site'
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
@@ -660,7 +661,9 @@ export default function QuestManager() {
 
   async function shareLink() {
     if (!link) return
-    const url = `${window.location.origin}/k/${link.token}`
+    // The live domain, not wherever the parent is standing. This link goes on
+    // a child's home screen and stays for years. See ChildLinkShare.
+    const url = `${SITE_URL}/k/${link.token}`
     const text = `Your quests are ready! Tick them off and earn your stars: ${url}`
     try {
       if (navigator.share) await navigator.share({ title: 'Your quests', text, url })
@@ -2172,7 +2175,7 @@ export default function QuestManager() {
               )}
               {link && (
                 <a
-                  href={`https://wa.me/${(child.phone || '').replace(/[^0-9]/g, '').replace(/^0/, '44')}?text=${encodeURIComponent(`${child.name}, your quests are ready. Tick them off and earn your stars: ${typeof window !== 'undefined' ? window.location.origin : ''}/k/${link.token}`)}`}
+                  href={`https://wa.me/${(child.phone || '').replace(/[^0-9]/g, '').replace(/^0/, '44')}?text=${encodeURIComponent(`${child.name}, your quests are ready. Tick them off and earn your stars: ${SITE_URL}/k/${link.token}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -2255,7 +2258,7 @@ export default function QuestManager() {
                 </button>
                 {link && (child.phone || phoneDraft) && (
                   <a
-                    href={`sms:${(phoneDraft || child.phone || '').replace(/\s/g, '')}?&body=${encodeURIComponent(`Your quests are ready! Tick them off and earn your stars: ${typeof window !== 'undefined' ? window.location.origin : ''}/k/${link.token}`)}`}
+                    href={`sms:${(phoneDraft || child.phone || '').replace(/\s/g, '')}?&body=${encodeURIComponent(`Your quests are ready! Tick them off and earn your stars: ${SITE_URL}/k/${link.token}`)}`}
                     style={{
                       display: 'inline-flex', alignItems: 'center',
                       background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px',

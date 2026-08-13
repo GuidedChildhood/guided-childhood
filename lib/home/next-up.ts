@@ -63,6 +63,23 @@ export type NextUpSignals = {
   hasSchool: boolean
   deviceCount: number
   devicesSetUp: number
+  /**
+   * The one concern this family is working on, most flagged first, and whether
+   * it is on the way up. Null when nothing is live.
+   *
+   * Justin, 12 August 2026, after scrolling the pathway properly: "all of
+   * these were intended for home page rotation." Your focus and Work through
+   * what comes up are the two best blocks in the product and both were on the
+   * page a parent opens occasionally, while Home is the page they open every
+   * day.
+   */
+  focusLabel: string | null
+  focusImproving: boolean
+  /** How many concerns are live, for the queue card. */
+  concernsLive: number
+  /** Where the words for tonight are: the daily loop's own script step, so
+   *  the card lands on the script chosen for today rather than the library. */
+  scriptHref: string
 }
 
 export type NextUpCard = {
@@ -110,7 +127,17 @@ const URGENT: Item[] = [
   },
 ]
 
-// ── AND THE NINE THAT DO, IN JUSTIN'S ORDER ─────────────────────────────────
+// ── AND THE ELEVEN THAT DO, IN JUSTIN'S ORDER ───────────────────────────────
+//
+// Two were added on 13 August: Your focus and the concern queue, both moved
+// off the pathway, where they were the best material on a page a parent opens
+// occasionally. See plans/home-is-the-daily-page.md.
+//
+// Position here is not priority. The day picks a position and walks forward,
+// so every item gets the same number of turns whatever order they sit in; the
+// order only decides which day each falls on. Anything that genuinely cannot
+// wait belongs in URGENT above, and neither of these does: a concern is a
+// thing to work on this week, not an alarm.
 
 export const ROTATION: Item[] = [
   {
@@ -124,6 +151,30 @@ export const ROTATION: Item[] = [
         ? "Today's jobs are done. Check any asks and set tomorrow's"
         : 'Set the jobs and screen time to get the stars flowing',
       href: '/dashboard/quests#quest-board', icon: '⭐', coversJobs: true,
+    }),
+  },
+  {
+    // YOUR FOCUS. The single best line in the product: a live reading and a
+    // next action together, which is exactly the shape this rotation is made
+    // of. It sat on the pathway, where it was found by accident.
+    key: 'focus',
+    applies: s => !!s.focusLabel,
+    build: s => ({
+      key: 'focus', eyebrow: EYEBROW,
+      title: s.focusImproving ? `${s.focusLabel}, getting better` : `Working on ${s.focusLabel?.toLowerCase()}`,
+      line: 'The words for tonight, for the moment it usually goes wrong.',
+      href: s.scriptHref, icon: '🎯', coversJobs: false,
+    }),
+  },
+  {
+    // WORK THROUGH WHAT COMES UP. The concern queue, which is the heart of the
+    // product and had no route from Home at all.
+    key: 'concern-queue',
+    applies: s => s.concernsLive > 1,
+    build: s => ({
+      key: 'concern-queue', eyebrow: EYEBROW, title: 'Work through what has come up',
+      line: `${s.concernsLive} on the list, most pressing first. One at a time is the whole method.`,
+      href: '/dashboard/pathway#is-it-working', icon: '🧩', coversJobs: false,
     }),
   },
   {
