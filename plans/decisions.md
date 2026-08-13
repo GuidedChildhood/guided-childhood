@@ -7761,3 +7761,68 @@ ask before designing that layout.
 dots in a row at 390 and 320. That is the design deliberately replaced on 12
 August by five stacked full width words, so the check is stale rather than the
 component broken. It guards the check in card, so it wants rewriting.
+
+## 13 August 2026 — One Stripe account for now, and the descriptor is the price of that
+
+Justin, shown that the Customer Portal preview says The Social Billboard
+because the Stripe account is shared with his other business: "lets stick
+for now."
+
+Recorded as debt rather than a mistake, because the alternative was worse
+timing. STRIPE BRANDING IS ACCOUNT LEVEL. One account cannot show Guided
+Childhood on one checkout and The Social Billboard on another, so every
+parent paying for this product sees the other business named on the
+checkout page. The clean fix is a second Stripe account, and the moment to
+do it is now, before a single subscriber exists, because moving live
+subscriptions between accounts later needs a card data transfer through
+Stripe support and puts every billing date and card token in the balance.
+That case was put and Justin chose to ship. Fair call with a 500 on the
+founder button and no revenue yet.
+
+WHAT IS NOT DEFERRABLE. The statement descriptor, in Settings, Public
+details. It is what lands on a parent's bank statement, and a line reading
+THE SOCIAL BILLBOARD against a Guided Childhood subscription is a
+chargeback waiting to happen. Chargebacks cost the money, the fee and
+eventually the account's dispute rate, which is why this half of the
+problem does not get to wait for the other half.
+
+ALSO SETTLED, and it is the sharper finding. In the Customer Portal,
+"Customers can switch plans" stays OFF. The founder cap of 50 is enforced
+in app/api/stripe/checkout/route.ts by counting seats held in Stripe before
+letting anyone through. The portal does not run that code. Leave switching
+on and a standard subscriber can move themselves onto the founder price
+from their own billing page, and the cap is decoration. Invoices, customer
+information, payment methods and cancellations all stay on.
+
+## 13 August 2026 — Reversed within the hour: a separate Stripe account after all
+
+Justin, shortly after "lets stick for now": "actually maybe be better to
+set new account."
+
+He is right and the entry above is superseded. Kept rather than deleted
+because this file is append only and because the reasoning in it is the
+reasoning FOR the reversal, just weighed differently once the cost of doing
+it now was clear: the clicking is half an hour, and the only slow part is
+Stripe's business verification, which runs in the background while
+everything else gets built.
+
+WHY NOW IS THE ONLY CHEAP MOMENT. There are zero paying subscribers. Every
+day that stays true, this costs half an hour. The day after the first
+parent pays, it becomes a card data transfer request through Stripe
+support, with every billing date and card token in the balance, and a real
+chance of churn from customers who have to re-enter a card. Nothing about
+this decision gets easier by waiting, and it gets sharply worse at a
+predictable moment.
+
+WHAT IT FIXES. Stripe branding, the public business name and the statement
+descriptor are all account level. On the shared account a parent sees The
+Social Billboard on the checkout page and on their bank statement, which is
+a chargeback risk rather than a cosmetic one. A separate account also
+separates the dispute rate, the payouts and the books, so a problem in one
+business cannot touch the other's ability to take money.
+
+WHAT IT COSTS. New live keys, five new prices, a new webhook endpoint and
+its signing secret, and the portal configured again. Eight environment
+variables on the guided-childhood Vercel project, not guided-childhood-app.
+All of it is env work that was already queued behind the 500 on the founder
+button, so it lands in the same change rather than on top of it.
