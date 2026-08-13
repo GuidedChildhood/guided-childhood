@@ -783,7 +783,7 @@ export default function StarterPackPage() {
               What are you dealing with right now?
             </h1>
             <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-base)', marginBottom: '24px', lineHeight: 1.55 }}>
-              Tick everything that is going on, and tap the one that worries you most first. That just sets where we start. Your plan still covers everything else for their age.
+              Tick everything that is going on. We cover them all, and more as we go. Tap one to say which we open on tomorrow.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               {CHALLENGE_OPTIONS.map(opt => {
@@ -836,7 +836,21 @@ export default function StarterPackPage() {
                       {opt.label}
                     </span>
 
-                    {/* Most pressing marker, and a way to move it */}
+                    {/* ── WHICH ONE WE OPEN ON, NOT WHICH ONE WE COVER ──────
+                        Justin, 13 August 2026: "when you tick one it says we
+                        start here, but then tick another one it says start
+                        here instead, which does not make sense as they can add
+                        many, we will cover them all and more as we go."
+
+                        He is right and the fault is the word INSTEAD. It is
+                        the language of choosing between things, on a screen
+                        built for ticking as many as apply, so a parent ticking
+                        their third worry was told they had just swapped it for
+                        the first two. Nothing was being swapped: every one
+                        ticked goes on the list and the marker only says which
+                        one the first day opens on.
+
+                        "First" says the same thing without implying a trade. */}
                     {isPrimary ? (
                       <span style={{
                         marginTop: '10px',
@@ -845,7 +859,7 @@ export default function StarterPackPage() {
                         color: 'var(--terracotta-dark)', background: 'var(--terracotta-lt)',
                         borderRadius: '100px', padding: '4px 9px',
                       }}>
-                        We start here
+                        First
                       </span>
                     ) : sel ? (
                       <span
@@ -861,7 +875,7 @@ export default function StarterPackPage() {
                           borderRadius: '100px', padding: '4px 9px', cursor: 'pointer',
                         }}
                       >
-                        Start here instead
+                        Start with this
                       </span>
                     ) : null}
                   </button>
@@ -1116,6 +1130,28 @@ const RESULT_H2: React.CSSProperties = {
 }
 
 const FEATURES: { title: string; body: string; comingSoon?: boolean; lessons?: boolean; icon: React.ReactNode }[] = [
+  // ── QUESTS LEADS, AND IT WAS NOT HERE AT ALL ──────────────────────────────
+  //
+  // Justin, 13 August 2026: "quests is missing from tabs under everything
+  // waiting inside. Manage jobs and balance, outside inside, device use
+  // against play and jobs, to create the perfect habit of device."
+  //
+  // The one genuinely ours was the one missing. Everything else in this grid
+  // is a better version of something a parent can picture: scripts, lessons,
+  // checklists. Jobs earning the screen time is the mechanic the whole child
+  // side turns on and the thing nobody else does, and the page that sells the
+  // product did not mention it.
+  //
+  // First rather than appended, because it is the strongest card here.
+  {
+    title: 'Jobs that earn the screen time',
+    body: 'Real jobs, time outside, a book. They earn stars, stars become minutes, and you set the rate. The argument stops being a negotiation.',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/>
+      </svg>
+    ),
+  },
   {
     title: 'The social media passport',
     body: 'The whole pathway to 16 in one place. A stamp earned each stage, so 16 is a step, not a cliff edge.',

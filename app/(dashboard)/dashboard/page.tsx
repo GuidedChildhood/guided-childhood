@@ -130,7 +130,26 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       .order('times_flagged', { ascending: false }).limit(20),
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', user.id).limit(1).maybeSingle(),
-    supabase.from('daily_sessions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
+    // ── A SESSION ROW IS NOT A DAILY PRACTICE ────────────────────────────
+    //
+    // Justin, 13 August 2026: "keeps saying set up is done even though we only
+    // clicked on it and did not change anything."
+    //
+    // This asked whether a daily_sessions ROW existed, and a row is created by
+    // more than finishing the day. Moving the moment timeline onto Home this
+    // afternoon made that visible: "Nothing to flag today" is an honest answer
+    // and it posts, which wrote a row, which turned the first setup step, the
+    // whole two minute daily habit, green for a parent who had done nothing.
+    //
+    // So it asks what it means. A practice counts when the deck was completed
+    // or at least one card was worked through, which is the same test
+    // getTodayLoop uses for its moment step, so Home and the road agree.
+    supabase.from('daily_sessions')
+      .select('id')
+      .eq('user_id', user.id)
+      .or('completed_at.not.is.null,cards_completed.gt.0')
+      .limit(1)
+      .maybeSingle(),
     // Any school action ever added, connected inbox or typed by hand, done
     // or dismissed or still open: either path is the setup step complete,
     // and once complete it should stay complete, not flip back off the
