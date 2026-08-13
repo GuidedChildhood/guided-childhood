@@ -120,17 +120,59 @@ asks about three children at once is a form rather than a habit.
 
 ## The email that starts it
 
-The welcome email links to `/dashboard/setup` and says why in one line. It is
-transactional, sent on signup, so it never spends the week's one programme slot.
+The welcome email links to `/dashboard/setup` and says why in one line.
+
+**It already exists**, and this is the answer to a question Justin asked twice.
+`welcomeEmail` in `lib/email/templates.ts` opens "Welcome, Justin", is sent on
+signup by `/api/onboarding/digi`, and carries the subject "Your first script is
+ready". So the welcome and the first script email are the SAME email wearing the
+wrong subject line, which is why the sequence looked like it was missing one.
+
+It is a rewrite, not a new email. The plumbing, the unsubscribe, the send on
+signup and the weekly floor are already there and working.
+
+**It sends as `programme`, not transactional**, and that is Justin correcting me:
+
+> "so if they get this welcome email the next email after that needs to be a week
+> apart."
+
+He is right. The rule is one email a week FROM ALL SYSTEMS, and a welcome is a
+real email in a real inbox. Transactional would exempt it from the floor, the
+programme would fire the next morning, and a new parent would get two emails in
+two days. Sending it as programme stamps the shared clock in
+`email_addresses.last_sent_at` and the existing six day floor pushes everything
+else out by a week on its own. No new machinery.
 
 Order agreed:
 
 | When | Email | Kind |
 | --- | --- | --- |
-| On signup | Welcome, the pathway to sixteen, and finish setting up | transactional |
-| Week 1 | Your first script is ready | programme |
-| Trial ending | The founder offer | transactional |
+| On signup | Welcome, the pathway to sixteen, finish setting up | **programme** |
+| A week later | Your first script is ready | programme |
+| Trial ending | The founder offer | programme |
 | Ongoing | The weekly programme | programme |
+
+Consequence worth naming: "Your first script is ready" now arrives a week after
+signup rather than the next day, because the welcome is doing the first touch.
+
+### What the rewrite has to say
+
+From Justin's brief, and the ordering matters more than the list:
+
+1. Thank you for joining, plainly.
+2. The destination: **safe and social media ready at sixteen**.
+3. The shape: **ten minutes a day**, small tasks, a habit rather than a course.
+4. The pieces, briefly and not as a feature list: scripts for the fights,
+   lessons for the moments, AI and social media, printables.
+5. The one that is genuinely ours, and it should lead the pieces: **jobs and
+   chores earn the screen time, at the balance the research supports.**
+6. The passport, filled in with the child, to sixteen.
+7. One button: **finish setting up**.
+
+His own question was whether to put all of it in the welcome or a bit each week.
+A bit each week. The welcome names the destination and the shape and gives one
+step. The weekly programme teaches one piece at a time. All of it at once reads
+as a feature list, and what sells is the promise plus the first small move.
 
 ## Still to fix first
 
