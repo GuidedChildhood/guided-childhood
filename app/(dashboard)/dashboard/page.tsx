@@ -22,6 +22,7 @@ import { type SchoolAction } from '@/components/school/SchoolActionsCard'
 import SchoolPromoCard from '@/components/school/SchoolPromoCard'
 import { schoolTakesTheTop, countWaitingToday } from '@/lib/home/school-spotlight'
 import { pickNextUp } from '@/lib/home/next-up'
+import { friendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 import { CHALLENGE_LABELS } from '@/lib/pathway/challenge-labels'
 import { isHeldForHolidays } from '@/lib/school/child-items'
 import { visibleSteps as visibleSetupSteps } from '@/lib/setup/steps'
@@ -695,6 +696,14 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     scriptHref: todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts',
   })
 
+  // ── THE FRIEND, PICKED AGAINST THE LEAD ────────────────────────────────────
+  //
+  // The bonus and the daily lead must never offer the same thing on the same
+  // day. The lead's key is a rotation id (quests, school, balance and so on)
+  // and the services carry the same words, so the collision is checkable
+  // rather than guessed at. See lib/pathway/friend-of-the-day.
+  const friendToday = friendOfTheDay(new Date(), nextUp.key)
+
   // The greeting only goes quiet about jobs when the card that says it instead
   // is ACTUALLY ON THE PAGE. That card is wrapped in {dayComplete && ...}, so
   // passing coversJobs on its own silenced the greeting for the whole of the
@@ -835,7 +844,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           lib/home/habit-nudges.ts for why each rule earns its place. */}
       {nudgeFacts && <HabitNudge facts={nudgeFacts} />}
 
-      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonusIndex={planetOfTheWeek()} />
+      {/* The Planet Friend beside the road, chosen against the daily lead so
+          the road and the coin never offer the same thing on the same day. */}
+      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonus={friendToday} />
 
       {/* THE SIX COINS, DIRECTLY UNDER THE LOOP.
           Justin: "it is on the passport pathway, which is fine, but it needs to

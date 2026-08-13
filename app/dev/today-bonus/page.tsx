@@ -1,5 +1,5 @@
 import TodayPathBig from '@/components/daily/TodayPathBig'
-import { planetOfTheWeek } from '@/lib/pathway/planets'
+import { friendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 
 // Dev fixture for the bonus that hangs beside today's loop.
 //
@@ -29,7 +29,7 @@ export default function TodayBonusFixture() {
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh', padding: '20px 16px' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
-        <TodayPathBig tasks={TASKS} childName="Teo" streakCount={3} bonusIndex={planetOfTheWeek()} />
+        <TodayPathBig tasks={TASKS} childName="Teo" streakCount={3} bonus={friendOfTheDay()} />
       </div>
     </div>
   )
