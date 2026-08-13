@@ -76,7 +76,13 @@ export function bandOf(n: number): number {
   return Math.ceil(Math.min(10, Math.max(1, n)) / 2)
 }
 
-function recencyLabel(item: ConcernCheckItem): string {
+function recencyLabel(item: ConcernCheckItem, baseline: boolean): string {
+  // A baseline row was named in the wizard minutes ago, so every sentence
+  // below is a small lie about it: it has not come up any times, it was not
+  // flagged yesterday, and "0 days ago" is not something anybody says. What is
+  // true is where it came from, and saying that is also the reassurance that
+  // the app was listening during setup.
+  if (baseline) return 'You told us about this when you joined'
   const daysSince = Math.floor((Date.now() - new Date(item.lastFlaggedAt).getTime()) / 86400000)
   if (item.timesFlagged > 1) return `Come up ${item.timesFlagged} times, still open`
   if (daysSince <= 1) return 'You flagged this yesterday'
@@ -121,7 +127,21 @@ function verdictLine(score: number, last: number | null): string {
 // comparison, and tapping a different number starts it over.
 const SAVE_BEAT_MS = 2600
 
-export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckItem[] }) {
+export default function ConcernCheckIn({
+  concerns,
+  baseline = false,
+}: {
+  concerns: ConcernCheckItem[]
+  /**
+   * Their first ever check in, on the worries they named at signup.
+   *
+   * ONE COMPONENT, TWO JOBS, and no separate first run form: a second screen
+   * would ask the same question in different words and be a second thing to
+   * maintain. All that changes is the framing, because on day one there is no
+   * last time to compare against and nothing has been "on the list" yet.
+   */
+  baseline?: boolean
+}) {
   // value: the number tapped, always a whole one now that there is no drag to
   // glide. touched: something has been picked, so the word and the comparison
   // show. pending: the save beat is running and can still be changed. saved:
@@ -240,10 +260,12 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
         letterSpacing: '.12em', textTransform: 'uppercase',
         color: 'var(--stage-2-text)', marginBottom: '8px',
       }}>
-        Still on the list
+        {baseline ? 'Where things are now' : 'Still on the list'}
       </div>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
-        One tap each, in your own words. The red ring is where it was last time.
+        {baseline
+          ? 'One tap each. This is your starting point, so there is no right answer and nothing to work up to. Everything from here is measured against it.'
+          : 'One tap each, in your own words. The red ring is where it was last time.'}
       </p>
 
       {concerns.map(c => {
@@ -291,7 +313,7 @@ export default function ConcernCheckIn({ concerns }: { concerns: ConcernCheckIte
                   buttons below are offering and a parent should not have to
                   translate between the two. The ring on the button says the same
                   thing spatially; this says it in prose. */}
-              {recencyLabel(c)}
+              {recencyLabel(c, baseline)}
               {c.lastScore != null ? ` \u00b7 last time you said ${scoreWord(c.lastScore).toLowerCase()}` : ''}
             </div>
 

@@ -6,6 +6,7 @@ import { pickReview, agoLabel, type Completion } from '@/lib/pathway/review-pick
 import DailyDeckViewer from './DailyDeckViewer'
 import type { DailyCard } from './DailyDeckViewer'
 import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
+import { seedBaselineConcerns } from '@/lib/concerns/baseline'
 
 export default async function DailyPage() {
   const supabase = await createClient()
@@ -16,7 +17,9 @@ export default async function DailyPage() {
   const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
 
   const [profileResult, childResult, sessionResult, yesterdaySession, concernsResult] = await Promise.all([
-    supabase.from('profiles').select('full_name').eq('id', user.id).single(),
+    // first_checkin_at and the onboarding answers ride along so a family who
+    // has never checked in can be handed their BASELINE. See below.
+    supabase.from('profiles').select('full_name, first_checkin_at, onboarding_answers').eq('id', user.id).single(),
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_sessions').select('moment_feedback').eq('user_id', user.id).eq('session_date', yesterday).maybeSingle(),
@@ -42,8 +45,33 @@ export default async function DailyPage() {
   // on is tracked. Guard it out of the list defensively even if an old row
   // exists.
   const GENERIC_CONCERN_SLUGS = new Set(['something-else', 'something_else', 'other'])
-  const checkIns = ((concernsResult.data ?? []) as { id: string; slug: string; label: string; times_flagged: number; last_flagged_at: string }[])
+  const liveCheckIns = ((concernsResult.data ?? []) as { id: string; slug: string; label: string; times_flagged: number; last_flagged_at: string }[])
     .filter(c => c.slug && !GENERIC_CONCERN_SLUGS.has(c.slug) && (c.label ?? '').trim().toLowerCase() !== 'something else')
+
+  // ── THE FIRST ONE IS THE BASELINE ──────────────────────────────────────────
+  //
+  // Justin, 12 August 2026: "First ever time could set the baseline."
+  //
+  // Two things were in the way and only one of them was the loop. The card
+  // above needs concerns to ask about, and a new family has none: of the eight
+  // most recent accounts, six named a worry in the wizard and had ZERO concern
+  // rows, because onboarding_answers has never been read as a concern. So the
+  // parent told us what was hard in the first two minutes and the app behaved
+  // as though they had not.
+  //
+  // seedBaselineConcerns finally records that answer, once, only on an empty
+  // ledger. Then the SAME card asks it, which is the whole point: no separate
+  // first run form to maintain, asking the same question in different words.
+  //
+  // The flagged before today rule is deliberately not applied here. That rule
+  // exists so nobody is asked to review something they raised this morning,
+  // and a baseline is not a review of anything. It is where the line starts.
+  const neverCheckedIn = !profileResult.data?.first_checkin_at
+  const baselineConcerns = neverCheckedIn && liveCheckIns.length === 0
+    ? await seedBaselineConcerns(supabase, user.id, profileResult.data?.onboarding_answers)
+    : []
+  const isBaseline = baselineConcerns.length > 0
+  const checkIns = isBaseline ? baselineConcerns : liveCheckIns
 
   // What they said last time for each check in, so the card can show it back
   // and the verdict can name the move. A second wave by necessity: it needs the
@@ -353,13 +381,16 @@ export default async function DailyPage() {
           and can actually flip to done. */}
       {checkIns.length > 0 && (
         <div id="checkin" style={{ maxWidth: '480px', margin: '0 auto', padding: '20px 20px 0' }}>
-          <ConcernCheckIn concerns={checkIns.map(c => ({
-            slug: c.slug,
-            label: c.label,
-            timesFlagged: c.times_flagged,
-            lastFlaggedAt: c.last_flagged_at,
-            lastScore: lastScoreByConcern.get(c.id) ?? null,
-          }))} />
+          <ConcernCheckIn
+            baseline={isBaseline}
+            concerns={checkIns.map(c => ({
+              slug: c.slug,
+              label: c.label,
+              timesFlagged: c.times_flagged,
+              lastFlaggedAt: c.last_flagged_at,
+              lastScore: lastScoreByConcern.get(c.id) ?? null,
+            }))}
+          />
         </div>
       )}
       <DailyDeckViewer cards={cards} alreadyDone={alreadyDone} />

@@ -47,7 +47,14 @@ export async function getTodayLoop(
   userId: string,
   stageId: StageId,
   challenge: ChallengeId | null,
-  isPaid = true
+  isPaid = true,
+  /**
+   * Their first ever check in, from profiles.first_checkin_at. Null means it
+   * has never happened, which is what puts the baseline at the front of the
+   * loop. Passed in rather than read here because the dashboard already has
+   * the profile row in hand and this runs on every open.
+   */
+  firstCheckInAt: string | null = null
 ): Promise<TodayLoopTask[]> {
   const today = londonToday()
   // The instant today began in London, not UTC midnight. Through British summer
@@ -99,14 +106,37 @@ export async function getTodayLoop(
   // one of those two deserves a tick. So: no live concerns, no step.
   const hasLiveConcerns = (anyConcerns ?? []).length > 0
 
+  // ── EXCEPT THE VERY FIRST ONE, WHICH IS THE BASELINE ──────────────────────
+  //
+  // Justin, 12 August 2026: "Should be first task, not sure why check in was
+  // not there? First ever time could set the baseline."
+  //
+  // He is right and the rule above is also right, because they are answering
+  // different questions. A check in on nothing is meaningless, and the FIRST
+  // one is not a check in on anything: it is where the numbers on the journey
+  // come from, the "8 at the start" that makes "9 now" mean something. A
+  // family that never does one has nothing to measure against for as long as
+  // they stay, and the whole what is working page is empty for them for ever.
+  //
+  // So day one it leads, framed as where are things now rather than as a
+  // review of concerns that do not exist yet. After that the existing rule is
+  // right and stays exactly as it was.
+  //
+  // It is also what opens the two doors, so this is the step that decides
+  // whether anybody is ever asked to pay. See lib/access.ts.
+  const neverCheckedIn = !firstCheckInAt
+
   const tasks: TodayLoopTask[] = [
-    ...(hasLiveConcerns ? [{
+    ...(hasLiveConcerns || neverCheckedIn ? [{
       key: 'checkin' as const,
-      label: 'Check in',
+      label: neverCheckedIn ? 'Where things are now' : 'Check in',
       href: '/dashboard/daily#checkin',
-      // Now a real reading: they have concerns, and none is still waiting on
-      // them today, so this was genuinely earned.
-      done: (pendingConcerns ?? []).length === 0,
+      // Never checked in is never done, whatever the concern list says. The
+      // baseline is a thing that has happened or has not.
+      //
+      // Otherwise a real reading: they have concerns, and none is still
+      // waiting on them today, so the tick was genuinely earned.
+      done: neverCheckedIn ? false : (pendingConcerns ?? []).length === 0,
     }] : []),
     {
       key: 'moment',
