@@ -58,13 +58,18 @@ const BIRTH_YEARS = Array.from({ length: 18 }, (_, i) => THIS_YEAR - i)
 // currentColor throughout, so each one takes the tile's own colour from
 // CHALLENGE_TINT below and the grid reads as six different things.
 const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
-  // A screen with the tide coming over it.
+  // A screen filling up. The water is INSIDE the phone rather than crossing
+  // it: waves drawn over the outline read as a scribble at 30px, and the
+  // silhouette has to survive being small more than it has to be clever.
   screens_takeover: (
     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="6.5" y="2.5" width="11" height="19" rx="3" fill="currentColor" fillOpacity=".18" />
-      <rect x="6.5" y="2.5" width="11" height="19" rx="3" />
-      <path d="M3.5 14.5c1.4 0 1.4 1.6 2.8 1.6s1.4-1.6 2.8-1.6 1.4 1.6 2.8 1.6 1.4-1.6 2.8-1.6 1.4 1.6 2.8 1.6 1.4-1.6 2.8-1.6" fill="none" />
-      <path d="M3.5 18.2c1.4 0 1.4 1.6 2.8 1.6s1.4-1.6 2.8-1.6 1.4 1.6 2.8 1.6 1.4-1.6 2.8-1.6 1.4 1.6 2.8 1.6 1.4-1.6 2.8-1.6" fill="none" strokeOpacity=".5" />
+      <clipPath id="gc-screen-fill">
+        <rect x="7" y="2.6" width="10" height="18.8" rx="2.8" />
+      </clipPath>
+      <g clipPath="url(#gc-screen-fill)">
+        <path d="M5 13.4c1.4 0 1.4 1.7 2.8 1.7s1.4-1.7 2.8-1.7 1.4 1.7 2.8 1.7 1.4-1.7 2.8-1.7 1.4 1.7 2.8 1.7V23H5z" fill="currentColor" fillOpacity=".85" stroke="none" />
+      </g>
+      <rect x="7" y="2.6" width="10" height="18.8" rx="2.8" />
     </svg>
   ),
   // A face gone flat, with its own small weather overhead.

@@ -107,9 +107,13 @@ export default function QrHandoverModal({ token, childName, onClose }: {
     },
   ]
 
-  const doorTab = (key: Door, label: string): React.CSSProperties => ({
-    flex: 1, padding: '11px 8px', borderRadius: '13px', cursor: 'pointer', border: 'none',
-    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+  // nowrap matters: at 390 "Printed chart" wrapped to two lines and the two
+  // doors stopped being the same height, which reads as one being the lesser
+  // of the two. They are not.
+  const doorTab = (key: Door): React.CSSProperties => ({
+    flex: 1, padding: '11px 6px', borderRadius: '13px', cursor: 'pointer', border: 'none',
+    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+    whiteSpace: 'nowrap',
     color: door === key ? 'var(--ink)' : 'var(--ink-soft)',
     background: door === key ? '#fff' : 'transparent',
     boxShadow: door === key ? '0 2px 6px -2px rgba(26,26,46,0.25)' : 'none',
@@ -137,11 +141,11 @@ export default function QrHandoverModal({ token, childName, onClose }: {
         {/* Two doors, equal weight. A family with no child device is not taking
             the lesser option, they are taking the other one. */}
         <div role="tablist" style={{ display: 'flex', gap: '4px', background: 'rgba(26,26,46,0.06)', borderRadius: '16px', padding: '4px', marginBottom: '18px' }}>
-          <button role="tab" aria-selected={door === 'phone'} onClick={() => setDoor('phone')} style={doorTab('phone', 'phone')}>
+          <button role="tab" aria-selected={door === 'phone'} onClick={() => setDoor('phone')} style={doorTab('phone')}>
             📱 Their phone
           </button>
-          <button role="tab" aria-selected={door === 'chart'} onClick={() => setDoor('chart')} style={doorTab('chart', 'chart')}>
-            🖨️ Printed chart
+          <button role="tab" aria-selected={door === 'chart'} onClick={() => setDoor('chart')} style={doorTab('chart')}>
+            🖨️ On paper
           </button>
         </div>
 
@@ -159,10 +163,10 @@ export default function QrHandoverModal({ token, childName, onClose }: {
                 <img
                   src={qr}
                   alt={`QR code to open ${childName}'s app`}
-                  style={{ display: 'block', width: 'min(304px, 68vw)', height: 'min(304px, 68vw)' }}
+                  style={{ display: 'block', width: 'min(304px, 68vw, 34vh)', height: 'min(304px, 68vw, 34vh)' }}
                 />
               ) : (
-                <div style={{ width: 'min(304px, 68vw)', height: 'min(304px, 68vw)', background: 'var(--cream)', borderRadius: '10px' }} />
+                <div style={{ width: 'min(304px, 68vw, 34vh)', height: 'min(304px, 68vw, 34vh)', background: 'var(--cream)', borderRadius: '10px' }} />
               )}
             </div>
 
