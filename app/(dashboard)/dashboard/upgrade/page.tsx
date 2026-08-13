@@ -4,7 +4,7 @@ import Link from 'next/link'
 import PlanChooser from '@/components/upgrade/PlanChooser'
 import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
 import CheckoutError from '@/components/upgrade/CheckoutError'
-import { hasPaidPlan } from '@/lib/access'
+import { hasPaidPlan, inTrial, trialDaysLeft } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
 
 // What a parent calls the page they were heading for. Only the ones somebody
@@ -130,6 +130,50 @@ export default async function UpgradePage(
           parent can act on, and the checkout route logs the technical detail
           for us rather than putting it on screen. */}
       {error && <CheckoutError reason={error} />}
+
+      {/* ── WHERE THEY ACTUALLY ARE, AT THE TOP ──────────────────────────────
+          Justin, 13 August 2026: "is there a countdown on top? We designed it
+          for 4 days free, 3 days etc, then paywall."
+
+          There was not, on this page. The countdown lives on Home, which is
+          the page a parent reads when nothing is being asked of them, and the
+          page that asks for money said nothing about the clock at all. So the
+          one screen where the free days actually matter was the one screen
+          that did not mention them.
+
+          It reads trial_ends_at, the single field both doors set, so it cannot
+          disagree with the Home countdown whichever door they took.
+
+          Honest in both directions. Days remaining while they have them, and
+          once they are gone it says so plainly rather than pretending there is
+          still time, because a countdown that reads "0 days left" for ever is
+          how a parent learns to ignore it. */}
+      {inTrial(profile) ? (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '10px',
+          background: 'var(--stage-1)', border: '1.5px solid var(--border)',
+          borderRadius: '16px', padding: '13px 16px', marginBottom: '22px',
+        }}>
+          <span aria-hidden="true" style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>⏳</span>
+          <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.4 }}>
+            {trialDaysLeft(profile) === 1
+              ? 'Last free day. Everything stays open if you join today.'
+              : `${trialDaysLeft(profile)} free days left. Everything is open until then.`}
+          </span>
+        </div>
+      ) : (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '10px',
+          background: 'var(--cream)', border: '1.5px solid var(--border)',
+          borderRadius: '16px', padding: '13px 16px', marginBottom: '22px',
+        }}>
+          <span aria-hidden="true" style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>🔒</span>
+          <span style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.4 }}>
+            Your free days are up. Everything you have done is saved and comes straight back.
+          </span>
+        </div>
+      )}
+
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
         <p className="eyebrow" style={{ marginBottom: '8px', color: 'var(--terracotta)' }}>Guided Childhood</p>
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.08, marginBottom: '12px' }}>
