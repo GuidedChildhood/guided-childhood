@@ -14,7 +14,7 @@ export default function RefNeedsYou() {
       <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 14px' }}>
         Ref · phase 3 · Now row and Today card
       </p>
-      <HomeLive checkinDue childName="Teo" />
+      <HomeLive childName="Teo" />
       {/* The trial's three registers, mocked: mid trial, the last day clock,
           and the honest close. Real Home shows exactly one. */}
       <TrialCountdown trialEndsAt={new Date(Date.now() + 2.2 * 86400000).toISOString()} ended={false} trialDays={4} jobsTicked={5} streakCount={3} />

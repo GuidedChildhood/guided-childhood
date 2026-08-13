@@ -834,7 +834,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           Only ever one; approvals outrank the due check in. The quiet day
           stays a sentence, not a gap. */}
       <HomeLive
-        checkinDue={todayLoop.some(t => t.key === 'checkin' && !t.done)}
         childName={child?.name ?? null}
       />
 

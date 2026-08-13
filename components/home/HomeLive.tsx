@@ -38,13 +38,11 @@ import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 // review on Justin's phone.
 
 export default function HomeLive({
-  checkinDue = false,
   childName = null,
 }: {
   // Whether the daily concern check in is still waiting today, resolved by
   // the server from the same reading the path uses, so the two can never
   // disagree about whether the day still needs it.
-  checkinDue?: boolean
   childName?: string | null
 }) {
   // The approvals count, read here on the same cadence and the same wake ups
@@ -83,6 +81,19 @@ export default function HomeLive({
   // The one Now, or nothing. Approvals outrank the check in because the
   // child is literally stood there; the check in takes the slot the moment
   // the approvals clear.
+  // ── THE CHECK IN IS NOT SAID HERE ANY MORE ────────────────────────────────
+  //
+  // Justin, 13 August 2026: "it still has the button here twice, at top and
+  // first in Today."
+  //
+  // He is right and it was two surfaces telling him the same thing. The check
+  // in is the FIRST RUNG on Today, a few centimetres below this bar, so a bar
+  // announcing it as well made the page argue with itself, which is the exact
+  // fault caught on 12 August when Home said one thing in two places.
+  //
+  // Approvals keep the slot, because they are the one thing that is genuinely
+  // NOT on the road: a child is stood there waiting on a yes, and that cannot
+  // wait for a parent to walk the day in order.
   const now =
     urgent !== null && urgent > 0
       ? {
@@ -90,17 +101,11 @@ export default function HomeLive({
           title: `${urgent} ${urgent === 1 ? 'thing' : 'things'} to approve`,
           line: name ? `${name} is waiting on you` : 'Your child is waiting on you',
         }
-      : checkinDue
-        ? {
-            href: '/dashboard/checkin',
-            title: 'Today’s check in is waiting',
-            line: 'One tap, how is it going',
-          }
-        : null
+      : null
 
   // First paint, before the approvals read has answered: hold the height of
   // the calm line so the page does not jump, and say nothing while unsure.
-  if (urgent === null && !checkinDue) return <div style={{ height: 46, marginBottom: 14 }} aria-hidden />
+  if (urgent === null) return <div style={{ height: 46, marginBottom: 14 }} aria-hidden />
 
   return (
     <>
