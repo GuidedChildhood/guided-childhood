@@ -30,7 +30,7 @@ import SectionTiles, { type SectionTile } from '@/components/ui/SectionTiles'
 import IsItWorkingReport from '@/components/pathway/IsItWorkingReport'
 import FiveADayReport from '@/components/pathway/FiveADayReport'
 import { getFiveADayReport } from '@/lib/kid/day-report'
-import HowFarYouHaveCome from '@/components/pathway/HowFarYouHaveCome'
+import WhatIsWorkingLink from '@/components/working/WhatIsWorkingLink'
 import { buildPassportSections } from '@/lib/pathway/passport-sections'
 import { getWeekParentReport } from '@/lib/balance/week-report'
 import PassportToDo from '@/components/pathway/PassportToDo'
@@ -494,12 +494,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         />
       )}
 
-      {/* The journey behind the report. Where every concern started, where it got
-          to, how long it took, and which ones came back. Reads the append only
-          event log rather than the concerns table, so it can show the shape
-          rather than only the destination. Renders nothing until a family has
-          history worth showing. */}
-      <HowFarYouHaveCome />
+      {/* WHAT IS WORKING MOVED OUT, 13 August 2026, to its own page.
+
+          Justin: "its own page, not part of the passport scroll." He is right,
+          and the reason is that two different jobs were sharing this scroll.
+          The passport is the RECORD: the journeys, the stamps, the readiness
+          readings, the road to 16. What is working is the ANSWER: whether any
+          of it moved. A parent asking the second question should not have to
+          scroll past their own achievements to reach it, and the answer needs
+          an address of its own so an email or the daily loop can send them
+          straight to it rather than to a point halfway down here.
+
+          The card that used to render here is now the whole of
+          /dashboard/what-is-working, with a line per concern and nothing
+          averaged. This is the doorway. */}
+      <WhatIsWorkingLink />
 
       {/* The end of stage readiness check, DiGi's voice: as the family nears the
           end of a stage, DiGi reads where they are, names what is left, and when
