@@ -460,8 +460,15 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                       )}
                     </div>
 
-                    {/* DiGi sits beside the current node, the guide on the road */}
-                    {isCurrent && (
+                    {/* DiGi sits beside the current node, the guide on the road.
+                        EXCEPT ON DIGI'S OWN DAY. DiGi is one of the rotating
+                        cast as well as the guide, so once every twelve days it
+                        is also the Friend standing further down the road, and
+                        drawing it twice on one screen is the same thing said in
+                        two places, which is the fault Justin catches within the
+                        hour every time. The Friend further down wins, because
+                        that one is carrying a message. */}
+                    {isCurrent && bonus?.friend.key !== 'digi' && (
                       <div style={{
                         position: 'absolute', top: '50%',
                         [digiOnRight ? 'left' : 'right']: NODE + 8,

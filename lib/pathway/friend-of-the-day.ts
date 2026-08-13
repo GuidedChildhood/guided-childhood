@@ -1,6 +1,7 @@
 import { STAGE_CHARACTERS, type StageCharacter } from '@/lib/content/stage-characters'
 import { PLANETS, type Planet } from '@/lib/pathway/planets'
 import { dayIndex } from '@/lib/home/next-up'
+import { pairFor } from '@/lib/pathway/rotation'
 
 // ── PLANET FRIENDS, NOT PLANETS ─────────────────────────────────────────────
 //
@@ -33,13 +34,44 @@ import { dayIndex } from '@/lib/home/next-up'
 // daily is noise beside a road a parent walks every morning, and one that
 // changed weekly would take six weeks to show all six services.
 //
-// Five Friends and six services, both stepped by the same two day clock. Five
-// and six share no factor, so a Friend does not present the same service again
-// for thirty slots, which is two months. Nobody planned a schedule and nobody
-// has to maintain one.
+// Six characters and six services, both stepped by the same two day clock,
+// with the service taking one extra step each completed lap so the pairs do
+// not lock. Thirty six pairings before anything repeats, which is over two
+// years. Nobody planned a schedule and nobody has to maintain one.
+
+// ── DIGI IS ONE OF THEM ─────────────────────────────────────────────────────
+//
+// Justin, 13 August 2026: "note DiGi star is also a character."
+//
+// True, and DiGi is the one every family meets first. The five in
+// stage-characters are stage bound, earned as a child grows, so DiGi cannot
+// live in that list without pretending to be a sixth stage. It is a cast
+// member without a stage, which is exactly what it is on the child's side too.
+//
+// Only the fields the road needs, so nothing here has to invent an age band, a
+// blurb or an unlock line for a character that is never unlocked.
+export type CastMember = {
+  key: string
+  name: string
+  colour: string
+  cutout: string
+}
+
+const DIGI: CastMember = {
+  key: 'digi',
+  name: 'DiGi',
+  colour: 'var(--gold-dark)',
+  cutout: '/digi-squad/DiGi-star.svg',
+}
+
+/** The whole cast, DiGi first because DiGi is who a family meets first. */
+export const CAST: CastMember[] = [
+  DIGI,
+  ...STAGE_CHARACTERS.map(c => ({ key: c.key, name: c.name, colour: c.colour, cutout: c.cutout })),
+]
 
 export type FriendOfTheDay = {
-  friend: StageCharacter
+  friend: CastMember
   service: Planet
   /** Why to tap, in the Friend's voice. Never more than one sentence. */
   reason: string
@@ -71,13 +103,17 @@ export function friendOfTheDay(
   avoidServiceKey?: string | null,
 ): FriendOfTheDay {
   const slot = friendSlot(now)
-  const friend = STAGE_CHARACTERS[((slot % STAGE_CHARACTERS.length) + STAGE_CHARACTERS.length) % STAGE_CHARACTERS.length]
-
-  let idx = ((slot % PLANETS.length) + PLANETS.length) % PLANETS.length
-  if (avoidServiceKey && PLANETS[idx].key === avoidServiceKey) {
-    idx = (idx + 1) % PLANETS.length
-  }
-  const service = PLANETS[idx]
+  const avoidIndex = avoidServiceKey
+    ? PLANETS.findIndex(p => p.key === avoidServiceKey)
+    : -1
+  const { castIndex, serviceIndex } = pairFor(
+    slot,
+    CAST.length,
+    PLANETS.length,
+    avoidIndex >= 0 ? avoidIndex : undefined,
+  )
+  const friend = CAST[castIndex]
+  const service = PLANETS[serviceIndex]
 
   return { friend, service, reason: service.line }
 }
