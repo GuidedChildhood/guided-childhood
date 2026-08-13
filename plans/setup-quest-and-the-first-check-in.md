@@ -139,3 +139,44 @@ up. Both lead programmes DO exclude members, but only on an exact email match,
 so anybody who joined the waitlist with one address and signed up with another
 keeps getting it. Fix: mark the lead converted at signup rather than trying to
 match addresses later.
+
+---
+
+## The baseline, and the progress that follows it
+
+Justin, 13 August 2026:
+
+> "make sure we save the baseline so we know what they came in to the service
+> concerned about, so we can really track progress and report it. I think we have
+> that built, it just doesn't display very smartly at the moment, so can we
+> revisit that as it lives on the passport page and it is a mess. The progress
+> that follows the check in numbers changing etc. The check in we put for welcome
+> is the check in we have already designed that we use every day."
+
+**One check in component, two jobs.** Not a special first run screen. The same
+daily check in a family uses for ever, and the FIRST time they complete it the
+numbers it records become the baseline. Nothing extra to build on the input side,
+which is the point: a separate baseline form would be a second thing to maintain
+and would ask the same questions in different words.
+
+**It is already stored.** `concern_events` (migration 164) holds
+`score_at_start` and `score`, and `HowFarYouHaveCome` already reconstructs the
+journey from them. So the data is right and Justin is correct that the fault is
+the display.
+
+**Half of that display was fixed on 12 August**: the concern list became a table,
+live first, sorted folded, "8 to 9" instead of a sentence. What is still missing
+is the part he means by "the progress that follows the check in numbers
+changing":
+
+- **Movement over time, not just start and end.** Two numbers cannot show a
+  concern that got worse before it turned. The events are all there.
+- **A read a parent can say out loud.** "Bedtime went from 5 to 8 over six weeks"
+  is the sentence. The table shows the numbers and never says it.
+- **Where it lives.** Its own page rather than buried down the pathway scroll,
+  which is section 5 of this plan.
+
+**Do not invent a score.** No composite, no overall family number. Every reading
+stays tied to the concern the parent named, because a made up index is exactly
+the kind of thing this product refuses elsewhere and it would not survive a
+parent asking where it came from.
