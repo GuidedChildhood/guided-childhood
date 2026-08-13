@@ -470,8 +470,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const [streak, todayLoop, literacyStatuses, suggestions, watchTogetherTotal, watchTogetherDone, stageLessonRows, stageLessonDone, nudgeFilms, nudgeWatched, lastScriptResult, jqRes, jtRes, weekBrief, familyDevicesRes, deviceSetupRes] = await Promise.all([
     getDailyStreak(supabase, user.id),
     // first_checkin_at rides in so the loop can put the BASELINE first for a
-    // family who has never checked in. See the argument in daily-tasks.
-    getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid, (profile?.first_checkin_at as string | null) ?? null),
+    // family who has never checked in, and so DiGi is introduced on day one.
+    // Setup and quests are passed in the second call below, once the flags and
+    // the board counts exist. See the argument in daily-tasks.
+    getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid, (profile?.first_checkin_at as string | null) ?? null, currentSetupStep),
     getLiteracyStatuses(supabase, user.id, stage.id),
     child?.stage_id
       ? getSuggestions(supabase, user.id, { childName: child.name, childId: child.id, stageId: stageSlug, ukHour })

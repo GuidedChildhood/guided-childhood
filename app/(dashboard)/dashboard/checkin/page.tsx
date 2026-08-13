@@ -1,38 +1,84 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import WellbeingCheckin from '@/components/wellbeing/WellbeingCheckin'
+import ConcernCheckIn from '@/components/daily/ConcernCheckIn'
+import { getTodayCheckIn } from '@/lib/checkin/today'
 
 export const dynamic = 'force-dynamic'
 
-export default async function CheckinPage() {
+// ── THE CHECK IN, ON ITS OWN PAGE AT LAST ───────────────────────────────────
+//
+// Justin, 13 August 2026: "check in going to wrong section both on the welcome
+// from DiGi link and the top of things to do today... the check is the 1 to 10
+// we designed, where has that gone? That is the check in page... check in is
+// different from moments."
+//
+// Nothing had been lost. The five word card was exactly where it was built,
+// rendered above the moments deck on /dashboard/daily, and all three links to
+// it pointed at /dashboard/daily#checkin. So every route to the check in
+// dropped a parent onto the moments page and asked them to find it, and on a
+// phone the deck is what fills the screen.
+//
+// The fix is the separation he is naming. A reading and a moment are the two
+// things this product keeps most carefully apart: one asks how it is going,
+// the other asks what happened. They were sharing a screen and a URL, so they
+// read as one step and the first rung of the day looked like it went to the
+// wrong place, because it did.
+export default async function CheckInPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: profile } = await supabase
-    .from('profiles').select('full_name').eq('id', user.id).maybeSingle()
-  const firstName = profile?.full_name?.split(' ')[0] ?? 'there'
+  const { rows, baseline } = await getTodayCheckIn(supabase, user.id)
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '24px 20px 48px' }}>
-      <div style={{ marginBottom: '20px' }}>
-        <Link href="/dashboard" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
-          ← Home
-        </Link>
-      </div>
+    <div style={{ background: 'var(--cream)', minHeight: '100dvh' }}>
+      <div style={{ maxWidth: 480, margin: '0 auto', padding: '20px 20px 40px' }}>
 
-      <div style={{ marginBottom: '28px' }}>
-        <p className="eyebrow" style={{ marginBottom: '6px' }}>Monthly check in</p>
-        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
-          A minute for you
-        </h1>
-        <p style={{ color: 'var(--ink-muted)', fontSize: 'var(--text-md)', lineHeight: 1.55 }}>
-          Once a month we check in on how the family has been, and on how you are doing. It shapes the pathway ahead, and it keeps you in view, not just your child.
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 8px' }}>
+          Today · first thing
         </p>
-      </div>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4.5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.15, color: 'var(--ink)', margin: '0 0 18px' }}>
+          {baseline ? 'Where things are now' : 'How is it going?'}
+        </h1>
 
-      <WellbeingCheckin firstName={firstName} />
+        {rows.length > 0 ? (
+          <ConcernCheckIn baseline={baseline} concerns={rows} />
+        ) : (
+          // NOTHING TO CHECK IN ON IS NOT A FAILURE, and it must not read as
+          // one. A family who has answered everything today lands here from a
+          // link they tapped a minute ago, so it says so and offers the next
+          // real thing rather than an empty page.
+          <div style={{
+            background: '#fff', border: '1.5px solid var(--border)',
+            borderRadius: 20, padding: '26px 22px', textAlign: 'center',
+          }}>
+            <div aria-hidden="true" style={{ fontSize: '2rem', lineHeight: 1, marginBottom: '10px' }}>🪴</div>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 6px' }}>
+              All done for today
+            </p>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
+              Nothing is waiting on you. Whatever comes up today, tell DiGi and it will be here tomorrow.
+            </p>
+            <Link href="/dashboard" style={{
+              display: 'inline-flex', padding: '12px 20px', background: 'var(--terracotta)',
+              color: 'var(--ink)', borderRadius: 14, textDecoration: 'none',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+              boxShadow: '0 4px 0 var(--terracotta-dark)',
+            }}>
+              Back to today
+            </Link>
+          </div>
+        )}
+
+        {rows.length > 0 && (
+          <p style={{ textAlign: 'center', marginTop: '18px' }}>
+            <Link href="/dashboard" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '0.06em' }}>
+              Back to today
+            </Link>
+          </p>
+        )}
+      </div>
     </div>
   )
 }

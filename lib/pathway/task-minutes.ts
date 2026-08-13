@@ -10,7 +10,11 @@ import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 // (the big path) count the same minutes.
 
 export const TASK_MINUTES: Record<TodayLoopTask['key'], number> = {
-  checkin: 2, moment: 3, script: 4, digi: 4, done: 0,
+  // Setup and quests carry real weight: a setup step is a job with a form at
+  // the end of it, and approving a child's ticks is a conversation. Counting
+  // them as nothing would let a parent finish a genuinely useful ten minutes
+  // and be told the day had barely started.
+  checkin: 2, setup: 3, moment: 3, script: 4, quests: 3, digi: 4, done: 0,
 }
 
 export function investedMinutes(tasks: TodayLoopTask[]): number {

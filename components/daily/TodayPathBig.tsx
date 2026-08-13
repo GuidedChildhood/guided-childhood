@@ -10,6 +10,18 @@ import { nextHint } from '@/components/daily/TodayPathStrip'
 import PlanetArt from '@/components/pathway/PlanetArt'
 import { PLANETS } from '@/lib/pathway/planets'
 
+// ── THE THING IS CALLED TODAY ───────────────────────────────────────────────
+//
+// Justin, 13 August 2026: "can we have another name for that green trail, as I
+// call it to do list but can be confusing?" He picked Today.
+//
+// The heading here has said "Today with Teo" for a while, so the name was
+// already right on screen and simply written down nowhere, which is how it
+// kept getting called the to do list in conversation. It is not a to do list:
+// a to do list is a chores app, it is a thing you add to, and it makes a
+// parent responsible for filling it. This is the opposite. It is one question,
+// answered for them: what am I doing today.
+//
 // Today's loop as the BIG vertical winding path, Duolingo sized: the same
 // engine as TodayPathStrip (same tasks, same minute budget, same copy), only
 // rendered tall. Fat circular nodes with the pressed 3D edge, a gentle left
@@ -32,7 +44,7 @@ const GREEN = '#2F8F6B'
 const GREEN_DARK = '#236F52'
 
 const NODE_ICON: Record<TodayLoopTask['key'], string> = {
-  checkin: '🪴', moment: '☀️', script: '💬', digi: '✦', done: '🏁',
+  checkin: '🪴', setup: '🧰', moment: '☀️', script: '💬', quests: '⭐', digi: '✦', done: '🏁',
 }
 
 function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked: boolean }) {

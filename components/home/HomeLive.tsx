@@ -92,7 +92,7 @@ export default function HomeLive({
         }
       : checkinDue
         ? {
-            href: '/dashboard/daily#checkin',
+            href: '/dashboard/checkin',
             title: 'Today’s check in is waiting',
             line: 'One tap, how is it going',
           }

@@ -10,11 +10,18 @@ import { planetOfTheWeek } from '@/lib/pathway/planets'
 // thing that actually goes wrong: whether a 58px coin at the right edge touches
 // a node that has meandered the same way, at 390 wide.
 
+// A FAMILY ON DAY ONE, which is the longest the road ever gets: check in,
+// setup, moment, script, quests, meet DiGi, done. Seven nodes rather than the
+// five this fixture used to draw, and the widest case is the one worth
+// checking, because the bonus coin has to clear a node that has meandered to
+// the right at 390 wide.
 const TASKS = [
-  { key: 'checkin' as const, label: 'Check in', href: '#', done: true },
-  { key: 'moment' as const, label: 'Moment', href: '#', done: true },
+  { key: 'checkin' as const, label: 'Where things are now', href: '#', done: false },
+  { key: 'setup' as const, label: 'Set up', href: '#', done: false },
+  { key: 'moment' as const, label: 'Moment', href: '#', done: false },
   { key: 'script' as const, label: 'Script', href: '#', done: false },
-  { key: 'digi' as const, label: 'DiGi', href: '#', done: false },
+  { key: 'quests' as const, label: 'First job', href: '#', done: false },
+  { key: 'digi' as const, label: 'Meet DiGi', href: '#', done: false },
   { key: 'done' as const, label: 'Done', href: '#', done: false },
 ]
 
