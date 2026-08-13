@@ -80,6 +80,32 @@ export interface EmailContent {
 }
 
 // 1 · Welcome, sent the moment onboarding completes
+// ── 1 · THE WELCOME, ON SIGNUP ──────────────────────────────────────────────
+//
+// A REWRITE, NOT A NEW EMAIL, and that is the answer to a question Justin
+// asked twice. This has always opened "Welcome, Justin", has always been sent
+// thirty seconds after signup, and wore the subject "Your first script is
+// ready". So the welcome and the first script email were the SAME email in the
+// wrong hat, which is why the sequence looked like it was missing one. Changing
+// the subject here frees that line to be the second email, a week later.
+//
+// WHAT IT SAYS, in Justin's order, because the order is the argument:
+// thank you, then the destination, then the shape, then the pieces with the
+// star quest LEADING them, then the passport, then one button.
+//
+// His own question was whether to put all of it here or a bit each week. A bit
+// each week. This names the destination and the shape and gives one step; the
+// weekly programme teaches one piece at a time. All of it at once reads as a
+// feature list, and what sells is the promise plus the first small move.
+//
+// THE STAR QUEST LEADS THE PIECES because it is the part nobody else has.
+// Everything else on that list exists somewhere in some form. Jobs and chores
+// earning the screen time, at the balance the research supports, does not.
+//
+// ONE BUTTON, and it goes to setup rather than to a script. The parent has
+// nothing set up yet, so the most useful thing they can do in the next two
+// minutes is finish, and the first thing setup asks for is the check in that
+// becomes their baseline.
 export function welcomeEmail(params: {
   parentName: string
   childName: string
@@ -87,13 +113,24 @@ export function welcomeEmail(params: {
 }): EmailContent {
   const { parentName, childName, unsubscribe } = params
   return {
-    subject: 'Your first script is ready',
+    // "Your first script is ready" moves to the email a week from now. This
+    // one says what it is: the beginning of something with an end in sight.
+    subject: 'Welcome. Here is where this is going',
     html: wrapper(
-      heading(`Welcome, ${parentName}.`) +
-      p(`You just did the thing most parents put off. You started before the next screen fight, not after it.`) +
-      p(`DiGi has already picked your first script based on what you told us about ${childName}. It takes two minutes to read and it gives you the exact words for tonight.`) +
-      button('Open my first script', `${APP}/dashboard/scripts/recommended`) +
-      p(`One thing to know about how this works: no bans, no guilt, no fifty page course. One small move at a time, matched to your child's stage.`),
+      heading(`Thank you for joining, ${parentName}.`) +
+      p(`You started before the next screen fight rather than after it, which is the hard part and you have done it.`) +
+      p(`<strong>Here is where this goes.</strong> By sixteen, ${childName} is safe online and ready for social media, because they have been walked there a step at a time instead of handed a phone and hoped for.`) +
+      p(`<strong>It takes ten minutes a day.</strong> A small thing each day, matched to their stage. Not a course, not fifty pages, and nothing to catch up on if you miss a day.`) +
+      p(`What is waiting for you inside:`) +
+      bullets([
+        `<strong>Jobs and chores earn the screen time.</strong> They do something real, they earn stars, stars become minutes, and you set the rate. This is the part nobody else has.`,
+        `<strong>The words for the hard moments</strong>, ready before the moment rather than after it.`,
+        `<strong>Lessons for ${childName}</strong> on AI, social media and staying safe, at their age.`,
+        `<strong>Printables</strong> for the fridge, for the days a screen is not the answer.`,
+      ]) +
+      p(`And a <strong>passport</strong> you fill in together, all the way to sixteen. It is theirs, it fills up as they go, and it is the thing they will actually want to show you.`) +
+      button('Finish setting up', `${APP}/dashboard/setup`) +
+      p(`It takes a couple of minutes and it starts with one question about where things are right now, so we have somewhere to measure from.`),
       unsubscribe
     ),
   }
