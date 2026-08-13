@@ -35,47 +35,81 @@ const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
 const THIS_YEAR = new Date().getFullYear()
 const BIRTH_YEARS = Array.from({ length: 18 }, (_, i) => THIS_YEAR - i)
 
+// ── THE SIX CONCERNS, DRAWN PROPERLY ────────────────────────────────────────
+//
+// Justin, 13 August 2026, on this grid: better icons, "Happy News or
+// Higgsfield style".
+//
+// What was here was six 1.6 weight outline glyphs, the default of every admin
+// panel on the internet, and at 26px inside a 46px well they read as grey
+// scratches. Worse, three of the six were near enough the same drawing: a
+// rounded rectangle. Screens taking over, asking for a phone, and to a squint
+// mood changes, all resolved to a phone outline, so the row a parent is meant
+// to scan and recognise themselves in offered three identical shapes.
+//
+// These are solid. A filled body at low opacity carries the colour of the
+// tile, a heavier stroke draws the form on top, and each one has a piece of
+// STORY in it rather than a symbol: the screen has a wave breaking over it,
+// the mood has a small cloud, the conversation has two bubbles rather than
+// one, and asking for a phone is a hand holding one up. That is the Happy News
+// trick, and it is why those illustrations read at a glance where an icon set
+// does not: the picture shows the situation, not the object.
+//
+// currentColor throughout, so each one takes the tile's own colour from
+// CHALLENGE_TINT below and the grid reads as six different things.
 const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
+  // A screen with the tide coming over it.
   screens_takeover: (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="7" y="2" width="10" height="20" rx="2.5"/>
-      <circle cx="12" cy="18" r=".6" fill="currentColor" stroke="none"/>
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="6.5" y="2.5" width="11" height="19" rx="3" fill="currentColor" fillOpacity=".18" />
+      <rect x="6.5" y="2.5" width="11" height="19" rx="3" />
+      <path d="M3.5 14.5c1.4 0 1.4 1.6 2.8 1.6s1.4-1.6 2.8-1.6 1.4 1.6 2.8 1.6 1.4-1.6 2.8-1.6 1.4 1.6 2.8 1.6 1.4-1.6 2.8-1.6" fill="none" />
+      <path d="M3.5 18.2c1.4 0 1.4 1.6 2.8 1.6s1.4-1.6 2.8-1.6 1.4 1.6 2.8 1.6 1.4-1.6 2.8-1.6 1.4 1.6 2.8 1.6 1.4-1.6 2.8-1.6" fill="none" strokeOpacity=".5" />
     </svg>
   ),
+  // A face gone flat, with its own small weather overhead.
   mood_changes: (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9"/>
-      <path d="M9 15.5c.8-.8 1.4-1 3-1s2.2.2 3 1"/>
-      <line x1="9.5" y1="10.5" x2="9.5" y2="10.5" strokeWidth="2.5"/>
-      <line x1="14.5" y1="10.5" x2="14.5" y2="10.5" strokeWidth="2.5"/>
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="13.5" r="7.6" fill="currentColor" fillOpacity=".18" />
+      <circle cx="12" cy="13.5" r="7.6" />
+      <path d="M9.4 16.8c1.7-.7 3.5-.7 5.2 0" />
+      <path d="M9.2 11.6v.02M14.8 11.6v.02" strokeWidth="2.9" />
+      <path d="M4.2 5.4c1.6-2 4.6-1.6 5.3.6" strokeOpacity=".55" strokeWidth="1.7" />
     </svg>
   ),
+  // A controller with real buttons, held rather than diagrammed.
   gaming: (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2 10.5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v3a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5v-3z"/>
-      <line x1="8" y1="11" x2="8" y2="13"/>
-      <line x1="7" y1="12" x2="9" y2="12"/>
-      <line x1="15.5" y1="11.5" x2="16.5" y2="11.5"/>
-      <line x1="15.5" y1="12.5" x2="16.5" y2="12.5"/>
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7.2 7.5h9.6a4.7 4.7 0 0 1 4.6 3.8l.7 4.1a2.6 2.6 0 0 1-4.7 1.9l-1.4-2.1H8l-1.4 2.1a2.6 2.6 0 0 1-4.7-1.9l.7-4.1a4.7 4.7 0 0 1 4.6-3.8z" fill="currentColor" fillOpacity=".18" />
+      <path d="M7.2 7.5h9.6a4.7 4.7 0 0 1 4.6 3.8l.7 4.1a2.6 2.6 0 0 1-4.7 1.9l-1.4-2.1H8l-1.4 2.1a2.6 2.6 0 0 1-4.7-1.9l.7-4.1a4.7 4.7 0 0 1 4.6-3.8z" />
+      <path d="M7.4 11v2.4M6.2 12.2h2.4" />
+      <path d="M16 11.4v.02M17.8 13.1v.02" strokeWidth="2.6" />
     </svg>
   ),
+  // A shield that is already holding, not one that might.
   online_safety: (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2l7 3v5c0 5-3.5 9-7 10C8.5 19 5 15 5 10V5l7-3z"/>
-      <path d="M9 12l2 2 4-4"/>
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2.4l7.4 3.1v5.2c0 5.3-3.7 9.4-7.4 10.6C8.3 20.1 4.6 16 4.6 10.7V5.5L12 2.4z" fill="currentColor" fillOpacity=".18" />
+      <path d="M12 2.4l7.4 3.1v5.2c0 5.3-3.7 9.4-7.4 10.6C8.3 20.1 4.6 16 4.6 10.7V5.5L12 2.4z" />
+      <path d="M8.7 11.9l2.4 2.4 4.3-4.6" strokeWidth="2.3" />
     </svg>
   ),
+  // Two bubbles, because a conversation is not one person talking.
   start_conversation: (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-      <line x1="9" y1="10" x2="15" y2="10"/>
-      <line x1="9" y1="13" x2="13" y2="13"/>
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2.4 8.2a3 3 0 0 1 3-3h8.4a3 3 0 0 1 3 3v3.4a3 3 0 0 1-3 3H7.6L3.6 18v-3.6a3 3 0 0 1-1.2-2.4z" fill="currentColor" fillOpacity=".18" />
+      <path d="M2.4 8.2a3 3 0 0 1 3-3h8.4a3 3 0 0 1 3 3v3.4a3 3 0 0 1-3 3H7.6L3.6 18v-3.6a3 3 0 0 1-1.2-2.4z" />
+      <path d="M16.8 9.1h1.8a3 3 0 0 1 3 3v3.3a3 3 0 0 1-1.2 2.4V21l-2.8-2.2h-3.2a3 3 0 0 1-2.6-1.5" strokeOpacity=".65" />
     </svg>
   ),
+  // A hand holding a phone up. This is the ask, not the object.
   asking_for_phone: (
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="7" y="2" width="10" height="20" rx="2.5"/>
-      <path d="M12 7v2m0 2v.5"/>
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="7" y="2.2" width="10" height="13.4" rx="2.6" fill="currentColor" fillOpacity=".18" />
+      <rect x="7" y="2.2" width="10" height="13.4" rx="2.6" />
+      <path d="M10.2 5.6a1.9 1.9 0 1 1 2.6 1.8v1.3" />
+      <path d="M12.8 11.3v.02" strokeWidth="2.6" />
+      <path d="M5.6 16.4c1.9 2.4 3.6 3.6 6.4 3.6s4.5-1.2 6.4-3.6" strokeOpacity=".6" strokeWidth="1.7" />
     </svg>
   ),
 }
@@ -722,39 +756,25 @@ export default function StarterPackPage() {
               </select>
             </div>
 
-            {/* The stage lands the moment both halves are answered, so the
-                birthday visibly BUYS something rather than being a form field.
-                This is what the band buttons used to show up front. */}
-            {ageBand && (() => {
-              const st = getStageFromAgeBand(ageBand)
-              const acc = STAGE_ACCENT[st.id]
-              return (
-                <div style={{
-                  display: 'flex', alignItems: 'center', gap: '14px',
-                  padding: '13px 15px', background: '#fff',
-                  border: '1.5px solid var(--terracotta)', borderRadius: '16px',
-                  boxShadow: '0 8px 22px rgba(220,88,50,0.18)',
-                  animation: 'buildIn 0.35s ease both',
-                }}>
-                  <span style={{
-                    width: 42, height: 42, borderRadius: '13px', flexShrink: 0,
-                    background: acc.bold, color: acc.text,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-                  }}>
-                    {st.id}
-                  </span>
-                  <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
-                      Stage {st.id}, {st.name}
-                    </span>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '2px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                      {childName.trim() || 'Your child'} is on the pathway
-                    </span>
-                  </span>
-                </div>
-              )
-            })()}
+            {/* THE STAGE IS NOT ANNOUNCED HERE ANY MORE.
+
+                Justin, 13 August 2026, walking his own signup: "it just flashes
+                stage but should be a little slower". Then, in the same message:
+                "and actually it says stage here so we do not even need to flash
+                up stage on previous age entry."
+
+                Asked which he meant, he chose to drop it. He is right, and the
+                reason is that a card which appeared and animated for under a
+                second was doing the WORST version of both jobs. It was too fast
+                to read, so it never actually told a parent what the stage was,
+                and it spent the reveal anyway, so by the time the result screen
+                named the stage properly it was old news.
+
+                A stage is worth one moment, not two, and the moment it is worth
+                is the one where there is room to say what it means. That screen
+                already exists and already says it. So the birthday screen goes
+                back to being a birthday screen, and the reveal lands once, on
+                the screen built for it. */}
 
             {/* SIBLINGS, SAID PROPERLY. This was a grey line at the bottom that
                 read as small print, so a parent with three children could not
@@ -827,7 +847,7 @@ export default function StarterPackPage() {
 
                     <span style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      width: 46, height: 46, borderRadius: '14px',
+                      width: 52, height: 52, borderRadius: '16px',
                       background: tint.bg, color: tint.fg, marginBottom: '12px',
                     }}>
                       {CHALLENGE_ICONS[opt.value] ?? opt.icon}
@@ -1465,16 +1485,31 @@ function ResultScreen({
 
       <div style={{ maxWidth: '620px', margin: '0 auto', padding: '32px 24px 0' }}>
 
-        {/* Straight to the platform: first timers get the guided reveal below,
-            but anyone who does not want to scroll can step in right now. */}
+        {/* THE WAY IN, SAID AS AN INVITATION.
+
+            Justin, 13 August 2026: this becomes "Let's get started", brighter
+            and more professional, Apple style.
+
+            "Take me straight in" was written as an escape hatch, and it read
+            like one: a white pill with a grey hairline, tucked in the corner,
+            phrased as though the parent were asking to skip something. It is
+            not a skip. It is the door, and the guided reveal underneath is the
+            optional part. So it is now the brightest thing on the screen and it
+            says what happens next rather than what is being avoided.
+
+            It takes the stage's own pastel, which is the same colour the bar at
+            the foot of the page wears, so a parent sees the same button twice
+            in the same colour and knows both go to the same place. Flat fill,
+            no chunky drop shadow: this one is the clean confident one. */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
           <Link href={enterHref} style={{
-            display: 'inline-flex', alignItems: 'center', gap: '6px',
-            fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 700,
-            letterSpacing: '-0.005em', color: 'var(--deep-teal)', textDecoration: 'none',
-            border: '1.5px solid var(--border)', borderRadius: '100px', padding: '9px 17px', background: '#fff',
+            display: 'inline-flex', alignItems: 'center', gap: '7px',
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
+            letterSpacing: '-0.01em', color: accent.text, textDecoration: 'none',
+            border: 'none', borderRadius: '100px', padding: '11px 20px', background: accent.bold,
+            boxShadow: '0 4px 14px -4px rgba(26,26,46,0.30)',
           }}>
-            Take me straight in →
+            Let&apos;s get started <span aria-hidden>→</span>
           </Link>
         </div>
 
@@ -1883,24 +1918,36 @@ function ResultScreen({
           transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease',
         }}
       >
+        {/* THE BAR WEARS THE STAGE, NOT BLACK.
+
+            Justin, 13 August 2026: it is "near black", make it a pastel fitting
+            the stage colour, matching the top right button.
+
+            The deep teal was carried over from the marketing footer, where a
+            dark band is the point. Here it was the last thing a parent saw at
+            the end of a page that has spent five screens colouring itself in
+            their child's stage, and it arrived looking like a cookie banner.
+            The same pastel as the button at the top means the page opens and
+            closes on the same colour and the same offer, and the child's name
+            is already in it. */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: '12px',
           width: 'min(100%, 460px)',
-          background: 'var(--deep-teal)', borderRadius: '18px',
+          background: accent.bold, borderRadius: '18px',
           padding: '10px 10px 10px 18px',
-          boxShadow: '0 12px 36px rgba(26,26,46,0.28)',
+          boxShadow: '0 12px 36px -8px rgba(26,26,46,0.32)',
         }}>
-          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: '#fff', lineHeight: 1.3 }}>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: accent.text, lineHeight: 1.3 }}>
             {kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}
           </span>
           <Link
             href={enterHref}
             style={{
               flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '7px',
-              padding: '11px 18px', background: 'var(--terracotta)', color: 'var(--ink)',
+              padding: '11px 18px', background: '#fff', color: accent.text,
               borderRadius: '13px', textDecoration: 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-              boxShadow: '0 3px 0 var(--terracotta-dark)',
+              boxShadow: '0 3px 0 rgba(26,26,46,0.13)',
             }}
           >
             Step in <span aria-hidden>→</span>
