@@ -362,18 +362,32 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
                       border: `2.5px solid ${bonus.friend.colour}`,
                       boxShadow: `0 4px 0 ${bonus.friend.colour}`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      overflow: 'hidden',
+                      // NO overflow clip. It was here to crop the old art's
+                      // cream square into the circle, and it took the shooting
+                      // star with it, which sits proud of the top right corner
+                      // on purpose. The art is cut out now, so there is
+                      // nothing to crop and the star is visible again.
                     }}>
-                      {/* The real character art, the same file the child's own
-                          app draws, so one family sees one cast. */}
+                      {/* THE REAL CHARACTER ART, shipped with the code rather
+                          than fetched from the CDN. This is the face of the
+                          product on the screen a parent opens every morning,
+                          and an image one network hop away is an image that is
+                          sometimes not there.
+
+                          The art is cut out, so the Friend FLOATS on the
+                          white disc rather than bringing a cream square with
+                          it. Contained rather than cover, and inset a little,
+                          so nothing is cropped at the edges: Orbit's antenna
+                          and Pebble's stalk both reach the top of the frame
+                          and a cover fit would behead them. */}
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={bonus.friend.cutout}
                         alt=""
                         aria-hidden="true"
-                        width={52}
-                        height={52}
-                        style={{ display: 'block', objectFit: 'contain' }}
+                        width={54}
+                        height={54}
+                        style={{ display: 'block', width: 54, height: 54, objectFit: 'contain' }}
                       />
                       {/* THE SHOOTING STAR STAYS. Justin: "I like the shooting
                           star." One small star at the shoulder, twinkling out
