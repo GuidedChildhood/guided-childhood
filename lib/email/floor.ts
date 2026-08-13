@@ -52,3 +52,43 @@ export function dueAgain(lastSentAt: string | null | undefined, now: number = Da
   if (!Number.isFinite(last)) return true
   return (now - last) / 86400000 >= MIN_DAYS_BETWEEN_PROGRAMME_EMAILS
 }
+
+/**
+ * The same PERSON, for deciding whether somebody already has an account.
+ *
+ * A deliberately different question from normaliseAddress above, and the two
+ * must not be merged.
+ *
+ * normaliseAddress answers "may we write to this address", and it keeps plus
+ * aliases and gmail dots apart on purpose, because a parent who unsubscribes
+ * one alias has not unsubscribed the other and we must not decide otherwise on
+ * their behalf.
+ *
+ * This answers "is this the same human", and there the opposite is true. Gmail
+ * funnels every dotted and plus form into one inbox, so a parent who joined the
+ * waitlist as sam+gc@gmail.com and then made an account as sam@gmail.com is one
+ * person who now gets told to go and fetch the free starter pack they already
+ * have.
+ *
+ * Justin, 13 August 2026, having received exactly that: "we are sending the set
+ * up, go to free starter pack, to the person that has already set up? That needs
+ * to stop."
+ *
+ * Only gmail and googlemail get the dot treatment, because only they ignore
+ * dots. Plus addressing is near universal so it is stripped everywhere, and the
+ * cost of being wrong is one missed nurture email to somebody who deliberately
+ * gave a plus address for a second account. That is a far smaller harm than
+ * telling a member to go and sign up.
+ */
+export function identityKey(address: string): string {
+  const addr = normaliseAddress(address)
+  if (!addr) return ''
+  const at = addr.lastIndexOf('@')
+  if (at < 1) return addr
+  let local = addr.slice(0, at)
+  const domain = addr.slice(at + 1)
+  const plus = local.indexOf('+')
+  if (plus > 0) local = local.slice(0, plus)
+  if (domain === 'gmail.com' || domain === 'googlemail.com') local = local.split('.').join('')
+  return local + '@' + domain
+}

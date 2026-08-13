@@ -1,4 +1,5 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
+import { identityKey } from '@/lib/email/floor'
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { interestUrl } from '@/lib/email'
@@ -547,7 +548,13 @@ async function handler(req: NextRequest) {
   if (leadEmails.length > 0) {
     const { data: existing } = await supabase
       .from('profiles').select('email').in('email', leadEmails)
-    const hasAccount = new Set((existing ?? []).map(p => (p.email as string)?.toLowerCase()))
+    // Matched on identityKey, not on a lowercased string, and that is the fix
+    // for the fault Justin hit: he joined the waitlist on one address and made
+    // the account on another form of the same gmail inbox, so an exact compare
+    // could not tell they were one person and kept telling a member to go and
+    // fetch the starter pack he already had. See lib/email/floor.ts for why
+    // this is a different question from the one normaliseAddress answers.
+    const hasAccount = new Set((existing ?? []).map(p => identityKey(p.email as string)).filter(Boolean))
 
     // Deduped by address, not by row. Two rows can carry the same address, and
     // then this loop would run twice for one person: same email, same minute.
@@ -557,7 +564,7 @@ async function handler(req: NextRequest) {
     const seen = new Set<string>()
     for (const email of leadEmails) {
       const key = email.toLowerCase()
-      if (hasAccount.has(key)) continue
+      if (hasAccount.has(identityKey(email))) continue
       if (seen.has(key)) continue
       seen.add(key)
       // Stamp first so a send failure never re-sends on the next run.
@@ -607,7 +614,8 @@ async function handler(req: NextRequest) {
         supabase.from('profiles').select('email').in('email', originals),
         supabase.from('lead_email_log').select('email, email_key').in('email', originals),
       ])
-      const hasAccount = new Set((accounts ?? []).map(p => (p.email as string)?.toLowerCase()))
+      // Same identity match as the nurture read above, for the same reason.
+      const hasAccount = new Set((accounts ?? []).map(p => identityKey(p.email as string)).filter(Boolean))
       const leadSent = new Set((sentLog ?? []).map(l => `${(l.email as string).toLowerCase()}:${l.email_key}`))
 
       // Days since capture, the key, and the content. Day 1 is the existing
