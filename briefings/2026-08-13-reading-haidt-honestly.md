@@ -151,6 +151,65 @@ preparation and connection. Every post carries one brick of that. One post lands
 ACE thesis plainly (the wrong villain post). The series credits Haidt, models the good faith it
 asks for, and finishes on capability, never fear.
 
+## 8. Recent evidence to fold in, 2025 and 2026, both sides
+
+An honest scoreboard, because the field split again this year. Hold both. This is the material to
+add when we want fresh studies rather than the Italian paper alone.
+
+**Backs Haidt, recent and defensible:**
+- **Nagata et al, JAMA Network Open, 2025.** The ABCD cohort, 11,876 US children followed from age
+  9 to 10 over three years, analysed within person (RI-CLPM). Within a child, more social media
+  one year predicted more depressive symptoms the next, and the reverse path was not supported.
+  This is the freshest strong directional result and it cuts against our own reverse causation
+  line, so we hold it honestly. Caveat, observational, self reported use, small effects, one
+  cohort. It shows temporal order, not manipulation.
+- **May, Malouff and Meynadier, meta analysis, 2025.** 10 RCTs, 1,491 people. Reducing social
+  media lowered depression, Hedges g = 0.25, small but significant after publication bias
+  adjustment.
+- **Braghieri, Levy and Makarin, American Economic Review, 2022.** The cleanest causal paper we
+  have, the staggered Facebook college rollout raised depression and anxiety via social comparison.
+  Not new, but still the anchor. College students in the 2000s, not today's under 16s.
+- Lower tier, cite with care: a 2025 BMC Medicine screen time reduction RCT (young adults, not
+  adolescents), the World Happiness Report 2026 chapter by Haidt and Rausch (NOT peer reviewed, an
+  argument built on other studies), and Sapien Labs 2025 (cross sectional, retrospective, an
+  unvalidated mental health quotient, use as corroborating scale, never as proof).
+
+**Goes against Haidt, recent and defensible:**
+- **Lemahieu et al, Scientific Reports, 2025.** Meta analysis of social media abstinence, 10
+  studies, 4,674 people, no significant effect on positive affect, negative affect or life
+  satisfaction. Larger than the May meta, and it undercuts the just quit and feel better story.
+  Adults and abstinence, so it speaks to restriction as remedy, not developmental harm. Present it
+  alongside the May meta or we are not meeting our own standard.
+- **Lind, Schueller and Odgers, Frontiers, 2026.** Audited about 40 randomised restriction
+  experiments and found not one included anyone under 16, the exact band being banned has zero
+  experimental evidence behind it. Disclose their industry ties (YouTube advisory, Headspace,
+  Ksana Health) before a critic does.
+- **Goodyear et al, SMART Schools, Lancet Regional Health Europe, 2025.** 1,227 UK pupils, 30
+  schools. Restrictive school phone policies showed no better wellbeing, sleep or attainment, and
+  did not even cut total daily use. The best recent school ban study, a null for the in school
+  mechanism.
+- **Australia eSafety evaluation, 2026.** Three months into the under 16 ban, about 81 percent of
+  under 16s were still on the restricted platforms, use barely moved, VPN downloads tripled.
+  Implementation failure and evasion, not a mental health outcome, so do not overclaim it.
+- **Tolboll et al, umbrella review, Child and Adolescent Mental Health, 2026.** 72 reviews, 2021 to
+  2025. General use, weak and inconsistent. Problematic use, consistently linked to ill being.
+  Their own caveat, the weak general use findings may be underpowered rather than a true null.
+  Present it whole.
+- **Ferguson, Current Psychology, 2026,** argues the link is an artifact of confounds. Contested
+  figure, Haidt has a rebuttal, so cite once with the rebuttal named, never load bearing.
+- **Jakubowski et al, npj Science of Learning, 2025,** ties the PISA test score decline to weeks of
+  school closure, roughly 1 percent of an SD per week closed. The best it was COVID not phones
+  anchor. Twenge 2026 (Journal of Adolescence) argues the phone side, Emily Oster's ParentData
+  rebuts it (numerate blog, not peer reviewed).
+
+**The point that matters most for us.** Directionality is genuinely split now. Fassi 2025 (UK,
+registered) found distress shaping use, Nagata 2025 (ABCD, within person) found use predicting
+later distress. So keep the reverse causation line hedged, "often runs both ways," never "it runs
+backwards, full stop." That hedge is exactly what keeps us defensible, and post 3 already carries
+it. The strongest, most honest new post we can add is the scoreboard itself, the newest study for
+Haidt and the newest against him landed within months, and they still disagree, which is the whole
+proportion argument in one post.
+
 ## Source ledger (verify verbatim quotes at source before print; egress blocked direct fetch)
 
 - Odgers, Nature, 2024, "The great rewiring": nature.com/articles/d41586-024-00902-2
@@ -170,3 +229,13 @@ asks for, and finishes on capability, never fear.
 - Thorp, Science editorial, 2024: science.org/doi/10.1126/science.adr1730
 - Gui, Respi, Abbiati, Nature Human Behaviour, 2026: nature.com/articles/s41562-026-02522-4
 - Haidt's rebuttals, After Babel: afterbabel.com/p/why-some-researchers-think-im-wrong (and /phone-based-childhood-cause-epidemic)
+- Nagata et al, JAMA Network Open, 2025 (ABCD within person): jamanetwork.com/journals/jamanetworkopen/fullarticle/2834349
+- May, Malouff, Meynadier, meta analysis, 2025 (g=0.25): doi.org/10.3390/ejihpe15110222
+- Braghieri, Levy, Makarin, AER, 2022 (Facebook rollout): aeaweb.org/articles?id=10.1257/aer.20211218
+- Lemahieu et al, Scientific Reports, 2025 (abstinence null): nature.com/articles/s41598-025-90984-3
+- Lind, Schueller, Odgers, Frontiers, 2026 (no under 16s in trials): frontiersin.org/journals/developmental-psychology/articles/10.3389/fdpys.2026.1805989/full
+- Goodyear et al, SMART Schools, Lancet Regional Health Europe, 2025: thelancet.com/journals/lanepe/article/PIIS2666-7762(25)00003-1/fulltext
+- Australia eSafety ban evaluation, 2026 (via The Conversation): theconversation.com/more-than-80-of-kids-still-using-social-media-despite-ban-new-esafety-report-finds-288808
+- Tolboll et al, umbrella review, CAMH, 2026: doi.org/10.1111/camh.70071
+- Ferguson, Current Psychology, 2026 (artifact of confounds): doi.org/10.1007/s12144-026-09205-3
+- Jakubowski et al, npj Science of Learning, 2025 (PISA and COVID closures): nature.com/articles/s41539-025-00297-3

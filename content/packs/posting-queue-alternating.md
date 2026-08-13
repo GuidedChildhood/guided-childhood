@@ -358,9 +358,33 @@ First comment: Thanks for reading the whole series. If it was useful, a repost h
 
 ---
 
-## 16. Newsletter: Louder Than The Evidence [Substack and LinkedIn article, after post 15]
+## 16. Louder Than The Evidence, post 6 (optional): the newest studies still disagree
 
-Publish the long form issue after post 15, as the deep version for the people who followed the
+This year gave us the strongest new study for the phones cause harm case, and the strongest against it, within months of each other.
+
+Let me give you both, because anyone selling you certainty here is selling you something.
+
+For the harm case, the best one is new and it is good. Nagata and colleagues followed 11,876 American children from age nine, using a method that tracks change inside the same child over time. Within a child, more social media one year predicted more low mood the next, and it did not run the other way. Published in JAMA Network Open this year. That is the cleanest hint yet that the arrow can point from screen to sadness, not only the reverse.
+
+Now the other side, just as new. A meta analysis of quitting social media this year, 4,674 people, found stopping made no real difference to how people felt. And the best school phone study we have, 1,227 UK pupils across 30 schools, found the schools that banned phones had no better wellbeing, no better sleep and no better grades, and the pupils did not even use their phones less overall.
+
+So which is it. Both. That is not a dodge, it is the finding. A small, real signal for some children, in some conditions, sitting right next to a pile of nulls the moment you try to fix it by taking the thing away. Harm that is real but concentrated, and restriction that mostly does not move the needle.
+
+Two children again. Same feed. One it is quietly pulling down. The other it is doing nothing to at all. The averages come out small because you are mixing the two together.
+
+The lesson is not that no child is harmed. It is that the answer was never going to be one rule for every child. It was always going to be knowing your own child well enough to tell which one you have.
+
+That is the whole reason we build a pathway, not a wall.
+
+When the best studies disagree, do you want a louder answer, or a more honest one?
+
+First comment: The two headline studies, both 2025, both peer reviewed. For the harm direction, Nagata et al, JAMA Network Open, 11,876 children, within person. On the other side, Lemahieu et al, Scientific Reports, quitting social media made no real difference across 4,674 people, plus Goodyear et al, SMART Schools, Lancet Regional Health Europe, school phone bans, no wellbeing gain. Honest people say the field is split, because it is.
+
+---
+
+## 17. Newsletter: Louder Than The Evidence [Substack and LinkedIn article, after the posts]
+
+Publish the long form issue after the posts, as the deep version for the people who followed the
 thread. Full text and three subject line options in the pack at
 content/packs/2026-08-13-louder-than-the-evidence/newsletter.md.
 
