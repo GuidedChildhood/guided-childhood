@@ -5,6 +5,47 @@ Built on three plans already in this repo:
 `plans/tomorrow-duolingo-daily-and-passport.md`,
 `plans/home-is-the-daily-page.md`. This file is the execution order for today.
 
+## WHAT ACTUALLY SHIPPED, 13 August
+
+Done and pushed on `claude/mobbin-ux-references-i142dd` (PR 838): job 1 the
+subscription block, job 5 the baseline check in, job 2 the daily lead, and the
+welcome email plus the child link domain fix from the behind the list section.
+
+Not started: jobs 3 (setup quest), 6 (what is working dashboard), 7 (passport
+tidy) and 8 (monthly shop). Job 4 (Planet Friends) is deliberately waiting on
+the Duolingo screenshots Justin said he would send, per his own instruction to
+ask before designing that layout.
+
+### The walk, and why it could not be a browser walk
+
+The container's egress policy blocks supabase.co outright (403 at the proxy on
+both curl and node fetch), so a headless signup could not authenticate and the
+live walk Justin asked for was impossible here. Rather than reason from the
+code, which is how this was misdiagnosed four times, the substitute was the
+live database: ten of the eleven accounts read subscription_status 'free', and
+of the eight most recent, six named a challenge at onboarding and had zero
+concern rows. Both findings drove the build.
+
+### What the fault turned out to be
+
+The two door screen DID exist, last in onboarding. `onboarding_complete` is
+written four screens earlier, at personalisation, and the init guard sends
+anybody carrying that flag straight to the dashboard, so any reload between
+DiGi's introduction and the final tap deleted the one screen that asks for
+money, permanently, for that parent. A comment on that screen had already
+diagnosed this exact thing and the write was never moved. The ask moved
+instead, which is the better answer anyway.
+
+### Still open, worth carrying into the next session
+
+- `scripts/check-concern-dots.mjs` is stale and failing, and it predates this
+  work. It asserts ten dots in a row at 390 and 320, which is the design
+  deliberately replaced on 12 August by five stacked full width words. It
+  guards the check in card, so it is worth rewriting rather than deleting.
+- The email order now has the welcome at day 0 and everything else pushed out
+  by the six day floor on its own. There is no separate "Your first script is
+  ready" email yet; the subject is free for one.
+
 ## Two rules over everything
 
 1. **Do not break the DiGi brain.** Nothing today touches the DIGI_MODEL path,
