@@ -7793,3 +7793,36 @@ letting anyone through. The portal does not run that code. Leave switching
 on and a standard subscriber can move themselves onto the founder price
 from their own billing page, and the cap is decoration. Invoices, customer
 information, payment methods and cancellations all stay on.
+
+## 13 August 2026 — Reversed within the hour: a separate Stripe account after all
+
+Justin, shortly after "lets stick for now": "actually maybe be better to
+set new account."
+
+He is right and the entry above is superseded. Kept rather than deleted
+because this file is append only and because the reasoning in it is the
+reasoning FOR the reversal, just weighed differently once the cost of doing
+it now was clear: the clicking is half an hour, and the only slow part is
+Stripe's business verification, which runs in the background while
+everything else gets built.
+
+WHY NOW IS THE ONLY CHEAP MOMENT. There are zero paying subscribers. Every
+day that stays true, this costs half an hour. The day after the first
+parent pays, it becomes a card data transfer request through Stripe
+support, with every billing date and card token in the balance, and a real
+chance of churn from customers who have to re-enter a card. Nothing about
+this decision gets easier by waiting, and it gets sharply worse at a
+predictable moment.
+
+WHAT IT FIXES. Stripe branding, the public business name and the statement
+descriptor are all account level. On the shared account a parent sees The
+Social Billboard on the checkout page and on their bank statement, which is
+a chargeback risk rather than a cosmetic one. A separate account also
+separates the dispute rate, the payouts and the books, so a problem in one
+business cannot touch the other's ability to take money.
+
+WHAT IT COSTS. New live keys, five new prices, a new webhook endpoint and
+its signing secret, and the portal configured again. Eight environment
+variables on the guided-childhood Vercel project, not guided-childhood-app.
+All of it is env work that was already queued behind the 500 on the founder
+button, so it lands in the same change rather than on top of it.
