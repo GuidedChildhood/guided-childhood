@@ -37,6 +37,71 @@ Two things to check while in there:
 
 ---
 
+## 0b. The child's link must carry the domain, not whatever the parent was on
+
+Justin, 12 August 2026: "we need to fix the child app so it is not a vercel link
+but the domain, share, or how best to handle it."
+
+He is holding `https://guided-childhood-app.vercel.app/k/99b1ed22760113662c`.
+
+**The cause is two lines.** `components/quests/ChildLinkShare.tsx` and
+`components/quests/QrHandoverModal.tsx` both build the link as
+`window.location.origin + '/k/' + token`. So the child is handed whatever
+address the PARENT happened to be on at the moment they shared it. Share from a
+preview deployment and the link on that child's phone is a preview URL.
+
+**Why this is worse than it looks.** That link is not a page a child visits once.
+It goes on their home screen and stays there for years, it is what the push
+notifications open, and a child cannot fix it themselves. A preview deployment
+can be deleted, and when it is, every child linked from it is cut off with no
+error a parent would understand.
+
+**The fix.** Build it from the canonical `SITE_URL` in `lib/config/site.ts`,
+which is already `https://www.guidedchildhood.com`, rather than from the
+browser. One import and two edits.
+
+**Then check what is already out there.** Any `kid_links` shared before this is
+still carrying whatever origin it was created from. Worth asking whether the
+token itself is stored with an origin anywhere, or whether the link is only ever
+assembled at share time. If it is assembled fresh each time, re-sharing fixes an
+affected child with no migration.
+
+---
+
+## 0c. The child handover belongs in setup, with a real no device answer
+
+Justin, 12 August 2026, looking at the "Teo has a side of this too" card sitting
+in TODAY on Home: "should appear at top first time they start, and as part of
+setup, or they select no device and opt for magnetic quests at this age."
+
+It lives in `components/home/ChildAppNudge.tsx`, surfaced through
+`components/home/TodayCard.tsx`.
+
+**Two changes, and the second is the interesting one.**
+
+**It moves into setup.** Getting the child side onto a phone is not a nudge, it
+is half the product. A parent who never does it has a parent app and nothing
+else, and today the only prompt is a card on Home competing with everything else
+in TODAY. It should be a step, at the top, the first time.
+
+**And "no device" has to be a real answer, not a dismissal.** A six year old
+does not have a phone, and for that family the star system still works: it runs
+on the printed chart and the magnets on the fridge instead of a screen. Today
+the card offers "share the code, or choose the paper chart" as a secondary line.
+For a younger child the paper route IS the route, and it should be offered as an
+equal choice rather than a consolation.
+
+Onboarding already asks which devices are in the house, so the answer is
+probably already sitting there. Worth checking whether the age band alone should
+choose the default: under about seven, lead with paper; older, lead with the
+code.
+
+**Do not turn this into a lockout.** A parent who picks paper must still be able
+to hand over a phone later without hunting, and one who picks the code must be
+able to print the chart. Both doors stay open, only the leading one changes.
+
+---
+
 ## 1. The to do list that was meant to be there
 
 Already designed in `plans/home-is-the-daily-page.md`, so this is execution. The
@@ -57,6 +122,66 @@ next step:
 
 `lib/home/next-up.ts` already picks one thing a day from a smaller set, and its
 rotation is the right engine. Extend it. Do not write a second one.
+
+---
+
+## 3b. The check in is the FIRST task, because the first one is the baseline
+
+Justin, signing off on 12 August 2026:
+
+> "I love this and will rotate different services, but it does need to track what
+> it includes, e.g. lessons for the child's age band, check ins to have a
+> baseline. Should be first task, not sure why check in was not there? First ever
+> time could set the baseline. So these bouncing will give things new each day
+> then rotate, it could be part of next up. Eventually we will have a process
+> that works each time they log in so it leads them all the way, with emphasis on
+> logging check ins, learning, DiGi, lessons, quests. Important checking in for
+> both parent and child progress, and making the movement of check ins and their
+> update a super useful page, as well as getting them to help the child inscribe
+> the passport to 16."
+
+**He noticed a real thing, and the code agrees with him.** In
+`lib/pathway/daily-tasks.ts` the check in step is conditional:
+
+```ts
+...(hasLiveConcerns ? [{ key: 'checkin', ... }] : [])
+```
+
+The comment above it argues that an empty concern list means nothing to check in
+ON, and that showing a green tick against a step nobody has touched is a lie. All
+true, and it answers a different question from the one Justin is asking.
+
+**The first check in is not a check in on anything. It is the baseline.** It is
+where the numbers on the journey table come from, the "8 out of 10 at the start"
+that makes "9 now" mean something. A family that never does one has nothing to
+measure against for as long as they stay, and the whole payoff page is empty for
+them for ever.
+
+So: on day one, the check in leads, and it is framed as **where are things now**
+rather than as a review of concerns that do not exist yet. After that, the
+existing rule is right and stays: no live concerns, no step.
+
+### The bonus needs to know what it is offering
+
+The bouncing coin is currently the week's planet, which is a fixed rotation of
+six. Justin wants it to **track what is actually available to that family**:
+
+- The child's lessons filtered to their **age band**, not the whole library
+- Whether a **check in** is due or has never happened
+- What is genuinely new since yesterday
+
+That is the same signal set as the daily lead, which is why he is right that it
+"could be part of next up". One picker, two surfaces: the lead says do this, the
+bonus says here is something new. They must never offer the same thing on the
+same day.
+
+### And the passport is a shared job, not a report
+
+The last line is the one to build towards: **getting them to help the child
+inscribe the passport to 16.** That reframes the passport from a record a parent
+reads to a thing the two of them fill in together, which is a different product
+and a better one. Worth holding in view while doing job 5, even though it is
+larger than tomorrow.
 
 ---
 

@@ -134,6 +134,21 @@ export default function FriendsPoster({ childName, fullDays }: FriendsPosterProp
            transform every browser treats identically. */
 
         @media print {
+          /* FITS ON ONE SIDE EVEN WHEN THE BROWSER STEALS ROOM.
+             Justin, 12 August 2026, printing from an iPhone: "can we just
+             quickly fix this printout, make top quality and fit on pages." It
+             came out over two sides with almost nothing on the second.
+             The sheet is 297mm, which is EXACTLY A4, against a zero page
+             margin. That is correct arithmetic and it is fragile, because
+             Safari on iOS prints its own header and footer, the URL and the
+             date, and draws them inside the page. His preview shows both. They
+             take a few millimetres off the printable area, the sheet no longer
+             fits in what is left, and the bottom tips onto a second side.
+             285mm gives twelve millimetres of headroom, which covers the iOS
+             chrome and every desktop browser's minimum margin, and costs four
+             percent of the height nobody was using. A poster that always fits
+             beats a poster that fits perfectly on one browser. */
+          .fp-sheet { height: 285mm; padding: 10mm 12mm 8mm; }
           .fp-sheet { box-shadow: none; border-radius: 0; margin: 0; }
           .fp-sheet { break-after: page; page-break-after: always; }
           .fp-sheet:last-of-type { break-after: auto; page-break-after: auto; }
