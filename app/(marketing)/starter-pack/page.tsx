@@ -6,9 +6,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import Celebration from '@/components/ui/Celebration'
 import { createClient } from '@/lib/supabase/client'
+import { bandForAge } from '@/lib/children/age'
 import {
   STAGES,
-  AGE_BAND_OPTIONS,
   CHALLENGE_OPTIONS,
   FEELING_OPTIONS,
   TIME_COMMITMENT_OPTIONS,
@@ -25,6 +25,15 @@ if (typeof window !== 'undefined') {
 }
 
 type Step = 'intro' | 'details' | 'q1' | 'q2' | 'q3' | 'q4' | 'email' | 'reassure' | 'result'
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'] as const
+
+// Seventeen years back, newest first, because a parent scrolling for a nine
+// year old should not pass 2009 on the way. The product runs from four to
+// sixteen and one spare year each side covers a child who is nearly either.
+const THIS_YEAR = new Date().getFullYear()
+const BIRTH_YEARS = Array.from({ length: 18 }, (_, i) => THIS_YEAR - i)
 
 const CHALLENGE_ICONS: Record<string, React.ReactNode> = {
   screens_takeover: (
@@ -94,6 +103,30 @@ const STAGE_ACCENT: Record<number, { bold: string; text: string }> = {
 export default function StarterPackPage() {
   const [step, setStep] = useState<Step>('intro')
   const [ageBand, setAgeBand] = useState<AgeBand | null>(null)
+  // ── MONTH AND YEAR, NOT A BAND ──────────────────────────────────────────────
+  //
+  // Justin, 13 August 2026: "is it best to ask the stage or are we going to ask
+  // for month and year of child birth like we do internally... could that be a
+  // barrier to set up, we can say why."
+  //
+  // The birthday, and the code already agreed before he asked. children
+  // .date_of_birth exists, lib/children/age.ts derives the band from it, and
+  // lib/learning/term.ts needs the real date for the 31 August cutoff: without
+  // it the app cannot say which school year a child is in and refuses to guess.
+  // A band is a VIEW of the birthday, so asking for the band means asking for
+  // something we cannot use and then asking again later as a chore, which is
+  // exactly what the birthday setup step was.
+  //
+  // ON THE BARRIER, WHICH IS THE REAL QUESTION. A date is a heavier ask than a
+  // chip, so this is month and year only, two taps on a phone, no day. Nobody
+  // has to remember anything or dig out a certificate, it cannot be got wrong,
+  // and it is visibly less than a full date of birth, which is what makes
+  // people hesitate. The reason is said on the screen rather than assumed,
+  // because an unexplained date question at signup is where a parent stops.
+  //
+  // It also stops a child silently ageing out of a band nobody updated.
+  const [dobMonth, setDobMonth] = useState<number | null>(null)
+  const [dobYear, setDobYear] = useState<number | null>(null)
   // Concerns the parent ticked, most pressing first. picks[0] is the one we
   // start the pathway on, so a single derived value keeps every downstream
   // screen working exactly as before while the parent can now name several.
@@ -128,8 +161,13 @@ export default function StarterPackPage() {
     try {
       const saved = localStorage.getItem('gc_starter_progress')
       if (saved) {
-        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; picks?: ChallengeId[]; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
+        const parsed = JSON.parse(saved) as { step: Step; ageBand: AgeBand | null; dobMonth?: number | null; dobYear?: number | null; picks?: ChallengeId[]; challenge?: ChallengeId | null; feeling: FeelingId | null; timeCommitment: TimeCommitmentId | null }
         if (parsed.ageBand) setAgeBand(parsed.ageBand)
+        // A parent part way through keeps the birthday they already gave, and
+        // an older saved run has no birthday at all, which is why the band is
+        // restored on its own line above rather than derived from this.
+        if (parsed.dobMonth) setDobMonth(parsed.dobMonth)
+        if (parsed.dobYear) setDobYear(parsed.dobYear)
         if (parsed.picks?.length) setPicks(parsed.picks)
         else if (parsed.challenge) setPicks([parsed.challenge])
         if (parsed.feeling) setFeeling(parsed.feeling)
@@ -167,9 +205,9 @@ export default function StarterPackPage() {
   useEffect(() => {
     if (!restored) return
     try {
-      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, picks, feeling, timeCommitment }))
+      localStorage.setItem('gc_starter_progress', JSON.stringify({ step, ageBand, dobMonth, dobYear, picks, feeling, timeCommitment }))
     } catch {}
-  }, [restored, step, ageBand, picks, feeling, timeCommitment])
+  }, [restored, step, ageBand, dobMonth, dobYear, picks, feeling, timeCommitment])
 
   useEffect(() => {
     if (step === 'result' && ageBand && challenge && feeling && timeCommitment) {
@@ -190,6 +228,25 @@ export default function StarterPackPage() {
   function selectAge(band: AgeBand) {
     setAgeBand(band)
     setTimeout(() => setStep('q2'), 280)
+  }
+
+  /** The first of the month they were born, which is all we ask for and all the
+   *  school year cutoff needs. Stored as YYYY-MM-DD because every reader of
+   *  date_of_birth slices the first ten characters. */
+  const dob = dobMonth != null && dobYear != null
+    ? `${dobYear}-${String(dobMonth).padStart(2, '0')}-01`
+    : null
+
+  /** Both halves answered, so derive the band and walk on. The band is never
+   *  asked for now, only worked out, which is why nothing downstream changes. */
+  function setBirthday(month: number | null, year: number | null) {
+    setDobMonth(month)
+    setDobYear(year)
+    if (month == null || year == null) return
+    const derived = bandForAge(`${year}-${String(month).padStart(2, '0')}-01`)
+    if (!derived) return
+    setAgeBand(derived)
+    setTimeout(() => setStep('q2'), 420)
   }
   // Tap adds or removes a concern. The first one ticked becomes the most
   // pressing by default (front of the list), the parent can move that with
@@ -318,6 +375,10 @@ export default function StarterPackPage() {
           parent_id: user.id,
           name: childName.trim() || 'Your child',
           age_band: ageBand,
+          // The birthday itself, which is the thing the band is derived FROM.
+          // Without it lib/learning/term.ts cannot say which school year they
+          // are in and the birthday setup step has to ask all over again.
+          date_of_birth: dob,
           stage_id: stg ? stg.name.toLowerCase() : 'explorer',
           is_primary: true,
         })
@@ -627,52 +688,87 @@ export default function StarterPackPage() {
               onChange={e => { setChildName(e.target.value); try { localStorage.setItem('gc_starter_child_name', e.target.value.trim()) } catch {} }}
               style={{ fontSize: 'var(--text-md)', marginBottom: '22px' }}
             />
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '12px' }}>
-              How old are they?
+            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '6px' }}>
+              When were they born?
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {AGE_BAND_OPTIONS.map(opt => {
-                const st = getStageFromAgeBand(opt.value)
-                const acc = STAGE_ACCENT[st.id]
-                const on = ageBand === opt.value
-                return (
-                  <button
-                    key={opt.value}
-                    onClick={() => selectAge(opt.value)}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: '14px', width: '100%',
-                      padding: '13px 15px',
-                      background: '#fff',
-                      border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
-                      borderRadius: '16px', cursor: 'pointer', textAlign: 'left',
-                      boxShadow: on ? '0 8px 22px rgba(220,88,50,0.18)' : '0 1px 2px rgba(26,26,46,0.05)',
-                      transition: 'border-color 0.15s, box-shadow 0.15s, transform 0.1s',
-                    }}
-                  >
-                    <span style={{
-                      width: 42, height: 42, borderRadius: '13px', flexShrink: 0,
-                      background: acc.bold, color: acc.text,
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-                    }}>
-                      {st.id}
-                    </span>
-                    <span style={{ flex: 1, minWidth: 0 }}>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
-                        {opt.label}
-                      </span>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '2px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                        Stage {st.id} · {st.name}
-                      </span>
-                    </span>
-                    <span style={{ color: on ? 'var(--terracotta)' : 'var(--ink-light)', fontSize: 'var(--text-xl)', flexShrink: 0, lineHeight: 1, fontWeight: 300 }}>›</span>
-                  </button>
-                )
-              })}
+            {/* THE REASON, ON THE SCREEN. An unexplained date question at signup
+                is where a parent stops, and this one earns its place twice: it
+                sets the stage, and it is the only way to know which school year
+                they are in, which the 31 August cutoff decides. Month and year
+                only, so nothing has to be looked up. */}
+            <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-sm)', lineHeight: 1.55, marginBottom: '14px' }}>
+              Just the month and year. It sets their stage and their school year, so what we send you always matches where they actually are.
+            </p>
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '14px' }}>
+              <select
+                className="input"
+                aria-label="Birth month"
+                value={dobMonth ?? ''}
+                onChange={e => setBirthday(e.target.value ? Number(e.target.value) : null, dobYear)}
+                style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)' }}
+              >
+                <option value="">Month</option>
+                {MONTHS.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
+              </select>
+              <select
+                className="input"
+                aria-label="Birth year"
+                value={dobYear ?? ''}
+                onChange={e => setBirthday(dobMonth, e.target.value ? Number(e.target.value) : null)}
+                style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)' }}
+              >
+                <option value="">Year</option>
+                {BIRTH_YEARS.map(y => <option key={y} value={y}>{y}</option>)}
+              </select>
             </div>
-            <p style={{ textAlign: 'center', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', marginTop: '16px', lineHeight: 1.5 }}>
-              Got more than one child? You can add a brother or sister any time once you are in.
-            </p>
+
+            {/* The stage lands the moment both halves are answered, so the
+                birthday visibly BUYS something rather than being a form field.
+                This is what the band buttons used to show up front. */}
+            {ageBand && (() => {
+              const st = getStageFromAgeBand(ageBand)
+              const acc = STAGE_ACCENT[st.id]
+              return (
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: '14px',
+                  padding: '13px 15px', background: '#fff',
+                  border: '1.5px solid var(--terracotta)', borderRadius: '16px',
+                  boxShadow: '0 8px 22px rgba(220,88,50,0.18)',
+                  animation: 'buildIn 0.35s ease both',
+                }}>
+                  <span style={{
+                    width: 42, height: 42, borderRadius: '13px', flexShrink: 0,
+                    background: acc.bold, color: acc.text,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+                  }}>
+                    {st.id}
+                  </span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                      Stage {st.id}, {st.name}
+                    </span>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '2px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                      {childName.trim() || 'Your child'} is on the pathway
+                    </span>
+                  </span>
+                </div>
+              )
+            })()}
+
+            {/* SIBLINGS, SAID PROPERLY. This was a grey line at the bottom that
+                read as small print, so a parent with three children could not
+                tell whether this product was for one of them. */}
+            <div style={{
+              display: 'flex', alignItems: 'flex-start', gap: '11px',
+              background: 'var(--cream)', border: '1.5px solid var(--border)',
+              borderRadius: '14px', padding: '13px 15px', marginTop: '16px',
+            }}>
+              <span aria-hidden="true" style={{ fontSize: 'var(--text-lg)', lineHeight: 1.2, flexShrink: 0 }}>👧🧒</span>
+              <p style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                <strong style={{ color: 'var(--ink)' }}>More than one child?</strong> Start with whoever is on your mind today. You can add their brothers and sisters as soon as you are in, each with their own stage.
+              </p>
+            </div>
           </>
         )}
 
@@ -1161,7 +1257,12 @@ function ResultScreen({
   // The account was created on the first screen, so stepping in goes straight
   // to the platform, no second sign up. Only when email confirmation is
   // pending do they confirm by email first, then sign in.
-  const enterHref = needsConfirm ? `/login${email ? `?email=${encodeURIComponent(email)}` : ''}` : '/dashboard'
+  // INTO SETUP, NOT ONTO THE DASHBOARD. Justin, 13 August 2026: "guide then
+  // into the start of set up as discussed." A parent landing on Home with
+  // nothing set up meets a page about a family that does not exist yet. Setup
+  // opens on the check in that becomes their baseline, which is also the door
+  // to everything else. The welcome email points at the same place.
+  const enterHref = needsConfirm ? `/login${email ? `?email=${encodeURIComponent(email)}` : ''}` : '/dashboard/setup'
   const challengeAction = stage.challengeActions[challenge] ?? stage.action
   const challengeLabel = CHALLENGE_OPTIONS.find(c => c.value === challenge)?.label ?? 'what you told us'
   // Their child's name carries the whole page: the headline, week one and
@@ -1651,62 +1752,84 @@ function ResultScreen({
           </p>
         </div>
 
-        {/* ── Beat 5: save CTA, the one primary CTA on the page ── */}
-        <div id="chapter-cta" ref={ctaRef} className="wow-fu" style={{ background: 'var(--retro-green)', borderRadius: '20px', padding: '40px 28px', textAlign: 'center', marginBottom: '12px', scrollMarginTop: '18px' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--stage-1-bold)', marginBottom: '14px' }}>
-            {needsConfirm ? 'One last step' : 'You are all set'}
+        {/* ── Beat 5: the way in, and the only primary CTA on the page ──────
+            Justin, 13 August 2026: "tidy up next page where it says you are in
+            in green, not necessary... this needs to be all in line with web
+            design so tidy, and have passport and quests to run devices etc as
+            key, so much slicker, shorter, clearer, and guide then into the
+            start of set up."
+
+            It was a solid green block with a second, separate list of what is
+            included underneath it, so the one moment that matters was said in
+            two places in two visual languages, neither of them the one the rest
+            of the page is written in. One white card now, the same card as
+            every other card here, with the list inside it rather than after it.
+
+            The list leads with the passport and the quests because those are
+            what a parent is actually buying into: a record that fills up, and
+            jobs that earn the screen time. The four free days are named plainly
+            in their own line rather than being the headline. */}
+        <div id="chapter-cta" ref={ctaRef} className="wow-fu" style={{
+          background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
+          padding: '32px 24px', marginBottom: '12px', scrollMarginTop: '18px',
+          boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
+        }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', marginBottom: '12px' }}>
+            {needsConfirm ? 'One last step' : `Stage ${stage.id} · ${stage.name}`}
           </div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-xl)', color: '#fff', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: '12px' }}>
-            {needsConfirm ? 'Check your email' : 'Your first win is tonight'}
+          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 4vw, 2rem)', color: 'var(--ink)', fontWeight: 900, letterSpacing: '-0.02em', lineHeight: 1.15, marginBottom: '10px' }}>
+            {needsConfirm ? 'Check your email' : kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}
           </h2>
-          <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 'var(--text-base)', lineHeight: 1.6, maxWidth: '340px', margin: '0 auto 24px' }}>
+          <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', lineHeight: 1.6, marginBottom: '22px' }}>
             {needsConfirm
-              ? 'We sent a link to confirm your email. Tap it, then step straight in. Your Stage ' + stage.id + ' pathway is saved and waiting.'
-              : 'Your account is set and your Stage ' + stage.id + ' pathway is ready. Step in whenever you are. No card required.'}
+              ? 'We sent a link to confirm your email. Tap it, then step straight in. Everything you have just told us is saved.'
+              : 'Setting up takes a couple of minutes and starts with one question about where things are right now.'}
           </p>
+
+          {/* WHAT THEY ACTUALLY GET, inside the card rather than in a second
+              block below it. Passport and quests first. */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '9px', marginBottom: '24px' }}>
+            {[
+              ['🛂', 'The passport to sixteen', 'Filled in together, a stamp each stage'],
+              ['⭐', 'Quests that earn the screen time', 'Real jobs, stars, and you set the rate'],
+              ['💬', 'The words for the hard moments', 'Ready before the moment, not after'],
+              ['📱', 'Device settings, walked through', 'One at a time, in plain English'],
+              ['📊', 'The wellbeing tracker', 'So you can see what is actually working'],
+            ].map(([icon, title, sub]) => (
+              <div key={title} style={{ display: 'flex', gap: '11px', alignItems: 'flex-start' }}>
+                <span aria-hidden="true" style={{ fontSize: 'var(--text-lg)', lineHeight: 1.3, flexShrink: 0 }}>{icon}</span>
+                <span style={{ minWidth: 0 }}>
+                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{title}</span>
+                  <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.45 }}>{sub}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+
           <Link
             href={enterHref}
             className="step-cta"
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: '10px',
-              padding: '16px 36px', background: 'var(--terracotta)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+              padding: '17px 28px', background: 'var(--terracotta)',
               color: 'var(--ink)', borderRadius: '16px', textDecoration: 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-              letterSpacing: '-0.01em',
-              boxShadow: '0 5px 0 var(--terracotta-dark)',
+              letterSpacing: '-0.01em', boxShadow: '0 5px 0 var(--terracotta-dark)',
             }}
           >
             <span>
-              {needsConfirm ? 'I have confirmed, sign in' : kid ? `Step into ${kid}'s pathway` : 'Step into your pathway'}
-              {' '}<span className="arrow" aria-hidden style={{ fontSize: 'var(--text-lg)' }}>→</span>
+              {needsConfirm ? 'I have confirmed, sign in' : 'Finish setting up'}
+              {' '}<span className="arrow" aria-hidden style={{ fontSize: 'var(--text-lg)' }}>→</span>
             </span>
           </Link>
-          <p style={{ marginTop: '14px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'rgba(255,255,255,0.75)' }}>
-            Already have an account?{' '}
-            <Link href="/login" style={{ color: 'var(--stage-1-bold)', textDecoration: 'none', fontWeight: 700 }}>Sign in</Link>
+          {/* The four days said once, plainly, where a price would go. */}
+          <p style={{ textAlign: 'center', marginTop: '12px', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5 }}>
+            Everything open for four days. No card needed to start.
           </p>
-        </div>
-
-        {/* Free includes */}
-        <div className="wow-fu" style={{ padding: '24px', textAlign: 'center' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-            Free account includes
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '300px', margin: '0 auto', textAlign: 'left' }}>
-            {[
-              'Your stage pathway, saved and ready',
-              'Daily moments with the exact words',
-              '3 DiGi conversations a day',
-              'Every script, free for your first 4 days',
-              'The wellbeing tracker',
-              'Device setting checklists',
-            ].map((item, i) => (
-              <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                <span style={{ color: 'var(--terracotta-dark)', fontSize: 'var(--text-base)', flexShrink: 0 }}>✓</span>
-                <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>{item}</span>
-              </div>
-            ))}
-          </div>
+          <p style={{ textAlign: 'center', marginTop: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>
+            Already have an account?{' '}
+            <Link href="/login" style={{ color: 'var(--terracotta-dark)', textDecoration: 'none', fontWeight: 700 }}>Sign in</Link>
+          </p>
         </div>
       </div>
 

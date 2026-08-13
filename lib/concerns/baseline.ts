@@ -71,11 +71,15 @@ export async function seedBaselineConcerns(
   userId: string,
   onboardingAnswers: unknown,
 ): Promise<BaselineConcern[]> {
-  const answers = (onboardingAnswers ?? {}) as { challenge?: string | null; challenges?: string[] | null }
+  const answers = (onboardingAnswers ?? {}) as {
+    challenge?: string | null
+    challenges?: string[] | null
+  }
   const named = [
     ...(Array.isArray(answers.challenges) ? answers.challenges : []),
     ...(answers.challenge ? [answers.challenge] : []),
   ]
+
   const slugs = Array.from(new Set(
     named.map(c => ONBOARDING_TO_SLUG[String(c)]).filter(Boolean)
   ))
