@@ -3,60 +3,183 @@
   "buildCommand": "next build",
   "outputDirectory": ".next",
   "installCommand": "npm install",
-  "regions": ["lhr1"],
+  "regions": [
+    "lhr1"
+  ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
       ]
     },
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "no-store" }
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
       ]
     }
   ],
   "rewrites": [
-    { "source": "/starter-pack", "destination": "/starter-pack" }
+    {
+      "source": "/starter-pack",
+      "destination": "/starter-pack"
+    }
   ],
   "crons": [
-    { "path": "/api/cron/device-time", "schedule": "* * * * *" },
-    { "path": "/api/push/cron", "schedule": "*/30 * * * *" },
-    { "path": "/api/push/reengage", "schedule": "0 17 * * *" },
-    { "path": "/api/school/remind", "schedule": "0 17 * * *" },
-    { "path": "/api/school/morning", "schedule": "5 7 * * *" },
-    { "path": "/api/school/soon", "schedule": "*/15 * * * *" },
-    { "path": "/api/email/cron", "schedule": "0 8 * * *" },
-    { "path": "/api/cron/trial-pushes", "schedule": "30 8 * * *" },
-    { "path": "/api/email/digest", "schedule": "20 8 * * *" },
-    { "path": "/api/email/monthly", "schedule": "40 8 * * *" },
-    { "path": "/api/cron/age-up", "schedule": "30 5 * * *" },
-    { "path": "/api/cron/digi-insights", "schedule": "0 7 * * *" },
-    { "path": "/api/cron/checkin-learning", "schedule": "30 5 * * 0" },
-    { "path": "/api/cron/digi-wisdom", "schedule": "0 6 * * 0" },
-    { "path": "/api/cron/digi-quality", "schedule": "30 6 * * 1" },
-    { "path": "/api/cron/weekly-review", "schedule": "45 18 * * 0" },
-    { "path": "/api/cron/settings-nudge", "schedule": "0 10 * * 3" },
-    { "path": "/api/cron/knowledge-refresh", "schedule": "0 6 1,15 * *" },
-    { "path": "/api/cron/knowledge-embed", "schedule": "40 6 * * *" },
-    { "path": "/api/cron/followups", "schedule": "15 7 * * *" },
-    { "path": "/api/cron/answer-review", "schedule": "0 5 2 * *" },
-    { "path": "/api/cron/device-guide-refresh", "schedule": "0 7 2 * *" },
-    { "path": "/api/cron/legal-watch", "schedule": "0 8 3 1,4,7,10 *" },
-    { "path": "/api/cron/script-refresh", "schedule": "0 7 1,15 * *" },
-    { "path": "/api/cron/lesson-drip", "schedule": "0 9 1,15 * *" },
-    { "path": "/api/cron/job-reminders?band=morning", "schedule": "15 7 * * *" },
-    { "path": "/api/cron/job-reminders?band=after_school", "schedule": "30 16 * * *" },
-    { "path": "/api/cron/job-reminders?band=evening", "schedule": "45 17 * * *" },
-    { "path": "/api/cron/five-a-day", "schedule": "30 18 * * *" },
-    { "path": "/api/cron/star-week-rollover", "schedule": "10 0 * * 1" },
-    { "path": "/api/cron/management-review", "schedule": "30 0 * * 1" },
-    { "path": "/api/cron/health-alert", "schedule": "15 9 * * *" },
-    { "path": "/api/cron/passport-check", "schedule": "0 17 1 * *" }
+    {
+      "path": "/api/cron/device-time",
+      "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/push/cron",
+      "schedule": "*/30 * * * *"
+    },
+    {
+      "path": "/api/push/reengage",
+      "schedule": "0 17 * * *"
+    },
+    {
+      "path": "/api/school/remind",
+      "schedule": "0 17 * * *"
+    },
+    {
+      "path": "/api/school/morning",
+      "schedule": "5 7 * * *"
+    },
+    {
+      "path": "/api/school/soon",
+      "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/email/cron",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/trial-pushes",
+      "schedule": "30 8 * * *"
+    },
+    {
+      "path": "/api/email/digest",
+      "schedule": "20 8 * * *"
+    },
+    {
+      "path": "/api/email/monthly",
+      "schedule": "40 8 * * *"
+    },
+    {
+      "path": "/api/cron/age-up",
+      "schedule": "30 5 * * *"
+    },
+    {
+      "path": "/api/cron/digi-insights",
+      "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/cron/checkin-learning",
+      "schedule": "30 5 * * 0"
+    },
+    {
+      "path": "/api/cron/digi-wisdom",
+      "schedule": "0 6 * * 0"
+    },
+    {
+      "path": "/api/cron/digi-quality",
+      "schedule": "30 6 * * 1"
+    },
+    {
+      "path": "/api/cron/weekly-review",
+      "schedule": "45 18 * * 0"
+    },
+    {
+      "path": "/api/cron/settings-nudge",
+      "schedule": "0 10 * * 3"
+    },
+    {
+      "path": "/api/cron/knowledge-refresh",
+      "schedule": "0 6 1,15 * *"
+    },
+    {
+      "path": "/api/cron/knowledge-embed",
+      "schedule": "40 6 * * *"
+    },
+    {
+      "path": "/api/cron/followups",
+      "schedule": "15 7 * * *"
+    },
+    {
+      "path": "/api/cron/answer-review",
+      "schedule": "0 5 2 * *"
+    },
+    {
+      "path": "/api/cron/device-guide-refresh",
+      "schedule": "0 7 2 * *"
+    },
+    {
+      "path": "/api/cron/legal-watch",
+      "schedule": "0 8 3 1,4,7,10 *"
+    },
+    {
+      "path": "/api/cron/script-refresh",
+      "schedule": "0 7 1,15 * *"
+    },
+    {
+      "path": "/api/cron/lesson-drip",
+      "schedule": "0 9 1,15 * *"
+    },
+    {
+      "path": "/api/cron/job-reminders?band=morning",
+      "schedule": "15 7 * * *"
+    },
+    {
+      "path": "/api/cron/job-reminders?band=after_school",
+      "schedule": "30 16 * * *"
+    },
+    {
+      "path": "/api/cron/job-reminders?band=evening",
+      "schedule": "45 17 * * *"
+    },
+    {
+      "path": "/api/cron/five-a-day",
+      "schedule": "30 18 * * *"
+    },
+    {
+      "path": "/api/cron/star-week-rollover",
+      "schedule": "10 0 * * 1"
+    },
+    {
+      "path": "/api/cron/management-review",
+      "schedule": "30 0 * * 1"
+    },
+    {
+      "path": "/api/cron/health-alert",
+      "schedule": "15 9 * * *"
+    },
+    {
+      "path": "/api/cron/passport-check",
+      "schedule": "0 17 1 * *"
+    },
+    {
+      "path": "/api/cron/invoice-requests",
+      "schedule": "20 * * * *"
+    }
   ]
 }

@@ -11,6 +11,7 @@ const LINKS = [
   { href: '/curriculum', label: 'Curriculum' },
   { href: '/print', label: 'Print room' },
   { href: '/hub', label: 'The Hub' },
+  { href: '/pricing', label: 'Pricing' },
 ]
 
 export default function SiteNav() {

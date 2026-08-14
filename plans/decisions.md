@@ -7922,6 +7922,13 @@ every week. It is in there now, above the watch for and the suggestion, because
 good news comes before homework, and read through the same helper the page uses
 so the email and the app can never quote different numbers for the same week.
 
+---
+
+## 2026-08-14 — Schools pricing shipped: five bands, invoice payment, no checkout
+
+The 13 August pricing decision is live on the schools site. schools/lib/pricing.ts is the one place the five bands are written (Primary to 200 at £495, Primary 200 to 500 at £795, Secondary to 1,000 at £1,495, Secondary 1,000+ at £1,995, Trust or MAT on application), with the per pupil figure rendered next to every price because £795 and £2.65 per child per year are the same number and only one sounds like money. /pricing carries the bands, what every band includes, and the request an invoice form: school name, band, pupil count, contact, email and the PURCHASE ORDER NUMBER, required because finance desks bounce invoices without one. The form inserts through the anon key into schools.invoice_requests (migration 195, insert only RLS, a letterbox); the parent app's new hourly cron /api/cron/invoice-requests emails Justin each request and stamps notified_at, because the schools app carries no email code by design. No Stripe products were created and the dead school_small and school_medium keys are deleted from lib/stripe: schools pay on invoice raised by hand with 30 day terms, revisit past about fifty schools. The homepage pricing section renders from the same module so the two pages can never disagree. The open catalogue stays free, the land grab and the reason the paid tier does not need to be cheap. One structural catch fixed on the way: with npm workspaces Turbopack was compiling the PARENT app's middleware into the schools build; the schools app now pins turbopack.root and carries its own no op proxy.ts. Owner action: run migration 195 in the SQL editor.
+---
+
 ## 13 August 2026 — The passport gets its own page, and the page is tabs
 
 Justin: "this needs to be the only thing on the passport page so they can
