@@ -641,8 +641,24 @@ export default function DailyDeckViewer({
         </div>
       </div>
 
-      {/* Navigation: one Next affordance, the single big button */}
-      <div style={{ display: 'flex', gap: '10px' }}>
+      {/* NAVIGATION: ONE NEXT AFFORDANCE, AND IT NEVER LEAVES THE SCREEN.
+          Justin, 14 August 2026: "one quick issue on moment cards on laptop you
+          need to scroll down to see button for next should be near top so easy
+          to navigate."
+          He is right about the problem and I have put it at the FOOT rather
+          than the top, pinned. The card is the thing being read, and a Next
+          above it sits between the parent and the words, then asks them to
+          scroll back up after every card. Sticky solves what he actually named,
+          which is having to scroll to find it at all: it is on screen from the
+          first pixel of every card regardless of how tall the card runs. Easy
+          to move to the top if he would rather. The offset clears the mobile
+          tab bar, which would otherwise sit on top of it. */}
+      <div style={{
+        display: 'flex', gap: '10px',
+        position: 'sticky',
+        bottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
+        zIndex: 5,
+      }}>
         {cardIndex > 0 && (
           <button
             onClick={() => navigate('back')}

@@ -68,12 +68,24 @@ export function readTab(raw: string | undefined): PassportTabKey {
 export default function PassportTabs({
   active,
   childParam,
+  from,
 }: {
   active: PassportTabKey
   /** Carried through every tab so switching tabs never silently switches child. */
   childParam?: string
+  /**
+   * Where they arrived from, carried the same way and for the same reason.
+   *
+   * Without it, a parent who came from the daily loop, read the book and then
+   * tapped Shop has lost the way back to Today, because the back link was on
+   * the first tab only. Arriving somewhere and then looking around is not
+   * leaving.
+   */
+  from?: string
 }) {
-  const suffix = childParam ? `&child=${encodeURIComponent(childParam)}` : ''
+  const suffix =
+    (childParam ? `&child=${encodeURIComponent(childParam)}` : '')
+    + (from ? `&from=${encodeURIComponent(from)}` : '')
 
   return (
     <nav

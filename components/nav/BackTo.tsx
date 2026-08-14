@@ -44,6 +44,13 @@ const ORIGINS: Record<string, { href: string; label: string }> = {
   // they left it, not scroll Home again after every single fix.
   'home-check': { href: '/dashboard#home-check', label: 'the check list' },
   quests: { href: '/dashboard/quests', label: 'Quests' },
+  // Justin, 14 August 2026, walking the loop: "after going through the moment
+  // cards on today it did confirm agreement which is great but needs a
+  // navigation back to today." Today is a road with rungs after this one, so
+  // finishing a rung and being stranded is worse here than anywhere else: the
+  // parent has to find their place again to carry on with a list they were
+  // halfway down.
+  today: { href: '/dashboard#today', label: 'Today' },
   school: { href: '/dashboard/school', label: 'School' },
 }
 

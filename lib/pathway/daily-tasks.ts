@@ -282,7 +282,7 @@ export async function getTodayLoop(
     ...(agreementUpdatedAt ? [{
       key: 'agreement' as const,
       label: 'The deal',
-      href: '/dashboard/agreement',
+      href: '/dashboard/agreement?from=today',
       done: agreementFreshThisWeek,
     }] : []),
     {
@@ -329,10 +329,12 @@ export async function getTodayLoop(
     ...(passportOutstanding !== null ? [{
       key: 'passport' as const,
       label: 'Passport',
-      // Its own page since 13 August, rather than a heading part way down the
-      // road. This rung is the whole reason that split was worth doing: it can
-      // now land ON the passport rather than near it.
-      href: '/dashboard/passport',
+      // Both halves of this line arrived from different branches on the same
+      // day and both are right. The route is the passport's own page since
+      // 13 August, which is the whole reason that split was worth doing: this
+      // rung can land ON the passport rather than near it. The from=today is
+      // main's, so the way back to the loop is on the page when they arrive.
+      href: '/dashboard/passport?from=today',
       done: passportOutstanding === 0,
     }] : []),
     // ── DIGI CLOSES THE DAY ────────────────────────────────────────────────

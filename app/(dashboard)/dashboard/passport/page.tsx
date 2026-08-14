@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
+import BackTo from '@/components/nav/BackTo'
 import PassportTabs, { readTab, tabTheme } from '@/components/passport/PassportTabs'
 import SectionTiles from '@/components/ui/SectionTiles'
 
@@ -71,13 +72,13 @@ const STAGE_ID_TO_NUM: Record<string, number> = {
 export default async function PassportPage({
   searchParams,
 }: {
-  searchParams: Promise<{ tab?: string; child?: string; ordered?: string; cancelled?: string }>
+  searchParams: Promise<{ tab?: string; child?: string; ordered?: string; cancelled?: string; from?: string }>
 }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { tab: tabParam, child: childParam, ordered, cancelled } = await searchParams
+  const { tab: tabParam, child: childParam, ordered, cancelled, from } = await searchParams
   const tab = readTab(tabParam)
   const theme = tabTheme(tab)
 
@@ -94,14 +95,27 @@ export default async function PassportPage({
 
   return (
     <div style={{ padding: '10px 0 32px' }}>
+      {/* THE WAY BACK TO TODAY.
+          main added ?from=today to the passport rung on the daily loop the same
+          afternoon this page was built, on Justin's note that a page reached
+          from the loop "needs a navigation back to today". The rung now lands
+          here rather than on the road, so the back link has to be here or that
+          change silently does nothing on the one page it was aimed at.
+          Only when they arrived from somewhere: no origin, no link, because a
+          back button to a page you were never on is furniture. */}
+      {from && (
+        <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto' }}>
+          <BackTo from={from} fallback={{ href: '/dashboard#today', label: 'Today' }} />
+        </div>
+      )}
       {children.length > 1 && (
         <div style={{ padding: '0 20px', maxWidth: 720, margin: '0 auto' }}>
-          <ChildSwitcher kids={children} selectedId={child?.id ?? null} basePath={`/dashboard/passport?tab=${tab}`} />
+          <ChildSwitcher kids={children} selectedId={child?.id ?? null} basePath={`/dashboard/passport?tab=${tab}${from ? `&from=${encodeURIComponent(from)}` : ''}`} />
         </div>
       )}
 
       <div style={{ maxWidth: 720, margin: '0 auto' }}>
-        <PassportTabs active={tab} childParam={childParam} />
+        <PassportTabs active={tab} childParam={childParam} from={from} />
       </div>
 
       {/* The panel takes the tab's own whisper tint, which is the strongest
