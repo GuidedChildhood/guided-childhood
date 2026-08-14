@@ -1036,6 +1036,23 @@ export default function StarterPackPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {TIME_COMMITMENT_OPTIONS.map(opt => {
                 const on = timeCommitment === opt.value
+                // ── TEN MINUTES IS THE RECOMMENDATION, AND IT SAYS SO ────────
+                //
+                // Justin, 13 August 2026: "this page should highlight the 10
+                // minutes as recommended."
+                //
+                // The three read as equals with a faint tint on the middle one,
+                // and "the pace most families use" is doing the persuading in
+                // grey uppercase underneath, which is where a reader's eye goes
+                // last. A parent picking blind here picks 5, and 5 minutes is
+                // not enough day to build a habit on.
+                //
+                // Ten is also the number the whole product already promises:
+                // the welcome email says ten minutes a day and TASK_MINUTES
+                // budgets the road to ten. So this is not a nudge invented for
+                // the screen, it is the page finally agreeing with everything
+                // else.
+                const recommended = opt.value === '10min'
                 return (
                   <button
                     key={opt.value}
@@ -1043,16 +1060,30 @@ export default function StarterPackPage() {
                     style={{
                       display: 'flex', alignItems: 'center', gap: '14px', width: '100%',
                       padding: '15px 16px',
-                      background: '#fff',
-                      border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                      background: recommended && !on ? 'var(--stage-1)' : '#fff',
+                      border: `${recommended ? 2 : 1.5}px solid ${on || recommended ? 'var(--terracotta)' : 'var(--border)'}`,
                       borderRadius: '16px', cursor: 'pointer', textAlign: 'left',
-                      boxShadow: on ? '0 8px 22px rgba(220,88,50,0.18)' : '0 1px 2px rgba(26,26,46,0.05)',
+                      boxShadow: on
+                        ? '0 8px 22px rgba(220,88,50,0.18)'
+                        : recommended ? '0 5px 0 var(--terracotta-dark)' : '0 1px 2px rgba(26,26,46,0.05)',
                       transition: 'border-color 0.15s, box-shadow 0.15s',
                     }}
                   >
                     <span style={{ flex: 1, minWidth: 0 }}>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
-                        {opt.label}
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+                          {opt.label}
+                        </span>
+                        {recommended && (
+                          <span style={{
+                            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                            letterSpacing: '0.1em', textTransform: 'uppercase',
+                            color: 'var(--ink)', background: 'var(--gold)',
+                            borderRadius: '100px', padding: '3px 9px',
+                          }}>
+                            Recommended
+                          </span>
+                        )}
                       </span>
                       <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '2px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                         {opt.sub}
@@ -1507,10 +1538,28 @@ function ResultScreen({
             in the same colour and knows both go to the same place. Flat fill,
             no chunky drop shadow: this one is the clean confident one. */}
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+          {/* ── THE WAY IN, SAID BRIGHTLY ────────────────────────────────────
+              Justin, 13 August 2026: "I want the top right take me straight
+              there to say let's get started, and a brighter, more professional,
+              Apple style button." Then: "as well as top right, so it looks more
+              finished and stylish."
+
+              It was a white pill with a grey hairline and teal text, which is
+              the styling of a thing you are not really meant to press. "Take me
+              straight in" also asks a parent to know where in is.
+
+              Solid gold with ink on it, the same button language as the bar at
+              the bottom and the CTA at the end, so all three doors out of this
+              page look like the same door rather than three different ideas. */}
           <Link href={enterHref} style={{
             display: 'inline-flex', alignItems: 'center', gap: '7px',
             fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
-            letterSpacing: '-0.01em', color: accent.text, textDecoration: 'none',
+            // INK, not accent.text. Justin, 13 August: the text "needs to be
+            // dark or match better, as well as top right". A stage's own text
+            // colour on that same stage's fill is two relatives of one hue, and
+            // on the pink stage they landed close enough to be hard to read.
+            // Ink is dark on every one of the five.
+            letterSpacing: '-0.01em', color: 'var(--ink)', textDecoration: 'none',
             border: 'none', borderRadius: '100px', padding: '11px 20px', background: accent.bold,
             boxShadow: '0 4px 14px -4px rgba(26,26,46,0.30)',
           }}>
@@ -1923,36 +1972,40 @@ function ResultScreen({
           transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease',
         }}
       >
-        {/* THE BAR WEARS THE STAGE, NOT BLACK.
+        {/* ── INK ON A PASTEL, NOT COLOUR ON COLOUR ──────────────────────────
+            Justin, 13 August 2026: "the text colour on this pop up needs to be
+            dark or match better, as well as top right, so it looks more
+            finished and stylish."
 
-            Justin, 13 August 2026: it is "near black", make it a pastel fitting
-            the stage colour, matching the top right button.
+            The bar was a solid dark ground carrying white text and a coloured
+            button, which is three strong colours fighting in a strip 44px tall,
+            and on the stage tinted version the name and the ground ended up
+            close enough to be hard to read.
 
-            The deep teal was carried over from the marketing footer, where a
-            dark band is the point. Here it was the last thing a parent saw at
-            the end of a page that has spent five screens colouring itself in
-            their child's stage, and it arrived looking like a cookie banner.
-            The same pastel as the button at the top means the page opens and
-            closes on the same colour and the same offer, and the child's name
-            is already in it. */}
+            One ground, ink on it, one gold button. The stage colour stays as a
+            hairline rather than a fill, so the bar still belongs to this child's
+            stage without the text having to survive whatever colour that is. */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: '12px',
           width: 'min(100%, 460px)',
-          background: accent.bold, borderRadius: '18px',
+          background: '#fff', borderRadius: '18px',
+          border: `2px solid ${accent.bold}`,
           padding: '10px 10px 10px 18px',
-          boxShadow: '0 12px 36px -8px rgba(26,26,46,0.32)',
+          boxShadow: '0 12px 36px rgba(26,26,46,0.22)',
         }}>
-          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: accent.text, lineHeight: 1.3 }}>
+          <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>
             {kid ? `${kid}'s pathway is ready` : 'Your pathway is ready'}
           </span>
           <Link
             href={enterHref}
             style={{
               flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: '7px',
-              padding: '11px 18px', background: '#fff', color: accent.text,
+              // The same button as the top right, so the page opens and closes
+              // on one door rather than two different ones.
+              padding: '11px 18px', background: accent.bold, color: 'var(--ink)',
               borderRadius: '13px', textDecoration: 'none',
               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-              boxShadow: '0 3px 0 rgba(26,26,46,0.13)',
+              boxShadow: '0 3px 0 rgba(26,26,46,0.16)',
             }}
           >
             Step in <span aria-hidden>→</span>
