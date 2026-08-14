@@ -28,7 +28,7 @@ export async function POST() {
     .eq('id', user.id)
     .is('home_screen_at', null)
 
-  // Before migration 195 the column does not exist and this fails. The caller
+  // Before migration 197 the column does not exist and this fails. The caller
   // fires and forgets, so a deploy that has run the code and not the migration
   // simply leaves the step to be finished by turning reminders on, which is
   // the other half of it. Nothing a parent can see breaks.

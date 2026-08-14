@@ -1,4 +1,10 @@
--- 195: the home screen half of the last Setup Quest step.
+-- 197: the home screen half of the last Setup Quest step.
+--
+-- Numbered 195 when it was written and applied, then renumbered on merging main
+-- on 14 August 2026: two other sessions had taken 195 (the schools invoice
+-- letterbox) and 196 (the sign up charging flow) in the same afternoon. The
+-- column is already on the live database under the earlier name. It is
+-- `if not exists`, so running it again under this number changes nothing.
 --
 -- The Setup Quest is three steps now (plans/setup-quest-three-steps.md) and the
 -- third is "set up as home page, and set reminders". The reminders half already

@@ -39,7 +39,23 @@ export type SetupState = {
 
 export async function getSetupState(supabase: FlagClient, userId: string): Promise<SetupState> {
   const [child, agreement, push, kidLinks, profile] = await Promise.all([
-    supabase.from('children').select('id, name').eq('parent_id', userId).eq('is_primary', true).maybeSingle(),
+    // ── NOT maybeSingle ON is_primary, AND THE LIVE DATA IS WHY ──────────────
+    //
+    // The obvious read here is .eq('is_primary', true).maybeSingle(), and it is
+    // what every other caller does. On the live account it returns an ERROR and
+    // no row, because FOUR of the five children carry is_primary = true: Teo and
+    // three test children all called Toon. PostgREST treats more than one row as
+    // a failure for single, so data comes back null and the share step would
+    // have rendered "Add your child first" to a parent with five children on the
+    // account.
+    //
+    // Nothing guarantees one primary per family. There is no unique constraint,
+    // and every path that adds a child can set the flag. So this asks for the
+    // list and takes the first, ordered so the answer is stable between loads
+    // rather than whatever the planner hands back: a primary if there is one,
+    // then oldest first.
+    supabase.from('children').select('id, name, is_primary, created_at').eq('parent_id', userId)
+      .order('is_primary', { ascending: false }).order('created_at', { ascending: true }).limit(1),
     supabase.from('family_agreements').select('id').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('kid_links').select('child_id').eq('user_id', userId),
@@ -89,7 +105,7 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     // subscription there is proof of both.
     //
     // home_screen_at is written by the app being opened in standalone mode,
-    // never by a parent tapping to say they did it. See migration 195.
+    // never by a parent tapping to say they did it. See migration 197.
     homeScreen: !!push.data || !!(profile.data as { home_screen_at?: string | null } | null)?.home_screen_at,
   }
 
@@ -105,7 +121,10 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     complete: current === null,
     current,
     handoverSettled,
-    child: child.data ? { id: child.data.id as string, name: (child.data.name as string | null) ?? null } : null,
+    child: (() => {
+      const row = (child.data ?? [])[0]
+      return row ? { id: row.id as string, name: (row.name as string | null) ?? null } : null
+    })(),
   }
 }
 
