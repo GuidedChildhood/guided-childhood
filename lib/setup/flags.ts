@@ -1,16 +1,21 @@
 import { visibleSteps, type SetupFlags, type SetupStep } from './steps'
 import { getFamilyHandover, offerableChildren } from '@/lib/handover/settled'
 
-// The setup state in one place, so the Home entry and the dedicated Setup
-// hub read exactly the same flags and step list. Setup is one time work; it
-// lives on its own page, and Home only carries a compact way in until it is
-// done. This is the read that powers both.
+// The setup state in one place, so the Home entry, the floating next step bar
+// and the Setup Quest page read exactly the same flags and the same list.
+//
+// ── DONE MEANS DONE ─────────────────────────────────────────────────────────
+//
+// Every flag below is a record of something that HAPPENED, never of something
+// being seen. That is the one rule the plan asks for by name, because it was
+// broken once already: the daily practice step ticked off the page having been
+// opened, and had to be fixed on 13 August 2026. The note against each flag
+// says what the parent had to actually do to earn it.
 
 type FlagClient = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
 
 export type SetupState = {
   flags: SetupFlags
-  phoneAge: boolean
   steps: SetupStep[]
   doneCount: number
   total: number
@@ -23,46 +28,45 @@ export type SetupState = {
    * not the only thing that needs it. The coverage card on Home and the
    * welcome card both key off the same childLink flag, so handing this back
    * lets one read silence all three instead of each making its own.
+   *
+   * Since 14 August 2026 it also TICKS the share step rather than hiding it.
+   * See the note in lib/setup/steps.ts.
    */
   handoverSettled: boolean
+  /** The primary child, for the share step's two doors on the setup page. */
+  child: { id: string; name: string | null } | null
 }
 
 export async function getSetupState(supabase: FlagClient, userId: string): Promise<SetupState> {
-  const [child, agreement, questsCount, school, anySchool, push, daily, kidLinks, birthdays] = await Promise.all([
-    supabase.from('children').select('id, age_band').eq('parent_id', userId).eq('is_primary', true).maybeSingle(),
+  const [child, agreement, push, kidLinks, profile] = await Promise.all([
+    // ── NOT maybeSingle ON is_primary, AND THE LIVE DATA IS WHY ──────────────
+    //
+    // The obvious read here is .eq('is_primary', true).maybeSingle(), and it is
+    // what every other caller does. On the live account it returns an ERROR and
+    // no row, because FOUR of the five children carry is_primary = true: Teo and
+    // three test children all called Toon. PostgREST treats more than one row as
+    // a failure for single, so data comes back null and the share step would
+    // have rendered "Add your child first" to a parent with five children on the
+    // account.
+    //
+    // Nothing guarantees one primary per family. There is no unique constraint,
+    // and every path that adds a child can set the flag. So this asks for the
+    // list and takes the first, ordered so the answer is stable between loads
+    // rather than whatever the planner hands back: a primary if there is one,
+    // then oldest first.
+    supabase.from('children').select('id, name, is_primary, created_at').eq('parent_id', userId)
+      .order('is_primary', { ascending: false }).order('created_at', { ascending: true }).limit(1),
     supabase.from('family_agreements').select('id').eq('user_id', userId).limit(1).maybeSingle(),
-    supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('active', true),
-    supabase.from('school_connections').select('id').eq('user_id', userId).eq('active', true).maybeSingle(),
-    supabase.from('school_actions').select('id').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', userId).limit(1).maybeSingle(),
-    supabase.from('daily_sessions').select('id').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('kid_links').select('child_id').eq('user_id', userId),
-    supabase.from('children').select('date_of_birth').eq('parent_id', userId),
+    supabase.from('profiles').select('home_screen_at').eq('id', userId).maybeSingle(),
   ])
-
-  const phoneAge = !!child.data?.age_band && child.data.age_band !== '4-7'
-  const flags: SetupFlags = {
-    agreement: !!agreement.data,
-    quests: (questsCount.count ?? 0) > 0,
-    school: !!school.data || !!anySchool.data,
-    push: !!push.data,
-    daily: !!daily.data,
-    childLink: (kidLinks.data ?? []).some(k => k.child_id === child.data?.id),
-    birthday: allBirthdaysIn(birthdays),
-  }
 
   // HAS THIS FAMILY ALREADY SAID NO TO A CHILD DEVICE?
   //
-  // If they have, the phone link step leaves the path entirely rather than
-  // sitting on it unticked for ever. That distinction matters more here than
-  // anywhere else in the product: setup's whole promise is to tell a parent
-  // what is still missing, so a step that can never be ticked leaves them
-  // permanently at six of seven, told they are incomplete because of a
-  // decision they made on purpose.
-  //
-  // Read after the flags rather than inside the Promise.all above, because it
-  // is allowed to fail. A handover read that throws must cost the nudge, never
-  // the setup page.
+  // Read after the others rather than inside the Promise.all, because it is
+  // allowed to fail. A handover read that throws must cost the tick, never the
+  // setup page.
   let handoverSettled = false
   try {
     const family = await getFamilyHandover(supabase as Parameters<typeof getFamilyHandover>[0], userId)
@@ -70,18 +74,69 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     // Settled when nobody is left to offer it to: either every child has been
     // answered for, or the ones who have not are already linked.
     handoverSettled = offerableChildren(family, linked).length === 0 && family.children.length > 0
-  } catch { /* the path simply keeps the step, which is the old behaviour */ }
+  } catch { /* the step simply stays open, which is the old behaviour */ }
 
-  const steps = visibleSteps(phoneAge, handoverSettled)
+  const flags: SetupFlags = {
+    // DONE WHEN: a family_agreements row exists, which only the builder writes,
+    // at the end, on a signature.
+    agreement: !!agreement.data,
+
+    // DONE WHEN: a link was created for a child, OR this family answered the
+    // question the other way.
+    //
+    // The second half is the change of 14 August 2026. "No phone, keep it on
+    // the fridge" is an ANSWER, and a step whose question has been answered is
+    // finished. Leaving it open turned a deliberate choice into a permanent
+    // reproach, which is the exact thing lib/handover/settled.ts exists to
+    // stop. Nothing is lost by closing it: the six month re-offer in that file
+    // is what tells a family later that the child app is there when a phone
+    // eventually arrives.
+    childLink: (kidLinks.data ?? []).length > 0 || handoverSettled,
+
+    // DONE WHEN: the app has been opened from the home screen, OR reminders
+    // are on. Either half genuinely delivers the step, so either half finishes
+    // it.
+    //
+    // Not both, deliberately. Requiring both would strand a parent on a laptop
+    // and a parent who has declined notifications at two of three for ever,
+    // which is the un-tickable step that lib/handover/settled.ts was written
+    // to end. And on iPhone the two are not independent anyway: Apple only
+    // allows web push once the app IS on the home screen, so a push
+    // subscription there is proof of both.
+    //
+    // home_screen_at is written by the app being opened in standalone mode,
+    // never by a parent tapping to say they did it. See migration 197.
+    homeScreen: !!push.data || !!(profile.data as { home_screen_at?: string | null } | null)?.home_screen_at,
+  }
+
+  const steps = visibleSteps()
   const doneCount = steps.filter(s => flags[s.key]).length
   const current = steps.find(s => !flags[s.key]) ?? null
 
-  return { flags, phoneAge, steps, doneCount, total: steps.length, complete: current === null, current, handoverSettled }
+  return {
+    flags,
+    steps,
+    doneCount,
+    total: steps.length,
+    complete: current === null,
+    current,
+    handoverSettled,
+    child: (() => {
+      const row = (child.data ?? [])[0]
+      return row ? { id: row.id as string, name: (row.name as string | null) ?? null } : null
+    })(),
+  }
 }
 
 // Done means every child on the account has a birthday, not just the primary
 // one. A second child with no date is a second learning sheet that cannot be
-// built, so the step stays open until the whole family is in.
+// built.
+//
+// KEPT AFTER THE BIRTHDAY STEP WAS CUT (14 August 2026), because it was never
+// really about setup. Signup asks for month and year now, so this is true for
+// every new family and the step had nothing to say. The predicate itself is
+// still the honest answer to "can we work out this child's school year", which
+// is a question the learning sheets and lib/learning/term.ts still ask.
 //
 // It reads done in two cases where we genuinely have nothing to ask for: an
 // account with no children yet, which onboarding is about to fix anyway, and an

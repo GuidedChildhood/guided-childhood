@@ -21,7 +21,7 @@ export type BaselineConcern = {
 // Concern slugs are free form kebab case across the product (bedtime,
 // morning-tv-habit, rightnow-tv-off), written by DiGi and the moments deck.
 // There is no registry to add to, so these are simply the same shape.
-const ONBOARDING_TO_SLUG: Record<string, string> = {
+export const ONBOARDING_TO_SLUG: Record<string, string> = {
   morning_tv: 'morning-tv',
   controller_fights: 'controller-fights',
   wont_put_down: 'wont-put-down',
@@ -37,7 +37,7 @@ const ONBOARDING_TO_SLUG: Record<string, string> = {
 
 // What the parent sees on the row. Plain, and in their words rather than
 // ours: these are the six the wizard offers, spelled out.
-const LABEL: Record<string, string> = {
+export const LABEL: Record<string, string> = {
   'morning-tv': 'Morning TV',
   'controller-fights': 'Controller fights',
   'wont-put-down': 'Will not put it down',

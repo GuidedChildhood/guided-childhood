@@ -75,16 +75,20 @@ export default function SetupNextBar() {
     }
   }, [refetch])
 
-  // Whether this place and moment could carry the bar at all. The first step,
-  // the daily practice, is driven by the home card and runs across several
-  // pages, so the bar never nags it. The home page owns the full setup card,
-  // and the bar never points a parent at the page they are already on. seen is
-  // null until localStorage has been read, which keeps the bar off the first
-  // paint rather than flashing it at somebody who has already dismissed it.
+  // Whether this place and moment could carry the bar at all. The home page
+  // owns the full setup card, and the bar never points a parent at the page
+  // they are already on, which now also covers the two steps whose work happens
+  // on the setup page itself: their href is /dashboard/setup, so the bar simply
+  // does not appear once a parent is standing there. seen is null until
+  // localStorage has been read, which keeps the bar off the first paint rather
+  // than flashing it at somebody who has already dismissed it.
+  //
+  // The daily practice used to be excluded by name here, because it was step
+  // one and ran across several pages. It is not a setup step any more: it is
+  // the daily loop. See lib/setup/steps.ts.
   const base = next ? next.href.split('#')[0].split('?')[0] : ''
   const candidate =
     !!next && !hidden && seen !== null &&
-    next.key !== 'daily' &&
     pathname !== '/dashboard' &&
     pathname !== base
 

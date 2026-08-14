@@ -8007,6 +8007,47 @@ morning, removed the six planet coins from Home quoting those exact words. The
 rotating PlanetCard under the stages road is the other surface and is still
 there. Whether that one goes too is Justin's call, not a guess worth making.
 
+## 14 August 2026 — The moment card drew from a pool that was always empty
+
+Justin asked how Today chooses the moment. Two faults, and the second one only
+showed up because the live database was queried rather than the code read.
+
+THE POOL WAS EMPTY, FOR EVERY FAMILY, SINCE IT WAS WRITTEN. The query filtered
+on `category = 'daily-moments'` and there is no such category: the scripts in
+the 1301 to 1399 band are filed under everyday-routines, screen-time, gaming,
+family-rules, school-and-ai, staying-safe, mood-confidence and social-media.
+Zero rows, every stage, every day. Nothing failed loudly, which is why it
+survived: the pool came back empty, momentScript stayed null and the card was
+skipped, so the deck ran one card short for its whole life. The sort_order band
+IS the daily moments set and is what the comment always meant.
+
+THE SELECTION WAS THE CALENDAR. Moments flagged yesterday, otherwise
+`pool[dayIndex % pool.length]`. That fallback fires on every day a parent did
+not log something the day before, which is most days.
+
+Four sources now, all about the family: yesterday, then their live worries most
+recently raised first, then what they ticked at signup off onboarding_answers,
+then the calendar last. The eyebrow names which, because "because you flagged
+this yesterday" over a card picked by the date is the product bluffing. Nothing
+raised at all means the card says so and sends them to the timeline.
+
+MATCHING IS ORDERED, NOT ANY-OF, and the live data is what proved it had to be.
+"Bedtime battle" was landing on "Homework Every Night is a Battle" because the
+specific word missed and the generic one decided. Keywords are tried in order
+and the first that hits wins. Verb fragments are stopwords too: "Coming off a
+device" was landing on "When Group Chat Drama COMEs Home".
+
+## 14 August 2026 — One resting rule, shared by the check in and the moments
+
+Justin: "when they say issue is doing great it also drops off from moments."
+
+lib/concerns/resting.ts is the only copy. A worry rests when the last number was
+the top band and nothing has raised it since, and the way back needs no column
+of its own because raising it as a moment, through DiGi or through Right now all
+write last_flagged_at. Two copies of this would drift, and the day they drifted
+the check in would congratulate a family on something the deck was still
+worrying about.
+
 ---
 
 ## 2026-08-14 — Schools is LIVE on schools.guidedchildhood.com
