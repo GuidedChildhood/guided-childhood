@@ -19,7 +19,8 @@
 //
 // Usage: node --experimental-strip-types scripts/check-paywall-paths.mjs
 
-import { needsMembership, hasFullAccess, paymentNeedsAttention, TRIAL_DAYS } from '../lib/access.ts'
+import { needsMembership, hasFullAccess, paymentNeedsAttention, trialDaysLeft, inTrial, TRIAL_DAYS } from '../lib/access.ts'
+import { ourStatusFor } from '../lib/stripe/subscription-status.ts'
 
 let failures = 0
 const check = (name, ok, detail = '') => {
@@ -51,7 +52,7 @@ for (const shut of [
   '/dashboard/explore', '/dashboard/guide', '/dashboard/homework',
   '/dashboard/insights', '/dashboard/keepsakes', '/dashboard/learning',
   '/dashboard/lessons', '/dashboard/moments', '/dashboard/new-script',
-  '/dashboard/notifications', '/dashboard/pathway', '/dashboard/phone-setup',
+  '/dashboard/notifications', '/dashboard/road', '/dashboard/passport', '/dashboard/phone-setup',
   '/dashboard/printables', '/dashboard/quests', '/dashboard/school',
   '/dashboard/scripts', '/dashboard/secondary', '/dashboard/setup',
   '/dashboard/social-settings', '/dashboard/stats', '/dashboard/tell-a-parent',
@@ -125,6 +126,50 @@ check('an unknown status is not waved through',
 
 // ── THE NUMBER ──────────────────────────────────────────────────────────────
 check('the trial is four days, which is what he asked for', TRIAL_DAYS === 4, String(TRIAL_DAYS))
+
+// ── THE COUNTDOWN ON THE FREE DAYS ──────────────────────────────────────────
+//
+// Justin, 14 August 2026: "make sure there is countdown on free days."
+// TrialCountdown on Home reads these two, so what they say is what a parent
+// sees. Rounded UP, so the last part day still reads as a day rather than as
+// zero days left while the door is demonstrably still open.
+// A minute SHORT of n days, not a minute over. Over rounds up to n + 1, which
+// is the fixture lying rather than the product: trialEndsFromNow writes exactly
+// now + 4 days, so the very first reading is 4 and this has to model that.
+const inDays = n => ({ trial_ends_at: new Date(Date.now() + n * 86400000 - 60000).toISOString() })
+check('day one of four counts four', trialDaysLeft(inDays(4)) === 4, String(trialDaysLeft(inDays(4))))
+check('the last hours still count one, never zero', trialDaysLeft(inDays(0.2)) === 1, String(trialDaysLeft(inDays(0.2))))
+check('an expired trial counts zero', trialDaysLeft(inDays(-3)) === 0, String(trialDaysLeft(inDays(-3))))
+check('and never a negative number', trialDaysLeft(inDays(-90)) >= 0)
+check('a member is not shown a countdown',
+  !inTrial({ subscription_status: 'active', trial_ends_at: inDays(3).trial_ends_at }))
+check('a family mid trial is', inTrial(inDays(3)))
+
+// ── THE WHOLE LIFE OF A SUBSCRIPTION, END TO END ────────────────────────────
+//
+// Stripe says a word, ourStatusFor turns it into one of our three, hasFullAccess
+// decides whether the door opens. This walks the chain rather than each link,
+// because every real fault in this area has been at a join: a status nobody
+// mapped, or a mapped status nobody gated on.
+const door = stripeStatus =>
+  hasFullAccess({ subscription_status: ourStatusFor(stripeStatus), trial_ends_at: null })
+
+check('they pay, the door opens', door('active'))
+check('a card up front trial is in, not locked out of its own free days', door('trialing'))
+check('the charge bounces, the door STAYS open while Stripe retries', door('past_due'))
+check('and they are told, so the card can be fixed before Stripe gives up',
+  paymentNeedsAttention({ subscription_status: ourStatusFor('past_due') }))
+check('Stripe gives up and cancels, the door shuts', !door('canceled'))
+check('an unpaid subscription is shut too', !door('unpaid'))
+check('a checkout that expired never opened it', !door('incomplete_expired'))
+check('and a status Stripe has not invented yet fails CLOSED', !door('some_future_status'))
+check('nothing at all fails closed', !door(null) && !door(undefined))
+
+// The one that would cost money silently: an unknown Stripe word must never
+// become one of our paying words.
+check('no unknown status can ever map to a paying one',
+  ['canceled', 'unpaid', 'incomplete', 'incomplete_expired', 'paused', '', 'ACTIVE']
+    .every(x => ourStatusFor(x) === 'cancelled'))
 
 console.log(`\n${failures === 0 ? 'all passed' : failures + ' failed'}`)
 process.exit(failures === 0 ? 0 : 1)

@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
       body: passed
         ? `${right} of ${total} right. That is the last green before the stamp.`
         : `${right} of ${total} this time. They can go back over the lessons and try again.`,
-      url: '/dashboard/pathway',
+      url: '/dashboard/passport',
     })
   } catch { /* push is best effort */ }
 

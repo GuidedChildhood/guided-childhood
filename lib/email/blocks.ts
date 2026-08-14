@@ -229,7 +229,7 @@ export function bandedWrapper(params: {
       <span style="font-family:${MONO};font-size:11px;color:${INK_MUTED};line-height:1.7">
         <a href="${APP}/dashboard" style="color:${INK_MUTED};text-decoration:none">Home</a>
         &nbsp;&nbsp;<a href="${APP}/dashboard/scripts" style="color:${INK_MUTED};text-decoration:none">Scripts</a>
-        &nbsp;&nbsp;<a href="${APP}/dashboard/pathway" style="color:${INK_MUTED};text-decoration:none">Pathway</a>
+        &nbsp;&nbsp;<a href="${APP}/dashboard/road" style="color:${INK_MUTED};text-decoration:none">The road</a>
         <br>You get these because you joined Guided Childhood.
         <a href="${unsubscribe}" style="color:${INK_MUTED}">Stop the emails</a>
       </span>

@@ -173,7 +173,7 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
           from growing into each other again. */}
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: 0 }}>
         The journeys, the stamps and the readiness readings are in{' '}
-        <Link href="/dashboard/pathway" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>the passport</Link>.
+        <Link href="/dashboard/passport" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>the passport</Link>.
       </p>
     </div>
   )

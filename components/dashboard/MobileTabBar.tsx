@@ -87,7 +87,7 @@ const NAV_TABS: Tab[] = [
     ),
   },
   {
-    href: '/dashboard/pathway', label: 'Passport', colour: '#7A5C1E', tint: 'var(--tint-amber)',
+    href: '/dashboard/passport', label: 'Passport', colour: '#7A5C1E', tint: 'var(--tint-amber)',
     icon: a => (
       <svg {...S} stroke="currentColor">
         <path d="M5 3.8h11.5a2.5 2.5 0 0 1 2.5 2.5v13.9H7.5A2.5 2.5 0 0 1 5 17.7V3.8Z" fill={a ? 'currentColor' : 'none'} />

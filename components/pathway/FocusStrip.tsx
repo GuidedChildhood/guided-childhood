@@ -2,25 +2,34 @@ import Link from 'next/link'
 
 // The one thing this family is working on, and the door to the words for it.
 //
-// ── IT LIVES ON THE PATHWAY, NOT ON HOME (12 August 2026) ────────────────────
+// ── THE COMMENT THAT USED TO BE HERE WAS WRONG (13 August 2026) ─────────────
 //
-// Justin: "focus, words for tonight, can be their appearance on pathway, not
-// here on home."
+// It argued at length that this strip belonged on the stages road page,
+// because on 12 August Justin said: "focus, words for tonight, can be their
+// appearance on pathway, not here on home."
 //
-// He is right and the reason is what each page is for. Home is today: what is
-// due, what is waiting, what to tap now. The pathway is the journey: where this
-// family started, what they are working on, how far they have come. A strip
-// that names the one open concern and offers the words for it is a sentence
-// about the journey, and on Home it was one more thing between a parent and the
-// thing they opened the app to do.
+// That reading of "pathway" was the mistake, and it is a vocabulary mistake
+// rather than a design one. Justin, 13 August: "pathway was what I was calling
+// today, the things to do today. So anything I asked to be moved to pathway, I
+// meant to rotate on the coins on today's things."
 //
-// It also lands better there. On the pathway it sits with the stages and the
-// stamps, where a parent is already reading about progress, so "working on it"
-// and "getting better" mean something next to a road that shows the same shape.
+// So he never asked for the strip to move to another page. He asked for it to
+// stop being a fixed banner on Home and start TAKING ITS TURN in the daily
+// rotation, which is the `focus` item in lib/home/next-up.ts: on the days it
+// comes up it is the thing, and on the other days something else is. That item
+// exists and is live. This strip is no longer mounted anywhere.
 //
-// Presentational on purpose: the page works out the label and the destination,
-// because both pages already hold different halves of that and neither should
-// gain a query for a strip.
+// It is kept rather than deleted for two reasons. CHALLENGE_LABELS below is
+// imported by Home, which still needs the onboarding answer as the fallback
+// label. And a strip is a smaller thing to reinstate than to reinvent, if the
+// rotation ever wants a pinned version of this on a page that is not Home.
+//
+// What must NOT happen is putting it back at the top of Home as a permanent
+// strip. That is the exact thing Justin was complaining about.
+//
+// Presentational on purpose: the caller works out the label and the
+// destination, because the pages already hold different halves of that and
+// none of them should gain a query for a strip.
 
 export default function FocusStrip({
   label, improving, scriptHref, hasConcern,

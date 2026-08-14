@@ -13,12 +13,15 @@ import { useEffect, useRef } from 'react'
 
 const TABS = [
   { href: '/dashboard', label: 'Home' },
-  { href: '/dashboard/pathway', label: 'Pathway' },
+  { href: '/dashboard/road', label: 'Road to 16' },
   { href: '/dashboard/quests', label: 'Quests' },
   { href: '/dashboard/lessons', label: 'Lessons' },
   { href: '/dashboard/school', label: 'School' },
   { href: '/dashboard/scripts', label: 'Scripts' },
-  { href: '/dashboard/pathway', label: 'Passport' },
+  // Two rows above, and now genuinely two places: the road is the five stages,
+  // the Passport is the booklet and its tabs. Both pointed at the same URL
+  // before today, which is most of why the passport was hard to find.
+  { href: '/dashboard/passport', label: 'Passport' },
   // Settings was reachable on the laptop and nowhere on a phone. Justin: "I can
   // only see settings access on laptop version of app not the mobile version."
   // It holds sign out, the children, what you have agreed to and the delete
@@ -56,9 +59,15 @@ export default function MobileSecondaryNav() {
                 flexShrink: 0, textDecoration: 'none',
                 fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
                 padding: '8px 15px', borderRadius: '100px', whiteSpace: 'nowrap',
-                background: on ? 'var(--deep-teal)' : 'var(--cream)',
-                color: on ? '#fff' : 'var(--ink-soft)',
-                border: `1px solid ${on ? 'var(--deep-teal)' : 'var(--border)'}`,
+                // Butter, not black. The same change as .nav-pill-active in
+                // globals.css and for the same reason: this is the phone's
+                // version of that bar, and one product cannot have two ideas of
+                // what a selected tab looks like. Ink text, because white on
+                // butter is unreadable.
+                background: on ? 'var(--terracotta)' : 'var(--cream)',
+                color: on ? 'var(--ink)' : 'var(--ink-soft)',
+                border: `1px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
+                boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
               }}
             >
               {tab.label}

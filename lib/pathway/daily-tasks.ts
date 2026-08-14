@@ -329,7 +329,12 @@ export async function getTodayLoop(
     ...(passportOutstanding !== null ? [{
       key: 'passport' as const,
       label: 'Passport',
-      href: '/dashboard/pathway?from=today',
+      // Both halves of this line arrived from different branches on the same
+      // day and both are right. The route is the passport's own page since
+      // 13 August, which is the whole reason that split was worth doing: this
+      // rung can land ON the passport rather than near it. The from=today is
+      // main's, so the way back to the loop is on the page when they arrive.
+      href: '/dashboard/passport?from=today',
       done: passportOutstanding === 0,
     }] : []),
     // ── DIGI CLOSES THE DAY ────────────────────────────────────────────────
@@ -357,7 +362,7 @@ export async function getTodayLoop(
   tasks.push({
     key: 'done',
     label: 'Done',
-    href: '/dashboard/pathway',
+    href: '/dashboard/road',
     done: tasks.every(t => t.done),
   })
 
@@ -479,7 +484,7 @@ export async function getDailyTasks(
       key: 'checkin',
       label: 'Weekly check in',
       detail: checkin ? 'Done for this week' : 'Five questions, once a week',
-      href: '/dashboard/pathway',
+      href: '/dashboard/road',
       done: !!checkin,
     },
   ]

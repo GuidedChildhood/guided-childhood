@@ -145,11 +145,36 @@ const PHOTO_FAMILY_GRASS = HF + 'hf_20260812_114033_5c4f1927-62b5-4b85-98a7-f11d
 
 // ─────────────────────────────────────────────────────────────────────────────
 
+
+// The nine questions parents actually type, answered once. This one list
+// renders the visible FAQ section AND the FAQPage structured data below,
+// so what Google is told always matches what a visitor can read.
+const FAQS = [
+  { q: 'At what age should my child get their first phone?',
+    a: "There is no single right age. Guided Childhood uses a five stage pathway from ages 4 to 16. The right time depends on your child's stage of development, your family structure, and what boundaries you have in place. Stage 2 (ages 8 to 10) is typically when children get a restricted first device. Stage 3 (ages 11 to 13) is when smartphones become more common. The question is not when but how." },
+  { q: 'How do I deal with screen time arguments every day?',
+    a: 'Screen time arguments happen when limits are inconsistent or when structure is missing. Guided Childhood gives you the exact scripts for the most common daily battles including after school TV demands, bedtime phone fights, and gaming meltdowns. The fix is structural, not stricter. One consistent routine replaces most daily arguments within two weeks.' },
+  { q: 'When should children be allowed on social media?',
+    a: 'The UK minimum age for most platforms is 13. Research by Dr Amy Orben at Cambridge identifies ages 11 to 13 as the highest sensitivity window, particularly for girls. Guided Childhood Stage 3 covers exactly this: the conversation to have before access, what to watch for during access, and the boundaries that protect without destroying trust.' },
+  { q: 'Is screen time really harmful for children?',
+    a: 'The research is more nuanced than most headlines suggest. Professor Candice Odgers at UC Irvine and Professor Andrew Przybylski at Oxford both find that the effects depend heavily on context, vulnerability, and structure. Screen time is not uniformly harmful. Too much, too early, without structure, for already vulnerable children is where risk concentrates. Guided Childhood is built on this nuanced research, not panic.' },
+  { q: 'What is Guided Childhood and how does it work?',
+    a: 'Guided Childhood is a clear digital pathway from first screen to 16 for UK families. You identify your child\'s stage, then the pathway tells you what to do, when to do it and how to do it: daily moments with the exact words, 160 scripts for the hard conversations, 100 lessons you can teach at home, a Digital Passport your child earns stage by stage, family quests where real jobs earn stars and stars buy agreed screen time, a child app for checking and requesting jobs, printables in English and Spanish, 24 age gated learning games, device setting checklists, a wellbeing tracker, a family agreement builder, and DiGi, your evidence led guide, whenever you need the specific words. It takes around ten minutes a day, and if you miss a few days the pathway catches you up.' },
+  { q: 'Does Guided Childhood prepare my child for the UK under 16 social media ban?',
+    a: 'Yes, that is the core of it. The UK ban delays social media access until 16 but does not teach children anything. Guided Childhood builds the judgement in the years before: a five stage pathway from age 4, lessons in misinformation, algorithms and AI literacy, and a Digital Passport earned stage by stage, so 16 arrives as a step rather than a cliff edge. Arriving with habits beats arriving with rules.' },
+  { q: 'How do children earn screen time on Guided Childhood?',
+    a: 'Children tick off real jobs and chores in their own app, and outside play pays the most. Stars land in their star bank, and stars buy agreed screen time on the star timer. Because the deal is theirs, the daily argument ends. Families without a child device run the whole thing from the parent app.' },
+  { q: 'How do I teach my child about AI and chatbots?',
+    a: 'Guided Childhood includes age by age AI literacy lessons: what an AI chatbot is, why it sounds confident when it is wrong, how algorithms and recommendation feeds work, and how to spot AI generated content. By 16 your child is AI literate, not just supervised.' },
+  { q: 'Is banning devices better than teaching digital literacy?',
+    a: 'OECD research finds device access among UK teenagers is now nearly universal, so the gap that remains is not who owns a device but who is taught to use one well. A ban does not close that gap. It removes the deep end from the child who was never taught, while the child already getting lessons is unaffected. Guided Childhood teaches digital literacy in stages instead, the same way children are taught to swim.' },
+]
+
 export default function HomePage() {
   return (
     <div className="home-v2" style={{ background: '#fff', overflowX: 'hidden' }}>
 
-      <style>{`html:has(.home-v2){scroll-behavior:smooth} @media(prefers-reduced-motion:reduce){html:has(.home-v2){scroll-behavior:auto}} .home-v2 h2{font-family:var(--font-display);font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--ink)} .home-v2 .lead{font-size:1.05rem} .home-v2 .body-lg{font-size:1rem} .hero-circle .chip-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px} .hero-circle .chip{position:static;max-width:100%} @media(max-width:819px){.hero-circle .chip span:last-child{white-space:normal!important}} @media(min-width:820px){.hero-circle .chip-row{display:contents} .hero-circle .chip{position:absolute} .hero-circle .chip-1{top:26%;left:-7%} .hero-circle .chip-2{top:-3%;right:0} .hero-circle .chip-3{top:52%;right:-8%} .hero-circle .chip-4{bottom:2%;right:6%} .hero-circle .chip-5{bottom:16%;left:-7%}} @media(max-width:430px){.home-v2 .brand-word{display:none}}`}</style>
+      <style>{`html:has(.home-v2){scroll-behavior:smooth} @media(prefers-reduced-motion:reduce){html:has(.home-v2){scroll-behavior:auto}} .home-v2 h2{font-family:var(--font-display);font-size:clamp(1.9rem,3.2vw,2.7rem);font-weight:900;letter-spacing:-.03em;line-height:1.08;color:var(--ink)} .home-v2 .lead{font-size:1.05rem} .home-v2 .body-lg{font-size:1rem} .hero-circle .chip-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px} .hero-circle .chip{position:static;max-width:100%} @media(max-width:819px){.hero-circle .chip span:last-child{white-space:normal!important}} @media(min-width:820px){.hero-circle .chip-row{display:contents} .hero-circle .chip{position:absolute} .hero-circle .chip-1{top:26%;left:-7%} .hero-circle .chip-2{top:-3%;right:0} .hero-circle .chip-3{top:52%;right:-8%} .hero-circle .chip-4{bottom:2%;right:6%} .hero-circle .chip-5{bottom:16%;left:-7%}} .home-v2 .faq details{border-bottom:1px solid var(--border)} .home-v2 .faq details:last-child{border-bottom:none} .home-v2 .faq summary{cursor:pointer;font-family:var(--font-display);font-weight:800;font-size:1.05rem;color:var(--ink);padding:16px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px} .home-v2 .faq summary::-webkit-details-marker{display:none} .home-v2 .faq summary::after{content:"+";font-weight:900;font-size:1.25rem;color:var(--terracotta);flex-shrink:0;transition:transform .18s ease} .home-v2 .faq details[open] summary::after{transform:rotate(45deg)} @media(max-width:430px){.home-v2 .brand-word{display:none}}`}</style>
 
       <AnnouncementBar />
       <HomeReveals />
@@ -185,53 +210,10 @@ export default function HomePage() {
           {
             '@context': 'https://schema.org',
             '@type': 'FAQPage',
-            mainEntity: [
-              {
-                '@type': 'Question',
-                name: 'At what age should my child get their first phone?',
-                acceptedAnswer: { '@type': 'Answer', text: 'There is no single right age. Guided Childhood uses a five stage pathway from ages 4 to 16. The right time depends on your child\'s stage of development, your family structure, and what boundaries you have in place. Stage 2 (ages 8 to 10) is typically when children get a restricted first device. Stage 3 (ages 11 to 13) is when smartphones become more common. The question is not when but how.' },
-              },
-              {
-                '@type': 'Question',
-                name: 'How do I deal with screen time arguments every day?',
-                acceptedAnswer: { '@type': 'Answer', text: 'Screen time arguments happen when limits are inconsistent or when structure is missing. Guided Childhood gives you the exact scripts for the most common daily battles including after school TV demands, bedtime phone fights, and gaming meltdowns. The fix is structural, not stricter. One consistent routine replaces most daily arguments within two weeks.' },
-              },
-              {
-                '@type': 'Question',
-                name: 'When should children be allowed on social media?',
-                acceptedAnswer: { '@type': 'Answer', text: 'The UK minimum age for most platforms is 13. Research by Dr Amy Orben at Cambridge identifies ages 11 to 13 as the highest sensitivity window, particularly for girls. Guided Childhood Stage 3 covers exactly this: the conversation to have before access, what to watch for during access, and the boundaries that protect without destroying trust.' },
-              },
-              {
-                '@type': 'Question',
-                name: 'Is screen time really harmful for children?',
-                acceptedAnswer: { '@type': 'Answer', text: 'The research is more nuanced than most headlines suggest. Professor Candice Odgers at UC Irvine and Professor Andrew Przybylski at Oxford both find that the effects depend heavily on context, vulnerability, and structure. Screen time is not uniformly harmful. Too much, too early, without structure, for already vulnerable children is where risk concentrates. Guided Childhood is built on this nuanced research, not panic.' },
-              },
-              {
-                '@type': 'Question',
-                name: 'What is Guided Childhood and how does it work?',
-                acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood is a clear digital pathway from first screen to 16 for UK families. You identify your child\'s stage, then the pathway tells you what to do, when to do it and how to do it: daily moments with the exact words, 160 scripts for the hard conversations, 100 lessons you can teach at home, a Digital Passport your child earns stage by stage, family quests where real jobs earn stars and stars buy agreed screen time, a child app for checking and requesting jobs, printables in English and Spanish, 24 age gated learning games, device setting checklists, a wellbeing tracker, a family agreement builder, and DiGi, your evidence led guide, whenever you need the specific words. It takes around ten minutes a day, and if you miss a few days the pathway catches you up.' },
-              },
-              {
-                '@type': 'Question',
-                name: 'Does Guided Childhood prepare my child for the UK under 16 social media ban?',
-                acceptedAnswer: { '@type': 'Answer', text: 'Yes, that is the core of it. The UK ban delays social media access until 16 but does not teach children anything. Guided Childhood builds the judgement in the years before: a five stage pathway from age 4, lessons in misinformation, algorithms and AI literacy, and a Digital Passport earned stage by stage, so 16 arrives as a step rather than a cliff edge. Arriving with habits beats arriving with rules.' },
-              },
-              {
-                '@type': 'Question',
-                name: 'How do children earn screen time on Guided Childhood?',
-                acceptedAnswer: { '@type': 'Answer', text: 'Children tick off real jobs and chores in their own app, and outside play pays the most. Stars land in their star bank, and stars buy agreed screen time on the star timer. Because the deal is theirs, the daily argument ends. Families without a child device run the whole thing from the parent app.' },
-              },
-              {
-                '@type': 'Question',
-                name: 'How do I teach my child about AI and chatbots?',
-                acceptedAnswer: { '@type': 'Answer', text: 'Guided Childhood includes age by age AI literacy lessons: what an AI chatbot is, why it sounds confident when it is wrong, how algorithms and recommendation feeds work, and how to spot AI generated content. By 16 your child is AI literate, not just supervised.' },
-              },
-              {
-                '@type': 'Question',
-                name: 'Is banning devices better than teaching digital literacy?',
-                acceptedAnswer: { '@type': 'Answer', text: 'OECD research finds device access among UK teenagers is now nearly universal, so the gap that remains is not who owns a device but who is taught to use one well. A ban does not close that gap. It removes the deep end from the child who was never taught, while the child already getting lessons is unaffected. Guided Childhood teaches digital literacy in stages instead, the same way children are taught to swim.' },
-              },
-            ],
+            mainEntity: FAQS.map(f => ({
+              '@type': 'Question', name: f.q,
+              acceptedAnswer: { '@type': 'Answer', text: f.a },
+            })),
           },
         ]) }}
       />
@@ -914,7 +896,7 @@ export default function HomePage() {
       {/* ================================================================
           9 · REAL WORDS, REAL PRICE
           ================================================================ */}
-      <section id="pricing" aria-label="Testimonials and pricing" style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px', scrollMarginTop: '70px' }}>
+      <section aria-label="Testimonials and pricing" style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px' }}>
         <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
 
           <p className="eyebrow fu" style={{ textAlign: 'center', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>From our first families</p>
@@ -944,6 +926,7 @@ export default function HomePage() {
             Imagine this time next year. You know exactly what to say. The conversations do not spiral. Your child comes to you.
           </p>
 
+          <div id="pricing" style={{ scrollMarginTop: '84px' }} />
           <div className="fu" style={{ background: 'var(--terracotta)', borderRadius: '14px', padding: '14px 22px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,.8)', flexShrink: 0 }}>Limited</span>
@@ -964,16 +947,16 @@ export default function HomePage() {
           <div className="price-grid fu">
             {[
               {
-                tier: 'Free forever', name: 'Starter Pack', price: 'Free', period: '',
-                save: 'Yours immediately on signup',
+                tier: 'Try it first', name: 'Free Trial', price: 'Free', period: '',
+                save: 'Four days. No card required.',
                 features: [
-                  ['✓', 'Age stage roadmap'],
-                  ['✓', 'Family digital agreement template'],
-                  ['✓', '5 conversation scripts'],
-                  ['✓', 'Warning signs checklist'],
-                  ['✓', 'Age restrictions guide'],
+                  ['✓', 'Four days inside the platform'],
+                  ['✓', 'DiGi, with a daily limit'],
+                  ['✓', 'A starter set of scripts'],
+                  ['✓', 'Your age stage roadmap'],
                 ],
-                cta: 'Get Free Pack', href: '/starter-pack',
+                cta: 'Start free trial', href: '/starter-pack',
+                note: 'The founder rate is claimed at sign up, first 50 families only. Start your trial now and it is yours.',
                 ctaBg: 'transparent', ctaColor: 'var(--ink)', ctaBorder: '2px solid var(--border)', ctaShadow: 'none',
                 cardStyle: {},
               },
@@ -990,7 +973,8 @@ export default function HomePage() {
                   ['✓', 'School lesson packs included'],
                 ],
                 cta: 'Start now', href: '/starter-pack',
-                ctaBg: 'var(--terracotta)', ctaColor: '#fff', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
+                note: '',
+                ctaBg: 'var(--terracotta)', ctaColor: 'var(--ink)', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
                 cardStyle: { background: 'var(--stage-1)', border: '2px solid rgba(61,115,154,.25)', transform: 'scale(1.025)' },
               },
               {
@@ -1002,7 +986,8 @@ export default function HomePage() {
                   ['✓', 'Cancel any time'],
                 ],
                 cta: 'Start now', href: '/starter-pack',
-                ctaBg: 'var(--terracotta)', ctaColor: '#fff', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
+                note: '',
+                ctaBg: 'var(--terracotta)', ctaColor: 'var(--ink)', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
                 cardStyle: {},
               },
             ].map((plan, i) => (
@@ -1041,7 +1026,33 @@ export default function HomePage() {
                 }}>
                   {plan.cta}
                 </Link>
+                {plan.note && (
+                  <p style={{ fontSize: '.78rem', color: 'var(--ink-muted)', lineHeight: 1.55, textAlign: 'center', margin: '10px 0 0' }}>
+                    {plan.note}
+                  </p>
+                )}
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          FAQS — the same nine answers the structured data carries,
+          visible, because a page must show what it tells Google it has
+          ================================================================ */}
+      <section id="faqs" aria-label="Questions parents ask" style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', padding: 'clamp(72px, 9vw, 108px) 24px', scrollMarginTop: '70px' }}>
+        <div style={{ maxWidth: '760px', margin: '0 auto' }}>
+          <p className="eyebrow fu" style={{ textAlign: 'center', color: 'var(--terracotta-dark)', marginBottom: '10px' }}>FAQs</p>
+          <h2 className="fu" style={{ textAlign: 'center', margin: '0 0 26px' }}>
+            Questions parents <span style={{ color: 'var(--terracotta)' }}>ask us</span>
+          </h2>
+          <div className="faq fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '20px', padding: '6px 24px', boxShadow: '0 5px 0 var(--border)' }}>
+            {FAQS.map(f => (
+              <details key={f.q}>
+                <summary>{f.q}</summary>
+                <p style={{ fontSize: '1rem', color: 'var(--ink-soft)', lineHeight: 1.7, margin: '0 0 18px' }}>{f.a}</p>
+              </details>
             ))}
           </div>
         </div>
@@ -1134,7 +1145,7 @@ export default function HomePage() {
 
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Tools</div>
-              {[['Free Starter Pack', '/starter-pack'], ['Digital Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', 'https://www.guidedchildhood.com/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
+              {[['Free Trial', '/starter-pack'], ['Digital Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', 'https://www.guidedchildhood.com/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: '10px' }}>
                   <Link
                     href={href}

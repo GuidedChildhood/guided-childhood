@@ -28,7 +28,7 @@ const TILES: (SectionTile & { key: string })[] = [
   },
   {
     key: 'pathway',
-    href: '/dashboard/pathway', label: 'Road to sixteen', sub: 'Where they are, and what is next',
+    href: '/dashboard/road', label: 'Road to sixteen', sub: 'Where they are, and what is next',
     icon: '🗺️',
     bg: 'var(--tint-blue)', accent: '#A9C8E4',
   },
@@ -49,7 +49,7 @@ const TILES: (SectionTile & { key: string })[] = [
   },
   {
     key: 'shop',
-    href: '/dashboard/keepsakes', label: 'Visit the shop', sub: 'The passport and stickers, printed',
+    href: '/dashboard/passport?tab=shop', label: 'Visit the shop', sub: 'The passport and stickers, printed',
     icon: <KidIcon name="keepsakes" size={23} />,
     bg: 'var(--tint-amber)', accent: '#D6BE8A',
   },

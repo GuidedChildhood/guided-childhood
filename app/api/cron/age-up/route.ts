@@ -110,7 +110,7 @@ async function handler(req: NextRequest) {
         : `${name} is growing up 🎂`
       const body = `The ${stageName} stage opens: new lessons, a new stamp to earn, and the healthy screen amount shifts. The contract is ready to re agree at the new wording.`
       // No catch needed: sendPush never throws, it reports in its result.
-      const result = await sendPush({ userId: child.parent_id, title, body, url: '/dashboard/pathway' })
+      const result = await sendPush({ userId: child.parent_id, title, body, url: '/dashboard/road' })
       if (result.sent > 0) pushed++
     } catch { /* best effort, the app shows the same news on next open */ }
   }

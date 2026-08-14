@@ -10,7 +10,7 @@
 //
 // Usage: node --experimental-strip-types scripts/check-next-up.mjs
 
-import { pickNextUp, ROTATION, dayIndex } from '../lib/home/next-up.ts'
+import { pickNextUp, ROTATION, dayIndex, isShopDay } from '../lib/home/next-up.ts'
 
 let failures = 0
 const check = (name, ok, detail = '') => {
@@ -29,6 +29,9 @@ const busy = {
   deviceCount: 4, devicesSetUp: 2,
   focusLabel: 'Bedtime screens', focusImproving: false,
   concernsLive: 3, scriptHref: '/dashboard/scripts/12',
+  // They have checked in, which is what puts anything on the passport worth
+  // being sent to look at. See the passport item in next-up.ts.
+  hasCheckedIn: true,
 }
 
 // The opposite: day one, nothing set up, nothing flagged, no school, no
@@ -43,8 +46,11 @@ const brandNew = {
   deviceCount: 0, devicesSetUp: 0,
   focusLabel: null, focusImproving: false,
   concernsLive: 0, scriptHref: '/dashboard/scripts',
+  hasCheckedIn: false,
 }
 
+// 5 January 2026, the anchor. Deliberately a month whose 12th falls inside the
+// first cycle, so the shop day is exercised rather than avoided.
 const day = n => new Date(Date.UTC(2026, 0, 5 + n, 12, 0, 0))
 
 // ── EVERY FAMILY GETS A CARD, EVERY DAY ─────────────────────────────────────
@@ -64,7 +70,22 @@ check('every family gets a card on every one of 60 days', missing === 0, `${miss
 // where the first match won for ever, so one sentence sat under Today for
 // weeks.
 
-const busyKeys = Array.from({ length: ROTATION.length }, (_, d) => pickNextUp(busy, day(d)).key)
+// One CONTIGUOUS cycle with no shop day in it.
+//
+// Filtering shop days out of a fixed window is the wrong test and it fails
+// honestly: the day index picks the position, so a day the shop takes is a
+// position the rotation never lands on, and one item silently loses that
+// month's turn. That is the real, accepted cost of a monthly tier, and it is
+// once a month per item per year. What must still be true is that a clear run
+// of days shows all eleven, which is what this measures.
+const cycleStart = (() => {
+  for (let start = 0; start < 60; start++) {
+    if (Array.from({ length: ROTATION.length }, (_, i) => day(start + i)).every(d => !isShopDay(d))) return start
+  }
+  throw new Error('no clear cycle in 60 days, which cannot happen with a monthly tier')
+})()
+const cycleDays = Array.from({ length: ROTATION.length }, (_, i) => day(cycleStart + i))
+const busyKeys = cycleDays.map(d => pickNextUp(busy, d).key)
 check('a busy family sees every rotation item across one cycle',
   new Set(busyKeys).size === ROTATION.length,
   `${new Set(busyKeys).size} of ${ROTATION.length}`)
@@ -76,6 +97,23 @@ check('and never the same card two days running',
 // are the reason for the change, so a rotation that silently never reaches
 // them would be the change not landing.
 check('Your focus gets its turn', busyKeys.includes('focus'), busyKeys.join(' '))
+
+// ── THE SHOP IS MONTHLY, AND ONLY FOR A FAMILY WITH A PASSPORT ──────────────
+//
+// A shop pitch to somebody whose passport is a cover and five zeros sells a
+// personalised booklet of nothing, so it carries the same gate the passport
+// nudge does.
+const shopDays = Array.from({ length: 90 }, (_, d) => day(d))
+  .filter(d => pickNextUp(busy, d).key === 'shop')
+check('the shop comes up roughly once a month, not once a cycle',
+  shopDays.length === 3, `${shopDays.length} in 90 days`)
+check('and every one of those is the 12th',
+  shopDays.every(d => isShopDay(d)))
+check('a family who has never checked in is never sent to the passport',
+  Array.from({ length: 60 }, (_, d) => pickNextUp(brandNew, day(d)).key)
+    .every(k => k !== 'passport' && k !== 'shop'))
+check('a real need still beats the monthly shop',
+  pickNextUp({ ...busy, jobsStatus: 'pending' }, day(7)).key === 'jobs-pending')
 check('the concern queue gets its turn', busyKeys.includes('concern-queue'))
 
 // ── A REAL NEED STILL WINS ──────────────────────────────────────────────────

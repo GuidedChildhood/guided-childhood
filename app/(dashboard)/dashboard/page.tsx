@@ -756,6 +756,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // The script the loop already chose for today, so the focus card and the
     // loop's own script step can never send a parent to two different places.
     scriptHref: todayLoop.find(t => t.key === 'script')?.href ?? '/dashboard/scripts',
+    // The same stamp the loop reads for the baseline step. It gates the
+    // passport nudge and the monthly shop, because both of those send a parent
+    // to look at a passport, and before the first check in there is nothing in
+    // it to look at.
+    hasCheckedIn: !!(profile?.first_checkin_at as string | null),
   })
 
   // ── THE FRIEND, PICKED AGAINST THE LEAD ────────────────────────────────────
@@ -1104,7 +1109,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           reading. The line still only appears when something is genuinely amber
           (see checkupNeeds below), so silence still honestly means checked and
           fine, and the full picture is one tap away on the pathway where the
-          four strands already live in full. */}
+          four strands already live in full, which is the passport's own
+          The four things tab since 13 August. */}
       {dayComplete && checkupNeeds > 0 && (
         <QuietLine
           eyebrow="Worth a look"
@@ -1112,7 +1118,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           label={checkupNeeds === 1
             ? 'One thing to check on for them'
             : `${checkupNeeds} things to check on for them`}
-          href="/dashboard/pathway#four-things"
+          href="/dashboard/passport?tab=four"
         />
       )}
 

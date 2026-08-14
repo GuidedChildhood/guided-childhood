@@ -13,7 +13,21 @@ import { getMovements, movementSentence } from '@/lib/working/movement'
 // promising an answer that is not there yet is worse than no doorway: it
 // spends the parent's attention and returns an empty room.
 
-export default async function WhatIsWorkingLink() {
+export default async function WhatIsWorkingLink({
+  from = 'passport',
+}: {
+  /**
+   * Where the back button on the other side should return to.
+   *
+   * It was hardcoded to 'pathway' when this only rendered on the pathway
+   * scroll. That scroll is now two pages, the road and the passport, and this
+   * doorway lives on the passport, so a hardcoded pathway would send a parent
+   * back to a page they were never on. See components/nav/BackTo.tsx for the
+   * fixed map of allowed origins, which is a map rather than a free URL on
+   * purpose: a destination taken from the address bar is an open redirect.
+   */
+  from?: 'passport' | 'pathway' | 'road' | 'home'
+} = {}) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return null
@@ -29,7 +43,7 @@ export default async function WhatIsWorkingLink() {
 
   return (
     <Link
-      href="/dashboard/what-is-working?from=pathway"
+      href={`/dashboard/what-is-working?from=${from}`}
       style={{
         display: 'flex', alignItems: 'center', gap: '13px', textDecoration: 'none',
         background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',

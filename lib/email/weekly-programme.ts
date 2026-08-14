@@ -84,7 +84,7 @@ export function philosophyEmail(params: { unsubscribe: string }): EmailContent {
           'Settings that ease as the judgement grows',
           'A child who arrives at sixteen ready, not dropped in',
         ]) +
-        button('See the pathway', `${APP}/dashboard/pathway`) +
+        button('See the road', `${APP}/dashboard/road`) +
         bp('One thing to do today: open the pathway, find your child’s stage, and read what the next one asks of them. That is the whole plan, in one look.'),
     },
   ]
@@ -329,10 +329,10 @@ export function yearAheadEmail(params: { unsubscribe: string }): EmailContent {
         sectionHead('&#128506;', 'What lands next') +
         bp('There is more coming, and the honest truth is that what we build next is steered by what families ask for. This started as a thing two parents built for their own kitchen table, and it grows the same way: someone names the gap, we build for it.') +
         bp('So here is the one thing to do this week: hit reply and tell me what you want built. I read every reply myself.') +
-        button('See the road ahead', `${APP}/dashboard/pathway`) +
+        button('See the road ahead', `${APP}/dashboard/road`) +
         rule() +
         linkList([
-          { label: 'The pathway, stage by stage', href: `${APP}/dashboard/pathway` },
+          { label: 'The road, stage by stage', href: `${APP}/dashboard/road` },
           { label: 'The scripts for the hard moments', href: `${APP}/dashboard/scripts` },
           { label: 'The jobs board and the stars', href: `${APP}/dashboard/quests` },
         ]),
