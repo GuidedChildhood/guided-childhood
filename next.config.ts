@@ -7,21 +7,17 @@ const nextConfig: NextConfig = {
   // The schools product moved to its own app at the split cutover
   // (plans/split-plan.md step 7). Old links land on the schools site.
   //
-  // HOLDING PATTERN until launch: JP is not attaching
-  // schools.guidedchildhood.com until the whole platform is built, so the
-  // destination comes from SCHOOLS_SITE_URL (set it on the Vercel project
-  // to the schools app's own vercel.app URL), and the redirects are
-  // TEMPORARY 307s so no browser or crawler caches the interim address.
-  // At launch: set SCHOOLS_SITE_URL to https://schools.guidedchildhood.com
-  // and flip permanent to true, so search engines move their index then,
-  // and only then.
+  // LAUNCHED 14 August 2026: schools.guidedchildhood.com is live and the
+  // redirects are permanent 308s, so browsers and search engines move to
+  // the schools site for good. SCHOOLS_SITE_URL stays as an escape hatch
+  // for previews; production never needs it set.
   async redirects() {
-    const SCHOOLS = process.env.SCHOOLS_SITE_URL || 'https://guided-childhood-schools.vercel.app'
+    const SCHOOLS = process.env.SCHOOLS_SITE_URL || 'https://schools.guidedchildhood.com'
     return [
-      { source: '/schools', destination: SCHOOLS, permanent: false },
-      { source: '/educator', destination: SCHOOLS, permanent: false },
-      { source: '/educator/:path*', destination: `${SCHOOLS}/:path*`, permanent: false },
-      { source: '/class/:lessonId', destination: `${SCHOOLS}/class/:lessonId`, permanent: false },
+      { source: '/schools', destination: SCHOOLS, permanent: true },
+      { source: '/educator', destination: SCHOOLS, permanent: true },
+      { source: '/educator/:path*', destination: `${SCHOOLS}/:path*`, permanent: true },
+      { source: '/class/:lessonId', destination: `${SCHOOLS}/class/:lessonId`, permanent: true },
     ]
   },
   images: {
