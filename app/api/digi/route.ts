@@ -818,7 +818,7 @@ When a parent asks whether or for how long their child should use any device, do
                   status: prior ? (prior.status === 'resolved' ? 'open' : prior.status) : 'open',
                   times_flagged: prior ? prior.times_flagged + 1 : 1,
                   last_flagged_at: new Date().toISOString(),
-                }, { onConflict: 'user_id,slug' })
+                }, { onConflict: 'user_id,child_id,slug' })
 
                 await logConcernEvent(supabase, user.id, slug, {
                   event: 'flagged',

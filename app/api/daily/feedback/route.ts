@@ -100,7 +100,7 @@ export async function POST(request: Request) {
         }
       })
 
-      await supabase.from('concerns').upsert(rows, { onConflict: 'user_id,slug' })
+      await supabase.from('concerns').upsert(rows, { onConflict: 'user_id,child_id,slug' })
       await logConcernEvents(supabase, user.id, rows.map(r => r.slug), {
         event: 'flagged',
         source: 'moment',

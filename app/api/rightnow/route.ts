@@ -145,7 +145,7 @@ export async function POST(request: Request) {
         status: prior ? (prior.status === 'resolved' ? 'open' : prior.status) : 'open',
         times_flagged: prior ? prior.times_flagged + 1 : 1,
         last_flagged_at: now,
-      }, { onConflict: 'user_id,slug' })
+      }, { onConflict: 'user_id,child_id,slug' })
 
       // Every raise, first or fifth, is one row in the history. See migration
       // 164. Same rule as the upsert above: never blocks the rescue.
