@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
-import type { SetupFlags } from './SetupPath'
+import type { SetupFlags } from '@/lib/setup/steps'
 import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
 
 // The moment a setup step actually finishes deserves its own plain
@@ -11,14 +11,14 @@ import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQue
 // against the last ones seen, stored locally, so a step that flips
 // from off to on gets its one specific explainer, once.
 
+// Three now rather than seven, matching the Setup Quest. The four that went
+// (quests, daily, birthday, school) did not lose their moment, they lost their
+// status as setup: jobs and school take their turn under Today, the daily
+// practice IS the daily loop, and the birthday is answered at signup.
 const UNLOCK_COPY: Record<keyof SetupFlags, string> = {
-  quests: 'Family Quests are live. Everyday jobs now earn stars, and the stars buy the screen time you both agreed.',
-  daily: 'Your daily practice has started. Two minutes a day is the whole habit, and it just began.',
-  birthday: 'The birthday is in, so we can place them in their school year. The learning sheets now show the actual curriculum for that year, and the stage, the lessons and the screen time guide all grow up with them on their own.',
-  push: 'Check ins are on. From now on we nudge you right at the moments your child actually faces screens.',
-  school: 'School routines are set. Whatever you added will remind you, and your child too if you switch that on, every time it comes round.',
-  childLink: 'Their phone link is ready. Send it by message and their quests open like a mini app, nothing to install.',
   agreement: 'Your family agreement is signed. It is what the stars buy, and Friday brings a quick check on how the week went against it.',
+  childLink: 'That is their side sorted. Whether it is the code on their phone or the chart on the fridge, they can see what they have earned.',
+  homeScreen: 'We are one tap away now, and the check ins can reach you at the hours screens turn up in your house.',
 }
 
 const STORAGE_KEY = 'gc_setup_flags_seen'

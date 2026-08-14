@@ -1,68 +1,91 @@
-// The setup path steps, in one place so both the dashboard UI (SetupPath, a
-// client component) and the server side that computes the next step (the
-// SetupNextBar API) share exactly the same list and order. Foundations first:
-// the two minute daily habit, then the birthday, then check ins so the nudges
-// land, then quests, then school routines, then the child's own phone link once
-// they are old enough, then the family agreement when ready.
+// The Setup Quest: three steps, in one place, so the page, the floating next
+// step bar and the rung on Today all read the same list in the same order.
 //
-// The birthday used to live only as a welcome card, which was the wrong home
-// for it. It is one missing fact that the parent, and only the parent, can
-// supply, and setup is where a parent goes to find out what is still missing.
-// As a card it was something the app said in passing; as a step it is something
-// with a tick, a place in the sequence, and a nudge that comes back. Second in
-// the order because it is the shortest job on the list and the only one whose
-// absence leaves a service the family has already paid for saying "not written
-// yet" on every page it touches.
+// ── WHY THREE, WHEN IT WAS SEVEN (14 August 2026) ───────────────────────────
+//
+// plans/setup-quest-three-steps.md, from Justin walking signup end to end.
+// Setup is the things that must happen ONCE. Today is the things that come
+// round. Four of the seven were on the wrong side of that line:
+//
+//   daily     The first daily practice IS the daily loop. Putting it in setup
+//             made the habit look like a chore to get out of the way.
+//   birthday  Asked at signup now, as month and year, so allBirthdaysIn is
+//             already true for every new family. It was green and absent
+//             before this cut; removing it only stops the machinery carrying a
+//             step nobody sees.
+//   quests    Jobs come round every day. They are already a rotation item in
+//   school    lib/home/next-up.ts, both of them, so nothing is lost by taking
+//             them off setup: they simply take their turn under Today.
+//
+// What is left is the three things a family does once and never again, in the
+// order that a family actually does them.
+//
+// ── THE RULE THAT DECIDES EVERYTHING BELOW ──────────────────────────────────
+//
+// A step ticks from being DONE, never from being LOOKED at. See the completion
+// note against each flag in lib/setup/flags.ts, which is where the reads live.
 
 export type SetupFlags = {
   agreement: boolean
-  quests: boolean
-  school: boolean
-  push: boolean
-  daily: boolean
   childLink: boolean
-  birthday: boolean
+  homeScreen: boolean
 }
 
 export type SetupStep = {
   key: keyof SetupFlags
   title: string
+  /** The long line, on the step's own card. */
   what: string
   href: string
 }
 
 export const STEPS: SetupStep[] = [
-  { key: 'daily',     title: 'Do your first daily practice', what: 'Two minutes: the moment, the words, the check in. This is the habit everything else hangs on.', href: '/dashboard/daily' },
-  { key: 'birthday',  title: "Add your child's birthday",    what: 'One date, and the shortest step here. School places a child by their age on 31 August, so without it we cannot say which school year they are in, and we will not guess. It is what puts the real curriculum for their year in front of you.', href: '/dashboard/settings' },
-  { key: 'push',      title: 'Turn on check ins',          what: 'Three gentle nudges a day at the moments your child faces screens.', href: '/dashboard#turn-on-check-ins' },
-  { key: 'quests',    title: 'Set up Family Quests',       what: 'Their everyday jobs earn stars, stars buy the screen time you agree. They tick, you approve. Two minutes to set up, and the kids love it.', href: '/dashboard/quests' },
-  { key: 'school',    title: 'Set up school routines',      what: 'Add PE kit, library day or a Saturday activity by hand, once, and it reminds you and your child every week from then on. Forwarding school email is there too if you want it.', href: '/dashboard/school' },
-  { key: 'childLink', title: 'Send your child their phone link', what: 'Only if your older child already has their own device. Send their private link by message, it opens like a mini app, nothing to install. For younger children you do it together on your device instead, no child device needed.', href: '/dashboard/quests?tab=share' },
-  { key: 'agreement', title: 'Build your family agreement', what: 'When you are ready: decided together and signed, it makes every boundary something you both chose, and it powers what the stars buy.', href: '/dashboard/agreement' },
+  {
+    key: 'agreement',
+    title: 'Build your family agreement',
+    what: 'Decided together and signed, so every boundary is one you both chose rather than one you imposed. It is also what sets the price of screen time in stars.',
+    href: '/dashboard/agreement',
+  },
+  {
+    // Both doors live on the setup page itself rather than behind a link.
+    //
+    // The old href was /dashboard/quests?tab=share, and that is the button
+    // Justin reported dead on 13 August: it pointed at a page that never read
+    // a tab parameter, so it navigated to itself and nothing opened. It was
+    // fixed on the Quests page by opening the sheet in place, and the same
+    // answer is the right one here. A setup step whose job is one tap should
+    // not spend that tap on a journey to somewhere the parent then has to
+    // search.
+    key: 'childLink',
+    title: "Share the child's app",
+    what: 'Show them the code and their side lands on their phone, nothing to install. No phone yet? Say so and we keep the whole thing on paper instead.',
+    href: '/dashboard/setup#share',
+  },
+  {
+    key: 'homeScreen',
+    title: 'Put us on your home screen, and turn on reminders',
+    what: 'One tap away instead of a tab you have to find, and a few gentle nudges at the hours screens turn up in your house.',
+    href: '/dashboard/setup#home-screen',
+  },
 ]
 
-// The child's own phone link only belongs in the path once they are old
-// enough to have a phone. We record around 9 as the point the conversation
-// usually starts, so anything below the 4 to 7 band shows the step, and
-// Foundation age children do not.
+// ── EVERY STEP IS VISIBLE, AND THAT IS A CHANGE ─────────────────────────────
 //
-// ── AND ONLY IF THEY HAVE NOT ALREADY SAID NO (14 August 2026) ──────────────
+// The phone link step used to be filtered OUT of the list for a family with a
+// young child or one who had said no to a child device. That was right when
+// the list was seven long and the step could sit there unticked for ever.
 //
-// Justin: "if a parent selects that they want to co view and use printable star
-// charts instead of share device we don't want to keep telling them to share or
-// set up child device."
+// It is wrong now, and the plan says so in as many words: "no child device
+// ticks it too. A parent who chooses the printable route has answered the
+// question." An answer is a completion, so it belongs in the flag rather than
+// in the filter, and lib/setup/flags.ts reads it there.
 //
-// Age was the only filter, so a family who had explicitly answered no still
-// carried this step on their setup path FOR EVER. That is worse than an
-// ordinary nag: setup is the one screen whose entire promise is to tell you
-// what is still missing, and a step that can never be ticked means the path can
-// never be finished. The family is left permanently at six of seven, being told
-// they are incomplete because of a decision they made on purpose.
+// The difference a parent sees is the difference between two of two, with the
+// question they answered nowhere on the page, and three of three with a green
+// tick against the answer they gave. The second one is the truth.
 //
-// `settled` comes from lib/handover/settled.ts, the one predicate every surface
-// asks now, so paper, no_phone and a deliberate co-view all drop the step. The
-// default is false, which keeps every existing caller behaving exactly as it
-// did until it passes the flag.
-export function visibleSteps(phoneAge: boolean, settled = false): SetupStep[] {
-  return STEPS.filter(s => s.key !== 'childLink' || (phoneAge && !settled))
+// Kept as a function, taking nothing, because three callers already ask the
+// list this way and a step could yet earn a condition. It is the seam.
+export function visibleSteps(): SetupStep[] {
+  return STEPS
 }

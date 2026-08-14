@@ -30,6 +30,12 @@ export type WelcomeCard = {
   // is the thing they were actually wondering on the way to opening the app.
   ask: string
   // Setup cards lead when the family has not set them up yet.
+  //
+  // Only three keys can appear here now. The Setup Quest was cut to three on 14
+  // August 2026 (plans/setup-quest-three-steps.md) and jobs, school and the
+  // daily practice stopped being setup. They are still cards in this deck,
+  // because the deck introduces SERVICES and those three are services; they
+  // just carry a plain destination now rather than a step to tick.
   setup?: keyof SetupFlags
   // Where a parent goes to actually DO this thing, for the cards that are not
   // setup steps. A setup card does not carry one: its destination is already
@@ -63,7 +69,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'Open it and today is already laid out, picked for their stage and for whatever is going on this week.',
     trust: 'It rebuilds every morning. Log a rough night and tomorrow leads with that instead.',
     ask: 'What should today actually look like for us?',
-    setup: 'daily',
+    does: '/dashboard/daily',
   },
   {
     key: 'quests',
@@ -72,7 +78,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'Their jobs earn the screen time, so the deal does the arguing instead of you.',
     trust: 'DiGi watches which jobs actually get done, and quietly retires the ones that never do.',
     ask: 'How do I make jobs earn the screen time without it turning into a row every night?',
-    setup: 'quests',
+    does: '/dashboard/quests',
   },
   {
     key: 'push',
@@ -81,7 +87,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'A few small nudges a day, at the hours screens usually turn up in your house.',
     trust: 'Your answers move the timing. A moment that is always calm stops being asked about.',
     ask: 'Which part of our day do screens actually cause the most trouble in?',
-    setup: 'push',
+    setup: 'homeScreen',
   },
   {
     key: 'school',
@@ -90,7 +96,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'PE kit, library day, the swimming bag. Add them once and the week reminds you both from then on.',
     trust: 'We only ever read what you add or forward. It stays in your family account.',
     ask: 'How do I stop the school week catching us out every time?',
-    setup: 'school',
+    does: '/dashboard/school',
   },
   {
     key: 'childLink',
