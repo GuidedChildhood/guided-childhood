@@ -6,8 +6,6 @@ import { STAGES, type ChallengeId } from '@/lib/content/stages'
 import PathwayEvidence from '@/components/pathway/PathwayEvidence'
 import PathwayJourney from '@/components/pathway/PathwayJourney'
 import SchoolChest from '@/components/pathway/SchoolChest'
-import PlanetCard from '@/components/pathway/PlanetCard'
-import { planetOfTheWeek } from '@/lib/pathway/planets'
 import { sheetTarget, sheetLabel } from '@/lib/learning/term'
 import StageRoad from '@/components/pathway/StageRoad'
 import { getStageProgress, getAllStagesProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
@@ -198,16 +196,18 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         />
       </div>
 
-      {/* ONE PLANET A WEEK, DIRECTLY UNDER THE ROAD.
-          Justin: "make it planets, make it more parent focussed but like
-          duolingo, so something that attracts them to click and not much text",
-          and earlier, on where it goes: "just giving insight to what we offer,
-          do not interfering with pathway."
-          The rotation, and why it is a week rather than a menu, is in
-          lib/pathway/planets.ts. */}
-      <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
-        <PlanetCard startIndex={planetOfTheWeek()} />
-      </div>
+      {/* THE WEEKLY PLANET IS GONE (14 August 2026).
+          Justin: "if we have the rotating planet friends on today doing the
+          same job, so no need for the planets the stage road."
+          He is right and it is the same call that took the six coins off Home
+          yesterday. One thing a week introducing a corner of the product, on a
+          page a parent opens occasionally, doing the identical job to the
+          Planet Friend that appears beside the daily list every single day.
+          Two rotations for one purpose is one too many, and the daily one wins
+          because it is seen daily and it is a character rather than a disc.
+          lib/pathway/planets.ts and PlanetCard are kept, not deleted: they are
+          still what /dev/planets draws and they are a smaller thing to
+          reinstate than to reinvent. */}
 
       {/* SCHOOL, BESIDE THE ROAD RATHER THAN ON IT.
           Justin asked the question directly: a step stone on the pathway, or a
