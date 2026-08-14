@@ -15,12 +15,16 @@ function client(): Stripe {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const stripe = new Proxy({} as Stripe, { get: (_, p) => (client() as any)[p] })
 
+// No school keys here, deliberately. Schools pay on invoice, raised by hand
+// in the Stripe dashboard with 30 day terms (pricing decided 13 August
+// 2026); a price id exists only to feed a checkout button and there is no
+// school checkout. The old school_small and school_medium keys sat here
+// unreferenced with the wrong prices baked into env, waiting to be wired up
+// by mistake. Revisit past about fifty schools.
 export const STRIPE_PRICES = {
-  founder:       process.env.STRIPE_PRICE_FOUNDER ?? '',
-  standard:      process.env.STRIPE_PRICE_STANDARD ?? '',
-  annual:        process.env.STRIPE_PRICE_ANNUAL ?? '',
-  school_small:  process.env.STRIPE_PRICE_SCHOOL_SMALL ?? '',
-  school_medium: process.env.STRIPE_PRICE_SCHOOL_MEDIUM ?? '',
+  founder:  process.env.STRIPE_PRICE_FOUNDER ?? '',
+  standard: process.env.STRIPE_PRICE_STANDARD ?? '',
+  annual:   process.env.STRIPE_PRICE_ANNUAL ?? '',
 } as const
 
 export const FOUNDER_CAP = 50

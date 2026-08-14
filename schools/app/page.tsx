@@ -24,11 +24,10 @@ const eyebrow = (color = 'var(--terracotta-dark)'): React.CSSProperties => ({
 // The premium warm surface: a hair of a highlight over a deep soft espresso drop.
 const softShadow = '0 1px 2px rgba(46,40,24,0.05), 0 30px 60px -34px rgba(46,40,24,0.42)'
 
-const PRICING = [
-  { tier: 'Small school', pupils: 'Up to 300 pupils', price: '£299', period: 'per year', features: ['Unlimited teacher logins', 'All 21 modules, Reception to Year 13', 'Every printable pack and pupil booklet', 'The compliance and safeguarding Hub', 'Coverage reporting for governors'], featured: false },
-  { tier: 'Medium school', pupils: '300 to 800 pupils', price: '£499', period: 'per year', features: ['Everything in Small school', 'Parent evening pack', 'Staff CPD briefings for every sensitive module', 'Priority pilot onboarding'], featured: true },
-  { tier: 'Large or MAT', pupils: '800 plus, or a trust', price: '£999', period: 'per year', features: ['Everything in Medium school', 'Multi school coverage dashboard', 'Co branded parent materials', 'A named onboarding lead'], featured: false },
-]
+// The five bands, decided 13 August 2026, from the same module the pricing
+// page renders (schools/lib/pricing.ts), so the homepage and the pricing
+// page can never disagree about a number.
+import { PRICING_BANDS } from '@/lib/pricing'
 
 // A miniature of the real product, framed in browser chrome, so a head can
 // SEE the premium curriculum map before they ever log in. Built from the
@@ -333,54 +332,47 @@ export default function SchoolsPage() {
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 3.8vw, 3.1rem)', fontWeight: 900, letterSpacing: '-0.035em', lineHeight: 1.08, color: 'var(--ink)', marginBottom: '16px' }}>
                 Simple annual pricing.
               </h2>
-              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '520px', margin: '0 auto' }}>
-                Every teacher, every year group, all {totalModules} modules. No per seat fees, no per lesson charges.
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '540px', margin: '0 auto' }}>
+                Every teacher, every year group, all {totalModules} modules, from £1.50 per pupil per year.
+                Paid by invoice with 30 day terms, the way schools actually buy.
               </p>
             </div>
           </Reveal>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', alignItems: 'stretch' }}>
-            {PRICING.map((plan, i) => (
-              <Reveal key={plan.tier} delay={i * 0.07} as="div" style={{ height: '100%' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', gap: '14px', alignItems: 'stretch' }}>
+            {PRICING_BANDS.map((band, i) => (
+              <Reveal key={band.key} delay={i * 0.06} as="div" style={{ height: '100%' }}>
                 <div style={{
-                  background: plan.featured ? ESPRESSO : '#fff',
-                  color: plan.featured ? '#fff' : 'var(--ink)',
-                  border: plan.featured ? 'none' : '1px solid var(--border)',
-                  borderRadius: '24px', padding: '32px 28px', display: 'flex', flexDirection: 'column', height: '100%',
-                  boxShadow: plan.featured ? '0 2px 4px rgba(46,40,24,0.1), 0 40px 70px -34px rgba(46,40,24,0.55)' : softShadow,
-                  position: 'relative',
+                  background: band.featured ? ESPRESSO : '#fff',
+                  color: band.featured ? '#fff' : 'var(--ink)',
+                  border: band.featured ? 'none' : '1px solid var(--border)',
+                  borderRadius: '22px', padding: '26px 22px', height: '100%',
+                  display: 'flex', flexDirection: 'column', gap: '4px', position: 'relative',
+                  boxShadow: band.featured ? '0 2px 4px rgba(46,40,24,0.1), 0 40px 70px -34px rgba(46,40,24,0.55)' : softShadow,
                 }}>
-                  {plan.featured && (
-                    <span style={{ position: 'absolute', top: '20px', right: '20px', ...eyebrow(GOLD), fontSize: 'var(--text-sm)' }}>Most schools</span>
+                  {band.featured && (
+                    <span style={{ position: 'absolute', top: '16px', right: '18px', ...eyebrow(GOLD), fontSize: 'var(--text-xs)' }}>Most schools</span>
                   )}
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: plan.featured ? GOLD : 'var(--ink-muted)', marginBottom: '6px' }}>{plan.tier}</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: plan.featured ? 'rgba(255,250,240,0.7)' : 'var(--ink-muted)', marginBottom: '18px' }}>{plan.pupils}</div>
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '22px' }}>
-                    <span style={{ fontFamily: 'var(--font-display)', fontSize: '2.8rem', fontWeight: 900, lineHeight: 1, letterSpacing: '-0.03em' }}>{plan.price}</span>
-                    <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: plan.featured ? 'rgba(255,250,240,0.64)' : 'var(--ink-muted)' }}>{plan.period}</span>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: band.featured ? GOLD : 'var(--ink-muted)' }}>{band.tier}</div>
+                  <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: band.featured ? 'rgba(255,250,240,0.7)' : 'var(--ink-muted)', marginBottom: '12px' }}>{band.pupils}</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: band.onApplication ? '1.3rem' : '2rem', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.03em' }}>
+                    {band.price}
+                    {!band.onApplication && <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: band.featured ? 'rgba(255,250,240,0.64)' : 'var(--ink-muted)', marginLeft: '5px' }}>a year</span>}
                   </div>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '28px', flex: 1, padding: 0 }}>
-                    {plan.features.map(feat => (
-                      <li key={feat} style={{ display: 'flex', gap: '10px', fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: plan.featured ? 'rgba(255,255,255,0.82)' : 'var(--ink-soft)', alignItems: 'flex-start', lineHeight: 1.5 }}>
-                        <span style={{ color: GOLD, fontWeight: 900, flexShrink: 0 }}>✓</span>{feat}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" style={{
-                    width: '100%', padding: '14px', borderRadius: '14px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                    textDecoration: 'none', display: 'block', textAlign: 'center', cursor: 'pointer',
-                    ...(plan.featured
-                      ? { background: GOLD, color: 'var(--ink)', boxShadow: '0 5px 0 var(--terracotta-dark)' }
-                      : { background: 'var(--cream)', color: 'var(--ink)', border: '1.5px solid var(--border)' }),
-                  }}>
-                    Request a pilot
-                  </a>
+                  <div style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 700, color: band.featured ? GOLD : 'var(--terracotta-dark)', marginTop: 'auto', paddingTop: '10px' }}>
+                    {band.perPupil}
+                  </div>
                 </div>
               </Reveal>
             ))}
           </div>
-          <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', marginTop: '24px' }}>
-            10 percent off a two year commitment · a free assembly pack with every enquiry · all teacher logins included
-          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', marginTop: '30px' }}>
+            <Link href="/pricing" className="btn btn-gold" style={{ padding: '15px 32px', fontSize: 'var(--text-md)' }}>
+              See what is included and request an invoice
+            </Link>
+            <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>
+              Every band includes everything · the open catalogue stays free for any teacher
+            </p>
+          </div>
         </div>
       </section>
 
