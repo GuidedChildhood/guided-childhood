@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Research carousel template</title>
+<!--
+  THE WRONG VILLAIN CAROUSEL, reusable native document (PDF) template for LinkedIn.
+  Native PDF carousels are the top of the 2026 reach hierarchy, 2 to 3 times the dwell of a
+  single image. This is the highest leverage format for a flagship evidence post.
+
+  HOW TO EXPORT AND POST:
+  1. Open this file in Chrome.
+  2. File, Print. Set Destination to Save as PDF. Paper size A4 or Letter is fine, but set
+     Margins to None and turn Background graphics ON. Each slide is one page.
+  3. Save the PDF, then on LinkedIn choose Add a document, upload the PDF, give it a short title.
+  4. Post the caption (the hook plus a line or two), put the sources link in your first comment.
+
+  HOW TO REUSE: this file is pre filled with the beta 0.061 Wrong Villain carousel as a worked
+  example. To make a new one, keep the eight slide shape (cover, finding, meaning, honest pivot,
+  credibility, the ratio, the point, the close) and swap the text. One idea per slide. One accent.
+  Keep the cream space. Cover slide is the thumbnail, so it must carry the hook and a number.
+
+  Design tokens match stat-card.html. No dashes in copy. Fonts load online, fall back to Georgia.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500;1,700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F0E4; --ink:#232019; --accent:#B4552F; --taupe:#9B7E63;
+    --rule:rgba(35,32,25,0.16);
+    --display:"Playfair Display", Georgia, "Times New Roman", serif;
+    --body:"Source Serif 4", Georgia, serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:#d9d2c4;font-family:var(--body);}
+  .deck{display:flex;flex-direction:column;align-items:center;gap:22px;padding:22px;}
+  .slide{
+    width:1080px;height:1350px;background:var(--cream);color:var(--ink);
+    padding:120px 100px;display:flex;flex-direction:column;position:relative;overflow:hidden;
+  }
+  .eyebrow{font-family:var(--body);text-transform:uppercase;letter-spacing:.28em;
+    font-size:22px;color:var(--taupe);font-weight:600;margin:0 0 40px;}
+  .kmark{font-family:var(--body);font-size:22px;color:var(--taupe);position:absolute;
+    bottom:70px;left:100px;letter-spacing:.06em;}
+  .pagenum{position:absolute;bottom:70px;right:100px;font-family:var(--body);font-size:22px;color:var(--taupe);}
+  .swipe{position:absolute;bottom:66px;right:100px;font-family:var(--body);font-size:24px;color:var(--accent);letter-spacing:.04em;}
+  h1{font-family:var(--display);font-weight:800;font-size:96px;line-height:1.03;margin:0;letter-spacing:-1px;}
+  h2{font-family:var(--display);font-weight:800;font-size:66px;line-height:1.08;margin:0 0 40px;letter-spacing:-.5px;}
+  .lede{font-family:var(--body);font-size:36px;line-height:1.5;margin:0;}
+  .big{font-family:var(--display);font-weight:700;color:var(--accent);font-size:190px;line-height:1;letter-spacing:-2px;margin:18px 0;}
+  .huge{font-family:var(--display);font-weight:700;color:var(--accent);font-size:150px;line-height:1;margin:10px 0 30px;}
+  .mid{margin-top:auto;margin-bottom:auto;}
+  .center{justify-content:center;}
+  .accent{color:var(--accent);}
+  .rule{height:1px;background:var(--rule);width:64%;margin:34px 0;}
+  .note{font-family:var(--body);font-style:italic;font-size:30px;color:var(--ink);line-height:1.45;}
+  .stack{font-family:var(--display);font-weight:700;font-size:52px;line-height:1.25;}
+  .bars{display:flex;flex-direction:column;gap:26px;margin-top:44px;}
+  .bar-row{display:flex;align-items:center;gap:20px;}
+  .bar-label{font-size:27px;width:360px;text-align:right;flex:none;color:var(--ink);}
+  .bar-track{flex:1;display:flex;align-items:center;gap:16px;}
+  .bar{height:34px;border-radius:3px;background:var(--ink);}
+  .bar.hot{background:var(--accent);}
+  .bar-val{font-family:var(--display);font-weight:700;font-size:28px;}
+  .footer{font-family:var(--body);font-size:24px;color:var(--accent);margin-top:26px;}
+  @media print{
+    html,body{background:#fff;}
+    .deck{gap:0;padding:0;}
+    .slide{page-break-after:always;box-shadow:none;}
+    @page{size:1080px 1350px;margin:0;}
+  }
+</style>
+</head>
+<body>
+<div class="deck">
+
+  <!-- SLIDE 1, COVER. The thumbnail. Carry the hook and tease the number. -->
+  <section class="slide">
+    <p class="eyebrow">The Wrong Villain, a series</p>
+    <div class="mid">
+      <h1>We have been<br>blaming the<br>wrong thing.</h1>
+      <p class="lede" style="margin-top:44px;max-width:82%;">The real driver of the children's mental health crisis is not the one getting the headlines. The evidence is not close.</p>
+    </div>
+    <span class="swipe">Swipe &rsaquo;</span>
+    <span class="kmark">The Guided Digital Childhood</span>
+  </section>
+
+  <!-- SLIDE 2, THE FINDING. Lead with the number. -->
+  <section class="slide center">
+    <p class="eyebrow">The finding</p>
+    <p class="lede">A peer reviewed meta analysis this year, 46 studies, 79 effect sizes, on social media and adolescent mental health.</p>
+    <div class="big">&beta; = 0.061</div>
+    <p class="lede">The pooled result.</p>
+    <span class="pagenum">2</span>
+  </section>
+
+  <!-- SLIDE 3, THE MEANING, with credibility markers. -->
+  <section class="slide center">
+    <p class="eyebrow">What it means</p>
+    <h2>Below the threshold the researchers set for evidentiary value.</h2>
+    <p class="lede">Statistically indistinguishable from noise. Pre registered on the Open Science Framework. Data and methodology public.</p>
+    <span class="pagenum">3</span>
+  </section>
+
+  <!-- SLIDE 4, THE HONEST PIVOT. Mandatory. Concede the strongest opposing point. -->
+  <section class="slide center">
+    <p class="eyebrow">To be fair</p>
+    <h2>That number is not zero.</h2>
+    <p class="lede">Social media has a measurable association with child mental health. But 0.061 is smaller than the effect of wearing glasses.</p>
+    <p class="note" style="margin-top:36px;">That is not a metaphor I invented. It is how Andrew Przybylski described his own independent finding.</p>
+    <span class="pagenum">4</span>
+  </section>
+
+  <!-- SLIDE 5, CREDIBILITY. Four groups, same answer. -->
+  <section class="slide center">
+    <p class="eyebrow">Not one study</p>
+    <div class="stack">UC Irvine.<br>Cambridge MRC.<br>Oxford.<br>Stetson University.</div>
+    <div class="rule"></div>
+    <p class="lede">Different datasets, different methods, different countries. Same conclusion. Real, measurable, and very small.</p>
+    <span class="pagenum">5</span>
+  </section>
+
+  <!-- SLIDE 6, THE RATIO. The one piece of data viz. Big drivers in ink, social media in accent. -->
+  <section class="slide">
+    <p class="eyebrow">What actually drives it</p>
+    <h2>The real causes, by share of child mental health outcomes.</h2>
+    <div class="bars">
+      <div class="bar-row"><div class="bar-label">Child poverty</div><div class="bar-track"><div class="bar" style="width:80%"></div><div class="bar-val">32%</div></div></div>
+      <div class="bar-row"><div class="bar-label">Adverse childhood experiences</div><div class="bar-track"><div class="bar" style="width:60%"></div><div class="bar-val">24%</div></div></div>
+      <div class="bar-row"><div class="bar-label">Parental mental health</div><div class="bar-track"><div class="bar" style="width:35%"></div><div class="bar-val">14%</div></div></div>
+      <div class="bar-row"><div class="bar-label">Social media</div><div class="bar-track"><div class="bar hot" style="width:8%"></div><div class="bar-val">3%</div></div></div>
+    </div>
+    <span class="pagenum">6</span>
+  </section>
+
+  <!-- SLIDE 7, THE POINT. The mission landed. -->
+  <section class="slide center">
+    <p class="eyebrow">Why the response keeps missing</p>
+    <h2>The 3% problem gets the parliament time.</h2>
+    <p class="lede">The 32% problem is chronically underfunded and almost invisible. That ratio is the whole story.</p>
+    <span class="pagenum">7</span>
+  </section>
+
+  <!-- SLIDE 8, THE CLOSE. Question, sources in comments, soft follow, brand. No keyword DM. -->
+  <section class="slide center">
+    <p class="eyebrow">The Wrong Villain, continued</p>
+    <h2>The response to a crisis should be proportional to the evidence.</h2>
+    <p class="lede">The sources are in the comments. If this landed, repost it, and follow Justin Phillips for the rest of the series.</p>
+    <p class="footer">The Guided Digital Childhood, guidedchildhood.com</p>
+    <span class="pagenum">8</span>
+  </section>
+
+</div>
+</body>
+</html>

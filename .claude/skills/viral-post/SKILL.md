@@ -291,6 +291,13 @@ posts, but build the flagship research explainers (the beta 0.061 type posts) as
 the one change most likely to produce another 70,000 impression post. When Justin asks for a
 flagship evidence post, offer the carousel version, not just the text post.
 
+`carousel.html` in this skill folder is the reusable eight slide carousel template, matching the
+research card design system, pre filled with the beta 0.061 Wrong Villain carousel as a worked
+example. The slide shape is cover, finding, meaning, honest pivot, credibility, the ratio, the
+point, the close, one idea per slide, one accent. Open in Chrome, Print, Save as PDF with margins
+none and background graphics on, one slide per page, then upload to LinkedIn as a document. The
+cover slide is the thumbnail, so it must carry the hook and tease a number.
+
 ---
 
 ## PART 6. THE PRE PUBLISH CHECKLIST (run on every post)
