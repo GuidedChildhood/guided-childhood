@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { stripe, STRIPE_PRICES, FOUNDER_CAP, getFounderCount } from '@/lib/stripe'
 import { trialDaysToGrant, type AccessProfile } from '@/lib/access'
 import { NextResponse } from 'next/server'
+import { APP_ORIGIN } from '@/lib/config/site'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,7 +32,7 @@ export const dynamic = 'force-dynamic'
 
 /** Back to the till with a reason a human can act on, never a bare 500. */
 function fail(reason: string): NextResponse {
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://www.guidedchildhood.com'
+  const origin = APP_ORIGIN
   return NextResponse.redirect(`${origin}/dashboard/upgrade?error=${reason}`, { status: 302 })
 }
 
@@ -117,7 +118,7 @@ export async function POST(request: Request) {
     }
   }
 
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+  const origin = APP_ORIGIN
 
   // A payer coming straight from onboarding lands in their first script
   // (the activation moment), same as the free path, instead of the

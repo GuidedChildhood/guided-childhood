@@ -11,6 +11,7 @@ import {
   bandedWrapper, eyebrow, h1, linkList, rule, sectionHead, tickList, p as bp,
   type Band,
 } from '@/lib/email/blocks'
+import { APP_ORIGIN } from '@/lib/config/site'
 
 const INK = '#1A1A2E'
 const INK_SOFT = '#52526A'
@@ -20,7 +21,7 @@ const BUTTER_DARK = '#C29018'
 const CREAM = '#F9F8F6'
 const BORDER = '#EAEAF0'
 
-const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+const APP = APP_ORIGIN
 
 function button(label: string, url: string): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px 0"><tr><td style="background:${BUTTER};border-radius:16px;box-shadow:0 5px 0 ${BUTTER_DARK}">

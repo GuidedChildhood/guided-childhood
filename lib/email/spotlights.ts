@@ -1,4 +1,5 @@
 import type { AgeBand } from '@/lib/content/stages'
+import { APP_ORIGIN } from '@/lib/config/site'
 
 // One service a week, named in the weekly digest.
 //
@@ -13,7 +14,7 @@ import type { AgeBand } from '@/lib/content/stages'
 // Every entry earns its place by answering "why would a parent want this THIS
 // WEEK", never by announcing that it exists. No dashes, Justin's voice.
 
-const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+const APP = APP_ORIGIN
 
 /** What the digest knows about a family when it picks. */
 export type SpotlightContext = {

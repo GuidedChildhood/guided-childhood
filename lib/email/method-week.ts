@@ -40,8 +40,9 @@ import {
   p as bp, type Band,
 } from './blocks'
 import type { EmailContent } from './templates'
+import { APP_ORIGIN } from '@/lib/config/site'
 
-const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+const APP = APP_ORIGIN
 
 /** The child's name, or a phrase that reads properly when we do not have one. */
 const who = (childName?: string | null) =>
