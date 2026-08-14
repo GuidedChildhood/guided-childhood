@@ -38,7 +38,30 @@
 -- because a fourth flag disagreeing with the other three is exactly how this
 -- got into its current state.
 --
+-- ── AND MIGRATION 105 NEVER RAN ─────────────────────────────────────────────
+--
+-- Checked against the live database rather than assumed from the repo, which
+-- is the house rule and the reason this was caught at all: children.no_phone
+-- IS NOT THERE. Every other migration in the range is applied (103, 147, 164,
+-- 190, 191, 192 all present); 105 alone was written, committed and never run.
+--
+-- So the "Olga has no phone, keep it on the fridge" button has been returning
+-- a 500 to every parent who ever tapped it, since 105 was written. The one
+-- reader of the column, the Quests page, catches its own error and carries on,
+-- which is why nothing ever looked broken: the button failed silently and the
+-- nudge it was meant to stop simply kept appearing. That is the whole feature,
+-- dead in production, with no error anyone would see.
+--
+-- The line from 105 is repeated here rather than left to a re-run of that
+-- file. It is `add column if not exists`, so applying both in either order is
+-- harmless, and this migration's backfill reads no_phone on the very next
+-- statement: without the column the update below fails and takes the whole
+-- migration with it.
+--
 -- Supabase editor rules: idempotent creates, no DO blocks, flat statements.
+
+alter table public.children
+  add column if not exists no_phone boolean not null default false;
 
 alter table public.children
   add column if not exists no_phone_at timestamptz;
