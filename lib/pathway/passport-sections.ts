@@ -182,7 +182,7 @@ export async function buildPassportSections(
         // further down THIS page, so this is an anchor rather than a route.
         // That also answers the second half of what Justin asked for: getting
         // back is scrolling up or the back gesture, because you never left.
-        href: '/dashboard/pathway#working-on',
+        href: '/dashboard/road#working-on',
         help: 'Open a moment, use the words it gives you, and mark it resolved when it is done.',
       },
       {

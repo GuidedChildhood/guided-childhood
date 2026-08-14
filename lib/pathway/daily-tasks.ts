@@ -250,7 +250,7 @@ export async function getTodayLoop(
   tasks.push({
     key: 'done',
     label: 'Done',
-    href: '/dashboard/pathway',
+    href: '/dashboard/road',
     done: tasks.every(t => t.done),
   })
 
@@ -372,7 +372,7 @@ export async function getDailyTasks(
       key: 'checkin',
       label: 'Weekly check in',
       detail: checkin ? 'Done for this week' : 'Five questions, once a week',
-      href: '/dashboard/pathway',
+      href: '/dashboard/road',
       done: !!checkin,
     },
   ]

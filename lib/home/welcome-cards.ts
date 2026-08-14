@@ -162,7 +162,7 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'Built in order, so 16 arrives as a gentle ramp and never a cliff edge.',
     trust: 'You never have to hold the plan. We keep the order and hand you today.',
     ask: 'What is coming next for us, and roughly when?',
-    does: '/dashboard/pathway',
+    does: '/dashboard/road',
   },
 ]
 

@@ -452,7 +452,7 @@ export default function TodayPathStrip({ tasks, dailyMinutes = 10, childName, st
         </div>
       ) : (
         <Link
-          href="/dashboard/pathway"
+          href="/dashboard/road"
           style={{
             display: 'block', marginTop: '14px', textAlign: 'center', textDecoration: 'none',
             fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)',

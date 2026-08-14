@@ -16,7 +16,7 @@ import { PLANETS } from '@/lib/pathway/planets'
 //
 // ── WHY IT MOVED ────────────────────────────────────────────────────────────
 //
-// The planet card and the school chest were both built onto /dashboard/pathway,
+// The planet card and the school chest were both built onto the stages road,
 // which is the passport page. It is the right page for a road that spans four
 // to sixteen and the wrong one for a discovery: a parent opens Home daily and
 // the passport occasionally, so anything meant to introduce the product was

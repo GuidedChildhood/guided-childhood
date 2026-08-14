@@ -39,7 +39,12 @@ export default function ChildSwitcher({
       {kids.map(kid => {
         const active = kid.id === activeId
         const isDefault = kid.is_primary ?? false
-        const href = isDefault ? basePath : `${basePath}?child=${kid.id}`
+        // basePath may already carry a query, which the passport page uses to
+        // keep the chosen tab when the child changes. Without this the pill
+        // built /dashboard/passport?tab=shop?child=<id>, a second question
+        // mark, and the child was silently ignored.
+        const sep = basePath.includes('?') ? '&' : '?'
+        const href = isDefault ? basePath : `${basePath}${sep}child=${kid.id}`
         const label = kid.name && kid.name !== 'Your child' ? kid.name : 'Your child'
         return (
           <Link

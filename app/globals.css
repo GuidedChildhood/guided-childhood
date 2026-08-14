@@ -410,10 +410,19 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 }
 .nav-pill:hover { background: rgba(255,255,255,0.9); color: var(--ink); }
 .nav-pill:active { transform: translateY(0.5px); }
+/* THE ACTIVE TAB IS BUTTER, NOT BLACK (13 August 2026).
+   Justin, holding the nav against the child switcher directly under it: "we
+   should use the brand yellow for these buttons across site not black."
+   He is right, and the screenshot made it obvious: the selected nav pill was a
+   dark espresso gradient sitting one row above a butter yellow child pill doing
+   the identical job, so the app had two different ideas of what selected looks
+   like on one screen. This is now the child switcher's exact language, which is
+   also every button's: butter fill, ink text, a hard 3px drop in the darker
+   butter. Ink text rather than white, because white on #EDC35F is unreadable. */
 .nav-pill-active, .nav-pill-active:hover {
-  background: linear-gradient(180deg, #38301E 0%, var(--deep-teal) 100%);
-  color: #fff;
-  box-shadow: 0 3px 10px -2px rgba(46,40,24,0.45), 0 1px 2px rgba(46,40,24,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+  background: var(--terracotta);
+  color: var(--ink);
+  box-shadow: 0 3px 0 var(--terracotta-dark);
 }
 
 /* ── PENDING ASK BADGE ── a small red count that rocks a little, so a
