@@ -51,6 +51,8 @@ export type ConcernCheckItem = {
   /** Their previous 1 to 10, from the event log. Null before the first one.
    *  Still read so a family part way through the old scale keeps its history. */
   lastScore: number | null
+  /** Whose worry it is. Null for a family wide one, or a single child family. */
+  childName?: string | null
 }
 
 /** The five bands, worst to best, which is the direction the scale has always
@@ -242,19 +244,67 @@ export default function ConcernCheckIn({
     timers.current[slug] = setTimeout(() => post(slug, { score }), SAVE_BEAT_MS)
   }
 
+
+  // ── THE STARS, AND WHY THEY REPLACED THE FIVE STACKED WORDS ────────────────
+  //
+  // Justin, 14 August 2026, after seeing the Duolingo Food and Shopping screen
+  // on Mobbin: "i quite like the food and shopping example as we could use
+  // yellow digi stars but needs to work with what wired in as results weekly
+  // email and progress reports when we change."
+  //
+  // He had asked for an accordion first: titles only, tap to expand. The star
+  // row is better and it is better by being the same idea taken one step
+  // further. An accordion is two taps, open then answer, and it hides the one
+  // thing worth seeing at a glance, which is where each worry stands. A row of
+  // five stars is short enough that nothing needs collapsing at all, shows last
+  // time and today in the same five positions, and takes ONE tap.
+  //
+  // NOTHING DOWNSTREAM CHANGES, which is the constraint he named. The five
+  // stars ARE the five bands: star n posts BANDS[n-1].score, so the numbers
+  // reaching concern_events are the same 2, 4, 6, 8 and 10 they have always
+  // been. The weekly email, the What is working page, scoreWord and every
+  // progress read carry on against identical data. Only the instrument changed.
+  //
+  // The words did not go away either. The band name sits under the row as soon
+  // as a star is tapped, inside the comparison sentence, so a parent still
+  // answers in language rather than in numbers. What went is having to read all
+  // five before answering one.
+
+  /** One star. Filled to today's answer, outlined for last time's. */
+  function Star({ filled, ghost, size = 34 }: { filled: boolean; ghost: boolean; size?: number }) {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden style={{ display: 'block' }}>
+        <path
+          d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95z"
+          fill={filled ? 'var(--terracotta)' : ghost ? 'var(--stage-1)' : '#fff'}
+          stroke={filled ? 'var(--terracotta-dark)' : ghost ? 'var(--alert)' : 'var(--border)'}
+          // Solid, never dashed. A dashed outline traced around a star's ten
+          // points does not read as a marker, it reads as a star that has
+          // shattered, which is the single worst thing to draw next to "how has
+          // this week been". A clean heavier ring says last time just as well.
+          strokeWidth={ghost && !filled ? 2.4 : 1.6}
+          strokeLinejoin="round"
+        />
+      </svg>
+    )
+  }
+
+  // Group by child when there is more than one, so a parent always knows whose
+  // week they are rating. concerns.child_id has been set on every row since the
+  // table was made and nothing had ever read it, so until today a two child
+  // family rated "Sibling fighting" and "Gaming concerns" in one flat list with
+  // no idea which child each number was landing against.
+  const childNames = [...new Set(concerns.map(c => c.childName).filter(Boolean))] as string[]
+  const grouped = childNames.length > 1
+
   return (
     <div style={{
       background: '#fff',
       border: '1.5px solid var(--border)',
       borderRadius: '20px',
-      padding: '22px',
+      padding: '20px',
       marginBottom: '16px',
     }}>
-      {/* The dial chrome: the native input supplies the drag and the
-          accessibility, our own track underneath supplies the look. Only the
-          thumb of the input is visible. The tall hit area is deliberate:
-          thumbs, not cursors. */}
-
       <div style={{
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
         letterSpacing: '.12em', textTransform: 'uppercase',
@@ -262,208 +312,176 @@ export default function ConcernCheckIn({
       }}>
         {baseline ? 'Where things are now' : 'Still on the list'}
       </div>
-      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, marginBottom: '16px' }}>
+
+      {/* WHY THIS IS WORTH THIRTY SECONDS.
+          Justin: "a quick note on why check in is important, eg we review each
+          week to improve, lets us check which is working and if solutions works
+          or we need another approach."
+          It goes at the top because the reason has to arrive before the ask,
+          not after it. A parent who knows the numbers come back to them as a
+          judgement on the ADVICE rather than on their parenting answers
+          honestly, and honest numbers are the only ones worth having. */}
+      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 6px' }}>
         {baseline
           ? 'One tap each. This is your starting point, so there is no right answer and nothing to work up to. Everything from here is measured against it.'
-          : 'One tap each, in your own words. The red ring is where it was last time.'}
+          : 'One tap each. More stars is a better week.'}
+      </p>
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 18px' }}>
+        We read these every week. It is how we tell which of the things we have
+        suggested is actually working for you, and when something is not moving,
+        it is what tells us to try a different approach rather than more of the
+        same.
       </p>
 
-      {concerns.map(c => {
+      {concerns.map((c, idx) => {
         const isSaved = saved[c.slug]
         const isTouched = touched[c.slug]
         const isPending = pending[c.slug]
+        const chosenBand = isTouched ? bandOf(value[c.slug]) : 0
+        const lastBand = c.lastScore != null ? bandOf(c.lastScore) : 0
+        const newChild = grouped && c.childName && c.childName !== concerns[idx - 1]?.childName
         return (
-          <div
-            key={c.slug}
-            ref={el => { rows.current[c.slug] = el }}
-            // The hand over aligns to the top of this row, so the margin is what
-            // keeps the title clear of the notch on a saved to home screen app
-            // and of the 64px sticky nav on desktop. 16px was enough when the
-            // scroll centred and is not now.
-            style={{ padding: '9px 0 15px', scrollMarginTop: 'calc(env(safe-area-inset-top, 0px) + 76px)' }}
-          >
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px' }}>
+          <div key={c.slug}>
+            {newChild && (
               <div style={{
-                fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800,
-                color: 'var(--ink)', marginBottom: '2px',
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)',
+                margin: idx === 0 ? '0 0 6px' : '14px 0 6px',
               }}>
-                {c.label}
-              </div>
-              {!isSaved && (
-                <button
-                  onClick={() => post(c.slug, { answer: 'same', score: null })}
-                  style={{
-                    background: 'none', border: 'none', padding: 0,
-                    fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
-                    fontWeight: 700, color: 'var(--ink-muted)',
-                    textDecoration: 'underline', cursor: 'pointer', flexShrink: 0,
-                  }}
-                >
-                  Skip
-                </button>
-              )}
-            </div>
-            <div style={{
-              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
-              color: 'var(--ink-muted)', marginBottom: '12px',
-            }}>
-              {/* What they said last time, which is the previous rating Justin
-                  asked to keep. Shown as the WORD rather than the number, even
-                  for a legacy 1 to 10 score, because the word is what the five
-                  buttons below are offering and a parent should not have to
-                  translate between the two. The ring on the button says the same
-                  thing spatially; this says it in prose. */}
-              {recencyLabel(c, baseline)}
-              {c.lastScore != null ? ` \u00b7 last time you said ${scoreWord(c.lastScore).toLowerCase()}` : ''}
-            </div>
-
-            {/* FIVE WORDS, STACKED, AND THE ONE YOU PICK BECOMES A BUTTON.
-                Justin: "is there a tidy way with the yellow we use on buttons,
-                make it a bit slicker?"
-
-                Yes, and it is more than tidier. The butter gold with the solid
-                shadow under it is what every real action in this product looks
-                like, so a chosen answer that wears it reads as a thing you did
-                rather than a thing that got highlighted. The unchosen four stay
-                quiet and white, which is what makes the chosen one carry.
-
-                Stacked rather than side by side because five words do not fit
-                across 390 without truncating the longest of them, and a
-                truncated answer is a worse answer. It is also the shape Visible
-                and Superpower use for exactly this job: many things to rate,
-                rated often, in one pass.
-
-                LAST TIME KEEPS ITS RED RING, on whichever word it belonged to,
-                so the comparison is spatial before anybody reads a sentence.
-                bandOf() reads a legacy 1 to 10 score just as well as a new one,
-                so a family who has been checking in for weeks sees their ring
-                land where it should on the day this changes. */}
-            <div
-              role="radiogroup"
-              aria-label={`${c.label}: how is it now, really tough to going great`}
-              style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}
-            >
-              {BANDS.map(b => {
-                const chosen = isTouched && value[c.slug] === b.score
-                const wasLast = c.lastScore != null && bandOf(c.lastScore) === bandOf(b.score)
-                const rung = bandOf(b.score)
-                return (
-                  <button
-                    key={b.score}
-                    role="radio"
-                    aria-checked={chosen}
-                    aria-label={wasLast ? `${b.label}, what you said last time` : b.label}
-                    disabled={!!isSaved}
-                    onClick={() => pick(c.slug, b.score)}
-                    style={{
-                      display: 'flex', alignItems: 'center', gap: '12px',
-                      width: '100%', padding: '12px 14px', textAlign: 'left',
-                      borderRadius: '16px', cursor: isSaved ? 'default' : 'pointer',
-                      // The house button, exactly: butter gold, a solid shadow
-                      // rather than a blur, and it presses down when it lands.
-                      background: chosen ? 'var(--terracotta)' : '#fff',
-                      border: chosen ? '1.5px solid var(--terracotta-dark)'
-                        // Last time, held the whole time, before and after
-                        // today's answer arrives.
-                        : wasLast ? '2px dotted var(--alert)'
-                        : '1.5px solid var(--border)',
-                      // Raised while the save beat runs, because it can still be
-                      // changed, then it PRESSES DOWN at the moment it commits.
-                      // That press is what saved looks like now. It used to turn
-                      // green, which said saved by throwing away the brand
-                      // colour at the one moment the row matters.
-                      boxShadow: chosen && !isSaved ? '0 4px 0 var(--terracotta-dark)'
-                        : chosen ? '0 1px 0 var(--terracotta-dark)'
-                        : 'none',
-                      transform: chosen && isSaved ? 'translateY(3px)' : 'none',
-                      opacity: isSaved && !chosen ? 0.4 : 1,
-                      transition: 'background .14s, border-color .14s, box-shadow .14s, transform .14s, opacity .14s',
-                    }}
-                  >
-                    {/* The rung. It GROWS down the five, so they read as a scale
-                        going somewhere rather than as five unrelated options,
-                        and a parent can see which end they are at without
-                        reading a word. Length rather than shade, because five
-                        tints of one colour is a difference nobody notices on a
-                        phone in a kitchen.
-
-                        The track behind it keeps every word on the same left
-                        edge, so the five read as a column rather than a
-                        staircase. */}
-                    <span aria-hidden style={{
-                      flexShrink: 0, width: '36px', height: '10px',
-                      display: 'flex', alignItems: 'center',
-                    }}>
-                      <span style={{
-                        width: `${6 + rung * 6}px`, height: '10px', borderRadius: '5px',
-                        background: chosen ? 'var(--ink)'
-                          : wasLast ? 'var(--alert)'
-                          : 'var(--terracotta)',
-                        opacity: chosen || wasLast ? 1 : 0.55,
-                        transition: 'background .14s, opacity .14s',
-                      }} />
-                    </span>
-                    <span style={{
-                      flex: 1, fontFamily: 'var(--font-display)', fontWeight: 800,
-                      fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2,
-                    }}>
-                      {b.label}
-                    </span>
-                    {/* Saved still says saved, in the green the all checked line
-                        uses, but as a tick on the row rather than by repainting
-                        it. The answer keeps the colour of the thing you chose. */}
-                    {chosen && isSaved && (
-                      <span aria-hidden style={{
-                        flexShrink: 0, width: '20px', height: '20px', borderRadius: '50%',
-                        background: 'var(--retro-green)', color: '#fff',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '0.7rem', fontWeight: 900,
-                      }}>✓</span>
-                    )}
-                    {wasLast && !chosen && (
-                      <span style={{
-                        flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: '0.6rem',
-                        fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-                        color: 'var(--alert)',
-                      }}>
-                        Last time
-                      </span>
-                    )}
-                  </button>
-                )
-              })}
-            </div>
-
-            {/* What it means, under the dots, so nothing above ever moves.
-                It STAYS after saving: the before and after of every check in is
-                left on screen rather than vanishing, which is the whole reason
-                a parent can see the line climbing over weeks. */}
-            {(isTouched || isSaved) && (
-              <div aria-live="polite" style={{ textAlign: 'center', marginTop: '8px' }}>
-                <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45 }}>
-                  {isTouched && value[c.slug]
-                    ? `${verdictLine(value[c.slug], c.lastScore)}${isSaved ? ' Saved.' : isPending ? ' Saving.' : ''}`
-                    : 'Skipped for today. It stays on the list.'}
-                </span>
+                {c.childName}
               </div>
             )}
+            <div
+              ref={el => { rows.current[c.slug] = el }}
+              style={{
+                padding: '12px 0',
+                borderTop: idx === 0 || newChild ? 'none' : '1px solid var(--border)',
+                scrollMarginTop: 'calc(env(safe-area-inset-top, 0px) + 76px)',
+                opacity: isSaved ? 0.82 : 1,
+                transition: 'opacity .18s',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px' }}>
+                <div style={{
+                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800,
+                  color: 'var(--ink)', lineHeight: 1.25,
+                }}>
+                  {c.label}
+                  {!grouped && c.childName && (
+                    <span style={{ fontFamily: 'var(--font-body)', fontWeight: 400, color: 'var(--ink-muted)', fontSize: 'var(--text-base)' }}>
+                      {' '}· {c.childName}
+                    </span>
+                  )}
+                </div>
+                {!isSaved && (
+                  <button
+                    onClick={() => post(c.slug, { answer: 'same', score: null })}
+                    style={{
+                      background: 'none', border: 'none', padding: 0,
+                      fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
+                      fontWeight: 700, color: 'var(--ink-muted)',
+                      textDecoration: 'underline', cursor: 'pointer', flexShrink: 0,
+                    }}
+                  >
+                    Skip
+                  </button>
+                )}
+              </div>
+
+              {/* FIVE STARS, ONE TAP. Each one is a 44px target with its own
+                  label, so it is a proper radio group for a screen reader and a
+                  proper thumb target for everyone else. Last time keeps the red
+                  it always had, now as a dashed outline on its own star, which
+                  is the same spatial comparison the ring used to make. */}
+              <div
+                role="radiogroup"
+                aria-label={`${c.label}${c.childName ? `, ${c.childName}` : ''}: how has this week been, one star worst to five stars best`}
+                style={{ display: 'flex', gap: '2px', marginTop: '6px', marginLeft: '-6px' }}
+              >
+                {BANDS.map((b, i) => {
+                  const n = i + 1
+                  const filled = chosenBand >= n
+                  const ghost = lastBand === n
+                  return (
+                    <button
+                      key={b.score}
+                      role="radio"
+                      aria-checked={chosenBand === n}
+                      aria-label={ghost ? `${b.label}, what you said last time` : b.label}
+                      disabled={!!isSaved}
+                      onClick={() => pick(c.slug, b.score)}
+                      style={{
+                        background: 'none', border: 'none', padding: '5px 6px',
+                        cursor: isSaved ? 'default' : 'pointer', lineHeight: 0,
+                        minWidth: 44, minHeight: 44,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}
+                    >
+                      <Star filled={filled} ghost={ghost} />
+                    </button>
+                  )
+                })}
+              </div>
+
+              {/* The words did not go anywhere: the band name arrives inside the
+                  comparison the moment a star is tapped, so the answer is still
+                  in language rather than in a count of stars. */}
+              {(isTouched || isSaved) && (
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
+                  <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45 }}>
+                    {`${verdictLine(value[c.slug], c.lastScore)}${isSaved ? ' Saved.' : isPending ? ' Saving.' : ''}`}
+                  </span>
+                </div>
+              )}
+
+              {/* FIVE STARS MEANS WE STOP ASKING, AND WE SAY SO.
+                  Justin: "we could pop up message when they rate as top doing
+                  great it says we will drop this off checkin but if it comes
+                  back then mark as moment."
+                  The rule itself lives in lib/checkin/today.ts. This is the
+                  half a parent has to be told, because a row silently vanishing
+                  from next week's list is indistinguishable from the app losing
+                  it, and a parent who thinks we lost it stops trusting the
+                  numbers. Saying it at the moment they earn it also makes the
+                  top star mean something: it is the only answer that shortens
+                  next week's list. */}
+              {chosenBand === 5 && (
+                <div style={{
+                  display: 'flex', alignItems: 'flex-start', gap: '9px',
+                  background: 'var(--tint-green)', borderRadius: '13px',
+                  padding: '11px 13px', marginTop: '8px',
+                }}>
+                  <span aria-hidden style={{ fontSize: 'var(--text-md)', lineHeight: 1.2, flexShrink: 0 }}>🎉</span>
+                  <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
+                    That is sorted, so we will drop it off your check in. If it comes back, log it as a moment and it returns here on its own.
+                  </span>
+                </div>
+              )}
+
+              {/* Before anything is tapped, last time is said in prose as well
+                  as spatially, because the dashed star alone does not tell a
+                  parent what that star MEANT. */}
+              {!isTouched && !isSaved && (
+                <div style={{
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
+                  color: 'var(--ink-muted)', marginTop: '4px',
+                }}>
+                  {recencyLabel(c, baseline)}
+                  {c.lastScore != null ? ` · last time ${scoreWord(c.lastScore).toLowerCase()}` : ''}
+                </div>
+              )}
+            </div>
           </div>
         )
       })}
 
       {allSaved && (
         <div style={{
-          display: 'flex', alignItems: 'center', gap: '10px', marginTop: '6px',
-          fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', fontWeight: 600,
-          color: 'var(--ink-soft)',
+          marginTop: '10px', paddingTop: '14px', borderTop: '1px solid var(--border)',
+          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+          color: 'var(--retro-green)',
         }}>
-          <span aria-hidden style={{
-            width: '22px', height: '22px', borderRadius: '50%',
-            background: 'var(--tint-green)', border: '1.5px solid var(--border)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 'var(--text-sm)', color: 'var(--ink)', flexShrink: 0,
-          }}>✓</span>
-          All checked. Small steps, kept up, are how this turns. The rings show how far each one has moved.
+          All checked in ✓ We will read these into next week.
         </div>
       )}
     </div>
