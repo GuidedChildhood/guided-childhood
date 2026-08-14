@@ -51,3 +51,37 @@
 // sitemap.ts, the metadataBase in the root layout, and the marketing home
 // page's canonical.
 export const SITE_URL = 'https://www.guidedchildhood.com'
+
+// ── 14 AUGUST 2026: THE CONSTANT ONLY WON HALF THE ARGUMENT ─────────────────
+//
+// The block above says "one constant, because three files disagreeing is what
+// let the .co.uk sit unnoticed". It was right, and then fourteen files carried
+// on disagreeing anyway, because they never read it. Every one of them wrote
+// its own line:
+//
+//   const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+//
+// No www. So every email link, every push deep link and every Stripe return
+// URL built from those files pointed at a host that redirects to this one. It
+// works, which is exactly why nobody noticed, and it costs a redirect on every
+// link in every email we send.
+//
+// The sharpest version of it was app/api/stripe/checkout/route.ts, which had
+// BOTH forms in the same file: the www spelling on line 34 and the non www on
+// line 120. One checkout route, two origins, depending which branch you took.
+//
+// A hardcoded fallback repeated fourteen times is not a fallback, it is
+// fourteen chances to be wrong, and the .co.uk episode is the proof. This is
+// the one line they all read now.
+//
+// WHY THIS IS STILL ONLY HALF THE FIX, and it matters. In production
+// NEXT_PUBLIC_APP_URL is set on Vercel, and when it is set the fallback never
+// runs at all. So if that variable holds the non www spelling, every link is
+// STILL taking the redirect and nothing here changes it. The env var is the
+// thing that decides; this only decides what happens when it is missing.
+// plans/pre-live-checklist.md already flags it: "wrong value breaks all of
+// them".
+//
+// Trailing slash is stripped, because half these call sites build `${APP}/path`
+// and a value ending in / silently produced a double slash.
+export const APP_ORIGIN = (process.env.NEXT_PUBLIC_APP_URL ?? SITE_URL).replace(/\/+$/, '')

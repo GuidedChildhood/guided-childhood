@@ -175,8 +175,14 @@ export const WELCOME_CARDS: WelcomeCard[] = [
 // The phone link card has no business showing to a family with a five year
 // old. Asking them to link a device reads as us pushing phones onto little
 // children, which is the opposite of what we stand for.
-export function availableCards(phoneAge: boolean): WelcomeCard[] {
-  return WELCOME_CARDS.filter(c => c.key !== 'childLink' || phoneAge)
+//
+// `settled` drops it for the other reason: this family has already told us
+// they use the paper chart or co-view on the grown up's device. Old enough is
+// not the same question as wanted, and until 14 August 2026 the card only
+// asked the first one, so a family who had answered the second one kept being
+// introduced to a service they had declined.
+export function availableCards(phoneAge: boolean, settled = false): WelcomeCard[] {
+  return WELCOME_CARDS.filter(c => c.key !== 'childLink' || (phoneAge && !settled))
 }
 
 // The cards for this open, in order. One of them, on the three days the hello
@@ -191,10 +197,11 @@ export function pickWelcomeCards(
   seen: string[],
   phoneAge: boolean,
   count = 3,
+  settled = false,
 ): WelcomeCard[] {
   const last = seen[seen.length - 1]
   const times = (k: string) => seen.filter(s => s === k).length
-  const cards = availableCards(phoneAge)
+  const cards = availableCards(phoneAge, settled)
 
   const todo = cards.filter(c => c.setup && flags[c.setup] === false)
   const rest = cards.filter(c => !c.setup || flags[c.setup] !== false)

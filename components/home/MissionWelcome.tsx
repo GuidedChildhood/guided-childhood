@@ -94,11 +94,15 @@ export default function MissionWelcome({
   firstName,
   flags,
   phoneAge = false,
+  handoverSettled = false,
   handoverChild = null,
 }: {
   firstName?: string
   flags?: Partial<SetupFlags>
   phoneAge?: boolean
+  // This family has already said no to a child device (paper chart, co-view,
+  // or "has no phone"), so the phone link card leaves the welcome rotation.
+  handoverSettled?: boolean
   // Set only when this family is still to answer the handover ask. The server
   // has already checked the age band, that no link exists, that they have not
   // chosen paper and that we have not asked too many times.
@@ -189,13 +193,13 @@ export default function MissionWelcome({
     }
 
     const seen = readSeen()
-    const pick = pickWelcomeCards(flags ?? {}, seen, phoneAge, 1)
+    const pick = pickWelcomeCards(flags ?? {}, seen, phoneAge, 1, handoverSettled)
     try {
       localStorage.setItem(SEEN_KEY, JSON.stringify([...seen, ...pick.map(c => c.key)].slice(-SEEN_MAX)))
     } catch { /* private mode, the rotation resets each time, still fine */ }
     openDecision = { cards: pick, handover: false, dismissed: false }
     setCards(pick)
-  }, [flags, phoneAge, handoverChild])
+  }, [flags, phoneAge, handoverSettled, handoverChild])
 
   const name = firstName && firstName.trim() ? firstName.trim() : null
 

@@ -4,6 +4,7 @@ import { stripe } from '@/lib/stripe'
 import { earnedFriendCount } from '@/lib/shop/earned'
 import { canBuy, formatPence, MAX_QTY, SHIP_COUNTRIES, type BasketLine, type Product } from '@/lib/shop/catalogue'
 import { NextResponse } from 'next/server'
+import { APP_ORIGIN } from '@/lib/config/site'
 
 export const dynamic = 'force-dynamic'
 
@@ -135,7 +136,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'We could not start that order' }, { status: 500 })
   }
 
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+  const origin = APP_ORIGIN
 
   try {
     const session = await stripe.checkout.sessions.create({

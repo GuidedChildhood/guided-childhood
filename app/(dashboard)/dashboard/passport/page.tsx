@@ -11,7 +11,7 @@ import SocialRoadNova from '@/components/pathway/SocialRoadNova'
 import StageReadiness from '@/components/pathway/StageReadiness'
 import IsItWorkingReport from '@/components/pathway/IsItWorkingReport'
 import FiveADayReport from '@/components/pathway/FiveADayReport'
-import HowFarYouHaveCome from '@/components/pathway/HowFarYouHaveCome'
+import WhatIsWorkingLink from '@/components/working/WhatIsWorkingLink'
 import LiteracyAreas from '@/components/pathway/LiteracyAreas'
 import ShopPanel from '@/components/shop/ShopPanel'
 
@@ -323,11 +323,25 @@ async function WorkingPanel({
         <FiveADayReport childName={child.name} days={fiveADay.days} today={fiveADay.today} />
       )}
 
-      {/* Where every concern started, where it got to, how long it took, and
-          which ones came back. Reads the append only event log rather than the
-          concerns table, so it can show the shape rather than only the
-          destination. Renders nothing until there is history worth showing. */}
-      <HowFarYouHaveCome />
+      {/* WHAT IS WORKING IS ITS OWN PAGE, AND THAT IS SOMEBODY ELSE'S CALL.
+
+          HowFarYouHaveCome used to render here. While this branch was building
+          the tabs, another session shipped /dashboard/what-is-working: a line
+          per concern read from the append only event log, nothing averaged,
+          with the reasoning for the composite ban written into
+          lib/working/movement.ts. That is a better home for it than a block on
+          a tab, and it is already merged, so this defers to it rather than
+          keeping a second copy alive.
+
+          What stays on this tab is the WEEK: the report above and the child's
+          own five a day below. What leaves is MOVEMENT OVER TIME, which now has
+          an address an email can point at. This is the doorway, and it carries
+          the best true sentence rather than a label, so it is a reason to tap
+          rather than a navigation item. It renders nothing at all until there
+          is something honest to say. */}
+      <Column>
+        <WhatIsWorkingLink from="passport" />
+      </Column>
 
       <Column>
         <SectionTiles

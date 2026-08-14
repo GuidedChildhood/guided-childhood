@@ -9,6 +9,9 @@ export type CheckInRow = {
   timesFlagged: number
   lastFlaggedAt: string
   lastScore: number | null
+  /** Whose worry this is. concerns.child_id has always been set; nothing read it. */
+  childId: string | null
+  childName: string | null
 }
 
 export type TodayCheckIn = {
@@ -46,20 +49,32 @@ export async function getTodayCheckIn(
 ): Promise<TodayCheckIn> {
   const today = new Date().toISOString().split('T')[0]
 
-  const [{ data: profile }, { data: live }] = await Promise.all([
+  const [{ data: profile }, { data: live }, { data: kids }] = await Promise.all([
     supabase.from('profiles').select('first_checkin_at, onboarding_answers').eq('id', userId).maybeSingle(),
     // Live concerns flagged before today and not yet checked today.
+    //
+    // child_id joined the select on 14 August 2026. It has been on this table
+    // since the beginning and every one of the 27 rows on the live account has
+    // it set, but nothing had ever read it, so the check in could not say whose
+    // worry it was asking about. In a one child family that is invisible. In a
+    // two child family the parent is rating "Sibling fighting" and "Gaming
+    // concerns" in one undifferentiated list with no idea which child each
+    // belongs to, and the numbers land against a child they never chose.
+    //
+    // The limit is raised because the "going great" filter below removes rows
+    // AFTER the query, and a limit of 5 applied first would quietly return two.
     supabase.from('concerns')
-      .select('id, slug, label, times_flagged, last_flagged_at')
+      .select('id, slug, label, times_flagged, last_flagged_at, child_id')
       .eq('user_id', userId)
       .in('status', ['open', 'improving'])
       .lt('last_flagged_at', today)
       .or(`last_checked_at.is.null,last_checked_at.lt.${today}`)
       .order('last_flagged_at', { ascending: false })
-      .limit(5),
+      .limit(20),
+    supabase.from('children').select('id, name').eq('parent_id', userId),
   ])
 
-  type Row = { id: string; slug: string; label: string; times_flagged: number; last_flagged_at: string }
+  type Row = { id: string; slug: string; label: string; times_flagged: number; last_flagged_at: string; child_id: string | null }
   const liveRows = ((live ?? []) as Row[])
     .filter(c => c.slug && !GENERIC.has(c.slug) && (c.label ?? '').trim().toLowerCase() !== 'something else')
 
@@ -78,6 +93,7 @@ export async function getTodayCheckIn(
   // What they said last time, so the card can show it back and the verdict can
   // name the move. A second wave by necessity: it needs the concern ids.
   const lastScoreByConcern = new Map<string, number>()
+  const lastScoreAtByConcern = new Map<string, string>()
   if (rows.length > 0) {
     const { data: scores } = await supabase
       .from('concern_events')
@@ -85,21 +101,64 @@ export async function getTodayCheckIn(
       .in('concern_id', rows.map(c => c.id))
       .not('score', 'is', null)
       .order('created_at', { ascending: false })
-    for (const r of (scores ?? []) as { concern_id: string; score: number | null }[]) {
+    for (const r of (scores ?? []) as { concern_id: string; score: number | null; created_at: string }[]) {
       if (typeof r.score === 'number' && !lastScoreByConcern.has(r.concern_id)) {
         lastScoreByConcern.set(r.concern_id, r.score)
+        lastScoreAtByConcern.set(r.concern_id, r.created_at)
       }
     }
   }
 
+  // ── GOING GREAT MEANS WE STOP ASKING ────────────────────────────────────────
+  //
+  // Justin, 14 August 2026: "if doing great we can stop asking at check in
+  // unless they raise another moment then we add to check in or any issue
+  // raised in digi we can add to check in."
+  //
+  // This is the rule that keeps the check in short enough to be done, and it is
+  // the one thing the card could not do. A family who has sorted bedtime was
+  // asked about bedtime every week for ever, so the list only ever grew, and a
+  // list that only grows is a list that stops being filled in. Worse, it taught
+  // the parent that saying "going great" achieves nothing.
+  //
+  // The status column could not carry this. 'improving' is set by a good answer
+  // and keeps the row in the list; 'resolved' needs the parent to say out loud
+  // that it is sorted, which is a different and heavier claim than one good
+  // week. This sits between the two: the row rests.
+  //
+  // AND THE WAY BACK IS ALREADY BUILT, which is why no new column is needed.
+  // Raising it again as a moment, or DiGi surfacing it, both write
+  // last_flagged_at. So "re-raised since the good news" is exactly
+  // last_flagged_at being newer than the score that rested it, and the row
+  // returns on its own the moment the problem does. Nothing to remember, and no
+  // way for a real recurrence to be silenced.
+  const TOP_BAND = 9
+  const resting = new Set(
+    rows.filter(c => {
+      const score = lastScoreByConcern.get(c.id)
+      if (typeof score !== 'number' || score < TOP_BAND) return false
+      const at = lastScoreAtByConcern.get(c.id)
+      // Re-raised since that good score? Then it is live again.
+      return !(at && c.last_flagged_at > at)
+    }).map(c => c.id),
+  )
+
+  const nameById = new Map((kids ?? []).map(k => [k.id as string, k.name as string]))
+  const asked = rows.filter(c => !resting.has(c.id)).slice(0, 5)
+
   return {
     baseline,
-    rows: rows.map(c => ({
-      slug: c.slug,
-      label: c.label,
-      timesFlagged: c.times_flagged,
-      lastFlaggedAt: c.last_flagged_at,
-      lastScore: lastScoreByConcern.get(c.id) ?? null,
-    })),
+    rows: asked.map(c => {
+      const name = c.child_id ? nameById.get(c.child_id) ?? null : null
+      return {
+        slug: c.slug,
+        label: c.label,
+        timesFlagged: c.times_flagged,
+        lastFlaggedAt: c.last_flagged_at,
+        lastScore: lastScoreByConcern.get(c.id) ?? null,
+        childId: c.child_id ?? null,
+        childName: name && name !== 'Your child' ? name : null,
+      }
+    }),
   }
 }

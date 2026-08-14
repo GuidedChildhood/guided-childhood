@@ -2,6 +2,7 @@ import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendPush } from '@/lib/push/send'
+import { getFamilyHandover, offerableChildren } from '@/lib/handover/settled'
 
 // The settled subscriber nudge. Once a family is paying, one gentle push
 // every few weeks for the single most valuable thing still missing in their
@@ -76,7 +77,28 @@ async function handler(request: Request) {
           admin.from('kid_links').select('child_id').eq('user_id', userId),
         ])
         const linked = new Set((links ?? []).map(l => l.child_id))
-        const handover = kids.find(k => k.age_band && k.age_band !== '4-7' && !linked.has(k.id))
+
+        // A FAMILY WHO SAID NO DOES NOT GET PUSHED ABOUT IT.
+        //
+        // This was the worst of the fourteen surfaces that ignored the answer,
+        // because it is the only one that reaches a parent who is not even in
+        // the app. A parent who tapped "Olga has no phone, keep it on the
+        // fridge" silenced one card on the Quests page and then got a push
+        // notification on their own phone telling them Olga can run her own
+        // side now. That is not a nudge, it is the product arguing with them.
+        //
+        // The predicate reads all three existing flags, so paper, no_phone and
+        // a deliberate co-view all count. Fails soft to the old behaviour if
+        // the read throws: this cron must never stop sending the birthday and
+        // device guide nudges over a handover check.
+        let offerable = kids.filter(k => k.age_band && k.age_band !== '4-7' && !linked.has(k.id))
+        try {
+          const family = await getFamilyHandover(admin, userId)
+          const allowed = new Set(offerableChildren(family, linked as Set<string>).map(c => c.id))
+          offerable = offerable.filter(k => allowed.has(k.id))
+        } catch { /* fall back to the age and link test alone */ }
+
+        const handover = offerable[0]
         if (!setup?.length) {
           title = 'Ten minutes that turns Safe online green 🛡️'
           body = 'DiGi here. The device guides walk each screen with you, step by step. Families who finish them see the safety tick go green on the progress report, and the settings hold when you are not looking.'

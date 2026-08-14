@@ -26,6 +26,16 @@ export function nextHint(key: TodayLoopTask['key']): string {
   const hints: Record<TodayLoopTask['key'], Record<string, string>> = {
     // Setup stays on the road until every step is green, so its hint has to
     // read as progress rather than as the same nag every morning.
+    agreement: {
+      morning: 'A quick look at the deal you both agreed',
+      afternoon: 'Does the deal still fit? One look, once a week',
+      evening: 'Read the deal back before bed, it takes a minute',
+    },
+    passport: {
+      morning: 'See where the week has got you on the passport',
+      afternoon: 'The record so far, and what is next',
+      evening: 'A look at how far you have come',
+    },
     setup: {
       morning: 'One more piece of setup, then it is done for good',
       afternoon: 'Finish setting up: one step at a time, nothing long',
@@ -73,6 +83,8 @@ const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon
   quests:  { fill: 'var(--gold)',         tick: 'var(--ink)',          icon: '⭐' },
   moment:  { fill: 'var(--stage-1-bold)', tick: 'var(--stage-1-text)', icon: '☀️' },
   script:  { fill: 'var(--stage-2-bold)', tick: 'var(--stage-2-text)', icon: '💬' },
+  agreement: { fill: 'var(--tint-blue)',  tick: 'var(--ink)',          icon: '🤝' },
+  passport: { fill: 'var(--stage-3-bold)', tick: 'var(--stage-3-text)', icon: '🛂' },
   digi:    { fill: 'var(--stage-5-bold)', tick: 'var(--stage-5-text)', icon: '✦' },
   done:    { fill: 'var(--stage-3-bold)', tick: 'var(--stage-3-text)', icon: '🏁' },
 }

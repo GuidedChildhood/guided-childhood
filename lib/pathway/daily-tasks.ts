@@ -16,7 +16,7 @@ export interface DailyTask {
 }
 
 export interface TodayLoopTask {
-  key: 'checkin' | 'setup' | 'moment' | 'script' | 'quests' | 'digi' | 'done'
+  key: 'checkin' | 'setup' | 'moment' | 'agreement' | 'script' | 'quests' | 'passport' | 'digi' | 'done'
   label: string
   href: string
   done: boolean
@@ -83,6 +83,14 @@ export async function getTodayLoop(
    * already computes it for SetupPath and the two must never disagree.
    */
   setupNextStep: string | null = null,
+  /**
+   * The passport's five section readings, already built by the dashboard for
+   * PassportToDo. Passed in rather than rebuilt here for the same reason
+   * setupNextStep is: two readings of the same thing is two readings that can
+   * disagree, and the rung must say what the passport page says. Null when the
+   * family has no stage yet, which keeps the rung off the road.
+   */
+  passportSections: { pct: number }[] | null = null,
 ): Promise<TodayLoopTask[]> {
   const today = londonToday()
   // The instant today began in London, not UTC midnight. Through British summer
@@ -101,6 +109,8 @@ export async function getTodayLoop(
     { count: questCount },
     { count: ticksWaiting },
     { count: asksWaiting },
+    { data: scoredToday },
+    { data: agreementRow },
   ] = await Promise.all([
     // Concerns flagged before today that have not been checked today:
     // the same query the daily deck uses to build its check in card.
@@ -127,10 +137,49 @@ export async function getTodayLoop(
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('active', true),
     supabase.from('quest_ticks').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'pending'),
     supabase.from('quest_requests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'pending'),
+    // ── DID THEY ACTUALLY MOVE THE SCALE TODAY ─────────────────────────────
+    //
+    // Justin, 13 August 2026: "just looking at the check in is not enough to
+    // tick it off, they need to complete the scale, which we already
+    // designed."
+    //
+    // A real answer with a real number on it, today. Nothing else counts, and
+    // in particular OPENING the page counts for nothing.
+    supabase.from('concern_events')
+      .select('id')
+      .eq('user_id', userId)
+      .not('score', 'is', null)
+      .gte('created_at', dayStart)
+      .limit(1),
+    // The family agreement, for the weekly rung below. updated_at is what the
+    // save route writes on every edit, so "looked at it this week" and "changed
+    // it this week" are the same fact, which is the right one: an agreement
+    // reopened and left alone is still a review.
+    supabase.from('family_agreements')
+      .select('updated_at, created_at')
+      .eq('user_id', userId)
+      .order('updated_at', { ascending: false })
+      .limit(1)
+      .maybeSingle(),
   ])
 
   const anyQuests = (questCount ?? 0) > 0
   const questsWaiting = (ticksWaiting ?? 0) + (asksWaiting ?? 0)
+
+  // The agreement's weekly clock. updated_at is written on every save, so a
+  // family who opened it and changed nothing still reads as reviewed, which is
+  // right: reading it IS the review.
+  const agreementUpdatedAt = (agreementRow?.updated_at as string | null)
+    ?? (agreementRow?.created_at as string | null) ?? null
+  const agreementFreshThisWeek = agreementUpdatedAt
+    ? (Date.now() - new Date(agreementUpdatedAt).getTime()) < 7 * 86_400_000
+    : false
+
+  // How much of the passport is still on the parent to move. Null means there
+  // is no passport to read yet, and the rung stays off the road entirely.
+  const passportOutstanding = passportSections === null
+    ? null
+    : passportSections.filter(sec => sec.pct < 100).length
 
   const scriptHref = await safeScriptHref(supabase, userId, isPaid, recommended)
   // Doing a moment counts whether it came from the daily deck (a session) or
@@ -172,12 +221,23 @@ export async function getTodayLoop(
       key: 'checkin' as const,
       label: neverCheckedIn ? 'Where things are now' : 'Check in',
       href: '/dashboard/checkin',
-      // Never checked in is never done, whatever the concern list says. The
-      // baseline is a thing that has happened or has not.
+      // ── DONE MEANS A NUMBER WAS RECORDED TODAY ─────────────────────────
       //
-      // Otherwise a real reading: they have concerns, and none is still
-      // waiting on them today, so the tick was genuinely earned.
-      done: neverCheckedIn ? false : (pendingConcerns ?? []).length === 0,
+      // Justin: "just looking at the check in is not enough to tick it off,
+      // they need to complete the scale."
+      //
+      // This asked whether anything was still PENDING, which is a different
+      // question and quietly answered yes too often. A concern flagged TODAY
+      // from the moments timeline is excluded from the pending list by the
+      // flagged-before-today rule, so a parent who tapped two moments this
+      // morning had nothing pending and the rung ticked itself green without
+      // a single number being answered.
+      //
+      // So it asks the honest thing: is there a scored concern_event today.
+      // That row is written by /api/daily/concern-check, which is the endpoint
+      // the five word scale posts to, so the tick and the record cannot
+      // disagree and opening the page earns nothing.
+      done: (scoredToday ?? []).length > 0,
     }] : []),
     // ── SETUP, AND IT STAYS UNTIL IT IS ALL TICKED ─────────────────────────
     //
@@ -202,6 +262,29 @@ export async function getTodayLoop(
       href: '/dashboard/daily',
       done: momentDone,
     },
+    // ── THE AGREEMENT, ONCE A WEEK, RIGHT AFTER THE MOMENTS ────────────────
+    //
+    // Justin, 14 August 2026, walking his own loop: "after going through the
+    // moment cards on today it did confirm agreement which is great... so
+    // moments on today then check agreement but every time once a week then add
+    // more moments or skip."
+    //
+    // It sits here rather than in setup because it is not a one time job. What
+    // a family agreed in March is wrong by September: the child is older, the
+    // devices have changed, and the deal that is never revisited is the deal
+    // nobody follows. Weekly is the cadence he named and it is also the most it
+    // can bear, because a daily rung about a document is furniture within a
+    // fortnight.
+    //
+    // Only for families who HAVE one. Making one is a setup step and already
+    // has a rung; this is the review, and a rung asking a family to review a
+    // thing they have never made is two asks wearing one hat.
+    ...(agreementUpdatedAt ? [{
+      key: 'agreement' as const,
+      label: 'The deal',
+      href: '/dashboard/agreement',
+      done: agreementFreshThisWeek,
+    }] : []),
     {
       key: 'script',
       label: 'Script',
@@ -226,25 +309,52 @@ export async function getTodayLoop(
       // system runs on and a tick against it would be a lie.
       done: anyQuests && questsWaiting === 0,
     },
-    // ── DIGI, ON THE FIRST DAY ONLY ────────────────────────────────────────
+    // ── THE PASSPORT, AFTER THE QUESTS ─────────────────────────────────────
     //
-    // Justin, 13 August 2026: "I think it's useful to have there if only the
-    // first ever today so they are aware of it."
+    // Justin, 14 August 2026, describing the loop he wants: quests, "then send
+    // to check progress on passport so thats the loop then once passport is
+    // marked as save for now it goes to digi to advice and help."
     //
-    // Exactly right, and it is an introduction rather than a task. DiGi is on
-    // the tab bar and behind the Help now button every day for ever, so a
-    // standing rung that says "talk to DiGi" is an invitation pretending to be
-    // a step, and every other rung here is a concrete thing with an end. On
-    // day one it is neither: it is how a parent finds out DiGi is there at all.
+    // The order is the argument. Quests is what the family DOES this week, and
+    // the passport is what it ADDS UP TO, so reading the record straight after
+    // doing the work is the one moment it means something. Opened at any other
+    // time it is a page about the future.
     //
-    // Keyed off the same first check in stamp as the baseline, so the whole of
-    // day one hangs on one timestamp rather than two different ideas of new.
-    ...(neverCheckedIn ? [{
+    // Done is the passport having nothing outstanding on the parent's side,
+    // which is the same reading PassportToDo shows on the page itself, so the
+    // rung and the page can never disagree. A family with a full passport gets
+    // a rung that is already green rather than a chore.
+    //
+    // It never appears before there is a passport to read: no stage, no rung.
+    ...(passportOutstanding !== null ? [{
+      key: 'passport' as const,
+      label: 'Passport',
+      // Its own page since 13 August, rather than a heading part way down the
+      // road. This rung is the whole reason that split was worth doing: it can
+      // now land ON the passport rather than near it.
+      href: '/dashboard/passport',
+      done: passportOutstanding === 0,
+    }] : []),
+    // ── DIGI CLOSES THE DAY ────────────────────────────────────────────────
+    //
+    // It used to be day one only, and Justin was right at the time: "I think
+    // it's useful to have there if only the first ever today so they are aware
+    // of it." A standing rung reading "talk to DiGi" was an invitation
+    // pretending to be a step, when DiGi is on the tab bar every day anyway.
+    //
+    // What changed is where it sits. Justin, 14 August: "once passport is
+    // marked as save for now it goes to digi to advice and help." At the END of
+    // the loop it is not an invitation any more, it is the debrief: the parent
+    // has just answered how the week is going, logged what happened, looked at
+    // the jobs and read the record, and DiGi is the one thing on the list that
+    // can respond to all four. That is a concrete step with an end, which is
+    // the test every other rung here has to pass.
+    {
       key: 'digi' as const,
-      label: 'Meet DiGi',
+      label: neverCheckedIn ? 'Meet DiGi' : 'Ask DiGi',
       href: '/dashboard/digi',
       done: (digiToday ?? []).length > 0,
-    }] : []),
+    },
   ]
 
   tasks.push({

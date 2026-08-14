@@ -5,6 +5,7 @@ import { buildWeeklyReview } from '@/lib/digi/weekly-review'
 import { sendEmail, emailConfigured, unsubscribeUrl } from '@/lib/email'
 import { weeklyReviewEmail } from '@/lib/email/templates'
 import { sendPush } from '@/lib/push/send'
+import { getMovements, spanWords } from '@/lib/working/movement'
 
 // The Sunday evening DiGi weekly review cron. Finds families that did anything
 // this week, builds each one a private review off their own numbers, stores it,
@@ -100,7 +101,29 @@ async function handler(request: Request) {
             if (!logErr) {
               const parentName = (prof.full_name as string | null)?.split(' ')[0] ?? 'there'
               const childLabel = review.stats.children.filter(Boolean).join(' and ') || 'your child'
-              const content = weeklyReviewEmail({ parentName, childLabel, review, unsubscribe: unsubscribeUrl(userId), poll })
+
+              // WHAT MOVED. The one thing this email has never carried, and the
+              // only part of it that answers whether any of the effort worked.
+              // Read from the same helper the What is working page uses, so the
+              // email and the page can never quote different numbers for the
+              // same week, which is the fastest way to make an email
+              // untrustworthy. Fails soft: a family with no scored check ins
+              // simply gets the email it always got.
+              let movement: { label: string; from: number; to: number; span: string }[] | null = null
+              try {
+                const ms = await getMovements(admin, userId)
+                movement = ms
+                  .filter(m => m.points.length >= 2 && m.startScore != null && m.endScore != null)
+                  .map(m => ({
+                    label: m.label,
+                    from: m.startScore as number,
+                    to: m.endScore as number,
+                    span: m.observed && m.weeks >= 1 ? spanWords(m.weeks) : '',
+                  }))
+                if (movement.length === 0) movement = null
+              } catch { /* the rest of the email is worth sending without it */ }
+
+              const content = weeklyReviewEmail({ parentName, childLabel, review, unsubscribe: unsubscribeUrl(userId), poll, movement })
               const sent = await sendEmail({ to: prof.email as string, subject: content.subject, html: content.html, key })
               if (!sent.ok) await admin.from('email_log').delete().eq('user_id', userId).eq('email_key', key)
             }

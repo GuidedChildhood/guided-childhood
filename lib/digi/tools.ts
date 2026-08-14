@@ -90,6 +90,22 @@ export const SAVE_MEMORY_TOOL: Anthropic.Tool = {
         type: 'string',
         description: 'One sentence. Written to be read cold, so name what it is about rather than relying on this conversation.',
       },
+      // THE TWO FIELDS THAT PUT A WORRY ON THE CHECK IN.
+      //
+      // Without these, kind 'concern' filed the memory and nothing else: no
+      // concerns row, no last_flagged_at, nothing on tomorrow's check in and
+      // nothing the parent could ever score. Worse, choosing this tool SWITCHED
+      // OFF the extraction pass that would otherwise have written the ledger,
+      // so the moment DiGi decided a worry was worth keeping was exactly the
+      // moment it stopped being tracked.
+      concern_slug: {
+        type: 'string',
+        description: 'Only when kind is concern. A short kebab-case name, two to four words, for example bedtime-screens. Reuse the family\'s existing slug verbatim when this is the same theme as one they already have, so the history joins up rather than starting again.',
+      },
+      concern_label: {
+        type: 'string',
+        description: 'Only when kind is concern. A short label in sentence case, correctly spelled, that the parent will see on their check in. Never copy a typo from what they wrote.',
+      },
     },
     required: ['kind', 'content'],
   },
@@ -317,6 +333,30 @@ async function doSaveMemory(ctx: ToolContext, arg: Record<string, unknown>): Pro
     ...(embedding ? { embedding } : {}),
   })
   if (error) return 'That did not save. Carry on without it.'
+
+  // A CONCERN GOES ON THE LEDGER, NOT JUST IN THE MEMORY.
+  //
+  // digi_memory is what DiGi reads back to sound like it remembers. The
+  // concerns table is what the PARENT sees and scores: the check in list, the
+  // What is working lines, the weekly email. A worry that lands only in memory
+  // is one DiGi can mention and the family can never measure, and it can never
+  // wake a rested concern either, because that turns entirely on
+  // last_flagged_at moving.
+  //
+  // Best effort and deliberately after the memory insert: the memory is the
+  // thing DiGi was asked to do, and a ledger write that fails must not turn a
+  // successful save into an error the model then apologises for.
+  if (kind === 'concern') {
+    const slug = typeof arg.concern_slug === 'string' ? arg.concern_slug : ''
+    const label = typeof arg.concern_label === 'string' ? arg.concern_label : ''
+    if (slug && label) {
+      const { raiseConcern } = await import('@/lib/concerns/raise')
+      await raiseConcern(ctx.supabase, ctx.userId, ctx.childId, {
+        slug, label, source: 'digi', linkedType: 'digi',
+      })
+    }
+  }
+
   return 'Saved. Do not mention it to the parent.'
 }
 

@@ -8,6 +8,9 @@ export type BaselineConcern = {
   label: string
   times_flagged: number
   last_flagged_at: string
+  /** Whose worry it is. Written at insert since the beginning; returned since
+   *  14 August 2026, when the check in finally started saying whose it was. */
+  child_id: string | null
 }
 
 // The onboarding ids, and the ledger slugs they belong on. Both the current
@@ -114,7 +117,7 @@ export async function seedBaselineConcerns(
       times_flagged: 1,
       last_flagged_at: now,
     })))
-    .select('id, slug, label, times_flagged, last_flagged_at')
+    .select('id, slug, label, times_flagged, last_flagged_at, child_id')
 
   if (error) return []
   return (inserted ?? []) as BaselineConcern[]

@@ -74,6 +74,8 @@ import { pickChild } from '@/lib/children/select'
 import { readNudgeFacts } from '@/lib/home/nudge-facts'
 import HabitNudge from '@/components/home/HabitNudge'
 import FoldSection from '@/components/dashboard/FoldSection'
+import { getFamilyHandover, offerableChildren, reofferChildren } from '@/lib/handover/settled'
+import PhoneLaterCard from '@/components/home/PhoneLaterCard'
 
 const WEEKLY_ACTIONS = [
   'Put the bedroom rule in place',
@@ -130,7 +132,26 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       .order('times_flagged', { ascending: false }).limit(20),
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('active', true),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', user.id).limit(1).maybeSingle(),
-    supabase.from('daily_sessions').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
+    // ── A SESSION ROW IS NOT A DAILY PRACTICE ────────────────────────────
+    //
+    // Justin, 13 August 2026: "keeps saying set up is done even though we only
+    // clicked on it and did not change anything."
+    //
+    // This asked whether a daily_sessions ROW existed, and a row is created by
+    // more than finishing the day. Moving the moment timeline onto Home this
+    // afternoon made that visible: "Nothing to flag today" is an honest answer
+    // and it posts, which wrote a row, which turned the first setup step, the
+    // whole two minute daily habit, green for a parent who had done nothing.
+    //
+    // So it asks what it means. A practice counts when the deck was completed
+    // or at least one card was worked through, which is the same test
+    // getTodayLoop uses for its moment step, so Home and the road agree.
+    supabase.from('daily_sessions')
+      .select('id')
+      .eq('user_id', user.id)
+      .or('completed_at.not.is.null,cards_completed.gt.0')
+      .limit(1)
+      .maybeSingle(),
     // Any school action ever added, connected inbox or typed by hand, done
     // or dismissed or still open: either path is the setup step complete,
     // and once complete it should stay complete, not flip back off the
@@ -361,6 +382,26 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     birthday: allBirthdaysIn(birthdays),
   }
 
+  // HAS THIS FAMILY ALREADY SAID NO TO A CHILD DEVICE?
+  //
+  // One read, three surfaces silenced, and it has to happen up here because
+  // the setup path below is computed before the handover overlay's own gates.
+  // Fails soft to false, which is the old behaviour, because a Home page that
+  // stops rendering over a nudge check is a far worse bug than a nudge.
+  let familyHandoverSettled = false
+  // The one child, if any, whose "no phone" answer is now six months old and
+  // worth asking about once more. Never one who has since been linked.
+  let phoneLater: { id: string; name: string } | null = null
+  try {
+    const family = await getFamilyHandover(supabase, user.id)
+    const linked = new Set((kidLinksResult.data ?? []).map(k => k.child_id as string))
+    familyHandoverSettled = family.children.length > 0 && offerableChildren(family, linked).length === 0
+    const due = reofferChildren(family).filter(c => !linked.has(c.id))
+    if (due.length > 0) phoneLater = { id: due[0].id, name: due[0].name as string }
+  } catch { /* keep offering, exactly as before */ }
+  const handoverSettled = familyHandoverSettled
+    || ((handoverResult.data as { handover_choice?: string | null } | null)?.handover_choice ?? null) === 'paper'
+
   // DiGi brings a lesson to Home: one age relevant film the child has not
   // watched yet, offered with the same two choices as the hub (watch together
   // here, or send to their phone). This is the mobile answer to a nav that has
@@ -392,7 +433,21 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // finished, the supplementary cards return to normal. visibleSetupSteps
   // drops the phone link step for children too young to have a phone, so it
   // never blocks completion for a Foundation age family.
-  const setupSteps = visibleSetupSteps(phoneAge)
+  //
+  // ── AND IT DROPS IT AGAIN WHEN THE FAMILY HAS SAID NO (14 August 2026) ────
+  //
+  // Justin: "if a parent selects that they want to co view and use printable
+  // star charts instead of share device we don't want to keep telling them to
+  // share or set up child device."
+  //
+  // handoverSettled reads the three flags that already recorded that answer,
+  // and this ONE value silences three surfaces at once, because all three key
+  // off the same childLink flag: the setup path and its next step bar, the
+  // welcome overlay's phone link card, and the coverage card that DiGi flashes
+  // up on Home. The last of those was the widest hole in the product: it had
+  // no age gate at all, so a family with a co-viewing five year old could be
+  // shown "Their own side of it" on their own front page.
+  const setupSteps = visibleSetupSteps(phoneAge, handoverSettled)
   const currentSetupStep = setupSteps.find(s => !setupFlags[s.key])?.key ?? null
   const setupComplete = currentSetupStep === null
 
@@ -562,7 +617,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // and why it is seven cards and not eleven.
   const coverage = unmetCoverage({
     hasAgreement: setupFlags.agreement,
-    hasKidLink: setupFlags.childLink,
+    // "Seen" here means "do not offer this", so a family who has settled on
+    // paper counts as seen. This card was the widest hole of the fourteen: its
+    // only condition was the absence of a kid_links row, with no age gate at
+    // all, so DiGi could flash "Their own side of it" onto the Home page of a
+    // family with a co-viewing five year old.
+    hasKidLink: setupFlags.childLink || handoverSettled,
     hasJobs: setupFlags.quests,
     hasPush: setupFlags.push,
     hasCheckin: !!lastCheckin,
@@ -820,7 +880,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           Only ever one; approvals outrank the due check in. The quiet day
           stays a sentence, not a gap. */}
       <HomeLive
-        checkinDue={todayLoop.some(t => t.key === 'checkin' && !t.done)}
         childName={child?.name ?? null}
       />
 
@@ -952,6 +1011,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         firstName={firstName}
         flags={setupFlags}
         phoneAge={phoneAge}
+        handoverSettled={handoverSettled}
         handoverChild={handoverChild}
       />
 
@@ -959,6 +1019,18 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           without being asked for: it happens once, and what a family decides in
           these few weeks sets the next five years. */}
       {phoneBridge && <PhoneBridgeCard bridge={phoneBridge} />}
+
+      {/* THE ONE TIME WE COME BACK. Every other surface that asked a family to
+          set up a child device now goes quiet the moment they say no. Silence
+          on its own would be wrong, because the fact that changes the answer is
+          one we cannot see: the child who had no phone at nine usually has one
+          at eleven, and nothing would ever tell that parent this product can
+          put their jobs on it. Six months after they said no, once, written as
+          news rather than as a nudge, and "Still no phone" restarts the clock
+          properly instead of hiding a card that comes straight back. */}
+      {phoneLater && (
+        <PhoneLaterCard childId={phoneLater.id} childName={phoneLater.name} />
+      )}
 
       {/* Otherwise, whatever school has coming, four to six weeks out. Early
           enough to be a head start rather than a warning. */}

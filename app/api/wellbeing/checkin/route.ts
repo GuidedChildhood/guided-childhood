@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
           }
         })
       if (newRows.length > 0) {
-        await supabase.from('concerns').upsert(newRows, { onConflict: 'user_id,slug' })
+        await supabase.from('concerns').upsert(newRows, { onConflict: 'user_id,child_id,slug' })
         await logConcernEvents(supabase, user.id, newRows.map(r => r.slug), {
           event: 'flagged',
           source: 'checkin',

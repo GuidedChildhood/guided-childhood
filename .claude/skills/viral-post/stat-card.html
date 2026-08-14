@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Research card template</title>
+<!--
+  The Wrong Villain research card, reusable template.
+  Open in a browser, screenshot the card at 1080 by 1350, or print to PNG.
+  Edit only the text inside the marked spans and the two bar values.
+  One number is the hero. One accent colour. Keep the cream space.
+  Fonts load from Google Fonts when online, and fall back to Georgia offline.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6F0E4;
+    --ink:#232019;
+    --accent:#B4552F;
+    --taupe:#9B7E63;
+    --rule:rgba(35,32,25,0.16);
+    --display:"Playfair Display", Georgia, "Times New Roman", serif;
+    --body:"Source Serif 4", Georgia, serif;
+  }
+  html,body{margin:0;background:#d9d2c4;display:flex;justify-content:center;padding:24px;}
+  /* The card. 1080 by 1350 at 1x. Screenshot this element. */
+  .card{
+    width:1080px;height:1350px;box-sizing:border-box;
+    background:var(--cream);color:var(--ink);
+    padding:110px 100px;display:flex;flex-direction:column;
+    font-family:var(--body);
+  }
+  .eyebrow{
+    font-family:var(--body);text-transform:uppercase;letter-spacing:.28em;
+    font-size:22px;color:var(--taupe);font-weight:600;text-align:center;margin:0 0 34px;
+  }
+  .headline{
+    font-family:var(--display);font-weight:800;color:var(--ink);
+    font-size:78px;line-height:1.05;text-align:center;margin:0 0 40px;letter-spacing:-0.5px;
+  }
+  .rule{height:1px;background:var(--rule);width:70%;margin:6px auto 60px;}
+  .hero{
+    font-family:var(--display);font-weight:700;color:var(--accent);
+    font-size:150px;line-height:1;text-align:center;margin:10px 0 46px;letter-spacing:-1px;
+  }
+  .caption{
+    font-family:var(--body);font-size:33px;line-height:1.5;color:var(--ink);
+    text-align:center;margin:0 auto 66px;max-width:80%;
+  }
+  .bars{display:flex;flex-direction:column;gap:30px;margin:0 0 60px;}
+  .bar-row{display:flex;align-items:center;gap:22px;}
+  .bar-label{font-family:var(--body);font-size:26px;color:var(--ink);width:340px;text-align:right;flex:none;}
+  .bar-track{flex:1;display:flex;align-items:center;gap:18px;}
+  .bar{height:38px;border-radius:3px;}
+  .bar.big{background:var(--ink);}
+  .bar.small{background:var(--accent);}
+  .bar-val{font-family:var(--display);font-weight:700;font-size:30px;color:var(--ink);}
+  .kicker{
+    font-family:var(--body);font-style:italic;font-size:34px;color:var(--ink);
+    text-align:center;margin:14px 0 auto;
+  }
+  .footer{
+    font-family:var(--body);text-transform:none;font-size:24px;color:var(--accent);
+    text-align:center;margin:40px 0 0;letter-spacing:.02em;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <!-- EYEBROW: series name, insight number. Comma or middle dot as separator, never a dash. -->
+    <p class="eyebrow">THE WRONG VILLAIN, KEY INSIGHT 03</p>
+
+    <!-- HEADLINE: a claim on two lines, not a label. -->
+    <h1 class="headline">The Effect Size That<br>Changes Everything</h1>
+
+    <div class="rule"></div>
+
+    <!-- HERO STAT: the single biggest thing, in the accent colour. One number only. -->
+    <div class="hero">&beta; = 0.061</div>
+
+    <!-- CAPTION: short declaratives. -->
+    <p class="caption">46 studies. 79 effect sizes. Below the evidentiary threshold. Statistically indistinguishable from noise.</p>
+
+    <!-- BARS: the ratio. Big driver in ink, small one in accent. Set the bar widths to match the numbers. -->
+    <div class="bars">
+      <div class="bar-row">
+        <div class="bar-label">Child Poverty to Mental Health</div>
+        <div class="bar-track"><div class="bar big" style="width:82%"></div><div class="bar-val">32%</div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Social Media to Mental Health</div>
+        <div class="bar-track"><div class="bar small" style="width:8%"></div><div class="bar-val">3%</div></div>
+      </div>
+    </div>
+
+    <!-- KICKER: one italic line of corroboration. -->
+    <p class="kicker">Four independent research groups. Same conclusion.</p>
+
+    <!-- FOOTER: brand line. -->
+    <p class="footer">The Guided Digital Childhood, guidedchildhood.com</p>
+  </div>
+</body>
+</html>
