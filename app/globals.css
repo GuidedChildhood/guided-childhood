@@ -740,7 +740,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
    class, not inline on the element, so this media query can actually win,
    an inline display would override it and leave the desktop nav overflowing
    off the top of the phone. */
-@media (max-width: 1060px) { .nav-links-desktop { display: none; } }
+@media (max-width: 1120px) { .nav-links-desktop { display: none; } }
 
 /* The mobile stand-in: a menu button that opens the same links as a
    dropdown sheet anchored to the sticky header (sticky is a positioned
@@ -758,7 +758,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   padding: 0; flex-shrink: 0;
 }
 .nav-burger span { display: block; width: 16px; height: 2px; border-radius: 2px; background: var(--ink); }
-@media (max-width: 1060px) { .nav-burger { display: inline-flex; } }
+@media (max-width: 1120px) { .nav-burger { display: inline-flex; } }
 .nav-sheet {
   position: absolute;
   top: calc(100% + 8px); left: 12px; right: 12px;
