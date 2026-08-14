@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess } from '@/lib/access'
 import { NextResponse } from 'next/server'
-import { logConcernEvent } from '@/lib/concerns/events'
+import { raiseConcern } from '@/lib/concerns/raise'
 
 // The Right Now rescue: a parent taps the situation mid meltdown and this
 // route returns the best matching script for their child's stage in one
@@ -127,30 +127,12 @@ export async function POST(request: Request) {
   // situation is (the typed one goes through the custom route with real words).
   if (situation !== 'something-else') {
     try {
-      const slug = `rightnow-${situation}`
-      const now = new Date().toISOString()
-      const { data: prior } = await supabase
-        .from('concerns')
-        .select('status, times_flagged')
-        .eq('user_id', user.id)
-        .eq('slug', slug)
-        .maybeSingle()
-
-      await supabase.from('concerns').upsert({
-        user_id: user.id,
-        child_id: child?.id ?? null,
-        source: 'rightnow',
-        slug,
+      // Since migration 194 the key is (user_id, child_id, slug), so a lookup
+      // filtered on slug alone can match a SIBLING's row and copy their count
+      // and status onto this child. raiseConcern reads by the whole key.
+      await raiseConcern(supabase, user.id, child?.id ?? null, {
+        slug: `rightnow-${situation}`,
         label: def.label,
-        status: prior ? (prior.status === 'resolved' ? 'open' : prior.status) : 'open',
-        times_flagged: prior ? prior.times_flagged + 1 : 1,
-        last_flagged_at: now,
-      }, { onConflict: 'user_id,child_id,slug' })
-
-      // Every raise, first or fifth, is one row in the history. See migration
-      // 164. Same rule as the upsert above: never blocks the rescue.
-      await logConcernEvent(supabase, user.id, slug, {
-        event: 'flagged',
         source: 'rightnow',
         linkedType: 'rightnow',
       })

@@ -26,7 +26,7 @@ import { getFamilyRegion } from '@/lib/learning/region'
 import { deviceLabel } from '@/lib/quests/device-time'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { logConcernEvent } from '@/lib/concerns/events'
+import { raiseConcern } from '@/lib/concerns/raise'
 
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY ?? 'build-placeholder',
@@ -808,20 +808,28 @@ When a parent asks whether or for how long their child should use any device, do
             if (mem.kind === 'concern' && mem.concern_slug && mem.concern_label) {
               const slug = mem.concern_slug.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60)
               if (slug) {
-                const prior = liveConcerns.find(c => c.slug === slug)
-                await supabase.from('concerns').upsert({
-                  user_id: user.id,
-                  child_id: child?.id ?? null,
-                  source: 'digi',
+                // THE COUNT USED TO RESET TO 1 HERE.
+                //
+                // `prior` was read from liveConcerns, which is the DISPLAY
+                // list: open and improving only, ordered by recency, capped at
+                // six. A resolved worry or a seventh one is not in it, so prior
+                // came back undefined and this wrote times_flagged: 1 over a
+                // row that said 4, and status 'open' over one that said
+                // resolved.
+                //
+                // That number is what wisdom.ts calls stuck at three or more,
+                // what alerts/suggestions.ts gates on, and what recommend.ts,
+                // journey.ts and IsItWorkingReport all rank by. Resetting it
+                // told every one of them a worry raised five times was brand
+                // new, when the fifth raise is exactly the one that deserves a
+                // different approach.
+                //
+                // raiseConcern reads the actual row by the actual key, which
+                // since migration 194 includes the child, so it can no longer
+                // pick up a sibling's history either.
+                await raiseConcern(supabase, user.id, child?.id ?? null, {
                   slug,
-                  label: mem.concern_label.slice(0, 200),
-                  status: prior ? (prior.status === 'resolved' ? 'open' : prior.status) : 'open',
-                  times_flagged: prior ? prior.times_flagged + 1 : 1,
-                  last_flagged_at: new Date().toISOString(),
-                }, { onConflict: 'user_id,child_id,slug' })
-
-                await logConcernEvent(supabase, user.id, slug, {
-                  event: 'flagged',
+                  label: mem.concern_label,
                   source: 'digi',
                   linkedType: 'digi',
                 })
@@ -958,7 +966,29 @@ When a parent asks whether or for how long their child should use any device, do
           // deciding in the moment what is worth keeping beats a second model
           // guessing at it after the fact, and running both would file the same
           // fact twice under two different wordings.
-          if (turn.toolUses.some(t => t.name === 'save_memory')) savedItsOwnMemory = true
+          //
+          // ── EXCEPT A CONCERN THAT ARRIVED WITHOUT A SLUG (14 August 2026) ──
+          //
+          // This gate used to trip on the tool NAME alone, and that was the
+          // leak. save_memory wrote only digi_memory, so choosing it silenced
+          // the one pass that puts a worry on the family's check in. The moment
+          // DiGi judged something worth keeping was the moment it stopped being
+          // trackable.
+          //
+          // save_memory writes the ledger itself now, so standing down is right
+          // whenever it CAN: kind is not a concern, or it is and it carried the
+          // slug and label the ledger needs. When a concern arrives without
+          // them there is nothing on the ledger yet, so extraction runs after
+          // all and the worry still lands. One duplicate memory row is a far
+          // cheaper mistake than a worry the parent can never score.
+          const savedEnough = turn.toolUses.some(t => {
+            if (t.name !== 'save_memory') return false
+            const inp = (t.input ?? {}) as Record<string, unknown>
+            if (inp.kind !== 'concern') return true
+            return typeof inp.concern_slug === 'string' && !!inp.concern_slug
+              && typeof inp.concern_label === 'string' && !!inp.concern_label
+          })
+          if (savedEnough) savedItsOwnMemory = true
 
           conversation.push({ role: 'assistant', content: turn.blocks })
           conversation.push({ role: 'user', content: results })

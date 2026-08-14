@@ -6,7 +6,7 @@ import { hasCrisisLanguage, lexicalFlags, highestSeverity } from '@/lib/digi/saf
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { logConcernEvent } from '@/lib/concerns/events'
+import { raiseConcern } from '@/lib/concerns/raise'
 
 // The Right Now rescue for the moment that is not on the tiles. The parent
 // types one line about what is happening and DiGi writes the calm words on the
@@ -134,30 +134,14 @@ Reply with ONLY valid JSON: {"title":"...","say_this":"...","not_this":"..."}`
   } catch { /* best effort */ }
 
   try {
-    const now = new Date().toISOString()
-    const { data: prior } = await supabase
-      .from('concerns')
-      .select('status, times_flagged')
-      .eq('user_id', user.id)
-      .eq('slug', 'rightnow-custom')
-      .maybeSingle()
-    await supabase.from('concerns').upsert({
-      user_id: user.id,
-      child_id: child?.id ?? null,
-      source: 'rightnow',
+    // Since migration 194 the key includes the child, so a lookup on slug
+    // alone could pick up a sibling's count and status. raiseConcern reads by
+    // the whole key. The label is DiGi's tidy title rather than the parent's
+    // hurried typed line, which was surfacing verbatim, typos and all, in
+    // tomorrow's check in.
+    await raiseConcern(supabase, user.id, child?.id ?? null, {
       slug: 'rightnow-custom',
-      // Use DiGi's clean title for the moment as the label, not the parent's raw
-      // typed line. The parent's line is a hurried one liner with typos ("seith"
-      // for "screens"), and it was surfacing verbatim in tomorrow's check in.
-      // The title is a tidy, correctly spelled four to eight word name.
-      label: title.slice(0, 200),
-      status: prior ? (prior.status === 'resolved' ? 'open' : prior.status) : 'open',
-      times_flagged: prior ? prior.times_flagged + 1 : 1,
-      last_flagged_at: now,
-    }, { onConflict: 'user_id,child_id,slug' })
-
-    await logConcernEvent(supabase, user.id, 'rightnow-custom', {
-      event: 'flagged',
+      label: title,
       source: 'rightnow',
       linkedType: 'rightnow',
     })
