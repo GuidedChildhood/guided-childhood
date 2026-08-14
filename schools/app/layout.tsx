@@ -27,10 +27,8 @@ export const metadata: Metadata = {
   },
   description:
     'A complete digital literacy scheme of work for UK schools, Reception to Year 13, built on the Education for a Connected World framework and the 2025 RSHE guidance. Open catalogue, zero prep lessons, no login.',
-  // PRE LAUNCH: the site serves from its vercel.app address while the whole
-  // platform is built, and Google must not index that interim URL. Flip to
-  // index true in the same commit that attaches schools.guidedchildhood.com.
-  robots: { index: false, follow: false },
+  // Launched 14 August 2026 on schools.guidedchildhood.com: indexable.
+  robots: { index: true, follow: true },
 }
 
 export const viewport: Viewport = {

@@ -8006,3 +8006,9 @@ underneath the pathway" was already served: commit 5ca93d13, merged this
 morning, removed the six planet coins from Home quoting those exact words. The
 rotating PlanetCard under the stages road is the other surface and is still
 there. Whether that one goes too is Justin's call, not a guess worth making.
+
+---
+
+## 2026-08-14 — Schools is LIVE on schools.guidedchildhood.com
+
+JP added the GoDaddy CNAME and the domain went green, so the launch lines flipped the same hour: the parent app's /schools, /educator and /class redirects now point at https://schools.guidedchildhood.com permanently (308s, so search engines move their index for good), and the schools site's robots flipped to index. SCHOOLS_SITE_URL stays as a preview escape hatch that production never needs. The schools product is now fully public: open catalogue, teach, print room, the Hub, five band pricing and the invoice request form, on its own domain, its own Vercel project and its own schema, where a bad parents deploy cannot touch it. From first audit to public launch: the split ran 9 to 14 August.
