@@ -964,16 +964,16 @@ export default function HomePage() {
           <div className="price-grid fu">
             {[
               {
-                tier: 'Free forever', name: 'Starter Pack', price: 'Free', period: '',
-                save: 'Yours immediately on signup',
+                tier: 'Try it first', name: 'Free Trial', price: 'Free', period: '',
+                save: 'Four days. No card required.',
                 features: [
-                  ['✓', 'Age stage roadmap'],
-                  ['✓', 'Family digital agreement template'],
-                  ['✓', '5 conversation scripts'],
-                  ['✓', 'Warning signs checklist'],
-                  ['✓', 'Age restrictions guide'],
+                  ['✓', 'Four days inside the platform'],
+                  ['✓', 'DiGi, with a daily limit'],
+                  ['✓', 'A starter set of scripts'],
+                  ['✓', 'Your age stage roadmap'],
                 ],
-                cta: 'Get Free Pack', href: '/starter-pack',
+                cta: 'Start free trial', href: '/starter-pack',
+                note: 'The founder rate is claimed at sign up, first 50 families only. Start your trial now and it is yours.',
                 ctaBg: 'transparent', ctaColor: 'var(--ink)', ctaBorder: '2px solid var(--border)', ctaShadow: 'none',
                 cardStyle: {},
               },
@@ -990,7 +990,8 @@ export default function HomePage() {
                   ['✓', 'School lesson packs included'],
                 ],
                 cta: 'Start now', href: '/starter-pack',
-                ctaBg: 'var(--terracotta)', ctaColor: '#fff', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
+                note: '',
+                ctaBg: 'var(--terracotta)', ctaColor: 'var(--ink)', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
                 cardStyle: { background: 'var(--stage-1)', border: '2px solid rgba(61,115,154,.25)', transform: 'scale(1.025)' },
               },
               {
@@ -1002,7 +1003,8 @@ export default function HomePage() {
                   ['✓', 'Cancel any time'],
                 ],
                 cta: 'Start now', href: '/starter-pack',
-                ctaBg: 'var(--terracotta)', ctaColor: '#fff', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
+                note: '',
+                ctaBg: 'var(--terracotta)', ctaColor: 'var(--ink)', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
                 cardStyle: {},
               },
             ].map((plan, i) => (
@@ -1041,6 +1043,11 @@ export default function HomePage() {
                 }}>
                   {plan.cta}
                 </Link>
+                {plan.note && (
+                  <p style={{ fontSize: '.78rem', color: 'var(--ink-muted)', lineHeight: 1.55, textAlign: 'center', margin: '10px 0 0' }}>
+                    {plan.note}
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -1134,7 +1141,7 @@ export default function HomePage() {
 
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.4)', marginBottom: '16px' }}>Tools</div>
-              {[['Free Starter Pack', '/starter-pack'], ['Digital Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', 'https://www.guidedchildhood.com/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
+              {[['Free Trial', '/starter-pack'], ['Digital Health Check', 'https://www.guidedchildhood.com/digitalwellbeing'], ['Ask DiGi', '/starter-pack'], ['For Schools', 'https://www.guidedchildhood.com/schools'], ['Pricing', '#pricing']].map(([label, href]) => (
                 <div key={label} style={{ marginBottom: '10px' }}>
                   <Link
                     href={href}
