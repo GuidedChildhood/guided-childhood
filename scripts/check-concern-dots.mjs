@@ -50,6 +50,22 @@
 //     the width question is now whether the LONGEST WORD survives 320 without
 //     being truncated, which is the thing that would actually break.
 //
+// ── ONE KNOWN FLAKE, AND IT IS THE PRODUCT BEING RIGHT ──────────────────────
+//
+// Saving an answer calls router.refresh(), so Home drops its cached view and
+// the Today rung stops showing the check in as undone. That is correct and it
+// must stay. Against a DEV server it also re-runs the fixture's server
+// component mid test, and roughly one run in eight lands that refresh between
+// the first save and the second tap, which resets the row this file is halfway
+// through asserting on.
+//
+// Four separate flake modes have been fixed properly rather than papered over:
+// waitUntil networkidle (never settles against Fast Refresh's websocket), taps
+// landing before hydration, DOM reads dying on the refresh, and a fixed 3200ms
+// wait racing a 2600ms save beat. This last one is not a wait that can be
+// tuned: it is the page legitimately reloading underneath the test. Re-run it,
+// or run it against a production build where nothing recompiles.
+//
 // Usage: start the app, then node scripts/check-concern-dots.mjs [baseUrl]
 
 import { existsSync } from 'node:fs'
@@ -74,12 +90,19 @@ await p.route('**/api/daily/concern-check', async r => {
   posted.push(JSON.parse(r.request().postData() ?? '{}'))
   await r.fulfill({ status: 200, body: '{"ok":true}' })
 })
-await p.goto(B, { waitUntil: 'networkidle' })
-// networkidle fires before React has hydrated on a cold compile, and the first
-// run of this rewrite reported zero radiogroups on a page that plainly had
-// three. Wait for the thing itself rather than for the network to go quiet.
-await p.waitForSelector('[role="radiogroup"] [role="radio"]', { timeout: 20000 })
-await p.waitForTimeout(300)
+// WAIT FOR THE CARD, NEVER FOR THE NETWORK.
+//
+// This used to be waitUntil 'networkidle', and against a Next dev server that
+// is a coin toss: Fast Refresh holds a websocket open, so the network is never
+// idle and goto times out at thirty seconds. Two runs in six died there, which
+// looked like a broken component and was a broken wait.
+//
+// domcontentloaded plus waiting for the thing itself is both faster and honest.
+// networkidle was never the right question anyway: it fires before React has
+// hydrated on a cold compile, which is what reported zero radiogroups on a page
+// that plainly had three.
+await p.goto(B, { waitUntil: 'domcontentloaded', timeout: 60000 })
+await p.waitForSelector('[role="radiogroup"] [role="radio"]', { timeout: 30000 })
 
 // HYDRATION, AND THE FLAKE IT CAUSED.
 //
@@ -92,9 +115,33 @@ await p.waitForTimeout(300)
 // So a tap is not complete until the control says it is. Clicks until
 // aria-checked flips, or gives up loudly rather than carrying on to fail
 // fifteen assertions with a misleading message.
+// THE PAGE REFRESHES ITSELF, AND THAT IS CORRECT BEHAVIOUR.
+//
+// Saving an answer calls router.refresh() so Home drops its cached view and the
+// Today rung stops showing the check in as undone. In a dev server that is an
+// RSC refetch, and any evaluate in flight when it lands dies with "Execution
+// context was destroyed". Fast Refresh does the same on a recompile.
+//
+// The product is right and the guard has to tolerate it, so every DOM read goes
+// through this. One retry is plenty: the refresh is a single event, not a loop.
+async function stable(fn) {
+  for (let i = 0; i < 3; i++) {
+    try { return await fn() } catch (e) {
+      if (!/Execution context was destroyed|Target closed/.test(String(e))) throw e
+      await p.waitForTimeout(600)
+    }
+  }
+  return fn()
+}
+
 async function tap(locator, label) {
   for (let i = 0; i < 12; i++) {
-    await locator.click()
+    // Answering a row scrolls the card on to the next one, so a star that was
+    // on screen when the locator was made can be off it by the time the click
+    // lands. Bring it back before every attempt rather than letting the click
+    // time out waiting for visibility.
+    await locator.scrollIntoViewIfNeeded().catch(() => {})
+    await locator.click({ timeout: 5000 }).catch(() => {})
     await p.waitForTimeout(250)
     if (await locator.getAttribute('aria-checked') === 'true') return true
     await p.waitForTimeout(500)
@@ -104,23 +151,32 @@ async function tap(locator, label) {
 }
 
 const groups = p.locator('[role="radiogroup"]')
+// Settle BEFORE the first count, not after it. waitForSelector above returns on
+// the server rendered markup, and hydration then swaps it, so a count taken in
+// that gap reports zero groups on a page that plainly has three and every
+// assertion after it fails with a misleading message. Waiting for the fifth
+// star of the third group is waiting for the whole card to be real.
+// Poll for the whole card rather than for one node in it. Waiting on a single
+// star of a single group is not enough: the groups hydrate independently, so
+// the third can be ready while the first is momentarily empty. Fifteen stars,
+// five in each of three groups, is the card being genuinely finished.
+await p.waitForFunction(() => {
+  const gs = [...document.querySelectorAll('[role="radiogroup"]')]
+  return gs.length === 3 && gs.every(g => g.querySelectorAll('[role="radio"]').length === 5)
+}, null, { timeout: 20000 })
 check('one set of answers per concern', await groups.count() === 3, String(await groups.count()))
 
 // FIVE WORDS, NOT TEN NUMBERS. The count comes from BANDS, so this is a guard
 // on the shape of the question rather than on a magic number.
 const words = groups.first().locator('[role="radio"]')
-// Settle before counting. Hydration swaps the server rendered rows for the
-// client ones, and a count taken mid swap reports zero against a group that
-// plainly has five, which is the same class of flake as the tap above.
-await words.nth(4).waitFor({ state: 'attached', timeout: 20000 })
 check('five stars, not ten numbers', await words.count() === 5, String(await words.count()))
 
 // The words live in the aria-label now, because the control is a star. That is
 // deliberate and it is checked here rather than waived: an unlabelled star row
 // is unusable with a screen reader, and the five names are still the product's
 // vocabulary even when they are not on screen.
-const labels = await words.evaluateAll(els =>
-  els.map(e => (e.getAttribute('aria-label') || '').split(',')[0].trim()))
+const labels = await stable(() => words.evaluateAll(els =>
+  els.map(e => (e.getAttribute('aria-label') || '').split(',')[0].trim())))
 check('and they run worst to best',
   labels.join(' | ') === 'Really tough | Hard going | Up and down | Getting there | Going great',
   labels.join(' | '))
@@ -139,7 +195,7 @@ check('all five sit on one row', Math.abs(fifth.y - box.y) < 4, `first y ${Math.
 // WHOSE WORRY IS IT. concerns.child_id has always been set and nothing read
 // it, so a two child family rated an undifferentiated list and the numbers
 // landed against a child they never chose.
-const bodyText = await p.locator('body').innerText()
+const bodyText = await stable(() => p.locator('body').innerText())
 check('each concern says which child it belongs to',
   /TEO/i.test(bodyText) && /OLGA/i.test(bodyText),
   bodyText.split('\n').filter(l => /^(TEO|OLGA)$/i.test(l.trim())).join(', ') || 'no child headings')
@@ -152,18 +208,18 @@ check('it says why the check in matters',
 // first concern carries lastScore 3, which is band 2, "Hard going".
 // Last time keeps its red, now as a ring round its own star rather than round
 // a word. Read off the aria-label, which is the accessible half of the fact.
-const ringed = await p.evaluate(() => {
+const ringed = await stable(() => p.evaluate(() => {
   const g = document.querySelector('[role="radiogroup"]')
   return [...g.querySelectorAll('[role="radio"]')]
     .filter(r => /last time/i.test(r.getAttribute('aria-label') || ''))
     .map(r => (r.getAttribute('aria-label') || '').split(',')[0].trim())
-})
+}))
 check('last time is marked on the star it belonged to',
   ringed.length === 1 && ringed[0] === 'Hard going',
   `marked ${ringed.join(' / ') || 'none'}`)
 
 // It is also said in prose, because the ring is spatial and a sentence is not.
-let t = await p.locator('body').innerText()
+let t = await stable(() => p.locator('body').innerText())
 check('and last time is named in words too', /last time hard going/i.test(t))
 
 // ONE TAP, and now it really is one: the old design needed the parent to read
@@ -176,7 +232,7 @@ check('and last time is named in words too', /last time hard going/i.test(t))
 // time. The line is climbing." So what is checked is that BOTH words are named
 // and the direction is said, not that a particular digit appears.
 await tap(words.nth(3), 'four stars')   // Getting there, against Hard going last time
-t = await p.locator('body').innerText()
+t = await stable(() => p.locator('body').innerText())
 check('one tap picks the answer', /Getting there/i.test(t))
 check('and it says how it compares, in the same words it asked in',
   /getting there today, hard going last time/i.test(t),
@@ -186,17 +242,25 @@ check('and it is chosen', (await words.nth(3).getAttribute('aria-checked')) === 
 
 // Changing your mind inside the beat just moves it, and only one posts.
 await tap(words.nth(2), 'three stars')   // Up and down
-t = await p.locator('body').innerText()
+t = await stable(() => p.locator('body').innerText())
 check('tapping another star changes it', /up and down today, hard going last time/i.test(t),
   t.split('\n').find(l => /last time\./i.test(l)) ?? 'no comparison line')
 check('and nothing has posted yet', posted.length === 0, JSON.stringify(posted))
 
 // The number still reaches the database, because concern_events is what the
 // what is working page reads. The parent never sees it; the row does.
-await p.waitForTimeout(3200)
+// POLL FOR THE POST, DO NOT RACE IT. This was a fixed 3200ms against a 2600ms
+// save beat, which left 600ms of headroom, and the tap helper above can spend
+// more than that retrying a click the page was not ready for. Each retry
+// restarts the beat, so a slow tap pushed the post past the window and the run
+// failed claiming nothing had saved. The assertion is "it saves ONCE", not "it
+// saves inside 3.2 seconds", so it waits for the thing it is actually about.
+for (let i = 0; i < 40 && posted.length === 0; i++) await p.waitForTimeout(250)
+// Then a beat longer, to catch a second post that should never come.
+await p.waitForTimeout(1200)
 check('then it saves once, with the number behind the word tapped',
   posted.length === 1 && posted[0].score === 6, JSON.stringify(posted))
-t = await p.locator('body').innerText()
+t = await stable(() => p.locator('body').innerText())
 check('and the row stays on screen as a record',
   /up and down today, hard going last time/i.test(t) && /Saved/i.test(t))
 
@@ -207,11 +271,11 @@ check('and the row stays on screen as a record',
 // THE STARS FILL IN BUTTER, and they fill CUMULATIVELY: three stars chosen
 // means three filled, not the third one only. That is what makes the row
 // readable at a glance from across the list.
-const filled = await p.evaluate(() => {
+const filled = await stable(() => p.evaluate(() => {
   const g = document.querySelector('[role="radiogroup"]')
   return [...g.querySelectorAll('[role="radio"] path')]
     .map(pth => pth.getAttribute('fill'))
-})
+}))
 check('the stars fill in butter, cumulatively',
   filled.slice(0, 3).every(f => /terracotta\)/.test(f || '')) && !/terracotta\)/.test(filled[3] || ''),
   filled.join(' | '))
@@ -246,7 +310,7 @@ check('a saved row is locked', await words.nth(1).isDisabled())
 // vanishes next week is indistinguishable from the app having lost it.
 const second = p.locator('[role="radiogroup"]').nth(1).locator('[role="radio"]')
 await tap(second.nth(4), 'five stars on the second row')
-const t5 = await p.locator('body').innerText()
+const t5 = await stable(() => p.locator('body').innerText())
 check('five stars says the concern will drop off the check in',
   /drop it off your check in/i.test(t5) && /log it as a moment/i.test(t5),
   t5.split('\n').find(l => /drop it off/i.test(l)) ?? 'no message')
@@ -255,8 +319,8 @@ await p.close()
 // Narrow phone: the longest word still has to fit on one line.
 const s = await b.newPage({ viewport: { width: 320, height: 700 } })
 await s.route('**/api/daily/concern-check', r => r.fulfill({ status: 200, body: '{"ok":true}' }))
-await s.goto(B, { waitUntil: 'networkidle' })
-await s.waitForTimeout(300)
+await s.goto(B, { waitUntil: 'domcontentloaded', timeout: 60000 })
+await s.waitForSelector('[role="radiogroup"] [role="radio"]', { timeout: 30000 })
 // Five 44px targets need 220px of the 320 available, so this is the width that
 // would break first if the stars ever grew.
 await s.waitForSelector('[role="radiogroup"] [role="radio"]', { timeout: 20000 })
@@ -273,8 +337,8 @@ check('no sideways overflow at 320',
 await s.close()
 
 const d = await b.newPage({ viewport: { width: 1280, height: 900 } })
-await d.goto(B, { waitUntil: 'networkidle' })
-await d.waitForTimeout(300)
+await d.goto(B, { waitUntil: 'domcontentloaded', timeout: 60000 })
+await d.waitForSelector('[role="radiogroup"] [role="radio"]', { timeout: 30000 })
 await d.screenshot({ path: process.env.SHOTS ? `${process.env.SHOTS}/checkin-1280.png` : '/var/tmp/checkin-1280.png' })
 check('desktop renders', true)
 await d.close()
