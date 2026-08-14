@@ -1,9 +1,9 @@
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import BackTo from '@/components/nav/BackTo'
 import QuestManager from './QuestManager'
 import QuestBoard from '@/components/quests/QuestBoard'
 import NoPhoneButton from '@/components/quests/NoPhoneButton'
+import ShareQrButton from '@/components/quests/ShareQrButton'
 import SpotSomethingGood from '@/components/quests/SpotSomethingGood'
 import PrintablesToConfirm from '@/components/quests/PrintablesToConfirm'
 import QuestShortcuts from '@/components/quests/QuestShortcuts'
@@ -146,30 +146,44 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
           under the star chart builder that makes the chart, so build, print and
           log the week live together. */}
 
-      {handoverName && (
-        <Link href="/dashboard/quests?tab=share" style={{ textDecoration: 'none', display: 'block', marginBottom: '16px' }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: '13px',
-            background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-            borderRadius: '16px', padding: '14px 16px',
-          }}>
-            <span aria-hidden style={{
-              width: 46, height: 46, borderRadius: '13px', background: '#fff',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0,
-            }}>📲</span>
-            <span style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
-                {handoverName} can tick their own jobs now
-              </span>
-              <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px', lineHeight: 1.45 }}>
-                Share the QR code to hand them their side. Nothing to install.
-              </span>
-              <span style={{ display: 'inline-block', marginTop: '9px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '12px', padding: '9px 15px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
-                Share
-              </span>
+      {/* THE CARD THAT WENT NOWHERE.
+
+          Justin, 13 August 2026: "the share to phone button not working in any
+          place." This card was the reason, and it was not the domain and not
+          the code. It was a Link to /dashboard/quests?tab=share, which is the
+          page it is already on. QuestManager does read ?tab= but only in a
+          mount effect, and Next does not remount a route for a query change,
+          so the card navigated to itself and nothing happened. Even when the
+          tab did switch, the share tab is roughly two thousand lines down the
+          page with no scroll.
+
+          The code opens right here now, through the same button every other
+          surface uses. There is no navigation left in this path to fail. */}
+      {handoverName && handoverId && (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '16px',
+          background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
+          borderRadius: '16px', padding: '14px 16px',
+        }}>
+          <span aria-hidden style={{
+            width: 46, height: 46, borderRadius: '13px', background: '#fff',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)', flexShrink: 0,
+          }}>📲</span>
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
+              {handoverName} can tick their own jobs now
             </span>
-          </div>
-        </Link>
+            <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: '2px', lineHeight: 1.45 }}>
+              Show them the QR code to hand them their side. Nothing to install.
+            </span>
+            <ShareQrButton
+              childId={handoverId}
+              childName={handoverName}
+              label="Show the code"
+              style={{ marginTop: '9px', fontSize: 'var(--text-base)', padding: '9px 15px', borderRadius: 12, boxShadow: '0 4px 0 var(--terracotta-dark)' }}
+            />
+          </span>
+        </div>
       )}
 
       {/* If there will never be a phone, one tap says so and the nudge above is

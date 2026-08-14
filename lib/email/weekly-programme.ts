@@ -24,8 +24,9 @@ import {
   p as bp, type Band,
 } from './blocks'
 import type { EmailContent } from './templates'
+import { APP_ORIGIN } from '@/lib/config/site'
 
-const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+const APP = APP_ORIGIN
 
 // ── Week 17 · email_key 'week-founder-story' ─────────────────────────────────
 // Justin's why, from founding-story.md only. The Covid babysitter admission is

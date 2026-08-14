@@ -101,6 +101,7 @@ export async function getTodayLoop(
     { count: questCount },
     { count: ticksWaiting },
     { count: asksWaiting },
+    { data: scoredToday },
   ] = await Promise.all([
     // Concerns flagged before today that have not been checked today:
     // the same query the daily deck uses to build its check in card.
@@ -127,6 +128,20 @@ export async function getTodayLoop(
     supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('active', true),
     supabase.from('quest_ticks').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'pending'),
     supabase.from('quest_requests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'pending'),
+    // ── DID THEY ACTUALLY MOVE THE SCALE TODAY ─────────────────────────────
+    //
+    // Justin, 13 August 2026: "just looking at the check in is not enough to
+    // tick it off, they need to complete the scale, which we already
+    // designed."
+    //
+    // A real answer with a real number on it, today. Nothing else counts, and
+    // in particular OPENING the page counts for nothing.
+    supabase.from('concern_events')
+      .select('id')
+      .eq('user_id', userId)
+      .not('score', 'is', null)
+      .gte('created_at', dayStart)
+      .limit(1),
   ])
 
   const anyQuests = (questCount ?? 0) > 0
@@ -172,12 +187,23 @@ export async function getTodayLoop(
       key: 'checkin' as const,
       label: neverCheckedIn ? 'Where things are now' : 'Check in',
       href: '/dashboard/checkin',
-      // Never checked in is never done, whatever the concern list says. The
-      // baseline is a thing that has happened or has not.
+      // ── DONE MEANS A NUMBER WAS RECORDED TODAY ─────────────────────────
       //
-      // Otherwise a real reading: they have concerns, and none is still
-      // waiting on them today, so the tick was genuinely earned.
-      done: neverCheckedIn ? false : (pendingConcerns ?? []).length === 0,
+      // Justin: "just looking at the check in is not enough to tick it off,
+      // they need to complete the scale."
+      //
+      // This asked whether anything was still PENDING, which is a different
+      // question and quietly answered yes too often. A concern flagged TODAY
+      // from the moments timeline is excluded from the pending list by the
+      // flagged-before-today rule, so a parent who tapped two moments this
+      // morning had nothing pending and the rung ticked itself green without
+      // a single number being answered.
+      //
+      // So it asks the honest thing: is there a scored concern_event today.
+      // That row is written by /api/daily/concern-check, which is the endpoint
+      // the five word scale posts to, so the tick and the record cannot
+      // disagree and opening the page earns nothing.
+      done: (scoredToday ?? []).length > 0,
     }] : []),
     // ── SETUP, AND IT STAYS UNTIL IT IS ALL TICKED ─────────────────────────
     //

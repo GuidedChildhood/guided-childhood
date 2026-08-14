@@ -11,6 +11,7 @@ import {
   bandedWrapper, eyebrow, h1, linkList, rule, sectionHead, tickList, p as bp,
   type Band,
 } from '@/lib/email/blocks'
+import { APP_ORIGIN } from '@/lib/config/site'
 
 const INK = '#1A1A2E'
 const INK_SOFT = '#52526A'
@@ -20,7 +21,7 @@ const BUTTER_DARK = '#C29018'
 const CREAM = '#F9F8F6'
 const BORDER = '#EAEAF0'
 
-const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+const APP = APP_ORIGIN
 
 function button(label: string, url: string): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px 0"><tr><td style="background:${BUTTER};border-radius:16px;box-shadow:0 5px 0 ${BUTTER_DARK}">
@@ -521,8 +522,10 @@ export function weeklyReviewEmail(params: {
   review: WeeklyReview
   unsubscribe: string
   poll?: { question: string; results: { label: string; pct: number }[]; total: number } | null
+  /** What has actually moved, one line per worry, longest arc first. */
+  movement?: { label: string; from: number; to: number; span: string }[] | null
 }): EmailContent {
-  const { childLabel, review, unsubscribe, poll } = params
+  const { childLabel, review, unsubscribe, poll, movement } = params
   const s = review.stats
   const statRow = (label: string, value: string) => `<tr>
     <td style="padding:8px 4px;font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;color:${INK_SOFT}">${label}</td>
@@ -543,6 +546,49 @@ export function weeklyReviewEmail(params: {
       heading(`This week with ${childLabel}`) +
       p(review.summary) +
       `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:8px 16px;margin:0 0 20px">${rows}</table>` +
+
+      // ── WHAT MOVED, and why it belongs in this email ──────────────────────
+      //
+      // Justin, 13 August 2026: "the check in movement and results into the
+      // weekly summary email that already goes out. Numbers moving is the
+      // payoff and it is currently invisible."
+      //
+      // He is right, and this was the gap that mattered most in the whole
+      // loop. The table above is ACTIVITY: jobs done, stars, minutes, days
+      // showed up. Every one of those is a measure of effort, and a parent
+      // eight weeks in already knows they turned up. What they do not know,
+      // because nothing has ever told them, is whether the thing they came
+      // here worried about is any better. That number exists, they typed it in
+      // themselves every week, and it has been sitting in a table nobody read
+      // back to them.
+      //
+      // Effort in the first block, RESULT in this one. It sits above the watch
+      // for and the suggestion deliberately: good news before homework.
+      //
+      // Per concern, never summed, for the same reason the page refuses to sum
+      // them. Three at most, because this is an email and the page holds the
+      // rest.
+      (movement && movement.length > 0
+        ? `<div style="background:#fff;border:1px solid ${BORDER};border-radius:14px;padding:16px 18px;margin:0 0 20px">
+             <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${BUTTER_DARK};margin-bottom:10px">What has moved</div>
+             ${/* STACKED, not two columns. A label beside a fixed right hand
+                   column is the obvious layout and it breaks on the first real
+                   concern: "Gaming on school nights" against a 150px nowrap
+                   column wrapped to four lines on a phone, while the number it
+                   was meant to sit beside floated in the middle of them. Email
+                   has no reliable media query to rescue that, so the label
+                   takes the full width and the movement sits under it, which
+                   holds at every width there is. */''}
+             ${movement.slice(0, 3).map(m => `<div style="margin:0 0 12px">
+               <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:16px;font-weight:800;color:${INK};line-height:1.3">${m.label}</div>
+               <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:13px;font-weight:700;color:${m.to > m.from ? '#2F8F6B' : m.to < m.from ? '#C94F3D' : INK_SOFT};margin-top:2px">${m.from} to ${m.to}${m.span ? ` ${m.span}` : ''}</div>
+             </div>`).join('')}
+             <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:14px;color:${INK_MUTED};line-height:1.5;margin-top:10px">Your own numbers, one line each. Nothing here is added together or set against anyone else.</div>
+             <div style="margin-top:12px">
+               <a href="${APP}/dashboard/what-is-working" style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:15px;font-weight:800;color:${BUTTER_DARK};text-decoration:none">See the whole picture &rsaquo;</a>
+             </div>
+           </div>`
+        : '') +
       (review.watch_for ? p(`<strong>One thing to keep an eye on.</strong> ${review.watch_for}`) : '') +
       (review.suggestion ? p(`<strong>For next week.</strong> ${review.suggestion}`) : '') +
       // Once a month the community bite comes back as the crowd: what every

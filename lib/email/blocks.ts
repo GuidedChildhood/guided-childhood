@@ -1,3 +1,4 @@
+import { APP_ORIGIN } from '@/lib/config/site'
 // Banded emails: the roundup shape, in our own colours.
 //
 // Justin sent the Good Inside August roundup and asked for the style. He then
@@ -28,7 +29,7 @@ const BUTTER_DARK = '#C29018'
 const CREAM = '#F9F8F6'
 const BORDER = '#EAEAF0'
 
-const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+const APP = APP_ORIGIN
 
 // THE FONT WAS THE REAL BUG, and it is worth writing down because it is
 // invisible until somebody says "the font looks different".

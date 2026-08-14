@@ -49,7 +49,9 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
     // disagree either.
     const u = `${SITE_URL}/k/${token}`
     setUrl(u)
-    QRCode.toDataURL(u, { width: 220, margin: 1, color: { dark: '#1A1A2E', light: '#FFFFFF' } })
+    // Drawn well above display size so it stays sharp when a camera is held up
+    // to it from the other side of a kitchen table.
+    QRCode.toDataURL(u, { width: 640, margin: 1, color: { dark: '#1A1A2E', light: '#FFFFFF' } })
       .then(setQr).catch(() => setQr(null))
   }, [token])
 
@@ -57,6 +59,8 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
   useEffect(() => {
     if (pending && savedYoungest === (pending === 'coview')) setPending(null)
   }, [pending, savedYoungest])
+
+  const invite = `${childName}, your quests are ready. Tick them off and earn your stars: ${url}`
 
   const copy = async () => {
     try { await navigator.clipboard.writeText(url); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* no clipboard */ }
@@ -82,9 +86,9 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
         </p>
         {qr ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={qr} alt={`QR code to open ${childName}'s app`} width={230} height={230} style={{ borderRadius: '16px', border: '1.5px solid var(--border)', background: '#fff' }} />
+          <img src={qr} alt={`QR code to open ${childName}'s app`} style={{ width: 'min(300px, 66vw)', height: 'min(300px, 66vw)', borderRadius: '16px', border: '1.5px solid var(--border)', background: '#fff' }} />
         ) : (
-          <div style={{ width: 230, height: 230, borderRadius: '16px', background: '#fff', border: '1.5px solid var(--border)' }} />
+          <div style={{ width: 'min(300px, 66vw)', height: 'min(300px, 66vw)', borderRadius: '16px', background: '#fff', border: '1.5px solid var(--border)' }} />
         )}
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.45, margin: 0, maxWidth: 280 }}>
           Point {childName}&apos;s camera at this and their app opens. No typing, nothing to install.
@@ -112,14 +116,36 @@ export default function ChildLinkShare({ token, childName, ageBand, useMode, onS
         </a>
       )}
 
-      {/* The quieter ways, under the hero: copy, email, open here. */}
-      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-        <button onClick={copy} style={btn}>{copied ? 'Copied ✓' : '🔗 Copy link'}</button>
-        <a href={`mailto:?subject=${encodeURIComponent(`${childName}'s quests`)}&body=${encodeURIComponent(`Open this on ${childName}'s device to see their quests and earn stars: ${url}`)}`} style={btn}>✉️ Email it</a>
-        {!youngest && (
-          <a href={url} target="_blank" rel="noopener noreferrer" style={btn}>👀 Open on this device</a>
-        )}
+      {/* THE THREE NAMED CHANNELS, under the hero.
+
+          Each one carries NO recipient on purpose. wa.me with no number opens
+          WhatsApp's own contact picker and sms: with no number opens Messages
+          with the words already written, so neither depends on us having
+          stored the child's number first. That was one more setup step that
+          could be missing or wrong at the moment a parent is trying to hand
+          something over.
+
+          The generic device share has gone from this row. It opened the
+          operating system sheet, which leads with AirDrop and nearby devices,
+          and a child's private link is not something to offer whatever device
+          happens to be in range. The reminder underneath keeps the co view
+          route alive without putting it in front of a parent who came here to
+          hand over a phone. */}
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+        <a href={`https://wa.me/?text=${encodeURIComponent(invite)}`} target="_blank" rel="noopener noreferrer" style={{ ...btn, flex: 1, justifyContent: 'center', background: '#25D366', border: 'none', color: '#fff', boxShadow: '0 4px 0 #1DA851' }}>WhatsApp</a>
+        <a href={`sms:?&body=${encodeURIComponent(invite)}`} style={{ ...btn, flex: 1, justifyContent: 'center', background: 'var(--terracotta)', border: 'none', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>Text</a>
+        <a href={`mailto:?subject=${encodeURIComponent(`${childName}'s quests`)}&body=${encodeURIComponent(invite)}`} style={{ ...btn, flex: 1, justifyContent: 'center', boxShadow: '0 4px 0 var(--border)' }}>Email</a>
       </div>
+
+      <button onClick={copy} style={{ ...btn, width: '100%', justifyContent: 'center', background: 'transparent', color: 'var(--ink-soft)' }}>
+        {copied ? 'Copied ✓' : 'Copy the link'}
+      </button>
+
+      {!youngest && (
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 0' }}>
+          You can also open {childName}&apos;s app on your own device and use it together. Switch to Together above any time.
+        </p>
+      )}
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { stripe } from '@/lib/stripe'
 import { NextResponse } from 'next/server'
+import { APP_ORIGIN } from '@/lib/config/site'
 
 // Managing your own subscription: cancelling, and updating a card that failed.
 //
@@ -40,7 +41,7 @@ export async function POST() {
     return NextResponse.json({ error: 'no_subscription' }, { status: 400 })
   }
 
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+  const origin = APP_ORIGIN
 
   try {
     const session = await stripe.billingPortal.sessions.create({

@@ -599,10 +599,21 @@ export default async function JoinPage() {
             </p>
           </div>
 
-          {/* Founder rate — dark card */}
+          {/* ── FOUNDER RATE, IN OUR OWN COLOUR ──────────────────────────────
+              Justin, 13 August 2026: "the black box, make one of our pastel
+              colours."
+
+              It was near black, which is the one shade this palette does not
+              use anywhere else, so the card asking for money looked like it
+              had been lifted from another product. Butter, the same colour as
+              the gold button it sits under, so the eye travels from the offer
+              to the button rather than across a change of scenery.
+
+              Everything inside it flips from white on dark to ink on butter. */}
           {available && (
             <div style={{
-              background: 'var(--deep-teal)',
+              background: 'var(--stage-1)',
+              border: '1.5px solid var(--gold)',
               borderRadius: '20px',
               padding: 'clamp(28px, 4vw, 40px)',
               marginBottom: '20px',
@@ -610,7 +621,7 @@ export default async function JoinPage() {
               overflow: 'hidden',
             }}>
               {/* Background circles */}
-              <div aria-hidden="true" style={{ position: 'absolute', top: '-60px', right: '-60px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(242,201,76,.08)', pointerEvents: 'none' }} />
+              <div aria-hidden="true" style={{ position: 'absolute', top: '-60px', right: '-60px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(242,201,76,.22)', pointerEvents: 'none' }} />
 
               <div style={{ position: 'absolute', top: 0, right: 0, background: 'var(--gold)', color: 'var(--ink)', fontFamily: 'var(--font-mono)', fontSize: '.68rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '8px 20px', borderRadius: '0 20px 0 14px' }}>
                 {remaining} of 50 places remain
@@ -619,36 +630,42 @@ export default async function JoinPage() {
               {/* Progress bar */}
               <div style={{ marginBottom: '24px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <p className="eyebrow" style={{ color: 'var(--gold)' }}>Founder rate, first 50 members</p>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'rgba(255,255,255,.5)' }}>{taken} taken</span>
+                  <p className="eyebrow" style={{ color: 'var(--terracotta-dark)' }}>Founder rate, first 50 members</p>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: '.68rem', color: 'var(--ink-muted)' }}>{taken} taken</span>
                 </div>
-                <div style={{ height: '6px', background: 'rgba(255,255,255,.1)', borderRadius: '100px', overflow: 'hidden' }}>
-                  <div style={{ height: '100%', width: `${pct}%`, background: 'var(--gold)', borderRadius: '100px', transition: 'width 1s ease' }} />
+                <div style={{ height: '6px', background: 'rgba(26,26,46,.10)', borderRadius: '100px', overflow: 'hidden' }}>
+                  <div style={{ height: '100%', width: `${pct}%`, background: 'var(--terracotta)', borderRadius: '100px', transition: 'width 1s ease' }} />
                 </div>
               </div>
 
               <div style={{ marginBottom: '24px' }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(2.8rem, 5vw, 3.6rem)', color: '#fff', lineHeight: 1, letterSpacing: '-.04em' }}>£7.99</span>
-                  <span style={{ color: 'rgba(255,255,255,.5)', fontSize: '.95rem' }}> / month</span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(2.8rem, 5vw, 3.6rem)', color: 'var(--ink)', lineHeight: 1, letterSpacing: '-.04em' }}>£7.99</span>
+                  <span style={{ color: 'var(--ink-muted)', fontSize: '.95rem' }}> / month</span>
                 </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.72rem', color: 'var(--gold)', marginTop: '6px', fontWeight: 600 }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '.72rem', color: 'var(--terracotta-dark)', marginTop: '6px', fontWeight: 600 }}>
                   Locked for life. Never increases.
                 </div>
               </div>
 
               <div className="two-col-issues" style={{ gap: '10px', marginBottom: '28px' }}>
                 {[
+                  // Quests leads, for the same reason it leads the starter pack
+                  // grid: it is the one thing here nobody else does, and this
+                  // list opened on "all 5 stages", which is shelf space rather
+                  // than a promise.
+                  'Jobs and chores earn the screen time',
+                  'The screen timer, so time earned is time on the clock',
                   'All 5 stages, for life',
                   'Unlimited DiGi conversations',
                   '160 exact scripts',
+                  'Lessons, the homework decoder and the school coach',
                   'Wellbeing tracker with weekly check ins',
                   'Family agreement builder',
-                  '100 lesson library',
                 ].map((item, i) => (
                   <div key={i} style={{ display: 'flex', gap: '9px', alignItems: 'center' }}>
-                    <span style={{ color: 'var(--gold)', fontWeight: 700, flexShrink: 0 }}>✓</span>
-                    <span style={{ fontSize: '.84rem', color: 'rgba(255,255,255,.8)' }}>{item}</span>
+                    <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                    <span style={{ fontSize: '.84rem', color: 'var(--ink-soft)' }}>{item}</span>
                   </div>
                 ))}
               </div>

@@ -1,6 +1,7 @@
 import { Resend } from 'resend'
 import { createHmac } from 'crypto'
 import { maySendProgramme, recordProgrammeSend } from './address-guard'
+import { APP_ORIGIN } from '@/lib/config/site'
 
 let _resend: Resend | null = null
 
@@ -28,7 +29,7 @@ export function unsubscribeToken(userId: string): string {
 }
 
 export function unsubscribeUrl(userId: string): string {
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+  const origin = APP_ORIGIN
   return `${origin}/api/email/unsubscribe?u=${userId}&k=${unsubscribeToken(userId)}`
 }
 
@@ -36,7 +37,7 @@ export function unsubscribeUrl(userId: string): string {
 // in words. Signed with the same token as the unsubscribe link, so a guessed
 // URL cannot write a row and the count stays worth reading.
 export function interestUrl(userId: string, feature: string, answer: 'yes' | 'no'): string {
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+  const origin = APP_ORIGIN
   return `${origin}/api/interest?u=${userId}&k=${unsubscribeToken(userId)}&f=${encodeURIComponent(feature)}&a=${answer}`
 }
 
@@ -56,7 +57,7 @@ export function leadUnsubscribeToken(email: string): string {
 }
 
 export function leadUnsubscribeUrl(email: string): string {
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+  const origin = APP_ORIGIN
   const addr = email.trim().toLowerCase()
   return `${origin}/api/email/unsubscribe?e=${encodeURIComponent(addr)}&k=${leadUnsubscribeToken(addr)}`
 }
@@ -88,7 +89,7 @@ export function starterCtaToken(email: string): string {
  * dashboard and everyone else to the pack.
  */
 export function starterCtaUrl(email: string): string {
-  const origin = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+  const origin = APP_ORIGIN
   const addr = email.trim().toLowerCase()
   return `${origin}/api/go/starter?e=${encodeURIComponent(addr)}&k=${starterCtaToken(addr)}`
 }

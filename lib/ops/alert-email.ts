@@ -1,4 +1,5 @@
 import type { Health } from './health'
+import { APP_ORIGIN } from '@/lib/config/site'
 
 // The one email that gets sent when something is actually down.
 //
@@ -20,7 +21,7 @@ const CREAM = '#F9F8F6'
 const BORDER = '#EAEAF0'
 const RED = '#C0392B'
 
-const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+const APP = APP_ORIGIN
 
 export function healthAlertEmail(h: Health): { subject: string; html: string } {
   const down = [

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { starterCtaToken } from '@/lib/email'
+import { APP_ORIGIN } from '@/lib/config/site'
 
 export const dynamic = 'force-dynamic'
 
@@ -20,7 +21,7 @@ export const dynamic = 'force-dynamic'
 // where an unrecognised reader should land anyway. Nobody meets an error page
 // because we could not work out who they were.
 
-const APP = process.env.NEXT_PUBLIC_APP_URL ?? 'https://guidedchildhood.com'
+const APP = APP_ORIGIN
 
 export async function GET(req: NextRequest) {
   const raw = req.nextUrl.searchParams.get('e') ?? ''

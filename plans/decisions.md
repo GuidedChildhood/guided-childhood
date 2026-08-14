@@ -7826,3 +7826,98 @@ its signing secret, and the portal configured again. Eight environment
 variables on the guided-childhood Vercel project, not guided-childhood-app.
 All of it is env work that was already queued behind the 500 on the founder
 button, so it lands in the same change rather than on top of it.
+
+## 14 August 2026 — The share button was a link to the page it was already on
+
+Justin: "the share to phone button not working in any place." Not the domain,
+not the QR code. The card on the Quests page was a Link to
+`/dashboard/quests?tab=share`, which is the page it was already on. QuestManager
+does read `?tab=` but only in a mount effect, and Next does not remount a route
+for a query change, so the effect never ran again: the card navigated to itself.
+Even when the tab did switch, the share tab is two thousand lines further down
+with no scroll to it. The card opens the sheet directly now, through the same
+button every other surface already used, so there is no navigation left in this
+path to fail.
+
+THE SHEET, in his order. The QR leads and is bigger, drawn at 640 and displayed
+responsive. WhatsApp, text and email under it, all three built with NO recipient
+on purpose: wa.me with no number opens WhatsApp's own contact picker and sms:
+with no number opens Messages with the words already written, so neither waits
+on a stored number that could be missing or wrong. The printed chart is the
+second door at equal weight, not a footnote.
+
+The generic device share came out. It opened the operating system sheet, which
+leads with AirDrop and nearby devices, and a child's private link is not
+something to offer whatever device happens to be in range. A quiet line at the
+foot keeps co view alive for the day a parent wants it. THAT WAS AN
+INTERPRETATION of "remove share with devices" and Justin can correct it in a
+word if he meant the co view toggle instead.
+
+## 14 August 2026 — One stage reveal, on the screen with room to explain it
+
+Justin said two opposite things in one message: the stage flash on the birthday
+screen should be slower and fuller, and also that the later screen names the
+stage so the flash may not be needed at all. Asked which, he chose to drop it.
+
+The reason it was worth asking rather than guessing: a card that appeared and
+animated for under a second was doing the WORST version of both jobs. Too fast
+to read, so it never told a parent what the stage was, and it spent the reveal
+anyway, so the screen built to say what a stage MEANS was left announcing old
+news. A stage is worth one moment, and the moment it is worth is the one with
+room to explain it.
+
+## 14 August 2026 — What is working leaves the passport, and will never be one number
+
+Its own page at /dashboard/what-is-working. Two jobs had been sharing the
+passport scroll: the passport is the RECORD, what was done and earned, and this
+is the ANSWER, whether any of it moved. A parent asking the second question had
+to scroll past their own achievements, and the answer had no address, so nothing
+could link to it except the middle of another page.
+
+NO COMPOSITE SCORE, EVER, and the reasoning is written into
+lib/working/movement.ts so nobody rebuilds it in six weeks. A single family
+number would be the easiest thing here to build and worthless twice over. It is
+incomparable with itself, because three concerns and nine concerns cannot share
+a denominator, so an honest average FALLS the moment a parent raises a new
+worry, punishing exactly the behaviour the product depends on. And it cancels
+the only signal worth having: bedtime climbing 5 to 8 while gaming slides 7 to 4
+averages to no change, when what happened is two stories that need telling
+separately.
+
+The sparkline is fixed to a 1 to 10 scale rather than fitted to the data,
+because an auto fitted line makes a wobble between 6 and 7 look identical to a
+climb from 2 to 9, and it sits next to a sentence claiming real progress.
+
+It says "alongside the scripts", never "because of". Two things happening in
+order is not one causing the other.
+
+## 14 August 2026 — The check in guard was stale, not the card
+
+scripts/check-concern-dots.mjs asserted ten dots in a row. That was the honest
+reading of "a 1 to 10 rating" and it shipped passing, then 12 August replaced
+the row of ten with five stacked words and the check failed for a day looking
+exactly like a broken card. Rewritten rather than deleted: the sentence it
+guards has not changed, only the instrument.
+
+Two assertions are now inverted on purpose so it cannot drift back. Five bands
+rather than ten numbers, and no check that targets fit side by side, because
+they are stacked, so the width question that CAN break is whether the longest
+word truncates at 320. And the comparison must be in WORDS, "up and down today,
+hard going last time", never "Today 6, last check in 3", because two numbers is
+the exact thing the words replaced. The number is still asserted on the posted
+body, where it genuinely matters, because concern_events is what the movement
+page reads.
+
+Also found by running it: the Playwright path was hardcoded to the container's
+chromium so it could not run on a Mac at all, and networkidle fires before React
+hydrates on a cold compile, which reported zero rows on a page that had three.
+
+## 14 August 2026 — Effort in one block, result in the next
+
+The Sunday review email carried jobs, stars, minutes and days showed up. Every
+one of those measures EFFORT, and a parent eight weeks in already knows they
+turned up. Whether the thing they arrived worried about is any better was the
+one question it never answered, using a number they had typed in themselves
+every week. It is in there now, above the watch for and the suggestion, because
+good news comes before homework, and read through the same helper the page uses
+so the email and the app can never quote different numbers for the same week.
