@@ -1,4 +1,5 @@
 import { visibleSteps, type SetupFlags, type SetupStep } from './steps'
+import { getFamilyHandover, offerableChildren } from '@/lib/handover/settled'
 
 // The setup state in one place, so the Home entry and the dedicated Setup
 // hub read exactly the same flags and step list. Setup is one time work; it
@@ -15,6 +16,15 @@ export type SetupState = {
   total: number
   complete: boolean
   current: SetupStep | null
+  /**
+   * This family has said no to a child device, so nothing should keep asking.
+   *
+   * Exposed on the state rather than kept private, because the setup path is
+   * not the only thing that needs it. The coverage card on Home and the
+   * welcome card both key off the same childLink flag, so handing this back
+   * lets one read silence all three instead of each making its own.
+   */
+  handoverSettled: boolean
 }
 
 export async function getSetupState(supabase: FlagClient, userId: string): Promise<SetupState> {
@@ -41,11 +51,32 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     birthday: allBirthdaysIn(birthdays),
   }
 
-  const steps = visibleSteps(phoneAge)
+  // HAS THIS FAMILY ALREADY SAID NO TO A CHILD DEVICE?
+  //
+  // If they have, the phone link step leaves the path entirely rather than
+  // sitting on it unticked for ever. That distinction matters more here than
+  // anywhere else in the product: setup's whole promise is to tell a parent
+  // what is still missing, so a step that can never be ticked leaves them
+  // permanently at six of seven, told they are incomplete because of a
+  // decision they made on purpose.
+  //
+  // Read after the flags rather than inside the Promise.all above, because it
+  // is allowed to fail. A handover read that throws must cost the nudge, never
+  // the setup page.
+  let handoverSettled = false
+  try {
+    const family = await getFamilyHandover(supabase as Parameters<typeof getFamilyHandover>[0], userId)
+    const linked = new Set((kidLinks.data ?? []).map(k => k.child_id as string))
+    // Settled when nobody is left to offer it to: either every child has been
+    // answered for, or the ones who have not are already linked.
+    handoverSettled = offerableChildren(family, linked).length === 0 && family.children.length > 0
+  } catch { /* the path simply keeps the step, which is the old behaviour */ }
+
+  const steps = visibleSteps(phoneAge, handoverSettled)
   const doneCount = steps.filter(s => flags[s.key]).length
   const current = steps.find(s => !flags[s.key]) ?? null
 
-  return { flags, phoneAge, steps, doneCount, total: steps.length, complete: current === null, current }
+  return { flags, phoneAge, steps, doneCount, total: steps.length, complete: current === null, current, handoverSettled }
 }
 
 // Done means every child on the account has a birthday, not just the primary
