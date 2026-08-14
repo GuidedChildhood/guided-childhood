@@ -8012,3 +8012,9 @@ there. Whether that one goes too is Justin's call, not a guess worth making.
 ## 2026-08-14 — Schools is LIVE on schools.guidedchildhood.com
 
 JP added the GoDaddy CNAME and the domain went green, so the launch lines flipped the same hour: the parent app's /schools, /educator and /class redirects now point at https://schools.guidedchildhood.com permanently (308s, so search engines move their index for good), and the schools site's robots flipped to index. SCHOOLS_SITE_URL stays as a preview escape hatch that production never needs. The schools product is now fully public: open catalogue, teach, print room, the Hub, five band pricing and the invoice request form, on its own domain, its own Vercel project and its own schema, where a bad parents deploy cannot touch it. From first audit to public launch: the split ran 9 to 14 August.
+
+---
+
+## 2026-08-14 — The first invoice request could not be read: the grant 195 forgot
+
+The letterbox worked and the postman could not open it. /api/cron/invoice-requests returned 500 on its first run: migration 195 granted INSERT to anon so the school's form saved fine, but nothing granted the SERVICE ROLE anything on schools.invoice_requests, and the cron reads as the service role. Bypassing RLS is not the same as holding a table privilege. The eleven tables that moved into the schools schema in 177 were unaffected because a schema move carries grants with it; invoice_requests was born inside the new schema where Supabase's automatic public schema grants do not reach, so it started life with only what 195 named. Migration 196 grants the service role its four privileges on that table and, more importantly, sets default privileges in the schools schema so every future table there gets them without anyone remembering. Lesson for any new table created directly in a non public schema: name the service role grant in the same migration.
