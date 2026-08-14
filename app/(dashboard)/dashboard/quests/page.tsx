@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import BackTo from '@/components/nav/BackTo'
 import QuestManager from './QuestManager'
@@ -34,7 +35,7 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
   // The deal, tuned to their age: what a good weekday on this board can earn
   // each child, held against the healthy daily guide for their age, so the
   // star economy lands the screen time roughly where the evidence points.
-  let tuning: { name: string; earnMins: number; guideMins: number; tone: 'tuned' | 'light' | 'rich' }[] = []
+  let tuning: { id: string; name: string; earnMins: number; guideMins: number; dayLabel: string; tone: 'tuned' | 'light' | 'rich' | 'none' }[] = []
   // Completed jobs streaks waiting for the parent to send a reward.
   let streakRewards: StreakReward[] = []
   // What is actually waiting, so the tiles at the top can say so rather than
@@ -123,17 +124,51 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
     // The family's own school calendar, so the parent's guide and the child's
     // app cannot disagree about whether it is the holidays.
     const region = await getFamilyRegion(supabase, user.id)
+    // ── "0 MIN, WHICH IS EXACTLY RIGHT" ──────────────────────────────────────
+    //
+    // Justin, 14 August 2026, with a screenshot: both children reading "a good
+    // weekday earns up to 0 min · the healthy ceiling for their age is 95 min ·
+    // inside the guide, which is exactly right".
+    //
+    // TWO SEPARATE FAULTS, and checking the live database rather than reading
+    // the code is what told them apart.
+    //
+    // ONE, the weekend board reads as an empty board. The only ACTIVE quest on
+    // that account is "A whole screen free Saturday morning", 5 stars, schedule
+    // 'weekend'. The filter counted 'daily' and 'weekdays' only, so a family
+    // whose board is a weekend board earned a truthful zero to a question
+    // nobody asked. The heading says weekday, so the arithmetic was right and
+    // the sentence was still nonsense to the parent reading it. It now reports
+    // whichever day the board is actually built around, and says which.
+    //
+    // TWO, and this is the multi child one. Every quest on that account belongs
+    // to Teo. Olga has none at all, because adding a second child does not give
+    // them a board, so her row was reporting the truth as well: no jobs. What
+    // was wrong was calling it "exactly right". A child with nothing to do has
+    // not achieved balance, and telling a parent otherwise hides the one thing
+    // they need to act on. Nothing is the third verdict now, and it is the one
+    // that leads to a fix rather than to a green tick.
+    const anyWeekday = (quests ?? []).some(q => q.schedule === 'daily' || q.schedule === 'weekdays')
+    const scope: ('daily' | 'weekdays')[] | ('daily' | 'weekend')[] = anyWeekday
+      ? ['daily', 'weekdays']
+      : ['daily', 'weekend']
     tuning = (kids ?? [])
       .filter(k => k.name && k.name !== 'Your child')
       .map(k => {
-        const dayStars = (quests ?? [])
-          .filter(q => (q.child_id === null || q.child_id === k.id) && (q.schedule === 'daily' || q.schedule === 'weekdays'))
+        const mine = (quests ?? []).filter(q => q.child_id === null || q.child_id === k.id)
+        const dayStars = mine
+          .filter(q => (scope as string[]).includes(q.schedule as string))
           .reduce((s, q) => s + (Number(q.stars) || 1), 0)
         const earnMins = dayStars * STAR_MINUTES
         const guideMins = recommendedDailyMinutes(k.age_band ?? null, { region })
         return {
+          id: k.id as string,
           name: k.name as string, earnMins, guideMins,
-          tone: (earnMins <= guideMins ? 'tuned' : 'rich') as 'tuned' | 'light' | 'rich',
+          dayLabel: anyWeekday ? 'weekday' : 'weekend day',
+          // A child with no board of their own at all. Named separately from
+          // "light", because the fix is different: light means add a job, none
+          // means this child was added and never set up.
+          tone: (mine.length === 0 ? 'none' : earnMins <= guideMins ? 'tuned' : 'rich') as 'tuned' | 'light' | 'rich' | 'none',
         }
       })
       .filter(t => t.guideMins > 0)
@@ -257,13 +292,26 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
             The deal, tuned to their age
           </div>
           {tuning.map(t => (
-            <div key={t.name} style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
+            <div key={t.id} style={{ display: 'flex', alignItems: 'baseline', gap: '8px', flexWrap: 'wrap', marginBottom: '6px' }}>
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>{t.name}:</span>
-              <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
-                a good weekday earns up to <strong style={{ color: 'var(--ink)' }}>{t.earnMins} min</strong> · the healthy ceiling for their age is <strong style={{ color: 'var(--ink)' }}>{t.guideMins} min</strong> ·{' '}
-                {t.tone === 'tuned' && <span style={{ color: '#1F7A54', fontWeight: 700 }}>inside the guide, which is exactly right</span>}
-                {t.tone === 'rich' && <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>earns past the guide, the extras bank rather than stretch the day</span>}
-              </span>
+              {/* A child with no board of their own says so, and says what to
+                  do about it. The old copy called nothing "exactly right",
+                  which is the one reading a parent must not be given: it turns
+                  the single thing they need to fix into a green tick. */}
+              {t.tone === 'none' ? (
+                <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                  <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>no jobs of their own yet</span>, so there is nothing here for them to earn.{' '}
+                  <Link href={`/dashboard/quests/manage?child=${t.id}`} style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>
+                    Set up {t.name}&apos;s board
+                  </Link>
+                </span>
+              ) : (
+                <span style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5 }}>
+                  a good {t.dayLabel} earns up to <strong style={{ color: 'var(--ink)' }}>{t.earnMins} min</strong> · the healthy ceiling for their age is <strong style={{ color: 'var(--ink)' }}>{t.guideMins} min</strong> ·{' '}
+                  {t.tone === 'tuned' && <span style={{ color: '#1F7A54', fontWeight: 700 }}>inside the guide, which is exactly right</span>}
+                  {t.tone === 'rich' && <span style={{ color: 'var(--terracotta-dark)', fontWeight: 700 }}>earns past the guide, the extras bank rather than stretch the day</span>}
+                </span>
+              )}
             </div>
           ))}
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '4px 0 0' }}>

@@ -166,7 +166,7 @@ export async function POST(req: NextRequest) {
           last_flagged_at: now,
         }
       })
-      await supabase.from('concerns').upsert(rows, { onConflict: 'user_id,slug' })
+      await supabase.from('concerns').upsert(rows, { onConflict: 'user_id,child_id,slug' })
       await logConcernEvents(supabase, user.id, knownSlugs, {
         event: 'flagged',
         source: 'checkin',

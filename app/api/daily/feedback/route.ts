@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { dailyMomentLabel } from '@/lib/content/daily-moments'
 import { logConcernEvents } from '@/lib/concerns/events'
+import { londonToday } from '@/lib/pathway/today'
 
 // Store which daily moments happened today so tomorrow's card can be
 // personalised, and mirror each flagged moment into the concerns ledger:
@@ -14,12 +15,46 @@ export async function POST(request: Request) {
 
   const { moments } = await request.json() as { moments: string[] }
 
-  const today = new Date().toISOString().split('T')[0]
+  // ── TWO BUGS, ONE LINE, AND BOTH LEFT TODAY SAYING IT WAS NOT DONE ────────
+  //
+  // Justin, 14 August 2026: "i also went thorugh the moment on today card and
+  // it still says needs to be done?"
+  //
+  // ONE, THE DATE WAS THE WRONG DAY. This wrote session_date from
+  // toISOString(), which is UTC, while lib/pathway/daily-tasks.ts reads the row
+  // back with londonToday(). From late March to late October Britain is an hour
+  // ahead, so anything logged between midnight and 1am wrote to YESTERDAY's row
+  // and today's rung could never tick. Late evening is exactly when a parent
+  // logs how the day went, so this is not an edge case, it is the busiest hour
+  // the feature has.
+  //
+  // TWO, RAISING MOMENTS DID NOT COUNT AS DOING THEM. momentDone is
+  // completed_at being set OR cards_completed being above zero, and this route
+  // wrote neither. It only ever wrote moment_feedback. So the ONE path that
+  // most parents take, opening the timeline and tapping what actually happened
+  // today, left the rung looking untouched. Only swiping to the very last card
+  // of the deck ever called /api/daily/complete.
+  //
+  // Naming what happened today IS the moment step. cards_completed is only
+  // raised, never lowered, so a parent who does both still reads as done.
+  const today = londonToday()
+
+  const { data: existingSession } = await supabase
+    .from('daily_sessions')
+    .select('cards_completed')
+    .eq('user_id', user.id)
+    .eq('session_date', today)
+    .maybeSingle()
 
   await supabase
     .from('daily_sessions')
     .upsert(
-      { user_id: user.id, session_date: today, moment_feedback: moments },
+      {
+        user_id: user.id,
+        session_date: today,
+        moment_feedback: moments,
+        cards_completed: Math.max(1, (existingSession?.cards_completed as number | null) ?? 0),
+      },
       { onConflict: 'user_id,session_date' }
     )
 
@@ -65,7 +100,7 @@ export async function POST(request: Request) {
         }
       })
 
-      await supabase.from('concerns').upsert(rows, { onConflict: 'user_id,slug' })
+      await supabase.from('concerns').upsert(rows, { onConflict: 'user_id,child_id,slug' })
       await logConcernEvents(supabase, user.id, rows.map(r => r.slug), {
         event: 'flagged',
         source: 'moment',

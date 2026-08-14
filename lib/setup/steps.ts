@@ -44,7 +44,25 @@ export const STEPS: SetupStep[] = [
 // The child's own phone link only belongs in the path once they are old
 // enough to have a phone. We record around 9 as the point the conversation
 // usually starts, so anything below the 4 to 7 band shows the step, and
-// Foundation age children do not. Everything else is always in the path.
-export function visibleSteps(phoneAge: boolean): SetupStep[] {
-  return STEPS.filter(s => s.key !== 'childLink' || phoneAge)
+// Foundation age children do not.
+//
+// ── AND ONLY IF THEY HAVE NOT ALREADY SAID NO (14 August 2026) ──────────────
+//
+// Justin: "if a parent selects that they want to co view and use printable star
+// charts instead of share device we don't want to keep telling them to share or
+// set up child device."
+//
+// Age was the only filter, so a family who had explicitly answered no still
+// carried this step on their setup path FOR EVER. That is worse than an
+// ordinary nag: setup is the one screen whose entire promise is to tell you
+// what is still missing, and a step that can never be ticked means the path can
+// never be finished. The family is left permanently at six of seven, being told
+// they are incomplete because of a decision they made on purpose.
+//
+// `settled` comes from lib/handover/settled.ts, the one predicate every surface
+// asks now, so paper, no_phone and a deliberate co-view all drop the step. The
+// default is false, which keeps every existing caller behaving exactly as it
+// did until it passes the flag.
+export function visibleSteps(phoneAge: boolean, settled = false): SetupStep[] {
+  return STEPS.filter(s => s.key !== 'childLink' || (phoneAge && !settled))
 }

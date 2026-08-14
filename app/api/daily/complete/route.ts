@@ -1,12 +1,17 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { londonToday } from '@/lib/pathway/today'
 
 export async function POST() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const today = new Date().toISOString().split('T')[0]
+  // London, not UTC. daily-tasks.ts reads this row back with londonToday(), and
+  // through British Summer Time a UTC date rolls over an hour early, so a deck
+  // finished at half past midnight was filed under yesterday and today's rung
+  // stayed lit. Same fault as the feedback route beside it.
+  const today = londonToday()
 
   await supabase
     .from('daily_sessions')

@@ -170,9 +170,39 @@ export default function QrHandoverModal({ token, childName, onClose }: {
               )}
             </div>
 
-            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 auto 18px', maxWidth: 300 }}>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 auto 14px', maxWidth: 300 }}>
               Their app opens straight away. Nothing to type, nothing to install, no account for them to make.
             </p>
+
+            {/* THE STEP THAT WAS MISSING, and it is not cosmetic.
+
+                "Nothing to install" is literally true: there is no app store,
+                no download and no account. But the child app is a web page with
+                a proper manifest, so left as scanned it is a browser tab, and
+                added to the home screen it becomes a standalone app called My
+                Jobs with the DiGi star on it. Two things hang off that tap. On
+                an iPhone, reminders CANNOT be delivered until it is done, which
+                is Apple's rule and not ours. And a tab gets closed and lost,
+                where a home screen icon stays.
+
+                The product knew this and told the parent in the worst possible
+                place: the only instruction lived in the message shown AFTER a
+                ping had already failed to arrive. So a parent learned about the
+                step by watching something not work.
+
+                It belongs here, on the screen where the handover actually
+                happens, phrased as the second half of the same action rather
+                than as a warning. */}
+            <div style={{
+              background: '#fff', border: '1.5px solid var(--border)', borderRadius: '14px',
+              padding: '12px 14px', margin: '0 0 18px', textAlign: 'left',
+              display: 'flex', alignItems: 'flex-start', gap: '10px',
+            }}>
+              <span aria-hidden style={{ fontSize: 'var(--text-md)', lineHeight: 1.3, flexShrink: 0 }}>⭐</span>
+              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+                <strong style={{ color: 'var(--ink)' }}>Then add it to their home screen.</strong> Tap share, then Add to Home Screen, and it sits there like any other app. On an iPhone this is also what lets their reminders come through.
+              </p>
+            </div>
 
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '9px' }}>
               Or send it to them

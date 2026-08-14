@@ -11,6 +11,7 @@ import { METHOD_WEEK } from '@/lib/email/method-week'
 import { lifecycleState, trialDaysLeft } from '@/lib/email/lifecycle'
 import { STAGES, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { FOUNDER_CAP } from '@/lib/stripe'
+import { getFamilyHandover, offerableChildren } from '@/lib/handover/settled'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -264,9 +265,24 @@ async function handler(req: NextRequest) {
     // each only sent when that service is NOT set up yet, so it is a genuine
     // "here is why, here is where" nudge and never nags about something done.
     // The setup signal is only queried once the day and the log both allow it.
+    // The child phone email is the one service in this drip a family can
+    // legitimately have decided AGAINST, rather than merely not got round to.
+    // The others are all "not set up yet", which is a gap. This one can be a
+    // choice, and emailing "Give Olga her own version" to a parent who told us
+    // Olga has no phone is the product not listening. Reads the same predicate
+    // every other surface now reads, and fails soft to the old behaviour so a
+    // drip run never dies over a handover check.
     if (days >= 14 && !alreadySent(profile.id, 'svc-childphone') && !!child?.age_band && child.age_band !== '4-7') {
-      const { data: link } = await supabase.from('kid_links').select('child_id').eq('user_id', profile.id).limit(1).maybeSingle()
-      if (!link) await deliver(profile.id, profile.email, 'svc-childphone', childPhoneEmail({ childName, unsubscribe }), 'svcChildPhone')
+      const { data: links } = await supabase.from('kid_links').select('child_id').eq('user_id', profile.id)
+      const linked = new Set((links ?? []).map(l => l.child_id as string))
+      let stillOffering = linked.size === 0
+      if (stillOffering) {
+        try {
+          const family = await getFamilyHandover(supabase, profile.id)
+          stillOffering = offerableChildren(family, linked).length > 0
+        } catch { /* keep the old behaviour rather than skip the drip */ }
+      }
+      if (stillOffering) await deliver(profile.id, profile.email, 'svc-childphone', childPhoneEmail({ childName, unsubscribe }), 'svcChildPhone')
     }
 
     if (days >= 21 && !alreadySent(profile.id, 'svc-screentime')) {
