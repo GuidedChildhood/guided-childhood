@@ -707,6 +707,27 @@ export default function DailyDeckViewer({
         </a>
       )}
 
+      {/* MORE SCRIPTS, ALWAYS, ON EVERY CARD.
+          Justin, 14 August 2026: "in all cases there is always a button to head
+          over to more scripts."
+          The card's own action is about THIS card and changes with it, so on a
+          reflection card or a focus card there was no way through to the
+          library at all. A parent who reads today's words and wants a different
+          set had to leave the deck and find scripts from the nav. It is the
+          quietest thing on the screen, under the card's own link, because Next
+          still leads and this is a door rather than a step. */}
+      <a
+        href="/dashboard/scripts"
+        onClick={e => e.stopPropagation()}
+        style={{
+          display: 'block', textAlign: 'center', marginTop: card.action ? '10px' : '16px',
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+          letterSpacing: '.06em', color: 'var(--ink-muted)', textDecoration: 'none',
+        }}
+      >
+        All the scripts ›
+      </a>
+
       </div>
     </div>
   )

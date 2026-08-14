@@ -5,6 +5,7 @@ import type { AgeBand } from '@/lib/content/stages'
 import { pickReview, agoLabel, type Completion } from '@/lib/pathway/review-pick'
 import DailyDeckViewer from './DailyDeckViewer'
 import type { DailyCard } from './DailyDeckViewer'
+import { getMomentTopics, firstMatch, MOMENT_KEYWORDS } from '@/lib/daily/moment-source'
 
 export default async function DailyPage() {
   const supabase = await createClient()
@@ -15,7 +16,7 @@ export default async function DailyPage() {
   const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
 
   const [profileResult, childResult, sessionResult, yesterdaySession] = await Promise.all([
-    supabase.from('profiles').select('full_name').eq('id', user.id).single(),
+    supabase.from('profiles').select('full_name, onboarding_answers').eq('id', user.id).single(),
     supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_sessions').select('moment_feedback').eq('user_id', user.id).eq('session_date', yesterday).maybeSingle(),
@@ -61,37 +62,39 @@ export default async function DailyPage() {
   // or get out of sync with the real AgeBand values in lib/content/stages.ts.
   const stageId = stage.name.toLowerCase()
 
-  // Pull a pool of 12 moment scripts for this stage to rotate through
+  // ── THE POOL WAS ALWAYS EMPTY, FOR EVERY FAMILY, SINCE IT WAS WRITTEN ─────
+  //
+  // This filtered on category 'daily-moments'. Checked against the live
+  // database rather than assumed: THERE IS NO SUCH CATEGORY. The scripts in the
+  // 1301 to 1399 band are filed under everyday-routines, screen-time, gaming,
+  // family-rules, school-and-ai, staying-safe, mood-confidence and
+  // social-media. So the query returned zero rows for every stage, every day,
+  // and the Watch for this card has never once rendered for anybody.
+  //
+  // Nothing failed loudly, which is why it survived: momentPool came back
+  // empty, momentScript stayed null, and the card was simply skipped. The deck
+  // quietly ran one card short for its whole life.
+  //
+  // The sort_order band IS the daily moments set, and it is what the comment
+  // above always meant. For a Builder stage family that band holds 21 real
+  // scripts, including "Sibling Fights Over One Device" and "They Are Fighting
+  // Over Something Specific", which are exactly what the top live concern on
+  // the account, Sibling fighting, should have been matching all along.
   const { data: momentPool } = await supabase
     .from('scripts')
     .select('title, situation, say_this, sort_order')
     .eq('stage_id', stageId)
-    .eq('category', 'daily-moments')
     .gte('sort_order', 1301)
     .lte('sort_order', 1399)
     .order('sort_order', { ascending: true })
-    .limit(30)
+    .limit(40)
 
   // Each daily-moments script is written about one specific routine moment, so a
   // moment flagged yesterday (see components/cards/MomentCard.tsx) can be matched
   // back to a script by keyword, closing the loop the app promises the parent.
-  const MOMENT_KEYWORDS: Record<string, string[]> = {
-    morning: ['morning'],
-    teeth: ['teeth'],
-    dressed: ['dressed'],
-    bag: ['bag'],
-    lunch: ['lunch'],
-    dropoff: ['drop off', 'dropoff'],
-    pickup: ['pickup', 'pick up'],
-    snacks: ['snack'],
-    dinner: ['dinner'],
-    tv_eve: ['tv'],
-    homework: ['homework'],
-    clothes: ['clothes', 'washing'],
-    fighting: ['fighting', 'sibling'],
-    bedtime: ['bedtime', 'bed'],
-    sleep: ['sleep', 'asleep'],
-  }
+  // The keyword map moved to lib/daily/moment-source.ts, because the concern
+  // path needs the same one: a concern created FROM a moment carries that
+  // moment's slug, so the exact map beats word matching whenever it applies.
 
   const dayIndex = Math.floor(Date.now() / 86400000)
 
@@ -128,21 +131,55 @@ export default async function DailyPage() {
   let momentScript: { title: string; situation: string; say_this: string; sort_order: number } | null = null
   let momentMatchedYesterday = false
 
+  // ── THE CARD IS ABOUT THIS FAMILY, NOT ABOUT TODAY'S DATE ─────────────────
+  //
+  // Justin, 14 August 2026: "what does it come up with this particular moment to
+  // start... if first time after sign up then choose what they ticked at set
+  // up, so that moment should then bring up cards associated with the sign up
+  // issues raised."
+  //
+  // The old fallback was pool[dayIndex % pool.length], a pure calendar
+  // rotation, and it fired on every day the parent had not logged something the
+  // day before, which is most days. A family who told us at signup that gaming
+  // was their problem could open the app next morning to a card about
+  // lunchboxes.
+  //
+  // getMomentTopics returns what they flagged yesterday, then their live
+  // worries, then what they ticked at signup, in that order, with anything they
+  // have just called sorted removed. See lib/daily/moment-source.ts for why
+  // each step is there. The calendar is still the last resort, because a
+  // general card beats no card, but it is now genuinely last.
+  const topics = await getMomentTopics(
+    supabase, user.id, yesterdayMoments, profileResult.data?.onboarding_answers,
+  )
+  let momentTopicSource: 'yesterday' | 'concern' | 'signup' | 'rotation' = 'rotation'
+  let momentTopicLabel: string | null = null
+
   if (momentPool && momentPool.length > 0) {
-    if (yesterdayMoments.length > 0) {
-      const keywords = yesterdayMoments.flatMap(m => MOMENT_KEYWORDS[m] ?? [])
-      const matches = momentPool.filter(s =>
-        keywords.some(kw => s.title.toLowerCase().includes(kw) || s.situation.toLowerCase().includes(kw))
+    for (const topic of topics) {
+      const matches = firstMatch(
+        momentPool, topic.keywords,
+        sc => `${sc.title} ${sc.situation}`.toLowerCase(),
       )
       if (matches.length > 0) {
         momentScript = matches[dayIndex % matches.length]
-        momentMatchedYesterday = true
+        momentTopicSource = topic.source
+        momentTopicLabel = topic.label
+        momentMatchedYesterday = topic.source === 'yesterday'
+        break
       }
     }
     if (!momentScript) {
       momentScript = momentPool[dayIndex % momentPool.length]
     }
   }
+
+  // Nothing raised, nothing ticked at signup, nothing matched: this family has
+  // genuinely told us nothing yet. Justin: "I would like it to give the
+  // timeline moment page if no moments have yet been raised." So the card says
+  // so and sends them to the timeline, rather than pretending a card picked by
+  // the date is about them.
+  const nothingKnownYet = topics.length === 0
 
   const stageChallenge = stage.challengeActions?.screens_takeover ?? stage.focus
 
@@ -230,14 +267,41 @@ export default async function DailyPage() {
     action: { label: 'Make it official in your family agreement', href: '/dashboard/agreement' },
   })
 
-  // Card 3 — Watch for this (daily moment situation)
-  if (momentScript) {
+  // Card 3 — Watch for this, and it SAYS where it came from.
+  //
+  // The eyebrow is not decoration. A card that opens "because you flagged this
+  // yesterday" is the product proving it listened, and the same card opening
+  // "watch for this today" when it was actually picked by the date is the
+  // product bluffing. Each source gets its own honest line, and the calendar
+  // one no longer claims to be about them.
+  if (nothingKnownYet) {
     cards.push({
       id: 'watchfor',
       type: 'watchfor',
-      eyebrow: momentMatchedYesterday ? 'Because you flagged this yesterday' : 'Watch for this today',
+      eyebrow: 'Tell us what today looked like',
+      headline: 'What actually happened today?',
+      body: `We do not know your family yet, and rather than guess at what to put in front of you, it is worth thirty seconds telling us.\n\nTap whatever came up today, even the small things. Tomorrow this card is about that, and the day after it is about whatever moved.`,
+      accent: 'var(--terracotta)',
+      icon: '△',
+      action: { label: 'Pick from the timeline', href: '/dashboard/moments' },
+    })
+  } else if (momentScript) {
+    const eyebrow =
+      momentTopicSource === 'yesterday' ? 'Because you flagged this yesterday'
+      : momentTopicSource === 'concern' ? `Because ${(momentTopicLabel ?? 'this').toLowerCase()} is on your list`
+      : momentTopicSource === 'signup' ? 'From what you told us when you joined'
+      : 'Watch for this today'
+    const opener =
+      momentTopicSource === 'yesterday' ? 'You flagged this one yesterday, so let us walk in ready today.'
+      : momentTopicSource === 'concern' ? 'This is one you are working on, so here is today\'s version of it.'
+      : momentTopicSource === 'signup' ? 'You named this when you joined, so this is where we start.'
+      : 'Every family knows this one, yours included.'
+    cards.push({
+      id: 'watchfor',
+      type: 'watchfor',
+      eyebrow,
       headline: momentScript.title,
-      body: `${momentMatchedYesterday ? 'You flagged this one yesterday, so let us walk in ready today.' : 'Every family knows this one, yours included.'} ${momentScript.situation}\n\nIf it shows up, you already have the words: "${momentScript.say_this}"\n\nNo lecture, no negotiation. Say it warmly and let it land.`,
+      body: `${opener} ${momentScript.situation}\n\nIf it shows up, you already have the words: "${momentScript.say_this}"\n\nNo lecture, no negotiation. Say it warmly and let it land.`,
       accent: 'var(--terracotta)',
       icon: '△',
       action: { label: 'Read the full script', href: `/dashboard/scripts/${momentScript.sort_order}` },

@@ -1,5 +1,6 @@
 import type { createClient } from '@/lib/supabase/server'
 import { seedBaselineConcerns } from '@/lib/concerns/baseline'
+import { restingConcernIds } from '@/lib/concerns/resting'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -115,33 +116,18 @@ export async function getTodayCheckIn(
   // unless they raise another moment then we add to check in or any issue
   // raised in digi we can add to check in."
   //
-  // This is the rule that keeps the check in short enough to be done, and it is
-  // the one thing the card could not do. A family who has sorted bedtime was
-  // asked about bedtime every week for ever, so the list only ever grew, and a
-  // list that only grows is a list that stops being filled in. Worse, it taught
-  // the parent that saying "going great" achieves nothing.
+  // This is the rule that keeps the check in short enough to be done. A family
+  // who has sorted bedtime was asked about bedtime every week for ever, so the
+  // list only ever grew, and a list that only grows is a list that stops being
+  // filled in. Worse, it taught the parent that saying "going great" achieves
+  // nothing.
   //
-  // The status column could not carry this. 'improving' is set by a good answer
-  // and keeps the row in the list; 'resolved' needs the parent to say out loud
-  // that it is sorted, which is a different and heavier claim than one good
-  // week. This sits between the two: the row rests.
-  //
-  // AND THE WAY BACK IS ALREADY BUILT, which is why no new column is needed.
-  // Raising it again as a moment, or DiGi surfacing it, both write
-  // last_flagged_at. So "re-raised since the good news" is exactly
-  // last_flagged_at being newer than the score that rested it, and the row
-  // returns on its own the moment the problem does. Nothing to remember, and no
-  // way for a real recurrence to be silenced.
-  const TOP_BAND = 9
-  const resting = new Set(
-    rows.filter(c => {
-      const score = lastScoreByConcern.get(c.id)
-      if (typeof score !== 'number' || score < TOP_BAND) return false
-      const at = lastScoreAtByConcern.get(c.id)
-      // Re-raised since that good score? Then it is live again.
-      return !(at && c.last_flagged_at > at)
-    }).map(c => c.id),
-  )
+  // The rule itself lives in lib/concerns/resting.ts because the moments deck
+  // applies exactly the same judgement: a worry the parent has just called
+  // sorted must not still be shaping what today's card coaches them through.
+  // Two copies of this would drift, and the day they drifted the check in would
+  // be congratulating a family on something the deck was still worrying about.
+  const resting = restingConcernIds(rows, lastScoreByConcern, lastScoreAtByConcern)
 
   const nameById = new Map((kids ?? []).map(k => [k.id as string, k.name as string]))
   const asked = rows.filter(c => !resting.has(c.id)).slice(0, 5)
