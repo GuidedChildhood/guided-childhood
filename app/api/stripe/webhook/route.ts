@@ -5,6 +5,7 @@ import { orderConfirmationEmail, orderFulfilmentEmail } from '@/lib/email/templa
 import { formatPence } from '@/lib/shop/catalogue'
 import { NextResponse } from 'next/server'
 import type Stripe from 'stripe'
+import { ourStatusFor } from '@/lib/stripe/subscription-status'
 
 export const dynamic = 'force-dynamic'
 
@@ -153,14 +154,11 @@ export async function POST(request: Request) {
 
     case 'customer.subscription.updated': {
       if (userId) {
-        // A card up front trial reports status 'trialing'. Treat it as full
-        // access, same as active, so the founder who added a card is never
-        // locked out during their free days.
-        const status = (sub.status === 'active' || sub.status === 'trialing')
-          ? 'active'
-          : sub.status === 'past_due' ? 'past_due' : 'cancelled'
+        // The mapping moved to lib/stripe/subscription-status.ts on 14 August
+        // 2026 so it could be tested. It was the one link in the paywall chain
+        // with no check on it, and it is the link everything else turns on.
         await supabaseAdmin.from('profiles').update({
-          subscription_status: status,
+          subscription_status: ourStatusFor(sub.status),
           subscription_tier: tier,
         }).eq('id', userId)
       }

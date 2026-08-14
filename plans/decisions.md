@@ -7921,3 +7921,81 @@ one question it never answered, using a number they had typed in themselves
 every week. It is in there now, above the watch for and the suggestion, because
 good news comes before homework, and read through the same helper the page uses
 so the email and the app can never quote different numbers for the same week.
+
+## 13 August 2026 — The passport gets its own page, and the page is tabs
+
+Justin: "this needs to be the only thing on the passport page so they can
+access everything from nice tidy tabs starting with passport, looking really
+pretty using pastel colours ... as its a mess and a long scroll. We have broken
+the passport as inside pages live behind the front cover."
+
+He was right about the break and precise about the cause, and the cause was not
+the cover. PassportBook opens on its cover by design, which he asked for
+himself after living with the alternative. The fault was that the cover was the
+ONLY door. Tabs are a second door, and the book is untouched.
+
+**/dashboard/passport now exists.** Four tabs, one stage pastel each in stage
+order, every value already in shared/tokens.css: Passport, Is it working, The
+four things, Shop. Nothing above the tab bar except the child switcher, which
+is not a section, it is which child all four tabs are about.
+
+The tab is in the URL rather than in state, and that is the half worth knowing.
+Each tab loads only its own queries. The scroll it replaces paid for roughly
+twenty round trips on every open to show a parent one book, and the shop, the
+heaviest of the four, now costs nothing at all unless somebody goes shopping.
+It also means the daily list, an email and a Stripe return can each name a tab.
+
+**The what is working dashboard came off in the same pass**, as its own tab,
+because both jobs were emptying the same 656 line file and doing them one at a
+time meant the second would rewrite the first. IsItWorkingReport's own child
+switcher came out, since the page above it carries one across every tab.
+
+**The shop was built once, not twice.** components/shop/Shop.tsx already sold
+the printed passport and the sticker sheet and /dashboard/keepsakes was the only
+thing rendering it. The data load is components/shop/ShopPanel.tsx now, the Shop
+tab renders it, and /dashboard/keepsakes redirects carrying its query string.
+Stripe's success and cancel URLs moved with it, so a session created before the
+deploy still lands on its thank you banner.
+
+On Home, the passport nudge repoints and gains a gate: it only applies once
+first_checkin_at is set. Before that the book is a cover and five zeros, and
+sending a parent to look at it teaches them the passport is not worth opening,
+on the one day they were willing to try. The shop joins as a MONTHLY tier
+between the two that jump the queue and the eleven that rotate, on the 12th. It
+could not go in the rotation itself: a slot there comes round every twelve days,
+and gating a rotation item on a date makes it show one month and skip the next
+depending on where that day's walk starts.
+
+## 13 August 2026 — The word pathway meant two things, and the route gave it up
+
+Justin: "pathway was what I was calling today, the things to do today. So
+anything I asked to be moved to pathway, I meant to rotate on the coins on
+today's things."
+
+Two different things were called the pathway. To Justin it is the daily list on
+Home. In the code it was /dashboard/pathway, the stages road from four to
+sixteen. The collision had already cost one wrong build.
+
+**The stages road is /dashboard/road now.** It is what every component on it is
+already called (StageRoad, RoadToSixteen) and what its own copy already says.
+The old route stays for ever as a redirect that forwards its query string,
+because emails already sent point at it and so do bookmarks. BackTo keeps its
+`from=pathway` key pointing at the road for the same reason. lib/pathway keeps
+its name: the collision is the ROUTE, which is the thing Justin types and talks
+about, and renaming twenty helper modules buys no clarity.
+
+**Your focus was the wrong build, and it is corrected.** On 12 August "focus,
+words for tonight, can be their appearance on pathway, not here on home" was
+built as a move to the stages road page, with a long comment in FocusStrip
+arguing the case. He meant it should take its turn in the daily rotation. That
+rotation item exists and is live in lib/home/next-up.ts, so the strip is
+unmounted, and the comment now records what actually happened rather than
+defending the wrong reading. The component is kept, not deleted: Home still
+imports CHALLENGE_LABELS from it. What must not happen is putting it back as a
+fixed strip at the top of Home, which was the original complaint.
+
+**Not done, and it is a question rather than an omission.** "Lose the planets
+underneath the pathway" was already served: commit 5ca93d13, merged this
+morning, removed the six planet coins from Home quoting those exact words. The
+rotating PlanetCard under the stages road is the other surface and is still
+there. Whether that one goes too is Justin's call, not a guess worth making.

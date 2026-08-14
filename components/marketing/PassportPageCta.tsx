@@ -53,7 +53,7 @@ export default function PassportPageCta() {
           : 'A couple of minutes to build your child’s pathway, then free access to the platform. No card. The ramp to 16 starts wherever your child is now.'}
       </p>
       <Link
-        href={signedIn ? '/dashboard/pathway' : '/starter-pack'}
+        href={signedIn ? '/dashboard/passport' : '/starter-pack'}
         className="btn btn-gold"
         style={{ display: 'inline-flex', fontSize: 'clamp(1rem, 3vw, 1.15rem)', padding: '17px 36px' }}
       >

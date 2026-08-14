@@ -124,9 +124,10 @@ type ScriptRow = {
 // Read from the link rather than the referrer, matching the devices page: a
 // referrer is stripped by enough browsers that the back link would silently
 // change meaning depending on the reader's setup.
-// Both the road and the passport book live on /dashboard/pathway, so there is
-// one place to send them back to and no chance of guessing wrong.
-const PATHWAY_HREF = '/dashboard/pathway'
+// The road and the passport are two pages since 13 August 2026. A script is
+// read on the way to a stamp, so back goes to the road, which is where the
+// stages and the next step live.
+const PATHWAY_HREF = '/dashboard/road'
 
 export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; cat?: string; stage?: string; from?: string; q?: string }> }) {
   const { topic, cat, stage, from, q } = await searchParams

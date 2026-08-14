@@ -752,7 +752,7 @@ export default function DigiChat({
                   </p>
                   <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                     <Link
-                      href={`/dashboard/pathway`}
+                      href={`/dashboard/road`}
                       style={{
                         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
                         color: 'var(--terracotta)', textDecoration: 'underline',

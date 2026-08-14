@@ -714,7 +714,7 @@ export default function PassportBook({
           sheet, posted. Print it read like a browser command, as though the
           parent were about to send the page to a printer in the next room. */}
       <Link
-        href="/dashboard/keepsakes#p-passport_printed"
+        href="/dashboard/passport?tab=shop#p-passport_printed"
         style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
           marginTop: 16, padding: '15px 20px',
@@ -827,7 +827,7 @@ export default function PassportBook({
           animation: 'gcCelebFade 0.5s ease both',
         }}>
           That page is stamped for good.{' '}
-          <Link href="/dashboard/keepsakes#p-passport_printed" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'underline' }}>
+          <Link href="/dashboard/passport?tab=shop#p-passport_printed" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'underline' }}>
             There is a printed booklet
           </Link>
           {' '}with every stamp inside, if you would like one you can hold.

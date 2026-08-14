@@ -1,4 +1,5 @@
-// What next, after today is done. Nine things, one a day.
+// What next, after today is done. Eleven things, one a day, plus the shop once
+// a month.
 //
 // Justin, 12 August 2026: "are we rotating what's next between review quests,
 // guide watch time, check watch balance, check school reminders, check device
@@ -80,6 +81,16 @@ export type NextUpSignals = {
   /** Where the words for tonight are: the daily loop's own script step, so
    *  the card lands on the script chosen for today rather than the library. */
   scriptHref: string
+  /**
+   * Their first ever check in has happened, from profiles.first_checkin_at.
+   *
+   * Justin, 13 August 2026, on the passport nudge: it "only appears once there
+   * is something on the passport worth seeing, which means after the first
+   * check in." Before that the book is five empty rings and a cover, and
+   * sending a parent to look at it is the fastest way to teach them the
+   * passport is not worth opening.
+   */
+  hasCheckedIn: boolean
 }
 
 export type NextUpCard = {
@@ -174,7 +185,7 @@ export const ROTATION: Item[] = [
     build: s => ({
       key: 'concern-queue', eyebrow: EYEBROW, title: 'Work through what has come up',
       line: `${s.concernsLive} on the list, most pressing first. One at a time is the whole method.`,
-      href: '/dashboard/pathway#is-it-working', icon: '🧩', coversJobs: false,
+      href: '/dashboard/passport?tab=working', icon: '🧩', coversJobs: false,
     }),
   },
   {
@@ -248,11 +259,51 @@ export const ROTATION: Item[] = [
   },
   {
     key: 'passport',
-    applies: () => true,
+    // Not before the first check in. An empty passport is a cover and five
+    // zeros, and a nudge to go and look at it teaches a parent that the
+    // passport is not worth opening, on the one day they were willing to try.
+    applies: s => s.hasCheckedIn,
     build: () => ({
       key: 'passport', eyebrow: EYEBROW, title: 'Open the passport',
       line: 'Where you started, what has changed, and the stamp you are working on.',
-      href: '/dashboard/pathway#passport', icon: '📖', coversJobs: false,
+      href: '/dashboard/passport', icon: '📖', coversJobs: false,
+    }),
+  },
+]
+
+// ── THE SHOP, ONE DAY A MONTH ───────────────────────────────────────────────
+//
+// Justin, 13 August 2026, on the shop tab: "It is also the monthly shop
+// rotation on the daily list, so build the destination once."
+//
+// It is its own tier rather than a twelfth item in ROTATION, and the reason is
+// arithmetic. A slot in the rotation comes round every twelve days, which is
+// not monthly, it is nearly three times a month. Gating a rotation item on a
+// date instead is worse: the day picks a position and walks forward, so a shop
+// item that only applied on the 12th would show in the months where the walk
+// happened to reach it and be silently skipped in the months where it did not.
+//
+// So it sits between the two that jump the queue and the eleven that take
+// turns: never ahead of a child waiting on an answer, never the daily lead,
+// once a month, on a day chosen for being nowhere near either end of it.
+const SHOP_DAY_OF_MONTH = 12
+
+/** The 12th, in London, so the day turns over here rather than in UTC. */
+export function isShopDay(now: Date = new Date()): boolean {
+  const london = now.toLocaleDateString('en-CA', { timeZone: 'Europe/London' })
+  return Number(london.split('-')[2]) === SHOP_DAY_OF_MONTH
+}
+
+const MONTHLY: Item[] = [
+  {
+    key: 'shop',
+    // Same gate as the passport nudge, and for the same reason: a personalised
+    // booklet of a passport with nothing stamped in it is not a keepsake.
+    applies: s => s.hasCheckedIn,
+    build: () => ({
+      key: 'shop', eyebrow: EYEBROW, title: 'The passport, printed',
+      line: 'Their real one as a little booklet, and the Planet Friends sticker sheet.',
+      href: '/dashboard/passport?tab=shop', icon: '📮', coversJobs: false,
     }),
   },
 ]
@@ -272,6 +323,11 @@ export function dayIndex(now: Date = new Date()): number {
 export function pickNextUp(s: NextUpSignals, now: Date = new Date()): NextUpCard {
   const urgent = URGENT.find(item => item.applies(s))
   if (urgent) return urgent.build(s)
+
+  if (isShopDay(now)) {
+    const monthly = MONTHLY.find(item => item.applies(s))
+    if (monthly) return monthly.build(s)
+  }
 
   const n = ROTATION.length
   const start = ((dayIndex(now) % n) + n) % n

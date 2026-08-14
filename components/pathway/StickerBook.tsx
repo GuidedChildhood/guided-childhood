@@ -122,7 +122,7 @@ export default function StickerBook({ book, childName }: { book: Book; childName
         <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>›</span>
       </Link>
       <Link
-        href="/dashboard/keepsakes#p-sticker_sheet"
+        href="/dashboard/passport?tab=shop#p-sticker_sheet"
         style={{
           display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px',
           background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
