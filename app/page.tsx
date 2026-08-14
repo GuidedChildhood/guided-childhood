@@ -962,6 +962,7 @@ export default function HomePage() {
                   ['✓', 'Your age stage roadmap'],
                 ],
                 cta: 'Start free trial', href: '/starter-pack',
+                note: 'The founder rate is claimed at sign up, first 50 families only. Start your trial now and it is yours.',
                 ctaBg: 'transparent', ctaColor: 'var(--ink)', ctaBorder: '2px solid var(--border)', ctaShadow: 'none',
                 cardStyle: {},
               },
@@ -978,6 +979,7 @@ export default function HomePage() {
                   ['✓', 'School lesson packs included'],
                 ],
                 cta: 'Start now', href: '/starter-pack',
+                note: '',
                 ctaBg: 'var(--terracotta)', ctaColor: 'var(--ink)', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
                 cardStyle: { background: 'var(--stage-1)', border: '2px solid rgba(61,115,154,.25)', transform: 'scale(1.025)' },
               },
@@ -990,6 +992,7 @@ export default function HomePage() {
                   ['✓', 'Cancel any time'],
                 ],
                 cta: 'Start now', href: '/starter-pack',
+                note: '',
                 ctaBg: 'var(--terracotta)', ctaColor: 'var(--ink)', ctaBorder: 'none', ctaShadow: '0 5px 0 var(--terracotta-dark)',
                 cardStyle: {},
               },
@@ -1029,6 +1032,11 @@ export default function HomePage() {
                 }}>
                   {plan.cta}
                 </Link>
+                {plan.note && (
+                  <p style={{ fontSize: '.78rem', color: 'var(--ink-muted)', lineHeight: 1.55, textAlign: 'center', margin: '10px 0 0' }}>
+                    {plan.note}
+                  </p>
+                )}
               </div>
             ))}
           </div>
