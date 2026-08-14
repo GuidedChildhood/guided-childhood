@@ -3,6 +3,7 @@ import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import type { StageId } from '@/lib/pathway/progress'
 import AgreementBuilder from '@/components/agreement/AgreementBuilder'
+import BackTo from '@/components/nav/BackTo'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,7 +15,8 @@ const STAGE_LABELS: Record<StageId, string> = {
   independent: 'Stage 5 · Independent',
 }
 
-export default async function AgreementPage() {
+export default async function AgreementPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
+  const { from } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -63,7 +65,14 @@ export default async function AgreementPage() {
   // signed copy are the membership payoff, gated inside the builder and on
   // the save API, so the value is felt before the wall.
   return (
-    <AgreementBuilder
+    <>
+      {/* The way back to the rung they came from. The deal is now a weekly step
+          on Today, so a parent lands here mid road and has to be able to carry
+          on down it rather than hunt for their place. */}
+      <div style={{ maxWidth: 640, margin: '0 auto', padding: '20px 20px 0' }}>
+        <BackTo from={from} fallback={{ href: '/dashboard#today', label: 'Today' }} />
+      </div>
+      <AgreementBuilder
       childName={childName}
       stageId={stageId ?? 'explorer'}
       stageLabel={STAGE_LABELS[stageId ?? 'explorer']}
@@ -72,6 +81,7 @@ export default async function AgreementPage() {
       isPaid={isPaid}
       childAppLive={childAppLive}
       lastCheck={lastCheck}
-    />
+      />
+    </>
   )
 }

@@ -282,7 +282,7 @@ export async function getTodayLoop(
     ...(agreementUpdatedAt ? [{
       key: 'agreement' as const,
       label: 'The deal',
-      href: '/dashboard/agreement',
+      href: '/dashboard/agreement?from=today',
       done: agreementFreshThisWeek,
     }] : []),
     {
@@ -329,7 +329,7 @@ export async function getTodayLoop(
     ...(passportOutstanding !== null ? [{
       key: 'passport' as const,
       label: 'Passport',
-      href: '/dashboard/pathway',
+      href: '/dashboard/pathway?from=today',
       done: passportOutstanding === 0,
     }] : []),
     // ── DIGI CLOSES THE DAY ────────────────────────────────────────────────
