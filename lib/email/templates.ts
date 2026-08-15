@@ -8,9 +8,10 @@ import type { MonthPace } from '@/lib/balance/pace'
 import { SCHOOL_EVENTS, yearGroupFromDob } from '@/lib/learning/calendar'
 import { transitionFor } from '@/lib/learning/transition'
 import {
-  bandedWrapper, eyebrow, h1, linkList, rule, sectionHead, tickList, p as bp,
+  bandedWrapper, eyebrow, friendMark, h1, linkList, rule, sectionHead, tickList, p as bp,
   type Band,
 } from '@/lib/email/blocks'
+import { emailFriend } from '@/lib/email/friends'
 import { APP_ORIGIN } from '@/lib/config/site'
 
 const INK = '#1A1A2E'
@@ -143,12 +144,22 @@ export function day2StageEmail(params: {
   stageName: string
   stageFocus: string
   unsubscribe: string
+  /** Only when the child genuinely has one. See lib/email/friends.ts. */
+  stageId?: number | null
 }): EmailContent {
-  const { childName, stageName, stageFocus, unsubscribe } = params
+  const { childName, stageName, stageFocus, unsubscribe, stageId } = params
+  // THIS email earns a Friend: it is the one whose entire subject is the stage,
+  // and the Friend is what marks a stage everywhere else in the product.
+  const friend = emailFriend(stageId)
   return {
     subject: `What the ${stageName} stage is really about`,
     html: wrapper(
       heading(`${childName} is in the ${stageName} stage.`) +
+      (friend ? friendMark({
+        src: friend.src,
+        alt: friend.alt,
+        line: `This is ${friend.name}, who marks the ${stageName} stage. ${childName} will meet them on the road and on their passport.`,
+      }) : '') +
       p(`Here is the one sentence version: ${stageFocus}.`) +
       p(`Every script, weekly action and DiGi answer you get is calibrated to this stage. Not generic advice for children, the right move for this age, right now.`) +
       button('See my stage', `${APP}/dashboard/road`) +
@@ -858,12 +869,25 @@ export function founderLeadEmail(params: { remaining: number; unsubscribe?: stri
 // generous. Each is only sent when that feature has not been touched yet, so it
 // is a genuine here is why, here is where, never a nag about something done.
 
-export function printablesRevealEmail(params: { childName: string; unsubscribe: string }): EmailContent {
-  const { childName, unsubscribe } = params
+export function printablesRevealEmail(params: {
+  childName: string
+  unsubscribe: string
+  stageId?: number | null
+}): EmailContent {
+  const { childName, unsubscribe, stageId } = params
+  // THE STRONGEST CASE OF THE THREE. The subject line has promised the Planet
+  // Friends since the day it was written, and the email then showed none, so a
+  // parent opened a mail about colouring in a character and had to imagine it.
+  const friend = emailFriend(stageId)
   return {
     subject: `Colour in the Planet Friends with ${childName} tonight`,
     html: wrapper(
       heading('The offline pack is yours.') +
+      (friend ? friendMark({
+        src: friend.src,
+        alt: friend.alt,
+        line: `${friend.name} is one of them, and there is a colouring sheet for every Friend in the pack.`,
+      }) : '') +
       p(`Alongside the app there is a whole set of printables: star charts for the fridge, colour in Planet Friends, weekly calendars and the full offline pack, all free on your plan.`) +
       p(`They use the same stars ${childName} already earns, so screen off time becomes a reward, not a battle. Print one tonight.`) +
       button('Open the printables', `${APP}/dashboard/printables`),
@@ -900,12 +924,25 @@ export function mentalHealthRevealEmail(params: { unsubscribe: string }): EmailC
   }
 }
 
-export function passportRevealEmail(params: { childName: string; unsubscribe: string }): EmailContent {
-  const { childName, unsubscribe } = params
+export function passportRevealEmail(params: {
+  childName: string
+  unsubscribe: string
+  stageId?: number | null
+}): EmailContent {
+  const { childName, unsubscribe, stageId } = params
+  // The passport is where the Friends are collected, one per stage, so the
+  // character standing next to the invitation to open it IS the thing being
+  // described rather than an illustration of it.
+  const friend = emailFriend(stageId)
   return {
     subject: `${childName}'s passport is filling up`,
     html: wrapper(
       heading('See how far you have come.') +
+      (friend ? friendMark({
+        src: friend.src,
+        alt: friend.alt,
+        line: `${friend.name} is the Friend ${childName} is working through now. Each stage has one, and they stay on the passport once earned.`,
+      }) : '') +
       p(`Every job done, lesson learned and calm screen off earns ${childName} a stamp on their passport, the one map that runs from their first safe steps to full readiness at 16.`) +
       p(`It is the clearest way to see the childhood you are building, one small win at a time. Take a look at where you are.`) +
       button('Open the passport', `${APP}/dashboard/passport`),

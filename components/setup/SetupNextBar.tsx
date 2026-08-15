@@ -86,9 +86,39 @@ export default function SetupNextBar() {
   // The daily practice used to be excluded by name here, because it was step
   // one and ran across several pages. It is not a setup step any more: it is
   // the daily loop. See lib/setup/steps.ts.
+  // ── NOTHING FLOATS AT THEM ON THE FIRST DAY (15 August 2026) ─────────────
+  //
+  // Justin: "we don't also need pop ups on their first log in, they should only
+  // come if not completed on first log in and later log ins, not to annoy, just
+  // a prompt for what outstanding."
+  //
+  // On day one a parent is ALREADY being walked through setup. A floating bar
+  // telling them to do the thing they are visibly in the middle of doing is the
+  // app talking over itself, and it is the first impression. From the second
+  // day it earns its place, because by then the setup page is somewhere they
+  // have to choose to go back to.
+  //
+  // gc_app_first_seen is the same stamp InstallPrompt sets and reads, so the
+  // two interruptions agree on what day one means rather than each keeping
+  // their own clock. Written here too, because whichever of the two mounts
+  // first should start it.
+  const [firstSeen, setFirstSeen] = useState<number | null>(null)
+  useEffect(() => {
+    const KEY = 'gc_app_first_seen'
+    try {
+      const raw = localStorage.getItem(KEY)
+      if (raw) { setFirstSeen(Number(raw)); return }
+      const now = Date.now()
+      localStorage.setItem(KEY, String(now))
+      setFirstSeen(now)
+    } catch { setFirstSeen(0) /* private mode: treat as long ago, behave as before */ }
+  }, [])
+  const pastFirstDay = firstSeen !== null && (Date.now() - firstSeen) > 20 * 60 * 60 * 1000
+
   const base = next ? next.href.split('#')[0].split('?')[0] : ''
   const candidate =
     !!next && !hidden && seen !== null &&
+    pastFirstDay &&
     pathname !== '/dashboard' &&
     pathname !== base
 

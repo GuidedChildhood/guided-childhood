@@ -50,12 +50,40 @@ export type SetupStep = {
   href: string
 }
 
+// ── THE ORDER IS A DEPENDENCY, NOT A PREFERENCE (15 August 2026) ────────────
+//
+// Justin: "it should be add children simple easy form as per when they sign up
+// so easy to add, then next one is share app with child for quests receiving
+// device use."
+//
+// Children moved AHEAD of the share step, and that is the one ordering in this
+// list that could not be any other way. Sharing the app means showing a QR code
+// that belongs to a particular child, so a family who has not added their second
+// child yet has nothing to share with them. Asking to share first and to add
+// second meant the share step could only ever cover the first child, and the
+// second would be handed the app by a route that is not in setup at all.
+//
+// The rest of the order is what a family can actually do in one sitting: agree
+// the rules, put us where they can reach us, say who is in the house, then hand
+// out the app.
 export const STEPS: SetupStep[] = [
   {
     key: 'agreement',
     title: 'Build your family agreement',
     what: 'Decided together and signed, so every boundary is one you both chose rather than one you imposed. It is also what sets the price of screen time in stars.',
     href: '/dashboard/agreement',
+  },
+  {
+    key: 'homeScreen',
+    title: 'Put us on your home screen, and turn on reminders',
+    what: 'One tap away instead of a tab you have to find, and a few gentle nudges at the hours screens turn up in your house.',
+    href: '/dashboard/setup#home-screen',
+  },
+  {
+    key: 'children',
+    title: 'Add your other children',
+    what: 'The same two questions we asked at signup, so it takes a moment. Each child gets their own stage, their own worries and their own check in, so nothing about one of them is answered by the other.',
+    href: '/dashboard/setup#children',
   },
   {
     // Both doors live on the setup page itself rather than behind a link.
@@ -68,21 +96,9 @@ export const STEPS: SetupStep[] = [
     // not spend that tap on a journey to somewhere the parent then has to
     // search.
     key: 'childLink',
-    title: "Share the child's app",
-    what: 'Show them the code and their side lands on their phone, nothing to install. No phone yet? Say so and we keep the whole thing on paper instead.',
+    title: "Share the app with your child",
+    what: 'Their side, for ticking off jobs and seeing what they have earned. Show them the code and it lands on their phone, nothing to install. No phone yet? Say so and we keep the whole thing on paper instead.',
     href: '/dashboard/setup#share',
-  },
-  {
-    key: 'homeScreen',
-    title: 'Put us on your home screen, and turn on reminders',
-    what: 'One tap away instead of a tab you have to find, and a few gentle nudges at the hours screens turn up in your house.',
-    href: '/dashboard/setup#home-screen',
-  },
-  {
-    key: 'children',
-    title: 'Add your other children',
-    what: 'Each child gets their own stage, their own worries and their own check in, so nothing about one of them is answered by the other. If it is just the one, say so and this is done.',
-    href: '/dashboard/setup#children',
   },
 ]
 
