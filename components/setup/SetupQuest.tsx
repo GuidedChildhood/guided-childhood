@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { gsap } from 'gsap'
 import ShareQrButton from '@/components/quests/ShareQrButton'
 import NoPhoneButton from '@/components/quests/NoPhoneButton'
@@ -42,6 +43,14 @@ import { STEPS, type SetupFlags, type SetupStep } from '@/lib/setup/steps'
 // numeral disc and the only button on the page; the ones waiting are flat,
 // quiet, on cream, and carry no action at all. A parent scanning the page can
 // only tap one thing, which is the whole point of one step at a time.
+
+// The anchors the steps' own hrefs point at, so a step that finishes on this
+// page can be linked to from the floating next step bar and land on itself.
+const ANCHOR: Partial<Record<keyof SetupFlags, string>> = {
+  childLink: 'share',
+  homeScreen: 'home-screen',
+  children: 'children',
+}
 
 type Props = {
   flags: SetupFlags
@@ -131,7 +140,7 @@ function StepCard({ step, number, live, child, userId }: {
   return (
     <div
       data-quest-step
-      id={live ? step.key === 'childLink' ? 'share' : step.key === 'homeScreen' ? 'home-screen' : undefined : undefined}
+      id={live ? ANCHOR[step.key] : undefined}
       style={{
         display: 'flex', gap: '14px', alignItems: 'flex-start',
         background: live ? '#fff' : 'var(--cream)',
@@ -254,6 +263,8 @@ function StepAction({ step, child, userId }: {
     )
   }
 
+  if (step.key === 'children') return <OtherChildren />
+
   // The home screen and the reminders, in one step, in the order they have to
   // happen on an iPhone: Apple only allows web push once the app is on the home
   // screen, so the instructions come first and the permission card second.
@@ -262,6 +273,69 @@ function StepAction({ step, child, userId }: {
       <HomeScreenHow />
       <div style={{ marginTop: '14px' }}>
         <PushPrompt userId={userId} />
+      </div>
+    </>
+  )
+}
+
+// ── THE OTHER CHILDREN, AND THE ANSWER THAT IT IS JUST THE ONE ──────────────
+//
+// Two doors, the same shape as the share step. Adding a child is a real piece
+// of work with its own screen, so that door is a link. Saying there are no
+// others is one tap and finishes the step here.
+
+function OtherChildren() {
+  const router = useRouter()
+  const [busy, setBusy] = useState(false)
+  const [failed, setFailed] = useState(false)
+
+  async function onlyOne() {
+    setBusy(true)
+    setFailed(false)
+    try {
+      const res = await fetch('/api/setup/only-one-child', { method: 'POST' })
+      // fetch does not throw on a 4xx or a 5xx, only on a network failure, so
+      // the response has to be checked or a rejected save looks like a success
+      // and the step goes green over nothing.
+      if (!res.ok) throw new Error(String(res.status))
+      router.refresh()
+    } catch {
+      setFailed(true)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <>
+      <Link
+        href="/dashboard/quests#add-child"
+        style={{
+          display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
+          borderRadius: 16, padding: '13px 22px', textDecoration: 'none',
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+          boxShadow: '0 5px 0 var(--terracotta-dark)',
+        }}
+      >
+        Add another child
+      </Link>
+      <div style={{ textAlign: 'center', margin: '10px 0 0' }}>
+        <button
+          onClick={onlyOne}
+          disabled={busy}
+          style={{
+            background: 'none', border: 'none', cursor: busy ? 'default' : 'pointer',
+            fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600,
+            color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px',
+            padding: '4px 8px',
+          }}
+        >
+          {busy
+            ? 'Saving...'
+            : failed
+              ? 'That did not save, tap to try again'
+              : 'It is just the one'}
+        </button>
       </div>
     </>
   )

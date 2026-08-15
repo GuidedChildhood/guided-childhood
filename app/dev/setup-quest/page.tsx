@@ -17,10 +17,10 @@ import type { SetupFlags } from '@/lib/setup/steps'
 // only state that should show a button off this page.
 
 const STATES: { label: string; flags: SetupFlags }[] = [
-  { label: 'Fresh',       flags: { agreement: false, childLink: false, homeScreen: false } },
-  { label: 'Agreement done', flags: { agreement: true,  childLink: false, homeScreen: false } },
-  { label: 'Two done',    flags: { agreement: true,  childLink: true,  homeScreen: false } },
-  { label: 'All done',    flags: { agreement: true,  childLink: true,  homeScreen: true } },
+  { label: 'Fresh',    flags: { agreement: false, childLink: false, homeScreen: false, children: false } },
+  { label: 'One done', flags: { agreement: true,  childLink: false, homeScreen: false, children: false } },
+  { label: 'Three done', flags: { agreement: true, childLink: true, homeScreen: true, children: false } },
+  { label: 'All done', flags: { agreement: true,  childLink: true,  homeScreen: true,  children: true } },
 ]
 
 export default function SetupQuestDevPage() {
@@ -50,9 +50,9 @@ export default function SetupQuestDevPage() {
         <div style={{ marginBottom: '18px' }}>
           <p className="eyebrow" style={{ marginBottom: '4px' }}>Setting up</p>
           <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
-            {STATES[i].flags.homeScreen && STATES[i].flags.agreement && STATES[i].flags.childLink
+            {Object.values(STATES[i].flags).every(Boolean)
               ? 'Setup Quest'
-              : 'Three things and you are set'}
+              : 'Four things and you are set'}
           </h1>
         </div>
         <SetupQuest

@@ -126,10 +126,13 @@ export async function getTodayLoop(
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', dayStart).limit(1),
     supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', dayStart).limit(1),
     supabase.from('moment_completions').select('id').eq('user_id', userId).eq('completed_on', today).limit(1),
-    // Whether this family has ANY live concern at all. Nothing to check in on
-    // is not the same thing as having checked in, and only one of those two is
-    // worth a tick. See the comment where the step is built.
-    supabase.from('concerns').select('slug').eq('user_id', userId).in('status', ['open', 'improving']).limit(1),
+    // Whether this family has ANY live concern at all, AND WHOSE.
+    //
+    // Nothing to check in on is not the same thing as having checked in, and
+    // only one of those two is worth a tick. child_id joined the select on 15
+    // August 2026 so the rung can tell a family who have finished from a family
+    // who have finished ONE child. See the comment where the step is built.
+    supabase.from('concerns').select('child_id').eq('user_id', userId).in('status', ['open', 'improving']).limit(200),
     // The quests step decides between "set the first job" and "approve what is
     // waiting", so it needs both. Head counts, in the wave that was already
     // going, so this costs no extra round trip. The same two tables the nav
@@ -145,12 +148,24 @@ export async function getTodayLoop(
     //
     // A real answer with a real number on it, today. Nothing else counts, and
     // in particular OPENING the page counts for nothing.
+    //
+    // ── AND WHOSE, WHICH IS THE 15 AUGUST 2026 FIX ─────────────────────────
+    //
+    // Justin: "may be done for other child as this will need to be child by
+    // child". He was exactly right, and the live database said so: nine scored
+    // rows that morning, every one of them Teo's, and the rung read done for
+    // the whole family. Olga's worries were never going to be asked about.
+    //
+    // concern_events carries no child_id of its own, so whose a score is comes
+    // through the concern it scored. The inner join is what makes it a filter
+    // as well as a read: an event whose concern has been deleted cannot make a
+    // child look checked in.
     supabase.from('concern_events')
-      .select('id')
+      .select('id, concerns!inner(child_id)')
       .eq('user_id', userId)
       .not('score', 'is', null)
       .gte('created_at', dayStart)
-      .limit(1),
+      .limit(200),
     // The family agreement, for the weekly rung below. updated_at is what the
     // save route writes on every edit, so "looked at it this week" and "changed
     // it this week" are the same fact, which is the right one: an agreement
@@ -196,6 +211,38 @@ export async function getTodayLoop(
   // one of those two deserves a tick. So: no live concerns, no step.
   const hasLiveConcerns = (anyConcerns ?? []).length > 0
 
+  // ── THE CHECK IN IS PER CHILD (15 August 2026) ────────────────────────────
+  //
+  // Justin: the check in "will be showing as done when I log in at the moment
+  // although may be done for other child as this will need to be child by
+  // child".
+  //
+  // Two sets, and the rung is done only when the second covers the first: every
+  // child this family has a live worry about has a number against them TODAY.
+  // A family with one child behaves exactly as it always did, which is why this
+  // went unnoticed. A family with two did not: scoring Teo's nine worries
+  // ticked the rung and Olga was never asked.
+  //
+  // A null child_id is its own bucket rather than being dropped. Concerns
+  // predate migration 194 and the oldest rows have no child on them, and a
+  // worry we cannot attribute still has to be checked in on.
+  const CHILDLESS = '__no_child__'
+  const liveChildren = new Set(
+    (anyConcerns ?? []).map(c => ((c as { child_id?: string | null }).child_id ?? CHILDLESS)),
+  )
+  const scoredChildrenToday = new Set(
+    (scoredToday ?? []).map(e => {
+      // PostgREST returns an embedded to-one either as an object or, depending
+      // on how it infers the relationship, as a one element array.
+      const rel = (e as { concerns?: { child_id?: string | null } | { child_id?: string | null }[] }).concerns
+      const row = Array.isArray(rel) ? rel[0] : rel
+      return row?.child_id ?? CHILDLESS
+    }),
+  )
+  const everyChildCheckedIn =
+    scoredChildrenToday.size > 0
+    && [...liveChildren].every(id => scoredChildrenToday.has(id))
+
   // ── EXCEPT THE VERY FIRST ONE, WHICH IS THE BASELINE ──────────────────────
   //
   // Justin, 12 August 2026: "Should be first task, not sure why check in was
@@ -237,7 +284,9 @@ export async function getTodayLoop(
       // That row is written by /api/daily/concern-check, which is the endpoint
       // the five word scale posts to, so the tick and the record cannot
       // disagree and opening the page earns nothing.
-      done: (scoredToday ?? []).length > 0,
+      //
+      // AND EVERY CHILD, not just one of them. See everyChildCheckedIn above.
+      done: everyChildCheckedIn,
     }] : []),
     // ── SETUP, AND IT STAYS UNTIL IT IS ALL TICKED ─────────────────────────
     //
