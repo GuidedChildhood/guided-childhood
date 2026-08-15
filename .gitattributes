@@ -1,0 +1,23 @@
+# decisions.md conflicts on EVERY parallel session, and it never had to.
+#
+# It is an append only log. Two sessions on the same day both add an entry at
+# the end of the file, git sees two different additions starting on the same
+# line, and calls it a conflict. It is not one: CLAUDE.md already states the
+# resolution, "decisions.md is append only; on conflict keep both entries", and
+# every resolution any session has ever made has been exactly that.
+#
+# `merge=union` is git's built in driver for this. On a conflicting hunk it
+# keeps BOTH sides rather than stopping, which is the documented policy applied
+# automatically. It cost three hand resolutions on 14 and 15 August alone, and
+# on 13 August two sessions' commits were lost to a force push that started as
+# a decisions.md conflict.
+#
+# Union is only safe for a file where two additions never need reconciling, and
+# a dated append only log is the textbook case. It is deliberately NOT applied
+# to anything else: for code, a silent both-sides merge would be a disaster, so
+# every source file keeps the normal driver and its honest conflict.
+#
+# The order of the two entries after a union merge is not guaranteed to be
+# chronological, and that does not matter: every entry carries its own date in
+# its heading, which is what anybody reading the file goes by.
+plans/decisions.md merge=union

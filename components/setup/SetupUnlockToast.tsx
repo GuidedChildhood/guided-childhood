@@ -19,6 +19,7 @@ const UNLOCK_COPY: Record<keyof SetupFlags, string> = {
   agreement: 'Your family agreement is signed. It is what the stars buy, and Friday brings a quick check on how the week went against it.',
   childLink: 'That is their side sorted. Whether it is the code on their phone or the chart on the fridge, they can see what they have earned.',
   homeScreen: 'We are one tap away now, and the check ins can reach you at the hours screens turn up in your house.',
+  children: 'That is everybody in. Each child carries their own stage, their own worries and their own check in, so nothing about one of them is answered by the other.',
 }
 
 const STORAGE_KEY = 'gc_setup_flags_seen'

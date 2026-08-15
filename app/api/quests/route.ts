@@ -10,6 +10,7 @@ import { pushToChild } from '@/lib/quests/kid-push'
 import { scheduleLabel } from '@/lib/quests/due'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
+import { seedChildBaseline } from '@/lib/concerns/baseline'
 
 // The parent's quest manager API. GET returns everything the manager and
 // the board need in one call: children, their quests, today's ticks, the
@@ -163,6 +164,22 @@ export async function POST(req: NextRequest) {
       use_mode: useMode,
     }).select('id, name, age_band, use_mode').single()
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+    // GIVE THEM SOMETHING TO BE ASKED ABOUT (15 August 2026).
+    //
+    // A child added here used to arrive with no concerns of their own, and the
+    // family baseline only ever seeds a family with an empty ledger, so every
+    // child after the first was invisible to the check in for ever. On the live
+    // account that is exactly what had happened: 27 concerns, all Teo's, and
+    // Olga with none.
+    //
+    // Fire and forget. A child who is added is added; a baseline that failed to
+    // seed is a check in with one fewer row on it, and must never be the reason
+    // the parent sees an error after typing a name.
+    if (data?.id) {
+      await seedChildBaseline(supabase, user.id, data.id as string)
+        .catch(() => { /* the child still exists, which is the thing they asked for */ })
+    }
     return NextResponse.json({ child: data })
   }
 

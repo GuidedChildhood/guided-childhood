@@ -8059,3 +8059,50 @@ JP added the GoDaddy CNAME and the domain went green, so the launch lines flippe
 ## 2026-08-14 — The first invoice request could not be read: the grant 195 forgot
 
 The letterbox worked and the postman could not open it. /api/cron/invoice-requests returned 500 on its first run: migration 195 granted INSERT to anon so the school's form saved fine, but nothing granted the SERVICE ROLE anything on schools.invoice_requests, and the cron reads as the service role. Bypassing RLS is not the same as holding a table privilege. The eleven tables that moved into the schools schema in 177 were unaffected because a schema move carries grants with it; invoice_requests was born inside the new schema where Supabase's automatic public schema grants do not reach, so it started life with only what 195 named. Migration 196 grants the service role its four privileges on that table and, more importantly, sets default privileges in the schools schema so every future table there gets them without anyone remembering. Lesson for any new table created directly in a non public schema: name the service role grant in the same migration.
+
+## 15 August 2026 — The check in counted scores, not children
+
+Justin: the check in "will be showing as done when I log in at the moment
+although may be done for other child as this will need to be child by child so
+part of the set up list will need to have add other children."
+
+Right on all three counts, and the live database showed the whole of it rather
+than the half the code admitted to.
+
+THE RUNG ASKED "is there a scored concern_event today" with no child filter.
+That morning there were nine and every one was Teo's, so the rung read done for
+the family. A one child family behaves identically, which is why it survived.
+It now builds two sets, children with a live worry and children with a number
+today, and ticks only when the second covers the first. concern_events carries
+no child of its own, so whose a score is comes through the concern it scored.
+
+AND THE RUNG FIX ALONE WOULD HAVE CHANGED NOTHING FOR OLGA, which is the part
+only the database could tell us. She has no concerns at all; all 27 are Teo's.
+seedBaselineConcerns only runs for a family with an empty ledger, correctly, so
+every child after the first arrived with nothing to be asked about and was in
+neither set. seedChildBaseline asks the same question per child, and the add
+child route calls it. A new child starts on four common ones rather than on the
+first child's signup answers, because reusing those is the app putting words in
+a parent's mouth about somebody it never asked about.
+
+SO SETUP IS FOUR STEPS, not the three the plan wrote. "Add your other children"
+goes last, because it is a question about the household rather than the family.
+Two doors like the share step: add one, or say it is just the one. Without the
+second door a one child family sits at three of four for ever, told they are
+incomplete for having the family they have, which is the un-tickable step
+lib/handover/settled.ts exists to end. Migration 198, a timestamp not a boolean,
+because a boolean cannot tell a no from a not asked.
+
+## 15 August 2026 — is_primary is not unique, and nothing guaranteed it was
+
+getSetupState asked for the primary child with .eq('is_primary', true) and
+.maybeSingle(), which is what every caller in the product does. On the live
+account FOUR of five children carry the flag: Teo plus three test children all
+called Toon. PostgREST treats more than one row as a failure for single, so it
+returns an error and no row, and the new share step would have rendered "Add
+your child first" to a parent with five children on the account.
+
+There is no unique constraint and every path that adds a child can set the flag,
+so the read takes the list and picks the first, ordered primary then oldest,
+which is stable between loads rather than whatever the planner returns. The
+duplicate rows themselves are test data and are left alone.

@@ -420,6 +420,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     childLink: hasKidLink || handoverSettled,
     homeScreen: !!pushSubResult.data
       || !!(profile as { home_screen_at?: string | null } | null)?.home_screen_at,
+    // More than one child, or the parent has said there is only the one.
+    // See lib/setup/flags.ts, which is where this rule is explained.
+    children: (childResult.data ?? []).length > 1
+      || !!(profile as { only_one_child_at?: string | null } | null)?.only_one_child_at,
   }
 
   // DiGi brings a lesson to Home: one age relevant film the child has not

@@ -38,7 +38,7 @@ export type SetupState = {
 }
 
 export async function getSetupState(supabase: FlagClient, userId: string): Promise<SetupState> {
-  const [child, agreement, push, kidLinks, profile] = await Promise.all([
+  const [child, agreement, push, kidLinks, profile, childCount] = await Promise.all([
     // ── NOT maybeSingle ON is_primary, AND THE LIVE DATA IS WHY ──────────────
     //
     // The obvious read here is .eq('is_primary', true).maybeSingle(), and it is
@@ -59,7 +59,8 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     supabase.from('family_agreements').select('id').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('kid_links').select('child_id').eq('user_id', userId),
-    supabase.from('profiles').select('home_screen_at').eq('id', userId).maybeSingle(),
+    supabase.from('profiles').select('home_screen_at, only_one_child_at').eq('id', userId).maybeSingle(),
+    supabase.from('children').select('id', { count: 'exact', head: true }).eq('parent_id', userId),
   ])
 
   // HAS THIS FAMILY ALREADY SAID NO TO A CHILD DEVICE?
@@ -107,6 +108,20 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     // home_screen_at is written by the app being opened in standalone mode,
     // never by a parent tapping to say they did it. See migration 197.
     homeScreen: !!push.data || !!(profile.data as { home_screen_at?: string | null } | null)?.home_screen_at,
+
+    // DONE WHEN: there is more than one child, OR the parent said there is only
+    // the one.
+    //
+    // The same two door shape as the share step, for the same reason. Most
+    // families have one child, and a step that only a second child could tick
+    // would leave most of them permanently at three of four, told they are
+    // incomplete for having the family they have.
+    //
+    // only_one_child_at is a timestamp rather than a boolean so it can tell a
+    // no from a not asked, and so the answer can be revisited later. Migration
+    // 198.
+    children: (childCount.count ?? 0) > 1
+      || !!(profile.data as { only_one_child_at?: string | null } | null)?.only_one_child_at,
   }
 
   const steps = visibleSteps()

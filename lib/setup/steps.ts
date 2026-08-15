@@ -1,4 +1,4 @@
-// The Setup Quest: three steps, in one place, so the page, the floating next
+// The Setup Quest: four steps, in one place, so the page, the floating next
 // step bar and the rung on Today all read the same list in the same order.
 //
 // ── WHY THREE, WHEN IT WAS SEVEN (14 August 2026) ───────────────────────────
@@ -25,10 +25,21 @@
 // A step ticks from being DONE, never from being LOOKED at. See the completion
 // note against each flag in lib/setup/flags.ts, which is where the reads live.
 
+// ── AND THEN THERE WERE FOUR (15 August 2026) ───────────────────────────────
+//
+// Justin, having watched the check in read done for a child it had never asked
+// about: "this will need to be child by child so part of the set up list will
+// need to have add other children."
+//
+// It goes last on purpose. The first three are about the family and can be done
+// in any household; this one is about who else is IN the household, and asking
+// it first would make a one child family answer a question about a second child
+// before they had seen what the product does with the first.
 export type SetupFlags = {
   agreement: boolean
   childLink: boolean
   homeScreen: boolean
+  children: boolean
 }
 
 export type SetupStep = {
@@ -66,6 +77,12 @@ export const STEPS: SetupStep[] = [
     title: 'Put us on your home screen, and turn on reminders',
     what: 'One tap away instead of a tab you have to find, and a few gentle nudges at the hours screens turn up in your house.',
     href: '/dashboard/setup#home-screen',
+  },
+  {
+    key: 'children',
+    title: 'Add your other children',
+    what: 'Each child gets their own stage, their own worries and their own check in, so nothing about one of them is answered by the other. If it is just the one, say so and this is done.',
+    href: '/dashboard/setup#children',
   },
 ]
 
