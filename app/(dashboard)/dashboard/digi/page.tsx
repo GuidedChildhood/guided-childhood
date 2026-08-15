@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
-import { hasFullAccess } from '@/lib/access'
+import { inStarterTrial, isAllowlisted } from '@/lib/access'
+import { getTrialConfig } from '@/lib/config/trial'
 import { redirect } from 'next/navigation'
 import { getStageFromAgeBand, type AgeBand, STAGES } from '@/lib/content/stages'
 import DigiChat from './DigiChat'
@@ -60,7 +61,11 @@ export default async function DigiPage() {
       .maybeSingle(),
   ])
 
-  const isPaid = hasFullAccess(profileResult.data, user.email)
+  // The same question the route asks, asked the same way, so the badge in the
+  // header and the 429 can never disagree: is the trial running, and is this
+  // somebody the allowlist exempts. Null means no limit at all.
+  const capped = inStarterTrial(profileResult.data) && !isAllowlisted(user.email)
+  const dailyLimit = capped ? (await getTrialConfig()).digiDailyLimit : null
 
   const stage = childResult.data?.age_band
     ? getStageFromAgeBand(childResult.data.age_band as AgeBand)
@@ -109,7 +114,7 @@ export default async function DigiPage() {
     <DigiChat
       initialMessages={initialMessages}
       initialCount={initialCount}
-      isPaid={isPaid}
+      dailyLimit={dailyLimit}
       stagePrompts={stagePrompts}
       faqPrompts={faqPrompts}
       pendingReflection={pendingReflection}

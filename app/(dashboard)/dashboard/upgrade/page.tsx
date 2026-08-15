@@ -6,6 +6,7 @@ import WhatYouAreBuying from '@/components/upgrade/WhatYouAreBuying'
 import CheckoutError from '@/components/upgrade/CheckoutError'
 import { hasPaidPlan, inTrial, trialDaysLeft } from '@/lib/access'
 import { getPrintable } from '@/lib/printables/registry'
+import { getFounderCount, FOUNDER_CAP } from '@/lib/stripe'
 
 // What a parent calls the page they were heading for. Only the ones somebody
 // actually gets bounced off, in their words rather than the route's: nobody
@@ -38,19 +39,15 @@ function pageNameFor(path: string | undefined): string | null {
   return hit ? PAGE_NAMES[hit] : null
 }
 
-async function getFounderCount(): Promise<number> {
-  try {
-    const supabase = await createClient()
-    const { count } = await supabase
-      .from('profiles')
-      .select('id', { count: 'exact', head: true })
-      .eq('is_founder', true)
-      .eq('subscription_status', 'active')
-    return count ?? 0
-  } catch {
-    return 0
-  }
-}
+// The count comes from Stripe now, through lib/stripe, which is the same
+// source the checkout gate and the public counter read.
+//
+// It used to count profiles rows with is_founder and active, and that is a
+// different number. A founder inside their four free days reads 'active' here
+// only once the webhook has landed, and any row the webhook missed is a place
+// this page believes is still free while the checkout route, counting
+// subscriptions, refuses it. A counter that says 12 left and a button that
+// says sold out is worse than either answer on its own.
 
 export default async function UpgradePage(
   { searchParams }: { searchParams: Promise<{ sheet?: string; from?: string; error?: string }> },
@@ -72,7 +69,7 @@ export default async function UpgradePage(
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status, subscription_tier, is_founder, trial_ends_at')
+    .select('subscription_status, subscription_tier, is_founder, trial_ends_at, plan_choice')
     .eq('id', user.id)
     .single()
 
@@ -113,9 +110,25 @@ export default async function UpgradePage(
     )
   }
 
-  const founderCount = await getFounderCount()
-  const founderAvailable = founderCount < 50
-  const founderRemaining = 50 - founderCount
+  // ── PATH TWO NEVER SEES THE FOUNDER RATE ────────────────────────────────
+  //
+  // Justin, 14 August 2026, on the no card path: "When the 4 days end, the
+  // account locks to a subscribe screen offering the standard prices (£12.99
+  // monthly or £99 annual), NOT the founder rate. No founder place is held or
+  // counted for this path."
+  //
+  // Which is what makes the founder rate mean anything. It is claimed by
+  // putting a card down at sign up, that is the whole deal, and offering it
+  // again four days later to somebody who declined it would make the words
+  // "claimed at sign up" on the front page untrue and the counter meaningless.
+  //
+  // Only plan_choice 'free' is excluded, not everyone without a subscription.
+  // A parent who has not been asked yet, or who abandoned the card form, has
+  // taken nothing and is still owed the offer.
+  const declinedFounder = profile?.plan_choice === 'free'
+  const founderCount = declinedFounder ? FOUNDER_CAP : await getFounderCount().catch(() => 0)
+  const founderAvailable = !declinedFounder && founderCount < FOUNDER_CAP
+  const founderRemaining = Math.max(0, FOUNDER_CAP - founderCount)
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '32px 20px' }}>
@@ -234,7 +247,7 @@ export default async function UpgradePage(
               letterSpacing: '0.1em', textTransform: 'uppercase',
               padding: '6px 16px', borderRadius: '0 22px 0 14px',
             }}>
-              {founderRemaining} of 50 left
+              {founderRemaining} of {FOUNDER_CAP} left
             </div>
 
             <p className="eyebrow" style={{ color: 'var(--terracotta)', marginBottom: '10px' }}>Founder rate</p>

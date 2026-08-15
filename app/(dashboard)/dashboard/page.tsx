@@ -1026,6 +1026,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           trialEndsAt={(profile?.trial_ends_at as string | null) ?? null}
           ended={trialEnded}
           trialDays={TRIAL_DAYS}
+          planChoice={(profile?.plan_choice as string | null) ?? null}
           jobsTicked={(jtRes.data ?? []).filter(t => (t as { status?: string }).status === 'approved').length}
           streakCount={streak.count}
         />

@@ -12,14 +12,24 @@
 //
 // Changing this number changes the Stripe checkout's trial_period_days too, so
 // the card and the app can never disagree about when it runs out.
+//
+// IT IS THE FALLBACK NOW, not the only copy. The live number is
+// platform_config.trial_days, read by lib/config/trial.ts, because Justin
+// asked for the trial limits to be configurable rather than hardcoded. This
+// file stays pure and synchronous on purpose: the middleware and the .mjs
+// checks both import it, and neither can await a database. Everything here
+// reads a date that was already written, so only the routes that GRANT the
+// trial need the config value.
 export const TRIAL_DAYS = 4
 
 export type AccessProfile = {
   subscription_status?: string | null
   trial_ends_at?: string | null
-  /** Which door they took: 'founder', 'free', or null while still owed. */
+  /** Which path they took: 'founder', 'free', or null while still owed. */
   plan_choice?: string | null
-  /** Their first ever check in, which is what earns the right to ask. */
+  /** Setup finished, which is what makes the choice owed. */
+  onboarding_complete?: boolean | null
+  /** Their first ever check in. */
   first_checkin_at?: string | null
 }
 
@@ -153,25 +163,35 @@ export function trialEndsFromNow(): string {
   return new Date(Date.now() + TRIAL_DAYS * 86400000).toISOString()
 }
 
-// ── THE TWO DOORS ───────────────────────────────────────────────────────────
+// ── THE TWO PATHS, AT THE END OF SIGN UP ────────────────────────────────────
 //
-// Justin, 13 August 2026, on a platform where ten of eleven accounts read
-// 'free': "One block, shown AFTER the first check in, not at sign up. By then
-// they have given something and seen something back."
+// Justin, 14 August 2026: "At the end of sign up, the parent chooses one of
+// exactly two paths." The homepage says the same thing in the trial card:
+// "The founder rate is claimed at sign up, first 50 families only."
 //
-// The offer used to be the last screen of onboarding, and it was very nearly
-// unreachable. onboarding_complete is written four screens before it, at
-// personalisation, and the init guard sends anybody carrying that flag
-// straight to the dashboard. Any pause between DiGi's introduction and the
-// final tap, a reload, a phone locking, deleted the one screen that asks for
-// money, permanently, for that parent. A comment on that screen had already
-// diagnosed exactly this and the write was never moved.
+// It moved here from after the first check in, which is where it went on 13
+// August, which is itself where it went from the last screen of onboarding.
+// Three placements in three days is worth explaining, because the middle one
+// was a fix for a real bug and this must not undo it.
 //
-// So the ask moved instead of the write, which is the better answer anyway: a
-// parent mid wizard is getting through a wizard, not deciding anything.
+// THE BUG. The offer used to be a SCREEN INSIDE THE WIZARD, and
+// onboarding_complete is written four screens before it, at personalisation.
+// The init guard sends anybody carrying that flag straight to the dashboard.
+// So any pause between DiGi's introduction and the final tap, a reload, a
+// phone locking, deleted the one screen in the product that asks for money,
+// permanently, for that parent.
+//
+// WHAT ACTUALLY FIXED IT was not the timing. It was moving the offer OUT of
+// the wizard and onto its own route with the middleware in front of it, so a
+// parent who reloads, closes the tab or wanders off is put back on it. That
+// part is kept exactly as it is. Only the condition below changes: finishing
+// setup makes the choice owed, rather than the first check in.
+//
+// So the ask lands where the front page promised it, and it still cannot be
+// skipped by anything a browser does.
 
 /**
- * Is the two door block owed on this request?
+ * Is the two path block owed on this request?
  *
  * Deliberately pure and deliberately narrow: it never consults the allowlist
  * and never looks at the trial clock. Whether they may USE the product is
@@ -184,12 +204,43 @@ export function trialEndsFromNow(): string {
 export function needsPlanChoice(profile: AccessProfile | null | undefined): boolean {
   if (!profile) return false
   if (profile.plan_choice) return false
-  // Never checked in, never asked. There is nothing to have got value from
-  // yet, which is the entire argument for putting the block where it is.
-  if (!profile.first_checkin_at) return false
+  // Mid setup. A parent still answering questions about their child is not
+  // being asked for a card in the middle of it, and the wizard's own routes
+  // are not behind this gate anyway.
+  if (!profile.onboarding_complete) return false
   // Already paying, by any route. The question answers itself.
   if ((PAYING_STATUSES as readonly string[]).includes(profile.subscription_status ?? '')) return false
   return true
+}
+
+/**
+ * Are the four free days running right now?
+ *
+ * THE ONE RULE THE WHOLE TRIAL TURNS ON, and it is deliberately blind to which
+ * path they took. Justin, 14 August 2026: "The trial itself is identical: 4
+ * days inside the platform with DiGi on a daily limit and a starter set of
+ * scripts." Both paths, same four days, same limits.
+ *
+ * So the founder is limited too, and that is not an oversight. Their card is
+ * on file and their subscription_status reads 'active', because Stripe says
+ * trialing and ourStatusFor maps that to active so they are never locked out
+ * of days they were promised. But nothing has been charged yet, and the offer
+ * on the front page is the same offer for both.
+ *
+ * IT ENDS WHEN THE MONEY STARTS. The webhook writes trial_ends_at = now() the
+ * moment Stripe moves the subscription out of trialing, so the limits lift on
+ * the same event that takes the first payment rather than on a second clock
+ * that could disagree with it. That is also what stops a parent who pays
+ * outright, with no trial at all, from being handed a sample of a product
+ * they have just bought in full.
+ *
+ * The allowlist is not consulted here, because a caller asking about limits
+ * asks isAllowlisted separately. The founder must never be capped on his own
+ * product and that exemption belongs at the caller, said out loud.
+ */
+export function inStarterTrial(profile: AccessProfile | null | undefined): boolean {
+  if (!profile?.trial_ends_at) return false
+  return new Date(profile.trial_ends_at).getTime() > Date.now()
 }
 
 /**
@@ -203,13 +254,29 @@ export function needsPlanChoice(profile: AccessProfile | null | undefined): bool
  *
  * Floored at 1 rather than 0: Stripe rejects a zero day trial, and a parent
  * choosing founder in the last hours of their trial gets the rest of that day
- * free rather than an error at the card form. Capped at TRIAL_DAYS so no
+ * free rather than an error at the card form. Capped at the trial length so no
  * route can mint a longer trial than the product offers.
+ *
+ * Taken at the end of sign up, which is where the choice lives now, the clock
+ * has been running for seconds and this returns the full four. It still earns
+ * its keep for the parent who closes the tab on the choice screen and comes
+ * back on day three: the middleware puts the same choice back in front of
+ * them, and without this they would be handed four fresh days on top of the
+ * three they have already had.
+ *
+ * maxDays is injectable because the length is platform_config.trial_days now,
+ * and this file has to stay synchronous for the middleware and the .mjs
+ * checks. Callers that can await pass the configured value, everything else
+ * gets TRIAL_DAYS, and the two agree unless somebody has deliberately changed
+ * the offer.
  */
-export function trialDaysToGrant(profile: AccessProfile | null | undefined): number {
-  if (!profile?.trial_ends_at) return TRIAL_DAYS
+export function trialDaysToGrant(
+  profile: AccessProfile | null | undefined,
+  maxDays: number = TRIAL_DAYS,
+): number {
+  if (!profile?.trial_ends_at) return maxDays
   const days = Math.ceil((new Date(profile.trial_ends_at).getTime() - Date.now()) / 86400000)
-  return Math.min(TRIAL_DAYS, Math.max(1, days))
+  return Math.min(maxDays, Math.max(1, days))
 }
 
 // ── WHAT STAYS OPEN WHEN THE FOUR DAYS ARE UP ───────────────────────────────

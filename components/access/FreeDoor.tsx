@@ -3,13 +3,19 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-// Door two. No card, the same free days, and it says out loud what it costs.
+// Path two. No card, the same free days, and it says out loud what it costs.
 //
-// The DiGi limit is named here rather than discovered later. Three messages a
-// day is a real restriction and a parent who meets it without having been
-// told feels tricked, which is a worse outcome than the one it is trying to
-// cause. Said up front it does the honest version of the same job: it is a
-// reason to take the founder door, offered as information.
+// TWO THINGS ARE NAMED HERE RATHER THAN DISCOVERED LATER, and both are the
+// honest version of a sales argument.
+//
+// The prices, because this path does not hold a founder place and does not
+// count toward the fifty. A parent who takes it and finds £12.99 waiting on
+// day five was not told the truth on the screen where they decided.
+//
+// And the daily limit, which is said once under both cards now rather than
+// only under this one, because the four days are identical on both paths.
+// A restriction a parent meets without warning feels like a trick, which is a
+// worse outcome than the one it is trying to cause.
 
 export default function FreeDoor({
   days,
@@ -56,10 +62,10 @@ export default function FreeDoor({
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
         letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px',
       }}>
-        Option two · No card
+        Path two · No card
       </div>
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
-        The same {days} {days === 1 ? 'free day' : 'free days'}, nothing to enter. DiGi answers three times a day on this one. When the {trialDays} days are up the app closes until you join, at the standard rate.
+        The same {days} {days === 1 ? 'free day' : 'free days'}, nothing to enter and nothing taken. When the {trialDays} days are up the app closes until you join, at the standard rate: £12.99 a month or £99 a year. No founder place is held on this one.
       </p>
       {failed && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--danger)', lineHeight: 1.5, margin: '0 0 12px' }}>

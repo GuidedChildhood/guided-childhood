@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { trialEndsFromNow } from '@/lib/access'
+import { trialEndsAtFromNow } from '@/lib/config/trial'
 
 // Start the free trial, once, ever.
 //
@@ -52,9 +52,18 @@ export async function POST() {
   // NOT NULL with default 'free', checked against the live schema. If that
   // constraint is ever dropped, this needs to become an explicit
   // "is null or neq active" or the trial silently stops being granted.
+  // THE LENGTH COMES FROM THE DATABASE NOW (platform_config.trial_days, via
+  // migration 199), because Justin asked for the trial limits to be
+  // configurable rather than hardcoded. The start is recorded alongside the
+  // end: the day 3 pre charge email is timed from the start, so deriving it
+  // backwards would bake the trial length into a cron and quietly move a
+  // legally required reminder the day somebody changes the number.
   const { data, error } = await admin
     .from('profiles')
-    .update({ trial_ends_at: trialEndsFromNow() })
+    .update({
+      trial_ends_at: await trialEndsAtFromNow(),
+      trial_started_at: new Date().toISOString(),
+    })
     .eq('id', user.id)
     .is('trial_ends_at', null)
     .neq('subscription_status', 'active')
