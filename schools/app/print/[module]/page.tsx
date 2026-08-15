@@ -142,7 +142,43 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         ))}
       </section>
 
-      {/* Page 4: retrieval + exit cards (photocopy per pupil, cut in half) */}
+      {/* Page 4: the answer key (teacher copy, one only, never photocopied) */}
+      {/*
+        The expected verdict and the teaching point have been authored on every
+        worksheet item since the lessons were written, and until now both were
+        read out of the database and thrown away. So a teacher stood over a
+        child who had circled the wrong answer had nothing to say next except
+        what they could invent on the spot.
+
+        The teaching point matters more than the verdict here, which is why it
+        gets the weight on the page. Knowing item 4 is "ask a grown up" is
+        almost useless on its own; knowing WHY (our eyes cannot tell, so we
+        ask) is the whole lesson, and it is the sentence to say out loud.
+      */}
+      {items.length > 0 && (
+        <section style={page}>
+          <div style={mono}>Teacher copy · one only · do not photocopy</div>
+          <h2 style={h2}>Answer key: {worksheetTitle}</h2>
+          <p style={body}>
+            Keep this beside you while they work. The line under each answer is what to say
+            when a child has it the other way round, and it is worth saying even when they
+            have it right.
+          </p>
+          {items.map(it => (
+            <div key={it.n} style={box}>
+              <p style={{ ...body, fontWeight: 700 }}>
+                {it.n}. {it.item}
+              </p>
+              <p style={{ ...body, marginTop: '6px', fontWeight: 700, color: 'var(--green-dark)' }}>
+                Answer: {it.expected_verdict}
+              </p>
+              <p style={{ ...body, marginTop: '4px' }}>{it.teaching_point}</p>
+            </div>
+          ))}
+        </section>
+      )}
+
+      {/* Page 5: retrieval + exit cards (photocopy per pupil, cut in half) */}
       <section style={page}>
         <div style={mono}>Photocopy per pupil · cut in half · Start and end of lesson</div>
         {retrieval && (

@@ -16,30 +16,47 @@
 //  - `diagram`: an animated flow diagram built from steps, no images needed
 //  - `digi`: the animated DiGi closing, the star speaking the lesson home
 
-// The five phases of the 60 minute arc. Shown as the phase strip in the
-// player so the lesson's shape is visible at a glance (Oak convention:
-// starter quiz, exposition cycles, practice, exit quiz).
-export type LessonPhase = 'starter' | 'teach' | 'practise' | 'prove' | 'close'
+// The six phases of a lesson, always in this order, rendered as the phase
+// strip across the top of the player (plans/lesson-standard-plan.md).
+//
+// Five of them are Rosenshine: retrieval, small steps, guided then
+// independent practice, checking for understanding. `connect` is the sixth
+// and it is borrowed from Jigsaw, who put Connect us and Calm me before any
+// content. Rosenshine has nothing to say about that because Rosenshine is
+// about explicit instruction of academic material, and our subject is one
+// where children are asked to talk about themselves. A class that has not
+// settled cannot safely be asked whether anything frightening happened on a
+// screen this week, so the settle is part of the teaching, not a warm up to
+// it.
+//
+// `connect` was added last, on purpose, at the FRONT of the order rather
+// than by renumbering: every existing slide keeps the phase it already had,
+// and nothing in the twenty one live lessons needed rewriting.
+export type LessonPhase = 'connect' | 'starter' | 'teach' | 'practise' | 'prove' | 'close'
 
+// What a teacher and an observing head see on the strip.
 export const PHASE_LABELS: Record<LessonPhase, string> = {
-  starter: 'Starter',
+  connect: 'Connect',
+  starter: 'Recall',
   teach: 'Teach',
   practise: 'Practise',
-  prove: 'Prove it',
-  close: 'Close',
+  prove: 'Prove',
+  close: 'Reflect',
 }
 
-export const PHASE_ORDER: LessonPhase[] = ['starter', 'teach', 'practise', 'prove', 'close']
+export const PHASE_ORDER: LessonPhase[] = ['connect', 'starter', 'teach', 'practise', 'prove', 'close']
 
-// The same phases wearing Rosenshine openly: the starter is retrieval
-// practice by design, and the player says so. Shown as the quiet mono phase
-// label on every slide in the cinematic player.
+// The same phases wearing Rosenshine openly, for the quiet mono label on an
+// individual slide. `starter` says Retrieval here rather than Recall because
+// this is the label aimed at the adult who knows the literature, and
+// retrieval practice is the term they will be looking for.
 export const ROSENSHINE_LABELS: Record<LessonPhase, string> = {
+  connect: 'Connect',
   starter: 'Retrieval',
   teach: 'Teach',
   practise: 'Practise',
   prove: 'Prove',
-  close: 'Close',
+  close: 'Reflect',
 }
 
 type SlideBase = {
