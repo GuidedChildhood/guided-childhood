@@ -3,9 +3,10 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-// The public nav: the whole product is an open catalogue, so the nav is
-// four doors and no account button. Print hidden, like the educator nav
-// it replaces.
+// Five doors and no account button, because a school code is a door and not
+// an identity: once a teacher is through the gate there is nobody to be
+// signed in AS, and nothing to sign out of. Home and Pricing answer without
+// the code; the other three send a stranger to /unlock.
 const LINKS = [
   { href: '/', label: 'Home' },
   { href: '/curriculum', label: 'Curriculum' },

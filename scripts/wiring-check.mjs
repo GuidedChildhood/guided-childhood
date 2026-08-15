@@ -435,6 +435,43 @@ function checkProductBoundary() {
   }
 }
 
+// ── 8. The schools app reads the schools schema ──────────────────────
+//
+// Migration 177 moved school_lessons out of public and into the schools
+// schema, and the schools app's only Supabase client was not told. Every
+// content page then queried a table that was not there any more, so the
+// site launched on 14 August with an empty catalogue while the invoice
+// form kept working, because pricing/actions.ts is the one caller that
+// names .schema('schools') by hand. Nothing failed loudly: PostgREST
+// answers a missing relation with an error the pages were discarding.
+//
+// Two static facts stop it happening again. The client must set the
+// default schema, and no page may query a table without one of the two
+// being true.
+
+function checkSchoolsSchema() {
+  const clientPath = join(ROOT, 'schools', 'lib', 'supabase', 'anon.ts')
+  const client = read(clientPath)
+  const hasDefault = /db:\s*\{[^}]*schema:\s*['"]schools['"]/.test(client)
+  if (!hasDefault) {
+    errors.push(
+      `schools/lib/supabase/anon.ts does not set db.schema to "schools", so every ` +
+      `unqualified .from() reads the public schema, where the lesson content no ` +
+      `longer lives (migration 177)`,
+    )
+  }
+  // Belt and braces: if the default ever comes off, name every page that
+  // was relying on it rather than making someone grep for them.
+  if (!hasDefault) {
+    for (const f of walk(join(ROOT, 'schools'))) {
+      const src = read(f)
+      if (/\.from\(['"][a-z_]+['"]\)/.test(src) && !/\.schema\(['"]schools['"]\)/.test(src)) {
+        errors.push(`${rel(f)} queries a table with no schema, and the client has no default`)
+      }
+    }
+  }
+}
+
 checkDeadLinks()
 checkOrphanComponents()
 checkUnwritableSteps()
@@ -442,6 +479,7 @@ checkWeekWindows()
 checkMigrationNumbers()
 checkSmallPrint()
 checkProductBoundary()
+checkSchoolsSchema()
 
 const line = '─'.repeat(64)
 

@@ -8106,3 +8106,46 @@ There is no unique constraint and every path that adds a child can set the flag,
 so the read takes the list and picks the first, ordered primary then oldest,
 which is stable between loads rather than whatever the planner returns. The
 duplicate rows themselves are test data and are left alone.
+---
+
+## 2026-08-15 — Two bugs and a reversal: the schools content was invisible, and now it is behind a code
+
+**The bug.** Every content page on the schools site was empty from the moment it
+launched. Migration 177 moved school_lessons out of public and into the schools
+schema at the cutover, and schools/lib/supabase/anon.ts was never told, so twelve
+pages were querying a table that was not there any more: /curriculum showed zero
+modules, /print was empty, /teach and /class returned 404, and four Hub pages
+rendered without their vocabulary, DSL notes and family questions. The invoice
+form kept working throughout, which is what disguised it, because pricing/actions.ts
+is the single caller that spells out .schema('schools') by hand. Nothing failed
+loudly: PostgREST answers a missing relation with an error, and the pages were
+discarding the error and rendering the empty state.
+
+The fix is one line, db: { schema: 'schools' } on the client, which corrects all
+twelve call sites at once; an explicit .schema() on a query still wins, so the
+invoice insert is untouched. Wiring check 8 now fails the build if that default
+ever comes off, and names every page relying on it. **The lesson is the one from
+196 repeated: a schema move is invisible to application code, so the client and
+the migration have to move in the same commit.**
+
+**The reversal.** Justin, 15 August: "make sure when all lessons are available
+they are behind a log in as dont want people seeing it for free." So the Oak style
+open catalogue we launched with on 14 August is over, one day old. The line he
+chose is the strict one: only the home page and /pricing answer to the world.
+/curriculum, /hub/*, /teach/*, /class/* and /print/* now need a school access
+code. This costs us the SEO on the Hub, which was the strongest reason a head
+teacher landed on the site, and that trade was made with the tradeoff named.
+
+**Why a code and not a login.** A code is a door, not an identity. It needs no
+email, no name and no row in any table, so the schools app still holds no session
+and no personal data of any kind, and the product boundary (wiring check 7) is
+untouched. It ships in hours rather than days, which matters with the site already
+live and broken. Real teacher accounts are the next thing built, in the staffroom,
+where they buy what a door cannot: a register, marking and a report. When they
+land this gate stays as the outer door and nothing here is unpicked.
+
+Codes are config, never hardcoded: SCHOOLS_ACCESS_CODES (comma separated, one per
+school or one per pilot cohort) and SCHOOLS_ACCESS_SECRET. Verification re-checks
+the code against the current list on every request, so removing a code locks that
+school out immediately rather than whenever its cookie happens to lapse. The gate
+fails CLOSED: an unconfigured deploy locks the content instead of leaking it.
