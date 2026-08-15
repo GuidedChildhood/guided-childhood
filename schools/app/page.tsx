@@ -370,7 +370,7 @@ export default function SchoolsPage() {
               See what is included and request an invoice
             </Link>
             <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>
-              Every band includes everything · the open catalogue stays free for any teacher
+              Every band includes everything · one code opens it for your whole staff room
             </p>
           </div>
         </div>

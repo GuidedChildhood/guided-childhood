@@ -3,11 +3,12 @@ import { notFound } from 'next/navigation'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { parseSlides } from '@gc/shared/lesson-slides'
 
-// The teach route: any live module, played full screen for the classroom,
-// no login (the Oak model: an open catalogue a teacher can walk into and
-// teach from today). Teacher script panel available on every slide. The
-// player gets completeEndpoint null because this app has no API surface
-// and an open lesson has nobody to record a completion for.
+// The teach route: any live module, played full screen for the classroom.
+// Behind the school code (proxy.ts). Teacher script panel available on every
+// slide. The player gets completeEndpoint null because this app has no API
+// surface and a code tells us the school, never the teacher, so there is
+// nobody to record a completion against. That changes when the staffroom
+// lands and a lesson is played inside a delivery.
 
 export const revalidate = 3600
 

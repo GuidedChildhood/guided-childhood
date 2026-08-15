@@ -26,11 +26,12 @@ export const metadata: Metadata = {
     template: '%s | Guided Childhood Schools',
   },
   description:
-    'A complete digital literacy scheme of work for UK schools, Reception to Year 13, built on the Education for a Connected World framework and the 2025 RSHE guidance. Open catalogue, zero prep lessons, no login.',
-  // PRE LAUNCH: the site serves from its vercel.app address while the whole
-  // platform is built, and Google must not index that interim URL. Flip to
-  // index true in the same commit that attaches schools.guidedchildhood.com.
-  robots: { index: false, follow: false },
+    'A complete digital literacy scheme of work for UK schools, Reception to Year 13, built on the Education for a Connected World framework and the 2025 RSHE guidance. Twenty one modules, zero prep, one licence for the whole school.',
+  // Launched 14 August 2026 on schools.guidedchildhood.com: indexable. Only
+  // the home page and pricing are reachable without a school code, and those
+  // are the two we want indexed; everything else redirects to /unlock, which
+  // sets noindex on itself, so crawlers never reach the gated content.
+  robots: { index: true, follow: true },
 }
 
 export const viewport: Viewport = {

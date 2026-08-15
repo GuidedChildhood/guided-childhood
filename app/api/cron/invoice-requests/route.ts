@@ -33,6 +33,20 @@ async function handler(request: Request) {
     return NextResponse.json({ error: 'Not authorised' }, { status: 401 })
   }
 
+  // BOTH parent Vercel projects build from this repo's vercel.json, so both
+  // register this cron, and only the app project carries service keys. The
+  // marketing project was throwing an opaque 500 here every hour (the log
+  // tell is a 500 with no outgoing requests: createAdminClient throws before
+  // it can reach Supabase). Say so plainly instead, and let the project that
+  // can actually do the work do it.
+  const configured = Boolean(
+    (process.env.SUPABASE_SERVICE_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY) &&
+    process.env.NEXT_PUBLIC_SUPABASE_URL
+  )
+  if (!configured) {
+    return NextResponse.json({ ok: true, skipped: 'no service key on this project' })
+  }
+
   const supabase = createAdminClient()
   const { data: requests, error } = await supabase
     .schema('schools')

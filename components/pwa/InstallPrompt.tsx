@@ -31,6 +31,8 @@ import { useEffect, useState } from 'react'
 
 const DONE_KEY = 'gc_install_done'
 const FIRST_SEEN_KEY = 'gc_app_first_seen'
+/** The server has been told this browser runs standalone. See the ping below. */
+const TOLD_KEY = 'gc_home_screen_told'
 
 type BeforeInstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> }
 
@@ -54,7 +56,26 @@ export default function InstallPrompt() {
       getInstalledRelatedApps?: () => Promise<unknown[]>
     }
     const standalone = window.matchMedia('(display-mode: standalone)').matches || nav.standalone === true
-    if (standalone) { localStorage.setItem(DONE_KEY, '1'); return }
+    if (standalone) {
+      localStorage.setItem(DONE_KEY, '1')
+      // AND TELL THE SERVER, ONCE PER BROWSER.
+      //
+      // Standalone is the browser saying the app is on a home screen and was
+      // launched from there, which is the only honest proof we can get that the
+      // third Setup Quest step actually happened. localStorage cannot carry it:
+      // a flag has to be readable on the server, has to survive a cleared
+      // browser, and has to be the same answer on the phone and the laptop.
+      //
+      // Guarded by its own key rather than DONE_KEY, because DONE_KEY also
+      // means "they dismissed the banner", and dismissing is not installing.
+      // Fire and forget: the route is idempotent, and a failed ping costs a
+      // tick that the reminders half of the step will earn anyway.
+      if (localStorage.getItem(TOLD_KEY) !== '1') {
+        localStorage.setItem(TOLD_KEY, '1')
+        fetch('/api/setup/home-screen', { method: 'POST' }).catch(() => { /* next open */ })
+      }
+      return
+    }
     if (localStorage.getItem(DONE_KEY) === '1') return
 
     // Already installed, but being read in a browser tab. Chrome only. Fires

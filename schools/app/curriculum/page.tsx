@@ -2,10 +2,11 @@ import { anon as supabase } from '@/lib/supabase/anon'
 import Link from 'next/link'
 import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
-// THE CURRICULUM MAP, open catalogue edition (the Oak model): the whole
-// programme, Reception to Year 13, as character colour coded module cards,
-// no login anywhere. The coverage rings from the educator workspace do not
-// exist here because this page has no idea who is looking, on purpose.
+// THE CURRICULUM MAP: the whole programme, Reception to Year 13, as
+// character colour coded module cards. Behind the school code (proxy.ts), so
+// only a licensed school sees it, but still anonymous once inside: the
+// coverage rings from the old educator workspace do not exist here because a
+// code is a door, not an identity, and this page has no idea who is looking.
 
 export const revalidate = 3600
 
@@ -31,7 +32,7 @@ export default async function CurriculumMapPage() {
         </h1>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '640px', marginBottom: '10px' }}>
           Twenty one modules covering all eight Education for a Connected World strands, taught by the DiGi Squad.
-          Open the catalogue, pick a module, teach it today. No account, no download wall, no prep.
+          Pick a module and teach it today. No download wall, no prep, nothing to book.
         </p>
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', marginBottom: '34px' }}>
           {liveCount} of {CURRICULUM.length} modules live in the pilot · the rest are in production

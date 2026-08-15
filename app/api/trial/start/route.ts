@@ -53,7 +53,7 @@ export async function POST() {
   // constraint is ever dropped, this needs to become an explicit
   // "is null or neq active" or the trial silently stops being granted.
   // THE LENGTH COMES FROM THE DATABASE NOW (platform_config.trial_days, via
-  // migration 196), because Justin asked for the trial limits to be
+  // migration 199), because Justin asked for the trial limits to be
   // configurable rather than hardcoded. The start is recorded alongside the
   // end: the day 3 pre charge email is timed from the start, so deriving it
   // backwards would bake the trial length into a cron and quietly move a

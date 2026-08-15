@@ -109,7 +109,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // server, which is the whole of "opening the app seems a little slow".
   // Same reads, same order of meaning, one round trip of latency.
   const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, liveConcernsResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
-    supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes, first_checkin_at, plan_choice').eq('id', user.id).maybeSingle(),
+    supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes, first_checkin_at, plan_choice, home_screen_at').eq('id', user.id).maybeSingle(),
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     // moment_feedback rides along so the day timeline on Home knows what has
     // already been flagged today, from here or from the deck. One extra column
@@ -372,15 +372,18 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     .sort((a, b) => String(b ?? '').localeCompare(String(a ?? '')))[0] ?? null
   const childApp = linkHealth(childLastSeen)
   const childAppDays = daysSinceSeen(childLastSeen)
-  const setupFlags = {
-    agreement: !!agreementResult.data,
-    quests: (questsCountResult.count ?? 0) > 0,
-    school: hasSchoolConnection || !!anySchoolActionResult.data,
-    push: !!pushSubResult.data,
-    daily: !!anySessionResult.data,
-    childLink: hasKidLink,
-    birthday: allBirthdaysIn(birthdays),
-  }
+  // THE SETUP QUEST IS THREE, AND THESE ARE ITS FLAGS.
+  //
+  // Cut from seven on 14 August 2026, per plans/setup-quest-three-steps.md.
+  // The four that went are still read on this page under their own names
+  // (hasKidLink, hasSchoolConnection and the rest below), because Home has
+  // always had its own uses for them. What they stopped being is setup.
+  //
+  // childLink counts the "no phone, keep it on the fridge" answer as done
+  // rather than as a step to hide. See lib/setup/flags.ts.
+  // The flags themselves are built below, once handoverSettled is known: the
+  // share step now READS that answer as a completion, so it cannot be computed
+  // before it.
 
   // HAS THIS FAMILY ALREADY SAID NO TO A CHILD DEVICE?
   //
@@ -401,6 +404,27 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   } catch { /* keep offering, exactly as before */ }
   const handoverSettled = familyHandoverSettled
     || ((handoverResult.data as { handover_choice?: string | null } | null)?.handover_choice ?? null) === 'paper'
+
+  // THE SETUP QUEST IS THREE, AND THESE ARE ITS FLAGS.
+  //
+  // Cut from seven on 14 August 2026, per plans/setup-quest-three-steps.md.
+  // The four that went are still read on this page under their own names
+  // (hasKidLink, hasSchoolConnection, pushSubResult and the rest), because Home
+  // has always had its own uses for them. What they stopped being is setup.
+  //
+  // childLink counts "no phone, keep it on the fridge" as DONE rather than as a
+  // step to hide, which is why this sits below the handover read rather than
+  // above it. See lib/setup/flags.ts for the reasoning on each of the three.
+  const setupFlags = {
+    agreement: !!agreementResult.data,
+    childLink: hasKidLink || handoverSettled,
+    homeScreen: !!pushSubResult.data
+      || !!(profile as { home_screen_at?: string | null } | null)?.home_screen_at,
+    // More than one child, or the parent has said there is only the one.
+    // See lib/setup/flags.ts, which is where this rule is explained.
+    children: (childResult.data ?? []).length > 1
+      || !!(profile as { only_one_child_at?: string | null } | null)?.only_one_child_at,
+  }
 
   // DiGi brings a lesson to Home: one age relevant film the child has not
   // watched yet, offered with the same two choices as the hub (watch together
@@ -447,7 +471,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // up on Home. The last of those was the widest hole in the product: it had
   // no age gate at all, so a family with a co-viewing five year old could be
   // shown "Their own side of it" on their own front page.
-  const setupSteps = visibleSetupSteps(phoneAge, handoverSettled)
+  const setupSteps = visibleSetupSteps()
   const currentSetupStep = setupSteps.find(s => !setupFlags[s.key])?.key ?? null
   const setupComplete = currentSetupStep === null
 
@@ -622,9 +646,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // only condition was the absence of a kid_links row, with no age gate at
     // all, so DiGi could flash "Their own side of it" onto the Home page of a
     // family with a co-viewing five year old.
-    hasKidLink: setupFlags.childLink || handoverSettled,
-    hasJobs: setupFlags.quests,
-    hasPush: setupFlags.push,
+    hasKidLink: setupFlags.childLink,
+    // Read straight from their own queries rather than through setupFlags,
+    // which is three keys now. Jobs and reminders are still things this deck
+    // needs to know about, they are simply no longer setup steps.
+    hasJobs: (questsCountResult.count ?? 0) > 0,
+    hasPush: !!pushSubResult.data,
     hasCheckin: !!lastCheckin,
     hasReadScript: !!lastCompletion,
     hasDoneLesson: stagePassed.size > 0,
@@ -1340,9 +1367,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           schoolBlock above for the whole reasoning. */}
       {!schoolOnTop && schoolBlock}
 
-      {/* School email promo: only when school is the current setup step, or
-          once the core setup is complete, so it waits its turn like the rest. */}
-      {!hasSchoolConnection && (currentSetupStep === 'school' || setupComplete) && <SchoolPromoCard />}
+      {/* School email promo, once the Setup Quest is behind them.
+          It used to also appear while school was the CURRENT setup step. School
+          stopped being a setup step on 14 August 2026 and became a rotation item
+          under Today, so the only condition left is the one that always did the
+          real work: do not put this in front of a family who are still setting
+          up. */}
+      {!hasSchoolConnection && setupComplete && <SchoolPromoCard />}
 
       {/* Moment cards section */}
       {todayMoments.length > 0 && (

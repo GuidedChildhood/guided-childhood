@@ -8007,6 +8007,149 @@ morning, removed the six planet coins from Home quoting those exact words. The
 rotating PlanetCard under the stages road is the other surface and is still
 there. Whether that one goes too is Justin's call, not a guess worth making.
 
+## 14 August 2026 — The moment card drew from a pool that was always empty
+
+Justin asked how Today chooses the moment. Two faults, and the second one only
+showed up because the live database was queried rather than the code read.
+
+THE POOL WAS EMPTY, FOR EVERY FAMILY, SINCE IT WAS WRITTEN. The query filtered
+on `category = 'daily-moments'` and there is no such category: the scripts in
+the 1301 to 1399 band are filed under everyday-routines, screen-time, gaming,
+family-rules, school-and-ai, staying-safe, mood-confidence and social-media.
+Zero rows, every stage, every day. Nothing failed loudly, which is why it
+survived: the pool came back empty, momentScript stayed null and the card was
+skipped, so the deck ran one card short for its whole life. The sort_order band
+IS the daily moments set and is what the comment always meant.
+
+THE SELECTION WAS THE CALENDAR. Moments flagged yesterday, otherwise
+`pool[dayIndex % pool.length]`. That fallback fires on every day a parent did
+not log something the day before, which is most days.
+
+Four sources now, all about the family: yesterday, then their live worries most
+recently raised first, then what they ticked at signup off onboarding_answers,
+then the calendar last. The eyebrow names which, because "because you flagged
+this yesterday" over a card picked by the date is the product bluffing. Nothing
+raised at all means the card says so and sends them to the timeline.
+
+MATCHING IS ORDERED, NOT ANY-OF, and the live data is what proved it had to be.
+"Bedtime battle" was landing on "Homework Every Night is a Battle" because the
+specific word missed and the generic one decided. Keywords are tried in order
+and the first that hits wins. Verb fragments are stopwords too: "Coming off a
+device" was landing on "When Group Chat Drama COMEs Home".
+
+## 14 August 2026 — One resting rule, shared by the check in and the moments
+
+Justin: "when they say issue is doing great it also drops off from moments."
+
+lib/concerns/resting.ts is the only copy. A worry rests when the last number was
+the top band and nothing has raised it since, and the way back needs no column
+of its own because raising it as a moment, through DiGi or through Right now all
+write last_flagged_at. Two copies of this would drift, and the day they drifted
+the check in would congratulate a family on something the deck was still
+worrying about.
+
+---
+
+## 2026-08-14 — Schools is LIVE on schools.guidedchildhood.com
+
+JP added the GoDaddy CNAME and the domain went green, so the launch lines flipped the same hour: the parent app's /schools, /educator and /class redirects now point at https://schools.guidedchildhood.com permanently (308s, so search engines move their index for good), and the schools site's robots flipped to index. SCHOOLS_SITE_URL stays as a preview escape hatch that production never needs. The schools product is now fully public: open catalogue, teach, print room, the Hub, five band pricing and the invoice request form, on its own domain, its own Vercel project and its own schema, where a bad parents deploy cannot touch it. From first audit to public launch: the split ran 9 to 14 August.
+
+---
+
+## 2026-08-14 — The first invoice request could not be read: the grant 195 forgot
+
+The letterbox worked and the postman could not open it. /api/cron/invoice-requests returned 500 on its first run: migration 195 granted INSERT to anon so the school's form saved fine, but nothing granted the SERVICE ROLE anything on schools.invoice_requests, and the cron reads as the service role. Bypassing RLS is not the same as holding a table privilege. The eleven tables that moved into the schools schema in 177 were unaffected because a schema move carries grants with it; invoice_requests was born inside the new schema where Supabase's automatic public schema grants do not reach, so it started life with only what 195 named. Migration 196 grants the service role its four privileges on that table and, more importantly, sets default privileges in the schools schema so every future table there gets them without anyone remembering. Lesson for any new table created directly in a non public schema: name the service role grant in the same migration.
+
+## 15 August 2026 — The check in counted scores, not children
+
+Justin: the check in "will be showing as done when I log in at the moment
+although may be done for other child as this will need to be child by child so
+part of the set up list will need to have add other children."
+
+Right on all three counts, and the live database showed the whole of it rather
+than the half the code admitted to.
+
+THE RUNG ASKED "is there a scored concern_event today" with no child filter.
+That morning there were nine and every one was Teo's, so the rung read done for
+the family. A one child family behaves identically, which is why it survived.
+It now builds two sets, children with a live worry and children with a number
+today, and ticks only when the second covers the first. concern_events carries
+no child of its own, so whose a score is comes through the concern it scored.
+
+AND THE RUNG FIX ALONE WOULD HAVE CHANGED NOTHING FOR OLGA, which is the part
+only the database could tell us. She has no concerns at all; all 27 are Teo's.
+seedBaselineConcerns only runs for a family with an empty ledger, correctly, so
+every child after the first arrived with nothing to be asked about and was in
+neither set. seedChildBaseline asks the same question per child, and the add
+child route calls it. A new child starts on four common ones rather than on the
+first child's signup answers, because reusing those is the app putting words in
+a parent's mouth about somebody it never asked about.
+
+SO SETUP IS FOUR STEPS, not the three the plan wrote. "Add your other children"
+goes last, because it is a question about the household rather than the family.
+Two doors like the share step: add one, or say it is just the one. Without the
+second door a one child family sits at three of four for ever, told they are
+incomplete for having the family they have, which is the un-tickable step
+lib/handover/settled.ts exists to end. Migration 198, a timestamp not a boolean,
+because a boolean cannot tell a no from a not asked.
+
+## 15 August 2026 — is_primary is not unique, and nothing guaranteed it was
+
+getSetupState asked for the primary child with .eq('is_primary', true) and
+.maybeSingle(), which is what every caller in the product does. On the live
+account FOUR of five children carry the flag: Teo plus three test children all
+called Toon. PostgREST treats more than one row as a failure for single, so it
+returns an error and no row, and the new share step would have rendered "Add
+your child first" to a parent with five children on the account.
+
+There is no unique constraint and every path that adds a child can set the flag,
+so the read takes the list and picks the first, ordered primary then oldest,
+which is stable between loads rather than whatever the planner returns. The
+duplicate rows themselves are test data and are left alone.
+---
+
+## 2026-08-15 — Two bugs and a reversal: the schools content was invisible, and now it is behind a code
+
+**The bug.** Every content page on the schools site was empty from the moment it
+launched. Migration 177 moved school_lessons out of public and into the schools
+schema at the cutover, and schools/lib/supabase/anon.ts was never told, so twelve
+pages were querying a table that was not there any more: /curriculum showed zero
+modules, /print was empty, /teach and /class returned 404, and four Hub pages
+rendered without their vocabulary, DSL notes and family questions. The invoice
+form kept working throughout, which is what disguised it, because pricing/actions.ts
+is the single caller that spells out .schema('schools') by hand. Nothing failed
+loudly: PostgREST answers a missing relation with an error, and the pages were
+discarding the error and rendering the empty state.
+
+The fix is one line, db: { schema: 'schools' } on the client, which corrects all
+twelve call sites at once; an explicit .schema() on a query still wins, so the
+invoice insert is untouched. Wiring check 8 now fails the build if that default
+ever comes off, and names every page relying on it. **The lesson is the one from
+196 repeated: a schema move is invisible to application code, so the client and
+the migration have to move in the same commit.**
+
+**The reversal.** Justin, 15 August: "make sure when all lessons are available
+they are behind a log in as dont want people seeing it for free." So the Oak style
+open catalogue we launched with on 14 August is over, one day old. The line he
+chose is the strict one: only the home page and /pricing answer to the world.
+/curriculum, /hub/*, /teach/*, /class/* and /print/* now need a school access
+code. This costs us the SEO on the Hub, which was the strongest reason a head
+teacher landed on the site, and that trade was made with the tradeoff named.
+
+**Why a code and not a login.** A code is a door, not an identity. It needs no
+email, no name and no row in any table, so the schools app still holds no session
+and no personal data of any kind, and the product boundary (wiring check 7) is
+untouched. It ships in hours rather than days, which matters with the site already
+live and broken. Real teacher accounts are the next thing built, in the staffroom,
+where they buy what a door cannot: a register, marking and a report. When they
+land this gate stays as the outer door and nothing here is unpicked.
+
+Codes are config, never hardcoded: SCHOOLS_ACCESS_CODES (comma separated, one per
+school or one per pilot cohort) and SCHOOLS_ACCESS_SECRET. Verification re-checks
+the code against the current list on every request, so removing a code locks that
+school out immediately rather than whenever its cookie happens to lapse. The gate
+fails CLOSED: an unconfigured deploy locks the content instead of leaking it.
+
 ## 14 August 2026 — Sign up asks the question the front page already answered
 
 Justin: "At the end of sign up, the parent chooses one of exactly two paths."
