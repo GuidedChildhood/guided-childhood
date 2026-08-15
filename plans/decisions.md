@@ -8053,3 +8053,50 @@ worrying about.
 ## 2026-08-14 — Schools is LIVE on schools.guidedchildhood.com
 
 JP added the GoDaddy CNAME and the domain went green, so the launch lines flipped the same hour: the parent app's /schools, /educator and /class redirects now point at https://schools.guidedchildhood.com permanently (308s, so search engines move their index for good), and the schools site's robots flipped to index. SCHOOLS_SITE_URL stays as a preview escape hatch that production never needs. The schools product is now fully public: open catalogue, teach, print room, the Hub, five band pricing and the invoice request form, on its own domain, its own Vercel project and its own schema, where a bad parents deploy cannot touch it. From first audit to public launch: the split ran 9 to 14 August.
+
+## 15 August 2026 — The check in counted scores, not children
+
+Justin: the check in "will be showing as done when I log in at the moment
+although may be done for other child as this will need to be child by child so
+part of the set up list will need to have add other children."
+
+Right on all three counts, and the live database showed the whole of it rather
+than the half the code admitted to.
+
+THE RUNG ASKED "is there a scored concern_event today" with no child filter.
+That morning there were nine and every one was Teo's, so the rung read done for
+the family. A one child family behaves identically, which is why it survived.
+It now builds two sets, children with a live worry and children with a number
+today, and ticks only when the second covers the first. concern_events carries
+no child of its own, so whose a score is comes through the concern it scored.
+
+AND THE RUNG FIX ALONE WOULD HAVE CHANGED NOTHING FOR OLGA, which is the part
+only the database could tell us. She has no concerns at all; all 27 are Teo's.
+seedBaselineConcerns only runs for a family with an empty ledger, correctly, so
+every child after the first arrived with nothing to be asked about and was in
+neither set. seedChildBaseline asks the same question per child, and the add
+child route calls it. A new child starts on four common ones rather than on the
+first child's signup answers, because reusing those is the app putting words in
+a parent's mouth about somebody it never asked about.
+
+SO SETUP IS FOUR STEPS, not the three the plan wrote. "Add your other children"
+goes last, because it is a question about the household rather than the family.
+Two doors like the share step: add one, or say it is just the one. Without the
+second door a one child family sits at three of four for ever, told they are
+incomplete for having the family they have, which is the un-tickable step
+lib/handover/settled.ts exists to end. Migration 198, a timestamp not a boolean,
+because a boolean cannot tell a no from a not asked.
+
+## 15 August 2026 — is_primary is not unique, and nothing guaranteed it was
+
+getSetupState asked for the primary child with .eq('is_primary', true) and
+.maybeSingle(), which is what every caller in the product does. On the live
+account FOUR of five children carry the flag: Teo plus three test children all
+called Toon. PostgREST treats more than one row as a failure for single, so it
+returns an error and no row, and the new share step would have rendered "Add
+your child first" to a parent with five children on the account.
+
+There is no unique constraint and every path that adds a child can set the flag,
+so the read takes the list and picks the first, ordered primary then oldest,
+which is stable between loads rather than whatever the planner returns. The
+duplicate rows themselves are test data and are left alone.
