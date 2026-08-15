@@ -23,9 +23,9 @@ export const PRICING_BANDS: PricingBand[] = [
   { key: 'trust', tier: 'Trust or MAT', pupils: 'Every school in the trust', price: 'On application', perPupil: 'priced per school, not per pupil', onApplication: true },
 ]
 
-// One licence, everything in it. The open catalogue stays free for any
-// teacher to try, which is exactly why the licence does not need to be
-// cheap: the paid tier is whole school delivery with everything printed,
+// One licence, everything in it, opened by one code for the whole staff
+// room. There is no seat counting and no per teacher price, because the
+// thing being bought is whole school delivery: every module, printed,
 // evidenced and supported.
 export const LICENCE_INCLUDES = [
   'All 21 modules, Reception to Year 13, and every update through the year',

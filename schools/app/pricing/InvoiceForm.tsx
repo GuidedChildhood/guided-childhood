@@ -42,7 +42,7 @@ export default function InvoiceForm({ preselect }: { preselect?: string }) {
         </h3>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '400px', margin: '0 auto' }}>
           Your invoice will be with you within two working days, payable on 30 day terms.
-          Meanwhile the whole catalogue is open: pick a module and teach it this week.
+          Your school code comes with it, and that one code opens everything for your whole staff.
         </p>
       </div>
     )

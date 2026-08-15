@@ -12,7 +12,7 @@ import InvoiceForm from './InvoiceForm'
 
 export const metadata: Metadata = {
   title: 'Pricing',
-  description: 'One annual licence per school, priced by phase and size, from £1.50 per pupil per year. Paid by invoice with 30 day terms. The open catalogue stays free.',
+  description: 'One annual licence per school, priced by phase and size, from £1.50 per pupil per year. Paid by invoice with 30 day terms. One code opens the whole curriculum for every teacher on your staff.',
 }
 
 const eyebrow: React.CSSProperties = {
@@ -32,7 +32,7 @@ export default function PricingPage() {
           </h1>
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.7, maxWidth: '560px', margin: '0 auto' }}>
             From £1.50 per pupil per year. Invoice with 30 day terms, raised against your purchase
-            order. And the open catalogue stays free for any teacher, licence or not.
+            order. One code opens everything for every teacher on your staff, with no seat counting.
           </p>
         </div>
 
