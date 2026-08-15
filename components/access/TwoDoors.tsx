@@ -1,18 +1,28 @@
 import FreeDoor from './FreeDoor'
 
-// ── THE ONE BLOCK, AFTER THE FIRST CHECK IN ─────────────────────────────────
+// ── THE LAST THING IN SIGN UP: TWO PATHS, PICK ONE ──────────────────────────
 //
-// Justin, 13 August 2026: "One block, shown AFTER the first check in, not at
-// sign up. By then they have given something and seen something back, so the
-// offer lands on a moment of value rather than a wall. Two doors and nothing
-// else."
+// Justin, 14 August 2026: "At the end of sign up, the parent chooses one of
+// exactly two paths." The homepage already sells it in those words on the
+// trial card: "The founder rate is claimed at sign up, first 50 families
+// only." Until now the app asked days later, or never.
 //
-// The doors themselves are not new. They were the last screen of onboarding,
-// written carefully, and almost nobody reached them: onboarding_complete is
-// written four screens earlier, so any reload deleted the one screen in the
-// product that asks for money. See lib/access.ts and migration 191. The copy
-// is carried across rather than rewritten, because the copy was never the
-// problem.
+// It is still a ROUTE with the middleware in front of it rather than a screen
+// inside the wizard, and that distinction is the whole reason this survives.
+// A screen here was tried and lost: onboarding_complete is written four
+// screens before the end of setup, so a reload deleted the only page in the
+// product that asks for money. See lib/access.ts. A parent who closes this tab
+// is put straight back on it.
+//
+// WHAT THE TWO PATHS ACTUALLY DIFFER ON, and it is one thing:
+//
+//   path one   card now. Four free days, then £7.99 a month, automatically,
+//              for life. Holds one of the fifty founder places.
+//   path two   no card. The same four free days, then the app closes until
+//              they join at the standard rate. No place held, none counted.
+//
+// The four days themselves are identical, which is why it is said once,
+// underneath both, rather than argued twice.
 //
 // Presentational and propped so /ref-choose can draw it at 390 and 1280 with
 // no database and no Stripe, the same way every other fiddly surface here is
@@ -38,6 +48,19 @@ const PAY_BTN: React.CSSProperties = {
   cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)', textAlign: 'center',
 }
 
+// THE SENTENCE THE LAW AND JUSTIN BOTH ASKED FOR, sitting on the button screen
+// rather than in a terms page or a receipt.
+//
+// Justin, 14 August 2026: "The auto charge must be said plainly right on the
+// button screen." It is styled to be read rather than skimmed past, because a
+// parent who is surprised by a charge on day five is a chargeback and a
+// complaint, and they would be right to make it.
+const CHARGE_NOTE: React.CSSProperties = {
+  background: 'var(--cream)', border: '1.5px solid var(--border)',
+  borderRadius: 14, padding: '13px 16px', marginBottom: '18px',
+  fontSize: 'var(--text-md)', color: 'var(--ink)', fontWeight: 600, lineHeight: 1.5,
+}
+
 export default function TwoDoors({
   remaining,
   cap,
@@ -51,43 +74,51 @@ export default function TwoDoors({
   cap: number
   /** Free days actually still owed, so both cards agree with the receipt. */
   freeDays: number
-  /** TRIAL_DAYS, the length of the offer itself. */
+  /** The trial length, so the copy can never disagree with the gate. */
   trialDays: number
   /** Where they were headed when the block caught them. */
   next: string
 }) {
   const soldOut = remaining <= 0
+  const dayWord = freeDays === 1 ? 'day' : 'days'
 
   return (
     <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 20px' }}>
       <div style={{ maxWidth: 480, width: '100%' }}>
 
+        {/* The eyebrow tells the truth in both states. Leaving it on
+            "Founding members" over a card that says the places have gone is a
+            small lie, and this screen is asking for a card. */}
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--ink-light)', marginBottom: '12px' }}>
-          Founding members · {cap} places
+          {soldOut ? `Founder places · all ${cap} claimed` : `Founding members · ${cap} places`}
         </p>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 4.5vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, color: 'var(--ink)', marginBottom: '10px' }}>
           Two ways in. Pick one.
         </h1>
-        {/* WHY NOW, in one line, because a block with no reason attached is
-            just a toll gate. They have this second told us where things are,
-            and that reading is the first mark on a line they will watch move. */}
+        {/* WHERE THEY ARE, in one line. Setup is behind them and this is the
+            last thing, which is worth saying: a screen asking about money with
+            no end in sight reads as the start of a process. */}
         <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '26px' }}>
-          That first check in is your starting point. Everything from here is measured against it.
+          Everything you just set up is saved. This is the last step, and either one takes you straight in.
         </p>
 
         <div style={CARD}>
           {!soldOut ? (
             <>
               <div style={{ ...EYEBROW, color: 'var(--terracotta-dark)' }}>
-                Option one · Founder
+                Path one · Founder
               </div>
-              <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                Add your card now to hold one of the {cap} founder places and lock in £7.99 a month for life. You keep the free days you have left: nothing is charged for {freeDays} {freeDays === 1 ? 'more day' : 'more days'}, and you can cancel any time before then.
+              <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '18px' }}>
+                Add your card now to hold one of the {cap} founder places and lock £7.99 a month for life. It is the only way the founder rate is claimed, and it never rises for you.
+              </p>
+
+              <p style={CHARGE_NOTE}>
+                £7.99 a month starts after your {freeDays} free {dayWord}. Cancel any time before and pay nothing.
               </p>
 
               {/* THE SCARCITY IS TRUE, which is the only reason it is here.
                   Fifty places, enforced in the checkout route against a live
-                  Stripe count, gone for good after that. */}
+                  Stripe count, and only a card can hold one. */}
               <div style={{
                 display: 'inline-flex', alignItems: 'center', gap: '8px',
                 border: '1.5px solid var(--border)',
@@ -108,12 +139,22 @@ export default function TwoDoors({
             </>
           ) : (
             <>
+              {/* SOLD OUT, said plainly and once. The card stays because the
+                  offer underneath it is still a real one, it is just the
+                  standard price now. Pretending the places are open when they
+                  are not is the one thing that would make the counter
+                  worthless everywhere else it appears. */}
               <div style={{ ...EYEBROW, color: 'var(--terracotta-dark)' }}>
-                Option one · Keep everything
+                Path one · Join now
               </div>
-              <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '20px' }}>
-                The {cap} founder places have been claimed. Your free days are already running. Add your card to carry straight on after them: nothing charged for {freeDays} {freeDays === 1 ? 'more day' : 'more days'}, cancel any time.
+              <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '18px' }}>
+                The {cap} founder places have all been claimed. Add your card now and everything carries straight on when your free {dayWord} end, at the standard rate.
               </p>
+
+              <p style={CHARGE_NOTE}>
+                £12.99 a month starts after your {freeDays} free {dayWord}. Cancel any time before and pay nothing.
+              </p>
+
               <form action="/api/stripe/checkout" method="POST">
                 <input type="hidden" name="tier" value="standard" />
                 <input type="hidden" name="from" value="choose" />
@@ -124,13 +165,22 @@ export default function TwoDoors({
           )}
         </div>
 
-        {/* BOTH DOORS ARE CARDS, which is the shape Justin asked for on the
-            onboarding version and the reason it carries over unchanged: a bare
-            button under a card does not read as a choice, it reads as the way
-            out of the thing above it, and a parent who would have paid never
-            actually weighs the two. The free door keeps its own case rather
-            than being an apology, and it says plainly what it costs. */}
+        {/* BOTH PATHS ARE CARDS, which is the shape Justin asked for and the
+            reason it carries over unchanged: a bare button under a card does
+            not read as a choice, it reads as the way out of the thing above
+            it, and a parent who would have paid never actually weighs the two.
+            The no card path keeps its own case rather than being an apology,
+            and it says plainly what it costs. */}
         <FreeDoor days={freeDays} trialDays={trialDays} next={next} />
+
+        {/* SAID ONCE, UNDERNEATH BOTH, because it is the one thing that does
+            not differ. Justin, 14 August 2026: "The trial itself is identical:
+            4 days inside the platform with DiGi on a daily limit and a starter
+            set of scripts." Repeating it inside each card would read as two
+            different offers being compared on a feature. */}
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.6, textAlign: 'center', margin: '18px 4px 0' }}>
+          Either way the {trialDays} days are the same: the platform, DiGi with a daily limit, and a starter set of scripts. Cancelling during them costs nothing, and it is one tap in Settings.
+        </p>
       </div>
     </div>
   )

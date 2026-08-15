@@ -7,7 +7,7 @@ import { recommendedDailyMinutes, termTimeDailyMinutes, bucketDailyGuide } from 
 import { holidayOn } from '@/lib/learning/holidays'
 import { BUCKET_META, BUCKET_ORDER } from '@/lib/balance/parent-report'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
-import { trialEndsFromNow, TRIAL_DAYS } from '@/lib/access'
+import { TRIAL_DAYS } from '@/lib/access'
 import Celebration from '@/components/ui/Celebration'
 import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
 import { getDeviceId } from '@/lib/push/device-id'
@@ -286,11 +286,22 @@ export default function OnboardingPage() {
     const name = childName.trim() || 'Your child'
 
     const [profileUpdate, existingChildren] = await Promise.all([
+      // trial_ends_at IS NOT WRITTEN HERE ANY MORE, and it had stopped working
+      // long before it was removed. Migration 175 revoked that column from
+      // `authenticated` on 8 August, because a parent who can write it can
+      // restart their own free days for ever. PostgREST rejects the whole
+      // statement when one column in it is not writable, so this update has
+      // been failing outright ever since: the stored answers went with it, and
+      // the retry below quietly saved onboarding_complete on its own. A parent
+      // arriving at /signup without the starter pack got no trial at all and
+      // met the paywall on their first tap.
+      //
+      // The grant is right and the write was wrong. /api/trial/start is the
+      // server side grant that exists for exactly this, it runs once ever, and
+      // it takes the length from the database.
       supabase.from('profiles').update({
         onboarding_answers: { ageBand, challenge: challenges[0] ?? null, feeling: null, timeCommitment: timeCommitment ?? null },
         onboarding_complete: true,
-        // The 7 day free trial starts the moment setup is done, no card.
-        trial_ends_at: trialEndsFromNow(),
       }).eq('id', user.id),
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),
     ])
@@ -311,6 +322,12 @@ export default function OnboardingPage() {
     if (profileUpdate.error) {
       await supabase.from('profiles').update({ onboarding_complete: true }).eq('id', user.id)
     }
+
+    // The four free days, granted on the server, once ever. Best effort like
+    // everything else in here: a trial that fails to start is a parent who
+    // meets the choice screen a little early, which is a far better failure
+    // than a setup that cannot finish.
+    try { await fetch('/api/trial/start', { method: 'POST' }) } catch { /* the choice screen is the fallback */ }
 
     // Store their own limit only if it differs from the age recommendation, so
     // leaving it on the recommended value keeps it adaptive to age changes.
@@ -917,19 +934,21 @@ export default function OnboardingPage() {
   // reminder is an easy, obvious yes.
 
   if (screen === 'notifications') {
-    // ── THE LAST SCREEN OF SETUP, AND THE OFFER IS NOT ON IT ────────────────
+    // ── THE LAST SCREEN OF SETUP, AND THE CHOICE IS NOT ON IT ───────────────
     //
-    // The founding choice used to be here, and before that in the middle of
-    // the wizard. Both were wrong for the same reason and one of them was
-    // barely reachable: onboarding_complete is written four screens earlier,
-    // at personalisation, so any reload between DiGi's introduction and this
-    // point sent the parent to the dashboard and deleted the one screen that
-    // asks for money, for good.
+    // The two paths ARE at the end of sign up now, which is what the front
+    // page promises, and they are still not a screen in this wizard. That is
+    // the distinction that matters and it is why nothing here changed.
     //
-    // Justin, 13 August 2026: the block belongs AFTER the first check in, "by
-    // then they have given something and seen something back". So setup ends
-    // where it always meant to, in the app, and /dashboard/choose is the one
-    // place the two doors live now. Nothing here decides anything about money.
+    // A screen here was tried and it was lost: onboarding_complete is written
+    // four screens earlier, at personalisation, so any reload between DiGi's
+    // introduction and this point sent the parent to the dashboard and deleted
+    // the one screen in the product that asks for money, for good.
+    //
+    // So this screen still just goes where the parent was headed, and the
+    // middleware catches them on the way and puts /dashboard/choose in front,
+    // carrying the destination so both paths hand it straight back. A reload
+    // or a closed tab now lands on the choice instead of skipping it.
     const goNext = () => router.push(notifDest === 'script' ? '/dashboard/scripts/recommended' : '/dashboard')
 
     async function enableNotifications() {

@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { interestUrl } from '@/lib/email'
 import { sendEmail, emailConfigured, unsubscribeUrl, leadUnsubscribeUrl, starterCtaUrl, type EmailKind } from '@/lib/email'
-import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
+import { welcomeEmail, day2StageEmail, day3TourEmail, day4DigiEmail, day7FounderEmail, weeklyDigestEmail, trialEndingEmail, winBackEmail, founderPrechargeEmail, leadNurtureEmail, childPhoneEmail, screenTimeEmail, lessonsEmail, schoolRemindersEmail, familyAgreementEmail, printablesRevealEmail, balanceRevealEmail, mentalHealthRevealEmail, passportRevealEmail, digiTeaserEmail, scriptsTeaserEmail, printablesTeaserEmail, balanceTeaserEmail, mentalHealthTeaserEmail, safetyTeaserEmail, passportTeaserEmail, founderLeadEmail, curriculumStrandsEmail, curriculumSchoolEmail, digiBrainEmail, digiLearnsEmail, digiFeedbackLoopEmail, digiChecksEmail, winBackUnusedEmail, winBackLastEmail, paidUnlockedEmail, paidAskMeEmail, paidCommonQuestionsEmail, pastDueEmail, paidChildSideEmail, paidTellYouEmail, paidReadAheadEmail, paidTheNumbersEmail, paidWholeFamilyEmail } from '@/lib/email/templates'
 import type { EmailContent } from '@/lib/email/templates'
 import { founderStoryEmail, philosophyEmail, researchAnchorsEmail, wisdomInsightsEmail, jobsStarsEmail, checkinEvidenceEmail, scriptsDeepEmail, schoolWeekEmail, deviceTimeEmail, yearAheadEmail } from '@/lib/email/weekly-programme'
 import { METHOD_WEEK } from '@/lib/email/method-week'
@@ -32,6 +32,8 @@ interface ProfileRow {
   created_at: string
   subscription_status: string | null
   trial_ends_at: string | null
+  trial_started_at: string | null
+  plan_choice: string | null
   email_opt_out: boolean
   onboarding_complete: boolean | null
 }
@@ -76,7 +78,7 @@ async function handler(req: NextRequest) {
   const [{ data: profiles }, { data: log }, { data: children }, { data: firstQuests }, { data: firstSessions }, { data: firstLinks }] = await Promise.all([
     supabase
       .from('profiles')
-      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, email_opt_out, onboarding_complete')
+      .select('id, email, full_name, created_at, subscription_status, trial_ends_at, trial_started_at, plan_choice, email_opt_out, onboarding_complete')
       .eq('onboarding_complete', true),
     supabase.from('email_log').select('user_id, email_key, sent_at'),
     supabase.from('children').select('parent_id, name, age_band, stage_id').eq('is_primary', true),
@@ -140,7 +142,7 @@ async function handler(req: NextRequest) {
     return founderRemaining
   }
 
-  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
+  const results: Record<string, number> = { welcome: 0, day2: 0, day3: 0, day4: 0, day7: 0, svcChildPhone: 0, svcScreenTime: 0, svcLessons: 0, svcSchool: 0, svcAgreement: 0, revealPrintables: 0, revealBalance: 0, revealMind: 0, revealPassport: 0, curriculumStrands: 0, curriculumSchool: 0, digiBrain: 0, digiLearns: 0, digiFeedbackLoop: 0, digiChecks: 0, weekFounder: 0, weekPhilosophy: 0, weekResearch: 0, weekWisdom: 0, weekJobsStars: 0, weekEvidence: 0, weekScripts: 0, weekSchoolWeek: 0, weekDeviceTime: 0, weekYearAhead: 0, methodTimer: 0, methodEarned: 0, methodOffline: 0, methodWeek: 0, trialEnding: 0, founderPrecharge: 0, winback: 0, winback2: 0, winback3: 0, winbackTease: 0, pastDue: 0, throttled: 0, paid1: 0, paid2: 0, paid3: 0, paid4: 0, paid5: 0, paid6: 0, paid7: 0, paid8: 0, leadNurture: 0, leadTeaser: 0, errors: 0 }
 
   // ONE EMAIL PER PERSON PER RUN.
   //
@@ -186,6 +188,64 @@ async function handler(req: NextRequest) {
       else results.errors += 1
       await supabase.from('email_log').delete().eq('user_id', userId).eq('email_key', key)
     }
+  }
+
+  // ── PASS ZERO · THE PRE CHARGE REMINDER, BEFORE ANYTHING ELSE ────────────
+  //
+  // Justin, 14 August 2026: "Send a reminder email on day 3, before the first
+  // charge. UK subscription rules under the new consumer act expect a pre
+  // charge reminder."
+  //
+  // FIRST, AND OUTSIDE THE MAIN LOOP, for three reasons that are all the same
+  // reason. Nothing in this file may quietly suppress it.
+  //
+  //   the opt out   the loop below skips anybody carrying email_opt_out, which
+  //                 is correct for a programme and wrong for this. Opting out
+  //                 of our writing is not consent to be charged unannounced.
+  //   the throttle  sent as transactional, so the one a week programme floor
+  //                 in lib/email/floor.ts cannot hold it past the charge date.
+  //   the pile up   deliver() gives one email per person per run, first come.
+  //                 Running this pass first means the reminder takes that slot
+  //                 rather than the week's nurture taking it instead.
+  //
+  // Only path one, because only path one has a card. A no card trial charges
+  // nothing on day five, so there is nothing to warn about and the existing
+  // trial-ending email already covers them.
+  //
+  // DAY 3 IS COUNTED FROM THE START, which is what trial_started_at is for.
+  // Two whole days elapsed is day three, and with four free days that leaves
+  // at least a full day before the money moves whichever hour the cron runs.
+  //
+  // Greater than or equal rather than exactly, so a missed run sends it late
+  // rather than never. The trial_ends_at guard keeps late honest: once the
+  // charge has happened a reminder about it is not a reminder, and the
+  // email_log key stops it going twice.
+  const PRECHARGE_AFTER_DAYS = 2
+  for (const profile of (profiles ?? []) as ProfileRow[]) {
+    if (!profile.email) continue
+    if (profile.plan_choice !== 'founder') continue
+    if (!profile.trial_started_at || !profile.trial_ends_at) continue
+    if (daysSince(profile.trial_started_at) < PRECHARGE_AFTER_DAYS) continue
+    if (new Date(profile.trial_ends_at).getTime() <= Date.now()) continue
+    if (alreadySent(profile.id, 'founder-precharge')) continue
+
+    const preChild = childByParent.get(profile.id)
+    await deliver(
+      profile.id,
+      profile.email,
+      'founder-precharge',
+      founderPrechargeEmail({
+        childName: preChild?.name && preChild.name !== 'Your child' ? preChild.name : 'your child',
+        // Their own date, in their own words. "3 days left" in an email read
+        // four days later is worse than no email at all.
+        chargeDate: new Intl.DateTimeFormat('en-GB', {
+          weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/London',
+        }).format(new Date(profile.trial_ends_at)),
+        unsubscribe: unsubscribeUrl(profile.id),
+      }),
+      'founderPrecharge',
+      'transactional',
+    )
   }
 
   for (const profile of (profiles ?? []) as ProfileRow[]) {

@@ -93,7 +93,7 @@ export async function middleware(request: NextRequest) {
     if (user && isProtected && needsMembership(pathname)) {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('subscription_status, trial_ends_at, plan_choice, first_checkin_at')
+        .select('subscription_status, trial_ends_at, plan_choice, onboarding_complete')
         .eq('id', user.id)
         .maybeSingle()
 
@@ -106,14 +106,21 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(url)
       }
 
-      // ── THE TWO DOORS, AFTER THE FIRST CHECK IN ──────────────────────────
+      // ── THE TWO PATHS, AT THE END OF SIGN UP ─────────────────────────────
       //
       // The same read, one more question, no extra round trip: both columns
       // ride along on the profile this gate already loads.
       //
       // AFTER hasFullAccess on purpose. A family whose free days have run out
-      // cannot take the free door any more, so they meet the upgrade page and
-      // its standard pricing rather than a choice with one live option.
+      // cannot take the no card path any more, so they meet the upgrade page
+      // and its standard pricing rather than a choice with one live option.
+      //
+      // AND THIS IS WHAT MAKES THE OFFER UNSKIPPABLE. It is the whole reason
+      // the choice is a route with the middleware in front of it rather than a
+      // screen at the end of the wizard, which is how it was lost once
+      // already. See lib/access.ts for that story. A reload, a locked phone,
+      // a closed tab, a bookmark straight into Quests: all of them land back
+      // here until the parent has answered.
       //
       // The open prefixes above are untouched, so settings, billing, orders
       // and the upgrade page stay reachable throughout. A block a parent

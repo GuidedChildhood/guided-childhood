@@ -1,12 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import { TRIAL_DAYS, needsPlanChoice, trialDaysToGrant, type AccessProfile } from '@/lib/access'
+import { needsPlanChoice, trialDaysToGrant, type AccessProfile } from '@/lib/access'
+import { getTrialConfig } from '@/lib/config/trial'
 import { getFounderCount, FOUNDER_CAP } from '@/lib/stripe'
 import TwoDoors from '@/components/access/TwoDoors'
 
 export const dynamic = 'force-dynamic'
 
-// The two doors, shown once, after the first check in. The middleware sends
+// The two paths, shown once, at the end of sign up. The middleware sends
 // people here and the argument for that placement is in lib/access.ts.
 //
 // A server component so the founder count is real on first paint. The counter
@@ -24,7 +25,7 @@ export default async function ChoosePage({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status, trial_ends_at, plan_choice, first_checkin_at')
+    .select('subscription_status, trial_ends_at, plan_choice, onboarding_complete')
     .eq('id', user.id)
     .maybeSingle()
 
@@ -43,16 +44,24 @@ export default async function ChoosePage({
   }
 
   // Fail open on a Stripe blip, exactly as /api/founder-spots does: showing
-  // the founder door when the seats are gone costs one apologetic redirect at
+  // the founder path when the places are gone costs one apologetic redirect at
   // checkout, and hiding it when they are not costs the sale.
-  const held = await getFounderCount().catch(() => 0)
+  //
+  // The trial length is platform_config.trial_days, and it is the SAME value
+  // the checkout route hands Stripe as trial_period_days. That is the point of
+  // reading it here rather than showing the constant: the sentence on the
+  // button screen and the date the card is charged come from one number.
+  const [held, { days: trialDays }] = await Promise.all([
+    getFounderCount().catch(() => 0),
+    getTrialConfig(),
+  ])
 
   return (
     <TwoDoors
       remaining={Math.max(0, FOUNDER_CAP - held)}
       cap={FOUNDER_CAP}
-      freeDays={trialDaysToGrant(profile as AccessProfile | null)}
-      trialDays={TRIAL_DAYS}
+      freeDays={trialDaysToGrant(profile as AccessProfile | null, trialDays)}
+      trialDays={trialDays}
       next={next}
     />
   )
