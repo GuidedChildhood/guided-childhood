@@ -1,6 +1,9 @@
 # Guided Childhood — Claude Code Instructions
 
-Read guided-childhood-build/README.md at the start of every session.
+Read THE-STORY.md at the start of every session. It is the whole picture:
+philosophy, product map, business model, what exists and where it lives.
+(It replaces the old guided-childhood-build/README.md pointer, which named a
+directory that no longer exists in this repo.)
 Re-read /plans/decisions.md after any compaction.
 
 ## CONTEXT ROUTING — load only what the task needs
