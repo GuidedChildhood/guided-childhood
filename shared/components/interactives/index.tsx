@@ -21,9 +21,28 @@ const eyebrow: React.CSSProperties = {
 // verdict, it flies to the pile and the tally animates. The core detective
 // drill for module 12 and its cousins.
 type SortPost = { handle: string; avatar: string; text: string; answer: number; why?: string }
-function VerdictSort({ config }: { config: { verdicts?: string[]; posts?: SortPost[] } }) {
+function VerdictSort({ config }: {
+  config: {
+    verdicts?: string[]
+    posts?: SortPost[]
+    // The three labels were hardcoded for the teen misinformation module,
+    // which meant a Reception class sorting real from made up was told it
+    // was "sorting the feed" and congratulated as a detective. Same drill,
+    // wrong words. They are config now, with the old text as the default,
+    // so module 12 is untouched and every other age can speak its own
+    // language.
+    label?: string
+    doneTitle?: string
+    doneBody?: string
+    doneEmoji?: string
+  }
+}) {
   const verdicts = config.verdicts ?? ['Believe', 'Pause', 'Do not share']
   const posts = config.posts ?? []
+  const label = config.label ?? 'Sort the feed · tap a verdict'
+  const doneTitle = config.doneTitle ?? 'Feed sorted!'
+  const doneBody = config.doneBody ?? 'Every card got a verdict and a reason. That is the whole skill.'
+  const doneEmoji = config.doneEmoji ?? '🕵️'
   const [index, setIndex] = useState(0)
   const [tallies, setTallies] = useState<number[]>(verdicts.map(() => 0))
   const [picked, setPicked] = useState<number | null>(null)
@@ -54,7 +73,7 @@ function VerdictSort({ config }: { config: { verdicts?: string[]; posts?: SortPo
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <div style={{ ...eyebrow, marginBottom: '10px' }}>Sort the feed · tap a verdict</div>
+      <div style={{ ...eyebrow, marginBottom: '10px' }}>{label}</div>
       {/* Tallies */}
       <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '18px', flexWrap: 'wrap' }}>
         {verdicts.map((v, i) => (
@@ -70,9 +89,9 @@ function VerdictSort({ config }: { config: { verdicts?: string[]; posts?: SortPo
 
       {done ? (
         <div style={{ padding: '30px 0' }}>
-          <div style={{ fontSize: 'var(--text-3xl)', marginBottom: '8px' }}>🕵️</div>
-          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: '4px' }}>Feed sorted!</p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>Every card got a verdict and a reason. That is the whole skill.</p>
+          <div style={{ fontSize: 'var(--text-3xl)', marginBottom: '8px' }}>{doneEmoji}</div>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', marginBottom: '4px' }}>{doneTitle}</p>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)' }}>{doneBody}</p>
         </div>
       ) : (
         <>

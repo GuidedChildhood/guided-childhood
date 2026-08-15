@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { gsap } from 'gsap'
 import DigiCharacter, { type DigiMood } from './DigiCharacter'
 import AnimatedIntro from './AnimatedIntro'
-import { ROSENSHINE_LABELS, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '../lesson-slides'
+import { ROSENSHINE_LABELS, PHASE_LABELS, PHASE_ORDER, type LessonPhase, type LessonSlide, type ChoiceSlide, type ScenarioSlide, type DiagramSlide, type DigiSlide, type DiscussionSlide, type StatSlide } from '../lesson-slides'
 import type { CurriculumBadges } from '../curriculum-badges'
 import Interactive from './interactives'
 
@@ -733,6 +733,23 @@ export default function LessonPlayer({
   // controls at the bottom.
   const phaseLabel = slide?.phase ? ROSENSHINE_LABELS[slide.phase] : null
 
+  // ── The phase strip ── the lesson's shape, made visible.
+  //
+  // Derived entirely from the `phase` already on every slide, never hand
+  // authored, so a deck cannot claim a shape it does not have. Only the
+  // phases this deck actually uses are shown: a 12 slide Reception lesson
+  // that never reaches Prove should not display an empty Prove pill.
+  //
+  // Teacher view only. A child working alone through a quest does not need
+  // to be told the pedagogical structure of what they are doing, but the
+  // deputy head who walks into the back of the classroom very much does,
+  // and this is the fastest way to answer them without saying a word.
+  const deckPhases = PHASE_ORDER.filter(p => slides.some(s => s.phase === p))
+  const lastIndexOfPhase = (p: LessonPhase) => {
+    for (let i = slides.length - 1; i >= 0; i--) if (slides[i].phase === p) return i
+    return -1
+  }
+
   let body: React.ReactNode
 
   if (finished && classMode) {
@@ -1052,6 +1069,44 @@ export default function LessonPlayer({
           {!finished && <DigiCharacter mood={digiMood} size={projector ? 52 : 38} />}
         </span>
       </div>
+
+      {/* The phase strip: six pills, the shape of the lesson at a glance */}
+      {teacherView && !finished && deckPhases.length > 1 && (
+        <div
+          aria-label="Lesson phases"
+          style={{
+            display: 'flex', gap: '6px', flexShrink: 0, flexWrap: 'wrap',
+            padding: '0 clamp(16px, 4vw, 28px) 10px',
+          }}
+        >
+          {deckPhases.map(p => {
+            const isNow = slide?.phase === p
+            const isDone = !isNow && lastIndexOfPhase(p) < index
+            return (
+              <span
+                key={p}
+                aria-current={isNow ? 'step' : undefined}
+                style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: projector ? '12px' : '10px',
+                  fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase',
+                  padding: projector ? '5px 12px' : '4px 10px',
+                  borderRadius: '100px',
+                  border: `1.5px solid ${isNow ? 'var(--terracotta)' : 'var(--border)'}`,
+                  background: isNow ? 'var(--terracotta)' : isDone ? 'var(--border)' : 'transparent',
+                  color: isNow ? '#fff' : isDone ? 'var(--ink-soft)' : 'var(--ink-muted)',
+                  // The done pills recede rather than shout: what matters on a
+                  // classroom wall is where we are, not where we have been.
+                  opacity: isDone ? 0.72 : 1,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {isDone ? '✓ ' : ''}{PHASE_LABELS[p]}
+              </span>
+            )
+          })}
+        </div>
+      )}
 
       {/* The stage: scrolls when a slide runs tall, centres when it does not */}
       <div ref={stageRef} style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
