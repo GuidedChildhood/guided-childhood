@@ -30,7 +30,7 @@ export default async function SetupPage() {
         </h1>
         {!complete && (
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: 0 }}>
-            One at a time, and each one is gone for good once it is done.
+            One at a time. Each one goes green as you finish it and stays that way.
           </p>
         )}
       </div>

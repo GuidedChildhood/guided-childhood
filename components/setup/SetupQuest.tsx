@@ -17,23 +17,29 @@ import { STEPS, type SetupFlags, type SetupStep } from '@/lib/setup/steps'
 // ticked never comes up again. Anything not ticked appears on the next sign in,
 // same process, still to do."
 //
-// ── WHY DONE STEPS ARE NOT ON THIS PAGE AT ALL ──────────────────────────────
+// ── DONE STEPS STAY, AT THE TOP, WEARING A BIG GREEN TICK ──────────────────
 //
-// The page this replaces had a To do list and a Done list, and the Done list
-// was the bigger of the two by the end. That is a filing cabinet, not a quest.
-// A finished step has nothing left to say, and leaving it on the page means a
-// parent's reward for finishing something is a longer page.
+// Justin, 15 August 2026: "once each step is done, for example they click the
+// agreement, it should once set so they click sign then a big green tick and
+// stay on top of list then opens second step."
 //
-// The count in the header is what keeps it honest. Three segments, one lit per
-// step done, so a parent who finishes two sees "2 of 3 done" and one card,
-// rather than a card and two receipts.
+// This reverses the first build, which removed a step the moment it went green
+// on the argument that a finished step has nothing left to say. That argument
+// was wrong in the one way that matters: it is the parent's argument, not ours.
+// The ticks ARE the reward. A page that empties as you work gives you less to
+// look at the more you do, and on the last step a parent sees a single card and
+// no evidence they ever did anything. Four green ticks stacked above the one
+// live card is the progress made visible, which is the entire point of drawing
+// setup as a quest rather than a form.
+//
+// So the page reads top to bottom as: what you have done, what you are doing,
+// what is left.
 //
 // ── THE NUMBERS DO NOT RENUMBER ─────────────────────────────────────────────
 //
-// Step three stays step three when steps one and two have gone. Renumbering the
-// survivors to 1 and 2 would mean the number on screen changes meaning between
-// visits, and the number is the only thing on the card a parent could use to
-// hold their place. This is the Cleo pattern, and it is right.
+// Step three is always step three. Nothing is removed now, so this costs
+// nothing, but it stays a rule because a number that changes meaning between
+// visits is the one thing a parent cannot navigate by.
 //
 // ── THE STATE LADDER, FROM THE MOBBIN REFERENCES ────────────────────────────
 //
@@ -61,8 +67,16 @@ type Props = {
 export default function SetupQuest({ flags, child, userId }: Props) {
   const listRef = useRef<HTMLDivElement>(null)
 
-  const todo = STEPS.map((step, i) => ({ step, number: i + 1 })).filter(s => !flags[s.step.key])
-  const doneCount = STEPS.length - todo.length
+  // Every step is drawn, in list order. `state` is what changes, not presence:
+  // done keeps its place at the top with a tick, the first undone one is live,
+  // everything after it waits quietly.
+  const firstUndone = STEPS.findIndex(s => !flags[s.key])
+  const rows = STEPS.map((step, i) => ({
+    step,
+    number: i + 1,
+    state: (flags[step.key] ? 'done' : i === firstUndone ? 'live' : 'waiting') as StepState,
+  }))
+  const doneCount = rows.filter(r => r.state === 'done').length
 
   // The reveal, in the house motion: a short staggered fade up, the same tween
   // TodayPathBig uses for its nodes, so the two roads in the product move the
@@ -82,19 +96,19 @@ export default function SetupQuest({ flags, child, userId }: Props) {
     return () => { tween.kill() }
   }, [])
 
-  if (todo.length === 0) return <AllDone />
+  if (firstUndone === -1) return <AllDone />
 
   return (
     <>
       <Progress done={doneCount} total={STEPS.length} />
 
       <div ref={listRef} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {todo.map(({ step, number }, i) => (
+        {rows.map(({ step, number, state }) => (
           <StepCard
             key={step.key}
             step={step}
             number={number}
-            live={i === 0}
+            state={state}
             child={child}
             userId={userId}
           />
@@ -103,6 +117,8 @@ export default function SetupQuest({ flags, child, userId }: Props) {
     </>
   )
 }
+
+type StepState = 'done' | 'live' | 'waiting'
 
 // ── THE HEADER COUNT ────────────────────────────────────────────────────────
 
@@ -130,38 +146,49 @@ function Progress({ done, total }: { done: number; total: number }) {
 
 // ── ONE STEP ────────────────────────────────────────────────────────────────
 
-function StepCard({ step, number, live, child, userId }: {
+function StepCard({ step, number, state, child, userId }: {
   step: SetupStep
   number: number
-  live: boolean
+  state: StepState
   child: { id: string; name: string | null } | null
   userId: string
 }) {
+  const live = state === 'live'
+  const done = state === 'done'
+
   return (
     <div
       data-quest-step
       id={live ? ANCHOR[step.key] : undefined}
       style={{
         display: 'flex', gap: '14px', alignItems: 'flex-start',
-        background: live ? '#fff' : 'var(--cream)',
-        border: live ? '1.5px solid var(--terracotta)' : '1px solid var(--border)',
+        // A done step is sage rather than white, so the finished block reads as
+        // one run of green at a glance without anybody counting ticks.
+        background: live ? '#fff' : done ? 'var(--tint-sage)' : 'var(--cream)',
+        border: live
+          ? '1.5px solid var(--terracotta)'
+          : done ? '1px solid var(--stage-1-bold)' : '1px solid var(--border)',
         borderRadius: '18px',
         padding: live ? '18px 20px' : '15px 18px',
         boxShadow: live ? '0 6px 20px rgba(201,154,40,0.14)' : 'none',
         scrollMarginTop: '80px',
       }}
     >
+      {/* THE NUMBER STAYS ON THE LEFT. Justin, on the first build: "it says
+          build family agreement as number 1 which is great." The numbers are
+          what make this a sequence rather than a pile, so a done step keeps its
+          number rather than having it swapped for a tick. */}
       <span
         aria-hidden
         style={{
           flexShrink: 0,
           width: live ? 38 : 32, height: live ? 38 : 32, borderRadius: '50%',
-          background: live ? 'var(--terracotta)' : 'transparent',
-          border: live ? 'none' : '1.5px solid var(--border)',
+          background: live ? 'var(--terracotta)' : done ? '#fff' : 'transparent',
+          border: live ? 'none' : done ? '1.5px solid var(--stage-1-bold)' : '1.5px solid var(--border)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontFamily: 'var(--font-mono)', fontWeight: 700,
           fontSize: live ? 'var(--text-md)' : 'var(--text-sm)',
-          color: live ? 'var(--ink)' : 'var(--ink-muted)',
+          color: live ? 'var(--ink)' : done ? '#1F7A54' : 'var(--ink-muted)',
         }}
       >
         {number}
@@ -171,7 +198,7 @@ function StepCard({ step, number, live, child, userId }: {
         <h2 style={{
           fontFamily: 'var(--font-display)', fontWeight: live ? 900 : 700,
           fontSize: live ? 'var(--text-lg)' : 'var(--text-md)',
-          color: live ? 'var(--ink)' : 'var(--ink-muted)',
+          color: live ? 'var(--ink)' : done ? 'var(--ink)' : 'var(--ink-muted)',
           lineHeight: 1.25, letterSpacing: '-0.01em', margin: 0,
         }}>
           {step.title}
@@ -179,7 +206,7 @@ function StepCard({ step, number, live, child, userId }: {
 
         {/* Only the live step explains itself. A waiting step is a promise that
             there is more, and a paragraph under it is a wall of jobs by
-            another name. */}
+            another name. A done step has nothing left to ask. */}
         {live && (
           <>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '6px 0 0' }}>
@@ -191,6 +218,35 @@ function StepCard({ step, number, live, child, userId }: {
           </>
         )}
       </div>
+
+      {/* ── THE STATUS CIRCLE, ON THE RIGHT ───────────────────────────────────
+          Justin sent the pattern rather than describing it: a budgeting app's
+          setup widget, every row carrying a filled green tick or an empty grey
+          ring on the RIGHT hand edge.
+          It is the right instinct and Mobbin agrees. Deel puts DONE and NOT
+          STARTED as right hand pills, Monzo a right hand green tick with a green
+          border on the finished rows, Qonto a green Completed beside the title.
+          The common thread is that STATUS lives on the trailing edge and
+          IDENTITY on the leading one, so a parent reads down the left to find
+          the thing and down the right to see how far they have got. Our numbers
+          keep the left, so the tick takes the right and nothing has to fight
+          for the same spot.
+          Aligned to the top rather than centred, because the live card is tall
+          and a circle floating in the middle of a paragraph reads as punctuation
+          for that paragraph rather than as the row's state. */}
+      <span
+        aria-hidden
+        style={{
+          flexShrink: 0, marginTop: '2px',
+          width: 26, height: 26, borderRadius: '50%',
+          background: done ? '#1F7A54' : 'transparent',
+          border: done ? 'none' : '2px solid var(--border)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          color: '#fff', fontSize: '15px', fontWeight: 800, lineHeight: 1,
+        }}
+      >
+        {done ? '✓' : ''}
+      </span>
     </div>
   )
 }
@@ -213,17 +269,41 @@ function StepAction({ step, child, userId }: {
 }) {
   if (step.key === 'agreement') {
     return (
-      <Link
-        href={step.href}
-        style={{
-          display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
-          borderRadius: 16, padding: '13px 22px', textDecoration: 'none',
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-          boxShadow: '0 5px 0 var(--terracotta-dark)',
-        }}
-      >
-        Build it together
-      </Link>
+      <>
+        <Link
+          href={step.href}
+          style={{
+            display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
+            borderRadius: 16, padding: '13px 22px', textDecoration: 'none',
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+            boxShadow: '0 5px 0 var(--terracotta-dark)',
+          }}
+        >
+          Agree it together
+        </Link>
+        {/* THE PRINTED COPY OPENS IN ITS OWN WINDOW, and target is the whole
+            point rather than a detail. Justin: "click agreement to agree and
+            open print in another window for them." A family agreement that
+            lives only on a phone is a settings screen; the one that works is on
+            the fridge where the child can point at it. Sending the print view
+            to a new tab means the parent does not lose their place in setup to
+            get it, which is the difference between printing it now and meaning
+            to print it later. rel is set because target _blank without noopener
+            hands the new page a reference back to this one. */}
+        <div style={{ marginTop: '10px' }}>
+          <a
+            href="/dashboard/agreement/print"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600,
+              color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px',
+            }}
+          >
+            Or open the printed copy for the fridge
+          </a>
+        </div>
+      </>
     )
   }
 
@@ -278,63 +358,144 @@ function StepAction({ step, child, userId }: {
   )
 }
 
-// ── THE OTHER CHILDREN, AND THE ANSWER THAT IT IS JUST THE ONE ──────────────
+// ── THE OTHER CHILDREN, AS THE FORM FROM SIGNUP ─────────────────────────────
 //
-// Two doors, the same shape as the share step. Adding a child is a real piece
-// of work with its own screen, so that door is a link. Saying there are no
-// others is one tap and finishes the step here.
+// Justin, 15 August 2026: "it should be add children simple easy form as per
+// when they sign up so easy to add."
+//
+// It used to be a link to /dashboard/quests#add-child, which is a real screen
+// with a real form on it, and that was the fault: a step whose shape is one
+// card and one tap sent the parent to a different page, to find a form, inside
+// a manager built for something else. The two questions signup asks are a name
+// and an age band. They fit here, so they are here.
+//
+// The same POST the quest manager uses, so a child added from setup gets
+// everything a child added anywhere else gets, including the baseline worries
+// seeded on 15 August. Two forms writing children two different ways is how the
+// second one ends up missing a step the first one does.
+//
+// ── AND "NONE YET" IS AN ANSWER, NOT A SKIP ─────────────────────────────────
+//
+// Justin: "option none yet, we let them know added at any time, lets get one
+// right if you prefer, then tick green if they add one or if they tick add
+// later also tick green and we can prompt them with pop up end of month."
+//
+// Both doors go green, which is the rule this product keeps returning to: a
+// step that can never be ticked tells a one child family they are incomplete
+// for having the family they have. The month end prompt is what stops that
+// answer being permanent.
+
+const AGE_BANDS: { value: string; label: string }[] = [
+  { value: '4-7', label: '4 to 7' },
+  { value: '8-10', label: '8 to 10' },
+  { value: '11-13', label: '11 to 13' },
+  { value: '13-15', label: '13 to 15' },
+  { value: '16+', label: '16 and over' },
+]
 
 function OtherChildren() {
   const router = useRouter()
-  const [busy, setBusy] = useState(false)
+  const [name, setName] = useState('')
+  const [band, setBand] = useState('')
+  const [busy, setBusy] = useState<'add' | 'only' | null>(null)
   const [failed, setFailed] = useState(false)
 
-  async function onlyOne() {
-    setBusy(true)
+  async function post(url: string, body?: unknown) {
+    setBusy(url.includes('only-one') ? 'only' : 'add')
     setFailed(false)
     try {
-      const res = await fetch('/api/setup/only-one-child', { method: 'POST' })
+      const res = await fetch(url, {
+        method: 'POST',
+        ...(body ? { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {}),
+      })
       // fetch does not throw on a 4xx or a 5xx, only on a network failure, so
       // the response has to be checked or a rejected save looks like a success
       // and the step goes green over nothing.
       if (!res.ok) throw new Error(String(res.status))
+      setName('')
+      setBand('')
       router.refresh()
     } catch {
       setFailed(true)
     } finally {
-      setBusy(false)
+      setBusy(null)
     }
+  }
+
+  const ready = name.trim().length > 0 && band.length > 0
+
+  const field: React.CSSProperties = {
+    width: '100%', boxSizing: 'border-box', padding: '12px 14px',
+    border: '1.5px solid var(--border)', borderRadius: '12px',
+    fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)',
+    background: '#fff',
   }
 
   return (
     <>
-      <Link
-        href="/dashboard/quests#add-child"
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <label style={{ display: 'block' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
+            Their name
+          </span>
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="First name"
+            maxLength={60}
+            style={field}
+          />
+        </label>
+        <label style={{ display: 'block' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '5px' }}>
+            How old
+          </span>
+          <select value={band} onChange={e => setBand(e.target.value)} style={field}>
+            <option value="">Choose an age</option>
+            {AGE_BANDS.map(b => <option key={b.value} value={b.value}>{b.label}</option>)}
+          </select>
+        </label>
+      </div>
+
+      <button
+        onClick={() => post('/api/quests', { action: 'child', name: name.trim(), age_band: band })}
+        disabled={!ready || busy !== null}
         style={{
-          display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
-          borderRadius: 16, padding: '13px 22px', textDecoration: 'none',
+          marginTop: '12px',
+          background: ready ? 'var(--terracotta)' : 'var(--border)',
+          color: ready ? 'var(--ink)' : 'var(--ink-muted)',
+          border: 'none', borderRadius: 16, padding: '13px 22px',
+          cursor: ready && busy === null ? 'pointer' : 'default',
           fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-          boxShadow: '0 5px 0 var(--terracotta-dark)',
+          boxShadow: ready ? '0 5px 0 var(--terracotta-dark)' : 'none',
         }}
       >
-        Add another child
-      </Link>
-      <div style={{ textAlign: 'center', margin: '10px 0 0' }}>
+        {busy === 'add' ? 'Adding...' : 'Add this child'}
+      </button>
+
+      {failed && (
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 700, margin: '10px 0 0' }}>
+          That did not save. Have another go.
+        </p>
+      )}
+
+      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 0' }}>
+        You can add another any time. Let us get one right first if you would rather.
+      </p>
+
+      <div style={{ textAlign: 'center', margin: '8px 0 0' }}>
         <button
-          onClick={onlyOne}
-          disabled={busy}
+          onClick={() => post('/api/setup/only-one-child')}
+          disabled={busy !== null}
           style={{
-            background: 'none', border: 'none', cursor: busy ? 'default' : 'pointer',
+            background: 'none', border: 'none', cursor: busy === null ? 'pointer' : 'default',
             fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600,
             color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px',
             padding: '4px 8px',
           }}
         >
-          {busy
-            ? 'Saving...'
-            : failed
-              ? 'That did not save, tap to try again'
-              : 'It is just the one'}
+          {busy === 'only' ? 'Saving...' : 'None yet, just the one'}
         </button>
       </div>
     </>
@@ -397,11 +558,18 @@ function AllDone() {
     }}>
       <div style={{ fontSize: '2.4rem', lineHeight: 1, marginBottom: '10px' }} aria-hidden>🧭</div>
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.02em', margin: '0 0 6px' }}>
-        You are set up
+        Great, that is all done
       </h2>
+      {/* IT DOES NOT MENTION THE CHECK IN, and that is a correction rather than
+          an omission. Justin, 15 August 2026: "check in how it went should not
+          be on first set up as no way of knowing how agreement went." The first
+          version of this card promised "the check in first", which on the very
+          day a family finishes setup is asking them to rate an agreement signed
+          twenty minutes ago. The check in earns its place once there is
+          something to report. */}
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
-        That is the one time work done, and it does not come back. From here it is
-        ten minutes a day: the check in first, then whatever today has picked for you.
+        That is the one time work behind you. From here it is about ten minutes a
+        day, and we lay out what today looks like so you never have to decide.
       </p>
       <Link
         href="/dashboard"

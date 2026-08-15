@@ -198,6 +198,22 @@ async function handler(req: NextRequest) {
     const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
     const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
 
+    // ── THE SAME FALLBACK CANNOT PICK A PLANET FRIEND ──────────────────────
+    //
+    // `stage` above falls back to Explorer for a member with no child row or no
+    // age band, and for WORDS that is the right call: an email has to be about
+    // some stage, and the middle one is the least wrong guess.
+    //
+    // For a Friend it is not. The Friend is presented as the character that
+    // marks THIS child's stage, so guessing it tells a family that Orbit is
+    // theirs on the basis of an assumption they never made. Two different jobs
+    // wearing one variable, which is exactly how the check in came to read done
+    // for a child it had never asked about.
+    //
+    // Null means the email simply shows no art, which is the default for every
+    // other email anyway. See lib/email/friends.ts.
+    const friendStageId = child?.age_band ? stage.id : null
+
     const state = lifecycleState(profile)
 
     // ── Pass A · the 26 week onboarding programme ──
@@ -217,6 +233,7 @@ async function handler(req: NextRequest) {
     if (days >= 2 && !alreadySent(profile.id, 'day2-stage')) {
       await deliver(profile.id, profile.email, 'day2-stage', day2StageEmail({
         childName, stageName: stage.name, stageFocus: stage.focus.toLowerCase(), unsubscribe,
+        stageId: friendStageId,
       }), 'day2')
     }
 
@@ -312,7 +329,7 @@ async function handler(req: NextRequest) {
     // third and fourth week so the free plan keeps giving. Sent once each, so a
     // parent who already lives in that feature simply never sees a second one.
     if (days >= 49 && !alreadySent(profile.id, 'reveal-printables')) {
-      await deliver(profile.id, profile.email, 'reveal-printables', printablesRevealEmail({ childName, unsubscribe }), 'revealPrintables')
+      await deliver(profile.id, profile.email, 'reveal-printables', printablesRevealEmail({ childName, unsubscribe, stageId: friendStageId }), 'revealPrintables')
     }
     if (days >= 56 && !alreadySent(profile.id, 'reveal-balance')) {
       await deliver(profile.id, profile.email, 'reveal-balance', balanceRevealEmail({ childName, unsubscribe }), 'revealBalance')
@@ -321,7 +338,7 @@ async function handler(req: NextRequest) {
       await deliver(profile.id, profile.email, 'reveal-mind', mentalHealthRevealEmail({ unsubscribe }), 'revealMind')
     }
     if (days >= 70 && !alreadySent(profile.id, 'reveal-passport')) {
-      await deliver(profile.id, profile.email, 'reveal-passport', passportRevealEmail({ childName, unsubscribe }), 'revealPassport')
+      await deliver(profile.id, profile.email, 'reveal-passport', passportRevealEmail({ childName, unsubscribe, stageId: friendStageId }), 'revealPassport')
     }
 
     // Weeks 5 to 7. The first four weeks show the tools; these explain the

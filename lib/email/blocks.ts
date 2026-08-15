@@ -185,6 +185,60 @@ export function rule(): string {
 }
 
 /**
+ * A Planet Friend, delivering one line.
+ *
+ * THE FIRST IMAGE IN ANY EMAIL WE SEND, which is why this carries more comment
+ * than it looks like it needs. The kit went out of its way to avoid images:
+ * sectionHead uses an emoji and says why, three lines up from here. That
+ * reasoning still stands for a section MARK, which has to survive image
+ * blocking or the heading loses its head. It does not stand for a character,
+ * because a character is content rather than punctuation, and content is
+ * allowed to be absent.
+ *
+ * WHICH friend, and whether there is one at all, is decided in lib/email/
+ * friends.ts. This block only knows how to draw one, so the kit stays free of
+ * anything that has to know what a stage is.
+ *
+ * ── WHY EVERY ATTRIBUTE HERE IS LOAD BEARING ────────────────────────────────
+ *
+ * width and height as HTML ATTRIBUTES, not only in the style. Outlook on
+ * Windows renders through the Word engine, which ignores CSS width on an image
+ * and will otherwise draw the file at its natural 192 square, double the
+ * intended size, shoving the text sideways.
+ *
+ * display:block kills the few pixels of descender space an inline image gets in
+ * Gmail, which otherwise reads as a misaligned character sitting slightly high.
+ *
+ * border:0 and outline:none matter because some clients draw a border on an
+ * image, and text-decoration:none because if this is ever wrapped in a link,
+ * Gmail underlines the gap.
+ *
+ * -ms-interpolation-mode:bicubic is Outlook's own scaler. Without it a 192 file
+ * shown at 96 is resampled with nearest neighbour and the character's edges go
+ * jagged.
+ *
+ * The alt text is a sentence rather than a name, because most clients block
+ * images on a first open and for those readers the alt IS the block. The width
+ * and height also reserve the space, so a blocked image does not collapse the
+ * row and then shift the whole email when it loads.
+ */
+export function friendMark(params: {
+  src: string
+  alt: string
+  line: string
+  tone?: Tone
+  /** Displayed size. The source files are twice this, for retina. */
+  size?: number
+}): string {
+  const { src, alt, line, tone = 'white', size = 96 } = params
+  const colour = tone === 'white' ? INK_SOFT : TONES[tone].text
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 16px"><tr>
+    <td width="${size}" style="padding-right:16px" valign="middle"><img src="${src}" width="${size}" height="${size}" alt="${alt}" style="display:block;border:0;outline:none;text-decoration:none;width:${size}px;height:${size}px;-ms-interpolation-mode:bicubic"></td>
+    <td valign="middle" style="font-family:${FONT};font-size:16px;line-height:1.6;color:${colour}">${line}</td>
+  </tr></table>`
+}
+
+/**
  * The banded shell.
  *
  * Bands are full width rows of one outer table, so the colour runs edge to edge
