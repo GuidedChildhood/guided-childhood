@@ -1,9 +1,11 @@
 // Who gets asked to choose a way in, and how many free days the founder door
 // actually grants.
 //
-// Justin, 13 August 2026: "Nothing blocks on sign up, so nobody is ever asked
-// to pay." Ten of the eleven accounts on the platform read subscription_status
-// 'free', so he was right, and the reason was placement rather than pricing.
+// Justin, 14 August 2026: "At the end of sign up, the parent chooses one of
+// exactly two paths." The homepage sells the founder rate as "claimed at sign
+// up", so finishing setup is what makes the choice owed. It was the first
+// check in until this morning, and before that a screen inside the wizard that
+// a reload could delete for good. See lib/access.ts for that whole story.
 //
 // This gate decides whether a parent meets a payment screen, so it is exactly
 // the kind of rule that must never be reasoned about from the code again. Both
@@ -24,23 +26,23 @@ const agoDays = n => new Date(Date.now() - n * 86400000).toISOString()
 
 // ── WHO IS ASKED ────────────────────────────────────────────────────────────
 
-check('a family who has never checked in is never asked',
-  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), first_checkin_at: null }) === false)
+check('a parent still mid setup is never asked',
+  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), onboarding_complete: false }) === false)
 
-check('the first check in is what opens the block',
-  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), first_checkin_at: agoDays(0) }) === true)
+check('finishing setup is what opens the block',
+  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), onboarding_complete: true }) === true)
 
-check('having chosen free clears it for good',
-  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), first_checkin_at: agoDays(1), plan_choice: 'free' }) === false)
+check('having chosen the no card path clears it for good',
+  needsPlanChoice({ subscription_status: 'free', trial_ends_at: inDays(4), onboarding_complete: true, plan_choice: 'free' }) === false)
 
 check('paying clears it without any write of ours',
-  needsPlanChoice({ subscription_status: 'active', trial_ends_at: inDays(4), first_checkin_at: agoDays(1) }) === false)
+  needsPlanChoice({ subscription_status: 'active', trial_ends_at: inDays(4), onboarding_complete: true }) === false)
 
 // A bounced card is still a subscription everywhere else in this file, and it
 // must be here too. Meeting a "pick a plan" screen while Stripe is retrying a
 // renewal would read as the subscription having silently vanished.
 check('a card mid retry is not asked to choose again',
-  needsPlanChoice({ subscription_status: 'past_due', trial_ends_at: null, first_checkin_at: agoDays(30) }) === false)
+  needsPlanChoice({ subscription_status: 'past_due', trial_ends_at: null, onboarding_complete: true }) === false)
 
 // A failed profile read must never conjure a payment screen in front of a
 // paying family. This is the same rule the onboarding init guard learned the
@@ -52,15 +54,17 @@ check('an unreadable profile is not asked',
 // hasFullAccess runs first in the middleware. This pins that ordering: an
 // expired trial fails access, so it meets the upgrade page and its standard
 // pricing rather than a choice with one live option.
-const expired = { subscription_status: 'free', trial_ends_at: agoDays(1), first_checkin_at: agoDays(5) }
+const expired = { subscription_status: 'free', trial_ends_at: agoDays(1), onboarding_complete: true }
 check('an expired trial is blocked by access before it is ever asked to choose',
   hasFullAccess(expired) === false)
 
 // ── HOW MANY FREE DAYS THE CARD DOOR GRANTS ─────────────────────────────────
 //
-// The founder door is taken DURING the free days. A flat TRIAL_DAYS would hand
-// out a longer trial than the copy promises; nothing at all would charge a card
-// on a day the parent was told was free.
+// Taken at the end of sign up, the clock has been running for seconds and this
+// is the flat four the button screen promises. It still earns its keep for the
+// parent who closes the tab on the choice and comes back on day three: a flat
+// TRIAL_DAYS would hand out a longer trial than the copy promises, and nothing
+// at all would charge a card on a day they were told was free.
 
 check(`day one grants the whole ${TRIAL_DAYS}`,
   trialDaysToGrant({ trial_ends_at: inDays(TRIAL_DAYS) }) === TRIAL_DAYS,

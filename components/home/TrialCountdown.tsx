@@ -21,8 +21,18 @@ import Link from 'next/link'
 //      enforced in the Stripe checkout, and the upgrade page shows the live
 //      seats count. This banner may say capped at 50; only the page with the
 //      real count says how many are left.
-//   4. THE ENDING IS SOFT AND SAYS SO. Nothing is deleted, the daily habit
-//      stays free, and the copy says what stays as plainly as what pauses.
+//   4. THE ENDING IS SAID PLAINLY. Nothing is deleted and the copy says so,
+//      but it no longer says the daily habit stays free, because it does not.
+//      Migration 187 closed the free tier and the middleware locks the whole
+//      dashboard on day five. Promising a soft landing the product does not
+//      give is worse than the news it was trying to soften.
+//
+// ── AND IT SPEAKS TO THE PATH THEY TOOK ─────────────────────────────────────
+//
+// Justin, 14 August 2026: the founder rate is claimed at sign up, with a card,
+// and the no card path holds no place. So this banner cannot go on offering
+// founder places to somebody who declined one four days ago. planChoice is why
+// it knows.
 
 function pad(n: number): string { return String(n).padStart(2, '0') }
 
@@ -30,6 +40,7 @@ export default function TrialCountdown({
   trialEndsAt,
   ended,
   trialDays,
+  planChoice = null,
   jobsTicked = 0,
   streakCount = 0,
 }: {
@@ -39,6 +50,12 @@ export default function TrialCountdown({
   ended: boolean
   /** TRIAL_DAYS from lib/access, so this copy can never disagree with the gate. */
   trialDays: number
+  /**
+   * Which of the two paths they took at sign up: 'founder', 'free', or null
+   * while the choice is still owed. It decides whether the founder rate is
+   * mentioned at all, because on the no card path there is no place to hold.
+   */
+  planChoice?: string | null
   /** Their own numbers, for the honest close. Zero hides the line. */
   jobsTicked?: number
   streakCount?: number
@@ -58,6 +75,12 @@ export default function TrialCountdown({
     const id = setInterval(read, 60_000)
     return () => clearInterval(id)
   }, [ended, trialEndsAt])
+
+  // A card is on file and a place is held, so this banner is a reassurance
+  // rather than an offer. Nothing here asks them to buy something they have
+  // already bought, and nothing offers a founder place to the parent who
+  // declined one at sign up.
+  const isFounderPath = planChoice === 'founder'
 
   const evidence = jobsTicked > 0 || streakCount > 1
     ? [
@@ -85,10 +108,10 @@ export default function TrialCountdown({
           {evidence
             ? `Your family has built ${evidence} since you joined. `
             : ''}
-          Nothing is deleted: the daily habit, quests and your tracker stay free. The founder rate opens everything back up for £7.99 a month, held for life, and it stops at 50 families.
+          Nothing is deleted. Everything your family has done is saved and comes straight back the moment you join{isFounderPath ? ', at your founder rate of £7.99 a month, held for life' : ': £12.99 a month or £99 a year'}.
         </p>
         <Link href="/dashboard/upgrade" style={{ display: 'inline-flex', background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '10px 18px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-          See the founder rate
+          {isFounderPath ? 'See the founder rate' : 'See the plans'}
         </Link>
       </div>
     )
@@ -102,16 +125,20 @@ export default function TrialCountdown({
       <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
           <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-            ⏳ Full access ends in{' '}
+            ⏳ Free days end in{' '}
             <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700 }}>{h}:{pad(m)}</span>
           </span>
-          <Link href="/dashboard/upgrade" style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '9px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-            Keep it all
-          </Link>
+          {!isFounderPath && (
+            <Link href="/dashboard/upgrade" style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '9px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+              Keep it all
+            </Link>
+          )}
         </div>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
           {evidence ? `${evidence[0].toUpperCase()}${evidence.slice(1)} so far. ` : ''}
-          After today the daily habit stays free and the rest waits. The founder rate keeps everything open, £7.99 a month for life, capped at 50 families.
+          {isFounderPath
+            ? 'After today your founder rate of £7.99 a month starts and everything opens up: unlimited DiGi and every script. Nothing to do, and cancelling before then still costs nothing.'
+            : 'After today the app waits until you join. £12.99 a month or £99 a year, and everything you have done is saved.'}
         </p>
       </div>
     )
@@ -125,7 +152,7 @@ export default function TrialCountdown({
     <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '14px 18px', marginBottom: '18px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap' }}>
         <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-          ✨ Full access · {daysLeft} {daysLeft === 1 ? 'day' : 'days'} left
+          ✨ Free {daysLeft === 1 ? 'day' : 'days'} · {daysLeft} left
         </span>
         {/* A REAL BUTTON, NOT A MONO TEXT LINK, and Justin found this by
             trying to buy his own product: "I signed up again but there is no
@@ -138,16 +165,20 @@ export default function TrialCountdown({
             The last day branch above already uses a proper chunky button. This
             is the same offer four days earlier, and there is no argument for
             making it harder to accept while somebody is still keen. */}
-        <Link href="/dashboard/upgrade" style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '9px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
-          Become a founder
-        </Link>
+        {!isFounderPath && (
+          <Link href="/dashboard/upgrade" style={{ flexShrink: 0, background: 'var(--terracotta)', color: 'var(--ink)', borderRadius: '12px', padding: '9px 15px', textDecoration: 'none', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
+            See the plans
+          </Link>
+        )}
       </div>
       {/* The price and the cap belong here rather than only at the end. A
           parent deciding on day one cannot decide on nothing, and the founder
           rate is the one offer in the product with a real deadline attached to
           it: fifty families, enforced in checkout, gone for ever after that. */}
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '6px 0 0' }}>
-        Everything is open while you settle in. Add your card any time in these {trialDays} days to hold a founder place: £7.99 a month for life, capped at 50 families.
+        {isFounderPath
+          ? `Your founder place is held. DiGi has a daily limit and a starter set of scripts for these ${trialDays} days, then £7.99 a month starts and everything opens up. Cancel any time before and pay nothing.`
+          : `DiGi has a daily limit and a starter set of scripts for these ${trialDays} days. When they end the app waits until you join, at £12.99 a month or £99 a year.`}
       </p>
     </div>
   )

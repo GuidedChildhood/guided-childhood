@@ -434,7 +434,52 @@ export function trialEndingEmail(params: {
       p(`Your free trial ends ${when}. No card was taken, so nothing happens automatically, this is just so it does not catch you out.`) +
       p(`If it has helped with ${childName}, keeping it means the daily moments, the scripts for the hard conversations, and DiGi whenever you need the words all stay on.`) +
       button('Keep everything on', `${APP}/dashboard/upgrade`) +
-      p(`And if the timing is not right, that is completely fine. You drop to the free tier and keep your pathway. Nothing is lost.`),
+      // WHAT ACTUALLY HAPPENS ON DAY FIVE, corrected 14 August 2026. This line
+      // promised a free tier to fall back to, and migration 187 closed it: the
+      // app locks and everything waits behind the membership. Setting an
+      // expectation the product then breaks is worse than the news itself, and
+      // a parent who plans around it finds out the hard way.
+      p(`And if the timing is not right, that is completely fine. Everything you have done is saved and waiting, and it all comes straight back whenever you join.`),
+      unsubscribe
+    ),
+  }
+}
+
+// 8b · THE DAY 3 PRE CHARGE REMINDER, path one only.
+//
+// Justin, 14 August 2026: "Send a reminder email on day 3, before the first
+// charge. UK subscription rules under the new consumer act expect a pre charge
+// reminder."
+//
+// He is right, and the rule is worth stating because it decides how this is
+// sent as well as what it says. The Digital Markets, Competition and Consumers
+// Act 2024 is built around a parent never being charged by surprise at the end
+// of something free, so the reminder has to reach them BEFORE the money moves
+// and it has to say the amount, the date, and how to stop it. That makes it a
+// transactional email, not a marketing one: the cron sends it whatever the
+// programme throttle says and whatever their marketing preference is, exactly
+// like a receipt, because suppressing it is the one outcome the rule exists to
+// prevent. See the pre charge pass in app/api/email/cron/route.ts.
+//
+// It sells nothing. A parent who reads this and cancels is a parent who was
+// going to cancel anyway, and finding out here rather than on a bank statement
+// is the difference between a decision and a dispute.
+export function founderPrechargeEmail(params: {
+  childName: string
+  /** When the free days end, already formatted for a UK reader. */
+  chargeDate: string
+  unsubscribe: string
+}): EmailContent {
+  const { childName, chargeDate, unsubscribe } = params
+  return {
+    subject: `Your first payment is on ${chargeDate}`,
+    html: wrapper(
+      heading('Before anything is charged.') +
+      p(`Your free days end on <strong>${chargeDate}</strong>, and that is when your founder rate starts: <strong>£7.99 a month</strong>, on the card you added when you joined. Nothing has been taken yet.`) +
+      p(`You do not need to do anything. It carries on, and £7.99 is your price for life, whatever the platform grows into and whatever it costs anybody joining later.`) +
+      p(`If it is not right for ${childName}, cancel before ${chargeDate} and you pay nothing at all. It is one tap in Settings, no forms and no phone call.`) +
+      button('See my plan', `${APP}/dashboard/settings`) +
+      p(`Either way, thank you for being one of the first fifty families. That genuinely matters at this end.`),
       unsubscribe
     ),
   }

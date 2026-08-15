@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { firstText, makeDashStripper } from '@/lib/digi/text'
-import { hasFullAccess, hasPaidPlan, isAllowlisted } from '@/lib/access'
+import { hasFullAccess, inStarterTrial, isAllowlisted } from '@/lib/access'
+import { getTrialConfig } from '@/lib/config/trial'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS, digiModelsFor } from '@/lib/config/digi'
 import { NextResponse, after } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
@@ -77,7 +78,11 @@ async function callDigiStream(params: Omit<Anthropic.MessageCreateParamsStreamin
 export const maxDuration = 90
 export const dynamic = 'force-dynamic'
 
-const FREE_DAILY_LIMIT = 3
+// The DiGi cap used to be `const FREE_DAILY_LIMIT = 3` right here. It is
+// platform_config.trial_digi_daily_limit now (migration 199), because the
+// homepage sells "DiGi, with a daily limit" and how big that limit is is a
+// pricing decision, not a line of code. lib/config/trial.ts carries the same
+// number as a fallback, so an unreachable database costs nobody their answer.
 
 // How to weigh everything that follows.
 //
@@ -273,18 +278,24 @@ export async function POST(request: Request) {
 
   const isPaid = hasFullAccess(profile, user.email)
 
-  // ── WHO THE THREE A DAY ACTUALLY APPLIES TO ─────────────────────────────
+  // ── WHO THE DAILY LIMIT ACTUALLY APPLIES TO ─────────────────────────────
   //
-  // Justin, 13 August 2026, on door two: "No card. Four days. Restricted to
-  // three DiGi messages, which is ALREADY BUILT."
+  // Justin, 14 August 2026: "The trial itself is identical: 4 days inside the
+  // platform with DiGi on a daily limit and a starter set of scripts." Both
+  // paths. The homepage sells the same thing on the trial card.
   //
-  // It was built and it was reaching nobody. The limit asked hasFullAccess,
-  // which is true for the whole trial, so a parent with no card had no limit
-  // for four days and then lost everything at once. The difference between
-  // the two doors was invisible for exactly as long as anybody was looking at
-  // it.
+  // SO IT IS THE TRIAL THAT IS CAPPED, NOT THE MISSING CARD. That is the
+  // change, and it is the third answer this line has had. It first asked
+  // hasFullAccess, which is true for the whole trial, so nobody was ever
+  // capped. Then it asked hasPaidPlan, which capped the no card path only, so
+  // the founder bought their way out of a limit that is meant to be part of
+  // what a trial IS. Now it asks whether the four days are running, which is
+  // the same question the scripts policy asks and the same one the front page
+  // answers.
   //
-  // hasPaidPlan is the card question and it already exists for this reason.
+  // The clock closes on the first charge (see the Stripe webhook), so a
+  // founder is uncapped the moment their money moves rather than a day later.
+  //
   // The allowlist is asked separately and by name, because it is a grant of
   // access rather than a record of payment and the founder must never be
   // capped on his own product.
@@ -293,15 +304,22 @@ export async function POST(request: Request) {
   // also drives preferFree in the recommendation below, which changes the
   // RECOMMENDED NEXT STEP block DiGi is thinking with. Changing the rate
   // limit is not a reason to quietly change what DiGi says.
-  const cardOnFile = hasPaidPlan(profile) || isAllowlisted(user.email)
+  const limitApplies = inStarterTrial(profile) && !isAllowlisted(user.email)
 
   const today = new Date().toISOString().split('T')[0]
   const isNewDay = !convData || convData.last_message_date !== today
   const currentCount = isNewDay ? 0 : (convData?.messages_today ?? 0)
 
-  // Rate limiting for the no card door — checked before any streaming starts
-  if (!cardOnFile && currentCount >= FREE_DAILY_LIMIT) {
-    return NextResponse.json({ error: 'Daily limit reached', messagesUsedToday: currentCount }, { status: 429 })
+  // Checked before any streaming starts, so a parent at their limit gets a
+  // clean answer rather than a half written one.
+  if (limitApplies) {
+    const { digiDailyLimit } = await getTrialConfig()
+    if (currentCount >= digiDailyLimit) {
+      return NextResponse.json(
+        { error: 'Daily limit reached', messagesUsedToday: currentCount, limit: digiDailyLimit },
+        { status: 429 },
+      )
+    }
   }
 
   const stage = child?.age_band

@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { AGE_BAND_OPTIONS, getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { bandForAge } from '@/lib/children/age'
+import { inStarterTrial, trialDaysLeft } from '@/lib/access'
 import Link from 'next/link'
 
 interface Profile {
@@ -27,6 +28,15 @@ interface Profile {
   // separately. Null before migration 120 has run, which reads the same as not
   // consented and is the safe way round.
   wellbeing_consent_at: string | null
+  // The trial clock and which of the two paths they took at sign up. Both are
+  // read for one reason: a family inside their free days must be able to see,
+  // on this page, that stopping now costs them nothing.
+  //
+  // Optional, because this page falls back to progressively narrower selects
+  // when a column is missing, and a trial block that does not render is a far
+  // smaller harm than a settings page that will not load.
+  trial_ends_at?: string | null
+  plan_choice?: string | null
 }
 
 interface Child {
@@ -97,13 +107,13 @@ export default function SettingsPage() {
       // column, and if migration 120 has not run here, drop back to the set
       // that has always existed rather than blanking the whole page.
       let [profileResult, childrenResult] = await Promise.all([
-        supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at, wellbeing_consent_at, school_region').eq('id', user.id).single(),
+        supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at, wellbeing_consent_at, school_region, trial_ends_at, plan_choice').eq('id', user.id).single(),
         supabase.from('children').select('id, name, age_band, date_of_birth, interests, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
       ])
       if (profileResult.error) {
         // school_region lands with 129 and wellbeing_consent_at with 120, so
         // step back one column at a time rather than blanking the whole page.
-        const withConsent = await supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at, wellbeing_consent_at').eq('id', user.id).single() as typeof profileResult
+        const withConsent = await supabase.from('profiles').select('full_name, email, subscription_status, subscription_tier, is_founder, created_at, wellbeing_consent_at, trial_ends_at, plan_choice').eq('id', user.id).single() as typeof profileResult
         if (!withConsent.error) {
           profileResult = withConsent
           setRegionSupported(false)
@@ -134,6 +144,11 @@ export default function SettingsPage() {
           is_founder: p.is_founder ?? false,
           created_at: p.created_at ?? null,
           wellbeing_consent_at: p.wellbeing_consent_at ?? null,
+          // Undefined rather than null when a narrower fallback select ran, so
+          // the free days block simply does not render instead of claiming a
+          // trial that has already ended.
+          trial_ends_at: p.trial_ends_at,
+          plan_choice: p.plan_choice,
         })
         setName(p.full_name ?? '')
         const r = (p as { school_region?: unknown }).school_region
@@ -264,6 +279,16 @@ export default function SettingsPage() {
 
   const isPaid = profile?.subscription_status === 'active'
   const tierLabel = profile?.is_founder ? 'Founder' : profile?.subscription_tier === 'annual' ? 'Annual' : 'Monthly'
+
+  // inStarterTrial is the same helper the DiGi cap and the scripts policy use,
+  // so this block appears for exactly the window those limits apply in. A
+  // parent told they are on free days by one screen and charged by another is
+  // the failure this whole flow exists to avoid.
+  const inTrialNow = inStarterTrial(profile)
+  const trialDaysLeftNow = trialDaysLeft(profile)
+  const trialEndLabel = profile?.trial_ends_at
+    ? new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date(profile.trial_ends_at))
+    : 'the end of your free days'
 
   return (
     <div style={{ maxWidth: '540px', margin: '0 auto', padding: '24px 20px 40px' }}>
@@ -513,6 +538,56 @@ export default function SettingsPage() {
         )
       })}
 
+      {/* ── THE FREE DAYS, AND THE WAY OUT OF THEM, IN ONE STEP ──────────────
+          Justin, 14 August 2026: "Cancelling during the trial means zero
+          charge, both paths, no exceptions. Cancel must be reachable from
+          account settings in one step."
+
+          It was not. The only way to stop a payment was Manage billing or
+          Manage your plan, three sections down, both of which read like admin
+          rather than an exit, and neither of which said the thing that
+          actually matters: right now it costs nothing.
+
+          So the trial gets its own block, at the top of Membership, and the
+          button says what it does. One tap from here to Stripe's own cancel
+          page, no retention maze in between.
+
+          The two paths need different words because they are genuinely
+          different situations. Path one has a card and a date. Path two has
+          nothing to cancel, and telling that parent to go and cancel something
+          would invent an anxiety rather than settle one. */}
+      {inTrialNow && (
+        <section style={{ background: 'var(--stage-1)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
+          <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Your free days</h2>
+          {profile?.plan_choice === 'founder' ? (
+            <>
+              <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '16px', lineHeight: 1.55 }}>
+                {trialDaysLeftNow === 1 ? 'Your last free day.' : `${trialDaysLeftNow} free days left.`} Your founder rate of £7.99 a month starts on {trialEndLabel}. Cancel before then and you pay nothing at all.
+              </p>
+              <button
+                onClick={openBilling}
+                disabled={portalBusy}
+                style={{
+                  background: '#fff', border: '2px solid var(--ink)', borderRadius: '16px',
+                  padding: '12px 24px', fontSize: 'var(--text-md)',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)',
+                  cursor: portalBusy ? 'default' : 'pointer', opacity: portalBusy ? 0.6 : 1,
+                }}
+              >
+                {portalBusy ? 'Opening…' : 'Cancel and pay nothing'}
+              </button>
+              {portalNote && (
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginTop: '12px' }}>{portalNote}</p>
+              )}
+            </>
+          ) : (
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: 0, lineHeight: 1.55 }}>
+              {trialDaysLeftNow === 1 ? 'Your last free day.' : `${trialDaysLeftNow} free days left.`} No card was taken, so nothing is charged on {trialEndLabel} and there is nothing here to cancel. The app waits until you join.
+            </p>
+          )}
+        </section>
+      )}
+
       {/* Billing section */}
       <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
         <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Membership</h2>
@@ -579,8 +654,8 @@ export default function SettingsPage() {
         <section id="billing" style={{ scrollMarginTop: 84, background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '24px' }}>
           <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '6px', color: 'var(--ink)' }}>Your plan</h2>
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginBottom: '16px' }}>
-            Change your card, see your invoices, or cancel. Cancelling takes two taps and there is no
-            retention maze. You keep the free tier and everything your family has earned.
+            Change your card, see your invoices, or cancel. One tap to Stripe's own page and there is no
+            retention maze. Everything your family has done is kept, and it all comes back if you join again.
           </p>
           <button
             onClick={openBilling}

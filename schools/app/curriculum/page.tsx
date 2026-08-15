@@ -109,7 +109,13 @@ export default async function CurriculumMapPage() {
 
                         <div style={{ marginTop: 'auto', paddingTop: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                           {live ? (
-                            <Link href={`/teach/${m.moduleId}`} style={{
+                            // The card lands on the lesson page, not straight
+                            // into the player. A teacher choosing a module
+                            // needs to see the objective, the misconceptions
+                            // and what to print before they commit a lesson
+                            // to it, and Teach this lesson is the first
+                            // button on that page for anyone who already has.
+                            <Link href={`/lesson/${m.moduleId}`} style={{
                               fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
                               color: '#fff', background: ch.accent, borderRadius: '12px',
                               padding: '8px 14px', textDecoration: 'none',

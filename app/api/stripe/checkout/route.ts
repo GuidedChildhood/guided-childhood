@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { stripe, STRIPE_PRICES, FOUNDER_CAP, getFounderCount } from '@/lib/stripe'
 import { trialDaysToGrant, type AccessProfile } from '@/lib/access'
+import { getTrialConfig } from '@/lib/config/trial'
 import { NextResponse } from 'next/server'
 import { APP_ORIGIN } from '@/lib/config/site'
 
@@ -88,6 +89,14 @@ export async function POST(request: Request) {
   // founder still in their trial already counts against the 50. Fail open on a
   // transient Stripe error so a blip never blocks a paying customer; exceeding
   // by one during an outage is the lesser harm than a lost sale.
+  //
+  // ONLY CARD COMMITTED SIGN UPS COUNT, which is Justin's rule of 14 August
+  // 2026 and is enforced by the shape of this rather than by a check. A
+  // founder place exists only as a Stripe subscription with tier 'founder' on
+  // it, and the only thing in the product that creates one is the block below.
+  // The no card path never reaches this route at all: /api/plan/free writes an
+  // answer and touches nothing else. So a parent on path two cannot hold, and
+  // cannot consume, one of the fifty, however long they take to decide.
   if (tier === 'founder') {
     const held = await getFounderCount().catch(() => 0)
     if (held >= FOUNDER_CAP) {
@@ -136,21 +145,26 @@ export async function POST(request: Request) {
       ? `${origin}${safeNext ?? '/dashboard'}${(safeNext ?? '/dashboard').includes('?') ? '&' : '?'}upgraded=1`
       : `${origin}/dashboard?upgraded=1`
 
-  // The founder door: card now, nothing charged while the free days they
-  // already have are still running, then it continues automatically.
+  // PATH ONE: card now, four free days, first charge on day five, automatic.
   //
-  // The DAYS COME FROM THEIR OWN CLOCK, not from TRIAL_DAYS, and that is the
-  // point of trialDaysToGrant. This door is taken partway through the free
-  // days, so a flat four would quietly hand out a longer trial than the copy
-  // promises, and none at all would charge a card on a day they were told was
-  // free. Either way the screen and the receipt disagree, which this file
-  // already carries a comment about from the last time it happened.
+  // Taken at the end of sign up, so the clock started minutes ago and this is
+  // the flat four the button screen promises. The days still come from their
+  // OWN clock rather than from a constant, because the choice screen is a
+  // route the middleware keeps putting back: a parent who closes the tab and
+  // returns on day three would otherwise be handed four fresh days on top of
+  // the three they have had, and the screen and the receipt would disagree
+  // about when the money moves.
+  //
+  // The length itself is platform_config.trial_days now, so changing the offer
+  // changes the app and the Stripe subscription in one move and they cannot
+  // drift apart.
   //
   // An existing member upgrading from the dashboard charges straight away, so
   // nobody ever gets two free trials. The card is always collected so the
   // founder place is genuinely held.
   const isTrialDoor = body.from === 'onboarding' || body.from === 'choose'
-  const trialDays = trialDaysToGrant(profile as AccessProfile | null)
+  const { days: configuredTrialDays } = await getTrialConfig()
+  const trialDays = trialDaysToGrant(profile as AccessProfile | null, configuredTrialDays)
 
   let session
   try {

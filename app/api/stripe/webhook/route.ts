@@ -142,25 +142,67 @@ export async function POST(request: Request) {
       const sessionUserId = session.metadata?.user_id ?? userId
       const sessionTier = session.metadata?.tier ?? tier
       if (sessionUserId) {
+        // PATH ONE IS RECORDED HERE, at the moment the card is genuinely on
+        // file, and nowhere earlier. The checkout route deliberately writes
+        // nothing on the way out to Stripe: marking the choice taken when
+        // somebody merely OPENS the card form would let anyone who closes it
+        // walk past the block having paid nothing and without the no card
+        // path's limits. Paying is what clears it.
+        //
+        // plan_choice is what the block reads and what the day 3 pre charge
+        // email selects on, so it has to be written even though a paying
+        // status would clear the block on its own. An email that decides who
+        // to warn about a charge cannot infer the answer.
         await supabaseAdmin.from('profiles').update({
           subscription_status: 'active',
           subscription_tier: sessionTier,
           is_founder: sessionTier === 'founder',
           stripe_customer_id: session.customer as string,
+          plan_choice: 'founder',
+          plan_choice_at: new Date().toISOString(),
         }).eq('id', sessionUserId)
       }
       break
     }
 
+    // ── WHERE THE FREE DAYS END ─────────────────────────────────────────────
+    //
+    // created joins updated here, and it is not tidying. A subscription bought
+    // outright, with no trial, is 'active' from the instant it is created and
+    // may never fire an update at all, so without this branch the buyer keeps
+    // a live trial_ends_at and the starter set of a product they have paid for
+    // in full.
+    case 'customer.subscription.created':
     case 'customer.subscription.updated': {
       if (userId) {
         // The mapping moved to lib/stripe/subscription-status.ts on 14 August
         // 2026 so it could be tested. It was the one link in the paywall chain
         // with no check on it, and it is the link everything else turns on.
-        await supabaseAdmin.from('profiles').update({
+        const update: Record<string, unknown> = {
           subscription_status: ourStatusFor(sub.status),
           subscription_tier: tier,
-        }).eq('id', userId)
+        }
+
+        // THE TRIAL ENDS WHEN THE MONEY STARTS, on this event and no other.
+        //
+        // Justin, 14 August 2026: both paths get the same four days, "DiGi on
+        // a daily limit and a starter set of scripts". lib/access.ts reads one
+        // field to decide whether those limits apply, trial_ends_at, so a
+        // founder mid trial is limited like everybody else even though their
+        // status says active. Stripe moving them out of 'trialing' and into
+        // 'active' IS the first charge, so closing the clock right here means
+        // the limits lift on the same event that takes the money and cannot
+        // lag a cron behind it.
+        //
+        // Strictly 'active'. Not "anything other than trialing": a founder who
+        // cancels during their free days lands on 'canceled', and cutting
+        // their remaining days short on the way out would be taking something
+        // back from somebody who has paid nothing and is owed nothing.
+        if (sub.status === 'active') {
+          update.trial_ends_at = new Date().toISOString()
+        }
+
+        await supabaseAdmin.from('profiles').update(update).eq('id', userId)
       }
       break
     }

@@ -1,9 +1,20 @@
 # Guided Childhood — Claude Code Instructions
 
-Read guided-childhood-build/README.md at the start of every session.
+Read THE-STORY.md at the start of every session. It is the whole picture:
+philosophy, product map, business model, what exists and where it lives.
+(It replaces the old guided-childhood-build/README.md pointer, which named a
+directory that no longer exists in this repo.)
 Re-read /plans/decisions.md after any compaction.
 
 ## CONTEXT ROUTING — load only what the task needs
+
+- ANY research, marketing, content, social, email copy or story task
+  → THE-STORY.md FIRST, before the skill runs. Every piece must relate to
+  what the product actually does: the one line story, the perfect customer,
+  the star quest leading the pieces, the stage check hook, every claim with
+  a proof path in the product. Research agents inherit this too: brief them
+  with the relevant section of THE-STORY.md so findings land on our thesis
+  rather than beside it.
 
 - Building any UI            → docs/05 + docs/07 (design system, motion rules) + .claude/skills/frontend-design (Anthropic's skill; our tokens always win where they conflict)
 - Verifying any UI           → .claude/skills/webapp-testing (Playwright screenshots, tap every button) alongside the Chrome DevTools check

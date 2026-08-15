@@ -8149,3 +8149,52 @@ school or one per pilot cohort) and SCHOOLS_ACCESS_SECRET. Verification re-check
 the code against the current list on every request, so removing a code locks that
 school out immediately rather than whenever its cookie happens to lapse. The gate
 fails CLOSED: an unconfigured deploy locks the content instead of leaking it.
+
+## 14 August 2026 — Sign up asks the question the front page already answered
+
+Justin: "At the end of sign up, the parent chooses one of exactly two paths."
+
+The homepage sold three things after PR 849 and 851, and the app kept none of
+them. The two doors sat at /dashboard/choose behind first_checkin_at, so the
+offer landed days after the page that made it. The trial handed over all 246
+scripts and unlimited DiGi rather than the sample being advertised. And a
+founder with a card on file got no warning before the first charge.
+
+**The choice moved to the end of setup, and stayed a route.** needsPlanChoice
+reads onboarding_complete now instead of first_checkin_at. What is deliberately
+NOT undone is the fix from 13 August: the doors are still their own route with
+the middleware in front, never a screen inside the wizard. That is the part
+that stopped the offer being deleted by a reload, and moving the condition
+changes when it is owed without touching why it survives.
+
+**One rule decides the trial limits: is trial_ends_at still in the future.** So
+the founder is capped exactly like the no card path, which is the point, the
+four days are the same offer on both. The webhook writes trial_ends_at = now()
+when Stripe moves the subscription out of trialing, so the limits lift on the
+same event that takes the first payment rather than on a second clock that
+could disagree. It also means somebody who buys outright is never handed a
+sample of what they just paid for.
+
+**The limits are data now.** platform_config holds trial_days and
+trial_digi_daily_limit, service role only, with the old constants kept in the
+app as fallbacks so an unreachable table can never take the trial down.
+scripts.starter_set is the sample, seeded from is_free plus the first six per
+stage: is_free alone left Explorer, Shaper and Independent on one script each,
+which is the same under reporting migration 148 was written about.
+
+**Three things were already broken and are fixed on the way past.** Onboarding
+wrote trial_ends_at from the browser, which migration 175 revoked in August, so
+that whole update had been failing and taking the stored answers with it, and a
+parent who skipped the starter pack got no trial at all. /api/plan/free wrote
+plan_choice with the parent's own client and plan_choice was never in the 175
+grant list, so the no card door answered "That did not save" every time. And the
+upgrade page counted founder places from profiles while checkout counted them
+from Stripe, so the counter and the button could disagree.
+
+**The day 3 email is transactional, not programme.** DMCCA 2024 expects a pre
+charge reminder, so it runs in its own pass before the main loop: past the
+opt out, past the one a week floor, and first in the queue for the one email per
+person per run. Path one only, because path two is charged nothing.
+
+Not done, and it is Justin's call: nothing opens a draft PR from here, the gh
+CLI is not installed in this environment.

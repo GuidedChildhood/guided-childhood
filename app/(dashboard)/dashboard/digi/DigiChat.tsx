@@ -50,7 +50,7 @@ function renderInline(text: string): ReactNode[] {
 export default function DigiChat({
   initialMessages,
   initialCount,
-  isPaid,
+  dailyLimit,
   stagePrompts,
   faqPrompts,
   pendingReflection,
@@ -60,7 +60,20 @@ export default function DigiChat({
 }: {
   initialMessages: Message[]
   initialCount: number
-  isPaid: boolean
+  /**
+   * Messages a day, or null when there is no limit.
+   *
+   * It replaces an isPaid boolean and a `const FREE_LIMIT = 3` sitting in this
+   * file. Two problems with that pair. The number was written here AND in the
+   * route AND twice in the copy below, so changing the offer meant finding
+   * four of them. And isPaid asked hasFullAccess, which is true for the whole
+   * trial, so the counter this component drew was invisible to the only people
+   * it applies to.
+   *
+   * The number comes from platform_config now, through the page, so the badge,
+   * the two sentences and the server all say the same thing.
+   */
+  dailyLimit: number | null
   stagePrompts: string[]
   faqPrompts?: string[]
   pendingReflection?: { question: string; answered: boolean } | null
@@ -231,7 +244,6 @@ export default function DigiChat({
     pinRef.current = false
     stickRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
   }
-  const FREE_LIMIT = 3
 
   const [deviceKey, setDeviceKey] = useState<string | null>(null)
 
@@ -437,7 +449,11 @@ export default function DigiChat({
         // second go.
         if (res.status >= 500) return 'retry'
         if (res.status === 429) {
-          setError('DiGi has helped all it can today, that is your 3 free chats. It refreshes tomorrow, or go unlimited any time.')
+          // The number comes back with the refusal, so this sentence agrees
+          // with whatever the limit actually is rather than with what it was
+          // when the sentence was written.
+          const limit = Number((data as { limit?: number }).limit) || dailyLimit
+          setError(`DiGi has helped all it can today, that is your ${limit} free ${limit === 1 ? 'chat' : 'chats'}. It refreshes tomorrow, or go unlimited any time.`)
         } else {
           setError(data.error ?? 'Something went wrong. Please try again.')
         }
@@ -630,7 +646,7 @@ export default function DigiChat({
     setReflectionDone(true)
   }
 
-  const atLimit = !isPaid && dailyCount >= FREE_LIMIT
+  const atLimit = dailyLimit != null && dailyCount >= dailyLimit
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 80px)', maxWidth: '700px', margin: '0 auto' }}>
@@ -667,9 +683,9 @@ export default function DigiChat({
             >
               <span aria-hidden>←</span> Today&apos;s pathway
             </Link>
-            {!isPaid && (
+            {dailyLimit != null && (
               <span style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
-                {dailyCount}/{FREE_LIMIT} today
+                {dailyCount}/{dailyLimit} today
               </span>
             )}
             {atLimit && (
@@ -1288,7 +1304,7 @@ export default function DigiChat({
         {atLimit ? (
           <div style={{ textAlign: 'center', padding: '8px 0' }}>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '12px' }}>
-              You have used your 3 free messages today. Come back tomorrow, or upgrade for unlimited DiGi.
+              That is your {dailyLimit} free {dailyLimit === 1 ? 'message' : 'messages'} for today. Come back tomorrow, or join for unlimited DiGi.
             </p>
             <Link href="/dashboard/upgrade" className="btn" style={{ display: 'inline-flex' }}>
               Upgrade for unlimited
