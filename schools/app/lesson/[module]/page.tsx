@@ -28,6 +28,8 @@ type TeacherNotes = {
   differentiation?: { support?: string; stretch?: string }
   paper_fallback?: string
   tool?: { heading?: string; lines?: string[]; strapline?: string }
+  // The three "I can" statements the child colours on the learning record.
+  i_can?: string[]
 }
 type ParentNote = { taught?: string; try_this?: string; family_question?: string }
 type DslNote = { required?: boolean; note?: string }
@@ -143,6 +145,18 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           }}>
             Print the pack
           </Link>
+          {/* Only offered where the three statements have been written, so a
+              module that is not ready cannot hand out a blank sheet. */}
+          {(notes.i_can?.length ?? 0) > 0 && (
+            <Link href={`/print/${lesson.module_id}/record`} className="btn" style={{
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+              padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
+              color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
+              boxShadow: '0 5px 0 var(--border)',
+            }}>
+              Print the learning record
+            </Link>
+          )}
         </div>
         <p style={{ ...mono, marginBottom: '30px' }}>
           {totalMinutes} minutes · {slides.length} slides
