@@ -44,6 +44,8 @@ import { useRouter } from 'next/navigation'
 // next one.
 
 export type ConcernCheckItem = {
+  /** The concern's own row id, which is what the save posts. See CheckInRow. */
+  id: string
   slug: string
   label: string
   timesFlagged: number
@@ -152,6 +154,8 @@ export default function ConcernCheckIn({
   const [touched, setTouched] = useState<Record<string, boolean>>({})
   const [pending, setPending] = useState<Record<string, boolean>>({})
   const [saved, setSaved] = useState<Record<string, boolean>>({})
+  /** The save came back an error. The row is answerable again and says so. */
+  const [failed, setFailed] = useState<Record<string, boolean>>({})
   const router = useRouter()
 
   const posted = useRef<Record<string, boolean>>({})
@@ -210,6 +214,9 @@ export default function ConcernCheckIn({
   }
 
   const post = (slug: string, body: Record<string, unknown>) => {
+    // The row's own id travels with the answer. Slug alone stopped identifying
+    // one concern when they went per child. See the note on CheckInRow.id.
+    const concernId = concerns.find(c => c.slug === slug)?.id
     if (posted.current[slug]) return
     posted.current[slug] = true
     if (timers.current[slug]) clearTimeout(timers.current[slug])
@@ -220,16 +227,49 @@ export default function ConcernCheckIn({
       requestAnimationFrame(() => handOver(slug, next))
       return next
     })
+    // ── THE SAVE THAT COULD FAIL AND STILL LOOK LIKE A SAVE ──────────────────
+    //
+    // Justin, 15 August 2026: the check in "loops and cant get out of it ...
+    // once it is done genuinely done it should move onto next stage."
+    //
+    // THE ROW WENT GREEN BEFORE THE REQUEST WAS EVEN SENT, and nothing ever
+    // looked at what came back. fetch does NOT reject on a 4xx or a 5xx, only
+    // on a network failure, so a 404, a 400 or a 500 from the route all landed
+    // in .then() and were treated as success. This exact pattern has now bitten
+    // this codebase three times: NoPhoneButton on 13 August, the only-one-child
+    // save, and here.
+    //
+    // Here it was the worst of the three, because of what sits downstream. The
+    // rung on Today is done only when a SCORED concern_event exists for today,
+    // which is the correct rule and the one Justin asked for. So a failed save
+    // painted every row saved, refreshed, and left the rung undone, with no
+    // error anywhere. Tap Go, answer them all, come back, still to do. For ever.
+    // The live database is what proved it rather than the code: zero scored
+    // rows all day while he was trying.
+    //
+    // The optimistic paint stays, because waiting on a round trip before a star
+    // lights up is the wrong trade for something tapped five times in a row. It
+    // is now a paint that can be TAKEN BACK.
     fetch('/api/daily/concern-check', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ slug, ...body }),
+      body: JSON.stringify({ concernId, slug, ...body }),
     })
-      // The Home path strip reads this same data server side. Refresh the
-      // router cache the moment an answer lands, so tapping Home right
-      // after does not show the check in step as still glowing and undone.
-      .then(() => router.refresh())
-      .catch(() => {})
+      .then(res => {
+        if (!res.ok) throw new Error(String(res.status))
+        // The Home path strip reads this same data server side. Refresh the
+        // router cache the moment an answer lands, so tapping Home right
+        // after does not show the check in step as still glowing and undone.
+        router.refresh()
+      })
+      .catch(() => {
+        // Give the row back so it can be answered again. Without releasing
+        // posted.current the guard at the top of post() would refuse every
+        // retry, which is the loop with an error message on it.
+        posted.current[slug] = false
+        setSaved(prev => ({ ...prev, [slug]: false }))
+        setFailed(prev => ({ ...prev, [slug]: true }))
+      })
   }
 
   // One tap picks the band AND commits it. Five words, each one a thing a
@@ -429,7 +469,7 @@ export default function ConcernCheckIn({
               {(isTouched || isSaved) && (
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
                   <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45 }}>
-                    {`${verdictLine(value[c.slug], c.lastScore)}${isSaved ? ' Saved.' : isPending ? ' Saving.' : ''}`}
+                    {`${verdictLine(value[c.slug], c.lastScore)}${isSaved ? ' Saved.' : failed[c.slug] ? ' That did not save, tap a star to try again.' : isPending ? ' Saving.' : ''}`}
                   </span>
                 </div>
               )}
