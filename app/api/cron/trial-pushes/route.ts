@@ -116,7 +116,11 @@ async function handler(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, ...results })
+  // `processed` is what the health board reads (lib/ops/heartbeat.ts,
+  // processedFrom); none of value/warn/lastcall matched its known field
+  // names, so this run was invisible to the board even on a day it sent
+  // pushes. Sent, not attempted: errors and skips are not work done.
+  return NextResponse.json({ ok: true, ...results, processed: results.value + results.warn + results.lastcall })
 }
 
 export const GET = withHeartbeat('/api/cron/trial-pushes', handler)

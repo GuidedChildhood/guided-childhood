@@ -777,7 +777,16 @@ async function handler(req: NextRequest) {
   // each with its own budget and each self healing across the days of its
   // period. Adding a phase back here would recreate the fault.
 
-  return NextResponse.json({ ok: true, ...results })
+  // `processed` is what the health board reads (lib/ops/heartbeat.ts,
+  // processedFrom); none of this route's fifty odd counters matched its
+  // known field names, so the platform's single busiest, most critical cron
+  // ran every day with its actual output invisible to the board. Sent, not
+  // attempted: errors and throttled holds are not work done.
+  const sent = Object.entries(results).reduce(
+    (total, [key, count]) => (key === 'errors' || key === 'throttled' ? total : total + count),
+    0,
+  )
+  return NextResponse.json({ ok: true, ...results, processed: sent })
 }
 
 export const GET = withHeartbeat('/api/email/cron', handler)
