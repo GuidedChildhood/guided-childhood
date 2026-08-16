@@ -82,7 +82,7 @@ export async function POST(request: Request) {
   if (!def) return NextResponse.json({ error: 'Unknown situation' }, { status: 400 })
 
   const [{ data: profile }, { data: child }] = await Promise.all([
-    supabase.from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).single(),
+    supabase.from('profiles').select('subscription_status, trial_ends_at, created_at').eq('id', user.id).single(),
     supabase.from('children').select('id, stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
   ])
 

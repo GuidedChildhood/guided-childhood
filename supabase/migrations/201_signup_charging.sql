@@ -1,5 +1,20 @@
--- Guided Childhood — Migration 196
+-- Guided Childhood — Migration 201
 -- Sign up asks the question the front page already answered.
+--
+-- RENUMBERED TWICE, and the header said 196 while the filename said 199, which
+-- is its own small warning about how fast numbers were being claimed on 15
+-- August 2026. It collided with 199_lesson_1_to_the_standard.sql, and the
+-- wiring check caught it as BROKEN on the pull request. This one moved rather
+-- than the lesson one, because 199_lesson and 200_lesson_1_learning_record are
+-- a pair that has to run in that order, and this file depends on nothing but
+-- profiles and scripts already existing.
+--
+-- It is already applied to the live database under the name 199_signup_charging,
+-- run by hand on 16 August after Justin was locked out of a minutes old account:
+-- the migration had never been run, so profiles.trial_started_at did not exist,
+-- the signup write failed and no trial dates were set at all. Every statement
+-- below is guarded (if not exists, on conflict do nothing, drop policy if
+-- exists), so running it again under this number changes nothing.
 --
 -- Justin, 14 August 2026: "At the end of sign up, the parent chooses one of
 -- exactly two paths."

@@ -115,10 +115,33 @@ export default function SetupNextBar() {
   }, [])
   const pastFirstDay = firstSeen !== null && (Date.now() - firstSeen) > 20 * 60 * 60 * 1000
 
+  // ── AND THEN ONCE A WEEK, NOT ONCE PER STEP ───────────────────────────────
+  //
+  // Justin, 15 August 2026: "the pop up reminders are gone from set up and only
+  // happen very infrequently on log in, weekly."
+  //
+  // The old rule was once per STEP for ever, which sounds restrained and is
+  // not: four steps is four interruptions, and they all land in the first week
+  // while a parent is at their busiest with us. A weekly clock is the honest
+  // reading of "very infrequently", and it does not care how many steps are
+  // outstanding, so a family with three left is nudged exactly as often as a
+  // family with one.
+  //
+  // Kept ALONGSIDE the per step memory rather than replacing it. seen stops the
+  // same step being named twice; this stops any step being named more than
+  // weekly. The stricter of the two wins, which is the point.
+  const WEEK_MS = 7 * 24 * 60 * 60 * 1000
+  const LAST_KEY = 'gc_setupbar_last'
+  const [lastNudge, setLastNudge] = useState<number | null>(null)
+  useEffect(() => {
+    try { setLastNudge(Number(localStorage.getItem(LAST_KEY) ?? 0)) } catch { setLastNudge(0) }
+  }, [])
+  const weekElapsed = lastNudge !== null && (Date.now() - lastNudge) > WEEK_MS
+
   const base = next ? next.href.split('#')[0].split('?')[0] : ''
   const candidate =
     !!next && !hidden && seen !== null &&
-    pastFirstDay &&
+    pastFirstDay && weekElapsed &&
     pathname !== '/dashboard' &&
     pathname !== base
 
@@ -136,6 +159,11 @@ export default function SetupNextBar() {
     if (seen.includes(next.key)) { setShowingKey(null); return }
     setShowingKey(next.key)
     markSeen(next.key)
+    // Start the weekly clock the moment it lands, for the same reason seen is
+    // written here rather than on a tap: showing it IS the interruption, so
+    // Not now, Go and ignoring it all cost the same week.
+    try { localStorage.setItem(LAST_KEY, String(Date.now())) } catch { /* private mode */ }
+    setLastNudge(Date.now())
   }, [candidate, next, seen, showingKey, markSeen])
 
   if (!candidate || !next || showingKey !== next.key) return null

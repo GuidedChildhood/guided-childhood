@@ -14,7 +14,7 @@ import { TRIAL_DAYS } from '@/lib/access'
 //
 // ── WHY IT STILL CARRIES ITS OWN NUMBERS ────────────────────────────────────
 //
-// Every read falls back, twice: to the seeded value from migration 199, and
+// Every read falls back, twice: to the seeded value from migration 201, and
 // under that to the constant this file was written with. A configuration
 // table that can take the product down is worse than the constants it
 // replaced, and this one sits in front of the trial, which is the first four

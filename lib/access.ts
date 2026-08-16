@@ -31,6 +31,14 @@ export type AccessProfile = {
   onboarding_complete?: boolean | null
   /** Their first ever check in. */
   first_checkin_at?: string | null
+  /**
+   * When the account was made. The floor under the whole trial.
+   *
+   * Read here so a missing trial_ends_at can be answered from the one date
+   * that always exists, rather than being read as "the trial is over". See
+   * hasFullAccess.
+   */
+  created_at?: string | null
 }
 
 // The founder and any test logins are never paywalled on their own product.
@@ -105,6 +113,36 @@ export function hasFullAccess(profile: AccessProfile | null | undefined, email?:
   if (!profile) return false
   if ((PAYING_STATUSES as readonly string[]).includes(profile.subscription_status ?? '')) return true
   if (profile.trial_ends_at) return new Date(profile.trial_ends_at).getTime() > Date.now()
+
+  // ── NO TRIAL DATE MEANS NOT STARTED, NEVER MEANS FINISHED ─────────────────
+  //
+  // Justin, 15 August 2026: "just signed up as new user and it blocked me as
+  // says i have had the 4 days but only just signed up."
+  //
+  // He was locked out of a brand new account, and the live database showed why:
+  // that profile had trial_ends_at NULL while every earlier signup carried a
+  // date. So the write that grants the trial did not fire for him, and this
+  // function read the absence of a date as the absence of a trial and returned
+  // false. A missing value was being treated as an expired one.
+  //
+  // Those are opposite meanings and only one of them is ever true of a row that
+  // was created minutes ago. The rule Justin states is that the four free days
+  // start AT SIGNUP, whichever door they take: "a new user can sign up there for
+  // founder rate and gets 4 days free after signing up, or has the chance to not
+  // sign up and pay and continue on 4 day trial."
+  //
+  // created_at is the one date that cannot be missing, so it is the floor. A
+  // parent gets their four days from the moment the account existed even if
+  // nothing ever wrote trial_ends_at, and after those four days they are
+  // blocked and offered the subscription exactly as before. The grant write is
+  // still worth having, because it is what a founder checkout moves; this only
+  // stops its absence costing a parent the product on their first evening.
+  if (profile.created_at) {
+    return new Date(profile.created_at).getTime() + TRIAL_DAYS * 86400000 > Date.now()
+  }
+
+  // No status, no trial date and no created_at is not a real profile, so this
+  // stays exactly as strict as it was.
   return false
 }
 

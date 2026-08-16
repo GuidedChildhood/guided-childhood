@@ -100,10 +100,13 @@ export default function SetupQuest({ flags, child, userId }: Props) {
 
   return (
     <>
-      <Progress done={doneCount} total={STEPS.length} />
+      <Progress done={doneCount} total={STEPS.length} steps={STEPS} flags={flags} />
 
+      {/* Done steps are the BAR now, not cards. Only the live step and the ones
+          still waiting are drawn, so the thing a parent can act on is always the
+          first thing under the bar rather than four scrolls down. */}
       <div ref={listRef} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        {rows.map(({ step, number, state }) => (
+        {rows.filter(r => r.state !== 'done').map(({ step, number, state }) => (
           <StepCard
             key={step.key}
             step={step}
@@ -122,20 +125,49 @@ type StepState = 'done' | 'live' | 'waiting'
 
 // ── THE HEADER COUNT ────────────────────────────────────────────────────────
 
-function Progress({ done, total }: { done: number; total: number }) {
+// ── THE BAR, WHICH IS NOW THE WHOLE RECORD OF WHAT IS DONE ─────────────────
+//
+// Justin, 15 August 2026: "I would prefer a bar at top with 1 done 2 done 3
+// done 4 done all completes and big tick appears in screen."
+//
+// This replaces the stacked done cards from earlier the same day, and it is the
+// better answer for the reason that version was reaching for: a finished step
+// should be VISIBLE without being IN THE WAY. As cards they were visible and in
+// the way, four sage blocks a parent had to scroll past to reach the one thing
+// they could actually do. As numbers in a bar the whole history is one line, and
+// the card below it is always the live step.
+//
+// Each number carries its own state rather than the bar being a single fill,
+// because "1 done, 2 done" is what Justin asked for and it is also the only way
+// to see WHICH is outstanding at a glance rather than just how many.
+function Progress({ done, total, steps, flags }: {
+  done: number
+  total: number
+  steps: SetupStep[]
+  flags: SetupFlags
+}) {
   return (
     <div style={{ marginBottom: '20px' }}>
-      <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
-        {Array.from({ length: total }, (_, i) => (
-          <span
-            key={i}
-            style={{
-              flex: 1, height: '8px', borderRadius: '100px',
-              background: i < done ? 'var(--terracotta)' : 'var(--border)',
-              transition: 'background 0.4s ease',
-            }}
-          />
-        ))}
+      <div style={{ display: 'flex', gap: '8px', marginBottom: '9px' }}>
+        {steps.map((s, i) => {
+          const isDone = flags[s.key]
+          return (
+            <span key={s.key} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px' }}>
+              <span style={{
+                width: '100%', height: '8px', borderRadius: '100px',
+                background: isDone ? '#1F7A54' : 'var(--border)',
+                transition: 'background 0.4s ease',
+              }} />
+              <span style={{
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                color: isDone ? '#1F7A54' : 'var(--ink-muted)', lineHeight: 1,
+                display: 'flex', alignItems: 'center', gap: '3px',
+              }}>
+                {i + 1}{isDone ? ' ✓' : ''}
+              </span>
+            </span>
+          )
+        })}
       </div>
       <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
         {done} of {total} done
@@ -556,9 +588,24 @@ function AllDone() {
       background: 'var(--tint-sage)', border: '1.5px solid var(--stage-1-bold)',
       borderRadius: '20px', padding: '26px 22px', textAlign: 'center',
     }}>
-      <div style={{ fontSize: '2.4rem', lineHeight: 1, marginBottom: '10px' }} aria-hidden>🧭</div>
+      {/* THE BIG TICK. "All completes and big tick appears in screen, lets get
+          started." It is the one moment in setup worth marking, so it is drawn
+          rather than borrowed from an emoji font: at this size an emoji tick
+          renders differently on every platform and on some of them it is not
+          green at all. */}
+      <div
+        aria-hidden
+        style={{
+          width: 84, height: 84, borderRadius: '50%', background: '#1F7A54',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          margin: '0 auto 14px', boxShadow: '0 6px 0 #145C3E',
+          color: '#fff', fontSize: '46px', fontWeight: 800, lineHeight: 1,
+        }}
+      >
+        ✓
+      </div>
       <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.02em', margin: '0 0 6px' }}>
-        Great, that is all done
+        All done. Let us get started
       </h2>
       {/* IT DOES NOT MENTION THE CHECK IN, and that is a correction rather than
           an omission. Justin, 15 August 2026: "check in how it went should not
@@ -568,11 +615,19 @@ function AllDone() {
           twenty minutes ago. The check in earns its place once there is
           something to report. */}
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 18px' }}>
-        That is the one time work behind you. From here it is about ten minutes a
-        day, and we lay out what today looks like so you never have to decide.
+        That is the one time work behind you. First thing today is the check in,
+        about thirty seconds, and it is what everything else is built on.
       </p>
+      {/* STRAIGHT TO THE PROPER CHECK IN. Justin: "takes them to start today and
+          leads them through agreed loop ... first today which is check in and
+          that needs to be the proper check in."
+          /dashboard/checkin, not /dashboard/daily and not Home. The check in got
+          its own page on 13 August precisely because every route to it used to
+          land on the moments deck and ask the parent to go looking. Sending them
+          to Home here would rebuild that fault one step further back: Home is
+          right, but it is one more tap and one more thing to read first. */}
       <Link
-        href="/dashboard"
+        href="/dashboard/checkin"
         style={{
           display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
           borderRadius: 16, padding: '15px 28px', textDecoration: 'none',
@@ -580,7 +635,7 @@ function AllDone() {
           boxShadow: '0 5px 0 var(--terracotta-dark)',
         }}
       >
-        Start today
+        Start today's check in
       </Link>
     </div>
   )

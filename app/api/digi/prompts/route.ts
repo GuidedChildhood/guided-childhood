@@ -72,7 +72,7 @@ export async function GET() {
   // written by someone walking beside them.
   const stage = child.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : null
   const { data: profile } = await supabase
-    .from('profiles').select('onboarding_answers, subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
+    .from('profiles').select('onboarding_answers, subscription_status, trial_ends_at, created_at').eq('id', user.id).maybeSingle()
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null
 
   const [{ data: knowledge }, { data: norms }, { data: memory }, { data: concerns }, progress, recommended] = await Promise.all([
