@@ -115,7 +115,12 @@ async function handler(req: NextRequest) {
     } catch { /* best effort, the app shows the same news on next open */ }
   }
 
-  return NextResponse.json({ checked, movedUp, pushed })
+  // `processed` is read by the health board (lib/ops/heartbeat.ts,
+  // processedFrom) to judge a run by what it actually did rather than its
+  // status code. Without this the board could never tell a birthday sweep
+  // that moved nobody from one that moved nobody up wrongly, because
+  // `movedUp` alone was not a name the board knew to look for.
+  return NextResponse.json({ checked, movedUp, pushed, processed: movedUp })
 }
 
 export const GET = withHeartbeat('/api/cron/age-up', handler)

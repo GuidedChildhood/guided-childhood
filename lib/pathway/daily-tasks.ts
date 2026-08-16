@@ -171,7 +171,7 @@ export async function getTodayLoop(
     // it this week" are the same fact, which is the right one: an agreement
     // reopened and left alone is still a review.
     supabase.from('family_agreements')
-      .select('updated_at, created_at')
+      .select('updated_at, created_at, signed_by_parent, signed_by_child')
       .eq('user_id', userId)
       .order('updated_at', { ascending: false })
       .limit(1)
@@ -184,7 +184,30 @@ export async function getTodayLoop(
   // The agreement's weekly clock. updated_at is written on every save, so a
   // family who opened it and changed nothing still reads as reviewed, which is
   // right: reading it IS the review.
-  const agreementUpdatedAt = (agreementRow?.updated_at as string | null)
+  // ── THE REVIEW BELONGS TO A SIGNED AGREEMENT, NOT TO A DRAFT ──────────────
+  //
+  // Justin, 16 August 2026: "we need to remove this end of week update as this
+  // does not apply when first signing up, only a week after agreement has been
+  // agreed."
+  //
+  // The rung appeared the moment a ROW existed, and the builder writes that row
+  // as clauses are picked, so a family met "The deal, review it this week" on
+  // the day they signed up, about a document they had not finished making. Four
+  // of the six agreements on the live database are signed by nobody, so this was
+  // the common case rather than an edge one.
+  //
+  // Both signatures gate it now. In the week after signing, updated_at is fresh
+  // so the rung reads DONE and says nothing; it only starts asking once a week
+  // has passed, which is exactly the shape asked for.
+  //
+  // Honest limitation: there is no agreed_at column, so "a week after it was
+  // agreed" is measured from the last touch rather than from the signature. For
+  // a family who signs and then leaves it alone those are the same instant. For
+  // one who signs and edits it twice more, the clock restarts on the last edit,
+  // which is the right answer for a review anyway.
+  const agreementSigned = !!(agreementRow as { signed_by_parent?: boolean } | null)?.signed_by_parent
+    && !!(agreementRow as { signed_by_child?: boolean } | null)?.signed_by_child
+  const agreementUpdatedAt = !agreementSigned ? null : (agreementRow?.updated_at as string | null)
     ?? (agreementRow?.created_at as string | null) ?? null
   const agreementFreshThisWeek = agreementUpdatedAt
     ? (Date.now() - new Date(agreementUpdatedAt).getTime()) < 7 * 86_400_000

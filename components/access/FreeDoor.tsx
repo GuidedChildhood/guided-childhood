@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { FREE_BTN } from './door-button'
 
 // Path two. No card, the same free days, and it says out loud what it costs.
 //
@@ -77,11 +78,8 @@ export default function FreeDoor({
         onClick={choose}
         disabled={saving}
         style={{
-          display: 'block', width: '100%',
-          padding: '15px 24px', background: '#fff',
-          border: '2px solid var(--ink)', borderRadius: 16,
-          color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-          cursor: saving ? 'default' : 'pointer', textAlign: 'center',
+          ...FREE_BTN,
+          cursor: saving ? 'default' : 'pointer',
           opacity: saving ? 0.6 : 1,
         }}
       >

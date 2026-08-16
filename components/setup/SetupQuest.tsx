@@ -313,28 +313,14 @@ function StepAction({ step, child, userId }: {
         >
           Agree it together
         </Link>
-        {/* THE PRINTED COPY OPENS IN ITS OWN WINDOW, and target is the whole
-            point rather than a detail. Justin: "click agreement to agree and
-            open print in another window for them." A family agreement that
-            lives only on a phone is a settings screen; the one that works is on
-            the fridge where the child can point at it. Sending the print view
-            to a new tab means the parent does not lose their place in setup to
-            get it, which is the difference between printing it now and meaning
-            to print it later. rel is set because target _blank without noopener
-            hands the new page a reference back to this one. */}
-        <div style={{ marginTop: '10px' }}>
-          <a
-            href="/dashboard/agreement/print"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600,
-              color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px',
-            }}
-          >
-            Or open the printed copy for the fridge
-          </a>
-        </div>
+        {/* THE PRINT OFFER MOVED TO WHERE IT BELONGS, which is the moment it is
+            agreed rather than before it exists.
+            Justin, 16 August 2026: "when we do agreement and confirm it, give
+            option to print at that point, then take to other tickable actions on
+            set up screen." It was a link here, under a step nobody had done yet,
+            offering to print a document that had not been written. The finished
+            agreement already carries Print the fridge copy, and it now carries
+            the road back here too. */}
       </>
     )
   }
