@@ -109,7 +109,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // server, which is the whole of "opening the app seems a little slow".
   // Same reads, same order of meaning, one round trip of latency.
   const [profileResult, childResult, dailySessionResult, todayMomentsResult, lastFeedbackResult, schoolActionsResult, schoolConnectionResult, agreementResult, liveConcernsResult, questsCountResult, pushSubResult, anySessionResult, anySchoolActionResult, kidLinksResult, birthdays, handoverResult, lastQuestResult, lastCompletionResult, lastCheckinResult, flashScriptRows] = await Promise.all([
-    supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, onboarding_answers, daily_minutes, first_checkin_at, plan_choice, home_screen_at').eq('id', user.id).maybeSingle(),
+    supabase.from('profiles').select('full_name, onboarding_complete, subscription_status, trial_ends_at, created_at, onboarding_answers, daily_minutes, first_checkin_at, plan_choice, home_screen_at').eq('id', user.id).maybeSingle(),
     supabase.from('children').select('id, name, age_band, stage_id, streak_weeks, actions_this_week, is_primary, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     // moment_feedback rides along so the day timeline on Home knows what has
     // already been flagged today, from here or from the deck. One extra column

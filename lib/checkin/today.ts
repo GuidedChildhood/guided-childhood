@@ -5,6 +5,22 @@ import { restingConcernIds } from '@/lib/concerns/resting'
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
 export type CheckInRow = {
+  /**
+   * The concern's own id, and it is what the save posts.
+   *
+   * Slug alone stopped being unique on 15 August 2026. Concerns went per child
+   * with migration 194, and seedChildBaseline gives every new child the SAME
+   * four common worries, so a two child family has two rows with slug
+   * 'phone-handover-fight'. /api/daily/concern-check looked its concern up by
+   * (user_id, slug) with maybeSingle, which returns an ERROR on two rows, so
+   * the route would have 404ed and, before the same day's fix, the card would
+   * have gone green over nothing and the rung would never have ticked.
+   *
+   * It had not fired yet only because the one two child account on the product
+   * predates the seeding. It would have fired for every family who used the new
+   * "add your other children" setup step.
+   */
+  id: string
   slug: string
   label: string
   timesFlagged: number
@@ -137,6 +153,7 @@ export async function getTodayCheckIn(
     rows: asked.map(c => {
       const name = c.child_id ? nameById.get(c.child_id) ?? null : null
       return {
+        id: c.id,
         slug: c.slug,
         label: c.label,
         timesFlagged: c.times_flagged,

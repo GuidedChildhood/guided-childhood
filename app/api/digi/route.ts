@@ -79,7 +79,7 @@ export const maxDuration = 90
 export const dynamic = 'force-dynamic'
 
 // The DiGi cap used to be `const FREE_DAILY_LIMIT = 3` right here. It is
-// platform_config.trial_digi_daily_limit now (migration 199), because the
+// platform_config.trial_digi_daily_limit now (migration 201), because the
 // homepage sells "DiGi, with a daily limit" and how big that limit is is a
 // pricing decision, not a line of code. lib/config/trial.ts carries the same
 // number as a fallback, so an unreachable database costs nobody their answer.
@@ -171,7 +171,7 @@ export async function POST(request: Request) {
   ] = await Promise.all([
     supabase
       .from('profiles')
-      .select('subscription_status, trial_ends_at, onboarding_answers')
+      .select('subscription_status, trial_ends_at, created_at, onboarding_answers')
       .eq('id', user.id)
       .single(),
     supabase

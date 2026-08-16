@@ -93,7 +93,7 @@ export async function middleware(request: NextRequest) {
     if (user && isProtected && needsMembership(pathname)) {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('subscription_status, trial_ends_at, plan_choice, onboarding_complete')
+        .select('subscription_status, trial_ends_at, created_at, plan_choice, onboarding_complete')
         .eq('id', user.id)
         .maybeSingle()
 

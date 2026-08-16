@@ -82,7 +82,7 @@ export async function POST(request: Request) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('subscription_status, trial_ends_at')
+    .select('subscription_status, trial_ends_at, created_at')
     .eq('id', user.id)
     .single()
   if (!hasFullAccess(profile, user.email)) {

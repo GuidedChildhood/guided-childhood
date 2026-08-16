@@ -20,9 +20,9 @@ export default function ConcernScaleFixture() {
           // history at all, so nothing is ringed. And one carrying an ODD legacy
           // score from the ten point scale, which must still ring the right word
           // rather than nothing: 7 is "getting there", the fourth band.
-          { slug: 'online-safety', label: 'Online safety', timesFlagged: 2, lastFlaggedAt: dayAgo, lastScore: 3, childName: 'Teo' },
-          { slug: 'staying-asleep', label: 'Staying asleep', timesFlagged: 1, lastFlaggedAt: dayAgo, lastScore: null, childName: 'Teo' },
-          { slug: 'rightnow-phone-handover', label: 'Phone handover fight', timesFlagged: 4, lastFlaggedAt: dayAgo, lastScore: 6, childName: 'Olga' },
+          { id: 'fixture-online-safety', slug: 'online-safety', label: 'Online safety', timesFlagged: 2, lastFlaggedAt: dayAgo, lastScore: 3, childName: 'Teo' },
+          { id: 'fixture-staying-asleep', slug: 'staying-asleep', label: 'Staying asleep', timesFlagged: 1, lastFlaggedAt: dayAgo, lastScore: null, childName: 'Teo' },
+          { id: 'fixture-phone-handover', slug: 'rightnow-phone-handover', label: 'Phone handover fight', timesFlagged: 4, lastFlaggedAt: dayAgo, lastScore: 6, childName: 'Olga' },
         ]} />
       </div>
     </div>

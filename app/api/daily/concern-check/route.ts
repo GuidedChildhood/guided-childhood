@@ -30,7 +30,8 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { slug, answer, score } = await request.json() as {
+  const { concernId, slug, answer, score } = await request.json() as {
+    concernId?: string
     slug?: string
     answer?: string
     score?: unknown
@@ -44,12 +45,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'A score from 1 to 10, or an answer, is required' }, { status: 400 })
   }
 
-  const { data: concern } = await supabase
-    .from('concerns')
-    .select('id, status')
-    .eq('user_id', user.id)
-    .eq('slug', slug)
-    .maybeSingle()
+  // ── BY ID FIRST, BECAUSE SLUG IS NO LONGER UNIQUE ─────────────────────────
+  //
+  // Concerns went per child with migration 194, and seedChildBaseline gives
+  // every new child the same four common worries, so a two child family holds
+  // two rows with slug 'phone-handover-fight'. maybeSingle returns an ERROR on
+  // two rows, not the first of them, so this lookup would have failed with a
+  // 404 for every family who used the new "add your other children" step, and
+  // the check in would have looped silently.
+  //
+  // The client sends the row's own id now. slug is still accepted and still
+  // works for a one child family, because an app open from before this deploy
+  // is still holding a page that only knows the slug, and limit(1) keeps that
+  // path from throwing on the ambiguity rather than resolving it wrongly.
+  const byId = typeof concernId === 'string' && concernId.length > 0
+  const { data: concern } = byId
+    ? await supabase.from('concerns').select('id, status')
+        .eq('user_id', user.id).eq('id', concernId).maybeSingle()
+    : await supabase.from('concerns').select('id, status')
+        .eq('user_id', user.id).eq('slug', slug)
+        .order('created_at', { ascending: true }).limit(1).maybeSingle()
 
   if (!concern) {
     return NextResponse.json({ error: 'Concern not found' }, { status: 404 })

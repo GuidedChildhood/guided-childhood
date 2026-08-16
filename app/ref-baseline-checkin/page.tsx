@@ -20,13 +20,13 @@ export const dynamic = 'force-dynamic'
 // The two the wizard maps onto the ledger. A baseline never has a lastScore,
 // which is the case that matters here.
 const BASELINE = [
-  { slug: 'wont-put-down', label: 'Will not put it down', timesFlagged: 1, lastFlaggedAt: new Date().toISOString(), lastScore: null },
-  { slug: 'bedtime-screens', label: 'Bedtime screens', timesFlagged: 1, lastFlaggedAt: new Date().toISOString(), lastScore: null },
+  { id: 'fixture-wont-put-down', slug: 'wont-put-down', label: 'Will not put it down', timesFlagged: 1, lastFlaggedAt: new Date().toISOString(), lastScore: null },
+  { id: 'fixture-bedtime-screens', slug: 'bedtime-screens', label: 'Bedtime screens', timesFlagged: 1, lastFlaggedAt: new Date().toISOString(), lastScore: null },
 ]
 
 const RUNNING = [
-  { slug: 'morning-tv', label: 'Morning TV', timesFlagged: 6, lastFlaggedAt: new Date(Date.now() - 6 * 86400000).toISOString(), lastScore: 6 },
-  { slug: 'mood-after-screens', label: 'Mood after screens', timesFlagged: 3, lastFlaggedAt: new Date(Date.now() - 2 * 86400000).toISOString(), lastScore: 8 },
+  { id: 'fixture-morning-tv', slug: 'morning-tv', label: 'Morning TV', timesFlagged: 6, lastFlaggedAt: new Date(Date.now() - 6 * 86400000).toISOString(), lastScore: 6 },
+  { id: 'fixture-mood-after-screens', slug: 'mood-after-screens', label: 'Mood after screens', timesFlagged: 3, lastFlaggedAt: new Date(Date.now() - 2 * 86400000).toISOString(), lastScore: 8 },
 ]
 
 export default function RefBaselineCheckIn() {

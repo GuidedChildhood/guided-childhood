@@ -109,7 +109,7 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ key: string
   // for those is also one less query on the free path.
   if (!printable.free) {
     const { data: profile } = await supabase
-      .from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle()
+      .from('profiles').select('subscription_status, trial_ends_at, created_at').eq('id', user.id).maybeSingle()
     if (!hasFullAccess(profile, user.email)) {
       // The sheet rides along so the upgrade page can name what they were
       // reaching for rather than being a generic wall.
