@@ -43,6 +43,7 @@ import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SocialMediaHeadsUp from '@/components/pathway/SocialMediaHeadsUp'
 import PhoneHeadsUp from '@/components/pathway/PhoneHeadsUp'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
+import MonthlyShopSheet from '@/components/shop/MonthlyShopSheet'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import CatchupCard from '@/components/daily/CatchupCard'
@@ -1235,6 +1236,17 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         )
       })()}
       <SetupUnlockToast flags={setupFlags} />
+
+      {/* The shop, once a month, and never before the first check in.
+          Same gate as the shop card in the Today rotation and the passport
+          nudge, for the same reason: a personalised booklet of a passport with
+          nothing stamped in it is not a keepsake, it is a cover and five zeros,
+          and offering to print one is the fastest way to teach a parent the
+          passport is not worth opening. Everything else about when it shows is
+          in the component, which owns the month stamp and the popup lock. */}
+      {!!(profile?.first_checkin_at as string | null) && (
+        <MonthlyShopSheet childName={child?.name ?? null} />
+      )}
 
       {/* The child's name was skipped at setup: one gentle ask, one tap to make
           the whole app personal. Dismissable, never nags. */}
