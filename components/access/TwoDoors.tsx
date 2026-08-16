@@ -31,8 +31,11 @@ import FreeDoor from './FreeDoor'
 
 const CARD: React.CSSProperties = {
   background: '#fff', border: '1.5px solid var(--border)',
-  borderRadius: 20, padding: '28px 24px',
+  borderRadius: 20, padding: '22px 20px',
   boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
+  // Equal height whatever the copy does, and the button pinned to the bottom of
+  // each, so the two are read as a pair rather than as one card and a follow up.
+  display: 'flex', flexDirection: 'column',
 }
 
 const EYEBROW: React.CSSProperties = {
@@ -79,7 +82,7 @@ export default function TwoDoors({
 
   return (
     <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '32px 20px' }}>
-      <div style={{ maxWidth: 480, width: '100%' }}>
+      <div style={{ maxWidth: 880, width: '100%' }}>
 
         {/* The eyebrow tells the truth in both states. Leaving it on
             "Founding members" over a card that says the places have gone is a
@@ -97,6 +100,22 @@ export default function TwoDoors({
           Everything you just set up is saved. This is the last step, and either one takes you straight in.
         </p>
 
+        {/* ── SIDE BY SIDE, AND SMALLER ──────────────────────────────────
+            Justin, 16 August 2026: "can we put these side by side as options
+            and make a little smaller, although text size is good, just a bit
+            simpler."
+            Stacked, the founder card came first and the free one read as what
+            you do if you say no to it. Side by side they are two options being
+            weighed, which is what the screen is for and what the matched
+            buttons were already reaching for. Text sizes are untouched: the
+            weight came off the padding and the column width, not the words.
+            auto-fit with a 300px floor, so a phone still gets one above the
+            other and nothing is squeezed. */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '14px', alignItems: 'stretch',
+        }}>
         <div style={CARD}>
           {!soldOut ? (
             <>
@@ -125,7 +144,7 @@ export default function TwoDoors({
                 </span>
               </div>
 
-              <form action="/api/stripe/checkout" method="POST">
+              <form action="/api/stripe/checkout" method="POST" style={{ marginTop: 'auto' }}>
                 <input type="hidden" name="tier" value="founder" />
                 <input type="hidden" name="from" value="choose" />
                 <input type="hidden" name="next" value={next} />
@@ -150,7 +169,7 @@ export default function TwoDoors({
                 £12.99 a month starts after your {freeDays} free {dayWord}. Cancel any time before and pay nothing.
               </p>
 
-              <form action="/api/stripe/checkout" method="POST">
+              <form action="/api/stripe/checkout" method="POST" style={{ marginTop: 'auto' }}>
                 <input type="hidden" name="tier" value="standard" />
                 <input type="hidden" name="from" value="choose" />
                 <input type="hidden" name="next" value={next} />
@@ -167,6 +186,7 @@ export default function TwoDoors({
             The no card path keeps its own case rather than being an apology,
             and it says plainly what it costs. */}
         <FreeDoor days={freeDays} trialDays={trialDays} next={next} />
+        </div>
 
         {/* SAID ONCE, UNDERNEATH BOTH, because it is the one thing that does
             not differ. Justin, 14 August 2026: "The trial itself is identical:

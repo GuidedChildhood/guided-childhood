@@ -57,7 +57,12 @@ export default function FreeDoor({
   return (
     <div style={{
       background: '#fff', border: '1.5px solid var(--border)',
-      borderRadius: 20, padding: '22px 24px', marginTop: '14px',
+      borderRadius: 20, padding: '22px 20px',
+      boxShadow: '0 4px 24px rgba(26,26,46,0.07)',
+      // Matches CARD in TwoDoors exactly. marginTop is gone: the grid owns the
+      // spacing now, and a top margin on one of two side by side cards drops it
+      // below the other.
+      display: 'flex', flexDirection: 'column',
     }}>
       <div style={{
         fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -79,6 +84,7 @@ export default function FreeDoor({
         disabled={saving}
         style={{
           ...FREE_BTN,
+          marginTop: 'auto',
           cursor: saving ? 'default' : 'pointer',
           opacity: saving ? 0.6 : 1,
         }}
