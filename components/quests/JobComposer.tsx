@@ -31,11 +31,19 @@ const WHEN: { key: Schedule; label: string }[] = [
 // Work it out means what has always happened: the band is read from the words
 // in the title. A parent only overrides it when the guess is wrong for their
 // house.
+//
+// It sits LAST, not first. It used to lead the list and render filled, because
+// the state defaulted to auto, and Justin caught what that does to the step:
+// "when in the day they need to know to click the button, be more intuitive."
+// A chip that already looks chosen at the top of the list reads as a question
+// already answered, so the parent hunts for a Next button that does not exist.
+// The three real times lead, the fallback follows, and nothing on this step
+// ever renders chosen, because choosing is the tap that adds the job.
 const BANDS: { key: JobBand | 'auto'; label: string }[] = [
-  { key: 'auto',         label: 'Work it out' },
   { key: 'morning',      label: 'Before school' },
   { key: 'after_school', label: 'After school' },
   { key: 'evening',      label: 'Before bed' },
+  { key: 'auto',         label: 'Work it out' },
 ]
 
 // One question at a time.
@@ -158,14 +166,18 @@ export default function JobComposer({
   const [title, setTitle] = useState('')
   const [draft, setDraft] = useState('')
   const [when, setWhen] = useState<Schedule>('daily')
-  const [band, setBand] = useState<JobBand | 'auto'>('auto')
+  // There is deliberately no band state. The last question is answered by the
+  // tap that adds the job, so a stored default would only exist to render one
+  // chip pre filled, and a pre filled chip on that step is the exact bug this
+  // replaced: it reads as already answered, and the parent hunts for a Next
+  // button that does not exist.
   // The one just added, named back so a parent can see what landed before
   // deciding whether to add another.
   // The answers themselves, not a sentence about them, so the confirmation can
   // show them back in the colours they were chosen in.
   const [last, setLast] = useState<{ title: string; when: Schedule; band: JobBand | 'auto' } | null>(null)
-  // True once anything has been added, so the repeat and band answers can be
-  // offered as the same as last time rather than asked from cold.
+  // True once anything has been added, so the repeat answer can be offered as
+  // the same as last time rather than asked from cold.
   const [addedBefore, setAddedBefore] = useState(false)
 
   // Tell the caller which question is showing, so it can hide the ideas grid
@@ -206,10 +218,9 @@ export default function JobComposer({
     setAddedBefore(true)
     setDraft('')
     setStep('added')
-    // Neither the schedule nor the band is reset. A parent adding three school
-    // day morning jobs answers both once and taps straight past them after
-    // that, which is the whole reason adding several in a row feels like one
-    // action rather than three.
+    // The schedule is not reset: a parent adding three school day jobs answers
+    // How often once and taps straight past it after that. The band has no
+    // memory to reset, because on that step the tap IS the answer.
   }
 
   // One accent, and it is the butter.
@@ -303,23 +314,49 @@ export default function JobComposer({
   // The job being built, kept on screen through both questions so nothing has
   // been decided behind a parent's back, and so the answer to "which job is
   // this about" is never more than a glance away.
+  //
+  // On the last question the How often answer joins it as a butter pill.
+  // Justin, 16 August: "the add quest job page needs to be clearer when
+  // selecting week or day". On When in the day the week choice was invisible:
+  // a parent two taps in could see WHICH job but not WHEN it repeats, and the
+  // one place that said the answer back was the confirmation after the fact.
+  // The pill is the same butter the confirmation already uses to say answers
+  // back, so the running answers and the final ones read as one language, and
+  // each carries its own small Change back to its step.
+  const changeLink = (label: string, onClick: () => void) => (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px',
+        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+        color: 'var(--terracotta)', letterSpacing: '0.04em',
+      }}
+    >
+      {label}
+    </button>
+  )
+
   const heading = (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, flexWrap: 'wrap', marginBottom: 10 }}>
       <span style={ASIDE}>Adding</span>
       <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
         {draft}
       </span>
-      <button
-        type="button"
-        onClick={() => { setStep('what'); setTitle(draft); setDraft('') }}
-        style={{
-          background: 'none', border: 'none', cursor: 'pointer', padding: '2px 4px',
-          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-          color: 'var(--terracotta)', letterSpacing: '0.04em',
-        }}
-      >
-        Change
-      </button>
+      {changeLink('Change', () => { setStep('what'); setTitle(draft); setDraft('') })}
+      {step === 'when' && (
+        <>
+          <span style={{
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
+            background: 'var(--terracotta)', color: 'var(--ink)',
+            border: '1.5px solid var(--terracotta-dark)',
+            borderRadius: 100, padding: '4px 11px',
+          }}>
+            {WHEN.find(x => x.key === when)?.label}
+          </span>
+          {changeLink('Change', () => setStep('often'))}
+        </>
+      )}
     </div>
   )
 
@@ -350,38 +387,39 @@ export default function JobComposer({
   }
 
   // ── 3. When in the day? ───────────────────────────────────────
+  //
+  // The tap that answers this question is the tap that adds the job, and the
+  // step has to SAY so. It used to render Work it out pre filled (the state
+  // defaulted to auto), which reads as a question already answered, so a
+  // parent sat looking for the Next button while the actual next step was
+  // tapping any chip. Nothing here renders chosen any more: four plain
+  // buttons, a line that says the tap adds, and the fallback last with its own
+  // one line explanation. The old "← How often" link went too, because the
+  // Change beside the butter pill above is the same journey with a clearer
+  // name.
   if (step === 'when') {
     return (
       <>
         {heading}
         <p style={QUESTION}>When in the day?</p>
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 8px' }}>
-          This is when the reminder lands. Work it out reads it from the words.
+          This is when the reminder lands. Tap one and the job goes on the board.
         </p>
         <div style={CHIP_GRID}>
           {BANDS.map(b => (
             <button
               key={b.key}
               type="button"
-              aria-pressed={b.key === band}
-              onClick={() => { setBand(b.key); finish(b.key) }}
-              style={chip(b.key === band)}
+              onClick={() => finish(b.key)}
+              style={chip(false)}
             >
               {b.label}
             </button>
           ))}
         </div>
-        <button
-          type="button"
-          onClick={() => setStep('often')}
-          style={{
-            background: 'none', border: 'none', cursor: 'pointer', marginTop: 10, padding: '4px 2px',
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-            color: 'var(--ink-muted)', letterSpacing: '0.04em',
-          }}
-        >
-          ← How often
-        </button>
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.45, margin: '8px 0 0' }}>
+          Work it out reads the time of day from the job&rsquo;s own words.
+        </p>
       </>
     )
   }

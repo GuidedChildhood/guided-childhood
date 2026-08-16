@@ -52,7 +52,7 @@ for (const shut of [
   '/dashboard/explore', '/dashboard/guide', '/dashboard/homework',
   '/dashboard/insights', '/dashboard/keepsakes', '/dashboard/learning',
   '/dashboard/lessons', '/dashboard/moments', '/dashboard/new-script',
-  '/dashboard/notifications', '/dashboard/road', '/dashboard/passport', '/dashboard/phone-setup',
+  '/dashboard/notifications', '/dashboard/pathway', '/dashboard/road', '/dashboard/passport', '/dashboard/phone-setup',
   '/dashboard/printables', '/dashboard/quests', '/dashboard/school',
   '/dashboard/scripts', '/dashboard/secondary', '/dashboard/setup',
   '/dashboard/social-settings', '/dashboard/stats', '/dashboard/tell-a-parent',

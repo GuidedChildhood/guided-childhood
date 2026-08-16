@@ -10,6 +10,7 @@ import StickerBook from '@/components/pathway/StickerBook'
 import { getStickerBook } from '@/lib/stickers/book'
 import StaggerReveal from '@/components/pathway/StaggerReveal'
 import ToolCard, { type Tool } from '@/components/tools/ToolCard'
+import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
 import BalanceReport from '@/components/balance/BalanceReport'
 import { type ParentReport } from '@/lib/balance/parent-report'
@@ -170,10 +171,7 @@ export default async function IsItWorkingReport(
 
   return (
     <StaggerReveal style={{ maxWidth: '640px', margin: '0 auto', padding: '8px 20px 40px' }}>
-      {/* The child switcher used to be here. It moved up to the passport page
-          on 13 August 2026, where it sits above the tab bar and so carries the
-          chosen child across all four tabs. Two switchers on one screen is one
-          switcher too many, and the page's is the one that works everywhere. */}
+      <ChildSwitcher kids={children} selectedId={primary?.id ?? null} basePath="/dashboard/pathway" />
       <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 5.5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         Is it working?
       </h2>

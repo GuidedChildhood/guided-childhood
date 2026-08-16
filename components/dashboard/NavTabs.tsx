@@ -5,11 +5,8 @@ import { usePathname } from 'next/navigation'
 
 // One nav, phone and laptop the same: the six core destinations in one order,
 // so the app never reads differently on a bigger screen. School reaches from
-// Home and the Passport rather than a top level tab.
-//
-// The Passport tab pointed at /dashboard/pathway until 13 August 2026, which
-// is why a parent tapping Passport landed on a road with the passport four
-// screens down it. It has its own route now, and its own tabs.
+// Home and the Passport rather than a top level tab, and the old Pathway tab
+// folded into the Passport (it is the same journey now).
 //
 // Lessons sits before Quests because it is the thing the quests are for. It had
 // no desktop tab at all until now, only a chip in the mobile secondary strip,
@@ -21,7 +18,7 @@ const NAV_TABS = [
   { href: '/dashboard/lessons', label: 'Lessons' },
   { href: '/dashboard/quests', label: 'Quests' },
   { href: '/dashboard/scripts', label: 'Scripts' },
-  { href: '/dashboard/passport', label: 'Passport' },
+  { href: '/dashboard/pathway', label: 'Passport' },
 ]
 
 // Segmented pill navigation: the active tab sits in a dark pill, hover

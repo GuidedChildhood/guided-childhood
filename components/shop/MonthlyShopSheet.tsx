@@ -152,8 +152,13 @@ export default function MonthlyShopSheet({ childName, devForce = false }: {
           the Planet Friends sticker sheet to go with it. We only mention this once a month.
         </p>
 
+        {/* The shop lives at /dashboard/keepsakes again. This sheet was built
+            while the passport was briefly a tabbed page with the shop as a
+            tab; that design was reversed the same day, and the tab URL is now
+            only a redirect kept for links already in the wild. New surfaces
+            link the real page. */}
         <Link
-          href="/dashboard/passport?tab=shop"
+          href="/dashboard/keepsakes"
           onClick={dismiss}
           style={{
             display: 'block', textAlign: 'center', background: 'var(--terracotta)',

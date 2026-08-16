@@ -15,7 +15,7 @@ import { redirect, notFound } from 'next/navigation'
 // unfinished. That is the "too much to manage", and it is the child who pays for
 // it, not the parent.
 //
-// THE PARENT'S PASSPORT IS UNTOUCHED. /dashboard/passport is a different thing
+// THE PARENT'S PASSPORT IS UNTOUCHED. /dashboard/pathway is a different thing
 // with a similar name: the ramp to 16, the five rows, the stamps. That is for
 // the grown up and it stays exactly as it is.
 //
