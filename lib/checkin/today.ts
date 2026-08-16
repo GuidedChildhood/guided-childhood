@@ -84,7 +84,10 @@ export async function getTodayCheckIn(
       .select('id, slug, label, times_flagged, last_flagged_at, child_id')
       .eq('user_id', userId)
       .in('status', ['open', 'improving'])
-      .lt('last_flagged_at', today)
+      // NOT filtered to "flagged before today" here any more. See the note by
+      // neverCheckedIn below: that rule is a REVIEW rule, and it silently
+      // deleted the baseline for every family on the day they signed up.
+      
       .or(`last_checked_at.is.null,last_checked_at.lt.${today}`)
       .order('last_flagged_at', { ascending: false })
       .limit(20),
@@ -95,17 +98,37 @@ export async function getTodayCheckIn(
   const liveRows = ((live ?? []) as Row[])
     .filter(c => c.slug && !GENERIC.has(c.slug) && (c.label ?? '').trim().toLowerCase() !== 'something else')
 
-  // The first one is the baseline, and a brand new family has nothing to check
-  // in on until what they named at signup is finally recorded as concerns. The
-  // flagged before today rule is deliberately not applied to a baseline: that
-  // rule stops us reviewing something raised this morning, and a baseline is
-  // not a review of anything.
+  // ── THE REVIEW RULE MUST NOT EAT THE BASELINE ────────────────────────────
+  //
+  // Justin, 16 August 2026, still on "All done for today" after the worries
+  // finally existed: "please fix the check in from this first page as keeps
+  // saying done."
+  //
+  // The query used to filter .lt('last_flagged_at', today), and that rule is
+  // correct for a REVIEW: do not ask a parent how last night went about
+  // something they flagged twenty minutes ago. It is wrong for a BASELINE,
+  // which is not a review of anything, and this file already said so in as many
+  // words a few lines down while only applying it to freshly seeded rows.
+  //
+  // So a family whose worries were created today, whether by onboarding, by the
+  // seeding, or by naming three things in their first ten minutes, had every row
+  // filtered out and met an empty check in on the one day they were willing to
+  // try it. Same empty page, third distinct cause: first no mapping, then a
+  // check constraint rejecting the insert, now the rows existing and being
+  // filtered away.
+  //
+  // The filter moves to where it belongs: applied only once there is a first
+  // check in to review against.
   const neverCheckedIn = !profile?.first_checkin_at
-  const seeded = neverCheckedIn && liveRows.length === 0
+  const cutoff = neverCheckedIn ? null : today
+  const liveRowsFiltered = cutoff
+    ? liveRows.filter(c => String(c.last_flagged_at) < cutoff)
+    : liveRows
+  const seeded = neverCheckedIn && liveRowsFiltered.length === 0
     ? await seedBaselineConcerns(supabase, userId, profile?.onboarding_answers)
     : []
   const baseline = seeded.length > 0
-  const rows = baseline ? seeded : liveRows
+  const rows = baseline ? seeded : liveRowsFiltered
 
   // What they said last time, so the card can show it back and the verdict can
   // name the move. A second wave by necessity: it needs the concern ids.
