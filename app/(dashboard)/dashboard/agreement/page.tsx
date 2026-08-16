@@ -22,7 +22,7 @@ export default async function AgreementPage({ searchParams }: { searchParams: Pr
   if (!user) redirect('/login')
 
   const [{ data: profile }, { data: child }, { data: agreement }] = await Promise.all([
-    supabase.from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).single(),
+    supabase.from('profiles').select('subscription_status, trial_ends_at, created_at').eq('id', user.id).single(),
     supabase.from('children').select('id, name, stage_id, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
     supabase.from('family_agreements').select('*').eq('user_id', user.id).maybeSingle(),
   ])

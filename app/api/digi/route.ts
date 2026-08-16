@@ -171,7 +171,7 @@ export async function POST(request: Request) {
   ] = await Promise.all([
     supabase
       .from('profiles')
-      .select('subscription_status, trial_ends_at, onboarding_answers')
+      .select('subscription_status, trial_ends_at, created_at, onboarding_answers')
       .eq('id', user.id)
       .single(),
     supabase
