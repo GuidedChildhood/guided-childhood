@@ -157,8 +157,8 @@ export async function POST(request: Request) {
         },
       })),
       shipping_address_collection: { allowed_countries: [...SHIP_COUNTRIES] },
-      success_url: `${origin}/dashboard/passport?tab=shop&ordered=${order.id}`,
-      cancel_url: `${origin}/dashboard/passport?tab=shop&cancelled=1`,
+      success_url: `${origin}/dashboard/keepsakes?ordered=${order.id}`,
+      cancel_url: `${origin}/dashboard/keepsakes?cancelled=1`,
       // order_id is what the webhook matches on, and it is also how the webhook
       // tells a keepsake purchase apart from a subscription so buying a four
       // pound sticker sheet never marks anyone as a paying member.

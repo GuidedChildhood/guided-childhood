@@ -185,7 +185,7 @@ export const ROTATION: Item[] = [
     build: s => ({
       key: 'concern-queue', eyebrow: EYEBROW, title: 'Work through what has come up',
       line: `${s.concernsLive} on the list, most pressing first. One at a time is the whole method.`,
-      href: '/dashboard/passport?tab=working', icon: '🧩', coversJobs: false,
+      href: '/dashboard/pathway#is-it-working', icon: '🧩', coversJobs: false,
     }),
   },
   {
@@ -266,7 +266,7 @@ export const ROTATION: Item[] = [
     build: () => ({
       key: 'passport', eyebrow: EYEBROW, title: 'Open the passport',
       line: 'Where you started, what has changed, and the stamp you are working on.',
-      href: '/dashboard/passport', icon: '📖', coversJobs: false,
+      href: '/dashboard/pathway#passport', icon: '📖', coversJobs: false,
     }),
   },
 ]
@@ -303,7 +303,7 @@ const MONTHLY: Item[] = [
     build: () => ({
       key: 'shop', eyebrow: EYEBROW, title: 'The passport, printed',
       line: 'Their real one as a little booklet, and the Planet Friends sticker sheet.',
-      href: '/dashboard/passport?tab=shop', icon: '📮', coversJobs: false,
+      href: '/dashboard/keepsakes', icon: '📮', coversJobs: false,
     }),
   },
 ]

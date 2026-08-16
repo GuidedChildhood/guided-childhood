@@ -482,7 +482,7 @@ export default function DailyDeckViewer({
         </button>
 
         <button
-          onClick={() => router.push('/dashboard/road')}
+          onClick={() => router.push('/dashboard/pathway')}
           style={{
             width: '100%', marginTop: '10px', padding: '12px', background: 'none',
             border: 'none', cursor: 'pointer',

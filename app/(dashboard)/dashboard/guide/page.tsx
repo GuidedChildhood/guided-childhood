@@ -15,7 +15,7 @@ const HOW_IT_WORKS: { emoji: string; title: string; body: string; href: string; 
   {
     emoji: '🗺️', title: 'The pathway to 16',
     body: 'One plan that turns 16 from a cliff edge into a gentle ramp. The settings relax as your child earns it, one stage at a time, all the way to independence.',
-    href: '/dashboard/road', cta: 'See the road',
+    href: '/dashboard/pathway', cta: 'See the pathway',
   },
   {
     emoji: '✦', title: 'Lessons that grow judgement',

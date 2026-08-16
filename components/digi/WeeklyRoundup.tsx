@@ -202,7 +202,7 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
       )}
 
       {/* The week on the pathway: this stamp, one step nearer ready at 16. */}
-      <Link href="/dashboard/road" style={{ display: 'flex', alignItems: 'center', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 14px', marginBottom: '16px', textDecoration: 'none' }}>
+      <Link href="/dashboard/pathway" style={{ display: 'flex', alignItems: 'center', gap: '11px', background: 'var(--cream)', borderRadius: '13px', padding: '11px 14px', marginBottom: '16px', textDecoration: 'none' }}>
         <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>🪪</span>
         <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>
           On the pathway this is <strong style={{ color: 'var(--ink)' }}>Stage {readiness.id}, {readiness.stamp}</strong>. A good week here is one step nearer ready at 16.

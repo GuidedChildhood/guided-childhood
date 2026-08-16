@@ -71,7 +71,7 @@ export const SPOTLIGHTS: Spotlight[] = [
     title: 'The passport is the receipt for all of it',
     body: `Every script you have used, every lesson {child} has done, every agreement you have made together. It is the one place that shows how far you have come, and it is worth opening when a hard week makes it feel like nothing has changed. It usually has.`,
     cta: 'Open the passport',
-    href: `${APP}/dashboard/passport`,
+    href: `${APP}/dashboard/pathway`,
     addedAt: '2026-07-30',
   },
   {

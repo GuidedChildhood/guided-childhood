@@ -15,7 +15,7 @@ const PAGE_NAMES: Record<string, string> = {
   '/dashboard/scripts': 'The scripts',
   '/dashboard/digi': 'DiGi',
   '/dashboard/lessons': 'The lessons',
-  '/dashboard/road': 'The road to 16',
+  '/dashboard/pathway': 'The pathway',
   '/dashboard/printables': 'The printables',
   '/dashboard/quests': 'The quest board',
   '/dashboard/tracker': 'The wellbeing tracker',
@@ -26,6 +26,7 @@ const PAGE_NAMES: Record<string, string> = {
   '/dashboard/homework': 'The homework helper',
   '/dashboard/insights': 'Your insights',
   '/dashboard/passport': 'The passport',
+  '/dashboard/road': 'The road to 16',
   '/dashboard/week': 'Your week',
   '/dashboard': 'Your home page',
 }

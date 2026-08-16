@@ -1146,7 +1146,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           label={checkupNeeds === 1
             ? 'One thing to check on for them'
             : `${checkupNeeds} things to check on for them`}
-          href="/dashboard/passport?tab=four"
+          href="/dashboard/pathway#four-things"
         />
       )}
 

@@ -81,7 +81,7 @@ export default function ScriptDetailView({
             pathway here and is handed "All scripts" has been quietly moved to
             a different place from the one they were in. */}
         <Link
-          href={backToPathway ? '/dashboard/road' : '/dashboard/scripts'}
+          href={backToPathway ? '/dashboard/pathway' : '/dashboard/scripts'}
           style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
         >
           {backToPathway ? '← Back to the pathway' : '← All scripts'}
@@ -284,7 +284,7 @@ export default function ScriptDetailView({
           </Link>
         )}
         <Link
-          href={backToPathway ? '/dashboard/road' : '/dashboard'}
+          href={backToPathway ? '/dashboard/pathway' : '/dashboard'}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
