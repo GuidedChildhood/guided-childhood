@@ -43,7 +43,7 @@ const GREEN = '#2F8F6B'
 const GREEN_DARK = '#236F52'
 
 const NODE_ICON: Record<TodayLoopTask['key'], string> = {
-  checkin: '🪴', setup: '🧰', moment: '☀️', agreement: '🤝', script: '💬', quests: '⭐', passport: '🛂', digi: '✦', done: '🏁',
+  checkin: '✦', setup: '🧰', moment: '☀️', agreement: '🤝', script: '💬', quests: '⭐', passport: '🛂', digi: '✦', done: '🏁',
 }
 
 function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked: boolean }) {

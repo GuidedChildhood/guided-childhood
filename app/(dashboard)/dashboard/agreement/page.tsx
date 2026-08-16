@@ -3,6 +3,7 @@ import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import type { StageId } from '@/lib/pathway/progress'
 import AgreementBuilder from '@/components/agreement/AgreementBuilder'
+import { getSetupState } from '@/lib/setup/flags'
 import BackTo from '@/components/nav/BackTo'
 
 export const dynamic = 'force-dynamic'
@@ -17,9 +18,22 @@ const STAGE_LABELS: Record<StageId, string> = {
 
 export default async function AgreementPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
   const { from } = await searchParams
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
+
+  // WHERE THIS PAGE SENDS THEM WHEN THEY ARE DONE.
+  //
+  // Justin, 16 August 2026: "once they have agreed then give option to print and
+  // take them back to set up page, not home, not anywhere else, until all steps
+  // of set up are done, then take them to home page."
+  //
+  // Read on the server rather than trusted to a from=setup query string, which
+  // is the first thing lost to a reload, a back button or a link a parent sends
+  // themselves. Setup being unfinished is a FACT about the family, so it is read
+  // as one.
+  const { complete: setupComplete } = await getSetupState(supabase, user.id)
 
   const [{ data: profile }, { data: child }, { data: agreement }] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, created_at').eq('id', user.id).single(),
@@ -81,6 +95,7 @@ export default async function AgreementPage({ searchParams }: { searchParams: Pr
       isPaid={isPaid}
       childAppLive={childAppLive}
       lastCheck={lastCheck}
+      setupComplete={setupComplete}
       />
     </>
   )

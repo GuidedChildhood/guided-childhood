@@ -30,9 +30,28 @@ export const ONBOARDING_TO_SLUG: Record<string, string> = {
   screens_takeover: 'wont-put-down',
   mood_changes: 'mood-after-screens',
   gaming: 'controller-fights',
-  // something_else and online_safety are deliberately absent. A catch all is
-  // a picker, not a rateable thing, and the daily card already filters those
-  // out by slug. A baseline row nobody can honestly score is worse than none.
+  // ── THE TWO THAT WERE MISSING, AND COST EVERY NEW FAMILY THEIR CHECK IN ───
+  //
+  // The canonical list is ChallengeId in lib/content/stages.ts: screens_takeover,
+  // mood_changes, gaming, online_safety, start_conversation, asking_for_phone.
+  // Three of those six had no key here, and asking_for_phone is the SECOND most
+  // common answer on the live product, five of the twelve accounts.
+  //
+  // The effect was total and silent. No key means no slug, no slug means this
+  // returns [], no concerns are seeded, and the check in page opens on "All done
+  // for today" on the morning a family signs up, while the rung on Home still
+  // reads not done. That is the loop Justin kept hitting, and it was never the
+  // rung: there was genuinely nothing to ask about.
+  //
+  // LABEL already carried 'phones-and-messaging' with nothing pointing at it,
+  // which is the tell that this mapping was always meant to exist.
+  asking_for_phone: 'phones-and-messaging',
+  start_conversation: 'phones-and-messaging',
+  // online_safety and something_else stay deliberately absent. A catch all is a
+  // picker, not a rateable thing, and the daily card already filters those out
+  // by slug. A baseline row nobody can honestly score is worse than none. They
+  // are safe to leave out now that an unmapped answer falls back to the four
+  // common ones rather than to nothing.
 }
 
 // What the parent sees on the row. Plain, and in their words rather than
@@ -107,9 +126,27 @@ export async function seedBaselineConcerns(
     ...(answers.challenge ? [answers.challenge] : []),
   ]
 
-  const slugs = Array.from(new Set(
+  const mapped = Array.from(new Set(
     named.map(c => ONBOARDING_TO_SLUG[String(c)]).filter(Boolean)
   ))
+
+  // ── AN UNMAPPED ANSWER MUST NEVER MEAN NO CHECK IN ────────────────────────
+  //
+  // This used to `return []` when nothing matched, and that single line is what
+  // turned a missing key into a dead product surface: no rows, so the check in
+  // page says "All done for today" on day one, so the first thing the daily loop
+  // asks a new family to do is the one thing it will not let them do.
+  //
+  // Mapping asking_for_phone fixes today's version of it. This fixes the SHAPE
+  // of it, which matters more, because the map has now fallen behind the
+  // onboarding options twice and will again the next time somebody adds a
+  // question: a family who answers something we have no slug for gets the four
+  // common worries instead of an empty page.
+  //
+  // The four are a fair thing to ask anybody with a screen in the house, and a
+  // parent who finds one irrelevant answers "going great" once and it rests. An
+  // approximate question they can answer beats a perfect one they never see.
+  const slugs = mapped.length > 0 ? mapped : COMMON_BASELINE_SLUGS
   if (slugs.length === 0) return []
 
   // Only ever on a genuinely empty ledger. A family with concerns already has

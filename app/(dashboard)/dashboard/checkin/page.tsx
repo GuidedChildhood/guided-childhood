@@ -53,7 +53,6 @@ export default async function CheckInPage() {
             background: '#fff', border: '1.5px solid var(--border)',
             borderRadius: 20, padding: '26px 22px', textAlign: 'center',
           }}>
-            <div aria-hidden="true" style={{ fontSize: '2rem', lineHeight: 1, marginBottom: '10px' }}>🪴</div>
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 6px' }}>
               All done for today
             </p>
