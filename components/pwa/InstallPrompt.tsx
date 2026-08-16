@@ -33,6 +33,23 @@ const DONE_KEY = 'gc_install_done'
 const FIRST_SEEN_KEY = 'gc_app_first_seen'
 /** The server has been told this browser runs standalone. See the ping below. */
 const TOLD_KEY = 'gc_home_screen_told'
+// ── ONCE A SESSION, NOT ONCE A PAGE ────────────────────────────────────────
+//
+// Justin, 16 August 2026, with a screenshot of the banner over the agreement:
+// "need to stop this repeatedly flashing up, just once per session until
+// installed."
+//
+// DONE_KEY only ever recorded a DISMISSAL, so a parent who simply navigated on
+// met the banner again on the next page, and again on the one after. On Android
+// and desktop Chrome beforeinstallprompt fires on every load until the app is
+// installed, so the component remounting on each route change was enough to
+// bring it back. It was not nagging by design, it was nagging by omission.
+//
+// sessionStorage is exactly the right lifetime: it says its piece once per
+// visit, and it is gone when they close the tab, so tomorrow it may ask again
+// until the app is actually installed. Separate from DONE_KEY, which stays the
+// permanent no.
+const SESSION_KEY = 'gc_install_seen_session'
 
 type BeforeInstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> }
 
@@ -93,6 +110,9 @@ export default function InstallPrompt() {
     // setup step before we ask them to install, so nothing competes on day one.
     if (!localStorage.getItem(FIRST_SEEN_KEY)) { localStorage.setItem(FIRST_SEEN_KEY, String(Date.now())); return }
 
+    // Already said its piece this visit.
+    try { if (sessionStorage.getItem(SESSION_KEY) === '1') return } catch { /* private mode */ }
+
     const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent)
     setPlatform(isIos ? 'ios' : 'android')
 
@@ -100,13 +120,17 @@ export default function InstallPrompt() {
       const onPrompt = (e: Event) => {
         e.preventDefault()
         setInstallEvent(e as BeforeInstallPromptEvent)
+        try { sessionStorage.setItem(SESSION_KEY, '1') } catch { /* private mode */ }
         setMode('banner')
       }
       window.addEventListener('beforeinstallprompt', onPrompt)
       return () => { cancelled = true; window.removeEventListener('beforeinstallprompt', onPrompt) }
     }
 
-    const id = setTimeout(() => setMode('banner'), 2500)
+    const id = setTimeout(() => {
+      try { sessionStorage.setItem(SESSION_KEY, '1') } catch { /* private mode */ }
+      setMode('banner')
+    }, 2500)
     return () => { cancelled = true; clearTimeout(id) }
   }, [])
 

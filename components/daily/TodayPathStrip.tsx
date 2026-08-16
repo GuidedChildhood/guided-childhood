@@ -78,7 +78,7 @@ export function nextHint(key: TodayLoopTask['key']): string {
 }
 
 const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon: string }> = {
-  checkin: { fill: 'var(--tint-sage)',    tick: 'var(--ink)',          icon: '🪴' },
+  checkin: { fill: 'var(--tint-sage)',    tick: 'var(--ink)',          icon: '✦' },
   setup:   { fill: 'var(--stage-4-bold)', tick: 'var(--stage-4-text)', icon: '🧰' },
   quests:  { fill: 'var(--gold)',         tick: 'var(--ink)',          icon: '⭐' },
   moment:  { fill: 'var(--stage-1-bold)', tick: 'var(--stage-1-text)', icon: '☀️' },
