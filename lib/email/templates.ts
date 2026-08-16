@@ -162,7 +162,7 @@ export function day2StageEmail(params: {
       }) : '') +
       p(`Here is the one sentence version: ${stageFocus}.`) +
       p(`Every script, weekly action and DiGi answer you get is calibrated to this stage. Not generic advice for children, the right move for this age, right now.`) +
-      button('See my stage', `${APP}/dashboard/road`) +
+      button('See my stage pathway', `${APP}/dashboard/pathway`) +
       p(`Five minutes on the pathway page and you will know exactly where you are and what comes next.`),
       unsubscribe
     ),
@@ -203,7 +203,7 @@ export function day3TourEmail(params: {
       step(3, 'Family Quests', `${childName}'s everyday jobs, packing a bag, getting dressed, being kind, earn stars. Stars buy the screen time you both agree on. They tick, you approve.`, 'Set up quests', `${APP}/dashboard/quests`) +
       step(4, 'Family Agreement', `The rules decided together, not handed down, covering screens off time, where devices sleep, and what happens when something goes wrong. Signed by both of you.`, 'Build your agreement', `${APP}/dashboard/agreement`) +
       step(5, 'School emails, caught automatically', `Forward school emails to your private address and PE kit days, forms and deadlines land as reminders here, straight into the platform, never buried in an inbox.`, 'Connect your school', `${APP}/dashboard/school`) +
-      step(6, 'Your Progress page', `Streaks, wellbeing signals and where ${childName} sits on the pathway to 16, all in one view. This is the page that answers is it working.`, 'See your progress', `${APP}/dashboard/passport?tab=working`) +
+      step(6, 'Your Progress page', `Streaks, wellbeing signals and where ${childName} sits on the pathway to 16, all in one view. This is the page that answers is it working.`, 'See your progress', `${APP}/dashboard/pathway#is-it-working`) +
       step(7, 'Help now', `The gold button at the bottom of every screen. Mid meltdown, tap it, pick the situation, the calm script is on screen in seconds.`, 'Open the dashboard', `${APP}/dashboard`) +
       p(`Every one of these is built on the actual research on kids, screens and growing up online, not opinion. More on that another time.`),
       unsubscribe
@@ -945,7 +945,7 @@ export function passportRevealEmail(params: {
       }) : '') +
       p(`Every job done, lesson learned and calm screen off earns ${childName} a stamp on their passport, the one map that runs from their first safe steps to full readiness at 16.`) +
       p(`It is the clearest way to see the childhood you are building, one small win at a time. Take a look at where you are.`) +
-      button('Open the passport', `${APP}/dashboard/passport`),
+      button('Open the passport', `${APP}/dashboard/pathway`),
       unsubscribe
     ),
   }
@@ -975,7 +975,7 @@ export function orderConfirmationEmail(params: {
         ? `The passport prints ${childName}'s real stamps, the ones actually earned, so no two are ever the same. That does mean each one is made to order rather than pulled off a shelf.`
         : `Everything here is made to order rather than pulled off a shelf.`) +
       p(`Expect it inside two weeks. If anything is wrong when it lands, reply to this email and I will sort it myself.`) +
-      button('See the passport', `${APP}/dashboard/passport`),
+      button('See the passport', `${APP}/dashboard/pathway`),
       unsubscribe
     ),
   }
@@ -1101,7 +1101,7 @@ export function backToSchoolEmail(params: {
       tone: 'white',
       html:
         bp('We will not tell you to give them a phone, or not to. That is your call. What we have is the order to do it in.') +
-        button('Walk the transition', `${APP}/dashboard/road`) +
+        button('Walk the transition', `${APP}/dashboard/pathway`) +
         rule() +
         restOfYear,
     })
@@ -1599,7 +1599,7 @@ export function paidReadAheadEmail(params: {
         `<strong>Independent, 16 plus.</strong> Real independence, before they leave home.`,
       ]) +
       p(`Reading one stage ahead is the single most useful thing you can do with this. Not to bring it forward, and not to worry earlier, but so the week it arrives you already know what it is and you are not learning it in the same hour you are handling it.`) +
-      button('Read ahead', `${APP}/dashboard/road`) +
+      button('Read ahead', `${APP}/dashboard/pathway`) +
       p(`Twenty minutes on a Sunday buys you the whole of next year.`),
       unsubscribe
     ),

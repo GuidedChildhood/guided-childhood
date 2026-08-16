@@ -152,7 +152,7 @@ export default function LiteracyAreas({ stageId, childName, statuses = {}, stamp
           Everything {kid} does adds up to these four, ready by 16. Green means on track. Amber comes with the one next step, never a mark against anyone.
         </p>
         {stampChip && (
-          <Link href="/dashboard/passport" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 100, padding: '5px 12px', textDecoration: 'none' }}>
+          <Link href="/dashboard/pathway" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 14, background: 'var(--terracotta-lt)', border: '1px solid var(--terracotta)', borderRadius: 100, padding: '5px 12px', textDecoration: 'none' }}>
             <span aria-hidden style={{ fontSize: 'var(--text-base)' }}>🪪</span>
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
               These four earn the {READINESS[current - 1].stamp} stamp on the road to 16 →

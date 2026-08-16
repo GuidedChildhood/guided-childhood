@@ -1594,7 +1594,7 @@ export default function KidQuestScreen({
             // NOT parents." The road was a second copy of this screen's five a
             // day, with the same lessons, printables and jobs on it, so a child
             // finished their day in one place and it still looked unfinished in
-            // the other. The parent's passport at /dashboard/passport is
+            // the other. The parent's passport at /dashboard/pathway is
             // untouched: that is the ramp to 16 and it is for the grown up.
             //
             // The slot goes to the thing the road was actually good at, which is

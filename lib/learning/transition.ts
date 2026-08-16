@@ -78,7 +78,7 @@ export const TRANSITION_STEPS: TransitionStep[] = [
     title: 'Start narrow and widen on purpose',
     why: 'A phone that arrives fully loaded has nowhere left to go, so every later conversation can only ever be a restriction. Starting narrow means every step after it is something earned.',
     what: 'Calls and messages first. Add each app deliberately, one at a time, with a reason. What they can reach in September does not have to be what they can reach at Christmas, and saying so out loud makes the widening feel like growing up rather than wearing you down.',
-    href: '/dashboard/road',
+    href: '/dashboard/pathway',
     cta: 'See the stages',
   },
   {

@@ -97,7 +97,7 @@ export default function HomeRows({ stageName, stageNum, criticalWindow = false, 
           owns it, which is what page.tsx already said it did. */}
 
       <SlimRow
-        href="/dashboard/road"
+        href="/dashboard/pathway"
         emoji="🛣️"
         title="The road to 16"
         meta={`${stageName} stage · stamp ${stageNum} of 5 on the way${criticalWindow ? ' · critical window' : ''}`}

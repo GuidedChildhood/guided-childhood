@@ -32,11 +32,8 @@ import Link from 'next/link'
  * redirect, and there is no reason to accept one for a back button.
  */
 const ORIGINS: Record<string, { href: string; label: string }> = {
-  passport: { href: '/dashboard/passport', label: 'Passport' },
-  road: { href: '/dashboard/road', label: 'the road' },
-  // The old key, kept because `from=pathway` is already in links out in the
-  // wild and a back button that silently does nothing is worse than a rename.
-  pathway: { href: '/dashboard/road', label: 'the road' },
+  passport: { href: '/dashboard/pathway', label: 'Passport' },
+  pathway: { href: '/dashboard/pathway', label: 'Pathway' },
   home: { href: '/dashboard', label: 'Home' },
   // Back to the checkup card itself, not the top of Home. Justin: "once done
   // the fix, return to where you clicked fix so they can run down list." A

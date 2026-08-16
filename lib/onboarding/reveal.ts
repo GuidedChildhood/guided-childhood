@@ -25,8 +25,8 @@ export const REVEALS: Reveal[] = [
   // day one, so this card announces the lessons only and no longer offers a
   // parent something they have already had for a week.
   { key: 'lessons', day: 6, emoji: '📚', title: 'Lessons you watch together', body: 'Five minute things to watch and talk about together, all earning stars. A gentle way to learn about their world.', href: '/dashboard/lessons' },
-  { key: 'pathway', day: 9, emoji: '🪪', title: 'Your pathway to 16', body: 'The whole point: a gentle on ramp so 16 is a ramp, not a cliff edge. See where your child is now.', href: '/dashboard/road' },
-  { key: 'wellbeing', day: 12, emoji: '💛', title: 'Your weekly round up and check in', body: 'DiGi reads your week and, on a Sunday, checks in on how you are doing. The balance, made visible.', href: '/dashboard/passport?tab=working' },
+  { key: 'pathway', day: 9, emoji: '🪪', title: 'Your pathway to 16', body: 'The whole point: a gentle on ramp so 16 is a ramp, not a cliff edge. See where your child is now.', href: '/dashboard/pathway' },
+  { key: 'wellbeing', day: 12, emoji: '💛', title: 'Your weekly round up and check in', body: 'DiGi reads your week and, on a Sunday, checks in on how you are doing. The balance, made visible.', href: '/dashboard/pathway' },
 ]
 
 export function daysSince(iso: string | null | undefined): number {

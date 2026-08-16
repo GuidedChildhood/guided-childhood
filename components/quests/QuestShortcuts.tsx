@@ -168,7 +168,7 @@ const TILES: Tile[] = [
     // the sticker book, so a parent who never opened those never found it. It
     // is the physical end of the same pathway, the star chart and the Planet
     // Friends as things you can hold, so it earns a tile of its own.
-    href: '/dashboard/passport?tab=shop', label: 'Keepsakes', sub: 'Rewards you can hold',
+    href: '/dashboard/keepsakes', label: 'Keepsakes', sub: 'Rewards you can hold',
     icon: 'keepsakes', bg: 'var(--terracotta-lt)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#D4600A',
     // Stars banked and not yet spent, across every child. A balance rather
     // than a queue, but it is still something owed: the child has earned these

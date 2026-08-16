@@ -8198,3 +8198,34 @@ person per run. Path one only, because path two is charged nothing.
 
 Not done, and it is Justin's call: nothing opens a draft PR from here, the gh
 CLI is not installed in this environment.
+
+## 15 August 2026 — The tabbed passport is reversed, back to the page that was designed
+
+Justin, seeing the four tab passport live: "the passport page is completely
+wrong, please return to previous passport page we designed and we can start
+again."
+
+So the split is undone. /dashboard/pathway is again the one page: passport in
+the header beside the words, the six doors, the road, the four strands, is it
+working, the journey. Restored byte for byte from the commit before PR 847
+merged, with three deliberate exceptions:
+
+1. The weekly planet under the road stays gone. Justin approved that removal
+   separately ("no need for the planets the stage road") and it is not part of
+   what he is unhappy with.
+2. The page now reads ?from=today and renders the back link, because the Today
+   loop's passport rung gained from=today on main while the split was live, and
+   restoring the old page verbatim would have made that feature silently dead.
+3. What is working stays a page of its own with its doorway card here. That
+   was a different session's work, shipped on its own argument, and it is not
+   being reversed by this.
+
+/dashboard/road and /dashboard/passport survive as redirects only: emails went
+out during the two days the split was live, and a Stripe checkout created from
+the shop tab returns to a passport URL. The old shop tab forwards to
+/dashboard/keepsakes, which is a real page again.
+
+THE LESSON, for the redesign and for every session reading this file: the tabs
+were built from a written brief and approved in prose, and the first time
+Justin SAW them he rejected them. The redesign starts from the restored page
+and gets screenshots at every step before anything is declared done.

@@ -24,7 +24,7 @@ export default function RoadToSixteen({
 
   return (
     <Link
-      href="/dashboard/road"
+      href="/dashboard/pathway"
       style={{
         display: 'block', textDecoration: 'none',
         background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px',
