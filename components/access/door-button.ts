@@ -29,25 +29,33 @@ const BASE: React.CSSProperties = {
   cursor: 'pointer', textAlign: 'center',
 }
 
-/** The founder door. Butter, because it is the one most families want. */
-export const PAY_BTN: React.CSSProperties = {
+/**
+ * BOTH DOORS, ONE BUTTON. Same colour, not just the same shape.
+ *
+ * The first attempt at this matched the shape and kept the free door white with
+ * an ink edge, on the reasoning that colour is how hierarchy is supposed to be
+ * carried. Justin, looking at it: "this is not fixed, as buttons are meant to
+ * be same colour and fit in with any other buttons."
+ *
+ * He is right twice over. The house button IS butter with a butter shadow, and
+ * it is butter everywhere else in the product, so a white outline button on this
+ * screen is not a quieter version of our button, it is a button from a different
+ * app. And on THIS screen in particular there should be no hierarchy at all:
+ * these two are a genuine choice between paying now and not, the four days are
+ * identical either way, and any visual nudge toward the paying one is a nudge we
+ * have no business making.
+ *
+ * So there is one style and both doors use it. The words are what differ, which
+ * is the honest place for the difference to live.
+ */
+export const DOOR_BTN: React.CSSProperties = {
   ...BASE,
   background: 'var(--terracotta)', color: 'var(--ink)',
   border: 'none',
   boxShadow: '0 5px 0 var(--terracotta-dark)',
 }
 
-/**
- * The free door. Same button, white.
- *
- * The 2px ink border and the ink shadow give it exactly the weight of the one
- * beside it. It reads as the quieter of two real options rather than as an
- * afterthought, which is what it is: four days, no card, and a parent who takes
- * it has made a choice we offered rather than one they had to hunt for.
- */
-export const FREE_BTN: React.CSSProperties = {
-  ...BASE,
-  background: '#fff', color: 'var(--ink)',
-  border: '2px solid var(--ink)',
-  boxShadow: '0 5px 0 var(--ink)',
-}
+/** Both names kept, pointing at the same object, so neither caller reads as the
+ *  odd one out and nobody is tempted to give one of them its own colour again. */
+export const PAY_BTN = DOOR_BTN
+export const FREE_BTN = DOOR_BTN

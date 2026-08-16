@@ -27,7 +27,7 @@ const TASK_ICON: Record<DailyTask['key'], string> = {
   script: '💬',
   lesson: '📖',
   device: '📱',
-  checkin: '🪴',
+  checkin: '✦',
 }
 
 function segmentD(a: { x: number; y: number }, b: { x: number; y: number }) {

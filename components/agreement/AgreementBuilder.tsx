@@ -1,5 +1,4 @@
 'use client'
-import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { londonNow } from '@/lib/time/london'
 import Link from 'next/link'
@@ -40,6 +39,9 @@ interface Props {
   /** The last end of week check, so Friday can point back at last Friday. */
   lastCheck?: { date: string; stars: number } | null
   isPaid: boolean
+  /** Setup still has steps left. Decides where the finished agreement sends
+   *  them: back to setup while it is unfinished, and nowhere once it is done. */
+  setupComplete?: boolean
 }
 
 type Step = 'type' | 'clauses' | 'sign' | 'done'
@@ -52,7 +54,7 @@ function defaultReviewDate(): string {
 
 const CUSTOM = '__custom__'
 
-export default function AgreementBuilder({ childName, stageId, stageLabel, saved, childPhone, isPaid, childAppLive = false, lastCheck = null }: Props) {
+export default function AgreementBuilder({ childName, stageId, stageLabel, saved, childPhone, isPaid, childAppLive = false, lastCheck = null, setupComplete = true }: Props) {
   const recommended = recommendedType(stageId)
   const [step, setStep] = useState<Step>(saved ? 'done' : 'type')
   const [typeKey, setTypeKey] = useState<string>(saved?.agreement_type ?? recommended)
@@ -68,10 +70,15 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
   )
   const [weekResult, setWeekResult] = useState<string | null>(null)
 
-  // Did they get here from the Setup Quest? The step's href carries from=setup,
-  // and it is the only thing that decides whether the finished agreement offers
-  // a road back to it. See the button on the done step.
-  const fromSetup = useSearchParams()?.get('from') === 'setup'
+  // WHILE SETUP IS UNFINISHED, THE ONLY WAY ON IS BACK TO SETUP.
+  //
+  // Justin: "take them back to set up page, not home, not anywhere else, until
+  // all steps of set up are done, then take them to home page."
+  //
+  // This was a from=setup query string, which a reload or a back button throws
+  // away, stranding a parent on a finished agreement with no way onward. It is
+  // read on the server now from the same flags the setup page uses.
+  const showSetupNext = setupComplete === false
 
   const type = AGREEMENT_TYPES.find(t => t.key === typeKey) ?? AGREEMENT_TYPES[2]
   const clauses = CLAUSES_BY_TYPE[type.key] ?? []
@@ -148,6 +155,31 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
 
   const ukDay = londonNow().weekday
   const isCheckWindow = ukDay === 5 || ukDay === 6 || ukDay === 0
+
+  // ── THERE IS NO WEEK TO REVIEW ON THE DAY YOU SIGN IT ─────────────────────
+  //
+  // Justin, 16 August 2026, with a screenshot of "How did the agreement go this
+  // week?" sitting under an agreement he had just made: "saving agreement still
+  // not fixed on set up, it should not show this."
+  //
+  // The Today rung was fixed earlier the same day. This is the OTHER end of week
+  // block, the one on the agreement page itself, and it had no such gate: the
+  // only condition was that today is a Friday, Saturday or Sunday. Sign up on a
+  // Sunday and the app asks how the week went with a document that is minutes
+  // old, naming the child, offering to pay out stars for it.
+  //
+  // A week has to have passed since it was AGREED. agreed_date is the right
+  // clock rather than updated_at, because the question is about the deal being
+  // lived with, and editing a clause on Wednesday does not restart the week the
+  // family has been having.
+  //
+  // Unsigned is excluded on its own: an agreement nobody has signed is a draft,
+  // and a draft cannot have had a week.
+  const bothSigned = parentSigned && childSigned
+  const agreedOn = savedState?.agreedDate ?? saved?.agreed_date ?? null
+  const aWeekSinceAgreed = !!agreedOn
+    && (Date.now() - new Date(agreedOn).getTime()) >= 7 * 86_400_000
+  const showWeekCheck = bothSigned && aWeekSinceAgreed
 
   const mono: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontWeight: 700,
@@ -491,7 +523,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
               Only when they arrived from setup, because a parent who opened the
               agreement in month three to change a clause is not setting up and
               should not be shown a road back to a page about setting up. */}
-          {fromSetup && (
+          {showSetupNext && (
             <Link
               href="/dashboard/setup"
               style={{ ...bigBtn, textDecoration: 'none', textAlign: 'center', display: 'block', marginBottom: '14px' }}
@@ -544,6 +576,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
               nor easy to read: pale grey text on a dark panel is the hardest
               combination on the page, and this is the block asking a parent to
               make a judgement. Ink on a soft blue instead, and every size up. */}
+          {showWeekCheck && (
           <div style={{ background: 'var(--stage-2)', border: '1.5px solid var(--tint-blue)', borderRadius: '20px', padding: '22px' }}>
             <div style={{ ...mono, fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', marginBottom: '8px' }}>
               End of week check
@@ -615,6 +648,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
               </Link>
             )}
           </div>
+          )}
         </>
       )}
     </div>
