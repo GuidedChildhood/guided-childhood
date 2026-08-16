@@ -56,7 +56,8 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     // then oldest first.
     supabase.from('children').select('id, name, is_primary, created_at').eq('parent_id', userId)
       .order('is_primary', { ascending: false }).order('created_at', { ascending: true }).limit(1),
-    supabase.from('family_agreements').select('id').eq('user_id', userId).limit(1).maybeSingle(),
+    supabase.from('family_agreements').select('id, signed_by_parent, signed_by_child')
+      .eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('kid_links').select('child_id').eq('user_id', userId),
     supabase.from('profiles').select('home_screen_at, only_one_child_at').eq('id', userId).maybeSingle(),
@@ -78,9 +79,25 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
   } catch { /* the step simply stays open, which is the old behaviour */ }
 
   const flags: SetupFlags = {
-    // DONE WHEN: a family_agreements row exists, which only the builder writes,
-    // at the end, on a signature.
-    agreement: !!agreement.data,
+    // DONE WHEN: BOTH have signed it. Not when the row exists.
+    //
+    // Justin, 16 August 2026: "does the agreement get saved unless both are
+    // signed?" It does, and the live database is what settles it: four of the
+    // six agreements on the product are signed by nobody, signed_by_parent and
+    // signed_by_child both false, and every one of those families had a green
+    // tick against step one.
+    //
+    // The row is a DRAFT. The builder writes it as clauses are chosen, which is
+    // right, because losing a half built agreement because somebody closed a tab
+    // would be worse than anything this fixes. What was wrong was reading the
+    // draft as the deed. It is the same fault as the daily practice step ticking
+    // off a page being opened, fixed on 13 August, and it landed in the one step
+    // whose whole promise is "they click sign, then a big green tick".
+    //
+    // A signature is the only thing that makes an agreement an agreement. Both
+    // of them, because a boundary one person set is a rule, and the entire
+    // argument for this feature is that a boundary you both chose is not.
+    agreement: !!agreement.data?.signed_by_parent && !!agreement.data?.signed_by_child,
 
     // DONE WHEN: a link was created for a child, OR this family answered the
     // question the other way.
