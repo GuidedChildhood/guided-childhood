@@ -43,6 +43,7 @@ import SocialMediaReadiness from '@/components/pathway/SocialMediaReadiness'
 import SocialMediaHeadsUp from '@/components/pathway/SocialMediaHeadsUp'
 import PhoneHeadsUp from '@/components/pathway/PhoneHeadsUp'
 import SetupUnlockToast from '@/components/setup/SetupUnlockToast'
+import MonthlyShopSheet from '@/components/shop/MonthlyShopSheet'
 import DigiWelcomeSheet from '@/components/digi/DigiWelcomeSheet'
 import TodayPathBig from '@/components/daily/TodayPathBig'
 import CatchupCard from '@/components/daily/CatchupCard'
@@ -121,7 +122,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // today is not waiting on anybody until it comes round again next week.
     supabase.from('school_actions').select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child, cleared_on').eq('user_id', user.id).eq('status', 'open').order('due_date', { ascending: true, nullsFirst: false }).limit(20),
     supabase.from('school_connections').select('id').eq('user_id', user.id).eq('active', true).maybeSingle(),
-    supabase.from('family_agreements').select('id').eq('user_id', user.id).limit(1).maybeSingle(),
+    supabase.from('family_agreements').select('id, signed_by_parent, signed_by_child').eq('user_id', user.id).limit(1).maybeSingle(),
     // The concern queue, for the daily lead. The pathway has carried the two
     // best blocks on it, Your focus and Work through what comes up, and the
     // pathway is the page a parent opens occasionally. Ordered the same way
@@ -416,7 +417,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // step to hide, which is why this sits below the handover read rather than
   // above it. See lib/setup/flags.ts for the reasoning on each of the three.
   const setupFlags = {
-    agreement: !!agreementResult.data,
+    // Both signatures, not the row's existence. The row is a draft the builder
+    // saves as it goes; only a signature makes it an agreement. See the note in
+    // lib/setup/flags.ts, and the four unsigned rows on the live database that
+    // were all showing a green tick.
+    agreement: !!(agreementResult.data as { signed_by_parent?: boolean; signed_by_child?: boolean } | null)?.signed_by_parent
+      && !!(agreementResult.data as { signed_by_child?: boolean } | null)?.signed_by_child,
     childLink: hasKidLink || handoverSettled,
     homeScreen: !!pushSubResult.data
       || !!(profile as { home_screen_at?: string | null } | null)?.home_screen_at,
@@ -1235,6 +1241,17 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         )
       })()}
       <SetupUnlockToast flags={setupFlags} />
+
+      {/* The shop, once a month, and never before the first check in.
+          Same gate as the shop card in the Today rotation and the passport
+          nudge, for the same reason: a personalised booklet of a passport with
+          nothing stamped in it is not a keepsake, it is a cover and five zeros,
+          and offering to print one is the fastest way to teach a parent the
+          passport is not worth opening. Everything else about when it shows is
+          in the component, which owns the month stamp and the popup lock. */}
+      {!!(profile?.first_checkin_at as string | null) && (
+        <MonthlyShopSheet childName={child?.name ?? null} />
+      )}
 
       {/* The child's name was skipped at setup: one gentle ask, one tap to make
           the whole app personal. Dismissable, never nags. */}

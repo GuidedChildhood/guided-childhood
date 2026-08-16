@@ -1,4 +1,5 @@
 'use client'
+import { useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { londonNow } from '@/lib/time/london'
 import Link from 'next/link'
@@ -66,6 +67,11 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
     saved ? { version: saved.version, agreedDate: saved.agreed_date } : null
   )
   const [weekResult, setWeekResult] = useState<string | null>(null)
+
+  // Did they get here from the Setup Quest? The step's href carries from=setup,
+  // and it is the only thing that decides whether the finished agreement offers
+  // a road back to it. See the button on the done step.
+  const fromSetup = useSearchParams()?.get('from') === 'setup'
 
   const type = AGREEMENT_TYPES.find(t => t.key === typeKey) ?? AGREEMENT_TYPES[2]
   const clauses = CLAUSES_BY_TYPE[type.key] ?? []
@@ -471,6 +477,28 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
               Change it
             </button>
           </div>
+
+          {/* ── AND THEN BACK TO THE REST OF SETUP ──────────────────────────
+              Justin, 16 August 2026: "when we do agreement and confirm it, give
+              option to print at that point, then take to other tickable actions
+              on set up screen."
+              Print was already offered here, which is the right place for it: a
+              fridge copy is worth printing the moment it is agreed, not a week
+              later from a menu. What was missing is the way onward. A parent who
+              came from setup, finished the first step and is then left on the
+              finished agreement has to find their own way back to the thing that
+              was walking them through it.
+              Only when they arrived from setup, because a parent who opened the
+              agreement in month three to change a clause is not setting up and
+              should not be shown a road back to a page about setting up. */}
+          {fromSetup && (
+            <Link
+              href="/dashboard/setup"
+              style={{ ...bigBtn, textDecoration: 'none', textAlign: 'center', display: 'block', marginBottom: '14px' }}
+            >
+              Next step in setting up
+            </Link>
+          )}
 
           {/* Where the agreement already is.
               There is deliberately no Send to their phone button, because there

@@ -71,7 +71,9 @@ export const STEPS: SetupStep[] = [
     key: 'agreement',
     title: 'Build your family agreement',
     what: 'Decided together and signed, so every boundary is one you both chose rather than one you imposed. It is also what sets the price of screen time in stars.',
-    href: '/dashboard/agreement',
+    // from=setup is what tells the finished agreement to offer the way back
+    // here rather than leaving a parent on it wondering what happens next.
+    href: '/dashboard/agreement?from=setup',
   },
   {
     key: 'homeScreen',

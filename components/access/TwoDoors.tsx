@@ -1,3 +1,4 @@
+import { PAY_BTN } from './door-button'
 import FreeDoor from './FreeDoor'
 
 // ── THE LAST THING IN SIGN UP: TWO PATHS, PICK ONE ──────────────────────────
@@ -39,14 +40,8 @@ const EYEBROW: React.CSSProperties = {
   letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px',
 }
 
-const PAY_BTN: React.CSSProperties = {
-  display: 'block', width: '100%', padding: '17px 28px',
-  background: 'var(--terracotta)', color: 'var(--ink)',
-  border: 'none', borderRadius: 16,
-  fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)',
-  letterSpacing: '0.08em', textTransform: 'uppercase',
-  cursor: 'pointer', boxShadow: '0 5px 0 var(--terracotta-dark)', textAlign: 'center',
-}
+// Both doors' buttons live in components/access/door-button.ts now, so the free
+// one cannot drift away from this one again. See the note in that file.
 
 // THE SENTENCE THE LAW AND JUSTIN BOTH ASKED FOR, sitting on the button screen
 // rather than in a terms page or a receipt.
