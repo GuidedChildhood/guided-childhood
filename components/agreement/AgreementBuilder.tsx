@@ -516,7 +516,26 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
               Once setup is finished there is no next step to go to, so it goes
               back to being a plain print link. */}
           <div style={{ display: 'flex', gap: '10px', marginBottom: '14px' }}>
-            {showSetupNext ? (
+            {!bothSigned ? (
+              /* ── SIGNING HAPPENS HERE, NOT ON PAPER ──────────────────────
+                 Justin, 17 August 2026: "it should first be able to sign it
+                 online where the parent and child tick, we already have that,
+                 and once that is done it should not ask again and tick on
+                 homepage as complete."
+                 He is right and the button was actively misleading. The ticks
+                 exist, on the sign step, and they are what the setup tick and
+                 the weekly review both read. But an agreement can reach this
+                 finished view unsigned, and it then said "Print and sign it",
+                 which tells a parent the signing happens on the paper. It does
+                 not: a signature on the fridge copy is not a signature this
+                 product can see, so those families stayed on step one for ever
+                 with a document they believed was finished.
+                 Four of the six agreements on the live database are signed by
+                 nobody, which is how common that reading was. */
+              <button onClick={() => setStep('sign')} style={{ ...bigBtn, textAlign: 'center' }}>
+                Sign it together
+              </button>
+            ) : showSetupNext ? (
               <button
                 onClick={() => {
                   // The print view opens alongside rather than instead of, so
@@ -528,7 +547,7 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                 }}
                 style={{ ...bigBtn, textAlign: 'center' }}
               >
-                Print and sign it
+                Print it and carry on
               </button>
             ) : (
               <Link href="/dashboard/agreement/print" style={{ ...bigBtn, textDecoration: 'none', textAlign: 'center', display: 'block' }}>
