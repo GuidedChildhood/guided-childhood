@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 // The install prompt, done properly for both worlds. Android and desktop
 // Chrome give us a real install event we can trigger on tap. iPhone gives
@@ -70,11 +71,29 @@ function ShareGlyph() {
 }
 
 export default function InstallPrompt() {
+  // ── NEVER ON THE PAGE THAT ALREADY ASKS THIS ─────────────────────────────
+  //
+  // Justin, 16 August 2026, with a screenshot of the banner sitting on top of
+  // Setup Quest step two, which reads "Put us on your home screen, and turn on
+  // reminders": "every screen is asking for this."
+  //
+  // Two different surfaces asking the same thing, and the banner was covering
+  // the considered version with the interrupting one. The setup step explains
+  // it, walks both platforms through it and ticks itself when it is genuinely
+  // done; the banner is the drive by. On that page the step wins, always, and
+  // not on a timer.
+  //
+  // Suppressed rather than delayed, because a delay would only mean it lands
+  // while they are following the instructions underneath it.
+  const pathname = usePathname()
+  const onSetup = pathname?.startsWith('/dashboard/setup') ?? false
+
   const [mode, setMode] = useState<'hidden' | 'banner' | 'ios-sheet'>('hidden')
   const [platform, setPlatform] = useState<'ios' | 'android'>('ios')
   const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null)
 
   useEffect(() => {
+    if (onSetup) return
     const nav = navigator as Navigator & {
       standalone?: boolean
       getInstalledRelatedApps?: () => Promise<unknown[]>
@@ -142,7 +161,7 @@ export default function InstallPrompt() {
       setMode('banner')
     }, 2500)
     return () => { cancelled = true; clearTimeout(id) }
-  }, [])
+  }, [onSetup])
 
   /**
    * Closing the banner starts the week, it does not end the conversation.
@@ -177,7 +196,7 @@ export default function InstallPrompt() {
     markDone()
   }
 
-  if (mode === 'hidden') return null
+  if (onSetup || mode === 'hidden') return null
 
   if (mode === 'banner') {
     return (
@@ -205,7 +224,7 @@ export default function InstallPrompt() {
             Put Guided Childhood on your Home Screen
           </span>
           <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.4, marginTop: '2px' }}>
-            Full screen, one tap away, and check ins can reach you.
+            It is how the check in reminders reach you. Without it they cannot.
           </span>
           <button
             onClick={() => platform === 'ios' ? setMode('ios-sheet') : androidInstall()}
@@ -218,6 +237,33 @@ export default function InstallPrompt() {
           >
             {platform === 'ios' ? 'Show me' : 'Install'}
           </button>
+          {/* ── A REAL SKIP, AND THE LAPTOP CASE ──────────────────────────
+              Justin, 16 August 2026: "needs to have option for laptop and there
+              needs to be a skip button, but say that adding to home screen means
+              you can get vital notifications. It cannot keep coming up again and
+              again."
+              The only way out used to be the small grey cross in the corner,
+              which is a close control rather than an answer, so a parent who did
+              not want it had to dismiss the same banner rather than decline it
+              once. Skip says the same thing in a word they can actually find.
+              And the laptop line matters because this is genuinely different
+              there: a desktop browser installs to the dock or the taskbar rather
+              than a home screen, and a parent reading "home screen" on a laptop
+              reasonably concludes it is not for them. */}
+          <button
+            onClick={markDone}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              display: 'inline-block', marginTop: '9px', marginLeft: '14px',
+              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+              color: 'rgba(255,255,255,0.72)', padding: '9px 4px',
+            }}
+          >
+            Skip
+          </button>
+          <span style={{ display: 'block', fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.6)', lineHeight: 1.45, marginTop: '7px' }}>
+            On a laptop it installs to your dock instead, and works the same.
+          </span>
         </span>
         <button
           onClick={markDone}
