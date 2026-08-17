@@ -196,6 +196,25 @@ export default function TwoDoors({
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.6, textAlign: 'center', margin: '18px 4px 0' }}>
           Either way the {trialDays} days are the same: the platform, DiGi with a daily limit, and a starter set of scripts. Cancelling during them costs nothing, and it is one tap in Settings.
         </p>
+        {/* ── THE SAME PROMISE THE REST OF THE PLATFORM MAKES ────────────────
+            Justin, 17 August 2026: "make the text consistent with platform on
+            this page and add that they can cancel at any time and 30 money back
+            if you feel you are not getting value."
+            It is CONSISTENCY rather than a new promise, which is the only reason
+            it can be written here without asking twice: the 30 day money back
+            guarantee is already on /join ("30 day money back guarantee on all
+            paid plans. Cancel any time."), on /pathway and on the homepage. The
+            one screen in the product that actually takes a card was the one
+            screen not making it, which is exactly backwards. A guarantee is
+            worth most at the moment somebody is deciding whether to hand over a
+            card, not on a marketing page they read last week.
+            Worded to /join rather than paraphrased, so a parent who read it
+            there meets the same sentence here. "If you feel you are not getting
+            the value" is Justin's own framing and it is the honest one: it is
+            not conditional on proving anything. */}
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.6, textAlign: 'center', margin: '10px 4px 0' }}>
+          Cancel any time. There is a 30 day money back guarantee on all paid plans, so if you feel you are not getting the value, you get your money back.
+        </p>
       </div>
     </div>
   )
