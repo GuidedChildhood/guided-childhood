@@ -357,6 +357,18 @@ function StepAction({ step, child, userId }: {
             lib/handover/settled.ts is what brings the offer back in six months
             or when the child moves up an age band. */}
         <NoPhoneButton childId={child.id} childName={name} />
+
+        {/* ── AND THE TWO THAT LET THEM GET ON ────────────────────────────
+            Justin, 17 August 2026: "if we are saying share screens is done when
+            they either skip or say done it needs to tick off set up to be able
+            to move onto next set up step."
+            The step could be finished two ways before this: generate the code,
+            or say there is no phone at all. Neither covers the common case, a
+            parent who has just shown their child the code, or who will co-view
+            on their own phone. So the step had no answer for them and setup
+            could not be completed from it. Third time this product has had to
+            add the door that closes a step; see migration 204. */}
+        <SettleShare childName={name} />
       </>
     )
   }
@@ -372,6 +384,62 @@ function StepAction({ step, child, userId }: {
       <div style={{ marginTop: '14px' }}>
         <PushPrompt userId={userId} />
       </div>
+    </>
+  )
+}
+
+// ── CLOSING THE SHARE STEP WITHOUT A CODE AND WITHOUT A NO ─────────────────
+//
+// Both buttons write the same timestamp, because the difference between "I have
+// shared it" and "I will run it on my phone" matters to the words on the day and
+// to nothing downstream: both mean the child's side is handled, both should stop
+// the step asking, and both earn the same monthly reminder that the QR code is
+// there whenever they want it.
+
+function SettleShare({ childName }: { childName: string }) {
+  const router = useRouter()
+  const [busy, setBusy] = useState<'shared' | 'mine' | null>(null)
+  const [failed, setFailed] = useState(false)
+
+  async function settle(which: 'shared' | 'mine') {
+    setBusy(which)
+    setFailed(false)
+    try {
+      const res = await fetch('/api/setup/child-app', { method: 'POST' })
+      // Checked, because fetch does not reject on a 4xx or 5xx and this is the
+      // fourth place in this codebase where that turned a failure into a green
+      // tick over nothing.
+      if (!res.ok) throw new Error(String(res.status))
+      router.refresh()
+    } catch {
+      setFailed(true)
+    } finally {
+      setBusy(null)
+    }
+  }
+
+  const quiet: React.CSSProperties = {
+    background: 'none', border: 'none',
+    fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600,
+    color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px',
+    padding: '6px 8px',
+  }
+
+  return (
+    <>
+      <div style={{ display: 'flex', gap: '10px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '2px' }}>
+        <button onClick={() => settle('shared')} disabled={busy !== null} style={{ ...quiet, cursor: busy ? 'default' : 'pointer' }}>
+          {busy === 'shared' ? 'Saving...' : 'Done, I have shared it'}
+        </button>
+        <button onClick={() => settle('mine')} disabled={busy !== null} style={{ ...quiet, cursor: busy ? 'default' : 'pointer' }}>
+          {busy === 'mine' ? 'Saving...' : `I will run it on my phone with ${childName}`}
+        </button>
+      </div>
+      {failed && (
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 700, margin: '8px 0 0', textAlign: 'center' }}>
+          That did not save. Have another go.
+        </p>
+      )}
     </>
   )
 }

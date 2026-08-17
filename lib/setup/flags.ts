@@ -60,7 +60,7 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
       .eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('kid_links').select('child_id').eq('user_id', userId),
-    supabase.from('profiles').select('home_screen_at, only_one_child_at').eq('id', userId).maybeSingle(),
+    supabase.from('profiles').select('home_screen_at, only_one_child_at, child_app_settled_at').eq('id', userId).maybeSingle(),
     supabase.from('children').select('id', { count: 'exact', head: true }).eq('parent_id', userId),
   ])
 
@@ -109,7 +109,17 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     // stop. Nothing is lost by closing it: the six month re-offer in that file
     // is what tells a family later that the child app is there when a phone
     // eventually arrives.
-    childLink: (kidLinks.data ?? []).length > 0 || handoverSettled,
+    // The third door, added 17 August 2026. A kid_links row means the code was
+    // genuinely made; handoverSettled means they said there is no device. This
+    // is the case neither covered: a parent who showed their child the code, or
+    // who will co-view on their own phone, and now wants to get on.
+    //
+    // Without it the step could not be closed at all from the step itself, which
+    // is the un-tickable step this product has now had to fix three times. See
+    // migration 204.
+    childLink: (kidLinks.data ?? []).length > 0
+      || handoverSettled
+      || !!(profile.data as { child_app_settled_at?: string | null } | null)?.child_app_settled_at,
 
     // DONE WHEN: the app has been opened from the home screen, OR reminders
     // are on. Either half genuinely delivers the step, so either half finishes
