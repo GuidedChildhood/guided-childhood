@@ -528,18 +528,54 @@ function OtherChildren() {
 // setting this up on a laptop for a phone they will use it on is a real case,
 // and a sniffed page shows them the wrong half.
 function HomeScreenHow() {
+  const router = useRouter()
+  const [busy, setBusy] = useState<'done' | 'skip' | null>(null)
+  const [failed, setFailed] = useState(false)
+
+  // Both buttons post the same thing, because both are the parent telling us
+  // this step is dealt with. What differs is only what they mean by it, and
+  // neither is proof: see the note above the buttons.
+  async function settle(which: 'done' | 'skip') {
+    setBusy(which)
+    setFailed(false)
+    try {
+      const res = await fetch('/api/setup/home-screen', { method: 'POST' })
+      // fetch does not reject on a 4xx or 5xx, so the response has to be read
+      // or a rejected save looks like success and the step goes green over
+      // nothing. Third time this pattern has been fixed in this codebase.
+      if (!res.ok) throw new Error(String(res.status))
+      router.refresh()
+    } catch {
+      setFailed(true)
+    } finally {
+      setBusy(null)
+    }
+  }
+
   const row: React.CSSProperties = {
     display: 'flex', gap: '10px', alignItems: 'flex-start',
     background: 'var(--cream)', borderRadius: '14px', padding: '12px 14px',
   }
   const marker: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)',
-    color: 'var(--terracotta-dark)', flexShrink: 0, paddingTop: '2px',
+    color: 'var(--terracotta-dark)', flexShrink: 0, paddingTop: '2px', minWidth: 52,
   }
   const line: React.CSSProperties = { fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      {/* THE REASON, NOT THE MECHANIC, AND IT GOES FIRST.
+          Justin, 16 August 2026: "say that adding to home screen means you can
+          get vital notifications." Three sets of tap-here instructions with no
+          reason above them is a chore. The reason is the whole point: on iPhone
+          web notifications only work at all once the app is on the home screen,
+          so this is not decoration, it is the difference between the check ins
+          reaching a parent and not. */}
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 2px', fontWeight: 600 }}>
+        On a phone this is what lets the check ins actually reach you. Apple only
+        allows notifications once we are on the home screen.
+      </p>
+
       <div style={row}>
         <span style={marker}>iPhone</span>
         <span style={line}>
@@ -552,9 +588,72 @@ function HomeScreenHow() {
           Tap the <strong>three dots</strong> in Chrome, then <strong>Add to Home screen</strong>, then <strong>Install</strong>.
         </span>
       </div>
+      {/* THE LAPTOP, which had no path at all and is where Justin was sitting
+          when he asked for one. Chrome and Edge both put an install icon in the
+          address bar; Safari on a Mac calls it Add to Dock. Worth saying that
+          notifications work there too, because the sentence above is about
+          phones and a parent on a laptop would otherwise read this step as not
+          being for them. */}
+      <div style={row}>
+        <span style={marker}>Laptop</span>
+        <span style={line}>
+          Click the <strong>install icon</strong> in the address bar in Chrome or Edge, or <strong>Share, Add to Dock</strong> in Safari. Notifications work there too.
+        </span>
+      </div>
+
       <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '2px 0 0' }}>
         Open it from your home screen once and this step ticks itself.
       </p>
+
+      {/* ── DONE AND SKIP, AND WHY BOTH ARE HONEST ─────────────────────────
+          Justin: "should have a button click done then it should also then
+          trigger marked as done unless there is a way of confirming it is
+          done ... it drops off list on home page so can move on to complete
+          next set up, but run a monthly check to see if it is still set up
+          working and remind them again."
+          There IS a way of confirming, and it is preferred: opening the app in
+          standalone mode stamps this by itself, which is the line above. These
+          two are for the parent that proof will never reach, the one on a work
+          laptop or who has decided against it, and without them setup could not
+          be finished at all. That is the un-tickable step this product keeps
+          having to fix.
+          So they tick it and setup moves on. The monthly re-check that verifies
+          the claim against the facts is NOT built yet: see
+          plans/next-first-run-and-reminders.md section 2. Until it is, a tap
+          here is taken at face value, which is a deliberate trade of accuracy
+          for a parent being able to finish. */}
+      <div style={{ display: 'flex', gap: '10px', marginTop: '4px', flexWrap: 'wrap' }}>
+        <button
+          onClick={() => settle('done')}
+          disabled={busy !== null}
+          style={{
+            background: 'var(--terracotta)', color: 'var(--ink)', border: 'none',
+            borderRadius: 16, padding: '12px 20px', cursor: busy ? 'default' : 'pointer',
+            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+            boxShadow: '0 4px 0 var(--terracotta-dark)',
+          }}
+        >
+          {busy === 'done' ? 'Saving...' : 'Done, it is on there'}
+        </button>
+        <button
+          onClick={() => settle('skip')}
+          disabled={busy !== null}
+          style={{
+            background: 'none', border: 'none', cursor: busy ? 'default' : 'pointer',
+            fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600,
+            color: 'var(--ink-muted)', textDecoration: 'underline', textUnderlineOffset: '3px',
+            padding: '12px 4px',
+          }}
+        >
+          {busy === 'skip' ? 'Saving...' : 'Skip for now'}
+        </button>
+      </div>
+
+      {failed && (
+        <p style={{ fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', fontWeight: 700, margin: '8px 0 0' }}>
+          That did not save. Have another go.
+        </p>
+      )}
     </div>
   )
 }

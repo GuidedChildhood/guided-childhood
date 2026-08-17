@@ -99,3 +99,56 @@ database repairs reached him, because those bypass the deploy.
 **Push early, say plainly that a PR is needed, and do not let a branch collect
 eight commits before it merges.** CLAUDE.md already says this: "Merge or close
 the same day. Long lived branches are the duplication window."
+
+---
+
+## 5. SIGNUP CAN FINISH WITHOUT A CHILD, AND IT IS THE OLD FAULT AGAIN
+
+Justin, 17 August 2026: "we need to make sure they have to add child to go
+through sign up process."
+
+He is right, and the ordering in `app/onboarding/page.tsx` is why:
+
+- `onboarding_complete: true` is written at line 304, and again at 323 as a retry.
+- The child row is inserted at line 337. **After.**
+
+So anything that interrupts between the two, a failed request, a closed tab, a
+reload, leaves a profile that says onboarding is finished with no child on it.
+The init guard then sends that parent straight to the dashboard for ever.
+
+This is the SAME fault that deleted the two door payment screen, recorded in
+plans/week-of-2026-08-13: "onboarding_complete is written four screens earlier,
+so any reload between DiGi's introduction and the final tap deleted the one
+screen that asks for money, permanently." The flag was moved for the payment
+screen. It was never moved for the child.
+
+THE FIX: write the child FIRST and only set onboarding_complete once the insert
+has come back without an error. A parent who gets interrupted then simply lands
+back in onboarding, which is the correct outcome and the whole reason the flag
+exists.
+
+Three live accounts currently sit in this state, though on this database they are
+collateral from deleting the Toon test children rather than proof the race has
+fired in the wild. The ordering is a real bug either way.
+
+## 6. A CHILD ADDED FROM SETUP IS NOT QUITE A WHOLE CHILD
+
+Justin: "I thought we had built the ability for everything to run when they add
+another child from set up?"
+
+Most of it, and the biggest piece is there: `seedChildBaseline` runs on add
+(app/api/quests/route.ts:180), so a sibling gets their own worries and appears at
+the next check in. That was the 15 August fix.
+
+What the add route does NOT write, which onboarding and the starter pack do:
+
+- **date_of_birth.** The starter pack collects month and year and writes it. Without
+  it `lib/learning/term.ts` cannot say which school year the child is in, so the
+  learning sheets cannot be built for them. The setup form does not even ask.
+- **daily_limit_minutes.** Onboarding writes it; the add route leaves it null, so
+  the screen time guide falls back for that child.
+
+Justin's own instruction points at the fix: "use the same form which is simple to
+add other children". Same form means the same QUESTIONS, so the setup step should
+ask month and year of birth exactly as signup does, and the route should accept
+and write both fields.
