@@ -81,6 +81,26 @@ export const LABEL: Record<string, string> = {
 // starting point to rate, not claims about this child, and the resting rule in
 // lib/concerns/resting.ts retires any that come back as fine, so a parent who
 // says all four are going great is asked about none of them again.
+// ── THE SOURCE VALUE THAT KILLED EVERY BASELINE EVER SEEDED ─────────────────
+//
+// concerns.source is constrained to ('moment','script','digi','rightnow',
+// 'checkin'). This file inserted 'onboarding' below and 'baseline' in
+// seedChildBaseline, and BOTH violate that check. Postgres rejected the insert,
+// the `if (error) return []` swallowed it, and the caller saw an empty array
+// that looks exactly like "nothing to seed".
+//
+// So the baseline has never worked. Not for a mis-mapped challenge, not for a
+// correctly mapped one, not for a second child. Every family who ever signed up
+// opened their first check in on "All done for today", and the live database
+// agrees: 27 concerns across the product, sourced only moment, digi and
+// rightnow. Not one from onboarding.
+//
+// 'checkin' is the honest value of the five allowed: these rows exist to be
+// checked in on, and that is the surface that creates and then reads them. The
+// constraint is not widened, because it was doing its job and the code was
+// wrong.
+const BASELINE_SOURCE = 'checkin'
+
 export const COMMON_BASELINE_SLUGS = [
   'bedtime-screens',
   'wont-put-down',
@@ -171,7 +191,7 @@ export async function seedBaselineConcerns(
     .insert(slugs.map(slug => ({
       user_id: userId,
       child_id: child?.id ?? null,
-      source: 'onboarding',
+      source: BASELINE_SOURCE,
       slug,
       label: LABEL[slug] ?? slug,
       status: 'open',
@@ -226,7 +246,7 @@ export async function seedChildBaseline(
     .insert(COMMON_BASELINE_SLUGS.map(slug => ({
       user_id: userId,
       child_id: childId,
-      source: 'baseline',
+      source: BASELINE_SOURCE,
       slug,
       label: LABEL[slug] ?? slug,
       status: 'open',

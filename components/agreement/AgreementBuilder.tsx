@@ -501,36 +501,44 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
             </p>
           </div>
 
+          {/* ── TWO WAYS ON, NOT THREE ────────────────────────────────────
+              Justin, 16 August 2026: "it should just have either change the
+              agreement or print and sign agreement, which only takes them to
+              set up page to do next step."
+              It had three: print, change it, and a separate next step. Print and
+              next step were the same intention split in two, so a parent
+              finishing the biggest job in setup was handed a small decision
+              about which of three buttons meant "I am done". They are one
+              button now: it opens the printed copy in its own tab AND carries
+              on to setup in this one, which is what a parent doing this at the
+              kitchen table actually wants, the paper for the fridge and the app
+              moving on.
+              Once setup is finished there is no next step to go to, so it goes
+              back to being a plain print link. */}
           <div style={{ display: 'flex', gap: '10px', marginBottom: '14px' }}>
-            <Link href="/dashboard/agreement/print" style={{ ...bigBtn, textDecoration: 'none', textAlign: 'center', display: 'block' }}>
-              Print the fridge copy
-            </Link>
+            {showSetupNext ? (
+              <button
+                onClick={() => {
+                  // The print view opens alongside rather than instead of, so
+                  // the tab they are standing in is free to move on. noopener
+                  // because a named target without it hands the new page a
+                  // reference back to this one.
+                  window.open('/dashboard/agreement/print', '_blank', 'noopener,noreferrer')
+                  window.location.href = '/dashboard/setup'
+                }}
+                style={{ ...bigBtn, textAlign: 'center' }}
+              >
+                Print and sign it
+              </button>
+            ) : (
+              <Link href="/dashboard/agreement/print" style={{ ...bigBtn, textDecoration: 'none', textAlign: 'center', display: 'block' }}>
+                Print the fridge copy
+              </Link>
+            )}
             <button onClick={() => setStep('type')} style={{ ...bigBtn, width: 'auto', flexShrink: 0, background: '#fff', color: 'var(--ink-soft)', border: '2px solid var(--border)', boxShadow: '0 3px 0 var(--border)' }}>
               Change it
             </button>
           </div>
-
-          {/* ── AND THEN BACK TO THE REST OF SETUP ──────────────────────────
-              Justin, 16 August 2026: "when we do agreement and confirm it, give
-              option to print at that point, then take to other tickable actions
-              on set up screen."
-              Print was already offered here, which is the right place for it: a
-              fridge copy is worth printing the moment it is agreed, not a week
-              later from a menu. What was missing is the way onward. A parent who
-              came from setup, finished the first step and is then left on the
-              finished agreement has to find their own way back to the thing that
-              was walking them through it.
-              Only when they arrived from setup, because a parent who opened the
-              agreement in month three to change a clause is not setting up and
-              should not be shown a road back to a page about setting up. */}
-          {showSetupNext && (
-            <Link
-              href="/dashboard/setup"
-              style={{ ...bigBtn, textDecoration: 'none', textAlign: 'center', display: 'block', marginBottom: '14px' }}
-            >
-              Next step in setting up
-            </Link>
-          )}
 
           {/* Where the agreement already is.
               There is deliberately no Send to their phone button, because there
