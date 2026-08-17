@@ -1,5 +1,11 @@
 -- One primary child per family, enforced.
 --
+-- Numbered 203, not the 202 it was written as and applied under. Another session
+-- took 202 the same evening for a lesson RLS backup, and the wiring check caught
+-- the collision on the pull request. Theirs arrived via main, so mine moved.
+-- The index is already on the live database under the old name; the statement is
+-- `if not exists`, so running it again here changes nothing.
+--
 -- children.is_primary has defaulted to TRUE since migration 001 with no unique
 -- constraint anywhere in 201 migrations. So any insert path that omitted it
 -- minted another primary, and on the live account four of five children carried
