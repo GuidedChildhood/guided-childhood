@@ -1,0 +1,17 @@
+-- Guided Childhood — Migration 202
+-- Close the public hole left by the migration 199 safety backup.
+--
+-- WHY. The daily health sweep's advisor check flagged `schools._backup_lesson_199`
+-- as ERROR level: RLS disabled on a table exposed to PostgREST. It is a one row,
+-- hand taken snapshot of schools.school_lessons for eyfs-01-screens-kindness,
+-- made on 15 August right before migration 199 rewrote that lesson, and it is
+-- not referenced anywhere in application code. Every other internal only table
+-- in this schema (cron_runs, platform_config, and the rest the advisor is
+-- silent on) is locked down the same way: RLS enabled, no policy, so only the
+-- service role can read or write it and anon/authenticated get nothing. This
+-- backup table never got that treatment, so it sat open to anyone with the
+-- anon key.
+--
+-- The table itself is left in place. It is a safety net, not a bug, and
+-- deleting someone else's recovery copy is not this migration's call to make.
+alter table schools._backup_lesson_199 enable row level security;
