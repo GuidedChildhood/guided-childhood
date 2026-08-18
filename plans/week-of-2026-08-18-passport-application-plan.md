@@ -180,3 +180,52 @@ SETTLED:
    gatherChildPassportToDo already caps at three child doable items and the
    monthly sweep already writes the note to their app. The build is one screen
    on the kid app reading the existing helpers.
+
+## 18 AUGUST, FOURTH PASS: THE BALANCE IS A ZONE, AND THE PILLS CARRY DOTS
+
+Justin: "balance is a moving picture based on all use and current position...
+research mobbin for similar platforms and come up with best idea, note there
+is multiple children added so needs to be able to select child."
+
+THE BALANCE DESIGN, from the Mobbin sweep (Gentler Streak, Whoop, Oura, Apple
+Fitness, Duolingo, CRED, Credit Karma, Turo, Airbnb Superhost, Zopa):
+
+- A ZONE, NOT A SCORE. A horizontal band with a healthy middle and a marker at
+  this week's position (Gentler Streak's activity path). A ring is wrong here:
+  a ring promises completion at 100 percent, and this is the one strand that
+  must never promise completion. The three positions in the code (healthy,
+  over, well over) map one to one onto in the zone, past it, well past it.
+- A WORD, NEVER A NUMBER (Whoop's rule): "In balance this week." Hours live
+  one tap deeper. Numbers invite gaming and shame; a word reads in a glance.
+- THE TWO CONTRIBUTORS under the band, straight from the readings the code
+  already produces: jobs (the in a row voice, "4 days in a row") and screens
+  against the healthy amount for the age. No new data.
+- SEVEN DAY DOTS as the moving window, Apple Fitness style. Monday it breathes.
+- TWO GRAMMARS ON ONE PAGE (Zopa's separation): tickable strands keep tick
+  anatomy; the balance card carries a status pill and a next reading date,
+  "Reads again Sunday". A card with a next reading date cannot be mistaken
+  for a box to tick once. "Kept up, not ticked off" becomes its caption.
+- REPAIR, NEVER FAILURE (CRED's claim it back, Turo's next assessment): an
+  amber week ships with the way back in the same sentence and the date it can
+  be green again. "Over by about two hours. A couple of jobs and a lighter
+  weekend brings it back. Back in balance by Sunday still counts."
+- THE FAMILY PAUSE (Duolingo's freeze): holidays hold the jobs streak as
+  protected rest rather than a break. Repair over punishment, in the mechanic.
+
+THE CHILD SWITCHER, from Greenlight and GoHenry:
+
+- The existing butter pills gain an avatar and a small green or amber BALANCE
+  DOT per child, so a parent of three sees three balances before choosing a
+  tab. An amber dot on a background child is the quiet pull to switch.
+- The possessive name is the real error proofing: "Teo's passport", "Teo's
+  balance", especially on the strand that moves week to week. No per child
+  colour palette: the active child's stage pastel tints the page, and names do
+  the separating, because a per child hue would fight the stage pastels.
+- Switching keeps your place on the page (same route, ?child=), so comparing
+  two children on the same strand is two taps. Row scrolls past four children.
+- Scaled down later: the switcher pattern miniaturises to the family overview
+  card idea (one row per child with stamp and balance side by side), noted for
+  Home but NOT in this build.
+
+Mock updated to eight screens (same artifact URL), including the balance close
+up and the child's mirror on the kid app's anthracite.
