@@ -44,6 +44,15 @@ whose new reports he is reading was designed into the guide months ago.
   unimpeachable. Mirror her self styling (Dr) only if used, do not assert it.
 - Verify the news numbers and any Knibbs quotes at source before print (egress blocked this session).
 
+## Running order (updated)
+
+This series now runs AFTER the mechanism not mandate trio (content/packs/2026-08-18-mechanism-not-mandate),
+which sets the frame, teach never frighten, say the small numbers, never demonise a platform. The
+combined run is eight posts: the trio first (self audit, the insight, the platform stance), then
+these five, revised to open from the frame and to pass the Haidt test (fear first hooks removed, the
+sixteen children number said up front, the Roblox post refocused on the seeking loop as education so
+it does not repeat trio post 3). In the file the five are numbered 4 to 8 in run order.
+
 ## How to run it and the images
 
 - Post in order, one a day or two a week. Golden hour, reply fast, in Justin's voice.
