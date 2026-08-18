@@ -24,6 +24,8 @@ type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 const STAGE_SLUGS: StageId[] = ['foundation', 'builder', 'explorer', 'shaper', 'independent']
 
 import { withOrigin } from '@/components/nav/BackTo'
+import { getAllStagesProgress } from '@/lib/pathway/progress'
+import { getWeekParentReport } from '@/lib/balance/week-report'
 
 // Every row here is a link OUT of the passport, so every row carries where it
 // came from. Without it the parent lands somewhere with a back link pointing at
@@ -236,4 +238,63 @@ export async function buildPassportSections(
   }
 
   return out
+}
+
+// ── THE SAME FIVE ROWS, FOR A CALLER THAT ONLY WANTS TODAY'S STAGE ──────────
+//
+// The Today loop's passport rung must say what the passport page says, and for
+// six days it said nothing at all: getTodayLoop grew a passportSections
+// parameter on 14 August on the claim that the dashboard "already built" the
+// rows, the dashboard never had, and a default of null meant the rung simply
+// never rendered. Nobody saw a bug because nothing looked broken; the rotation
+// Justin asked for just quietly never reached the passport.
+//
+// The fix is architectural rather than another argument. ONE builder, this
+// module, called from two places: the passport page builds all five stages for
+// the book, and this helper builds the current stage for the rung. The two can
+// never disagree because they are the same rows from the same code, and there
+// is no longer a hand off that a caller can silently drop.
+//
+// It pays for its own inputs (the bulk progress read, the two moment counts,
+// the week report) rather than borrowing the dashboard's, because the
+// dashboard has none of them and the loop runs inside its own parallel wave
+// where one more read is cheap and one more await is not.
+
+export type CurrentStageChild = {
+  id: string
+  age_band?: string | null
+  stage_id: string | null
+  streak_weeks?: number | null
+}
+
+const STAGE_NUMS: Record<string, number> = {
+  foundation: 1, builder: 2, explorer: 3, shaper: 4, independent: 5,
+}
+
+export async function currentStagePassportSections(
+  supabase: SupabaseClient,
+  userId: string,
+  child: CurrentStageChild | null,
+): Promise<(StageSections & { stageNum: number }) | null> {
+  if (!child?.stage_id) return null
+  const stageNum = STAGE_NUMS[child.stage_id]
+  if (!stageNum) return null
+
+  const [allProgress, openRes, solvedRes, parentReport] = await Promise.all([
+    getAllStagesProgress(supabase, userId, child.streak_weeks ?? 0),
+    // User level on purpose, for now: the passport page reads concerns the
+    // same way, and the two surfaces move to child_id together in the per
+    // child pass so they can never disagree in the meantime.
+    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', userId).in('status', ['open', 'improving']),
+    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'resolved'),
+    getWeekParentReport(supabase, userId, child),
+  ])
+
+  const map = await buildPassportSections(supabase, userId, child, allProgress, stageNum, {
+    openMoments: openRes.count ?? 0,
+    solvedMoments: solvedRes.count ?? 0,
+    parentReport,
+  })
+  const sections = map[stageNum]
+  return sections ? { ...sections, stageNum } : null
 }

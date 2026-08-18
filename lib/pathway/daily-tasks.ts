@@ -4,6 +4,7 @@ import { isScriptLocked } from '@/lib/content/free-script-limit'
 import type { StageId } from './progress'
 import type { ChallengeId } from '@/lib/content/stages'
 import { londonToday, londonDayStart } from '@/lib/pathway/today'
+import { currentStagePassportSections, type CurrentStageChild } from '@/lib/pathway/passport-sections'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -88,13 +89,17 @@ export async function getTodayLoop(
    */
   setupNextStep: string | null = null,
   /**
-   * The passport's five section readings, already built by the dashboard for
-   * PassportToDo. Passed in rather than rebuilt here for the same reason
-   * setupNextStep is: two readings of the same thing is two readings that can
-   * disagree, and the rung must say what the passport page says. Null when the
-   * family has no stage yet, which keeps the rung off the road.
+   * The child whose passport the rung reads, normally the dashboard's selected
+   * child. Null keeps the rung off the road entirely.
+   *
+   * This replaces a passportSections parameter that was dormant for six days:
+   * it claimed the dashboard "already built" the rows, the dashboard never
+   * had, and the null default meant the rung never rendered once. The rows are
+   * now fetched HERE through currentStagePassportSections, the same builder
+   * the passport page uses, so the rung and the page cannot disagree and
+   * there is no hand off left for a caller to silently drop.
    */
-  passportSections: { pct: number }[] | null = null,
+  child: CurrentStageChild | null = null,
 ): Promise<TodayLoopTask[]> {
   const today = londonToday()
   // The instant today began in London, not UTC midnight. Through British summer
@@ -115,6 +120,7 @@ export async function getTodayLoop(
     { count: asksWaiting },
     { data: scoredToday },
     { data: agreementRow },
+    passportRead,
   ] = await Promise.all([
     // Concerns flagged before today that have not been checked today:
     // the same query the daily deck uses to build its check in card.
@@ -180,6 +186,10 @@ export async function getTodayLoop(
       .order('updated_at', { ascending: false })
       .limit(1)
       .maybeSingle(),
+    // The passport's five rows for the selected child, the same builder the
+    // passport page uses. See the child parameter above for why this is
+    // fetched here rather than handed in.
+    currentStagePassportSections(supabase, userId, child),
   ])
 
   const anyQuests = (questCount ?? 0) > 0
@@ -219,9 +229,9 @@ export async function getTodayLoop(
 
   // How much of the passport is still on the parent to move. Null means there
   // is no passport to read yet, and the rung stays off the road entirely.
-  const passportOutstanding = passportSections === null
+  const passportOutstanding = passportRead === null
     ? null
-    : passportSections.filter(sec => sec.pct < 100).length
+    : passportRead.sections.filter(sec => sec.pct < 100).length
 
   const scriptHref = await safeScriptHref(supabase, userId, isPaid, recommended)
   // Doing a moment counts whether it came from the daily deck (a session) or
