@@ -63,33 +63,77 @@ child. It is the parent side that drifts.
 parent app, and does this number match what Olga sees in her own app? If the
 block reads by `user_id` alone, the answer is no.
 
-## 5. PER CHILD OR FAMILY: the reference list, so nobody has to re-derive it
+## 5. FAMILY OR CHILD: the rule, and it is not a judgement call
 
-**Genuinely per child (has child_id, use it):**
-concerns (since 194), wellbeing_checks, quest_ticks, quest_requests, star_goals,
-star_spends, stage_passports, device_sessions, kid_links, printable_assignments,
-kid_nudges, stage_quiz_passes, learning_sheet_results, earned_stickers,
-checkin_shifts, lesson_pass_by.
+Justin, 18 August 2026, asked directly whether the passport to do is family or
+child focused: "we are working on making all aspects such as scripts, moments,
+lessons child related not family, so the passport should follow. Make sure there
+is no overlap or confusion here."
 
-**Family only, and that is a BUG where content is child specific:**
-- `lesson_completions` — no child_id at all. **Use `lesson_pass_by` instead**: it
-  already exists with child_id and is already written (migration 162,
-  lesson-complete/route.ts:126) and nothing reads it. Free fix, no migration.
-- `school_actions` — no child_id across 205 migrations. Needs migration 207,
-  which is mine, step 4.
-- `family_agreements` — per child is planned, migration after 207, step 7.
+So there is one rule and it is short.
 
-**Legitimately family level, leave alone:**
-family_quests with a null child_id is a whole family job by design; profiles;
-daily_sessions; script_completions.
+**If a child does it, learns it, or is talked to about it, it is per child.**
+**Family level is the account only: the profile, the subscription, the parent's**
+**own settings.**
+
+Everything on the passport, every rung of its to do, is about the child in
+`?child=`. Not the household, not the primary child, that child.
+
+### The one deliberate exception, named so it stops being a question
+
+A job can be created as a WHOLE FAMILY job: `family_quests.child_id is null`,
+which is how "everyone tidies the kitchen" is meant to work, and it appears on
+every child's board on purpose.
+
+That is not an exception to the rule, because the rule is about DOING. The job
+may be shared; the doing of it never is. Each child banks their own tick, which
+is precisely what migration 206 fixes. So even here the passport reads per child.
+
+### What that rule reclassifies, and it is more than it first looks
+
+Two tables I previously listed as legitimately family level are NOT, under this
+rule, and both are live faults today rather than tidying:
+
+- **`daily_sessions`** is `unique (user_id, session_date)`. One session per
+  FAMILY per day. So doing Today with Teo marks the day complete for Alma too,
+  and the second child's day is over before it started. This is the sharpest one
+  on the list because Today is the daily loop.
+- **`script_completions`** is `unique(user_id, script_sort_order)`. A script is a
+  conversation with ONE child, and reading it with the eldest retires it for the
+  younger one, who never gets offered it.
+
+Both need child_id. Claimed as **migration 208** below.
+
+### The reference list
+
+**Genuinely per child already (has child_id, use it):**
+concerns (194), wellbeing_checks (001), quest_ticks (029, but see the key fault),
+quest_requests, star_goals, star_spends, stage_passports, device_sessions,
+kid_links, printable_assignments, kid_nudges, stage_quiz_passes (098),
+learning_sheet_results, earned_stickers, checkin_shifts, lesson_pass_by (162).
+
+**Per child by the rule, but not yet in the schema:**
+- `lesson_completions` — no child_id. **Use `lesson_pass_by` instead**: it exists
+  with child_id, is already written (162, lesson-complete/route.ts:126) and
+  nothing reads it. Free fix, no migration.
+- `daily_sessions`, `script_completions` — migration 208, above.
+- `school_actions` — no child_id across 205 migrations. Migration 207.
+- `family_agreements` — per child, migration 209, step 7.
+
+**Family level, and correctly so:** profiles, and the subscription on it.
+That is the whole list.
 
 ## 6. RESERVED, SO WE DO NOT COLLIDE AGAIN
 
 Three migration collisions in three days, all from parallel sessions.
 
-- **206 and 207 are mine** (quest_ticks child key; school_actions child_id).
-- **Take 208 upward** and name your number in your PR title the moment you take
-  it, per CLAUDE.md.
+- **206, 207, 208 and 209 are mine.** 206 quest_ticks child key, 207
+  school_actions child_id, 208 daily_sessions and script_completions child_id,
+  209 family_agreements per child. 208 and 209 are a CORRECTION: I told the
+  passport session 208 was free before Justin's rule reclassified two more
+  tables, and the agreements migration moved to 209.
+- **Take 210 upward** and name your number in your PR title the moment you take
+  it, per CLAUDE.md. The passport session has confirmed it needs none.
 - I will not touch `/dashboard/pathway`, `/dashboard/passport`, `PassportBook`,
   `IsItWorkingReport`, `LiteracyAreas` or `StageRoad` until you say you are done.
 
@@ -110,3 +154,39 @@ identical passport.
 - Stars earned this week sums every child while the copy names one.
 - The weekly check in reads `wellbeing_checks` by parent, and its form hard reads
   the primary child, so pressing it can save an answer against the wrong child.
+
+## 8. WHICH PAGES CARRY THE CHILD, from Justin, 18 August 2026
+
+Named directly, so neither session has to infer it:
+
+> "Scripts page for all children with toggle. Quests page with child toggle.
+> Lessons making sure it toggles for child and the lessons shown first are age
+> related to that child. And DiGi of course, although it also has family so
+> keeps knowledge of all children to help better family advice."
+
+> "Setup is not by child in general, although sharing the app, agreements (as
+> other children are added a step before) and check in are all per child."
+
+So the rail belongs on: **Home, Today, Check in, Scripts, Quests, Lessons, DiGi,
+Stats, Devices, Moments, School, Passport.**
+
+It does NOT belong on: **the Setup Quest itself, Settings, billing, Upgrade,
+Orders, Notifications.** Setup is a job the FAMILY does once. Three of its steps
+happen to be per child (share the app, the agreement, and the check in that
+follows it), and each of those handles its own children INSIDE the step, which is
+why the quest page as a whole needs no pill row.
+
+### The DiGi exception, which is not an exception
+
+DiGi reads EVERY child, always, and must keep doing so: a family's advice is
+better for knowing there is a fifteen year old in the house when the question is
+about the nine year old. What changed on 18 August is only where DiGi FILES what
+it learns. It talks with the whole family in mind, and it writes against the
+child in `?child=`.
+
+### Lessons: order, not just scope
+
+Justin asks for something beyond the toggle here: the lessons shown FIRST should
+be the ones for that child's age. Switching to the six year old should reorder
+the library, not merely relabel it. That is a sort, and it is the difference
+between a toggle that works and a toggle that matters.

@@ -62,11 +62,22 @@ export async function GET(request: Request) {
     ? (['social', 'safe', 'fairplay'] as const)[weekIndex() % 3]
     : (['safe', 'fairplay'] as const)[weekIndex() % 2]
 
-  // Already answered this strand in the last 7 days: nothing to ask.
+  // Already answered this strand for THIS CHILD in the last 7 days: nothing to
+  // ask. Per child since migration 209, because the gate used to be per family:
+  // answering about the nine year old on Monday silenced the question about the
+  // fifteen year old for the rest of the week, and his strand reading then went
+  // stale while the app believed it had asked.
+  //
+  // Rows from before 209 have a null child and are counted for everybody, which
+  // is what they meant when they were written.
+  const childParam = url.searchParams.get('child')
   const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-  const { data: recent } = await supabase
+  const recentQ = supabase
     .from('literacy_checkins').select('id').eq('user_id', user.id)
-    .eq('strand', strand).gte('created_at', since).limit(1).maybeSingle()
+    .eq('strand', strand).gte('created_at', since)
+  const { data: recent } = await (childParam
+    ? recentQ.or(`child_id.is.null,child_id.eq.${childParam}`)
+    : recentQ).limit(1).maybeSingle()
   if (recent) return NextResponse.json({ question: null })
 
   const bank = QUESTIONS[strand]
@@ -78,7 +89,7 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { strand, question, answer } = await request.json().catch(() => ({}))
+  const { strand, question, answer, child_id } = await request.json().catch(() => ({}))
   if ((strand !== 'safe' && strand !== 'social' && strand !== 'fairplay') || !question?.trim() || !answer?.trim()) {
     return NextResponse.json({ error: 'strand, question and answer are required' }, { status: 400 })
   }
@@ -112,10 +123,32 @@ export async function POST(request: Request) {
     }
   }
 
-  const { error } = await supabase.from('literacy_checkins').insert({
+  // WHICH CHILD THIS ANSWER IS ABOUT. Every question says "your child" out
+  // loud, so an answer about the nine year old's YouTube habit says nothing
+  // about the fifteen year old and must not move his strand. Migration 209.
+  //
+  // Checked against the account rather than trusted, and null when nothing is
+  // named, which is the old family wide behaviour and what the pre 209 rows
+  // already mean.
+  let forChild: string | null = null
+  if (typeof child_id === 'string' && child_id) {
+    const { data: owned } = await supabase
+      .from('children').select('id').eq('id', child_id).eq('parent_id', user.id).maybeSingle()
+    forChild = owned?.id ?? null
+  }
+
+  const row = {
     user_id: user.id, strand, question: String(question).slice(0, 1000),
     answer: String(answer).slice(0, 3000), grade, grade_note: note.slice(0, 500),
-  })
+  }
+  let { error } = await supabase.from('literacy_checkins').insert({ ...row, child_id: forChild })
+  // A database that has not run 209 yet has no child_id column, so the insert
+  // is retried without it rather than costing the parent their answer. Same
+  // shape as the fairplay fallback below: a missing migration degrades, it
+  // never loses what somebody typed.
+  if (error && /child_id/.test(error.message)) {
+    ;({ error } = await supabase.from('literacy_checkins').insert(row))
+  }
   // A database still on the two strand constraint (before migration 086)
   // cannot store fairplay yet: the parent's answer and DiGi's warm read are
   // still returned, nothing is lost but the streak, which starts counting

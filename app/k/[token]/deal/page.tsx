@@ -36,7 +36,16 @@ export default async function KidDealPrintPage({ params }: { params: Promise<{ t
 
   const [childRes, questsRes, goalRes] = await Promise.all([
     supabase.from('children').select('name, age_band, device_trust').eq('id', link.child_id).maybeSingle(),
-    supabase.from('family_quests').select('title, emoji, stars').eq('user_id', link.user_id).eq('active', true).order('created_at'),
+    // THIS CHILD'S JOBS, plus the shared ones. It had no child filter at all,
+    // so the deal a child printed and put on their wall listed their sibling's
+    // jobs, at their sibling's star rates, under their own name. On the child's
+    // OWN device, which is the one place the app should only ever be about
+    // them.
+    //
+    // The same read is done correctly one directory along in star-chart, line
+    // 47. This is that line.
+    supabase.from('family_quests').select('title, emoji, stars').eq('user_id', link.user_id).eq('active', true)
+      .or(`child_id.is.null,child_id.eq.${link.child_id}`).order('created_at'),
     supabase.from('star_goals').select('title, stars_needed, achieved_at').eq('child_id', link.child_id).is('achieved_at', null).maybeSingle(),
   ])
 

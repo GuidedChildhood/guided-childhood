@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 const PASS_MARK = 0.7
 
 export async function POST(req: NextRequest) {
-  const { lesson_id, lesson_source, correct, total } = await req.json()
+  const { lesson_id, lesson_source, correct, total, child_id } = await req.json()
   if (!lesson_id || !['lesson', 'ai_lesson', 'school_lesson'].includes(lesson_source)) {
     return NextResponse.json({ error: 'missing or invalid lesson_id / lesson_source' }, { status: 400 })
   }
@@ -77,8 +77,24 @@ export async function POST(req: NextRequest) {
   // index is not a target PostgREST can name in an on conflict clause.
   if (passed && lesson_source === 'lesson') {
     try {
+      // WHICH CHILD THE PARENT WATCHED IT FOR.
+      //
+      // This wrote child_id: null unconditionally, on the doctrine in migration
+      // 162 that a parent watching a lesson watches it for the household.
+      // Justin ended that on 18 August: "lessons are child related not family."
+      // A parent who switched to Alma and sat down with her watched it for her.
+      //
+      // Checked, not trusted, and null when there is nothing to check, which is
+      // exactly the old behaviour for a family with one child who never touches
+      // the switcher.
+      let forChild: string | null = null
+      if (typeof child_id === 'string' && child_id) {
+        const { data: owned } = await supabase
+          .from('children').select('id').eq('id', child_id).eq('parent_id', user.id).maybeSingle()
+        forChild = owned?.id ?? null
+      }
       await supabase.from('lesson_pass_by')
-        .insert({ user_id: user.id, lesson_id, who: 'parent', child_id: null })
+        .insert({ user_id: user.id, lesson_id, who: 'parent', child_id: forChild })
     } catch { /* already recorded, or pre migration 162 */ }
   }
 
@@ -86,7 +102,7 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
-  const { lesson_id, lesson_source } = await req.json()
+  const { lesson_id, lesson_source, child_id: forChild } = await req.json()
   if (!lesson_id || !['lesson', 'ai_lesson', 'school_lesson'].includes(lesson_source)) {
     return NextResponse.json({ error: 'missing or invalid lesson_id / lesson_source' }, { status: 400 })
   }
@@ -107,8 +123,23 @@ export async function DELETE(req: NextRequest) {
   // The parent's side of the social road goes with it. Only theirs: a parent
   // un ticking their own completion has not undone the lesson their child sat.
   try {
-    await supabase.from('lesson_pass_by')
-      .delete().eq('user_id', user.id).eq('lesson_id', lesson_id).is('child_id', null)
+    // Only the PARENT's row, whichever child it was for. It used to match on
+    // child_id is null, which was the same thing while every parent row had a
+    // null child. Now that a parent's pass can name a child, matching on null
+    // would leave the named ones behind for ever: the parent un ticks the
+    // lesson, the card goes back to undone, and the road still counts their
+    // side as walked.
+    // forChild comes from the SAME parse as lesson_id above. A request body can
+    // only be read once, so a second await req.json() here would throw.
+    const del = supabase.from('lesson_pass_by')
+      .delete().eq('user_id', user.id).eq('lesson_id', lesson_id).eq('who', 'parent')
+    // No child named means the family wide row, which is exactly what this
+    // matched before. Deliberately NOT "every parent row for this lesson": on an
+    // account with three children that would un tick the other two as well,
+    // from a page that never showed them.
+    await (typeof forChild === 'string' && forChild
+      ? del.eq('child_id', forChild)
+      : del.is('child_id', null))
   } catch { /* pre migration 162 */ }
 
   return NextResponse.json({ ok: true })

@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
+import { Suspense, useEffect, useState } from 'react'
 
 // The mobile bottom bar: Home, DiGi, Lessons, Quests, Scripts, Passport. The
 // two most asked for destinations, Scripts and Quests, are real tabs rather
@@ -100,7 +100,10 @@ const NAV_TABS: Tab[] = [
   },
 ]
 
-export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number }) {
+// Carries the chosen child, same as the desktop tabs. A nav link that drops
+// ?child= sends the parent back to the primary child on the next tap, which
+// would make the switcher a lie: pick Alma, tap Lessons, quietly read Teo.
+function MobileTabBarInner({ pendingAsks = 0, childId = null }: { pendingAsks?: number; childId?: string | null }) {
   const pathname = usePathname()
   // usePathname only updates once a navigation has fully resolved, so on a
   // heavier page the highlight lagged the tap and the bar felt slow. We track
@@ -121,7 +124,7 @@ export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number
         return (
           <Link
             key={tab.href}
-            href={tab.href}
+            href={childId ? `${tab.href}?child=${childId}` : tab.href}
             prefetch
             onClick={e => {
               // Tapping the tab you are already on scrolls back to the top,
@@ -165,5 +168,30 @@ export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number
         )
       })}
     </nav>
+  )
+}
+
+// ── WHY THIS IS WRAPPED IN SUSPENSE, AND WHY THE FALLBACK IS THE SAME BAR ───
+//
+// useSearchParams forces a client bailout, so any page that STATICALLY
+// prerenders a component using it fails the build outright. The dashboard
+// layout already provides a boundary, but /dev/tab-bar renders the bar on its
+// own and that is a prerendered page, so the build broke there rather than
+// anywhere a parent would ever look. Vercel found it; a typecheck never would.
+//
+// The boundary lives HERE rather than at each call site so no future page has
+// to know. And the fallback renders the identical bar with no child, instead of
+// null, because a nav that blinks out and back in on every load would be a real
+// regression for a cosmetic reason. A prerendered page has no query string to
+// read anyway, so the fallback is the correct answer there, not a placeholder.
+function MobileTabBarWithChild({ pendingAsks }: { pendingAsks?: number }) {
+  return <MobileTabBarInner pendingAsks={pendingAsks} childId={useSearchParams().get('child')} />
+}
+
+export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number }) {
+  return (
+    <Suspense fallback={<MobileTabBarInner pendingAsks={pendingAsks} childId={null} />}>
+      <MobileTabBarWithChild pendingAsks={pendingAsks} />
+    </Suspense>
   )
 }

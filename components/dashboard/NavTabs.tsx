@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { Suspense } from 'react'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 // One nav, phone and laptop the same: the six core destinations in one order,
 // so the app never reads differently on a bigger screen. School reaches from
@@ -25,7 +26,16 @@ const NAV_TABS = [
 // gets a soft wash. Active is by longest matching prefix so nested pages
 // (a script, a lesson) still light their parent tab. The Quests tab wears
 // a red, gently rocking badge whenever a child is waiting on an answer.
-export default function NavTabs({ pendingAsks = 0 }: { pendingAsks?: number }) {
+
+// ── AND IT CARRIES THE CHILD ────────────────────────────────────────────────
+//
+// The switcher writes ?child= into the URL, and a nav link that drops it sends
+// the parent back to the primary child on the very next tap. That would make
+// the rail a lie: pick Alma, tap Lessons, and quietly be reading about Teo.
+//
+// So every tab appends the current child when there is one. Nothing changes for
+// a family with one child, because the param is never there to carry.
+function NavTabsInner({ pendingAsks = 0, childId = null }: { pendingAsks?: number; childId?: string | null }) {
   const pathname = usePathname()
   const active = NAV_TABS
     .filter(t => (t.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(t.href)))
@@ -38,7 +48,7 @@ export default function NavTabs({ pendingAsks = 0 }: { pendingAsks?: number }) {
         return (
           <Link
             key={tab.href}
-            href={tab.href}
+            href={childId ? `${tab.href}?child=${childId}` : tab.href}
             className={`nav-pill${tab.href === active ? ' nav-pill-active' : ''}`}
             style={{ position: 'relative' }}
           >
@@ -52,5 +62,30 @@ export default function NavTabs({ pendingAsks = 0 }: { pendingAsks?: number }) {
         )
       })}
     </nav>
+  )
+}
+
+// ── WHY THIS IS WRAPPED IN SUSPENSE, AND WHY THE FALLBACK IS THE SAME BAR ───
+//
+// useSearchParams forces a client bailout, so any page that STATICALLY
+// prerenders a component using it fails the build outright. The dashboard
+// layout already provides a boundary, but /dev/tab-bar renders the bar on its
+// own and that is a prerendered page, so the build broke there rather than
+// anywhere a parent would ever look. Vercel found it; a typecheck never would.
+//
+// The boundary lives HERE rather than at each call site so no future page has
+// to know. And the fallback renders the identical bar with no child, instead of
+// null, because a nav that blinks out and back in on every load would be a real
+// regression for a cosmetic reason. A prerendered page has no query string to
+// read anyway, so the fallback is the correct answer there, not a placeholder.
+function NavTabsWithChild({ pendingAsks }: { pendingAsks?: number }) {
+  return <NavTabsInner pendingAsks={pendingAsks} childId={useSearchParams().get('child')} />
+}
+
+export default function NavTabs({ pendingAsks = 0 }: { pendingAsks?: number }) {
+  return (
+    <Suspense fallback={<NavTabsInner pendingAsks={pendingAsks} childId={null} />}>
+      <NavTabsWithChild pendingAsks={pendingAsks} />
+    </Suspense>
   )
 }

@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { pickChild } from '@/lib/children/select'
 import { firstText, makeDashStripper } from '@/lib/digi/text'
 import { hasFullAccess, inStarterTrial, isAllowlisted } from '@/lib/access'
 import { getTrialConfig } from '@/lib/config/trial'
@@ -136,7 +137,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
-  const { message, device_key } = await request.json()
+  const { message, device_key, child_id: childParam } = await request.json()
   if (!message?.trim()) {
     return NextResponse.json({ error: 'Message is required' }, { status: 400 })
   }
@@ -274,7 +275,25 @@ export async function POST(request: Request) {
     device_trust: string | null; is_primary: boolean | null
   }
   const children = (childResult.data ?? []) as DigiChild[]
-  const child = children.find(c => c.is_primary) ?? children[0] ?? null
+  // ── WHICH CHILD DiGi IS TALKING ABOUT, AND FILING AGAINST ────────────────
+  //
+  // This was children.find(c => c.is_primary) ?? children[0], the primary child
+  // regardless of who the parent had open. DiGi reads every child, so it could
+  // TALK about the right one, but six writes below take this single value:
+  // digi_memory, the concern raised from a chat, digi_questions, digi_feedback,
+  // the insight row and the safety flag. So a parent standing on Alma's page,
+  // asking about Alma, had every one of those filed against Teo.
+  //
+  // That is the quietest fault of the lot, because nothing looks wrong at the
+  // time. The answer on screen is right. It is the RECORD that is wrong, and
+  // the record is what DiGi reads back tomorrow, so it compounds: Teo's
+  // concerns fill up with Alma's worries and the tailoring drifts for both.
+  //
+  // pickChild validates by construction. `children` is already scoped to this
+  // parent, so an id that is not theirs simply does not match and the primary
+  // child answers, exactly as before. No extra read, no way to file against
+  // somebody else's child.
+  const child = pickChild(children, typeof childParam === 'string' ? childParam : null)
 
   const isPaid = hasFullAccess(profile, user.email)
 

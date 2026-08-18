@@ -69,7 +69,11 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { tick_id, decision, quest_id } = await req.json()
+  // child_id says WHICH child the parent is ticking for. It matters only on a
+  // shared job, where family_quests.child_id is null and the row alone cannot
+  // say who did it. On a job already assigned to one child the quest wins and
+  // this is ignored, so a stale param can never redirect somebody's stars.
+  const { tick_id, decision, quest_id, child_id } = await req.json()
 
   // Parent ticks directly from the dashboard (printed sheet flow)
   if (quest_id && !tick_id) {
@@ -81,13 +85,35 @@ export async function POST(req: NextRequest) {
     // tick clears, instead of inserting a second one that leaves the first
     // sitting in the parent's notifications as still waiting. Only insert a
     // fresh approved tick when there was nothing pending to approve.
-    const { data: promoted } = await supabase.from('quest_ticks')
+    // Whose tick this approval is about. The job's own child when it has one,
+    // otherwise the child the parent is looking at. Null only when neither
+    // says, which is the old single child behaviour.
+    // Checked, not trusted. A child_id off the wire is only ever used when the
+    // job itself does not name one, and only after confirming that child is on
+    // this parent's account, so a stale or hand edited value cannot post work
+    // against somebody who is not theirs.
+    let namedChild: string | null = null
+    if (!quest.child_id && typeof child_id === 'string' && child_id) {
+      const { data: owned } = await supabase
+        .from('children').select('id').eq('id', child_id).eq('parent_id', user.id).maybeSingle()
+      namedChild = owned?.id ?? null
+    }
+    const targetChild: string | null = (quest.child_id as string | null) ?? namedChild
+
+    // SCOPED TO ONE CHILD, and it was not before.
+    //
+    // This matched by quest and date alone, so on a shared job one tap approved
+    // EVERY child's pending tick at once. Three children, one approval, and the
+    // parent never saw the other two to judge them. Since migration 206 those
+    // are separate rows, so the filter is both possible and necessary.
+    const promote = supabase.from('quest_ticks')
       .update({ status: 'approved', approved_at: new Date().toISOString() })
       .eq('quest_id', quest.id).eq('tick_date', today).eq('user_id', user.id).neq('status', 'approved')
+    const { data: promoted } = await (targetChild ? promote.eq('child_id', targetChild) : promote)
       .select('id')
     if (!promoted || promoted.length === 0) {
       const { error } = await supabase.from('quest_ticks').insert({
-        quest_id: quest.id, user_id: user.id, child_id: quest.child_id,
+        quest_id: quest.id, user_id: user.id, child_id: targetChild,
         tick_date: today, status: 'approved', ticked_by: 'parent',
         approved_at: new Date().toISOString(),
       })
@@ -95,9 +121,9 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: error.message }, { status: 500 })
       }
     }
-    if (quest.child_id) {
-      await settleOldestGiftDebt(supabase, user.id, quest.child_id)
-      await tellChildConfirmed(user.id, quest.child_id, quest.title, quest.stars ?? 1)
+    if (targetChild) {
+      await settleOldestGiftDebt(supabase, user.id, targetChild)
+      await tellChildConfirmed(user.id, targetChild, quest.title, quest.stars ?? 1)
       await celebrateStreakIfComplete(supabase, user.id, quest.child_id)
     }
     return NextResponse.json({ ok: true })

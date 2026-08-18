@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import Link from 'next/link'
 import { kidLessonForQuestTitle } from '@/lib/quests/kid-lessons'
 import { craftForQuestTitle, craftHref } from '@/lib/quests/craft-links'
@@ -214,7 +215,7 @@ export default function QuestStatusBoard() {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: kind === 'tick'
           ? JSON.stringify({ tick_id: id, decision: 'approve' })
-          : JSON.stringify({ quest_id: id }),
+          : JSON.stringify({ quest_id: id, child_id: currentChildId() }),
       })
       return res.ok
     } catch { return false }

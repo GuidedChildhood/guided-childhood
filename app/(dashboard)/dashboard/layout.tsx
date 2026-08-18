@@ -93,7 +93,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
               Guided Childhood
             </span>
           </Link>
-          <NavTabs pendingAsks={pendingAsks ?? 0} />
+          <Suspense fallback={null}><NavTabs pendingAsks={pendingAsks ?? 0} /></Suspense>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <NotificationsBell />
             {/* ── SAY WHAT THE BUTTON DOES, AND WHAT THE LINK IS ───────────
@@ -219,7 +219,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
           left. Here rather than on each page so every dashboard route gets it. */}
       <OpenAtTheTop />
 
-      <MobileTabBar pendingAsks={pendingAsks ?? 0} />
+      {/* Both nav bars read ?child= so the chosen child survives a tap, and
+          useSearchParams needs the boundary. */}
+      <Suspense fallback={null}><MobileTabBar pendingAsks={pendingAsks ?? 0} /></Suspense>
 
       {/* Help now: a floating action just above the tab bar on mobile (and the
           pill on desktop), so crisis words stay one tap away from any page. */}

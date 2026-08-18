@@ -50,10 +50,21 @@ export async function POST(req: NextRequest) {
   const today = new Date().toISOString().slice(0, 10)
 
   if (untick) {
-    // A kid can take back a pending tick, never an approved one
+    // A kid can take back a pending tick, never an approved one, and ONLY
+    // THEIR OWN.
+    //
+    // The child_id filter is new and it was data loss without it. On a shared
+    // job the delete matched by quest and date alone, so Alma changing her mind
+    // deleted Teo's pending tick as well: his work vanished from the parent's
+    // approval list and he was never told. He had done the job.
+    //
+    // Migration 206 is what makes their two ticks separate rows in the first
+    // place. Before it there was only ever one row to delete, which is why this
+    // read as correct for as long as it did.
     await supabase.from('quest_ticks')
       .delete()
       .eq('quest_id', quest.id)
+      .eq('child_id', link.child_id)
       .eq('tick_date', today)
       .eq('status', 'pending')
     await supabase.from('kid_links').update({ last_seen_at: new Date().toISOString() }).eq('token', token)
@@ -68,7 +79,10 @@ export async function POST(req: NextRequest) {
     status: 'pending',
     ticked_by: 'child',
   })
-  // Unique (quest_id, tick_date): a repeat tap is fine, not an error
+  // Unique (quest_id, child_id, tick_date) since migration 206: the SAME child
+  // tapping twice is fine, not an error. It used to be (quest_id, tick_date),
+  // so this same line silently swallowed a second CHILD's tick on a shared job
+  // and told them it had worked.
   if (error && !error.message.includes('duplicate')) {
     return NextResponse.json({ error: error.message }, { status: 500 })
   }

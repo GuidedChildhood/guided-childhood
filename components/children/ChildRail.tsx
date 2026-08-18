@@ -40,6 +40,11 @@ import ChildSwitcher, { type SwitcherChild } from './ChildSwitcher'
 // They are added here the moment that rebuild lands and its inner switcher
 // goes, which is agreed rather than assumed.
 const CHILD_ROUTES = [
+  // The check in walks one child at a time and hands on to the next by button,
+  // but the pills still belong here: a parent who wants to answer about the
+  // younger one first should not have to finish the elder's list to get there.
+  '/dashboard/checkin',
+  '/dashboard/scripts',
   '/dashboard/stats',
   '/dashboard/devices',
   '/dashboard/lessons',

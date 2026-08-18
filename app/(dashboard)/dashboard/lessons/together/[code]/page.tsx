@@ -2,29 +2,49 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getParentLessonByCode, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
+import { getChildren } from '@/lib/children/server'
 import { STAGES } from '@/lib/content/stages'
 import ParentLessonPlayer from '@/components/lessons/ParentLessonPlayer'
 
-// One watch together lesson, played from the parent's side of the sofa.
-// The completion writes against the primary child, so the tick, the
-// stars and any stage passport land exactly as if the child had played
-// it from their own link.
+// One watch together lesson, played from the parent's side of the sofa. The
+// completion writes against the SELECTED child, so the tick, the stars and any
+// stage passport land exactly as if that child had played it from their own
+// link.
+//
+// ── IT USED TO WRITE THEM ALL TO THE PRIMARY CHILD (18 August 2026) ─────────
+//
+// This page read .eq('is_primary', true) and handed that id to the player, and
+// the player posts it as the child the lesson was for. So a parent who switched
+// to Alma, sat down and watched a lesson with her, gave the tick, the stars and
+// the stage passport to Teo. Alma's record showed she had never done it, and
+// Teo's showed a lesson he had never seen.
+//
+// That is the worst kind of fault this product can have: it is silent, it is a
+// WRITE, and it corrupts the one record the whole passport is built on. The API
+// route was always correct, it takes child_id from the body and checks it
+// belongs to this parent. Only the page was choosing the wrong child.
+//
+// See plans/multi-child-two-session-contract.md section 5: if a child does it
+// or learns it, it is per child.
 
-export default async function WatchTogetherLessonPage({ params }: { params: Promise<{ code: string }> }) {
+export default async function WatchTogetherLessonPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ code: string }>
+  searchParams: Promise<{ child?: string }>
+}) {
   const { code } = await params
+  const { child: childParam } = await searchParams
   if (!/^\d{1,2}\.\d{1,2}$/.test(code)) notFound()
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: child }, lessonData] = await Promise.all([
-    supabase
-      .from('children')
-      .select('id, name')
-      .eq('parent_id', user.id)
-      .eq('is_primary', true)
-      .maybeSingle(),
+  const [{ child }, lessonData] = await Promise.all([
+    getChildren<{ id: string; name: string | null; is_primary: boolean | null }>(
+      supabase, user.id, childParam, 'id, name'),
     getParentLessonByCode(supabase, code),
   ])
   if (!lessonData) notFound()

@@ -73,12 +73,29 @@ async function handler(req: NextRequest) {
     remaining -= 1
 
     try {
-      const [{ data: child }, { data: completions }, { data: shownRows }] = await Promise.all([
-        supabase.from('children').select('id, name, age_band').eq('parent_id', profile.id).eq('is_primary', true).maybeSingle(),
+      const [{ data: kidRows }, { data: completions }, { data: shownRows }] = await Promise.all([
+        // EVERY child, not the primary one.
+        //
+        // Justin, 18 August 2026: "all week summaries, monthly checks, pills
+        // etc need to consider multi children."
+        //
+        // One email per family is still right, and he said so: most of a weekly
+        // digest is about the household and sending two would be a worse
+        // product, not a more thorough one. What was wrong is that everything
+        // INSIDE it described one child, so a parent with two read a summary of
+        // their week that silently left one of them out.
+        supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', profile.id)
+          .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
         supabase.from('script_completions').select('completed_at').eq('user_id', profile.id),
         supabase.from('spotlight_shown').select('spotlight_key').eq('user_id', profile.id),
       ])
-      const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
+      // The lead child frames the email, the same one the digest has always been
+      // written around, so a one child family reads exactly what it read before.
+      type Kid = { id: string; name: string | null; age_band: string | null }
+      const kids = ((kidRows ?? []) as Kid[])
+      const child = kids[0] ?? null
+      const named = (k: Kid) => (k.name && k.name !== 'Your child' ? k.name : 'your child')
+      const childName = child ? named(child) : 'your child'
       const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
       const weekAgo = Date.now() - 7 * 86400000
       const total = (completions ?? []).length
@@ -89,12 +106,22 @@ async function handler(req: NextRequest) {
       // the weekly digest (the monthly review carries the routine verdict), so a
       // parent is never marked on the clock every week. Fail soft, a balance
       // read that errors must never block the digest.
+      // Read for EVERY child, because a flag on the younger one is exactly the
+      // thing a parent would never see if this only ever looked at the eldest.
+      // Still at most one paragraph: the children who flagged are named
+      // together rather than each getting their own block, so a family with
+      // three does not receive three times the email.
       let balanceNote: string | null = null
-      if (child?.id) {
-        const report = await getWeekParentReport(supabase, profile.id, { id: child.id, name: child.name, age_band: child.age_band }).catch(() => null)
-        if (report?.topState.key === 'phone') {
-          balanceNote = `One thing from ${childName}'s balance this week. Phone and social time showed up, and at this age we keep that near zero. It is the type of screen, not the total, so there is no need for alarm. A quick hands on swap sets it right.`
-        }
+      const flagged: string[] = []
+      for (const k of kids) {
+        const report = await getWeekParentReport(supabase, profile.id, { id: k.id, name: k.name, age_band: k.age_band }).catch(() => null)
+        if (report?.topState.key === 'phone') flagged.push(named(k))
+      }
+      if (flagged.length === 1) {
+        balanceNote = `One thing from ${flagged[0]}'s balance this week. Phone and social time showed up, and at this age we keep that near zero. It is the type of screen, not the total, so there is no need for alarm. A quick hands on swap sets it right.`
+      } else if (flagged.length > 1) {
+        const list = flagged.slice(0, -1).join(', ') + ' and ' + flagged[flagged.length - 1]
+        balanceNote = `One thing from this week's balance, for ${list}. Phone and social time showed up for both, and at these ages we keep that near zero. It is the type of screen, not the total, so there is no need for alarm. A quick hands on swap sets it right.`
       }
 
       // One service a week, newest first among the ones this parent has not had.

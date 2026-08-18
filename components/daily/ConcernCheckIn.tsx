@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 // A running check in, not a one day question: this card asks about whatever
@@ -134,8 +135,14 @@ const SAVE_BEAT_MS = 2600
 export default function ConcernCheckIn({
   concerns,
   baseline = false,
+  childName = null,
+  nextChild = null,
 }: {
   concerns: ConcernCheckItem[]
+  /** Whose list this is, so finishing it can say their name. */
+  childName?: string | null
+  /** Who is still waiting, if anybody. See the hand off at the foot. */
+  nextChild?: { id: string; name: string | null } | null
   /**
    * Their first ever check in, on the worries they named at signup.
    *
@@ -518,10 +525,37 @@ export default function ConcernCheckIn({
       {allSaved && (
         <div style={{
           marginTop: '10px', paddingTop: '14px', borderTop: '1px solid var(--border)',
-          fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-          color: 'var(--retro-green)',
         }}>
-          All checked in ✓ We will read these into next week.
+          <div style={{
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+            color: 'var(--retro-green)', marginBottom: nextChild ? '12px' : 0,
+          }}>
+            {childName ? `${childName} is done ✓` : 'All checked in ✓'} We will read these into next week.
+          </div>
+
+          {/* ── AND STRAIGHT ON TO THE NEXT CHILD ──────────────────────────
+              Justin: "the parent runs through one child first then says done,
+              onto next child."
+
+              A link rather than an automatic jump. Finishing is a small moment
+              and being thrown to a fresh list of worries without touching
+              anything would take it away, which is the opposite of what the
+              green line above is for. It also has to survive a parent who
+              stops here, and a link does that by simply not being pressed. */}
+          {nextChild && (
+            <Link
+              href={`/dashboard/checkin?child=${nextChild.id}`}
+              style={{
+                display: 'block', textAlign: 'center', textDecoration: 'none',
+                background: 'var(--terracotta)', color: 'var(--ink)',
+                borderRadius: '16px', padding: '14px 18px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+                boxShadow: '0 5px 0 var(--terracotta-dark)',
+              }}
+            >
+              Now {nextChild.name ?? 'your other child'} →
+            </Link>
+          )}
         </div>
       )}
     </div>
