@@ -152,3 +152,39 @@ Justin's own instruction points at the fix: "use the same form which is simple t
 add other children". Same form means the same QUESTIONS, so the setup step should
 ask month and year of birth exactly as signup does, and the route should accept
 and write both fields.
+
+## 7. SKIP ON EVERY STEP, AND A RE-PROMPT EVERY THREE SIGN INS
+
+Justin, 17 August 2026: "go back to set up where they have to do the next steps
+or click skip. If they click skip it should pop up every 3 sign ups until they
+complete or mark as done."
+
+The save-and-print half is built. The skip half is not, and it is a bigger change
+than it looks, because it wants two things this product does not yet have:
+
+**A skip on EVERY step.** Three of the four can now be closed from the step
+itself (the home screen, the children, the share). The AGREEMENT cannot: the only
+ways to tick it are both signatures, and there is deliberately no "I did it on
+paper" door, because a paper signature is not one the product can see. A skip
+here means a fifth kind of answer: not done, not declined, deferred.
+
+**A sign in counter.** "Every 3 sign ups" is a count of app opens, and nothing
+counts them. The nearest thing is gc_app_first_seen, a single timestamp used by
+the install banner and the setup bar. A counter has to be incremented once per
+SESSION rather than per page load, or a parent who visits four pages has burned
+their three.
+
+Suggested shape, so the next session does not have to invent it:
+
+- `profiles.setup_skipped_at` plus a `setup_skip_count`, or one jsonb per step.
+  Server side, because the whole point is that it survives a cleared browser.
+- The count increments in the dashboard layout, guarded by a sessionStorage key
+  so it is once per visit.
+- At three, the step reopens rather than a popup appearing: setup is already the
+  first thing on Home while it is unfinished, so reopening the step IS the
+  prompt, and it avoids adding a fifth thing that can pop up on Home.
+
+The last point is a recommendation rather than a decision. Justin said "pop up",
+and there is a case for one; but this product already has the shop sheet, the
+agreement review, the install banner and the setup bar competing for the same
+moment, all behind one lock. Worth putting to him before building a fifth.

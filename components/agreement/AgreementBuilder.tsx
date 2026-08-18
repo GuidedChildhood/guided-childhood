@@ -129,6 +129,28 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
       if (!res.ok) throw new Error(data.error ?? 'Save failed')
       setSavedState({ version: data.version, agreedDate: data.agreed_date })
       setStep('done')
+
+      // ── SAVING FROM SETUP PRINTS IT AND CARRIES ON ────────────────────────
+      //
+      // Justin, 17 August 2026: "when you click save agreement it should auto
+      // print and go back to set up where they have to do the next steps."
+      //
+      // The done screen already offered both, and a parent mid-setup had to
+      // find them and choose. This is the moment they have just finished the
+      // biggest job on the list, which is exactly when a fridge copy is worth
+      // printing and exactly when they should be handed the next step rather
+      // than left admiring the one behind them.
+      //
+      // ONLY WHEN BOTH HAVE SIGNED. Saving an unsigned draft is a save, not a
+      // finish: it must not print a document with no signatures on it, and it
+      // must not tick the step. The done screen still asks them to sign.
+      //
+      // Only while setup is unfinished, because a parent editing a clause in
+      // month three has not asked to go anywhere.
+      if (showSetupNext && parentSigned && childSigned) {
+        window.open('/dashboard/agreement/print', '_blank', 'noopener,noreferrer')
+        window.location.href = '/dashboard/setup'
+      }
     } catch {
       setError('The agreement did not save. Check your connection and try again.')
     } finally {
