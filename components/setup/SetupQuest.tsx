@@ -58,13 +58,17 @@ const ANCHOR: Partial<Record<keyof SetupFlags, string>> = {
   children: 'children',
 }
 
+type SetupChild = { id: string; name: string | null; linked: boolean; noPhone: boolean }
+
 type Props = {
   flags: SetupFlags
   child: { id: string; name: string | null } | null
+  /** Every child, so the share step can offer a code each. See flags.ts. */
+  children?: SetupChild[]
   userId: string
 }
 
-export default function SetupQuest({ flags, child, userId }: Props) {
+export default function SetupQuest({ flags, child, children = [], userId }: Props) {
   const listRef = useRef<HTMLDivElement>(null)
 
   // Every step is drawn, in list order. `state` is what changes, not presence:
@@ -113,6 +117,7 @@ export default function SetupQuest({ flags, child, userId }: Props) {
             number={number}
             state={state}
             child={child}
+            childList={children}
             userId={userId}
           />
         ))}
@@ -178,11 +183,12 @@ function Progress({ done, total, steps, flags }: {
 
 // ── ONE STEP ────────────────────────────────────────────────────────────────
 
-function StepCard({ step, number, state, child, userId }: {
+function StepCard({ step, number, state, child, childList, userId }: {
   step: SetupStep
   number: number
   state: StepState
   child: { id: string; name: string | null } | null
+  childList: SetupChild[]
   userId: string
 }) {
   const live = state === 'live'
@@ -245,7 +251,7 @@ function StepCard({ step, number, state, child, userId }: {
               {step.what}
             </p>
             <div style={{ marginTop: '14px' }}>
-              <StepAction step={step} child={child} userId={userId} />
+              <StepAction step={step} child={child} childList={childList} userId={userId} />
             </div>
           </>
         )}
@@ -294,9 +300,10 @@ function StepCard({ step, number, state, child, userId }: {
 // The agreement is the exception and stays a link, because it is a real piece of
 // work with its own page, not a switch.
 
-function StepAction({ step, child, userId }: {
+function StepAction({ step, child, childList, userId }: {
   step: SetupStep
   child: { id: string; name: string | null } | null
+  childList: SetupChild[]
   userId: string
 }) {
   if (step.key === 'agreement') {
@@ -328,7 +335,7 @@ function StepAction({ step, child, userId }: {
   if (step.key === 'childLink') {
     // No child on the account yet, which onboarding normally prevents. Send
     // them to add one rather than showing a share button with nothing to share.
-    if (!child) {
+    if (childList.length === 0) {
       return (
         <Link
           href="/dashboard/settings"
@@ -343,33 +350,66 @@ function StepAction({ step, child, userId }: {
         </Link>
       )
     }
-    const name = child.name && child.name !== 'Your child' ? child.name : 'your child'
-    return (
-      <>
-        <ShareQrButton
-          childId={child.id}
-          childName={child.name}
-          label="Show the code"
-          style={{ fontSize: 'var(--text-md)', padding: '13px 22px' }}
-        />
-        {/* The second door, and it FINISHES the step rather than hiding it.
-            A parent who says there is no phone has answered the question, and
-            lib/handover/settled.ts is what brings the offer back in six months
-            or when the child moves up an age band. */}
-        <NoPhoneButton childId={child.id} childName={name} />
 
-        {/* ── AND THE TWO THAT LET THEM GET ON ────────────────────────────
-            Justin, 17 August 2026: "if we are saying share screens is done when
-            they either skip or say done it needs to tick off set up to be able
-            to move onto next set up step."
-            The step could be finished two ways before this: generate the code,
-            or say there is no phone at all. Neither covers the common case, a
-            parent who has just shown their child the code, or who will co-view
-            on their own phone. So the step had no answer for them and setup
-            could not be completed from it. Third time this product has had to
-            add the door that closes a step; see migration 204. */}
-        <SettleShare childName={name} />
-      </>
+    // ── ONE CODE PER CHILD, BECAUSE A CODE BELONGS TO A CHILD ───────────────
+    //
+    // Justin, 18 August 2026: "we need 2 different codes, one for each child ...
+    // if 3 children they could be a mix of marked as app and no app printable
+    // version."
+    //
+    // This handed the PRIMARY child to a single button, so a family with three
+    // children could share with one and the other two had no route from setup at
+    // all. A QR code is that child's link, their jobs and their stars, so the
+    // question has to be asked once per child, by name.
+    //
+    // The mix is the point rather than an edge case: the eldest on the app and
+    // the younger two on the printed chart is the ordinary shape of a family,
+    // and each row settles on its own. The step goes green when every row has,
+    // which is why flags.ts asks `every` rather than `some`.
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        {childList.map(c => {
+          const name = c.name && c.name !== 'Your child' ? c.name : 'your child'
+          const settled = c.linked || c.noPhone
+          return (
+            <div
+              key={c.id}
+              style={{
+                background: settled ? 'var(--tint-sage)' : 'var(--cream)',
+                border: settled ? '1px solid var(--stage-1-bold)' : '1px solid var(--border)',
+                borderRadius: 14, padding: '13px 15px',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: settled ? 0 : '10px' }}>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
+                  {name}
+                </span>
+                {settled && (
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#1F7A54' }}>
+                    {c.linked ? '✓ code shared' : '✓ on paper'}
+                  </span>
+                )}
+              </div>
+              {!settled && (
+                <>
+                  <ShareQrButton
+                    childId={c.id}
+                    childName={c.name}
+                    label={`Show ${name}'s code`}
+                    style={{ fontSize: 'var(--text-base)', padding: '11px 18px' }}
+                  />
+                  {/* Per child, so one can be on the app and another on paper. */}
+                  <NoPhoneButton childId={c.id} childName={name} />
+                </>
+              )}
+            </div>
+          )
+        })}
+
+        {/* The family level answers still close the whole step in one tap, for a
+            parent who has dealt with all of them at once. */}
+        <SettleShare childName={childList.length > 1 ? 'them' : (childList[0]?.name && childList[0].name !== 'Your child' ? childList[0].name : 'your child')} />
+      </div>
     )
   }
 

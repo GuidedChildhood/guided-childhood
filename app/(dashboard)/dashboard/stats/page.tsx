@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getChildren } from '@/lib/children/server'
 import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -29,18 +30,18 @@ export const metadata = { title: 'Balance and stats · Guided Childhood' }
 // week, neither wrong on its own terms, is the seam this removes.
 import { starWeekStart, starWeekStartIso } from '@/lib/quests/star-week'
 
-export default async function StatsPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
-  const { from: from_ } = await searchParams
+export default async function StatsPage({ searchParams }: { searchParams: Promise<{ from?: string; child?: string }> }) {
+  const { from: from_, child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: child } = await supabase
-    .from('children')
-    .select('id, name, age_band, daily_limit_minutes')
-    .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .maybeSingle()
+  // Which child this page is about: the ?child= param when the parent has
+  // switched, the primary child otherwise. See lib/children/server.ts.
+  const { child } = await getChildren<{
+    id: string; name: string | null; age_band: string | null
+    daily_limit_minutes: number | null; is_primary: boolean | null
+  }>(supabase, user.id, childParam, 'id, name, age_band, daily_limit_minutes')
 
   const sinceDay = starWeekStart()
   const sinceIso = starWeekStartIso()

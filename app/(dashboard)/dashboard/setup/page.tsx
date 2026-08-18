@@ -19,7 +19,7 @@ export default async function SetupPage() {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { flags, child, complete } = await getSetupState(supabase, user.id)
+  const { flags, child, children, complete } = await getSetupState(supabase, user.id)
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 48px' }}>
@@ -35,7 +35,7 @@ export default async function SetupPage() {
         )}
       </div>
 
-      <SetupQuest flags={flags} child={child} userId={user.id} />
+      <SetupQuest flags={flags} child={child} children={children} userId={user.id} />
     </div>
   )
 }

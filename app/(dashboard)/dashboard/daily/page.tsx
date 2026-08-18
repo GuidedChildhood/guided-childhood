@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getChildren } from '@/lib/children/server'
 import { redirect } from 'next/navigation'
 import { STAGES } from '@/lib/content/stages'
 import type { AgeBand } from '@/lib/content/stages'
@@ -7,7 +8,10 @@ import DailyDeckViewer from './DailyDeckViewer'
 import type { DailyCard } from './DailyDeckViewer'
 import { getMomentTopics, firstMatch, MOMENT_KEYWORDS } from '@/lib/daily/moment-source'
 
-export default async function DailyPage() {
+export default async function DailyPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
+  // Which child this page is about, so the switcher in the layout actually
+  // changes the page rather than only the pills. See lib/children/server.ts.
+  const { child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -17,12 +21,17 @@ export default async function DailyPage() {
 
   const [profileResult, childResult, sessionResult, yesterdaySession] = await Promise.all([
     supabase.from('profiles').select('full_name, onboarding_answers').eq('id', user.id).single(),
-    supabase.from('children').select('name, age_band, stage_id, streak_weeks, actions_this_week').eq('parent_id', user.id).eq('is_primary', true).single(),
+    // In the same wave as before: getChildren returns a promise like any
+    // other read, so honouring ?child= costs no extra round trip.
+    getChildren<{
+      id: string; name: string | null; age_band: string | null; stage_id: number | null
+      streak_weeks: number | null; actions_this_week: number | null; is_primary: boolean | null
+    }>(supabase, user.id, childParam, 'name, age_band, stage_id, streak_weeks, actions_this_week'),
     supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
     supabase.from('daily_sessions').select('moment_feedback').eq('user_id', user.id).eq('session_date', yesterday).maybeSingle(),
   ])
 
-  const child = childResult.data
+  const child = childResult.child
   const firstName = profileResult.data?.full_name?.split(' ')[0] ?? 'there'
   const alreadyDone = !!sessionResult.data?.completed_at
   const streak = child?.streak_weeks ?? 0

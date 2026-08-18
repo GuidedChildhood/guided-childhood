@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getChildren } from '@/lib/children/server'
 import { createClient } from '@/lib/supabase/server'
 import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
@@ -20,7 +21,7 @@ const STAGE_MAP: Record<string, { id: string; label: string }> = {
 export default async function DevicesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ from?: string }>
+  searchParams: Promise<{ from?: string; child?: string }>
 }) {
   // Where the parent came from, so the way out goes back there.
   //
@@ -32,17 +33,16 @@ export default async function DevicesPage({
   // Read from the link rather than the referrer: a referrer is stripped by
   // enough browsers and privacy settings that the back button would silently
   // change meaning depending on the reader's setup.
-  const { from } = await searchParams
+  const { from, child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: child } = await supabase
-    .from('children')
-    .select('name, age_band')
-    .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .single()
+  // Which child this page is about: the ?child= param when the parent has
+  // switched, the primary child otherwise. See lib/children/server.ts.
+  const { child } = await getChildren<{
+    id: string; name: string | null; age_band: string | null; is_primary: boolean | null
+  }>(supabase, user.id, childParam, 'name, age_band')
 
   const ageBand = (child?.age_band as AgeBand) ?? '11-13'
   const stage = STAGE_MAP[ageBand] ?? STAGE_MAP['11-13']
