@@ -8,6 +8,7 @@ import { getLiteracyStatuses } from '@/lib/pathway/literacy-status'
 import { getStageProgress, getAllStagesProgress, type StageId as ProgressStageId } from '@/lib/pathway/progress'
 import BackTo from '@/components/nav/BackTo'
 import { pickChild } from '@/lib/children/select'
+import ChildSwitcher from '@/components/children/ChildSwitcher'
 import PassportBook from '@/components/pathway/PassportBook'
 import PathwayIntro from '@/components/pathway/PathwayIntro'
 import PathwayComplete from '@/components/pathway/PathwayComplete'
@@ -338,6 +339,15 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         {/* The way back to Today, only for a parent who genuinely came from
             somewhere: a back button to a page you were never on is furniture. */}
         {from && <BackTo from={from} fallback={{ href: '/dashboard#today', label: 'Today' }} />}
+
+        {/* THE PILLS AT THE TOP, UNTIL THE RAIL TAKES OVER. Justin, seeing
+            switching only in the foot list: "this should be at the top of the
+            page?" Yes. The plumbing session's layout rail owns child selection
+            the moment it adds these routes (two session contract), and THIS
+            LINE IS THE ONE IT DELETES when it does: same component, same
+            ?child= contract, so the swap is a removal, not a rework. Renders
+            nothing for one child families, as ever. */}
+        <ChildSwitcher kids={children} selectedId={primaryChild?.id ?? null} basePath="/dashboard/pathway" />
 
         {/* THE END OF THE ROAD, WHEN IT ARRIVES: above everything on the day
             it lands. Gated on content AND this child's five checks. */}
