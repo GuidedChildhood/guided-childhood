@@ -28,10 +28,30 @@ export async function POST() {
     .eq('id', user.id)
     .is('home_screen_at', null)
 
-  // Before migration 197 the column does not exist and this fails. The caller
-  // fires and forgets, so a deploy that has run the code and not the migration
-  // simply leaves the step to be finished by turning reminders on, which is
-  // the other half of it. Nothing a parent can see breaks.
-  if (error) return NextResponse.json({ ok: false }, { status: 200 })
+  // ── IT MUST TELL THE TRUTH, AND IT WAS NOT ────────────────────────────────
+  //
+  // Justin, 18 August 2026: "still when I click done on adding to home screen
+  // it's not updating as done on setup."
+  //
+  // This returned 200 with { ok: false } on a failed write. That was written
+  // for the ONLY caller it had at the time, the standalone ping, which fires and
+  // forgets and genuinely should not care. Then the Done and Skip buttons
+  // started using the same route, and they check `res.ok`, which is TRUE on a
+  // 200. So a rejected write looked exactly like a successful one: the button
+  // stopped spinning, router.refresh() ran, and the step stayed open with no
+  // error anywhere.
+  //
+  // That is the same shape as the check in fault on 15 August and the third time
+  // this pattern has cost a day: a failure dressed as a success, and a surface
+  // downstream that then cannot explain itself.
+  //
+  // 500 now. The standalone ping already wraps its fetch in .catch() and ignores
+  // the result, so nothing regresses for it, and the buttons can finally show
+  // "that did not save" when it did not.
+  if (error) {
+    // Named in the response so the browser network tab says what went wrong,
+    // rather than the next person having to reproduce it blind.
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
   return NextResponse.json({ ok: true })
 }

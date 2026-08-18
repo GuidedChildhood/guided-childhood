@@ -1,5 +1,5 @@
 import { visibleSteps, type SetupFlags, type SetupStep } from './steps'
-import { getFamilyHandover, offerableChildren } from '@/lib/handover/settled'
+import { getFamilyHandover, offerableChildren, familySettled } from '@/lib/handover/settled'
 
 // The setup state in one place, so the Home entry, the floating next step bar
 // and the Setup Quest page read exactly the same flags and the same list.
@@ -70,12 +70,38 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
   // allowed to fail. A handover read that throws must cost the tick, never the
   // setup page.
   let handoverSettled = false
+  // ── AND SEPARATELY, DID THEY ACTUALLY ANSWER? ──────────────────────────────
+  //
+  // These two are NOT the same question, and treating them as one is what put a
+  // green tick on step four of a brand new account.
+  //
+  // Justin, 18 August 2026: "as soon as signed up it shows this page with
+  // obvious error that 4 is ticked."
+  //
+  // handoverSettled means NOBODY IS LEFT TO OFFER IT TO, which is the right
+  // question for silencing a nudge and the wrong one for ticking a step.
+  // offerableChildren excludes a child in the 4 to 7 band, because we do not
+  // push phones at little children, and it excludes a child still called "Your
+  // child", because we will not name somebody we have not been told about. Both
+  // exclusions are correct and both leave the list EMPTY, which then read as
+  // "settled".
+  //
+  // The live database had one of each: an account created at 09:20 whose child
+  // was still the placeholder, and one at 09:05 with a five year old. Both
+  // showed 4 ticked before the parent had done anything at all.
+  //
+  // So the flag below asks the narrower question: has this family given a real
+  // ANSWER. familySettled requires an actual recorded no, no_phone on the child
+  // or handover_choice 'paper' on the family, rather than an absence of anyone
+  // to ask.
+  let answeredNoDevice = false
   try {
     const family = await getFamilyHandover(supabase as Parameters<typeof getFamilyHandover>[0], userId)
     const linked = new Set((kidLinks.data ?? []).map(k => k.child_id as string))
-    // Settled when nobody is left to offer it to: either every child has been
-    // answered for, or the ones who have not are already linked.
+    // Kept, because three other surfaces read it to decide whether to NUDGE,
+    // and for that job "nobody left to offer it to" is exactly right.
     handoverSettled = offerableChildren(family, linked).length === 0 && family.children.length > 0
+    answeredNoDevice = familySettled(family)
   } catch { /* the step simply stays open, which is the old behaviour */ }
 
   const flags: SetupFlags = {
@@ -117,8 +143,10 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     // Without it the step could not be closed at all from the step itself, which
     // is the un-tickable step this product has now had to fix three times. See
     // migration 204.
+    // DONE WHEN they DID something or SAID something. Never when there simply
+    // was nobody to ask. See answeredNoDevice above.
     childLink: (kidLinks.data ?? []).length > 0
-      || handoverSettled
+      || answeredNoDevice
       || !!(profile.data as { child_app_settled_at?: string | null } | null)?.child_app_settled_at,
 
     // DONE WHEN: the app has been opened from the home screen, OR reminders
