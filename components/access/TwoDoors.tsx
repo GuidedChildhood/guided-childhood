@@ -38,6 +38,44 @@ const CARD: React.CSSProperties = {
   display: 'flex', flexDirection: 'column',
 }
 
+
+// ── ONE TYPE SCALE FOR BOTH CARDS ──────────────────────────────────────────
+//
+// Justin, 17 August 2026: "text seems different font in each and needs to be
+// clear and easy to read."
+//
+// It was never two fonts. The founder card's body was --text-lg in --ink at
+// line height 1.7 and the free card's was --text-md in --ink-soft at 1.6, so
+// one read heavier and darker than the other and the pair looked like two
+// designs. Sizes and colours are the thing that drifts when two cards live in
+// two files, so they live here now and both import them.
+export const CARD_TITLE: React.CSSProperties = {
+  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-2xl)',
+  letterSpacing: '-0.02em', lineHeight: 1.1, color: 'var(--ink)', margin: '0 0 2px',
+}
+export const CARD_SUB: React.CSSProperties = {
+  fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.4, margin: '0 0 14px',
+}
+export const CARD_BODY: React.CSSProperties = {
+  fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '0 0 14px',
+}
+export const TICK_ROW: React.CSSProperties = {
+  display: 'flex', gap: '9px', alignItems: 'flex-start', marginBottom: '7px',
+}
+export const TICK_TEXT: React.CSSProperties = {
+  fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.45,
+}
+
+/** A ticked benefit line. Short enough to scan, which a paragraph is not. */
+export function Tick({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={TICK_ROW}>
+      <span aria-hidden style={{ color: '#1F7A54', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.45, flexShrink: 0 }}>✓</span>
+      <span style={TICK_TEXT}>{children}</span>
+    </div>
+  )
+}
+
 const EYEBROW: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: '8px',
@@ -119,14 +157,31 @@ export default function TwoDoors({
         <div style={CARD}>
           {!soldOut ? (
             <>
-              <div style={{ ...EYEBROW, color: 'var(--terracotta-dark)' }}>
-                Path one · Founder
+              {/* THE BADGE, from Paramount+ MOST POPULAR and Peacock BEST
+                  VALUE. It is the one thing that tells a parent which card is
+                  the offer without the two cards having to look different. */}
+              <div style={{
+                display: 'inline-block', alignSelf: 'flex-start',
+                background: 'var(--terracotta)', color: 'var(--ink)',
+                fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)',
+                letterSpacing: '0.1em', textTransform: 'uppercase',
+                borderRadius: '100px', padding: '5px 12px', marginBottom: '12px',
+              }}>
+                Best value
               </div>
-              <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '18px' }}>
-                Add your card now to hold one of the {cap} founder places and lock £7.99 a month for life. It is the only way the founder rate is claimed, and it never rises for you.
-              </p>
 
-              <p style={CHARGE_NOTE}>
+              {/* THE PRICE IS THE BIGGEST THING ON THE CARD. Every reference
+                  does this and ours did the opposite: £7.99 was buried in the
+                  middle of a sentence, so the card read as a paragraph rather
+                  than an offer. */}
+              <p style={CARD_TITLE}>£7.99<span style={{ fontSize: 'var(--text-md)', fontWeight: 700 }}> a month</span></p>
+              <p style={CARD_SUB}>Founder rate, held for life</p>
+
+              <Tick>Locked at £7.99 for as long as you stay</Tick>
+              <Tick>One of only {cap} founder places</Tick>
+              <Tick>Free for {freeDays} {dayWord}, then it starts</Tick>
+
+              <p style={{ ...CHARGE_NOTE, marginTop: '12px' }}>
                 £7.99 a month starts after your {freeDays} free {dayWord}. Cancel any time before and pay nothing.
               </p>
 
@@ -161,9 +216,11 @@ export default function TwoDoors({
               <div style={{ ...EYEBROW, color: 'var(--terracotta-dark)' }}>
                 Path one · Join now
               </div>
-              <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '18px' }}>
-                The {cap} founder places have all been claimed. Add your card now and everything carries straight on when your free {dayWord} end, at the standard rate.
-              </p>
+              <p style={CARD_TITLE}>£12.99<span style={{ fontSize: 'var(--text-md)', fontWeight: 700 }}> a month</span></p>
+              <p style={CARD_SUB}>Standard rate, or £99 a year</p>
+              <Tick>All {cap} founder places have been claimed</Tick>
+              <Tick>Free for {freeDays} {dayWord}, then it starts</Tick>
+              <Tick>Everything carries straight on, nothing to redo</Tick>
 
               <p style={CHARGE_NOTE}>
                 £12.99 a month starts after your {freeDays} free {dayWord}. Cancel any time before and pay nothing.
