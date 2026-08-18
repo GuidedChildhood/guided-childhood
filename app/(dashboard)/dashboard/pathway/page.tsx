@@ -27,6 +27,9 @@ import { gatherChildPassportToDo } from '@/lib/pathway/passport-todo-gather'
 import SocialRoadNova from '@/components/pathway/SocialRoadNova'
 import { getSocialRoad } from '@/lib/pathway/social-road'
 import { buildStrands, nextTask, withChild, NextOnTheApplication, StrandCards } from '@/components/passport/Application'
+import BalanceZone, { type DayDot } from '@/components/passport/BalanceZone'
+import { starWeekStart } from '@/lib/quests/star-week'
+import { londonToday } from '@/lib/pathway/today'
 import { stagePace, paceLine } from '@/lib/pathway/pace'
 
 // ═══ THE PASSPORT IS THE APPLICATION, AND THE APPLICATION IS THE WHOLE PAGE ═
@@ -116,10 +119,20 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // sibling's, so a worry about the teenager cannot drag the six year old's
   // percentage down.
   const childScope = primaryChild?.id ? `child_id.eq.${primaryChild.id},child_id.is.null` : 'child_id.is.null'
-  const [openMomentsRes, solvedMomentsRes, weekReport] = await Promise.all([
+  // The first sibling who is not the selected child, for the balance glance:
+  // the quiet pull to switch when the OTHER child's week needs a look.
+  const sibling = children.find(c => c.id !== primaryChild?.id) ?? null
+  const [openMomentsRes, solvedMomentsRes, weekReport, weekTicksRes, siblingReport] = await Promise.all([
     supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).or(childScope).in('status', ['open', 'improving']),
     supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).or(childScope).eq('status', 'resolved'),
     getWeekParentReport(supabase, user.id, primaryChild ?? null),
+    // This star week's approved ticks for the selected child, for the balance
+    // zone's seven day dots and the jobs in a row voice. Null child ticks are
+    // family jobs and count until migration 206 gives each child their own.
+    primaryChild?.id
+      ? supabase.from('quest_ticks').select('tick_date, child_id').eq('user_id', user.id).eq('status', 'approved').gte('tick_date', starWeekStart())
+      : Promise.resolve({ data: null }),
+    sibling ? getWeekParentReport(supabase, user.id, sibling) : Promise.resolve(null),
   ])
   const stageSections = await buildPassportSections(
     supabase, user.id, primaryChild ?? null, allStagesProgress, currentStageNum,
@@ -257,6 +270,38 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // the check, landing on the readiness card below.
   const checkHref = !next && !stageQuizPassed && nearStageEnd ? '#stage-check' : null
 
+  // ── THE BALANCE ZONE'S READINGS ───────────────────────────────────────────
+  // Seven day dots, Monday first, kept where a job was approved that day, and
+  // the jobs voice as in a row rather than complete, because keeping up is the
+  // whole grammar of this strand.
+  const childTicks = ((weekTicksRes.data ?? []) as { tick_date: string; child_id: string | null }[])
+    .filter(t => t.child_id === null || t.child_id === primaryChild?.id)
+  const keptDates = new Set(childTicks.map(t => t.tick_date))
+  const monday = starWeekStart()
+  const todayStr = londonToday()
+  const dayDots: DayDot[] = Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(`${monday}T00:00:00Z`)
+    d.setUTCDate(d.getUTCDate() + i)
+    const iso = d.toISOString().slice(0, 10)
+    return { kept: keptDates.has(iso), today: iso === todayStr, future: iso > todayStr }
+  })
+  let inARow = 0
+  for (let i = dayDots.findIndex(d => d.today); i >= 0; i--) {
+    if (dayDots[i].kept) inARow++
+    else if (!dayDots[i].today) break
+  }
+  const jobsOkZone = (currentSections.find(r => r.key === 'jobs')?.pct ?? 100) >= 100
+  const jobsLine = inARow > 0 ? `${inARow} day${inARow === 1 ? '' : 's'} in a row` : 'None yet this week'
+  // The glance only pulls when the sibling genuinely needs a look, never as a
+  // scoreboard between children.
+  const siblingGlance = sibling && siblingReport && (siblingReport.status === 'over' || siblingReport.status === 'well_over')
+    ? { name: sibling.name, href: withChild('/dashboard/pathway#balance-zone', sibling.id) }
+    : null
+  // The strand card is the door to the zone below rather than a leap off the
+  // page: the close up answers the card before the stats page answers the
+  // close up.
+  const strandsWithZoneDoor = strands.map(st => st.key === 'balance' ? { ...st, href: '#balance-zone' } : st)
+
   // The stage pastel for the slim header, the same five the book uses.
   const stageTheme = currentStageNum
     ? { bold: `var(--stage-${currentStageNum}-bold)`, text: `var(--stage-${currentStageNum}-text)` }
@@ -372,8 +417,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         {/* The four strands, counting down. #four-things keeps every old link
             landing on the strands it always meant. */}
         <div id="four-things" style={{ scrollMarginTop: '84px' }}>
-          <StrandCards strands={strands} kid={kidName} />
+          <StrandCards strands={strandsWithZoneDoor} kid={kidName} />
         </div>
+
+        {/* The moving picture itself: the zone, the two contributors, the
+            week's dots, and the sibling glance when another child needs a
+            look. The balance strand card above lands here. */}
+        <BalanceZone
+          report={weekReport}
+          jobsLine={jobsLine}
+          jobsOk={jobsOkZone}
+          days={dayDots}
+          kid={kidName}
+          childParam={childParam}
+          siblingGlance={siblingGlance}
+        />
 
         {/* The end of stage check, DiGi's voice, with the child app door and
             the together fallback. The rail's check card lands here. */}
