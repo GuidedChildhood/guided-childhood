@@ -17,7 +17,7 @@
 //   5. Every claim traceable to the science bank (the source line), so this
 //      surface can be defended to a parent, a school or a regulator.
 //
-// Stages map to age: 1 = 4 to 7, 2 = 8 to 10, 3 = 11 to 13, 4 = 13 to 15,
+// Stages map to age: 1 = 4 to 7, 2 = 8 to 10, 3 = 11 to 12, 4 = 13 to 15,
 // 5 = 16+. Each insight lists the stages it suits, so younger children get
 // concrete and short, older ones get the real reasoning.
 

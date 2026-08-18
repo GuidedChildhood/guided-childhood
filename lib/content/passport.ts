@@ -94,7 +94,7 @@ export const PHONE_LADDER: PhoneRung[] = [
       'Calls and texts, no apps, no internet feed. It buys the independence a parent wants, a walk home, a call to you, without handing over the algorithm. This is the age the phone conversation usually starts.',
   },
   {
-    ages: 'Ages 11 to 13',
+    ages: 'Ages 11 to 12',
     device: 'Feature phone for most, no social media',
     detail:
       'The critical window. If a smartphone is truly needed, it is a locked down one, strong settings, set up together, and still no social media. The feed waits while the resilience is built.',

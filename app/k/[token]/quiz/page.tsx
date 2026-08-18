@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { stageQuizPool } from '@/lib/pathway/stage-quiz-gather'
 import { READINESS } from '@/lib/content/readiness'
 import KidStageQuiz from '@/components/kid/KidStageQuiz'
@@ -16,10 +16,12 @@ import { resolveTheme } from '@/lib/kid/theme'
 
 export const dynamic = 'force-dynamic'
 
-export default async function KidStageQuizPage({ params }: {
+export default async function KidStageQuizPage({ params, searchParams }: {
   params: Promise<{ token: string }>
+  searchParams: Promise<{ stage?: string }>
 }) {
   const { token } = await params
+  const { stage: stageParam } = await searchParams
   if (!/^[0-9a-f]{18}$/.test(token)) notFound()
 
   const supabase = createAdminClient()
@@ -36,7 +38,18 @@ export default async function KidStageQuizPage({ params }: {
     .eq('id', link.child_id)
     .maybeSingle()
 
-  const stage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
+  const ownStage = getStageFromAgeBand((child?.age_band as AgeBand | null) ?? '8-10')
+
+  // ?stage=N opens an EARLIER stage's check, for catch up. Until 18 August
+  // 2026 this page always served the current band's stage, so a family who
+  // joined late could fill an earlier page completely and never sit its
+  // check: the stamp was unreachable from the child's side. Earlier only,
+  // never ahead: the API route has always enforced stage <= theirs, and this
+  // page now mirrors it rather than silently ignoring the ask.
+  const asked = Number(stageParam)
+  const stage = Number.isInteger(asked) && asked >= 1 && asked < ownStage.id
+    ? STAGES.find(st => st.id === asked) ?? ownStage
+    : ownStage
 
   // The questions this stage's own lessons already asked.
   const { questions } = await stageQuizPool(supabase, stage.id)

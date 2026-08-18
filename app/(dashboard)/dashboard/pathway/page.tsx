@@ -259,8 +259,10 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     ? Math.max(0, currentStageProgress.lessonsTotal - currentStageProgress.lessonsDone)
       + Math.max(0, currentStageProgress.scriptsTotal - currentStageProgress.scriptsDone)
     : 0
-  const dob = primaryChild?.date_of_birth ? new Date(primaryChild.date_of_birth) : null
-  const pace = currentStageNum ? stagePace(currentStageNum, itemsLeft, dob && !Number.isNaN(dob.getTime()) ? dob : null) : null
+  const dobRaw = primaryChild?.date_of_birth ? new Date(primaryChild.date_of_birth) : null
+  const dob = dobRaw && !Number.isNaN(dobRaw.getTime()) ? dobRaw : null
+  const dobOk = dob !== null
+  const pace = currentStageNum ? stagePace(currentStageNum, itemsLeft, dob) : null
   const paceOnTrack = pace ? ['stamped', 'few', 'month', 'fortnight', 'week'].includes(pace.kind) : true
 
   // The strands and the one next task, from the same rows as everything else.
@@ -301,6 +303,28 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // page: the close up answers the card before the stats page answers the
   // close up.
   const strandsWithZoneDoor = strands.map(st => st.key === 'balance' ? { ...st, href: '#balance-zone' } : st)
+
+  // The paced line per catch up page: items left on THAT page, the rhythm
+  // anchored to the next birthday that matters (the current stage's exit),
+  // because nothing expires and the next stage change is the only date ahead.
+  // Absent without a birthday, and the banner reads fine without it.
+  const catchupLines: Record<number, string> = {}
+  if (allStagesProgress && currentStageNum && dobOk) {
+    for (const st of STAGE_SLUGS_ARR.slice(0, currentStageNum - 1)) {
+      const prog = allStagesProgress[st]
+      const id = stageIdToNum[st]
+      if (prog.contentComplete && passedStages.has(id)) continue
+      const left = Math.max(0, prog.lessonsTotal - prog.lessonsDone)
+        + Math.max(0, prog.scriptsTotal - prog.scriptsDone)
+      if (left === 0) { catchupLines[id] = 'Just the check left on it'; continue }
+      const p2 = stagePace(currentStageNum, left, dob)
+      if (p2.kind === 'month') catchupLines[id] = 'One a month fills this page'
+      else if (p2.kind === 'fortnight') catchupLines[id] = 'One a fortnight fills this page'
+      else if (p2.kind === 'week') catchupLines[id] = 'One a week fills this page'
+      else if (p2.kind === 'few') catchupLines[id] = `Only ${p2.left} left on it`
+      else catchupLines[id] = 'At your own pace, it stays open'
+    }
+  }
 
   // The stage pastel for the slim header, the same five the book uses.
   const stageTheme = currentStageNum
@@ -402,6 +426,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
               childName={primaryChild?.name ?? 'your child'}
               currentStage={currentStageNum}
               childId={primaryChild?.id ?? null}
+              catchupLines={catchupLines}
             />
             {socialRoad && socialRoad.total > 0 && primaryChild?.id && (
               <SocialRoadNova
