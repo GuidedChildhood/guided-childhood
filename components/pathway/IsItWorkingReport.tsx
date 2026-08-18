@@ -195,15 +195,20 @@ export default async function IsItWorkingReport(
         </div>
       )}
 
-      {/* Section five of the passport, the screen balance and limits view: this
-          week's screen minutes per device against the healthy amount for their
-          age, with the off screen effort beside it. The checklist balance row
-          taps down to here. */}
-      {parentReport && (
-        <div id="screen-balance" style={{ scrollMarginTop: '80px', marginBottom: '22px' }}>
-          <BalanceReport report={parentReport} />
-        </div>
-      )}
+      {/* THE BALANCE REPORT LIVES ON TODAY'S ROTATION, NOT HERE.
+          Justin, 17 August 2026: "this also should not be on passport page and
+          another today planet friends rotation."
+          Third surface today with the same shape: your focus, the school chest
+          and this were all sitting on the road AND taking their turn under
+          Today. lib/home/next-up.ts carries 'balance' as a rotation item that
+          links to /dashboard/stats, which is where the full report lives, so a
+          parent meets it on a day chosen for them on the page they open every
+          morning. Two copies of the same reading is the fault caught within the
+          hour the last time Home said one thing twice.
+          The anchor stays, empty, because the checklist row above taps down to
+          #screen-balance and a link that scrolls to nothing is worse than the
+          duplication was. */}
+      <div id="screen-balance" style={{ scrollMarginTop: '80px' }} />
 
       {/* Warmth when the report is mostly green, in colour not noise */}
       {greenCount >= 3 && (
@@ -232,12 +237,20 @@ export default async function IsItWorkingReport(
       )}
 
 
-      {/* The check in stays: it is the only place a parent grades the four
-          strands themselves, and the pathway's own strands card is a read out
-          rather than an input. */}
-      <div style={{ margin: '0 -20px' }}>
-        <LiteracyCheckIn stageId={stageNum} />
-      </div>
+      {/* DIGI'S QUESTION GOES TO TODAY'S ROTATION TOO.
+          Justin, 17 August 2026: "this is on passports page but should be one of
+          the rotating today steps rotating with all the rest."
+          Fourth surface today with the same shape, after your focus, the school
+          chest and the balance report. The argument for keeping it, that it is
+          the only place a parent grades the four strands, is exactly WHY it
+          belongs in the rotation: a question worth asking is worth asking on the
+          page a parent opens every morning, not on one they visit occasionally
+          and have to scroll.
+          The component is kept and not deleted. It needs a rotation item in
+          lib/home/next-up.ts to land in the daily list, which is NOT built here:
+          see plans/next-first-run-and-reminders.md section 8. Until that exists
+          this question is not being asked anywhere, which is a real gap and is
+          written down as one rather than left as a surprise. */}
 
       {/* The honest sentence */}
       <div style={{

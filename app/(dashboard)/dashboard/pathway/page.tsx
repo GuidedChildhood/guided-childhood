@@ -305,17 +305,19 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
         {from && <BackTo from={from} fallback={{ href: '/dashboard#today', label: 'Today' }} />}
         <ChildSwitcher kids={children} selectedId={primaryChild?.id ?? null} basePath="/dashboard/pathway" />
 
-        {/* The one thing this family is working on, and the words for it. It
-            sat on Home until Justin moved it: "focus, words for tonight, can be
-            their appearance on pathway, not here on home." It reads better
-            among the stages and the stamps, where a parent is already looking
-            at progress, than it did above a list of today's jobs. */}
-        <FocusStrip
-          label={focusLabel}
-          improving={focusImproving}
-          hasConcern={!!concernLabel}
-          scriptHref="/dashboard/scripts/recommended"
-        />
+        {/* YOUR FOCUS IS NOT HERE ANY MORE, AND THAT IS THE SECOND CORRECTION.
+            Justin, 12 August 2026: "focus, words for tonight, can be their
+            appearance on pathway, not here on home." That was read as MOVE IT
+            TO THE PATHWAY PAGE, and it was corrected on 13 August: he meant it
+            should take its turn in the daily ROTATION, which is what he calls
+            the pathway. decisions.md records the strip being unmounted then.
+            It was unmounted from Home and left rendering here, so it kept
+            appearing on the road and the passport. The rotation item is live in
+            lib/home/next-up.ts under key 'focus', so this surface would be the
+            same sentence in a second place, which is the exact thing Justin
+            caught within an hour the last time Home said one thing twice.
+            The FocusStrip component and CHALLENGE_LABELS are kept, not deleted:
+            Home still imports the labels. */}
         {/* THE END OF THE ROAD, WHEN IT ARRIVES.
             Justin: "when pathway is done and celebration."
             Until now the trophy at the bottom of the road lit up and that was
@@ -440,18 +442,19 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
           still what /dev/planets draws, and reinstating a card is a smaller
           job than reinventing one. */}
 
-      {/* SCHOOL, BESIDE THE ROAD RATHER THAN ON IT.
-          Justin asked the question directly: a step stone on the pathway, or a
-          chest next to the diagram that does not have to be done? It is the
-          chest, and the reasoning is in SchoolChest: the five stones are STAGES,
-          years wide each, and a school term measured in weeks does not belong on
-          that scale. Stones also gate, so a curriculum checker as a stone would
-          be a thing a parent could be BEHIND on, which is the fastest way to
-          make somebody avoid a genuinely useful page. His own phrasing settles
-          it: "does not have to be done". */}
-      <div style={{ padding: '0 20px', maxWidth: '560px', margin: '0 auto 28px' }}>
-        <SchoolChest childName={primaryChild?.name ?? null} yearLabel={schoolYearLabel} />
-      </div>
+      {/* SCHOOL IS ON TODAY'S ROTATION, NOT ON THIS PAGE.
+          Justin, 17 August 2026: "this not on passport page, should be plant
+          friends on today on rotation."
+          The chest was the right answer to the question he asked in July, which
+          was whether school belonged ON the road as a gating stone. It does not,
+          and it still does not. What changed is that the road stopped being the
+          place these live: lib/home/next-up.ts carries school as one of the
+          eleven rotation items under Today, so a parent already meets it, on a
+          day chosen for them, on the page they open every morning. Keeping it
+          here as well is the same offer in two places, which is the fault caught
+          within the hour the last time Home said one thing twice.
+          SchoolChest is kept, not deleted. It is a good component and the
+          rotation card links to the same place. */}
 
       {/* Meet the family: DiGi and the Planet Friends the child grows up with,
           an introduction not a score. The passport it used to sit above has

@@ -188,3 +188,51 @@ The last point is a recommendation rather than a decision. Justin said "pop up",
 and there is a case for one; but this product already has the shop sheet, the
 agreement review, the install banner and the setup bar competing for the same
 moment, all behind one lock. Worth putting to him before building a fifth.
+
+## 8. THE PASSPORT PAGE IS A ROTATION IN DISGUISE
+
+Justin, 17 August 2026, sending six screenshots in a row, one per block:
+"should be on family friends rotation on today", "this not on passport page
+should be plant friends on today on rotation", "should be one of the rotating
+today steps rotating with all the rest", "should all be covered in checkins on
+today", "should be something that pops up on home page weekly rotation".
+
+Six blocks, one instruction, and it is not six separate asks. The passport page
+has become a second Home: a stack of prompts, inputs and readings that each ask a
+parent to DO something. That is what Today is for. The passport is the RECORD,
+which is the rule already written in plans/week-of-2026-08-13: "helps them know
+what to do today goes to the daily loop, record of what they did goes to the what
+is working dashboard."
+
+REMOVED SO FAR (17 August):
+- Your focus strip, from /dashboard/pathway. Rotation item 'focus' already live.
+- The school chest, from /dashboard/pathway. Rotation item 'school' already live.
+- The balance report, from IsItWorkingReport. Rotation item 'balance' already
+  live, linking to /dashboard/stats where the full report lives.
+- DiGi's four strands question (LiteracyCheckIn), from IsItWorkingReport. NO
+  rotation item exists for it yet, so it is currently asked NOWHERE. That is a
+  real gap, not a tidy up, and it needs one adding.
+
+STILL ON THE PAGE AND STILL TO MOVE:
+- "What we are working on": the sorted / on the go counters and the per concern
+  verdict buttons. Justin: "should all be covered in checkins on today." The
+  check in already collects the scores; this is the same question in a second
+  place with different words (Sorted / Still going / Need help).
+- The week in numbers: stars earned, check ins so far.
+- The weekly check in card, "Start, 5 minutes".
+- Streak missions.
+- "Why this works, and our stance."
+
+THE JUDGEMENT NEEDED BEFORE MORE IS CUT, and it is why this stopped rather than
+carried on: several of these are the ONLY surface for what they do. Pulling them
+without adding the rotation item first does not move them, it deletes them, which
+is what has just happened to the strands question. The next session should add
+the rotation items FIRST, in lib/home/next-up.ts, then remove the blocks, and
+check that ROTATION.length still gives each item a sensible turn: eleven items
+already share a twelve day cycle, and five more makes it a fortnight between
+turns for everything.
+
+Worth putting to Justin: at sixteen items the rotation stops being "one thing a
+day, chosen for you" and becomes a queue nobody reaches the end of. Some of these
+may want to be weekly rather than in the daily walk. He used the word "weekly"
+himself for the streak missions one.
