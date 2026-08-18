@@ -548,6 +548,9 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       {/* The evidence and the stance, folded into one card that opens on demand,
           so the pathway stays a next step, not a research brochure. */}
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto 24px' }}>
+        {/* The anchor the weekly rotation card lands on. Without it the card
+            drops a parent at the top of a long page and asks them to hunt. */}
+        <div id="why-this-works" style={{ scrollMarginTop: '84px' }} />
         <PathwayEvidence />
       </div>
 
