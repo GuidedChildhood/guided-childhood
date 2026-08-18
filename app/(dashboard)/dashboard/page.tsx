@@ -765,6 +765,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const nextUp = pickNextUp({
     childName: questsChildName,
     stageName: stage.name,
+    // For the weekly tier's streak missions card. Already read above for
+    // TodayPathBig, so this costs nothing.
+    streakCount: streak.count,
     jobsStatus,
     noQuestsYet,
     lessonsLeft: stageLessonsLeft,
