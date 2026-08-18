@@ -48,13 +48,15 @@ const CHILD_ROUTES = [
   '/dashboard/digi',
 ]
 
-export default function ChildRail({ kids }: { kids: SwitcherChild[] }) {
+export default function ChildRail({ kids, forceShow = false }: { kids: SwitcherChild[]; forceShow?: boolean }) {
   const pathname = usePathname()
   const params = useSearchParams()
 
   if (kids.length < 2) return null
 
-  const onChildPage = pathname === '/dashboard' || CHILD_ROUTES.some(r => pathname.startsWith(r))
+  // forceShow is for the /ref-child-rail layout fixture only, so the pills can
+  // be checked at 390 and 1280 without a login. Nothing in the app passes it.
+  const onChildPage = forceShow || pathname === '/dashboard' || CHILD_ROUTES.some(r => pathname.startsWith(r))
   if (!onChildPage) return null
 
   // The selected child, read the same way the server pages read it: the param
