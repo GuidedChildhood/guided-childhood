@@ -169,7 +169,7 @@ export default function SetupNextBar() {
   if (!candidate || !next || showingKey !== next.key) return null
 
   return (
-    <div style={{
+    <div className="gc-chrome" style={{
       position: 'fixed', left: '50%', transform: 'translateX(-50%)',
       // Sit clear above the Help now button, which floats at bottom 78px and
       // stands 60px tall on its right. Sharing that line hid the Go button

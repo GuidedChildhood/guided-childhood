@@ -91,6 +91,12 @@ export type NextUpSignals = {
    * passport is not worth opening.
    */
   hasCheckedIn: boolean
+  /**
+   * Days in a row, for the weekly streak missions card. Daily items never
+   * needed it; the weekly tier does, because a mission is the reward for
+   * showing up and the card has to say how close they are.
+   */
+  streakCount: number
 }
 
 export type NextUpCard = {
@@ -271,6 +277,113 @@ export const ROTATION: Item[] = [
   },
 ]
 
+// ── THE FIVE THAT COME ROUND ONCE A WEEK ────────────────────────────────────
+//
+// Justin, 17 August 2026, after sending six screenshots of the passport page one
+// after another: "presented with the rest above on today home page in a not
+// annoying but rotating over a week fashion to bring value and make simple to
+// weekly rotate these things."
+//
+// The passport had become a second Home: a stack of prompts and readings each
+// asking a parent to DO something, which is what Today is for. The rule was
+// written on 13 August and the page had drifted past it. Helps them know what to
+// do today goes to the daily loop; the record of what they did stays on the
+// passport.
+//
+// ── WHY A NEW TIER RATHER THAN FIVE MORE DAILY ITEMS ────────────────────────
+//
+// Two reasons, and the second is the one Justin named.
+//
+// These are all REFLECTIVE. They ask a parent to look back and take stock, which
+// is a Sunday question rather than a Tuesday morning one. A daily list has to
+// stay short enough to finish in ten minutes and these do not fit that.
+//
+// And "not annoying" is arithmetic here, not tone. Eleven daily items already
+// share a twelve day cycle. Adding five would make it a fortnight between turns
+// for EVERYTHING, so the balance card and the passport nudge would get rarer to
+// make room for material nobody asked to see every day. One a week means five
+// weeks to meet them all, which is right for things a parent does not need twice.
+const WEEKLY: Item[] = [
+  {
+    key: 'journey',
+    // Everybody has a journey, which is what makes the walk forward below
+    // guaranteed to end for the weekly tier the same way quests does daily.
+    applies: () => true,
+    build: s => ({
+      key: 'journey', eyebrow: EYEBROW, title: 'One step at a time',
+      line: `Where ${s.childName ?? 'your child'} is on the road to sixteen, and the next thing that gets you there.`,
+      href: '/dashboard/road', icon: '🛤️', coversJobs: false,
+    }),
+  },
+  {
+    // WHAT WE ARE WORKING ON. Distinct from the daily concern-queue item, which
+    // sends a parent to work through one. This is the stock take: how many have
+    // shifted, how many are still going.
+    key: 'working-on',
+    applies: s => s.concernsLive > 0 && s.hasCheckedIn,
+    build: s => ({
+      key: 'working-on', eyebrow: EYEBROW, title: 'What has actually shifted',
+      line: `${s.concernsLive} on the list. See which have moved since you started, in words rather than a score.`,
+      href: '/dashboard/passport?tab=working', icon: '📈', coversJobs: false,
+    }),
+  },
+  {
+    key: 'streak-missions',
+    applies: s => s.streakCount > 0,
+    build: s => ({
+      key: 'streak-missions', eyebrow: EYEBROW, title: 'Your streak, and what it unlocks',
+      line: s.streakCount >= 5
+        ? 'Five days in a row. Your mission is a lesson to do together, and it is waiting.'
+        : `${5 - s.streakCount} more day${5 - s.streakCount === 1 ? '' : 's'} and your first mission lands. Invitations, never locks.`,
+      href: '/dashboard/lessons', icon: '🔥', coversJobs: false,
+    }),
+  },
+  {
+    // THE WEEK IN NUMBERS. Effort, not outcome, which is why it is weekly: a
+    // parent eight weeks in already knows they turned up, and asking them to
+    // look at it daily would be the app admiring itself.
+    key: 'week-numbers',
+    applies: s => s.hasCheckedIn,
+    build: () => ({
+      key: 'week-numbers', eyebrow: EYEBROW, title: 'Your week in numbers',
+      line: 'Stars earned, check ins done, and the days you showed up. Two minutes to see it.',
+      href: '/dashboard/passport?tab=working', icon: '⭐', coversJobs: false,
+    }),
+  },
+  {
+    // WHY THIS WORKS. The stance and the evidence. It applies to everybody and
+    // it never expires, so it is the floor of this tier the way quests is the
+    // floor of the daily one.
+    key: 'stance',
+    applies: () => true,
+    build: () => ({
+      key: 'stance', eyebrow: EYEBROW, title: 'Why this works, and where we stand',
+      line: 'The measured evidence on kids and phones, and what we believe because of it.',
+      // /dashboard/road, not a page of its own. PathwayEvidence is a collapsible
+      // card that lives inline on the road, and there is no /dashboard/why to
+      // send anybody to. Checked before shipping it rather than after: a
+      // rotation item pointing at a 404 would show up once a week, quietly, to a
+      // fifth of families.
+      href: '/dashboard/road#why-this-works', icon: '🔬', coversJobs: false,
+    }),
+  },
+]
+
+/** Whole weeks since the shared ANCHOR, so the weekly item turns over on the
+ *  same clock the daily one and the planets already use. */
+export function weekIndex(now: Date = new Date()): number {
+  return Math.floor(dayIndex(now) / 7)
+}
+
+/** Is today the day the weekly item leads? Monday, so it lands at the start of
+ *  a week rather than in the middle of one, and so a parent who opens the app
+ *  once a week most likely meets it. */
+export function isWeeklyDay(now: Date = new Date()): boolean {
+  const london = now.toLocaleDateString('en-CA', { timeZone: 'Europe/London' })
+  const [y, m, d] = london.split('-').map(Number)
+  return new Date(Date.UTC(y, m - 1, d)).getUTCDay() === 1
+}
+
 // ── THE SHOP, ONE DAY A MONTH ───────────────────────────────────────────────
 //
 // Justin, 13 August 2026, on the shop tab: "It is also the monthly shop
@@ -327,6 +440,18 @@ export function pickNextUp(s: NextUpSignals, now: Date = new Date()): NextUpCard
   if (isShopDay(now)) {
     const monthly = MONTHLY.find(item => item.applies(s))
     if (monthly) return monthly.build(s)
+  }
+
+  // The weekly tier, on a Monday, after the shop so the 12th still wins when the
+  // two collide. It walks forward exactly like the daily one, so an item that
+  // does not apply passes its turn to the next rather than leaving the day empty.
+  if (isWeeklyDay(now)) {
+    const n = WEEKLY.length
+    const start = ((weekIndex(now) % n) + n) % n
+    for (let i = 0; i < n; i++) {
+      const item = WEEKLY[(start + i) % n]
+      if (item.applies(s)) return item.build(s)
+    }
   }
 
   const n = ROTATION.length
