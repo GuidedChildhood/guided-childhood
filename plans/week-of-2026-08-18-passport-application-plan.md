@@ -150,3 +150,33 @@ WHAT THIS CHANGES IN THE PLAN. Nothing is removed, the emphasis moves:
 3. The tone rule survives contact with "time critical": the passport's urgency
    is the honest arithmetic of a birthday, said as a rhythm. It is never a
    countdown a family can fail, because in the code nothing expires.
+
+## 18 AUGUST, THIRD PASS: THE QUESTIONS ARE ANSWERED
+
+Justin: "1 application becomes the whole page i think its best. Note this
+passport needs to work by child basis as they may have added multiple
+children. 2 should push for app but yes when no app parents can do together.
+Should the passport page on childs app sync with parents version letting
+child just know if on track and what they need to do to gain stamp?"
+
+SETTLED:
+1. The application IS the whole passport page. The stage timeline band absorbs
+   the road's job on this page. Displaced blocks get homes rather than dying:
+   the school chest already belongs to the school surface, Meet the Friends to
+   the squad page, the journey block folds into the one next task rail, the
+   evidence card moves to the foot. Per child throughout: the existing
+   ChildSwitcher pattern drives the whole page by ?child=, and the mock gains
+   the switcher so nobody can mistake whose application is open.
+2. The check pushes for the child app first, and the together fallback is
+   approved: no child link, the parents sit it together on the page, recorded
+   through the existing parent side route.
+3. THE CHILD'S MIRROR (Justin's new question, recommendation YES): the child
+   app gets a passport screen that reads the SAME tables as the parent's page,
+   so sync is automatic rather than built. The child sees three things only:
+   their stamp ring, whether they are on track in their own words, and up to
+   three things THEY can do (their lessons, their jobs, the check when it is
+   offered). Never the parent's half: devices, moments and balance repair are
+   grown up jobs, and a child must never carry them. Most of this exists:
+   gatherChildPassportToDo already caps at three child doable items and the
+   monthly sweep already writes the note to their app. The build is one screen
+   on the kid app reading the existing helpers.
