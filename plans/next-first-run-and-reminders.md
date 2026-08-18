@@ -236,3 +236,47 @@ Worth putting to Justin: at sixteen items the rotation stops being "one thing a
 day, chosen for you" and becomes a queue nobody reaches the end of. Some of these
 may want to be weekly rather than in the daily walk. He used the word "weekly"
 himself for the streak missions one.
+
+### 8b. THE ANSWER: A WEEKLY TIER, NOT MORE DAILY ITEMS
+
+Justin, 17 August 2026, answering the question above directly: "presented with
+the rest above on today home page in a not annoying but rotating over a week
+fashion to bring value and make simple to weekly rotate these things."
+
+So the fix is NOT sixteen items in the daily walk. lib/home/next-up.ts already
+has three tiers and this is a fourth:
+
+    URGENT     jumps the queue, never rotates (jobs waiting, no jobs yet)
+    MONTHLY    the shop, on the 12th, never the daily lead
+    ROTATION   eleven items, one a day, walked forward
+    WEEKLY     ← NEW. The reflective ones. One a week, never the daily lead.
+
+WHAT GOES IN THE WEEKLY TIER, from the blocks still on the passport page:
+
+- Your journey / one step at a time (the stage road with its next action)
+- What we are working on (the concern list and verdicts)
+- Streak missions
+- Why this works, and our stance
+- The week in numbers (stars, check ins)
+
+WHY WEEKLY IS RIGHT AND DAILY IS NOT. These are all REFLECTIVE: they ask a parent
+to look back and take stock. That is a Sunday question, not a Tuesday morning
+one, and the daily list has to stay short enough to finish in ten minutes. It is
+also the honest reading of "not annoying": five more daily items would push the
+existing eleven to a fortnight between turns, so everything would get rarer to
+make room for things nobody asked to see daily.
+
+HOW IT SHOULD WORK, so the next session does not have to invent it:
+
+- Same shape as isShopDay: a weekIndex from the shared ANCHOR in next-up.ts,
+  `Math.floor(dayIndex / 7)`, then `WEEKLY[weekIndex % WEEKLY.length]`.
+- It sits BETWEEN monthly and the daily rotation in pickNextUp, so the shop still
+  wins on the 12th and a child waiting on an answer still wins over both.
+- One a week means five weeks to see them all, which is right for material a
+  parent does not need twice.
+- The daily lead and the weekly item must never be the same subject on the same
+  day, the same rule friendOfTheDay already follows with avoidServiceKey.
+
+ONLY THEN remove the blocks from IsItWorkingReport and the pathway page. Adding
+the tier first is what stops this being a deletion, which is what happened to the
+strands question when its block was pulled before its rotation item existed.
