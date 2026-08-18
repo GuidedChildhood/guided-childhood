@@ -10,7 +10,6 @@ import StickerBook from '@/components/pathway/StickerBook'
 import { getStickerBook } from '@/lib/stickers/book'
 import StaggerReveal from '@/components/pathway/StaggerReveal'
 import ToolCard, { type Tool } from '@/components/tools/ToolCard'
-import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
 import BalanceReport from '@/components/balance/BalanceReport'
 import { type ParentReport } from '@/lib/balance/parent-report'
@@ -179,7 +178,10 @@ export default async function IsItWorkingReport(
 
   return (
     <StaggerReveal style={{ maxWidth: '640px', margin: '0 auto', padding: '8px 20px 40px' }}>
-      <ChildSwitcher kids={children} selectedId={primary?.id ?? null} basePath="/dashboard/pathway" />
+      {/* The second switcher this page used to carry is gone (18 August
+          2026): two switchers on one page can disagree, which is exactly the
+          fault the plumbing session's layout rail exists to end. The child
+          arrives through ?child= and the rail owns choosing it. */}
       <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 5.5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         Is it working?
       </h2>
