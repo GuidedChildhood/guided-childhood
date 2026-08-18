@@ -30,14 +30,18 @@ export interface TodayLoopTask {
 //
 // So the day runs:
 //
-//   1  CHECK IN     how it is going, and on day one where things are now. It
-//                   leads because it is the only step that measures anything,
-//                   and the first one is the baseline everything later is read
-//                   against. Its own page now, never the moments deck.
-//   2  SET UP       and it STAYS until every step is ticked. A half set up
-//                   family is the single biggest reason this product does not
-//                   work for somebody, and setup was a card competing with
-//                   everything else on Home rather than a rung on the road.
+//   1  SET UP       while it is unfinished, and it STAYS until every step is
+//                   ticked. A half set up family is the single biggest reason
+//                   this product does not work for somebody. It LEADS as of 17
+//                   August 2026, on Justin's "make set up first when first
+//                   there ... not check in until this is done".
+//   2  CHECK IN     how it is going, and only once setup is behind them. It
+//                   used to lead, including on day one, and that was wrong for
+//                   a reason Justin reached himself: a check in MEASURES
+//                   MOVEMENT, and on the first morning there is nothing to have
+//                   moved from. Three separate faults were fixed to make a day
+//                   one check in work before anyone asked whether it should
+//                   exist. Its own page, never the moments deck.
 //   3  MOMENT       what actually happened today.
 //   4  SCRIPT       the words for tonight.
 //   5  QUESTS       the jobs that earn the screen time, which is what device
@@ -287,7 +291,33 @@ export async function getTodayLoop(
   const neverCheckedIn = !firstCheckInAt
 
   const tasks: TodayLoopTask[] = [
-    ...(hasLiveConcerns || neverCheckedIn ? [{
+    // ── SETUP LEADS, AND THE CHECK IN WAITS FOR IT ─────────────────────────
+    //
+    // Justin, 17 August 2026: "it returns to check in, not to set up, then set
+    // up is there on the list second. Let's make it return to set up and make
+    // set up first when first there ... not check in until this is done."
+    //
+    // And his own reasoning from the day before, which is the half that matters:
+    // a check in MEASURES MOVEMENT, and on the first morning there is nothing to
+    // have moved from. Three separate faults were fixed to make a day one check
+    // in work before anybody asked whether it should exist. It should not.
+    //
+    // So while setup is unfinished it is the first rung and the check in is not
+    // on the road at all. A family that has never set anything up is not being
+    // asked to rate four worries a stranger picked for them, and a parent who
+    // finishes the agreement lands back on the thing that sent them.
+    //
+    // Once setup is done the order returns to what it always was, check in
+    // first, because from that day on it is measuring something real.
+    ...(setupNextStep ? [{
+      key: 'setup' as const,
+      label: 'Set up',
+      href: '/dashboard/setup',
+      // Never done while a step is outstanding. That is the whole point of it
+      // staying: a half green road is an honest one.
+      done: false,
+    }] : []),
+    ...(!setupNextStep && (hasLiveConcerns || neverCheckedIn) ? [{
       key: 'checkin' as const,
       label: neverCheckedIn ? 'Where things are now' : 'Check in',
       href: '/dashboard/checkin',
@@ -320,14 +350,6 @@ export async function getTodayLoop(
     // everything else on Home and setup is the thing that decides whether any
     // of the rest works. It disappears for good the moment the last step goes
     // green, so it can never become furniture.
-    ...(setupNextStep ? [{
-      key: 'setup' as const,
-      label: 'Set up',
-      href: '/dashboard/setup',
-      // Never done while a step is outstanding. That is the whole point of it
-      // staying: a half green road is an honest one.
-      done: false,
-    }] : []),
     {
       key: 'moment',
       label: 'Moment',
