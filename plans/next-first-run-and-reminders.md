@@ -280,3 +280,68 @@ HOW IT SHOULD WORK, so the next session does not have to invent it:
 ONLY THEN remove the blocks from IsItWorkingReport and the pathway page. Adding
 the tier first is what stops this being a deletion, which is what happened to the
 strands question when its block was pulled before its rotation item existed.
+
+## 9. AGREEMENTS GO PER CHILD
+
+Justin, 18 August 2026: "so agreements are going to be per child, so how best to
+deal with that? everything is per child today, lessons, quests etc."
+
+He is right and the product already half believes it: the builder picks an
+agreement TYPE from the child's stage, so a five year old gets "first screens"
+and a fourteen year old gets a phone and social media agreement. It then saves
+both to one row keyed on user_id.
+
+### The fault this fixes, which nobody has reported yet
+
+`app/k/[token]/page.tsx` is the CHILD's app, and it reads family_agreements by
+user_id. So in a two child family, the younger child opens their side and reads
+the agreement written about their older sibling: a phone curfew and social media
+terms that have nothing to do with them. The child app knows which child it is,
+because the token IS a child, so it has the information to filter and does not.
+
+### The shape
+
+Follow migration 194, which did exactly this for concerns, so the pattern is
+already in the codebase and already understood:
+
+    alter table family_agreements add column child_id uuid references children(id) on delete cascade;
+    create unique index on family_agreements (user_id, child_id) nulls not distinct;
+
+NULLABLE, and null means "the household agreement". That matters: it is what
+lets the existing rows keep working untouched, it is the right answer for a
+family who genuinely want one set of rules for everybody, and it means no
+destructive backfill. Every read becomes: this child's agreement, falling back to
+the household one.
+
+DO NOT force-assign existing rows to the primary child. On this database four of
+six agreements are unsigned drafts, and quietly relabelling somebody's household
+agreement as being about one specific child is a change we cannot explain to them
+later.
+
+### The ten read sites, in the order they matter
+
+1. `app/k/[token]/page.tsx` — the bug above. Filter to the token's child.
+2. `lib/setup/flags.ts` — step one goes green when EVERY child has a signed
+   agreement, the same `every` rule the share step now uses. Consistency here is
+   worth more than cleverness: two steps that count children differently is how
+   the next fortnight gets lost.
+3. `app/(dashboard)/dashboard/agreement/page.tsx` and the builder — needs a child
+   switcher, or to take ?child= like the four surfaces that already do.
+4. `app/api/agreement/route.ts` — accepts and writes child_id.
+5. `app/api/agreement/week/route.ts` — the weekly check pays STARS, and stars are
+   already per child, so this one is per child or it pays the wrong bank.
+6. `lib/pathway/daily-tasks.ts` — the review rung.
+7. `app/(dashboard)/dashboard/page.tsx`, `lib/quests/board-status.ts`,
+   `app/api/digi/route.ts`, `app/api/email/cron/route.ts` — readers that want
+   "does this family have one", mostly fine, check each.
+
+### The judgement worth putting to Justin first
+
+An agreement per child is right for an eleven and a five year old. It is
+questionable for twins, and it is a real cost for a family of three who now build
+and sign three documents during setup, which is the step that already takes the
+longest.
+
+Worth considering: build ONE agreement, then offer "use this for their sibling
+too" as a one tap copy that opens the same clauses at the sibling's stage. Same
+data model, much less work for the parent, and it keeps setup finishable.
