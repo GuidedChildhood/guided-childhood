@@ -70,7 +70,6 @@ import { computeJobsStreak, jobsTodayStatus, type StreakQuest, type StreakTick }
 import { getTodayLoop } from '@/lib/pathway/daily-tasks'
 import { getWeekBrief } from '@/lib/learning/this-week'
 import type { StageId as PathwayStageId } from '@/lib/pathway/progress'
-import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
 import { readNudgeFacts } from '@/lib/home/nudge-facts'
 import HabitNudge from '@/components/home/HabitNudge'
@@ -885,10 +884,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
-      {/* More than one child: butter pills at the top switch whose day this
-          is. Every reading below recomputes for the selected child. */}
-      <ChildSwitcher kids={allKids} selectedId={child?.id ?? null} basePath="/dashboard" />
-
       {/* Its day at the top, or a school deadline actually waiting. */}
       {schoolOnTop && schoolBlock}
 

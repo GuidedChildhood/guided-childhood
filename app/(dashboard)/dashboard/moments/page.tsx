@@ -1,23 +1,22 @@
 import { createClient } from '@/lib/supabase/server'
+import { getChildren } from '@/lib/children/server'
 import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
 import { ageBandInList } from '@/lib/content/stages'
 import MomentsGrid from './MomentsGrid'
 import type { Moment } from '@/components/cards/MomentCard'
 
-export default async function MomentsPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
-  const { from: from_ } = await searchParams
+export default async function MomentsPage({ searchParams }: { searchParams: Promise<{ from?: string; child?: string }> }) {
+  const { from: from_, child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
   const [childResult, momentsResult, focusResult] = await Promise.all([
-    supabase
-      .from('children')
-      .select('name, age_band')
-      .eq('parent_id', user.id)
-      .eq('is_primary', true)
-      .maybeSingle(),
+    // In the same wave as before: getChildren returns a promise like any
+    // other read, so honouring ?child= costs no extra round trip.
+    getChildren<{ id: string; name: string | null; age_band: string | null; is_primary: boolean | null }>(
+      supabase, user.id, childParam, 'name, age_band'),
     supabase
       .from('daily_moments')
       .select('id, title, category, age_bands, icon, science_brief, digi_opener')
@@ -33,7 +32,7 @@ export default async function MomentsPage({ searchParams }: { searchParams: Prom
       .maybeSingle(),
   ])
 
-  const child = childResult.data
+  const child = childResult.child
   const allMoments: Moment[] = momentsResult.data ?? []
 
   // Filter to child's age band if known, matching by range overlap so a
