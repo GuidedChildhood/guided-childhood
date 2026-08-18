@@ -1,4 +1,6 @@
 import { NextOnTheApplication, StrandCards, buildStrands, nextTask } from '@/components/passport/Application'
+import BalanceZone, { type DayDot } from '@/components/passport/BalanceZone'
+import type { ParentReport } from '@/lib/balance/parent-report'
 import { stagePace, paceLine } from '@/lib/pathway/pace'
 import type { ChecklistSection } from '@/components/pathway/PassportStamps'
 import type { StageProgress } from '@/lib/pathway/progress'
@@ -27,15 +29,38 @@ const PROGRESS: StageProgress = {
   overallPct: 47, contentComplete: false,
 }
 
+const REPORT_GREEN = {
+  childName: 'Teo', bandLabel: 'Ages 11 to 13', totalWeekMins: 540, healthyWeekMins: 1260,
+  status: 'healthy', topState: null as unknown, buckets: [], typeGuides: [],
+  offscreen: { activities: 3, stars: 12, minutes: 240 }, guidance: '', daysSoFar: 4,
+} as unknown as ParentReport
+
+const REPORT_OVER = { ...REPORT_GREEN, totalWeekMins: 860, status: 'over' } as unknown as ParentReport
+
+const DAYS: DayDot[] = [
+  { kept: true, today: false, future: false },
+  { kept: true, today: false, future: false },
+  { kept: true, today: false, future: false },
+  { kept: true, today: true, future: false },
+  { kept: false, today: false, future: true },
+  { kept: false, today: false, future: true },
+  { kept: false, today: false, future: true },
+]
+
 export default async function RefApplication({
   searchParams,
 }: { searchParams: Promise<{ done?: string; behind?: string }> }) {
   const { done, behind } = await searchParams
   const allDone = done === '1'
 
+  // behind=1 also turns the balance rows amber, so the strand card and the
+  // zone below can never tell two stories in a screenshot: on the real page
+  // both derive from the same rows and cannot disagree.
   const sections = allDone
     ? SECTIONS.map(s => ({ ...s, pct: 100, detail: 'Done' }))
-    : SECTIONS
+    : behind === '1'
+      ? SECTIONS.map(s => (s.key === 'balance' || s.key === 'jobs') ? { ...s, pct: 50, detail: 'Worth a look' } : s)
+      : SECTIONS
   const progress = allDone
     ? { ...PROGRESS, lessonsDone: 15, lessonsPct: 100, scriptsDone: 47, scriptsPct: 100, contentComplete: true }
     : PROGRESS
@@ -98,6 +123,16 @@ export default async function RefApplication({
         <NextOnTheApplication strands={strands} checkHref={allDone && !next ? '#stage-check' : null} />
         <div style={{ height: 8 }} />
         <StrandCards strands={strands} kid="Teo" />
+
+        <BalanceZone
+          report={behind === '1' ? REPORT_OVER : REPORT_GREEN}
+          jobsLine={behind === '1' ? 'None yet this week' : '4 days in a row'}
+          jobsOk={behind !== '1'}
+          days={behind === '1' ? DAYS.map(d => ({ ...d, kept: false })) : DAYS}
+          kid="Teo"
+          childParam={null}
+          siblingGlance={behind === '1' ? null : { name: 'Alma', href: '/dashboard/pathway?child=alma#balance-zone' }}
+        />
       </div>
     </main>
   )
