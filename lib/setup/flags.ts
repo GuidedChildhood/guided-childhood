@@ -35,6 +35,20 @@ export type SetupState = {
   handoverSettled: boolean
   /** The primary child, for the share step's two doors on the setup page. */
   child: { id: string; name: string | null } | null
+  /**
+   * EVERY child, each carrying whether their side is already dealt with.
+   *
+   * Justin, 18 August 2026: "the share code step 4 is after we have added the
+   * other child so needs to have both names, as we need 2 different codes, one
+   * for each child ... for example if 3 children they could be a mix of marked
+   * as app and no app printable version."
+   *
+   * A QR code belongs to ONE child: it is their link, their jobs, their stars.
+   * The step used to hand the primary child to a single button, so a family with
+   * three children could share with one of them and the other two had no route
+   * at all from setup.
+   */
+  children: { id: string; name: string | null; linked: boolean; noPhone: boolean }[]
 }
 
 export async function getSetupState(supabase: FlagClient, userId: string): Promise<SetupState> {
@@ -54,8 +68,11 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     // list and takes the first, ordered so the answer is stable between loads
     // rather than whatever the planner hands back: a primary if there is one,
     // then oldest first.
-    supabase.from('children').select('id, name, is_primary, created_at').eq('parent_id', userId)
-      .order('is_primary', { ascending: false }).order('created_at', { ascending: true }).limit(1),
+    // Every child now, ordered primary first then oldest, so the share step can
+    // list them all and the first of the list is still the primary for the
+    // surfaces that only want one.
+    supabase.from('children').select('id, name, is_primary, created_at, no_phone').eq('parent_id', userId)
+      .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
     supabase.from('family_agreements').select('id, signed_by_parent, signed_by_child')
       .eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', userId).limit(1).maybeSingle(),
@@ -104,6 +121,17 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     answeredNoDevice = familySettled(family)
   } catch { /* the step simply stays open, which is the old behaviour */ }
 
+  // One row per child, each saying whether their side is already handled. Built
+  // before the flags because childLink reads it, and returned so the share step
+  // can draw a code button per child rather than one for the primary.
+  const linkedIds = new Set((kidLinks.data ?? []).map(k => k.child_id as string))
+  const childRows = ((child.data ?? []) as Record<string, unknown>[]).map(r => ({
+    id: r.id as string,
+    name: (r.name as string | null) ?? null,
+    linked: linkedIds.has(r.id as string),
+    noPhone: r.no_phone === true,
+  }))
+
   const flags: SetupFlags = {
     // DONE WHEN: BOTH have signed it. Not when the row exists.
     //
@@ -143,9 +171,23 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     // Without it the step could not be closed at all from the step itself, which
     // is the un-tickable step this product has now had to fix three times. See
     // migration 204.
-    // DONE WHEN they DID something or SAID something. Never when there simply
-    // was nobody to ask. See answeredNoDevice above.
-    childLink: (kidLinks.data ?? []).length > 0
+    // ── EVERY CHILD, NOT ANY CHILD (18 August 2026) ────────────────────────
+    //
+    // Justin: "we need 2 different codes, one for each child ... if 3 children
+    // they could be a mix of marked as app and no app printable version."
+    //
+    // This used to tick on the FIRST kid_links row, so a family with three
+    // children shared with one and the step went green while two had no route
+    // from setup at all. A QR code belongs to one child, so the question has to
+    // be asked once per child.
+    //
+    // A child counts as dealt with when they are linked OR marked no phone, and
+    // those two mixing freely is exactly the case Justin describes: the eldest
+    // on the app, the younger two on the printed chart. The family level
+    // assertion still closes the whole step, because "I have shared it" and "I
+    // will run it on my phone" are answers about the household rather than about
+    // one child.
+    childLink: (childRows.length > 0 && childRows.every(c => c.linked || c.noPhone))
       || answeredNoDevice
       || !!(profile.data as { child_app_settled_at?: string | null } | null)?.child_app_settled_at,
 
@@ -191,10 +233,8 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     complete: current === null,
     current,
     handoverSettled,
-    child: (() => {
-      const row = (child.data ?? [])[0]
-      return row ? { id: row.id as string, name: (row.name as string | null) ?? null } : null
-    })(),
+    child: childRows[0] ? { id: childRows[0].id, name: childRows[0].name } : null,
+    children: childRows,
   }
 }
 
