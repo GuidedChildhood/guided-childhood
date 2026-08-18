@@ -345,3 +345,63 @@ longest.
 Worth considering: build ONE agreement, then offer "use this for their sibling
 too" as a one tap copy that opens the same clauses at the sibling's stage. Same
 data model, much less work for the parent, and it keeps setup finishable.
+
+### 9b. HOW THE COPY HANDLES A DIFFERENT AGE
+
+Justin, 18 August 2026: "agreed, make it easy, but the agreement may be different
+for each age, how would that be dealt with?"
+
+The existing data structure answers this almost by itself, which is the reason
+this approach is cheap.
+
+There are five TYPES, one per stage, and eleven CLAUSE objects shared between
+them (lib/content/agreement-clauses.ts). Each type is a list of clauses, and the
+lists overlap heavily:
+
+    device-sleep    in ALL five types
+    when-wrong      in ALL five types
+    screens-off     in four (not independent)
+    earn-time       first-screens, tablet-games, first-phone
+    money           tablet-games, first-phone, social-ready
+    kindness        first-phone, social-ready, independent
+    ask-first       first-screens, tablet-games
+    meals           first-screens only
+    answer-call     first-phone only
+    social-apps     social-ready only
+    keep-talking    independent only
+
+So the rule is one line: CARRY ACROSS THE CLAUSES THE SIBLING'S TYPE ALSO HAS,
+AND DROP THE REST.
+
+That gets the age question right for free, in both directions:
+
+- "Which social apps and on what terms" is in social-ready ONLY, so copying a
+  fourteen year old's agreement to a five year old cannot carry it. Nothing has
+  to know that social media is inappropriate for a five year old; the type list
+  already knows.
+- "Where devices sleep" and "what happens when it goes wrong" are in every type,
+  so the family's answers to those always carry. That is right, because those two
+  are household values rather than age rules.
+- Clauses the sibling's stage has and the source did not, answer-call for a first
+  phone, arrive unanswered for the parent to choose.
+
+### The two rules that keep it honest
+
+CARRIED ANSWERS ARE A STARTING POINT, NOT A DECISION. A shared clause has the
+same options at every age, so "screens off by 7pm" copies cleanly, and a parent
+may well want 7pm for the five year old and 9pm for the fourteen year old. So the
+copy lands them on the CLAUSES step with the answers pre-filled, never on the
+done step. They see what carried, change what needs changing, and it stays two
+taps for the parent who wants it identical.
+
+A SIGNATURE IS NEVER INHERITED. signed_by_parent and signed_by_child start false
+on the copy, always. The whole argument for this feature is that a boundary you
+both chose is not a rule imposed on you, and a signature copied from a sibling's
+document is neither chosen nor theirs. The child signs their own.
+
+### What it looks like to a parent
+
+On the finished agreement, when another child exists without one: "Use this for
+Olga too". One tap, lands on the clauses step at Olga's stage with everything
+that applies already filled in, an eyebrow saying what carried over and what is
+new for her age, then sign together as normal.
