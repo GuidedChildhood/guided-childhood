@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getChildren } from '@/lib/children/server'
 import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
 import { hasFullAccess } from '@/lib/access'
@@ -68,11 +69,11 @@ const normaliseTitle = (t: string) => t.trim().toLowerCase().replace(/’/g, "'"
 // badge rather than the fallback emoji.
 type LessonRow = { id: string; stageKey: string; category: string; title: string; key_message: string; sort_order: number; source: 'lesson' | 'ai'; coverUrl: string | null; deep: boolean }
 
-export default async function LessonsPage({ searchParams }: { searchParams: Promise<{ stage?: string; from?: string }> }) {
+export default async function LessonsPage({ searchParams }: { searchParams: Promise<{ stage?: string; from?: string; child?: string }> }) {
   // A ?stage=<1..5> deep link (from the passport rows and the road) opens the
   // library straight on that stage's route, so "Watch the lessons" lands
   // exactly where the work is, not on a generic all ages grid.
-  const { stage: stageParam, from: from_ } = await searchParams
+  const { stage: stageParam, from: from_, child: childParam } = await searchParams
   const stageNum = Number(stageParam)
   const initialStage = Number.isInteger(stageNum) && stageNum >= 1 && stageNum <= 5 ? stageNum : null
 
@@ -80,8 +81,11 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: child } = await supabase
-    .from('children').select('id, name, age_band').eq('parent_id', user.id).eq('is_primary', true).maybeSingle()
+  // Which child this page is about: the ?child= param when the parent has
+  // switched, the primary child otherwise. See lib/children/server.ts.
+  const { child } = await getChildren<{
+    id: string; name: string | null; age_band: string | null; is_primary: boolean | null
+  }>(supabase, user.id, childParam, 'id, name, age_band')
   const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
   const childStageNum = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
 

@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getChildren } from '@/lib/children/server'
 import { inStarterTrial, isAllowlisted } from '@/lib/access'
 import { getTrialConfig } from '@/lib/config/trial'
 import { redirect } from 'next/navigation'
@@ -40,7 +41,10 @@ function getStagePrompts(stageId: number, childName: string | null): string[] {
 
 type StoredMessage = { role: string; content: string; timestamp?: string }
 
-export default async function DigiPage() {
+export default async function DigiPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
+  // Which child this page is about, so the switcher in the layout actually
+  // changes the page rather than only the pills. See lib/children/server.ts.
+  const { child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -49,7 +53,10 @@ export default async function DigiPage() {
 
   const [profileResult, childResult, convResult, feedbackResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).single(),
-    supabase.from('children').select('age_band, name').eq('parent_id', user.id).eq('is_primary', true).single(),
+    // In the same wave as before: getChildren returns a promise like any
+    // other read, so honouring ?child= costs no extra round trip.
+    getChildren<{ id: string; name: string | null; age_band: string | null; is_primary: boolean | null }>(
+      supabase, user.id, childParam, 'age_band, name'),
     supabase.from('digi_conversations')
       .select('messages, messages_today, last_message_date')
       .eq('user_id', user.id)
@@ -67,11 +74,11 @@ export default async function DigiPage() {
   const capped = inStarterTrial(profileResult.data) && !isAllowlisted(user.email)
   const dailyLimit = capped ? (await getTrialConfig()).digiDailyLimit : null
 
-  const stage = childResult.data?.age_band
-    ? getStageFromAgeBand(childResult.data.age_band as AgeBand)
+  const stage = childResult.child?.age_band
+    ? getStageFromAgeBand(childResult.child.age_band as AgeBand)
     : STAGES[2]
 
-  const childName = childResult.data?.name ?? null
+  const childName = childResult.child?.name ?? null
   const stagePrompts = getStagePrompts(stage.id, childName)
 
   // A short evergreen set of example questions that stays under the chat, so a
@@ -85,7 +92,7 @@ export default async function DigiPage() {
     '13-15': 'a 13 to 15 year old',
     '16+': 'a 16 year old',
   }
-  const ageLabel = childResult.data?.age_band ? (AGE_LABEL[childResult.data.age_band as string] ?? 'my child') : 'my child'
+  const ageLabel = childResult.child?.age_band ? (AGE_LABEL[childResult.child.age_band as string] ?? 'my child') : 'my child'
   const faqPrompts = [
     `How long should ${ageLabel} be on a screen each day?`,
     ...stagePrompts,
