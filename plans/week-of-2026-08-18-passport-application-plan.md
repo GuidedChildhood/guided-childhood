@@ -125,3 +125,28 @@ which is the recorded lesson from the tabs.
   below the application, or does the application become the whole page?
 - The parent side check when there is no child app: happy for the parent to
   sit it alone, or should it wait until a child link exists?
+
+## 18 AUGUST, SECOND PASS: JUSTIN'S CLARIFICATION
+
+Justin, confirming the shape: Today on Home is DONE and is not being
+redesigned; its rotation simply gains the passport application as one item.
+Most aspects of each stage are already on the passport and wired in. The
+genuinely NEW build is the TIMELINE: paced to the stage of child development,
+leading the family through, checking on track, and saying what needs to be
+done and when. The passport is separate from the daily routine, but when it
+rotates up it carries the time dimension, because the pathway to 16 is the one
+thing in the product with a real clock.
+
+WHAT THIS CHANGES IN THE PLAN. Nothing is removed, the emphasis moves:
+
+1. Today: wiring the dormant rung stays step one, and the rung's card carries
+   the clock line (items left against the birthday that ends the stage), which
+   no other rotation item has, because no other item has a deadline.
+2. The passport page: the timeline becomes the headline build, not the strand
+   cards. Under the slim header sits the on track check, recomputed every
+   visit: on pace reads calm ("On track. One a week fills this page before
+   Teo turns 13."), behind pace names the clock plainly without shouting, and
+   the no birthday case says so honestly rather than inventing a date.
+3. The tone rule survives contact with "time critical": the passport's urgency
+   is the honest arithmetic of a birthday, said as a rhythm. It is never a
+   countdown a family can fail, because in the code nothing expires.
