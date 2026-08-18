@@ -399,7 +399,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
       {/* Desktop trigger: the tab bar is hidden above 768px, so the same
           sheet opens from a floating pill portalled to body */}
       {mounted && createPortal(
-        <button type="button" onClick={openSheet} aria-label="Right now help" className="rightnow-desktop no-print">
+        <button type="button" onClick={openSheet} aria-label="Right now help" className="rightnow-desktop no-print gc-chrome">
           <BoltIcon />
           Help now
         </button>,

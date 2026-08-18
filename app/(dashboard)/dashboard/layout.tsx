@@ -108,7 +108,26 @@ export default async function DashboardLayout({ children }: { children: React.Re
               className={isPaid ? undefined : 'btn btn-gold'}
               style={isPaid
                 ? { fontFamily: 'var(--font-mono)', fontSize: '.72rem', fontWeight: 600, color: 'var(--ink-muted)', textDecoration: 'none', letterSpacing: '.04em' }
-                : { padding: '10px 20px', fontSize: 'var(--text-base)' }}
+                : {
+                    // ── TIDIER, AND SMALLER THAN THE HOUSE BUTTON ──────────
+                    // Justin, 18 August 2026: "start subscription button seems
+                    // messy and a bit too big, please tidy."
+                    // It was the full chunky button, 10 by 20 at body size with
+                    // the 0 5px 0 shadow, sitting in a 64px header beside two
+                    // quiet mono links. The house button is right where it is
+                    // the thing you came to press; in a header it is furniture
+                    // shouting. Smaller type, tighter padding, a flatter shadow
+                    // and a pill radius, so it still reads as the one gold
+                    // thing up there without overpowering the row it sits in.
+                    padding: '8px 16px',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '.72rem',
+                    fontWeight: 700,
+                    letterSpacing: '.04em',
+                    borderRadius: '100px',
+                    boxShadow: '0 2px 0 var(--terracotta-dark)',
+                    whiteSpace: 'nowrap',
+                  }}
             >
               {isPaid ? 'Manage subscription' : 'Start subscription'}
             </Link>

@@ -944,3 +944,15 @@ html[data-gc-hold='kid'] body::before {
   content: ''; position: fixed; inset: 0; z-index: 2147483000;
   background: var(--kid-bg);
 }
+
+/* ── A SCREEN WITH NO WAY AROUND IT ─────────────────────────────────────────
+   Set by components/access/BareScreen.tsx, which the two doors screen renders.
+   That page asks for a card and the middleware exists to make sure it is
+   answered, so the nav, the tab bar and the floating buttons all stand down
+   while it is up. Everything hidden here is navigation: nothing that carries
+   information is removed, so nothing is lost by not seeing it for one screen. */
+body.gc-bare .desktop-nav,
+body.gc-bare .bottom-tab-bar,
+body.gc-bare .gc-chrome {
+  display: none !important;
+}
