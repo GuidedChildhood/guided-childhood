@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { FREE_BTN } from './door-button'
+import { CARD_TITLE, CARD_SUB, Tick } from './TwoDoors'
 
 // Path two. No card, the same free days, and it says out loud what it costs.
 //
@@ -64,14 +65,30 @@ export default function FreeDoor({
       // below the other.
       display: 'flex', flexDirection: 'column',
     }}>
-      <div style={{
-        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-        letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px',
-      }}>
-        Path two · No card
-      </div>
-      <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: '16px' }}>
-        The same {days} {days === 1 ? 'free day' : 'free days'}, nothing to enter and nothing taken. When the {trialDays} days are up the app closes until you join, at the standard rate: £12.99 a month or £99 a year. No founder place is held on this one.
+      {/* No eyebrow. The founder card's badge sits in this row, and carrying
+          BOTH an eyebrow and a badge spacer here pushed this card's price a
+          line below the other one, which is the first thing the eye checks when
+          two prices sit side by side. The card says "no card" in its price and
+          its subtitle already. */}
+      {/* THE SAME SHAPE AS THE FOUNDER CARD, imported rather than repeated.
+          Justin: "text seems different font in each." It was never two fonts,
+          it was --text-md in --ink-soft here against --text-lg in --ink there,
+          which reads as two designs. Both cards take their scale from
+          TwoDoors now, so the pair cannot drift again.
+          The badge slot is deliberately empty: this card is not the offer, and
+          an empty space where the other card has a badge is what makes the
+          two line up rather than one starting higher than the other. */}
+      <div style={{ height: 25, marginBottom: '12px' }} aria-hidden />
+
+      <p style={CARD_TITLE}>£0<span style={{ fontSize: 'var(--text-md)', fontWeight: 700 }}> for {days} {days === 1 ? 'day' : 'days'}</span></p>
+      <p style={CARD_SUB}>No card, nothing taken</p>
+
+      <Tick>Nothing to enter and nothing charged</Tick>
+      <Tick>The same {trialDays} days, all of it open</Tick>
+      <Tick>£12.99 a month or £99 a year after, if you stay</Tick>
+
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 16px' }}>
+        No founder place is held on this one.
       </p>
       {failed && (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--danger)', lineHeight: 1.5, margin: '0 0 12px' }}>

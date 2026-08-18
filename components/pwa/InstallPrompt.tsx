@@ -57,6 +57,24 @@ const TOLD_KEY = 'gc_home_screen_told'
 // still means the permanent no: this is only about how often the question comes
 // back to somebody who has not answered it.
 const LAST_SHOWN_KEY = 'gc_install_last_shown'
+// ── AND ONCE PER SESSION, WHICH IS THE GUARD THAT CANNOT BE DEFEATED ───────
+//
+// Justin, 17 August 2026: "every time I click a button this pops up, it can not
+// do that. Once skip is clicked it should not pop up again on this session and
+// only once per week."
+//
+// The weekly clock above is right and was already shipped, and it still was not
+// enough. It lives in localStorage, which is scoped to an ORIGIN, and every
+// Vercel preview deploy gets its own hostname, so testing on a preview starts
+// with an empty store every single time. beforeinstallprompt then fires on each
+// page load and the banner returns.
+//
+// A session key is the belt to that pair of braces. It costs nothing when the
+// weekly clock is working and it saves the case where the clock has been reset
+// underneath us, which is exactly what a parent sees as "it keeps popping up".
+// Both are written the moment the banner is SHOWN, so dismissing, skipping,
+// installing and ignoring all cost the same session and the same week.
+const SESSION_KEY = 'gc_install_asked_session'
 const ASK_AGAIN_AFTER_MS = 7 * 24 * 60 * 60 * 1000
 
 type BeforeInstallPromptEvent = Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> }
@@ -136,6 +154,9 @@ export default function InstallPrompt() {
     // setup step before we ask them to install, so nothing competes on day one.
     if (!localStorage.getItem(FIRST_SEEN_KEY)) { localStorage.setItem(FIRST_SEEN_KEY, String(Date.now())); return }
 
+    // Already asked this visit, whatever the weekly clock says.
+    try { if (sessionStorage.getItem(SESSION_KEY) === '1') return } catch { /* private mode */ }
+
     // Asked within the last week. Say nothing.
     try {
       const last = Number(localStorage.getItem(LAST_SHOWN_KEY) ?? 0)
@@ -149,7 +170,10 @@ export default function InstallPrompt() {
       const onPrompt = (e: Event) => {
         e.preventDefault()
         setInstallEvent(e as BeforeInstallPromptEvent)
-        try { localStorage.setItem(LAST_SHOWN_KEY, String(Date.now())) } catch { /* private mode */ }
+        try {
+          localStorage.setItem(LAST_SHOWN_KEY, String(Date.now()))
+          sessionStorage.setItem(SESSION_KEY, '1')
+        } catch { /* private mode */ }
         setMode('banner')
       }
       window.addEventListener('beforeinstallprompt', onPrompt)
@@ -157,7 +181,10 @@ export default function InstallPrompt() {
     }
 
     const id = setTimeout(() => {
-      try { localStorage.setItem(LAST_SHOWN_KEY, String(Date.now())) } catch { /* private mode */ }
+      try {
+        localStorage.setItem(LAST_SHOWN_KEY, String(Date.now()))
+        sessionStorage.setItem(SESSION_KEY, '1')
+      } catch { /* private mode */ }
       setMode('banner')
     }, 2500)
     return () => { cancelled = true; clearTimeout(id) }
