@@ -8229,3 +8229,47 @@ THE LESSON, for the redesign and for every session reading this file: the tabs
 were built from a written brief and approved in prose, and the first time
 Justin SAW them he rejected them. The redesign starts from the restored page
 and gets screenshots at every step before anything is declared done.
+
+## 18 August 2026 — The multi child lanes: the passport session accepts the handover
+
+Two sessions are live. The multi child session (mobbin-ux-references branch)
+published plans/multi-child-build-plan.md with lanes drawn and its step 6
+written as a handover to the passport session. This entry is the passport
+session accepting, and settling the two files where the lanes could cross.
+Justin asked for exactly this cross check before giving the passport build the
+go: "so both builds work together and dont cross for multi child."
+
+THE LANES, CONFIRMED BOTH SIDES:
+- Multi child session: shared plumbing (?child= threaded through nav and
+  layout, switcher mounted on the deep pages), the child app, DiGi, and ALL
+  schema. Migrations 206, 207 and the agreements one after are theirs.
+- Passport session: /dashboard/pathway, /dashboard/passport, PassportBook,
+  IsItWorkingReport, LiteracyAreas, StageRoad, and every item on their step 6
+  list: per child reads for lessons, scripts, devices and contentComplete;
+  concerns filtered by child_id; stars summed per child not per family; the
+  stamp celebration localStorage keys gaining a child id so the first child's
+  stamp cannot burn the second's; the weekly check in reading and writing the
+  SELECTED child.
+- THE PASSPORT LANE NEEDS NO MIGRATION. Verified today: wellbeing_checks
+  (001), stage_quiz_passes (098), concerns (194) and lesson_pass_by (162) all
+  carry child_id already. Every passport fix is a read or a key. If that ever
+  changes, the passport lane claims 209 by editing THIS entry first.
+
+THE TWO CROSSING POINTS, SETTLED:
+1. lib/pathway/progress.ts BELONGS TO THE PASSPORT LANE. It is the sharpest
+   shared file: their step 2.2 moves lesson reads onto lesson_pass_by for the
+   lessons pages and the child app, and the passport's numbers flow through
+   progress.ts. One owner or we rewrite each other. So: they change lesson
+   reads at their own call sites and DO NOT touch progress.ts; the passport
+   session adopts the same lesson_pass_by pattern inside progress.ts itself.
+2. components/children/ChildSwitcher.tsx CHANGES BY ADDITIVE PROP ONLY. They
+   are mounting it on seven more pages; the passport design adds an avatar and
+   a per child balance dot to the pills. The passport session adds these as
+   OPTIONAL props, default off, so every existing and new call site renders
+   exactly as today unless it opts in. Neither session changes its defaults.
+
+SEQUENCING: their step 1 (?child= threading) is the one piece the passport
+build genuinely wants underneath it, so selection survives a tap into a lesson
+and back. The passport build starts anyway (its own page already reads
+?child=) and simply rebases when step 1 merges. Small PRs, same day merges,
+per the standing rule.
