@@ -98,6 +98,24 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
   }
 
   async function save() {
+    // ── THE PRINT WINDOW IS OPENED HERE, BEFORE ANY await ─────────────────
+    //
+    // Justin, 18 August 2026: "step 1 great, works, although the print should
+    // open in another window but user remains on set up page."
+    //
+    // It was opening after the save resolved, and that is why it did not open
+    // at all. Browsers only allow window.open while a user gesture is still on
+    // the stack, and the first await hands the stack back, so the call was
+    // silently blocked as a popup. The parent saw the redirect to setup and no
+    // fridge copy, which reads as the print being broken.
+    //
+    // Opened synchronously inside the click, then pointed at the print view once
+    // we know the save worked. If the save fails the tab is closed again, so
+    // nobody is left holding a print of an agreement that did not save.
+    const printWindow = (showSetupNext && parentSigned && childSigned)
+      ? window.open('', '_blank', 'noopener,noreferrer')
+      : null
+
     setSaving(true)
     setError(null)
     // The legacy text columns stay filled so the printed fridge copy and
@@ -147,11 +165,16 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
       //
       // Only while setup is unfinished, because a parent editing a clause in
       // month three has not asked to go anywhere.
-      if (showSetupNext && parentSigned && childSigned) {
-        window.open('/dashboard/agreement/print', '_blank', 'noopener,noreferrer')
+      if (printWindow) {
+        printWindow.location.href = '/dashboard/agreement/print'
+        // And THIS tab goes back to setup, so the parent stays where the work
+        // is. Justin: "user remains on set up page."
         window.location.href = '/dashboard/setup'
       }
     } catch {
+      // Close the tab we opened optimistically. A blank window left behind
+      // after a failed save is worse than no window at all.
+      printWindow?.close()
       setError('The agreement did not save. Check your connection and try again.')
     } finally {
       setSaving(false)
