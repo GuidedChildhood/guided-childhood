@@ -8332,3 +8332,31 @@ MIGRATION LEDGER, corrected by the plumbing session: 206 quest_ticks child
 key, 207 school_actions child_id, 208 daily_sessions AND script_completions
 child_id, 209 agreements. Free from 210. The passport lane still claims none;
 when 208 merges, progress.ts scopes scripts per child too (tracked as a task).
+
+## 18 August 2026 — The review standard, the eyes, and the customer aged 2 to 16
+
+Justin watched the AI employee setup walkthrough and asked for the three
+missing pieces to be set up: "Set the three up and let me know how I implement
+you must already know the perfect user is a parent with a 2 to 16 year old
+child."
+
+THREE THINGS DECIDED AND BUILT:
+
+1. review.md now lives at the repo root. It is the single quality standard
+   every change is checked against before it ships: philosophy, customer,
+   scope, product, design, risk, sorted must fix / should fix / okay to ship.
+   CLAUDE.md points every session at it. If the bar changes, change review.md,
+   not the routines that read it.
+
+2. Two new routines exist alongside the daily health sweep. A weekly UX
+   walkthrough (Wednesday mornings) that opens the product with Playwright and
+   walks it as the perfect customer, reporting the three highest friction
+   moments, report only, no code. And a weekday PR review (each morning) that
+   reviews every open pull request against review.md and comments must fix /
+   should fix / okay to ship.
+
+3. THE PERFECT CUSTOMER IS A UK PARENT WITH A CHILD AGED 2 TO 16, stated
+   plainly by Justin on 18 August. THE-STORY.md section 2 previously said
+   primary age, roughly 4 to 11; that stays the heart of the market, but the
+   product serves the full 2 to 16 run up to the phone. Features must degrade
+   gracefully across the range.

@@ -31,6 +31,14 @@ Re-read /plans/decisions.md after any compaction.
 - Ban resilience             → docs/11 (social_media_law config flag)
 - UX flow / onboarding       → design-refs/good-inside-notes.md (copy structure, not brand)
 
+## REVIEW STANDARD
+
+Before pushing any change, check the diff against review.md at the repo root
+(must fix / should fix / okay to ship). The PR review routine reviews every
+open PR against the same file each weekday morning, and the weekly UX
+walkthrough judges the live product against its customer test. If the quality
+bar changes, change review.md, not the routines.
+
 ## PLANS
 
 Write every plan to /plans/<week>-plan.md INSIDE this repo before building.
