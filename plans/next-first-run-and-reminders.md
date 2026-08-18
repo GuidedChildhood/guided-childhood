@@ -188,3 +188,95 @@ The last point is a recommendation rather than a decision. Justin said "pop up",
 and there is a case for one; but this product already has the shop sheet, the
 agreement review, the install banner and the setup bar competing for the same
 moment, all behind one lock. Worth putting to him before building a fifth.
+
+## 8. THE PASSPORT PAGE IS A ROTATION IN DISGUISE
+
+Justin, 17 August 2026, sending six screenshots in a row, one per block:
+"should be on family friends rotation on today", "this not on passport page
+should be plant friends on today on rotation", "should be one of the rotating
+today steps rotating with all the rest", "should all be covered in checkins on
+today", "should be something that pops up on home page weekly rotation".
+
+Six blocks, one instruction, and it is not six separate asks. The passport page
+has become a second Home: a stack of prompts, inputs and readings that each ask a
+parent to DO something. That is what Today is for. The passport is the RECORD,
+which is the rule already written in plans/week-of-2026-08-13: "helps them know
+what to do today goes to the daily loop, record of what they did goes to the what
+is working dashboard."
+
+REMOVED SO FAR (17 August):
+- Your focus strip, from /dashboard/pathway. Rotation item 'focus' already live.
+- The school chest, from /dashboard/pathway. Rotation item 'school' already live.
+- The balance report, from IsItWorkingReport. Rotation item 'balance' already
+  live, linking to /dashboard/stats where the full report lives.
+- DiGi's four strands question (LiteracyCheckIn), from IsItWorkingReport. NO
+  rotation item exists for it yet, so it is currently asked NOWHERE. That is a
+  real gap, not a tidy up, and it needs one adding.
+
+STILL ON THE PAGE AND STILL TO MOVE:
+- "What we are working on": the sorted / on the go counters and the per concern
+  verdict buttons. Justin: "should all be covered in checkins on today." The
+  check in already collects the scores; this is the same question in a second
+  place with different words (Sorted / Still going / Need help).
+- The week in numbers: stars earned, check ins so far.
+- The weekly check in card, "Start, 5 minutes".
+- Streak missions.
+- "Why this works, and our stance."
+
+THE JUDGEMENT NEEDED BEFORE MORE IS CUT, and it is why this stopped rather than
+carried on: several of these are the ONLY surface for what they do. Pulling them
+without adding the rotation item first does not move them, it deletes them, which
+is what has just happened to the strands question. The next session should add
+the rotation items FIRST, in lib/home/next-up.ts, then remove the blocks, and
+check that ROTATION.length still gives each item a sensible turn: eleven items
+already share a twelve day cycle, and five more makes it a fortnight between
+turns for everything.
+
+Worth putting to Justin: at sixteen items the rotation stops being "one thing a
+day, chosen for you" and becomes a queue nobody reaches the end of. Some of these
+may want to be weekly rather than in the daily walk. He used the word "weekly"
+himself for the streak missions one.
+
+### 8b. THE ANSWER: A WEEKLY TIER, NOT MORE DAILY ITEMS
+
+Justin, 17 August 2026, answering the question above directly: "presented with
+the rest above on today home page in a not annoying but rotating over a week
+fashion to bring value and make simple to weekly rotate these things."
+
+So the fix is NOT sixteen items in the daily walk. lib/home/next-up.ts already
+has three tiers and this is a fourth:
+
+    URGENT     jumps the queue, never rotates (jobs waiting, no jobs yet)
+    MONTHLY    the shop, on the 12th, never the daily lead
+    ROTATION   eleven items, one a day, walked forward
+    WEEKLY     ← NEW. The reflective ones. One a week, never the daily lead.
+
+WHAT GOES IN THE WEEKLY TIER, from the blocks still on the passport page:
+
+- Your journey / one step at a time (the stage road with its next action)
+- What we are working on (the concern list and verdicts)
+- Streak missions
+- Why this works, and our stance
+- The week in numbers (stars, check ins)
+
+WHY WEEKLY IS RIGHT AND DAILY IS NOT. These are all REFLECTIVE: they ask a parent
+to look back and take stock. That is a Sunday question, not a Tuesday morning
+one, and the daily list has to stay short enough to finish in ten minutes. It is
+also the honest reading of "not annoying": five more daily items would push the
+existing eleven to a fortnight between turns, so everything would get rarer to
+make room for things nobody asked to see daily.
+
+HOW IT SHOULD WORK, so the next session does not have to invent it:
+
+- Same shape as isShopDay: a weekIndex from the shared ANCHOR in next-up.ts,
+  `Math.floor(dayIndex / 7)`, then `WEEKLY[weekIndex % WEEKLY.length]`.
+- It sits BETWEEN monthly and the daily rotation in pickNextUp, so the shop still
+  wins on the 12th and a child waiting on an answer still wins over both.
+- One a week means five weeks to see them all, which is right for material a
+  parent does not need twice.
+- The daily lead and the weekly item must never be the same subject on the same
+  day, the same rule friendOfTheDay already follows with avoidServiceKey.
+
+ONLY THEN remove the blocks from IsItWorkingReport and the pathway page. Adding
+the tier first is what stops this being a deletion, which is what happened to the
+strands question when its block was pulled before its rotation item existed.
