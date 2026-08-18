@@ -46,13 +46,21 @@ function statusLabel(s: StampStatus): string {
   return 'Ahead'
 }
 
-const CELEBRATED_KEY = 'gc_passport_celebrated'
+// Per child since 18 August 2026. One global key meant the first child's
+// stamp celebration marked the stage as seen for the whole browser, so the
+// second child's identical achievement passed in silence: invisible and
+// unrecoverable, the exact bug the multi child audit named. The legacy
+// un-suffixed key is deliberately left behind: worst case an existing family
+// sees one celebration replay per already stamped stage, which errs on the
+// side of clapping twice rather than never.
+const celebratedKey = (childId: string | null) => `gc_passport_celebrated_${childId ?? 'family'}`
 
 export default function PassportBook({
   stamps,
   childName,
   openAtStage = null,
   currentStage = null,
+  childId = null,
 }: {
   stamps: Stamp[]
   childName: string
@@ -82,6 +90,9 @@ export default function PassportBook({
    * discovered by flipping.
    */
   currentStage?: number | null
+  /** Whose book, for the per child celebration memory. Null celebrates as one
+   *  family, which is only right when there is genuinely one child. */
+  childId?: string | null
 }) {
   // Page 0 is the cover; pages 1..5 are the stages. The book rests on its
   // cover and never opens itself: the parent taps to open each page, the way
@@ -123,14 +134,14 @@ export default function PassportBook({
   useEffect(() => {
     if (typeof window === 'undefined') return
     let seen: number[] = []
-    try { seen = JSON.parse(localStorage.getItem(CELEBRATED_KEY) ?? '[]') } catch { seen = [] }
+    try { seen = JSON.parse(localStorage.getItem(celebratedKey(childId)) ?? '[]') } catch { seen = [] }
     const fresh = stamps.find(s => s.status === 'earned' && !seen.includes(s.id))
     if (!fresh) return
     const t = setTimeout(() => {
       setCelebrating(fresh)
       try { navigator.vibrate?.([40, 60, 90]) } catch { /* not supported */ }
       const next = Array.from(new Set([...seen, ...stamps.filter(s => s.status === 'earned').map(s => s.id)]))
-      try { localStorage.setItem(CELEBRATED_KEY, JSON.stringify(next)) } catch { /* private mode */ }
+      try { localStorage.setItem(celebratedKey(childId), JSON.stringify(next)) } catch { /* private mode */ }
     }, 700)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps

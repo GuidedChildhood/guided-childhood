@@ -10,7 +10,6 @@ import StickerBook from '@/components/pathway/StickerBook'
 import { getStickerBook } from '@/lib/stickers/book'
 import StaggerReveal from '@/components/pathway/StaggerReveal'
 import ToolCard, { type Tool } from '@/components/tools/ToolCard'
-import ChildSwitcher from '@/components/children/ChildSwitcher'
 import { pickChild } from '@/lib/children/select'
 import BalanceReport from '@/components/balance/BalanceReport'
 import { type ParentReport } from '@/lib/balance/parent-report'
@@ -116,7 +115,15 @@ export default async function IsItWorkingReport(
     : null
 
   const starsByQuest = new Map(quests.map(q => [q.id, q.stars]))
-  const weekStars = ticks.reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
+  // THIS child's stars, not the family's. The copy under this number names one
+  // child, and until 18 August the sum was every sibling's ticks, so the
+  // sentence lied in front of the number that proved it. A null child_id tick
+  // is a family job's, which counts for the child until migration 206 gives
+  // every child their own tick, and keeps counting for family jobs after.
+  const childTicks = primary?.id
+    ? ticks.filter(t => t.child_id === primary.id || t.child_id === null)
+    : ticks
+  const weekStars = childTicks.reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
 
   const open = concerns.filter(c => c.status === 'open')
   const improving = concerns.filter(c => c.status === 'improving')
@@ -154,7 +161,7 @@ export default async function IsItWorkingReport(
   const bits: string[] = []
   if (streak.count > 0) bits.push(`you have shown up ${streak.count} day${streak.count === 1 ? '' : 's'} running`)
   if (improving.length > 0) bits.push(`${improving[0].label.toLowerCase()} is getting better`)
-  if (weekStars > 0) bits.push(`the kids earned ${weekStars} star${weekStars === 1 ? '' : 's'} this week`)
+  if (weekStars > 0) bits.push(`${primary?.name && primary.name !== 'Your child' ? primary.name : 'your child'} earned ${weekStars} star${weekStars === 1 ? '' : 's'} this week`)
   if (trend === 'up') bits.push('the week scores are climbing')
   const headline = bits.length > 0
     ? `${bits.join(', ')}.`
@@ -171,7 +178,10 @@ export default async function IsItWorkingReport(
 
   return (
     <StaggerReveal style={{ maxWidth: '640px', margin: '0 auto', padding: '8px 20px 40px' }}>
-      <ChildSwitcher kids={children} selectedId={primary?.id ?? null} basePath="/dashboard/pathway" />
+      {/* The second switcher this page used to carry is gone (18 August
+          2026): two switchers on one page can disagree, which is exactly the
+          fault the plumbing session's layout rail exists to end. The child
+          arrives through ?child= and the rail owns choosing it. */}
       <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.7rem, 5.5vw, 2.2rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '10px' }}>
         Is it working?
       </h2>

@@ -281,12 +281,11 @@ export async function currentStagePassportSections(
   if (!stageNum) return null
 
   const [allProgress, openRes, solvedRes, parentReport] = await Promise.all([
-    getAllStagesProgress(supabase, userId, child.streak_weeks ?? 0),
-    // User level on purpose, for now: the passport page reads concerns the
-    // same way, and the two surfaces move to child_id together in the per
-    // child pass so they can never disagree in the meantime.
-    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', userId).in('status', ['open', 'improving']),
-    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('status', 'resolved'),
+    getAllStagesProgress(supabase, userId, child.streak_weeks ?? 0, child.id),
+    // Scoped to the child, the same or() the passport page uses: their own
+    // worries plus the family wide ones (null child_id), never a sibling's.
+    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', userId).or(`child_id.eq.${child.id},child_id.is.null`).in('status', ['open', 'improving']),
+    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', userId).or(`child_id.eq.${child.id},child_id.is.null`).eq('status', 'resolved'),
     getWeekParentReport(supabase, userId, child),
   ])
 
