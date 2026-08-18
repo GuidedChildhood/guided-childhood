@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getChildren } from '@/lib/children/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
@@ -128,15 +129,20 @@ type ScriptRow = {
 // one place to send them back to and no chance of guessing wrong.
 const PATHWAY_HREF = '/dashboard/pathway'
 
-export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; cat?: string; stage?: string; from?: string; q?: string }> }) {
-  const { topic, cat, stage, from, q } = await searchParams
+export default async function ScriptsPage({ searchParams }: { searchParams: Promise<{ topic?: string; cat?: string; stage?: string; from?: string; q?: string; child?: string }> }) {
+  const { topic, cat, stage, from, q, child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: profile }, { data: child }, { data: scriptsData }, { data: completions }] = await Promise.all([
+  const [{ data: profile }, { child }, { data: scriptsData }, { data: completions }] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
-    supabase.from('children').select('stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    // The child's stage decides which scripts lead the page, so this has to be
+    // the child the parent chose. Justin: "scripts page for all children with
+    // toggle." It read the primary child, so switching to the six year old left
+    // the teenager's scripts on top.
+    getChildren<{ id: string; stage_id: string | null; is_primary: boolean | null }>(
+      supabase, user.id, childParam, 'stage_id'),
     supabase.from('scripts').select('id, stage_id, title, situation, category, is_free, sort_order').order('sort_order', { ascending: true }),
     supabase.from('script_completions').select('script_sort_order, completed_at, status').eq('user_id', user.id),
   ])

@@ -44,6 +44,7 @@ const CHILD_ROUTES = [
   // but the pills still belong here: a parent who wants to answer about the
   // younger one first should not have to finish the elder's list to get there.
   '/dashboard/checkin',
+  '/dashboard/scripts',
   '/dashboard/stats',
   '/dashboard/devices',
   '/dashboard/lessons',
