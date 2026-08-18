@@ -84,3 +84,38 @@ When challenged on this, cite the lineage and the specific criteria rather than 
 | A tool result preview (Wednesday) | Frame the tool as understanding, never surveillance. Consistent with "education not eradication." |
 | The rare 1-in-10 post | State plainly: CAMHS waitlists, poverty, ACEs, and parental mental health outrank platform time in the evidence. This is the thesis-reveal post. |
 | A reply to a "moral panic" challenge | Cite Cohen 1972 and Goode and Ben-Yehuda 1994 criteria. Concede the rhetorical-shortcut risk. Never deny harm exists, reframe as proportionality. |
+
+---
+
+## SECTION 7: THE HAIDT TEST (mechanism not mandate)
+
+You can disagree with every one of Jonathan Haidt's conclusions and still copy his method without
+noticing. His method is not the ban, it is the order of operations, fear first, evidence late,
+platform cast as the villain, so the emotion decides before the evidence arrives. We nearly did it
+in the cybertrauma series (the conclusions were on ethos, the register was his). Full position at
+briefings/2026-08-18-mechanism-not-mandate.md. The rule and the test:
+
+**The rule.** The strength of evidence you need scales with the cost and reversibility of your
+response. Weak or emerging evidence (a small study, a mechanism in a handful of children, an
+association explaining a fraction of a percent) licenses only low regret responses, teach it,
+prepare, train staff, fund replication. It never licenses a high regret response, a ban, a criminal
+offence, walling off a platform. Haidt's error is reaching for the expensive response on the cheap
+evidence. We match the response to the evidence. Weak evidence is a mandate to prepare and a
+prohibition on prohibiting.
+
+**Why education wins, as logic not slogan.** Education is the only response that is safe to be wrong
+about. Harm turns out big, we prepared the child. Harm turns out small, we still gave them judgement
+for life. A ban has a wrong version (the eight in ten who climb over it, the child driven
+underground). Education has none.
+
+**Run this test on every research led post before it ships. Any yes is a rewrite.**
+1. Does the hook frighten before it informs?
+2. Is a platform cast as the villain, rather than named honestly then set aside for the child?
+3. Does the piece imply the answer is less contact, a ban, a wall, rather than more preparation?
+4. Have we hidden how weak or small the evidence is? (If a study is sixteen children, say so.)
+5. Does the reader finish more frightened, or more capable? If more frightened, it failed.
+
+Platforms, including Roblox, get their real faults named and then the camera turns to the child and
+the habit. Contact is inevitable, so an imperfect platform is the argument for preparation, never
+against contact. Keep Haidt as the fair contrast, he named a real worry and reaches too far. This
+test sits on top of the hidden thread and the Odgers test, never instead of them.
