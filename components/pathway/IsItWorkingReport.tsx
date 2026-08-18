@@ -116,7 +116,15 @@ export default async function IsItWorkingReport(
     : null
 
   const starsByQuest = new Map(quests.map(q => [q.id, q.stars]))
-  const weekStars = ticks.reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
+  // THIS child's stars, not the family's. The copy under this number names one
+  // child, and until 18 August the sum was every sibling's ticks, so the
+  // sentence lied in front of the number that proved it. A null child_id tick
+  // is a family job's, which counts for the child until migration 206 gives
+  // every child their own tick, and keeps counting for family jobs after.
+  const childTicks = primary?.id
+    ? ticks.filter(t => t.child_id === primary.id || t.child_id === null)
+    : ticks
+  const weekStars = childTicks.reduce((sum, t) => sum + (starsByQuest.get(t.quest_id) ?? 1), 0)
 
   const open = concerns.filter(c => c.status === 'open')
   const improving = concerns.filter(c => c.status === 'improving')
@@ -154,7 +162,7 @@ export default async function IsItWorkingReport(
   const bits: string[] = []
   if (streak.count > 0) bits.push(`you have shown up ${streak.count} day${streak.count === 1 ? '' : 's'} running`)
   if (improving.length > 0) bits.push(`${improving[0].label.toLowerCase()} is getting better`)
-  if (weekStars > 0) bits.push(`the kids earned ${weekStars} star${weekStars === 1 ? '' : 's'} this week`)
+  if (weekStars > 0) bits.push(`${primary?.name && primary.name !== 'Your child' ? primary.name : 'your child'} earned ${weekStars} star${weekStars === 1 ? '' : 's'} this week`)
   if (trend === 'up') bits.push('the week scores are climbing')
   const headline = bits.length > 0
     ? `${bits.join(', ')}.`

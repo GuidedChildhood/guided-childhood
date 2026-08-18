@@ -8299,3 +8299,36 @@ the lanes entry above:
   BalanceReport, LiteracyCheckIn) and anchors are in this branch, and the
   passport mock already assumed a page stripped to the application, so the
   removals CONFIRM the approved design rather than fight it.
+
+## 18 August 2026 — Per child is the rule, and the migration ledger moved
+
+Justin, asked which work earns which child's stamp: "the other session is
+making everything child related... the passport has to be per child,
+individual task, quests lessons digi moments etc all child related." And via
+the plumbing session, sharper: "we are working on making all aspects such as
+scripts, moments, lessons child related not family, so the passport should
+follow." Their contract file now states the rule: if a child does it, learns
+it, or is talked to about it, it is per child; family level is the account
+only.
+
+WHAT THE PASSPORT LANE SHIPPED ON IT TODAY:
+- Lessons per child in progress.ts through lesson_pass_by, with 162's doctrine
+  kept: the child's own pass counts for them, the parent's pass counts for
+  every child, and legacy completions that predate 162 are grandfathered so
+  nobody's passport empties. A sibling's pass no longer fills another child's
+  page.
+- THE STAMP IS PER CHILD, and the check is what makes it theirs: earned now
+  means the stage's content is complete AND THIS child passed their five
+  question check. The approved mock in as many words: fill the page, pass the
+  check, earn the stamp. The end of road celebration gates the same way.
+- Concerns scoped to the selected child on every passport surface (own worries
+  plus family wide null child_id rows, never a sibling's).
+- The stamp celebration memory is per child, so the first child's stamp cannot
+  burn the second child's moment.
+- Stars this week on the report count the named child's ticks, not the
+  family's, and the sentence names the child.
+
+MIGRATION LEDGER, corrected by the plumbing session: 206 quest_ticks child
+key, 207 school_actions child_id, 208 daily_sessions AND script_completions
+child_id, 209 agreements. Free from 210. The passport lane still claims none;
+when 208 merges, progress.ts scopes scripts per child too (tracked as a task).

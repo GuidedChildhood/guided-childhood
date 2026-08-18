@@ -72,9 +72,9 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
 
   const [currentStageProgress, journey, allStagesProgress] = primaryChild?.stage_id
     ? await Promise.all([
-        getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0),
+        getStageProgress(supabase, user.id, primaryChild.stage_id as ProgressStageId, primaryChild.streak_weeks ?? 0, primaryChild.id),
         getJourney(supabase, user.id, primaryChild.stage_id as ProgressStageId),
-        getAllStagesProgress(supabase, user.id, primaryChild.streak_weeks ?? 0),
+        getAllStagesProgress(supabase, user.id, primaryChild.streak_weeks ?? 0, primaryChild.id),
       ])
     : [null, null, null]
 
@@ -93,9 +93,15 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // sorted, and this week's balance. The balance report is built here rather
   // than inside the report component below, and handed to both, so one page can
   // never quote two different totals for the same week.
+  // Scoped to the SELECTED child since 18 August 2026 (multi child pass).
+  // concerns gained child_id in migration 194, and reading the whole family
+  // here meant a worry about the teenager dragged the six year old's passport
+  // percentage down. Null child_id rows are family wide worries and count for
+  // every child, which is what the or() says.
+  const childScope = primaryChild?.id ? `child_id.eq.${primaryChild.id},child_id.is.null` : 'child_id.is.null'
   const [openMomentsRes, solvedMomentsRes, weekReport] = await Promise.all([
-    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).in('status', ['open', 'improving']),
-    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('status', 'resolved'),
+    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).or(childScope).in('status', ['open', 'improving']),
+    supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).or(childScope).eq('status', 'resolved'),
     getWeekParentReport(supabase, user.id, primaryChild ?? null),
   ])
   const stageSections = await buildPassportSections(
@@ -109,13 +115,21 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
 
   const currentStageContent = currentStageNum ? STAGES.find(s => s.id === currentStageNum) : null
 
+  // This child's own check passes, fetched BEFORE the stamps and the end of
+  // road celebration because both are gated on it now. It used to sit further
+  // down with the readiness inputs, which read it too, and still do.
+  const passedStages = await getPassedStageQuizzes(supabase, user.id, primaryChild?.id ?? null)
+
   // All five stamps genuinely earned. Read from contentComplete, the same
   // source the passport and the road's trophy use, so the celebration can never
   // fire on a stage the family has not actually finished. Age is deliberately
   // not in it: a sixteen year old whose family did nothing has walked no road.
+  // Content complete AND this child's check passed, stage by stage: the same
+  // two halves a single stamp needs, so the end of road celebration can never
+  // fire for a child who has not sat their own checks.
   const allStagesEarned = !!allStagesProgress
     && (['foundation', 'builder', 'explorer', 'shaper', 'independent'] as ProgressStageId[])
-      .every(slug => allStagesProgress[slug].contentComplete)
+      .every((slug, i) => allStagesProgress[slug].contentComplete && passedStages.has(i + 1))
 
   // One live literacy reading for the whole page, shared by the four strands
   // card and the end of stage check below, so they never disagree.
@@ -137,7 +151,6 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
     .map(a => ({ name: a.name, improve: litStatuses[a.key]?.improve ?? 'Do the next step', href: litStatuses[a.key]?.href ?? '/dashboard/lessons' }))
   const readinessGreens = activeAreas.length - readinessAmbers.length
   const lessonsLeft = Math.max(0, (currentStageProgress?.lessonsTotal ?? 0) - (currentStageProgress?.lessonsDone ?? 0))
-  const passedStages = await getPassedStageQuizzes(supabase, user.id, primaryChild?.id ?? null)
   const stageQuizPassed = passedStages.has(stageNum)
 
   // The check is the child's and lives on their own link, so all this page needs
@@ -162,8 +175,17 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   const passportStamps: Stamp[] = allStagesProgress && currentStageNum
     ? STAGES.map(s => {
         const prog = allStagesProgress[STAGE_SLUGS_ARR[s.id - 1]]
+        // EARNED IS PER CHILD NOW, and the check is what makes it theirs.
+        // Justin, 18 August 2026: "the passport has to be per child." The
+        // family's learning fills the page (lessons and scripts, shared work
+        // shared credit), and THIS child passing DiGi's five question check is
+        // what stamps it, which is the approved design in as many words: fill
+        // the page, pass the check, earn the stamp. passedStages is already
+        // read for the selected child, so a sibling's check never stamps this
+        // book, and the same content can sit stamped in one child's book and
+        // one check away in the other's.
         const status: StampStatus =
-          prog.contentComplete ? 'earned'
+          prog.contentComplete && passedStages.has(s.id) ? 'earned'
           : s.id === currentStageNum ? 'current'
           : s.id < currentStageNum ? 'catchup'
           : 'upcoming'
@@ -233,7 +255,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   // the honest version of a boy and girl pathway.
   const { data: topConcern } = await supabase
     .from('concerns').select('slug, label, status')
-    .eq('user_id', user.id).neq('status', 'resolved')
+    .eq('user_id', user.id).or(childScope).neq('status', 'resolved')
     .order('times_flagged', { ascending: false }).limit(1).maybeSingle()
   const concernSlug = (topConcern as { slug?: string } | null)?.slug as ChallengeId | undefined
   const concernLabel = (topConcern as { label?: string } | null)?.label ?? null
@@ -379,6 +401,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
                 stamps={passportStamps}
                 childName={primaryChild?.name ?? 'your child'}
                 currentStage={currentStageNum}
+                childId={primaryChild?.id ?? null}
               />
               {/* Nova, directly under the book she is helping to stamp. The one
                   stretch of the pathway that only counts when the parent AND

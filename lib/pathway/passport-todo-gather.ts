@@ -51,7 +51,7 @@ export async function gatherChildPassportToDo(
 
   try {
     const [progress, questRes, tickRes, passRes] = await Promise.all([
-      opts.progress ?? getStageProgress(supabase, userId, child.stage_id as StageId, child.streak_weeks ?? 0),
+      opts.progress ?? getStageProgress(supabase, userId, child.stage_id as StageId, child.streak_weeks ?? 0, child.id),
       supabase.from('family_quests').select('id, schedule, schedule_days, created_at')
         .eq('user_id', userId).eq('child_id', child.id).eq('active', true),
       // Sixty days is what the streak reads over, and today's status only needs
