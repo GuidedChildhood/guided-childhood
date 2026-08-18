@@ -83,7 +83,14 @@ function lessonCreditKeys(
   const knownToPassBy = new Set((passBy ?? []).map(r => r.lesson_id))
   const credited = new Set<string>()
   for (const r of passBy ?? []) {
-    if (r.who === 'parent' || r.child_id === childId) credited.add(r.lesson_id)
+    // A parent row with a NULL child is the old doctrine (watching for the
+    // family) and credits every child. A parent row that NAMES a child is the
+    // new doctrine arriving (the plumbing session's write side change: the
+    // parent watched WITH that child, from ?child=) and credits that child
+    // only. Today every parent row is null so both readings agree; when the
+    // write side lands, this line starts meaning it without an edit here.
+    const parentCredit = r.who === 'parent' && (r.child_id === null || r.child_id === childId)
+    if (parentCredit || r.child_id === childId) credited.add(r.lesson_id)
   }
   const out = new Set<string>()
   for (const c of passedCompletions) {
