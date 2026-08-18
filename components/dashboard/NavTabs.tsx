@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 // One nav, phone and laptop the same: the six core destinations in one order,
 // so the app never reads differently on a bigger screen. School reaches from
@@ -25,8 +25,18 @@ const NAV_TABS = [
 // gets a soft wash. Active is by longest matching prefix so nested pages
 // (a script, a lesson) still light their parent tab. The Quests tab wears
 // a red, gently rocking badge whenever a child is waiting on an answer.
+
+// ── AND IT CARRIES THE CHILD ────────────────────────────────────────────────
+//
+// The switcher writes ?child= into the URL, and a nav link that drops it sends
+// the parent back to the primary child on the very next tap. That would make
+// the rail a lie: pick Alma, tap Lessons, and quietly be reading about Teo.
+//
+// So every tab appends the current child when there is one. Nothing changes for
+// a family with one child, because the param is never there to carry.
 export default function NavTabs({ pendingAsks = 0 }: { pendingAsks?: number }) {
   const pathname = usePathname()
+  const childId = useSearchParams().get('child')
   const active = NAV_TABS
     .filter(t => (t.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(t.href)))
     .sort((a, b) => b.href.length - a.href.length)[0]?.href
@@ -38,7 +48,7 @@ export default function NavTabs({ pendingAsks = 0 }: { pendingAsks?: number }) {
         return (
           <Link
             key={tab.href}
-            href={tab.href}
+            href={childId ? `${tab.href}?child=${childId}` : tab.href}
             className={`nav-pill${tab.href === active ? ' nav-pill-active' : ''}`}
             style={{ position: 'relative' }}
           >

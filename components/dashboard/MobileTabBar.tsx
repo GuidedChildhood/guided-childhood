@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 // The mobile bottom bar: Home, DiGi, Lessons, Quests, Scripts, Passport. The
@@ -102,6 +102,10 @@ const NAV_TABS: Tab[] = [
 
 export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number }) {
   const pathname = usePathname()
+  // Carries the chosen child, same as the desktop tabs. A nav link that drops
+  // ?child= sends the parent back to the primary child on the next tap, which
+  // would make the switcher a lie: pick Alma, tap Lessons, quietly read Teo.
+  const childId = useSearchParams().get('child')
   // usePathname only updates once a navigation has fully resolved, so on a
   // heavier page the highlight lagged the tap and the bar felt slow. We track
   // the tapped tab optimistically and light it the instant a finger lifts,
@@ -121,7 +125,7 @@ export default function MobileTabBar({ pendingAsks = 0 }: { pendingAsks?: number
         return (
           <Link
             key={tab.href}
-            href={tab.href}
+            href={childId ? `${tab.href}?child=${childId}` : tab.href}
             prefetch
             onClick={e => {
               // Tapping the tab you are already on scrolls back to the top,
