@@ -1,0 +1,30 @@
+-- A parent could not update their own profile row. At all. Ever.
+--
+-- Justin, 18 August 2026: "on step 2 it's not saving when we click done or
+-- skip?" The button showed "That did not save" because the write genuinely
+-- failed, with: permission denied for table profiles.
+--
+-- public.profiles granted authenticated SELECT, INSERT, DELETE, REFERENCES,
+-- TRIGGER and TRUNCATE. Not UPDATE. And the RLS policy "Users can update own
+-- profile" (auth.uid() = id) has existed all along doing nothing, because RLS
+-- FILTERS a privilege you already hold; it cannot grant one you do not. The
+-- policy's existence is the proof of intent: somebody meant this to work.
+--
+-- Exactly the class of fault as migration 196, recorded in decisions.md: the
+-- schools invoice letterbox granted anon INSERT so the form saved, and nothing
+-- granted the service role anything, so the cron that read it 500ed. Bypassing
+-- RLS is not the same as holding a table privilege, and neither is being named
+-- in a policy.
+--
+-- WHAT IT WAS BREAKING, all of it silently, all of it a parent-side write:
+--   profiles.home_screen_at        the Done and Skip on setup step two
+--   profiles.only_one_child_at     "it is just the one" on step three
+--   profiles.child_app_settled_at  the two doors on step four
+-- Three setup steps that could never be ticked, which is most of a working day
+-- spent looking for the fault in the buttons.
+--
+-- UPDATE only, and only to authenticated. anon is deliberately left as it was:
+-- there is no signed out case that should write to a profile. RLS still does the
+-- work it was always meant to do, restricting a parent to their own row, and it
+-- is now able to.
+grant update on public.profiles to authenticated;
