@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 // One nav, phone and laptop the same: the six core destinations in one order,
@@ -34,9 +35,8 @@ const NAV_TABS = [
 //
 // So every tab appends the current child when there is one. Nothing changes for
 // a family with one child, because the param is never there to carry.
-export default function NavTabs({ pendingAsks = 0 }: { pendingAsks?: number }) {
+function NavTabsInner({ pendingAsks = 0, childId = null }: { pendingAsks?: number; childId?: string | null }) {
   const pathname = usePathname()
-  const childId = useSearchParams().get('child')
   const active = NAV_TABS
     .filter(t => (t.href === '/dashboard' ? pathname === '/dashboard' : pathname.startsWith(t.href)))
     .sort((a, b) => b.href.length - a.href.length)[0]?.href
@@ -62,5 +62,30 @@ export default function NavTabs({ pendingAsks = 0 }: { pendingAsks?: number }) {
         )
       })}
     </nav>
+  )
+}
+
+// ── WHY THIS IS WRAPPED IN SUSPENSE, AND WHY THE FALLBACK IS THE SAME BAR ───
+//
+// useSearchParams forces a client bailout, so any page that STATICALLY
+// prerenders a component using it fails the build outright. The dashboard
+// layout already provides a boundary, but /dev/tab-bar renders the bar on its
+// own and that is a prerendered page, so the build broke there rather than
+// anywhere a parent would ever look. Vercel found it; a typecheck never would.
+//
+// The boundary lives HERE rather than at each call site so no future page has
+// to know. And the fallback renders the identical bar with no child, instead of
+// null, because a nav that blinks out and back in on every load would be a real
+// regression for a cosmetic reason. A prerendered page has no query string to
+// read anyway, so the fallback is the correct answer there, not a placeholder.
+function NavTabsWithChild({ pendingAsks }: { pendingAsks?: number }) {
+  return <NavTabsInner pendingAsks={pendingAsks} childId={useSearchParams().get('child')} />
+}
+
+export default function NavTabs({ pendingAsks = 0 }: { pendingAsks?: number }) {
+  return (
+    <Suspense fallback={<NavTabsInner pendingAsks={pendingAsks} childId={null} />}>
+      <NavTabsWithChild pendingAsks={pendingAsks} />
+    </Suspense>
   )
 }
