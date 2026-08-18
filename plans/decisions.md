@@ -8273,3 +8273,29 @@ build genuinely wants underneath it, so selection survives a tap into a lesson
 and back. The passport build starts anyway (its own page already reads
 ?child=) and simply rebases when step 1 merges. Small PRs, same day merges,
 per the standing rule.
+
+## 18 August 2026 — The two sessions agreed it between themselves
+
+Justin asked the two live sessions to agree multi child directly rather than
+route through him. Done, by message, both directions. What was agreed, beyond
+the lanes entry above:
+
+- Their step 1 (the switcher lifted into the dashboard layout) lands BEFORE
+  the passport rebuild. The passport renders NO switcher of its own, deletes
+  the inner one in IsItWorkingReport when rebuilding, and does not touch
+  ChildSwitcher.tsx at all, which supersedes the additive prop idea above.
+  The per child balance dot moves from the pills into the passport's own
+  lane: a sibling glance line on the page when another child's balance needs
+  a look.
+- Migrations: passport lane confirmed none; 208 stays free for their
+  agreements step. Any future passport claim goes through this file first.
+- LiteracyCheckIn becomes a rotation item in THEIR lane. The fact that forced
+  the decision: getLiteracyStatuses reads literacy_checkins on a 28 day
+  window, so the four strands go stale within a month of the form rendering
+  nowhere. Handed to them with that clock attached.
+- progress.ts stays passport lane; they change lesson reads at their own call
+  sites only; both lanes converge on the lesson_pass_by read pattern.
+- Rebased on main same hour: their removals (Your focus, School chest,
+  BalanceReport, LiteracyCheckIn) and anchors are in this branch, and the
+  passport mock already assumed a page stripped to the application, so the
+  removals CONFIRM the approved design rather than fight it.
