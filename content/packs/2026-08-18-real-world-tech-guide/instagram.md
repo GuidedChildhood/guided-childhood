@@ -9,7 +9,7 @@ Real World", 18 August 2026. Verify every figure at source before posting.
 
 ---
 
-## DAY 1 — The New York Times went looking for the rulebook
+## DAY 1, The New York Times went looking for the rulebook
 **Hook (image text):** 10 experts. 750 parents. 0 screen time limits.
 
 **Caption:**
@@ -36,7 +36,7 @@ If the answer was never screen time limits or bans, what have we all been arguin
 
 ---
 
-## DAY 2 — It was never the minutes
+## DAY 2, It was never the minutes
 **Hook (image text):** 70% of parents give a toddler a screen for a break.
 
 **Caption:**
@@ -67,7 +67,7 @@ What calmed you down as a kid, before a screen was an option?
 
 ---
 
-## DAY 3 — A tool, not a default
+## DAY 3, A tool, not a default
 **Hook (image text):** 39% of parents track their kids. Here is what it teaches.
 
 **Caption:**
@@ -97,7 +97,7 @@ Were you trusted or watched as a kid, and which made you tell the truth?
 
 ---
 
-## DAY 4 — There is no one big talk
+## DAY 4, There is no one big talk
 **Hook (image text):** Most kids have a phone by 11.
 
 **Caption:**
@@ -130,7 +130,7 @@ What small conversation do you wish you had had before the first phone?
 
 ---
 
-## DAY 5 — Not ban or surrender. Teach.
+## DAY 5, Not ban or surrender. Teach.
 **Hook (image text):** Half of under 13s are already on social media.
 
 **Caption:**
@@ -163,7 +163,7 @@ Kept off the feed, or the one who can actually see how it works?
 
 ---
 
-## DAY 6 — Let go before they go
+## DAY 6, Let go before they go
 **Hook (image text):** The strictest screen rules left kids coping worst.
 
 **Caption:**
@@ -194,7 +194,7 @@ What did you have to learn the hard way after leaving home?
 
 ---
 
-## DAY 7 — The number the whole week rests on
+## DAY 7, The number the whole week rests on
 **Hook (image text):** 62% use parental controls. 75% rate them 3/5 or worse.
 
 **Caption:**
