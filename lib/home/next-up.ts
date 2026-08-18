@@ -351,6 +351,28 @@ const WEEKLY: Item[] = [
     }),
   },
   {
+    // THE FOUR STRANDS QUESTION. DiGi asks one thing, the parent answers in a
+    // sentence, and the strand readings on the passport fold it in.
+    //
+    // This item is why the block could come off the Progress page at all. It
+    // was removed on 18 August with the others Justin moved to the rotations,
+    // and for a few hours it was rendered nowhere, which does not fail loudly:
+    // lib/pathway/literacy-status.ts reads on a 28 day window, so the strand
+    // ticks would have kept displaying, correctly, until they were a month old
+    // and standing on nothing.
+    //
+    // applies is unconditional for the same reason the two below it are: this
+    // tier needs items that never run out, or the rotation lands on nothing in
+    // a week where a family happens to qualify for none of the others.
+    key: 'strand-question',
+    applies: () => true,
+    build: s => ({
+      key: 'strand-question', eyebrow: EYEBROW, title: 'One question, one minute',
+      line: `DiGi asks one thing about ${s.childName ?? 'your child'} this week, and reads your answer back. No score, nothing to revise for.`,
+      href: '/dashboard/strands?from=home', icon: '🧭', coversJobs: false,
+    }),
+  },
+  {
     // WHY THIS WORKS. The stance and the evidence. It applies to everybody and
     // it never expires, so it is the floor of this tier the way quests is the
     // floor of the daily one.

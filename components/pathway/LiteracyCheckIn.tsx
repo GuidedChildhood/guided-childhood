@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
+import { currentChildId } from '@/lib/children/current'
 
 // DiGi asks, the answer is graded, the tick learns. One short question a week
 // under the four strands on the Progress page: safe online always, social
@@ -21,7 +22,10 @@ export default function LiteracyCheckIn({ stageId }: { stageId: number }) {
   const [result, setResult] = useState<{ grade: 'green' | 'red'; note: string; streak: number } | null>(null)
 
   useEffect(() => {
-    fetch(`/api/digi/literacy-checkin?stage=${stageId}`)
+    // The child rides along so each child gets their own weekly question and
+    // their own answer, rather than one shared reading for the household.
+    const child = currentChildId()
+    fetch(`/api/digi/literacy-checkin?stage=${stageId}${child ? `&child=${child}` : ''}`)
       .then(r => r.json())
       .then(d => { if (d.question) setQ({ strand: d.strand, question: d.question }) })
       .catch(() => {})
@@ -35,7 +39,7 @@ export default function LiteracyCheckIn({ stageId }: { stageId: number }) {
     try {
       const r = await fetch('/api/digi/literacy-checkin', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ strand: q.strand, question: q.question, answer: answer.trim() }),
+        body: JSON.stringify({ strand: q.strand, question: q.question, answer: answer.trim() , child_id: currentChildId() }),
       })
       const d = await r.json()
       if (d.grade) setResult({ grade: d.grade, note: d.note, streak: Number(d.streak) || 0 })
