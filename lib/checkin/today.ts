@@ -35,6 +35,28 @@ export type TodayCheckIn = {
   rows: CheckInRow[]
   /** Their first ever, so the card frames itself as the starting point. */
   baseline: boolean
+  /**
+   * ONE CHILD AT A TIME, and who is left after this one.
+   *
+   * Justin, 18 August 2026: "maybe there is a better way and the parent runs
+   * through one child first then says done, on to next child? Would that be
+   * easy to code and work smoother?"
+   *
+   * It is both, and it is the shape the rest of the app already has. A flat
+   * list of every child's worries is a wall: eight rows on a phone, each one
+   * needing the parent to check a name before they can answer, and no point at
+   * which anything is finished. Four rows twice is two short jobs, and the
+   * switcher in the layout already means "which child" everywhere else, so this
+   * is the odd one out rather than the special case.
+   *
+   * `queue` is every child who still has something to answer today, in the same
+   * primary first order as the pills, so the page can say "Olgie is done, now
+   * Teo" and know when there is genuinely nobody left.
+   */
+  queue: { id: string; name: string | null; outstanding: number }[]
+  /** The child these rows belong to. Null only when the family has none. */
+  childId: string | null
+  childName: string | null
 }
 
 // The generic Something else catch all is a picker, not a real moment, so it
@@ -63,6 +85,8 @@ const GENERIC = new Set(['something-else', 'something_else', 'other'])
 export async function getTodayCheckIn(
   supabase: SupabaseClient,
   userId: string,
+  /** Which child to ask about. Falls back to the first with anything left. */
+  childIdParam?: string | null,
 ): Promise<TodayCheckIn> {
   const today = new Date().toISOString().split('T')[0]
 
@@ -91,7 +115,11 @@ export async function getTodayCheckIn(
       .or(`last_checked_at.is.null,last_checked_at.lt.${today}`)
       .order('last_flagged_at', { ascending: false })
       .limit(20),
-    supabase.from('children').select('id, name').eq('parent_id', userId),
+    // Ordered the same way the switcher pills are, so "the first child" means
+    // the same thing on both and the queue below reads in the order a parent
+    // sees along the top of the page.
+    supabase.from('children').select('id, name, is_primary').eq('parent_id', userId)
+      .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
   ])
 
   type Row = { id: string; slug: string; label: string; times_flagged: number; last_flagged_at: string; child_id: string | null }
@@ -169,10 +197,45 @@ export async function getTodayCheckIn(
   const resting = restingConcernIds(rows, lastScoreByConcern, lastScoreAtByConcern)
 
   const nameById = new Map((kids ?? []).map(k => [k.id as string, k.name as string]))
-  const asked = rows.filter(c => !resting.has(c.id)).slice(0, 5)
+  const answerable = rows.filter(c => !resting.has(c.id))
+
+  // ── WHO STILL HAS SOMETHING TO ANSWER ────────────────────────────────────
+  //
+  // Built before the slice, deliberately. The five row cap is a limit on how
+  // much is asked at once, not a statement about who is finished, and counting
+  // after it would tell a parent a child was done when they had six worries.
+  //
+  // A concern with no child_id belongs to the household. It rides with the
+  // FIRST child rather than making a queue entry of its own, because "Family"
+  // is not a person to check in about and a parent would read it as a third
+  // child they do not have.
+  const queue = ((kids ?? []) as { id: string; name: string | null }[])
+    .map(k => ({
+      id: k.id,
+      name: k.name && k.name !== 'Your child' ? k.name : null,
+      outstanding: answerable.filter(c => c.child_id === k.id).length,
+    }))
+    .filter(k => k.outstanding > 0)
+
+  const orphans = answerable.filter(c => !c.child_id)
+  if (orphans.length > 0 && queue.length > 0) queue[0].outstanding += orphans.length
+
+  // The child being asked about: the param when it still has something left,
+  // otherwise the first child who does. So finishing Olgie and coming back
+  // lands on Teo without the parent choosing, and a stale ?child= from a
+  // bookmark never shows an empty page while another child is waiting.
+  const current = queue.find(k => k.id === childIdParam) ?? queue[0] ?? null
+
+  const mine = current
+    ? answerable.filter(c => c.child_id === current.id || (!c.child_id && current.id === queue[0]?.id))
+    : answerable
+  const asked = mine.slice(0, 5)
 
   return {
     baseline,
+    queue,
+    childId: current?.id ?? null,
+    childName: current?.name ?? null,
     rows: asked.map(c => {
       const name = c.child_id ? nameById.get(c.child_id) ?? null : null
       return {

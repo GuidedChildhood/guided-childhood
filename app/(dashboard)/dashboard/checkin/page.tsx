@@ -24,12 +24,29 @@ export const dynamic = 'force-dynamic'
 // the other asks what happened. They were sharing a screen and a URL, so they
 // read as one step and the first rung of the day looked like it went to the
 // wrong place, because it did.
-export default async function CheckInPage() {
+// ── ONE CHILD AT A TIME (18 August 2026) ────────────────────────────────────
+//
+// Justin, after doing one line for Olgie and being told the day was done:
+// "the check in needs to be done for each child ... show both Olgie and Teo
+// clearly showing name, and make sure we have to do the check in for each
+// child's issues before it clears." Then: "maybe the parent runs through one
+// child first then says done, onto next child?"
+//
+// That second shape is the one built, and it is the better of the two. A single
+// list of every child's worries is eight rows on a phone with a name to check
+// before each answer and no point at which anything is finished. One child's
+// four, then the next child's four, is two short jobs, and it matches how the
+// rest of the app already works now that ?child= means "which child" everywhere.
+export default async function CheckInPage({
+  searchParams,
+}: { searchParams: Promise<{ child?: string }> }) {
+  const { child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { rows, baseline } = await getTodayCheckIn(supabase, user.id)
+  const { rows, baseline, queue, childId, childName } = await getTodayCheckIn(supabase, user.id, childParam)
+  const nextChild = queue.find(k => k.id !== childId) ?? null
 
   return (
     <div style={{ background: 'var(--cream)', minHeight: '100dvh' }}>
@@ -38,12 +55,27 @@ export default async function CheckInPage() {
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 8px' }}>
           Today · first thing
         </p>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4.5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.15, color: 'var(--ink)', margin: '0 0 18px' }}>
-          {baseline ? 'Where things are now' : 'How is it going?'}
+        {/* THE NAME, BIG, NOT A SUFFIX. It used to sit as "· Olgie" in grey
+            beside each row, which is readable only if you go looking. A parent
+            answering five questions about a child needs to know whose day they
+            are describing before the first one, not per line. */}
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.6rem, 4.5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.15, color: 'var(--ink)', margin: '0 0 6px' }}>
+          {childName
+            ? (baseline ? `Where things are with ${childName}` : `How is it going with ${childName}?`)
+            : (baseline ? 'Where things are now' : 'How is it going?')}
         </h1>
 
+        {/* Only when there is genuinely a queue. On a one child family this
+            whole line is noise about a choice that does not exist. */}
+        {queue.length > 1 && (
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '0 0 18px' }}>
+            {queue.length} children to check in on · {childName ?? 'this one'} first
+          </p>
+        )}
+        {queue.length <= 1 && <div style={{ height: '12px' }} />}
+
         {rows.length > 0 ? (
-          <ConcernCheckIn baseline={baseline} concerns={rows} />
+          <ConcernCheckIn baseline={baseline} concerns={rows} childName={childName} nextChild={nextChild} />
         ) : (
           // NOTHING TO CHECK IN ON IS NOT A FAILURE, and it must not read as
           // one. A family who has answered everything today lands here from a

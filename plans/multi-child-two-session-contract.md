@@ -154,3 +154,39 @@ identical passport.
 - Stars earned this week sums every child while the copy names one.
 - The weekly check in reads `wellbeing_checks` by parent, and its form hard reads
   the primary child, so pressing it can save an answer against the wrong child.
+
+## 8. WHICH PAGES CARRY THE CHILD, from Justin, 18 August 2026
+
+Named directly, so neither session has to infer it:
+
+> "Scripts page for all children with toggle. Quests page with child toggle.
+> Lessons making sure it toggles for child and the lessons shown first are age
+> related to that child. And DiGi of course, although it also has family so
+> keeps knowledge of all children to help better family advice."
+
+> "Setup is not by child in general, although sharing the app, agreements (as
+> other children are added a step before) and check in are all per child."
+
+So the rail belongs on: **Home, Today, Check in, Scripts, Quests, Lessons, DiGi,
+Stats, Devices, Moments, School, Passport.**
+
+It does NOT belong on: **the Setup Quest itself, Settings, billing, Upgrade,
+Orders, Notifications.** Setup is a job the FAMILY does once. Three of its steps
+happen to be per child (share the app, the agreement, and the check in that
+follows it), and each of those handles its own children INSIDE the step, which is
+why the quest page as a whole needs no pill row.
+
+### The DiGi exception, which is not an exception
+
+DiGi reads EVERY child, always, and must keep doing so: a family's advice is
+better for knowing there is a fifteen year old in the house when the question is
+about the nine year old. What changed on 18 August is only where DiGi FILES what
+it learns. It talks with the whole family in mind, and it writes against the
+child in `?child=`.
+
+### Lessons: order, not just scope
+
+Justin asks for something beyond the toggle here: the lessons shown FIRST should
+be the ones for that child's age. Switching to the six year old should reorder
+the library, not merely relabel it. That is a sort, and it is the difference
+between a toggle that works and a toggle that matters.
