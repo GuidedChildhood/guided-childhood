@@ -1,5 +1,5 @@
 import type { createClient } from '@/lib/supabase/server'
-import { seedBaselineConcerns } from '@/lib/concerns/baseline'
+import { seedBaselineConcerns, seedChildBaseline } from '@/lib/concerns/baseline'
 import { restingConcernIds } from '@/lib/concerns/resting'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
@@ -155,8 +155,43 @@ export async function getTodayCheckIn(
   const seeded = neverCheckedIn && liveRowsFiltered.length === 0
     ? await seedBaselineConcerns(supabase, userId, profile?.onboarding_answers)
     : []
-  const baseline = seeded.length > 0
-  const rows = baseline ? seeded : liveRowsFiltered
+
+  // ── EVERY CHILD HAS SOMETHING TO BE ASKED ABOUT, CHECKED EVERY TIME ──────
+  //
+  // Justin, 18 August 2026: "make sure the check in is working for each child,
+  // that it looks for baseline concerns on every check in."
+  //
+  // seedBaselineConcerns above only ever fires on a family's FIRST check in,
+  // and it seeds against the primary child. So a second child added in week
+  // three got nothing: no concerns, no rows, never in the queue, and the check
+  // in behaved as though they did not exist. Adding a child is exactly when a
+  // parent expects the app to start paying attention to them.
+  //
+  // So the question is asked on every load rather than once ever. One read for
+  // who is already covered, then seedChildBaseline for anybody who is not, and
+  // that function is itself a no op for a child with any concern of their own,
+  // so this cannot double up on a child who simply answered everything today.
+  const { data: coveredRows } = await supabase
+    .from('concerns').select('child_id').eq('user_id', userId)
+  const covered = new Set(
+    ((coveredRows ?? []) as { child_id: string | null }[])
+      .map(r => r.child_id).filter((id): id is string => !!id),
+  )
+  const uncovered = ((kids ?? []) as { id: string }[]).filter(k => !covered.has(k.id))
+  const childSeeded = uncovered.length > 0
+    ? (await Promise.all(uncovered.map(k => seedChildBaseline(supabase, userId, k.id)))).flat()
+    : []
+
+  const rows = seeded.length > 0 ? seeded : [...liveRowsFiltered, ...childSeeded]
+
+  // Whose FIRST reading this is, judged per child rather than per family.
+  //
+  // The flag decides whether the card says "where things are now" or "how is it
+  // going", and for a child seeded thirty seconds ago there is no last time to
+  // compare against however long the family has been here. A household on week
+  // ten adding a six year old should meet the starting point wording for her
+  // and the review wording for her brother.
+  const freshIds = new Set([...seeded, ...childSeeded].map(c => c.id))
 
   // What they said last time, so the card can show it back and the verdict can
   // name the move. A second wave by necessity: it needs the concern ids.
@@ -232,7 +267,7 @@ export async function getTodayCheckIn(
   const asked = mine.slice(0, 5)
 
   return {
-    baseline,
+    baseline: asked.length > 0 && asked.every(c => freshIds.has(c.id)),
     queue,
     childId: current?.id ?? null,
     childName: current?.name ?? null,
