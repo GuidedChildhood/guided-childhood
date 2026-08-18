@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { currentChildId } from '@/lib/children/current'
 import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
 import DigiHero from '@/components/digi/DigiHero'
 import ThinkingReassurance from '@/components/digi/ThinkingReassurance'
@@ -436,7 +437,10 @@ export default function DigiChat({
       const res = await fetch('/api/digi', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: messageText, device_key: deviceOverride ?? deviceKey }),
+        // child_id so everything DiGi files, memory, concerns, questions, lands
+        // against the child the parent actually has open rather than the
+        // primary one. Read at send time from the URL, see lib/children/current.
+        body: JSON.stringify({ message: messageText, device_key: deviceOverride ?? deviceKey, child_id: currentChildId() }),
         signal: controller.signal,
       })
 

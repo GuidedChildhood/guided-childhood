@@ -1,6 +1,7 @@
 'use client'
 
 import FoldSection from '@/components/dashboard/FoldSection'
+import { currentChildId } from '@/lib/children/current'
 import { SITE_URL } from '@/lib/config/site'
 
 import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react'
@@ -199,7 +200,7 @@ export default function QuestManager() {
       await fetch('/api/quests/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quest_id: questId }),
+        body: JSON.stringify({ quest_id: questId, child_id: currentChildId() }),
       })
       await load()
     } catch { /* the optimistic tick stands, next load reconciles */ }
@@ -480,7 +481,7 @@ export default function QuestManager() {
       await fetch('/api/quests', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quest_id: id }),
+        body: JSON.stringify({ quest_id: id, child_id: currentChildId() }),
       }).catch(() => {})
     }
     await load()
@@ -512,7 +513,7 @@ export default function QuestManager() {
     await fetch('/api/quests', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ quest_id: id }),
+      body: JSON.stringify({ quest_id: id, child_id: currentChildId() }),
     })
     setQuests(prev => prev.filter(q => q.id !== id))
   }

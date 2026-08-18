@@ -63,33 +63,77 @@ child. It is the parent side that drifts.
 parent app, and does this number match what Olga sees in her own app? If the
 block reads by `user_id` alone, the answer is no.
 
-## 5. PER CHILD OR FAMILY: the reference list, so nobody has to re-derive it
+## 5. FAMILY OR CHILD: the rule, and it is not a judgement call
 
-**Genuinely per child (has child_id, use it):**
-concerns (since 194), wellbeing_checks, quest_ticks, quest_requests, star_goals,
-star_spends, stage_passports, device_sessions, kid_links, printable_assignments,
-kid_nudges, stage_quiz_passes, learning_sheet_results, earned_stickers,
-checkin_shifts, lesson_pass_by.
+Justin, 18 August 2026, asked directly whether the passport to do is family or
+child focused: "we are working on making all aspects such as scripts, moments,
+lessons child related not family, so the passport should follow. Make sure there
+is no overlap or confusion here."
 
-**Family only, and that is a BUG where content is child specific:**
-- `lesson_completions` — no child_id at all. **Use `lesson_pass_by` instead**: it
-  already exists with child_id and is already written (migration 162,
-  lesson-complete/route.ts:126) and nothing reads it. Free fix, no migration.
-- `school_actions` — no child_id across 205 migrations. Needs migration 207,
-  which is mine, step 4.
-- `family_agreements` — per child is planned, migration after 207, step 7.
+So there is one rule and it is short.
 
-**Legitimately family level, leave alone:**
-family_quests with a null child_id is a whole family job by design; profiles;
-daily_sessions; script_completions.
+**If a child does it, learns it, or is talked to about it, it is per child.**
+**Family level is the account only: the profile, the subscription, the parent's**
+**own settings.**
+
+Everything on the passport, every rung of its to do, is about the child in
+`?child=`. Not the household, not the primary child, that child.
+
+### The one deliberate exception, named so it stops being a question
+
+A job can be created as a WHOLE FAMILY job: `family_quests.child_id is null`,
+which is how "everyone tidies the kitchen" is meant to work, and it appears on
+every child's board on purpose.
+
+That is not an exception to the rule, because the rule is about DOING. The job
+may be shared; the doing of it never is. Each child banks their own tick, which
+is precisely what migration 206 fixes. So even here the passport reads per child.
+
+### What that rule reclassifies, and it is more than it first looks
+
+Two tables I previously listed as legitimately family level are NOT, under this
+rule, and both are live faults today rather than tidying:
+
+- **`daily_sessions`** is `unique (user_id, session_date)`. One session per
+  FAMILY per day. So doing Today with Teo marks the day complete for Alma too,
+  and the second child's day is over before it started. This is the sharpest one
+  on the list because Today is the daily loop.
+- **`script_completions`** is `unique(user_id, script_sort_order)`. A script is a
+  conversation with ONE child, and reading it with the eldest retires it for the
+  younger one, who never gets offered it.
+
+Both need child_id. Claimed as **migration 208** below.
+
+### The reference list
+
+**Genuinely per child already (has child_id, use it):**
+concerns (194), wellbeing_checks (001), quest_ticks (029, but see the key fault),
+quest_requests, star_goals, star_spends, stage_passports, device_sessions,
+kid_links, printable_assignments, kid_nudges, stage_quiz_passes (098),
+learning_sheet_results, earned_stickers, checkin_shifts, lesson_pass_by (162).
+
+**Per child by the rule, but not yet in the schema:**
+- `lesson_completions` — no child_id. **Use `lesson_pass_by` instead**: it exists
+  with child_id, is already written (162, lesson-complete/route.ts:126) and
+  nothing reads it. Free fix, no migration.
+- `daily_sessions`, `script_completions` — migration 208, above.
+- `school_actions` — no child_id across 205 migrations. Migration 207.
+- `family_agreements` — per child, migration 209, step 7.
+
+**Family level, and correctly so:** profiles, and the subscription on it.
+That is the whole list.
 
 ## 6. RESERVED, SO WE DO NOT COLLIDE AGAIN
 
 Three migration collisions in three days, all from parallel sessions.
 
-- **206 and 207 are mine** (quest_ticks child key; school_actions child_id).
-- **Take 208 upward** and name your number in your PR title the moment you take
-  it, per CLAUDE.md.
+- **206, 207, 208 and 209 are mine.** 206 quest_ticks child key, 207
+  school_actions child_id, 208 daily_sessions and script_completions child_id,
+  209 family_agreements per child. 208 and 209 are a CORRECTION: I told the
+  passport session 208 was free before Justin's rule reclassified two more
+  tables, and the agreements migration moved to 209.
+- **Take 210 upward** and name your number in your PR title the moment you take
+  it, per CLAUDE.md. The passport session has confirmed it needs none.
 - I will not touch `/dashboard/pathway`, `/dashboard/passport`, `PassportBook`,
   `IsItWorkingReport`, `LiteracyAreas` or `StageRoad` until you say you are done.
 

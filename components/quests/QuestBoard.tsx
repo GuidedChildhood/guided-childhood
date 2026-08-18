@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import Link from 'next/link'
 import { questDueToday } from '@/lib/quests/due'
 import { STAR_MINUTES } from '@/lib/quests/templates'
@@ -218,7 +219,7 @@ export default function QuestBoard() {
       await fetch('/api/quests/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quest_id: questId }),
+        body: JSON.stringify({ quest_id: questId, child_id: currentChildId() }),
       })
     } catch { load() }
   }
