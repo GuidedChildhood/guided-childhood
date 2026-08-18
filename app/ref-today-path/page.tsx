@@ -9,6 +9,10 @@ const STEPS: Omit<TodayLoopTask, 'done'>[] = [
   { key: 'checkin', label: 'Check in', href: '/dashboard/checkin' },
   { key: 'moment', label: 'A moment', href: '/dashboard/moments' },
   { key: 'script', label: 'The words', href: '/dashboard/scripts' },
+  { key: 'quests', label: 'Quests', href: '/dashboard/quests' },
+  // The rung that was dormant for six days: wired on 18 August, so the
+  // fixture carries it to show the full road as a real family now sees it.
+  { key: 'passport', label: 'Passport', href: '/dashboard/pathway?from=today' },
   { key: 'digi', label: 'Ask DiGi', href: '/dashboard/digi' },
 ]
 
