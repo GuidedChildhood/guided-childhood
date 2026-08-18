@@ -107,24 +107,24 @@ If you want one paper on this, Odgers and Jensen, Adolescent mental health in th
 
 **Post text:**
 
-Australia banned social media for under 16s. Three months later, more than eight in ten of those teenagers were still on it.
+Australia banned social media for under 16s. Three months later, more than eight in ten of those teenagers were still using one.
 
-VPNs. Borrowed logins. Fake ages. Some used a face mask to beat the age check. This is the government's own evidence, not a critic's.
+But here is the government's own finding, and it is quieter than the headline. Most did not beat a clever gate. The gate was mostly never switched on. Half of the children who still had an account said the platform simply never asked them to prove their age. Using a VPN, the trick everyone pictures, was under one in ten. This is the regulator's own data, not a critic's.
 
 I am not here to reopen the ban argument, that is settled and it is coming here too. I am here for what happens next, because that is the bit nobody prepares you for.
 
-A ban is a locked door in a house with the windows open. The determined teenager is out the window in an afternoon. And here is the part that should stop us. The ones who climb out are now online with none of the age based protections switched on, no filters, no controls, on an anonymous account you cannot see. You have not removed the risk. You have removed your view of it.
+Account ownership did fall, from 52% to 42%, and one in three children who had an account had it shut down. So the ban is not doing nothing. But look at what moved most. The share of parents who did not know their child was using social media rose, from 23% to 33%, worst of all among girls and the youngest. The clearest early effect was not less use. It was less visibility. You have not removed the risk. You have removed your view of it.
 
 Odgers puts it harder than I would dare. We have already pushed teenagers out of public spaces, she says, and now we are taking away the places they gather online too, because adults broke those places, and it is the children we are punishing for it. For an isolated child, a disabled child, a queer kid in a village who found their only community online, the ban does not take away a toy. It takes away a lifeline.
 
-And the one thing that genuinely protects a child, the open conversation with a parent, is exactly what a ban shuts down. The moment it goes underground, they stop telling you. A study of around 4,000 teenagers found the ones with open communication at home had the healthiest relationship with the whole thing.
+And the one thing that genuinely protects a child, the open conversation with a parent, is exactly what a ban shuts down. The moment it goes quiet, they stop telling you. A study of around 4,000 teenagers found the ones with open communication at home had the healthiest relationship with the whole thing.
 
-So by all means lock the door. Just do not tell yourself the job is done, because your child is already at the window, and now they are out there alone.
+So by all means support the law. Just do not tell yourself the job is done, because on the government's own numbers your child is now harder to see, not safer.
 
-If a ban sends your child online alone instead of alongside you, who exactly does it protect?
+When a rule quietly makes your child harder to see, has it protected them, or just moved them out of view?
 
 **First comment (prepared):**
-The eight in ten figure is Al Jazeera reporting on Australia's own three month review, August 2026. And the science one, Schueller, Lind and Odgers, We cannot ban our way out of a youth mental health crisis, Frontiers, 2026. Their point is not that we do nothing. It is that a ban without preparation moves the risk somewhere you can no longer see it. Tomorrow, the thing that actually works.
+Source, the eSafety Commissioner's own three month evaluation, July 2026, a sample of 803 children aged 10 to 15, self report, and it says plainly it is too early to judge outcomes. A correction on an earlier version of this, I had said kids beat the ban with VPNs and fake ages. The regulator's own data says the main reason is platforms not checking at all, 50.2% were never asked to prove their age, with VPNs at 7.4%. The science on preparation is Schueller, Lind and Odgers, We cannot ban our way out of a youth mental health crisis, Frontiers, 2026. Tomorrow, the thing that actually works.
 
 ---
 

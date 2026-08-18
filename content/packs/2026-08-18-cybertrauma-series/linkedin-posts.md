@@ -117,9 +117,9 @@ If a child goes back to the thing that frightened them, is that a discipline pro
 
 **Post text:**
 
-Australia banned social media for under 16s. Three months later, eight in ten of those teenagers were still on it.
+Australia banned social media for under 16s. Three months later, more than eight in ten of those teenagers were still using one. Not mostly by clever evasion, the government's own report says the gate was largely never switched on, half the children were simply never asked to prove their age. Either way, the wall did not do the job.
 
-Gates leak. Bans get walked around. You know my view on this by now, and this whole week has been me arguing that the answer was never a wall.
+You know my view on this by now, and this whole week has been me arguing that the answer was never a wall.
 
 So let me end on the most hopeful thing I have read all year, and it is not a policy. It is one line from Catherine Knibbs's work.
 
@@ -133,7 +133,7 @@ If you want the calm version of all of this, we made a free place to start, at g
 
 Who was the one askable adult in your childhood, and what did they do that made them safe to tell?
 
-**First comment:** The Australia figure is the eSafety Commissioner's own three month report, August 2026. The one askable adult finding is Catherine Knibbs's, and it is the thread through this whole run, the fixes that work are not gates, they are relationships. Thank you for reading it.
+**First comment:** The Australia figures are the eSafety Commissioner's own three month evaluation, July 2026, self report, and it says plainly it is too early to judge outcomes. The main reason children kept accounts was platforms not checking at all, 50.2% never asked to prove their age, not the VPNs and fake ages the headlines assume. The one askable adult finding is Catherine Knibbs's, and it is the thread through this whole run, the fixes that work are not gates, they are relationships. Thank you for reading it.
 
 ---
 

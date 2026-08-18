@@ -52,7 +52,10 @@ When a rule quietly makes your child harder to see, has it protected them, or ju
 
 - This corrects our earlier framing (Louder post 4 and cybertrauma post 8 said VPNs, borrowed
   logins, fake ages, a face mask). The primary source says platform inaction, not evasion, is the
-  main mechanism. Those two posts should be edited before they run, or the correction owned openly.
+  main mechanism. DONE, 18 August 2026: both posts corrected against this source, in every file
+  they live in (Louder linkedin-posts.md, final-posts.md, newsletter.md, the post 4 carousel;
+  cybertrauma linkedin-posts.md and newsletter.md). The correction is now owned openly in the
+  first comments.
 - Image: research card. Hero stat options, "81.5% (was 85.9%)" or "50.2% never asked to prove their
   age." The second is the sharper, less obvious one.
 - Verify the exact Inman Grant wording against the PDF before quoting her directly (not quoted here).
