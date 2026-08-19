@@ -1,8 +1,9 @@
 # The daily routine, what to do each day
 
 A dated calendar from now to the 12 September launch, plus the short habit you do EVERY day. Built on
-the full playbook (03-full-playbook.md). No dashes. Dates assume a soft launch this Friday 21 August
-and a public launch Saturday 12 September. If your date moves, the shape holds, just slide it.
+the full playbook (03-full-playbook.md). No dashes. Soft launch this Friday 21 August, public launch
+Thursday 10 September (confirmed, a weekday for LinkedIn reach). If your date moves, the shape holds,
+just slide it.
 
 Two accounts, two voices. LinkedIn is you, the founder. Instagram and Facebook is Natalia, the
 family. Do not mix them.
@@ -78,26 +79,26 @@ check link to one PTA or one sympathetic parent with a one line blurb.
 
 ---
 
-## WEEK 3, LAUNCH WEEK (Mon 7 to Sat 12 Sep)
+## WEEK 3, LAUNCH WEEK (Mon 7 to Thu 10 Sep)
 
-The Real World Tech Guide validation runs on both accounts, then the launch.
+The Real World Tech Guide validation sets up both accounts, then the launch on Thursday.
 
-**Mon 7 Sep.** LinkedIn, Real World Tech Guide post 1. Instagram mirrors it (Day 1 caption).
-**Tue 8 Sep.** LinkedIn, Real World Tech Guide post 4 (the family agreement one). Instagram mirrors.
-**Wed 9 Sep.** LinkedIn, Real World Tech Guide post 5 (teach the algorithm). Instagram mirrors. Send
-the Real World Tech Guide newsletter. Confirm your testimonials are ready.
-**Thu 10 Sep.** LinkedIn, launch conversion post 7 (the 62/75 bridge). The warm up into launch.
-**Fri 11 Sep.** LinkedIn, launch conversion post 1 (the Duolingo reveal). Prime the warm list, a
-heads up email that the doors open tomorrow.
-**Sat 12 Sep, PUBLIC LAUNCH.**
+**Mon 7 Sep.** LinkedIn, Real World Tech Guide post 1 (the NYT lands on our thesis). Instagram
+mirrors it (Day 1 caption). Send the Real World Tech Guide newsletter. Confirm your testimonials are
+ready to use.
+**Tue 8 Sep.** LinkedIn, Real World Tech Guide post 7 (62% use controls, 75% rate them 3 out of 5 or
+worse). Instagram mirrors. This is the pivot from the research into the product.
+**Wed 9 Sep.** LinkedIn, launch conversion post 1 (the Duolingo reveal). Prime the warm list with a
+heads up email, the doors open tomorrow. Line up tomorrow's emails and posts as drafts tonight.
+**Thu 10 Sep, PUBLIC LAUNCH.**
 - Three emails, 6am it is live with the link, 2pm a social proof update with a founder quote, 8pm
   last call.
 - LinkedIn, the launch conversion posts in a burst through the day, post 3 (the pain), post 2 (the
   star quest), post 5 (the stage check hook), and the founder cap post if the seats are near gone.
 - Family Instagram and Facebook, the launch in Natalia's voice.
 - Clear the whole day. This is the other big one. Reply to everything.
-- Note, 12 Sep is a Saturday. If you would rather launch on a weekday for LinkedIn reach, move the
-  public launch to Thu 10 Sep and slide this week forward two days.
+- The remaining Real World Tech Guide posts (2, 3, 4, 5, 6) become your steady content the following
+  week, they do not have to run before launch.
 
 ---
 
@@ -119,4 +120,4 @@ You do not keep launch pace. Settle into this:
 
 - Every day, reply and onboard. That is the job.
 - Post days, one post, in order, link in the first comment, one question at the end.
-- Two days to protect above all, Fri 21 Aug (founding beta) and Sat 12 Sep (launch). Clear them.
+- Two days to protect above all, Fri 21 Aug (founding beta) and Thu 10 Sep (launch). Clear them.
