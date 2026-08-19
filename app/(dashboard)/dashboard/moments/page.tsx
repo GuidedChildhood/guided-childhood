@@ -68,12 +68,22 @@ export default async function MomentsPage({ searchParams }: { searchParams: Prom
       <BackTo from={from_} />
       <div style={{ marginBottom: '24px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Moment cards</p>
+        {/* WHOSE MOMENT. Justin, 18 August 2026: "moments needs to show add
+            moment for child name, and only when added for each child does it
+            say done." The name was a trailing sentence, "Filtered for Olgie",
+            which is a footnote about a filter rather than a statement about who
+            this is for. On a page a parent visits once per child per day, whose
+            it is belongs in the heading. */}
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
-          Every moment, handled
+          {child?.name && child.name !== 'Your child'
+            ? `A moment with ${child.name}`
+            : 'Every moment, handled'}
         </h1>
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', lineHeight: 1.6 }}>
           Flip a card to get the science and the exact words from DiGi.
-          {child?.name && child.name !== 'Your child' ? ` Filtered for ${child.name}.` : ''}
+          {child?.name && child.name !== 'Your child'
+            ? ` Cards for their age, and doing one counts for them alone, so each child gets their own.`
+            : ''}
         </p>
       </div>
 
