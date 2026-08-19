@@ -27,13 +27,21 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
       id: string; name: string | null; age_band: string | null; stage_id: number | null
       streak_weeks: number | null; actions_this_week: number | null; is_primary: boolean | null
     }>(supabase, user.id, childParam, 'name, age_band, stage_id, streak_weeks, actions_this_week'),
-    supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
+    // Per child since migration 210. Asking by user alone is what made
+    // Olgie's day show as done the moment Teo's was.
+    supabase.from('daily_sessions').select('completed_at, child_id').eq('user_id', user.id).eq('session_date', today),
     supabase.from('daily_sessions').select('moment_feedback').eq('user_id', user.id).eq('session_date', yesterday).maybeSingle(),
   ])
 
   const child = childResult.child
   const firstName = profileResult.data?.full_name?.split(' ')[0] ?? 'there'
-  const alreadyDone = !!sessionResult.data?.completed_at
+  // DONE FOR THIS CHILD, not for the household. Migration 210 gave the table a
+  // child, so the answer is "is there a completed row for the child I am
+  // looking at", and a legacy row with no child still counts for everybody
+  // because that is what it meant when it was written.
+  const sessions = (sessionResult.data ?? []) as { completed_at: string | null; child_id: string | null }[]
+  const alreadyDone = sessions.some(r =>
+    !!r.completed_at && (r.child_id === (child?.id ?? null) || r.child_id === null))
   const streak = child?.streak_weeks ?? 0
   const yesterdayMoments: string[] = (yesterdaySession.data?.moment_feedback as string[] | null) ?? []
   const stage = STAGES.find(s => s.ageBand === (child?.age_band as AgeBand)) ?? STAGES[2]

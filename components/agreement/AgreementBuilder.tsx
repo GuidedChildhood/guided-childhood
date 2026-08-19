@@ -595,7 +595,18 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
                 Print it and carry on
               </button>
             ) : (
-              <Link href="/dashboard/agreement/print" style={{ ...bigBtn, textDecoration: 'none', textAlign: 'center', display: 'block' }}>
+              /* In its own tab here too. This is the branch for a parent whose
+                 setup is already finished, and it was the one place left that
+                 navigated AWAY to the print view: they pressed print, the page
+                 they were reading was replaced by a printable document, and the
+                 way back was the browser's back button. The paper is a side
+                 errand from wherever they are standing, never a destination. */
+              <Link
+                href="/dashboard/agreement/print"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ ...bigBtn, textDecoration: 'none', textAlign: 'center', display: 'block' }}
+              >
                 Print the fridge copy
               </Link>
             )}

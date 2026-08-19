@@ -114,7 +114,10 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // moment_feedback rides along so the day timeline on Home knows what has
     // already been flagged today, from here or from the deck. One extra column
     // on a read that was already happening.
-    supabase.from('daily_sessions').select('completed_at, moment_feedback').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
+    // Every child's row for today, not maybeSingle. Since migration 210 there
+    // is a row per child, and PostgREST treats more than one row as an error,
+    // so this came back null and Home read every child's day as not started.
+    supabase.from('daily_sessions').select('completed_at, moment_feedback, child_id').eq('user_id', user.id).eq('session_date', today),
     supabase.from('daily_moments').select('id, title, category, age_bands, icon, science_brief, digi_opener').eq('active', true).order('sort_order').limit(20),
     supabase.from('digi_feedback').select('feedback_date, question, parent_response, digi_insight').eq('user_id', user.id).not('parent_response', 'is', null).gte('feedback_date', sevenDaysAgo).order('feedback_date', { ascending: false }).limit(1).maybeSingle(),
     // cleared_on rides along for countWaitingToday: a weekly routine cleared
@@ -242,7 +245,13 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     rollVisit(supabase, user.id),
   ])
 
-  const dailyDone = !!dailySessionResult.data?.completed_at
+  // THIS CHILD'S DAY. A legacy row with no child counts for everybody, which is
+  // what it meant before migration 210, so a family mid week keeps the day they
+  // already finished.
+  const daySession = ((dailySessionResult.data ?? []) as {
+    completed_at: string | null; moment_feedback: string[] | null; child_id: string | null
+  }[]).find(r => r.child_id === (child?.id ?? null) || r.child_id === null) ?? null
+  const dailyDone = !!daySession?.completed_at
   const lastFeedback = lastFeedbackResult.data
 
   // What school is about to throw at this family, and the one moment that
@@ -560,10 +569,11 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // family who has never checked in, and so DiGi is introduced on day one.
     // Setup and quests are passed in the second call below, once the flags and
     // the board counts exist. See the argument in daily-tasks.
-    // The eighth argument is the child whose passport the rung reads. It was a
-    // sections array for six days and nothing ever passed it, so the rung
-    // never rendered and the rotation never reached the passport. The loop
-    // fetches the rows itself now; this only says whose.
+    // The last argument is the child this loop is about: whose passport the
+    // rung reads, and since migration 210 whose daily_sessions row decides
+    // whether today is done. It was a sections array for six days and nothing
+    // ever passed it, so the rung never rendered and the rotation never reached
+    // the passport. The loop fetches the rows itself now; this only says whose.
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid, (profile?.first_checkin_at as string | null) ?? null, currentSetupStep, child ?? null),
     getLiteracyStatuses(supabase, user.id, stage.id),
     child?.stage_id
@@ -969,7 +979,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
           It is not the check in and must never read like one. This asks what
           happened; the check in asks how it is going. See MomentsToday. */}
-      <MomentsToday savedToday={(dailySessionResult.data?.moment_feedback as string[] | null) ?? []} />
+      <MomentsToday savedToday={daySession?.moment_feedback ?? []} />
 
       {/* The child's app has gone off their phone, and until now nothing said
           so. High on Home rather than folded away down the page, because this

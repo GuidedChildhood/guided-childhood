@@ -16,15 +16,15 @@ import type { SetupFlags } from '@/lib/setup/steps'
 // not renumbered itself; step three alone; and everything done, which is the
 // only state that should show a button off this page.
 
-// In list order: agreement, home screen, children, share. The middle two states
-// are the ones worth looking at, because they are where the green ticks stack
-// up above the live card, which is the whole point of the 15 August change.
+// In list order: home screen, children, share. The middle states are the ones
+// worth looking at, because they are where the green ticks stack up above the
+// live card, which is the whole point of the 15 August change.
 const STATES: { label: string; flags: SetupFlags }[] = [
-  { label: 'Fresh',      flags: { agreement: false, homeScreen: false, children: false, childLink: false } },
-  { label: 'One done',   flags: { agreement: true,  homeScreen: false, children: false, childLink: false } },
-  { label: 'Two done',   flags: { agreement: true,  homeScreen: true,  children: false, childLink: false } },
-  { label: 'Three done', flags: { agreement: true,  homeScreen: true,  children: true,  childLink: false } },
-  { label: 'All done',   flags: { agreement: true,  homeScreen: true,  children: true,  childLink: true } },
+  { label: 'Fresh',      flags: { homeScreen: false, children: false, childLink: false } },
+  { label: 'One done',   flags: { homeScreen: false, children: false, childLink: false } },
+  { label: 'Two done',   flags: { homeScreen: true,  children: false, childLink: false } },
+  { label: 'Three done', flags: { homeScreen: true,  children: true,  childLink: false } },
+  { label: 'All done',   flags: { homeScreen: true,  children: true,  childLink: true } },
 ]
 
 export default function SetupQuestDevPage() {

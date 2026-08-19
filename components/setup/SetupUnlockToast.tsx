@@ -11,12 +11,12 @@ import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQue
 // against the last ones seen, stored locally, so a step that flips
 // from off to on gets its one specific explainer, once.
 
-// Three now rather than seven, matching the Setup Quest. The four that went
-// (quests, daily, birthday, school) did not lose their moment, they lost their
-// status as setup: jobs and school take their turn under Today, the daily
-// practice IS the daily loop, and the birthday is answered at signup.
+// Three now, matching the Setup Quest. The ones that went did not lose their
+// moment, they lost their status as setup: jobs and school take their turn
+// under Today, the daily practice IS the daily loop, the birthday is answered
+// at signup, and since 18 August the family agreement is offered at the first
+// quest instead, which is the first time a parent is actually setting a rule.
 const UNLOCK_COPY: Record<keyof SetupFlags, string> = {
-  agreement: 'Your family agreement is signed. It is what the stars buy, and Friday brings a quick check on how the week went against it.',
   childLink: 'That is their side sorted. Whether it is the code on their phone or the chart on the fridge, they can see what they have earned.',
   homeScreen: 'We are one tap away now, and the check ins can reach you at the hours screens turn up in your house.',
   children: 'That is everybody in. Each child carries their own stage, their own worries and their own check in, so nothing about one of them is answered by the other.',

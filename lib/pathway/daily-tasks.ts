@@ -89,8 +89,15 @@ export async function getTodayLoop(
    */
   setupNextStep: string | null = null,
   /**
-   * The child whose passport the rung reads, normally the dashboard's selected
-   * child. Null keeps the rung off the road entirely.
+   * The child this whole loop is about: whose passport the rung reads, and
+   * since migration 210 whose daily_sessions row counts. Normally the
+   * dashboard's selected child. Null keeps the rung off the road entirely and
+   * falls back to the old family wide reading of the day.
+   *
+   * Two parameters briefly wanted to say this, one from each side of a merge on
+   * 18 August: an id for the session read and a whole child for the passport
+   * rung. One is right. A caller that can be handed two ways to name the child
+   * is a caller that can eventually name two different ones.
    *
    * This replaces a passportSections parameter that was dormant for six days:
    * it claimed the dashboard "already built" the rows, the dashboard never
@@ -109,7 +116,7 @@ export async function getTodayLoop(
 
   const [
     { data: pendingConcerns },
-    { data: session },
+    { data: sessionRows },
     recommended,
     { data: scriptToday },
     { data: digiToday },
@@ -131,7 +138,11 @@ export async function getTodayLoop(
       .lt('last_flagged_at', today)
       .or(`last_checked_at.is.null,last_checked_at.lt.${today}`)
       .limit(1),
-    supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
+    // Not maybeSingle: with more than one child there is now a row each, and
+    // PostgREST treats more than one row as an error, so the answer came back
+    // null and every child's day read as not started. A legacy row with no
+    // child still counts for everybody, which is what it meant when written.
+    supabase.from('daily_sessions').select('completed_at, cards_completed, child_id').eq('user_id', userId).eq('session_date', today),
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', dayStart).limit(1),
     supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', dayStart).limit(1),
@@ -191,6 +202,16 @@ export async function getTodayLoop(
     // fetched here rather than handed in.
     currentStagePassportSections(supabase, userId, child),
   ])
+
+  // THIS CHILD'S DAY, out of the rows for today.
+  //
+  // A legacy row with no child counts for everybody, which is exactly what it
+  // meant before migration 210, so a family mid week does not lose the day they
+  // already finished.
+  type SessionRow = { completed_at: string | null; cards_completed: number | null; child_id: string | null }
+  const session = ((sessionRows ?? []) as SessionRow[])
+    .find(r => r.child_id === (child?.id ?? null) || r.child_id === null) ?? null
+
 
   const anyQuests = (questCount ?? 0) > 0
   const questsWaiting = (ticksWaiting ?? 0) + (asksWaiting ?? 0)
@@ -512,7 +533,7 @@ export async function getDailyTasks(
   const weekStart = mondayOf(new Date())
 
   const [
-    { data: session },
+    { data: sessionRows },
     recommended,
     { data: scriptDoneToday },
     { data: stageLessons },
@@ -523,7 +544,11 @@ export async function getDailyTasks(
     { data: checkin },
     { data: momentCompletionsToday },
   ] = await Promise.all([
-    supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
+    // Not maybeSingle: with more than one child there is now a row each, and
+    // PostgREST treats more than one row as an error, so the answer came back
+    // null and every child's day read as not started. A legacy row with no
+    // child still counts for everybody, which is what it meant when written.
+    supabase.from('daily_sessions').select('completed_at, cards_completed, child_id').eq('user_id', userId).eq('session_date', today),
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', dayStart).limit(1),
     supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
@@ -536,6 +561,16 @@ export async function getDailyTasks(
       : Promise.resolve({ data: null }),
     supabase.from('moment_completions').select('id').eq('user_id', userId).eq('completed_on', today).limit(1),
   ])
+
+  // THIS CHILD'S DAY, out of the rows for today.
+  //
+  // A legacy row with no child counts for everybody, which is exactly what it
+  // meant before migration 210, so a family mid week does not lose the day they
+  // already finished.
+  type SessionRow = { completed_at: string | null; cards_completed: number | null; child_id: string | null }
+  const session = ((sessionRows ?? []) as SessionRow[])
+    .find(r => r.child_id === childId || r.child_id === null) ?? null
+
 
   const momentDone = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0))
     || (momentCompletionsToday ?? []).length > 0
