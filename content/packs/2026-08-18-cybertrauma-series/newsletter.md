@@ -50,7 +50,7 @@ A gate does nothing about either. So I built the thing the gate forgets. We teac
 
 ### The most hopeful line was about one adult
 
-Australia banned social media for under 16s. Three months later, eight in ten of those teenagers were still on it. Gates leak. Bans get walked around.
+Australia banned social media for under 16s. Three months later, more than eight in ten of those teenagers were still using one, and the government's own report says the gate was largely never switched on rather than cleverly beaten, half the children were simply never asked to prove their age. Either way, the wall did not do the job.
 
 So I will end on the most hopeful thing I read all year, and it is not a policy. The children in Knibbs's study who had an engaged, present adult drew happier inner worlds, more awareness, more limits, more joy. The adult engagement was visible inside the child. Her conclusion, after twenty years, is almost too simple to trust. One askable adult changes the arithmetic. It does not have to be a perfect parent. It has to be one calm person who does not flinch when the hard thing is finally said.
 
