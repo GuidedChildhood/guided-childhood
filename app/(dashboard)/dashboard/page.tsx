@@ -486,7 +486,24 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // no age gate at all, so a family with a co-viewing five year old could be
   // shown "Their own side of it" on their own front page.
   const setupSteps = visibleSetupSteps()
-  const currentSetupStep = setupSteps.find(s => !setupFlags[s.key])?.key ?? null
+  // ── SETUP IS AN ACCOUNT JOB, SO IT SITS ON ONE CHILD'S DAY, NOT ALL OF THEM
+  //
+  // Justin, 19 August 2026: "when I toggle Today for Olga she is saying she
+  // needs to set up, then when I click it it says done ... there is no need to
+  // have it on each Today for each child, just the first one."
+  //
+  // Every step in the quest is about the ACCOUNT: the home screen, reminders,
+  // who is in the house, handing out the app. None of it is about Olga, so
+  // drawing it on her day told a parent that a child who needed nothing needed
+  // something, and tapping it proved the app wrong. That is worse than a
+  // missing rung: it teaches a parent that the list is not to be trusted.
+  //
+  // It stays on the first child's day, where it is the same one rung it always
+  // was for a one child family, and nothing changes for them at all.
+  const isFirstChild = !child || child.id === (allKids[0]?.id ?? child.id)
+  const currentSetupStep = isFirstChild
+    ? (setupSteps.find(s => !setupFlags[s.key])?.key ?? null)
+    : null
   const setupComplete = currentSetupStep === null
 
   // Is the child phone handover still an open question for this family? Four

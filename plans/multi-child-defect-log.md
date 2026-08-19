@@ -46,8 +46,10 @@ Status: OPEN · IN PROGRESS · FIXED · BLOCKED (with what it waits on)
 | 30 | Database | `wellbeing_checkins` has no child_id (`wellbeing_checks` is the correct twin) | FIXED | Migration 214 applied |
 | 31 | Database | `digi_safety_flags` has no child_id | FIXED | Migration 214 applied |
 | 32 | Database | `script_requests` has no child_id | FIXED | Migration 213 applied |
-| 33 | Database | `device_setup_progress` is household scoped | OPEN | Justin: a device is added ONCE and asked whether it covers more than one child. So the table stays household scoped and needs a device-to-children link instead. Phase 5. |
-| 34 | Data | 15 orphan `quest_ticks` with no child | BLOCKED | Awaiting assign / leave |
+| 33 | Database | `family_devices` and `device_setup_progress` household scoped | FIXED | Justin settled the model: a device is a per child LABEL, not a physical thing. Two children watching one telly is two sessions. Migration 217. device_sessions and device_requests already carried child_id. |
+| 34 | Data | 15 orphan `quest_ticks` with no child | CLOSED | Justin: leave them, old test data |
+| 36 | Interface | Setup rung drawn on EVERY child's Today, so a second child was told she needed setting up | FIXED | Account level job, now on the first child's day only |
+| 37 | Database | Setup quest could REOPEN months later when a child was added, over a QR code | FIXED | Migration 216: profiles.setup_completed_at, stamped once |
 | 35 | Interface | Passport count has no owner and "moments to resolve" 404s | OPEN | Justin's reference case, other session's lane |
 
 ## Phase 1 close
