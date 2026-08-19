@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { childColour } from '@/lib/children/colour'
+import { childColour, childInitial } from '@/lib/children/colour'
 
 // The child switcher: butter pill tabs, one per child, shown only when a
 // family has more than one. Each pill carries ?child=<id> so the server page
@@ -50,6 +50,7 @@ export default function ChildSwitcher({
         const href = isDefault ? basePath : `${basePath}${sep}child=${kid.id}`
         const label = kid.name && kid.name !== 'Your child' ? kid.name : 'Your child'
         const c = childColour(kid.age_band)
+        const initial = childInitial(kid.name)
         return (
           <Link
             key={kid.id}
@@ -60,6 +61,7 @@ export default function ChildSwitcher({
             className="child-switch-pill"
             style={{
               display: 'inline-flex',
+              position: 'relative',
               alignItems: 'center',
               padding: '9px 18px',
               borderRadius: '100px',
@@ -78,20 +80,44 @@ export default function ChildSwitcher({
               boxShadow: active ? '0 3px 0 rgba(26,26,46,0.14)' : '0 3px 0 rgba(26,26,46,0.06)',
             }}
           >
-            {/* The unchosen pills keep a dot of their stage colour, so a parent
-                can still tell at a glance which name is which before tapping.
-                Without it only the active child would be identifiable. */}
-            {!active && (
+            {/* ── AN INITIAL, NOT A DOT (19 August 2026) ──────────────────
+                From the Mobbin sweep Justin asked for. Greenlight's parent app
+                puts a round AVATAR above each name, and the reason it works is
+                that a face is recognised before a word is read: a parent spots
+                Olga rather than reading "Olga". A coloured dot carried the
+                stage but said nothing about WHO.
+                An initial in the stage colour gets most of that benefit with
+                none of the cost of asking a parent to upload photographs of
+                their children before the app is useful. */}
+            <span
+              aria-hidden
+              style={{
+                flexShrink: 0, width: 24, height: 24, borderRadius: '50%',
+                background: active ? 'rgba(255,255,255,0.55)' : c.bold,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: 'var(--font-display)', fontWeight: 900,
+                fontSize: '0.8rem', color: active ? c.text : 'var(--ink)',
+                boxShadow: active ? 'none' : 'inset 0 0 0 1px rgba(26,26,46,0.10)',
+              }}
+            >
+              {initial}
+            </span>
+            {label}
+            {/* ── AND A SECOND SIGNAL, NOT ONLY COLOUR ────────────────────
+                Greenlight underlines the selected face. Worth copying exactly:
+                the stage colours are pastels, and on a dim screen, in sunlight,
+                or to anybody who cannot separate two of them, a colour swap on
+                its own is not a statement. The underline is, and it costs two
+                pixels. Weight already carries some of this; this finishes it. */}
+            {active && (
               <span
                 aria-hidden
                 style={{
-                  width: 10, height: 10, borderRadius: '50%',
-                  background: c.bold, flexShrink: 0,
-                  boxShadow: 'inset 0 0 0 1px rgba(26,26,46,0.12)',
+                  position: 'absolute', left: 18, right: 18, bottom: 5, height: 2.5,
+                  borderRadius: 2, background: c.text, opacity: 0.55,
                 }}
               />
             )}
-            {label}
           </Link>
         )
       })}

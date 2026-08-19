@@ -161,7 +161,11 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
       <BackTo from={from_} />
       <div style={{ marginBottom: '4px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Every lesson, one place</p>
-        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>Lessons</h1>
+        <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
+          {/* Whose lessons. The line under it already named the child; the
+              heading did not, and the heading is what a parent reads. */}
+          {child?.name && child.name !== 'Your child' ? `Lessons for ${child.name}` : 'Lessons'}
+        </h1>
         <p style={{ color: 'var(--ink-soft)', fontSize: 'var(--text-md)', lineHeight: 1.6, marginBottom: '14px' }}>
           Films to watch with {childName}, and lessons you lead. Switch between them below.
         </p>

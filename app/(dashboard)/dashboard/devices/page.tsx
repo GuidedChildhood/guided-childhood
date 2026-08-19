@@ -107,8 +107,15 @@ export default async function DevicesPage({
 
       <div style={{ marginBottom: '20px' }}>
         <p className="eyebrow" style={{ marginBottom: '4px' }}>Device Safety Hub</p>
+        {/* THE NAME ON THE THING ITSELF. From the Mobbin sweep: Greenlight
+            heads the section "___'s tasks" rather than relying on the switcher
+            above to say whose. It is the same principle as Justin's passport
+            complaint, a figure needs an owner ON the figure, and it is the one
+            that survives a parent scrolling past the switcher. */}
         <h1 style={{ fontSize: 'clamp(1.9rem, 6vw, 2.5rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '8px' }}>
-          Set up every device the right way
+          {child?.name && child.name !== 'Your child'
+            ? `${child.name}'s devices`
+            : 'Set up every device the right way'}
         </h1>
         <p style={{ color: 'var(--ink)', fontSize: 'var(--text-md)' }}>
           Step by step guides for every device{child?.name && child.name !== 'Your child' ? ` ${child.name} uses` : ' your family uses'}, matched to age.
