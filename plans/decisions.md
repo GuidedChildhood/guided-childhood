@@ -8360,3 +8360,52 @@ THREE THINGS DECIDED AND BUILT:
    primary age, roughly 4 to 11; that stays the heart of the market, but the
    product serves the full 2 to 16 run up to the phone. Features must degrade
    gracefully across the range.
+
+## 19 August 2026 — Daily health sweep: three crons that have never actually run
+
+Routine sweep. Schema check clean, all eleven watched columns present. Security
+and performance advisors unchanged in shape from the 9 August sweep, no ERROR
+level findings, same RLS-no-policy and search-path warnings on ops-only tables,
+same multiple-permissive-policy and auth-rls-initplan performance notes across
+the RLS policies. Pre-existing, not touched again today.
+
+One real fault, not a code bug. Three jobs in vercel.json have no genuine
+heartbeat row in cron_runs, ever, under the path Vercel is supposed to call:
+
+- `/api/cron/legal-watch`, due quarterly on the 3rd (Jan, Apr, Jul, Oct). Its
+  Jul 3 slot passed 47 days ago. Zero rows.
+- `/api/cron/passport-check`, due monthly on the 1st. Both Jul 1 and Aug 1
+  passed. Zero rows.
+- `/api/cron/answer-review`, due monthly on the 2nd. One row exists total, for
+  2 August, but filed under the old key `answer-review` with no leading slash,
+  not the `/api/cron/answer-review` the route writes today. Zero rows under
+  the real key, ever.
+
+Why this points at Vercel and not the app: `withHeartbeat` writes a row the
+moment a request arrives, before checking the cron secret, so even a rejected
+call leaves a row marked unauthorised. These three have none at all, in any
+shape, which means the request never reached the app. Compare
+`/api/cron/invoice-requests`, which did fail twice on 14 August (schema cache
+and a permission error, both from the schools.invoice_requests move) and both
+failures are sitting in cron_runs with the real error message, because the
+request arrived and the job ran and failed. That is the difference between a
+job that runs and errors, which this monitoring is built to catch, and a job
+that never gets called at all, which it cannot catch from inside the app.
+
+What this costs a family: no quarterly check for law that has moved under the
+product (GDPR, the Children's Code, the Online Safety Act, age assurance,
+the MHRA line) since at least July. No monthly nudge to a child's app for
+what is left to finish their passport, for at least two months running. No
+monthly self-critique of how DiGi is answering.
+
+This was flagged once before, on 31 July, as needing a manual trigger because
+this working environment carries no CRON_SECRET. That explains why it cannot
+be fired from here again today. It does not explain why Vercel's own scheduler
+has not called any of the three even once since the routes went live on 12
+August, nor why legal-watch's Jul 3 slot (which predates that date) has no
+attempt logged either. Not fixed here, because the fix is not in this repo:
+Justin needs to open the Vercel dashboard's Cron Jobs tab and check whether
+these three are actually listed and enabled, or count against a plan limit
+that the other 31 crons in the same file do not. If they are missing from the
+list, re-adding them or redeploying should be enough; if they are listed and
+still silent, that is a Vercel-side question, not a code one.
