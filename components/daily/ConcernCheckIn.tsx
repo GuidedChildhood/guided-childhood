@@ -176,7 +176,7 @@ export default function ConcernCheckIn({
 
   if (concerns.length === 0) return null
 
-  const allSaved = concerns.every(c => saved[c.slug])
+  const allSaved = concerns.every(c => saved[c.id])
 
   // Hand over to the next one that still needs an answer.
   //
@@ -210,28 +210,50 @@ export default function ConcernCheckIn({
   // the last one, because yanking the page at the moment somebody finishes
   // reads as the app losing interest; and a jump rather than a glide for anyone
   // who has asked their system for less motion.
-  const handOver = (fromSlug: string, done: Record<string, boolean>) => {
-    const i = concerns.findIndex(c => c.slug === fromSlug)
-    const next = concerns.slice(i + 1).find(c => !done[c.slug])
-    const el = next ? rows.current[next.slug] : null
+  const handOver = (fromId: string, done: Record<string, boolean>) => {
+    const i = concerns.findIndex(c => c.id === fromId)
+    const next = concerns.slice(i + 1).find(c => !done[c.id])
+    const el = next ? rows.current[next.id] : null
     if (!el) return
     const still = typeof window !== 'undefined'
       && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
     el.scrollIntoView({ behavior: still ? 'auto' : 'smooth', block: 'start' })
   }
 
-  const post = (slug: string, body: Record<string, unknown>) => {
+  // ── KEYED BY THE CONCERN'S OWN ID, NEVER BY SLUG ──────────────────────────
+  //
+  // Justin, 18 August 2026: "it is saying Olgie is done even though it is not,
+  // so it is getting it from Teo's. This needs separate database lines so only
+  // one updates when done."
+  //
+  // The database lines ARE separate: concerns went per child with migration
+  // 194 and every row has its own id. It was this component that collapsed
+  // them. Every piece of its state, saved, touched, pending, failed, value, the
+  // posted guard and the scroll refs, was keyed by SLUG, and seedChildBaseline
+  // gives every child the SAME four worries. So Teo and Olgie both hold a row
+  // with slug 'bedtime-screens', and rating Teo's marked Olgie's saved on the
+  // spot, greyed it out and moved past it.
+  //
+  // Worse, the lookup below was concerns.find(c => c.slug === slug), which
+  // returns the FIRST match. So Olgie's rating, if it had got that far, would
+  // have been posted against TEO's concern id. The wrong child's record, from
+  // the right child's question.
+  //
+  // Nothing here needed a new table or a migration. It needed to stop throwing
+  // away the id it was already being given.
+  const post = (id: string, body: Record<string, unknown>) => {
     // The row's own id travels with the answer. Slug alone stopped identifying
     // one concern when they went per child. See the note on CheckInRow.id.
-    const concernId = concerns.find(c => c.slug === slug)?.id
-    if (posted.current[slug]) return
-    posted.current[slug] = true
-    if (timers.current[slug]) clearTimeout(timers.current[slug])
+    const concern = concerns.find(c => c.id === id)
+    const concernId = concern?.id
+    if (posted.current[id]) return
+    posted.current[id] = true
+    if (timers.current[id]) clearTimeout(timers.current[id])
     setSaved(prev => {
-      const next = { ...prev, [slug]: true }
+      const next = { ...prev, [id]: true }
       // After paint, so the row being left has already settled into its saved
       // state and the scroll lands on a card that has stopped changing.
-      requestAnimationFrame(() => handOver(slug, next))
+      requestAnimationFrame(() => handOver(id, next))
       return next
     })
     // ── THE SAVE THAT COULD FAIL AND STILL LOOK LIKE A SAVE ──────────────────
@@ -260,7 +282,7 @@ export default function ConcernCheckIn({
     fetch('/api/daily/concern-check', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ concernId, slug, ...body }),
+      body: JSON.stringify({ concernId, id, ...body }),
     })
       .then(res => {
         if (!res.ok) throw new Error(String(res.status))
@@ -273,22 +295,22 @@ export default function ConcernCheckIn({
         // Give the row back so it can be answered again. Without releasing
         // posted.current the guard at the top of post() would refuse every
         // retry, which is the loop with an error message on it.
-        posted.current[slug] = false
-        setSaved(prev => ({ ...prev, [slug]: false }))
-        setFailed(prev => ({ ...prev, [slug]: true }))
+        posted.current[id] = false
+        setSaved(prev => ({ ...prev, [id]: false }))
+        setFailed(prev => ({ ...prev, [id]: true }))
       })
   }
 
   // One tap picks the band AND commits it. Five words, each one a thing a
   // parent would actually say about their own week, and no aiming.
-  const pick = (slug: string, score: number) => {
-    if (posted.current[slug]) return
-    liveValue.current[slug] = score
-    setValue(prev => ({ ...prev, [slug]: score }))
-    setTouched(prev => ({ ...prev, [slug]: true }))
-    if (timers.current[slug]) clearTimeout(timers.current[slug])
-    setPending(prev => ({ ...prev, [slug]: true }))
-    timers.current[slug] = setTimeout(() => post(slug, { score }), SAVE_BEAT_MS)
+  const pick = (id: string, score: number) => {
+    if (posted.current[id]) return
+    liveValue.current[id] = score
+    setValue(prev => ({ ...prev, [id]: score }))
+    setTouched(prev => ({ ...prev, [id]: true }))
+    if (timers.current[id]) clearTimeout(timers.current[id])
+    setPending(prev => ({ ...prev, [id]: true }))
+    timers.current[id] = setTimeout(() => post(id, { score }), SAVE_BEAT_MS)
   }
 
 
@@ -317,19 +339,32 @@ export default function ConcernCheckIn({
   // answers in language rather than in numbers. What went is having to read all
   // five before answering one.
 
-  /** One star. Filled to today's answer, outlined for last time's. */
-  function Star({ filled, ghost, size = 34 }: { filled: boolean; ghost: boolean; size?: number }) {
+  // ── LAST TIME IS GREY STARS, NOT ONE OUTLINED ONE (18 August 2026) ────────
+  //
+  // Justin: "it should be showing in grey stars the day before's rating, if
+  // there was a day before, but allow me to add a new rating on each question
+  // until complete."
+  //
+  // Last time used to be a SINGLE star outlined at that position, on the
+  // reasoning that it made the same spatial comparison a marker would. It does
+  // not read that way. Four gold stars and one outlined fifth reads as a rating
+  // of five that is half drawn, not as "you said four last time", so a parent
+  // looking at a row they had not touched yet saw something that looked already
+  // answered and stopped.
+  //
+  // Grey stars FILLED to last time's band is the thing every app that shows a
+  // previous rating does, and it cannot be confused with today's answer,
+  // because today's are gold. It also fixes the ambiguity for anybody who
+  // cannot separate the two colours: the grey row sits under the words "last
+  // time", and today's sits under the question.
+  function Star({ filled, past, size = 34 }: { filled: boolean; past: boolean; size?: number }) {
     return (
       <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden style={{ display: 'block' }}>
         <path
           d="M12 2.6l2.9 5.9 6.5.95-4.7 4.6 1.1 6.45L12 17.45 6.2 20.5l1.1-6.45-4.7-4.6 6.5-.95z"
-          fill={filled ? 'var(--terracotta)' : ghost ? 'var(--stage-1)' : '#fff'}
-          stroke={filled ? 'var(--terracotta-dark)' : ghost ? 'var(--alert)' : 'var(--border)'}
-          // Solid, never dashed. A dashed outline traced around a star's ten
-          // points does not read as a marker, it reads as a star that has
-          // shattered, which is the single worst thing to draw next to "how has
-          // this week been". A clean heavier ring says last time just as well.
-          strokeWidth={ghost && !filled ? 2.4 : 1.6}
+          fill={filled ? 'var(--terracotta)' : past ? '#D9D5CC' : '#fff'}
+          stroke={filled ? 'var(--terracotta-dark)' : past ? '#C3BEB2' : 'var(--border)'}
+          strokeWidth={1.6}
           strokeLinejoin="round"
         />
       </svg>
@@ -381,14 +416,14 @@ export default function ConcernCheckIn({
       </p>
 
       {concerns.map((c, idx) => {
-        const isSaved = saved[c.slug]
-        const isTouched = touched[c.slug]
-        const isPending = pending[c.slug]
-        const chosenBand = isTouched ? bandOf(value[c.slug]) : 0
+        const isSaved = saved[c.id]
+        const isTouched = touched[c.id]
+        const isPending = pending[c.id]
+        const chosenBand = isTouched ? bandOf(value[c.id]) : 0
         const lastBand = c.lastScore != null ? bandOf(c.lastScore) : 0
         const newChild = grouped && c.childName && c.childName !== concerns[idx - 1]?.childName
         return (
-          <div key={c.slug}>
+          <div key={c.id}>
             {newChild && (
               <div style={{
                 fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
@@ -399,7 +434,7 @@ export default function ConcernCheckIn({
               </div>
             )}
             <div
-              ref={el => { rows.current[c.slug] = el }}
+              ref={el => { rows.current[c.id] = el }}
               style={{
                 padding: '12px 0',
                 borderTop: idx === 0 || newChild ? 'none' : '1px solid var(--border)',
@@ -422,7 +457,7 @@ export default function ConcernCheckIn({
                 </div>
                 {!isSaved && (
                   <button
-                    onClick={() => post(c.slug, { answer: 'same', score: null })}
+                    onClick={() => post(c.id, { answer: 'same', score: null })}
                     style={{
                       background: 'none', border: 'none', padding: 0,
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
@@ -448,15 +483,19 @@ export default function ConcernCheckIn({
                 {BANDS.map((b, i) => {
                   const n = i + 1
                   const filled = chosenBand >= n
-                  const ghost = lastBand === n
+                  // Grey up to last time's band, and only while today is still
+                  // unanswered. The moment a star is tapped the row is about
+                  // today, and leaving last week's grey underneath would be two
+                  // answers on one line.
+                  const past = !isTouched && lastBand >= n
                   return (
                     <button
                       key={b.score}
                       role="radio"
                       aria-checked={chosenBand === n}
-                      aria-label={ghost ? `${b.label}, what you said last time` : b.label}
+                      aria-label={past ? `${b.label}, what you said last time` : b.label}
                       disabled={!!isSaved}
-                      onClick={() => pick(c.slug, b.score)}
+                      onClick={() => pick(c.id, b.score)}
                       style={{
                         background: 'none', border: 'none', padding: '5px 6px',
                         cursor: isSaved ? 'default' : 'pointer', lineHeight: 0,
@@ -464,7 +503,7 @@ export default function ConcernCheckIn({
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                       }}
                     >
-                      <Star filled={filled} ghost={ghost} />
+                      <Star filled={filled} past={past} />
                     </button>
                   )
                 })}
@@ -476,7 +515,7 @@ export default function ConcernCheckIn({
               {(isTouched || isSaved) && (
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
                   <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45 }}>
-                    {`${verdictLine(value[c.slug], c.lastScore)}${isSaved ? ' Saved.' : failed[c.slug] ? ' That did not save, tap a star to try again.' : isPending ? ' Saving.' : ''}`}
+                    {`${verdictLine(value[c.id], c.lastScore)}${isSaved ? ' Saved.' : failed[c.id] ? ' That did not save, tap a star to try again.' : isPending ? ' Saving.' : ''}`}
                   </span>
                 </div>
               )}
