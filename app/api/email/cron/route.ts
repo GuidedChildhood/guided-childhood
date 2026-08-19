@@ -81,7 +81,17 @@ async function handler(req: NextRequest) {
       .select('id, email, full_name, created_at, subscription_status, trial_ends_at, trial_started_at, plan_choice, email_opt_out, onboarding_complete')
       .eq('onboarding_complete', true),
     supabase.from('email_log').select('user_id, email_key, sent_at'),
-    supabase.from('children').select('parent_id, name, age_band, stage_id').eq('is_primary', true),
+    // EVERY child, not the primary one. Justin, 18 August 2026: "emails need
+    // to have both children, or all 3, however many, in each email."
+    //
+    // These are the drip and service emails, and Justin has been clear they
+    // stay ONE email about the household rather than one per child. What was
+    // wrong is narrower than the weekly and monthly summaries: they are written
+    // around a single childName, and it was always the eldest, so a sentence
+    // like "a few ideas for Teo this week" quietly told a parent of two that we
+    // had forgotten one of them.
+    supabase.from('children').select('parent_id, name, age_band, stage_id, is_primary')
+      .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
     // The method week's anchor, in bulk. See the block below for why it is
     // first USE rather than signup. Each of these is guarded on its own so a
     // table that is unavailable costs the anchor and nothing else.
@@ -102,7 +112,34 @@ async function handler(req: NextRequest) {
     return at ? daysSince(at) : null
   }
 
-  const childByParent = new Map((children ?? []).map(c => [c.parent_id as string, c]))
+  // First per parent, primary then oldest, which is what every single child
+  // reading below already meant. The stage and the age band still come from
+  // this one: a drip email about the pathway has to pick a stage, and the
+  // eldest is the honest choice on an email the whole household reads.
+  const childByParent = new Map<string, Record<string, unknown>>()
+  const kidsByParent = new Map<string, Record<string, unknown>[]>()
+  for (const c of (children ?? []) as Record<string, unknown>[]) {
+    const pid = c.parent_id as string
+    if (!childByParent.has(pid)) childByParent.set(pid, c)
+    kidsByParent.set(pid, [...(kidsByParent.get(pid) ?? []), c])
+  }
+
+  /**
+   * How this family's children are named in a sentence: "Teo", "Teo and
+   * Olgie", "Teo, Olgie and Alma".
+   *
+   * Every drip template drops this into ordinary prose, so it has to read as
+   * English rather than as a list. Falls back to "your child" when nobody has a
+   * real name yet, which is what each of those templates said before.
+   */
+  const namesFor = (parentId: string): string => {
+    const real = (kidsByParent.get(parentId) ?? [])
+      .map(c => (c.name as string | null) ?? '')
+      .filter(n => n && n !== 'Your child')
+    if (real.length === 0) return 'your child'
+    if (real.length === 1) return real[0]
+    return real.slice(0, -1).join(', ') + ' and ' + real[real.length - 1]
+  }
 
   // THE METHOD WEEK'S ANCHOR: the day this family's loop became real.
   //
@@ -229,13 +266,12 @@ async function handler(req: NextRequest) {
     if (new Date(profile.trial_ends_at).getTime() <= Date.now()) continue
     if (alreadySent(profile.id, 'founder-precharge')) continue
 
-    const preChild = childByParent.get(profile.id)
     await deliver(
       profile.id,
       profile.email,
       'founder-precharge',
       founderPrechargeEmail({
-        childName: preChild?.name && preChild.name !== 'Your child' ? preChild.name : 'your child',
+        childName: namesFor(profile.id),
         // Their own date, in their own words. "3 days left" in an email read
         // four days later is worse than no email at all.
         chargeDate: new Intl.DateTimeFormat('en-GB', {
@@ -255,7 +291,7 @@ async function handler(req: NextRequest) {
     const unsubscribe = unsubscribeUrl(profile.id)
 
     const child = childByParent.get(profile.id)
-    const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
+    const childName = namesFor(profile.id)
     const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
 
     // ── THE SAME FALLBACK CANNOT PICK A PLANET FRIEND ──────────────────────

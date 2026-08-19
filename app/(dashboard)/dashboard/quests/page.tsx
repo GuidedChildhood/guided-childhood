@@ -10,6 +10,7 @@ import PrintablesToConfirm from '@/components/quests/PrintablesToConfirm'
 import QuestShortcuts from '@/components/quests/QuestShortcuts'
 import StreakRewards, { type StreakReward } from '@/components/quests/StreakRewards'
 import QuestStatusBoard from '@/components/quests/QuestStatusBoard'
+import AgreementOffer from '@/components/quests/AgreementOffer'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { getFamilyRegion } from '@/lib/learning/region'
@@ -42,6 +43,11 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
   // being eight labels a parent has to scroll past to find out.
   let boardStatus: BoardStatus | undefined
   let homeworkNotes: { childName: string; day: string; note: string }[] = []
+  // The agreement offer, which took over from the setup step it used to be on
+  // 18 August. Shown once a family has at least one job and nobody has signed
+  // an agreement yet. See components/quests/AgreementOffer.tsx for why here.
+  let offerAgreement = false
+  let offerChildName: string | null = null
   if (user) {
     boardStatus = await getBoardStatus(supabase, user.id)
     const [{ data: kids }, { data: links }, { data: quests }] = await Promise.all([
@@ -49,6 +55,17 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
       supabase.from('kid_links').select('child_id').eq('user_id', user.id),
       supabase.from('family_quests').select('stars, schedule, child_id').eq('user_id', user.id).eq('active', true),
     ])
+    // Both signatures, not the row. A draft agreement is written as clauses
+    // are chosen, so a row exists long before anybody has agreed anything, and
+    // reading the row as the deed is the same fault that put a green tick on
+    // four unsigned agreements when this was a setup step.
+    const { data: agreement } = await supabase
+      .from('family_agreements').select('signed_by_parent, signed_by_child')
+      .eq('user_id', user.id).limit(1).maybeSingle()
+    const signed = !!agreement?.signed_by_parent && !!agreement?.signed_by_child
+    offerAgreement = !signed && (quests ?? []).length > 0
+    offerChildName = ((kids ?? [])[0]?.name as string | null) ?? null
+
     const linked = new Set((links ?? []).map(l => l.child_id))
     // Children the parent has said have no phone stay parent managed and never
     // see the handover nudge. Read separately and fail soft, so a page load
@@ -177,6 +194,12 @@ export default async function QuestsPage({ searchParams }: { searchParams: Promi
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 40px' }}>
       <BackTo from={from_} />
+
+      {/* The agreement, offered rather than demanded. It left setup on 18
+          August, where it blocked three one minute jobs with the only task in
+          the product that needs the child in the room. It asks here instead,
+          at the first moment a parent is actually setting a rule. */}
+      {offerAgreement && <AgreementOffer childName={offerChildName} />}
       {/* The log a week card that used to sit here moved to the Printables page,
           under the star chart builder that makes the chart, so build, print and
           log the week live together. */}
