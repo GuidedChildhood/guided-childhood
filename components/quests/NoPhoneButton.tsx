@@ -45,7 +45,17 @@ export default function NoPhoneButton({ childId, childName }: { childId: string;
   }
 
   return (
-    <div style={{ textAlign: 'center', margin: '-6px 0 16px' }}>
+    // ── ROOM BETWEEN THE TWO ANSWERS (18 August 2026) ────────────────────
+    //
+    // Justin: "where it says Teo has no phone, keep it on the fridge, it is too
+    // close to the button, there needs to be space."
+    //
+    // The margin was NEGATIVE at the top, minus six, which pulled this up until
+    // it sat against the underside of the Show the code button. These are the
+    // two opposite answers to the same question, app or paper, and jammed
+    // together they read as one control with a caption rather than as a choice.
+    // A real gap is what makes it a choice.
+    <div style={{ textAlign: 'center', margin: '18px 0 2px' }}>
       <button
         onClick={set}
         disabled={busy}

@@ -146,7 +146,10 @@ export async function getTodayLoop(
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', dayStart).limit(1),
     supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', dayStart).limit(1),
-    supabase.from('moment_completions').select('id').eq('user_id', userId).eq('completed_on', today).limit(1),
+    // Per child since migration 211. Asking by user alone is what let one
+    // child's moment tick the step for the whole household, so a parent doing
+    // Today with Teo was told Olgie's moment was done too.
+    supabase.from('moment_completions').select('id, child_id').eq('user_id', userId).eq('completed_on', today),
     // Whether this family has ANY live concern at all, AND WHOSE.
     //
     // Nothing to check in on is not the same thing as having checked in, and
@@ -259,7 +262,10 @@ export async function getTodayLoop(
   // from reading a card in the library (a completion), so the step ticks either
   // way and never looks stuck.
   const momentDone = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0))
-    || (momentCompletionsToday ?? []).length > 0
+    // THIS child's moment. A row with no child counts for everybody, which is
+    // what the rows written before migration 211 mean.
+    || ((momentCompletionsToday ?? []) as { child_id: string | null }[])
+         .some(r => r.child_id === (child?.id ?? null) || r.child_id === null)
 
   // The check in only belongs on today's loop when there is something to check
   // in ON. It used to be done whenever no concern was waiting, which is true
@@ -559,7 +565,10 @@ export async function getDailyTasks(
     childId
       ? supabase.from('wellbeing_checks').select('id').eq('child_id', childId).eq('week_start', weekStart).maybeSingle()
       : Promise.resolve({ data: null }),
-    supabase.from('moment_completions').select('id').eq('user_id', userId).eq('completed_on', today).limit(1),
+    // Per child since migration 211. Asking by user alone is what let one
+    // child's moment tick the step for the whole household, so a parent doing
+    // Today with Teo was told Olgie's moment was done too.
+    supabase.from('moment_completions').select('id, child_id').eq('user_id', userId).eq('completed_on', today),
   ])
 
   // THIS CHILD'S DAY, out of the rows for today.
@@ -573,7 +582,9 @@ export async function getDailyTasks(
 
 
   const momentDone = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0))
-    || (momentCompletionsToday ?? []).length > 0
+    // THIS child's moment. See the note in getTodayLoop above.
+    || ((momentCompletionsToday ?? []) as { child_id: string | null }[])
+         .some(r => r.child_id === childId || r.child_id === null)
 
   const doneLessonKeys = new Set((lessonCompletions ?? []).map(c => `${c.lesson_source}:${c.lesson_id}`))
   const nextLesson =

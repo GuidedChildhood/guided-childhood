@@ -1,7 +1,7 @@
 import { withHeartbeat } from '@/lib/ops/heartbeat'
 import { NextRequest, NextResponse } from 'next/server'
 import { emailConfigured, unsubscribeUrl } from '@/lib/email'
-import { monthlyBalanceEmail } from '@/lib/email/templates'
+import { monthlyBalanceEmail, type MonthlyChild } from '@/lib/email/templates'
 import { buildMonthPace } from '@/lib/balance/pace'
 import { deviceLabel } from '@/lib/quests/device-time'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
@@ -99,10 +99,17 @@ async function handler(req: NextRequest) {
     remaining -= 1
 
     try {
-      const { data: child } = await supabase
-        .from('children').select('id, name, age_band').eq('parent_id', profile.id).eq('is_primary', true).maybeSingle()
-      if (!child) { noData += 1; continue }
+      // EVERY child, not the primary one. Justin, 18 August 2026: "emails need
+      // to have both children, or all 3, however many, in each email." One
+      // email per household is still right; what was wrong is that it only
+      // described one of them.
+      const { data: kids } = await supabase
+        .from('children').select('id, name, age_band, is_primary').eq('parent_id', profile.id)
+        .order('is_primary', { ascending: false }).order('created_at', { ascending: true })
+      if (!kids || kids.length === 0) { noData += 1; continue }
 
+      const blocks: MonthlyChild[] = []
+      for (const child of kids as { id: string; name: string | null; age_band: string | null }[]) {
       const { data: sessions } = await supabase
         .from('device_sessions')
         .select('device, minutes, started_at')
@@ -118,10 +125,11 @@ async function handler(req: NextRequest) {
       const lastMonth = inRange(prevStart, monthStart)
       const sum = (list: typeof rows) => list.reduce((n, r) => n + (Number(r.minutes) || 0), 0)
 
-      // Nothing logged is not a zero minute month, it is a family who has not
-      // used the timer. Reporting "0 minutes a day, on track" to them would be
-      // a lie dressed as praise, so they get no email at all.
-      if (thisMonth.length === 0) { noData += 1; continue }
+      // Nothing logged is not a zero minute month, it is a child nobody ran the
+      // timer for. Reporting "0 minutes a day, on track" would be a lie dressed
+      // as praise, so that CHILD is left out of the email rather than invented.
+      // If no child has anything, the family gets no email at all, below.
+      if (thisMonth.length === 0) continue
 
       const pace = buildMonthPace({
         usedThisMonth: sum(thisMonth),
@@ -144,8 +152,13 @@ async function handler(req: NextRequest) {
       const heaviest = top ? { label: `the ${deviceLabel(top[0]).toLowerCase()}`, minutes: top[1] } : null
 
       const childLabel = child.name && child.name !== 'Your child' ? child.name : 'your child'
+        blocks.push({ childLabel, pace, heaviest })
+      }
+
+      if (blocks.length === 0) { noData += 1; continue }
+
       const result = await deliverOnce(supabase, profile.id, profile.email!, key, monthlyBalanceEmail({
-        childLabel, monthLabel, pace, heaviest, unsubscribe: unsubscribeUrl(profile.id),
+        children: blocks, monthLabel, unsubscribe: unsubscribeUrl(profile.id),
       }))
       if (result === 'sent') sent += 1
       else if (result === 'failed') failed += 1

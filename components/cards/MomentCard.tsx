@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import Image from 'next/image'
 import DigiCharacter, { type DigiMood } from '@gc/shared/components/DigiCharacter'
 import { momentImageForTitle } from '@/lib/content/moment-images'
@@ -88,7 +89,10 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
     // ticks the Moment step. Best effort, never blocks the card.
     fetch('/api/moments/complete', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ momentId: moment.id }),
+      // childId so the moment is filed against the child the parent has open,
+      // not the primary one. Migration 211 lets both children have their own
+      // row for the same moment on the same day. See lib/children/current.
+      body: JSON.stringify({ momentId: moment.id, childId: currentChildId() }),
     }).catch(() => { /* the card still opens */ })
   }
 

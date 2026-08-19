@@ -185,7 +185,30 @@ export async function seedBaselineConcerns(
     .eq('is_primary', true)
     .maybeSingle()
 
-  const now = new Date().toISOString()
+  // ── A BASELINE IS AS OF YESTERDAY, AND THAT IS WHAT MAKES IT ANSWERABLE ───
+  //
+  // Justin, 18 August 2026: "when I get to check in it only allows me to check
+  // in the first line then says done" and "the toggle also updated as done when
+  // I do the first child."
+  //
+  // One cause, and it is a chain of three correct looking things:
+  //
+  //   1. these rows are stamped last_flagged_at = NOW, so today
+  //   2. rating the FIRST line calls markFirstCheckIn, which sets
+  //      profiles.first_checkin_at for the first time
+  //   3. lib/checkin/today.ts then switches on its review rule, "do not ask
+  //      about something flagged today", because a first check in now exists
+  //
+  // So the second page load filters out every remaining baseline row, for every
+  // child at once, because they were all seeded today. One rating and the whole
+  // family reads as done. The review rule is right, the seeding was wrong to
+  // put the rows inside its window.
+  //
+  // Backdating one day says what a baseline actually is: where things stood
+  // before today, which is exactly the thing a check in reviews. It is also the
+  // same repair that was applied by hand to the live rows on 17 August, now
+  // done at the source so it never needs applying again.
+  const now = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
   const { data: inserted, error } = await supabase
     .from('concerns')
     .insert(slugs.map(slug => ({
@@ -240,7 +263,11 @@ export async function seedChildBaseline(
     .limit(1)
   if (readError || (existing ?? []).length > 0) return []
 
-  const now = new Date().toISOString()
+  // Backdated one day, for the reason spelled out in seedBaselineConcerns
+  // above: a row stamped today is inside the check in's own review window, so
+  // the first rating of the day would filter this child's remaining rows away
+  // and read as done.
+  const now = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
   const { data: inserted, error } = await supabase
     .from('concerns')
     .insert(COMMON_BASELINE_SLUGS.map(slug => ({

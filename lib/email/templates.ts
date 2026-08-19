@@ -701,28 +701,59 @@ export function weeklyReviewEmail(params: {
 // The colour follows the verdict rather than the brand, because a green block
 // saying "well over the guide" is a mixed message, and this is the one email
 // where the parent needs to read the temperature before the words.
-export function monthlyBalanceEmail(params: {
+/** One child's month, for the monthly balance email. */
+export type MonthlyChild = {
   childLabel: string
-  monthLabel: string
   pace: MonthPace
   /** The heaviest device of the month, when there was one. */
   heaviest?: { label: string; minutes: number } | null
+}
+
+// ── EVERY CHILD IN THE ONE EMAIL (18 August 2026) ──────────────────────────
+//
+// Justin: "emails need to have both children, or all 3, however many, in each
+// email."
+//
+// This took one childLabel and one pace, and the route fed it the primary
+// child, so a parent with two read a monthly verdict on their screen time with
+// one of them silently missing. Sending two emails would have been worse, not
+// more thorough: it is the same month, the same parent, the same two minutes of
+// attention, and Justin has been clear that the household gets one email.
+//
+// So it takes a list. The subject names the child when there is one and the
+// household when there are more, because "Olgie's screen time in July" is a lie
+// on an email that is also about Teo.
+export function monthlyBalanceEmail(params: {
+  children: MonthlyChild[]
+  monthLabel: string
   unsubscribe: string
 }): EmailContent {
-  const { childLabel, monthLabel, pace, heaviest, unsubscribe } = params
+  const { children, monthLabel, unsubscribe } = params
+  if (children.length === 0) {
+    // Never reached from the cron, which skips a family with nothing logged.
+    // Guarded anyway rather than indexing into an empty list.
+    return { subject: `${monthLabel}, in one number`, html: wrapper(heading(`${monthLabel}`), unsubscribe) }
+  }
+  const many = children.length > 1
 
-  const tone = pace.verdict === 'well_over'
-    ? { bg: '#FDECEC', border: '#F3C9C9', ink: '#A33A3A' }
-    : pace.verdict === 'a_little_high'
-    ? { bg: '#FBF0E6', border: '#E8C9A8', ink: '#A65D2E' }
-    : { bg: '#EDF5F1', border: '#D6E5DF', ink: '#236F52' }
+  const block = (c: MonthlyChild) => {
+    const { childLabel, pace, heaviest } = c
 
-  const arrow = pace.direction === 'down' ? '↓' : pace.direction === 'up' ? '↑' : null
+    const tone = pace.verdict === 'well_over'
+      ? { bg: '#FDECEC', border: '#F3C9C9', ink: '#A33A3A' }
+      : pace.verdict === 'a_little_high'
+      ? { bg: '#FBF0E6', border: '#E8C9A8', ink: '#A65D2E' }
+      : { bg: '#EDF5F1', border: '#D6E5DF', ink: '#236F52' }
 
-  return {
-    subject: `${childLabel}'s screen time in ${monthLabel}: ${pace.headline.toLowerCase()}`,
-    html: wrapper(
-      heading(`${monthLabel}, in one number`) +
+    const arrow = pace.direction === 'down' ? '↓' : pace.direction === 'up' ? '↑' : null
+
+    return (
+      // Only when there is more than one child. On a one child email the
+      // heading already said whose month it was, and naming them twice reads
+      // like a form letter.
+      (many
+        ? `<div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:19px;font-weight:800;color:${INK};margin:0 0 10px">${childLabel}</div>`
+        : '') +
       `<div style="background:${tone.bg};border:1px solid ${tone.border};border-radius:16px;padding:20px 22px;margin:0 0 20px">
          <div style="font-family:'IBM Plex Mono',Menlo,monospace;font-size:11px;font-weight:700;letter-spacing:0.13em;text-transform:uppercase;color:${tone.ink};margin-bottom:10px">${pace.headline}</div>
          <div style="font-family:'Nunito',Helvetica,Arial,sans-serif;font-size:42px;font-weight:800;line-height:1;color:${INK};letter-spacing:-0.02em">${pace.average} <span style="font-size:19px;font-weight:800">minutes a day</span></div>
@@ -733,9 +764,20 @@ export function monthlyBalanceEmail(params: {
       p(pace.line) +
       (heaviest
         ? p(`Most of it was on ${heaviest.label}, at ${fmtMinsEmail(heaviest.minutes)} across the month.`)
-        : '') +
+        : '')
+    )
+  }
+
+  const first = children[0]
+  return {
+    subject: many
+      ? `Your family's screen time in ${monthLabel}`
+      : `${first.childLabel}'s screen time in ${monthLabel}: ${first.pace.headline.toLowerCase()}`,
+    html: wrapper(
+      heading(many ? `${monthLabel}, child by child` : `${monthLabel}, in one number`) +
+      children.map(block).join('') +
       button('See the full picture', `${APP}/dashboard/stats`) +
-      p(`This is a budget, not a rule. A heavy weekend does not break anything, it just makes the next few days a little lighter. Nothing here is compared against another family.`),
+      p(`This is a budget, not a rule. A heavy weekend does not break anything, it just makes the next few days a little lighter. Nothing here is compared against another family, or against each other.`),
       unsubscribe
     ),
   }
