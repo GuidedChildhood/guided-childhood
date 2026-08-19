@@ -43,8 +43,9 @@ do. And the tools they tried, Qustodio, Bark, Family Link, earn reviews like
 "a huge waste of money time and energy", because blocking software makes
 today's decision for the parent and teaches the child nothing for tomorrow.
 
-**The perfect customer.** A UK parent of a primary age child, roughly 4 to 11,
-who can feel the cliff edge coming: at some point the phone arrives, social
+**The perfect customer.** A UK parent with a child aged 2 to 16 (Justin,
+18 August 2026), the heart of the market being primary age, who can feel the
+cliff edge coming: at some point the phone arrives, social
 media goes live, and nothing they did before that felt like preparation. They
 have tried an app that promised control and delivered arguments. They read
 Good Inside and follow the Smartphone Free Childhood conversation. They do not

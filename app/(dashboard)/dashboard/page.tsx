@@ -569,7 +569,12 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // family who has never checked in, and so DiGi is introduced on day one.
     // Setup and quests are passed in the second call below, once the flags and
     // the board counts exist. See the argument in daily-tasks.
-    getTodayLoop(supabase, user.id, child?.id ?? null, stageSlug, challenge, isPaid, (profile?.first_checkin_at as string | null) ?? null, currentSetupStep),
+    // The last argument is the child this loop is about: whose passport the
+    // rung reads, and since migration 210 whose daily_sessions row decides
+    // whether today is done. It was a sections array for six days and nothing
+    // ever passed it, so the rung never rendered and the rotation never reached
+    // the passport. The loop fetches the rows itself now; this only says whose.
+    getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid, (profile?.first_checkin_at as string | null) ?? null, currentSetupStep, child ?? null),
     getLiteracyStatuses(supabase, user.id, stage.id),
     child?.stage_id
       ? getSuggestions(supabase, user.id, { childName: child.name, childId: child.id, stageId: stageSlug, ukHour })

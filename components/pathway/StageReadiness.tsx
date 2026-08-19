@@ -16,7 +16,7 @@ import DigiCharacter from '@gc/shared/components/DigiCharacter'
 type AmberItem = { name: string; improve: string; href: string }
 
 export default function StageReadiness({
-  stageName, stampName, childName, greens, activeAreas, lessonsLeft, ambers,
+  stageId, stageName, stampName, childId, childName, greens, activeAreas, lessonsLeft, ambers,
   alreadyPassed, kidToken,
 }: {
   stageId: number
@@ -35,6 +35,10 @@ export default function StageReadiness({
   kidToken?: string | null
 }) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
+  // The together check's address, carrying the child so the page under it
+  // reads the right passport. stageId rides so a readiness card shown for a
+  // catch up stage one day sits that stage's check, not the current one.
+  const checkHref = `/dashboard/pathway/check?stage=${stageId}${childId ? `&child=${childId}` : ''}&from=passport`
   const allGreen = ambers.length === 0 && lessonsLeft === 0
 
   const card: React.CSSProperties = {
@@ -125,23 +129,61 @@ export default function StageReadiness({
 
         {allGreen && (
           kidToken ? (
-            <Link
-              href={`/k/${kidToken}/quiz`}
-              style={{
-                display: 'block', textAlign: 'center', textDecoration: 'none',
-                marginTop: 16, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
-                borderRadius: 14, padding: '14px 18px', boxSizing: 'border-box',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
-                boxShadow: '0 4px 0 var(--terracotta-dark)',
-              }}
-            >
-              Open the check on {kid}&rsquo;s link
-            </Link>
+            <>
+              <Link
+                href={`/k/${kidToken}/quiz`}
+                style={{
+                  display: 'block', textAlign: 'center', textDecoration: 'none',
+                  marginTop: 16, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
+                  borderRadius: 14, padding: '14px 18px', boxSizing: 'border-box',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
+                  boxShadow: '0 4px 0 var(--terracotta-dark)',
+                }}
+              >
+                Open the check on {kid}&rsquo;s link
+              </Link>
+              {/* The quiet second door. Their own app is the front door because
+                  sitting the check there is the child owning their own
+                  passport; this is for the evening the tablet is flat or left
+                  at the other house. Same questions, same pass mark, same
+                  stamp. */}
+              <Link
+                href={checkHref}
+                style={{
+                  display: 'block', textAlign: 'center', marginTop: 9,
+                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                  color: 'var(--ink-muted)', textDecoration: 'underline', letterSpacing: '0.04em',
+                }}
+              >
+                Or sit it together on this screen
+              </Link>
+            </>
           ) : (
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '14px 0 0', background: 'var(--cream)', borderRadius: 12, padding: '12px 14px' }}>
-              {kid} needs their own link before they can take it. Set one up on the quests page and
-              the check appears on their lessons.
-            </p>
+            <>
+              {/* THE DEAD END IS GONE (18 August 2026). This used to be a
+                  paragraph telling the family to go and set up a child link,
+                  full stop, which meant no app could ever mean no stamp: the
+                  parent side recorder existed in the API with nothing calling
+                  it. Justin: "should push for app but yes when no app parents
+                  can do together." So the ask to set up the app stays, and
+                  the check no longer waits for it. */}
+              <Link
+                href={checkHref}
+                style={{
+                  display: 'block', textAlign: 'center', textDecoration: 'none',
+                  marginTop: 16, width: '100%', background: 'var(--terracotta)', color: 'var(--ink)',
+                  borderRadius: 14, padding: '14px 18px', boxSizing: 'border-box',
+                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)',
+                  boxShadow: '0 4px 0 var(--terracotta-dark)',
+                }}
+              >
+                Sit the check together
+              </Link>
+              <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '9px 0 0', textAlign: 'center' }}>
+                Five questions, out loud, side by side. With their own link the check
+                lands on {kid}&rsquo;s app instead: set one up on the quests page.
+              </p>
+            </>
           )
         )}
       </div>

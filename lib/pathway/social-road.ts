@@ -95,8 +95,16 @@ export async function getSocialRoad(
     ])
     if (!lessons?.length) return null
 
+    // The same seam progress.ts wrote on 18 August: a parent row with a NULL
+    // child is the old doctrine (watched for the family) and counts for every
+    // child; a parent row that NAMES a child is the new doctrine (watched WITH
+    // that child) and counts for that child only. Today every parent row is
+    // null so nothing changes; when the plumbing session's write side lands,
+    // this road stops crediting Alma's shared watch to Teo's run at sixteen.
     const parentPassed = new Set(
-      (passes ?? []).filter(p => p.who === 'parent').map(p => p.lesson_id as string),
+      (passes ?? [])
+        .filter(p => p.who === 'parent' && (p.child_id === null || p.child_id === childId))
+        .map(p => p.lesson_id as string),
     )
     const childPassed = new Set(
       (passes ?? []).filter(p => p.who === 'child' && p.child_id === childId).map(p => p.lesson_id as string),

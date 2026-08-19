@@ -35,12 +35,70 @@ export interface StageProgress {
   lessonsDone: number
   lessonsTotal: number
   overallPct: number
+  // Scripts as counts, not only a percent, since 18 August 2026: the passport
+  // timeline paces items left against weeks left, and items are lessons plus
+  // scripts, the same two the stamp counts.
+  scriptsDone: number
+  scriptsTotal: number
   // The stamp is earned when the stage's real tasks, its lessons and scripts,
   // are all done. Deliberately not gated on a four week streak, so completing
   // the content a parent can actually finish is what fills and earns the
   // stamp. The streak and devices still lift the ring, they just do not block
   // the badge.
   contentComplete: boolean
+}
+
+// ── WHOSE LESSON COUNTS, THE MULTI CHILD RULE ───────────────────────────────
+//
+// Justin, 18 August 2026: "the passport has to be per child, individual task,
+// quests lessons digi moments etc all child related." The data model for it is
+// migration 162's lesson_pass_by, which records WHO passed: a child row for a
+// pass on a kid link, a parent row (null child_id) for the signed in
+// dashboard, because "a parent watching a lesson is watching it for the
+// family rather than for one child".
+//
+// So for child X a lesson is credited when any of these holds:
+//   1. X passed it on their own link (a pass_by row with X's child_id).
+//   2. The parent passed it (a pass_by row with who parent), which counts for
+//      every child by 162's own doctrine.
+//   3. LEGACY: a lesson_completions pass exists and pass_by knows nothing
+//      about that lesson at all. pass_by is additive since 162 and was never
+//      backfilled, so the absence of a row is history, not absence of work.
+//      Without this rule every family who learned before mid August would
+//      wake to an emptier passport.
+//
+// A sibling's own pass (a pass_by row with a DIFFERENT child_id, and no
+// parent or legacy credit) is exactly what stops counting, which is the
+// point: the eldest doing their lessons never filled the youngest's page.
+type PassByRow = { lesson_id: string; who: string; child_id: string | null }
+function lessonCreditKeys(
+  completions: { lesson_id: string; lesson_source: string; passed: boolean | null }[] | null,
+  passBy: PassByRow[] | null,
+  childId: string | null,
+): Set<string> {
+  const passedCompletions = (completions ?? []).filter(c => c.passed !== false)
+  if (!childId || passBy === null) {
+    return new Set(passedCompletions.map(c => `${c.lesson_source}:${c.lesson_id}`))
+  }
+  const knownToPassBy = new Set((passBy ?? []).map(r => r.lesson_id))
+  const credited = new Set<string>()
+  for (const r of passBy ?? []) {
+    // A parent row with a NULL child is the old doctrine (watching for the
+    // family) and credits every child. A parent row that NAMES a child is the
+    // new doctrine arriving (the plumbing session's write side change: the
+    // parent watched WITH that child, from ?child=) and credits that child
+    // only. Today every parent row is null so both readings agree; when the
+    // write side lands, this line starts meaning it without an edit here.
+    const parentCredit = r.who === 'parent' && (r.child_id === null || r.child_id === childId)
+    if (parentCredit || r.child_id === childId) credited.add(r.lesson_id)
+  }
+  const out = new Set<string>()
+  for (const c of passedCompletions) {
+    if (credited.has(c.lesson_id) || !knownToPassBy.has(c.lesson_id)) {
+      out.add(`${c.lesson_source}:${c.lesson_id}`)
+    }
+  }
+  return out
 }
 
 // Blends four independent signals into one progress number per stage:
@@ -51,7 +109,13 @@ export async function getStageProgress(
   supabase: SupabaseClient,
   userId: string,
   stageId: StageId,
-  streakWeeks: number
+  streakWeeks: number,
+  /**
+   * Whose passport the lessons count for. Null keeps the family wide reading,
+   * which is the pre multi child behaviour and stays right for surfaces that
+   * genuinely ask the household question. See lessonCreditKeys for the rule.
+   */
+  childId: string | null = null,
 ): Promise<StageProgress> {
   const [
     { data: stageScripts },
@@ -61,6 +125,7 @@ export async function getStageProgress(
     { data: lessonsForStage },
     { data: lessonCompletions },
     { data: familyDevices },
+    { data: passBy },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order').eq('stage_id', stageId),
     supabase.from('script_completions').select('script_sort_order, status').eq('user_id', userId),
@@ -72,6 +137,9 @@ export async function getStageProgress(
     // or before they have told us, this comes back empty and the catalogue
     // reading below is used exactly as it was.
     supabase.from('family_devices').select('guide_key, retired_at').eq('user_id', userId),
+    childId
+      ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
+      : Promise.resolve({ data: null }),
   ])
 
   // Scripts: how many of this stage's scripts this family has RESOLVED, which
@@ -138,11 +206,7 @@ export async function getStageProgress(
   // A failed run counting as done is the worse half: it inflates a parent's
   // progress with work their child got wrong, which is the one number in the
   // product that has to be honest. Both rules now match the Lessons page.
-  const passedCompletionKeys = new Set(
-    (lessonCompletions ?? [])
-      .filter(c => c.passed !== false)
-      .map(c => `${c.lesson_source}:${c.lesson_id}`)
-  )
+  const passedCompletionKeys = lessonCreditKeys(lessonCompletions, passBy as PassByRow[] | null, childId)
   const totalLessonsInStage = lessonsForStage?.length ?? 0
   const lessonsDone =
     (lessonsForStage ?? []).filter(l => passedCompletionKeys.has(`lesson:${l.id}`)).length
@@ -156,7 +220,7 @@ export async function getStageProgress(
   const doneContent = completedInStage + lessonsDone
   const contentComplete = totalContent > 0 && doneContent === totalContent
 
-  return { scriptsPct, streakPct, devicesPct, lessonsPct, lessonsDone, lessonsTotal: totalLessonsInStage, overallPct, contentComplete }
+  return { scriptsPct, streakPct, devicesPct, lessonsPct, lessonsDone, lessonsTotal: totalLessonsInStage, scriptsDone: completedInStage, scriptsTotal: stageScriptOrders.size, overallPct, contentComplete }
 }
 
 export function nextStageId(current: StageId): StageId | null {
@@ -173,6 +237,8 @@ export async function getAllStagesProgress(
   supabase: SupabaseClient,
   userId: string,
   streakWeeks: number,
+  /** Whose passport. Null keeps the family wide reading. See lessonCreditKeys. */
+  childId: string | null = null,
 ): Promise<Record<StageId, StageProgress>> {
   const [
     { data: scripts },
@@ -182,6 +248,7 @@ export async function getAllStagesProgress(
     { data: lessons },
     { data: lessonCompletions },
     { data: familyDevices },
+    { data: passBy },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order, stage_id'),
     supabase.from('script_completions').select('script_sort_order, status').eq('user_id', userId),
@@ -190,6 +257,9 @@ export async function getAllStagesProgress(
     supabase.from('lessons').select('id, stage_id').eq('audience', 'parent').neq('status', 'stub'),
     supabase.from('lesson_completions').select('lesson_id, lesson_source, passed').eq('user_id', userId),
     supabase.from('family_devices').select('guide_key, retired_at').eq('user_id', userId),
+    childId
+      ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
+      : Promise.resolve({ data: null }),
   ])
 
   // Same stricter rule as getStageProgress above: resolved, not merely opened.
@@ -205,11 +275,7 @@ export async function getAllStagesProgress(
   // real devices, never all nineteen guides. A device set up counts as done.
   const notOwnedDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status === 'not_owned').map(d => d.device_key))
   const doneDeviceKeys = new Set((deviceProgress ?? []).filter(d => d.status !== 'not_owned').map(d => d.device_key))
-  const passedCompletionKeys = new Set(
-    (lessonCompletions ?? [])
-      .filter(c => c.passed !== false)
-      .map(c => `${c.lesson_source}:${c.lesson_id}`)
-  )
+  const passedCompletionKeys = lessonCreditKeys(lessonCompletions, passBy as PassByRow[] | null, childId)
   const streakPct = Math.min(Math.round((streakWeeks / 4) * 100), 100)
   // Their own list of what is in the house, when they have given us one.
   const stageOfGuide = guideStageLookup(deviceGuides)
@@ -247,6 +313,7 @@ export async function getAllStagesProgress(
     out[stageId] = {
       scriptsPct, streakPct, devicesPct, lessonsPct,
       lessonsDone, lessonsTotal: totalLessons,
+      scriptsDone, scriptsTotal: stageScripts.length,
       overallPct: Math.round(lessonsPct * 0.4 + scriptsPct * 0.3 + streakPct * 0.15 + devicesPct * 0.15),
       contentComplete: totalContent > 0 && doneContent === totalContent,
     }

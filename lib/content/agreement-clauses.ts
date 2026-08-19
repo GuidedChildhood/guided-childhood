@@ -17,7 +17,7 @@ export type AgreementTypeDef = {
 export const AGREEMENT_TYPES: AgreementTypeDef[] = [
   { key: 'first-screens', label: 'First screens',      ages: 'Ages 4 to 7',   stage: 'foundation',  emoji: '📺', blurb: 'TV and tablet basics: when, where and what happens when time is up.' },
   { key: 'tablet-games',  label: 'Tablet and gaming',  ages: 'Ages 8 to 10',  stage: 'builder',     emoji: '🎮', blurb: 'Games, YouTube and the first taste of independence, with the habits set early.' },
-  { key: 'first-phone',   label: 'First phone',        ages: 'Ages 11 to 13', stage: 'explorer',    emoji: '📱', blurb: 'The big one. What having a phone means, and what it never means.' },
+  { key: 'first-phone',   label: 'First phone',        ages: 'Ages 11 to 12', stage: 'explorer',    emoji: '📱', blurb: 'The big one. What having a phone means, and what it never means.' },
   { key: 'social-ready',  label: 'Social media ready', ages: 'Ages 13 to 15', stage: 'shaper',      emoji: '💬', blurb: 'Which apps, on what terms, and how we stay on the same side.' },
   { key: 'independent',   label: 'Nearly independent', ages: 'Age 16 and up', stage: 'independent', emoji: '🧭', blurb: 'Less rules, more trust, and the door always open.' },
 ]

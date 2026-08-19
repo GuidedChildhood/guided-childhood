@@ -46,16 +46,32 @@ function statusLabel(s: StampStatus): string {
   return 'Ahead'
 }
 
-const CELEBRATED_KEY = 'gc_passport_celebrated'
+// Per child since 18 August 2026. One global key meant the first child's
+// stamp celebration marked the stage as seen for the whole browser, so the
+// second child's identical achievement passed in silence: invisible and
+// unrecoverable, the exact bug the multi child audit named. The legacy
+// un-suffixed key is deliberately left behind: worst case an existing family
+// sees one celebration replay per already stamped stage, which errs on the
+// side of clapping twice rather than never.
+const celebratedKey = (childId: string | null) => `gc_passport_celebrated_${childId ?? 'family'}`
 
 export default function PassportBook({
   stamps,
   childName,
+  catchupLines,
   openAtStage = null,
   currentStage = null,
+  childId = null,
 }: {
   stamps: Stamp[]
   childName: string
+  /**
+   * One paced sentence per catch up stage id, from the page's own pace
+   * arithmetic ("One a month fills this page"). Optional because every other
+   * surface that renders the book (the ref pages, the marketing shots) has no
+   * birthday to pace against, and the banner reads fine without it.
+   */
+  catchupLines?: Record<number, string>
   /**
    * Open straight onto this stage's page rather than the cover.
    *
@@ -82,6 +98,9 @@ export default function PassportBook({
    * discovered by flipping.
    */
   currentStage?: number | null
+  /** Whose book, for the per child celebration memory. Null celebrates as one
+   *  family, which is only right when there is genuinely one child. */
+  childId?: string | null
 }) {
   // Page 0 is the cover; pages 1..5 are the stages. The book rests on its
   // cover and never opens itself: the parent taps to open each page, the way
@@ -123,14 +142,14 @@ export default function PassportBook({
   useEffect(() => {
     if (typeof window === 'undefined') return
     let seen: number[] = []
-    try { seen = JSON.parse(localStorage.getItem(CELEBRATED_KEY) ?? '[]') } catch { seen = [] }
+    try { seen = JSON.parse(localStorage.getItem(celebratedKey(childId)) ?? '[]') } catch { seen = [] }
     const fresh = stamps.find(s => s.status === 'earned' && !seen.includes(s.id))
     if (!fresh) return
     const t = setTimeout(() => {
       setCelebrating(fresh)
       try { navigator.vibrate?.([40, 60, 90]) } catch { /* not supported */ }
       const next = Array.from(new Set([...seen, ...stamps.filter(s => s.status === 'earned').map(s => s.id)]))
-      try { localStorage.setItem(CELEBRATED_KEY, JSON.stringify(next)) } catch { /* private mode */ }
+      try { localStorage.setItem(celebratedKey(childId), JSON.stringify(next)) } catch { /* private mode */ }
     }, 700)
     return () => clearTimeout(t)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -301,18 +320,49 @@ export default function PassportBook({
                 </svg>
                 <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
                   {stamp.status === 'earned' ? (
+                    /* THE STAMP IS THE PLANET FRIEND, INKED. The earned seal
+                       used to be a tick and the word Earned, which said done
+                       and nothing else. The character the child grew up with
+                       at this stage IS the stamp now, printed in the page's
+                       own ink: grayscale then tinted by the stage text colour
+                       through a screen blend, so it reads as pressed rubber
+                       stamp rather than a pasted sticker. The friend under
+                       the ring introduces them; the seal is them, earned. */
                     <div style={{
-                      width: 84, height: 84, borderRadius: '50%',
-                      border: `3px solid ${theme.text}`, color: theme.text,
+                      position: 'relative', width: 84, height: 84, borderRadius: '50%',
+                      border: `3px solid ${theme.text}`, color: theme.text, overflow: 'hidden',
                       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                       transform: 'rotate(-10deg)', animation: 'gcStampIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both',
+                      background: theme.bg,
                     }}>
-                      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12.5l4.5 4.5L19 7" />
-                      </svg>
-                      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: '2px' }}>
-                        Earned
-                      </span>
+                      {friend ? (
+                        <>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={friend.cutout}
+                            alt=""
+                            style={{
+                              width: 56, height: 56, objectFit: 'contain',
+                              filter: 'grayscale(1) contrast(1.2) opacity(0.85)',
+                            }}
+                          />
+                          {/* The ink: the stage colour laid over the grey art,
+                              so every stamp presses in its page's own colour. */}
+                          <span aria-hidden style={{ position: 'absolute', inset: 0, background: theme.text, mixBlendMode: 'screen', opacity: 0.28, pointerEvents: 'none' }} />
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: '1px' }}>
+                            Earned
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M5 12.5l4.5 4.5L19 7" />
+                          </svg>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: '2px' }}>
+                            Earned
+                          </span>
+                        </>
+                      )}
                     </div>
                   ) : (
                     <>
@@ -682,7 +732,7 @@ export default function PassportBook({
                 type="button"
                 onClick={() => openFromBelow(s.id)}
                 style={{
-                  display: 'inline-flex', alignItems: 'baseline', gap: 7,
+                  display: 'inline-flex', alignItems: 'baseline', gap: 7, flexWrap: 'wrap',
                   background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: 12,
                   padding: '8px 13px', cursor: 'pointer', textAlign: 'left',
                 }}
@@ -693,6 +743,13 @@ export default function PassportBook({
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
                   {s.pct}%
                 </span>
+                {/* The rhythm, not a deadline: real arithmetic from the page,
+                    absent on surfaces with no birthday to pace against. */}
+                {catchupLines?.[s.id] && (
+                  <span style={{ display: 'block', width: '100%', fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)', marginTop: 2 }}>
+                    {catchupLines[s.id]}
+                  </span>
+                )}
               </button>
             ))}
           </div>

@@ -8229,3 +8229,134 @@ THE LESSON, for the redesign and for every session reading this file: the tabs
 were built from a written brief and approved in prose, and the first time
 Justin SAW them he rejected them. The redesign starts from the restored page
 and gets screenshots at every step before anything is declared done.
+
+## 18 August 2026 — The multi child lanes: the passport session accepts the handover
+
+Two sessions are live. The multi child session (mobbin-ux-references branch)
+published plans/multi-child-build-plan.md with lanes drawn and its step 6
+written as a handover to the passport session. This entry is the passport
+session accepting, and settling the two files where the lanes could cross.
+Justin asked for exactly this cross check before giving the passport build the
+go: "so both builds work together and dont cross for multi child."
+
+THE LANES, CONFIRMED BOTH SIDES:
+- Multi child session: shared plumbing (?child= threaded through nav and
+  layout, switcher mounted on the deep pages), the child app, DiGi, and ALL
+  schema. Migrations 206, 207 and the agreements one after are theirs.
+- Passport session: /dashboard/pathway, /dashboard/passport, PassportBook,
+  IsItWorkingReport, LiteracyAreas, StageRoad, and every item on their step 6
+  list: per child reads for lessons, scripts, devices and contentComplete;
+  concerns filtered by child_id; stars summed per child not per family; the
+  stamp celebration localStorage keys gaining a child id so the first child's
+  stamp cannot burn the second's; the weekly check in reading and writing the
+  SELECTED child.
+- THE PASSPORT LANE NEEDS NO MIGRATION. Verified today: wellbeing_checks
+  (001), stage_quiz_passes (098), concerns (194) and lesson_pass_by (162) all
+  carry child_id already. Every passport fix is a read or a key. If that ever
+  changes, the passport lane claims 209 by editing THIS entry first.
+
+THE TWO CROSSING POINTS, SETTLED:
+1. lib/pathway/progress.ts BELONGS TO THE PASSPORT LANE. It is the sharpest
+   shared file: their step 2.2 moves lesson reads onto lesson_pass_by for the
+   lessons pages and the child app, and the passport's numbers flow through
+   progress.ts. One owner or we rewrite each other. So: they change lesson
+   reads at their own call sites and DO NOT touch progress.ts; the passport
+   session adopts the same lesson_pass_by pattern inside progress.ts itself.
+2. components/children/ChildSwitcher.tsx CHANGES BY ADDITIVE PROP ONLY. They
+   are mounting it on seven more pages; the passport design adds an avatar and
+   a per child balance dot to the pills. The passport session adds these as
+   OPTIONAL props, default off, so every existing and new call site renders
+   exactly as today unless it opts in. Neither session changes its defaults.
+
+SEQUENCING: their step 1 (?child= threading) is the one piece the passport
+build genuinely wants underneath it, so selection survives a tap into a lesson
+and back. The passport build starts anyway (its own page already reads
+?child=) and simply rebases when step 1 merges. Small PRs, same day merges,
+per the standing rule.
+
+## 18 August 2026 — The two sessions agreed it between themselves
+
+Justin asked the two live sessions to agree multi child directly rather than
+route through him. Done, by message, both directions. What was agreed, beyond
+the lanes entry above:
+
+- Their step 1 (the switcher lifted into the dashboard layout) lands BEFORE
+  the passport rebuild. The passport renders NO switcher of its own, deletes
+  the inner one in IsItWorkingReport when rebuilding, and does not touch
+  ChildSwitcher.tsx at all, which supersedes the additive prop idea above.
+  The per child balance dot moves from the pills into the passport's own
+  lane: a sibling glance line on the page when another child's balance needs
+  a look.
+- Migrations: passport lane confirmed none; 208 stays free for their
+  agreements step. Any future passport claim goes through this file first.
+- LiteracyCheckIn becomes a rotation item in THEIR lane. The fact that forced
+  the decision: getLiteracyStatuses reads literacy_checkins on a 28 day
+  window, so the four strands go stale within a month of the form rendering
+  nowhere. Handed to them with that clock attached.
+- progress.ts stays passport lane; they change lesson reads at their own call
+  sites only; both lanes converge on the lesson_pass_by read pattern.
+- Rebased on main same hour: their removals (Your focus, School chest,
+  BalanceReport, LiteracyCheckIn) and anchors are in this branch, and the
+  passport mock already assumed a page stripped to the application, so the
+  removals CONFIRM the approved design rather than fight it.
+
+## 18 August 2026 — Per child is the rule, and the migration ledger moved
+
+Justin, asked which work earns which child's stamp: "the other session is
+making everything child related... the passport has to be per child,
+individual task, quests lessons digi moments etc all child related." And via
+the plumbing session, sharper: "we are working on making all aspects such as
+scripts, moments, lessons child related not family, so the passport should
+follow." Their contract file now states the rule: if a child does it, learns
+it, or is talked to about it, it is per child; family level is the account
+only.
+
+WHAT THE PASSPORT LANE SHIPPED ON IT TODAY:
+- Lessons per child in progress.ts through lesson_pass_by, with 162's doctrine
+  kept: the child's own pass counts for them, the parent's pass counts for
+  every child, and legacy completions that predate 162 are grandfathered so
+  nobody's passport empties. A sibling's pass no longer fills another child's
+  page.
+- THE STAMP IS PER CHILD, and the check is what makes it theirs: earned now
+  means the stage's content is complete AND THIS child passed their five
+  question check. The approved mock in as many words: fill the page, pass the
+  check, earn the stamp. The end of road celebration gates the same way.
+- Concerns scoped to the selected child on every passport surface (own worries
+  plus family wide null child_id rows, never a sibling's).
+- The stamp celebration memory is per child, so the first child's stamp cannot
+  burn the second child's moment.
+- Stars this week on the report count the named child's ticks, not the
+  family's, and the sentence names the child.
+
+MIGRATION LEDGER, corrected by the plumbing session: 206 quest_ticks child
+key, 207 school_actions child_id, 208 daily_sessions AND script_completions
+child_id, 209 agreements. Free from 210. The passport lane still claims none;
+when 208 merges, progress.ts scopes scripts per child too (tracked as a task).
+
+## 18 August 2026 — The review standard, the eyes, and the customer aged 2 to 16
+
+Justin watched the AI employee setup walkthrough and asked for the three
+missing pieces to be set up: "Set the three up and let me know how I implement
+you must already know the perfect user is a parent with a 2 to 16 year old
+child."
+
+THREE THINGS DECIDED AND BUILT:
+
+1. review.md now lives at the repo root. It is the single quality standard
+   every change is checked against before it ships: philosophy, customer,
+   scope, product, design, risk, sorted must fix / should fix / okay to ship.
+   CLAUDE.md points every session at it. If the bar changes, change review.md,
+   not the routines that read it.
+
+2. Two new routines exist alongside the daily health sweep. A weekly UX
+   walkthrough (Wednesday mornings) that opens the product with Playwright and
+   walks it as the perfect customer, reporting the three highest friction
+   moments, report only, no code. And a weekday PR review (each morning) that
+   reviews every open pull request against review.md and comments must fix /
+   should fix / okay to ship.
+
+3. THE PERFECT CUSTOMER IS A UK PARENT WITH A CHILD AGED 2 TO 16, stated
+   plainly by Justin on 18 August. THE-STORY.md section 2 previously said
+   primary age, roughly 4 to 11; that stays the heart of the market, but the
+   product serves the full 2 to 16 run up to the phone. Features must degrade
+   gracefully across the range.

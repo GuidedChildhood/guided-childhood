@@ -35,7 +35,7 @@ export type StageKey = 'foundation' | 'builder' | 'explorer' | 'shaper' | 'indep
 export const STAGE_LABELS: Record<StageKey, { name: string; ages: string }> = {
   foundation:  { name: 'Foundation',  ages: 'Ages 4 to 7' },
   builder:     { name: 'Builder',     ages: 'Ages 8 to 10' },
-  explorer:    { name: 'Explorer',    ages: 'Ages 11 to 13' },
+  explorer:    { name: 'Explorer',    ages: 'Ages 11 to 12' },
   shaper:      { name: 'Shaper',      ages: 'Ages 13 to 15' },
   independent: { name: 'Independent', ages: 'Ages 16 and up' },
 }

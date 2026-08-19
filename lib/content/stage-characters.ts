@@ -97,7 +97,7 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
     img: '/digi-squad/friends/orbit.png',
     cutout: '/digi-squad/friends/orbit.png',
     colouring: BASE + 'hf_20260724_130030_bca37824-1a9f-4744-9044-c97de3da8abe.png',
-    ages: 'Ages 11 to 13', colour: '#4C9FD6', action: 'Explore',
+    ages: 'Ages 11 to 12', colour: '#4C9FD6', action: 'Explore',
     blurb: 'Exploring bigger worlds and asking big questions.',
     role: 'exploring and asking big questions',
     intro: "I'm Orbit! Get to Stage 3 and we'll explore bigger worlds together.",

@@ -112,7 +112,7 @@ export const STAGES: Stage[] = [
     id: 3,
     name: 'Explorer',
     ageBand: '11-13',
-    ages: 'Ages 11 to 13',
+    ages: 'Ages 11 to 12',
     keyStage: 'KS3',
     yearGroup: 'Year 7 to 8',
     usGrade: 'Grades 6 to 8',
@@ -133,7 +133,7 @@ export const STAGES: Stage[] = [
       'Withdrawal from family conversations',
     ],
     parentQuote: '"Her mood was dropping every Sunday evening. It took me a month to connect it to Instagram."',
-    digiContext: 'Stage 3 parent. Child aged 11 to 13. CRITICAL DEVELOPMENTAL WINDOW. Orben research applies, adolescent girls especially at risk. Focus on the algorithm conversation, bedroom rule, comparison culture. Social media requires readiness conversation, not just age.',
+    digiContext: 'Stage 3 parent. Child aged 11 to 12. CRITICAL DEVELOPMENTAL WINDOW. Orben research applies, adolescent girls especially at risk. Focus on the algorithm conversation, bedroom rule, comparison culture. Social media requires readiness conversation, not just age.',
     challengeActions: {
       screens_takeover: 'The bedroom rule is your most powerful tool right now. If it is not in place, start there tonight.',
       mood_changes: 'Sit together and scroll their feed for 10 minutes. Ask what they feel, not what they think. "Does any of this make you feel good about yourself?"',
@@ -272,7 +272,11 @@ export function ageBandInList(childBand: string | null | undefined, contentBands
 export const AGE_BAND_OPTIONS: { label: string; value: AgeBand; sub: string }[] = [
   { label: '4 to 7 years', value: '4-7', sub: 'Stage 1 · Foundation' },
   { label: '8 to 10 years', value: '8-10', sub: 'Stage 2 · Builder' },
-  { label: '11 to 13 years', value: '11-13', sub: 'Stage 3 · Explorer' },
+  // 11 to 12, not 11 to 13: the 13th birthday opens Shaper (bandForYears in
+  // lib/children/age.ts is the authority), and the two options overlapping at
+  // 13 made a parent of a 13 year old guess. The band VALUE stays '11-13'
+  // because it is a stored key across every table, not a display string.
+  { label: '11 to 12 years', value: '11-13', sub: 'Stage 3 · Explorer' },
   { label: '13 to 15 years', value: '13-15', sub: 'Stage 4 · Shaper' },
   { label: '16 and over', value: '16+', sub: 'Stage 5 · Independent' },
 ]
