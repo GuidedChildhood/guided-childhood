@@ -50,7 +50,8 @@ Status: OPEN · IN PROGRESS · FIXED · BLOCKED (with what it waits on)
 | 34 | Data | 15 orphan `quest_ticks` with no child | CLOSED | Justin: leave them, old test data |
 | 36 | Interface | Setup rung drawn on EVERY child's Today, so a second child was told she needed setting up | FIXED | Account level job, now on the first child's day only |
 | 37 | Database | Setup quest could REOPEN months later when a child was added, over a QR code | FIXED | Migration 216: profiles.setup_completed_at, stamped once |
-| 35 | Interface | Passport count has no owner and "moments to resolve" 404s | OPEN | Justin's reference case, other session's lane |
+| 35 | Interface | Passport count has no owner and "moments to resolve" 404s | FIXED | Both halves by the passport session before it closed, verified in code: counts scoped `child_id.eq.<id>,child_id.is.null`, link is an anchor to #working-on which exists, heading names the child. Rail handover completed 19 Aug: pathway and passport join CHILD_ROUTES, page's own switcher deleted at the line their comment marked. |
+| 38 | API | Proactive DiGi prompts scanned the primary child only; a second child could never trip one | FIXED | Every child scanned per signal, routine cadence once per family, prompts named and filed per child. plans/digi-proactive-audit.md |
 
 ## Phase 1 close
 
