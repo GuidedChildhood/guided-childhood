@@ -367,28 +367,64 @@ function StepAction({ step, child, childList, userId }: {
     // and each row settles on its own. The step goes green when every row has,
     // which is why flags.ts asks `every` rather than `some`.
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      // ── WHOSE CARD THIS IS, AT A GLANCE (18 August 2026) ─────────────────
+      //
+      // Justin: "the appearance and spacing here needs to be a bit neater, all
+      // a bit cramped" and "let's make the name, Olgie for example, much
+      // clearer and obvious."
+      //
+      // The name was set at the same weight as a label and sat directly on top
+      // of a big yellow button, so the loudest thing in each card was the word
+      // "Show" and the child it belonged to read as a caption. On a step whose
+      // entire job is "this code is for THIS child, that one is for THAT one",
+      // the name is the thing that has to be unmistakable, or a parent hands
+      // the wrong code to the wrong child.
+      //
+      // So: an initial in a terracotta disc, the name at display size on its
+      // own line, and real room around all of it.
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
         {childList.map(c => {
           const name = c.name && c.name !== 'Your child' ? c.name : 'your child'
           const settled = c.linked || c.noPhone
+          const initial = (c.name && c.name !== 'Your child' ? c.name.trim()[0] : '?').toUpperCase()
           return (
             <div
               key={c.id}
               style={{
                 background: settled ? 'var(--tint-sage)' : 'var(--cream)',
-                border: settled ? '1px solid var(--stage-1-bold)' : '1px solid var(--border)',
-                borderRadius: 14, padding: '13px 15px',
+                border: settled ? '1.5px solid var(--stage-1-bold)' : '1.5px solid var(--border)',
+                borderRadius: 18, padding: '18px 18px 20px',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: settled ? 0 : '10px' }}>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-                  {name}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: settled ? 0 : '16px' }}>
+                <span
+                  aria-hidden
+                  style={{
+                    flexShrink: 0, width: 40, height: 40, borderRadius: '50%',
+                    background: settled ? 'var(--stage-1-bold)' : 'var(--terracotta)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontFamily: 'var(--font-display)', fontWeight: 900,
+                    fontSize: 'var(--text-md)', color: settled ? '#fff' : 'var(--ink)',
+                  }}
+                >
+                  {initial}
                 </span>
-                {settled && (
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#1F7A54' }}>
-                    {c.linked ? '✓ code shared' : '✓ on paper'}
+                <span style={{ minWidth: 0 }}>
+                  <span style={{
+                    display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900,
+                    fontSize: 'var(--text-lg)', letterSpacing: '-0.02em', lineHeight: 1.15,
+                    color: 'var(--ink)', overflowWrap: 'anywhere',
+                  }}>
+                    {name}
                   </span>
-                )}
+                  <span style={{
+                    display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
+                    fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+                    color: settled ? '#1F7A54' : 'var(--ink-muted)', marginTop: '3px',
+                  }}>
+                    {c.linked ? '✓ code shared' : c.noPhone ? '✓ on paper' : 'Needs a code'}
+                  </span>
+                </span>
               </div>
               {!settled && (
                 <>
@@ -396,7 +432,7 @@ function StepAction({ step, child, childList, userId }: {
                     childId={c.id}
                     childName={c.name}
                     label={`Show ${name}'s code`}
-                    style={{ fontSize: 'var(--text-base)', padding: '11px 18px' }}
+                    style={{ fontSize: 'var(--text-base)', padding: '13px 20px', width: '100%', justifyContent: 'center' }}
                   />
                   {/* Per child, so one can be on the app and another on paper. */}
                   <NoPhoneButton childId={c.id} childName={name} />
@@ -519,15 +555,33 @@ const AGE_BANDS: { value: string; label: string }[] = [
   { value: '16+', label: '16 and over' },
 ]
 
+// ── ADDING ONE CHILD MUST NOT END THE STEP (18 August 2026) ────────────────
+//
+// Justin: "when we add a child it needs to also go back to add another in case
+// there is 3, and if no more, give Done as an option."
+//
+// The step's flag goes true the moment a SECOND child exists, so adding one
+// used to refresh straight away, tick the step green and fold it shut. A parent
+// with three children added the second, watched the step close itself, and had
+// to find their way back in to add the third. The app decided they were
+// finished on their behalf.
+//
+// So the refresh is held. Each child is added, the form clears ready for the
+// next, and the parent is the one who says when they are done. Nothing is
+// unsaved while they sit there: every child is already written, the only thing
+// waiting is the page catching up.
 function OtherChildren() {
   const router = useRouter()
   const [name, setName] = useState('')
   const [band, setBand] = useState('')
   const [busy, setBusy] = useState<'add' | 'only' | null>(null)
   const [failed, setFailed] = useState(false)
+  /** Who has been added in this sitting, so the parent can see it landed. */
+  const [added, setAdded] = useState<string[]>([])
 
   async function post(url: string, body?: unknown) {
-    setBusy(url.includes('only-one') ? 'only' : 'add')
+    const isAdd = !url.includes('only-one')
+    setBusy(isAdd ? 'add' : 'only')
     setFailed(false)
     try {
       const res = await fetch(url, {
@@ -538,14 +592,27 @@ function OtherChildren() {
       // the response has to be checked or a rejected save looks like a success
       // and the step goes green over nothing.
       if (!res.ok) throw new Error(String(res.status))
-      setName('')
-      setBand('')
-      router.refresh()
+      if (isAdd) {
+        setAdded(prev => [...prev, name.trim()])
+        setName('')
+        setBand('')
+        // Deliberately NO router.refresh() here. See the note above: refreshing
+        // is what ticked the step and closed it after one child.
+      } else {
+        router.refresh()
+      }
     } catch {
       setFailed(true)
     } finally {
       setBusy(null)
     }
+  }
+
+  /** They have said that is everyone. The children are already saved, so this
+   *  only has to let the page catch up and the step tick itself. */
+  function done() {
+    setBusy('only')
+    router.refresh()
   }
 
   const ready = name.trim().length > 0 && band.length > 0
@@ -606,11 +673,44 @@ function OtherChildren() {
         </p>
       )}
 
-      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 0' }}>
-        You can add another any time. Let us get one right first if you would rather.
-      </p>
+      {added.length > 0 && (
+        <div style={{
+          marginTop: '14px', background: 'var(--tint-sage)',
+          border: '1.5px solid var(--stage-1-bold)', borderRadius: 16, padding: '14px 16px',
+        }}>
+          <p style={{
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+            color: 'var(--ink)', margin: '0 0 4px',
+          }}>
+            {added.length === 1 ? `${added[0]} is added` : `${added.join(', ')} are added`}
+          </p>
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
+            Add another above if there is one more, or say that is everyone.
+          </p>
+          <button
+            onClick={done}
+            disabled={busy !== null}
+            style={{
+              marginTop: '12px', width: '100%',
+              background: 'var(--terracotta)', color: 'var(--ink)',
+              border: 'none', borderRadius: 16, padding: '13px 22px',
+              cursor: busy === null ? 'pointer' : 'default',
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+              boxShadow: '0 5px 0 var(--terracotta-dark)',
+            }}
+          >
+            {busy === 'only' ? 'Saving...' : 'Done, that is everyone'}
+          </button>
+        </div>
+      )}
 
-      <div style={{ textAlign: 'center', margin: '8px 0 0' }}>
+      {added.length === 0 && (
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '12px 0 0' }}>
+          You can add another any time. Let us get one right first if you would rather.
+        </p>
+      )}
+
+      <div style={{ textAlign: 'center', margin: '8px 0 0', display: added.length > 0 ? 'none' : 'block' }}>
         <button
           onClick={() => post('/api/setup/only-one-child')}
           disabled={busy !== null}

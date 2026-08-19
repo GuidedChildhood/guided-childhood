@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useRef, useEffect } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import { useRouter } from 'next/navigation'
 import MomentTimeline from '@/components/daily/MomentTimeline'
 import Celebration from '@/components/ui/Celebration'
@@ -276,7 +277,13 @@ export default function DailyDeckViewer({
         setShowComplete(true)
         // Refresh so Home drops its cached view and the Today path shows the
         // moment as done, instead of staying stuck on it from a stale cache.
-        fetch('/api/daily/complete', { method: 'POST' })
+        // Whose day was finished. Without it the day is filed against the
+        // household and the other child's Today goes green untouched.
+        fetch('/api/daily/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ child_id: currentChildId() }),
+        })
           .then(() => router.refresh())
           .catch(() => {})
       }

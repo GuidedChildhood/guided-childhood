@@ -71,6 +71,14 @@ async function safeScriptHref(
 export async function getTodayLoop(
   supabase: SupabaseClient,
   userId: string,
+  /**
+   * Whose day this is. Migration 210 gave daily_sessions a child, because it
+   * was one row per FAMILY per day: finishing Today with Teo silently ended
+   * Olgie's, and she showed "Done for today" before anybody had done a thing
+   * with her. Null keeps the old family wide reading, which is what every row
+   * written before 210 means.
+   */
+  childId: string | null,
   stageId: StageId,
   challenge: ChallengeId | null,
   isPaid = true,
@@ -104,7 +112,7 @@ export async function getTodayLoop(
 
   const [
     { data: pendingConcerns },
-    { data: session },
+    { data: sessionRows },
     recommended,
     { data: scriptToday },
     { data: digiToday },
@@ -125,7 +133,11 @@ export async function getTodayLoop(
       .lt('last_flagged_at', today)
       .or(`last_checked_at.is.null,last_checked_at.lt.${today}`)
       .limit(1),
-    supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
+    // Not maybeSingle: with more than one child there is now a row each, and
+    // PostgREST treats more than one row as an error, so the answer came back
+    // null and every child's day read as not started. A legacy row with no
+    // child still counts for everybody, which is what it meant when written.
+    supabase.from('daily_sessions').select('completed_at, cards_completed, child_id').eq('user_id', userId).eq('session_date', today),
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', dayStart).limit(1),
     supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', dayStart).limit(1),
@@ -181,6 +193,16 @@ export async function getTodayLoop(
       .limit(1)
       .maybeSingle(),
   ])
+
+  // THIS CHILD'S DAY, out of the rows for today.
+  //
+  // A legacy row with no child counts for everybody, which is exactly what it
+  // meant before migration 210, so a family mid week does not lose the day they
+  // already finished.
+  type SessionRow = { completed_at: string | null; cards_completed: number | null; child_id: string | null }
+  const session = ((sessionRows ?? []) as SessionRow[])
+    .find(r => r.child_id === childId || r.child_id === null) ?? null
+
 
   const anyQuests = (questCount ?? 0) > 0
   const questsWaiting = (ticksWaiting ?? 0) + (asksWaiting ?? 0)
@@ -502,7 +524,7 @@ export async function getDailyTasks(
   const weekStart = mondayOf(new Date())
 
   const [
-    { data: session },
+    { data: sessionRows },
     recommended,
     { data: scriptDoneToday },
     { data: stageLessons },
@@ -513,7 +535,11 @@ export async function getDailyTasks(
     { data: checkin },
     { data: momentCompletionsToday },
   ] = await Promise.all([
-    supabase.from('daily_sessions').select('completed_at, cards_completed').eq('user_id', userId).eq('session_date', today).maybeSingle(),
+    // Not maybeSingle: with more than one child there is now a row each, and
+    // PostgREST treats more than one row as an error, so the answer came back
+    // null and every child's day read as not started. A legacy row with no
+    // child still counts for everybody, which is what it meant when written.
+    supabase.from('daily_sessions').select('completed_at, cards_completed, child_id').eq('user_id', userId).eq('session_date', today),
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
     supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', dayStart).limit(1),
     supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
@@ -526,6 +552,16 @@ export async function getDailyTasks(
       : Promise.resolve({ data: null }),
     supabase.from('moment_completions').select('id').eq('user_id', userId).eq('completed_on', today).limit(1),
   ])
+
+  // THIS CHILD'S DAY, out of the rows for today.
+  //
+  // A legacy row with no child counts for everybody, which is exactly what it
+  // meant before migration 210, so a family mid week does not lose the day they
+  // already finished.
+  type SessionRow = { completed_at: string | null; cards_completed: number | null; child_id: string | null }
+  const session = ((sessionRows ?? []) as SessionRow[])
+    .find(r => r.child_id === childId || r.child_id === null) ?? null
+
 
   const momentDone = (!!session && (session.completed_at !== null || (session.cards_completed ?? 0) > 0))
     || (momentCompletionsToday ?? []).length > 0
