@@ -50,12 +50,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
         // separate await for the same reason the profile is: the layout renders
         // on every navigation, so an extra round trip here is an extra round
         // trip everywhere.
-        supabase.from('children').select('id, name, is_primary').eq('parent_id', user.id)
+        supabase.from('children').select('id, name, is_primary, age_band').eq('parent_id', user.id)
           .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
       ])
     : [{ count: 0 }, { count: 0 }, { data: null }, { data: [] }]
   const pendingAsks = (ticksRes.count ?? 0) + (asksRes.count ?? 0)
-  const kids = ((kidsRes as { data: { id: string; name: string | null; is_primary: boolean | null }[] | null }).data) ?? []
+  const kids = ((kidsRes as { data: { id: string; name: string | null; is_primary: boolean | null; age_band: string | null }[] | null }).data) ?? []
   const profile = (profileRes as { data: { full_name: string | null; subscription_tier: string | null; subscription_status: string | null } | null }).data
 
   // A subscription that is mid retry is still a subscription, so it must not

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { childColour, childInitial } from '@/lib/children/colour'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { gsap } from 'gsap'
@@ -58,7 +59,7 @@ const ANCHOR: Partial<Record<keyof SetupFlags, string>> = {
   children: 'children',
 }
 
-type SetupChild = { id: string; name: string | null; linked: boolean; noPhone: boolean }
+type SetupChild = { id: string; name: string | null; age_band: string | null; linked: boolean; noPhone: boolean }
 
 type Props = {
   flags: SetupFlags
@@ -247,10 +248,16 @@ function StepCard({ step, number, state, child, childList, userId }: {
             another name. A done step has nothing left to ask. */}
         {live && (
           <>
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '6px 0 0' }}>
+            {/* Room to read, then room to act. Justin, 18 August 2026: "a gap
+                with text to read better." The explanation and the thing you do
+                about it were 14px apart, which on a step with two child cards
+                under it made one solid block of type and buttons with no way
+                in. The paragraph gets its own line height and a real gap after
+                it, so the eye finishes the sentence before it meets the work. */}
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '8px 0 0', maxWidth: '52ch' }}>
               {step.what}
             </p>
-            <div style={{ marginTop: '14px' }}>
+            <div style={{ marginTop: '22px' }}>
               <StepAction step={step} child={child} childList={childList} userId={userId} />
             </div>
           </>
@@ -297,8 +304,9 @@ function StepCard({ step, number, state, child, childList, userId }: {
 // to open the sheet in place. A setup step whose whole shape is "one number, one
 // card, one tap" should not spend that tap on a journey.
 //
-// The agreement is the exception and stays a link, because it is a real piece of
-// work with its own page, not a switch.
+// Every step now does its work in place. The agreement was the one exception,
+// a real piece of work with its own page, and on 18 August it left setup
+// altogether for the first quest. See lib/setup/steps.ts.
 
 function StepAction({ step, child, childList, userId }: {
   step: SetupStep
@@ -306,32 +314,6 @@ function StepAction({ step, child, childList, userId }: {
   childList: SetupChild[]
   userId: string
 }) {
-  if (step.key === 'agreement') {
-    return (
-      <>
-        <Link
-          href={step.href}
-          style={{
-            display: 'inline-block', background: 'var(--terracotta)', color: 'var(--ink)',
-            borderRadius: 16, padding: '13px 22px', textDecoration: 'none',
-            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-            boxShadow: '0 5px 0 var(--terracotta-dark)',
-          }}
-        >
-          Agree it together
-        </Link>
-        {/* THE PRINT OFFER MOVED TO WHERE IT BELONGS, which is the moment it is
-            agreed rather than before it exists.
-            Justin, 16 August 2026: "when we do agreement and confirm it, give
-            option to print at that point, then take to other tickable actions on
-            set up screen." It was a link here, under a step nobody had done yet,
-            offering to print a document that had not been written. The finished
-            agreement already carries Print the fridge copy, and it now carries
-            the road back here too. */}
-      </>
-    )
-  }
-
   if (step.key === 'childLink') {
     // No child on the account yet, which onboarding normally prevents. Send
     // them to add one rather than showing a share button with nothing to share.
@@ -386,13 +368,16 @@ function StepAction({ step, child, childList, userId }: {
         {childList.map(c => {
           const name = c.name && c.name !== 'Your child' ? c.name : 'your child'
           const settled = c.linked || c.noPhone
-          const initial = (c.name && c.name !== 'Your child' ? c.name.trim()[0] : '?').toUpperCase()
+          const initial = childInitial(c.name)
+          // The same colour this child's pill wears everywhere else, so the
+          // card is recognisable before it is read. See lib/children/colour.ts.
+          const col = childColour(c.age_band)
           return (
             <div
               key={c.id}
               style={{
-                background: settled ? 'var(--tint-sage)' : 'var(--cream)',
-                border: settled ? '1.5px solid var(--stage-1-bold)' : '1.5px solid var(--border)',
+                background: settled ? 'var(--tint-sage)' : col.tint,
+                border: settled ? '1.5px solid var(--stage-1-bold)' : `1.5px solid ${col.bold}`,
                 borderRadius: 18, padding: '18px 18px 20px',
               }}
             >
@@ -401,10 +386,10 @@ function StepAction({ step, child, childList, userId }: {
                   aria-hidden
                   style={{
                     flexShrink: 0, width: 40, height: 40, borderRadius: '50%',
-                    background: settled ? 'var(--stage-1-bold)' : 'var(--terracotta)',
+                    background: col.bold,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontFamily: 'var(--font-display)', fontWeight: 900,
-                    fontSize: 'var(--text-md)', color: settled ? '#fff' : 'var(--ink)',
+                    fontSize: 'var(--text-md)', color: col.text,
                   }}
                 >
                   {initial}

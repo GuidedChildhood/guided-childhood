@@ -114,7 +114,9 @@ export const WELCOME_CARDS: WelcomeCard[] = [
     line: 'The boundaries you both chose, written down and signed by everyone.',
     trust: 'It sets what the stars can buy, so the paper on the fridge and the app always agree.',
     ask: 'How do we agree the rules together so they actually stick?',
-    setup: 'agreement',
+    // No setup key any more. The agreement left the Setup Quest on 18 August,
+    // so there is no step for this card to tick off, but the card itself stays:
+    // a parent should still meet it on Home. It simply stops being an errand.
   },
   {
     key: 'moment',

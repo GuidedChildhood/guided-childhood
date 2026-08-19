@@ -48,11 +48,11 @@ export type SetupState = {
    * three children could share with one of them and the other two had no route
    * at all from setup.
    */
-  children: { id: string; name: string | null; linked: boolean; noPhone: boolean }[]
+  children: { id: string; name: string | null; age_band: string | null; linked: boolean; noPhone: boolean }[]
 }
 
 export async function getSetupState(supabase: FlagClient, userId: string): Promise<SetupState> {
-  const [child, agreement, push, kidLinks, profile, childCount] = await Promise.all([
+  const [child, push, kidLinks, profile, childCount] = await Promise.all([
     // ── NOT maybeSingle ON is_primary, AND THE LIVE DATA IS WHY ──────────────
     //
     // The obvious read here is .eq('is_primary', true).maybeSingle(), and it is
@@ -71,10 +71,8 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
     // Every child now, ordered primary first then oldest, so the share step can
     // list them all and the first of the list is still the primary for the
     // surfaces that only want one.
-    supabase.from('children').select('id, name, is_primary, created_at, no_phone').eq('parent_id', userId)
+    supabase.from('children').select('id, name, age_band, is_primary, created_at, no_phone').eq('parent_id', userId)
       .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
-    supabase.from('family_agreements').select('id, signed_by_parent, signed_by_child')
-      .eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('kid_links').select('child_id').eq('user_id', userId),
     supabase.from('profiles').select('home_screen_at, only_one_child_at, child_app_settled_at').eq('id', userId).maybeSingle(),
@@ -128,31 +126,14 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
   const childRows = ((child.data ?? []) as Record<string, unknown>[]).map(r => ({
     id: r.id as string,
     name: (r.name as string | null) ?? null,
+    // The band rides along so the share card can wear this child's stage
+    // colour, the same one their pill wears. See lib/children/colour.ts.
+    age_band: (r.age_band as string | null) ?? null,
     linked: linkedIds.has(r.id as string),
     noPhone: r.no_phone === true,
   }))
 
   const flags: SetupFlags = {
-    // DONE WHEN: BOTH have signed it. Not when the row exists.
-    //
-    // Justin, 16 August 2026: "does the agreement get saved unless both are
-    // signed?" It does, and the live database is what settles it: four of the
-    // six agreements on the product are signed by nobody, signed_by_parent and
-    // signed_by_child both false, and every one of those families had a green
-    // tick against step one.
-    //
-    // The row is a DRAFT. The builder writes it as clauses are chosen, which is
-    // right, because losing a half built agreement because somebody closed a tab
-    // would be worse than anything this fixes. What was wrong was reading the
-    // draft as the deed. It is the same fault as the daily practice step ticking
-    // off a page being opened, fixed on 13 August, and it landed in the one step
-    // whose whole promise is "they click sign, then a big green tick".
-    //
-    // A signature is the only thing that makes an agreement an agreement. Both
-    // of them, because a boundary one person set is a rule, and the entire
-    // argument for this feature is that a boundary you both chose is not.
-    agreement: !!agreement.data?.signed_by_parent && !!agreement.data?.signed_by_child,
-
     // DONE WHEN: a link was created for a child, OR this family answered the
     // question the other way.
     //

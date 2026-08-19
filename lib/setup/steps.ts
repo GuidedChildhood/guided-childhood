@@ -1,5 +1,23 @@
-// The Setup Quest: four steps, in one place, so the page, the floating next
+// The Setup Quest: three steps, in one place, so the page, the floating next
 // step bar and the rung on Today all read the same list in the same order.
+//
+// ── AND THEN BACK TO THREE (18 August 2026) ─────────────────────────────────
+//
+// Justin: "let's remove the agreement as a fourth at setup, it might put off
+// parents. Then when they come to add the first job per child they get the
+// option to add an agreement, print it, and share it on the child's app."
+//
+// He is right, and the live database is the argument. The family agreement is
+// the ONLY step here that needs the child in the room and a real conversation:
+// the other three are typing and tapping, done alone, in a minute each. It sat
+// at number one, so the biggest job in the product blocked three small ones,
+// and four of the six agreements on the product are signed by NOBODY. Families
+// started it because setup told them to, and stopped because it is not a thing
+// you finish while standing up.
+//
+// It has not gone anywhere. It moves to the moment it belongs to: the first
+// time a parent sets a job for a child, which is the first time they are
+// actually setting a rule. See the agreement offer in the quests flow.
 //
 // ── WHY THREE, WHEN IT WAS SEVEN (14 August 2026) ───────────────────────────
 //
@@ -36,7 +54,6 @@
 // it first would make a one child family answer a question about a second child
 // before they had seen what the product does with the first.
 export type SetupFlags = {
-  agreement: boolean
   childLink: boolean
   homeScreen: boolean
   children: boolean
@@ -63,18 +80,10 @@ export type SetupStep = {
 // second meant the share step could only ever cover the first child, and the
 // second would be handed the app by a route that is not in setup at all.
 //
-// The rest of the order is what a family can actually do in one sitting: agree
-// the rules, put us where they can reach us, say who is in the house, then hand
-// out the app.
+// The rest of the order is what a family can actually do in one sitting: put us
+// where they can reach us, say who is in the house, then hand out the app. All
+// three are a minute each, and none of them needs anybody else to be free.
 export const STEPS: SetupStep[] = [
-  {
-    key: 'agreement',
-    title: 'Build your family agreement',
-    what: 'Decided together and signed, so every boundary is one you both chose rather than one you imposed. It is also what sets the price of screen time in stars.',
-    // from=setup is what tells the finished agreement to offer the way back
-    // here rather than leaving a parent on it wondering what happens next.
-    href: '/dashboard/agreement?from=setup',
-  },
   {
     key: 'homeScreen',
     title: 'Put us on your home screen, and turn on reminders',
