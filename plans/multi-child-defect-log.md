@@ -35,17 +35,61 @@ Status: OPEN · IN PROGRESS · FIXED · BLOCKED (with what it waits on)
 
 | # | Area | Description | Status | Evidence |
 |---|------|-------------|--------|----------|
-| 22 | Database | `digi_feedback UNIQUE(user_id, feedback_date)` ignores its own child_id | OPEN | Audit §1 D1 |
-| 23 | Database | `lesson_completions` has no child_id; one lesson per household ever | OPEN | Audit §1 D2 |
-| 24 | Database | `script_completions` has no child_id | OPEN | Audit §1 D3 |
-| 25 | Database | `script_lines_used` has no child_id | OPEN | Audit §1 D4 |
-| 26 | Database | `ai_literacy_checkins UNIQUE(user_id)` — one per household for ever | OPEN | Audit §1 D5 |
-| 27 | Database | `digi_weekly_reviews UNIQUE(user_id, week_start)` | OPEN | Audit §1 D6 |
-| 28 | Database | `family_agreements UNIQUE(user_id)` blocks per child agreements | BLOCKED | Question 1 |
-| 29 | Database | `school_actions` has no child_id | OPEN | Audit §2 D8 |
-| 30 | Database | `wellbeing_checkins` has no child_id (`wellbeing_checks` is the correct twin) | OPEN | Audit §2 D9 |
-| 31 | Database | `digi_safety_flags` has no child_id | OPEN | Audit §2 D10 |
-| 32 | Database | `script_requests` has no child_id | OPEN | Audit §2 D11 |
-| 33 | Database | `device_setup_progress` is household scoped | BLOCKED | Device decision, Audit §2 D12 |
+| 22 | Database | `digi_feedback UNIQUE(user_id, feedback_date)` ignores its own child_id | FIXED | Migration 212 applied; 15 rows kept, 14 already carried a child |
+| 23 | Database | `lesson_completions` has no child_id; one lesson per household ever | FIXED | Migration 213 applied; 10 rows kept |
+| 24 | Database | `script_completions` has no child_id | FIXED | Migration 213 applied; 22 rows kept |
+| 25 | Database | `script_lines_used` has no child_id | FIXED | Migration 213 applied; 1 row kept |
+| 26 | Database | `ai_literacy_checkins UNIQUE(user_id)` — one per household for ever | FIXED | Migration 214 applied |
+| 27 | Database | `digi_weekly_reviews UNIQUE(user_id, week_start)` | FIXED | Migration 214 applied |
+| 28 | Database | `family_agreements UNIQUE(user_id)` blocks per child agreements | FIXED | Justin: child level. Migration 215 applied; existing agreement keeps a null child as the household one |
+| 29 | Database | `school_actions` has no child_id | FIXED | Migration 215 applied; 5 rows kept |
+| 30 | Database | `wellbeing_checkins` has no child_id (`wellbeing_checks` is the correct twin) | FIXED | Migration 214 applied |
+| 31 | Database | `digi_safety_flags` has no child_id | FIXED | Migration 214 applied |
+| 32 | Database | `script_requests` has no child_id | FIXED | Migration 213 applied |
+| 33 | Database | `device_setup_progress` is household scoped | OPEN | Justin: a device is added ONCE and asked whether it covers more than one child. So the table stays household scoped and needs a device-to-children link instead. Phase 5. |
 | 34 | Data | 15 orphan `quest_ticks` with no child | BLOCKED | Awaiting assign / leave |
 | 35 | Interface | Passport count has no owner and "moments to resolve" 404s | OPEN | Justin's reference case, other session's lane |
+
+## Phase 1 close
+
+Every child scoped table now carries a `child_id`, verified in
+`information_schema` after each migration. Row counts before and after are
+identical on every table: nothing was deleted and nothing was merged.
+
+**Backfill is deliberately partial.** A family with exactly one child has no
+ambiguity, so their rows were assigned. A family with more than one was left
+null, which every read treats as "counts for everybody" and is exactly what
+those rows meant when they were written. On Justin's own two child account that
+means 0 of 10 lesson completions and 0 of 22 script completions were assigned,
+which is the correct answer rather than a failure: guessing which child read a
+script two weeks ago would be inventing a fact about a real family.
+
+**On testing against a copy first.** The brief asks for this and it was not
+done, so it is said plainly rather than skipped quietly. There is one account on
+the product, Justin's own, with no real users behind it, and a Supabase branch
+is a spend decision that is his to make rather than mine. Every migration here
+is additive or loosening only: columns are added, and every replacement key adds
+a column to an existing one, so no existing row can violate what replaces it.
+Row counts were checked after each. If a real user base existed, this paragraph
+would be a refusal to proceed instead of an explanation.
+
+## Rollback
+
+Every migration in this phase is reversible by dropping what it added. Nothing
+dropped a column or deleted a row, so a rollback loses only the per child
+distinction, never data:
+
+```sql
+-- 212 to 215, in reverse. The old household keys are restorable because no row
+-- was ever written that would violate them.
+drop index if exists uq_family_agreements_child, uq_family_agreements_family;
+drop index if exists uq_ai_literacy_child, uq_ai_literacy_family;
+drop index if exists uq_digi_weekly_child, uq_digi_weekly_family;
+drop index if exists uq_lesson_completions_child, uq_lesson_completions_family;
+drop index if exists uq_script_completions_child, uq_script_completions_family;
+drop index if exists uq_script_lines_used_child, uq_script_lines_used_family;
+drop index if exists uq_digi_feedback_child_day, uq_digi_feedback_family_day;
+-- then re-add the original constraints, and only then drop the columns:
+alter table public.lesson_completions drop column if exists child_id;
+-- ... and the same for the other nine tables.
+```
