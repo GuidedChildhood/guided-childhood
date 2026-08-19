@@ -48,22 +48,47 @@ export async function GET() {
     return NextResponse.json({ prompts: pending ?? [] })
   }
 
-  const { data: checks } = await supabase
-    .from('wellbeing_checks')
-    .select('week_start, mood_score, sleep_score, concern_level')
-    .eq('child_id', child.id)
-    .order('week_start', { ascending: false })
-    .limit(4)
+  // ── EVERY CHILD IS SCANNED FOR SIGNALS, NOT THE PRIMARY ONE ───────────────
+  //
+  // From Justin's DiGi audit, 19 August 2026: DiGi must be "proactive on advice
+  // that matches child and age".
+  //
+  // It was proactive for ONE child. The signal scan read is_primary and nothing
+  // else, so a mood dip on Olga's weekly check, low sleep two weeks running, a
+  // phone flag on her balance, none of it could ever trip a prompt. The
+  // proactive half of DiGi was blind to every child but the first, which is the
+  // same is_primary fault as everywhere else this week, in the one place whose
+  // whole job is noticing.
+  //
+  // Signals are per child: wellbeing checks, the balance phone flag, the
+  // streak. The routine cadence pair, a daily life tip and parent care, is
+  // about the FAMILY, so only the first scan carries it; without that a three
+  // child family got three copies of the same tip.
+  const perChild: { kid: PromptChild; triggers: ReturnType<typeof findTriggers> }[] = []
+  for (const [i, kid] of children.entries()) {
+    const { data: checks } = await supabase
+      .from('wellbeing_checks')
+      .select('week_start, mood_score, sleep_score, concern_level')
+      .eq('child_id', kid.id)
+      .order('week_start', { ascending: false })
+      .limit(4)
+    // Fail soft, a balance read that errors must never block the routine prompts.
+    const report = await getWeekParentReport(supabase, user.id, { id: kid.id, name: kid.name, age_band: kid.age_band }).catch(() => null)
+    const t = findTriggers(checks ?? [], kid.streak_weeks ?? 0, lastPrompt?.created_at ?? null, {
+      phoneFlag: report?.topState.key === 'phone',
+      includeRoutine: i === 0,
+    })
+    if (t.length > 0) perChild.push({ kid, triggers: t })
+  }
 
-  // The same balance signal the family wall and the passport now raise: a young
-  // child with phone and social time this week, where the guide keeps it near
-  // zero. Read once here and handed to the triggers so DiGi leads with it too.
-  // Fail soft, a balance read that errors must never block the routine prompts.
-  const balanceReport = await getWeekParentReport(supabase, user.id, { id: child.id, name: child.name, age_band: child.age_band }).catch(() => null)
-  const phoneFlag = balanceReport?.topState.key === 'phone'
-
-  const triggers = findTriggers(checks ?? [], child.streak_weeks ?? 0, lastPrompt?.created_at ?? null, { phoneFlag })
-  if (triggers.length === 0) return NextResponse.json({ prompts: [] })
+  // Two prompts a day at most, whole family, same budget as before. A signal
+  // about a child outranks the routine drumbeat, so the cap trims tips before
+  // it trims a mood dip.
+  const flat = perChild
+    .flatMap(({ kid, triggers }) => triggers.map(t => ({ kid, t })))
+    .sort((a, b) => (a.t.kind === 'watch_for' || a.t.kind === 'celebration' ? 0 : 1) - (b.t.kind === 'watch_for' || b.t.kind === 'celebration' ? 0 : 1))
+    .slice(0, 2)
+  if (flat.length === 0) return NextResponse.json({ prompts: [] })
 
   // DiGi knows the pathway: where this family stands on the road to 16, how
   // far through the stage they are, what they told us the problem was, what
@@ -107,9 +132,12 @@ export async function GET() {
       max_tokens: 900,
       messages: [{
         role: 'user',
-        content: `You are DiGi, the warm and evidence grounded parenting guide inside Guided Childhood. Write ${triggers.length} short proactive prompts for this parent, one per trigger below. Each prompt is a small card the parent sees on their dashboard before they ask anything.
+        content: `You are DiGi, the warm and evidence grounded parenting guide inside Guided Childhood. Write ${flat.length} short proactive prompts for this parent, one per trigger below. Each prompt is a small card the parent sees on their dashboard before they ask anything.
 
-Child: ${child.name}, age band ${child.age_band}.
+Children: ${children.map(c => `${c.name} (age band ${c.age_band})`).join(', ')}.
+Each trigger below names the child it is about. The prompt you write for it MUST
+be about THAT child, by name, at their age. Advice tuned to the wrong sibling's
+age is worse than generic advice, so never blur them.
 ${(() => {
     const names = children.map(c => c.name).filter((n): n is string => !!n && n !== 'Your child')
     return `CHILD NAME RULE, ABSOLUTE. This family has ${names.length === 1 ? 'ONE child' : `${names.length} children`}: ${names.join(', ')}. That list is complete and it is the only source of truth. Use no other name for a child, ever, and never say or imply the family has more children than are on that list.
@@ -120,7 +148,7 @@ WHERE THIS FAMILY IS ON THE PATHWAY (you know their road, use it: name the stage
 ${pathwayContext || 'Just getting started.'}
 
 Triggers:
-${triggers.map((t, i) => `${i + 1}. kind=${t.kind}: ${t.reason}`).join('\n')}
+${flat.map(({ kid, t }, i) => `${i + 1}. kind=${t.kind}, about ${kid.name}: ${t.reason}`).join('\n')}
 
 What you remember about this family:
 ${(memory ?? []).map(m => `- ${m.content}`).join('\n') || '- nothing yet'}
@@ -158,7 +186,13 @@ Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts descr
       .filter(p => ['watch_for', 'tip', 'parent_care', 'new_research', 'celebration'].includes(p.kind))
       .slice(0, 2)
       .map(p => ({
-        user_id: user.id, child_id: child.id, kind: p.kind, title: p.title, body: p.body, reason: p.reason,
+        // The prompt is filed against the child whose trigger produced it,
+        // matched on the verbatim reason the model is required to echo back.
+        // A prompt about Olga's sleep filed under Teo would put her worry on
+        // his record, which is the exact fault this route existed to have.
+        user_id: user.id,
+        child_id: flat.find(f => f.t.reason === p.reason)?.kid.id ?? child.id,
+        kind: p.kind, title: p.title, body: p.body, reason: p.reason,
         // A share nudge deep links straight to the Printables library, a real
         // page of real sheets, so the notification opens exactly what it names
         // and never lands on a hub with nothing to actually print.
