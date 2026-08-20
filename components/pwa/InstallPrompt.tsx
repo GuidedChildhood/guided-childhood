@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
 // The install prompt, done properly for both worlds. Android and desktop
@@ -106,7 +106,30 @@ export default function InstallPrompt() {
   const pathname = usePathname()
   const onSetup = pathname?.startsWith('/dashboard/setup') ?? false
 
+  // ── SHOWN ONCE MEANS SHOWN ONCE (19 August 2026) ──────────────────────────
+  //
+  // Justin: "keeps flashing up, should only do it once, not repeatedly."
+  //
+  // The weekly and per session keys were all correct and all beside the point.
+  // The banner is a piece of STATE, and the state outlived its own appearance:
+  // it hides on the setup page and came back the moment the parent left it, so
+  // hopping between setup and the check in flashed the same undismissed banner
+  // at every crossing, each one reading as being asked again.
+  //
+  // So a navigation retires it. The banner had its moment on the page where it
+  // appeared; a parent who moves on has answered it by moving on, exactly as if
+  // they had tapped Skip, and the weekly clock (already started at show time)
+  // brings it back next week.
+
+
   const [mode, setMode] = useState<'hidden' | 'banner' | 'ios-sheet'>('hidden')
+
+  const shownAtPath = useRef<string | null>(null)
+  useEffect(() => {
+    if (mode !== 'banner') return
+    if (shownAtPath.current === null) { shownAtPath.current = pathname ?? ''; return }
+    if (shownAtPath.current !== (pathname ?? '')) setMode('hidden')
+  }, [pathname, mode])
   const [platform, setPlatform] = useState<'ios' | 'android'>('ios')
   const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null)
 

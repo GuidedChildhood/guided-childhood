@@ -265,7 +265,11 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
       type: 'review',
       eyebrow: `Good to have you back, ${firstName}`,
       headline: `Stage ${stage.id}: ${stage.name}`,
-      body: `${greeting}, ${firstName}. Two minutes, that is all this takes. Where your family is on the pathway right now:\n\n${stage.focus}`,
+      // The child's name, not "your family". Justin, 19 August 2026: "we
+      // agreed moments and cards, everything, should use the child's name so
+      // it is clear which child it refers to." With the switcher above showing
+      // two names, a card about "your family" reads as about neither.
+      body: `${greeting}, ${firstName}. Two minutes, that is all this takes. Where ${child?.name && child.name !== 'Your child' ? child.name : 'your child'} is on the pathway right now:\n\n${stage.focus}`,
       accent: 'var(--terracotta)',
       icon: '◎',
     })

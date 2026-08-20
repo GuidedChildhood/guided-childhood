@@ -40,6 +40,8 @@ export interface ToolContext {
   childId: string | null
   ageBand: string | null
   childName: string | null
+  /** Every child on the account, so a tool can file against a NAMED sibling. */
+  children?: { id: string; name: string | null }[]
 }
 
 export const SEARCH_KNOWLEDGE_TOOL: Anthropic.Tool = {
@@ -89,6 +91,10 @@ export const SAVE_MEMORY_TOOL: Anthropic.Tool = {
       content: {
         type: 'string',
         description: 'One sentence. Written to be read cold, so name what it is about rather than relying on this conversation.',
+      },
+      child_name: {
+        type: 'string',
+        description: 'Which child this is about, by their exact name, whenever the parent named one. Without it the memory files against the child currently open, which is WRONG when the parent asked about a sibling: a concern about Rosa saved while Timmy is open would land on Timmy check in.',
       },
       // THE TWO FIELDS THAT PUT A WORRY ON THE CHECK IN.
       //
@@ -319,6 +325,24 @@ async function doSaveMemory(ctx: ToolContext, arg: Record<string, unknown>): Pro
   const kind = typeof arg.kind === 'string' && kinds.has(arg.kind) ? arg.kind : 'observation'
   const content = typeof arg.content === 'string' ? arg.content.trim().slice(0, 500) : ''
   if (!content) return 'Nothing to save.'
+
+  // ── THE NAMED SIBLING WINS (19 August 2026) ───────────────────────────────
+  //
+  // Justin: DiGi "should be clever enough to know I have got 2 children added
+  // and their names match, so can help by giving moments and check ins next
+  // day for each." The name rule already let DiGi TALK about the sibling; this
+  // is the missing half, the WRITE. A parent with Timmy open asking about Rosa
+  // waking late had the worry filed on Timmy's ledger, so it surfaced on the
+  // wrong child's next check in.
+  //
+  // Resolved against the roster only, case insensitively, so an invented name
+  // can never create a phantom child: no match means the open child, exactly
+  // as before.
+  const named = typeof arg.child_name === 'string' ? arg.child_name.trim().toLowerCase() : ''
+  const match = named
+    ? (ctx.children ?? []).find(c => (c.name ?? '').trim().toLowerCase() === named)
+    : null
+  if (match) ctx = { ...ctx, childId: match.id, childName: match.name }
 
   // Embedded on the way in, exactly like the extraction path, so a memory saved
   // by DiGi is findable by meaning from the next message onwards rather than

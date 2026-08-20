@@ -1013,6 +1013,9 @@ When a parent asks whether or for how long their child should use any device, do
                 childId: (child?.id as string | undefined) ?? null,
                 ageBand: (child?.age_band as string | undefined) ?? null,
                 childName: (child?.name as string | undefined) ?? null,
+                // The roster, so save_memory can file against a NAMED sibling
+                // rather than whoever happens to be open.
+                children: children.map(c => ({ id: c.id, name: c.name })),
               }, t.name, t.input),
             }))
           )
@@ -1300,6 +1303,7 @@ ${aiKnowledge}` : ''
 The memory and history below come from past conversations and CAN BE OUT OF DATE. Any other child's name in them belongs to a child no longer on this account. Ignore it entirely, and never tell this parent they have more than one child.`
       : `This family has ${realNames.length} children: ${realNames.join(', ')}. These are the ONLY names you may ever use for a child. Never invent, guess or shorten a name, and never use a name that is not on that list, including any name from our own lessons or characters.
 Work out which child the parent means from what they have just said, and if they name one, that is the child, even if you were talking about a different one a moment ago. Follow the parent, always.
+SAY WHICH CHILD, EVERY TIME. With more than one child on the account, open your answer by naming the child it is about, and when the advice genuinely differs between them, answer for each under their own name rather than blending. When you save a memory or concern about a child the parent NAMED, pass their name as child_name so it lands on the right check in.
 If it is genuinely unclear which child they mean, say "your child" or ask which one. Do not pick one and hope. When nothing points either way, assume ${realNames[0]}.
 The memory and history below are written from past conversations and CAN BE OUT OF DATE. A child's name appearing there that is not on the list above belongs to a child who is no longer on this account. Ignore it entirely: never use it, never treat it as a sibling, and never tell this parent they have more children than the list shows.`
 
