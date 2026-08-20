@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { DEVICES, deviceEmoji, deviceLabel } from '@/lib/quests/device-time'
@@ -65,7 +66,7 @@ export default function ParentStartTimer({ childId, childName }: { childId: stri
   // word tablet, and the first one is chosen for them.
   useEffect(() => {
     let on = true
-    fetch('/api/devices/family')
+    fetch(`/api/devices/family${currentChildId() ? `?child=${currentChildId()}` : ''}`)
       .then(r => r.json())
       .then((d: { devices?: FamilyDevice[] }) => {
         if (!on) return

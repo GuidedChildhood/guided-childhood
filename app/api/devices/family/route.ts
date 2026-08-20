@@ -13,16 +13,25 @@ export const dynamic = 'force-dynamic'
 
 const MAX_DEVICES = 30
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
   const [{ data, error }, { data: profile }] = await Promise.all([
-    supabase.from('family_devices')
-      .select('id, label, kind, guide_key, shared, retired_at')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: true }),
+    // THIS child's devices plus the household's. Justin, 19 August 2026: "I
+    // added devices for Tray and it duplicated them, already added for Jody,
+    // should it not be independent?" Migration 217 made a device a per child
+    // label; this is the read half. A row with no child is from before the
+    // migration, or genuinely everyone's, and shows for every child.
+    (() => {
+      const q = supabase.from('family_devices')
+        .select('id, label, kind, guide_key, shared, retired_at, child_id')
+        .eq('user_id', user.id)
+      const childParam = new URL(req.url).searchParams.get('child')
+      return (childParam ? q.or(`child_id.eq.${childParam},child_id.is.null`) : q)
+        .order('created_at', { ascending: true })
+    })(),
     supabase.from('profiles').select('devices_asked_at').eq('id', user.id).maybeSingle(),
   ])
   // Before migration 106 the table is not there yet. The list reads as empty
@@ -50,11 +59,23 @@ export async function POST(req: NextRequest) {
     .slice(0, MAX_DEVICES)
     .map(d => ({
       user_id: user.id,
+      // Whose device this is. Checked below before insert; null stays the
+      // household's, which every pre 217 row already means.
+      child_id: typeof body.child_id === 'string' && body.child_id ? body.child_id : null,
       label: String(d.label).trim().slice(0, 60),
       kind: d.kind as string,
       guide_key: typeof d.guideKey === 'string' && d.guideKey ? d.guideKey : null,
       shared: d.shared === true,
     }))
+
+  // Checked, not trusted: a child id that is not this parent's becomes the
+  // household rather than an error, the same soft landing every other write
+  // takes.
+  if (rows.length > 0 && rows[0].child_id) {
+    const { data: owned } = await supabase
+      .from('children').select('id').eq('id', rows[0].child_id).eq('parent_id', user.id).maybeSingle()
+    if (!owned) for (const r of rows) r.child_id = null
+  }
 
   let added: unknown[] = []
   if (rows.length > 0) {

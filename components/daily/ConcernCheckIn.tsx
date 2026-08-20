@@ -88,6 +88,22 @@ function recencyLabel(item: ConcernCheckItem, baseline: boolean): string {
   // true is where it came from, and saying that is also the reassurance that
   // the app was listening during setup.
   if (baseline) return 'You told us about this when you joined'
+  // ── A STARTING ROW NEVER SAYS "YOU FLAGGED" (19 August 2026) ──────────────
+  //
+  // Justin, first check in with a newly added child: "it says you flagged this
+  // yesterday, but this is the first time I logged in with Jody."
+  //
+  // He never flagged anything. Her four worries are the seeded starting set,
+  // stamped a day back so the review filter cannot eat them, and this line was
+  // reading that stamp as a thing the parent DID. The page level baseline flag
+  // above cannot catch it, because it only covers the family's literal first
+  // check in, and Jody arrived in month two of somebody else's history.
+  //
+  // The honest per row signal needs no flag at all: a worry that has never
+  // been rated and never re raised is the starting set, whichever day it was
+  // born. The moment the parent rates it once, or raises it again, the row has
+  // a real history and the dated wording becomes true.
+  if (item.lastScore == null && item.timesFlagged <= 1) return 'On the starting list from setup'
   const daysSince = Math.floor((Date.now() - new Date(item.lastFlaggedAt).getTime()) / 86400000)
   if (item.timesFlagged > 1) return `Come up ${item.timesFlagged} times, still open`
   if (daysSince <= 1) return 'You flagged this yesterday'
