@@ -44,8 +44,8 @@ export async function readNudgeFacts(
       // never touches device_sessions.
       supabase.from('star_spends').select('created_at, minutes').eq('user_id', userId)
         .gte('created_at', weekAgo).limit(60),
-      supabase.from('printable_completions').select('completed_at').eq('user_id', userId)
-        .gte('completed_at', fortnightAgo).limit(40),
+      supabase.from('printable_completions').select('created_at').eq('user_id', userId)
+        .gte('created_at', fortnightAgo).limit(40),
     ])
 
     // Days, not rows. Three sessions in one evening is one day of screens, and
@@ -59,8 +59,8 @@ export async function readNudgeFacts(
     }
 
     const offlineDays = new Set<string>()
-    for (const r of (prints.data ?? []) as { completed_at: string }[]) {
-      offlineDays.add(String(r.completed_at).slice(0, 10))
+    for (const r of (prints.data ?? []) as { created_at: string }[]) {
+      offlineDays.add(String(r.created_at).slice(0, 10))
     }
 
     const pending = (ticks.data ?? []) as { tick_date: string }[]

@@ -30,7 +30,7 @@ async function handler(request: Request) {
     const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString()
     const { data: liveFlags } = await createAdminClient()
       .from('digi_safety_flags')
-      .select('code, severity')
+      .select('severity')
       .eq('source', 'live')
       .gte('created_at', weekAgo)
 

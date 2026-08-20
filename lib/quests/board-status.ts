@@ -104,7 +104,7 @@ export async function getBoardStatus(
   // The star balance needs the children first, so it runs alongside the four
   // counts rather than after them: one extra round trip for the whole board,
   // not one per tile.
-  const kidsPromise = supabase.from('children').select('id').eq('user_id', userId)
+  const kidsPromise = supabase.from('children').select('id').eq('parent_id', userId)
 
   const nowIso = new Date().toISOString()
   const [ticks, sheets, school, agreement, kids, chartPrints, timeAsks, timers, jobAsks] = await Promise.all([
