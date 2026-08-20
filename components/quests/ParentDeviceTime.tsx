@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import Link from 'next/link'
 import { DEVICES, type DeviceKey, minutesToStars, deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
 import DevicePickerChips, { type DevicePick } from '@/components/devices/DevicePickerChips'
@@ -218,7 +219,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
   // this picker always defaulted to; with a list it is now a particular one.
   useEffect(() => {
     let on = true
-    fetch('/api/devices/family')
+    fetch(`/api/devices/family${currentChildId() ? `?child=${currentChildId()}` : ''}`)
       .then(r => r.json())
       .then((d: { devices?: FamilyDevice[] }) => {
         if (!on) return

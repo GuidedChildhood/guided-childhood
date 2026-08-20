@@ -28,13 +28,13 @@ export default async function ScriptDetailPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>
-  searchParams: Promise<{ from?: string; stage?: string }>
+  searchParams: Promise<{ from?: string; stage?: string; child?: string }>
 }) {
   const { id } = await params
   // Arrived from the road or the passport, so the way back is the road and not
   // the library. Read off the link rather than the referrer, matching the
   // devices page and the scripts index.
-  const { from, stage } = await searchParams
+  const { from, stage, child: childParam } = await searchParams
   const cameFromPathway = from === 'pathway' || from === 'passport'
   const sortOrder = parseInt(id, 10)
   if (isNaN(sortOrder) || sortOrder < 1) notFound()
@@ -85,9 +85,14 @@ export default async function ScriptDetailPage({
   // refresh it. What must NOT be touched is status, which is why the upsert
   // below never sends one. Postgres leaves an unlisted column alone on
   // conflict, so a script already marked used or not needed keeps that.
+  // The read tick belongs to the OPEN child (migration 213, key 219): reading
+  // the bedtime script with Jody marks Jody's day and leaves Tray's alone.
+  const readKids = await supabase.from('children').select('id, is_primary').eq('parent_id', user.id)
+    .order('is_primary', { ascending: false }).order('created_at', { ascending: true })
+  const readChild = ((readKids.data ?? []).find(k => k.id === childParam) ?? (readKids.data ?? [])[0])?.id ?? null
   await supabase
     .from('script_completions')
-    .upsert({ user_id: user.id, script_sort_order: sortOrder, completed_at: new Date().toISOString() }, { onConflict: 'user_id,script_sort_order' })
+    .upsert({ user_id: user.id, child_id: readChild, script_sort_order: sortOrder, completed_at: new Date().toISOString() }, { onConflict: 'user_id,child_id,script_sort_order' })
 
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
 

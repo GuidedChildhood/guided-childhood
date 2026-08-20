@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import Link from 'next/link'
 import Image from 'next/image'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
@@ -178,7 +179,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
     if (sortOrder != null) {
       fetch('/api/scripts/lines', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sortOrder, line: text.trim() }),
+        body: JSON.stringify({ sortOrder, line: text.trim() , child_id: currentChildId() }),
       }).catch(() => {})
     }
     const next: Msg[] = [...messages, { role: 'user', content: text.trim() }]

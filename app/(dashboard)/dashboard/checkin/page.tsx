@@ -93,8 +93,16 @@ export default async function CheckInPage({
         )}
         {queue.length <= 1 && <div style={{ height: '12px' }} />}
 
+        {/* Keyed by CHILD, so the card remounts when the check in hands over.
+            Justin, red penning: Tray's first ever card arrived wearing Jody's
+            three gold stars and a Saved. The database was clean, every score
+            landed on Jody, but the client component survives the ?child=
+            navigation at the same tree position, so whatever answer state the
+            bundle keeps can bleed across children. A key makes React throw the
+            whole instance away at the border: fresh child, fresh card, nothing
+            carried, whichever bundle the phone cached. */}
         {rows.length > 0 ? (
-          <ConcernCheckIn baseline={baseline} concerns={rows} childName={childName} nextChild={nextChild} />
+          <ConcernCheckIn key={childId ?? 'none'} baseline={baseline} concerns={rows} childName={childName} nextChild={nextChild} />
         ) : (
           // NOTHING TO CHECK IN ON IS NOT A FAILURE, and it must not read as
           // one. A family who has answered everything today lands here from a

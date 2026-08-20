@@ -929,7 +929,7 @@ When a parent asks whether or for how long their child should use any device, do
           child_id: child?.id ?? null,
           feedback_date: today,
           question: reflectiveQuestion,
-        }, { onConflict: 'user_id,feedback_date', ignoreDuplicates: true })
+        }, { onConflict: 'user_id,child_id,feedback_date', ignoreDuplicates: true })
       } catch { /* best-effort */ }
     }
   })

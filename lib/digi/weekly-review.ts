@@ -272,6 +272,9 @@ export async function buildWeeklyReview(userId: string, now = new Date()): Promi
 
   await admin.from('digi_weekly_reviews').upsert({
     user_id: userId,
+    // The whole family's week, so the household's null child row, named so the
+    // 219 key has a real target. A per child review can join it later.
+    child_id: null,
     week_start: weekStart,
     stats: review.stats,
     summary: review.summary,
@@ -279,7 +282,7 @@ export async function buildWeeklyReview(userId: string, now = new Date()): Promi
     suggestion: review.suggestion,
     suggestion_routine: review.suggestion_routine,
     status: 'unread',
-  }, { onConflict: 'user_id,week_start' })
+  }, { onConflict: 'user_id,child_id,week_start' })
 
   return review
 }

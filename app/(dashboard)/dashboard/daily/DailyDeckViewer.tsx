@@ -351,7 +351,9 @@ export default function DailyDeckViewer({
       fetch('/api/daily/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ moments: selectedMoments }),
+        // The child rides with the moments, so Jody's bedtime battle feeds
+        // JODY's ledger and her next check in, never a sibling's.
+        body: JSON.stringify({ moments: selectedMoments, child_id: currentChildId() }),
       }).catch(() => {})
     }
 

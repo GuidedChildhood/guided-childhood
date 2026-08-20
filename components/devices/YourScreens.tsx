@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import GuideBody from './GuideBody'
 import type { DeviceGuide } from '@/app/(dashboard)/dashboard/devices/DeviceList'
 import {
@@ -77,7 +78,7 @@ export default function YourScreens({
 
   async function load() {
     try {
-      const res = await fetch('/api/devices/family')
+      const res = await fetch(`/api/devices/family${currentChildId() ? `?child=${currentChildId()}` : ''}`)
       const data = await res.json()
       setDevices(Array.isArray(data.devices) ? data.devices : [])
     } catch { setDevices([]) }
@@ -89,7 +90,11 @@ export default function YourScreens({
     try {
       await fetch('/api/devices/family', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ markAsked: true, devices: [{ label, kind, guideKey }] }),
+        // The open child owns what is added here. Justin, 19 August 2026:
+        // adding for Tray showed Jody's list too. A device is a per child
+        // label since migration 217, so Tray's Smart TV and Jody's Smart TV
+        // are two rows with two setups and two timers.
+        body: JSON.stringify({ markAsked: true, child_id: currentChildId(), devices: [{ label, kind, guideKey }] }),
       })
       await load()
     } finally { setBusy(false) }

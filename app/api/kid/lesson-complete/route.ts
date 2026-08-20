@@ -76,8 +76,8 @@ export async function POST(req: NextRequest) {
   const { error } = await supabase
     .from('lesson_completions')
     .upsert(
-      { user_id: link.user_id, lesson_id, lesson_source: 'lesson', score, passed },
-      { onConflict: 'user_id,lesson_id,lesson_source' }
+      { user_id: link.user_id, child_id: link.child_id, lesson_id, lesson_source: 'lesson', score, passed },
+      { onConflict: 'user_id,child_id,lesson_id,lesson_source' }
     )
 
   if (error) {
@@ -87,8 +87,8 @@ export async function POST(req: NextRequest) {
       const { error: retryError } = await supabase
         .from('lesson_completions')
         .upsert(
-          { user_id: link.user_id, lesson_id, lesson_source: 'lesson' },
-          { onConflict: 'user_id,lesson_id,lesson_source' }
+          { user_id: link.user_id, child_id: link.child_id, lesson_id, lesson_source: 'lesson' },
+          { onConflict: 'user_id,child_id,lesson_id,lesson_source' }
         )
       if (retryError) return NextResponse.json({ error: retryError.message }, { status: 500 })
       if (passedNow) await markStepQuietly(supabase, link.user_id, link.child_id, 'lesson')

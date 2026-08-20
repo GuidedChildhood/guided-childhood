@@ -119,6 +119,25 @@ export default function DigiChat({
   // 300ms was never a message.
   const [thinkingFloor, setThinkingFloor] = useState(false)
   const [error, setError] = useState('')
+  // The send to their phone flow: which message index went, or is going.
+  // Justin, 19 August 2026: "when we say put this into words for children
+  // there should be a send to their phone option."
+  const [sentToChild, setSentToChild] = useState<Record<number, 'sending' | 'sent' | 'noapp' | 'failed'>>({})
+  const sendToChildPhone = async (index: number, text: string) => {
+    const childId = currentChildId()
+    setSentToChild(prev => ({ ...prev, [index]: 'sending' }))
+    try {
+      const res = await fetch('/api/digi/send-to-child', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, child_id: childId }),
+      })
+      if (res.status === 409) { setSentToChild(prev => ({ ...prev, [index]: 'noapp' })); return }
+      if (!res.ok) throw new Error(String(res.status))
+      setSentToChild(prev => ({ ...prev, [index]: 'sent' }))
+    } catch {
+      setSentToChild(prev => ({ ...prev, [index]: 'failed' }))
+    }
+  }
   const [dailyCount, setDailyCount] = useState(initialCount)
   const [deviceSetupDismissed, setDeviceSetupDismissed] = useState(true)
 
@@ -949,16 +968,40 @@ export default function DigiChat({
                   </p>
                 ))}
                 {offerChildVersion && (
-                  <button
-                    onClick={() => sendMessage('Put that in simple words for my child to read, at their age, so we can go through it together.')}
-                    style={{
-                      alignSelf: 'flex-start', marginTop: 3, background: '#fff', border: '1.5px solid var(--terracotta)',
-                      color: 'var(--ink)', borderRadius: 12, padding: '9px 14px', cursor: 'pointer',
-                      fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                    }}
-                  >
-                    Put this in words for my child
-                  </button>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 3 }}>
+                    <button
+                      onClick={() => sendMessage('Put that in simple words for my child to read, at their age, so we can go through it together.')}
+                      style={{
+                        background: '#fff', border: '1.5px solid var(--terracotta)',
+                        color: 'var(--ink)', borderRadius: 12, padding: '9px 14px', cursor: 'pointer',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                      }}
+                    >
+                      Put this in words for my child
+                    </button>
+                    {/* The last metre. Once DiGi has written the child's
+                        version, the parent used to hand their own phone over.
+                        One tap lands it inside the child's app, with a gentle
+                        push saying a note is waiting. 409 means no app yet, and
+                        honesty beats a spinner: the button says so. */}
+                    <button
+                      onClick={() => sendToChildPhone(i, msg.content)}
+                      disabled={sentToChild[i] === 'sending' || sentToChild[i] === 'sent'}
+                      style={{
+                        background: sentToChild[i] === 'sent' ? 'var(--tint-sage)' : '#fff',
+                        border: '1.5px solid var(--border)',
+                        color: 'var(--ink)', borderRadius: 12, padding: '9px 14px',
+                        cursor: sentToChild[i] === 'sent' ? 'default' : 'pointer',
+                        fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
+                      }}
+                    >
+                      {sentToChild[i] === 'sent' ? 'On their phone ✓'
+                        : sentToChild[i] === 'sending' ? 'Sending…'
+                        : sentToChild[i] === 'noapp' ? 'Their app is not set up yet'
+                        : sentToChild[i] === 'failed' ? 'Did not send, try again'
+                        : 'Send to their phone'}
+                    </button>
+                  </div>
                 )}
               </div>
             </div>

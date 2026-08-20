@@ -22,7 +22,7 @@ export const dynamic = 'force-dynamic'
 const VALID = new Set(['read', 'used', 'not_needed'])
 
 export async function POST(req: NextRequest) {
-  const { sortOrder, status, awayDays } = await req.json().catch(() => ({}))
+  const { sortOrder, status, awayDays, child_id } = await req.json().catch(() => ({}))
 
   if (typeof sortOrder !== 'number' || !Number.isFinite(sortOrder) || !VALID.has(status)) {
     return NextResponse.json({ error: 'missing or invalid sortOrder / status' }, { status: 400 })
@@ -53,6 +53,8 @@ export async function POST(req: NextRequest) {
       .select('status')
       .eq('user_id', user.id)
       .eq('script_sort_order', sortOrder)
+      .or(typeof child_id === 'string' && child_id ? `child_id.eq.${child_id},child_id.is.null` : 'child_id.is.null')
+      .limit(1)
       .maybeSingle()
     const now = (held as { status?: string } | null)?.status
     if (now === 'used' || now === 'not_needed') {
@@ -60,17 +62,33 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // Whose child (migration 213; key per child since 219). Checked, and null
+  // falls to the first child, which is what the family wide row meant.
+  let forChild: string | null = null
+  if (typeof child_id === 'string' && child_id) {
+    const { data: owned } = await supabase
+      .from('children').select('id').eq('id', child_id).eq('parent_id', user.id).maybeSingle()
+    forChild = owned?.id ?? null
+  }
+  if (!forChild) {
+    const { data: kids } = await supabase
+      .from('children').select('id').eq('parent_id', user.id)
+      .order('is_primary', { ascending: false }).order('created_at', { ascending: true }).limit(1)
+    forChild = (kids ?? [])[0]?.id ?? null
+  }
+
   const { error } = await supabase
     .from('script_completions')
     .upsert({
       user_id: user.id,
+      child_id: forChild,
       script_sort_order: sortOrder,
       status,
       not_needed_until: notNeededUntil,
       // Refreshed, because saying "we used this" today is the truest possible
       // signal that today is the day it counted, and the daily path reads this.
       completed_at: new Date().toISOString(),
-    }, { onConflict: 'user_id,script_sort_order' })
+    }, { onConflict: 'user_id,child_id,script_sort_order' })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true, status, notNeededUntil })

@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { moments } = await request.json() as { moments: string[] }
+  const { moments, child_id } = await request.json() as { moments: string[]; child_id?: string | null }
 
   // ── TWO BUGS, ONE LINE, AND BOTH LEFT TODAY SAYING IT WAS NOT DONE ────────
   //
@@ -39,24 +39,59 @@ export async function POST(request: Request) {
   // raised, never lowered, so a parent who does both still reads as done.
   const today = londonToday()
 
+  // ── WHOSE DAY, AND IT IS THE WHOLE BUG (19 August 2026) ───────────────────
+  //
+  // Justin: "we add moments for Jody then when I flick to Tray it shows
+  // moments done. The data needs to be saved per child and fresh for the next
+  // child. Do not finish fixing until Today works by child."
+  //
+  // Two faults sat here. The session upsert still said onConflict
+  // user_id,session_date, a constraint migration 210 REPLACED, so on the new
+  // database the upsert failed or landed on a row with no child, and a no
+  // child row counts for every child by the grandfather rule, which is exactly
+  // Jody's moments showing done on Tray's day. And the concern rows below went
+  // to the PRIMARY child regardless of whose day the parent was on, so the
+  // vital thing, a flagged moment feeding THAT child's next check in, fed the
+  // wrong child's.
+  //
+  // The child comes from the caller, checked against the account, falling back
+  // to the first child, which is what is_primary meant.
+  let forChild: string | null = null
+  if (typeof child_id === 'string' && child_id) {
+    const { data: owned } = await supabase
+      .from('children').select('id').eq('id', child_id).eq('parent_id', user.id).maybeSingle()
+    forChild = owned?.id ?? null
+  }
+  if (!forChild) {
+    const { data: kids } = await supabase
+      .from('children').select('id').eq('parent_id', user.id)
+      .order('is_primary', { ascending: false }).order('created_at', { ascending: true }).limit(1)
+    forChild = (kids ?? [])[0]?.id ?? null
+  }
+
   const { data: existingSession } = await supabase
     .from('daily_sessions')
-    .select('cards_completed')
+    .select('cards_completed, child_id')
     .eq('user_id', user.id)
     .eq('session_date', today)
+    .or(forChild ? `child_id.eq.${forChild},child_id.is.null` : 'child_id.is.null')
+    .limit(1)
     .maybeSingle()
 
-  await supabase
+  const sessionRow = {
+    user_id: user.id,
+    session_date: today,
+    moment_feedback: moments,
+    cards_completed: Math.max(1, (existingSession?.cards_completed as number | null) ?? 0),
+  }
+  const { error: upsertErr } = await supabase
     .from('daily_sessions')
-    .upsert(
-      {
-        user_id: user.id,
-        session_date: today,
-        moment_feedback: moments,
-        cards_completed: Math.max(1, (existingSession?.cards_completed as number | null) ?? 0),
-      },
-      { onConflict: 'user_id,session_date' }
-    )
+    .upsert({ ...sessionRow, child_id: forChild }, { onConflict: 'user_id,child_id,session_date' })
+  // A database that has not run 210 keeps the old key; the old shape is
+  // retried rather than costing the parent their save.
+  if (upsertErr) {
+    await supabase.from('daily_sessions').upsert(sessionRow, { onConflict: 'user_id,session_date' })
+  }
 
   // Concerns ledger: best effort, never blocks the save. The generic Something
   // else tag is a picker, not a real moment, so it is never tracked as a
@@ -67,22 +102,17 @@ export async function POST(request: Request) {
     if (slugs.length > 0) {
       const now = new Date().toISOString()
 
-      const [existingResult, childResult] = await Promise.all([
-        supabase
-          .from('concerns')
-          .select('slug, status, times_flagged')
-          .eq('user_id', user.id)
-          .in('slug', slugs),
-        supabase
-          .from('children')
-          .select('id')
-          .eq('parent_id', user.id)
-          .eq('is_primary', true)
-          .maybeSingle(),
-      ])
+      // THIS child's prior rows, so a repeat of Jody's bedtime battle bumps
+      // Jody's count rather than finding a sibling's row by slug alone.
+      const existingResult = await supabase
+        .from('concerns')
+        .select('slug, status, times_flagged')
+        .eq('user_id', user.id)
+        .in('slug', slugs)
+        .or(forChild ? `child_id.eq.${forChild},child_id.is.null` : 'child_id.is.null')
 
       const existing = existingResult.data ?? []
-      const childId = childResult.data?.id ?? null
+      const childId = forChild
 
       const rows = slugs.map(slug => {
         const prior = existing.find(c => c.slug === slug)

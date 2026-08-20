@@ -698,6 +698,9 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       .from('family_devices')
       .select('id, label, kind, guide_key, shared, retired_at')
       .eq('user_id', link.user_id)
+      // THEIR devices plus the household's, never a sibling's. The token is
+      // one child, so the picker they choose a timer from is their own list.
+      .or(`child_id.eq.${link.child_id},child_id.is.null`)
       .is('retired_at', null)
       .order('created_at', { ascending: true })
     familyDevices = ((data ?? []) as FamilyDeviceRow[]).map(toFamilyDevice)
