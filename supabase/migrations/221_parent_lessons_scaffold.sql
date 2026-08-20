@@ -1,4 +1,4 @@
--- 219_parent_lessons_scaffold.sql
+-- 221_parent_lessons_scaffold.sql
 -- Tags the Stage 1 co watch lessons (ages 4 to 7) with the child facing
 -- scaffold Notice, Choose, Tell.
 -- Plan: plans/2026-08-20-foundation-scaffold-and-cs-borrows.md
