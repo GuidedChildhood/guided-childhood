@@ -16,7 +16,7 @@ export default async function SchoolPage() {
   const [actionsResult, childResult, allChildrenResult] = await Promise.all([
     supabase
       .from('school_actions')
-      .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child, cleared_on')
+      .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child, cleared_on, child_id')
       .eq('user_id', user.id)
       .eq('status', 'open')
       .order('due_date', { ascending: true, nullsFirst: false })
@@ -70,6 +70,11 @@ export default async function SchoolPage() {
       ...a,
       added_by: p?.by ?? 'parent',
       added_by_child_name: p?.childId ? childNames.get(p.childId) ?? null : null,
+      // Whose item it is (migration 215), not who typed it in. The card shows
+      // it beside the title so a parent of two knows whose PE kit.
+      child_name: (a as { child_id?: string | null }).child_id
+        ? childNames.get((a as { child_id?: string | null }).child_id as string) ?? null
+        : null,
       runs_in_holidays: runsInHolidays.get(String(a.id)) ?? false,
     }
   })

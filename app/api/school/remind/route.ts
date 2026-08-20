@@ -41,13 +41,13 @@ async function handler(req: NextRequest) {
 
   const { data: dueTomorrow } = await supabase
     .from('school_actions')
-    .select('user_id, title, kind')
+    .select('user_id, child_id, title, kind')
     .eq('status', 'open')
     .eq('due_date', tomorrow)
 
   const { data: routineRows } = await supabase
     .from('school_actions')
-    .select('id, user_id, title, kind, auto_send_to_child')
+    .select('id, user_id, child_id, title, kind, auto_send_to_child')
     .eq('status', 'open')
     .eq('recurs_weekday', weekday)
 
@@ -89,16 +89,28 @@ async function handler(req: NextRequest) {
     regionOf.get(String(r.user_id)) ?? DEFAULT_REGION,
   ))
 
-  const byUser = new Map<string, string[]>()
-  for (const a of dueTomorrow ?? []) {
-    const list = byUser.get(a.user_id) ?? []
-    list.push(a.title)
-    byUser.set(a.user_id, list)
+  // Each item wears its child's name, so tonight's push says WHOSE PE kit.
+  // Justin, 19 August 2026: "school reminders are per child and the parent can
+  // see the name of the child in the reminder." One push per family still,
+  // because two pushes at 19:30 is a worse evening than one.
+  type RemindItem = { user_id: string; child_id?: string | null; title: string }
+  const remindItems: RemindItem[] = [...(dueTomorrow ?? []), ...(routines ?? [])] as RemindItem[]
+  const nameOf = new Map<string, string>()
+  {
+    const userIds = [...new Set(remindItems.map(a => a.user_id))]
+    if (userIds.length) {
+      const { data } = await supabase.from('children').select('id, name, parent_id').in('parent_id', userIds)
+      for (const c of (data ?? []) as { id: string; name: string | null }[]) {
+        if (c.name && c.name !== 'Your child') nameOf.set(c.id, c.name)
+      }
+    }
   }
-  for (const r of routines ?? []) {
-    const list = byUser.get(r.user_id) ?? []
-    list.push(r.title)
-    byUser.set(r.user_id, list)
+  const byUser = new Map<string, string[]>()
+  for (const a of remindItems) {
+    const who = a.child_id ? nameOf.get(a.child_id) : null
+    const list = byUser.get(a.user_id) ?? []
+    list.push(who ? `${a.title} (${who})` : a.title)
+    byUser.set(a.user_id, list)
   }
 
   let sent = 0
@@ -143,23 +155,39 @@ async function handler(req: NextRequest) {
   // Child appropriate one offs reach the child's phone the night before too,
   // so packing the kit becomes their job, not only the parent's memory.
   // Payments, deadlines and plain notices stay with the parent only.
+  // Each child hears about THEIR tomorrow: their own items plus the
+  // household's, never a sibling's. An item with no child reaches every child,
+  // which is what a row from before migration 215 means. Keyed by user AND
+  // child so the send below can target one child's devices.
   const CHILD_KINDS = new Set(['kit', 'event', 'homework'])
-  const childByUser = new Map<string, string[]>()
-  for (const a of dueTomorrow ?? []) {
-    if (!a.kind || !CHILD_KINDS.has(a.kind)) continue
-    const list = childByUser.get(a.user_id) ?? []
-    list.push(a.title)
-    childByUser.set(a.user_id, list)
+  const childItems = (dueTomorrow ?? []).filter(a => a.kind && CHILD_KINDS.has(a.kind)) as RemindItem[]
+  const involved = new Map<string, Set<string | null>>()
+  for (const a of childItems) {
+    if (!involved.has(a.user_id)) involved.set(a.user_id, new Set())
+    involved.get(a.user_id)!.add(a.child_id ?? null)
   }
-  for (const [userId, titles] of childByUser) {
-    const body = titles.length === 1
-      ? `Tomorrow: ${titles[0]}. Get it ready tonight ⭐`
-      : `Tomorrow: ${titles.slice(0, 3).join(', ')}. Get them ready tonight ⭐`
-    try {
-      const res = await sendPush({ userId, audience: 'kids', title: 'For tomorrow 🎒', body, url: '/' })
-      const result = res
-      if (result.sent > 0) childSent++
-    } catch { /* best effort */ }
+  for (const [userId, childIds] of involved) {
+    // A null child item goes to every child on the account, so the account's
+    // children are needed whenever one is present.
+    const targets = new Set<string>()
+    for (const id of childIds) if (id) targets.add(id)
+    if (childIds.has(null)) {
+      const { data: allKids } = await supabase.from('children').select('id').eq('parent_id', userId)
+      for (const k of allKids ?? []) targets.add(k.id as string)
+    }
+    for (const childId of targets) {
+      const titles = childItems
+        .filter(a => a.user_id === userId && (!a.child_id || a.child_id === childId))
+        .map(a => a.title)
+      if (titles.length === 0) continue
+      const body = titles.length === 1
+        ? `Tomorrow: ${titles[0]}. Get it ready tonight ⭐`
+        : `Tomorrow: ${titles.slice(0, 3).join(', ')}. Get them ready tonight ⭐`
+      try {
+        const res = await sendPush({ userId, audience: 'kids', childId, title: 'For tomorrow 🎒', body, url: '/' })
+        if (res.sent > 0) childSent++
+      } catch { /* best effort */ }
+    }
   }
 
   // The weekly routines that also nudge the child, every week, automatically.
@@ -174,16 +202,13 @@ async function handler(req: NextRequest) {
   // star economy stays for actual jobs.
   for (const routine of (routines ?? []).filter(r => r.auto_send_to_child)) {
     try {
-      const { data: child } = await supabase
-        .from('children')
-        .select('id')
-        .eq('parent_id', routine.user_id)
-        .eq('is_primary', true)
-        .maybeSingle()
-      if (!child) continue
-
+      // The routine's OWN child since migration 215, not the primary one:
+      // Cubs is one child's Tuesday, and the old is_primary read buzzed the
+      // wrong phone in any family where it was not the eldest's. A routine
+      // with no child still reaches every child, which is what it meant.
+      const rid = (routine as { child_id?: string | null }).child_id ?? null
       await sendPush({
-          userId: routine.user_id, audience: 'kids',
+          userId: routine.user_id, audience: 'kids', ...(rid ? { childId: rid } : {}),
           title: 'For tomorrow 🗓️', body: `Tomorrow: ${routine.title}. It is on your calendar.`, url: '/',
         })
       childSent++

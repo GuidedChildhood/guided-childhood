@@ -56,6 +56,12 @@ export type SchoolAction = {
   added_by?: string | null
   /** The adding child's name, resolved server side. Null when unknown. */
   added_by_child_name?: string | null
+  /**
+   * WHOSE item this is, resolved server side, migration 215. Distinct from
+   * added_by_child_name, which says who typed it in. Null is the household's:
+   * a row from before the column, or genuinely everyone's.
+   */
+  child_name?: string | null
   /** A routine that keeps going in the school holidays (migration 182).
    *  Missing reads as school time, which rests through the holidays. */
   runs_in_holidays?: boolean | null
@@ -602,6 +608,11 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
                 </span>
                 <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
                   {a.title}
+                  {/* Whose routine. Justin, 19 August 2026: "the parent can see
+                      the name of the child in the reminder." */}
+                  {a.child_name && (
+                    <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}> · {a.child_name}</span>
+                  )}
                 </span>
                 {/* School time or home life, always visible so the two kinds
                     of routine can be told apart at a glance. */}
@@ -713,6 +724,9 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
                 </div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: a.detail ? '3px' : '8px' }}>
                   {a.title}
+                  {a.child_name && (
+                    <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}> · {a.child_name}</span>
+                  )}
                 </div>
                 {a.detail && (
                   <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '8px' }}>

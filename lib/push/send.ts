@@ -33,6 +33,15 @@ export type SendPushInput = {
   userId?: string | null
   /** kids reaches child devices, anything else reaches parents. */
   audience?: string | null
+  /**
+   * ONE child's devices, not every child's. Only meaningful with audience
+   * 'kids'. Without it a school item for the teenager pinged the seven year
+   * old's phone too, because the audience filter could say "children" but
+   * never WHICH child, and every kid caller that knows the child was going
+   * through pushToChild instead. Null keeps the old whole family behaviour,
+   * which is right for a genuinely household announcement.
+   */
+  childId?: string | null
   /** morning, afternoon or evening. Omitted reaches every subscription. */
   slot?: string | null
   /** The handful of alerts a parent has to ACT on rather than read later. */
@@ -79,7 +88,7 @@ const PERMANENT = new Set([404, 410])
  * returning three numbers rather than one.
  */
 export async function sendPush(input: SendPushInput): Promise<SendPushResult> {
-  const { title, body, url = '/dashboard', userId, audience, slot, urgent } = input
+  const { title, body, url = '/dashboard', userId, audience, slot, urgent, childId } = input
 
   // Night time, for children only. Checked before anything else is read or
   // configured, so a held push costs one clock lookup rather than a round trip
@@ -117,7 +126,11 @@ export async function sendPush(input: SendPushInput): Promise<SendPushResult> {
   const read = (columns: string) => {
     const query = supabase.from('push_subscriptions').select(columns)
     if (userId) query.eq('user_id', userId)
-    if (audience === 'kids') query.not('child_id', 'is', null)
+    if (audience === 'kids') {
+      // A named child means THAT child's devices. See childId above.
+      if (childId) query.eq('child_id', childId)
+      else query.not('child_id', 'is', null)
+    }
     else query.is('child_id', null)
     // Slot aware sends only reach subscriptions that asked for that slot
     // (migration 046). Sends without a slot, like tests, reach everyone.

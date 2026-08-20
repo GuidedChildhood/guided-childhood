@@ -96,3 +96,10 @@ drop index if exists uq_digi_feedback_child_day, uq_digi_feedback_family_day;
 alter table public.lesson_completions drop column if exists child_id;
 -- ... and the same for the other nine tables.
 ```
+
+| 39 | Push | `sendPush` could say "children" but never WHICH child, so school pushes hit every child's device | FIXED | `childId` targeting added; morning, soon and remind crons send per child |
+| 40 | Push | Quest tick push to the parent named no child: "a quest is ready for your ok" | FIXED | Names the child: "Teo ticked off a job" |
+| 41 | Push | School reminder pushes to the parent named no child | FIXED | Items wear the child's name inline in all three crons |
+| 42 | Push | Weekly routine child nudge went to the PRIMARY child regardless of whose routine | FIXED | Sends to the routine's own child |
+| 43 | Interface | School page items showed no owner | FIXED | Owner name beside the title, resolved server side |
+| 44 | Interface | Learning term view and homework decoder surfaced NOWHERE, no rotation item pointed at them | FIXED | Weekly rotation item added; both pages verified already per child |
