@@ -8459,3 +8459,16 @@ spec (Section 9.4 and the per module casts in Section 5, which still name the
 retired squad and the animal guides) and all schools app code and lesson rows
 are that PR's to make. This PR only fixed the deep dive it owns and flagged the
 stale cast in the spec.
+
+---
+
+## 20 August 2026, follow up: the full spec cast swap is done (not left to the schools PR)
+
+Justin said take the cleanup, so the whole schools build spec was swept, not
+just the deep dive. Every per module cast in Section 5, the Section 9.4 table,
+the fully scripted reference lesson in Section 10, the 1.9 principle and the
+production notes now name the Planet Friends (Pebble, Bloop, Orbit, Nova,
+Cosmo) with DiGi and DiGi Junior. Supersedes the earlier note today that left
+that swap to the separate schools PR. Still owned by the schools session: the
+schools app code, the lesson rows, and rendering each Friend's classroom video
+beats from the parents app art.
