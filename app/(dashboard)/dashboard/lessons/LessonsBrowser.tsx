@@ -266,7 +266,16 @@ export default function LessonsBrowser({
               </p>
             )}
             {watchShown.length === 0 ? (
-              <Empty>No films yet. They are on their way.</Empty>
+              // A dead end no longer. Justin: "it should default to ones
+              // appropriate for their age band and access to all if they want
+              // to explore." The age default and the catch up fallback already
+              // exist above, so this branch only renders when the server
+              // genuinely returned nothing, and even then the LESSONS tab is
+              // full, so it points there rather than shrugging.
+              <Empty>
+                No films reached this page. The Lessons tab has the full
+                library for every age while we look into it.
+              </Empty>
             ) : (
               groupByStage(watchShown).map(g => (
               <div key={g.s.num} style={{ marginBottom: '22px' }}>
