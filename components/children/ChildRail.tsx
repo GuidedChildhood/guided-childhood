@@ -34,11 +34,6 @@ import ChildSwitcher, { type SwitcherChild } from './ChildSwitcher'
 // Exact match for Home, prefix match for the rest, so a lesson or a quest sub
 // page keeps the rail its parent had.
 //
-// /dashboard/pathway and /dashboard/passport are DELIBERATELY ABSENT while the
-// passport rebuild is in flight in the other session. Those two pages still
-// carry a switcher of their own, and two switchers on one page can disagree.
-// They are added here the moment that rebuild lands and its inner switcher
-// goes, which is agreed rather than assumed.
 const CHILD_ROUTES = [
   // The check in walks one child at a time and hands on to the next by button,
   // but the pills still belong here: a parent who wants to answer about the
@@ -51,6 +46,13 @@ const CHILD_ROUTES = [
   '/dashboard/moments',
   '/dashboard/daily',
   '/dashboard/digi',
+  // The passport, LAST TO JOIN and by agreement. These two kept their own
+  // switcher while the passport rebuild was in flight in the other session, so
+  // there was never a page with two switchers or none. That rebuild is merged,
+  // its final commit says "until the rail takes over", and this is the rail
+  // taking over.
+  '/dashboard/pathway',
+  '/dashboard/passport',
 ]
 
 export default function ChildRail({ kids, forceShow = false }: { kids: SwitcherChild[]; forceShow?: boolean }) {

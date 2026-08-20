@@ -102,10 +102,17 @@ export async function POST(req: NextRequest) {
   // here. The ones that are only news (a timer started, a goal redeemed) still
   // go to the quests page, because there is nothing to decide.
   try {
+    // WHOSE tick this is, on the notification itself. Justin, 19 August 2026:
+    // "pushes have the child's name so the parent knows which reminder." With
+    // two children, "a quest is ready for your ok" made a parent open the app
+    // to find out who they were saying yes to.
+    const { data: whoRow } = await supabase
+      .from('children').select('name').eq('id', link.child_id).maybeSingle()
+    const who = whoRow?.name && whoRow.name !== 'Your child' ? whoRow.name : null
     await sendPush({
         userId: link.user_id,
-        title: 'A quest is ready for your ok',
-        body: `${quest.title} was just ticked off. One tap to approve and the stars land.`,
+        title: who ? `${who} ticked off a job` : 'A quest is ready for your ok',
+        body: `${quest.title}${who ? `, waiting for your ok.` : ' was just ticked off.'} One tap to approve and the stars land.`,
         url: '/dashboard/quests/manage',
       })
   } catch { /* push is best effort */ }

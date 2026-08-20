@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import { SCHOOL_EMAIL_FORWARDING_LIVE } from '@/lib/config/school'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 import SchoolWeek from './SchoolWeek'
@@ -56,6 +57,12 @@ export type SchoolAction = {
   added_by?: string | null
   /** The adding child's name, resolved server side. Null when unknown. */
   added_by_child_name?: string | null
+  /**
+   * WHOSE item this is, resolved server side, migration 215. Distinct from
+   * added_by_child_name, which says who typed it in. Null is the household's:
+   * a row from before the column, or genuinely everyone's.
+   */
+  child_name?: string | null
   /** A routine that keeps going in the school holidays (migration 182).
    *  Missing reads as school time, which rests through the holidays. */
   runs_in_holidays?: boolean | null
@@ -126,9 +133,11 @@ function dueInfo(dueDate: string | null, dueTime: string | null | undefined, now
   return { text: 'Today', tone: 'today' }
 }
 
-export default function SchoolActionsCard({ actions: initial, childName, region = 'uk', compact = false }: {
+export default function SchoolActionsCard({ actions: initial, childName, kids = [], region = 'uk', compact = false }: {
   actions: SchoolAction[]
   childName?: string | null
+  /** Every child, for the add sheet's whose is it picker. */
+  kids?: { id: string; name: string | null }[]
   region?: Region
   /**
    * Inside something that already names this section, so the card drops its own
@@ -510,6 +519,8 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
           dow={addDay.dow}
           dayLabel={dayLabel(addDay.dateIso, addDay.dow)}
           childName={childName}
+          kids={kids}
+          defaultChildId={currentChildId()}
           onCancel={() => setAddDay(null)}
           onAdd={addFromSheet}
         />
@@ -528,6 +539,8 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
             dow={dow}
             dayLabel={isRoutine ? `Every ${WEEKDAY_NAME[dow]}` : dayLabel(dateIso, dow)}
             childName={childName}
+            kids={kids}
+            defaultChildId={(e as { child_id?: string | null }).child_id ?? null}
             initial={{
               title: e.title,
               kind: e.kind,
@@ -602,6 +615,11 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
                 </span>
                 <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
                   {a.title}
+                  {/* Whose routine. Justin, 19 August 2026: "the parent can see
+                      the name of the child in the reminder." */}
+                  {a.child_name && (
+                    <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}> · {a.child_name}</span>
+                  )}
                 </span>
                 {/* School time or home life, always visible so the two kinds
                     of routine can be told apart at a glance. */}
@@ -713,6 +731,9 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
                 </div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: a.detail ? '3px' : '8px' }}>
                   {a.title}
+                  {a.child_name && (
+                    <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}> · {a.child_name}</span>
+                  )}
                 </div>
                 {a.detail && (
                   <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: '8px' }}>

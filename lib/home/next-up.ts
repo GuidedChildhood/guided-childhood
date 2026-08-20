@@ -351,6 +351,27 @@ const WEEKLY: Item[] = [
     }),
   },
   {
+    // WHAT THEY ARE LEARNING, so the term view is FOUND. From Justin's audit,
+    // 19 August 2026: "check the homework decoder, curriculum, what the child
+    // is going to learn next are all popping up somewhere at some time."
+    //
+    // They were not. The learning page builds a whole year view per child and
+    // the homework decoder reads every child, but no rotation item pointed at
+    // either, so the only families who met them were the ones who found the
+    // Learning tab on their own. A feature nobody is walked to is a feature
+    // that was not built, as far as most families know.
+    //
+    // Weekly, not daily: what this term holds changes on a term's clock, and
+    // the daily list is for today's five minutes.
+    key: 'learning-term',
+    applies: () => true,
+    build: s => ({
+      key: 'learning-term', eyebrow: EYEBROW, title: 'What school is teaching next',
+      line: `${s.childName ?? 'Your child'}'s term, decoded: what is coming, and the homework decoder for when tonight's sheet makes no sense.`,
+      href: '/dashboard/learning', icon: '📖', coversJobs: false,
+    }),
+  },
+  {
     // THE FOUR STRANDS QUESTION. DiGi asks one thing, the parent answers in a
     // sentence, and the strand readings on the passport fold it in.
     //

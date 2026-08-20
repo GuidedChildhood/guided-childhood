@@ -486,7 +486,24 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // no age gate at all, so a family with a co-viewing five year old could be
   // shown "Their own side of it" on their own front page.
   const setupSteps = visibleSetupSteps()
-  const currentSetupStep = setupSteps.find(s => !setupFlags[s.key])?.key ?? null
+  // ── SETUP IS AN ACCOUNT JOB, SO IT SITS ON ONE CHILD'S DAY, NOT ALL OF THEM
+  //
+  // Justin, 19 August 2026: "when I toggle Today for Olga she is saying she
+  // needs to set up, then when I click it it says done ... there is no need to
+  // have it on each Today for each child, just the first one."
+  //
+  // Every step in the quest is about the ACCOUNT: the home screen, reminders,
+  // who is in the house, handing out the app. None of it is about Olga, so
+  // drawing it on her day told a parent that a child who needed nothing needed
+  // something, and tapping it proved the app wrong. That is worse than a
+  // missing rung: it teaches a parent that the list is not to be trusted.
+  //
+  // It stays on the first child's day, where it is the same one rung it always
+  // was for a one child family, and nothing changes for them at all.
+  const isFirstChild = !child || child.id === (allKids[0]?.id ?? child.id)
+  const currentSetupStep = isFirstChild
+    ? (setupSteps.find(s => !setupFlags[s.key])?.key ?? null)
+    : null
   const setupComplete = currentSetupStep === null
 
   // Is the child phone handover still an open question for this family? Four
@@ -901,6 +918,30 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* Its day at the top, or a school deadline actually waiting. */}
       {schoolOnTop && schoolBlock}
 
+      {/* ── THE CLOCK LEADS THE PAGE (19 August 2026) ─────────────────────────
+          Justin: "make sure this countdown to the free 4 days is on the top of
+          the home page when they log in."
+          It rendered below the day path, so a parent had to scroll past their
+          whole day to find out how much of the free run was left. The one
+          number that decides whether they are choosing a door this week was
+          furniture. During a trial it is the frame everything else sits
+          inside, so it sits above everything except a school deadline that is
+          genuinely due. The three registers, warm during, a real countdown in
+          the last day, an honest close after, all live in TrialCountdown and
+          are unchanged.
+          For a paying member showTrial and trialEnded are both false and this
+          renders nothing, so the page is exactly as it was for them. */}
+      {(showTrial || trialEnded) && (
+        <TrialCountdown
+          trialEndsAt={(profile?.trial_ends_at as string | null) ?? null}
+          ended={trialEnded}
+          trialDays={TRIAL_DAYS}
+          planChoice={(profile?.plan_choice as string | null) ?? null}
+          jobsTicked={(jtRes.data ?? []).filter(t => (t as { status?: string }).status === 'approved').length}
+          streakCount={streak.count}
+        />
+      )}
+
       {/* ── THE FIRST SCREEN ────────────────────────────────────────────────
           Two things, in this order, and then everything else.
 
@@ -1034,21 +1075,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           strands: literacyStrands,
         }}
       />
-      {/* Trial status: warm during, a real countdown inside the last day, an
-          honest close after, never a lockout. The three registers and the
-          honest techniques argument live in TrialCountdown. It used to say
-          7 days after the trial became 4, which is exactly why the number now
-          comes from TRIAL_DAYS rather than copy. */}
-      {(showTrial || trialEnded) && (
-        <TrialCountdown
-          trialEndsAt={(profile?.trial_ends_at as string | null) ?? null}
-          ended={trialEnded}
-          trialDays={TRIAL_DAYS}
-          planChoice={(profile?.plan_choice as string | null) ?? null}
-          jobsTicked={(jtRes.data ?? []).filter(t => (t as { status?: string }).status === 'approved').length}
-          streakCount={streak.count}
-        />
-      )}
       {/* Welcome back, one beat, gone. Each open introduces a different thing
           the platform does, and what we do with what you tell it, so a parent
           meets the whole product across a fortnight of quick hellos instead of

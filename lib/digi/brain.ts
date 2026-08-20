@@ -352,7 +352,7 @@ Keep it to one calibrated next step, never a to do list, never pressure, never g
 }
 
 export interface ProactiveTrigger {
-  kind: 'watch_for' | 'tip' | 'parent_care' | 'celebration'
+  kind: 'watch_for' | 'tip' | 'parent_care' | 'celebration' | 'stage_arrival'
   reason: string
 }
 
@@ -374,7 +374,18 @@ export function findTriggers(
   checks: { week_start: string; mood_score: number | null; sleep_score: number | null; concern_level: string }[],
   streakWeeks: number,
   lastPromptAt: string | null,
-  opts?: { phoneFlag?: boolean }
+  opts?: {
+    phoneFlag?: boolean
+    /**
+     * Whether this call may add the routine cadence triggers, the daily life
+     * tip and the parent care nudge. They are about the FAMILY, so when the
+     * prompts route scans each child in turn, only the first scan carries
+     * them. Without this flag a three child family got three copies of the
+     * same tip, which reads as a broken app rather than a helpful one.
+     * Defaults on, so every existing caller behaves exactly as before.
+     */
+    includeRoutine?: boolean
+  }
 ): ProactiveTrigger[] {
   const triggers: ProactiveTrigger[] = []
 
@@ -409,7 +420,7 @@ export function findTriggers(
   // gentle nudge to share a printable or lesson so the child earns stars,
   // which keeps the star loop alive without ever being a chore.
   const stale = !lastPromptAt || (Date.now() - new Date(lastPromptAt).getTime()) > 3 * 24 * 60 * 60 * 1000
-  if (stale) {
+  if (stale && (opts?.includeRoutine ?? true)) {
     const shareTurn = Math.floor(Date.now() / 86_400_000) % 2 === 0
     triggers.push(shareTurn
       ? { kind: 'tip', reason: SHARE_NUDGE_REASON }

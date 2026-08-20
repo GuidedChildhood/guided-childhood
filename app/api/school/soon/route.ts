@@ -72,6 +72,8 @@ function clock(value: string): string {
 type Action = {
   id: string
   user_id: string
+  /** Whose item this is. Null means the household's, per migration 215. */
+  child_id?: string | null
   title: string
   kind: string | null
   due_time: string | null
@@ -98,10 +100,10 @@ async function handler(req: NextRequest) {
   // it away.
   const [dated, routines] = await Promise.all([
     supabase.from('school_actions')
-      .select('id, user_id, title, kind, due_time')
+      .select('id, user_id, child_id, title, kind, due_time')
       .eq('status', 'open').eq('due_date', today).not('due_time', 'is', null),
     supabase.from('school_actions')
-      .select('id, user_id, title, kind, due_time')
+      .select('id, user_id, child_id, title, kind, due_time')
       .eq('status', 'open').eq('recurs_weekday', uk.weekday).not('due_time', 'is', null),
   ])
 
@@ -193,25 +195,49 @@ async function handler(req: NextRequest) {
   const line = (i: { action: Action; minutesAway: number }) =>
     `${KIND_EMOJI[i.action.kind ?? 'notice'] ?? '📌'} ${i.action.title} at ${clock(i.action.due_time!)}`
 
+  // The parent line carries the child's name, and each child's phone only ever
+  // buzzes about their own hour. Same rule as the morning and evening crons,
+  // written the same day: the parent gets ONE push with names inline, the
+  // child sends are targeted, and an item with no child reaches everybody,
+  // which is what a row from before migration 215 means.
+  const nameOf = new Map<string, string>()
+  const kidsOf = new Map<string, string[]>()
+  {
+    const userIds = [...byUser.keys()]
+    if (userIds.length) {
+      const { data } = await supabase.from('children').select('id, name, parent_id').in('parent_id', userIds)
+      for (const c of (data ?? []) as { id: string; name: string | null; parent_id: string }[]) {
+        if (c.name && c.name !== 'Your child') nameOf.set(c.id, c.name)
+        kidsOf.set(c.parent_id, [...(kidsOf.get(c.parent_id) ?? []), c.id])
+      }
+    }
+  }
+  const namedLine = (i: { action: Action; minutesAway: number }) => {
+    const who = i.action.child_id ? nameOf.get(i.action.child_id) : null
+    return who ? `${line(i)} (${who})` : line(i)
+  }
+
   for (const [userId, items] of byUser) {
     items.sort((a, b) => a.minutesAway - b.minutesAway)
     const soonest = items[0]
     const body = items.length === 1
-      ? `${line(soonest)}, in about ${soonest.minutesAway} minutes.`
-      : `${items.map(line).join('. ')}.`
+      ? `${namedLine(soonest)}, in about ${soonest.minutesAway} minutes.`
+      : `${items.map(namedLine).join('. ')}.`
 
     try {
       const r = await sendPush({ userId, title: 'Coming up soon ⏰', body, url: '/dashboard/school' })
       if ((r).sent > 0) parents++
     } catch { /* best effort, the same as every other push in this product */ }
 
-    const childItems = items.filter(i => i.action.kind && CHILD_KINDS.has(i.action.kind))
-    if (childItems.length > 0) {
+    const actionable = items.filter(i => i.action.kind && CHILD_KINDS.has(i.action.kind))
+    for (const childId of kidsOf.get(userId) ?? []) {
+      const childItems = actionable.filter(i => !i.action.child_id || i.action.child_id === childId)
+      if (childItems.length === 0) continue
       const childBody = childItems.length === 1
         ? `${line(childItems[0])}, in about ${childItems[0].minutesAway} minutes.`
         : `${childItems.map(line).join('. ')}.`
       try {
-        const r = await sendPush({ userId, audience: 'kids', title: 'Almost time ⏰', body: childBody })
+        const r = await sendPush({ userId, audience: 'kids', childId, title: 'Almost time ⏰', body: childBody })
         if ((r).sent > 0) kids++
       } catch { /* best effort */ }
     }

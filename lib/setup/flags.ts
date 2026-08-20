@@ -75,7 +75,7 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
       .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
     supabase.from('push_subscriptions').select('endpoint').eq('user_id', userId).limit(1).maybeSingle(),
     supabase.from('kid_links').select('child_id').eq('user_id', userId),
-    supabase.from('profiles').select('home_screen_at, only_one_child_at, child_app_settled_at').eq('id', userId).maybeSingle(),
+    supabase.from('profiles').select('home_screen_at, only_one_child_at, child_app_settled_at, setup_completed_at').eq('id', userId).maybeSingle(),
     supabase.from('children').select('id', { count: 'exact', head: true }).eq('parent_id', userId),
   ])
 
@@ -202,9 +202,55 @@ export async function getSetupState(supabase: FlagClient, userId: string): Promi
       || !!(profile.data as { only_one_child_at?: string | null } | null)?.only_one_child_at,
   }
 
+  // ── SETUP IS ONCE PER ACCOUNT, AND IT STAYS DONE ─────────────────────────
+  //
+  // Justin, 19 August 2026: "setup is only for the first account, and if a user
+  // adds another child at a later date the only thing needed is to share a new
+  // QR code. The pathway for any additional children does not need setup at
+  // all."
+  //
+  // Without the stamp this list could REOPEN. The share step asks that every
+  // child has a code, which is the right rule on the setup page and the wrong
+  // one as a gate: adding a third child in November would put a family who
+  // finished in August back into setup, over a QR code. A finished setup is a
+  // fact about the account and does not become untrue later.
+  //
+  // The steps still compute honestly underneath, so the page can show what is
+  // and is not done. This only stops the QUEST from reopening and the rung from
+  // coming back.
+  const stamped = !!(profile.data as { setup_completed_at?: string | null } | null)?.setup_completed_at
+
   const steps = visibleSteps()
-  const doneCount = steps.filter(s => flags[s.key]).length
-  const current = steps.find(s => !flags[s.key]) ?? null
+  const doneCount = stamped ? steps.length : steps.filter(s => flags[s.key]).length
+  const current = stamped ? null : (steps.find(s => !flags[s.key]) ?? null)
+
+  // STAMPED THE MOMENT IT IS GENUINELY FINISHED, from whichever surface
+  // happened to be the one that finished it. Every page reads this function, so
+  // it is the only place all of them agree on.
+  //
+  // Fire and forget: a failed stamp costs nothing today, because the flags are
+  // still all true and the quest still reads complete. It would only cost the
+  // never reopen guarantee, and the next page load tries again.
+  if (!stamped && current === null && steps.length > 0) {
+    // Cast through unknown: FlagClient is deliberately the narrowest shape this
+    // module needs, a `from`, so the writer does not widen every caller's type.
+    const writer = supabase as unknown as {
+      from: (t: string) => {
+        update: (v: Record<string, unknown>) => {
+          eq: (c: string, v: string) => {
+            is: (c: string, v: null) => { then: (f: () => void, r: () => void) => void }
+          }
+        }
+      }
+    }
+    writer.from('profiles')
+      .update({ setup_completed_at: new Date().toISOString() })
+      .eq('id', userId)
+      // Only if nobody has stamped it already, so the date stays the date they
+      // actually finished rather than the last time a page was opened.
+      .is('setup_completed_at', null)
+      .then(() => {}, () => { /* the next page load tries again */ })
+  }
 
   return {
     flags,

@@ -63,11 +63,25 @@ export async function POST(req: NextRequest) {
   // wanted this reminder on this day, and it is: saying so is a better answer
   // than a red message, and it makes the save idempotent, which is what stops
   // a double tap on a slow phone leaving two behind.
+  // WHOSE item this is, checked against the account rather than trusted.
+  // Migration 215 gave the table the column; this is the write half. Null means
+  // the household's, which is also what every row before today means.
+  let childId: string | null = null
+  if (typeof body.child_id === 'string' && body.child_id) {
+    const { data: owned } = await supabase
+      .from('children').select('id').eq('id', body.child_id).eq('parent_id', user.id).maybeSingle()
+    childId = owned?.id ?? null
+  }
+
   const { data: clash } = await supabase
     .from('school_actions')
     .select('id, kind, title, detail, due_date, due_time, sent_to_child, recurs_weekday, auto_send_to_child')
     .eq('user_id', user.id)
     .eq('status', 'open')
+    // Per child: Teo's PE kit and Olga's PE kit are two reminders, and without
+    // this the dedupe returned Teo's row when Olga's was typed, so hers was
+    // silently never created. A household item only collides with household.
+    .or(childId ? `child_id.eq.${childId}` : 'child_id.is.null')
     // Escaped, because ilike reads % and _ as wildcards and a title is free
     // text: "50% day" unescaped would collide with half the list.
     .ilike('title', title.replace(/[\\%_]/g, (c: string) => `\\${c}`))
@@ -82,7 +96,7 @@ export async function POST(req: NextRequest) {
   if (dupe) return NextResponse.json({ action: dupe, alreadyThere: true })
 
   const insertRow = {
-    user_id: user.id, kind, title, detail,
+    user_id: user.id, child_id: childId, kind, title, detail,
     due_date: recursWeekday !== null ? null : dueDate,
     // A routine keeps no date, because a weekly thing has no single one. It
     // does have a time of day, and this used to throw it away: Cubs every
@@ -145,7 +159,18 @@ export async function PATCH(req: NextRequest) {
     const recursWeekday = Number.isInteger(edit.recurs_weekday) && edit.recurs_weekday >= 0 && edit.recurs_weekday <= 6
       ? edit.recurs_weekday
       : null
+    // The owner can change on an edit, checked the same way POST checks it.
+    // Undefined leaves it alone, null hands it back to the household.
+    let editChild: string | null | undefined = undefined
+    if (edit.child_id === null) editChild = null
+    else if (typeof edit.child_id === 'string' && edit.child_id) {
+      const { data: owned } = await supabase
+        .from('children').select('id').eq('id', edit.child_id).eq('parent_id', user.id).maybeSingle()
+      editChild = owned?.id ?? undefined
+    }
+
     const patch = {
+      ...(editChild !== undefined ? { child_id: editChild } : {}),
       kind, title,
       due_date: recursWeekday !== null ? null : dueDate,
       due_time: dueTime,

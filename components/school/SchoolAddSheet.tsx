@@ -56,10 +56,12 @@ export type NewReminder = {
    *  182). School time only is the default, which is what stops PE kit
    *  firing in the middle of August. */
   runs_in_holidays: boolean
+  /** Whose reminder. Null is the household's, everyone hears it. */
+  child_id: string | null
 }
 
 export default function SchoolAddSheet({
-  dateIso, dow, dayLabel, childName, onCancel, onAdd, initial = null,
+  dateIso, dow, dayLabel, childName, kids = [], defaultChildId = null, onCancel, onAdd, initial = null,
 }: {
   /** The day that was tapped, as YYYY-MM-DD. */
   dateIso: string
@@ -68,6 +70,17 @@ export default function SchoolAddSheet({
   /** "Thursday 6 August", for the heading. */
   dayLabel: string
   childName?: string | null
+  /**
+   * WHO THIS IS FOR, offered only when there is a real choice. Justin, 19
+   * August 2026: "fix reminders by child." A reminder with no owner lands on
+   * every child's phone and shows no name on the diary, so a family with two
+   * children needs the question asked at the moment of typing, not repaired
+   * afterwards. One child, or none passed, and the picker never renders: a
+   * single child household sees exactly the sheet it always saw.
+   */
+  kids?: { id: string; name: string | null }[]
+  /** Preselected owner, normally the child the parent has open. */
+  defaultChildId?: string | null
   onCancel: () => void
   onAdd: (r: NewReminder) => Promise<void> | void
   /** Editing an existing reminder: the sheet opens filled in and the button
@@ -84,6 +97,7 @@ export default function SchoolAddSheet({
   // off in one tap. Defaulting it off meant the useful half was opt in and
   // almost nobody found it.
   const [toChild, setToChild] = useState(initial?.toChild ?? true)
+  const [forChild, setForChild] = useState<string | null>(defaultChildId)
   const [inHolidays, setInHolidays] = useState(initial?.runsInHolidays ?? false)
   const [saving, setSaving] = useState(false)
   const editing = initial !== null
@@ -110,6 +124,7 @@ export default function SchoolAddSheet({
         recurs_weekday: repeats ? dow : null,
         auto_send_to_child: toChild,
         runs_in_holidays: repeats ? inHolidays : false,
+        child_id: forChild,
       })
     } finally { setSaving(false) }
   }
@@ -195,6 +210,34 @@ export default function SchoolAddSheet({
             </button>
           ))}
         </div>
+
+        {/* WHOSE IT IS, before when it is, because the answer changes whose
+            phone the reminder lands on. Only rendered with two or more
+            children: a one child family is never asked a question with one
+            answer. Everyone is a real option, for the genuinely household
+            item, an inset day or a payment, and it means every child hears. */}
+        {kids.length > 1 && (
+          <>
+            <span style={LABEL}>Whose is it</span>
+            <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+              {[...kids.map(k => ({ id: k.id as string | null, label: k.name && k.name !== 'Your child' ? k.name : 'Your child' })), { id: null, label: 'Everyone' }].map(o => (
+                <button
+                  key={o.id ?? 'all'}
+                  onClick={() => setForChild(o.id)}
+                  style={{
+                    cursor: 'pointer', flex: '1 1 auto',
+                    background: forChild === o.id ? 'var(--tint-butter, #FFF6DE)' : '#fff',
+                    border: `2px solid ${forChild === o.id ? 'var(--terracotta)' : 'var(--border)'}`,
+                    borderRadius: 14, padding: '11px 12px',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)',
+                  }}
+                >
+                  {o.label}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
 
         {/* 2. THE FORK. Named days rather than a repeats checkbox, because
             "every Thursday" is what a parent means and "repeats: true" with a

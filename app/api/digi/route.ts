@@ -726,7 +726,7 @@ When a parent asks whether or for how long their child should use any device, do
         // forgotten. This is that gap closed.
         replied,
         reply_chars: responseText.trim().length,
-        failure: replied ? null : 'empty',
+        failure: replied ? (failReason && failReason.startsWith('recovered') ? failReason : null) : (failReason ?? 'empty'),
       })
 
       // The words we did not know, from a message the keyword pass could not
@@ -945,6 +945,17 @@ When a parent asks whether or for how long their child should use any device, do
   // place. A tool costs a whole extra model turn, so mixing tool messages in
   // with the rest would make the ordinary case look worse than it is.
   let toolFired = false
+  // Why a reply came back empty, recorded on digi_latency alongside the timings.
+  //
+  // The table said failure: 'empty' and nothing else, so the four failed
+  // messages on 19 August looked identical to any other empty reply. They were
+  // not: every one was lane 'family', tool_fired true, replied false, which
+  // said the tool CONTINUATION was dying and said nothing about why. A reason
+  // costs one column and turns the next one of these into a five minute fix.
+  //
+  // Out here rather than inside the stream, because the latency row is written
+  // from an after() closure in the same scope, the way toolFired already is.
+  let failReason: string | null = null
 
   const encoder = new TextEncoder()
   const body = new ReadableStream<Uint8Array>({
@@ -1048,13 +1059,55 @@ When a parent asks whether or for how long their child should use any device, do
           fullText += tail
           controller.enqueue(encoder.encode(tail))
         }
-      } catch {
-        // Stream failed. If nothing reached the client yet, send the warm
-        // apology as the reply. Partial replies are kept and not saved.
+      } catch (err) {
+        failReason = (err instanceof Error ? err.message : String(err)).slice(0, 300)
+
+        // ── ONE LAST ANSWER, WITHOUT TOOLS ────────────────────────────────
+        //
+        // Justin, 19 August 2026: "even when I toggle Olgie it still fails to
+        // answer, I think there is an issue with DiGi."
+        //
+        // He was right, and digi_latency named it exactly: four attempts, all
+        // lane 'family', all tool_fired true, all replied false with zero
+        // characters. DiGi answers fine until it decides to use a tool, and
+        // then the CONTINUATION call throws and this catch threw the whole
+        // reply away. A parent asks a plain question about their child, DiGi
+        // reaches for the family history to answer it properly, and reaching
+        // for it is what silences it.
+        //
+        // So a failure in the tool loop is no longer the end. The tools come
+        // off and the model is asked once more for a plain answer from what it
+        // already has, which is the same instruction runDigiTool gives when a
+        // tool itself fails. Only if THAT fails too does the warm apology go
+        // out.
+        //
+        // Deliberately not a retry of the same call: repeating whatever just
+        // threw would most likely throw again, and the parent has already
+        // waited through one round trip.
+        if (!fullText) {
+          try {
+            const rescue = await callDigiStream({
+              model: DIGI_MODEL,
+              max_tokens: 1000,
+              system: [
+                { type: 'text', text: STATIC_SYSTEM, cache_control: { type: 'ephemeral' } },
+                { type: 'text', text: familyContext },
+              ],
+              // The ORIGINAL messages, not the conversation the loop was
+              // building. Whatever it had accumulated is what threw, and a
+              // half built tool exchange is exactly the shape the API rejects.
+              messages,
+            })
+            const saved = await consumeStream(rescue, controller, encoder, dashes)
+            fullText += saved.clean
+            if (fullText) failReason = `recovered: ${failReason}`
+          } catch { /* falls through to the warm apology below */ }
+        }
+
         if (!fullText) {
           try { controller.enqueue(encoder.encode(WARM_ERROR)) } catch { /* client gone */ }
+          fullText = ''
         }
-        fullText = ''
       } finally {
         resolveDone(fullText)
         try { controller.close() } catch { /* already closed */ }

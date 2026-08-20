@@ -46,6 +46,25 @@ export default async function CheckInPage({
   if (!user) redirect('/login')
 
   const { rows, baseline, queue, childId, childName } = await getTodayCheckIn(supabase, user.id, childParam)
+
+  // ── THE URL SAYS WHOSE CHECK IN THIS IS ───────────────────────────────────
+  //
+  // Justin: "when it finishes it goes to the next child, which is right, but
+  // the toggle should then highlight that it is on Olgie."
+  //
+  // The loader picks the next child with something outstanding, which is the
+  // behaviour he wants. It did it WITHOUT telling the URL, so the page said
+  // "How is it going with Olgie?" while ?child= still named Teo, or named
+  // nobody, and the switcher in the layout reads the URL. So the heading and
+  // the pills disagreed, and the pills are the thing a parent trusts to tell
+  // them where they are.
+  //
+  // Redirecting makes the URL the single truth, the same rule as everywhere
+  // else. Guarded on childId being real and different, so there is no loop: the
+  // next load arrives with the param already matching and falls straight
+  // through.
+  if (childId && childParam !== childId) redirect(`/dashboard/checkin?child=${childId}`)
+
   const nextChild = queue.find(k => k.id !== childId) ?? null
 
   return (
