@@ -33,7 +33,7 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
     supabase.from('family_quests').select('id, title, emoji').eq('user_id', userId),
     supabase.from('quest_ticks').select('id, quest_id, child_id, tick_date').eq('user_id', userId).eq('status', 'pending').gte('tick_date', weekAgo),
     supabase.from('quest_requests').select('id, child_id, title, emoji, created_at, status').eq('user_id', userId).eq('status', 'pending'),
-    supabase.from('school_actions').select('id, title, due_date, created_at, recurs_weekday, cleared_on').eq('user_id', userId).eq('status', 'open'),
+    supabase.from('school_actions').select('id, title, due_date, created_at, recurs_weekday, cleared_on, child_id, added_by, added_by_child_id').eq('user_id', userId).eq('status', 'open'),
     supabase.from('digi_prompts').select('id, kind, title, body, href, created_at').eq('user_id', userId).eq('status', 'pending'),
     supabase.from('device_sessions').select('id, child_id, device, ends_at').eq('user_id', userId).eq('status', 'active').gt('ends_at', new Date().toISOString()),
     // Printables a child says they finished, waiting on the parent to confirm.
@@ -119,10 +119,28 @@ export async function getNotifications(supabase: NotifClient, userId: string): P
       if (String((s as { cleared_on?: string | null }).cleared_on ?? '') === today) continue
     }
     const due = s.due_date ? ` · due ${String(s.due_date)}` : recurs != null ? ' · today' : ''
+    // WHOSE, AND WHO PUT IT THERE. Justin, red penning: "I added a school
+    // reminder on Jody's app and it appeared on the parent's notification,
+    // which is good, but it has no reference to which child, and that it was
+    // one THEY added, not the parent."
+    //
+    // Both facts were already on the row and this card threw them away, and
+    // each changes what a parent does with it. "From school" reads as the
+    // school's own diary; a reminder the child typed themselves is the child
+    // asking to be taken seriously, and a parent who answers "who put this
+    // here?" wrongly loses the moment. So: the owner's name first, and "added
+    // by Jody herself" when the child was the author.
+    const row = s as { child_id?: string | null; added_by?: string | null; added_by_child_id?: string | null }
+    const owner = row.child_id ? childName.get(row.child_id) ?? null : null
+    const author = row.added_by === 'child'
+      ? (row.added_by_child_id ? childName.get(row.added_by_child_id) ?? null : null) ?? owner
+      : null
     items.push({
       id: `school-${s.id}`, kind: 'school', icon: '🏫', urgent: false,
       title: s.title as string,
-      body: `From school${due}`,
+      body: author
+        ? `${owner ?? 'School'} · added by ${author} from their app${due}`
+        : `${owner ? `For ${owner} · from school` : 'From school'}${due}`,
       href: '/dashboard/school', at: String(s.created_at ?? s.due_date ?? today),
       recurring: recurs != null,
     })

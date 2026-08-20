@@ -89,6 +89,14 @@ export async function getParentLessons(supabase: LessonClient): Promise<{
       .select('id, lesson_id, segment, video_url, duration_seconds, sort')
       .order('sort', { ascending: true }),
   ])
+  // LOUD, not swallowed. Justin hit "Watch together 0, no films yet" on a
+  // page whose database read verifiably works when run by hand, and this
+  // function was turning whatever actually failed into a silent empty list,
+  // which renders as content that does not exist rather than as a fault. The
+  // error lands in the Vercel function log with its own name so the next
+  // occurrence is a lookup, not an afternoon.
+  if (lessonsRes.error) console.error('parent_lessons read failed:', lessonsRes.error.message)
+  if (segmentsRes.error) console.error('parent_lesson_segments read failed:', segmentsRes.error.message)
   const lessons = (lessonsRes.data ?? []) as ParentLesson[]
   const segmentsByLesson = new Map<string, ParentLessonSegment[]>()
   for (const seg of (segmentsRes.data ?? []) as ParentLessonSegment[]) {
