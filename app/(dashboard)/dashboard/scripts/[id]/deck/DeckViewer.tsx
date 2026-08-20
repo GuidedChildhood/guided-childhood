@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useRef, useEffect } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import Link from 'next/link'
 
 type ScriptData = {
@@ -192,7 +193,7 @@ export default function DeckViewer({
           fetch('/api/completions', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ sort_order: script.sort_order }),
+            body: JSON.stringify({ sort_order: script.sort_order , child_id: currentChildId() }),
           }).catch(() => {})
         }
       }
@@ -458,7 +459,7 @@ function CompletionCard({
     fetch('/api/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sort_order: script.sort_order, worked: value }),
+      body: JSON.stringify({ sort_order: script.sort_order, worked: value , child_id: currentChildId() }),
     }).catch(() => {})
   }
 

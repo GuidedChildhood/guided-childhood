@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import { useRouter } from 'next/navigation'
 
 // Did you use this, or does it not apply?
@@ -41,7 +42,7 @@ export default function ScriptStatusButtons({
       const res = await fetch('/api/scripts/status', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sortOrder, status: next, awayDays: next === 'not_needed' ? AWAY_DAYS : null }),
+        body: JSON.stringify({ sortOrder, status: next, awayDays: next === 'not_needed' ? AWAY_DAYS : null , child_id: currentChildId() }),
       })
       if (!res.ok) throw new Error('failed')
       setCurrent(next)

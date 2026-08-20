@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 
 // Reaching the end of a script counts on the pathway.
 //
@@ -55,7 +56,7 @@ export default function MarkReadOnEnd({
       fetch('/api/scripts/status', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sortOrder, status: 'read' }),
+        body: JSON.stringify({ sortOrder, status: 'read' , child_id: currentChildId() }),
       })
         .then(r => { if (r.ok) setMarked(true) })
         .catch(() => { /* a passport tick is not worth an error in a parent's face */ })

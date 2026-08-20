@@ -30,7 +30,7 @@ function isMissingDeviceColumn(err: { code?: string; message?: string } | null):
 }
 
 export async function POST(req: NextRequest) {
-  const { device_key, status, family_device_id } = await req.json()
+  const { device_key, status, family_device_id, child_id } = await req.json()
   if (!device_key || typeof device_key !== 'string') {
     return NextResponse.json({ error: 'missing device_key' }, { status: 400 })
   }
@@ -41,6 +41,15 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
+  // Whose setup this is (migration 217, key 219): the guide walked for Jody is
+  // not walked for Tray. Checked; null keeps the household row.
+  let forChild: string | null = null
+  if (typeof child_id === 'string' && child_id) {
+    const { data: ownedChild } = await supabase
+      .from('children').select('id').eq('id', child_id).eq('parent_id', user.id).maybeSingle()
+    forChild = ownedChild?.id ?? null
+  }
+
   // The guide level row, exactly as before. Ticking a screen implies the guide
   // has been worked through, so this is written in both cases and the coverage
   // board never goes quiet because a parent used the newer control.
@@ -50,19 +59,19 @@ export async function POST(req: NextRequest) {
   let { error } = await supabase
     .from('device_setup_progress')
     .upsert(
-      { user_id: user.id, device_key, status: value, family_device_id: null },
-      { onConflict: 'user_id,device_key,family_device_id' }
+      { user_id: user.id, child_id: forChild, device_key, status: value, family_device_id: null },
+      { onConflict: 'user_id,child_id,device_key,family_device_id' }
     )
   if (isMissingDeviceColumn(error)) {
     ;({ error } = await supabase
       .from('device_setup_progress')
-      .upsert({ user_id: user.id, device_key, status: value }, { onConflict: 'user_id,device_key' }))
+      .upsert({ user_id: user.id, child_id: forChild, device_key, status: value }, { onConflict: 'user_id,child_id,device_key,family_device_id' }))
     // Pre 169 there is nowhere to record the screen, so the guide row is all
     // there is and the answer is the old one rather than an error.
     if (error && /status/.test(error.message)) {
       ;({ error } = await supabase
         .from('device_setup_progress')
-        .upsert({ user_id: user.id, device_key }, { onConflict: 'user_id,device_key' }))
+        .upsert({ user_id: user.id, child_id: forChild, device_key }, { onConflict: 'user_id,child_id,device_key,family_device_id' }))
     }
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })
     return NextResponse.json({ ok: true, perDevice: false })
@@ -81,8 +90,8 @@ export async function POST(req: NextRequest) {
   const { error: devError } = await supabase
     .from('device_setup_progress')
     .upsert(
-      { user_id: user.id, device_key, status: value, family_device_id: deviceId },
-      { onConflict: 'user_id,device_key,family_device_id' }
+      { user_id: user.id, child_id: forChild, device_key, status: value, family_device_id: deviceId },
+      { onConflict: 'user_id,child_id,device_key,family_device_id' }
     )
   if (devError) return NextResponse.json({ error: devError.message }, { status: 500 })
 

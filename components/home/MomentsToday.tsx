@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import MomentTimeline from '@/components/daily/MomentTimeline'
 
 // ── THE DAY ITSELF, ON THE PAGE PARENTS ACTUALLY OPEN ───────────────────────
@@ -53,7 +54,9 @@ export default function MomentsToday({ savedToday = [] }: { savedToday?: string[
     fetch('/api/daily/feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ moments: selected }),
+      // The child rides along: these taps open concerns, and a concern is one
+      // child's. See /api/daily/feedback.
+      body: JSON.stringify({ moments: selected, child_id: currentChildId() }),
     }).catch(() => { /* the day still reads as answered */ })
   }
 

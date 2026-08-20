@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
@@ -97,7 +98,12 @@ export default function AiCheckinCard({ ageBand, lessons, savedAnswers }: {
     if (!user) { setSaving(false); return }
     await supabase
       .from('ai_literacy_checkins')
-      .upsert({ user_id: user.id, answers }, { onConflict: 'user_id' })
+      .upsert(
+        // Per child since migration 214, and unique on user alone before it, so
+        // a second child could never have one. The open child owns the answers.
+        { user_id: user.id, child_id: currentChildId(), answers },
+        { onConflict: 'user_id,child_id' },
+      )
     setSaving(false)
     setDone(true)
   }

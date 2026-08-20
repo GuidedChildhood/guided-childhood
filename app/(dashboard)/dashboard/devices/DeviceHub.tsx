@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import DeviceCoverageBoard from './DeviceCoverageBoard'
 import DeviceList, { type DeviceGuide } from './DeviceList'
 import YourScreens from '@/components/devices/YourScreens'
@@ -131,7 +132,7 @@ export default function DeviceHub({
       await fetch('/api/devices/complete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ device_key: key, status: 'not_owned' }),
+        body: JSON.stringify({ device_key: key, status: 'not_owned', child_id: currentChildId() }),
       })
     } catch { /* non blocking */ }
     setPending(null)
@@ -145,7 +146,7 @@ export default function DeviceHub({
       await fetch('/api/devices/complete', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ device_key: key }),
+        body: JSON.stringify({ device_key: key, child_id: currentChildId() }),
       })
     } catch { /* non blocking */ }
     setPending(null)

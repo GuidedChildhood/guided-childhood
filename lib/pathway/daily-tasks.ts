@@ -144,8 +144,10 @@ export async function getTodayLoop(
     // child still counts for everybody, which is what it meant when written.
     supabase.from('daily_sessions').select('completed_at, cards_completed, child_id').eq('user_id', userId).eq('session_date', today),
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
-    supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', dayStart).limit(1),
-    supabase.from('digi_questions').select('id').eq('user_id', userId).gte('created_at', dayStart).limit(1),
+    // THIS child's script today (or a household row), so Jody's bedtime read
+    // ticks Jody's day and Tray's stays open. Key per child since 219.
+    supabase.from('script_completions').select('id, child_id').eq('user_id', userId).gte('completed_at', dayStart).limit(10),
+    supabase.from('digi_questions').select('id, child_id').eq('user_id', userId).gte('created_at', dayStart).limit(10),
     // Per child since migration 211. Asking by user alone is what let one
     // child's moment tick the step for the whole household, so a parent doing
     // Today with Teo was told Olgie's moment was done too.
@@ -420,7 +422,9 @@ export async function getTodayLoop(
       key: 'script',
       label: 'Script',
       href: scriptHref,
-      done: (scriptToday ?? []).length > 0,
+      // This child's row or the household's. A sibling's script must not tick
+      // this child's rung. See migration 219.
+      done: (scriptToday ?? []).some(r => (r as { child_id?: string | null }).child_id === (child?.id ?? null) || (r as { child_id?: string | null }).child_id == null),
     },
     // ── QUESTS: WHICHEVER IS LIVE, IN THIS ORDER ───────────────────────────
     //
@@ -486,7 +490,7 @@ export async function getTodayLoop(
       key: 'digi' as const,
       label: neverCheckedIn ? 'Meet DiGi' : 'Ask DiGi',
       href: '/dashboard/digi',
-      done: (digiToday ?? []).length > 0,
+      done: (digiToday ?? []).some(r => (r as { child_id?: string | null }).child_id === (child?.id ?? null) || (r as { child_id?: string | null }).child_id == null),
     },
   ]
 
@@ -556,7 +560,9 @@ export async function getDailyTasks(
     // child still counts for everybody, which is what it meant when written.
     supabase.from('daily_sessions').select('completed_at, cards_completed, child_id').eq('user_id', userId).eq('session_date', today),
     getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
-    supabase.from('script_completions').select('id').eq('user_id', userId).gte('completed_at', dayStart).limit(1),
+    // THIS child's script today (or a household row), so Jody's bedtime read
+    // ticks Jody's day and Tray's stays open. Key per child since 219.
+    supabase.from('script_completions').select('id, child_id').eq('user_id', userId).gte('completed_at', dayStart).limit(10),
     supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, title').eq('audience', STAGE_TO_AUDIENCE[stageId]),
     supabase.from('lesson_completions').select('lesson_id, lesson_source').eq('user_id', userId),
@@ -614,7 +620,7 @@ export async function getDailyTasks(
         ? 'Tonight’s script, picked for you'
         : 'Every script for this stage is read',
       href: await safeScriptHref(supabase, userId, isPaid, recommended),
-      done: !recommended || (scriptDoneToday ?? []).length > 0,
+      done: !recommended || (scriptDoneToday ?? []).some(r => (r as { child_id?: string | null }).child_id === childId || (r as { child_id?: string | null }).child_id == null),
     },
     {
       key: 'lesson',

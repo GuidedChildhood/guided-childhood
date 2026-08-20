@@ -259,7 +259,16 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       {/* The point of the day, one line, same words as ever */}
       <div style={{ padding: '0 4px', marginBottom: '12px' }}>
         <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.01em', lineHeight: 1.2, margin: '0 0 3px' }}>
-          {dayDone ? 'Today, sorted' : `Today with ${kid}`}
+          {/* ── THE NAME, SETTLED (19 August 2026) ─────────────────────────
+              Justin, mid red pen: "what should we call Today, where they step
+              through and it goes green? There is some confusion."
+              The confusion was real: "Today" named this path, the page it sat
+              on, AND the day itself, so "the check in did not update Today"
+              could mean three things. It is a PATH, the drawing says so, each
+              stop goes green, and with two children whose it is matters more
+              than what day it is. So it is named as one: the child's path.
+              "Today" stays in the eyebrow, where the day belongs. */}
+          {dayDone ? `${kid}'s path, done` : `${kid}'s path today`}
         </h2>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
           {dayDone

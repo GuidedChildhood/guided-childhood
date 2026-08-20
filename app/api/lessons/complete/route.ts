@@ -37,11 +37,21 @@ export async function POST(req: NextRequest) {
     ? Math.max(correctQ, priorPassScore ?? 0)
     : priorPassScore ?? correctQ
 
+  // Whose lesson (migration 213, key 219): the completion belongs to the open
+  // child, so Jody's pass stops marking Tray's library done. Checked, and null
+  // (no child sent, or not theirs) stays the household row.
+  let forChild: string | null = null
+  if (typeof child_id === 'string' && child_id) {
+    const { data: owned } = await supabase
+      .from('children').select('id').eq('id', child_id).eq('parent_id', user.id).maybeSingle()
+    forChild = owned?.id ?? null
+  }
+
   const { error } = await supabase
     .from('lesson_completions')
     .upsert(
-      { user_id: user.id, lesson_id, lesson_source, score, passed },
-      { onConflict: 'user_id,lesson_id,lesson_source' }
+      { user_id: user.id, child_id: forChild, lesson_id, lesson_source, score, passed },
+      { onConflict: 'user_id,child_id,lesson_id,lesson_source' }
     )
 
   if (error) {
@@ -51,8 +61,8 @@ export async function POST(req: NextRequest) {
       const { error: retryError } = await supabase
         .from('lesson_completions')
         .upsert(
-          { user_id: user.id, lesson_id, lesson_source },
-          { onConflict: 'user_id,lesson_id,lesson_source' }
+          { user_id: user.id, child_id: forChild, lesson_id, lesson_source },
+          { onConflict: 'user_id,child_id,lesson_id,lesson_source' }
         )
       if (retryError) return NextResponse.json({ error: retryError.message }, { status: 500 })
       return NextResponse.json({ ok: true, passed: true })
@@ -87,12 +97,6 @@ export async function POST(req: NextRequest) {
       // Checked, not trusted, and null when there is nothing to check, which is
       // exactly the old behaviour for a family with one child who never touches
       // the switcher.
-      let forChild: string | null = null
-      if (typeof child_id === 'string' && child_id) {
-        const { data: owned } = await supabase
-          .from('children').select('id').eq('id', child_id).eq('parent_id', user.id).maybeSingle()
-        forChild = owned?.id ?? null
-      }
       await supabase.from('lesson_pass_by')
         .insert({ user_id: user.id, lesson_id, who: 'parent', child_id: forChild })
     } catch { /* already recorded, or pre migration 162 */ }

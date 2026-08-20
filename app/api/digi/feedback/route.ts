@@ -57,7 +57,7 @@ export async function POST(request: Request) {
       question: question.trim(),
       parent_response: response?.trim() ?? null,
       responded_at: response?.trim() ? new Date().toISOString() : null,
-    }, { onConflict: 'user_id,feedback_date' })
+    }, { onConflict: 'user_id,child_id,feedback_date' })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 

@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // After a parent has the script, DiGi gently asks if it helped. The answer feeds
@@ -41,7 +42,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
     try {
       await fetch('/api/completions', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sort_order: sortOrder, worked: w }),
+        body: JSON.stringify({ sort_order: sortOrder, worked: w , child_id: currentChildId() }),
       })
     } catch { /* best effort */ } finally { setSaving(false) }
 
@@ -61,7 +62,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
     try {
       await fetch('/api/completions', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sort_order: sortOrder, worked_line: line }),
+        body: JSON.stringify({ sort_order: sortOrder, worked_line: line , child_id: currentChildId() }),
       })
     } catch { /* best effort */ }
   }
