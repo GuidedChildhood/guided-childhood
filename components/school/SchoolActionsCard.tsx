@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import { SCHOOL_EMAIL_FORWARDING_LIVE } from '@/lib/config/school'
 import { NOTIFS_CHANGED_EVENT } from '@/components/dashboard/NotificationsBell'
 import SchoolWeek from './SchoolWeek'
@@ -132,9 +133,11 @@ function dueInfo(dueDate: string | null, dueTime: string | null | undefined, now
   return { text: 'Today', tone: 'today' }
 }
 
-export default function SchoolActionsCard({ actions: initial, childName, region = 'uk', compact = false }: {
+export default function SchoolActionsCard({ actions: initial, childName, kids = [], region = 'uk', compact = false }: {
   actions: SchoolAction[]
   childName?: string | null
+  /** Every child, for the add sheet's whose is it picker. */
+  kids?: { id: string; name: string | null }[]
   region?: Region
   /**
    * Inside something that already names this section, so the card drops its own
@@ -516,6 +519,8 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
           dow={addDay.dow}
           dayLabel={dayLabel(addDay.dateIso, addDay.dow)}
           childName={childName}
+          kids={kids}
+          defaultChildId={currentChildId()}
           onCancel={() => setAddDay(null)}
           onAdd={addFromSheet}
         />
@@ -534,6 +539,8 @@ export default function SchoolActionsCard({ actions: initial, childName, region 
             dow={dow}
             dayLabel={isRoutine ? `Every ${WEEKDAY_NAME[dow]}` : dayLabel(dateIso, dow)}
             childName={childName}
+            kids={kids}
+            defaultChildId={(e as { child_id?: string | null }).child_id ?? null}
             initial={{
               title: e.title,
               kind: e.kind,

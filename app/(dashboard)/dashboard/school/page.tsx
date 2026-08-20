@@ -92,7 +92,12 @@ export default async function SchoolPage() {
 
       {/* Live alerts, stored in school_actions, shown here in the app itself */}
       <div id="school-actions" style={{ marginBottom: '28px' }}>
-        <SchoolActionsCard actions={actions} childName={childName} region={region} />
+        <SchoolActionsCard
+          actions={actions}
+          childName={childName}
+          kids={(allChildrenResult.data ?? []) as { id: string; name: string | null }[]}
+          region={region}
+        />
       </div>
 
       {/* Email forwarding is coming soon: the automatic pull from school emails

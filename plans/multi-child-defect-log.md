@@ -103,3 +103,5 @@ alter table public.lesson_completions drop column if exists child_id;
 | 42 | Push | Weekly routine child nudge went to the PRIMARY child regardless of whose routine | FIXED | Sends to the routine's own child |
 | 43 | Interface | School page items showed no owner | FIXED | Owner name beside the title, resolved server side |
 | 44 | Interface | Learning term view and homework decoder surfaced NOWHERE, no rotation item pointed at them | FIXED | Weekly rotation item added; both pages verified already per child |
+| 45 | Interface | School add form never asked whose the reminder is, so new items had no owner to show or route by | FIXED | "Whose is it" picker in the add sheet, two or more children only, defaults to the open child, Everyone stays an option. POST and PATCH validate ownership; the dedupe is per child so Teo's PE kit no longer swallows Olga's. |
+| 46 | Push | Followup card "How did that go?" carried its child in the data but not in the words | NOTED | The question text itself names the context; left as is |
