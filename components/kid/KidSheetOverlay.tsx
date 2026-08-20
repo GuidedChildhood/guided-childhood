@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { playKidSound } from '@/lib/sound/kidSounds'
 
 // A printable sheet, printed from right where the child is standing.
@@ -45,6 +45,19 @@ export default function KidSheetOverlay({ sheet, onClose }: {
   // blank with no explanation, so this one says what happened and the bar
   // above still works either way.
   const [failed, setFailed] = useState(false)
+  // True once the print dialog has closed. The way back was always in the top
+  // bar, but a child who has just printed is looking at the bottom of a long
+  // sheet, not at a small button above it. Justin, 20 August 2026: "if they
+  // print, easy for them to click back to printables page." So the moment the
+  // dialog closes, a big bar rises from the bottom with the one thing they
+  // want next. afterprint fires whether they printed or cancelled, and either
+  // way the child is done with the sheet.
+  const [printed, setPrinted] = useState(false)
+  useEffect(() => {
+    const done = () => setPrinted(true)
+    window.addEventListener('afterprint', done)
+    return () => window.removeEventListener('afterprint', done)
+  }, [])
   if (!sheet) return null
   return (
     <div className="kid-sheet-overlay" style={{ position: 'fixed', inset: 0, zIndex: 220, background: '#fff', overflowY: 'auto' }}>
@@ -149,6 +162,31 @@ export default function KidSheetOverlay({ sheet, onClose }: {
           style={{ width: '100%', display: 'block', marginTop: 14 }}
         />
       ))}
+
+      {/* The big way home, once the print dialog has been and gone. Fixed to
+          the bottom so it is under the child's thumb wherever they scrolled,
+          and hidden on paper like the bar above. */}
+      {printed && (
+        <div
+          className="kid-sheet-bar"
+          style={{
+            position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 3,
+            padding: '12px 14px calc(12px + env(safe-area-inset-bottom))',
+            background: 'var(--terracotta-lt)', borderTop: '1.5px solid rgba(26,26,46,0.12)',
+          }}
+        >
+          <button
+            onClick={() => { playKidSound('tap'); onClose() }}
+            style={{
+              width: '100%', padding: '16px 12px', border: 'none', borderRadius: 16, cursor: 'pointer',
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
+              color: '#fff', background: '#2F8F6B', boxShadow: '0 5px 0 rgba(26,26,46,0.25)',
+            }}
+          >
+            Done! Back to my printables
+          </button>
+        </div>
+      )}
 
       {/* The write in page, its own sheet of paper when printed. On screen it
           sits under the sheet so a child scrolling knows page two is coming. */}

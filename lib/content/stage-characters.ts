@@ -20,8 +20,6 @@
 // the others have their sprout or antenna. Cosmo now points at the orange flame
 // character, which is the one Justin means by Cosmo.
 
-const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
-
 // ── THE FIVE FRIENDS SHIP WITH THE CODE ─────────────────────────────────────
 //
 // Justin handed over the five character files on 13 August. They are the same
@@ -50,8 +48,16 @@ const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3
 // forty files read one or the other and a rename would be a large diff to say
 // nothing.
 //
-// `colouring` stays on the CDN: it is black and white line art for printables
-// and genuinely is a different picture.
+// `colouring` is black and white line art for printables, and it is DERIVED
+// from these very renders rather than generated. The first colouring sheets
+// were prompted fresh on Higgsfield and the generator drew whoever it felt
+// like: the Nova sheet was an egg with a moon on its head, photographed as a
+// booklet on a grey table. A child who has met Nova knows that is not Nova.
+// Justin, 20 August 2026: the sheets "need to actually be proper colouring in
+// pictures that are not photos and match exactly the name and shape of planet
+// friends." scripts/friend-colouring.py is the lift (silhouette from the
+// alpha channel, face from the colour edges, of the same PNG the child sees),
+// kept next to cutouts.py for the next piece of art.
 
 export type StageCharacter = {
   stageId: number          // 1 Foundation to 5 Independent
@@ -74,7 +80,7 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
     stageId: 1, key: 'pebble', name: 'Pebble',
     img: '/digi-squad/friends/pebble.png',
     cutout: '/digi-squad/friends/pebble.png',
-    colouring: BASE + 'hf_20260724_111510_303dc497-fe84-4539-a0f3-00f56f132c9a.png',
+    colouring: '/printables/friends/pebble-colouring.png',
     ages: 'Ages 4 to 7', colour: '#E6B93E', action: 'Explore',
     blurb: 'Full of curiosity and wonder. Every big journey starts small.',
     role: 'your first safe steps',
@@ -85,7 +91,7 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
     stageId: 2, key: 'bloop', name: 'Bloop',
     img: '/digi-squad/friends/bloop.png',
     cutout: '/digi-squad/friends/bloop.png',
-    colouring: BASE + 'hf_20260724_130028_f1485ff8-e1b1-44f0-85d4-87c12ef7af25.png',
+    colouring: '/printables/friends/bloop-colouring.png',
     ages: 'Ages 8 to 10', colour: '#7CB342', action: 'Create',
     blurb: 'Creative and clever. Building skills and strong foundations.',
     role: 'building good habits',
@@ -96,7 +102,7 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
     stageId: 3, key: 'orbit', name: 'Orbit',
     img: '/digi-squad/friends/orbit.png',
     cutout: '/digi-squad/friends/orbit.png',
-    colouring: BASE + 'hf_20260724_130030_bca37824-1a9f-4744-9044-c97de3da8abe.png',
+    colouring: '/printables/friends/orbit-colouring.png',
     ages: 'Ages 11 to 12', colour: '#4C9FD6', action: 'Explore',
     blurb: 'Exploring bigger worlds and asking big questions.',
     role: 'exploring and asking big questions',
@@ -107,7 +113,7 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
     stageId: 4, key: 'nova', name: 'Nova',
     img: '/digi-squad/friends/nova.png',
     cutout: '/digi-squad/friends/nova.png',
-    colouring: BASE + 'hf_20260725_090749_b565097d-be3d-403d-8435-2817497807bc.png',
+    colouring: '/printables/friends/nova-colouring.png',
     ages: 'Ages 13 to 15', colour: '#9B72CF', action: 'Guide',
     blurb: 'Learning to make good choices and shape your path.',
     role: 'making your own good choices',
@@ -118,7 +124,7 @@ export const STAGE_CHARACTERS: StageCharacter[] = [
     stageId: 5, key: 'cosmo', name: 'Cosmo',
     img: '/digi-squad/friends/cosmo.png',
     cutout: '/digi-squad/friends/cosmo.png',
-    colouring: BASE + 'hf_20260725_090756_3600a3d8-266c-40ca-af9c-b890f0223bed.png',
+    colouring: '/printables/friends/cosmo-colouring.png',
     ages: 'Ages 16+', colour: '#E8873C', action: 'Lead',
     blurb: 'Confident and independent. Ready to lead your own future.',
     role: 'leading your own way',

@@ -8409,3 +8409,26 @@ these three are actually listed and enabled, or count against a plan limit
 that the other 31 crons in the same file do not. If they are missing from the
 list, re-adding them or redeploying should be enough; if they are listed and
 still silent, that is a Vercel-side question, not a code one.
+
+## 20 August 2026 — Colouring sheets are traced from the real Friends, never generated
+
+Justin, on the child app printables: they "need to actually be proper
+colouring in pictures that are not photos and match exactly the name and
+shape of planet friends and if they print easy for them to click back to
+printables page."
+
+The old sheets were prompted fresh on Higgsfield, so the generator drew
+whoever it felt like: the Nova sheet was a kawaii egg with a moon on its
+head, photographed as a booklet mockup on a grey table. A child who has met
+Nova knows that is not Nova, and grey table costs ink.
+
+The rule from today: colouring line art is DERIVED from the character render
+the child already knows, by scripts/friend-colouring.py (silhouette from the
+alpha channel, face from the colour edges), and ships with the code in
+public/printables/friends. Matching by construction, not by prompt. The
+script sits next to cutouts.py and reruns in seconds when new art lands.
+stage-characters.ts `colouring` is the one field every surface reads.
+
+And after a child prints any sheet, KidSheetOverlay now raises a full width
+"Done! Back to my printables" bar on afterprint, so the way home is under
+their thumb rather than in a small bar at the top of a long sheet.

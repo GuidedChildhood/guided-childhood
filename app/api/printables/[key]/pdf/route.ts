@@ -131,7 +131,11 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ key: string
     pdf.setAuthor(BRAND_NAME)
     const font = await pdf.embedFont(StandardFonts.HelveticaBold)
 
-    for (const artworkUrl of artworkUrls) {
+    for (const rawUrl of artworkUrls) {
+      // Sheet art used to be all CDN; the Planet Friend colouring sheets now
+      // ship with the code as /printables/friends/*.png, and Node's fetch
+      // refuses a bare path, so every URL is resolved against this request.
+      const artworkUrl = new URL(rawUrl, req.url).toString()
       const imageRes = await fetch(artworkUrl)
       if (!imageRes.ok) throw new Error(`artwork fetch ${imageRes.status}`)
       const bytes = await imageRes.arrayBuffer()
