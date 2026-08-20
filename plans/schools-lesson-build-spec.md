@@ -73,7 +73,7 @@ From the OECD/EC AILit framework and WEF future-of-work evidence. These are the 
 The scheme is grounded in JP's TRUST framework. **Do not invent or paraphrase the TRUST acronym or its components.** Pull the canonical TRUST definitions from the existing Guided Childhood master docs and reference them verbatim. If the canonical source is not in context, stop and ask JP rather than fabricating.
 
 ### 1.9 The character principle (new in v2)
-Characters are a door, not a dependency: every lesson works without them, but the character video beat is the signature and the differentiator (no UK competitor animates its mascot as the actual teacher, see Section 15). The DiGi Squad reference (`digi-squad/README.md` in the platform repo) is the single source of truth for design, voice rules and canonical intro lines. The Jigsaw distancing technique is law: the character voices the struggle so the child agrees with the character instead of being challenged. Character casting by key stage is defined in Section 9.4; the squad kids carry primary, the UK animal guides and DiGi carry secondary, so secondary pupils never feel babied.
+Characters are a door, not a dependency: every lesson works without them, but the character video beat is the signature and the differentiator (no UK competitor animates its mascot as the actual teacher, see Section 15). The DiGi Squad reference (`digi-squad/README.md` in the platform repo) is the single source of truth for design, voice rules and canonical intro lines. The Jigsaw distancing technique is law: the character voices the struggle so the child agrees with the character instead of being challenged. Character casting by key stage is defined in Section 9.4; the younger Planet Friends (Pebble, Bloop) carry primary, the older Planet Friends (Orbit, Nova, Cosmo) and DiGi carry secondary, so secondary pupils never feel babied and the cast matches the parents app the whole way up.
 
 ---
 
@@ -211,47 +211,47 @@ Two layers in every stage: **behaviour and routines** first, then **digital lite
 
 > Gap-fills are marked **[GAP-FILL]**. These close the eight items missing from the current topic lists so the "all 8 UKCIS areas" and statutory claims hold.
 
-> **Scaffold, CASEL and drop-in overlay (deep dive, `plans/2026-08-20-schools-foundation-build-brief.md`).** Three additions ride on this map without changing a single module, strand or outcome. (1) Every module carries one of three shared words the whole school uses, **Notice, Choose, Tell**, the young age spine that answers Common Sense's Rings of Responsibility and is machine first from the start. It is stored in the `scaffold` column (added by migration 220 for the 13+ set, to be populated for the primary rows). (2) Every module also maps to a primary **CASEL** competency (proposed nullable `casel_competency` column), for the SEL led and international buyer. (3) Every young module gets a **20 minute drop in** version alongside the full 55 minute lesson, the format busy teachers now expect. The module by module overlay for EYFS to KS2 (which word, which competency, which Planet Friend host) is part 4 of the deep dive. **Cast, corrected:** schools uses the **Planet Friends** (Pebble EYFS/KS1, Bloop and Orbit across KS2, Nova and Cosmo at the top end), DiGi anchoring and DiGi Junior on the young pauses, the same characters as the parents app for continuity. The old schools squad (Sofia, Oliver, Zara) is retired, as it already is in the code (`lib/content/stage-characters.ts`: "these replace the old squad"). Section 9.4 and the per module casts in Section 5 below still name the retired squad and the animal guides. Updating those to the Planet Friends is a schools task, owned by the separate schools PR, not done from here.
+> **Scaffold, CASEL and drop-in overlay (deep dive, `plans/2026-08-20-schools-foundation-build-brief.md`).** Three additions ride on this map without changing a single module, strand or outcome. (1) Every module carries one of three shared words the whole school uses, **Notice, Choose, Tell**, the young age spine that answers Common Sense's Rings of Responsibility and is machine first from the start. It is stored in the `scaffold` column (added by migration 220 for the 13+ set, to be populated for the primary rows). (2) Every module also maps to a primary **CASEL** competency (proposed nullable `casel_competency` column), for the SEL led and international buyer. (3) Every young module gets a **20 minute drop in** version alongside the full 55 minute lesson, the format busy teachers now expect. The module by module overlay for EYFS to KS2 (which word, which competency, which Planet Friend host) is part 4 of the deep dive. **Cast:** schools uses the **Planet Friends** throughout, the same characters as the parents app, for continuity: Pebble (EYFS and KS1), Bloop and Orbit (KS2), Orbit and Nova (KS3), Nova and Cosmo (KS4), Cosmo (KS5), with DiGi anchoring and DiGi Junior on the young pauses. The old schools squad (Sofia, Oliver, Zara) and the animal guides (Vix, Brock) are retired, as the squad already is in the code (`lib/content/stage-characters.ts`: "these replace the old squad"). Section 9.4 and every per module cast in Section 5 below, and the reference lesson in Section 10, now name the Planet Friends. Rendering each Friend's classroom video beats from the parents app art is the outstanding build task for the schools session.
 
 ### EYFS (Reception) — 1 module
 1. **Screens and kindness / real vs not real (seed of AI literacy)**
-   Behaviour: co-viewing, gentle routines, screens with a grown-up. Literacy: some things on a screen are real, some are made up (seed of "is this real or made by a computer"). EfCW: 1, 6. Statutory: EYFS PSED, RSHE foundations. Evidence: EYSTAG under-5s screen report. Action: "I can ask a grown-up if something on a screen is real." Character: Sofia + DiGi Junior.
+   Behaviour: co-viewing, gentle routines, screens with a grown-up. Literacy: some things on a screen are real, some are made up (seed of "is this real or made by a computer"). EfCW: 1, 6. Statutory: EYFS PSED, RSHE foundations. Evidence: EYSTAG under-5s screen report. Action: "I can ask a grown-up if something on a screen is real." Character: Pebble + DiGi Junior.
 
 ### KS1 (Years 1–2) — 2 modules
 2. **Kind screens, calm bodies**
-   Behaviour: how screens make my body and mood feel; stopping and telling. Literacy: being kind on screens; who to tell. EfCW: 4, 6. Statutory: RSHE, EfCW. Evidence: wellbeing baseline. Action: "I can name how I feel after screen time and tell a grown-up." Character: Sofia.
+   Behaviour: how screens make my body and mood feel; stopping and telling. Literacy: being kind on screens; who to tell. EfCW: 4, 6. Statutory: RSHE, EfCW. Evidence: wellbeing baseline. Action: "I can name how I feel after screen time and tell a grown-up." Character: Pebble, DiGi Junior.
 3. **Real, pretend, or made by a computer [GAP-FILL: AI literacy early]**
-   Behaviour: co-viewing choices. Literacy: photos and videos can be changed or made up; AI can make pictures. EfCW: 5. Statutory: EfCW managing information. Evidence: AILit "Engage with AI" domain. Action: "I can spot that a picture might not be real." Character: Zara (junior detective mode) + DiGi Junior.
+   Behaviour: co-viewing choices. Literacy: photos and videos can be changed or made up; AI can make pictures. EfCW: 5. Statutory: EfCW managing information. Evidence: AILit "Engage with AI" domain. Action: "I can spot that a picture might not be real." Character: Pebble (curious explorer mode) + DiGi Junior.
 
 ### KS2 (Years 3–6) — 6 modules
 4. **Screen routines that work** (after-school, bedtime and sleep, mealtimes, homework avoidance)
-   EfCW: 6. Statutory: RSHE health/wellbeing. Evidence: sleep displacement research. Action: one routine the child sets tonight. Character: Oliver.
+   EfCW: 6. Statutory: RSHE health/wellbeing. Evidence: sleep displacement research. Action: one routine the child sets tonight. Character: Bloop.
 5. **Gaming: time, intensity, and spend [scam/financial seed, GAP-FILL]**
-   Behaviour: gaming intensity, boredom, snacking, physical health. Literacy: loot boxes, in-game spend, "free" that costs. EfCW: 6, 7. Statutory: Citizenship financial literacy (fraud/scam prevention). Evidence: gambling-style mechanics. Action: "I can spot when a game is trying to get me to spend." Character: Oliver.
+   Behaviour: gaming intensity, boredom, snacking, physical health. Literacy: loot boxes, in-game spend, "free" that costs. EfCW: 6, 7. Statutory: Citizenship financial literacy (fraud/scam prevention). Evidence: gambling-style mechanics. Action: "I can spot when a game is trying to get me to spend." Character: Bloop.
 6. **How algorithms work**
-   Literacy: why the feed shows what it shows; the loop that keeps you scrolling. EfCW: 5, 6. Statutory: Computing, EfCW. Evidence: attention economy. Action: "I can explain why my feed keeps me watching." Character: DiGi (the existing pilot video `2052451b` seeds this module). Coding mix-in: paper algorithm + Scratch ranking rule (Section 14).
+   Literacy: why the feed shows what it shows; the loop that keeps you scrolling. EfCW: 5, 6. Statutory: Computing, EfCW. Evidence: attention economy. Action: "I can explain why my feed keeps me watching." Character: Orbit + DiGi (the existing pilot video `2052451b` seeds this module). Coding mix-in: paper algorithm + Scratch ranking rule (Section 14).
 7. **Privacy and digital reputation**
-   Literacy: what is private, what lasts, your digital footprint. EfCW: 3, 7. Statutory: EfCW privacy/reputation. Evidence: footprint permanence. Action: "I can decide what not to share." Character: Sofia.
+   Literacy: what is private, what lasts, your digital footprint. EfCW: 3, 7. Statutory: EfCW privacy/reputation. Evidence: footprint permanence. Action: "I can decide what not to share." Character: Orbit.
 8. **Being kind and safe with others online (online bullying) [GAP-FILL: EfCW strand 4 explicit]**
-   Behaviour: group chats and fallout. Literacy: recognising, reporting and not being a bystander to online bullying. EfCW: 2, 4. Statutory: RSHE, anti-bullying (Ofsted). Evidence: cyberbullying prevalence. Action: "I know three things to do if someone is unkind online." Character: Sofia + Zara.
+   Behaviour: group chats and fallout. Literacy: recognising, reporting and not being a bystander to online bullying. EfCW: 2, 4. Statutory: RSHE, anti-bullying (Ofsted). Evidence: cyberbullying prevalence. Action: "I know three things to do if someone is unkind online." Character: Bloop + DiGi.
 9. **My work and other people's work (copyright and ownership) [GAP-FILL: EfCW strand 8]**
-   Literacy: owning what you make; using others' images/music/words; AI and where content comes from. EfCW: 8. Statutory: EfCW copyright/ownership, Computing. Evidence: AILit "Create with AI". Action: "I can credit work that is not mine." Character: Zara.
+   Literacy: owning what you make; using others' images/music/words; AI and where content comes from. EfCW: 8. Statutory: EfCW copyright/ownership, Computing. Evidence: AILit "Create with AI". Action: "I can credit work that is not mine." Character: Orbit.
 
 ### KS3 (Years 7–9) — 6 modules
 10. **Mood and screens**
-    Behaviour: mood changes after screens; the honest, mixed evidence. Literacy: noticing patterns; agency over habits. EfCW: 6. Statutory: RSHE mental health. Evidence: Orben/Przybylski "what and how, not just time." Action: one honest self-check the pupil runs for a week. Character: Brock the badger + DiGi.
+    Behaviour: mood changes after screens; the honest, mixed evidence. Literacy: noticing patterns; agency over habits. EfCW: 6. Statutory: RSHE mental health. Evidence: Orben/Przybylski "what and how, not just time." Action: one honest self-check the pupil runs for a week. Character: Nova + DiGi.
 11. **Social media, group chats, and the workarounds** (VPNs, friends' accounts, rules being tested)
-    Literacy: how social platforms work; VPNs and workarounds; why rules exist. EfCW: 2, 4, 7. Statutory: EfCW, Online Safety Act education duty. Evidence: workaround behaviour. Action: "I can explain the risk behind a workaround I might be tempted by." Character: Vix the fox (street-smart is the right voice for workarounds).
+    Literacy: how social platforms work; VPNs and workarounds; why rules exist. EfCW: 2, 4, 7. Statutory: EfCW, Online Safety Act education duty. Evidence: workaround behaviour. Action: "I can explain the risk behind a workaround I might be tempted by." Character: Nova (the streetwise register the pupil is growing into).
 12. **Misinformation, deepfakes and AI content** ← REFERENCE LESSON, fully scripted in Section 10
-    Literacy: spotting manipulated and AI-generated content; misinformation, disinformation, conspiracy theories (KCSIE content harms). EfCW: 5. Statutory: KCSIE 2025, Citizenship media literacy, DfE AI. Evidence: KCSIE content-risk expansion. Action: "I can run three checks before I believe or share something." Character: Zara (Y7 to Y8 register) with Vix cameo.
+    Literacy: spotting manipulated and AI-generated content; misinformation, disinformation, conspiracy theories (KCSIE content harms). EfCW: 5. Statutory: KCSIE 2025, Citizenship media literacy, DfE AI. Evidence: KCSIE content-risk expansion. Action: "I can run three checks before I believe or share something." Character: Orbit (Y7 to Y8 checker register).
 13. **Scams, fraud and money online [GAP-FILL: statutory financial literacy]**
-    Literacy: phishing, fake offers, crypto and get-rich hype, account theft. EfCW: 7. Statutory: Citizenship digital financial literacy (fraud/scam prevention). Evidence: fraud exposure in teens. Action: "I can spot a scam's three tells." Character: Vix.
+    Literacy: phishing, fake offers, crypto and get-rich hype, account theft. EfCW: 7. Statutory: Citizenship digital financial literacy (fraud/scam prevention). Evidence: fraud exposure in teens. Action: "I can spot a scam's three tells." Character: Nova.
 14. **Bodies, image and pressure online (body image + pornography exposure) [GAP-FILL: statutory RSHE]**
     Literacy: edited/idealised bodies; healthy self-image; age-appropriate handling of pornography exposure and why it distorts. EfCW: 1, 6. Statutory: RSHE 2026 (body image, pornography). Evidence: Children's Commissioner porn-exposure data. Action: "I can name one way images online are made to make me feel worse." Character: DiGi only (character comedy is wrong here; DiGi carries the calm register). DSL note.
 
 ### KS4 (Years 10–11) — 5 modules
 15. **Manipulation and persuasion**
-    Literacy: dark patterns, influence, engineered outrage, who profits. EfCW: 5, 6. Statutory: Citizenship, RSHE. Evidence: attention economy. Action: "I can name the technique being used on me." Character: Vix.
+    Literacy: dark patterns, influence, engineered outrage, who profits. EfCW: 5, 6. Statutory: Citizenship, RSHE. Evidence: attention economy. Action: "I can name the technique being used on me." Character: Nova.
 16. **Consent, images and the law (image-sharing) [GAP-FILL: distinct from sextortion]**
     Literacy: consent, sharing images, the law on under-18 images, pressure. EfCW: 2, 7. Statutory: RSHE, law. Evidence: image-based abuse data. Action: "I know the law and my options before anything is shared." Character: DiGi only. DSL note.
 17. **Sextortion**
@@ -259,13 +259,13 @@ Two layers in every stage: **behaviour and routines** first, then **digital lite
 18. **Radicalisation and misogyny [GAP-FILL: name misogyny explicitly]**
     Literacy: pipelines, incel-adjacent and extremist content, gendered harm, misogyny. EfCW: 2, 5. Statutory: Prevent, KCSIE, RSHE (misogyny). Evidence: KCSIE/RSHE naming. DSL note mandatory. Action: "I can recognise when content is grooming my beliefs." Character: DiGi only. DSL note.
 19. **Readiness at 16 (the ban world) — CROWN MODULE**
-    Behaviour + literacy for the confirmed under-16 ban. Sub-topics (from config, not hardcoded): age verification mechanics; the workaround trap; the 15-to-16 cliff edge (zero to adult overnight); school-gate social fallout; what the ban does and does not do. Teach the honest line: the ban removes apps, it does not build judgement. EfCW: all, esp 5, 6, 7. Statutory: Online Safety Act, Children's Wellbeing and Schools Act 2026. Evidence: SMART Schools nuance + Australia ban outcomes. Action: "I can plan how I will handle full access when it arrives." Character: Vix + DiGi. Cross-reference: the algorithm literacy project's "arrival at 16" material (first-week audit, arriving with habits beats arriving with rules) is the consumer-side twin of this module; keep the two in step.
+    Behaviour + literacy for the confirmed under-16 ban. Sub-topics (from config, not hardcoded): age verification mechanics; the workaround trap; the 15-to-16 cliff edge (zero to adult overnight); school-gate social fallout; what the ban does and does not do. Teach the honest line: the ban removes apps, it does not build judgement. EfCW: all, esp 5, 6, 7. Statutory: Online Safety Act, Children's Wellbeing and Schools Act 2026. Evidence: SMART Schools nuance + Australia ban outcomes. Action: "I can plan how I will handle full access when it arrives." Character: Cosmo + DiGi. Cross-reference: the algorithm literacy project's "arrival at 16" material (first-week audit, arriving with habits beats arriving with rules) is the consumer-side twin of this module; keep the two in step.
 
 ### KS5 (Years 12–13) — 2 modules
 20. **AI mastery and data rights** (Engage, Create, Manage, Design AI)
-    Literacy: using AI well and critically; prompts, verification, bias, hallucination; agents and automation; data rights, profiling, consent. EfCW: 5, 7, 8. Statutory: DfE AI, AILit alignment. Evidence: AILit 4 domains, 88% student use / skill divide. Action: "I can use an AI tool and defend where I checked its work." Character: DiGi + motion graphics (no squad kids at KS5). Coding mix-in: build a small agent workflow (Section 14).
+    Literacy: using AI well and critically; prompts, verification, bias, hallucination; agents and automation; data rights, profiling, consent. EfCW: 5, 7, 8. Statutory: DfE AI, AILit alignment. Evidence: AILit 4 domains, 88% student use / skill divide. Action: "I can use an AI tool and defend where I checked its work." Character: Cosmo + DiGi + motion graphics. Coding mix-in: build a small agent workflow (Section 14).
 21. **Digital identity and the future of work**
-    Literacy: identity, reputation and portfolio online; automation, agents, self-driving systems, the jobs AI reshapes; the human skills that endure. EfCW: 1, 3. Statutory: careers, Citizenship. Evidence: WEF future-of-jobs, AILit human-skills. Action: "I can name the human skills I am building that AI cannot replace." Character: DiGi + motion graphics.
+    Literacy: identity, reputation and portfolio online; automation, agents, self-driving systems, the jobs AI reshapes; the human skills that endure. EfCW: 1, 3. Statutory: careers, Citizenship. Evidence: WEF future-of-jobs, AILit human-skills. Action: "I can name the human skills I am building that AI cannot replace." Character: Cosmo + DiGi + motion graphics.
 
 ---
 
@@ -354,7 +354,7 @@ Every video model in the catalogue tops out at **15 seconds per generation**. Th
 | Dialogue beats (character speaks to camera/class) | **Kling 3.0** | Multi-shot in one generation, audio sync; proven by the four rendered classroom pilots | 3 to 15s |
 | Drafts and iteration | **Seedance 2.0 Mini** | Same reference-driven pipeline at budget price; approve motion and staging cheaply before a std/4K final | 4 to 15s |
 | Fallback | **Gemini Omni Flash** | Reference-driven with native audio if primary models are unavailable | 4 to 10s |
-| Character voices | **create_voice** (one cloned voice per character, created once) | Oliver always sounds like Oliver across every lesson; voice-over can be regenerated without re-rendering the animation, which is the cheap refresh path |
+| Character voices | **create_voice** (one cloned voice per character, created once) | Bloop always sounds like Bloop across every lesson; voice-over can be regenerated without re-rendering the animation, which is the cheap refresh path |
 
 **Research verified (2 Jul 2026), the wider market picture:**
 
@@ -396,13 +396,13 @@ Cost benchmarks (verified July 2026): roughly $0.20 to $1.50 per beat-length cli
 
 | Stage | On-screen cast | Register |
 |---|---|---|
-| EYFS to KS1 | Sofia, DiGi Junior | Gentle, playful, co-viewing energy |
-| KS2 | Oliver (habits/gaming), Zara (truth/privacy detective), Sofia (safety), DiGi Junior pause | The squad proper, capes and superpowers |
-| KS3 | Zara (Y7 to Y8 truth topics), Vix the fox (workarounds, scams, street-smart topics), Brock the badger (wellbeing), DiGi anchor | Squad kids retire gradually; animal guides carry edge |
-| KS4 | Vix, DiGi only. Sensitive modules (16, 17, 18) are DiGi only with minimal, calm animation | No capes. Wry, direct, respectful |
-| KS5 | DiGi + motion graphics | Near-adult; character as brand voice, not teacher |
+| EYFS to KS1 | Pebble, DiGi Junior | Gentle, playful, co-viewing energy |
+| KS2 | Bloop (habits/gaming), Orbit (truth/privacy/big questions), DiGi Junior pause | The Planet Friends the child is earning at these ages |
+| KS3 | Orbit (Y7), Nova (Y8 to Y9, workarounds/scams/wellbeing), DiGi anchor | The Friend grows up with the pupil; no babying |
+| KS4 | Nova, Cosmo, DiGi. Sensitive modules (16, 17, 18) are DiGi only with minimal, calm animation | No capes. Wry, direct, respectful |
+| KS5 | Cosmo, DiGi + motion graphics | Near-adult; character as brand voice, not teacher |
 
-Canonical designs, voice rules, intro lines and existing Higgsfield job IDs live in `digi-squad/README.md`. The four rendered classroom pilots (DiGi `2052451b`, Oliver `73a1ddee`, Zara `08e5094c`, Sofia `95e07492`) are the house style reference. The UK animal guides have stills (`8365a8ff` fox, `4edb2fc5` badger, etc.) but no motion or voice yet: rendering their first beats is a build task.
+Canonical Planet Friend designs live in `lib/content/stage-characters.ts` and the art in `public/digi-squad/friends`; DiGi voice rules and intro lines live in `digi-squad/README.md`. DiGi's rendered classroom pilot (`2052451b`) is the house style reference and DiGi is kept. The old squad pilots (Oliver `73a1ddee`, Zara `08e5094c`, Sofia `95e07492`) and the animal guide stills are superseded now that schools uses the Planet Friends; rendering each Planet Friend's classroom video beats from the parents app art is the build task.
 
 ### 9.5 The production line (mechanical, per lesson)
 
@@ -432,16 +432,16 @@ This is the end-to-end worked example the whole build copies: every beat scripte
 
 | Time | Segment | Asset |
 |---|---|---|
-| 0:00 | **VIDEO BEAT 1: Zara intro** (12s) | Beat script below |
+| 0:00 | **VIDEO BEAT 1: Orbit intro** (12s) | Beat script below |
 | 0:01 | Retrieval starter, 4 auto-marked questions on last lesson | Player check / paper card |
 | 0:06 | **Learning cycle 1: content can be manufactured.** Teacher models with three invented posts (one true, one edited, one AI-made). Pupils vote before the reveal. | Slides 2 to 4 |
-| 0:14 | **VIDEO BEAT 2: Zara, the three checks** (10s) | Beat script below |
+| 0:14 | **VIDEO BEAT 2: Orbit, the three checks** (10s) | Beat script below |
 | 0:15 | Check for understanding 1 (2 questions, auto-marked) | Player check |
 | 0:17 | **Learning cycle 2: guided practice.** Class runs the three checks together on two more invented items (one deepfake-style video described, one screenshot chain). | Slides 5 to 7 |
 | 0:27 | **VIDEO BEAT 3: DiGi Junior pause** (8s, from library) | Pause library |
 | 0:28 | **Learning cycle 3: independent practice.** Worksheet: six invented items, run the checks, verdict each (believe / pause / do not share). Paper-first. | Worksheet |
 | 0:43 | Check for understanding 2 + whole-class corrections; teacher pulls two pupil verdicts and reasons | Player check |
-| 0:48 | **VIDEO BEAT 4: Zara mission beat** (8s) | Beat script below |
+| 0:48 | **VIDEO BEAT 4: Orbit mission beat** (8s) | Beat script below |
 | 0:49 | Exit quiz, 5 auto-marked questions + action commitment capture ("the next time I see a shocking post I will...") | Player quiz |
 | 0:55 | Plenary: the human skill closer (judgement, not tools). Family question handed out via parent note. | Slide 9, parent note |
 
@@ -451,29 +451,29 @@ Teacher admin for the lesson: take the register in the player (one tap), everyth
 
 **BEAT 1 — INTRO (dialogue beat, `video_models.dialogue_beats`, 12s, 16:9)**
 ```
-CHARACTER: Zara (canonical still e29b139c as reference)
+CHARACTER: Orbit (canonical art in public/digi-squad/friends/orbit.png as reference)
 SETTING:   secondary classroom, slightly older staging than the KS2 pilots,
-           Zara at the board, magnifying glass prop on the desk
+           Orbit at the board, magnifying glass prop on the desk
 BOARD:     REAL OR MADE?
-MOOD:      sharp, playful, detective energy dialled to Y8
+MOOD:      sharp, curious, big-question energy dialled to Y8
 
 SHOT 1 (0 to 6s)
-  ACTION:  Zara flips a photo card in her hand, holds it up to the class, eyebrow raised
-  LINE:    "Detective question. This photo got two million shares. It is completely fake."
+  ACTION:  Orbit flips a photo card, holds it up to the class, eyebrow raised
+  LINE:    "Big question. This photo got two million shares. It is completely fake."
 SHOT 2 (6 to 12s)
-  ACTION:  she taps the board, REAL OR MADE? underlined; leans in to camera
-  LINE:    "Today you learn the three checks that catch it in under a minute. Case open."
+  ACTION:  they tap the board, REAL OR MADE? underlined; lean in to camera
+  LINE:    "Today you learn the three checks that catch it in under a minute. Let's explore."
 ```
 
 **BEAT 2 — CONCEPT (identity beat, `video_models.identity_beats`, 10s, silent render + cloned voice)**
 ```
-CHARACTER: Zara
+CHARACTER: Orbit
 SETTING:   same classroom, board now shows three ticks stacked vertically
 BOARD:     THE THREE CHECKS
 MOOD:      focused, confiding
 
 SHOT 1 (0 to 10s)
-  ACTION:  Zara counts on three fingers, each count lands a tick on the board behind her
+  ACTION:  Orbit counts out three, each count lands a tick on the board behind them
   VOICE:   "Who made it. What do other places say. And the big one: how is it trying
             to make me FEEL? Fakes aim for your feelings, because feelings share fast."
 ```
@@ -488,15 +488,15 @@ VOICE:     "BEEP BOOP! Half-time check. Take one breath. Has anything today
 
 **BEAT 4 — MISSION (identity beat, 8s)**
 ```
-CHARACTER: Zara
-SETTING:   classroom door, bag over shoulder, case-closed energy
+CHARACTER: Orbit
+SETTING:   classroom door, explorer's-kit slung over shoulder, checks-done energy
 BOARD:     CHECK BEFORE YOU SHARE
-MOOD:      warm, handing over the badge
+MOOD:      warm, handing over the checks
 
 SHOT 1 (0 to 8s)
-  ACTION:  Zara holds up her detective badge, then points it at the camera
+  ACTION:  Orbit holds up the three-checks card, then points it at the camera
   VOICE:   "Your mission: next shocking post you see, run the three checks before
-            you even THINK about sharing. You are the detective now. Case closed."
+            you even THINK about sharing. You are the checker now. Question everything."
 ```
 
 ### 10.3 The checks (written, auto-marked)
@@ -513,7 +513,7 @@ SHOT 1 (0 to 8s)
 
 ### 10.4 The paper fallback (equity rule made concrete)
 
-One printed pack per lesson, generated from the same lesson JSON: retrieval card, the three-checks bookmark, the six-item worksheet, the exit card. A school with one projector and no pupil devices runs the identical lesson; a school with nothing but a photocopier still runs it (the beats are described in the teacher script: "Zara would say..."). No pupil login exists in either mode (Section 12).
+One printed pack per lesson, generated from the same lesson JSON: retrieval card, the three-checks bookmark, the six-item worksheet, the exit card. A school with one projector and no pupil devices runs the identical lesson; a school with nothing but a photocopier still runs it (the beats are described in the teacher script: "Orbit would say..."). No pupil login exists in either mode (Section 12).
 
 ### 10.5 The satellite assets
 
