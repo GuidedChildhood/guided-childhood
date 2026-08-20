@@ -170,7 +170,11 @@ export async function getCatchup(
     // read separately rather than inferred from the day count.
     count(() => scoped(supabase.from('earned_stickers')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId).like('sticker_key', 'friend-%').gte('created_at', sinceIso))),
+      // Both sides of the 19 August merge: main corrected the column to
+      // earned_at (created_at does not exist on earned_stickers), this branch
+      // scoped the count to the child. Each fixed a different way the number
+      // could be wrong.
+      .eq('user_id', userId).like('sticker_key', 'friend-%').gte('earned_at', sinceIso))),
     // LESSONS PASSED.
     //
     // Justin, 8 August 2026: "can we update parents when lessons are watched by

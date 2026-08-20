@@ -22,6 +22,7 @@ export type ParentLesson = {
   title: string
   strand: string
   keyword: string
+  scaffold: string | null
   catchphrase: string
   knowledge_intention: string
   emotional_intention: string
@@ -79,7 +80,7 @@ export async function getParentLessons(supabase: LessonClient): Promise<{
   const [lessonsRes, segmentsRes] = await Promise.all([
     supabase
       .from('parent_lessons')
-      .select('id, lesson_code, stage_id, journey_step, title, strand, keyword, catchphrase, knowledge_intention, emotional_intention, misconception, parent_note, poster_url, active')
+      .select('id, lesson_code, stage_id, journey_step, title, strand, keyword, scaffold, catchphrase, knowledge_intention, emotional_intention, misconception, parent_note, poster_url, active')
       .eq('active', true)
       .order('stage_id', { ascending: true })
       .order('journey_step', { ascending: true }),
@@ -115,7 +116,7 @@ export async function getParentLessonByCode(supabase: LessonClient, lessonCode: 
 } | null> {
   const { data: lesson } = await supabase
     .from('parent_lessons')
-    .select('id, lesson_code, stage_id, journey_step, title, strand, keyword, catchphrase, knowledge_intention, emotional_intention, misconception, parent_note, poster_url, active')
+    .select('id, lesson_code, stage_id, journey_step, title, strand, keyword, scaffold, catchphrase, knowledge_intention, emotional_intention, misconception, parent_note, poster_url, active')
     .eq('lesson_code', lessonCode)
     .eq('active', true)
     .maybeSingle()

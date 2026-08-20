@@ -472,6 +472,209 @@ function checkSchoolsSchema() {
   }
 }
 
+// ── 9. Filters on columns the table does not have ────────────────────
+//
+// board-status.ts asked the children table for user_id. The column is called
+// parent_id and always has been (migration 001). PostgREST answered every
+// request with an unknown-column error, the fail-soft path read the error as
+// an empty family, and the starsToSpend badge on the Quests board sat on 0
+// for every family until a review happened to look. Nothing crashed, nothing
+// logged, the wrong number just held still.
+//
+// Which columns a table has is a static fact about the migrations, and which
+// columns a query filters on is a static fact about the code, so the two can
+// be checked against each other without a database.
+//
+// Conservative on purpose. Only tables the migrations create in public are
+// asserted on, only column names written as plain string literals, and only
+// select lists with no embeds or renames. A table this check does not know,
+// a dynamic column, a .schema() call, a storage bucket: all skipped without
+// comment, because a guess that cries wolf gets the whole check ignored.
+
+function stripSql(sql) {
+  // Comments and string bodies out, in one pass, so prose that says "alter
+  // table" and lesson copy with an apostrophe cannot confuse the parsing.
+  let out = '', i = 0
+  while (i < sql.length) {
+    const c = sql[i]
+    if (c === '-' && sql[i + 1] === '-') { while (i < sql.length && sql[i] !== '\n') i++; continue }
+    if (c === '/' && sql[i + 1] === '*') { i += 2; while (i < sql.length && !(sql[i] === '*' && sql[i + 1] === '/')) i++; i += 2; continue }
+    if (c === "'") {
+      out += "''"; i++
+      while (i < sql.length) {
+        if (sql[i] === "'" && sql[i + 1] === "'") { i += 2; continue }
+        if (sql[i] === "'") { i++; break }
+        i++
+      }
+      continue
+    }
+    if (c === '$' && sql[i + 1] === '$') { const end = sql.indexOf('$$', i + 2); i = end === -1 ? sql.length : end + 2; continue }
+    out += c; i++
+  }
+  return out
+}
+
+function migrationColumns() {
+  const dir = join(ROOT, 'supabase', 'migrations')
+  let files
+  try { files = readdirSync(dir).filter(f => f.endsWith('.sql')).sort() } catch { return new Map() }
+
+  const tables = new Map()
+  const NOT_COLUMNS = new Set(['primary', 'foreign', 'unique', 'check', 'constraint', 'exclude', 'like'])
+
+  for (const f of files) {
+    const sql = stripSql(readFileSync(join(dir, f), 'utf8'))
+    let m
+
+    // create table [if not exists] [public.]name ( col type, ... )
+    // A second create of the same name unions rather than replaces: if not
+    // exists means only one of them ran, and this check cannot know which.
+    const createRe = /create\s+table\s+(?:if\s+not\s+exists\s+)?(?:(\w+)\.)?(\w+)\s*\(/gi
+    while ((m = createRe.exec(sql))) {
+      if ((m[1] ?? 'public') !== 'public') continue
+      const open = createRe.lastIndex - 1
+      let depth = 0, close = -1
+      for (let i = open; i < sql.length; i++) {
+        if (sql[i] === '(') depth++
+        else if (sql[i] === ')') { depth--; if (depth === 0) { close = i; break } }
+      }
+      if (close === -1) continue
+      const cols = tables.get(m[2]) ?? new Set()
+      // Top level commas separate columns; commas inside check (...) do not.
+      let d = 0, item = ''
+      const items = []
+      for (const ch of sql.slice(open + 1, close)) {
+        if (ch === '(') d++
+        else if (ch === ')') d--
+        if (ch === ',' && d === 0) { items.push(item); item = '' } else item += ch
+      }
+      items.push(item)
+      for (const it of items) {
+        const word = it.trim().match(/^"?([a-zA-Z_]\w*)"?/)
+        if (word && !NOT_COLUMNS.has(word[1].toLowerCase())) cols.add(word[1])
+      }
+      tables.set(m[2], cols)
+    }
+
+    // alter table: add column extends, rename column moves, drop column and
+    // set schema remove. Migration 177 moved ten tables to the schools
+    // schema, and a moved table must stop being asserted on entirely.
+    const alterRe = /alter\s+table\s+(?:if\s+exists\s+)?(?:only\s+)?(?:(\w+)\.)?(\w+)([^;]*)/gi
+    while ((m = alterRe.exec(sql))) {
+      if ((m[1] ?? 'public') !== 'public') continue
+      const rest = m[3]
+      if (/set\s+schema/i.test(rest)) { tables.delete(m[2]); continue }
+      const cols = tables.get(m[2])
+      if (!cols) continue
+      let a
+      const addRe = /add\s+column\s+(?:if\s+not\s+exists\s+)?"?([a-zA-Z_]\w*)"?/gi
+      while ((a = addRe.exec(rest))) cols.add(a[1])
+      const renameRe = /rename\s+column\s+"?(\w+)"?\s+to\s+"?(\w+)"?/gi
+      while ((a = renameRe.exec(rest))) { cols.delete(a[1]); cols.add(a[2]) }
+      const dropRe = /drop\s+column\s+(?:if\s+exists\s+)?"?(\w+)"?/gi
+      while ((a = dropRe.exec(rest))) cols.delete(a[1])
+    }
+
+    const dropTableRe = /drop\s+table\s+(?:if\s+exists\s+)?(?:(\w+)\.)?(\w+)/gi
+    while ((m = dropTableRe.exec(sql))) {
+      if ((m[1] ?? 'public') === 'public') tables.delete(m[2])
+    }
+  }
+  return tables
+}
+
+function checkColumnNames() {
+  const tables = migrationColumns()
+  if (!tables.size) { warnings.push('column check: no migrations readable, check skipped'); return }
+
+  // The filters whose first argument names a column. insert/update/upsert
+  // payloads name columns too, but as object keys built every way JavaScript
+  // allows, and a check that guesses is a check that cries wolf.
+  const FILTERS = new Set(['eq', 'neq', 'gt', 'gte', 'lt', 'lte', 'in', 'is', 'order'])
+  const IDENT = /^[a-zA-Z_]\w*$/
+
+  // Walks a chain: skips whitespace and comments, then finds the matching
+  // close of the next .method( with quotes respected, so a ')' inside a
+  // string argument does not end the call early.
+  const skipWs = (src, i) => {
+    while (i < src.length) {
+      const c = src[i]
+      if (c === ' ' || c === '\n' || c === '\t' || c === '\r') { i++; continue }
+      if (c === '/' && src[i + 1] === '/') { while (i < src.length && src[i] !== '\n') i++; continue }
+      if (c === '/' && src[i + 1] === '*') { i += 2; while (i < src.length && !(src[i] === '*' && src[i + 1] === '/')) i++; i += 2; continue }
+      break
+    }
+    return i
+  }
+  const matchParen = (src, open) => {
+    let depth = 0
+    for (let i = open; i < src.length; i++) {
+      const c = src[i]
+      if (c === "'" || c === '"' || c === '`') {
+        const q = c; i++
+        while (i < src.length && src[i] !== q) { if (src[i] === '\\') i++; i++ }
+        continue
+      }
+      if (c === '(') depth++
+      else if (c === ')') { depth--; if (depth === 0) return i }
+    }
+    return -1
+  }
+
+  const seen = new Set()
+  const flag = (f, src, at, table, col, via) => {
+    const line = src.slice(0, at).split('\n').length
+    const key = `${rel(f)}:${line} ${table}.${col}`
+    if (seen.has(key)) return
+    seen.add(key)
+    errors.push(`phantom column  ${table}.${col}  ${via} in ${rel(f)}:${line}, no migration ever created it, so PostgREST errors and fail-soft reads it as empty`)
+  }
+
+  for (const [f, src] of SOURCE) {
+    let m
+    const fromRe = /\.from\(\s*['"]([a-z_][a-z0-9_]*)['"]\s*\)/g
+    while ((m = fromRe.exec(src))) {
+      const cols = tables.get(m[1])
+      if (!cols) continue
+      // A .schema() chain reads another schema and a .storage chain reads a
+      // bucket; the public map answers for neither.
+      const before = src.slice(Math.max(0, m.index - 60), m.index)
+      if (/\.schema\s*\(/.test(before) || /\.storage\s*$/.test(before)) continue
+
+      let i = fromRe.lastIndex
+      while (true) {
+        i = skipWs(src, i)
+        const call = src.slice(i, i + 40).match(/^\.\s*(\w+)\s*\(/)
+        if (!call) break
+        const open = i + call[0].length - 1
+        const close = matchParen(src, open)
+        if (close === -1) break
+        const inner = src.slice(open + 1, close)
+
+        if (FILTERS.has(call[1])) {
+          // Only a plain string literal counts; a variable column is skipped.
+          const lit = inner.match(/^\s*['"]([^'"]+)['"]/)
+          if (lit && IDENT.test(lit[1]) && !cols.has(lit[1])) {
+            flag(f, src, open, m[1], lit[1], `.${call[1]}()`)
+          }
+        } else if (call[1] === 'select') {
+          const lit = inner.match(/^\s*['"`]([^'"`]*)['"`]/)
+          // Embeds, renames and interpolation all opt out: anything with a
+          // '(' or ':' or '$' is more grammar than this check speaks.
+          if (lit && !/[(:$]/.test(lit[1])) {
+            for (const raw of lit[1].split(',')) {
+              const col = raw.trim()
+              if (col === '*' || !IDENT.test(col)) continue
+              if (!cols.has(col)) flag(f, src, open, m[1], col, '.select()')
+            }
+          }
+        }
+        i = close + 1
+      }
+    }
+  }
+}
+
 checkDeadLinks()
 checkOrphanComponents()
 checkUnwritableSteps()
@@ -480,6 +683,7 @@ checkMigrationNumbers()
 checkSmallPrint()
 checkProductBoundary()
 checkSchoolsSchema()
+checkColumnNames()
 
 const line = '─'.repeat(64)
 
