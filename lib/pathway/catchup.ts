@@ -160,7 +160,7 @@ export async function getCatchup(
     // read separately rather than inferred from the day count.
     count(() => supabase.from('earned_stickers')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId).like('sticker_key', 'friend-%').gte('created_at', sinceIso)),
+      .eq('user_id', userId).like('sticker_key', 'friend-%').gte('earned_at', sinceIso)),
     // LESSONS PASSED.
     //
     // Justin, 8 August 2026: "can we update parents when lessons are watched by
