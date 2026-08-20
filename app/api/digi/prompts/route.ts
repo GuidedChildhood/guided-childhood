@@ -64,6 +64,27 @@ export async function GET() {
   // streak. The routine cadence pair, a daily life tip and parent care, is
   // about the FAMILY, so only the first scan carries it; without that a three
   // child family got three copies of the same tip.
+  // ── "THIS IS THE AGE": a crossing into a new stage fires ONCE ─────────────
+  //
+  // Justin, 19 August 2026: "this is the age, social media, school peers
+  // talking about WhatsApp, base it on the research." The platform guides have
+  // always known WHERE things become real (first_seen_stage); this is the watch
+  // for a child CROSSING there, so the advice arrives before the problem, which
+  // is the one moment no reactive product can own.
+  //
+  // A child's first ever scan writes a silent baseline mark, because telling a
+  // parent about the stage their child is already mid way through is a lecture,
+  // not an arrival. The mark is written AT TRIGGER TIME, not at delivery: a
+  // missed arrival prompt is a lost nicety, a repeated one is spam, so dedupe
+  // outranks delivery.
+  const { data: arrivalRows } = await supabase
+    .from('stage_arrivals').select('child_id, stage_id').eq('user_id', user.id)
+  const marked = new Map<string, Set<number>>()
+  for (const r of (arrivalRows ?? []) as { child_id: string; stage_id: number }[]) {
+    if (!marked.has(r.child_id)) marked.set(r.child_id, new Set())
+    marked.get(r.child_id)!.add(r.stage_id)
+  }
+
   const perChild: { kid: PromptChild; triggers: ReturnType<typeof findTriggers> }[] = []
   for (const [i, kid] of children.entries()) {
     const { data: checks } = await supabase
@@ -78,15 +99,41 @@ export async function GET() {
       phoneFlag: report?.topState.key === 'phone',
       includeRoutine: i === 0,
     })
+    // The arrival check, after the signal scan so its trigger can lead.
+    const stageNow = kid.age_band ? getStageFromAgeBand(kid.age_band as AgeBand) : null
+    if (stageNow) {
+      const seen = marked.get(kid.id)
+      if (!seen || seen.size === 0) {
+        // First ever scan: baseline, silently.
+        await supabase.from('stage_arrivals')
+          .insert({ user_id: user.id, child_id: kid.id, stage_id: stageNow.id })
+          .then(() => {}, () => { /* next scan tries again */ })
+      } else if (!seen.has(stageNow.id)) {
+        const { error: markErr } = await supabase.from('stage_arrivals')
+          .insert({ user_id: user.id, child_id: kid.id, stage_id: stageNow.id, prompted_at: new Date().toISOString() })
+        // Only fire if OUR insert took the row: two requests racing here both
+        // see the stage unmarked, and the unique key makes the second insert
+        // fail, so the parent gets one card rather than two.
+        if (!markErr) {
+          t.push({
+            kind: 'stage_arrival',
+            reason: `${kid.name ?? 'This child'} has just arrived in Stage ${stageNow.id}, ${stageNow.name} (ages ${stageNow.ages}). Say what genuinely changes at this age and the ONE conversation worth having this week, before it comes up on its own.`,
+          })
+        }
+      }
+    }
     if (t.length > 0) perChild.push({ kid, triggers: t })
   }
 
   // Two prompts a day at most, whole family, same budget as before. A signal
   // about a child outranks the routine drumbeat, so the cap trims tips before
   // it trims a mood dip.
+  const rank = (k: string) => k === 'stage_arrival' ? 0 : (k === 'watch_for' || k === 'celebration') ? 1 : 2
   const flat = perChild
     .flatMap(({ kid, triggers }) => triggers.map(t => ({ kid, t })))
-    .sort((a, b) => (a.t.kind === 'watch_for' || a.t.kind === 'celebration' ? 0 : 1) - (b.t.kind === 'watch_for' || b.t.kind === 'celebration' ? 0 : 1))
+    // Arrivals first: they fire once every two or three years per child, so
+    // when one exists it IS the news. Then signals, then the routine drumbeat.
+    .sort((a, b) => rank(a.t.kind) - rank(b.t.kind))
     .slice(0, 2)
   if (flat.length === 0) return NextResponse.json({ prompts: [] })
 
@@ -99,6 +146,22 @@ export async function GET() {
   const { data: profile } = await supabase
     .from('profiles').select('onboarding_answers, subscription_status, trial_ends_at, created_at').eq('id', user.id).maybeSingle()
   const challenge = (profile?.onboarding_answers as Record<string, string> | null)?.challenge ?? null
+
+  // What the arriving stage actually contains: the platforms that become real
+  // there, by the guides' own first_seen_stage, and the arrival research
+  // stamped in migration 218. Fetched only when an arrival fired.
+  const arrivals = flat.filter(f => f.t.kind === 'stage_arrival')
+  const [{ data: stagePlatforms }, { data: arrivalKnowledge }] = arrivals.length > 0
+    ? await Promise.all([
+        supabase.from('social_platform_guides')
+          .select('name, min_age, first_seen_stage')
+          .lte('first_seen_stage', Math.max(...arrivals.map(a => getStageFromAgeBand(a.kid.age_band as AgeBand).id)))
+          .order('first_seen_stage', { ascending: false }).limit(8),
+        supabase.from('expert_knowledge')
+          .select('source_name, finding, age_bands')
+          .eq('active', true).contains('topics', ['stage_arrival']).limit(10),
+      ])
+    : [{ data: null }, { data: null }]
 
   const [{ data: knowledge }, { data: norms }, { data: memory }, { data: concerns }, progress, recommended] = await Promise.all([
     supabase.from('expert_knowledge').select('source_name, finding').eq('active', true).limit(24),
@@ -149,6 +212,19 @@ ${pathwayContext || 'Just getting started.'}
 
 Triggers:
 ${flat.map(({ kid, t }, i) => `${i + 1}. kind=${t.kind}, about ${kid.name}: ${t.reason}`).join('\n')}
+${arrivals.length > 0 ? `
+STAGE ARRIVAL MATERIAL (for the stage_arrival trigger only). A stage_arrival
+prompt is written for the child named in its trigger, at their NEW age. Lead
+with the one thing that changes socially at this age, name at most one platform
+from the list below where it is genuinely the age peers start talking about it
+(WhatsApp class chats at the move to secondary, for example), and end with one
+concrete conversation to have this week, framed as getting ahead rather than as
+a warning. Never a list of platforms, never alarm. Cite a source name from the
+research when a claim leans on it.
+Platforms that become real at or before this stage (name, their own minimum age):
+${(stagePlatforms ?? []).map(p => `- ${p.name}, min age ${p.min_age}, from stage ${p.first_seen_stage}`).join('\n') || '- (none listed)'}
+What the research says about arrivals at this age:
+${(arrivalKnowledge ?? []).filter(k => arrivals.some(a => (k.age_bands as string[] | null)?.includes(a.kid.age_band ?? ''))).map(k => `- ${k.source_name}: ${k.finding}`).join('\n') || '- (none for this band)'}` : ''}
 
 What you remember about this family:
 ${(memory ?? []).map(m => `- ${m.content}`).join('\n') || '- nothing yet'}
@@ -183,7 +259,7 @@ Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts descr
     const items = JSON.parse(match[0]) as { kind: string; title: string; body: string; reason: string }[]
 
     const rows = items
-      .filter(p => ['watch_for', 'tip', 'parent_care', 'new_research', 'celebration'].includes(p.kind))
+      .filter(p => ['watch_for', 'tip', 'parent_care', 'new_research', 'celebration', 'stage_arrival'].includes(p.kind))
       .slice(0, 2)
       .map(p => ({
         // The prompt is filed against the child whose trigger produced it,
@@ -198,6 +274,9 @@ Rules: warm, plain, direct, no alarmism, never diagnose. watch_for prompts descr
         // and never lands on a hub with nothing to actually print.
         href: p.reason === SHARE_NUDGE_REASON ? '/dashboard/printables'
           : p.reason === PHONE_FLAG_REASON ? '/dashboard/stats'
+          // An arrival card opens the road, which is where the new stage is
+          // drawn: what it asks, what it unlocks, and the lessons for it.
+          : p.kind === 'stage_arrival' ? '/dashboard/road'
           : null,
       }))
 

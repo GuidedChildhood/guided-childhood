@@ -352,7 +352,7 @@ Keep it to one calibrated next step, never a to do list, never pressure, never g
 }
 
 export interface ProactiveTrigger {
-  kind: 'watch_for' | 'tip' | 'parent_care' | 'celebration'
+  kind: 'watch_for' | 'tip' | 'parent_care' | 'celebration' | 'stage_arrival'
   reason: string
 }
 
