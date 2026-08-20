@@ -8409,3 +8409,66 @@ these three are actually listed and enabled, or count against a plan limit
 that the other 31 crons in the same file do not. If they are missing from the
 list, re-adding them or redeploying should be enough; if they are listed and
 still silent, that is a Vercel-side question, not a code one.
+
+---
+
+## 20 August 2026, schools foundation deep dive synced to the build spec (not left as a stray plan)
+
+The foundation build brief (plans/2026-08-20-schools-foundation-build-brief.md)
+was written first as a standalone plan, and it drifted from the schools
+session's source of truth. Two errors, now fixed: it hosted the primary school
+lessons on the parent app Planet Friends (Pebble, Bloop, Orbit) instead of the
+schools cast, and it invented a parallel ks1-01 module set instead of using the
+map the schools scheme already owns.
+
+Decision: the schools scheme has one source of truth,
+plans/schools-lesson-build-spec.md, and the deep dive now writes into it rather
+than beside it. Two insertions carry the sync: a CASEL bullet in Section 3 (the
+guidance map), and a Notice, Choose, Tell plus CASEL plus 20 minute drop in
+overlay note at the head of Section 5 (the 21 module map). The deep dive's part
+4 is now an overlay onto Section 5 modules 1 to 9, tagging each with its
+scaffold word, its primary CASEL competency and the Section 9.4 cast host
+(Sofia, DiGi Junior, Oliver, Zara), authoring nothing new.
+
+Left for the schools session, named in the brief: reconcile the sm13 ids
+(school_lessons, migrations 109 to 112 and 220) with the Section 5 one to 21
+numbering before authoring primary rows, add the nullable casel_competency
+column, and decide whether CASEL surfaces as a curriculum page filter or as
+data only. This session did not touch schools app code or add a migration, to
+stay out of that lane.
+
+---
+
+## 20 August 2026, correction: schools uses the Planet Friends, not the retired squad
+
+Justin's steer, same day: the schools materials use the Planet Friends (Pebble,
+Bloop, Orbit, Nova, Cosmo) with DiGi, the same cast as the parents app, for
+continuity across both products. Sofia, Oliver and Zara are retired. This was
+already the state of the code (lib/content/stage-characters.ts says the Planet
+Friends "replace the old squad Oliver, Zara, Sofia; DiGi is kept"); the schools
+build spec had simply not caught up.
+
+An earlier note this same day wrongly swapped the deep dive to the Sofia,
+Oliver, Zara cast. Reversed. The deep dive (plans/2026-08-20-schools-foundation-
+build-brief.md) now hosts the primary modules on Pebble, Bloop and Orbit with
+DiGi and DiGi Junior, and the Section 5 overlay note in the build spec says the
+same.
+
+Lane: schools has its own PR and session. The full cast update inside the build
+spec (Section 9.4 and the per module casts in Section 5, which still name the
+retired squad and the animal guides) and all schools app code and lesson rows
+are that PR's to make. This PR only fixed the deep dive it owns and flagged the
+stale cast in the spec.
+
+---
+
+## 20 August 2026, follow up: the full spec cast swap is done (not left to the schools PR)
+
+Justin said take the cleanup, so the whole schools build spec was swept, not
+just the deep dive. Every per module cast in Section 5, the Section 9.4 table,
+the fully scripted reference lesson in Section 10, the 1.9 principle and the
+production notes now name the Planet Friends (Pebble, Bloop, Orbit, Nova,
+Cosmo) with DiGi and DiGi Junior. Supersedes the earlier note today that left
+that swap to the separate schools PR. Still owned by the schools session: the
+schools app code, the lesson rows, and rendering each Friend's classroom video
+beats from the parents app art.
