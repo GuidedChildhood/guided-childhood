@@ -76,9 +76,10 @@ minute. Lives as a page in the schools app (a printable and a screen), sourced f
 - The three words. NOTICE what the screen is doing. CHOOSE the stop yourself. TELL a trusted adult,
   and you will not be in trouble. From Reception to Year 6 the same three words, deeper each year.
 - Scope and sequence. One short lesson per half term per year group, six a year, plus a start of year
-  assembly on the three words. The cast is the SCHOOLS cast from the build spec Section 9.4, not the
-  parent app Planet Friends: EYFS and KS1 are Sofia with DiGi Junior, KS2 is Oliver, Zara and Sofia
-  as the squad proper, DiGi anchors throughout.
+  assembly on the three words. The cast is the Planet Friends, the same characters as the parents app,
+  for continuity across both products: Pebble for EYFS and KS1, Bloop for lower KS2, Orbit for upper
+  KS2, DiGi anchors every lesson and DiGi Junior carries the young pause beats. The old schools squad
+  (Sofia, Oliver, Zara) is retired, as it already is in the code (lib/content/stage-characters.ts).
 - How to run it. Twenty minutes, drops into a PSHE or computing slot, tutor time or assembly. No prep,
   no download wall, no booking. A teacher opens a module and teaches it today.
 - Safeguarding fit. Aligns to the school's statutory online safety duty (KCSIE) and RSHE. Each lesson
@@ -120,22 +121,23 @@ plans/schools-lesson-build-spec.md. The primary modules are NOT invented here. S
 already maps the primary scheme: EYFS module 1, KS1 modules 2 and 3, KS2 modules 4 to 9. So this part
 does not create a parallel ks1-01 set. It overlays the Notice, Choose, Tell word and the CASEL
 competency onto the modules the spec already owns, and asks the schools session to author those rows.
-The cast is the schools cast from Section 9.4 (Sofia, DiGi Junior, Oliver, Zara), never the parent app
-Planet Friends. This overlay is now written into the spec at Section 5, so it lands in the right place.
+The cast is the Planet Friends, the same as the parents app, for continuity: Pebble at EYFS and KS1,
+Bloop and Orbit across KS2, DiGi anchoring, DiGi Junior on the young pauses. This overlay is written
+into the spec at Section 5, so it lands in the right place.
 
 ### The overlay, module by module (Section 5 numbering)
 
-| Spec module | Stage | Cast (9.4) | Scaffold | Primary CASEL |
+| Spec module | Stage | Planet Friend host | Scaffold | Primary CASEL |
 |---|---|---|---|---|
-| 1 Screens and kindness / real vs not real | EYFS | Sofia, DiGi Junior | NOTICE | Self awareness |
-| 2 Kind screens, calm bodies | KS1 | Sofia | TELL | Relationship skills |
-| 3 Real, pretend, or made by a computer | KS1 | Zara junior, DiGi Junior | NOTICE | Responsible decision making |
-| 4 Screen routines that work | KS2 | Oliver | CHOOSE | Self management |
-| 5 Gaming: time, intensity and spend | KS2 | Oliver | NOTICE | Responsible decision making |
-| 6 How algorithms work | KS2 | DiGi | NOTICE | Social awareness |
-| 7 Privacy and digital reputation | KS2 | Sofia | CHOOSE | Responsible decision making |
-| 8 Being kind and safe with others online | KS2 | Sofia, Zara | TELL | Relationship skills |
-| 9 My work and other people's work | KS2 | Zara | NOTICE | Social awareness |
+| 1 Screens and kindness / real vs not real | EYFS | Pebble, DiGi Junior | NOTICE | Self awareness |
+| 2 Kind screens, calm bodies | KS1 | Pebble, DiGi Junior | TELL | Relationship skills |
+| 3 Real, pretend, or made by a computer | KS1 | Pebble, DiGi Junior | NOTICE | Responsible decision making |
+| 4 Screen routines that work | KS2 | Bloop, DiGi | CHOOSE | Self management |
+| 5 Gaming: time, intensity and spend | KS2 | Bloop, DiGi | NOTICE | Responsible decision making |
+| 6 How algorithms work | KS2 | Orbit, DiGi | NOTICE | Social awareness |
+| 7 Privacy and digital reputation | KS2 | Orbit, DiGi | CHOOSE | Responsible decision making |
+| 8 Being kind and safe with others online | KS2 | Bloop, DiGi | TELL | Relationship skills |
+| 9 My work and other people's work | KS2 | Orbit, DiGi | NOTICE | Social awareness |
 
 Every module keeps its existing EfCW strands, statutory hook, evidence anchor and single action
 outcome from Section 5. This overlay adds only two data points per module: the scaffold word and the
@@ -152,7 +154,7 @@ inheriting the mismatch.
 ### Build order and definition of done
 1. Reconcile the sm13 ids with the Section 5 1 to 21 map (schools session decision).
 2. Author EYFS then KS1 then KS2 as public.school_lessons rows (audience teacher), each with full
-   slides to the 017 contract, the Section 9.4 cast host, DiGi closing, assessment jsonb and dsl_note.
+   slides to the 017 contract, the Planet Friend host above, DiGi closing, assessment jsonb and dsl_note.
    No dashes, never allow or deny, wrong answers get warm feedback.
 3. Tag each row with its scaffold word and CASEL competency per the overlay above.
 4. Add the 20 minute drop in version (part 3) as each is authored.

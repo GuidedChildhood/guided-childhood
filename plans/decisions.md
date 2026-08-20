@@ -8436,3 +8436,26 @@ numbering before authoring primary rows, add the nullable casel_competency
 column, and decide whether CASEL surfaces as a curriculum page filter or as
 data only. This session did not touch schools app code or add a migration, to
 stay out of that lane.
+
+---
+
+## 20 August 2026, correction: schools uses the Planet Friends, not the retired squad
+
+Justin's steer, same day: the schools materials use the Planet Friends (Pebble,
+Bloop, Orbit, Nova, Cosmo) with DiGi, the same cast as the parents app, for
+continuity across both products. Sofia, Oliver and Zara are retired. This was
+already the state of the code (lib/content/stage-characters.ts says the Planet
+Friends "replace the old squad Oliver, Zara, Sofia; DiGi is kept"); the schools
+build spec had simply not caught up.
+
+An earlier note this same day wrongly swapped the deep dive to the Sofia,
+Oliver, Zara cast. Reversed. The deep dive (plans/2026-08-20-schools-foundation-
+build-brief.md) now hosts the primary modules on Pebble, Bloop and Orbit with
+DiGi and DiGi Junior, and the Section 5 overlay note in the build spec says the
+same.
+
+Lane: schools has its own PR and session. The full cast update inside the build
+spec (Section 9.4 and the per module casts in Section 5, which still name the
+retired squad and the animal guides) and all schools app code and lesson rows
+are that PR's to make. This PR only fixed the deep dive it owns and flagged the
+stale cast in the spec.
