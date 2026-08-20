@@ -43,7 +43,10 @@ export async function getSuggestions(
   const [journey, schoolSoon, questCount, concernToday, recurringConcern, recentWin, schoolRoutines] = await Promise.all([
     getJourney(supabase, userId, stageId),
     supabase.from('school_actions').select('title, due_date').eq('user_id', userId).eq('status', 'open').not('due_date', 'is', null).gte('due_date', todayDate).lte('due_date', in2days).order('due_date', { ascending: true }).limit(1),
-    supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('active', true),
+    // THIS child's board (plus household jobs). Counted family wide, the
+    // second child never met "Set their first quests": the eldest's jobs made
+    // the family count nonzero for ever. From the 19 August audit.
+    (() => { const q = supabase.from('family_quests').select('id', { count: 'exact', head: true }).eq('user_id', userId).eq('active', true); return childId ? q.or(`child_id.eq.${childId},child_id.is.null`) : q })(),
     supabase.from('concerns').select('label, slug').eq('user_id', userId).eq('status', 'open').gte('last_flagged_at', todayIso).order('last_flagged_at', { ascending: false }).limit(1),
     supabase.from('concerns').select('label, slug, times_flagged').eq('user_id', userId).eq('status', 'open').gte('times_flagged', 3).order('times_flagged', { ascending: false }).limit(1),
     // A recent win to celebrate: a concern turned around in the last three

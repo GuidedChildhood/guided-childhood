@@ -302,7 +302,11 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
         // moment, a child going for their lesson, ending on a 404.
         .not('slides', 'is', null)
         .order('sort_order', { ascending: true }),
-      supabase.from('lesson_completions').select('lesson_id, passed, completed_at').eq('user_id', link.user_id).eq('lesson_source', 'lesson'),
+      // THIS child's passes plus the household's legacy rows. Without the
+      // filter, the eldest passing on Monday consumed the one lesson a week
+      // gate for every sibling: the youngest opened her app and was told her
+      // lesson was done by someone else's afternoon.
+      supabase.from('lesson_completions').select('lesson_id, passed, completed_at').eq('user_id', link.user_id).eq('lesson_source', 'lesson').or(`child_id.eq.${link.child_id},child_id.is.null`),
     ])
     if (!lessonsErr && !passErr && (stageLessonRows ?? []).length > 0) {
       const rows = stageLessonRows ?? []

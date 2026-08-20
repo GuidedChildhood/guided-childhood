@@ -157,7 +157,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
       .every((slug, i) => allStagesProgress[slug].contentComplete && passedStages.has(i + 1))
 
   // One live literacy reading, for the end of stage check's greens and ambers.
-  const litStatuses = await getLiteracyStatuses(supabase, user.id, currentStageNum ?? 1)
+  const litStatuses = await getLiteracyStatuses(supabase, user.id, currentStageNum ?? 1, primaryChild?.id ?? null)
 
   const READINESS_AREAS = [
     { key: 'safe', name: 'Safe online', startStage: 1 },

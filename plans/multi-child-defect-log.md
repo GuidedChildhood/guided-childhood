@@ -105,3 +105,28 @@ alter table public.lesson_completions drop column if exists child_id;
 | 44 | Interface | Learning term view and homework decoder surfaced NOWHERE, no rotation item pointed at them | FIXED | Weekly rotation item added; both pages verified already per child |
 | 45 | Interface | School add form never asked whose the reminder is, so new items had no owner to show or route by | FIXED | "Whose is it" picker in the add sheet, two or more children only, defaults to the open child, Everyone stays an option. POST and PATCH validate ownership; the dedupe is per child so Teo's PE kit no longer swallows Olga's. |
 | 46 | Push | Followup card "How did that go?" carried its child in the data but not in the words | NOTED | The question text itself names the context; left as is |
+
+## 19 August evening: the passport, balance and pacing audit (19 agents, adversarially verified)
+
+| # | Area | Description | Status | Evidence |
+|---|------|-------------|--------|----------|
+| 47 | Passport | progress.ts read scripts, device setup and the device list by user alone in BOTH variants, so a sibling's work filled and could stamp the wrong child's page at 30% weight per input | FIXED | child-or-null scope on all six reads; scripts counted as distinct sort orders |
+| 48 | Passport | Strands engine: all five reads family wide under one child's name; the teenager's worry turned the six year old's Safe strand amber | FIXED | getLiteracyStatuses takes the child; both callers thread it |
+| 49 | Passport | getCatchup took a childId and DISCARDED it (`void childId`): "Jody has finished 3 full days" was the household's count wearing her name | FIXED | five news counts scoped; the two waiting counts stay family (parent's to-do) |
+| 50 | Stickers | Sticker rarity tier paid out of the family's stamps, permanently minted | FIXED | stampsFor takes the book's child |
+| 51 | Kid app | One-lesson-a-week gate consumed by a sibling's pass; Home's "X of Y lessons" family blended | FIXED | child-or-null on both reads |
+| 52 | Lessons | Un-tick DELETE removed every child's completion row | FIXED | scoped to the same child as the write |
+| 53 | Economy | Household jobs (null child) DROPPED from per-child earnings in week report, stats, Home jobs and the streak: a child doing family jobs earned nothing and was unstreakable | FIXED | or(child,null) on four quest reads |
+| 54 | Pass | A stage quiz pass could be written with a null child when ownership lookup missed, and every passport read filters strictly by child: a pass nothing could see | FIXED | falls to the first child, never null |
+| 55 | DiGi | Prompts and chat quoted family-blended stage % as one child's position; get_child_history read the family's ledger; screen life summed both children beside one child's age guide | FIXED | child threaded through getStageProgress, getPathwayPosition, tools, screen life |
+| 56 | Reports | IsItWorkingReport read concerns and the day family wide inside a report scoped to ?child= | FIXED | rows carry child_id, filtered after pickChild |
+| 57 | Nudges | "Set their first quests" never fired for a second child: the eldest's jobs made the family count nonzero for ever | FIXED | per child count |
+| 58 | Road | lib/pathway/journey.ts has no child parameter; its lessons count is family wide on the road | OPEN | minor, road rework pending |
+| 59 | DiGi | WeeklyRoundup attributes the family's top quest to children[0] by name | OPEN | minor |
+| 60 | DiGi | device-checkin suppression reads the whole family's open concerns | OPEN | minor |
+
+Clean, verified by the auditors rather than assumed: lessons credit in progress.ts
+(the pass_by doctrine), moments counts, jobs row, week balance report scoping,
+stamp gate quiz reads, balance dots, kid passport threading, and the pacing
+signals themselves (the passport rung, Move the passport on, DiGi's stage
+position) — each per child NOW that the engines beneath them are.

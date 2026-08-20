@@ -105,6 +105,18 @@ function lessonCreditKeys(
 // scripts actually read, the daily practice streak, devices set up for
 // that age, and lessons marked done. Each was previously tracked in
 // isolation with no combined view anywhere in the app.
+// One child's rows plus the household's null rows, or everything when no
+// child is named, which keeps every legacy caller exactly as it was.
+//
+// From Justin's audit of 19 August: scripts, device setup and the device list
+// were still read by user_id alone HERE, in the one function every passport
+// surface trusts, after migrations 213 and 217 made them per child. So a
+// script marked used on the eldest's page raised the youngest's scriptsPct,
+// and could carry her over the stamp gate: a sibling's work stamping the
+// wrong child's passport, silently, at 30 per cent weight per input.
+const childScope = (childId: string | null) =>
+  childId ? `child_id.eq.${childId},child_id.is.null` : undefined
+
 export async function getStageProgress(
   supabase: SupabaseClient,
   userId: string,
@@ -128,15 +140,17 @@ export async function getStageProgress(
     { data: passBy },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order').eq('stage_id', stageId),
-    supabase.from('script_completions').select('script_sort_order, status').eq('user_id', userId),
+    (() => { const q = supabase.from('script_completions').select('script_sort_order, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     supabase.from('device_guides').select('device_key, min_age'),
-    supabase.from('device_setup_progress').select('device_key, status').eq('user_id', userId),
+    (() => { const q = supabase.from('device_setup_progress').select('device_key, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     supabase.from('lessons').select('id').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub'),
-    supabase.from('lesson_completions').select('lesson_id, lesson_source, passed').eq('user_id', userId),
+    (() => { const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     // The family's own device list, from migration 106. Before that migration,
     // or before they have told us, this comes back empty and the catalogue
-    // reading below is used exactly as it was.
-    supabase.from('family_devices').select('guide_key, retired_at').eq('user_id', userId),
+    // reading below is used exactly as it was. This child's own devices plus
+    // the household's since 217, so one child adding a console does not put a
+    // setup job on their sibling's passport.
+    (() => { const q = supabase.from('family_devices').select('guide_key, retired_at, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     childId
       ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
       : Promise.resolve({ data: null }),
@@ -155,10 +169,15 @@ export async function getStageProgress(
   // is what makes "not needed at this time" possible and what lets an unfinished
   // script come back. See migration 157.
   const stageScriptOrders = new Set((stageScripts ?? []).map(s => s.sort_order))
-  const completedInStage = (userCompletedScripts ?? [])
-    .filter(c => stageScriptOrders.has(c.script_sort_order))
-    .filter(c => countsTowardPathway((c as { status?: string }).status))
-    .length
+  // DISTINCT sort orders, not rows. Rows are per child since 213, so the same
+  // script resolved for two children is two rows, and counting rows would let
+  // one conversation fill two slots of a ring that has a fixed denominator.
+  const completedInStage = new Set(
+    (userCompletedScripts ?? [])
+      .filter(c => stageScriptOrders.has(c.script_sort_order))
+      .filter(c => countsTowardPathway((c as { status?: string }).status))
+      .map(c => c.script_sort_order),
+  ).size
   const scriptsPct = stageScriptOrders.size > 0 ? Math.round((completedInStage / stageScriptOrders.size) * 100) : 0
 
   // Streak: consistency credit, caps out at 4 weeks so it does not require
@@ -251,12 +270,15 @@ export async function getAllStagesProgress(
     { data: passBy },
   ] = await Promise.all([
     supabase.from('scripts').select('sort_order, stage_id'),
-    supabase.from('script_completions').select('script_sort_order, status').eq('user_id', userId),
+    // The same child scoping as getStageProgress above, for the same reason:
+    // this variant draws EVERY page of one child's passport book and feeds the
+    // stamp gate, so a sibling's scripts and devices must not fill its rings.
+    (() => { const q = supabase.from('script_completions').select('script_sort_order, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     supabase.from('device_guides').select('device_key, min_age'),
-    supabase.from('device_setup_progress').select('device_key, status').eq('user_id', userId),
+    (() => { const q = supabase.from('device_setup_progress').select('device_key, status, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     supabase.from('lessons').select('id, stage_id').eq('audience', 'parent').neq('status', 'stub'),
-    supabase.from('lesson_completions').select('lesson_id, lesson_source, passed').eq('user_id', userId),
-    supabase.from('family_devices').select('guide_key, retired_at').eq('user_id', userId),
+    (() => { const q = supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
+    (() => { const q = supabase.from('family_devices').select('guide_key, retired_at, child_id').eq('user_id', userId); const f = childScope(childId); return f ? q.or(f) : q })(),
     childId
       ? supabase.from('lesson_pass_by').select('lesson_id, who, child_id').eq('user_id', userId)
       : Promise.resolve({ data: null }),

@@ -145,22 +145,36 @@ export async function getCatchup(
     try { return (await fn()).count ?? 0 } catch { return 0 }
   }
 
+  // Scoped to THIS child where a child is named. This function took a childId
+  // for its copy and then threw it away with a void, so "Jody has finished 3
+  // full days" was the whole household's count wearing Jody's name. The
+  // waiting counts at the end stay family wide on purpose: they are the
+  // parent's to-do, not the child's news.
+  const scope = childId ? `child_id.eq.${childId},child_id.is.null` : null
+  // Loosely typed on purpose: the builder's own generics recurse too deep for
+  // tsc when threaded through a generic helper, and this only ever forwards.
+  const scoped = (q: { or: (f: string) => unknown }) => (scope ? q.or(scope) : q) as never
+
   const [stars, fullDays, sheets, friends, lessons, waitingSheets, waitingAsks] = await Promise.all([
     // Jobs the parent approved, which is the child's actual work landing.
-    count(() => supabase.from('quest_ticks')
+    count(() => scoped(supabase.from('quest_ticks')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId).eq('status', 'approved').gte('approved_at', sinceIso)),
-    count(() => supabase.from('kid_days')
+      .eq('user_id', userId).eq('status', 'approved').gte('approved_at', sinceIso))),
+    count(() => scoped(supabase.from('kid_days')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId).not('completed_at', 'is', null).gte('completed_at', sinceIso)),
-    count(() => supabase.from('printable_completions')
+      .eq('user_id', userId).not('completed_at', 'is', null).gte('completed_at', sinceIso))),
+    count(() => scoped(supabase.from('printable_completions')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId).eq('status', 'confirmed').gte('decided_at', sinceIso)),
+      .eq('user_id', userId).eq('status', 'confirmed').gte('decided_at', sinceIso))),
     // A Planet Friend arriving is the rarest thing that happens here, so it is
     // read separately rather than inferred from the day count.
-    count(() => supabase.from('earned_stickers')
+    count(() => scoped(supabase.from('earned_stickers')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId).like('sticker_key', 'friend-%').gte('earned_at', sinceIso)),
+      // Both sides of the 19 August merge: main corrected the column to
+      // earned_at (created_at does not exist on earned_stickers), this branch
+      // scoped the count to the child. Each fixed a different way the number
+      // could be wrong.
+      .eq('user_id', userId).like('sticker_key', 'friend-%').gte('earned_at', sinceIso))),
     // LESSONS PASSED.
     //
     // Justin, 8 August 2026: "can we update parents when lessons are watched by
@@ -175,9 +189,9 @@ export async function getCatchup(
     // Only passes. Having a go is worth a push in the moment, because trying is
     // the thing to encourage right then, but a summary of the week should
     // report what stuck.
-    count(() => supabase.from('lesson_completions')
+    count(() => scoped(supabase.from('lesson_completions')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId).eq('passed', true).gte('completed_at', sinceIso)),
+      .eq('user_id', userId).eq('passed', true).gte('completed_at', sinceIso))),
     // Waiting on the parent. Deliberately a separate list: news is a gift and a
     // request is a job, and running them together turns the good news into a
     // preamble for another demand.
@@ -189,7 +203,6 @@ export async function getCatchup(
       .eq('user_id', userId).eq('status', 'pending')),
   ])
 
-  void childId
   void sinceDay
 
   const lines: CatchupLine[] = []

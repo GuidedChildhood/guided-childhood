@@ -298,7 +298,9 @@ export default function ConcernCheckIn({
     fetch('/api/daily/concern-check', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ concernId, id, ...body }),
+      // slug rides along for the route's legacy guard. Dropping it in the
+      // re key is what turned every save into a 400 on 19 August.
+      body: JSON.stringify({ concernId, slug: concern?.slug, id, ...body }),
     })
       .then(res => {
         if (!res.ok) throw new Error(String(res.status))
@@ -449,14 +451,36 @@ export default function ConcernCheckIn({
                 {c.childName}
               </div>
             )}
+            {/* ── A SAVED LINE FOLDS AWAY (19 August 2026) ─────────────────
+                Justin: "you enter stars per line, that line then drops off and
+                moves to the next line, until all done." A rated row used to
+                stay at full height, greyed, so the page never got shorter and
+                a parent could not feel the list emptying. It collapses to one
+                slim tick line now: still there, still readable as done, but
+                the work visibly shrinks toward the hand over. */}
+            {isSaved ? (
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '8px', padding: '9px 0',
+                borderTop: idx === 0 || newChild ? 'none' : '1px solid var(--border)',
+                color: 'var(--ink-muted)',
+              }}>
+                <span aria-hidden style={{
+                  width: 20, height: 20, borderRadius: '50%', background: 'var(--tint-sage)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '0.7rem', color: '#1F7A54', fontWeight: 900,
+                }}>✓</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)' }}>
+                  {c.label}
+                </span>
+                <span style={{ fontSize: 'var(--text-sm)', marginLeft: 'auto' }}>Saved</span>
+              </div>
+            ) : (
             <div
               ref={el => { rows.current[c.id] = el }}
               style={{
                 padding: '12px 0',
                 borderTop: idx === 0 || newChild ? 'none' : '1px solid var(--border)',
                 scrollMarginTop: 'calc(env(safe-area-inset-top, 0px) + 76px)',
-                opacity: isSaved ? 0.82 : 1,
-                transition: 'opacity .18s',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px' }}>
@@ -573,6 +597,7 @@ export default function ConcernCheckIn({
                 </div>
               )}
             </div>
+            )}
           </div>
         )
       })}
@@ -609,6 +634,25 @@ export default function ConcernCheckIn({
               }}
             >
               Now {nextChild.name ?? 'your other child'} →
+            </Link>
+          )}
+          {/* The LAST child's finish is the whole family's. Justin: "only when
+              the last child is done it marks as completed, then takes them
+              back to Today." The rung on Today reads scored events per child,
+              so by this point it is genuinely green, and the way back lands on
+              it rather than leaving the parent on a finished form. */}
+          {!nextChild && (
+            <Link
+              href="/dashboard#today"
+              style={{
+                display: 'block', textAlign: 'center', textDecoration: 'none', marginTop: '12px',
+                background: 'var(--terracotta)', color: 'var(--ink)',
+                borderRadius: '16px', padding: '14px 18px',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+                boxShadow: '0 5px 0 var(--terracotta-dark)',
+              }}
+            >
+              Back to today, check in done ✓
             </Link>
           )}
         </div>

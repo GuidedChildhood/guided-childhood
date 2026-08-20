@@ -101,7 +101,8 @@ export default async function StatsPage({ searchParams }: { searchParams: Promis
 
     try {
       const [{ data: quests }, { data: ticks }] = await Promise.all([
-        supabase.from('family_quests').select('id, stars, title').eq('child_id', child.id),
+        // Own jobs plus household jobs, whose ticks below carry this child.
+        supabase.from('family_quests').select('id, stars, title').or(`child_id.eq.${child.id},child_id.is.null`),
         supabase.from('quest_ticks').select('quest_id').eq('child_id', child.id).eq('status', 'approved').gte('tick_date', sinceDay),
       ])
       const byId = new Map((quests ?? []).map(q => [q.id as string, { stars: Number(q.stars) || 1, title: (q.title as string) ?? '' }]))

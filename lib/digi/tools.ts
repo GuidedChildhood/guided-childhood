@@ -249,14 +249,19 @@ async function doChildHistory(ctx: ToolContext, arg: Record<string, unknown>): P
       .from('wellbeing_checks')
       .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication, concern_level, notes')
       .gte('week_start', since).order('week_start', { ascending: false }).limit(26),
-    ctx.supabase
+    // The conversation names ONE child (ctx.childId), so their history plus
+    // the household's, never a sibling's: DiGi reading the teenager's ledger
+    // to answer about the six year old is the drift this tool exists to stop.
+    (() => { const q = ctx.supabase
       .from('concerns')
       .select('label, status, times_flagged, created_at, last_flagged_at')
-      .order('last_flagged_at', { ascending: false }).limit(20),
-    ctx.supabase
+      .order('last_flagged_at', { ascending: false }).limit(20)
+      return ctx.childId ? q.or(`child_id.eq.${ctx.childId},child_id.is.null`) : q })(),
+    (() => { const q = ctx.supabase
       .from('device_sessions')
       .select('started_at, minutes, device')
-      .gte('started_at', `${since}T00:00:00Z`).order('started_at', { ascending: false }).limit(400),
+      .gte('started_at', `${since}T00:00:00Z`).order('started_at', { ascending: false }).limit(400)
+      return ctx.childId ? q.or(`child_id.eq.${ctx.childId},child_id.is.null`) : q })(),
   ])
 
   const parts: string[] = [`This family's own recorded history, last ${weeks} weeks. Their data, so it outranks any general finding on whether something applies here.`]

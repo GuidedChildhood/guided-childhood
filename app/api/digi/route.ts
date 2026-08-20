@@ -247,7 +247,7 @@ export async function POST(request: Request) {
       .maybeSingle(),
     supabase
       .from('device_sessions')
-      .select('device, minutes')
+      .select('device, minutes, child_id')
       .eq('user_id', user.id)
       .gte('started_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()),
     // The Sunday check in and its agreed plan. This existed for months and
@@ -404,7 +404,7 @@ export async function POST(request: Request) {
           .in('sort_order', scriptFeedback.map(f => f.script_sort_order))
       : Promise.resolve({ data: null }),
     child?.stage_id
-      ? getPathwayPosition(supabase, user.id, { id: stage.id, name: stage.name, ages: stage.ages, stageId: child.stage_id as StageId }, (child?.streak_weeks as number | null) ?? 0)
+      ? getPathwayPosition(supabase, user.id, { id: stage.id, name: stage.name, ages: stage.ages, stageId: child.stage_id as StageId }, (child?.streak_weeks as number | null) ?? 0, child?.id ?? null)
       : Promise.resolve(''),
   ])
   timer.mark('gather2')
@@ -528,8 +528,14 @@ IMPORTANT: this guide is the ONLY device the parent is asking about right now. I
   let screenLifeKnowledge = ''
   try {
     const agreement = agreementResult.data
+    // THIS child's week, not the family's, because the line beneath it quotes
+    // the healthy guide for this child's AGE. A family total beside one
+    // child's guide read as one child over the limit when it was two children
+    // sharing a telly. Legacy rows with no child still count.
     const byDevice = new Map<string, number>()
     for (const s of weekSessionsResult.data ?? []) {
+      const rowChild = (s as { child_id?: string | null }).child_id ?? null
+      if (rowChild !== null && rowChild !== (child?.id ?? null)) continue
       byDevice.set(String(s.device), (byDevice.get(String(s.device)) ?? 0) + (Number(s.minutes) || 0))
     }
     const usageLine = [...byDevice.entries()]

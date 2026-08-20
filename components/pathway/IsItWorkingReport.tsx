@@ -75,30 +75,40 @@ export default async function IsItWorkingReport(
     supabase.from('children').select('id, name, age_band, streak_weeks, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
     // What we are working on: only the live ones, most stubborn first so the
     // pattern line has something to point at.
-    supabase.from('concerns').select('slug, label, status, times_flagged, last_flagged_at').eq('user_id', user.id).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(10),
+    supabase.from('concerns').select('slug, label, status, times_flagged, last_flagged_at, child_id').eq('user_id', user.id).in('status', ['open', 'improving']).order('times_flagged', { ascending: false }).limit(30),
     // The win count for the report: everything the family has sorted.
     supabase.from('concerns').select('id', { count: 'exact', head: true }).eq('user_id', user.id).eq('status', 'resolved'),
     // The most recently sorted, so a parent can flag one that has come
     // back. Reopening it bumps the flag count and DiGi reads the recurrence.
-    supabase.from('concerns').select('slug, label, times_flagged').eq('user_id', user.id).eq('status', 'resolved').order('last_checked_at', { ascending: false }).limit(6),
+    supabase.from('concerns').select('slug, label, times_flagged, child_id').eq('user_id', user.id).eq('status', 'resolved').order('last_checked_at', { ascending: false }).limit(18),
     supabase.from('wellbeing_checks').select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication').eq('parent_id', user.id).order('week_start', { ascending: false }).limit(6),
     supabase.from('family_quests').select('id, stars, child_id, title').eq('user_id', user.id).eq('active', true),
     supabase.from('quest_ticks').select('quest_id, child_id, status').eq('user_id', user.id).eq('status', 'approved').gte('tick_date', weekAgo),
     getDailyStreak(supabase, user.id),
     // Today's ten minute loop, so the report can say the day's work is
     // already feeding the readings below.
-    supabase.from('daily_sessions').select('completed_at').eq('user_id', user.id).eq('session_date', today).maybeSingle(),
+    supabase.from('daily_sessions').select('completed_at, child_id').eq('user_id', user.id).eq('session_date', today),
   ])
-  const dailyDoneToday = !!dailyRes.data?.completed_at
+  // Filtered to the selected child below, once pickChild has said who.
 
   const children = childrenRes.data ?? []
   // The report reads for the selected child (?child=<id>), defaulting to
   // the primary. Before this, the page silently reported on the oldest
   // created child whatever the family shape.
   const primary = pickChild(children, childParam)
-  const concerns = concernsRes.data ?? []
+  // ── THE REPORT'S OWN READS FOLLOW ITS OWN CHILD (19 August audit) ─────────
+  // This report declares itself scoped to ?child= and then read concerns and
+  // the day by user alone, so child A's page showed child B's worries and a
+  // sibling's finished Today. The queries cannot filter before pickChild has
+  // run, so the rows carry child_id and the filter happens here: this child's
+  // rows plus the household's null ones.
+  const mine = <T extends { child_id?: string | null }>(rows: T[]): T[] =>
+    rows.filter(r => (r.child_id ?? null) === null || r.child_id === (primary?.id ?? null))
+  const dailyDoneToday = mine((dailyRes.data ?? []) as { completed_at: string | null; child_id?: string | null }[])
+    .some(r => !!r.completed_at)
+  const concerns = mine(concernsRes.data ?? []).slice(0, 10)
   const solvedCount = resolvedCountRes.count ?? 0
-  const recentSolved = recentSolvedRes.data ?? []
+  const recentSolved = mine(recentSolvedRes.data ?? []).slice(0, 6)
   const checks = (checksRes.data ?? []) as Check[]
   const quests = questsRes.data ?? []
   const ticks = ticksRes.data ?? []

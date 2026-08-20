@@ -292,6 +292,26 @@ export default function QrHandoverModal({ token, childName, onClose }: {
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '16px 0 0' }}>
           You can also open {childName}&apos;s app on your own device and use it together. It is waiting in Quests whenever you want it.
         </p>
+
+        {/* ── THE WAY BACK, AT THE BOTTOM, WHERE THE PARENT ENDS UP ──────────
+            Justin, 19 August 2026: "when you go to share the code to set up
+            the child's app there is no easy way to return back to setup."
+            The way back existed, a 34 pixel ✕ at the very top, which by the
+            time a parent has scrolled a QR code, three share buttons and the
+            co view note is off screen in the wrong direction. The door out
+            belongs where the reading finishes. Closing lands them exactly
+            where they were, because this is an overlay, not a page. */}
+        <button
+          onClick={onClose}
+          style={{
+            width: '100%', marginTop: '14px', background: '#fff',
+            border: '1.5px solid var(--border)', borderRadius: '16px', padding: '13px',
+            cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800,
+            fontSize: 'var(--text-md)', color: 'var(--ink)',
+          }}
+        >
+          Done, take me back
+        </button>
       </div>
     </div>
   )

@@ -115,12 +115,18 @@ export async function DELETE(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
-  const { error } = await supabase
+  // Only THIS child's completion, mirroring the pass_by delete below. Without
+  // the filter, un ticking a lesson on one child's page deleted every child's
+  // row for it: the sibling's pass gone, from a page that never showed them.
+  const del = supabase
     .from('lesson_completions')
     .delete()
     .eq('user_id', user.id)
     .eq('lesson_id', lesson_id)
     .eq('lesson_source', lesson_source)
+  const { error } = await (typeof forChild === 'string' && forChild
+    ? del.eq('child_id', forChild)
+    : del.is('child_id', null))
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
