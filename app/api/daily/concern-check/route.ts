@@ -37,8 +37,16 @@ export async function POST(request: Request) {
     score?: unknown
   }
 
-  if (!slug || typeof slug !== 'string') {
-    return NextResponse.json({ error: 'Concern slug is required' }, { status: 400 })
+  // The row's own id is the identity since concerns went per child; slug is
+  // only the legacy path for an app open from before that deploy. Requiring
+  // slug WITH an id present is what broke every save on 19 August: the
+  // re keyed client posted { concernId, score }, this guard 400ed it, and the
+  // card said "did not save, tap a star to try again" for every star on every
+  // line. The client's own fix travels in the same commit, but the route must
+  // not depend on it: one of the two ends being right has to be enough.
+  const hasId = typeof concernId === 'string' && concernId.length > 0
+  if (!hasId && (!slug || typeof slug !== 'string')) {
+    return NextResponse.json({ error: 'A concern id or slug is required' }, { status: 400 })
   }
   const legacyAnswer = answer === 'better' || answer === 'same' || answer === 'hard' ? answer : null
   if (!legacyAnswer && !isScore(score)) {
@@ -58,7 +66,7 @@ export async function POST(request: Request) {
   // works for a one child family, because an app open from before this deploy
   // is still holding a page that only knows the slug, and limit(1) keeps that
   // path from throwing on the ambiguity rather than resolving it wrongly.
-  const byId = typeof concernId === 'string' && concernId.length > 0
+  const byId = hasId
   const { data: concern } = byId
     ? await supabase.from('concerns').select('id, status')
         .eq('user_id', user.id).eq('id', concernId).maybeSingle()
