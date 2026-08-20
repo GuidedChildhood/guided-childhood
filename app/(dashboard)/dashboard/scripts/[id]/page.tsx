@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getChildren } from '@/lib/children/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
 import { SOCIAL_MEDIA_LAW } from '@gc/shared/social-media-law'
@@ -87,32 +88,44 @@ export default async function ScriptDetailPage({
   // conflict, so a script already marked used or not needed keeps that.
   // The read tick belongs to the OPEN child (migration 213, key 219): reading
   // the bedtime script with Jody marks Jody's day and leaves Tray's alone.
-  const readKids = await supabase.from('children').select('id, is_primary').eq('parent_id', user.id)
-    .order('is_primary', { ascending: false }).order('created_at', { ascending: true })
-  const readChild = ((readKids.data ?? []).find(k => k.id === childParam) ?? (readKids.data ?? [])[0])?.id ?? null
+  //
+  // And so does EVERYTHING ELSE ON THE PAGE. This used to resolve the open
+  // child for the tick and then fetch the PRIMARY child for the name, the
+  // phone and the kid link, so with Olga's tab selected the page still said "A
+  // note for Teo" and sent it to Teo's app. One child, picked once, the same
+  // way every page picks one (lib/children/server.ts).
+  const { child } = await getChildren<{ id: string; name: string | null; phone: string | null; is_primary: boolean | null }>(
+    supabase, user.id, childParam, 'name, phone')
+  const readChild = child?.id ?? null
   await supabase
     .from('script_completions')
     .upsert({ user_id: user.id, child_id: readChild, script_sort_order: sortOrder, completed_at: new Date().toISOString() }, { onConflict: 'user_id,child_id,script_sort_order' })
 
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
 
-  const [{ data: prevScript }, { data: nextScript }, { data: primaryChild }, { data: myCompletion }] = await Promise.all([
+  const [{ data: prevScript }, { data: nextScript }, { data: completionRows }] = await Promise.all([
     supabase.from('scripts').select('sort_order, title').eq('stage_id', script.stage_id).lt('sort_order', sortOrder).order('sort_order', { ascending: false }).limit(1).maybeSingle(),
     // "See the next one for this age", Justin's words. sort_order + 1 walks out
     // of the stage the moment you reach its last script, which on a library
     // grouped by stage means the next tap lands a parent of a six year old on a
     // script about sextortion. Same stage, next number up.
     supabase.from('scripts').select('sort_order, title').eq('stage_id', script.stage_id).gt('sort_order', sortOrder).order('sort_order', { ascending: true }).limit(1).maybeSingle(),
-    supabase.from('children').select('id, name, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
-    supabase.from('script_completions').select('worked, status').eq('user_id', user.id).eq('script_sort_order', sortOrder).maybeSingle(),
+    // Not maybeSingle: the key is per child (219), so a script both children
+    // have rows for came back as a PostgREST error, the data read as null, and
+    // a script marked used showed its buttons unpressed. This child's row
+    // decides, and a legacy row with no child speaks for everybody, exactly as
+    // the status route treats it on write.
+    supabase.from('script_completions').select('worked, status, child_id').eq('user_id', user.id).eq('script_sort_order', sortOrder),
   ])
-  const workedRating = (myCompletion as { worked?: 'yes' | 'somewhat' | 'no' | null } | null)?.worked ?? null
-  const scriptStatus = ((myCompletion as { status?: string } | null)?.status ?? 'opened') as 'opened' | 'read' | 'used' | 'not_needed'
+  const compRows = (completionRows ?? []) as { worked?: 'yes' | 'somewhat' | 'no' | null; status?: string | null; child_id?: string | null }[]
+  const myCompletion = compRows.find(r => r.child_id === readChild) ?? compRows.find(r => r.child_id == null) ?? null
+  const workedRating = myCompletion?.worked ?? null
+  const scriptStatus = (myCompletion?.status ?? 'opened') as 'opened' | 'read' | 'used' | 'not_needed'
 
   // Does this child have their own app (a kid link)? If so the note goes
   // straight to their phone and their app, not out over SMS.
-  const { data: kidLink } = primaryChild?.id
-    ? await supabase.from('kid_links').select('token').eq('child_id', primaryChild.id).maybeSingle()
+  const { data: kidLink } = child?.id
+    ? await supabase.from('kid_links').select('token').eq('child_id', child.id).maybeSingle()
     : { data: null }
   const childHasApp = Boolean((kidLink as { token?: string } | null)?.token)
 
@@ -125,10 +138,13 @@ export default async function ScriptDetailPage({
       showBanNote={showBanNote}
       voiceUrl={scriptVoiceUrl(sortOrder)}
       isPaid={isPaid}
-      childName={primaryChild?.name ?? null}
-      childPhone={primaryChild?.phone ?? null}
-      childId={primaryChild?.id ?? null}
+      childName={child?.name ?? null}
+      childPhone={child?.phone ?? null}
+      childId={child?.id ?? null}
       childHasApp={childHasApp}
+      // The URL's child, so the view's own links keep carrying it. The
+      // primary child keeps the clean URL, same as the switcher.
+      childIdParam={childParam && child && !child.is_primary ? child.id : null}
       workedRating={workedRating}
       scriptStatus={scriptStatus}
       prevScript={prevScript ?? null}

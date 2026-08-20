@@ -137,6 +137,13 @@ export async function getMomentTopics(
   userId: string,
   yesterdayMoments: string[],
   onboardingAnswers: unknown,
+  /**
+   * Whose worries drive the card. Concerns are per child (migration 194), and
+   * a deck opened on Olga's tab reading Teo's worries is the deck talking
+   * about the wrong child. A concern with no child on it is a household fact
+   * and still counts for everyone. Omitted, everything counts, as before.
+   */
+  childId?: string | null,
 ): Promise<MomentTopic[]> {
   const topics: MomentTopic[] = []
 
@@ -148,11 +155,13 @@ export async function getMomentTopics(
 
   // 2. Their live worries, most recently raised first, minus anything resting.
   try {
-    const { data: live } = await supabase
+    let liveQ = supabase
       .from('concerns')
       .select('id, slug, label, last_flagged_at')
       .eq('user_id', userId)
       .in('status', ['open', 'improving'])
+    if (childId) liveQ = liveQ.or(`child_id.eq.${childId},child_id.is.null`)
+    const { data: live } = await liveQ
       .order('last_flagged_at', { ascending: false })
       .limit(12)
 

@@ -395,7 +395,7 @@ export async function POST(request: Request) {
     // than having no memory at all, because the first is not listening.
     wantsResearch ? getTriedAlready(supabase, user.id) : Promise.resolve(''),
     child?.stage_id
-      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null, { preferFree: !isPaid })
+      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, parentChallenge ?? null, { preferFree: !isPaid, childId: child.id ?? null })
       : Promise.resolve(null),
     scriptFeedback.length > 0
       ? supabase
