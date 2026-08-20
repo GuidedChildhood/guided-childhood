@@ -44,7 +44,10 @@ export async function getWeekParentReport(
 
   const [sessionsRes, questsRes, ticksRes] = await Promise.all([
     supabase.from('device_sessions').select('device, minutes, activity').eq('user_id', userId).eq('child_id', child.id).gte('started_at', weekAgo),
-    supabase.from('family_quests').select('id, stars, title').eq('user_id', userId).eq('child_id', child.id).eq('active', true),
+    // The child's own jobs PLUS the household's. eq alone dropped "everyone
+    // tidies the kitchen" from the earned side of the balance, so a child who
+    // mostly does family jobs read as earning nothing against their screen use.
+    supabase.from('family_quests').select('id, stars, title').eq('user_id', userId).or(`child_id.eq.${child.id},child_id.is.null`).eq('active', true),
     supabase.from('quest_ticks').select('quest_id').eq('user_id', userId).eq('child_id', child.id).eq('status', 'approved').gte('tick_date', weekAgo),
   ])
 

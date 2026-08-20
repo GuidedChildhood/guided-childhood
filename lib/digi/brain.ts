@@ -322,10 +322,12 @@ export async function getPathwayPosition(
   userId: string,
   stage: { id: number; name: string; ages: string; stageId: StageId },
   streakWeeks: number,
+  /** Whose position. The stage is one child's, so the counts must be too. */
+  childId: string | null = null,
 ): Promise<string> {
   let p
   try {
-    p = await getStageProgress(supabase, userId, stage.stageId, streakWeeks)
+    p = await getStageProgress(supabase, userId, stage.stageId, streakWeeks, childId)
   } catch {
     return '' // pathway position is an anchor, never a hard dependency of the reply
   }

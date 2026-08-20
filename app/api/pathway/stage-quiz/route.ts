@@ -35,6 +35,16 @@ export async function POST(req: NextRequest) {
       .from('children').select('id').eq('id', childId).eq('parent_id', user.id).maybeSingle()
     child = owned?.id ?? null
   }
+  // Never null when the family has a child at all. Every passport read filters
+  // stage_quiz_passes strictly by child_id, so a null pass is a pass NOTHING
+  // can see: the child did the quiz, the stamp gate stayed shut, and there was
+  // no error anywhere. Falling to the first child is what null meant.
+  if (!child) {
+    const { data: kids } = await supabase
+      .from('children').select('id').eq('parent_id', user.id)
+      .order('is_primary', { ascending: false }).order('created_at', { ascending: true }).limit(1)
+    child = (kids ?? [])[0]?.id ?? null
+  }
 
   const { error } = await supabase.from('stage_quiz_passes').insert({
     user_id: user.id,

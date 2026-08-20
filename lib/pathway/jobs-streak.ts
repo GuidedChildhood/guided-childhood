@@ -172,7 +172,9 @@ export async function recordJobsStreak(
     .from('family_quests')
     .select('id, schedule, schedule_days, created_at')
     .eq('user_id', userId)
-    .eq('child_id', child.id)
+    // The child's own jobs plus the household's: a five day streak of family
+    // jobs is a streak, and eq alone made those children unstreakable.
+    .or(`child_id.eq.${child.id},child_id.is.null`)
     .eq('active', true)
   if (!quests || quests.length === 0) return null
 

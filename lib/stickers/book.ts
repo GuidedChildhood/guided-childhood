@@ -107,7 +107,7 @@ export async function getStickerBook(
     creditsFor(supabase, child.id),
     countSheets(supabase, userId, child.id),
     streaksFor(supabase, child.id),
-    stampsFor(supabase, userId),
+    stampsFor(supabase, userId, child.id),
     ownedKeys(supabase, child.id),
   ])
   // Friends come from completed days only. `stamps` sits alongside them and
@@ -216,10 +216,14 @@ async function streaksFor(supabase: SupabaseClient, childId: string): Promise<nu
  * zero: a stamp is a reward, and a query that cannot answer should hand back
  * the quiet number rather than invent one.
  */
-async function stampsFor(supabase: SupabaseClient, userId: string): Promise<number> {
+async function stampsFor(supabase: SupabaseClient, userId: string, childId: string | null = null): Promise<number> {
   const STAGES = ['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const
   try {
-    const progress = await getAllStagesProgress(supabase, userId, 0)
+    // THIS child's stamped pages, not the household's. The comment this call
+    // used to lean on, "the same reading the parent's passport uses", went
+    // stale the day the passport went per child: without the child the
+    // youngest's sticker rarity tier was paid out of the eldest's lessons.
+    const progress = await getAllStagesProgress(supabase, userId, 0, childId)
     return STAGES.filter(s => progress[s]?.contentComplete).length
   } catch { return 0 }
 }

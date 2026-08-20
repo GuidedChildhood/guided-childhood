@@ -36,22 +36,31 @@ export async function getLiteracyStatuses(
   supabase: SupabaseClient,
   userId: string,
   stageNum: number | null = null,
+  /**
+   * Whose strands these are. From Justin's audit of 19 August: every read here
+   * was user wide while the four readings render under ONE child's name, so
+   * the teenager's open worry turned the six year old's Safe strand amber and
+   * one child's screen week coloured the other's Healthy balance. Null keeps
+   * the old family wide reading for any caller that has no child.
+   */
+  childId: string | null = null,
 ): Promise<Record<string, AreaStatus>> {
+  const scope = childId ? `child_id.eq.${childId},child_id.is.null` : null
   const now = new Date()
   const day = (now.getUTCDay() + 6) % 7
   const monday = new Date(now); monday.setUTCDate(now.getUTCDate() - day)
   const weekStart = monday.toISOString().slice(0, 10)
 
   const [ticksRes, questsRes, spendsRes, concernsRes, lessonsRes, doneRes, guidesRes, setupRes, checkinsRes] = await Promise.all([
-    supabase.from('quest_ticks').select('quest_id').eq('user_id', userId).eq('status', 'approved').gte('tick_date', weekStart),
+    (() => { const q = supabase.from('quest_ticks').select('quest_id').eq('user_id', userId).eq('status', 'approved').gte('tick_date', weekStart); return scope ? q.or(scope) : q })(),
     supabase.from('family_quests').select('id, stars').eq('user_id', userId),
-    supabase.from('star_spends').select('minutes').eq('user_id', userId).gte('created_at', `${weekStart}T00:00:00Z`),
-    supabase.from('concerns').select('id').eq('user_id', userId).in('status', ['open', 'improving']),
+    (() => { const q = supabase.from('star_spends').select('minutes').eq('user_id', userId).gte('created_at', `${weekStart}T00:00:00Z`); return scope ? q.or(scope) : q })(),
+    (() => { const q = supabase.from('concerns').select('id').eq('user_id', userId).in('status', ['open', 'improving']); return scope ? q.or(scope) : q })(),
     supabase.from('lessons').select('id, category, stage_id'),
-    supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', userId),
+    (() => { const q = supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', userId); return scope ? q.or(scope) : q })(),
     supabase.from('device_guides').select('device_key, name, min_age'),
-    supabase.from('device_setup_progress').select('device_key').eq('user_id', userId),
-    supabase.from('literacy_checkins').select('strand, grade, grade_note, created_at').eq('user_id', userId).gte('created_at', new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString()).order('created_at', { ascending: false }),
+    (() => { const q = supabase.from('device_setup_progress').select('device_key').eq('user_id', userId); return scope ? q.or(scope) : q })(),
+    (() => { const q = supabase.from('literacy_checkins').select('strand, grade, grade_note, created_at').eq('user_id', userId); return scope ? q.or(scope) : q })().gte('created_at', new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString()).order('created_at', { ascending: false }),
   ])
 
   const starsOf = new Map((questsRes.data ?? []).map(q => [q.id, q.stars ?? 1]))

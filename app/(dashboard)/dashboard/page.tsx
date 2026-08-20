@@ -592,7 +592,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // ever passed it, so the rung never rendered and the rotation never reached
     // the passport. The loop fetches the rows itself now; this only says whose.
     getTodayLoop(supabase, user.id, stageSlug, challenge, isPaid, (profile?.first_checkin_at as string | null) ?? null, currentSetupStep, child ?? null),
-    getLiteracyStatuses(supabase, user.id, stage.id),
+    getLiteracyStatuses(supabase, user.id, stage.id, child?.id ?? null),
     child?.stage_id
       ? getSuggestions(supabase, user.id, { childName: child.name, childId: child.id, stageId: stageSlug, ukHour })
       : Promise.resolve([] as Suggestion[]),
@@ -605,14 +605,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     // The child's own stage lessons and their passes, so DiGi's welcome can
     // name exactly which lessons to send for progress with the live count.
     supabase.from('lessons').select('id').eq('audience', 'parent').eq('stage_id', stageSlug).neq('status', 'stub'),
-    supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', user.id).eq('lesson_source', 'lesson'),
+    // The selected child's passes plus household legacy rows, so the Move the
+    // passport on card says X of Y for THIS child rather than the family blend.
+    (() => { const q = supabase.from('lesson_completions').select('lesson_id, passed').eq('user_id', user.id).eq('lesson_source', 'lesson'); return child?.id ? q.or(`child_id.eq.${child.id},child_id.is.null`) : q })(),
     wantLessonNudge ? getParentLessons(supabase) : Promise.resolve({ lessons: [] as Awaited<ReturnType<typeof getParentLessons>>['lessons'] }),
     wantLessonNudge && child?.id ? getCompletionsForChild(supabase, child.id) : Promise.resolve(new Set<string>()),
     lastCompletion
       ? supabase.from('scripts').select('title, why_it_works, sort_order, category').eq('sort_order', lastCompletion.script_sort_order).single()
       : Promise.resolve({ data: null }),
     child?.id
-      ? supabase.from('family_quests').select('id, schedule, schedule_days, created_at').eq('user_id', user.id).eq('child_id', child.id).eq('active', true)
+      ? supabase.from('family_quests').select('id, schedule, schedule_days, created_at').eq('user_id', user.id).or(`child_id.eq.${child.id},child_id.is.null`).eq('active', true)
       : Promise.resolve({ data: null }),
     child?.id
       ? supabase.from('quest_ticks').select('quest_id, tick_date, status').eq('user_id', user.id).eq('child_id', child.id).gte('tick_date', sinceJobs)

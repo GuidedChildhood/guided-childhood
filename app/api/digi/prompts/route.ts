@@ -170,9 +170,11 @@ export async function GET() {
     // improvised. Retrieval is by the normal_moments topic seeded in 054.
     supabase.from('expert_knowledge').select('source_name, finding').eq('active', true).contains('topics', ['normal_moments']).limit(8),
     supabase.from('digi_memory').select('kind, content').eq('user_id', user.id).eq('active', true).order('created_at', { ascending: false }).limit(8),
-    supabase.from('concerns').select('label, status, times_flagged').eq('user_id', user.id).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(3),
+    // This child's worries plus the household's, so a prompt about the
+    // youngest does not lean on the teenager's ledger.
+    supabase.from('concerns').select('label, status, times_flagged').eq('user_id', user.id).or(`child_id.eq.${child.id},child_id.is.null`).in('status', ['open', 'improving']).order('last_flagged_at', { ascending: false }).limit(3),
     child.stage_id
-      ? getStageProgress(supabase, user.id, child.stage_id as StageId, child.streak_weeks ?? 0).catch(() => null)
+      ? getStageProgress(supabase, user.id, child.stage_id as StageId, child.streak_weeks ?? 0, child.id).catch(() => null)
       : Promise.resolve(null),
     child.stage_id
       ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, (challenge as never) ?? null, { preferFree: !hasFullAccess(profile, user.email) }).catch(() => null)
