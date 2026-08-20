@@ -10,7 +10,7 @@ Scope of this doc, four parts:
 1. The SEL and CASEL mapping (a finished reference).
 2. The primary implementation guide (a finished one page for a head or PSHE lead).
 3. The 20 minute drop in spec (a format to add to existing decks).
-4. The primary school lessons build brief (KS1 and KS2, ready to author into school_lessons).
+4. The scaffold overlay on the primary module map (Section 5 of the build spec, ready to author).
 
 The scaffold across all of it is Notice, Choose, Tell (already tagged on parent_lessons in migration
 221 and school_lessons in migration 220).
@@ -76,8 +76,9 @@ minute. Lives as a page in the schools app (a printable and a screen), sourced f
 - The three words. NOTICE what the screen is doing. CHOOSE the stop yourself. TELL a trusted adult,
   and you will not be in trouble. From Reception to Year 6 the same three words, deeper each year.
 - Scope and sequence. One short lesson per half term per year group, six a year, plus a start of year
-  assembly on the three words. KS1 (Reception to Year 2) uses Pebble, lower KS2 (Years 3 to 4) uses
-  Bloop, upper KS2 (Years 5 to 6) uses Orbit, the pre secondary bridge.
+  assembly on the three words. The cast is the SCHOOLS cast from the build spec Section 9.4, not the
+  parent app Planet Friends: EYFS and KS1 are Sofia with DiGi Junior, KS2 is Oliver, Zara and Sofia
+  as the squad proper, DiGi anchors throughout.
 - How to run it. Twenty minutes, drops into a PSHE or computing slot, tutor time or assembly. No prep,
   no download wall, no booking. A teacher opens a module and teaches it today.
 - Safeguarding fit. Aligns to the school's statutory online safety duty (KCSIE) and RSHE. Each lesson
@@ -112,71 +113,55 @@ not covered by the migrations already merged.
 
 ---
 
-## 4. PRIMARY SCHOOL LESSONS BUILD BRIEF (KS1 and KS2, ready to author)
+## 4. THE SCAFFOLD OVERLAY ON THE PRIMARY MODULE MAP (not a parallel set)
 
-The bigger gap. The parent app has the ages 4 to 7 co watch set (parent_lessons 1.1 to 1.10). The
-SCHOOL versions do not exist below KS3. Author these as public.school_lessons rows (audience teacher),
-mirroring the 109 to 112 row shape, hosted by the Planet Friend for the band, scaffold tagged, EFCW
-and RSHE mapped. Outcomes come straight from the road to 16 ladder, so nothing new is invented.
+Correction from the first draft, made when this was synced to the schools session's source of truth,
+plans/schools-lesson-build-spec.md. The primary modules are NOT invented here. Section 5 of that spec
+already maps the primary scheme: EYFS module 1, KS1 modules 2 and 3, KS2 modules 4 to 9. So this part
+does not create a parallel ks1-01 set. It overlays the Notice, Choose, Tell word and the CASEL
+competency onto the modules the spec already owns, and asks the schools session to author those rows.
+The cast is the schools cast from Section 9.4 (Sofia, DiGi Junior, Oliver, Zara), never the parent app
+Planet Friends. This overlay is now written into the spec at Section 5, so it lands in the right place.
 
-Row shape reminder (school_lessons): module_id, title, key_stage, year_band, audience 'teacher',
-efcw_strands int[], statutory_hooks, ailit_domains, evidence_anchor, single_action_outcome,
-character_cast, slides jsonb (017 contract), assessment jsonb, teacher_notes, dsl_note, sort_order.
-EFCW strand ints follow the order already used in 109 to 112.
+### The overlay, module by module (Section 5 numbering)
 
-### KS1, Pebble, ages 4 to 7 (mirror the parent 4 to 7 set, classroom version)
-
-| module_id | title | Scaffold | EFCW strand | single_action_outcome |
+| Spec module | Stage | Cast (9.4) | Scaffold | Primary CASEL |
 |---|---|---|---|---|
-| ks1-01-real-me | Me on a screen and me in real life | NOTICE | Self image and identity | I can say a photo is only a slice of the real, whole me |
-| ks1-02-real-or-pretend | Real or pretend? | NOTICE | Managing online information | I can ask the magic question, is this real |
-| ks1-03-kind-words | Kind words on screens | TELL | Online relationships | I send one kind message and know to tell if a message is unkind |
-| ks1-04-uh-oh-feeling | When screens make you feel funny | TELL | Health wellbeing and lifestyle | I turn the screen over and go and tell a grown up |
-| ks1-05-internet-remembers | The internet remembers | CHOOSE | Online reputation | I stop and ask a grown up before I share |
-| ks1-06-sleep | Screens, sleep and growing bodies | CHOOSE | Health wellbeing and lifestyle | I know screens go to bed first |
-| ks1-07-privacy-shield | My privacy shield | TELL | Privacy and security | I name my private things and check before sharing them |
-| ks1-08-someone-made-that | Someone made that | NOTICE | Copyright and ownership | I know a real person made it, I ask first and say their name |
-| ks1-09-voices | Some voices are not people | NOTICE | Managing online information | I know some voices are machines and machines can be wrong |
-| ks1-10-yes-no-button | The Yes No Button | CHOOSE | Online relationships | I ask a grown up before I press yes, and I can say no |
+| 1 Screens and kindness / real vs not real | EYFS | Sofia, DiGi Junior | NOTICE | Self awareness |
+| 2 Kind screens, calm bodies | KS1 | Sofia | TELL | Relationship skills |
+| 3 Real, pretend, or made by a computer | KS1 | Zara junior, DiGi Junior | NOTICE | Responsible decision making |
+| 4 Screen routines that work | KS2 | Oliver | CHOOSE | Self management |
+| 5 Gaming: time, intensity and spend | KS2 | Oliver | NOTICE | Responsible decision making |
+| 6 How algorithms work | KS2 | DiGi | NOTICE | Social awareness |
+| 7 Privacy and digital reputation | KS2 | Sofia | CHOOSE | Responsible decision making |
+| 8 Being kind and safe with others online | KS2 | Sofia, Zara | TELL | Relationship skills |
+| 9 My work and other people's work | KS2 | Zara | NOTICE | Social awareness |
 
-Anchors: EFCW EYFS to 7, RSHE primary, Day of AI ages 5 to 7 (for 09), Rosenshine format.
+Every module keeps its existing EfCW strands, statutory hook, evidence anchor and single action
+outcome from Section 5. This overlay adds only two data points per module: the scaffold word and the
+primary CASEL competency, exactly the two nullable columns proposed (scaffold, already on the table
+via migration 220 for the 13+ set, and casel_competency, proposed in part 1).
 
-### Lower KS2, Bloop, ages 8 to 10 (the Builder ladder, classroom version)
-
-| module_id | title | Scaffold | EFCW strand | single_action_outcome |
-|---|---|---|---|---|
-| ks2-01-strong-passwords | Strong doors, strong passwords | CHOOSE | Privacy and security | I make and keep a strong password |
-| ks2-02-real-friend-or-stranger | A real friend or a stranger playing one | TELL | Online relationships | I can tell a real friend online from a stranger, and I tell |
-| ks2-03-telling-plan | My telling plan | TELL | Online relationships | I have a rehearsed plan to tell, with no fear of losing the device |
-| ks2-04-spot-the-sell | Spot the sell | NOTICE | Online reputation | I spot when a screen is selling and do the five second check |
-| ks2-05-ai-gets-it-wrong | AI learns, and AI gets it wrong | NOTICE | Managing online information | I check an AI answer with a person |
-| ks2-06-what-screens-push-out | What screens push out | CHOOSE | Health wellbeing and lifestyle | I can name what screens push out, sleep, play, people |
-
-Anchors: EFCW 7 to 11, CSM Privacy and Security and News and Media Literacy grades 3 to 5, Day of AI
-grades 3 to 5 and UNESCO Understand level (for 05).
-
-### Upper KS2, Orbit, ages 11 (the pre secondary bridge, before any account)
-
-| module_id | title | Scaffold | EFCW strand | single_action_outcome |
-|---|---|---|---|---|
-| ks2-07-how-the-feed-is-built | How a feed gets built | NOTICE | Self image and identity | I can explain the feed is built from watch time |
-| ks2-08-filters-are-not-faces | Filters are not faces | NOTICE | Self image and identity | I know a filtered image is not a real face |
-| ks2-09-run-your-permissions | Running your own settings | CHOOSE | Privacy and security | I can find and set location, camera and mic permissions |
-
-Anchors: EFCW 11 to 14, CSM grades 6 to 8. These three are the on ramp to the existing 13+ set, so
-sort_order sits them just before sm13-01.
+### One reconciliation the schools session owns
+The 13+ rows already seeded and tagged (school_lessons, migrations 109 to 112 and 220) use sm13 module
+ids. The build spec Section 5 uses a 1 to 21 numbering with partly different KS3 and KS4 topics. That
+is a pre existing tension inside the schools scheme, not something this brief resolves. Flagging it so
+the schools session reconciles the two id schemes before authoring the primary rows, rather than
+inheriting the mismatch.
 
 ### Build order and definition of done
-1. Author KS1 first (mirrors validated parent copy, fastest, highest value). Then upper KS2 (the
-   bridge into the live 13+ set). Then lower KS2.
-2. Each row: full seven beat slides, one Planet Friend host, DiGi closes, assessment jsonb, dsl_note.
+1. Reconcile the sm13 ids with the Section 5 1 to 21 map (schools session decision).
+2. Author EYFS then KS1 then KS2 as public.school_lessons rows (audience teacher), each with full
+   slides to the 017 contract, the Section 9.4 cast host, DiGi closing, assessment jsonb and dsl_note.
    No dashes, never allow or deny, wrong answers get warm feedback.
-3. Add the 20 minute drop in version (part 3) as each is authored.
-4. Surface on the schools /curriculum page, so the pilot count rises from the 13+ set to the full
+3. Tag each row with its scaffold word and CASEL competency per the overlay above.
+4. Add the 20 minute drop in version (part 3) as each is authored.
+5. Surface on the schools /curriculum page, so the pilot count rises from the 13+ set to the full
    Reception to Year 6 pathway.
 
 ## What is needed from a human
-- A yes to the KS1 lesson titles and the scaffold tags above, then the schools session authors the
-  slides.
-- The exact CASEL surfacing decision (filter on the curriculum page, or just data) for part 1.
-- Verify EFCW strand numbers against the 109 to 112 convention before inserting rows.
+- A yes to the scaffold word and CASEL competency per module in the overlay above, then the schools
+  session authors the rows.
+- The CASEL surfacing decision (filter on the curriculum page, or just data) for part 1.
+- A yes on which id scheme wins, sm13 or the Section 5 1 to 21 map, so the primary rows are numbered
+  once and correctly.
