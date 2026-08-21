@@ -65,9 +65,43 @@ export async function getRecommendedScript(
   userId: string,
   stageId: StageId,
   challenge: ChallengeId | null | undefined,
-  opts?: { preferFree?: boolean }
+  opts?: { preferFree?: boolean; childId?: string | null }
 ): Promise<RecommendedScript | null> {
   const today = londonToday()
+
+  // WHOSE signals. Justin, 20 August 2026: scripts "should relate to each
+  // child's issues". Concerns have carried a child since migration 194, check
+  // ins since day one, and completions since 213, and this read them all
+  // family wide, so Teo and Olga got the same recommendation whenever they
+  // shared a stage. When the caller names a child, the concern, dip and
+  // done-already signals are that child's own. A row with no child on it is a
+  // household fact and still counts for everyone; devices and the signup
+  // answer stay family wide because they genuinely are.
+  const childOr = opts?.childId ? `child_id.eq.${opts.childId},child_id.is.null` : null
+
+  let completionsQ = supabase
+    .from('script_completions')
+    .select('script_sort_order, status, not_needed_until')
+    .eq('user_id', userId)
+  if (childOr) completionsQ = completionsQ.or(childOr)
+
+  // Open and improving both count. A concern getting better is still a
+  // concern, and the script that helps is often the one that keeps it going.
+  let concernsQ = supabase
+    .from('concerns')
+    .select('slug, label, times_flagged, last_flagged_at')
+    .eq('user_id', userId)
+    .in('status', ['open', 'improving'])
+  if (childOr) concernsQ = concernsQ.or(childOr)
+
+  // The weekly check in, which this has never read. See checkin-dips.ts: five
+  // scores out of five that a parent sits down and gives us on purpose, and
+  // the recommender was ranking on the strength of owning a tablet instead.
+  let checksQ = supabase
+    .from('wellbeing_checks')
+    .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication')
+    .eq('parent_id', userId)
+  if (childOr) checksQ = checksQ.or(childOr)
 
   const [{ data: scripts }, { data: completions }, { data: concerns }, { data: devices }, { data: checks }] = await Promise.all([
     supabase
@@ -75,17 +109,8 @@ export async function getRecommendedScript(
       .select('sort_order, title, situation, category, is_free')
       .eq('stage_id', stageId)
       .order('sort_order', { ascending: true }),
-    supabase
-      .from('script_completions')
-      .select('script_sort_order, status, not_needed_until')
-      .eq('user_id', userId),
-    // Open and improving both count. A concern getting better is still a
-    // concern, and the script that helps is often the one that keeps it going.
-    supabase
-      .from('concerns')
-      .select('slug, label, times_flagged, last_flagged_at')
-      .eq('user_id', userId)
-      .in('status', ['open', 'improving'])
+    completionsQ,
+    concernsQ
       .order('times_flagged', { ascending: false })
       .order('last_flagged_at', { ascending: false })
       .limit(12),
@@ -95,15 +120,7 @@ export async function getRecommendedScript(
       .eq('user_id', userId)
       .is('retired_at', null)
       .limit(20),
-    // The weekly check in, which this has never read. See checkin-dips.ts: five
-    // scores out of five that a parent sits down and gives us on purpose, and
-    // the recommender was ranking on the strength of owning a tablet instead.
-    // Every child, because a dip is a dip whichever of them it is about and the
-    // scripts are chosen per stage rather than per child anyway.
-    supabase
-      .from('wellbeing_checks')
-      .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication')
-      .eq('parent_id', userId)
+    checksQ
       .order('week_start', { ascending: false })
       .limit(12),
   ])

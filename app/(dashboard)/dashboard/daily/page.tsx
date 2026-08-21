@@ -30,11 +30,26 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
     // Per child since migration 210. Asking by user alone is what made
     // Olgie's day show as done the moment Teo's was.
     supabase.from('daily_sessions').select('completed_at, child_id').eq('user_id', user.id).eq('session_date', today),
-    supabase.from('daily_sessions').select('moment_feedback').eq('user_id', user.id).eq('session_date', yesterday).maybeSingle(),
+    // Not maybeSingle, same reason as today's read one line up: with a row per
+    // child, more than one row is a PostgREST error, the data read as null and
+    // yesterday's flags silently vanished for every family with two children.
+    // The child is picked below, once we know which child the page is about.
+    supabase.from('daily_sessions').select('moment_feedback, child_id').eq('user_id', user.id).eq('session_date', yesterday),
   ])
 
   const child = childResult.child
   const firstName = profileResult.data?.full_name?.split(' ')[0] ?? 'there'
+  // The child's name, for the cards below. A deck with Teo and Olga in the
+  // switcher saying "your child" on every card is about neither of them.
+  const kidName = child?.name && child.name !== 'Your child' ? child.name : null
+  // Say the child's name where the written copy says "your child". The stage
+  // vocabulary shifts as they grow, so the older phrasings are swapped too.
+  const named = (text: string) => kidName
+    ? text
+        .replace(/\byour child\b/g, kidName)
+        .replace(/\byour teenager\b/g, kidName)
+        .replace(/\byour young person\b/g, kidName)
+    : text
   // DONE FOR THIS CHILD, not for the household. Migration 210 gave the table a
   // child, so the answer is "is there a completed row for the child I am
   // looking at", and a legacy row with no child still counts for everybody
@@ -43,7 +58,11 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
   const alreadyDone = sessions.some(r =>
     !!r.completed_at && (r.child_id === (child?.id ?? null) || r.child_id === null))
   const streak = child?.streak_weeks ?? 0
-  const yesterdayMoments: string[] = (yesterdaySession.data?.moment_feedback as string[] | null) ?? []
+  // Yesterday's flags for THIS child, or a household row written before the
+  // sessions went per child, which spoke for everybody when it was written.
+  const yRows = (yesterdaySession.data ?? []) as { moment_feedback: string[] | null; child_id: string | null }[]
+  const yRow = yRows.find(r => r.child_id === (child?.id ?? null)) ?? yRows.find(r => r.child_id === null)
+  const yesterdayMoments: string[] = yRow?.moment_feedback ?? []
   const stage = STAGES.find(s => s.ageBand === (child?.age_band as AgeBand)) ?? STAGES[2]
 
   // Everything they have completed, for the look back card.
@@ -53,10 +72,17 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
   // Justin was seeing. The whole history is read so the card can walk through
   // it, and so a script they said did not work can be brought back on purpose.
   // Twenty is plenty: a rotation longer than that stops feeling like a rotation.
-  const { data: completionRows } = await supabase
+  // THIS child's shelf, not the household's. Completions are per child (key
+  // 219), and the look back card walking through the other child's scripts is
+  // the deck telling a parent about conversations that were not about this
+  // child. A row with no child on it predates the split and counts for
+  // everyone, matching how every per child read treats the legacy rows.
+  let completionsQ = supabase
     .from('script_completions')
     .select('script_sort_order, completed_at, worked')
     .eq('user_id', user.id)
+  if (child?.id) completionsQ = completionsQ.or(`child_id.eq.${child.id},child_id.is.null`)
+  const { data: completionRows } = await completionsQ
     .order('completed_at', { ascending: false })
     .limit(20)
 
@@ -168,6 +194,8 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
   // general card beats no card, but it is now genuinely last.
   const topics = await getMomentTopics(
     supabase, user.id, yesterdayMoments, profileResult.data?.onboarding_answers,
+    // This child's worries drive this child's card. See moment-source.ts.
+    child?.id ?? null,
   )
   let momentTopicSource: 'yesterday' | 'concern' | 'signup' | 'rotation' = 'rotation'
   let momentTopicLabel: string | null = null
@@ -278,7 +306,7 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
     type: 'focus',
     eyebrow: 'Today\'s focus',
     headline: 'One thing, nothing else',
-    body: `If today gets busy and everything else falls away, hold onto this one thing:\n\n${stageChallenge}${challengeExplainer ? `\n\n${challengeExplainer.text}` : ''}\n\nThat is the whole ask. Small, doable, and it compounds.`,
+    body: `If today gets busy and everything else falls away, hold onto this one thing:\n\n${named(stageChallenge)}${challengeExplainer ? `\n\n${challengeExplainer.text}` : ''}\n\nThat is the whole ask. Small, doable, and it compounds.`,
     accent: 'var(--terracotta)',
     icon: '◈',
     action: { label: 'Make it official in your family agreement', href: '/dashboard/agreement' },
@@ -364,7 +392,11 @@ export default async function DailyPage({ searchParams }: { searchParams: Promis
     type: 'question',
     eyebrow: 'A question for today',
     headline: 'Just one thing to notice',
-    body: stageQuestions[dayIndex % stageQuestions.length],
+    // The child's name in the question itself. "Do you know what Teo did
+    // online yesterday" is a question about a person; "your child" is a
+    // question about a category, and with two names in the switcher it does
+    // not even say which one.
+    body: named(stageQuestions[dayIndex % stageQuestions.length]),
     accent: 'var(--terracotta)',
     icon: '?',
   })

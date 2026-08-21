@@ -30,11 +30,15 @@ export default function ScriptFinder({
   scripts,
   isPaid,
   initialQuery = '',
+  childId = null,
 }: {
   scripts: Lite[]
   isPaid: boolean
   /** What the parent asked DiGi, so the answer is already on screen. */
   initialQuery?: string
+  /** The child the page is about, carried into every result link so the
+   *  reader's tick lands on the right child. Null keeps the clean URL. */
+  childId?: string | null
 }) {
   const [q, setQ] = useState(initialQuery)
   const [asked, setAsked] = useState(false)
@@ -92,7 +96,7 @@ export default function ScriptFinder({
             return (
               <Link
                 key={s.sort_order}
-                href={locked ? '/dashboard/upgrade' : `/dashboard/scripts/${s.sort_order}`}
+                href={locked ? '/dashboard/upgrade' : `/dashboard/scripts/${s.sort_order}${childId ? `?child=${childId}` : ''}`}
                 style={{ display: 'flex', alignItems: 'center', gap: '10px', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '12px', padding: '11px 13px', textDecoration: 'none' }}
               >
                 <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>💬</span>

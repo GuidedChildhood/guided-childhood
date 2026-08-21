@@ -143,7 +143,7 @@ export async function getTodayLoop(
     // null and every child's day read as not started. A legacy row with no
     // child still counts for everybody, which is what it meant when written.
     supabase.from('daily_sessions').select('completed_at, cards_completed, child_id').eq('user_id', userId).eq('session_date', today),
-    getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
+    getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid, childId: child?.id ?? null }),
     // THIS child's script today (or a household row), so Jody's bedtime read
     // ticks Jody's day and Tray's stays open. Key per child since 219.
     supabase.from('script_completions').select('id, child_id').eq('user_id', userId).gte('completed_at', dayStart).limit(10),
@@ -559,7 +559,7 @@ export async function getDailyTasks(
     // null and every child's day read as not started. A legacy row with no
     // child still counts for everybody, which is what it meant when written.
     supabase.from('daily_sessions').select('completed_at, cards_completed, child_id').eq('user_id', userId).eq('session_date', today),
-    getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid }),
+    getRecommendedScript(supabase, userId, stageId, challenge, { preferFree: !isPaid, childId }),
     // THIS child's script today (or a household row), so Jody's bedtime read
     // ticks Jody's day and Tray's stays open. Key per child since 219.
     supabase.from('script_completions').select('id, child_id').eq('user_id', userId).gte('completed_at', dayStart).limit(10),

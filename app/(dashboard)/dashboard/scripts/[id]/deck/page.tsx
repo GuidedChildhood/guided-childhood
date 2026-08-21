@@ -50,12 +50,16 @@ export default async function DeckPage({
     redirect('/dashboard/upgrade')
   }
 
+  // Any row means opened. Not .single(): the key is per child (219), so a
+  // script both children have rows for made this error and read as never
+  // opened.
   const { data: completion } = await supabase
     .from('script_completions')
     .select('id')
     .eq('user_id', user.id)
     .eq('script_sort_order', sortOrder)
-    .single()
+    .limit(1)
+    .maybeSingle()
 
   return (
     <DeckViewer

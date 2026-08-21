@@ -162,6 +162,21 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
   const matchCategory = challenge ? CHALLENGE_TO_CATEGORY[challenge] : null
   const currentStageId = (child?.stage_id as StageId) ?? null
 
+  // THE CHILD TRAVELS WITH EVERY LINK, and this is the whole per child fix.
+  //
+  // ?child= is the single source of truth for which child a page is about
+  // (lib/children/current.ts), and the script reader's read tick, its status
+  // buttons and its "note for" name all resolve the child from the URL they
+  // are on. Every link out of this page used to drop the param, so a parent
+  // who switched to Olga and opened a script marked TEO's day: the switcher
+  // moved the pills and the very next tap threw the choice away.
+  //
+  // Matches the switcher's own rule: the primary child keeps the clean URL,
+  // so nothing changes for a one child family or an unswitched visit.
+  const childQS = childParam && child && !child.is_primary ? child.id : null
+  const withChild = (href: string) =>
+    childQS ? `${href}${href.includes('?') ? '&' : '?'}child=${childQS}` : href
+
   // Handoff from a moment card: when the deck sends the parent here with a
   // topic, the scripts for that exact moment lead the page as the yellow Good
   // Inside numbered list, so the loop closes on the relevant words, not a
@@ -179,8 +194,11 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     : []
   const topicLabel = topicKey ? (CATEGORY_META[topicKey]?.label ?? topicKey.replace(/_/g, ' ')) : null
 
+  // The recommendation is about THIS child: their stage, and since 20 August
+  // 2026 their own concerns and check ins too, so switching the pills changes
+  // the pick rather than only the shelf it sits on.
   const recommended = currentStageId
-    ? await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null, { preferFree: !isPaid })
+    ? await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null, { preferFree: !isPaid, childId: child?.id ?? null })
     : null
 
   // The chip row. Counted from the real library rather than from the eight
@@ -255,6 +273,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         scripts={scripts.map(s => ({ sort_order: s.sort_order, title: s.title, situation: s.situation, category: s.category, is_free: s.is_free }))}
         isPaid={isPaid}
         initialQuery={(q ?? '').slice(0, 140)}
+        childId={childQS}
       />
 
       {/* The other direction.
@@ -309,7 +328,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
               return (
                 <Link
                   key={script.id}
-                  href={isLocked ? '/dashboard/upgrade' : `/dashboard/scripts/${script.sort_order}`}
+                  href={isLocked ? '/dashboard/upgrade' : withChild(`/dashboard/scripts/${script.sort_order}`)}
                   style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '18px 18px', textDecoration: 'none', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px' }}
                 >
                   <span style={{ flexShrink: 0, width: 34, height: 34, borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--stage-1-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)' }}>
@@ -329,7 +348,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
 
       {recommended && (
         <Link
-          href={`/dashboard/scripts/${recommended.sort_order}`}
+          href={withChild(`/dashboard/scripts/${recommended.sort_order}`)}
           style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}
         >
           <div style={{ background: 'var(--terracotta)', borderRadius: '16px', padding: '18px 20px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
@@ -410,7 +429,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           return (
             <Link
               key={c.key ?? 'all'}
-              href={c.key ? `/dashboard/scripts?cat=${c.key}` : '/dashboard/scripts'}
+              href={withChild(c.key ? `/dashboard/scripts?cat=${c.key}` : '/dashboard/scripts')}
               scroll={false}
               style={{
                 flexShrink: 0, textDecoration: 'none', borderRadius: 100,
@@ -455,7 +474,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: 0 }}>
             Your pathway fills in as you read these. Reach the end of one and it counts. Tell us you used it, or that it does not apply, and it counts for more, because the conversation is the thing and only you can tell us it happened.
           </p>
-          <Link href="/dashboard/scripts" style={{ display: 'inline-block', marginTop: 8, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+          <Link href={withChild('/dashboard/scripts')} style={{ display: 'inline-block', marginTop: 8, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
             See every stage →
           </Link>
         </div>
@@ -514,7 +533,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
               return (
                 <BrowseTile
                   key={script.id}
-                  href={isLocked ? '/dashboard/upgrade' : `/dashboard/scripts/${script.sort_order}`}
+                  href={isLocked ? '/dashboard/upgrade' : withChild(`/dashboard/scripts/${script.sort_order}`)}
                   stageNum={group.meta.num}
                   title={script.title}
                   sub={cat?.label ?? script.category}

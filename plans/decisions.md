@@ -8472,3 +8472,29 @@ Cosmo) with DiGi and DiGi Junior. Supersedes the earlier note today that left
 that swap to the separate schools PR. Still owned by the schools session: the
 schools app code, the lesson rows, and rendering each Friend's classroom video
 beats from the parents app art.
+
+---
+
+## 20 August 2026: per child means the signals too, not just the stage
+
+Justin checked the Teo and Olga pills against scripts and moments: the pages
+switched stage but every child got the same starting point, and the reader
+named the primary child whoever was open. The decision, from his "it should
+relate to each child's issues, moments all child specific":
+
+1. ?child= travels with every script link. It was already the single source
+   of truth for writes (ticks, status, worked), but every link out of the
+   scripts index dropped it, so reading with Olga marked Teo's day. The
+   primary child keeps the clean URL, matching the switcher.
+2. getRecommendedScript and the deck's watch for card read the named child's
+   own concerns, check ins and completions. A row with no child on it is a
+   household fact and counts for every child. Devices and the signup answer
+   stay family wide because they are.
+3. Daily cards say the child's name where the copy said your child.
+4. Rule for multi row reads on tables with the per child key (219): never
+   single or maybeSingle by user and sort order alone; read the rows and pick
+   this child's, then the legacy null child row. Three reads had this fault
+   and each failed soft to a wrong answer.
+
+Lane: this PR owns the scripts surfaces and the daily deck reads. DiGi's own
+child naming (tools, prompts per child scan) landed separately in PR 898.

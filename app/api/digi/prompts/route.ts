@@ -177,7 +177,7 @@ export async function GET() {
       ? getStageProgress(supabase, user.id, child.stage_id as StageId, child.streak_weeks ?? 0, child.id).catch(() => null)
       : Promise.resolve(null),
     child.stage_id
-      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, (challenge as never) ?? null, { preferFree: !hasFullAccess(profile, user.email) }).catch(() => null)
+      ? getRecommendedScript(supabase, user.id, child.stage_id as StageId, (challenge as never) ?? null, { preferFree: !hasFullAccess(profile, user.email), childId: child.id ?? null }).catch(() => null)
       : Promise.resolve(null),
   ])
 

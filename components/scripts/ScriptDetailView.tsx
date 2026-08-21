@@ -49,6 +49,13 @@ type Props = {
   /** Arrived from the road or the passport, so the exits point back there. */
   backToPathway?: boolean
   stageSlug?: string | null
+  /**
+   * The ?child= this page was opened with, threaded into every script link so
+   * the choice survives Previous, Next and the deck. The read tick and the
+   * status buttons both resolve the child from the URL they are on, so a link
+   * that drops the param quietly hands the tick to the primary child.
+   */
+  childIdParam?: string | null
   prevScript: NavScript
   nextScript: NavScript
   depthInitial: { ifTheyPushBack?: string; checkBack?: string; forYourChild?: string }
@@ -67,10 +74,12 @@ const chip: React.CSSProperties = {
 export default function ScriptDetailView({
   script, sortOrder, showBanNote, voiceUrl, isPaid,
   childName, childPhone, childId, childHasApp, workedRating, scriptStatus,
-  backToPathway = false, stageSlug = null,
+  backToPathway = false, stageSlug = null, childIdParam = null,
   prevScript, nextScript, depthInitial, rehearseFixture,
 }: Props) {
   const stageMeta = STAGE_META[script.stage_id] ?? STAGE_META.foundation
+  const withChild = (href: string) =>
+    childIdParam ? `${href}${href.includes('?') ? '&' : '?'}child=${childIdParam}` : href
 
   return (
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '24px 20px 56px' }}>
@@ -81,13 +90,13 @@ export default function ScriptDetailView({
             pathway here and is handed "All scripts" has been quietly moved to
             a different place from the one they were in. */}
         <Link
-          href={backToPathway ? '/dashboard/pathway' : '/dashboard/scripts'}
+          href={backToPathway ? '/dashboard/pathway' : withChild('/dashboard/scripts')}
           style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
         >
           {backToPathway ? '← Back to the pathway' : '← All scripts'}
         </Link>
         <Link
-          href={`/dashboard/scripts/${sortOrder}/deck`}
+          href={withChild(`/dashboard/scripts/${sortOrder}/deck`)}
           className="btn btn-green"
           style={{ padding: '8px 16px', fontSize: 'var(--text-sm)' }}
         >
@@ -132,7 +141,7 @@ export default function ScriptDetailView({
             evening best, so the way to search for a better fitting one is always
             one tap away, right here on the pick. */}
         <div style={{ marginTop: '16px' }}>
-          <Link href="/dashboard/scripts" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+          <Link href={withChild('/dashboard/scripts')} style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
             Not the right words for tonight? Search all scripts →
           </Link>
         </div>
@@ -236,7 +245,7 @@ export default function ScriptDetailView({
         <div style={{ display: 'flex', gap: '10px' }}>
           {prevScript ? (
             <Link
-              href={`/dashboard/scripts/${prevScript.sort_order}`}
+              href={withChild(`/dashboard/scripts/${prevScript.sort_order}`)}
               style={{ ...card, borderRadius: 16, flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}
             >
               <span style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>← Previous</span>
@@ -244,7 +253,7 @@ export default function ScriptDetailView({
             </Link>
           ) : (
             <Link
-              href="/dashboard/scripts"
+              href={withChild('/dashboard/scripts')}
               style={{ ...card, borderRadius: 16, flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', minWidth: 0 }}
             >
               <span style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>All topics</span>
@@ -254,7 +263,7 @@ export default function ScriptDetailView({
 
           {nextScript && (
             <Link
-              href={`/dashboard/scripts/${nextScript.sort_order}`}
+              href={withChild(`/dashboard/scripts/${nextScript.sort_order}`)}
               style={{ ...card, borderRadius: 16, flex: 1, padding: '14px 16px', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'right', minWidth: 0 }}
             >
               <span style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--terracotta-dark)' }}>Next →</span>
@@ -271,7 +280,7 @@ export default function ScriptDetailView({
             stage or the road itself, and neither is the daily home page. */}
         {backToPathway && stageSlug && (
           <Link
-            href={`/dashboard/scripts/next?stage=${stageSlug}`}
+            href={withChild(`/dashboard/scripts/next?stage=${stageSlug}`)}
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               background: '#fff', color: 'var(--ink)', textDecoration: 'none',
