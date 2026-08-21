@@ -8,7 +8,7 @@ import type { MonthPace } from '@/lib/balance/pace'
 import { SCHOOL_EVENTS, yearGroupFromDob } from '@/lib/learning/calendar'
 import { transitionFor } from '@/lib/learning/transition'
 import {
-  bandedWrapper, eyebrow, friendMark, h1, linkList, rule, sectionHead, tickList, p as bp,
+  bandedWrapper, eyebrow, friendMark, h1, linkList, rule, sectionHead, tickList, p as bp, verb,
   type Band,
 } from '@/lib/email/blocks'
 import { emailFriend } from '@/lib/email/friends'
@@ -121,7 +121,7 @@ export function welcomeEmail(params: {
     html: wrapper(
       heading(`Thank you for joining, ${parentName}.`) +
       p(`You started before the next screen fight rather than after it, which is the hard part and you have done it.`) +
-      p(`<strong>Here is where this goes.</strong> By sixteen, ${childName} is safe online and ready for social media, because they have been walked there a step at a time instead of handed a phone and hoped for.`) +
+      p(`<strong>Here is where this goes.</strong> By sixteen, ${childName} ${verb(childName, 'is', 'are')} safe online and ready for social media, because they have been walked there a step at a time instead of handed a phone and hoped for.`) +
       p(`<strong>It takes ten minutes a day.</strong> A small thing each day, matched to their stage. Not a course, not fifty pages, and nothing to catch up on if you miss a day.`) +
       p(`What is waiting for you inside:`) +
       bullets([
@@ -154,7 +154,7 @@ export function day2StageEmail(params: {
   return {
     subject: `What the ${stageName} stage is really about`,
     html: wrapper(
-      heading(`${childName} is in the ${stageName} stage.`) +
+      heading(`${childName} ${verb(childName, 'is', 'are')} in the ${stageName} stage.`) +
       (friend ? friendMark({
         src: friend.src,
         alt: friend.alt,
@@ -263,7 +263,7 @@ export function childPhoneEmail(params: { childName: string; unsubscribe: string
     subject: `Give ${childName} their own version`,
     html: wrapper(
       heading(`${childName} can have their own app.`) +
-      p(`It is the piece parents tell us changes the mood at home the most. ${childName} opens their own screen and sees their jobs, ticks them off, and watches their stars grow into screen time they earned.`) +
+      p(`It is the piece parents tell us changes the mood at home the most. ${childName} ${verb(childName, 'opens', 'open')} their own screen and ${verb(childName, 'sees', 'see')} their jobs, ${verb(childName, 'ticks', 'tick')} them off, and ${verb(childName, 'watches', 'watch')} their stars grow into screen time they earned.`) +
       p(`No app store, no logins, nothing to install. You hold up a code, they point their tablet or phone at it, and they are in. You approve everything from your side, and there is nothing they can break.`) +
       button('Set up their app', `${APP}/dashboard/quests`) +
       p(`For a little one with no device, the same app opens on your phone and you do it together.`),
@@ -279,7 +279,7 @@ export function screenTimeEmail(params: { childName: string; unsubscribe: string
     subject: 'Screen time, without the fight',
     html: wrapper(
       heading(`Turn screen time into something earned.`) +
-      p(`The daily battle usually comes from screens being a thing you give or take away. Family Quests flips it: ${childName}'s everyday jobs earn stars, stars buy the minutes you both agreed, and ${childName} chooses when to spend them.`) +
+      p(`The daily battle usually comes from screens being a thing you give or take away. Family Quests flips it: ${childName}'s everyday jobs earn stars, stars buy the minutes you both agreed, and ${childName} ${verb(childName, 'chooses', 'choose')} when to spend them.`) +
       p(`No timer standoff, no nagging. When the time is up, their own screen says so, and yours gets a quiet heads up too. When they have run out, the answer is never a telling off, it is do another job.`) +
       button('Set up quests and screen time', `${APP}/dashboard/quests`) +
       p(`This is the bit backed by the research on self regulation: a child who earns and spends their own time learns to manage it.`),
@@ -983,7 +983,7 @@ export function passportRevealEmail(params: {
       (friend ? friendMark({
         src: friend.src,
         alt: friend.alt,
-        line: `${friend.name} is the Friend ${childName} is working through now. Each stage has one, and they stay on the passport once earned.`,
+        line: `${friend.name} is the Friend ${childName} ${verb(childName, 'is', 'are')} working through now. Each stage has one, and they stay on the passport once earned.`,
       }) : '') +
       p(`Every job done, lesson learned and calm screen off earns ${childName} a stamp on their passport, the one map that runs from their first safe steps to full readiness at 16.`) +
       p(`It is the clearest way to see the childhood you are building, one small win at a time. Take a look at where you are.`) +
@@ -1087,8 +1087,8 @@ export function backToSchoolEmail(params: {
   // guessed when we do not, because "your child's new year" to a parent whose
   // birthday we never collected reads as a product that is not paying attention.
   const yearLine = yearGroup !== null && yearGroup >= 1 && yearGroup <= 11
-    ? `${childName} goes into Year ${yearGroup} in September.`
-    : `${childName} goes back in September.`
+    ? `${childName} ${verb(childName, 'goes', 'go')} into Year ${yearGroup} in September.`
+    : `${childName} ${verb(childName, 'goes', 'go')} back in September.`
 
   // The two white sections, built first so the assembly below can decide
   // whether they are one band or two.
@@ -1207,14 +1207,14 @@ export function curriculumStrandsEmail(params: {
   const { childName, keyStage, unsubscribe } = params
   const ks = keyStage ? `, alongside the Key Stage it lines up with (${keyStage} for ${childName} right now)` : ''
   return {
-    subject: `What ${childName} is actually being taught`,
+    subject: `What ${childName} ${verb(childName, 'is', 'are')} actually being taught`,
     html: wrapper(
       heading('There is a spine under the lessons.') +
       p(`The lessons are not a pile of good ideas. Every one of them sits on a strand of Education for a Connected World, the UKCIS framework schools use to plan online safety. There are eight, and between them they cover the whole of growing up online:`) +
       bullets([...EFCW_STRANDS]) +
-      p(`Open any lesson and you will see which strand it belongs to${ks}. That is how you can tell at a glance what ground ${childName} has covered and what is still ahead.`) +
+      p(`Open any lesson and you will see which strand it belongs to${ks}. That is how you can tell at a glance what ground ${childName} ${verb(childName, 'has', 'have')} covered and what is still ahead.`) +
       button('See the lessons', `${APP}/dashboard/lessons`) +
-      p(`One thing I want to be straight about: this is not your school's scheme of work and it does not replace it. It walks the same recognised ground, so nothing ${childName} learns here is off on its own somewhere.`),
+      p(`One thing I want to be straight about: this is not your school's scheme of work and it does not replace it. It walks the same recognised ground, so nothing ${childName} ${verb(childName, 'learns', 'learn')} here is off on its own somewhere.`),
       unsubscribe
     ),
   }
@@ -1257,14 +1257,14 @@ export function curriculumSchoolEmail(params: {
       ]
 
   const after = primary
-    ? p(`Gentle ground, and ${childName} is already walking it here. The heavier topics arrive years later, and they are mapped on the pathway so you can see them coming rather than meeting them the week school sends the letter.`)
+    ? p(`Gentle ground, and ${childName} ${verb(childName, 'is', 'are')} already walking it here. The heavier topics arrive years later, and they are mapped on the pathway so you can see them coming rather than meeting them the week school sends the letter.`)
     : p(`That is a heavy list to meet for the first time in a school hall, in one go, with two hundred other children watching your reaction.`)
 
   return {
     subject: 'What school has to teach from September',
     html: wrapper(
       heading('From September the rules change.') +
-      p(`New statutory guidance for relationships and health education becomes compulsory in English schools on 1 September 2026. Here is the part of it ${childName} meets ${primary ? 'at their age' : 'at this stage'}:`) +
+      p(`New statutory guidance for relationships and health education becomes compulsory in English schools on 1 September 2026. Here is the part of it ${childName} ${verb(childName, 'meets', 'meet')} ${primary ? 'at their age' : 'at this stage'}:`) +
       bullets(items) +
       after +
       p(`The lessons here go at ${childName}'s pace, one idea at a time, pitched at the ${stageName} stage and no further. Nothing lands before it should. By the time a topic comes up at school it is a second conversation rather than a first one, and you already know what was said.`) +
@@ -1523,7 +1523,7 @@ export function paidCommonQuestionsEmail(params: {
       bullets([
         `<strong>My child moved up an age band, do I redo everything?</strong> No. Change their age in settings and the stage, scripts and lessons all follow. The passport keeps every stamp.`,
         `<strong>Can both parents have it?</strong> Yes. Same login, and the agreement is built to be signed by whoever is in the room.`,
-        `<strong>${childName} says the app is babyish.</strong> Usually the age band is set low. It is the most common fix and it takes ten seconds.`,
+        `<strong>${childName} ${verb(childName, 'says', 'say')} the app is babyish.</strong> Usually the age band is set low. It is the most common fix and it takes ten seconds.`,
         `<strong>How do I cancel?</strong> Settings, then Manage your plan. Two taps, no phone call, and no three screens of reasons to stay. Your data stays until you ask me to delete it, and then it goes.`,
       ]) +
       button('Open settings', `${APP}/dashboard/settings#billing`) +
@@ -1583,7 +1583,7 @@ export function paidChildSideEmail(params: {
     subject: `What this looks like from ${childName}'s phone`,
     html: wrapper(
       heading('You have never seen their version.') +
-      p(`Everything I send you is about your side of the glass. ${childName} has a completely separate app, and most parents never see it, so here is what is actually on it.`) +
+      p(`Everything I send you is about your side of the glass. ${childName} ${verb(childName, 'has a completely separate app', 'have their own separate app each')}, and most parents never see it, so here is what is actually on it.`) +
       bullets([
         `<strong>Their path.</strong> The same pathway you see, drawn as a road they walk, with the next step lit and the ones after it waiting.`,
         `<strong>Their jobs and their stars.</strong> They tick, you approve. The stars buy screen time you both already agreed to, so the negotiation happened once instead of every day.`,
@@ -1611,7 +1611,7 @@ export function paidTellYouEmail(params: {
     html: wrapper(
       heading('Every other script is you starting.') +
       p(`Scripts, DiGi, the agreement, all of it is you opening a conversation. There is one tool here that works the other way round, and it is the one I would most want a family to have set up before they need it.`) +
-      p(`${childName} has words in their own app for telling you something has gone wrong online. Something they saw, something someone said, something they did and wish they had not. It gives them the sentence, because at eleven the problem is almost never that they do not want to tell you. It is that they cannot find the words and they are frightened of your face.`) +
+      p(`${childName} ${verb(childName, 'has', 'have')} words in their own app for telling you something has gone wrong online. Something they saw, something someone said, something they did and wish they had not. It gives them the sentence, because at eleven the problem is almost never that they do not want to tell you. It is that they cannot find the words and they are frightened of your face.`) +
       p(`It comes with a promise about how you will react, and your side of that promise is written down for you to read first. That is the part that matters. A child who thinks the phone gets taken away tells you nothing, and then you find out in a much worse way, much later.`) +
       button('Read the promise', `${APP}/dashboard/tell-a-parent`) +
       p(`Five minutes now, and it sits there quietly for years. I hope it never gets used.`),
@@ -1632,7 +1632,7 @@ export function paidReadAheadEmail(params: {
     subject: 'You can read the next four years',
     html: wrapper(
       heading('Your plan is not locked to today.') +
-      p(`${childName} is in the ${stageName} stage, so that is what the app shows you. But you paid for all five, and the other four are sitting there unlocked right now.`) +
+      p(`${childName} ${verb(childName, 'is', 'are')} in the ${stageName} stage, so that is what the app shows you. But you paid for all five, and the other four are sitting there unlocked right now.`) +
       bullets([
         `<strong>Foundation, 4 to 7.</strong> First relationships with technology, before habits form.`,
         `<strong>Builder, 8 to 10.</strong> Building digital habits before the algorithm learns them.`,
@@ -1684,7 +1684,7 @@ export function paidWholeFamilyEmail(params: {
       p(`They get their own everything: their own stage, their own jobs and stars, their own lessons at their own age, their own passport. Not a shared list with names next to it, which is how siblings end up measured against each other by an app that should know better.`) +
       p(`The reason this matters more than it sounds: the advice for a seven year old and a thirteen year old is genuinely opposite in places. What is right for the younger one is often the exact thing that damages trust with the older one. Two separate stages means DiGi answers for the child you are actually asking about rather than averaging them into a family.`) +
       button('Add a child', `${APP}/dashboard/settings`) +
-      p(`And if ${childName} is your only one, ignore this. Nothing is missing.`),
+      p(`And if ${childName} ${verb(childName, 'is your only one', 'are the only ones')}, ignore this. Nothing is missing.`),
       unsubscribe
     ),
   }
