@@ -131,7 +131,15 @@ export async function deliverOnce(
   const sent = await sendEmail({ to: email, subject: content.subject, html: content.html, key })
   if (sent.ok) return 'sent'
   await supabase.from('email_log').delete().eq('user_id', userId).eq('email_key', key)
-  return 'failed'
+  // The shared one a week floor (lib/email/address-guard.ts) is a decision, not
+  // an error: it means another programme already reached this address inside
+  // six days, and the digest or monthly review will pick them up tomorrow, once
+  // the floor clears. Counting that as 'failed' hid a real fault: found 22
+  // August, this address's weekly digest reported due 1, failed 1 every single
+  // day for six days running because a different lifecycle email kept resetting
+  // the floor, and nothing in cron_runs looked wrong because the top level body
+  // still had no `error` key. 'skipped' is what a throttle is.
+  return sent.skipped ? 'skipped' : 'failed'
 }
 
 /** Shared auth gate for every email cron. */
