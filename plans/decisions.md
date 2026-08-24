@@ -8539,3 +8539,53 @@ digest would have hit the same wall and shown up as a plain, invisible
 "failed", never flagged, never retried into a report anyone reads. Worth
 watching once real families are on lifecycle mail and the digest at the same
 time.
+---
+
+## 21 August 2026 — Daily health sweep: the three silent crons are still silent
+
+Routine sweep. Supabase and GitHub both reachable, checked first.
+
+Schema clean, all eleven watched columns present. No open pull requests to
+collide with, nothing to claim.
+
+The three jobs flagged on 19 August have not moved. Confirmed again today,
+same method (cron_job_status against the path in vercel.json, not a capped
+read):
+
+- `/api/cron/legal-watch`, quarterly on the 3rd. Zero rows ever, in any name.
+  Jul 3 slot now 49 days gone.
+- `/api/cron/passport-check`, monthly on the 1st. Zero rows ever. Jul 1 and
+  Aug 1 both gone.
+- `/api/cron/answer-review`, monthly on the 2nd. Still exactly one row total,
+  filed 2 August under the old key `answer-review` with no leading slash. The
+  route today writes `/api/cron/answer-review`, so that key has zero rows,
+  still. Next slot is 2 September; that is the first date this can move on
+  its own, so nothing to chase again before then.
+
+Not touched here, same reasoning as 19 August: `withHeartbeat` writes a row
+the instant a request lands, before the secret is even checked, so a call
+that reached the app leaves a trace no matter what it did with it. Zero trace
+across three jobs means Vercel's scheduler is not calling them, which is a
+Vercel Cron Jobs tab question, not a line of code in this repo. Still needs
+Justin to open it and check whether these three are listed and enabled.
+
+Cost, unchanged and now two months and a bit running: no quarterly legal
+check since before this file existed, no monthly passport nudge to any
+child's app, no monthly self critique of DiGi's answers.
+
+`/api/cron/invoice-requests` shows 2 failures in the last 7 days on the
+cron_job_status count, but both are the 14 August schema cache and permission
+errors from the schools.invoice_requests move, already understood and already
+past; every run since, including today's, is clean. Not a new fault.
+
+Advisors: security unchanged in shape from prior sweeps, all INFO or WARN,
+nothing at ERROR, same RLS-no-policy and search-path notes on ops-only
+tables. Performance advisor came back large enough to need a subagent pass;
+of 622 findings, 505 are the known multiple-permissive-policies and
+auth-rls-initplan pair, and the rest are unindexed foreign keys (82), unused
+indexes (34) and one table with no primary key (`schools._backup_lesson_199`,
+a backup table, unsurprising). All INFO level, none urgent, worth a look
+sometime but not a break for a family today.
+
+Nothing fixed here: schema is fine, no new code fault turned up, and the one
+real gap is outside this repo. No pull request opened.

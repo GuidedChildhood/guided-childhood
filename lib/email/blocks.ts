@@ -118,6 +118,18 @@ export function paint(bands: Band[], tone: 1 | 2 | 3 | 4 | 5 = 2): { tone: Tone;
     .filter(b => b.html.trim())
 }
 
+// A child name field can hold more than one child, because onboarding takes
+// whatever the parent types ("Jonny and Suzzie" is real data, seen 21 Aug 2026
+// in a welcome email reading "Jonny and Suzzie is safe online"). Copy already
+// uses they/their/them throughout, which covers both counts; only verbs bend.
+export function namesSeveralChildren(name: string): boolean {
+  return /\s(and|&)\s|,/i.test(name)
+}
+
+export function verb(name: string, one: string, several: string): string {
+  return namesSeveralChildren(name) ? several : one
+}
+
 export function button(label: string, url: string): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:24px 0 4px"><tr><td style="background:${BUTTER};border-radius:16px;box-shadow:0 5px 0 ${BUTTER_DARK}">
     <a href="${url}" style="display:inline-block;padding:15px 30px;font-family:${MONO};font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:${INK};text-decoration:none">${label}</a>

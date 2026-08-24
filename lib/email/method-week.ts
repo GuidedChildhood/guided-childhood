@@ -36,7 +36,7 @@
 // one. Everything about our own product is checkable in the app today.
 
 import {
-  bandedWrapper, button, eyebrow, h1, rule, sectionHead, tickList,
+  bandedWrapper, button, eyebrow, h1, rule, sectionHead, tickList, verb,
   p as bp, type Band,
 } from './blocks'
 import type { EmailContent } from './templates'
@@ -78,7 +78,7 @@ export function methodTimerEmail(params: { childName?: string | null; unsubscrib
           'When it ends, it ends. A timer you override twice is a timer nobody believes again',
         ]) +
         button('Set up the timer', `${APP}/dashboard/quests`) +
-        bp(`One thing to do today: the next time ${name} picks up a device, start the timer first. Nothing else has to change this week.`),
+        bp(`One thing to do today: the next time ${name} ${verb(name, 'picks', 'pick')} up a device, start the timer first. Nothing else has to change this week.`),
     },
   ]
   return {
