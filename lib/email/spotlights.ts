@@ -1,5 +1,6 @@
 import type { AgeBand } from '@/lib/content/stages'
 import { APP_ORIGIN } from '@/lib/config/site'
+import { namesSeveralChildren } from '@/lib/email/blocks'
 
 // One service a week, named in the weekly digest.
 //
@@ -43,7 +44,7 @@ export const SPOTLIGHTS: Spotlight[] = [
   {
     key: 'holiday-slack',
     title: 'More screen time in the holidays is not you failing',
-    body: `School holidays are longer days with fewer places to be, and the screen fills some of that. It is meant to. A week where {child} has more time than term time is not a slipped rule, it is a different week, and treating it as a failure only makes you the enemy of your own plan. Loosen it on purpose, say out loud that it is on purpose, and put it back when term starts. That is a pathway, not a wobble.`,
+    body: `School holidays are longer days with fewer places to be, and the screen fills some of that. It is meant to. A week where {child} {has} more time than term time is not a slipped rule, it is a different week, and treating it as a failure only makes you the enemy of your own plan. Loosen it on purpose, say out loud that it is on purpose, and put it back when term starts. That is a pathway, not a wobble.`,
     cta: 'See this week',
     href: `${APP}/dashboard/stats`,
     addedAt: '2026-07-30',
@@ -59,7 +60,7 @@ export const SPOTLIGHTS: Spotlight[] = [
   },
   {
     key: 'school-curriculum',
-    title: `What ${'{child}'} is actually being taught this term`,
+    title: `What ${'{child}'} ${'{is}'} actually being taught this term`,
     body: `Your school is linked, so we can tell you what is coming rather than you finding out the night before. What the year covers, what is expected at this age, and when the pressure points land. Knowing SATs are six weeks out is the difference between spotting the change in a child and being surprised by it.`,
     cta: 'See the curriculum',
     href: `${APP}/dashboard/school`,
@@ -69,7 +70,7 @@ export const SPOTLIGHTS: Spotlight[] = [
   {
     key: 'passport',
     title: 'The passport is the receipt for all of it',
-    body: `Every script you have used, every lesson {child} has done, every agreement you have made together. It is the one place that shows how far you have come, and it is worth opening when a hard week makes it feel like nothing has changed. It usually has.`,
+    body: `Every script you have used, every lesson {child} {has} done, every agreement you have made together. It is the one place that shows how far you have come, and it is worth opening when a hard week makes it feel like nothing has changed. It usually has.`,
     cta: 'Open the passport',
     href: `${APP}/dashboard/pathway`,
     addedAt: '2026-07-30',
@@ -93,14 +94,14 @@ export const SPOTLIGHTS: Spotlight[] = [
   {
     key: 'balance',
     title: 'It is the type of screen, not the total',
-    body: `An hour of building something and an hour of scrolling do very different things to a child, and a single number cannot tell them apart. The balance view splits it, so you can see what {child} is actually doing rather than only how long.`,
+    body: `An hour of building something and an hour of scrolling do very different things to a child, and a single number cannot tell them apart. The balance view splits it, so you can see what {child} {is} actually doing rather than only how long.`,
     cta: 'See the balance',
     href: `${APP}/dashboard/stats`,
     addedAt: '2026-07-30',
   },
   {
     key: 'lessons',
-    title: `The lessons ${'{child}'} does without you`,
+    title: `The lessons ${'{child}'} ${'{does}'} without you`,
     body: `Short, made for their age, and they do them on their own. It is the part of this that does not need you in the room, which on some weeks is the whole point.`,
     cta: 'See the lessons',
     href: `${APP}/dashboard/lessons`,
@@ -149,8 +150,16 @@ export function pickSpotlight(ctx: SpotlightContext, alreadyShown: Set<string>):
   return candidates[0] ?? null
 }
 
-/** {child} filled in, so the copy reads as being about their child. */
+/** {child} filled in, so the copy reads as being about their child. Verb
+ * tokens ({is}, {has}, {does}) follow the name, because a name field can hold
+ * more than one child ("Jonny and Suzzie") and "Jonny and Suzzie is" reads as
+ * a mistake in the parent's inbox. */
 export function renderSpotlight(s: Spotlight, childName: string): { title: string; body: string; cta: string; href: string } {
-  const fill = (t: string) => t.replace(/\{child\}/g, childName)
+  const several = namesSeveralChildren(childName)
+  const fill = (t: string) => t
+    .replace(/\{child\}/g, childName)
+    .replace(/\{is\}/g, several ? 'are' : 'is')
+    .replace(/\{has\}/g, several ? 'have' : 'has')
+    .replace(/\{does\}/g, several ? 'do' : 'does')
   return { title: fill(s.title), body: fill(s.body), cta: s.cta, href: s.href }
 }
