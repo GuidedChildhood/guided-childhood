@@ -8499,6 +8499,46 @@ relate to each child's issues, moments all child specific":
 Lane: this PR owns the scripts surfaces and the daily deck reads. DiGi's own
 child naming (tools, prompts per child scan) landed separately in PR 898.
 
+## 22 August 2026 — Daily health sweep: digest reported failed 1 every day for a week, silently
+
+Routine sweep. Schema clean, all eleven watched columns present. Advisors
+unchanged in shape from prior sweeps: same RLS-no-policy and search-path
+warnings on ops-only tables, same multiple-permissive-policy and
+auth-rls-initplan performance notes across the RLS policies, nothing new.
+
+legal-watch, passport-check and answer-review are still silent under their
+real cron_runs key, same as the 19 and 21 August sweeps found. Already open
+as PR 900, so left alone rather than duplicated. Still waiting on Justin to
+check the Vercel dashboard's Cron Jobs tab, because nothing in this repo
+explains a job that never gets called at all.
+
+One new fault, small enough to fix here. `/api/email/digest` has replied
+`ok:true` every day since 17 August while its body said `due:1, sent:0,
+failed:1`, the same one family, every single day, six days running. No top
+level `error` key, so the heartbeat's own body check read it as healthy.
+
+Root cause: the shared one email a week floor (Justin, 12 August: "we must be
+careful only to send one once per week from all systems") correctly stopped
+the digest going out because that address had already had a different
+lifecycle email inside six days. That is the floor working as designed. The
+bug is downstream: `deliverOnce` in lib/email/cron-kit.ts treated a throttled
+send exactly the same as a genuinely failed one, both landing in the `failed`
+bucket with no way to tell them apart from the outside. A real failure and an
+intentional wait looked identical on the board.
+
+Fixed: `deliverOnce` now reads `sent.skipped` and returns `'skipped'` for a
+throttled or suppressed send, `'failed'` only for a real one. Nothing about
+who gets emailed or when changes, this only fixes what gets counted as what.
+Same function serves both `/api/email/digest` and `/api/email/monthly`, so
+the monthly review gets the same correction. No migration, no schema change.
+
+What this cost a family: nothing counted yet, since the eligible address this
+week is the founder's own test account, not a paying family. The real risk is
+ahead of us: any family who gets a lifecycle nudge inside six days of their
+digest would have hit the same wall and shown up as a plain, invisible
+"failed", never flagged, never retried into a report anyone reads. Worth
+watching once real families are on lifecycle mail and the digest at the same
+time.
 ---
 
 ## 21 August 2026 — Daily health sweep: the three silent crons are still silent
