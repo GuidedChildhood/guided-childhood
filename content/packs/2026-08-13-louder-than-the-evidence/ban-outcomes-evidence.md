@@ -103,7 +103,39 @@ The positive evidence for our answer, education and the open conversation.
 The honest line: the thing that protects a child, an adult in the room and an open conversation, is
 exactly what a ban that drives use underground shuts down.
 
-## 7. The caveats, so we stay unkillable
+## 7. The ban we already have, the 13 rule that failed
+
+The strongest and most overlooked point, because it is an experiment already run.
+
+- Every major platform has set a minimum age of 13 for around two decades (US COPPA 1998 and platform
+  terms of service). It is, in effect, a ban on under 13s that has been in force for a generation.
+- Ofcom's 2025 media literacy data finds roughly 40 to 60 percent of under 13s have their own social
+  media profile anyway, about six in ten of 8 to 12 year olds, and 72 percent of 8 to 12s access these
+  apps. Among 8 to 9 year olds, Instagram profiles rose from 8 to 14 percent in a single year. The
+  Centre for Social Justice counts around 800,000 under fives on social media in the UK.
+- The honest line: we ran the age gate experiment twenty years ago and it failed. Raising the number
+  to 16 is not a new idea, it is the same broken lock at a higher setting. Two decades of a 13 rule is
+  the clearest evidence we have that the gate is not what protects a child, the conversation is.
+
+## 8. Education works, the positive evidence, held to our own standard
+
+Our thesis was heavy on "bans fail" and light on "education works," so this closes the gap. We hold
+education to the same test we hold the ban, and it passes it better.
+
+- A meta-analysis of 10 randomised and quasi experimental studies (6,250 children aged 8 to 18) found
+  school based digital literacy interventions improve children's digital literacy, a moderate effect,
+  standardised mean difference about 0.16. (Information, Communication and Society, 2025.)
+- The Be Internet Awesome digital citizenship curriculum, in a cluster randomised controlled trial of
+  1,072 children in grades 4 to 6, improved their knowledge of online safety concepts and their self
+  efficacy for handling online problems. (Contemporary School Psychology, UNH CCRC, 2023.)
+- Hold it honestly. The same trial found no effect on some behaviours such as cyberbullying or talking
+  to parents, and the field is early with weak long term follow up. So the claim is calibrated:
+  education is the only lever with randomised evidence that it builds the skills and confidence that
+  travel with the child, it is not a magic bullet, and it works best alongside an involved parent
+  (active guidance beats restriction, section 6) and better platform design. Never claim it fixes
+  everything, or we become the mirror image of the panic we criticise.
+
+## 9. The caveats, so we stay unkillable
 
 - The Australia data is early, three to four months, and cross sectional. Say early, not final.
 - School ban evidence is genuinely mixed, Norway found benefits, so never say "bans never work," say
@@ -126,5 +158,8 @@ Regional Health Europe (2025); Ferguson, "Smartphone bans in schools remain unpr
 of Pediatrics (2025); Abrahamsson, "Smartphone Bans, Student Outcomes and Mental Health" (Norway);
 Monash Lens and Castan Centre for Human Rights Law (Dec 2025) and MJA InsightPlus on marginalised and
 queer youth; JMIR (2024), parental guidance and adolescent mental health, England, 16,655 pupils;
-Internet Matters on children's VPN use after UK age checks. Verify any figure on the primary source
-before quoting it publicly.
+Internet Matters on children's VPN use after UK age checks; Ofcom 2025 Media Literacy Report and Ofcom
+Children's User Ages 2024 on under 13 social media use; Centre for Social Justice on under fives on
+social media; meta-analysis of school digital literacy interventions, Information, Communication and
+Society (2025); Be Internet Awesome cluster RCT, Contemporary School Psychology and UNH CCRC (2023).
+Verify any figure on the primary source before quoting it publicly.
