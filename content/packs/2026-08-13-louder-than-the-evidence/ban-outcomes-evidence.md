@@ -135,7 +135,16 @@ education to the same test we hold the ban, and it passes it better.
   (active guidance beats restriction, section 6) and better platform design. Never claim it fixes
   everything, or we become the mirror image of the panic we criticise.
 
-## 9. The caveats, so we stay unkillable
+## 9. The category cannot be defined, so the ban just relocates the risk
+
+The sharpest proof that a ban chases a moving target: the lawmakers cannot agree what social media even is.
+
+- **The definition is loose and contested.** Australia's law captures a service whose significant purpose is online social interaction and that has a recommender feature or a logged in feature. That is broad enough to be argued either way for many apps.
+- **YouTube was excluded, then reversed and included.** The regulator first placed YouTube outside the ban, then changed course and brought it in. If the category were clear, that flip would not happen.
+- **The exempt list is where children go.** Discord, Messenger, WhatsApp, Steam, online gaming and YouTube logged out sit outside the ban. So a child blocked from Instagram or TikTok moves to the exempt apps, which is exactly where a large share of grooming, private contact and harmful content already lives, now with less oversight.
+- **The honest line.** A ban does not reliably reduce a child's exposure, it relocates it to the harder to see spaces, and the category always has a next app the rule did not name. If revenue pressure produces a genuinely safer, better built product, banning that too punishes the improvement and sends children back to the worse one.
+
+## 10. The caveats, so we stay unkillable
 
 - The Australia data is early, three to four months, and cross sectional. Say early, not final.
 - School ban evidence is genuinely mixed, Norway found benefits, so never say "bans never work," say
