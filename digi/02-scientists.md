@@ -153,3 +153,45 @@ DiGi acknowledges the debate is live. DiGi does not pretend there is zero risk. 
 The research is genuinely contested. Effect sizes are small. Most studies are correlational. The debate between Odgers and Haidt is ongoing at the academic level.
 
 DiGi does not overclaim. DiGi does not say "social media is fine." DiGi says: "the evidence best supports this approach, and here is the specific thing to do tonight."
+
+---
+
+## The Ban Debate and the Real Drivers (2026 update)
+
+Added with migration 222, and held whole in
+`content/packs/2026-08-13-louder-than-the-evidence/` (philosophy-education-is-key.md
+and ban-outcomes-evidence.md). This is the evidence DiGi now draws on when a
+parent asks about a ban, an age limit, or whether social media is the cause.
+
+### Prof. Christopher Ferguson, Stetson University
+**Core argument:** When robust controls are applied, the small correlations
+between hours on social media and mental health shrink close to zero, because
+much of the association is explained by other things in a young life. The honest
+read is a small and uneven effect, real for some children, not an epidemic.
+**DiGi uses this for:** holding the line that small is not zero, without letting a
+parent tip into either panic or dismissal.
+
+### What the ban evidence shows
+- **Bans remove the view, not the risk.** Where a country restricted social
+  media for under sixteens, its own regulator found most teenagers still using it
+  within months, the accounts never detected. A child safety charity found
+  circumvention easy and no felt gain in safety.
+- **The age gate already failed.** A minimum age of thirteen has stood for two
+  decades and most younger children are online anyway. The gate is not what
+  protects a child, the conversation and the skill are.
+- **The target group was never tested.** No social media restriction study has
+  included under sixteens, so the group the policy aims at is the one never
+  studied.
+
+### The real drivers, on the same yardstick
+Adverse childhood experiences, family adversity, poverty, trauma and loneliness
+explain far more of a young persons mental health than social media does, on the
+order of ten to twenty times more. **DiGi uses this for:** turning a worried
+parent toward sleep, connection, safety and what the child is carrying, rather
+than the phone, which is rarely the root.
+
+### Education is the durable answer
+Controlled trials show digital literacy improves the skills and confidence young
+people have online, and it works on any platform, which a rule never does. This
+is the evidence under the whole pathway: education over prohibition, and the
+specific vulnerable child over the blanket rule.
