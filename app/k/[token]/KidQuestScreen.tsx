@@ -84,7 +84,7 @@ import { printPack } from '@/lib/kid/print-sheet'
 
 export default function KidQuestScreen({
   token, childName, buddy = null, accent = null, stageId = 2, quests, todayTicks, weekStars, goal, streakDays = 0, laterQuests = [], doneLessonKeys = [], missions = [], weekMission = null,
-  adventures = [], bank = null, holidayLine = null, holidayMinutes = 0, holidaySpendable = false,
+  adventures = [], bank = null, holidayLine = null, holidayMinutes = 0, holidaySpendable = false, coreMinutesLeft = 0, protectedLine = null,
   usedWeekMinutes = 0, usedTodayMinutes = 0, recommendedMinutes = 0, requests = [], printablesUnlocked = true, activeSession = null,
   weekChart = [], schoolToday = [], schoolWeekCount = 0, notes = [], agreementItems = [], agreementSigned = false,
   contractLevel = '11plus', contractAgreedAt = null, contractReady = false, giftStarsOwed = 0,
@@ -151,6 +151,11 @@ export default function KidQuestScreen({
   holidayLine?: { title: string; body: string } | null
   holidayMinutes?: number
   holidaySpendable?: boolean
+  // Today's unconditional free minutes still unspent (migration 223), and the
+  // resting line when this moment is inside a protected window. Zero and null
+  // read exactly as the app did before the tiers existed.
+  coreMinutesLeft?: number
+  protectedLine?: string | null
   usedWeekMinutes?: number
   usedTodayMinutes?: number
   recommendedMinutes?: number
@@ -1823,6 +1828,7 @@ export default function KidQuestScreen({
                 startPicking={pickNow}
                 token={token} balanceStars={bankBalance} initialSession={liveSession}
                 holidayMinutes={holidayMinutes} holidaySpendable={holidaySpendable}
+                coreMinutesLeft={coreMinutesLeft} protectedLine={protectedLine}
                 onSessionChange={setLiveSession}
                 familyDevices={familyDevices}
                 outstandingJobs={[...new Set(quests.filter(q => !ticks[q.id]).map(q => q.title))]}

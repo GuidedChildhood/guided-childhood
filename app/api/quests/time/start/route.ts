@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getHolidayBanks } from '@/lib/quests/holiday-bank'
-import { planSpend, drawFromHolidayBank, refundToHolidayBank } from '@/lib/quests/holiday-spend'
+import { drawFromHolidayBank, refundToHolidayBank } from '@/lib/quests/holiday-spend'
+import { getTimeSettings, getCoreUsedToday, checkProtectedWindow, planTieredSpend, PROTECTED_CHILD_LINE, PROTECTED_PARENT_LINE, type ProtectedReason } from '@/lib/quests/time-tiers'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { isDeviceKey, isActivityKey, asksActivity, minutesToStars, deviceLabel, readTrust } from '@/lib/quests/device-time'
 import { questDueToday } from '@/lib/quests/due'
@@ -166,7 +167,34 @@ export async function POST(req: NextRequest) {
     } catch { /* fail open */ }
   }
 
-  const willJustAsk = (trust === 'ask' || overDayLine) && !approvedAsk
+  // PROTECTED TIME (migration 223). Ten stars do not buy the timer at
+  // midnight: a self start inside the child's bedtime, mealtime or school
+  // window turns into an ask, exactly like the gentle brake, never a flat
+  // block. The parent stays the override: an approved ask is exempt because
+  // they already looked, and their own granted sessions run regardless (the
+  // parent-start route just tags them). Also read here: the child's core
+  // baseline, the unconditional daily minutes that spend before stars.
+  // Fails open like the brake: a broken read must never strand a child.
+  let protectedReason: ProtectedReason | null = null
+  let coreLeftToday = 0
+  try {
+    const settingsMap = await getTimeSettings(supabase, link.user_id, [
+      { id: link.child_id, age_band: (childRow as { age_band?: string | null } | null)?.age_band ?? null },
+    ])
+    const settings = settingsMap.get(link.child_id)
+    if (settings) {
+      if (!approvedAsk) {
+        const check = checkProtectedWindow(settings, { region })
+        if (check.protected) protectedReason = check.reason
+      }
+      if (settings.coreMinutesDaily > 0) {
+        const coreUsed = await getCoreUsedToday(supabase, link.user_id, [link.child_id])
+        coreLeftToday = Math.max(0, settings.coreMinutesDaily - (coreUsed.get(link.child_id) ?? 0))
+      }
+    }
+  } catch { /* fail open */ }
+
+  const willJustAsk = (trust === 'ask' || overDayLine || protectedReason !== null) && !approvedAsk
   if (!willJustAsk && !approvedAsk) {
     const { data: gateQuests } = await supabase
       .from('family_quests')
@@ -206,8 +234,11 @@ export async function POST(req: NextRequest) {
   // had two answers, and the card can say "5 holiday minutes, ready now" while
   // this refuses to spend them. Exactly the lie the comment above says was
   // fixed: they fixed the pocket and left the calendar.
+  // Three pockets since migration 223, most perishable first: today's core
+  // baseline (dies at midnight), then this week's stars, then the holiday
+  // bank. Core costs nothing, it is the unconditional part of the day.
   const [holidayBank] = await getHolidayBanks(supabase, link.user_id, [link.child_id], new Date(), region)
-  const plan = planSpend(mins, bank?.balance ?? 0, holidayBank?.remaining ?? 0, holidayBank?.spendableNow ?? false)
+  const plan = planTieredSpend(mins, coreLeftToday, bank?.balance ?? 0, holidayBank?.remaining ?? 0, holidayBank?.spendableNow ?? false)
   if (!bank || !plan.enough) {
     return NextResponse.json({
       error: 'not enough stars',
@@ -253,20 +284,31 @@ export async function POST(req: NextRequest) {
     try {
       await sendPush({
           userId: link.user_id,
-          title: overDayLine
+          title: protectedReason
+            ? `${childName} is asking for screen time in a protected window 🌙`
+            : overDayLine
             ? `${childName} wants more screen time today ⏳`
             : `${childName} is asking for screen time ⏳`,
-          // The brake's ask says WHY it became an ask, so the yes is an
-          // informed one: this block would take today well past the healthy
-          // amount for their age. Yes runs it as a treat, exactly like any
-          // grant past the guide.
-          body: overDayLine
+          // The ask says WHY it became an ask, so the yes is an informed one.
+          // The brake: this block would take today well past the healthy
+          // amount for their age. A protected window: it is bedtime, a meal
+          // or school hours, and the parent is always the override.
+          body: protectedReason
+            ? `${mins} minutes on ${onScreen}. ${PROTECTED_PARENT_LINE[protectedReason]}${jobsLine} Yes runs it anyway, your call.`
+            : overDayLine
             ? `${mins} more minutes on ${onScreen} would take today well past the healthy amount for their age.${jobsLine} Yes runs it as a treat, or say not today.`
             : `${mins} minutes on ${onScreen}, that is ${stars} star${stars === 1 ? '' : 's'}.${jobsLine} Tap to say yes on your board.`,
           url: '/dashboard/quests',
         })
     } catch { /* best effort */ }
-    return NextResponse.json({ pending: true, request: askRow ?? { device, minutes: mins }, overGuide: overDayLine })
+    return NextResponse.json({
+      pending: true,
+      request: askRow ?? { device, minutes: mins },
+      overGuide: overDayLine,
+      // The child's screen shows the boundary in the sturdy leadership shape,
+      // the boundary holds AND the feeling is real. Never a flat no.
+      ...(protectedReason ? { protectedReason, protectedLine: PROTECTED_CHILD_LINE[protectedReason] } : {}),
+    })
   }
 
   // A start the grown up said yes to past the day's healthy amount is a
@@ -343,6 +385,10 @@ export async function POST(req: NextRequest) {
     // stop refund the holiday minutes to nowhere, so the column failing to exist
     // has to undo the draw rather than carry on without it.
     ...(holidayDrawn > 0 ? { holiday_minutes: holidayDrawn } : {}),
+    // The part today's core baseline paid for (migration 223). Spread for the
+    // same reason as the two above, and the drawdown is computed from these
+    // rows, so a database without the column simply never has core to draw.
+    ...(plan.coreMinutes > 0 ? { core_minutes: plan.coreMinutes } : {}),
     ...(homeDevice ? { family_device_id: homeDevice.id } : {}),
   }).select('id, device, minutes, stars, ends_at, started_at, treat').single()
   if (sessionError) {
@@ -392,6 +438,10 @@ export async function POST(req: NextRequest) {
           // which one they just watched happen.
           body: holidayDrawn > 0
             ? `${plan.starCost} star${plan.starCost === 1 ? '' : 's'} and ${holidayDrawn} minute${holidayDrawn === 1 ? '' : 's'} from their holiday savings. The timer is running, you can watch it on the quests board.`
+            : plan.coreMinutes > 0 && plan.starCost === 0
+            ? `All ${plan.coreMinutes} minutes from their free time today, no stars spent. The timer is running, you can watch it on the quests board.`
+            : plan.coreMinutes > 0
+            ? `${plan.coreMinutes} free minute${plan.coreMinutes === 1 ? '' : 's'} and ${plan.starCost} star${plan.starCost === 1 ? '' : 's'}. The timer is running, you can watch it on the quests board.`
             : `That is ${plan.starCost} star${plan.starCost === 1 ? '' : 's'} spent. The timer is running, you can watch it on the quests board.`,
           url: '/dashboard/quests',
         })

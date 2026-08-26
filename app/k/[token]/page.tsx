@@ -10,6 +10,7 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { getParentLessons, getCompletionsForChild } from '@/lib/lessons/parent-lessons'
 import { getActiveSession, isAskLive } from '@/lib/quests/device-time'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
+import { getTimeSettings, getCoreUsedToday, checkProtectedWindow, PROTECTED_CHILD_LINE } from '@/lib/quests/time-tiers'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import { hasFullAccess } from '@/lib/access'
 import { contractLevelFor } from '@/lib/content/kid-contract'
@@ -270,6 +271,26 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   // once they have had their healthy amount. A soft guide, never a hard block.
   const usedTodayMap = await getMinutesUsedToday(supabase, link.user_id, [link.child_id])
   const usedTodayMinutes = usedTodayMap.get(link.child_id) ?? 0
+
+  // The three tiers (migration 223): how much of today's free baseline is
+  // left, and whether this moment sits inside a protected window, so the card
+  // can show the resting state instead of inviting a start that will only
+  // become an ask. Fails soft to zero core and no window, the old behaviour.
+  let coreMinutesLeft = 0
+  let protectedLine: string | null = null
+  try {
+    const tierSettings = (await getTimeSettings(supabase, link.user_id, [
+      { id: link.child_id, age_band: (ageBand as string | null) ?? null },
+    ])).get(link.child_id)
+    if (tierSettings) {
+      if (tierSettings.coreMinutesDaily > 0) {
+        const coreUsed = await getCoreUsedToday(supabase, link.user_id, [link.child_id])
+        coreMinutesLeft = Math.max(0, tierSettings.coreMinutesDaily - (coreUsed.get(link.child_id) ?? 0))
+      }
+      const check = checkProtectedWindow(tierSettings, { region })
+      if (check.protected) protectedLine = PROTECTED_CHILD_LINE[check.reason]
+    }
+  } catch { /* fail soft */ }
   // The daily limit the child's app shows and caps against: the parent's own
   // number if they set one, otherwise the healthy age recommendation.
   const parentLimit = (childRes.data as { daily_limit_minutes?: number | null } | null)?.daily_limit_minutes
@@ -756,6 +777,8 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       holidayLine={holidayLine}
       holidayMinutes={holidayBank?.remaining ?? 0}
       holidaySpendable={holidayBank?.spendableNow ?? false}
+      coreMinutesLeft={coreMinutesLeft}
+      protectedLine={protectedLine}
       usedWeekMinutes={usedWeekMinutes}
       usedTodayMinutes={usedTodayMinutes}
       recommendedMinutes={recommendedMinutes}
