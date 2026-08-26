@@ -8630,3 +8630,18 @@ DiGi rail, repair over debt register, family jobs split from star quests
 steps with stars on the finished job only, the mood and compliance hook clean
 named as her rule, and most generous interpretation wiring for timer friction
 in DiGi. The series still says honestly that she would not build the stars.
+
+## 26 August 2026, migrations 220 to 223 reconciled against the live database
+
+The live database had recorded nothing after 219. Applied today: 221 (parent
+lessons scaffold, all ten Stage 1 lessons tagged), 222 (DiGi Louder Than The
+Evidence corpus, seven rows, embedded by the self healing sweep), and the new
+223_star_time_tiers (child_time_settings table per the approved star tiers
+plan: core minutes default 0, bedtime defaults seeded by age band, protection
+flags default off, RLS own rows only, schema only so no behaviour changes
+until the phase 1 build reads it). NOT applied: 220 (school lessons scaffold).
+It targets public.school_lessons with sm13 module ids, but the live table is
+schools.school_lessons and carries the 21 module whole school curriculum
+(eyfs to ks5) with no sm13 rows. 220 as written would tag zero rows. Mapping
+Notice, Choose, Tell onto the 21 live modules is a content decision, not a
+find and replace, so it waits for Justin.
