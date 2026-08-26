@@ -8608,3 +8608,14 @@ pillar 4 and the protected windows build are AWAITING JUSTIN'S DECISION, the
 pack documents them as not yet built. Compliance and emotion reward hooks to
 clean when that build happens: Screen off first ask, great attitude bonus chip,
 fair play star depending on the parent's answer.
+
+## 26 August 2026, Justin approved the three tier star time concept
+
+Justin: "Yes" to core time and protected windows. Pillar 4 evolves from earned
+not granted to: a small guaranteed baseline (core time, parent set, default
+off), extra time earned, and protected windows no stars can buy (bedtime,
+optional mealtimes and school hours), enforced as ask conversions never flat
+blocks, with the parent as the override. Reward hooks paying mood or
+compliance get cleaned in the same build. Plan:
+plans/week-of-2026-08-26-star-tiers-plan.md. Migration 223 claimed by that
+plan and PR 906. THE-STORY pillar 4 text changes only when the build ships.
