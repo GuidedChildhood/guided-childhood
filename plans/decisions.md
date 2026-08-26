@@ -8589,3 +8589,22 @@ sometime but not a break for a family today.
 
 Nothing fixed here: schema is fine, no new code fault turned up, and the one
 real gap is outside this repo. No pull request opened.
+
+## 26 August 2026, the star system evidence pack and the rewards critique
+
+Researched and adversarially verified the rewards evidence for the star quest
+(workflow: codebase map plus three research lenses, every load bearing claim
+checked). Banked in content/packs/2026-08-26-star-system-evidence/. The facts
+that drive decisions: Dr Becky is AGAINST reward charts (founding premise of
+Good Inside), so no content may claim her endorsement, the honest move is to
+name the disagreement. The critics' real evidence (Tang 2018, Nagata ABCD 2024
+and 2026) measures screens deployed as behaviour control, not capped earn
+systems, and our weekly age guide cap means stars cannot raise usage past the
+guide, which is the spine of the defence. Code sweep confirmed two gaps before
+the three tier concept can be claimed publicly: no protected windows exist (a
+child with stars can start a timer at any hour) and no unconditional core time
+exists (all recreation is earned, per pillar 4). The core time change against
+pillar 4 and the protected windows build are AWAITING JUSTIN'S DECISION, the
+pack documents them as not yet built. Compliance and emotion reward hooks to
+clean when that build happens: Screen off first ask, great attitude bonus chip,
+fair play star depending on the parent's answer.
