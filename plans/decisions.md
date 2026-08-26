@@ -8589,3 +8589,44 @@ sometime but not a break for a family today.
 
 Nothing fixed here: schema is fine, no new code fault turned up, and the one
 real gap is outside this repo. No pull request opened.
+
+## 26 August 2026, the star system evidence pack and the rewards critique
+
+Researched and adversarially verified the rewards evidence for the star quest
+(workflow: codebase map plus three research lenses, every load bearing claim
+checked). Banked in content/packs/2026-08-26-star-system-evidence/. The facts
+that drive decisions: Dr Becky is AGAINST reward charts (founding premise of
+Good Inside), so no content may claim her endorsement, the honest move is to
+name the disagreement. The critics' real evidence (Tang 2018, Nagata ABCD 2024
+and 2026) measures screens deployed as behaviour control, not capped earn
+systems, and our weekly age guide cap means stars cannot raise usage past the
+guide, which is the spine of the defence. Code sweep confirmed two gaps before
+the three tier concept can be claimed publicly: no protected windows exist (a
+child with stars can start a timer at any hour) and no unconditional core time
+exists (all recreation is earned, per pillar 4). The core time change against
+pillar 4 and the protected windows build are AWAITING JUSTIN'S DECISION, the
+pack documents them as not yet built. Compliance and emotion reward hooks to
+clean when that build happens: Screen off first ask, great attitude bonus chip,
+fair play star depending on the parent's answer.
+
+## 26 August 2026, Justin approved the three tier star time concept
+
+Justin: "Yes" to core time and protected windows. Pillar 4 evolves from earned
+not granted to: a small guaranteed baseline (core time, parent set, default
+off), extra time earned, and protected windows no stars can buy (bedtime,
+optional mealtimes and school hours), enforced as ask conversions never flat
+blocks, with the parent as the override. Reward hooks paying mood or
+compliance get cleaned in the same build. Plan:
+plans/week-of-2026-08-26-star-tiers-plan.md. Migration 223 claimed by that
+plan and PR 906. THE-STORY pillar 4 text changes only when the build ships.
+
+## 26 August 2026, the Dr Becky layer approved for the star tiers build
+
+Justin: "Yes" to building Dr Becky's philosophy into the jobs and control
+aspects. Seven moves folded into the tiers plan: sturdy leadership two part
+copy for every no, screens never a punishment promoted to a stated rule and a
+DiGi rail, repair over debt register, family jobs split from star quests
+(contribution is belonging, not payment, is_family_job flag), optional job
+steps with stars on the finished job only, the mood and compliance hook clean
+named as her rule, and most generous interpretation wiring for timer friction
+in DiGi. The series still says honestly that she would not build the stars.
