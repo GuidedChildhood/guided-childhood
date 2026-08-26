@@ -8619,3 +8619,14 @@ blocks, with the parent as the override. Reward hooks paying mood or
 compliance get cleaned in the same build. Plan:
 plans/week-of-2026-08-26-star-tiers-plan.md. Migration 223 claimed by that
 plan and PR 906. THE-STORY pillar 4 text changes only when the build ships.
+
+## 26 August 2026, the Dr Becky layer approved for the star tiers build
+
+Justin: "Yes" to building Dr Becky's philosophy into the jobs and control
+aspects. Seven moves folded into the tiers plan: sturdy leadership two part
+copy for every no, screens never a punishment promoted to a stated rule and a
+DiGi rail, repair over debt register, family jobs split from star quests
+(contribution is belonging, not payment, is_family_job flag), optional job
+steps with stars on the finished job only, the mood and compliance hook clean
+named as her rule, and most generous interpretation wiring for timer friction
+in DiGi. The series still says honestly that she would not build the stars.

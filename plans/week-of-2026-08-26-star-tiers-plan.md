@@ -84,6 +84,47 @@ designed with it in mind:
   to `child_time_settings.star_minutes int default 5` in phase 3, already
   named as a follow up in lib/quests/templates.ts.
 
+## The Dr Becky layer (approved by Justin, 26 August 2026)
+
+She would not build the stars, and we say so honestly in the series. But her
+philosophy shapes the jobs and control aspects directly, and building it in is
+what lets us take her critique seriously rather than ignore it.
+
+**Joins phase 1 (copy rules, no schema change):**
+
+- Every no in the system is said in the sturdy leadership shape, the boundary
+  holds AND the feeling is real. Protected window copy: "Screens are resting
+  now. I know that is disappointing. Morning is coming." Same two part shape
+  for declined quest asks and rejected ticks.
+- Screens are never a punishment becomes a stated rule, not an accident of
+  design. Stars are only ever earned forward, never confiscated for
+  behaviour. Written into the plan, the parent facing copy, and a DiGi rail:
+  DiGi never advises taking the screen away as a consequence, it always gives
+  the calibrated pathway.
+- Repair over debt. After a blown day the next morning is a fresh start.
+  Every follow up stays in the "do a job later to say thanks" register, never
+  a "you owe us" register.
+
+**Joins phase 2 (small build):**
+
+- Family jobs split from star quests. Each family can mark a small set of
+  jobs as family jobs that carry no stars, because contribution is belonging,
+  not payment. Stars sit on the quests above that baseline. A flag on
+  `family_quests` (`is_family_job boolean default false`), excluded from the
+  bank, shown with its own warm framing on the child board.
+- Job steps, the one chart she endorses. Optional checklist steps on a big
+  quest ("Clean your room" becomes three ticks), stars on the finished job
+  only, never per step. Scaffolding, not payment.
+- The hook cleaning already in phase 2 (no rewards for mood or compliance) is
+  her rule verbatim, name it as such in the PR.
+
+**Joins phase 3 (DiGi):**
+
+- Most generous interpretation. When a child repeatedly hits the timer limit
+  or asks past the guide, DiGi reads it to the parent as a signal, what might
+  be underneath, not as limit pushing. Wire timer friction into the existing
+  moments and concerns spine.
+
 ## Review
 
 Diff checked against review.md before push. Migration idempotent and additive.
