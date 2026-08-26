@@ -8645,3 +8645,16 @@ schools.school_lessons and carries the 21 module whole school curriculum
 (eyfs to ks5) with no sm13 rows. 220 as written would tag zero rows. Mapping
 Notice, Choose, Tell onto the 21 live modules is a content decision, not a
 find and replace, so it waits for Justin.
+
+## 26 August 2026, migration 220 rewritten for the live curriculum and applied
+
+Justin: "yes do the mapping for 220". The scaffold tagging is rewritten in
+place against schools.school_lessons and the 21 module whole school
+curriculum (safe because the original was never applied anywhere), then
+applied to the live database. The mapping follows the same logic as the sm13
+version and 221: NOTICE nine modules (real and not real, algorithms,
+ownership, misinfo, scams, image pressure, persuasion, radicalisation),
+CHOOSE eight (calm bodies, routines, gaming spend, privacy settings, mood,
+readiness at 16, ai mastery, digital identity), TELL four (kind and safe with
+others, group chats and workarounds, consent and the law, sextortion). All
+21 rows tagged, verified, no lesson content touched.
