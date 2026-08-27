@@ -62,7 +62,10 @@ Save the V1 file to `briefings/<yyyy-mm-dd>-<topic-slug>.html` in the repo root.
 
 ## Phase 4 — Adversarial verification
 
-Spawn up to six verifier agents in parallel. Split every citation in the report between them. Each verifier must:
+Spawn up to six verifier agents in parallel, using the `citation-verifier`
+agent type (.claude/agents/citation-verifier.md) so every session runs the
+same adversarial pass. Split every citation in the report between them. Each
+verifier must:
 
 - Fetch the primary source, not a secondary write up
 - Check the claim, the numbers, the year, and whether the source actually says what the report says it says
@@ -88,9 +91,31 @@ The six default lenses fit kids mental health and device topics. When the topic 
 - **The Distributor** — a platform growth expert who knows the LinkedIn algorithm (per .claude/skills/viral-post) and Instagram family content (per .claude/skills/family-social). Swap in when the decision the briefing informs is content or audience growth rather than product.
 - **The Designer** — a product translator who asks of every finding "what screen, what table, what words". Swap in when the briefing exists to drive a build, so the What This Means section lands on real surfaces instead of themes.
 
-## Phase 5b — The distribution review (optional, on request or when the topic feeds content)
+## Phase 5b — The distribution review (STANDARD, every briefing)
 
-After verification, run a platform expert pass over the V2 briefing: one agent briefed with .claude/skills/viral-post (LinkedIn) and .claude/skills/content-engine/linkedin-engagement.md, and with .claude/skills/family-social for Instagram and Facebook. It returns, per confirmed finding: is this a hook, a card stat, a carousel, or unpostable, plus the one strongest post angle per platform and any finding that must never be posted (demoted, or safe only with its caveat attached). This pass reviews and ranks, it does not draft; drafting stays with content-engine and viral-post so the voice and evidence guards still run. Deliver its output as a short "content potential" note alongside the briefing.
+After verification, always run the `distribution-reviewer` agent
+(.claude/agents/distribution-reviewer.md) over the V2 findings. It reads the
+viral-post, linkedin-engagement, hidden-thread and family-social skills
+itself, then returns, per confirmed finding: is this a hook, a card stat, a
+carousel, or unpostable, plus the one strongest post angle per platform and
+any finding that must never be posted (demoted, or safe only with its caveat
+attached). This pass reviews and ranks, it does not draft; drafting stays
+with content-engine and viral-post so the voice and evidence guards still
+run. Save its output as a "content potential" note in
+`content/packs/<yyyy-mm-dd>-<topic-slug>/content-potential.md` and deliver it
+alongside the briefing. (Made standard 27 August 2026: Justin asked for the
+Instagram and LinkedIn expert review to run every time.)
+
+## Phase 5c — The platform mapping (STANDARD when the briefing informs a build)
+
+Whenever the What This Means section proposes features, run the
+`platform-mapper` agent (.claude/agents/platform-mapper.md) over the
+candidate list in parallel with verification. It sweeps the codebase and
+returns, per candidate: where it would live, what already exists with file
+paths, what is genuinely new, a build size, and duplication risks. Its
+output becomes the build plan in `plans/`, so the briefing's product moves
+land on real surfaces instead of themes and nothing already built gets
+rebuilt.
 
 ## Hard rules
 

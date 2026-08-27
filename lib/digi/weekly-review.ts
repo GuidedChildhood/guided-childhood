@@ -5,6 +5,7 @@ import { ROUTINE_PACKS } from '@/lib/quests/routines'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getFamilyRegion } from '@/lib/learning/region'
+import { STICKERS } from '@/lib/stickers/catalog'
 import Anthropic from '@anthropic-ai/sdk'
 
 // The Sunday DiGi weekly review. Reads one family's own week off the tables the
@@ -30,6 +31,15 @@ export type WeekStats = {
    * went wrong the day two children could hold two different rates.
    */
   earnedMinutes: number
+  /** Minutes earned and still unspent tonight, per child rates applied. On a
+   *  Sunday evening this is exactly what Monday's rollover will turn into
+   *  sticker book credits, so the email can say so before it happens. */
+  savedMinutes?: number
+  /** Minutes banked for the school holidays this week (rollover surplus and
+   *  daily grants together). */
+  holidayMinutes?: number
+  /** Names of stickers earned this week, from the book the child sees. */
+  newStickers?: string[]
   starsSpent: number
   deviceMinutes: number
   activeDays: number
@@ -127,6 +137,7 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
   // The tick arithmetic below is only the fallback for when it cannot answer.
   let starsEarned = ticks.reduce((s, t) => s + (questById.get(t.quest_id)?.stars ?? 1), 0)
   let earnedMinutes = starsEarned * STAR_MINUTES
+  let savedMinutes = 0
   try {
     const kidRows = (childRes.data ?? []) as { id?: string; name: string; age_band?: string | null }[]
     const kidIds = kidRows.map(k => String(k.id)).filter(Boolean)
@@ -141,8 +152,32 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
       // WORKED FOR, so the surplus the cap turned away still counts here.
       starsEarned = banks.reduce((s, b) => s + b.weekEarned + b.weekSurplus, 0)
       earnedMinutes = banks.reduce((s, b) => s + (b.weekEarned + b.weekSurplus) * b.starMinutes, 0)
+      // What is still unspent tonight, which is exactly what tomorrow
+      // morning's rollover converts into sticker book credits.
+      savedMinutes = banks.reduce((s, b) => s + b.balance * b.starMinutes, 0)
     }
   } catch { /* the tick arithmetic above stands */ }
+
+  // The saving story, best effort like everything after the core stats: the
+  // holiday minutes banked this week and the stickers that landed in the
+  // book, so the Sunday email carries the reward loop and not just the work.
+  let holidayMinutes = 0
+  let newStickers: string[] = []
+  try {
+    const { data: hol } = await admin.from('holiday_allowance')
+      .select('minutes, created_at').eq('user_id', userId)
+      .gte('created_at', startIso).lt('created_at', endIso)
+    holidayMinutes = (hol ?? []).reduce((s, r) => s + (Number(r.minutes) || 0), 0)
+  } catch { /* pre 127, no holiday pot */ }
+  try {
+    const { data: st } = await admin.from('earned_stickers')
+      .select('sticker_key, earned_at').eq('user_id', userId)
+      .gte('earned_at', startIso).lt('earned_at', endIso)
+    const nameByKey = new Map(STICKERS.map(s => [s.key, s.name]))
+    newStickers = [...new Set((st ?? [])
+      .map(r => nameByKey.get(String(r.sticker_key)) ?? null)
+      .filter((n): n is string => Boolean(n)))]
+  } catch { /* pre 101, no book yet */ }
   const activeDays = new Set(ticks.map(t => String(t.tick_date))).size
 
   // The quest they leaned on most this week.
@@ -163,6 +198,9 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
     questsApproved: ticks.length,
     starsEarned,
     earnedMinutes,
+    savedMinutes,
+    holidayMinutes,
+    newStickers,
     starsSpent: spends.reduce((s, x) => s + (Number(x.stars) || 0), 0),
     deviceMinutes: spends.reduce((s, x) => s + (Number(x.minutes) || 0), 0),
     activeDays,
