@@ -8809,3 +8809,29 @@ settlement's parent removable defaults are our calibrated model in a
 consent judgment, and the star tiers already shipped the architecture for
 UK families. Open follow up: a Litigator V3 on the consent judgment PDF
 before any money or enforcement claim reaches marketing.
+
+## 27 August 2026 — the fines history package and the six part thriller (PR 915)
+Justin commissioned the full arc: every government and legal case against
+big tech from first to most recent, the politics, where the money goes,
+the tobacco and opioid precedents, and a six part thriller series.
+Delivered briefings/2026-08-27-big-tech-fines-v2.html (six flexed lenses
+including the Litigator; 54 ledger rows: 40 confirmed, 14 corrected, 0
+demoted) plus content/packs/2026-08-27-big-tech-fines/ (content potential
+note and the drafted series). Spine findings now citable: before August
+2026 no big tech fine anywhere was legally required to be spent on the
+harm it punished (EU fines cut member state contributions, US penalties go
+to the Treasury); no fine ever changed a business model (the 5B order was
+followed by Messenger Kids violation allegations); only final after appeal
+figures count (AdSense annulled, Intel ended at 237M with the EU paying
+Intel 515.5M interest); tobacco 3.5 percent FY2025; opioids' new failure
+mode is unspent money; the un fined UK design code beat every fine on
+reach; the guaranteed 12.7B is about six weeks of the expanded Child Tax
+Credit (our arithmetic, always labelled). Series branding: The Wrong
+Villain: Follow the Money, Part N of 6; Parts 3 and 6 as carousels. The
+never post list in the content pack is binding, including: never the
+stock went up as proof the fine was weak, never "proved and hid", never
+the drivers pie chart as one study, never sum announcement figures, New
+Mexico always with "Meta is appealing". Settlement approval resolved:
+final judgment entered 26 to 27 August with appeals waived (MLex). Named
+V3: the State Treasurer lens plus the consent judgment clause read (2027
+statute scoreboard), superseding the earlier standalone Litigator V3 ask.
