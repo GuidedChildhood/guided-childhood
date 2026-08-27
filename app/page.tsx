@@ -283,7 +283,11 @@ export default function HomePage() {
             <p className="fu eyebrow" style={{ marginBottom: '18px' }}>
               For parents of children aged 4 to 16
             </p>
-            <h1 className="fu" style={{ fontSize: 'clamp(2.9rem, 5.2vw, 4.2rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-.035em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '18px' }}>
+            {/* Mobile floor is 2.2rem, not 2.9: at 46px the 48 character
+                headline ran six lines on an iPhone and pushed the CTA below
+                the fold (Justin's screenshot, 26 Aug 2026). Laptops never use
+                the floor, so only phones change. */}
+            <h1 className="fu" style={{ fontSize: 'clamp(2.2rem, 5.2vw, 4.2rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-.035em', color: 'var(--ink)', maxWidth: '560px', marginBottom: '18px' }}>
               A clear digital pathway from first screen to 16.
             </h1>
             <p className="fu" style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '490px', marginBottom: '26px' }}>
