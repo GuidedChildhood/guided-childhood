@@ -26,6 +26,7 @@ export default function StarSummary({
   childName, balanceStars, weekStars, pending, todo, goal, timerRunning,
   sessionEndsAt, onApprove, onTodo, onScreenTime, onShare,
   goalReached = false, goalAchieved = false, onGoalDone, onSetGoal, onDismissGoalDone,
+  starMinutes = STAR_MINUTES,
 }: {
   childName: string
   balanceStars: number
@@ -48,8 +49,11 @@ export default function StarSummary({
   // Drop the finished goal off the panel. The reward stays recorded, DiGi still
   // remembers it, it just stops sitting here once the parent has seen it.
   onDismissGoalDone?: () => void
+  /** Minutes one star buys this child (migration 225), deployment default otherwise. */
+  starMinutes?: number
 }) {
-  const minutes = balanceStars * STAR_MINUTES
+  const rate = Math.max(1, starMinutes)
+  const minutes = balanceStars * rate
   const goalPct = goal ? Math.min(100, Math.round((balanceStars / Math.max(1, goal.stars_needed)) * 100)) : 0
 
   // The mark-as-done step: a calm confirm, then a spinner, so a reward is never
@@ -122,7 +126,7 @@ export default function StarSummary({
           {childName}&apos;s stars
         </span>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)', background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '100px', padding: '4px 11px' }}>
-          1 ⭐ = {STAR_MINUTES} min
+          1 ⭐ = {rate} min
         </span>
       </div>
 

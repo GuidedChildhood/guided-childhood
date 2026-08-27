@@ -91,6 +91,24 @@ export async function GET() {
     priorByChild.set(row.child_id, set)
   }
 
+  // Screen time asks the parent declined in the window, per child, for the
+  // most generous interpretation prompt. Best effort: on any trouble the
+  // count is zero and the other prompts carry on as before.
+  const declinedByChild = new Map<string, number>()
+  try {
+    const windowStartIso = new Date(now - SIGNAL_WINDOW_DAYS * 86_400_000).toISOString()
+    const { data: declinedRows, error: declinedError } = await supabase
+      .from('device_requests').select('child_id')
+      .eq('user_id', user.id).eq('status', 'declined')
+      .gte('created_at', windowStartIso)
+    if (!declinedError) {
+      for (const r of declinedRows ?? []) {
+        const cid = String(r.child_id)
+        declinedByChild.set(cid, (declinedByChild.get(cid) ?? 0) + 1)
+      }
+    }
+  } catch { /* zero declined */ }
+
   const candidates: { candidate: CheckinCandidate; childName: string; totalMinutes: number }[] = []
 
   for (const child of children) {
@@ -107,6 +125,7 @@ export async function GET() {
       ageBand: child.age_band ?? null,
       sessions: childSessions,
       priorDevices: priorByChild.get(child.id) ?? new Set<string>(),
+      declinedAsks: declinedByChild.get(child.id) ?? 0,
     })
 
     const candidate = chooseCheckin({ signals, childName: child.name ?? 'your child', scriptHref })

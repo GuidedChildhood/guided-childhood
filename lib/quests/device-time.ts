@@ -115,12 +115,15 @@ export function isAskLive(status: string, createdAtIso: string): boolean {
 }
 
 // Minutes cost one star per STAR_MINUTES, rounded up: a part block still
-// costs a whole star, so there is never a fractional spend.
-export function minutesToStars(minutes: number): number {
-  return Math.ceil(Math.max(0, minutes) / STAR_MINUTES)
+// costs a whole star, so there is never a fractional spend. Since migration
+// 225 the rate can be the child's own (child_time_settings.star_minutes);
+// callers that know the child pass it, everything else keeps the deployment
+// default and behaves exactly as it always did.
+export function minutesToStars(minutes: number, rate: number = STAR_MINUTES): number {
+  return Math.ceil(Math.max(0, minutes) / Math.max(1, rate))
 }
-export function starsToMinutes(stars: number): number {
-  return Math.max(0, stars) * STAR_MINUTES
+export function starsToMinutes(stars: number, rate: number = STAR_MINUTES): number {
+  return Math.max(0, stars) * Math.max(1, rate)
 }
 
 export type ActiveSession = {

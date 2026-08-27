@@ -109,10 +109,22 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'activity required for this device' }, { status: 400 })
   }
 
+  // The child's own settings (migrations 223 and 225): the star rate first,
+  // because the minutes validation below depends on it, then the protected
+  // window and core baseline further down where the region is known. Fails
+  // open to the deployment defaults, which is exactly the old behaviour.
+  const tierSettings = await getTimeSettings(supabase, link.user_id, [
+    { id: link.child_id, age_band: (childRow as { age_band?: string | null } | null)?.age_band ?? null },
+  ]).then(m => m.get(link.child_id) ?? null).catch(() => null)
+  const childRate = tierSettings?.starMinutes ?? STAR_MINUTES
+
   const screenName = homeDevice?.label ?? deviceLabel(device)
   const onScreen = homeDevice ? screenName : `the ${screenName.toLowerCase()}`
   const mins = approvedAsk ? approvedAsk.minutes : Number(minutes)
-  if (!Number.isFinite(mins) || mins < STAR_MINUTES || mins > 600 || mins % STAR_MINUTES !== 0) {
+  // Whole star blocks at THIS child's rate. An approved ask skips the modulo:
+  // the parent said yes to those exact minutes, and a rate changed between the
+  // ask and the start must never strand a yes.
+  if (!Number.isFinite(mins) || mins < 1 || mins > 600 || (!approvedAsk && (mins < childRate || mins % childRate !== 0))) {
     return NextResponse.json({ error: 'bad minutes' }, { status: 400 })
   }
 
@@ -178,23 +190,29 @@ export async function POST(req: NextRequest) {
   let protectedReason: ProtectedReason | null = null
   let coreLeftToday = 0
   try {
-    const settingsMap = await getTimeSettings(supabase, link.user_id, [
-      { id: link.child_id, age_band: (childRow as { age_band?: string | null } | null)?.age_band ?? null },
-    ])
-    const settings = settingsMap.get(link.child_id)
-    if (settings) {
+    if (tierSettings) {
       if (!approvedAsk) {
-        const check = checkProtectedWindow(settings, { region })
+        const check = checkProtectedWindow(tierSettings, { region })
         if (check.protected) protectedReason = check.reason
       }
-      if (settings.coreMinutesDaily > 0) {
+      if (tierSettings.coreMinutesDaily > 0) {
         const coreUsed = await getCoreUsedToday(supabase, link.user_id, [link.child_id])
-        coreLeftToday = Math.max(0, settings.coreMinutesDaily - (coreUsed.get(link.child_id) ?? 0))
+        coreLeftToday = Math.max(0, tierSettings.coreMinutesDaily - (coreUsed.get(link.child_id) ?? 0))
       }
     }
   } catch { /* fail open */ }
 
-  const willJustAsk = (trust === 'ask' || overDayLine || protectedReason !== null) && !approvedAsk
+  // THE FADE, phase 3 of the tiers plan. At 16 plus the objective is to hand
+  // the balance over: a trusted child going past the day's guide is no longer
+  // converted into an ask, their start runs as their own call, tagged as a
+  // treat so the guide never cuts it short, and the parent gets a calm heads
+  // up instead of a decision. The system reports, it no longer gates. Bedtime
+  // and the other protected windows still convert, because at 16 plus they
+  // only exist when the parent explicitly set one.
+  const advisoryOver = overDayLine && trust === 'trusted'
+    && ((childRow as { age_band?: string | null } | null)?.age_band ?? '') === '16+'
+
+  const willJustAsk = (trust === 'ask' || (overDayLine && !advisoryOver) || protectedReason !== null) && !approvedAsk
   if (!willJustAsk && !approvedAsk) {
     const { data: gateQuests } = await supabase
       .from('family_quests')
@@ -216,7 +234,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const stars = minutesToStars(mins)
+  const stars = minutesToStars(mins, childRate)
   const [bank] = await getStarBanks(supabase, link.user_id, [link.child_id])
 
   // Two pockets pay for a block: this week's stars, and during a school holiday
@@ -238,7 +256,7 @@ export async function POST(req: NextRequest) {
   // baseline (dies at midnight), then this week's stars, then the holiday
   // bank. Core costs nothing, it is the unconditional part of the day.
   const [holidayBank] = await getHolidayBanks(supabase, link.user_id, [link.child_id], new Date(), region)
-  const plan = planTieredSpend(mins, coreLeftToday, bank?.balance ?? 0, holidayBank?.remaining ?? 0, holidayBank?.spendableNow ?? false)
+  const plan = planTieredSpend(mins, coreLeftToday, bank?.balance ?? 0, holidayBank?.remaining ?? 0, holidayBank?.spendableNow ?? false, childRate)
   if (!bank || !plan.enough) {
     return NextResponse.json({
       error: 'not enough stars',
@@ -321,6 +339,10 @@ export async function POST(req: NextRequest) {
       const ageBand = (childRow as { age_band?: string | null } | null)?.age_band ?? null
       treat = wouldExceedGuide(ageBand, usedMap.get(link.child_id) ?? 0, mins)
     } catch { /* without the read, the block simply starts untagged */ }
+  } else if (advisoryOver) {
+    // An advisory start past the guide runs full length like a treat: cutting
+    // it short at the guide crossing would be the gate coming back in disguise.
+    treat = true
   }
 
   // One live session at a time: close any that is still open before the new
@@ -423,6 +445,20 @@ export async function POST(req: NextRequest) {
   }
 
   await supabase.from('kid_links').update({ last_seen_at: new Date().toISOString() }).eq('token', token)
+
+  // The fade's heads up: at 16 plus a trusted start past the guide pings once,
+  // calmly, because handing the balance over is not the same as looking away.
+  // Information for the weekly review, never a decision to make now.
+  if (advisoryOver) {
+    try {
+      await sendPush({
+          userId: link.user_id,
+          title: `${childName} ran their own call today ⏱️`,
+          body: `${mins} minutes on ${onScreen}, past the healthy guide for today. At their age the balance is theirs to practise. One for the weekly review, not for now.`,
+          url: '/dashboard/quests',
+        })
+    } catch { /* best effort */ }
+  }
 
   // Tell the parent their child has started, best effort. A trusted child
   // starts with a lighter touch, so no per session ping; watch still pings.

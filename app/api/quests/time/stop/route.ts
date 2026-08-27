@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { deviceLabel, type DeviceKey } from '@/lib/quests/device-time'
 import { refundToHolidayBank } from '@/lib/quests/holiday-spend'
-import { planTieredRefund } from '@/lib/quests/time-tiers'
+import { planTieredRefund, getTimeSettings } from '@/lib/quests/time-tiers'
 import { sendPush } from '@/lib/push/send'
 
 // The child stops their device time early, or their app calls this when the
@@ -67,7 +67,11 @@ export async function POST(req: NextRequest) {
   // first: the holiday bank is made whole, then the star spend is trimmed,
   // and the core draw gives back last, because tonight it is worth the least.
   // With no core drawn this is exactly the old planRefund.
-  const refund = planTieredRefund(planned, usedMinutes, holidayDrawn, coreDrawn)
+  // The child's own star rate (migration 225), so the trim prices minutes the
+  // same way the start did. Fails open to the deployment default.
+  const childRate = await getTimeSettings(supabase, link.user_id, [{ id: link.child_id }])
+    .then(m => m.get(link.child_id)?.starMinutes).catch(() => undefined)
+  const refund = planTieredRefund(planned, usedMinutes, holidayDrawn, coreDrawn, childRate)
   const usedStars = refund.starCost
   if (refund.holidayRefund > 0) {
     await refundToHolidayBank(supabase, link.user_id, link.child_id, refund.holidayRefund)

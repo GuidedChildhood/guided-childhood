@@ -24,6 +24,13 @@ export type ChildTimeSettings = {
   bedtimeEndMin: number | null
   protectMealtimes: boolean
   protectSchoolHours: boolean
+  /**
+   * Minutes one star buys for THIS child (migration 225). Defaults to the
+   * deployment STAR_MINUTES, so a family who never touches it keeps exactly
+   * the rate they always had. Part of the fade: a parent can make a star buy
+   * more as the child grows, loosening the exchange without loosening the deal.
+   */
+  starMinutes: number
 }
 
 // Bedtime defaults by age band, applied when the family has no row or left the
@@ -127,6 +134,7 @@ type SettingsRow = {
   bedtime_end: string | null
   protect_mealtimes: boolean | null
   protect_school_hours: boolean | null
+  star_minutes?: number | null
 }
 
 type Client = Pick<import('@supabase/supabase-js').SupabaseClient, 'from'>
@@ -150,9 +158,12 @@ export async function getTimeSettings(
 
   let rows: SettingsRow[] = []
   try {
+    // select * so a column that arrives with a later migration (star_minutes,
+    // 225) flows through when present and its absence never fails the read,
+    // which would silently reset every child to the defaults.
     const { data, error } = await supabase
       .from('child_time_settings')
-      .select('child_id, core_minutes_daily, bedtime_start, bedtime_end, protect_mealtimes, protect_school_hours')
+      .select('*')
       .eq('user_id', userId)
       .in('child_id', children.map(c => c.id))
     if (!error && data) rows = data as SettingsRow[]
@@ -164,12 +175,14 @@ export async function getTimeSettings(
     const fallback = DEFAULT_BEDTIME[child.age_band ?? ''] ?? null
     const start = parseHm(row?.bedtime_start) ?? (fallback ? parseHm(fallback.start) : null)
     const end = parseHm(row?.bedtime_end) ?? (fallback ? parseHm(fallback.end) : null)
+    const rate = Number(row?.star_minutes)
     out.set(child.id, {
       coreMinutesDaily: Math.max(0, Number(row?.core_minutes_daily) || 0),
       bedtimeStartMin: start,
       bedtimeEndMin: end,
       protectMealtimes: Boolean(row?.protect_mealtimes),
       protectSchoolHours: Boolean(row?.protect_school_hours),
+      starMinutes: Number.isFinite(rate) && rate >= 1 && rate <= 60 ? rate : STAR_MINUTES,
     })
   }
   return out
@@ -225,10 +238,13 @@ export function planTieredSpend(
   starBalance: number,
   holidayAvailable: number,
   holidaySpendableNow: boolean,
+  /** Minutes one star buys for this child (migration 225). Defaults to the deployment rate. */
+  starMinutesRate: number = STAR_MINUTES,
 ): TieredSpendPlan {
   const need = Math.max(0, Math.round(needMinutes))
+  const rate = Math.max(1, Math.round(starMinutesRate))
   const corePot = Math.max(0, Math.round(coreLeft))
-  const starPot = Math.max(0, starBalance) * STAR_MINUTES
+  const starPot = Math.max(0, starBalance) * rate
   const holidayPot = holidaySpendableNow ? Math.max(0, Math.round(holidayAvailable)) : 0
 
   const coreMinutes = Math.min(need, corePot)
@@ -239,7 +255,7 @@ export function planTieredSpend(
     enough: coreMinutes + starMinutes + holidayMinutes >= need,
     coreMinutes,
     starMinutes,
-    starCost: minutesToStars(starMinutes),
+    starCost: minutesToStars(starMinutes, rate),
     holidayMinutes,
   }
 }
@@ -267,6 +283,8 @@ export function planTieredRefund(
   usedMinutes: number,
   holidayDrawn: number,
   coreDrawn: number,
+  /** Minutes one star buys for this child, matching what the start charged. */
+  starMinutesRate: number = STAR_MINUTES,
 ): TieredRefundPlan {
   const planned = Math.max(0, Math.round(plannedMinutes))
   const used = Math.max(0, Math.min(planned, Math.round(usedMinutes)))
@@ -281,7 +299,7 @@ export function planTieredRefund(
   return {
     holidayRefund: holiday - holidayKept,
     holidayKept,
-    starCost: minutesToStars(starKeptMinutes),
+    starCost: minutesToStars(starKeptMinutes, starMinutesRate),
     coreKept,
     unchanged: used === planned,
   }

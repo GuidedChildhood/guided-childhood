@@ -73,10 +73,18 @@ Five commitments, and every feature either honours them or does not ship.
    not a plan. The product is the plan. A config flag, `social_media_law`,
    lets Stage 4 content adapt to whatever the law does without a rewrite.
 
-4. **Earned, not granted.** Screen time is earned through jobs and chores,
-   stars become minutes at a rate the parent sets, and the child is a
-   participant rather than a subject. This is the mechanic nobody else has,
-   and it is what makes the child's side a product rather than a report.
+4. **Three kinds of time, and the child is a participant.** A small core of
+   time is theirs unconditionally (parent set, so the screen never becomes
+   the ultimate prize), extra time is earned through jobs and chores at a
+   per child star rate, and protected time (bedtime, mealtimes, school
+   hours) cannot be bought at any price, though a start inside it always
+   goes to the parent as an ask, never a flat no. Family jobs sit outside
+   the economy entirely, because contribution is belonging, not payment.
+   The ladder runs parent regulation, then shared, then self regulation,
+   and the objective is to make the system unnecessary. This is the
+   mechanic nobody else has, evidenced end to end
+   (content/packs/2026-08-26-star-system-evidence/), and it is what makes
+   the child's side a product rather than a report.
 
 5. **Evidence or silence.** No invented studies, no made up numbers, no
    composite scores. Every curriculum objective carries a source or it cannot
@@ -151,7 +159,7 @@ guides), quests management, printables, the passport flip book, and DiGi.
 
 ### The child app (`app/k/[token]`)
 Token link, no login, no account. Jobs earn stars, stars become minutes,
-5 minutes a star with a weekly cap and the chores gate. Five a day, the quest
+minutes per star at the child's own rate (5 by default) with a weekly cap, the chores gate, a free daily core when the parent turns it on, and protected windows no stars can buy. Five a day, the quest
 board where a child can pitch their own quest, lessons in the shared player
 with their chosen buddy and colour, Planet Friends earned by streaks, games,
 printables and the paper chart as a first class no device route.

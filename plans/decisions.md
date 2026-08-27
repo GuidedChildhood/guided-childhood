@@ -8671,3 +8671,18 @@ act, the great attitude chip replaced with persistence, the fair play star now
 pays only children whose own week ran through the timer, never the parent's
 answer alone). Migration 224 claimed by PR 908 and NOT yet applied to the
 live database, apply it with the merge.
+
+## 27 August 2026, phase 3 of the star tiers built (the fade)
+
+On Justin's "continue phase 3": the per child star rate (migration 225,
+child_time_settings.star_minutes default 5, wired through the three timer
+routes, the manual spend, the bank, the settings card and both card UIs, so
+every price everywhere uses the child's own rate), the fade ladder (a weekly
+budget strip on the child card from 11 up, the week as a number that is theirs
+to spread, and at 16 plus a trusted child's over guide start runs as their own
+call, tagged and reported to the parent for the weekly review instead of
+converting to an ask), and DiGi's most generous interpretation (a new device
+check in fires when three or more screen time asks were declined in two weeks,
+turning the parent toward what is underneath rather than a tighter lock).
+THE-STORY pillar 4 rewritten to the three kinds of time now the build has
+shipped. Migrations 224 AND 225 still need applying to the live database.

@@ -53,6 +53,11 @@ export type ChildDeviceSignals = {
   // weekdays. The use before homework signal.
   afterSchoolStarts: number
   afterSchoolPattern: boolean
+  // Asks the parent said no to across the window. Repeated nos are friction:
+  // the child keeps wanting more than the deal allows, and DiGi's job is the
+  // most generous interpretation of why, never a tighter lock.
+  declinedAsks: number
+  frequentDeclinedAsks: boolean
 }
 
 const DEVICE_KINDS: DeviceKind[] = ['phone', 'tablet', 'tv', 'console']
@@ -78,8 +83,11 @@ export function computeChildSignals(opts: {
   // new device stand out; a brand new family (no prior history at all)
   // never gets a first week with prompt for everything at once.
   priorDevices: Set<string>
+  // Screen time asks the parent declined in the window (device_requests).
+  declinedAsks?: number
 }): ChildDeviceSignals {
   const { childId, ageBand, sessions, priorDevices } = opts
+  const declinedAsks = Math.max(0, Math.round(opts.declinedAsks ?? 0))
 
   const minutesByDevice = new Map<DeviceKind, number>()
   const sessionsByDevice = new Map<DeviceKind, number>()
@@ -150,6 +158,8 @@ export function computeChildSignals(opts: {
     guideWeeklyMinutes, overGuide, dominantDevice, newDevice,
     earlyStops, endedSessions, frequentEarlyStops,
     afterSchoolStarts, afterSchoolPattern,
+    declinedAsks,
+    frequentDeclinedAsks: declinedAsks >= 3,
   }
 }
 
@@ -159,6 +169,7 @@ export function computeChildSignals(opts: {
 // that opens the DiGi conversation already knowing the situation.
 
 export type CheckinPromptId =
+  | 'repeated_asks'
   | 'new_device'
   | 'over_guide'
   | 'early_stops'
@@ -213,6 +224,22 @@ export function chooseCheckin(opts: {
       chatMessage: `We have a new ${dev} in the house and ${name} loves it already. How do we set it up well from the start, agree what healthy time on it looks like, and keep coming off it calm?`,
       pathway: { label: 'Open the device set up guides', href: '/dashboard/devices' },
       concernHints: [dev.toLowerCase(), 'new device', 'set up', 'setup'],
+    }
+  }
+
+  // THE MOST GENEROUS INTERPRETATION (phase 3, the Dr Becky layer). Repeated
+  // nos are not a child pushing limits, they are a signal of what is
+  // underneath: boredom, a hard patch at school, a friendship that lives
+  // online. The prompt turns the parent toward the reason, and never toward a
+  // tighter lock, because the friction is the iceberg tip and the lock treats
+  // the tip.
+  if (s.frequentDeclinedAsks) {
+    return {
+      ...base, promptId: 'repeated_asks', device: null,
+      question: `${name} has been asking for screen time more than usual. Want to look at what might be underneath it?`,
+      chatMessage: `${name} keeps asking for more screen time and I keep saying no, and I do not want every evening to become that conversation. Can we take the most generous view of why they keep asking, boredom, something hard at school, friends who live online, and find what would actually help, rather than just holding the line harder?`,
+      pathway: { label: 'Talk it through with DiGi', href: '/dashboard/digi' },
+      concernHints: ['asking', 'begging', 'nagging', 'more time', 'always asking', 'screen time'],
     }
   }
 

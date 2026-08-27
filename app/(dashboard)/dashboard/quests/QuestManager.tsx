@@ -802,12 +802,14 @@ export default function QuestManager() {
             const tickedToday = new Set(ticks.filter(t => t.tick_date === today).map(t => t.quest_id))
             const dueToday = childQuests.filter(q => questDueToday(q.schedule, q.schedule_days))
             const g = goals.find(gg => gg.child_id === activeChild)
-            const gBalance = banks.find(b => b.child_id === activeChild)?.balance ?? 0
+            const gBank = banks.find(b => b.child_id === activeChild)
+            const gBalance = gBank?.balance ?? 0
             const goalDoneKey = g?.achieved_at ? `${g.child_id}:${g.achieved_at}` : null
             return (
               <StarSummary
                 childName={child.name}
                 balanceStars={gBalance}
+                starMinutes={(gBank as { starMinutes?: number } | undefined)?.starMinutes}
                 weekStars={starsThisWeek}
                 pending={ticks.filter(t => t.child_id === activeChild && t.status === 'pending').length}
                 todo={dueToday.filter(q => !tickedToday.has(q.id)).length}

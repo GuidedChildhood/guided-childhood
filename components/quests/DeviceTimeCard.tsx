@@ -55,7 +55,8 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
 
 export default function DeviceTimeCard({
   token, balanceStars, holidayMinutes = 0, holidaySpendable = false,
-  coreMinutesLeft = 0, protectedLine = null,
+  coreMinutesLeft = 0, protectedLine = null, starMinutes = STAR_MINUTES,
+  usedWeekMinutes = -1,
   initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
   deviceTrust = 'ask', onAsked, onSessionChange, startPicking = false,
   onPrintables, onGames, ageBand = null, familyDevices = [],
@@ -73,6 +74,13 @@ export default function DeviceTimeCard({
   // window. Zero and null read exactly as the card did before the tiers.
   coreMinutesLeft?: number
   protectedLine?: string | null
+  /** Minutes one star buys THIS child (migration 225). The deployment default
+      unless the family changed it; every price and stepper here uses it so the
+      card and the server always agree. */
+  starMinutes?: number
+  /** Minutes used since Monday, for the fade's weekly budget strip (stage 3
+      and up). Negative means not provided, and the strip stays hidden. */
+  usedWeekMinutes?: number
   initialSession: ActiveSession | null
   usedTodayMinutes?: number
   recommendedMinutes?: number
@@ -144,7 +152,7 @@ export default function DeviceTimeCard({
   // because that is what the session and the ask are keyed on.
   const homeDevices = familyDevices.filter(d => !d.retiredAt)
   const [homeDeviceId, setHomeDeviceId] = useState<string | null>(null)
-  const [minutes, setMinutes] = useState<number>(Math.min(30, balanceStars * STAR_MINUTES))
+  const [minutes, setMinutes] = useState<number>(Math.min(30, balanceStars * starMinutes))
   const [remaining, setRemaining] = useState<number>(0)
   const [busy, setBusy] = useState(false)
   const [note, setNote] = useState<string | null>(null)
@@ -179,15 +187,15 @@ export default function DeviceTimeCard({
   // Today's free baseline pays too (migration 223), ahead of stars, so it
   // raises what can be picked exactly like the holiday pot does.
   const corePot = Math.max(0, Math.round(coreMinutesLeft))
-  const maxMinutes = Math.max(0, Math.min(corePot + balanceStars * STAR_MINUTES + holidayPot, remainingToday))
+  const maxMinutes = Math.max(0, Math.min(corePot + balanceStars * starMinutes + holidayPot, remainingToday))
   // Keep the chosen minutes inside the cap, so the picker never shows more than
   // is allowed today.
   useEffect(() => { setMinutes(m => Math.min(m, maxMinutes)) }, [maxMinutes])
-  const costStars = Math.ceil(minutes / STAR_MINUTES)
+  const costStars = Math.ceil(minutes / starMinutes)
   // How the picked block would actually be paid for, by the same function the
   // start route uses. Sharing it is the point: the child is never shown a split
   // the server then works out differently.
-  const { coreMinutes: coreCost, starCost, holidayMinutes: holidayCost } = planTieredSpend(minutes, corePot, balanceStars, holidayMinutes, holidaySpendable)
+  const { coreMinutes: coreCost, starCost, holidayMinutes: holidayCost } = planTieredSpend(minutes, corePot, balanceStars, holidayMinutes, holidaySpendable, starMinutes)
 
   // A browser only lets an AudioContext open on a user gesture, so the blips
   // and the finish jingle both need one before they can make a sound.
@@ -405,7 +413,7 @@ export default function DeviceTimeCard({
   }, [session, token, recommendedMinutes, soundAlarm, countdownFx, say])
 
   async function start() {
-    if (busy || minutes < STAR_MINUTES || minutes > maxMinutes) return
+    if (busy || minutes < starMinutes || minutes > maxMinutes) return
     setBusy(true)
     // Open the audio on this tap (a user gesture) so the alarm is allowed to
     // sound later when the time is up.
@@ -705,7 +713,7 @@ export default function DeviceTimeCard({
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
           <button
-            onClick={() => setMinutes(m => Math.max(STAR_MINUTES, m - STAR_MINUTES))}
+            onClick={() => setMinutes(m => Math.max(starMinutes, m - starMinutes))}
             style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer', fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--ink)', flexShrink: 0 }}
           >−</button>
           <div style={{ flex: 1, textAlign: 'center' }}>
@@ -713,9 +721,9 @@ export default function DeviceTimeCard({
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>minutes</div>
           </div>
           <button
-            onClick={() => setMinutes(m => Math.min(maxMinutes, m + STAR_MINUTES))}
-            disabled={minutes + STAR_MINUTES > maxMinutes}
-            style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: minutes + STAR_MINUTES > maxMinutes ? 'default' : 'pointer', fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--ink)', opacity: minutes + STAR_MINUTES > maxMinutes ? 0.4 : 1, flexShrink: 0 }}
+            onClick={() => setMinutes(m => Math.min(maxMinutes, m + starMinutes))}
+            disabled={minutes + starMinutes > maxMinutes}
+            style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: minutes + starMinutes > maxMinutes ? 'default' : 'pointer', fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--ink)', opacity: minutes + starMinutes > maxMinutes ? 0.4 : 1, flexShrink: 0 }}
           >+</button>
         </div>
         {/* An ask past today's healthy amount is allowed, just named: the
@@ -746,7 +754,7 @@ export default function DeviceTimeCard({
               the most frustrating thing a child can meet here. */}
           <button
             onClick={start}
-            disabled={busy || minutes < STAR_MINUTES || needsActivity}
+            disabled={busy || minutes < starMinutes || needsActivity}
             style={{ flex: 1, padding: '13px', borderRadius: '14px', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', cursor: busy || needsActivity ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: busy || needsActivity ? 0.6 : 1 }}
           >
             {busy
@@ -768,6 +776,16 @@ export default function DeviceTimeCard({
   const usedToday = Math.max(0, Math.round(usedTodayMinutes))
   const guidePct = recToday > 0 ? Math.min(100, Math.round((usedToday / recToday) * 100)) : 0
   const reachedGuide = recToday > 0 && usedToday >= recToday
+
+  // The fade's weekly budget (stage 3 and up): from 11 the child starts
+  // managing a week, not obeying a day, so their card shows the week as a
+  // budget that is theirs to spread. Younger children keep the daily view
+  // alone, because a week is not yet a shape they plan in.
+  const showWeekBudget = usedWeekMinutes >= 0 && recToday > 0
+    && ['11-13', '13-15', '16+'].includes(ageBand ?? '')
+  const weekGuide = recToday * 7
+  const usedWeek = Math.max(0, Math.round(usedWeekMinutes))
+  const weekPct = weekGuide > 0 ? Math.min(100, Math.round((usedWeek / weekGuide) * 100)) : 0
 
   return (
     <div style={{ marginBottom: '16px' }}>
@@ -821,6 +839,28 @@ export default function DeviceTimeCard({
           <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.04em', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '8px 0 0' }}>
             This app never uses your minutes. Fun screens do.
           </p>
+
+          {/* The fade's weekly budget, stage 3 and up: the week as a number
+              that is theirs to spread, practice for managing it themselves.
+              A quiet second line under the daily bar, never a second lock. */}
+          {showWeekBudget && (
+            <div style={{ marginTop: '9px', paddingTop: '9px', borderTop: '1px solid rgba(26,26,46,0.08)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, marginBottom: '5px' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
+                  Your week
+                </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-soft)' }}>
+                  {usedWeek}/{weekGuide} min
+                </span>
+              </div>
+              <div style={{ height: 5, borderRadius: 100, background: 'rgba(26,26,46,0.08)', overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: `${weekPct}%`, borderRadius: 100, background: weekPct >= 100 ? 'var(--retro-green)' : 'var(--gold, #EDC35F)', transition: 'width 0.5s ease' }} />
+              </div>
+              <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.4, margin: '5px 0 0' }}>
+                Yours to spread across the week. A big Saturday means a lighter Tuesday.
+              </p>
+            </div>
+          )}
         </div>
       )}
 
@@ -831,7 +871,7 @@ export default function DeviceTimeCard({
         onClick={() => {
           // Only open the picker when there is time left today inside the limit.
           // At the cap, point back to jobs so the next screen time is earned.
-          if (canSpend && maxMinutes >= STAR_MINUTES) { setPhase('picking'); return }
+          if (canSpend && maxMinutes >= starMinutes) { setPhase('picking'); return }
           try { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ }
         }}
         style={{

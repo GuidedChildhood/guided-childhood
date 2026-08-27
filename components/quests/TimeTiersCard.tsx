@@ -14,9 +14,14 @@ type Settings = {
   bedtimeEnd: string | null
   protectMealtimes: boolean
   protectSchoolHours: boolean
+  starMinutes: number
 }
 
 const CORE_PRESETS = [0, 15, 20, 30]
+// What one star buys. 5 is the rate every family started on; more minutes per
+// star is part of the fade, handing a bigger block of trust per star as the
+// child grows.
+const RATE_PRESETS = [5, 10, 15]
 
 export default function TimeTiersCard({ childId, childName }: { childId: string; childName: string }) {
   const [s, setS] = useState<Settings | null>(null)
@@ -78,6 +83,23 @@ export default function TimeTiersCard({ childId, childName }: { childId: string;
                 color: s.coreMinutesDaily === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
                 border: s.coreMinutesDaily === m ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
               }}>{m === 0 ? 'Off' : `${m}m`}</button>
+          ))}
+        </div>
+
+        {/* What one star buys */}
+        <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', marginBottom: '6px' }}>
+          ONE STAR BUYS
+        </div>
+        <div style={{ display: 'flex', gap: '6px', marginBottom: '11px' }}>
+          {RATE_PRESETS.map(m => (
+            <button key={m} disabled={busy} onClick={() => save({ ...s, starMinutes: m })}
+              aria-pressed={s.starMinutes === m} style={{
+                flex: 1, padding: '8px 4px', borderRadius: '11px', cursor: 'pointer',
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
+                background: s.starMinutes === m ? 'var(--terracotta-lt)' : '#fff',
+                color: s.starMinutes === m ? 'var(--terracotta-dark)' : 'var(--ink-muted)',
+                border: s.starMinutes === m ? '1.5px solid var(--terracotta)' : '1.5px solid var(--border)',
+              }}>{m} min</button>
           ))}
         </div>
 

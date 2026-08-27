@@ -127,9 +127,11 @@ function addDays(ymd: string, days: number): string {
  * first Monday of the summer holidays it would otherwise price six weeks of
  * term time at holiday rates and bank too little.
  */
-export function weeklyStarCap(ageBand: string | null, on?: Date, region?: Region): number {
+export function weeklyStarCap(ageBand: string | null, on?: Date, region?: Region, starMinutes: number = STAR_MINUTES): number {
   const weeklyMinutes = recommendedDailyMinutes(ageBand, { ...(on ? { on } : {}), ...(region ? { region } : {}) }) * 7
-  return Math.max(1, Math.floor(weeklyMinutes / STAR_MINUTES))
+  // The cap is MINUTES dressed as stars, so a child whose star buys more
+  // minutes (migration 225) gets fewer stars to the same healthy ceiling.
+  return Math.max(1, Math.floor(weeklyMinutes / Math.max(1, starMinutes)))
 }
 
 /** How many unused minutes buy one sticker credit at Monday rollover. */
