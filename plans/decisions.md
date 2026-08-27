@@ -8776,3 +8776,19 @@ month at 17:00, first fire 1 September), answer-review (added 2 Aug at
 September), legal-watch (quarterly, first fire 3 October). Nothing to fix;
 if the August passport check matters it can be fired once by hand from the
 Vercel dashboard, otherwise September catches it.
+
+## 27 August 2026 — the no phone family is a first class citizen (PR 913)
+Justin: the star system and device timer must work for kids with no phone,
+parents run it, and the printable chart has to work and explain. Audit found
+the plumbing already existed (parents tick jobs on the board, the printed
+sheet flow in the approve route, ParentDeviceTime grants and runs time on
+any family device from the parent's phone, FridgeChartLog enters the paper
+week in bulk). What was broken: the printed sheet said "1 star = 5 minutes"
+in ink whatever rate the family had set, and nothing on paper explained the
+loop. Fixed: StarChartSheet takes the child's own star rate (both builder
+pages and the kid print page feed it; the signed out lead magnet keeps the
+default), page two now prints the four step no phone loop (do the job, grown
+up ticks it in the app, spend on the family TV via the parent timer, Monday
+resets and unspent time becomes sticker credits), the parent builder says
+plainly that no child device is needed, and the parent ask box, grant cost
+and gift copy now price at the child's rate via the active endpoint.

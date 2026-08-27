@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import StarChartBuilder from './StarChartBuilder'
 import FridgeChartLog from '@/components/quests/FridgeChartLog'
 import { chartWeekStart, starWeekEnd, formatWeekBeginning } from '@/lib/quests/star-week'
+import { getTimeSettings } from '@/lib/quests/time-tiers'
 
 // The star chart, typed before it is printed.
 //
@@ -54,6 +55,15 @@ export default async function StarChartPage() {
   const childName = (named[0]?.name as string | undefined) ?? ''
   const childOptions = named.map(k => ({ id: k.id as string, name: k.name as string }))
 
+  // Each child's star rate (migration 225), so the deal printed on the sheet
+  // is the deal the app actually pays. Fails soft to the default.
+  const rateByChild: Record<string, number> = {}
+  try {
+    const settings = await getTimeSettings(supabase, user.id, named.map(k => ({ id: k.id as string })))
+    for (const [id, s] of settings) rateByChild[id] = s.starMinutes
+  } catch { /* deployment default */ }
+  const defaultRate = named[0] ? rateByChild[named[0].id as string] ?? 5 : 5
+
   // Whole family jobs (child_id null) belong to every child, so they carry a
   // null and the builder shows them whichever child is picked.
   const yourJobs = (quests ?? []).map(q => ({
@@ -88,6 +98,8 @@ export default async function StarChartPage() {
         childOptions={childOptions}
         defaultChildName={childName}
         weeks={weeks}
+        rateByChild={rateByChild}
+        defaultRate={defaultRate}
       />
       {/* End of the paper week: the same entry card as the printables page,
           here because THIS is where the quest board's star chart tile lands.

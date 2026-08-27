@@ -106,6 +106,8 @@ export async function GET() {
   }
 
   const bankBy = new Map(banks.map(b => [b.child_id, b.balance]))
+  // What one star buys THIS child (migration 225), for the parent card's copy.
+  const rateBy = new Map(banks.map(b => [b.child_id, b.starMinutes]))
   const sessionBy = new Map((sessions ?? []).map(s => [s.child_id as string, s]))
   const requestBy = new Map((requests ?? []).map(r => [r.child_id as string, r]))
 
@@ -180,6 +182,7 @@ export async function GET() {
         name: c.name,
         trust: readTrust((c as { device_trust?: string }).device_trust),
         balance: bankBy.get(c.id as string) ?? 0,
+        starMinutes: rateBy.get(c.id as string) ?? 5,
         session: (() => {
           const sess = sessionBy.get(c.id as string)
           return sess ? { ...sess, deviceName: nameOf(sess) } : null

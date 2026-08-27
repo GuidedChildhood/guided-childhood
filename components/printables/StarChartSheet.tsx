@@ -61,7 +61,7 @@ function GoldStar({ size = 46 }: { size?: number }) {
   )
 }
 
-export default function StarChartSheet({ name, weekLabel, jobs }: {
+export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5 }: {
   /** Empty string prints "My star chart", exactly as the builder always has. */
   name: string
   /** Null prints undated, the signed out lead magnet case. */
@@ -69,9 +69,17 @@ export default function StarChartSheet({ name, weekLabel, jobs }: {
   /** Up to MAX_ROWS. Whatever is left of the eleven prints as a blank pen
    *  row, so the chart always fills the page. */
   jobs: SheetJob[]
+  /**
+   * What one star buys THIS child (migration 225). The sheet used to print
+   * "1 star = 5 minutes" in ink whatever the family had set, and paper that
+   * disagrees with the app is exactly the drift this shared component exists
+   * to prevent. Defaults to 5 for the signed out lead magnet.
+   */
+  starMinutes?: number
 }) {
   const picked = jobs.slice(0, MAX_ROWS)
   const blanks = Math.max(0, MAX_ROWS - picked.length)
+  const friendMinutes = 4 * starMinutes
 
   return (
     <>
@@ -105,7 +113,7 @@ export default function StarChartSheet({ name, weekLabel, jobs }: {
             )}
           </div>
           <div style={{ textAlign: 'right', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-            1 star = 5 minutes
+            1 star = {starMinutes} minutes
             <div style={{ fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>
               4 stars in a day = one Planet Friend
             </div>
@@ -165,7 +173,7 @@ export default function StarChartSheet({ name, weekLabel, jobs }: {
         </table>
 
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: 12, textAlign: 'center' }}>
-          Colour a star for every job done, or stick a gold star on from the next page. Four stars in a day brings a Planet Friend home, worth twenty minutes of screen time.
+          Colour a star for every job done, or stick a gold star on from the next page. Four stars in a day brings a Planet Friend home, worth {friendMinutes} minutes of screen time.
         </p>
       </div>
 
@@ -205,10 +213,10 @@ export default function StarChartSheet({ name, weekLabel, jobs }: {
             straight off the sheet. */}
         <div style={{ background: 'var(--cream)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 16px 18px' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', textAlign: 'center', marginBottom: 3 }}>
-            1 star = 5 minutes of screen time
+            1 star = {starMinutes} minutes of screen time
           </div>
           <div style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', textAlign: 'center', lineHeight: 1.5, marginBottom: 14 }}>
-            Four stars in a day brings one Planet Friend home, worth twenty minutes. Collect the whole family.
+            Four stars in a day brings one Planet Friend home, worth {friendMinutes} minutes. Collect the whole family.
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap' }}>
             {FRIENDS.map(f => (
@@ -225,6 +233,40 @@ export default function StarChartSheet({ name, weekLabel, jobs }: {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* HOW IT WORKS WITH NO PHONE, printed on the sheet itself.
+            Justin, 27 August 2026: "we need to make sure the star system and
+            device timer can work for kids with no phone and parents can use
+            this option. Printable chart needs to work and explain."
+            The family this chart is FOR is the one where the child has no
+            device, and for them the paper is the whole interface. The three
+            steps that close the loop lived only in the app, which is the one
+            place a paper first family is not looking. So the deal's mechanics
+            print here, on the sheet that lives on the fridge. */}
+        <div style={{ background: '#fff', border: '1.5px dashed var(--ink-muted)', borderRadius: 16, padding: '14px 16px', marginTop: 14 }}>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', textAlign: 'center', marginBottom: 8 }}>
+            No phone needed, here is the whole loop
+          </div>
+          <ol style={{ margin: 0, padding: 0, listStyle: 'none', display: 'grid', gap: 6 }}>
+            {[
+              'Do the job, then colour or stick the star the same day.',
+              'A grown up ticks the job in the app and the stars land in the bank.',
+              `Spend them on the family TV, console or tablet: a grown up starts the timer from their own phone, and 1 star buys ${starMinutes} minutes.`,
+              'Monday morning the week starts fresh. Time earned and not spent turns into sticker book credits, so the one who uses less gets more.',
+            ].map((step, i) => (
+              <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                <span aria-hidden style={{
+                  flexShrink: 0, width: 20, height: 20, borderRadius: '50%',
+                  background: 'var(--terracotta, #EDC35F)', color: 'var(--ink)',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xs)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 2,
+                  WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact',
+                }}>{i + 1}</span>
+                <span style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45 }}>{step}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </>
