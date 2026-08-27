@@ -8731,3 +8731,13 @@ session on this repo has them as named agent types automatically. The
 kids-research skill now runs the distribution review on EVERY briefing
 (no longer on request) and the platform mapping whenever a briefing
 proposes features. Content potential notes land in content/packs/.
+
+## 27 August 2026 — the star system story joins the Sunday weekly email
+Justin: "Can we add this all to emails weekly list and check all crons
+working as one didn't fire." The Sunday DiGi review email now carries the
+reward loop next to the work: stars earned priced in minutes at each child's
+own rate, new stickers earned this week by name, holiday minutes banked, and
+the unspent time that Monday's rollover will turn into sticker credits, with
+the one line rule spelled out (the one who uses less gets more). Cron audit:
+all 34 scheduled routes are wrapped in withHeartbeat, so cron_runs can name
+any miss exactly; the live check needs the Supabase connection back.

@@ -589,11 +589,19 @@ export function weeklyReviewEmail(params: {
   </tr>`
   const rows = [
     statRow('Jobs done', `${s.questsApproved}`),
-    statRow('Stars earned', `${s.starsEarned}`),
+    // Priced at each child's own star rate (migration 225), so the email and
+    // the timer promise the same minutes.
+    statRow('Stars earned', s.earnedMinutes ? `${s.starsEarned} (${fmtMinsEmail(s.earnedMinutes)})` : `${s.starsEarned}`),
     statRow('Screen time', s.deviceMinutes > 0 ? fmtMinsEmail(s.deviceMinutes) : 'none logged'),
     ...(s.lessonsDone.length ? [statRow('Lessons', `${s.lessonsDone.length}`)] : []),
     ...(s.momentsDone ? [statRow('Calm moments', `${s.momentsDone}`)] : []),
     statRow('Days you showed up', `${s.activeDays} of 7`),
+    // The reward loop, so Sunday carries the star system story and not just
+    // the work: stickers that landed in the book, the holiday pot moving, and
+    // what tonight's unspent time is about to become.
+    ...(s.newStickers && s.newStickers.length ? [statRow('New stickers', s.newStickers.slice(0, 3).join(', '))] : []),
+    ...(s.holidayMinutes ? [statRow('Holiday pot', `${fmtMinsEmail(s.holidayMinutes)} banked`)] : []),
+    ...(s.savedMinutes ? [statRow('Still unspent', fmtMinsEmail(s.savedMinutes))] : []),
   ].join('')
 
   return {
@@ -602,6 +610,9 @@ export function weeklyReviewEmail(params: {
       heading(`This week with ${childLabel}`) +
       p(review.summary) +
       `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM};border:1px solid ${BORDER};border-radius:14px;padding:8px 16px;margin:0 0 20px">${rows}</table>` +
+      (s.savedMinutes
+        ? p(`Time still unspent when Monday arrives turns into sticker book credits. The one who uses less gets more.`)
+        : '') +
 
       // ── WHAT MOVED, and why it belongs in this email ──────────────────────
       //
