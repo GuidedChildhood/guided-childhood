@@ -366,24 +366,22 @@ every user hits crisis, the goal is shoring up the capacity of individuals,
 families and communities to respond; and the settlement question. One reply
 answers all three, ready to paste:
 
-Jonathan, your second paragraph is the whole thesis as far as I am concerned:
-the risk sits in the tail of the distribution, not in uniform exposure, so the
-real win is capacity in the families who need it rather than blanket rules for
-everyone. Which is exactly why the settlement interests me less for its size
-than for its destination. About 12.7 billion is guaranteed over ten years, the
-rest depends on what TikTok and YouTube do next, and the record on money
-reaching capacity is sobering: states spent 3.5 percent of their tobacco
+Jonathan, your second paragraph is the whole thesis for me: the risk sits in
+the tail of the distribution, not in uniform exposure, so the win is capacity
+in the families who need it, not blanket rules for everyone. Which is why the
+settlement interests me less for its size than its destination. About 12.7
+billion is guaranteed over ten years, the rest depends on TikTok and YouTube,
+and the record is sobering: states spent 3.5 percent of their tobacco
 settlement income on prevention last year, and before this deal no big tech
 penalty anywhere was legally required to be spent on the harm it punished. The
-part I would actually bank is the design changes, default limits only a parent
-can remove, because the optional version of the same idea reached 1.8 percent of
-teens according to trial testimony. Your question sent me back through every
-case since 1913 to trace where the money goes, and I am publishing the whole
-trail as a series this week, because it deserves more than a comment. If the
-money did reach the individual, family and community capacity you describe,
-where would you point it first?
+part I would bank is the design changes, default limits only a parent can
+remove, because the optional version reached 1.8 percent of teens in trial
+testimony. I went back through every case since 1913 to trace where the money
+goes and I am publishing it as a series this week. If the money did reach the
+family and community capacity you describe, where would you point it first?
 
-[peer · conceded his fair points first and agreed where he is right (the
-distribution and capacity framing is our own vulnerable tail thesis in his
-words), carried only confirmed figures, teased the series with no link per the
-no body links rule, closed with a question he will want to answer]
+[peer · roughly 930 characters, fits LinkedIn's 1,250 comment cap · conceded
+his fair points first and agreed where he is right (his capacity and
+distribution framing is our vulnerable tail thesis in his words), carried only
+confirmed figures, teased the series with no link, closed with a question he
+will want to answer]
