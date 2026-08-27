@@ -8722,3 +8722,12 @@ minutes, KidRoad's "1 star is X minutes", and the child balance page rows.
 book shows instead of the retired emoji; parent book, child book, passport
 stamps and the Monday credits all read one system. Migrations 224, 225 AND
 226 applied to the live database and verified; nothing is pending.
+
+## 27 August 2026 — the research experts are now permanent agents (PR 910)
+Justin: "Cab we add those agents to this zsssion every time." The verifier,
+the distribution reviewer (Instagram and LinkedIn expert) and the platform
+mapper (the Designer lens) are now checked into .claude/agents/, so every
+session on this repo has them as named agent types automatically. The
+kids-research skill now runs the distribution review on EVERY briefing
+(no longer on request) and the platform mapping whenever a briefing
+proposes features. Content potential notes land in content/packs/.
