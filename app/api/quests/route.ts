@@ -8,7 +8,7 @@ import { getFamilyRegion } from '@/lib/learning/region'
 import { getMinutesUsedToday } from '@/lib/quests/usage'
 import { pushToChild } from '@/lib/quests/kid-push'
 import { scheduleLabel } from '@/lib/quests/due'
-import { STAR_MINUTES } from '@/lib/quests/templates'
+import { getChildStarRate } from '@/lib/quests/time-tiers'
 import { isPrintableAskTitle } from '@/lib/quests/printable-ask'
 import { seedChildBaseline } from '@/lib/concerns/baseline'
 
@@ -359,12 +359,15 @@ export async function POST(req: NextRequest) {
             .eq('id', swapOld.id).eq('user_id', user.id)
         }
 
+        // Priced at THIS child's star rate (migration 225), so the promise in
+        // the push matches what the timer will actually hand over.
+        const rate = await getChildStarRate(supabase, user.id, request.child_id)
         await pushToChild(
           createAdminClient(), user.id, request.child_id,
           swapOld ? 'Your swap is on! 🔁' : 'Your quest idea is on! ⭐',
           swapOld
             ? `"${request.title}" takes the place of "${swapOld.title}", worth the same ${stars} star${stars === 1 ? '' : 's'}. Go get it.`
-            : `"${request.title}" is now a real quest worth ${stars} star${stars === 1 ? '' : 's'}, that is ${stars * STAR_MINUTES} minutes. Go get it.`
+            : `"${request.title}" is now a real quest worth ${stars} star${stars === 1 ? '' : 's'}, that is ${stars * rate} minutes. Go get it.`
         )
       }
     } else {
@@ -407,7 +410,7 @@ export async function POST(req: NextRequest) {
   // A family job carries no stars because contribution is belonging, not
   // payment. The stars column keeps its constraint value; the bank zeroes it.
   const isFamilyJob = body.is_family_job === true
-  const { data, error } = await supabase.from('family_quests').insert({
+  const insertRow = (withSince: boolean) => supabase.from('family_quests').insert({
     user_id: user.id,
     child_id: child_id ?? null,
     title: title.slice(0, 120),
@@ -422,9 +425,17 @@ export async function POST(req: NextRequest) {
     blocks_screens: Boolean(blocks_screens),
     // Spread so a database still short of migrations 223 and 224 keeps
     // creating quests instead of rejecting every one on an unknown column.
-    ...(isFamilyJob ? { is_family_job: true } : {}),
+    // family_job_since makes the no stars rule forward only (migration 226):
+    // set at creation it changes nothing today and protects the history if
+    // the flag is ever flipped off and on again later.
+    ...(isFamilyJob ? { is_family_job: true, ...(withSince ? { family_job_since: new Date().toISOString() } : {}) } : {}),
     ...(cleanSteps(body.steps) ? { steps: cleanSteps(body.steps) } : {}),
   }).select().single()
+  let { data, error } = await insertRow(true)
+  // Pre migration 226: retry without the since column so the job still lands.
+  if (error && isFamilyJob && /family_job_since/i.test(error.message)) {
+    ;({ data, error } = await insertRow(false))
+  }
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
   // Tell the child a job has landed.
@@ -451,7 +462,7 @@ export async function POST(req: NextRequest) {
   // The rule now: this route owns the notification for ONE job. A caller adding
   // several passes quiet and sends a single summary of its own.
   if (data?.child_id && !quiet) {
-    const mins = (data.stars ?? 1) * STAR_MINUTES
+    const mins = (data.stars ?? 1) * await getChildStarRate(supabase, user.id, data.child_id as string)
     // A before screens job is a different message, because it changes what the
     // child can do next rather than just adding to the list.
     const gate = data.blocks_screens
@@ -499,7 +510,14 @@ export async function PATCH(req: NextRequest) {
   const patch: Record<string, unknown> = {}
   if (typeof title === 'string' && title.trim()) patch.title = title.trim().slice(0, 120)
   if (stars !== undefined) patch.stars = Math.min(10, Math.max(1, Number(stars) || 1))
-  if (typeof is_family_job === 'boolean') patch.is_family_job = is_family_job
+  if (typeof is_family_job === 'boolean') {
+    patch.is_family_job = is_family_job
+    // Forward only (migration 226): flipping an old job to family job stops
+    // its stars from TODAY, never retroactively, so the child's lifetime
+    // earned cannot drop for a decision made after the work was done.
+    // Flipping it back clears the mark so a later re flip starts fresh.
+    patch.family_job_since = is_family_job ? new Date().toISOString() : null
+  }
   // Steps: an array sets them (up to five short lines), null clears them.
   if (Array.isArray(steps)) {
     const clean = steps.filter((s: unknown) => typeof s === 'string' && (s as string).trim())
@@ -519,8 +537,15 @@ export async function PATCH(req: NextRequest) {
   if (typeof blocks_screens === 'boolean') patch.blocks_screens = blocks_screens
   if (Object.keys(patch).length === 0) return NextResponse.json({ error: 'nothing to update' }, { status: 400 })
 
-  const { error } = await supabase
+  let { error } = await supabase
     .from('family_quests').update(patch).eq('id', quest_id).eq('user_id', user.id)
+  // Pre migration 226: the since column does not exist yet. Retry without it
+  // so the toggle itself still lands, with the old wholesale zeroing.
+  if (error && 'family_job_since' in patch && /family_job_since/i.test(error.message)) {
+    delete patch.family_job_since
+    ;({ error } = await supabase
+      .from('family_quests').update(patch).eq('id', quest_id).eq('user_id', user.id))
+  }
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })
 }

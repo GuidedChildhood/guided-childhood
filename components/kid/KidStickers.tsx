@@ -325,7 +325,11 @@ export default function KidStickers({ token, stickers, celebrate }: {
                   {s.art
                     // eslint-disable-next-line @next/next/no-img-element
                     ? <img src={s.art} alt={s.name} width={82} height={82} style={{ width: 82, height: 82, objectFit: 'contain' }} />
-                    : <span aria-hidden style={{ fontSize: '46px', lineHeight: 1 }}>{s.emoji}</span>}
+                    // The same drawn badge the book shows, not the emoji it
+                    // retired. The celebration was the one surface still
+                    // popping a trophy emoji for a sticker the child would
+                    // then find looking completely different in their book.
+                    : <StickerBadge s={s} size={78} />}
                 </div>
               ))}
             </div>

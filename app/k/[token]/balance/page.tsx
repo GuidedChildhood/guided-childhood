@@ -180,6 +180,7 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
             waiting={waitingToday}
             stillToEarn={stillToEarn}
             token={token}
+            starMinutes={banks[0]?.starMinutes}
           />
         </section>
 

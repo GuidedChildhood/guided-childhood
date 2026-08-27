@@ -189,6 +189,23 @@ export async function getTimeSettings(
 }
 
 /**
+ * One child's star rate, for any copy or push that prices stars in minutes.
+ * The money paths read it off the bank or the settings map already; this is
+ * for the sites that only have a child id in hand. Fails open to the
+ * deployment default, like everything else here.
+ */
+export async function getChildStarRate(
+  supabase: Client,
+  userId: string,
+  childId: string,
+): Promise<number> {
+  try {
+    const m = await getTimeSettings(supabase, userId, [{ id: childId }])
+    return m.get(childId)?.starMinutes ?? STAR_MINUTES
+  } catch { return STAR_MINUTES }
+}
+
+/**
  * Core minutes already drawn today (UTC day, matching getMinutesUsedToday),
  * per child, read off the sessions that recorded a core draw.
  * Fails soft to zero drawn on a database short of migration 223.

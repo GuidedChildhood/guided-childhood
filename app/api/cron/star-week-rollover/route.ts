@@ -4,7 +4,6 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getStarBanks } from '@/lib/quests/bank'
 import { getFamilyRegion } from '@/lib/learning/region'
 import { pushToChild } from '@/lib/quests/kid-push'
-import { STAR_MINUTES } from '@/lib/quests/templates'
 import { recommendedDailyMinutes } from '@/lib/quests/screen-balance'
 import {
   previousStarWeekStart,
@@ -109,13 +108,16 @@ async function handler(request: Request) {
         // to be: a treat, not a second allowance. The guide is holiday aware
         // and by age, so the cap grows up with the child.
         const guide = Math.max(0, recommendedDailyMinutes(child?.age_band ?? null, { on: new Date(`${week}T12:00:00Z`), region }))
-        const banked = Math.min(bank.weekSurplus * STAR_MINUTES, guide)
+        // THIS child's star rate (migration 225), which the bank already
+        // carries. Pricing the surplus at the deployment default paid a child
+        // on a 10 minute star half their real holiday time.
+        const banked = Math.min(bank.weekSurplus * bank.starMinutes, guide)
         if (banked > 0) {
           holidayRows.push({
             user_id: userId,
             child_id: bank.child_id,
             minutes: banked,
-            stars: Math.round(banked / STAR_MINUTES),
+            stars: Math.round(banked / bank.starMinutes),
             week_start: week,
             // Both required by the key since migration 137. on_date is the
             // Monday for a rollover, which is what makes "one rollover per child
@@ -128,7 +130,9 @@ async function handler(request: Request) {
         }
       }
 
-      const unused = bank.balance * STAR_MINUTES
+      // Same per child rate for the sticker credits: a save is half an hour of
+      // REAL screen time this child left unspent, whatever their star buys.
+      const unused = bank.balance * bank.starMinutes
       const credits = Math.floor(unused / MINUTES_PER_STICKER_CREDIT)
       if (credits < 1) { skipped++; continue }
       rows.push({

@@ -82,6 +82,16 @@ Send the V2 HTML file to Justin. In chat, give him: the one sentence headline fi
 
 The six default lenses fit kids mental health and device topics. When the topic is adjacent (marketing, school sales, content strategy, product formats), keep the STORM structure and swap personas to fit: always six lenses, always including a skeptic whose job is to kill weak claims, and always including the person on the receiving end (the child, the pupil, the parent scrolling, the teacher delivering). Name the lenses honestly in the report chips.
 
+**The bench (named optional lenses, swap in when the topic calls for them):**
+
+- **The Teacher** — a UK Year 6 or secondary form tutor. Sees the Monday morning fallout, runs the informal triage, writes the letters home. Swap in whenever the topic touches school life, transitions, or anything the schools product would sell. (Added 27 August 2026 after the first WhatsApp moment briefing named it the missing seventh lens.)
+- **The Distributor** — a platform growth expert who knows the LinkedIn algorithm (per .claude/skills/viral-post) and Instagram family content (per .claude/skills/family-social). Swap in when the decision the briefing informs is content or audience growth rather than product.
+- **The Designer** — a product translator who asks of every finding "what screen, what table, what words". Swap in when the briefing exists to drive a build, so the What This Means section lands on real surfaces instead of themes.
+
+## Phase 5b — The distribution review (optional, on request or when the topic feeds content)
+
+After verification, run a platform expert pass over the V2 briefing: one agent briefed with .claude/skills/viral-post (LinkedIn) and .claude/skills/content-engine/linkedin-engagement.md, and with .claude/skills/family-social for Instagram and Facebook. It returns, per confirmed finding: is this a hook, a card stat, a carousel, or unpostable, plus the one strongest post angle per platform and any finding that must never be posted (demoted, or safe only with its caveat attached). This pass reviews and ranks, it does not draft; drafting stays with content-engine and viral-post so the voice and evidence guards still run. Deliver its output as a short "content potential" note alongside the briefing.
+
 ## Hard rules
 
 - No dashes anywhere in report copy. Not in headings, buttons, body text, or lens names. Restructure the sentence instead.

@@ -1927,6 +1927,7 @@ export default function KidQuestScreen({
             stageLessonsPassed={stageLessonsPassed}
             stageLessonsTotal={stageLessonsTotal}
             lessonsHref={`/k/${token}/lessons`}
+            starMinutes={bank?.starMinutes ?? STAR_MINUTES}
             onClose={() => setRoadOpen(false)}
           />
         )}

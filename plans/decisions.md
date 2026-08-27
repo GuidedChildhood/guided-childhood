@@ -8686,3 +8686,39 @@ check in fires when three or more screen time asks were declined in two weeks,
 turning the parent toward what is underneath rather than a tighter lock).
 THE-STORY pillar 4 rewritten to the three kinds of time now the build has
 shipped. Migrations 224 AND 225 still need applying to the live database.
+
+## 27 August 2026 — the first WhatsApp moment (research + plan, PR 910)
+Justin asked how to handle an 11 year old's first WhatsApp frenzy and to build
+the moment into the platform. Full kids-research pipeline ran: six lenses,
+contradiction map, briefing, then three verification agents over all 29 sources
+(19 rows confirmed, 8 corrected, one stat demoted). The demoted stat is the
+widely repeated "29 percent of cyberbullying is exclusion", untraceable to any
+primary source; it is now banned from our copy. The biggest correction: the
+trajectory study (Xiao 2025) does NOT show "the spike settles for most"; it
+shows only 3.6 percent stay persistently high, and its sample starts at 13 to
+14 so it cannot see the age 11 spike. Verified briefing:
+briefings/2026-08-27-first-whatsapp-moment-v2.html. Build plan:
+plans/2026-08-27-first-whatsapp-moment-plan.md. Codebase audit found the
+product already owns most of the moment (/dashboard/secondary, first-phone
+agreement, My Contacts guide, migration 218 stage arrival prompts, seven group
+chat scripts), so the plan is small data migrations, not new systems. The
+kids-research skill gained a named lens bench (Teacher, Distributor, Designer)
+and a Phase 5b distribution review at Justin's request.
+
+## 27 August 2026 — tidy up: migration 226, rate sweep, sticker sync (PR 910)
+Justin: "Yes do tidy up do all works including stickers to match what we
+designed in the existing passport stickers part and stickers earnt on their
+app so all synced and works." Shipped: (1) migration 226 family_job_since,
+so flagging an OLD job as a family job stops its stars forward from that day
+instead of retroactively wiping the child's lifetime earned; bank, quest
+create and toggle all carry it, pre 226 databases fall back to the old rule.
+(2) The per child star rate (225) now prices every surface, not just the
+money paths: the Monday rollover (holiday minutes AND sticker credits were
+being paid at the deployment default), the DiGi weekly review (now reads the
+bank, so family jobs are excluded and minutes are summed per child at each
+child's rate), literacy Healthy balance, the four child pushes that promise
+minutes, KidRoad's "1 star is X minutes", and the child balance page rows.
+(3) Sticker sync: the celebration pop now shows the same drawn badge the
+book shows instead of the retired emoji; parent book, child book, passport
+stamps and the Monday credits all read one system. Migrations 224, 225 AND
+226 applied to the live database and verified; nothing is pending.

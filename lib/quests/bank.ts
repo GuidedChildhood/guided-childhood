@@ -148,10 +148,29 @@ export async function getStarBanks(
   // here. Read apart and best effort, never in the select above, so a database
   // still short of the column keeps every bank in the world readable and
   // simply has no family jobs yet.
+  //
+  // FORWARD ONLY since migration 226. Zeroing the quest wholesale meant a
+  // parent flagging an OLD job retroactively wiped every star it had ever
+  // paid, so the map now carries WHEN each job became a family job and the
+  // tick reduce below stops paying from that date. Null means "always was
+  // one", which both preserves pre 226 rows and stays the safe reading when
+  // the column has not landed yet.
+  const familyJobSince = new Map<string, string | null>()
   try {
     const { data: familyJobs, error: fjError } = await supabase
-      .from('family_quests').select('id').eq('user_id', userId).eq('is_family_job', true)
-    if (!fjError) for (const q of familyJobs ?? []) starsByQuest.set(q.id as string, 0)
+      .from('family_quests').select('id, family_job_since').eq('user_id', userId).eq('is_family_job', true)
+    if (!fjError) {
+      for (const q of familyJobs ?? []) {
+        const since = (q as { family_job_since?: string | null }).family_job_since
+        familyJobSince.set(q.id as string, since ? String(since).slice(0, 10) : null)
+      }
+    } else {
+      // Pre 226 database: the column read fails but the flag exists, so fall
+      // back to the old wholesale rule rather than paying family jobs stars.
+      const { data: plain, error: plainError } = await supabase
+        .from('family_quests').select('id').eq('user_id', userId).eq('is_family_job', true)
+      if (!plainError) for (const q of plain ?? []) familyJobSince.set(q.id as string, null)
+    }
   } catch { /* no column, no family jobs */ }
 
   // The per child star rate (migration 225): what one star buys THIS child.
@@ -180,7 +199,14 @@ export async function getStarBanks(
       const earned = (ticksRes.data ?? [])
         .filter(t => t.status === 'approved' && (t.child_id === childId || t.child_id === null))
         .filter(t => !inWeek || (String(t.tick_date ?? '') >= weekStartDate && String(t.tick_date ?? '') < weekEndDate))
-        .reduce((sum, t) => sum + (starsByQuest.get(t.quest_id as string) ?? 1), 0)
+        .reduce((sum, t) => {
+          const qid = t.quest_id as string
+          // A family job pays nothing from the day it became one. Ticks from
+          // before that day keep the stars they honestly earned.
+          const since = familyJobSince.get(qid)
+          if (since !== undefined && (since === null || String(t.tick_date ?? '') >= since)) return sum
+          return sum + (starsByQuest.get(qid) ?? 1)
+        }, 0)
         + (missionsRes.data ?? [])
           .filter(m => m.status === 'done' && m.child_id === childId)
           .filter(m => !inWeek || (String(m.completed_at ?? '') >= weekStartIso && String(m.completed_at ?? '') < weekEndIso))

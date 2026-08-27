@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
-import { STAR_MINUTES } from '@/lib/quests/templates'
+import { getChildStarRate } from '@/lib/quests/time-tiers'
 
 // The parent marks a completed jobs streak with a reward. Device time grants a
 // small star bonus so it becomes real minutes in the child's bank; a printable
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
       await pushToChild(
         admin, user.id, streak.child_id,
         'A streak reward from your grown up 🌟',
-        `${grant} bonus star${grant === 1 ? '' : 's'} for keeping your jobs streak, that is ${grant * STAR_MINUTES} minutes of device time. Superstar!`,
+        `${grant} bonus star${grant === 1 ? '' : 's'} for keeping your jobs streak, that is ${grant * await getChildStarRate(supabase, user.id, streak.child_id)} minutes of device time. Superstar!`,
       )
     } catch { /* push is best effort */ }
   } else {

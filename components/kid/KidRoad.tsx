@@ -26,6 +26,7 @@ const KID_STAGE_LINES: Record<number, string> = {
 export default function KidRoad({
   stageId, childName, buddyName, buddyImg, buddyIsStar, lessonsDoneCount, starsBanked, onClose,
   dailyGuideMinutes = 0, usedTodayMinutes = 0, stageLessonsPassed = null, stageLessonsTotal = null, lessonsHref = null,
+  starMinutes = STAR_MINUTES,
 }: {
   stageId: number
   childName: string
@@ -45,6 +46,9 @@ export default function KidRoad({
   stageLessonsPassed?: number | null
   stageLessonsTotal?: number | null
   lessonsHref?: string | null
+  /** What one star buys THIS child (migration 225). Defaults to the
+   *  deployment rate for surfaces that cannot supply it. */
+  starMinutes?: number
 }) {
   const current = Math.min(5, Math.max(1, stageId))
 
@@ -176,7 +180,7 @@ export default function KidRoad({
                             </span>
                           </div>
                           <p style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 10px' }}>
-                            Jobs pay for screens: 1 star is {STAR_MINUTES} minutes. Every screen counts, TV and consoles too, so the timer always goes on.
+                            Jobs pay for screens: 1 star is {starMinutes} minutes. Every screen counts, TV and consoles too, so the timer always goes on.
                           </p>
                         </>
                       )}

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The First WhatsApp Moment · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>The First WhatsApp Moment</h1>
+    <p style="color:var(--ink-soft);max-width:640px">An 11 year old finishes primary school, the first friends get phones, the class group chat forms, and the messages go wild. How common it is, what the evidence really says, and what to build so Guided Childhood owns this exact week of family life.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · Verified</span>
+      <span class="chip">27 August 2026</span>
+      <span class="chip">The Clinician</span>
+      <span class="chip">The Academic</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Economist</span>
+      <span class="chip">The Historian</span>
+      <span class="chip">The Child</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>Your 11 year old is the rule, not the exception. Smartphone ownership jumps from 56 percent at age 10 to 83 percent at 11, Ofcom names the secondary transition as the tipping point, and 52 to 63 percent of primary age children are already on WhatsApp despite the age 13 terms. The moment lands in the Year 6 summer, when the leavers group chat forms, so that is when we should reach the family, not in Year 7 when the frenzy is already running.</p>
+      <p>The reassuring part is real: messaging friends is the one digital activity with replicated positive effects on friendship closeness, most children navigate this fine, the famous frenzy has never even been quantified in a study, and in the nearest longitudinal work only 3.6 percent of adolescents stay stuck in persistently high problematic use. The harms that do attach to this moment are three specific mechanisms, not screen time: night waking (being woken by your phone monthly predicts new sleep problems at more than five times the odds), visible exclusion (children name being kicked from or left out of the group as a distinct act of bullying, logged and visible in a way the playground never was), and availability pressure (a third of 8 to 17s feel pressure to be popular all or most of the time).</p>
+      <p>The strategic facts all point one way. The under 16 ban exempts messaging, so after Spring 2027 the group chat becomes the legal social life of every under 16 and this moment gets bigger. The blocker apps say in their own support pages they cannot see inside WhatsApp because of encryption, so preparation is the only product category that works here. Children themselves rejected an age ban 19 percent to the parents 90 and asked for skills and settings instead, and a main reason they hide problems is fear of confiscation. Every previous channel had a built in end, the hallway phone, the cost of a text, the MSN log off. WhatsApp is the first with none, so the product's job is to rebuild the hallway in software and ritual. The build list is in the green card below.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The moment is Year 6, and it is near universal: ownership jumps 56 to 83 percent between ages 10 and 11</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Ofcom's national tracker shows a 27 point jump in smartphone ownership across the age 10 to 11 boundary and explicitly names starting secondary school as the tipping point. 86 percent of 10 to 12s already hold an account on a social, messaging or video platform. The intervention window is the spring and summer term of Year 6, before the leavers chat forms.</p>
+      <div class="lens-tags"><span class="supported">Supported: all six lenses</span></div>
+      <div class="cite">Sources: Ofcom Children and Parents 2025/26 (L1, L2)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>WhatsApp is already the default at primary age, and the age 13 rule is a data protection artifact, not a safety line</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>52 percent of 8 to 11s used WhatsApp in the 2023 wave and 63 percent of 8 to 14s in 2025. The minimum age was 16 until April 2024, when Meta lowered it to 13 against organised parent opposition. It is terms and conditions with no verification. Half the class is on it in Year 6, which makes exclusion from it a live social event at 10.</p>
+      <div class="lens-tags"><span class="supported">Supported: Clinician, Skeptic, Economist, Historian, Child</span></div>
+      <div class="cite">Sources: Ofcom 2025/26 (L2), WhatsApp terms change April 2024 (L3)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The ban makes this moment bigger: messaging is exempt, and the blockers cannot see inside it</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>The Children's Wellbeing and Schools Act exempts WhatsApp and messaging from the under 16 ban landing Spring 2027, so the class group chat becomes the legal social network for under 16s, exactly where Australia's displacement data says the social life moves: messaging use jumped from 40.5 to 52.3 percent of under 16s within three months of their ban. Bark and Qustodio state in their own support documentation that they cannot monitor WhatsApp private messages, especially on iPhone, because of end to end encryption. Preparation is the only product category that still works at this moment.</p>
+      <div class="lens-tags"><span class="supported">Supported: Economist, Academic, Child</span></div>
+      <div class="cite">Sources: GOV.UK fact sheet (L4), eSafety Australia via Al Jazeera (L5), Bark and Qustodio support pages via Tech Lockdown (L6)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Night waking is the strongest harm channel in this whole literature, and the fix is cheap</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>In a prospective cohort, being woken by your own phone at least monthly predicted new restless sleep within a year at 5.66 times the odds and trouble falling asleep at 3.51. In the ABCD cohort of around 10,000 eleven and twelve year olds, even leaving the ringer on at bedtime moved sleep outcomes, though that one is a borderline effect. A small UK study found 12.5 percent of 10 year olds waking mid sleep to check notifications. The fear of missing out cognition mediates it, which is why confiscation without conversation produces bedtime battles instead of sleep. The clinician's screening question: not "how many hours" but "is she waking to check".</p>
+      <div class="lens-tags"><span class="supported">Supported: Clinician, Academic</span><span class="sep">·</span><span class="challenged">Challenged: Skeptic (older meta analysis is cross sectional with confounding signatures; the prospective work answers most of it)</span></div>
+      <div class="cite">Sources: Foerster et al. 2019 (L7), ABCD bedtime behaviours (L8), Scott and Woods 2018 (L9), De Montfort 2022 (L10), Carter et al. 2016 (L11)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Messaging is not feeds: the average effect of messaging friends is positive, and the real harms are three specific mechanisms</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Instant messaging with existing friends increases friendship closeness and wellbeing in replicated work, and 72 percent of 13 to 17s say these apps make them feel closer to friends. Nearly all the alarming effect sizes parents hear about come from feed platforms and older teens. The harms that genuinely attach to messaging are availability pressure (digital stress prospectively predicts depressive symptom increases), visible exclusion, and sleep. Importing Instagram era claims into a WhatsApp conversation is a category error.</p>
+      <div class="lens-tags"><span class="supported">Supported: Academic, Skeptic, Child</span></div>
+      <div class="cite">Sources: Valkenburg and Peter 2007, 2009 (L12), Nick et al. 2022 (L13), Ofcom 2026 (L2)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Restriction backfires at this age: active, enabling guidance is the evidence backed strategy</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>A 2025 meta analysis finds active mediation and co use beat restriction for reducing online risks, and a separate 2025 longitudinal study of adolescents finds restrictive mediation and monitoring predict MORE problematic smartphone use, mediated by thwarted autonomy needs. Livingstone's eight country study shows the honest trade: restriction buys risk reduction by selling skills and opportunity. The literature's own conclusion is calibrate, do not gate, which is the product thesis arriving from the outside.</p>
+      <div class="lens-tags"><span class="supported">Supported: Academic, Clinician, Child</span></div>
+      <div class="cite">Sources: Educational Research Review 2025 meta analysis (L14), Livingstone et al. 2017 (L15)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Children hide problems for one reason: confiscation. And they rejected the ban 19 to 90</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Children tell the Children's Commissioner that a main reason they do not report bad experiences is fear the phone gets taken. In the national consultation before the ban, 19 percent of children supported an under 16 minimum age against 90 percent of parents, and what children asked for instead was surgical: restrict explicit images (63 percent), stranger contact (49 percent). The no confiscation promise is not a nice to have, it is the condition of being told anything.</p>
+      <div class="lens-tags"><span class="supported">Supported: Child, Clinician</span></div>
+      <div class="cite">Sources: Children's Commissioner Dec 2025 (L16), DSIT consultation response July 2026 (L17)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Visible exclusion is the signature injury of the group chat era</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>Children name being removed from a group chat as a distinct bullying act in Ofcom's qualitative cyberbullying research, and 32 percent of 8 to 17s report being bullied online. A widely repeated claim that exclusion is 29 percent of cyberbullying could not be traced to any primary source and is dropped here. Unlike the playground, the exclusion is logged and visible: the child can see the group that exists without them. Italian studies link being kicked from WhatsApp groups to worse adjustment via fear of missing out, though the field evidence is cross sectional and mostly at 14, so the mechanism is design worthy while the lasting harm claim stays calibrated. Base rate honesty: about 4 in 5 UK 10 to 15s report no online bullying behaviours in a year.</p>
+      <div class="lens-tags"><span class="supported">Supported: Child, Clinician, Academic</span><span class="sep">·</span><span class="challenged">Challenged: Skeptic (short term distress and correlations, not proven lasting harm)</span></div>
+      <div class="cite">Sources: Ofcom cyberbullying research (L18), Marengo 2021 and Lin 2025 (L19), ONS 2023 (L20)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Mass adds put Year 5 and 6 children in malicious groups, and the protective setting exists but nobody knows it</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>A BBC investigation with police corroboration found children as young as nine added to WhatsApp groups pushing self harm, sexual violence and racism; one group had 900 members, one school found 40 children in a single year group involved. The group privacy setting (Settings, Privacy, Groups, My Contacts) prevents strangers adding a child, and almost no parent has heard of it. This is the single most actionable safeguarding fix at handover.</p>
+      <div class="lens-tags"><span class="supported">Supported: Clinician, Child</span></div>
+      <div class="cite">Sources: BBC 2025 (L21), Safer Schools safeguarding alert (L22)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The frenzy itself has never been measured, and very few children get stuck in it</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>The defining feature of this moment, hundreds of messages in a weekend, exists only as convergent parent and school anecdote; no study has quantified its size, duration or consequences. The nearest longitudinal evidence, a four year Canadian cohort of 2,549 adolescents, found only 3.6 percent in a persistently high problematic use trajectory; the majority sat in a moderate band that rose gently through the teens. That study starts at 13 to 14, so nobody has tracked the age 11 spike itself, and "it settles for everyone" is not a claim the data supports. What it does support: panic is not the base rate. Coach through the spike, watch the small minority who do not come down, never attach harm statistics nobody has.</p>
+      <div class="lens-tags"><span class="supported">Supported: Skeptic</span><span class="sep">·</span><span class="challenged">Challenged: Child and Clinician (the lived pressure is real while it lasts, and children say muting feels dangerous)</span></div>
+      <div class="cite">Sources: PSU trajectories 2025 (L23), school letters and forum threads as anecdote (L24)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The house used to do the parenting. WhatsApp is the first channel with no built in end</h3>
+        <span class="reliability medium">Reliability 6/10</span>
+      </div>
+      <p>The landline lived in the hallway and someone always needed the phone. A text cost money. MSN had the log off and the away message, and that generation names the nightly sign off as the thing today's children lost. WhatsApp has no cost per message, no shared hardware, no closing ritual, and proof of reading. The digital stress literature names the result: availability pressure and online vigilance are top adolescent stressors. The rules the architecture used to enforce now have to be made explicit, which is precisely what a family agreement is. Cultural history voiced as lived memory, mechanism peer reviewed.</p>
+      <div class="lens-tags"><span class="supported">Supported: Historian, Academic</span></div>
+      <div class="cite">Sources: digital stress studies (L25), MSN and landline cultural record (L26), Orben panic cycle 2020 (L27)</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Girls aged 11 to 13 are the one measured window of developmental sensitivity, and Stage 3 sits exactly on it</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The same Oxford and Cambridge group famous for the tiny average effects localises a real window: the link between social media use and lower life satisfaction is strongest for girls at 11 to 13. Girlguiding adds the trap in girls' own numbers: 57 percent are reluctant to take a break for fear of missing out, while only 37 percent feel strong connections online. The average is small, the window is real, and it is our Stage 3.</p>
+      <div class="lens-tags"><span class="supported">Supported: Academic, Clinician, Child</span></div>
+      <div class="cite">Sources: Orben et al. Nature Communications 2022 (L28), Girlguiding 2024/25 (L29)</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>How strong is the sleep evidence</td>
+          <td>Clinician and Academic: prospective cohorts, odds ratios up to 5.66, the strongest channel here</td>
+          <td>Skeptic: the standard meta analysis is all cross sectional, 90 percent heterogeneity, access without use also predicts bad sleep</td>
+          <td class="leans green">A, with B's caveat kept</td>
+        </tr>
+        <tr>
+          <td>Is the frenzy a problem or a phase</td>
+          <td>Child and Clinician: exhausting, muting feels like social death, behaviour issues trace to the chat</td>
+          <td>Skeptic: never quantified, and only 3.6 percent of adolescents stay persistently high in the nearest trajectory study</td>
+          <td class="leans green">Both: design for the spike, watch the few who do not come down</td>
+        </tr>
+        <tr>
+          <td>Does an early phone harm children</td>
+          <td>Press coverage of 2025/26 studies: owners at 12 show higher depression odds</td>
+          <td>Skeptic: self selected samples, cross sectional, and the non owner comparison group is small and unusual when 83 percent own one</td>
+          <td class="leans coral">B: association only, never say causes</td>
+        </tr>
+        <tr>
+          <td>Does group exclusion cause lasting harm</td>
+          <td>Child and Clinician: named by children as bullying, visible in a way playground exclusion never was</td>
+          <td>Skeptic: proven short term distress plus cross sectional correlations at 14, not demonstrated lasting harm at 11</td>
+          <td class="leans green">Mechanism real, claims calibrated</td>
+        </tr>
+        <tr>
+          <td>Is this just the next panic</td>
+          <td>Historian: identical cycle since the novel, and the last messaging panic (txt speak) was cleanly falsified</td>
+          <td>Clinician and Academic: three structural novelties are real, the bedroom at 2am, logged exclusion, no sign off ritual</td>
+          <td class="leans green">Both: content fears old, structure new</td>
+        </tr>
+        <tr>
+          <td>Where the class chat actually lives</td>
+          <td>The parental script: WhatsApp is the destination</td>
+          <td>Child lens: WhatsApp is the doorway and admin layer, the live social life often migrates to Snapchat group chats</td>
+          <td class="leans coral">B now, A after the ban: teach transferable skills, not app rules</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Clinician</span>
+        <h3>Sleep is the vital sign</h3>
+        <p>The presenting complaint is tired and irritable, and the overnight group chat only surfaces on direct questioning. Set the three non negotiables before the SIM goes in: charges downstairs, groups set to My Contacts, and no confiscation for showing us something bad. Ask "is she waking to check", not "how many hours". The child who wants to cut down is an ally if you do not frame it as punishment.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Academic</span>
+        <h3>Messaging is the wrong target for feed era fears</h3>
+        <p>Messaging existing friends is the one digital activity with replicated positive effects. The harms here are digital stress, exclusion and sleep, different mechanisms needing different features. And the 2025 longitudinal surprise: restriction at this age predicts more problematic use, not less, via thwarted autonomy. The literature's own advice is calibrate, do not gate.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>Nobody has measured the frenzy</h3>
+        <p>The defining feature of this moment exists only as anecdote, and in the nearest longitudinal evidence only 3.6 percent of adolescents stay stuck in persistently high problematic use. Four in five 10 to 15s report no online bullying in a year. You do not need an epidemic to justify a charging station and a privacy setting, and no one can out cite a claim kept modest. Own the space by staying calibrated.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Economist</span>
+        <h3>The ban crowns WhatsApp, and the blockers go blind there</h3>
+        <p>Regulation exempts messaging, so the social graph displaces into the one app encryption makes unmonitorable, by the blockers' own admission. Parents already spend 350 to 480 pounds on the first phone year and nothing on preparing the child. The budget exists, it is simply all allocated to hardware and surveillance. That is a pricing anchor.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Historian</span>
+        <h3>Rebuild the hallway</h3>
+        <p>The landline had a hallway, texts had a price, MSN had a log off. The house did the parenting, and WhatsApp is the first children's channel where the architecture is gone, so the rules must be made explicit for the first time. And remember the last messaging panic: txt speak, 2003, flagship evidence probably fabricated, and the research found texting improved spelling. Todays worried parents were the children being panicked about.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Child</span>
+        <h3>It is not the phone, it is the room</h3>
+        <p>The want is the room where the class now lives: in jokes, voice notes, plans, a first private social life. Children complain fluently about the chats while refusing to leave, which is a request for skills and settings, not removal. They rejected the age ban 19 to 90 and asked for the harm out, not themselves out. Surveillance and confiscation are, in their own words, the reasons they stop telling.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">Stages · Product</span>
+          <strong>Build the First Phone Deal, a guided setup the week the phone arrives.</strong> A short flow for the Year 6 spring: the three non negotiables agreed before the SIM goes in (charges downstairs overnight, groups set to My Contacts, the no confiscation promise), the group privacy walkthrough, read receipts off, mute taught as a skill. Driven by the sleep odds ratios, the mass add investigations, and the confiscation finding. Our protected bedtime windows from the star tiers already handle the night side; this flow is the front door onto them.
+        </li>
+        <li>
+          <span class="tag">Scripts</span>
+          <strong>Ship the group chat script set.</strong> The handover conversation, the pile on response (screenshot, do not reply, show me, the phone stays yours), leaving a group kindly, what to say when your child is the one not in the chat, and the parents own class group drama. Scripts live in the database and this moment supplies the words parents search for at 11pm.
+        </li>
+        <li>
+          <span class="tag">Stages · Child app</span>
+          <strong>Add WhatsApp Ready lessons to Stage 3, delivered by Orbit.</strong> Group chat skills as lessons: what a joke reads like to thirty people, the 200 message morning and how to mute without drama, the kick cycle, exit lines, voice notes. Near peer delivery is an established child endorsed format (Childnet Digital Leaders run exactly these assemblies), and Orbit is our 11 to 12 character.
+        </li>
+        <li>
+          <span class="tag">DiGi</span>
+          <strong>Teach DiGi the moment exists.</strong> New expert knowledge rows for messaging versus feeds, digital stress, night waking and the exclusion mechanics, plus a device check in: when a child is 10 to 11 in the summer term, DiGi asks whether the class chat has formed yet and offers the First Phone Deal. DiGi's screening question follows the clinician: is she waking to check.
+        </li>
+        <li>
+          <span class="tag">Schools</span>
+          <strong>Build the Year 6 summer transition lesson.</strong> The group chat lesson before the leavers chat forms, plus a template letter for heads (schools are already writing their own, badly, and hiring lawyers for parent groups). 99.8 percent of primaries ban phones in school, which moves the whole social load to after school WhatsApp with no adult infrastructure. We can be that infrastructure.
+        </li>
+        <li>
+          <span class="tag">Marketing</span>
+          <strong>Make the First WhatsApp Kit the Year 6 lead magnet.</strong> A free printable: the deal, the settings checklist, three scripts. The search phrase is class WhatsApp group Year 6, the panic is seasonal (May to September), and the kit funnels to the starter pack. Copy leads with the calm claim only we can make: the frenzy has never been measured, very few children get stuck in it, and here is what actually matters.
+        </li>
+        <li>
+          <span class="tag">Ban readiness</span>
+          <strong>Position this as the least ban vulnerable part of the product.</strong> Messaging is exempt, so after Spring 2027 the group chat is the only sanctioned social channel for under 16s and this moment grows. The social media law flag does not touch it. Blockers cannot see inside WhatsApp and say so themselves; preparation is the only category that works, which is the whole positioning in one sentence.
+        </li>
+        <li>
+          <span class="tag">Claims discipline</span>
+          <strong>Never say the frenzy harms children.</strong> Say: unmeasured, only 3.6 percent stay persistently high in the nearest longitudinal study, and three specific channels are worth designing for (sleep, exclusion, availability pressure). Never say "it settles for everyone"; the trajectory study starts at 13 to 14 and cannot see the age 11 spike. Never import feed statistics into messaging claims. Say associated, never causes, on early phones. This is the calibration that survives a hostile expert.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>Ofcom's tracker being representative; prospective sleep cohorts (Swiss and US) generalising to UK 11 year olds; Italian WhatsApp exclusion studies as the best proxy for a post ban UK; the assumption that the Spring 2027 ban ships as legislated with messaging exempt; and the frenzy being real despite never being measured, on convergent anecdote. Three verification agents then checked all 29 ledger entries against their primary sources: 19 rows confirmed, 8 corrected, and one statistic (the 29 percent exclusion share) could not be traced to any primary source and was removed. The corrections are applied throughout this version and itemised in the ledger below.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The Year 6 teacher. Heads and class teachers see the Monday morning fallout of the weekend chat, run the informal triage, and increasingly write the letters home. Their view would sharpen the schools product (what they would actually use in the summer term) and might challenge the settling claim, since classroom behaviour data would be the first place a persistent effect shows. Worth a V3 pass before the schools lesson is built.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.ofcom.org.uk/media-use-and-attitudes/media-habits-children/children-and-parents-media-use-and-attitudes-report-2025">L1/L2 Ofcom, Children and Parents: Media Use and Attitudes</a> · Ofcom 2025/26<span class="note">Every figure matched the primary report: 56 to 83 percent ownership jump at 10 to 11 ("starting senior school is the tipping point" is Ofcom's own line); 63 percent of 8 to 14s on WhatsApp; 33 percent popularity pressure; 72 percent feel closer to friends; 86 percent of 10 to 12s hold an account; 52 percent of 8 to 11s from the 2023 wave.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.cnn.com/2024/04/12/tech/whatsapp-minimum-age-europe/index.html">L3 WhatsApp lowers minimum age 16 to 13, UK and EU</a> · CNN and others, April 2024<span class="note">Announced February 2024, effective 11 April 2024. Terms change only, no verification mechanism.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.gov.uk/government/publications/fact-sheet-new-rules-to-protect-children-online/fact-sheet-new-rules-to-protect-children-online">L4 GOV.UK fact sheet, new rules to protect children online</a> · UK Government 2026<span class="note">WhatsApp and Signal explicitly not included in the under 16 ban; protections due Spring 2027.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.aljazeera.com/news/2026/8/3/australias-under-16-social-media-ban-failing-study-shows-what-it-means">L5 eSafety Commissioner research on the Australian ban</a> · via Al Jazeera, August 2026<span class="note">8 in 10 still using confirmed (85.9 falling only to 81.5 percent). The "21 percent shifted to exempt platforms" line was a misreading and is removed: the actual findings are Pinterest use rising 16.6 to 21.8 percent and messaging use jumping 40.5 to 52.3 percent.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.techlockdown.com/articles/does-bark-monitor-whatsapp-private-messages">L6 Bark and Qustodio WhatsApp monitoring limits</a> · vendor documentation via Tech Lockdown<span class="note">Both state they cannot monitor WhatsApp private messages, especially on iOS; Qustodio's own help doc confirms it.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.mdpi.com/1660-4601/16/3/518">L7 Foerster et al., prospective cohort on nocturnal phone use</a> · Int J Environ Res Public Health 2019<span class="note">ORs exact: restless sleep 5.66, sleep onset problems 3.51 within a year (Swiss HERMES cohort, n 843). Corrected: the journal is the International Journal of Environmental Research and Public Health, not Int J Public Health.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10823798/">L8 ABCD study bedtime screen behaviours, ages 11 to 12</a> · 2023 and prospective follow up 2024<span class="note">Ringer on versus phone off, sleep disturbance OR 1.25 (CI touches 1.00, borderline); texting in bed prospectively predicts shorter duration (n 9,398).</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/30031979/">L9 Scott and Woods, fear of missing out and sleep</a> · Journal of Adolescence 2018<span class="note">FOMO mediates night time use and sleep outcomes, n 101, ages 12 to 18.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://fortune.com/well/2022/09/19/kid-losing-sleep-social-media">L10 De Montfort University study of 10 year olds</a> · 2022, press reported<span class="note">12.5 percent waking overnight to check; mean 8.7 hours sleep; small n 60, press release not peer review, indicative only.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/27802500/">L11 Carter et al., bedtime device use meta analysis</a> · JAMA Pediatrics 2016<span class="note">20 studies, n 125,198: OR 2.17 inadequate sleep quantity (90 percent heterogeneity), 1.46 poor quality; access without use OR 1.79; all included studies cross sectional.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://academic.oup.com/jcmc/article/12/4/1169/4582968">L12 Valkenburg and Peter, stimulation versus displacement</a> · JCMC 2007 and J Communication 2009<span class="note">Findings confirmed. Corrected: the samples are two studies, n 1,210 (2007 survey) and n 812 (2009 longitudinal panel), not one.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/34666954/">L13 Nick et al., adolescent digital stress</a> · Journal of Adolescent Health 2022<span class="note">Nearly half report digital stress at least sometimes (the precise 42.2 percent sits in the paywalled full text, unverified); prospectively predicts depressive symptom increases, n 680.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.sciencedirect.com/science/article/pii/S1747938X25000363">L14 Digital parenting meta analysis, plus Scientific Reports 2025</a> · Educational Research Review 2025; Sci Rep 2025<span class="note">Active mediation and co use beat restriction for reducing risks: confirmed in the meta analysis. Corrected: the restriction predicts problematic use finding belongs to a separate 2025 Scientific Reports longitudinal study of Chinese adolescents, now cited as its own source.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://onlinelibrary.wiley.com/doi/10.1111/jcom.12277">L15 Livingstone et al., maximizing opportunities</a> · Journal of Communication 2017<span class="note">Enabling versus restrictive mediation, n 6,400 parents of 6 to 14s, eight European countries.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.childrenscommissioner.gov.uk/news-and-blogs/press-notice-children-say-parents-in-the-dark-about-online-experiences-as-childrens-commissioner-launches-new-guide-on-online-safety/">L16 Children's Commissioner, parents in the dark</a> · December 2025<span class="note">Children avoided telling parents for fear of losing the phone or new restrictions. Report softened "the biggest reason" to "a main reason" since the source highlights the barrier without ranking it.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.gov.uk/government/consultations/growing-up-in-the-online-world-a-national-consultation/outcome/growing-up-in-the-online-world-government-response-july-2026">L17 DSIT, growing up in the online world consultation response</a> · July 2026<span class="note">19 percent of children versus 90 percent of parents back a minimum age of 16; children prefer feature level restrictions (explicit images 63, strangers 49, livestreaming 45); around 14,000 child responses.</span></div></div>
+      <div class="ledger-row"><span class="verdict demoted">Part demoted</span><div class="src"><a href="https://www.citystgeorges.ac.uk/news-and-events/news/2024/march/ofcom-report-cyberbullying-among-uk-children">L18 Ofcom cyberbullying research</a> · 2024<span class="note">32 percent of 8 to 17s bullied online: confirmed. The "exclusion is around 29 percent of cyberbullying" figure could not be traced to any primary source (the Ofcom report is qualitative) and has been removed from the briefing.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/02654075241298148">L19 Marengo 2021 and Lin 2025, WhatsApp exclusion studies</a> · JSPR<span class="note">Kicked from classmate groups linked to worse adjustment via FOMO (2021) and lower grades (2025). The n 858, mean age 14.01 sample belongs to Lin 2025; both cross sectional, Italian schools.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.ons.gov.uk/peoplepopulationandcommunity/crimeandjustice/bulletins/bullyingandonlineexperiencesamongchildreninenglandandwales/yearendingmarch2023">L20 ONS bullying and online experiences</a> · years ending March 2020 and 2023<span class="note">19.1 percent of 10 to 15s experienced an online bullying behaviour (2023): confirmed. Corrected: the 52 percent who would not call it bullying is from the year ending March 2020 release, so it is dated to that wave.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.bbc.co.uk/news/articles/cy0l4z8n1p9o">L21 BBC investigation, nine year olds in malicious groups</a> · 2025<span class="note">Every particular matched: children as young as nine; 900 member group; 40 children in one year group; Northumbria Police warnings to thousands of parents; pupils in Years 5 and 6.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://oursaferschools.co.uk/2025/10/01/safeguarding-alert-add-everyone-whatsapp-group/">L22 Safer Schools safeguarding alert, Add Everyone groups</a> · October 2025<span class="note">Alert and the My Contacts fix confirmed. Corrected: the alert's stated victims are children as young as 11 and 12; Years 5 and 6 are its recommended window to act, not the stated targets.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12505833/">L23 Xiao et al., problematic smartphone use trajectories</a> · British Journal of Developmental Psychology 2025<span class="note">Corrected, and the finding was rewritten. Actual classes (n 2,549, grades 8 to 12): 60.9 percent moderate increasing, 35.5 percent low rising then declining, 3.6 percent high stable. Supports "only 3.6 percent stay persistently high", not "majority in low or stable trajectories". The sample starts at 13 to 14, so it cannot see the age 11 spike.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://kaa.org.uk/wp-content/uploads/2025/11/WhatsApp-Snapchat-Groups-Year-7.pdf">L24 School letters and forum threads on the Year 6/7 frenzy</a> · 2023 to 2025<span class="note">KAA Year 7 letter (24 November 2025) and multiple Mumsnet Year 6 threads verified to exist. No quantified study of class group chat volume found anywhere; the absence is confirmed and is itself the finding.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.sciencedirect.com/science/article/abs/pii/S0736585322001101">L25 Digital stress and availability pressure studies</a> · Telematics and Informatics 2022; Children 2024<span class="note">Belgian focus groups (De Groote and Van Ouytsel) and the Finnish study both confirmed on content: availability stress and online vigilance among top stressors, the seen function drives checking. Corrected: the Belgian paper is in Telematics and Informatics, not Computers in Human Behavior.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://academic.oup.com/jcmc/article/11/3/667/4617702">L26 Thurlow on the texting panic; Crystal, Txtng: The Gr8 Db8; MSN and landline cultural record</a> · 2006 to 2008 plus retrospectives<span class="note">Panic exaggeration and the under 10 percent abbreviation figure confirmed; the 2003 "smmr hols" essay was never verified and is widely held a hoax. Attribution nuance: textism use predicting spelling growth is Wood et al. 2011; the 2014 paper measured grammatical violations, also with no negative associations. Landline and MSN material is cultural memory, voiced as such.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://journals.sagepub.com/doi/10.1177/1745691620919372">L27 Orben, the Sisyphean cycle of technology panics</a> · Perspectives on Psychological Science 2020<span class="note">The panic cycle documented across novels, radio, television and smartphones, as described.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nature.com/articles/s41467-022-29296-3">L28 Orben, Przybylski, Blakemore and Kievit, windows of developmental sensitivity</a> · Nature Communications 2022<span class="note">Girls 11 to 13 the measured sensitivity window (boys 14 to 15, both sexes again at 19); n 84,011 cross sectional plus 17,409 longitudinal. All figures match the paper.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.girlguiding.org.uk/globalassets/docs-and-resources/research-and-campaigns/girls-attitudes-survey-2024.pdf">L29 Girlguiding Girls' Attitudes Survey</a> · 2024 and 2025<span class="note">57 percent reluctant to take a break (2024); 37 percent feel strong connections online, down 7 points in four years, and 44 percent of 7 to 10s sometimes have no one to talk to (2025). Split across waves is accurate.</span></div></div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified · 27 August 2026
+  </footer>
+
+</div>
+</body>
+</html>
