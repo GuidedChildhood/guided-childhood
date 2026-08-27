@@ -8658,3 +8658,16 @@ CHOOSE eight (calm bodies, routines, gaming spend, privacy settings, mood,
 readiness at 16, ai mastery, digital identity), TELL four (kind and safe with
 others, group chats and workarounds, consent and the law, sextortion). All
 21 rows tagged, verified, no lesson content touched.
+
+## 26 August 2026, phase 2 of the star tiers built (the Dr Becky layer)
+
+On Justin's "continue phase 2": family jobs split (is_family_job quests earn
+no stars in the bank, warm belonging framing on the child card and pushes,
+parent toggle per job on the manage page), job steps (migration 224,
+family_quests.steps text[], parent writes up to five lines, child gets little
+scaffold ticks with stars only on the whole job), and the three mood and
+compliance hooks cleaned (Screen off first ask renamed to the controllable
+act, the great attitude chip replaced with persistence, the fair play star now
+pays only children whose own week ran through the timer, never the parent's
+answer alone). Migration 224 claimed by PR 908 and NOT yet applied to the
+live database, apply it with the merge.

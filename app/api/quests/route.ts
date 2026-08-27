@@ -397,6 +397,16 @@ export async function POST(req: NextRequest) {
     const days = [...new Set(v.filter(n => Number.isInteger(n) && n >= 0 && n <= 6) as number[])]
     return days.length ? days.sort() : null
   }
+  // Up to five short steps that chunk a big job (migration 224). Scaffolding
+  // only: the stars sit on the finished job, never per step.
+  const cleanSteps = (v: unknown): string[] | null => {
+    if (!Array.isArray(v)) return null
+    const steps = v.filter(s => typeof s === 'string' && s.trim()).map(s => (s as string).trim().slice(0, 60)).slice(0, 5)
+    return steps.length ? steps : null
+  }
+  // A family job carries no stars because contribution is belonging, not
+  // payment. The stars column keeps its constraint value; the bank zeroes it.
+  const isFamilyJob = body.is_family_job === true
   const { data, error } = await supabase.from('family_quests').insert({
     user_id: user.id,
     child_id: child_id ?? null,
@@ -410,6 +420,10 @@ export async function POST(req: NextRequest) {
     // value is a 400 rather than a constraint error the caller cannot read.
     band: ['morning', 'after_school', 'evening'].includes(body.band) ? body.band : null,
     blocks_screens: Boolean(blocks_screens),
+    // Spread so a database still short of migrations 223 and 224 keeps
+    // creating quests instead of rejecting every one on an unknown column.
+    ...(isFamilyJob ? { is_family_job: true } : {}),
+    ...(cleanSteps(body.steps) ? { steps: cleanSteps(body.steps) } : {}),
   }).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
@@ -443,6 +457,17 @@ export async function POST(req: NextRequest) {
     const gate = data.blocks_screens
       ? ' This one comes before screens today.'
       : ''
+    // A family job says belonging, never payment: no star count, no minutes,
+    // because pricing it is exactly what the flag exists to avoid.
+    if (isFamilyJob) {
+      const everyFj = scheduleLabel(data.schedule as string | null, data.schedule_days as number[] | null)
+      await pushToChild(
+        createAdminClient(), user.id, data.child_id as string,
+        `A new family job ${data.emoji ?? '🏠'}`,
+        `"${data.title}" is one of the jobs we all do for each other.${everyFj ? ` It happens ${everyFj}.` : ''}${gate} Tap it done when it is finished.`
+      )
+      return NextResponse.json({ quest: data })
+    }
     // How often it happens, said ONCE, here.
     //
     // Justin: "if it's set for weekdays it sends a notification for exact day
@@ -468,12 +493,21 @@ export async function PATCH(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { quest_id, title, stars, schedule, schedule_days, blocks_screens } = await req.json()
+  const { quest_id, title, stars, schedule, schedule_days, blocks_screens, is_family_job, steps } = await req.json()
   if (!quest_id) return NextResponse.json({ error: 'quest_id required' }, { status: 400 })
 
   const patch: Record<string, unknown> = {}
   if (typeof title === 'string' && title.trim()) patch.title = title.trim().slice(0, 120)
   if (stars !== undefined) patch.stars = Math.min(10, Math.max(1, Number(stars) || 1))
+  if (typeof is_family_job === 'boolean') patch.is_family_job = is_family_job
+  // Steps: an array sets them (up to five short lines), null clears them.
+  if (Array.isArray(steps)) {
+    const clean = steps.filter((s: unknown) => typeof s === 'string' && (s as string).trim())
+      .map((s: unknown) => (s as string).trim().slice(0, 60)).slice(0, 5)
+    patch.steps = clean.length ? clean : null
+  } else if (steps === null) {
+    patch.steps = null
+  }
   if (['daily', 'weekdays', 'weekend', 'once'].includes(schedule)) patch.schedule = schedule
   // Chosen days: an array sets them, null clears back to the schedule text.
   if (Array.isArray(schedule_days)) {

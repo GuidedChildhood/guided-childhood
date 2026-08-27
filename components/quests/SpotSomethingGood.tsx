@@ -12,7 +12,10 @@ const REASONS: { emoji: string; label: string }[] = [
   { emoji: '💛', label: 'Being kind' },
   { emoji: '🤝', label: 'Helping without being asked' },
   { emoji: '🧸', label: 'Looking after their sibling' },
-  { emoji: '🌟', label: 'A great attitude today' },
+  // A controllable act, not a mood. "A great attitude today" paid disposition,
+  // which a child cannot switch on, and rewarding feelings teaches performing
+  // them. Persistence is theirs to choose.
+  { emoji: '🌟', label: 'Kept going when something was hard' },
 ]
 
 export default function SpotSomethingGood({ kids }: { kids: { id: string; name: string }[] }) {

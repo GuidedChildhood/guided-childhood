@@ -20,6 +20,10 @@ export type KidQuestRow = {
   schedule_days?: number[] | null
   blocks_screens?: boolean
   created_at?: string | null
+  /** A family job earns no stars, contribution is belonging (migration 223). */
+  is_family_job?: boolean
+  /** Optional checklist that chunks a big job; stars stay on the whole job (224). */
+  steps?: string[] | null
 }
 
 export type KidJobsRead = {
@@ -45,8 +49,11 @@ export async function readKidJobs(
   const today = new Date().toISOString().slice(0, 10)
 
   const [questsRes, todayTicksRes] = await Promise.all([
+    // select * like the parent board, so the optional columns that arrive with
+    // later migrations (is_family_job in 223, steps in 224) flow through when
+    // present and their absence never breaks the child's list.
     supabase.from('family_quests')
-      .select('id, title, emoji, stars, schedule, schedule_days, blocks_screens, created_at')
+      .select('*')
       .eq('user_id', userId)
       .eq('active', true)
       .or(`child_id.eq.${childId},child_id.is.null`)
