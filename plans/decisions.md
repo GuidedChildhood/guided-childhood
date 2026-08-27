@@ -8763,3 +8763,16 @@ writes a row before the secret check, so zero trace means Vercel never calls
 them. Still the same ask: open the Vercel Cron Jobs tab and check those two
 are listed and enabled, ideally before September 1 so passport-check catches
 its next slot.
+
+## 27 August 2026 — cron audit result: nothing is broken
+Justin asked to check all crons as one did not fire. Read cron_runs on the
+live database: every scheduled job that has had a due slot since deployment
+ran on time over the last 7 days, zero hung, zero failed (device-time every
+minute, the pushes, the emails, the reminders, weekly review Sunday, star
+rollover Monday, all green). The three jobs with no runs are simply waiting
+for their FIRST ever slot: passport-check (added 5 Aug, runs 1st of the
+month at 17:00, first fire 1 September), answer-review (added 2 Aug at
+20:29, its 2nd-at-05:00 slot had passed that morning, first fire 2
+September), legal-watch (quarterly, first fire 3 October). Nothing to fix;
+if the August passport check matters it can be fired once by hand from the
+Vercel dashboard, otherwise September catches it.
