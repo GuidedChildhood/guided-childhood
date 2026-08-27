@@ -360,7 +360,9 @@ Ofcom's user age research, and the New Mexico judgment coverage.
 
 # Reply to Jonathan M. Wicks (the settlement comment)
 
-Ready to paste:
+Two variants, pick by timing.
+
+## Variant A · the straight answer (use if the series is not imminent)
 
 Jonathan, big headline, smaller plumbing. About 12.7 billion of it is guaranteed
 over ten years, the rest depends on whether TikTok and YouTube adopt matching
@@ -377,3 +379,21 @@ or the defaults?
 [peer · answered the actual question with the guaranteed versus contingent split,
 led with evidence, closed with a real question; every figure from confirmed ledger
 rows]
+
+## Variant B · the series tease (use if Part 1 lands within days, turns his
+thread into the launch pad)
+
+Jonathan, your question sent me down a rabbit hole I have not climbed out of
+since. The short version: about 12.7 billion is guaranteed over ten years, the
+rest depends on what TikTok and YouTube do next, and the last time states won
+money on this scale they ended up spending 3.5 percent of it on the thing they
+had promised it to. I went back through every big tech case since 1913 to see
+where the money actually goes, and I am publishing the whole trail as a series
+this week, because the history answers your question better than a comment can.
+The part I would bank today is the default limits only a parent can remove,
+since the optional version of the same idea reached 1.8 percent of teens
+according to trial testimony. Which would you watch first, the money or the
+defaults?
+
+[peer with a soft series pointer · no link, the series is named not pasted, per
+the no body links rule; same confirmed figures as Variant A]
