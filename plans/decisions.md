@@ -8853,3 +8853,17 @@ window (~700 in the June wave week); the readership is senior (founders,
 headmasters, professors at King's, UCL, Oxford, Melbourne), so the
 Odgers bar is literal. Publish pack updated with the cadence and UK
 anchor rules.
+
+## 27 August 2026 — ban positioning language locked (Justin, in comment thread)
+Two framings adopted for all ban content and comment replies, born in the
+Tristan thread on the Australia post and Odgers tested: (1) "the ban is
+failing as a wall and working as a stick": exclusion failed on its own
+terms (8 in 10 Australian under 16s still on social media) while the
+threat of listing produces design change in boardrooms, and the thing
+doing the work in the success half is design change, so crediting the
+stick concedes nothing and argues for writing design rules directly;
+(2) "risk changes shape, not size" on migration: children leaving
+engagement engineered feeds land in less algorithmic but less moderated
+spaces, trading amplification harms for contact and moderation harms.
+Both lines feed docs/11 Stage 4 content ahead of Spring 2027 and the
+Part 6 close of the Follow the Money series.
