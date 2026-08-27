@@ -46,6 +46,7 @@ export function WaitingNote({ stars }: { stars: number }) {
  */
 export function TodayJobs({
   jobs, approvedIds, waitingIds, earned, waiting, stillToEarn, token,
+  starMinutes = STAR_MINUTES,
 }: {
   jobs: JobRow[]
   approvedIds: Set<string>
@@ -54,6 +55,9 @@ export function TodayJobs({
   waiting: number
   stillToEarn: number
   token: string
+  /** What one star buys THIS child (migration 225). Defaults to the
+   *  deployment rate for surfaces that cannot supply it. */
+  starMinutes?: number
 }) {
   if (jobs.length === 0) {
     return (
@@ -67,7 +71,7 @@ export function TodayJobs({
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 10px' }}>
         <strong>{earned} star{earned === 1 ? '' : 's'}</strong> in the bank so far today
         {waiting > 0 && <>, <strong>{waiting}</strong> waiting on a yes</>}
-        {stillToEarn > 0 && <>, and <strong>{stillToEarn} more</strong> still there to be had, worth {stillToEarn * STAR_MINUTES} minutes.</>}
+        {stillToEarn > 0 && <>, and <strong>{stillToEarn} more</strong> still there to be had, worth {stillToEarn * starMinutes} minutes.</>}
         {stillToEarn === 0 && <>. Everything for today is done.</>}
       </p>
       {/* An outstanding job is a link to the job, not a line about it. Justin:
@@ -91,7 +95,7 @@ export function TodayJobs({
                 {q.title}
               </span>
               <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: approved ? 'var(--ink-muted)' : 'var(--terracotta-dark)' }}>
-                {pending ? 'waiting on a yes' : `${q.stars * STAR_MINUTES} min`}
+                {pending ? 'waiting on a yes' : `${q.stars * starMinutes} min`}
               </span>
               {!settled && (
                 <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, color: 'var(--ink-muted)' }}>›</span>

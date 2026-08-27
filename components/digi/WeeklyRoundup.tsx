@@ -21,6 +21,9 @@ export type Stats = {
   ageBands?: (string | null)[]
   questsApproved?: number
   starsEarned?: number
+  /** Minutes those stars were worth, priced per child (migration 225).
+   *  Optional because reviews stored before it landed carry only the count. */
+  earnedMinutes?: number
   starsSpent?: number
   deviceMinutes?: number
   activeDays?: number
@@ -52,9 +55,12 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
   const activeDays = s.activeDays ?? 0
   const momentsDone = s.momentsDone ?? 0
 
+  // Stored reviews from before migration 225 carry only the star count, so
+  // the deployment default stays as their fallback pricing.
+  const earnedMins = s.earnedMinutes ?? starsEarned * STAR_MINUTES
   const bal = weekBalance({
     screenMins: s.deviceMinutes ?? 0,
-    earnedMins: starsEarned * STAR_MINUTES,
+    earnedMins,
     ageBands: s.ageBands ?? [],
   })
   const tip = expertWeekTip({ balanceTone: bal.tone, activeDays, questsApproved: s.questsApproved ?? 0, momentsDone })
@@ -65,7 +71,7 @@ export default function WeeklyRoundup({ review, onContinue, scoreMoves = [] }: {
 
   // The week's wins, gathered from the family's own numbers, best first.
   const wins: { icon: string; text: string }[] = []
-  if (starsEarned > 0) wins.push({ icon: '⭐', text: `${starsEarned} stars earned, worth ${starsEarned * STAR_MINUTES} minutes worked for, not just given` })
+  if (starsEarned > 0) wins.push({ icon: '⭐', text: `${starsEarned} stars earned, worth ${earnedMins} minutes worked for, not just given` })
   if (s.topQuest) wins.push({ icon: '🏆', text: `${firstName} leaned into “${s.topQuest}” the most` })
   if (activeDays >= 3) wins.push({ icon: '📅', text: `Showed up ${activeDays} of 7 days this week` })
   if (momentsDone > 0) wins.push({ icon: '💛', text: `${momentsDone} calm moment${momentsDone === 1 ? '' : 's'} handled well` })

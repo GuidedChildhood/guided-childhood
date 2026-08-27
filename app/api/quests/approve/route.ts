@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { pushToChild } from '@/lib/quests/kid-push'
-import { STAR_MINUTES } from '@/lib/quests/templates'
+import { getChildStarRate } from '@/lib/quests/time-tiers'
 import { recordJobsStreak } from '@/lib/pathway/jobs-streak'
 
 // After a job is confirmed, see whether it just completed a five day run of
@@ -67,7 +67,9 @@ async function isFamilyJobQuest(supabase: Awaited<ReturnType<typeof createClient
 }
 
 async function tellChildConfirmed(userId: string, childId: string, title: string, stars: number, familyJob = false) {
-  const minutes = stars * STAR_MINUTES
+  // Priced at THIS child's rate (migration 225), so the yes message promises
+  // the minutes the timer will actually give.
+  const minutes = stars * await getChildStarRate(createAdminClient(), userId, childId)
   await pushToChild(
     createAdminClient(), userId, childId,
     'Your grown up said yes! ✅',

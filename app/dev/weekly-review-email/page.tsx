@@ -32,6 +32,7 @@ export default function DevWeeklyReviewEmail() {
         ageBands: ['11-13'],
         questsApproved: 6,
         starsEarned: 14,
+        earnedMinutes: 70,
         starsSpent: 8,
         deviceMinutes: 410,
         activeDays: 5,

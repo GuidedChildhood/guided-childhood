@@ -52,7 +52,7 @@ export async function getLiteracyStatuses(
   const weekStart = monday.toISOString().slice(0, 10)
 
   const [ticksRes, questsRes, spendsRes, concernsRes, lessonsRes, doneRes, guidesRes, setupRes, checkinsRes] = await Promise.all([
-    (() => { const q = supabase.from('quest_ticks').select('quest_id').eq('user_id', userId).eq('status', 'approved').gte('tick_date', weekStart); return scope ? q.or(scope) : q })(),
+    (() => { const q = supabase.from('quest_ticks').select('quest_id, tick_date').eq('user_id', userId).eq('status', 'approved').gte('tick_date', weekStart); return scope ? q.or(scope) : q })(),
     supabase.from('family_quests').select('id, stars').eq('user_id', userId),
     (() => { const q = supabase.from('star_spends').select('minutes').eq('user_id', userId).gte('created_at', `${weekStart}T00:00:00Z`); return scope ? q.or(scope) : q })(),
     (() => { const q = supabase.from('concerns').select('id').eq('user_id', userId).in('status', ['open', 'improving']); return scope ? q.or(scope) : q })(),
@@ -64,7 +64,40 @@ export async function getLiteracyStatuses(
   ])
 
   const starsOf = new Map((questsRes.data ?? []).map(q => [q.id, q.stars ?? 1]))
-  const earnedMins = (ticksRes.data ?? []).reduce((s, t) => s + (starsOf.get(t.quest_id) ?? 1), 0) * STAR_MINUTES
+  // Family jobs pay nothing from the day they became one (migrations 223 and
+  // 226), and this child's star buys THEIR rate (225). Both best effort: a
+  // database short of either column keeps the old reading.
+  const familyJobSince = new Map<string, string | null>()
+  try {
+    const { data: fj, error: fjErr } = await supabase
+      .from('family_quests').select('id, family_job_since').eq('user_id', userId).eq('is_family_job', true)
+    if (!fjErr) {
+      for (const q of fj ?? []) {
+        const since = (q as { family_job_since?: string | null }).family_job_since
+        familyJobSince.set(String(q.id), since ? String(since).slice(0, 10) : null)
+      }
+    } else {
+      const { data: plain, error: plainErr } = await supabase
+        .from('family_quests').select('id').eq('user_id', userId).eq('is_family_job', true)
+      if (!plainErr) for (const q of plain ?? []) familyJobSince.set(String(q.id), null)
+    }
+  } catch { /* no column, no family jobs */ }
+  let starRate = STAR_MINUTES
+  if (childId) {
+    try {
+      const { data: rateRow } = await supabase
+        .from('child_time_settings').select('star_minutes')
+        .eq('user_id', userId).eq('child_id', childId).maybeSingle()
+      const rate = Number((rateRow as { star_minutes?: number | null } | null)?.star_minutes)
+      if (Number.isFinite(rate) && rate >= 1 && rate <= 60) starRate = rate
+    } catch { /* deployment default */ }
+  }
+  const earnedMins = (ticksRes.data ?? []).reduce((s, t) => {
+    const qid = String(t.quest_id)
+    const since = familyJobSince.get(qid)
+    if (since !== undefined && (since === null || String((t as { tick_date?: string }).tick_date ?? '') >= since)) return s
+    return s + (starsOf.get(t.quest_id) ?? 1)
+  }, 0) * starRate
   const usedMins = (spendsRes.data ?? []).reduce((s, x) => s + (Number(x.minutes) || 0), 0)
   const healthy = usedMins === 0 || usedMins <= earnedMins
   const worries = (concernsRes.data ?? []).length

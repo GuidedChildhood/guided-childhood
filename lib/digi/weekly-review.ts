@@ -3,6 +3,8 @@ import { firstText } from '@/lib/digi/text'
 import { DIGI_MODEL, DIGI_MODEL_FALLBACKS } from '@/lib/config/digi'
 import { ROUTINE_PACKS } from '@/lib/quests/routines'
 import { STAR_MINUTES } from '@/lib/quests/templates'
+import { getStarBanks } from '@/lib/quests/bank'
+import { getFamilyRegion } from '@/lib/learning/region'
 import Anthropic from '@anthropic-ai/sdk'
 
 // The Sunday DiGi weekly review. Reads one family's own week off the tables the
@@ -22,6 +24,12 @@ export type WeekStats = {
   ageBands: (string | null)[]
   questsApproved: number
   starsEarned: number
+  /**
+   * What those stars were worth in minutes, priced per child at each child's
+   * own star rate (migration 225). starsEarned times the deployment default
+   * went wrong the day two children could hold two different rates.
+   */
+  earnedMinutes: number
   starsSpent: number
   deviceMinutes: number
   activeDays: number
@@ -62,7 +70,7 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
   const endIso = new Date(start.getTime() + 7 * 86_400_000).toISOString()
 
   const [childRes, ticksRes, questsRes, spendsRes, schoolRes, momentsRes, shiftRes] = await Promise.all([
-    admin.from('children').select('name, age_band').eq('parent_id', userId),
+    admin.from('children').select('id, name, age_band').eq('parent_id', userId),
     admin.from('quest_ticks').select('quest_id, tick_date, status')
       .eq('user_id', userId).eq('status', 'approved')
       .gte('tick_date', weekStart).lt('tick_date', endIso.slice(0, 10)),
@@ -114,7 +122,27 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
 
   const questById = new Map((questsRes.data ?? []).map(q => [q.id, q]))
   const ticks = ticksRes.data ?? []
-  const starsEarned = ticks.reduce((s, t) => s + (questById.get(t.quest_id)?.stars ?? 1), 0)
+  // The bank is the one true reading of the star economy: it excludes family
+  // jobs, counts missions and bonuses, and knows each child's own star rate.
+  // The tick arithmetic below is only the fallback for when it cannot answer.
+  let starsEarned = ticks.reduce((s, t) => s + (questById.get(t.quest_id)?.stars ?? 1), 0)
+  let earnedMinutes = starsEarned * STAR_MINUTES
+  try {
+    const kidRows = (childRes.data ?? []) as { id?: string; name: string; age_band?: string | null }[]
+    const kidIds = kidRows.map(k => String(k.id)).filter(Boolean)
+    if (kidIds.length > 0) {
+      const region = await getFamilyRegion(admin, userId)
+      const banks = await getStarBanks(
+        admin, userId, kidIds,
+        Object.fromEntries(kidRows.map(k => [String(k.id), k.age_band ?? null])),
+        weekStart, region,
+      )
+      // weekEarned is capped for spending; the review talks about what was
+      // WORKED FOR, so the surplus the cap turned away still counts here.
+      starsEarned = banks.reduce((s, b) => s + b.weekEarned + b.weekSurplus, 0)
+      earnedMinutes = banks.reduce((s, b) => s + (b.weekEarned + b.weekSurplus) * b.starMinutes, 0)
+    }
+  } catch { /* the tick arithmetic above stands */ }
   const activeDays = new Set(ticks.map(t => String(t.tick_date))).size
 
   // The quest they leaned on most this week.
@@ -134,6 +162,7 @@ async function gatherWeek(userId: string, weekStart: string): Promise<WeekStats>
     ageBands: kids.map(c => (c.age_band as string | null) ?? null),
     questsApproved: ticks.length,
     starsEarned,
+    earnedMinutes,
     starsSpent: spends.reduce((s, x) => s + (Number(x.stars) || 0), 0),
     deviceMinutes: spends.reduce((s, x) => s + (Number(x.minutes) || 0), 0),
     activeDays,
@@ -171,7 +200,7 @@ function templateReview(stats: WeekStats): Omit<WeeklyReview, 'week_start' | 'st
       suggestion_routine: 'after-school',
     }
   }
-  const mins = stats.starsEarned * STAR_MINUTES
+  const mins = stats.earnedMinutes ?? stats.starsEarned * STAR_MINUTES
   const parts: string[] = []
   parts.push(`Good week. ${stats.questsApproved} quest${stats.questsApproved === 1 ? '' : 's'} done across ${stats.activeDays} day${stats.activeDays === 1 ? '' : 's'}, and ${stats.starsEarned} stars earned, that is ${mins} minutes of screen time worked for rather than just given.`)
   if (stats.topQuest) parts.push(`${kid} leaned into "${stats.topQuest}" the most.`)
@@ -200,7 +229,7 @@ This family's week (their own numbers, nothing compared to anyone else):
 - Children: ${stats.children.join(', ') || 'one child'}
 - Quests approved: ${stats.questsApproved}
 - Active days: ${stats.activeDays} of 7
-- Stars earned: ${stats.starsEarned} (worth ${stats.starsEarned * STAR_MINUTES} minutes of screen time earned)
+- Stars earned: ${stats.starsEarned} (worth ${stats.earnedMinutes ?? stats.starsEarned * STAR_MINUTES} minutes of screen time earned)
 - Screen minutes spent: ${stats.deviceMinutes}
 - Most done quest: ${stats.topQuest ?? 'none yet'}
 - Calm parenting moments handled: ${stats.momentsDone}${stats.momentsList.length ? ` (the ones they read: ${stats.momentsList.join(', ')})` : ''}

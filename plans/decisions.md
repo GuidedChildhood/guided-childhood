@@ -8704,3 +8704,21 @@ agreement, My Contacts guide, migration 218 stage arrival prompts, seven group
 chat scripts), so the plan is small data migrations, not new systems. The
 kids-research skill gained a named lens bench (Teacher, Distributor, Designer)
 and a Phase 5b distribution review at Justin's request.
+
+## 27 August 2026 — tidy up: migration 226, rate sweep, sticker sync (PR 910)
+Justin: "Yes do tidy up do all works including stickers to match what we
+designed in the existing passport stickers part and stickers earnt on their
+app so all synced and works." Shipped: (1) migration 226 family_job_since,
+so flagging an OLD job as a family job stops its stars forward from that day
+instead of retroactively wiping the child's lifetime earned; bank, quest
+create and toggle all carry it, pre 226 databases fall back to the old rule.
+(2) The per child star rate (225) now prices every surface, not just the
+money paths: the Monday rollover (holiday minutes AND sticker credits were
+being paid at the deployment default), the DiGi weekly review (now reads the
+bank, so family jobs are excluded and minutes are summed per child at each
+child's rate), literacy Healthy balance, the four child pushes that promise
+minutes, KidRoad's "1 star is X minutes", and the child balance page rows.
+(3) Sticker sync: the celebration pop now shows the same drawn badge the
+book shows instead of the retired emoji; parent book, child book, passport
+stamps and the Monday credits all read one system. Migrations 224, 225 AND
+226 applied to the live database and verified; nothing is pending.
