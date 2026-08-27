@@ -1829,6 +1829,8 @@ export default function KidQuestScreen({
                 token={token} balanceStars={bankBalance} initialSession={liveSession}
                 holidayMinutes={holidayMinutes} holidaySpendable={holidaySpendable}
                 coreMinutesLeft={coreMinutesLeft} protectedLine={protectedLine}
+                starMinutes={bank?.starMinutes ?? STAR_MINUTES}
+                usedWeekMinutes={usedWeekMinutes}
                 onSessionChange={setLiveSession}
                 familyDevices={familyDevices}
                 outstandingJobs={[...new Set(quests.filter(q => !ticks[q.id]).map(q => q.title))]}

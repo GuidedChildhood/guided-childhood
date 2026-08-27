@@ -69,6 +69,12 @@ export type StarBank = {
   // The ceiling for this child's band, so a screen can say 12 of 84 rather than
   // a bare number with nothing to measure it against.
   weekCap: number
+  /**
+   * Minutes one star buys THIS child (migration 225). The deployment default
+   * unless the family changed it, and the rate every minutes figure above was
+   * computed with, so a screen quoting a price can use the same number.
+   */
+  starMinutes: number
 }
 
 // Works with the parent session client and the admin client alike.
@@ -148,6 +154,22 @@ export async function getStarBanks(
     if (!fjError) for (const q of familyJobs ?? []) starsByQuest.set(q.id as string, 0)
   } catch { /* no column, no family jobs */ }
 
+  // The per child star rate (migration 225): what one star buys THIS child.
+  // Read apart and best effort for the same reason as family jobs above; a
+  // database or family without it keeps the deployment default everywhere.
+  const rateByChild = new Map<string, number>()
+  try {
+    const { data: rateRows, error: rateError } = await supabase
+      .from('child_time_settings').select('child_id, star_minutes')
+      .eq('user_id', userId).in('child_id', childIds)
+    if (!rateError) {
+      for (const r of rateRows ?? []) {
+        const rate = Number((r as { star_minutes?: number | null }).star_minutes)
+        if (Number.isFinite(rate) && rate >= 1 && rate <= 60) rateByChild.set(String(r.child_id), rate)
+      }
+    }
+  } catch { /* deployment default */ }
+
   return childIds.map(childId => {
     // `inWeek` is passed as a predicate rather than filtering up front, so the
     // lifetime and the weekly figures are read from exactly the same rows by the
@@ -207,7 +229,8 @@ export async function getStarBanks(
     // Priced for the week being read, not for today. Identical for the current
     // week; the difference only shows when the Monday rollover reaches back for
     // the week that just ended and that week sat the other side of a holiday.
-    const weekCap = weeklyStarCap(ageBands[childId] ?? null, new Date(`${weekStartDate}T12:00:00Z`), region)
+    const starMinutes = rateByChild.get(childId) ?? STAR_MINUTES
+    const weekCap = weeklyStarCap(ageBands[childId] ?? null, new Date(`${weekStartDate}T12:00:00Z`), region, starMinutes)
     const weekEarned = Math.min(week.earned, weekCap)
     const weekBalance = Math.max(0, weekEarned - week.spent)
     // What the cap turned away. Kept rather than discarded so Monday can bank
@@ -221,13 +244,14 @@ export async function getStarBanks(
       // balance IS the weekly spendable figure. See the type above for why the
       // name kept its meaning to callers while the number underneath changed.
       balance: weekBalance,
-      minutes: weekBalance * STAR_MINUTES,
+      minutes: weekBalance * starMinutes,
       lifetimeBalance,
-      lifetimeMinutes: lifetimeBalance * STAR_MINUTES,
+      lifetimeMinutes: lifetimeBalance * starMinutes,
       weekEarned,
       weekSpent: week.spent,
       weekSurplus,
       weekCap,
+      starMinutes,
     }
   })
 }

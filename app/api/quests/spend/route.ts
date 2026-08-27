@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getStarBanks } from '@/lib/quests/bank'
 import { STAR_MINUTES } from '@/lib/quests/templates'
 import { isDeviceKey, isActivityKey, asksActivity, deviceLabel } from '@/lib/quests/device-time'
+import { getTimeSettings } from '@/lib/quests/time-tiers'
 
 // Screen time gets used: the parent marks the minutes and the stars come
 // off the bank. The whole point of the deal is that earned time is real,
@@ -24,7 +25,7 @@ export async function POST(req: NextRequest) {
 
   const { child_id, minutes, device, familyDeviceId, activity } = await req.json().catch(() => ({}))
   const mins = Number(minutes)
-  if (!child_id || !Number.isFinite(mins) || mins < STAR_MINUTES || mins > 480) {
+  if (!child_id || !Number.isFinite(mins) || mins < 1 || mins > 480) {
     return NextResponse.json({ error: 'child_id and minutes required' }, { status: 400 })
   }
 
@@ -70,9 +71,12 @@ export async function POST(req: NextRequest) {
   const sessionKind = homeDevice && isDeviceKey(homeDevice.kind) ? homeDevice.kind : kind
   const screenName = homeDevice?.label ?? (sessionKind ? deviceLabel(sessionKind) : null)
 
-  // Round the ask to whole stars and never spend more than is there
-  const stars = Math.min(bank.balance, Math.max(1, Math.round(mins / STAR_MINUTES)))
-  const spentMinutes = stars * STAR_MINUTES
+  // Round the ask to whole stars at THIS child's rate (migration 225) and
+  // never spend more than is there. Fails open to the deployment default.
+  const childRate = await getTimeSettings(supabase, user.id, [{ id: child_id }])
+    .then(m => m.get(child_id)?.starMinutes ?? STAR_MINUTES).catch(() => STAR_MINUTES)
+  const stars = Math.min(bank.balance, Math.max(1, Math.round(mins / childRate)))
+  const spentMinutes = stars * childRate
   const { data: spend, error } = await supabase.from('star_spends').insert({
     user_id: user.id,
     child_id,
@@ -125,7 +129,7 @@ export async function POST(req: NextRequest) {
     spent_stars: stars,
     spent_minutes: spentMinutes,
     balance,
-    balance_minutes: balance * STAR_MINUTES,
+    balance_minutes: balance * childRate,
     device: sessionKind,
     device_label: screenName,
     // Whether the week's breakdown will show these minutes. False means the

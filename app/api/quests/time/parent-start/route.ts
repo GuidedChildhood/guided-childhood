@@ -25,7 +25,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'bad device' }, { status: 400 })
   }
   const mins = Number(minutes)
-  if (!Number.isFinite(mins) || mins < STAR_MINUTES || mins > 600 || mins % STAR_MINUTES !== 0) {
+  // Bounds only here; the whole star block check happens below once the
+  // child's own rate (migration 225) has been read.
+  if (!Number.isFinite(mins) || mins < 1 || mins > 600) {
     return NextResponse.json({ error: 'bad minutes' }, { status: 400 })
   }
 
@@ -61,7 +63,6 @@ export async function POST(req: NextRequest) {
   // next approved quest tick settles the oldest open debt by itself.
   const isGift = gift === true
   const isBonus = bonus === true || isGift
-  const stars = isBonus ? 0 : minutesToStars(mins)
 
   // A grant that takes the child past the day's healthy amount for their age
   // is a treat: the parent knowingly gives it, it runs its full length, and
@@ -80,12 +81,14 @@ export async function POST(req: NextRequest) {
   // the free part of the day is never quietly skipped. Fails open.
   let inProtectedWindow = false
   let coreLeftToday = 0
+  let childRate = STAR_MINUTES
   try {
     const settingsMap = await getTimeSettings(supabase, user.id, [
       { id: childId, age_band: (child as { age_band?: string | null }).age_band ?? null },
     ])
     const settings = settingsMap.get(childId)
     if (settings) {
+      childRate = settings.starMinutes
       inProtectedWindow = checkProtectedWindow(settings).protected
       if (!isBonus && settings.coreMinutesDaily > 0) {
         const coreUsed = await getCoreUsedToday(supabase, user.id, [childId])
@@ -93,6 +96,13 @@ export async function POST(req: NextRequest) {
       }
     }
   } catch { /* fail open */ }
+
+  // Whole star blocks at this child's rate, and the quoted cost at the same
+  // rate, so the parent card and the bank never disagree about a price.
+  if (mins < childRate || mins % childRate !== 0) {
+    return NextResponse.json({ error: 'bad minutes' }, { status: 400 })
+  }
+  const stars = isBonus ? 0 : minutesToStars(mins, childRate)
 
   let coreMinutes = 0
   let paidStars = stars
@@ -102,7 +112,7 @@ export async function POST(req: NextRequest) {
     // Core pays first, stars cover the rest, and the holiday bank stays the
     // child route's pocket.
     const [bank] = await getStarBanks(supabase, user.id, [childId], { [childId]: (child as { age_band?: string | null }).age_band ?? null })
-    const plan = planTieredSpend(mins, coreLeftToday, bank?.balance ?? 0, 0, false)
+    const plan = planTieredSpend(mins, coreLeftToday, bank?.balance ?? 0, 0, false, childRate)
     if (!bank || !plan.enough) {
       return NextResponse.json({ error: 'not enough stars this week', balance: bank?.balance ?? 0 }, { status: 400 })
     }
@@ -149,7 +159,7 @@ export async function POST(req: NextRequest) {
   if (isGift) {
     await supabase.from('gift_debts').insert({
       user_id: user.id, child_id: childId, minutes: mins,
-      stars_owed: minutesToStars(mins),
+      stars_owed: minutesToStars(mins, childRate),
       note: `Gifted device time: ${screenName}`,
     })
   }

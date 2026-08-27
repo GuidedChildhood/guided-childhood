@@ -35,6 +35,7 @@ export async function GET(req: NextRequest) {
     bedtimeEnd: toHm(s?.bedtimeEndMin ?? null),
     protectMealtimes: s?.protectMealtimes ?? false,
     protectSchoolHours: s?.protectSchoolHours ?? false,
+    starMinutes: s?.starMinutes ?? 5,
   })
 }
 
@@ -43,7 +44,7 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { childId, coreMinutesDaily, bedtimeStart, bedtimeEnd, protectMealtimes, protectSchoolHours } =
+  const { childId, coreMinutesDaily, bedtimeStart, bedtimeEnd, protectMealtimes, protectSchoolHours, starMinutes } =
     await req.json().catch(() => ({}))
   if (!childId || typeof childId !== 'string') {
     return NextResponse.json({ error: 'childId required' }, { status: 400 })
@@ -51,6 +52,12 @@ export async function POST(req: NextRequest) {
   const core = Number(coreMinutesDaily)
   if (!Number.isFinite(core) || core < 0 || core > 240) {
     return NextResponse.json({ error: 'bad core minutes' }, { status: 400 })
+  }
+  // The rate one star buys (migration 225). Validated here as well as by the
+  // column check, so a bad value is a 400 rather than a constraint error.
+  const rate = Number(starMinutes)
+  if (!Number.isFinite(rate) || rate < 1 || rate > 60) {
+    return NextResponse.json({ error: 'bad star rate' }, { status: 400 })
   }
   const start = typeof bedtimeStart === 'string' && HM.test(bedtimeStart) ? bedtimeStart : null
   const end = typeof bedtimeEnd === 'string' && HM.test(bedtimeEnd) ? bedtimeEnd : null
@@ -67,8 +74,25 @@ export async function POST(req: NextRequest) {
     bedtime_end: end,
     protect_mealtimes: protectMealtimes === true,
     protect_school_hours: protectSchoolHours === true,
+    star_minutes: Math.round(rate),
     updated_at: new Date().toISOString(),
   }, { onConflict: 'child_id' })
+  // A database still short of migration 225 has no star_minutes column, so
+  // the save is retried without it rather than losing the rest of the card.
+  if (error && /star_minutes/.test(error.message)) {
+    const { error: retryError } = await supabase.from('child_time_settings').upsert({
+      user_id: user.id,
+      child_id: childId,
+      core_minutes_daily: Math.round(core),
+      bedtime_start: start,
+      bedtime_end: end,
+      protect_mealtimes: protectMealtimes === true,
+      protect_school_hours: protectSchoolHours === true,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: 'child_id' })
+    if (retryError) return NextResponse.json({ error: retryError.message }, { status: 500 })
+    return NextResponse.json({ ok: true })
+  }
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })
 }
