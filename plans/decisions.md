@@ -8792,3 +8792,20 @@ up ticks it in the app, spend on the family TV via the parent timer, Monday
 resets and unspent time becomes sticker credits), the parent builder says
 plainly that no child device is needed, and the parent ask box, grant cost
 and gift copy now price at the child's rate via the active endpoint.
+
+## 27 August 2026 — the Meta settlement package (PR 913)
+Full kids-research pipeline on the 26 August Meta settlement: six lenses,
+verified briefing (briefings/2026-08-27-meta-settlement-v2.html, 16
+confirmed, 15 corrected, 3 orphan stats removed), distribution review in
+content/packs/2026-08-27-meta-settlement/. Claims discipline now binding:
+never one clean figure (up to 17.1B reported, ~12.7B guaranteed), never
+"Meta admitted", never imply UK children get the protections (US only per
+Meta, ten year sunset), never the settlement as proof of harm. The
+quotable trial fact is the Take a Break exhibit: 1.8 percent of teens used
+the tool Meta's blog said more than 90 percent kept on. The two hour cap
+is a negotiated number: Twenge testified the rise starts near one hour and
+the two hour figure came from Meta's attorney. Positioning: the
+settlement's parent removable defaults are our calibrated model in a
+consent judgment, and the star tiers already shipped the architecture for
+UK families. Open follow up: a Litigator V3 on the consent judgment PDF
+before any money or enforcement claim reaches marketing.
