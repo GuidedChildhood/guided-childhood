@@ -71,6 +71,8 @@ export default function StarChartBuilder({
   recordBody = {},
   backHref = '/dashboard/printables',
   backLabel = 'All printables',
+  rateByChild = {},
+  defaultRate = 5,
 }: {
   /** The family's real active jobs, straight off the quests board. */
   yourJobs?: YourJob[]
@@ -106,6 +108,12 @@ export default function StarChartBuilder({
   recordBody?: Record<string, unknown>
   backHref?: string
   backLabel?: string
+  /**
+   * What one star buys, per child (migration 225), so the printed deal
+   * matches the app's money. The signed out lead magnet gets the default.
+   */
+  rateByChild?: Record<string, number>
+  defaultRate?: number
 } = {}) {
   const [childName, setChildName] = useState(defaultChildName)
   // WHICH WEEK. Defaults to the first, which is this week every day except
@@ -121,6 +129,10 @@ export default function StarChartBuilder({
   // Jobs for the chosen child, plus the whole family ones, which belong to
   // every child and so appear whoever is picked.
   const mine = yourJobs.filter(j => forChild === null || j.childId === null || j.childId === forChild)
+
+  // The deal printed on the sheet follows the chosen child's own rate. A one
+  // child family has no switcher, so the default carries their rate instead.
+  const rate = (forChild && rateByChild[forChild]) || defaultRate
 
   const [picked, setPicked] = useState<Job[]>(
     // Their own jobs lead. Falling back to our menu only when a family has set
@@ -178,7 +190,7 @@ export default function StarChartBuilder({
         <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 26, maxWidth: 560 }}>
           {variant === 'kid'
             ? 'Put it on the fridge and do your jobs on paper all week. At the end of the week your grown up puts your stars in the app and they land in your bank.'
-            : 'One press prints two pages: the chart with your jobs on it, and a sheet of gold stars to cut out. Choose the jobs here and they print properly every time.'}
+            : 'One press prints two pages: the chart with your jobs on it, and a sheet of gold stars to cut out. No phone needed on their side: you tick the jobs in the app, and their screen time runs from your phone on the family TV, console or tablet. The whole loop is printed on the sheet.'}
         </p>
 
         {/* Their name, its own tidy field with a label above it. */}
@@ -385,7 +397,7 @@ export default function StarChartBuilder({
       <style>{`@media print { .sheet-scroll { overflow: visible !important } .sheet-scroll > div { min-width: 0 !important } }`}</style>
       <div className="sheet-scroll" style={{ overflowX: 'auto' }}>
         <div style={{ minWidth: 560 }}>
-          <StarChartSheet name={name} weekLabel={week?.label ?? null} jobs={picked} />
+          <StarChartSheet name={name} weekLabel={week?.label ?? null} jobs={picked} starMinutes={rate} />
         </div>
       </div>
 

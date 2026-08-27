@@ -20,7 +20,7 @@ import PushPrompt from '@/components/push/PushPrompt'
 type Session = { id: string; child_id: string; device: DeviceKey; minutes: number; stars: number; ends_at: string; started_at: string; deviceName?: string | null }
 type DeviceRequest = { id: string; device: DeviceKey; minutes: number; deviceName?: string | null }
 type DeviceWeek = { device: DeviceKey; minutes: number; sessions: number }
-export type Kid = { id: string; name: string; balance: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number; giftOwed?: number; agreedAt?: string | null; jobsLeft?: { count: number; first: string | null } }
+export type Kid = { id: string; name: string; balance: number; starMinutes?: number; session: Session | null; trust: string; request: DeviceRequest | null; ageBand?: string | null; usedToday?: number; recommended?: number; week?: DeviceWeek[]; sessionsToday?: number; giftOwed?: number; agreedAt?: string | null; jobsLeft?: { count: number; first: string | null } }
 
 // How a grant pays for itself: their earned stars (the default), a gift that
 // jobs pay back later, or a free bonus with no strings at all.
@@ -39,13 +39,17 @@ const TRUST_LEVELS: { key: string; label: string; hint: string }[] = [
 // The pending ask, answered in one tap: device and minutes named, yes or not
 // yet. Shared by the screen time card and the locked banner on the quests
 // page, so the answer is always one tap from wherever the parent is looking.
-export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprove, onDecline }: {
+export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprove, onDecline, starMinutes }: {
   childName: string
   request: { device: DeviceKey; minutes: number; deviceName?: string | null }
   exceedsGuide: boolean
   busy: boolean
   onApprove: () => void
   onDecline: () => void
+  /** THIS child's star rate (migration 225), so the star count in the copy
+   *  matches what the spend will actually charge. Defaults to the deployment
+   *  rate for callers that cannot supply it. */
+  starMinutes?: number
 }) {
   return (
     <div style={{ border: '1.5px solid var(--terracotta)', background: 'var(--terracotta-lt)', borderRadius: '13px', padding: '11px 13px', marginBottom: '11px' }}>
@@ -53,7 +57,7 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
         {deviceEmoji(request.device)} {childName} is asking for {request.minutes} minutes
       </div>
       <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginBottom: '9px' }}>
-        That is {minutesToStars(request.minutes)} star{minutesToStars(request.minutes) === 1 ? '' : 's'} on {request.deviceName ?? `the ${deviceLabel(request.device)}`}. Your yes lets {childName} tap Start on their screen.
+        That is {minutesToStars(request.minutes, starMinutes)} star{minutesToStars(request.minutes, starMinutes) === 1 ? '' : 's'} on {request.deviceName ?? `the ${deviceLabel(request.device)}`}. Your yes lets {childName} tap Start on their screen.
       </div>
       {/* Saying yes here past the day's guide is a treat, named warmly
           before the tap so the parent grants it knowingly. Never a block. */}
@@ -282,7 +286,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
     return () => clearInterval(t)
   }, [kid.session, onAlarm, onChange])
 
-  const cost = mode === 'stars' ? minutesToStars(minutes) : 0
+  const cost = mode === 'stars' ? minutesToStars(minutes, kid.starMinutes) : 0
   const tooPoor = mode === 'stars' && kid.balance < cost
 
   async function start() {
@@ -425,6 +429,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
           busy={busy}
           onApprove={approveRequest}
           onDecline={declineRequest}
+          starMinutes={kid.starMinutes}
         />
       )}
       {/* JOBS LEFT, BEFORE THE TIMER STARTS.
@@ -601,7 +606,7 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
       )}
       {mode === 'gift' && (
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '7px 0 0' }}>
-          The gift starts now and {minutesToStars(minutes)} star{minutesToStars(minutes) === 1 ? '' : 's'} of jobs pay it back later. The next approved job settles it by itself.
+          The gift starts now and {minutesToStars(minutes, kid.starMinutes)} star{minutesToStars(minutes, kid.starMinutes) === 1 ? '' : 's'} of jobs pay it back later. The next approved job settles it by itself.
         </p>
       )}
 

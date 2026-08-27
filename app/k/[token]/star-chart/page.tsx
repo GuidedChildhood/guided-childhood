@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { chartWeekStart, starWeekEnd, formatWeekBeginning } from '@/lib/quests/star-week'
 import StarChartBuilder from '@/app/(dashboard)/dashboard/printables/star-chart/StarChartBuilder'
+import { getTimeSettings } from '@/lib/quests/time-tiers'
 
 // The child's own star chart builder.
 //
@@ -61,6 +62,14 @@ export default async function KidStarChartPage({ params }: { params: Promise<{ t
     childId: null,
   }))
 
+  // This child's own star rate (migration 225), so their printed deal says
+  // what their stars actually buy. Fails soft to the default.
+  let kidRate = 5
+  try {
+    const settings = await getTimeSettings(supabase, link.user_id as string, [{ id: link.child_id as string }])
+    kidRate = settings.get(link.child_id as string)?.starMinutes ?? 5
+  } catch { /* deployment default */ }
+
   // The same two weeks, named the same honest way, as the parent's builder.
   const first = chartWeekStart()
   const second = starWeekEnd(first)
@@ -83,6 +92,7 @@ export default async function KidStarChartPage({ params }: { params: Promise<{ t
         recordBody={{ token }}
         backHref={`/k/${token}?tab=print`}
         backLabel="My quests"
+        defaultRate={kidRate}
       />
     </div>
   )

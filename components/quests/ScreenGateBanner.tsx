@@ -21,6 +21,8 @@ type ActiveKid = {
   request: { id: string; device: DeviceKey; minutes: number } | null
   ageBand?: string | null
   usedToday?: number
+  /** This child's star rate (migration 225), from /api/quests/time/active. */
+  starMinutes?: number
 }
 
 export default function ScreenGateBanner({
@@ -128,6 +130,7 @@ export default function ScreenGateBanner({
           busy={busy}
           onApprove={() => answer('approved')}
           onDecline={() => answer('declined')}
+          starMinutes={kid?.starMinutes}
         />
       )}
 

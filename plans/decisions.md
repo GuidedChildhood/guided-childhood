@@ -8763,3 +8763,49 @@ writes a row before the secret check, so zero trace means Vercel never calls
 them. Still the same ask: open the Vercel Cron Jobs tab and check those two
 are listed and enabled, ideally before September 1 so passport-check catches
 its next slot.
+
+## 27 August 2026 — cron audit result: nothing is broken
+Justin asked to check all crons as one did not fire. Read cron_runs on the
+live database: every scheduled job that has had a due slot since deployment
+ran on time over the last 7 days, zero hung, zero failed (device-time every
+minute, the pushes, the emails, the reminders, weekly review Sunday, star
+rollover Monday, all green). The three jobs with no runs are simply waiting
+for their FIRST ever slot: passport-check (added 5 Aug, runs 1st of the
+month at 17:00, first fire 1 September), answer-review (added 2 Aug at
+20:29, its 2nd-at-05:00 slot had passed that morning, first fire 2
+September), legal-watch (quarterly, first fire 3 October). Nothing to fix;
+if the August passport check matters it can be fired once by hand from the
+Vercel dashboard, otherwise September catches it.
+
+## 27 August 2026 — the no phone family is a first class citizen (PR 913)
+Justin: the star system and device timer must work for kids with no phone,
+parents run it, and the printable chart has to work and explain. Audit found
+the plumbing already existed (parents tick jobs on the board, the printed
+sheet flow in the approve route, ParentDeviceTime grants and runs time on
+any family device from the parent's phone, FridgeChartLog enters the paper
+week in bulk). What was broken: the printed sheet said "1 star = 5 minutes"
+in ink whatever rate the family had set, and nothing on paper explained the
+loop. Fixed: StarChartSheet takes the child's own star rate (both builder
+pages and the kid print page feed it; the signed out lead magnet keeps the
+default), page two now prints the four step no phone loop (do the job, grown
+up ticks it in the app, spend on the family TV via the parent timer, Monday
+resets and unspent time becomes sticker credits), the parent builder says
+plainly that no child device is needed, and the parent ask box, grant cost
+and gift copy now price at the child's rate via the active endpoint.
+
+## 27 August 2026 — the Meta settlement package (PR 913)
+Full kids-research pipeline on the 26 August Meta settlement: six lenses,
+verified briefing (briefings/2026-08-27-meta-settlement-v2.html, 16
+confirmed, 15 corrected, 3 orphan stats removed), distribution review in
+content/packs/2026-08-27-meta-settlement/. Claims discipline now binding:
+never one clean figure (up to 17.1B reported, ~12.7B guaranteed), never
+"Meta admitted", never imply UK children get the protections (US only per
+Meta, ten year sunset), never the settlement as proof of harm. The
+quotable trial fact is the Take a Break exhibit: 1.8 percent of teens used
+the tool Meta's blog said more than 90 percent kept on. The two hour cap
+is a negotiated number: Twenge testified the rise starts near one hour and
+the two hour figure came from Meta's attorney. Positioning: the
+settlement's parent removable defaults are our calibrated model in a
+consent judgment, and the star tiers already shipped the architecture for
+UK families. Open follow up: a Litigator V3 on the consent judgment PDF
+before any money or enforcement claim reaches marketing.
