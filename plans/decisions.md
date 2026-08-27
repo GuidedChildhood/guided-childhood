@@ -8741,3 +8741,25 @@ the unspent time that Monday's rollover will turn into sticker credits, with
 the one line rule spelled out (the one who uses less gets more). Cron audit:
 all 34 scheduled routes are wrapped in withHeartbeat, so cron_runs can name
 any miss exactly; the live check needs the Supabase connection back.
+
+## 27 August 2026, the live cron audit (completing the note from the Sunday email build)
+
+Justin: "check all crons working as one didn't fire", and the earlier session
+could not reach Supabase to look. Checked now, all 34 scheduled routes in
+vercel.json against cron_runs. The verdict: 32 of 34 healthy, zero failures
+anywhere in the last seven days, every daily, weekly and high frequency job
+firing on schedule including the whole star and email family (star week
+rollover Monday 00:10 ran, weekly review Sunday ran, digest, monthly and
+Sunday email all clean, invoice requests clean since the understood 14 August
+blip). The twice monthly jobs (knowledge refresh, script refresh, lesson
+drip) all ran their 15 August slot and device guide refresh ran its 2 August
+slot. answer-review DID fire its 2 August slot, logged under the old key
+without the leading slash; the route now writes the new key, so 2 September
+is the date that confirms it end to end. The same two jobs remain silent as
+on the 19 and 21 August sweeps: legal-watch (zero rows ever, July 3 slot now
+55 days gone, next slot October 3) and passport-check (zero rows ever, July 1
+and August 1 both missed, next slot September 1, five days away). withHeartbeat
+writes a row before the secret check, so zero trace means Vercel never calls
+them. Still the same ask: open the Vercel Cron Jobs tab and check those two
+are listed and enabled, ideally before September 1 so passport-check catches
+its next slot.
