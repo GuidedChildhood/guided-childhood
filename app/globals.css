@@ -802,6 +802,13 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   .hdr-login { padding: 9px 15px; font-size: 0.84375rem; }
   .hdr-cta { padding: 10px 16px; font-size: 0.84375rem; }
 }
+/* A member's pair (Settings + My dashboard) is wider than a stranger's and
+   overflowed the phone header, cutting My dashboard at the right edge. On
+   small screens a member gets the menu and My dashboard; Settings lives one
+   tap inside the dashboard. A stranger's Log in is never hidden. */
+@media (max-width: 470px) {
+  .hdr-actions.is-member .hdr-login { display: none; }
+}
 
 /* ── PATHWAY GRID (stage walkthrough) ── */
 .pathway-grid {

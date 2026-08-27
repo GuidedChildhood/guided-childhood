@@ -67,7 +67,12 @@ export default function HeaderActions() {
   const member = known === true
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(7px, 1.5vw, 13px)', flexShrink: 0 }}>
+    // is-member lets the phone header drop the Settings pill for members only:
+    // "Settings" plus "My dashboard" is four characters wider than "Log in"
+    // plus "Get Started" and ran off the right edge of an iPhone (Justin's
+    // screenshot, 27 Aug 2026). Settings stays one tap away inside the
+    // dashboard, and a stranger's Log in never disappears.
+    <div className={member ? 'hdr-actions is-member' : 'hdr-actions'} style={{ display: 'flex', alignItems: 'center', gap: 'clamp(7px, 1.5vw, 13px)', flexShrink: 0 }}>
       {/* "Settings", not "Account", and that came from Justin using it:
           "when I click Account, when I visit the homepage again, it takes me to
           the settings page." It always did, because settings IS where the plan,
