@@ -59,7 +59,10 @@ export const QUEST_TEMPLATES: QuestTemplate[] = [
   { title: 'Room tidy before bed',        emoji: '🛏️', stars: 1, schedule: 'daily' },
   { title: 'One kind thing done',         emoji: '💛', stars: 1, schedule: 'daily' },
   { title: 'Device on charge downstairs', emoji: '🔌', stars: 1, schedule: 'daily' },
-  { title: 'Screen off first ask',        emoji: '📺', stars: 2, schedule: 'daily' },
+  // Pays the controllable act (finishing and handing back), not compliance
+  // with a parent demand. The Dr Becky layer: reward behaviours a child can
+  // own, never obedience speed.
+  { title: 'Finished screen time and handed it back', emoji: '📺', stars: 2, schedule: 'daily' },
   { title: 'Empty or load the dishwasher', emoji: '🫧', stars: 1, schedule: 'daily' },
   { title: 'Help make dinner',            emoji: '🍳', stars: 2, schedule: 'daily' },
   { title: 'Feed or walk the pet',        emoji: '🐾', stars: 1, schedule: 'daily' },

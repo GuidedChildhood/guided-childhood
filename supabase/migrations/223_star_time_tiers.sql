@@ -64,3 +64,23 @@ from public.children c
 on conflict (child_id) do nothing;
 
 create index if not exists idx_child_time_settings_user on public.child_time_settings (user_id);
+
+-- ── The build columns, from the phase 1 build (PR 908) ──────────────────────
+-- The reconciliation PR 907 landed the table and the seed above; the build
+-- reads and writes these three columns as well. All idempotent, and already
+-- applied to the live database on 26 August 2026.
+
+-- Which part of a session the core baseline paid for, mirroring
+-- holiday_minutes from migration 128. Zero on every existing row, which is
+-- also the honest answer: nothing before this could have drawn from core.
+alter table public.device_sessions add column if not exists core_minutes int not null default 0;
+
+-- A parent granted session that ran inside a protected window. The parent is
+-- always the override, this only lets the weekly review name it gently.
+alter table public.device_sessions add column if not exists in_protected_window boolean not null default false;
+
+-- The Dr Becky layer, phase 2 of the same plan: a family job carries no stars
+-- because contribution is belonging, not payment. The flag lands now so the
+-- claim is spent in one migration, the UI and bank exclusion follow in the
+-- phase 2 build.
+alter table public.family_quests add column if not exists is_family_job boolean not null default false;

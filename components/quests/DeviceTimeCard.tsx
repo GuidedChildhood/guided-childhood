@@ -7,7 +7,7 @@ import { deviceIcon, type FamilyDevice } from '@/lib/devices/family'
 import { screenTipFor } from '@/lib/content/screen-tips'
 import { speakEnglish, warmVoices } from '@/lib/voice/english-voice'
 import { STAR_MINUTES } from '@/lib/quests/templates'
-import { planSpend } from '@/lib/quests/holiday-spend'
+import { planTieredSpend } from '@/lib/quests/time-tiers'
 import { startErrorMessage, START_RETRY } from '@/lib/quests/start-errors'
 import Celebration from '@/components/ui/Celebration'
 
@@ -55,6 +55,7 @@ function OfflineIdeas({ onPrintables, onGames }: { onPrintables?: () => void; on
 
 export default function DeviceTimeCard({
   token, balanceStars, holidayMinutes = 0, holidaySpendable = false,
+  coreMinutesLeft = 0, protectedLine = null,
   initialSession, usedTodayMinutes = 0, recommendedMinutes = 0,
   deviceTrust = 'ask', onAsked, onSessionChange, startPicking = false,
   onPrintables, onGames, ageBand = null, familyDevices = [],
@@ -67,6 +68,11 @@ export default function DeviceTimeCard({
   // change nothing here, which is the whole point of a saving.
   holidayMinutes?: number
   holidaySpendable?: boolean
+  // The three tiers (migration 223): today's unconditional free minutes still
+  // unspent, and the resting line when this moment is inside a protected
+  // window. Zero and null read exactly as the card did before the tiers.
+  coreMinutesLeft?: number
+  protectedLine?: string | null
   initialSession: ActiveSession | null
   usedTodayMinutes?: number
   recommendedMinutes?: number
@@ -170,7 +176,10 @@ export default function DeviceTimeCard({
   // it, because the bank is about the week having had no room, not about a
   // single day having no limit.
   const holidayPot = holidaySpendable ? Math.max(0, Math.round(holidayMinutes)) : 0
-  const maxMinutes = Math.max(0, Math.min(balanceStars * STAR_MINUTES + holidayPot, remainingToday))
+  // Today's free baseline pays too (migration 223), ahead of stars, so it
+  // raises what can be picked exactly like the holiday pot does.
+  const corePot = Math.max(0, Math.round(coreMinutesLeft))
+  const maxMinutes = Math.max(0, Math.min(corePot + balanceStars * STAR_MINUTES + holidayPot, remainingToday))
   // Keep the chosen minutes inside the cap, so the picker never shows more than
   // is allowed today.
   useEffect(() => { setMinutes(m => Math.min(m, maxMinutes)) }, [maxMinutes])
@@ -178,7 +187,7 @@ export default function DeviceTimeCard({
   // How the picked block would actually be paid for, by the same function the
   // start route uses. Sharing it is the point: the child is never shown a split
   // the server then works out differently.
-  const { starCost, holidayMinutes: holidayCost } = planSpend(minutes, balanceStars, holidayMinutes, holidaySpendable)
+  const { coreMinutes: coreCost, starCost, holidayMinutes: holidayCost } = planTieredSpend(minutes, corePot, balanceStars, holidayMinutes, holidaySpendable)
 
   // A browser only lets an AudioContext open on a user gesture, so the blips
   // and the finish jingle both need one before they can make a sound.
@@ -410,8 +419,11 @@ export default function DeviceTimeCard({
       if (res.ok && data.pending) {
         // Ask first: the ask is away and the status banner at the top of the
         // child's screen carries the waiting story from here, so the card
-        // folds back and there is never two places telling it.
-        setNote(null)
+        // folds back and there is never two places telling it. Inside a
+        // protected window the route sends the resting line, said in the
+        // sturdy leadership shape, and that one is worth showing right here:
+        // the boundary holds AND the feeling is real, never a silent no.
+        setNote(typeof data.protectedLine === 'string' ? data.protectedLine : null)
         setPhase('idle')
         onAsked?.({ id: data.request?.id, device, minutes })
       } else if (res.ok && data.session) {
@@ -681,8 +693,12 @@ export default function DeviceTimeCard({
               stars" is nonsense. Naming the holiday minutes instead is also the
               only place a child is told, at the moment of spending, that the
               extra jobs they did weeks ago are what is paying. */}
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: holidayCost > 0 ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
-            {holidayCost > 0
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: holidayCost > 0 || coreCost > 0 ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
+            {coreCost > 0 && starCost === 0 && holidayCost === 0
+              ? `${coreCost} free min, no stars`
+              : coreCost > 0
+              ? `${coreCost} free min + ${starCost} star${starCost === 1 ? '' : 's'}${holidayCost > 0 ? ` + ${holidayCost} holiday min` : ''}`
+              : holidayCost > 0
               ? `${starCost} star${starCost === 1 ? '' : 's'} + ${holidayCost} holiday min`
               : `${costStars} of your ${balanceStars} stars`}
           </span>
@@ -747,7 +763,7 @@ export default function DeviceTimeCard({
   // Holiday minutes count as something to spend, otherwise a child in August
   // with a full bank and an empty week is shown the "do a job first" door while
   // the card above it says their minutes are ready now.
-  const canSpend = balanceStars > 0 || holidayPot > 0
+  const canSpend = balanceStars > 0 || holidayPot > 0 || corePot > 0
   const recToday = Math.max(0, Math.round(recommendedMinutes))
   const usedToday = Math.max(0, Math.round(usedTodayMinutes))
   const guidePct = recToday > 0 ? Math.min(100, Math.round((usedToday / recToday) * 100)) : 0
@@ -755,6 +771,20 @@ export default function DeviceTimeCard({
 
   return (
     <div style={{ marginBottom: '16px' }}>
+      {/* Inside a protected window the screen is resting. Said in the sturdy
+          leadership shape, the boundary holds AND the feeling is real, and the
+          start below still works, it just goes to the grown up as an ask,
+          because the pathway is ask, never a flat no. */}
+      {protectedLine && (
+        <div style={{ background: 'var(--tint-sage)', borderRadius: '14px', padding: '12px 15px', marginBottom: '10px', boxShadow: '0 3px 0 rgba(0,0,0,0.10)' }}>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.45, margin: 0 }}>
+            🌙 {protectedLine}
+          </p>
+          <p style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink-soft)', lineHeight: 1.4, margin: '5px 0 0' }}>
+            If it is important, you can still ask your grown up.
+          </p>
+        </div>
+      )}
       {/* Today's healthy amount: a small, calm bar of how much screen time has
           been had today against the guide for this age. Never a lock, just a
           gentle heads up so a child can see their own balance. */}
@@ -825,7 +855,9 @@ export default function DeviceTimeCard({
                 : asksFirst
                 // "minutes of stars" stops being true the moment the holiday
                 // bank is part of the number, so it says where it came from.
-                ? `Pick your screen and ask your grown up. You have ${maxMinutes} minutes ${holidayPot > 0 ? 'ready, holiday savings included' : 'of stars'}`
+                ? `Pick your screen and ask your grown up. You have ${maxMinutes} minutes ${corePot > 0 ? 'ready, your free time included' : holidayPot > 0 ? 'ready, holiday savings included' : 'of stars'}`
+                : corePot > 0
+                ? `You have ${maxMinutes} minutes to use now, ${corePot} of them free time`
                 : `You have ${maxMinutes} minutes to use now`)
               : 'Do a job to earn stars, then swap them for time. Tap to see your jobs'}
           </span>

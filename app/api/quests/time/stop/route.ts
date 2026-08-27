@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { deviceLabel, type DeviceKey } from '@/lib/quests/device-time'
-import { planRefund, refundToHolidayBank } from '@/lib/quests/holiday-spend'
+import { refundToHolidayBank } from '@/lib/quests/holiday-spend'
+import { planTieredRefund } from '@/lib/quests/time-tiers'
 import { sendPush } from '@/lib/push/send'
 
 // The child stops their device time early, or their app calls this when the
@@ -35,10 +36,18 @@ export async function POST(req: NextRequest) {
   // a timer on a deploy that had not run it. Zero is also the honest answer on
   // an older database: nothing there could have drawn from the bank.
   let holidayDrawn = 0
+  let coreDrawn = 0
   {
     const { data, error } = await supabase
       .from('device_sessions').select('holiday_minutes').eq('id', session.id).maybeSingle()
     if (!error) holidayDrawn = Number(data?.holiday_minutes) || 0
+  }
+  // Same shape for the core draw (migration 223): read apart and best effort,
+  // and zero is the honest answer on an older database.
+  {
+    const { data, error } = await supabase
+      .from('device_sessions').select('core_minutes').eq('id', session.id).maybeSingle()
+    if (!error) coreDrawn = Number((data as { core_minutes?: number } | null)?.core_minutes) || 0
   }
 
   const now = Date.now()
@@ -54,7 +63,11 @@ export async function POST(req: NextRequest) {
   // pocket first would quietly destroy time the child had already earned.
   // planRefund does the arithmetic; a block that drew nothing behaves exactly
   // as it did before any of this existed.
-  const refund = planRefund(planned, usedMinutes, holidayDrawn)
+  // Since migration 223 the unwind runs over three pockets, most durable
+  // first: the holiday bank is made whole, then the star spend is trimmed,
+  // and the core draw gives back last, because tonight it is worth the least.
+  // With no core drawn this is exactly the old planRefund.
+  const refund = planTieredRefund(planned, usedMinutes, holidayDrawn, coreDrawn)
   const usedStars = refund.starCost
   if (refund.holidayRefund > 0) {
     await refundToHolidayBank(supabase, link.user_id, link.child_id, refund.holidayRefund)
@@ -66,13 +79,20 @@ export async function POST(req: NextRequest) {
       .update({ minutes: usedMinutes, stars: usedStars })
       .eq('id', session.spend_id)
   }
-  // And correct the session to what the holiday bank ended up paying, so the
-  // row is a true record of the block rather than of what was booked. The
-  // status filter above is what actually stops a second stop double refunding,
-  // since an ended session is never picked up again.
+  // And correct the session to what the holiday bank and the core baseline
+  // ended up paying, so the row is a true record of the block rather than of
+  // what was booked. The core trim also frees the difference for the rest of
+  // today, since the drawdown is computed from these rows. The status filter
+  // above is what actually stops a second stop double refunding, since an
+  // ended session is never picked up again.
   if (refund.holidayRefund > 0) {
     await supabase.from('device_sessions')
       .update({ holiday_minutes: refund.holidayKept })
+      .eq('id', session.id)
+  }
+  if (coreDrawn > refund.coreKept) {
+    await supabase.from('device_sessions')
+      .update({ core_minutes: refund.coreKept })
       .eq('id', session.id)
   }
   const nowIso = new Date().toISOString()

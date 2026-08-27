@@ -5,6 +5,7 @@ import { currentChildId } from '@/lib/children/current'
 import Link from 'next/link'
 import { DEVICES, type DeviceKey, minutesToStars, deviceLabel, deviceEmoji } from '@/lib/quests/device-time'
 import DevicePickerChips, { type DevicePick } from '@/components/devices/DevicePickerChips'
+import TimeTiersCard from '@/components/quests/TimeTiersCard'
 import type { FamilyDevice } from '@/lib/devices/family'
 import { dailyGuide, wouldExceedGuide } from '@/lib/quests/daily-guide'
 import { bandLabelFor } from '@/lib/quests/screen-balance'
@@ -503,6 +504,10 @@ export function ChildRow({ kid, onChange, onAlarm }: { kid: Kid; onChange: () =>
           ))}
         </div>
       </details>
+
+      {/* Their time, three kinds: the free baseline, the earned stars, and the
+          protected windows. Per child, so siblings keep their own bedtimes. */}
+      <TimeTiersCard childId={kid.id} childName={kid.name} />
 
       <div style={{ marginBottom: '9px' }}>
         <DevicePickerChips devices={homeDevices} fallback={DEVICES} value={pick} onChange={setPick} />

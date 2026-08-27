@@ -87,7 +87,7 @@ function saveDay(rec: DayRecord) {
   try { localStorage.setItem(DAY_STORE_KEY, JSON.stringify(rec)) } catch { /* private mode, the tick still shows now */ }
 }
 
-export type TodayQuest = { id: string; title: string; emoji: string; stars: number; blocks_screens?: boolean }
+export type TodayQuest = { id: string; title: string; emoji: string; stars: number; blocks_screens?: boolean; is_family_job?: boolean; steps?: string[] | null }
 
 export default function KidTodayList({
   childName, stageId, buddyName, buddyImg, buddyIsStar,
@@ -242,13 +242,17 @@ export default function KidTodayList({
     .map(q => {
       const st = ticks[q.id]
       const state: Row['state'] = st === 'approved' ? 'done' : st === 'pending' ? 'waiting' : 'todo'
+      // A family job never talks in stars: it is one of the jobs we all do for
+      // each other, and pricing it is exactly what the flag exists to avoid.
+      const familyJob = Boolean(q.is_family_job)
       return {
         key: q.id,
-        kind: 'Job',
+        kind: familyJob ? 'Family job' : 'Job',
         emoji: q.emoji,
         title: q.title,
-        sub: state === 'done' ? 'Done! Stars landed ⭐'
+        sub: state === 'done' ? (familyJob ? 'Done! Thank you for doing your bit ❤️' : 'Done! Stars landed ⭐')
           : state === 'waiting' ? 'With your grown up now, nothing to do'
+          : familyJob ? 'One of the jobs we all do for each other'
           : `Worth ${q.stars} star${q.stars === 1 ? '' : 's'}`,
         state,
         tappable: state !== 'done',
@@ -296,6 +300,11 @@ export default function KidTodayList({
   const waitingRows = rows.filter(r => r.state === 'waiting')
   const [waitingOpen, setWaitingOpen] = useState(false)
 
+  // Step ticks are scaffolding, held only on this screen for this sitting:
+  // they carry no stars and write nothing, so losing them on a reload costs
+  // the child nothing. The big tick on the job is the only thing that pays.
+  const [stepTicks, setStepTicks] = useState<Record<string, boolean>>({})
+
   // A finished row takes a bow, then leaves: a short celebratory beat with
   // the gold tick and the burst, then the list closes up behind it. The done
   // count above keeps the credit, so nothing ever looks lost. Rows that were
@@ -323,6 +332,13 @@ export default function KidTodayList({
     // that TICKS the job a child was trying to swap teaches them not to try.
     const swapQuest = onSwapAsk && r.kind === 'Job' && r.state === 'todo'
       ? quests.find(q => q.id === r.key)
+      : undefined
+    // The steps checklist (migration 224): a big job chunked into little
+    // ticks, the one chart the scaffolding literature actually likes. Ticked
+    // locally as the child goes, no stars per step, the big tick above stays
+    // the only thing that pays. Outside the tap target like the swap line.
+    const stepQuest = r.state === 'todo' && (r.kind === 'Job' || r.kind === 'Family job')
+      ? quests.find(q => q.id === r.key && (q.steps?.length ?? 0) > 0)
       : undefined
     return (
       <div key={r.key}>
@@ -379,6 +395,32 @@ export default function KidTodayList({
           {r.burst && <KidTickBurst />}
         </span>
       </button>
+      {stepQuest && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, margin: '7px 17px 0' }}>
+          {(stepQuest.steps ?? []).map((step, i) => {
+            const key = `${stepQuest.id}:${i}`
+            const on = Boolean(stepTicks[key])
+            return (
+              <button
+                key={key}
+                onClick={() => setStepTicks(p => ({ ...p, [key]: !p[key] }))}
+                aria-pressed={on}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 5,
+                  padding: '5px 11px', borderRadius: '100px', cursor: 'pointer',
+                  fontSize: 'var(--text-sm)', fontWeight: 700,
+                  background: on ? 'var(--tint-sage)' : '#fff',
+                  color: on ? 'var(--ink-muted)' : 'var(--ink)',
+                  border: on ? '1.5px solid transparent' : '1.5px dashed var(--ink-light)',
+                  textDecoration: on ? 'line-through' : 'none',
+                }}
+              >
+                {on ? '✓' : '○'} {step}
+              </button>
+            )
+          })}
+        </div>
+      )}
       {swapQuest && (
         <button
           onClick={() => onSwapAsk?.(swapQuest)}

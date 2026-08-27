@@ -136,6 +136,18 @@ export async function getStarBanks(
     (questsRes.data ?? []).map(q => [q.id as string, Number(q.stars) || 1])
   )
 
+  // Family jobs earn no stars: contribution is belonging, not payment (the Dr
+  // Becky layer, migration 223's is_family_job flag). Their ticks still exist,
+  // still get approved and still count for streaks, they simply pay nothing
+  // here. Read apart and best effort, never in the select above, so a database
+  // still short of the column keeps every bank in the world readable and
+  // simply has no family jobs yet.
+  try {
+    const { data: familyJobs, error: fjError } = await supabase
+      .from('family_quests').select('id').eq('user_id', userId).eq('is_family_job', true)
+    if (!fjError) for (const q of familyJobs ?? []) starsByQuest.set(q.id as string, 0)
+  } catch { /* no column, no family jobs */ }
+
   return childIds.map(childId => {
     // `inWeek` is passed as a predicate rather than filtering up front, so the
     // lifetime and the weekly figures are read from exactly the same rows by the

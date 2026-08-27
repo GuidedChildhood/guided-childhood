@@ -162,11 +162,24 @@ export async function POST(request: Request) {
   if (strand === 'fairplay') {
     if (grade === 'green' && !error) {
       try {
-        const { data: kids } = await supabase.from('children').select('id').eq('parent_id', user.id)
+        // The star pays the CHILD'S own controllable act, running their screen
+        // time through the timer, not the parent's answer about the house.
+        // The Dr Becky layer (plans/week-of-2026-08-26-star-tiers-plan.md):
+        // reward behaviours a child owns. So only a child whose week actually
+        // had timer sessions earns it; a sibling with no sessions had nothing
+        // to be honest about and gets nothing to perform for.
+        const weekAgoIso = new Date(Date.now() - 7 * 86400000).toISOString()
+        const [{ data: kids }, { data: weekSessions }] = await Promise.all([
+          supabase.from('children').select('id').eq('parent_id', user.id),
+          supabase.from('device_sessions').select('child_id')
+            .eq('user_id', user.id).gte('started_at', weekAgoIso),
+        ])
+        const onTimer = new Set((weekSessions ?? []).map(s => String(s.child_id)))
         for (const k of kids ?? []) {
+          if (!onTimer.has(String(k.id))) continue
           await supabase.from('star_bonuses').insert({
             user_id: user.id, child_id: k.id, stars: 1,
-            note: 'Fair play week: screens went through the timer ⭐',
+            note: 'Fair play week: your screen time went through the timer ⭐',
           })
         }
       } catch { /* the grade still lands without the bonus */ }

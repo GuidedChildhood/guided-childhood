@@ -55,12 +55,27 @@ async function settleOldestGiftDebt(supabase: OwnerClient, userId: string, child
   } catch { /* the debt stays open for the next approved job */ }
 }
 
-async function tellChildConfirmed(userId: string, childId: string, title: string, stars: number) {
+// Is this quest a family job (no stars, contribution is belonging)? Read
+// apart and best effort, so a database still short of migration 223 simply
+// has none and the confirm message keeps its stars.
+async function isFamilyJobQuest(supabase: Awaited<ReturnType<typeof createClient>>, questId: string): Promise<boolean> {
+  try {
+    const { data, error } = await supabase
+      .from('family_quests').select('is_family_job').eq('id', questId).maybeSingle()
+    return !error && Boolean((data as { is_family_job?: boolean } | null)?.is_family_job)
+  } catch { return false }
+}
+
+async function tellChildConfirmed(userId: string, childId: string, title: string, stars: number, familyJob = false) {
   const minutes = stars * STAR_MINUTES
   await pushToChild(
     createAdminClient(), userId, childId,
     'Your grown up said yes! ✅',
-    `"${title}" is confirmed. You earned ${stars} star${stars === 1 ? '' : 's'}, that is ${minutes} minutes of device time to use. Nice one!`
+    // A family job's thank you is belonging, never payment: naming stars here
+    // would price the exact thing the flag exists to keep unpriced.
+    familyJob
+      ? `"${title}" is confirmed. Thank you for doing your bit for the family. Nice one!`
+      : `"${title}" is confirmed. You earned ${stars} star${stars === 1 ? '' : 's'}, that is ${minutes} minutes of device time to use. Nice one!`
   )
 }
 
@@ -123,7 +138,7 @@ export async function POST(req: NextRequest) {
     }
     if (targetChild) {
       await settleOldestGiftDebt(supabase, user.id, targetChild)
-      await tellChildConfirmed(user.id, targetChild, quest.title, quest.stars ?? 1)
+      await tellChildConfirmed(user.id, targetChild, quest.title, quest.stars ?? 1, await isFamilyJobQuest(supabase, quest.id))
       await celebrateStreakIfComplete(supabase, user.id, quest.child_id)
     }
     return NextResponse.json({ ok: true })
@@ -152,7 +167,7 @@ export async function POST(req: NextRequest) {
     if (tick?.child_id && tick.quest_id) {
       const { data: quest } = await supabase
         .from('family_quests').select('title, stars').eq('id', tick.quest_id).maybeSingle()
-      if (quest) await tellChildConfirmed(user.id, tick.child_id, quest.title, quest.stars ?? 1)
+      if (quest) await tellChildConfirmed(user.id, tick.child_id, quest.title, quest.stars ?? 1, await isFamilyJobQuest(supabase, tick.quest_id as string))
     }
     if (tick?.child_id) await celebrateStreakIfComplete(supabase, user.id, tick.child_id)
   }
