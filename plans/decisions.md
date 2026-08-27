@@ -8835,3 +8835,21 @@ Mexico always with "Meta is appealing". Settlement approval resolved:
 final judgment entered 26 to 27 August with appeals waived (MLex). Named
 V3: the State Treasurer lens plus the consent judgment clause read (2027
 statute scoreboard), superseding the earlier standalone Litigator V3 ask.
+
+## 27 August 2026 — the analytics loop closed into the agents
+Parsed Justin's 7 and 90 day LinkedIn exports (183,020 impressions, 89,279
+reached, 8,984 followers). Written into viral-post SKILL.md Part 8 so every
+future draft inherits it: consistency is the engine (decay to 2,000 weekly
+impressions after quiet weeks, 378 percent rebuild in eight days of daily
+posting); judge posts on reach AND engagement rate (account benchmarks:
+~2.8 median on top posts, above 3.5 strong, below 1.5 on high reach means
+audience mismatch); the Australia ban post (9,703 impressions, best of
+August) taught that news hooks export reach to the news country, a third
+of its readers were Australian, so news posts are authority plays and
+carry a UK re anchor line; naming the Haidt or Odgers debate directly
+earns roughly double the ER of neutral summaries and the champion fused
+number hook plus named position; followers convert only in the viral
+window (~700 in the June wave week); the readership is senior (founders,
+headmasters, professors at King's, UCL, Oxford, Melbourne), so the
+Odgers bar is literal. Publish pack updated with the cadence and UK
+anchor rules.

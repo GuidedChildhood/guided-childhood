@@ -583,7 +583,12 @@ eleven on each part.
 ## The binding rules
 
 The never post list in content-potential.md applies to every post, reply and
-comment in this series. Reply to Jonathan (already delivered) goes out before
+comment in this series. Two rules added from the 27 August analytics read
+(viral-post Part 8): never let the account go quiet mid series, the data shows
+a 378 percent rebuild from daily cadence and a near cold account after two
+quiet weeks; and any US news heavy part carries a UK re anchor line, because
+the Australia post proved a news hook exports its reach to the news country
+(a third of that post's readers were Australian) while the funnel lives here. Reply to Jonathan (already delivered) goes out before
 Part 1 so his thread warms the launch. Golden hour presence on all six. Cards
 built from stat-card.html, carousels from carousel.html, exported at 1080 by
 1350, one accent, cream space.
