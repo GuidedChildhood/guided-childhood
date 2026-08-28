@@ -613,6 +613,26 @@ export default function ConcernCheckIn({
             {childName ? `${childName} is done ✓` : 'All checked in ✓'} We will read these into next week.
           </div>
 
+          {/* ── THE DOOR TO THE WHOLE PICTURE (29 August 2026) ─────────────
+              From the value visibility audit: the data went in here every day
+              and came back only in the Sunday email. The per row verdict above
+              already reads today against last time; this is the way to every
+              line at once, and it only shows when there is history to see,
+              because a first check in has no picture yet. A quiet text link,
+              never competing with the terracotta buttons below. */}
+          {concerns.some(c => c.lastScore != null) && (
+            <Link
+              href="/dashboard/what-is-working"
+              style={{
+                display: 'block', margin: '0 0 12px',
+                fontSize: 'var(--text-base)', color: 'var(--ink-soft)',
+                textDecoration: 'underline', textUnderlineOffset: '3px',
+              }}
+            >
+              See every line, and how far each has come →
+            </Link>
+          )}
+
           {/* ── AND STRAIGHT ON TO THE NEXT CHILD ──────────────────────────
               Justin: "the parent runs through one child first then says done,
               onto next child."

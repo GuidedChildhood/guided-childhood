@@ -970,13 +970,22 @@ export default function HomePage() {
               {
                 tier: 'Best value', name: 'Annual OS', price: '£99', period: '/year',
                 save: 'Save £57. Two months free.',
+                // The full product, star quest first, per THE-STORY §10: the
+                // star quest leads every list of what is inside. This list was
+                // five stages, a stale "weekly three action plan" and DiGi,
+                // about half of what a subscription actually holds. The
+                // complete honest list lived only on /dashboard/upgrade
+                // (WhatYouAreBuying), a page seen after the buying decision.
+                // Same rows, condensed for a pricing card.
                 features: [
-                  ['✓', 'Full five stage dashboard'],
-                  ['✓', 'Weekly three action plan'],
-                  ['✓', 'All scripts and guides'],
-                  ['✓', 'Full curriculum, all lessons'],
-                  ['✓', 'Digital wellbeing tracker'],
+                  ['✓', 'The star quest: jobs earn stars, stars become screen minutes'],
+                  ['✓', 'Your child’s own app, no login, plus the paper star chart'],
+                  ['✓', 'All 160 scripts and the daily moments'],
                   ['✓', 'DiGi, unlimited'],
+                  ['✓', 'The homework decoder and curriculum help'],
+                  ['✓', 'Full lesson library, every stage'],
+                  ['✓', 'The wellbeing tracker, and what is working, per worry'],
+                  ['✓', 'The passport to sixteen, and printables with their name on'],
                   ['✓', 'School lesson packs included'],
                 ],
                 cta: 'Start now', href: '/starter-pack',

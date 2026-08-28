@@ -32,6 +32,10 @@ const busy = {
   // They have checked in, which is what puts anything on the passport worth
   // being sent to look at. See the passport item in next-up.ts.
   hasCheckedIn: true,
+  // Stage 3, so the setup guides card applies and the cycle test below can
+  // prove all thirteen items get a turn.
+  stageId: 3,
+  streakCount: 2,
 }
 
 // The opposite: day one, nothing set up, nothing flagged, no school, no
@@ -77,18 +81,24 @@ check('every family gets a card on every one of 60 days', missing === 0, `${miss
 // position the rotation never lands on, and one item silently loses that
 // month's turn. That is the real, accepted cost of a monthly tier, and it is
 // once a month per item per year. What must still be true is that a clear run
-// of days shows all eleven, which is what this measures.
+// of days shows all thirteen, which is what this measures.
 const cycleStart = (() => {
   for (let start = 0; start < 60; start++) {
     if (Array.from({ length: ROTATION.length }, (_, i) => day(start + i)).every(d => !isShopDay(d))) return start
   }
   throw new Error('no clear cycle in 60 days, which cannot happen with a monthly tier')
 })()
-const cycleDays = Array.from({ length: ROTATION.length }, (_, i) => day(cycleStart + i))
+// TWO cycles, not one (29 August 2026). Thirteen items span thirteen days,
+// which always contains two Mondays, and the weekly tier leads on Mondays, so
+// a single cycle can cost one daily item its only turn. Two turns each fixes
+// it structurally: an item's two turns sit thirteen days apart, which is six
+// weekdays along, so they can never both fall on a Monday, and never both on
+// the shop's 12th.
+const cycleDays = Array.from({ length: ROTATION.length * 2 }, (_, i) => day(cycleStart + i))
 const busyKeys = cycleDays.map(d => pickNextUp(busy, d).key)
-check('a busy family sees every rotation item across one cycle',
-  new Set(busyKeys).size === ROTATION.length,
-  `${new Set(busyKeys).size} of ${ROTATION.length}`)
+check('a busy family sees every rotation item across two cycles',
+  ROTATION.every(it => busyKeys.includes(it.key)),
+  ROTATION.filter(it => !busyKeys.includes(it.key)).map(it => it.key).join(' ') || 'all seen')
 
 check('and never the same card two days running',
   busyKeys.every((k, i) => i === 0 || k !== busyKeys[i - 1]))

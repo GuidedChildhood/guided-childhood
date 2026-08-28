@@ -1,5 +1,5 @@
-// What next, after today is done. Eleven things, one a day, plus the shop once
-// a month.
+// What next, after today is done. Thirteen things, one a day, plus the shop
+// once a month.
 //
 // Justin, 12 August 2026: "are we rotating what's next between review quests,
 // guide watch time, check watch balance, check school reminders, check device
@@ -97,6 +97,14 @@ export type NextUpSignals = {
    * showing up and the card has to say how close they are.
    */
   streakCount: number
+  /**
+   * The child's numeric stage, for the settings guides card: the first phone
+   * ladder is a Stage 2 conversation and the social settings guides a Stage 3
+   * one, and offering either to the parent of a four year old fails the age
+   * range test in review.md. Optional so older callers stay type safe; when
+   * absent the card simply never applies.
+   */
+  stageId?: number
 }
 
 export type NextUpCard = {
@@ -275,6 +283,41 @@ export const ROTATION: Item[] = [
       href: '/dashboard/pathway#passport', icon: '📖', coversJobs: false,
     }),
   },
+  // ── TWO ADDED 29 AUGUST 2026, from the value visibility audit ─────────────
+  //
+  // plans/2026-08-28-value-and-revenue-review.md: printables and the setup
+  // guide layer (the first phone ladder, the social settings walkthroughs) had
+  // real depth in code and no rotation slot, so most families never met them.
+  // The cost is the cycle stretching from twelve days to thirteen or fourteen,
+  // which is the trade this file has always accepted for coverage.
+  {
+    key: 'printables',
+    applies: () => true,
+    build: s => ({
+      key: 'printables', eyebrow: EYEBROW, title: 'One for the fridge',
+      line: `A star chart or planner with ${s.childName ?? 'your child'}’s name on it. Five minutes to print, days of mileage.`,
+      href: '/dashboard/printables', icon: '🖨️', coversJobs: false,
+    }),
+  },
+  {
+    // The guide that matches where this family actually is: the first phone
+    // ladder from Stage 2, the per platform social settings from Stage 3. Both
+    // pages were reachable only through alternating day cards that vanish
+    // outside their window.
+    key: 'setup-guides',
+    applies: s => (s.stageId ?? 0) >= 2,
+    build: s => ((s.stageId ?? 0) >= 3
+      ? {
+          key: 'setup-guides', eyebrow: EYEBROW, title: 'The social settings, walked through',
+          line: 'Per platform, what to set with them rather than to them, before it matters.',
+          href: '/dashboard/social-settings', icon: '🛡️', coversJobs: false,
+        }
+      : {
+          key: 'setup-guides', eyebrow: EYEBROW, title: 'The first phone, step by step',
+          line: 'The ladder from shared screens to their own handset, and what to set at each rung.',
+          href: '/dashboard/phone-setup', icon: '📵', coversJobs: false,
+        }),
+  },
 ]
 
 // ── THE FIVE THAT COME ROUND ONCE A WEEK ────────────────────────────────────
@@ -312,7 +355,10 @@ const WEEKLY: Item[] = [
     build: s => ({
       key: 'journey', eyebrow: EYEBROW, title: 'One step at a time',
       line: `Where ${s.childName ?? 'your child'} is on the road to sixteen, and the next thing that gets you there.`,
-      href: '/dashboard/road', icon: '🛤️', coversJobs: false,
+      // /dashboard/pathway directly. The old /dashboard/road target became a
+      // server redirect back to the pathway when the split was reversed, and a
+      // rotation card should not route through a forwarding address.
+      href: '/dashboard/pathway', icon: '🛤️', coversJobs: false,
     }),
   },
   {
@@ -324,7 +370,9 @@ const WEEKLY: Item[] = [
     build: s => ({
       key: 'working-on', eyebrow: EYEBROW, title: 'What has actually shifted',
       line: `${s.concernsLive} on the list. See which have moved since you started, in words rather than a score.`,
-      href: '/dashboard/passport?tab=working', icon: '📈', coversJobs: false,
+      // The page built for exactly this question. The old target was a
+      // passport tab that no longer exists and now redirects.
+      href: '/dashboard/what-is-working', icon: '📈', coversJobs: false,
     }),
   },
   {
@@ -347,7 +395,11 @@ const WEEKLY: Item[] = [
     build: () => ({
       key: 'week-numbers', eyebrow: EYEBROW, title: 'Your week in numbers',
       line: 'Stars earned, check ins done, and the days you showed up. Two minutes to see it.',
-      href: '/dashboard/passport?tab=working', icon: '⭐', coversJobs: false,
+      // The weekly round up is the page that reads the week back; the old
+      // passport tab target redirects. Movement per concern lives at
+      // what-is-working, which the working-on card above now points at, so
+      // the two weekly cards stop landing on the same door.
+      href: '/dashboard/week', icon: '⭐', coversJobs: false,
     }),
   },
   {
@@ -402,12 +454,10 @@ const WEEKLY: Item[] = [
     build: () => ({
       key: 'stance', eyebrow: EYEBROW, title: 'Why this works, and where we stand',
       line: 'The measured evidence on kids and phones, and what we believe because of it.',
-      // /dashboard/road, not a page of its own. PathwayEvidence is a collapsible
-      // card that lives inline on the road, and there is no /dashboard/why to
-      // send anybody to. Checked before shipping it rather than after: a
-      // rotation item pointing at a 404 would show up once a week, quietly, to a
-      // fifth of families.
-      href: '/dashboard/road#why-this-works', icon: '🔬', coversJobs: false,
+      // The pathway page directly, where the #why-this-works anchor lives. The
+      // old /dashboard/road target became a redirect when the split was
+      // reversed, and a hash does not reliably survive a server redirect.
+      href: '/dashboard/pathway#why-this-works', icon: '🔬', coversJobs: false,
     }),
   },
 ]
