@@ -8918,3 +8918,37 @@ Briefing: briefings/2026-08-28-meta-sentiment-and-settlement-v2.html (38 confirm
   improve modestly; Meta reputation barely moves; watch the five year sunset).
 - **V3 if commissioned**: the seventh lens is the teenager, built on VotesforSchools
   (40,000 pupils), Ofcom, Girlguiding youth voice data.
+
+## 28 August 2026 — V3: the teenager lens (youth voice, verified)
+
+briefings/2026-08-28-meta-sentiment-and-settlement-v3.html replaces V2 (running
+totals 46 confirmed, 16 corrected, 2 demoted). New citable facts and rules:
+
+- **Fifth standing line**: teenagers were the first authors of these rules. A
+  5Rights Youth Jury member designed the automatic night and school switch off in
+  2016 (built as the Zone App prototype); a court ordered Meta to build the same
+  mechanisms a decade later. Verified against 5Rights primary pages.
+- **Teens are ambivalent, not opposed**: Pew Oct 2023: time limits 34% support /
+  36% oppose; parental consent 46% teen support (adults 81%). UK Youth Select
+  Committee (Mar 2025, exact quote): a ban "like in Australia, is neither
+  practical nor effective". Amnesty 2023: 74% check more than they would like
+  (self selected, 550, 45 countries).
+- **Sample discipline (never post without)**: Common Sense 45%/33% feature figures
+  are GIRLS AGED 11 TO 15 (n=1,397); the 237 notifications median is n=203 Android
+  only; HEAT/Design It For Us 58%/39% is advocacy commissioned (n=800, with
+  ParentsTogether), carry with the label; parental monitoring finding (restrictive
+  tracks problematic use, conversation and autonomy do not) is cross sectional,
+  248 parents, parent reported.
+- **Demoted**: "bystanders fail to notice smart glasses recording indicators"
+  pinned to the Australian PLOS ONE study (not in it; it is an adult acceptability
+  survey). ICO letter to Meta on glasses footage is MARCH 2026, not August.
+- **The only youth voice in settlement coverage**: Sebastian Mahal, Design It For
+  Us (CNN 27 Aug), wants the safest experiences on by default. Still zero ordinary
+  teens, zero teen polls.
+- **VotesforSchools question set** (ten questions, in the briefing): strongest two
+  are the readiness question (step by step vs off at 18) and the authorship
+  question (should young people help write the rules). No UK youth dataset exists
+  on either the settlement rules or smart glasses; the 40,000 pupil vote would be
+  the first of both.
+- **V4 if commissioned**: the state legislator lens (statute tracking on where
+  each state's Meta money goes before the 2027 sessions close).
