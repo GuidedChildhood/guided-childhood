@@ -8867,3 +8867,54 @@ engagement engineered feeds land in less algorithmic but less moderated
 spaces, trading amplification harms for contact and moderation harms.
 Both lines feed docs/11 Stage 4 content ahead of Spring 2027 and the
 Part 6 close of the Follow the Money series.
+
+## 28 August 2026 — Meta sentiment and settlement briefing (V2, verified)
+
+Briefing: briefings/2026-08-28-meta-sentiment-and-settlement-v2.html (38 confirmed,
+13 corrected, 1 demoted). Key decisions and citable facts:
+
+- **The beta = 0.061 house stat has its citation**: Ferguson, Kaye, Branley-Bell and
+  Markey (2025), Professional Psychology: Research and Practice, 56(1), 73 to 83,
+  DOI 10.1037/pro0000589. Confirmed: 46 studies, pooled beta below the preset r = .10
+  evidentiary threshold. DROP from all future copy until the PDF is read: "79 effect
+  sizes" and "pre registered on OSF" (unverified). Rausch and Haidt contest it; never
+  conflate with Ferguson's separate experiments meta (d = 0.088).
+- **Four standing contrarian lines (documented absences, hostile expert proof)**:
+  the settlement regulates the visible, not the severe; it audits compliance, not
+  children (auditor ends 120 days after its fifth annual report on a ten year deal);
+  New Mexico is the control group (the verdict state won the AI chatbot ban and DM
+  safeguards the 47 state deal lacks; Meta appealing); nobody is contracted to find
+  out whether it worked.
+- **Narrowed lines (Skeptic verdicts binding)**: settlement is a price not a verdict
+  (never imply the record is empty); never the word "scapegoat", say attention audit;
+  the 30% contingency "functions as" a competitive weapon, never "is about"; use
+  Béjar's 13% in 7 days (survey of ~237,000 users, Senate testimony) instead of the
+  conditional one in three girls slide when a harm number is needed.
+- **Never post any more**: ACE odds ratio range 2.4 to 3.98 (demoted, untraceable to
+  Hughes et al 2016 tables; prevalences 46.4% and 8.3% stand); "over half of teens on
+  phones midnight to 4am on a typical night" (the real figure: 52.1% used the phone in that
+  window at least once during the JAMA Pediatrics ABCD study, n=657); "4.7m accounts
+  removed by Meta" (industry wide; Meta alone 756,000 through June 2026); NCMEC's
+  ~three dozen sextortion suicides is cumulative since 2021, not one year.
+- **Settlement facts pinned**: consent judgment cap $16,680,647,753.21, minimum
+  $12.1bn committed; 51 jurisdictions signed (Meta says 52); judge signed 26 Aug;
+  DMs excluded from all three modes; Time Limit and Night Mode sunset at 5 years
+  unless TikTok and YouTube sign; permitted uses include "additional litigation
+  against social media platforms"; California at least $1.5bn up to ~$2.2bn, decided
+  by its legislature.
+- **Australia figures, use with their measure**: The BMJ (Barnes et al, June 2026,
+  n=408): 85%+ of under 16s still using; eSafety evaluation: 86% to 81% use, 60% to
+  58% daily; Bursztyn et al (NBER 35162): ~27% compliance at 14 to 15, 75% say
+  circumvention easy. "Why Bans Fail" is Bursztyn et al, not Sunstein/Duckworth.
+- **Hidden likes correction (in Meta's favour)**: the independent PAID 2021 trial
+  SUPPORTS hiding like counts; with Project Daisy that makes hidden likes the one
+  settlement term with converging evidence. The V1 claim that it showed no benefit
+  was inverted and is retracted.
+- **Sleep window argument**: Night Mode starts midnight; a 7am school wake needs
+  ~10:30pm sleep; ABCD tracking: mean 50.1 min use 10pm to 6am school nights. The
+  9pm to midnight window is ours (fade ladder, no phone evenings).
+- **The credibility play decided**: pre register falsifiable predictions on the
+  settlement as a natural experiment (aggregates will not bend by 2029; sleep may
+  improve modestly; Meta reputation barely moves; watch the five year sunset).
+- **V3 if commissioned**: the seventh lens is the teenager, built on VotesforSchools
+  (40,000 pupils), Ofcom, Girlguiding youth voice data.

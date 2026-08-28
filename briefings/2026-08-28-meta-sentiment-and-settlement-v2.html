@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Case Against Meta · Guided Childhood Research Briefing</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --cream:      #F7F3EE;
+  --warm:       #FDFBF8;
+  --ink:        #1C1C1C;
+  --ink-soft:   #4A4A4A;
+  --ink-muted:  #6E6A62;
+  --ink-light:  #9B958A;
+  --green:      #AFDCA2;
+  --green-dark: #2E7D5A;
+  --green-lt:   #EEF7F2;
+  --coral:      #D4600A;
+  --coral-lt:   #FEF3E8;
+  --coral-dark: #C0392B;
+  --gold:       #F2C94C;
+  --gold-lt:    #FEFAE8;
+  --gold-dark:  #C9962A;
+  --gold-hover: #E3B53A;
+  --lav:        #E7ECF8;
+  --lav-deep:   #3D5BA9;
+  --border:     #E4DFD7;
+  --font-display: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-body:    'Hanken Grotesk', system-ui, sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.65}
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 96px}
+
+.eyebrow{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-muted)}
+
+header.brief-head{padding:40px 0 32px;border-bottom:1px solid var(--border)}
+header.brief-head h1{font-weight:800;font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-0.02em;margin:12px 0 16px}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-family:var(--font-mono);font-size:12px;font-weight:500;padding:5px 12px;border-radius:999px;background:var(--warm);border:1px solid var(--border);color:var(--ink-soft)}
+.chip.version{background:var(--gold-lt);border-color:var(--gold);color:var(--gold-dark);font-weight:600}
+
+section{margin-top:56px}
+section > h2{font-weight:800;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-0.01em;margin:10px 0 20px}
+section > .eyebrow{display:block}
+
+.summary-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:28px 30px;font-size:17px;color:var(--ink-soft)}
+.summary-card p+p{margin-top:12px}
+
+.finding{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:24px 26px;margin-bottom:16px}
+.finding-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.finding h3{font-weight:700;font-size:1.15rem;line-height:1.35;max-width:560px}
+.reliability{font-family:var(--font-mono);font-size:12px;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:12px}
+.reliability.high{background:var(--green-lt);color:var(--green-dark)}
+.reliability.medium{background:var(--gold-lt);color:var(--gold-dark)}
+.reliability.low{background:var(--coral-lt);color:var(--coral-dark)}
+.finding p{color:var(--ink-soft);margin-top:10px}
+.lens-tags{margin-top:14px;font-family:var(--font-mono);font-size:12px}
+.lens-tags .supported{color:var(--green-dark)}
+.lens-tags .challenged{color:var(--coral-dark)}
+.lens-tags span.sep{color:var(--ink-light);margin:0 8px}
+.finding .cite{font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:10px}
+
+table.contra{width:100%;border-collapse:collapse;background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+table.contra th{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-align:left;color:var(--ink-muted);padding:14px 18px;border-bottom:1px solid var(--border);background:var(--cream)}
+table.contra td{padding:14px 18px;border-bottom:1px solid var(--border);color:var(--ink-soft);font-size:15px;vertical-align:top}
+table.contra tr:last-child td{border-bottom:none}
+td.leans{font-family:var(--font-mono);font-size:13px;font-weight:600;white-space:nowrap}
+td.leans.green{color:var(--green-dark)}
+td.leans.coral{color:var(--coral-dark)}
+
+.lens-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+.lens-panel{border:1px solid var(--border);border-radius:20px;padding:22px 24px;background:var(--warm)}
+.lens-panel .eyebrow{margin-bottom:8px}
+.lens-panel h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.lens-panel p{color:var(--ink-soft);font-size:15px}
+.lens-panel.clinician{background:var(--green-lt)}
+.lens-panel.academic{background:var(--lav)}
+.lens-panel.skeptic{background:var(--coral-lt)}
+.lens-panel.economist{background:var(--gold-lt)}
+.lens-panel.historian{background:var(--warm)}
+.lens-panel.child{background:var(--cream);border-color:var(--green)}
+
+.gc-card{background:var(--green-lt);border:1px solid var(--green);border-radius:20px;padding:28px 30px}
+.gc-card ul{list-style:none;margin-top:4px}
+.gc-card li{padding:12px 0;border-bottom:1px solid var(--border);color:var(--ink-soft)}
+.gc-card li:last-child{border-bottom:none}
+.gc-card li strong{color:var(--ink);font-weight:700}
+.gc-card .tag{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:2px}
+
+.assump-card{background:var(--warm);border:1px solid var(--border);border-radius:20px;padding:26px 28px}
+.assump-card h3{font-weight:700;font-size:1.05rem;margin-bottom:8px}
+.assump-card p{color:var(--ink-soft)}
+.assump-card .missing{margin-top:20px;padding-top:20px;border-top:1px solid var(--border)}
+.assump-card .missing h3{color:var(--coral-dark)}
+
+.ledger{background:var(--warm);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ledger-row{display:flex;gap:16px;align-items:flex-start;padding:16px 20px;border-bottom:1px solid var(--border)}
+.ledger-row:last-child{border-bottom:none}
+.verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:5px 10px;border-radius:10px;white-space:nowrap;margin-top:2px}
+.verdict.confirmed{background:var(--green-lt);color:var(--green-dark)}
+.verdict.corrected{background:var(--gold-lt);color:var(--gold-dark)}
+.verdict.demoted{background:var(--coral-lt);color:var(--coral-dark)}
+.ledger-row .src{font-size:14px;color:var(--ink-soft)}
+.ledger-row .src a{color:var(--lav-deep);text-decoration:none;border-bottom:1px solid var(--lav)}
+.ledger-row .src .note{display:block;font-family:var(--font-mono);font-size:12px;color:var(--ink-light);margin-top:4px}
+
+footer.brief-foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--font-mono);font-size:12px;color:var(--ink-light)}
+
+@media (max-width:600px){
+  .wrap{padding:24px 16px 64px}
+  .finding-top{flex-direction:column}
+  table.contra{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="brief-head">
+    <span class="eyebrow">Guided Childhood Research Briefing</span>
+    <h1>The Case Against Meta: the psychology, the settlement, and what is actually worse</h1>
+    <p style="color:var(--ink-soft);max-width:640px">Why the world turned on one company, what the $18 billion deal really contains, which contrarian positions survive a hostile expert, and the harms the whole debate is not looking at. Commissioned 28 August 2026, two days after the settlement. Every citation adversarially verified: 38 confirmed, 13 corrected, 1 number demoted.</p>
+    <div class="meta-row">
+      <span class="chip version">V2 · Verified</span>
+      <span class="chip">28 August 2026</span>
+      <span class="chip">The Moral Psychologist</span>
+      <span class="chip">The Evidence Auditor</span>
+      <span class="chip">The Skeptic</span>
+      <span class="chip">The Settlement Reader</span>
+      <span class="chip">The Harm Ranker</span>
+      <span class="chip">The Child and the Frontline</span>
+    </div>
+  </header>
+
+  <section id="summary">
+    <span class="eyebrow">Read this first</span>
+    <h2>60 Second Summary</h2>
+    <div class="summary-card">
+      <p>People are against Meta for reasons the polling makes measurable and psychology explains: it is the most distrusted major tech company in America and has been since Cambridge Analytica in 2018, but the anger is sustained less by harm evidence than by betrayal. The Haugen files turned Meta's story from a company that failed into a company that knew, and the trust research says that kind of wound does not heal with product fixes or money, which is why an $18 billion settlement moved the stock up and the sentiment not at all. A measurable share of the anger is also displaced parental guilt: 73 per cent of parents feel screen guilt, that guilt does not track their child's actual screen time, and parents nominate Meta as the villain while Gen Z nominates TikTok and X, each blaming the platform they are most entangled with.</p>
+      <p>The settlement itself is weaker than its headlines and stranger than its critics say. Direct messages are excluded from all three new modes, and messages are where the best documented harms live: Meta's own internal survey of roughly 237,000 users put unwanted sexual advances at 13 per cent of 13 to 15 year olds in a single week, and the only jury verdict in this whole saga, New Mexico's $942 million, was about predators, not feeds. The two strongest terms sunset at five years, the auditor expires at half time and checks whether features shipped rather than whether any child got better, the money is not legally earmarked for children, and roughly $5.3 billion only moves if TikTok and YouTube adopt Meta's framework, which converts child safety into a bargaining position against Meta's rivals. Meanwhile the science still says what it said: small average effects that concentrate sharply in vulnerable children, which is not a contrarian position, it is the National Academies consensus, and it is ours.</p>
+      <p>What is actually worse than the feed, ranked by evidence: the offline drivers (poverty, adversity, parental mental health, half a million children on CAMHS lists), contact harms in the DMs the settlement excludes, lost sleep in the 9pm to midnight window the midnight curfew misses, group chats and bullying on the apps the deal does not touch, pornography that 70 per cent of young people see before 18, and AI companions arriving faster than any of this. The settlement regulates where harm is most visible, not where it is most severe. And nobody, in two days of wall to wall coverage, has quoted a single teenager.</p>
+    </div>
+  </section>
+
+  <section id="findings">
+    <span class="eyebrow">Ranked by reliability</span>
+    <h2>Key Findings</h2>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The settlement's three modes exclude direct messages, and messages are where the best documented harms live</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Night Mode, the Time Limit and School Mode all exempt DMs, per Meta's own release. Yet the strongest single dataset in the entire record is about contact: Arturo Béjar's sworn Senate testimony that Meta's internal survey of roughly 237,000 Instagram users found 13 per cent of 13 to 15 year olds received an unwanted sexual advance within the previous seven days. Financial sextortion reports to NCMEC passed 50,000 in 2025, 137 a day, up 37 per cent in a year, and NCMEC knows of roughly three dozen American teenage boys who have died by suicide after being targeted since 2021. In UK police records, where the platform is known, 40 per cent of child grooming offences happen on Snapchat and 9 per cent on WhatsApp, which is Meta owned and untouched by a settlement with Meta. The deal does include unwanted contact protections and parental alerts, but those are notification features, not the structural limits applied to the feed.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Harm Ranker, Skeptic, Settlement Reader, Child and Frontline</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none</span>
+      </div>
+      <div class="cite">Sources: Béjar Senate testimony 2023 · NCMEC 2026 · NSPCC 2025 · Meta newsroom 26 Aug 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>New Mexico is the control group: the one state that went to verdict won the protections the 47 state deal lacks</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>New Mexico refused the settlement, took Meta to trial, and won: a jury found 75,000 wilful consumer protection violations ($375 million, the statutory maximum) and the court added $567 million for a public nuisance abatement fund, roughly $942 million for one state, with Meta appealing. What New Mexico's court ordered and the national deal conspicuously lacks: a ban on romantic or sexualised AI chatbot interactions with minors and hardened safeguards against adults reaching children in private messages. That proves the DM exclusion was not a technical inevitability. It was the price of the deal, negotiated away in the channel where grooming harm concentrates, while the public argues about whether two hours is the right number. New Mexico's attorney general says on the record that the national settlement is weaker than what his state won at trial.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Settlement Reader, Skeptic, Harm Ranker</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none</span>
+      </div>
+      <div class="cite">Sources: NM DOJ 2026 · NM courts final judgment · Fortune Torrez interview 26 Aug 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The settlement audits compliance, not children: no binding term measures whether any child got better</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>The independent auditor reports annually for five reporting periods and its role ends 120 days after the fifth report, on an agreement whose main terms run ten years, so the back half has no outside monitor. What it audits is implementation, whether Meta shipped the features, not effectiveness, whether any child's sleep, mood or safety improved. The one body that could measure outcomes, the research foundation, appears in Meta's announcement but its governance, board, publication rights and data terms are unpublished, and it would receive consented user data through a consent pipeline Meta controls. The tobacco precedent cuts both ways: the 1998 settlement dissolved the industry's three captured research bodies, and Philip Morris's later Foundation for a Smoke Free World was found by University of Bath researchers to function as an industry influenced scientific lobby that public health bodies refused to touch. In five years the public will know whether Meta shipped Night Mode. Nobody is contracted to know whether a single child slept better.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Skeptic, Settlement Reader</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none, though the FTC precedent shows an assessor can still surface real gaps</span>
+      </div>
+      <div class="cite">Sources: consent judgment (verified by phrase match) · IAPP 2026 · Univ. of Bath TCRG · Public Health Law Center MSA overview</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Teens will route around it: every restriction in the deal has a documented workaround and the parent holds the override key</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>Australia is the live experiment. A peer reviewed study in The BMJ (Barnes et al, June 2026, 408 adolescents surveyed before the ban and three months after) found more than 85 per cent of under 16s still using restricted platforms, 54 to 67 per cent through their own accounts. The eSafety Commissioner's own evaluation found use of restricted platforms fell only from 86 to 81 per cent, and daily use from 60 to 58 per cent; in a separate strand, 7 in 10 parents whose child had a pre ban account said the child still had one. An NBER study (Bursztyn and colleagues, 507 Australian teens) put compliance among 14 and 15 year olds near 27 per cent, with 75 per cent calling circumvention easy. The last time limit tool Meta built, Take a Break, reached 1.8 per cent adoption by sworn testimony. Roughly 40 per cent of UK under 13s already hold social profiles, and among UK 8 to 17 year olds with a profile, 22 per cent are signed up with an adult age. The settlement counts time only across accounts Meta detects belong to the same teen, and no public figure exists for that detection rate. Above all, a parent's permission switches the two hour limit off, which quietly moves the entire enforcement burden into the family and converts every limit into a kitchen table negotiation.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child and Frontline, Skeptic, Settlement Reader</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: the wall leaks rather than being absent; platforms industry wide restricted about 4.7 million suspected under 16 accounts and Meta alone removed 756,000 through June 2026</span>
+      </div>
+      <div class="cite">Sources: The BMJ Barnes et al June 2026 · eSafety evaluation Jul 2026 · Bursztyn et al NBER 35162 · Mosseri testimony 25 Aug 2026 · Ofcom 2025 and Online Nation 2024</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The science has not changed: small average effects, concentrated in vulnerable children, and that is the consensus, not the contrarian view</h3>
+        <span class="reliability high">Reliability 9/10</span>
+      </div>
+      <p>The US National Academies' 2024 consensus review concluded the literature "did not support the conclusion that social media causes changes in adolescent health at the population level", while affirming that specific features can harm some young people. The best causal study, the Facebook college rollout in the American Economic Review, found access increased students reporting severe depression by 7 per cent and anxiety disorder by 20 per cent, concentrated in students already predisposed to mental illness. The largest deactivation trials found small emotional gains, 0.041 to 0.060 standard deviations, with the Instagram effect concentrated in women under 25. The UK Millennium Cohort shows girls at five plus hours a day carrying 50 per cent higher depressive symptom scores than girls at one to three hours. Every strong result points the same way: real, small on average, sharply concentrated by person and age. The settlement and the March jury verdict are legal events about what Meta knew and concealed. They change the story of Meta's conduct, not the effect sizes.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Evidence Auditor, Skeptic, Harm Ranker</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: the Haidt and Twenge camp on aggregation and network effects, a live dispute this briefing reports rather than settles</span>
+      </div>
+      <div class="cite">Sources: NASEM 2024 · Braghieri Levy Makarin AER 2022 · Allcott NBER 33697 · Kelly EClinicalMedicine 2018 · Orben Nat Comms 2022</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Anti Meta sentiment is real, earned, and company specific, but it dates from privacy in 2018, not from children</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Meta sits in the bottom five of the Axios Harris reputation ranking of America's 100 most visible companies in both 2024 and 2026, alongside polarised political brands; among pure tech peers it is last, and its rating was downgraded from poor to very poor in 2024. Facebook fell from third least trusted US institution in 2018 to the least trusted of all measured, including Congress, by 2021. The collapse is datable: agreement that Facebook protects privacy fell from 79 per cent to 27 per cent in the weeks after Cambridge Analytica, recovered only to 28 per cent after Zuckerberg's testimony, and never came back, with a second step down after the 2021 Haugen disclosures. So the distrust predates the teen harm story by three years. People think they are angry about children; the polling says the wound was privacy and concealment, and the children's evidence landed on an already convicted defendant.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Moral Psychologist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic notes the 2021 step down was specifically about children, so the two stories compound rather than compete</span>
+      </div>
+      <div class="cite">Sources: Axios Harris Poll 100 2024 and 2026 · Brookings institutional confidence 2021 · Ponemon 2018 · Pew 2025</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The anger persists because it is a betrayal story, and betrayal does not respond to product fixes or payment</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Trust research distinguishes competence violations, which repair with apology and compensation, from integrity violations, which barely repair at all, because concealment signals a stable moral trait rather than a fixable error. The Haugen structure, they knew and hid it, is the canonical integrity frame, and 59 per cent of Americans believed her claims. The settlement is a competence remedy, features and money, applied to an integrity wound. The prediction that follows: Meta's reputation numbers will barely move in 2027 despite the largest child safety settlement in history. The market already understood the difference between legal risk and public trust: the stock rose 1.07 per cent on the news, adding about $13.5 billion in market cap in a day, roughly the guaranteed cash portion of the deal.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Moral Psychologist, Settlement Reader</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: none, though this is a framework applied to a case, not a tested result</span>
+      </div>
+      <div class="cite">Sources: trust repair literature (PLOS ONE 2015) · Statista 2021 · CNBC and market reporting 26 Aug 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>A measurable share of the anger is displaced parental guilt, and the villain each generation picks is a mirror</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>73 per cent of parents report guilt over their child's screen use, and the peer reviewed finding is that the guilt does not track the child's actual screen time; it predicts the parent's stress, not the child's exposure. Scapegoat research shows experimentally that both guilt and loss of control increase blame of a single vivid target. And the villain assignment follows entanglement: parents nominate Meta, while Gen Z, asked which platforms they wish had never been invented, put X first at 50 per cent and TikTok at 47 per cent, with Facebook at 37 and Instagram at 34. The settlement, on this reading, functions partly as ritual expiation: the villain is punished and nothing at home has to change. The psychology predicts the relief will not last, because the underlying guilt and control problem is untouched, and the thing that actually resolves it is an active pathway rather than a verdict.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Moral Psychologist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Skeptic warns this must never be deployed as an alibi for Meta; the documented record is real and both things are true</span>
+      </div>
+      <div class="cite">Sources: Wolfers et al Media Psychology 2024 · Rothschild JPSP 2012 · Harris Poll Gen Z 2024 · Pew Zuckerberg favourability 2025</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The evidence behind the settlement's terms is thin, with two exceptions, hidden likes and sleep, and the sleep term starts 90 minutes too late</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>No published trial tests a two hour cap, prompt evidence beyond platform PR is essentially absent, and the last such tool reached 1.8 per cent of teens. The chronological feed option rests on an experiment that measured adult political attitudes, not teen wellbeing, which remains untested. The two terms with real support: hidden like counts, where Meta's own Project Daisy tests found reduced negative social comparison and an independent randomised trial found visible like counts worsened the negative feelings that come with them, its authors concluding the findings support hiding likes; and sleep protection, the strongest mechanism in the screens literature, an umbrella of 7 systematic reviews covering 127 studies and 867,003 participants. But Night Mode starts at midnight while a teenager who wakes at 7am needs to be asleep around 10:30pm, and passive tracking of 657 US adolescents found an average of 50 minutes of phone use between 10pm and 6am on school nights, with 52 per cent using their phone between midnight and 4am at some point in the study. The evidence aligned remedy misses the window where bedtime is actually lost.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Evidence Auditor, Skeptic, Harm Ranker, and for hidden likes the Child and Frontline lens</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: the midnight start is not nothing, half the tracked teens touched their phones in that window</span>
+      </div>
+      <div class="cite">Sources: Shorenstein Project Daisy case study · Personality and Individual Differences 2021 · Guess Science 2023 · IJERPH umbrella 2025 · JAMA Pediatrics ABCD letter</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The money is not earmarked for children, and the headline number is not the real number</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>The filed consent judgment caps total payments at $16,680,647,753.21 and commits a minimum of $12.1 billion over ten years; Meta's own release rounds to $18 billion by including the roughly $5.3 billion that only moves if TikTok and YouTube adopt the framework and pay matching amounts. Reported figures across major outlets ranged from $16.7 to $18 billion in the same news cycle. The judgment's permitted uses include crisis services and after school programmes but also public health advertising, outdoor activities, provider training, and additional litigation against social media platforms, and California's attorney general concedes his state's share, at least $1.5 billion and up to about $2.2 billion, will be decided by the legislature and governor. Some states are already legislating earmarks, Illinois up to $768 million, Colorado nearly $615 million over nine years, Kentucky $358 million. The honest position is the tobacco lesson stated forward: the money reaches children only if each state's enabling legislation makes it, so watch the legislatures, not the press releases.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Settlement Reader, Skeptic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: this deal has more spending guidance than tobacco's did, and several states are moving; the vanishing is a risk, not a fate</span>
+      </div>
+      <div class="cite">Sources: consent judgment (cap and uses verified by phrase match) · CalMatters · Washington Times · NPR Illinois</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>The 30 per cent contingency functions as a competitive weapon, and the states now hold a financial stake in rivals settling</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Roughly $5.3 billion of Meta's payout is released only if TikTok and YouTube implement a one hour daily limit, night mode and age assurance and each pays a matching amount, half tied to each. If rivals refuse, Meta saves billions. On the day it settled, Meta published an open letter urging TikTok and YouTube to join, with full page newspaper ads running the next morning, and its own strongest terms, one hour per app, 10pm to 7am, ten year duration, trigger only if rivals sign. Legal commentators called it writing the kid safety rules for every other platform; Engadget's legal experts said the deal puts YouTube, TikTok and Snap on notice. The under examined twist: the states themselves now hold a multibillion dollar financial interest in pressuring TikTok and YouTube to adopt Meta's framework. Say it functions as a competitive weapon; intent is unfalsifiable, the mechanics are documented.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Settlement Reader, Skeptic</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: Meta's stated logic, that teens move fluidly between apps, is true and is also our own migration argument</span>
+      </div>
+      <div class="cite">Sources: Meta newsroom and open letter 26 Aug 2026 · Fortune · Techdirt · Engadget · HuffPost</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Ranked by evidence, the harms worth more attention than the feed: offline drivers, DMs, sleep, group chats, pornography, AI companions</h3>
+        <span class="reliability high">Reliability 8/10</span>
+      </div>
+      <p>Tier one, strong evidence and large: the offline drivers, contact harms in DMs, and sleep. In the national English survey, 46.4 per cent of adults carry at least one adverse childhood experience and 8.3 per cent carry four or more, a group with markedly higher rates of low mental wellbeing, while technology use explains at most 0.4 per cent of adolescent wellbeing variance; UK child poverty stands at 4.5 million children (31 per cent) on the 2023/24 measure, with the revised 2024/25 methodology counting 4.0 million (27 per cent, not directly comparable); 550,610 children sit on English mental health waiting lists, and CAMHS referral rates run nearly double in the most deprived decile. Tier two: school bullying and group chat pile ons, which outrank social media use as predictors in the newest benchmarking study and run through WhatsApp and Snapchat, which the settlement does not touch; and pornography, seen by 70 per cent of 16 to 21 year olds before 18, half of those who see it having seen it by age 13, 59 per cent of first exposures accidental. Tier three and rising fastest: AI companions, used by 72 per cent of US teens, with the Royal College of Psychiatrists linking the CAMHS queue to chatbot substitution, and the settlement silent on AI entirely. Below the line: average feed scrolling time, the thing the settlement caps, which has the weakest causal evidence on this list for the average child.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Harm Ranker, Evidence Auditor, Child and Frontline</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: small average effects can hide large effects in vulnerable subgroups, which is our own thesis and the strongest steelman of the settlement</span>
+      </div>
+      <div class="cite">Sources: Hughes et al BMC Public Health 2016 · Orben Przybylski 2019 · DWP HBAI via CPAG · RCPsych Feb 2026 · BJPsych Open 2022 · Children's Commissioner 2025 · Common Sense Media 2025 · Acta Psychologica 2026</div>
+    </article>
+
+    <article class="finding">
+      <div class="finding-top">
+        <h3>Nobody asked a teenager, and teens do not see themselves as the victim the deal describes</h3>
+        <span class="reliability medium">Reliability 7/10</span>
+      </div>
+      <p>Two days of blanket settlement coverage contain no quoted teenager, no student journalism, no youth panel statement, a documented absence across every major outlet swept. The youth voice data that does exist says teens are ambivalent, not in denial: 48 per cent of US teens say social media is mostly negative for people their age but only 14 per cent say it is negative for themselves; 45 per cent say they spend too much time on it and 44 per cent have already cut back on their own; 74 per cent say it connects them to friends. UK girls hold both truths at once: 36 per cent often feel depressed after social media and 62 per cent say it keeps their friendships alive, and 72 per cent of UK 10 to 16 year olds say the companies should do more, even as 56 per cent think a ban would be ineffective. An intervention framed as protecting them mispitches to a population that does not self identify as the victim, which is one more reason readiness beats restriction.</p>
+      <div class="lens-tags">
+        <span class="supported">Supported: Child and Frontline, Moral Psychologist</span>
+        <span class="sep">·</span>
+        <span class="challenged">Challenged: absence of youth reaction two days in may simply be lag; revisit in a month</span>
+      </div>
+      <div class="cite">Sources: Pew April 2025 · Girlguiding 2025 (two surveys) · journalism sweep 28 Aug 2026</div>
+    </article>
+
+  </section>
+
+  <section id="contradictions">
+    <span class="eyebrow">Where the lenses disagree</span>
+    <h2>Contradiction Map</h2>
+    <table class="contra">
+      <thead>
+        <tr><th>Disagreement</th><th>Position A</th><th>Position B</th><th>Evidence leans</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Is the anti Meta anger evidence or psychology?</td>
+          <td>Moral Psychologist: substantially displaced guilt and betrayal dynamics; the anger does not track effect sizes</td>
+          <td>Skeptic: the documented record (Béjar, unsealed complaints, NM verdict, Rohingya findings) is real and earns the anger</td>
+          <td class="leans green">Both, held together</td>
+        </tr>
+        <tr>
+          <td>Did hiding like counts help teens?</td>
+          <td>Evidence Auditor's V1 read: Daisy equivocal and the independent trial found no benefit</td>
+          <td>Verification: the independent trial actually supports hiding likes (visible counts worsened the negative affect that comes with them), alongside Daisy's directional finding</td>
+          <td class="leans green">Supports hiding, modestly</td>
+        </tr>
+        <tr>
+          <td>How dead is the Australian ban?</td>
+          <td>Child and Frontline: The BMJ study, more than 85 per cent of under 16s still using restricted platforms</td>
+          <td>Skeptic: use fell 86 to 81 per cent, platforms restricted 4.7 million suspected accounts industry wide, enforcement had not yet bitten</td>
+          <td class="leans green">Wall failing, not absent</td>
+        </tr>
+        <tr>
+          <td>Does Night Mode matter?</td>
+          <td>Harm Ranker: it starts 90 minutes after a school night teen needed to be asleep, missing the window where bedtime is lost</td>
+          <td>Child and Frontline: 52 per cent of tracked teens used phones between midnight and 4am during the study, so the covered window is real</td>
+          <td class="leans green">Real but mistimed</td>
+        </tr>
+        <tr>
+          <td>Will the money reach children?</td>
+          <td>Settlement Reader: not earmarked, permitted uses include more litigation, legislatures decide</td>
+          <td>Skeptic: this deal carries more spending guidance than tobacco's, and states like Illinois are already earmarking</td>
+          <td class="leans coral">Watch the legislatures</td>
+        </tr>
+        <tr>
+          <td>What explains the post 2010 trend?</td>
+          <td>Odgers and the consensus reading: economic hardship and adversity dominate individual risk; no population causation shown</td>
+          <td>Haidt and Twenge: aggregation hides a girls specific signal and network effects defeat individual trials</td>
+          <td class="leans green">Individual risk: A. Trend: unresolved</td>
+        </tr>
+        <tr>
+          <td>Exact causal numbers from the college rollout study</td>
+          <td>V1 carried two versions from two lenses (7 and 20 versus 9 and 12)</td>
+          <td>Verification pinned the paper: severe depression up 7 per cent, anxiety disorder up 20 per cent; the other pair was a secondary summary artifact</td>
+          <td class="leans green">Resolved: 7 and 20</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="lenses">
+    <span class="eyebrow">Six perspectives</span>
+    <h2>Lens Panels</h2>
+    <div class="lens-grid">
+      <div class="lens-panel clinician">
+        <span class="eyebrow">The Moral Psychologist</span>
+        <h3>The villain is a mirror</h3>
+        <p>Meta's bottom five reputation rank is earned, but its persistence is betrayal psychology, not harm data. Parents nominate Meta and Gen Z nominates TikTok and X, each blaming the platform they are most entangled with. Parental screen guilt runs at 73 per cent and does not track the child's actual screen time. The settlement is ritual expiation: the villain pays, nothing at home changes, and the relief will not last because the guilt and control problem is untouched.</p>
+      </div>
+      <div class="lens-panel academic">
+        <span class="eyebrow">The Evidence Auditor</span>
+        <h3>Our position is the consensus in a contrarian's coat</h3>
+        <p>Every strong causal result says the same thing: real, small on average, concentrated in specific people at specific ages. That is the National Academies' stated conclusion. The settlement's caps and prompts carry no trial evidence, its feed option was tested on adult politics rather than teen wellbeing, and the one term with converging support, hidden likes, is the one Meta shelved in 2021. The biggest gap: the deal is an $18 billion natural experiment nobody is instrumenting, and whoever pre registers falsifiable predictions now owns the credibility either way.</p>
+      </div>
+      <div class="lens-panel skeptic">
+        <span class="eyebrow">The Skeptic</span>
+        <h3>Say the record precisely and it cuts deeper, not shallower</h3>
+        <p>The documented case against Meta is strong exactly where the debate is not looking: Béjar's 13 per cent in seven days, the under 13 estimates in the unsealed complaint, the New Mexico predator verdict. The famous one in three girls stat is conditional and partly rests on 40 respondents. A settlement is a price, not a verdict, but never imply the record is empty. Of nine candidate contrarian takes, none survive unqualified, and the strongest is the one made of documented absences: DMs out, sunsets at five years, auditor at half time, override by parental tap.</p>
+      </div>
+      <div class="lens-panel economist">
+        <span class="eyebrow">The Settlement Reader</span>
+        <h3>Durability is someone else's decision</h3>
+        <p>The two strongest terms sunset at five years, the auditor expires 120 days after its fifth report, and both the final $5.3 billion and the toughest protections activate only if TikTok and YouTube choose to sign. The deal converts child safety from an obligation on Meta into a bargaining position against Meta's rivals, purchased for under one per cent of market cap while the stock rose. New Mexico proves the missing terms were obtainable: the state that refused won them at trial.</p>
+      </div>
+      <div class="lens-panel historian">
+        <span class="eyebrow">The Harm Ranker</span>
+        <h3>It regulates the visible, not the severe</h3>
+        <p>The best evidenced acute digital harm, sextortion at 50,000 reports a year with a body count, lives in the DMs every new mode excludes, on apps the deal does not cover, one of which Meta owns. The biggest drivers of child mental health, poverty, adversity, parental illness, a half million child waiting list, carry weight no feed effect approaches. Every hour the curfew pushes teens off the feed at midnight, it pushes them toward the surfaces with the strongest evidence of harm and the least visibility.</p>
+      </div>
+      <div class="lens-panel child">
+        <span class="eyebrow">The Child and the Frontline</span>
+        <h3>Nobody asked us, and we already know the workarounds</h3>
+        <p>Two days of coverage, zero quoted teenagers. The people whose midnight was just legislated appear nowhere in the record of the week it happened. Teens see the harm as happening to others (48 per cent) not themselves (14 per cent), 44 per cent have already cut back on their own, and Australia showed what happens next: more than 85 per cent still on, many using their parents' IDs. The settlement's own text expects this, counting only accounts it detects and exempting the DMs where teen life actually runs. Readiness, not restriction, is the only variable left.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guided-childhood">
+    <span class="eyebrow">So what do we do</span>
+    <h2>What This Means for Guided Childhood</h2>
+    <div class="gc-card">
+      <ul>
+        <li>
+          <span class="tag">Marketing · Contrarian lines that survive</span>
+          <strong>Four standing lines, all hostile expert proof:</strong> the settlement regulates the visible, not the severe; it audits compliance, not children; New Mexico is the control group that proves the DM exclusion was negotiable; and nobody is contracted to find out whether it worked. Each is a documented absence, not an opinion, which is what makes them unkillable.
+        </li>
+        <li>
+          <span class="tag">Marketing · Lines that must be narrowed</span>
+          <strong>The Skeptic's verdicts are binding.</strong> Settlement is a price not a verdict: usable, never to imply the record is empty. Drop the word scapegoat entirely; say attention audit. Say the contingency functions as a competitive weapon, never that it is one. The one in three girls stat is conditional; use Béjar's 13 per cent in seven days when a harm number is needed. Never print the ACE odds ratios until the primary tables are read; the prevalences and the deprivation gradient carry the point.
+        </li>
+        <li>
+          <span class="tag">Marketing · The house stat has its citation back</span>
+          <strong>beta = 0.061 is Ferguson, Kaye, Branley-Bell and Markey (2025),</strong> Professional Psychology: Research and Practice, 56(1), 73 to 83, DOI 10.1037/pro0000589, confirmed as 46 studies with the pooled result below the authors' preset evidentiary threshold. Two details from our old copy, "79 effect sizes" and "pre registered on OSF", are not yet pinned to the text, so drop them until someone reads the PDF. Know that Rausch and Haidt contest Ferguson's work, and never conflate this meta analysis with his separate experiments meta.
+        </li>
+        <li>
+          <span class="tag">DiGi · Product echo</span>
+          <strong>The settlement hands parents a key with no script.</strong> Every limit dissolves with a parent's tap, which relocates enforcement to the kitchen table, the exact nightly fight DiGi and the scripts library exist to replace. The court ordered version of protection is a default and an override; ours is a pathway and a reason. Say that plainly in Stage 3 and 4 onboarding.
+        </li>
+        <li>
+          <span class="tag">Stages · The uncovered surfaces</span>
+          <strong>Build Stage 3 and 4 content for DMs, group chats and AI companions,</strong> the three surfaces the settlement excludes and the harm ranking elevates. The WhatsApp moment package already covers group chat entry; extend the same treatment to first DMs and first AI companions. Night routine content should target 9pm to midnight, the window the midnight curfew misses and where the sleep evidence actually lives.
+        </li>
+        <li>
+          <span class="tag">Schools</span>
+          <strong>The SMART Schools null is the school pitch:</strong> the best UK study found phone bans alone changed nothing measurable because total use just moved. Policy plus pathway is the sale: the school sets the rule, the curriculum builds the readiness, and 59 per cent of teachers already believe the problem is real.
+        </li>
+        <li>
+          <span class="tag">Ban readiness · docs/11</span>
+          <strong>Risk changes shape now has verified numbers.</strong> The BMJ at 85 per cent, eSafety at 86 to 81, compliance near 27 per cent for 14 and 15 year olds, and a settlement that pushes teens from the measured feed to unmeasured DMs, Snapchat and AI companions. The Stage 4 social media law content should carry the relocation argument with these figures.</li>
+        <li>
+          <span class="tag">Positioning · The credibility play</span>
+          <strong>Pre register predictions on the $18 billion natural experiment.</strong> Nobody else is doing it. State falsifiably, now: aggregate US teen mental health series will not bend by 2029 (the effects are concentrated, not population wide); teen sleep metrics may improve modestly; Meta's reputation rank will barely move (integrity wounds do not respond to competence remedies); watch whether TikTok and YouTube sign by the five year sunset. Either outcome, the predictions were on record first.
+        </li>
+        <li>
+          <span class="tag">Youth voice</span>
+          <strong>The missing voice is an open goal we already have a foot in:</strong> no teenager has been quoted anywhere on this settlement, and the VotesforSchools partnership puts 40,000 school pupils' views within reach. Propose a settlement question to them alongside the smart glasses vote.
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="assumptions">
+    <span class="eyebrow">Honest limits</span>
+    <h2>Assumptions and the Missing Lens</h2>
+    <div class="assump-card">
+      <h3>This briefing rests on</h3>
+      <p>The consent judgment's headline figures were verified by exact phrase match against the indexed court exhibit (the $16,680,647,753.21 cap, the minimum $12.1 billion, the appeal waiver, the permitted uses including additional litigation), but the session's network proxy blocked opening the PDF itself, so clause level detail such as the auditor section's number remains unread. The signatory list sums to 51 jurisdictions (47 states, DC, and three territories) against Meta's stated 52; we say 51 signed the judgment and note Meta's count. Judge Gonzalez Rogers signed on 26 August. The ACE odds ratio range that circulated in V1 could not be traced to the primary tables and is demoted; the prevalences stand. Ferguson 2025 is confirmed as the beta = 0.061 source, with two sub details (79 effect sizes, OSF preregistration) awaiting a read of the full PDF. Australia figures span 81 to 85 plus per cent depending on measure and source; we name the measure whenever we use a number. Youth reaction to the settlement was absent as of 28 August; that finding has a shelf life.</p>
+      <div class="missing">
+        <h3>The missing seventh lens</h3>
+        <p>The teenager. Every lens here is still an adult reading evidence about young people, and the week's defining absence is that nobody asked them. We are uniquely placed to fix this: the VotesforSchools invitation reaches 40,000 UK pupils next week. A V3 of this briefing built around actual youth voice data, theirs, Ofcom's, Girlguiding's, and a settlement question put to VotesforSchools, would be the only document of its kind in this debate.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="sources">
+    <span class="eyebrow">Every citation checked against its primary source</span>
+    <h2>Source Ledger</h2>
+    <div class="ledger">
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://about.fb.com/news/2026/08/agreement-with-state-attorneys-general-supporting-teens/">Meta newsroom: Our Agreement With Bipartisan Attorneys General</a> · Meta · 26 Aug 2026<span class="note">All terms as stated. Judge signed 26 Aug. Meta's 52 AG count vs 51 judgment signatories noted.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://storage.courtlistener.com/recap/gov.uscourts.cand.401490/gov.uscourts.cand.401490.3447.1.pdf">Consent judgment, N.D. Cal. 4:23-cv-05448-YGR</a> · CourtListener · Aug 2026<span class="note">Cap $16,680,647,753.21 and minimum $12.1bn phrase matched; appeal waiver; permitted uses incl additional litigation; auditor ends 120 days after fifth report. PDF itself unopened (proxy); clause numbers unread.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.judiciary.senate.gov/imo/media/doc/2023-11-07_-_testimony_-_bejar.pdf">Béjar written testimony, Senate Judiciary</a> · US Senate · 7 Nov 2023<span class="note">BEEF survey ~237,000 users: 13% unwanted advances in 7 days (13 to 15s); 26%; 21%. Emails to Zuckerberg 5 Oct and Mosseri 14 Oct 2021.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.missingkids.org/blog/2026/ncmec-releases-new-sextortion-data-2025">NCMEC financial sextortion data 2025</a> · NCMEC · 2026<span class="note">50,000+ reports, 137/day, +37% confirmed. Corrected: ~three dozen teen suicides is cumulative since 2021, not a 2025 count. 1.4m enticement reports partly REPORT Act driven.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nspcc.org.uk/about-us/news-opinion/2025/data-shows-how-criminals-are-using-private-messaging-platforms-to-manipulate-and-groom-children/">NSPCC grooming and private messaging</a> · NSPCC · 2025<span class="note">7,263 offences yr to Mar 2025; platform known n=2,111: Snapchat 40%, WhatsApp 9%, FB and IG 9%; 80% girls where gender known.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://nmdoj.gov/press-release/court-orders-meta-to-pay-942-million-and-overhaul-protections-for-children-on-facebook-and-instagram-in-landmark-new-mexico-ruling/">NM DOJ and NM courts final judgment</a> · Aug 2026<span class="note">$375m jury (24 Mar) + $567m abatement (~5 Aug) = $942m; AI chatbot and DM protections; Meta appealing.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://fortune.com/2026/08/26/exclusive-new-mexicos-attorney-general-meta-18-billion-settlement-weaker-his-state-raul-torrez/">Fortune: Torrez interview</a> · Fortune · 26 Aug 2026<span class="note">On record: national settlement weaker than NM's trial wins.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.clickorlando.com/news/local/2026/08/26/well-see-them-at-trial-florida-rejects-meta-billion-dollar-settlement-over-teen-social-media-addiction/">Florida rejection; Uthmeier quotes</a> · ClickOrlando and X · 26 Aug 2026<span class="note">Verbatim quotes on X. Texas settled separately for over $1bn (Paxton).</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.techtimes.com/articles/325707/20260827/meta-publicized-90-teen-safety-success-only-18-used-instagram-feature-ceo-told-court.htm">Mosseri testimony: Take a Break</a> · trial reporting · 25 Aug 2026<span class="note">1.8% adoption, Quiet Mode 8.7%; public 90% figure was retention among activators.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://fortune.com/2023/11/27/mark-zuckerberg-plastic-surgery-filters-teens-lawsuit/">Unsealed 33 state complaint</a> · Nov 2023<span class="note">Filter veto ("paternalistic"), 21 experts, "dopamine hit", ~30% of 10 to 12 year olds. Allegations, settled unadjudicated.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.ftc.gov/news-events/news/press-releases/2019/07/ftc-imposes-5-billion-penalty-sweeping-new-privacy-restrictions-facebook">FTC $5bn order and Messenger Kids allegations</a> · FTC · 2019, 2023<span class="note">Largest privacy penalty, no admission; 2023 order to show cause; Meta contesting FTC authority into 2026.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://fortune.com/2026/08/26/meta-contingency-settlement-18-billion-tiktok-youtube/">Contingency and open letter</a> · Fortune, HuffPost, Techdirt, Engadget · 26 to 27 Aug 2026<span class="note">$5.3bn contingent; open letter same day; full page ads next morning; headlines verbatim.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://calmatters.org/economy/technology/2026/08/meta-to-pay-17-billion-and-limit-likes-for-teens-in-social-media-settlement-with-states/">States' allocations</a> · CalMatters, Washington Times, NPR Illinois · Aug 2026<span class="note">Corrected: California is at least $1.5bn guaranteed, up to ~$2.2bn. Permitted uses: six named confirmed; "roughly a dozen" not verified. Illinois up to $768m; Colorado ~$615m/9y; Kentucky $358m.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.cnbc.com/2026/08/26/what-investors-should-do-with-meta-now-that-privacy-case-has-settled.html">Market reaction</a> · CNBC, SEC 8-K · 26 Aug 2026<span class="note">$576.14 +1.07%, ~+$13.5bn; Thill "big clearing event"; ~$200bn sought; Q2'26 revenue $60.80bn; ~$10bn Q3 accrual.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://mdlupdate.com/mdl/3047-social-media-adolescent-addiction/">MDL 3047 and school district suits</a> · JPML · 3 Aug 2026<span class="note">3,137 pending (3,312 filed); ~1,300 school suits. K.G.M. clarified: California JCCP bellwether, LA Superior Court, $6m verdict; TikTok settled it 27 Jan 2026.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://blogs.bath.ac.uk/tcrg/2023/12/14/the-foundation-for-a-smoke-free-worlds-rebrand-is-imminent-but-this-industry-funded-scientific-lobby-group-remains-a-danger-to-tobacco-control/">Tobacco research precedents</a> · Public Health Law Center, Univ. of Bath TCRG<span class="note">MSA disbanded CTR, Tobacco Institute AND Center for Indoor Air Research; FSFW "industry influenced scientific lobby group"; WHO refused engagement.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://techcrunch.com/2026/08/26/metas-18b-child-safety-deal-hinges-on-age-verification-tech-that-doesnt-work-well/">Age assurance critique</a> · TechCrunch · 26 Aug 2026<span class="note">Veale "very much passing the buck"; Livingstone on pushing age assurance elsewhere; Utah 2025; Apple opposed and Google rejected Meta's plan.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://fairplayforkids.org/wp-content/uploads/2025/09/Teen-Accounts-Broken-Promises-How-Instagram-is-failing-to-protect-minors.pdf">Teen Accounts, Broken Promises</a> · Fairplay, Molly Rose, Cybersecurity for Democracy · Sept 2025<span class="note">47 tools; 64% (30/47) red; 17% fully worked; 13/24 contact tools red. Meta disputes.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nationalacademies.org/publications/27396">NASEM: Social Media and Adolescent Health</a> · National Academies · 2024<span class="note">Quote wording exact: no population level causal conclusion; feature and person specific harms affirmed.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.aeaweb.org/articles?id=10.1257/aer.20211218">Braghieri, Levy and Makarin</a> · American Economic Review · 2022<span class="note">Pinned: severe depression +7%, anxiety disorder +20%; index +0.085 SD; ~24% of the period's rise; concentration in susceptible students confirmed. The 9/12 pair was a secondary artifact.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nber.org/papers/w33697">Allcott et al deactivation RCTs</a> · NBER WP 33697 · 2025<span class="note">FB +0.060 SD (n=19,857), IG +0.041 SD (n=15,585); IG effect driven by women under 25 (exploratory); adults only.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nature.com/articles/s41562-018-0506-1">Orben and Przybylski specification curve</a> · Nature Human Behaviour · 2019<span class="note">Max 0.4% of wellbeing variance, n=355,358; potatoes and glasses comparisons in paper and Oxford release.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.thelancet.com/journals/eclinm/article/PIIS2589-5370(18)30060-9/fulltext">Kelly et al Millennium Cohort</a> · EClinicalMedicine · 2018<span class="note">Girls 5+ hrs +50%, boys +35%; n=10,904; pathways confirmed.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nature.com/articles/s41467-022-29296-3">Orben et al sensitivity windows</a> · Nature Communications · 2022<span class="note">F 11 to 13, M 14 to 15, both 19; outcome life satisfaction; n=17,409.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/41294782/">May, Malouff and Meynadier reduction meta</a> · EJIHPE · 2025<span class="note">g=0.25 [0.10, 0.41], 10 RCTs, N=1,491, I²=47%.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.science.org/doi/10.1126/science.abp9364">Guess et al chronological feed</a> · Science · 2023<span class="note">Corrected: nulls are on polarization, knowledge and attitudes; wellbeing was NOT an outcome of this paper. Cut platform time; adults.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.sciencedirect.com/science/article/pii/S0191886920307005">Hidden likes experiment</a> · Personality and Individual Differences · 2021<span class="note">Corrected, V1 had it inverted: visible like counts exacerbated negative affect from over liking; authors concluded findings support Instagram's hide likes initiative. n=280.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://shorensteincenter.org/resource/case-study-online-youth-harms-project-daisy/">Project Daisy case study</a> · Shorenstein Center · 2023<span class="note">Reduced comparison, no transformative gains, shipped opt in May 2021; internal research, not peer reviewed.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://doi.org/10.3390/ijerph22101517">Umbrella review, screens and sleep</a> · IJERPH · 2025<span class="note">7 systematic reviews, 127 primary studies, 867,003 participants; consistent sleep harm. Umbrella of reviews, not one pooled meta.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://jamanetwork.com/journals/jamapediatrics/article-abstract/2849136">ABCD smartphone passive sensing</a> · JAMA Pediatrics research letter<span class="note">Corrected to primary: n=657; mean 50.1 min use 10pm to 6am school nights; 52.1% used midnight to 4am at least once during the study (not "on a typical night").</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.nber.org/papers/w35162">Why Bans Fail (Australia)</a> · Bursztyn, Duckworth, Jiménez-Durán, Leonard, Milojević, Roth, Sunstein · NBER 35162 · 2026<span class="note">Corrected attribution to Bursztyn et al. n=507 aged 14 to 18: ~27% compliance at 14 to 15; 75% circumvention easy; 52% of non compliers cite social pressure.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://bmjgroup.com/little-evidence-that-australias-under-16-social-media-restrictions-have-curbed-use-among-adolescents/">Barnes et al, Australia early effects</a> · The BMJ · 24 June 2026<span class="note">Corrected date and journal (June, The BMJ). n=408 aged 12 to 17: 85%+ still using restricted platforms at 3 months; 54 to 67% own accounts.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.esafety.gov.au/newsroom/media-releases/early-insights-from-esafetys-comprehensive-evaluation-project">eSafety evaluation early insights</a> · eSafety Commissioner · Jul 2026<span class="note">Corrected: 86% to 81% use and 60% to 58% daily use (803 children strand); the "7 in 10" is a separate survey of 898 parents. Meta removed 756,000 AU teen accounts through June 2026; 4.7m restricted was industry wide.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.pewresearch.org/internet/2025/04/22/teens-social-media-and-mental-health/">Pew: Teens, Social Media and Mental Health</a> · Pew Research · April 2025<span class="note">48/14; 45%; 44% cut back; 74%; 63%; n=1,391, fieldwork Sept to Oct 2024.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.girlguiding.org.uk/globalassets/docs-and-resources/blogs-and-case-studies/gas/girlguiding-girls-attitudes-survey-2025.pdf">Girlguiding, two 2025 surveys</a> · Girlguiding · 2025<span class="note">GAS 2025 (n=2,640): 77%, 36% vs 62%, 26% to 35%, 32%. Separate survey of 10 to 16 year olds: 72% companies should do more; 56% think a ban would be ineffective.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://www.ofcom.org.uk/siteassets/resources/documents/research-and-data/media-literacy-research/children/childrens-media-use-and-attitudes-report-2025/childrens-media-literacy-report-2025.pdf">Ofcom children's reports</a> · Ofcom · 2024 and 2025<span class="note">~40% under 13 profiles and IG 8 to 9s 8% to 14%: 2025 report. Corrected: the 22% adult age figure is Online Nation 2024 and its base is 8 to 17s WITH a profile.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.childrenscommissioner.gov.uk/news-and-blogs/press-notice-children-see-violent-pornography-by-accident-via-social-media-and-as-young-as-six-new-research-from-the-childrens-commissioner-reveals">Children's Commissioner pornography research</a> · CCO · Aug 2025<span class="note">n=1,020 aged 16 to 21: 70% before 18; half of viewers by 13; 59% accidental. By age figures are of those who saw it (Full Fact caveat applied).</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.commonsensemedia.org/press-releases/nearly-3-in-4-teens-have-used-ai-companions-new-national-survey-finds">Common Sense: teens and AI companions</a> · Common Sense/NORC · July 2025<span class="note">72% used, 52% regular; n=1,060. Character.AI under 18 chat ban effective 25 Nov 2025.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.rcpsych.ac.uk/news-and-features/latest-news/detail/2026/02/11/half-a-million-children-on-mental-health-waiting-lists-in-england-risk-turning-to-ai-chatbots-for-support--warns-rcpsych">RCPsych: half a million waiting</a> · RCPsych · Feb 2026<span class="note">550,610 (MHSDS Nov 2025); chatbot substitution warning explicit.</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://cpag.org.uk/news/new-data-shows-4-million-children-poverty">Child poverty figures</a> · DWP HBAI via CPAG · 2025 and 2026<span class="note">4.5m (31%) AHC 2023/24. Corrected: the 4.0m (27%) figure arrived with the 2024/25 HBAI release under new methodology; not directly comparable. 72% working families is the 2024/25 figure.</span></div></div>
+      <div class="ledger-row"><span class="verdict demoted">Demoted</span><div class="src"><a href="https://bmcpublichealth.biomedcentral.com/articles/10.1186/s12889-016-2906-3">ACE odds ratios (numeric range)</a> · Hughes, Lowey, Quigg and Bellis · BMC Public Health 2016<span class="note">Prevalences confirmed (46.4% at least one ACE, 8.3% four plus; n=3,885; outcomes are low mental wellbeing and life satisfaction). The OR range 2.4 to 3.98 could not be traced to the primary tables: do not print until read directly.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.thelancet.com/journals/lanepe/article/PIIS2666-7762(25)00003-1/fulltext">SMART Schools study</a> · Lancet Regional Health Europe · Feb 2025<span class="note">1,227 pupils, 30 schools: no outcome differences; in school use cut ~30 min but total unchanged; higher total use associated worse outcomes; cross sectional.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.nasuwt.org.uk/static/0806f8a8-5f22-4cb1-ad4510df68c01a3a/Behaviour-in-Schools-Full-Report-2025.pdf">NASUWT Behaviour in Schools 2025</a> · NASUWT · 2025<span class="note">59% of teachers; n=5,808; fieldwork Jan 2025.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8771366/">CAMHS deprivation audit</a> · BJPsych Open · 2022<span class="note">Referrals 3.19% vs 1.74% by deprivation decile; rejection 33% vs 21%; 3x tier 4.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.sciencedirect.com/science/article/pii/S0001691826005846">Specification curve, concurrent predictors</a> · Acta Psychologica · 2026<span class="note">School safety and bullying outrank social media as predictors of adolescent mental health.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.axios.com/2024/05/23/chart-axios-harris-poll-100-reputation-rankings-communicators">Axios Harris Poll 100</a> · Axios · 2024 and 2026<span class="note">Bottom five both years (Trump Org, X, Spirit, Meta, Fox); Meta poor to very poor in 2024. Cite bottom five, not ordinal.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.brookings.edu/articles/how-americans-confidence-in-technology-firms-has-dropped-evidence-from-the-second-wave-of-the-american-institutional-confidence-poll/">Brookings institutional confidence</a> · Brookings · 2021<span class="note">Facebook least trusted institution measured by 2021, from third least in 2018.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://ponemonsullivanreport.com/2018/04/">Ponemon privacy trust collapse</a> · Ponemon · April 2018<span class="note">79% (2017) to 27% (2018), rising only to 28% after testimony; n≈3,000.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://edition.cnn.com/2021/11/10/business/cnn-poll-facebook/index.html">CNN/SSRS: Facebook makes society worse</a> · CNN · Nov 2021<span class="note">76% worse (n=1,004); of those, 55% blame how people use it.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0145952">Trust repair: integrity vs competence</a> · PLOS ONE · 2015<span class="note">Compensation and apology restore competence trust, not integrity trust.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.tandfonline.com/doi/full/10.1080/15213269.2024.2310839">Wolfers, Nabi and Walter: parental screen guilt</a> · Media Psychology · 2024<span class="note">73% guilt (48% moderate to intense); guilt predicted stress; child screen time predicted neither.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://pubmed.ncbi.nlm.nih.gov/22545745/">Dual motive model of scapegoating</a> · JPSP · 2012<span class="note">Guilt and control threats experimentally increase scapegoating; both mediators confirmed.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://theharrispoll.com/articles/gen-z-social-media-smart-phones/">Harris Poll Gen Z: wish never invented</a> · Harris Poll · 2024<span class="note">X 50%, TikTok 47%, Snapchat 43%, Facebook 37%, Instagram 34%; n=1,006, fieldwork Aug 2024.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.pewresearch.org/short-reads/2025/02/19/how-americans-view-elon-musk-and-mark-zuckerberg/">Pew: Zuckerberg favourability</a> · Pew · Feb 2025<span class="note">67% unfavorable, bipartisan (~60% Rep, ~76% Dem).</span></div></div>
+      <div class="ledger-row"><span class="verdict corrected">Corrected</span><div class="src"><a href="https://psycnet.apa.org/doi/10.1037/pro0000589">Ferguson, Kaye, Branley-Bell and Markey: the beta = 0.061 meta analysis</a> · Professional Psychology: Research and Practice 56(1) · 2025<span class="note">LOCATED: the house stat's source, previously uncited. 46 studies, pooled beta = .061, below preset r = .10 threshold, confirmed. "79 effect sizes" and OSF preregistration not yet pinned; contested by Rausch and Haidt (SSRN 5224958); distinct from Ferguson's experiments meta.</span></div></div>
+      <div class="ledger-row"><span class="verdict confirmed">Confirmed</span><div class="src"><a href="https://www.pbs.org/newshour/nation/with-time-limits-and-stronger-age-checks-metas-new-rules-for-kids-go-further-critics-say-its-not-enough">PBS/AP: Golin critique</a> · PBS · 2026<span class="note">Parental override critique; recommendation algorithms stay on by default.</span></div></div>
+    </div>
+  </section>
+
+  <footer class="brief-foot">
+    Guided Childhood · Kids Research Briefing · Six lenses, adversarially verified (38 confirmed · 13 corrected · 1 demoted) · V2 · 28 August 2026
+  </footer>
+
+</div>
+</body>
+</html>
