@@ -46,21 +46,37 @@ import { useEffect, useState } from 'react'
 
 type Spots = { remaining: number; sold_out: boolean }
 
+// Redesigned 29 Aug 2026 after Justin's screenshot: the old pill put the mono
+// label beside the sentence, so on a phone with larger text the price wrapped
+// mid number and the £ sign was missing entirely. The industry anatomy for a
+// founder price: the price is the typographic hero, anchored against the real
+// standard rate (£12.99, stated in the terms) with a strikethrough, scarcity
+// on its own quiet line above. Stacked, so it can never wrap mid price.
 const WRAP: React.CSSProperties = {
-  display: 'inline-flex', alignItems: 'center', gap: '9px',
-  background: 'var(--cream)', border: '1.5px solid var(--terracotta)',
-  borderRadius: '100px', padding: '8px 16px', marginBottom: '22px',
+  display: 'inline-flex', flexDirection: 'column', alignItems: 'center',
+  gap: '5px', background: 'var(--cream)', border: '1.5px solid var(--terracotta)',
+  borderRadius: '18px', padding: '12px 22px 13px', marginBottom: '22px',
+  textAlign: 'center',
 }
 const LABEL: React.CSSProperties = {
   fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700,
   letterSpacing: '.09em', textTransform: 'uppercase',
-  color: 'var(--terracotta-dark)', whiteSpace: 'nowrap',
+  color: 'var(--terracotta-dark)',
 }
-// .96rem, not .86rem, and that number came from main rather than from here.
-// While this component was replacing the hardcoded badge on the home page,
-// main bumped that sentence up a size because it was reading small next to the
-// headline. Carrying it across is the reason the merge conflict was worth
-// reading instead of resolving by picking a side.
+const PRICE_ROW: React.CSSProperties = {
+  fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)',
+  fontSize: '.96rem', lineHeight: 1.3,
+  display: 'flex', alignItems: 'baseline', gap: '7px',
+  flexWrap: 'wrap', justifyContent: 'center',
+}
+const ANCHOR: React.CSSProperties = {
+  color: 'var(--ink-muted)', textDecoration: 'line-through',
+  textDecorationThickness: '1.5px', fontWeight: 700, fontSize: '.9rem',
+}
+const HERO_PRICE: React.CSSProperties = {
+  fontSize: '1.45rem', fontWeight: 900, letterSpacing: '-.02em',
+  color: 'var(--terracotta-dark)', lineHeight: 1,
+}
 const TEXT: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontSize: '.96rem', fontWeight: 800,
   color: 'var(--ink)',
@@ -96,11 +112,15 @@ export default function FounderBadge() {
 
   return (
     <div className="fu" style={WRAP}>
-      <span style={LABEL}>Founding rate</span>
-      <span style={TEXT}>
+      <span style={LABEL}>
         {few
-          ? `Only ${spots!.remaining} of the 50 places left, 7.99 a month for life`
-          : 'First 50 families, 7.99 a month for life'}
+          ? `Founding rate · only ${spots!.remaining} of 50 places left`
+          : 'Founding rate · first 50 families'}
+      </span>
+      <span style={PRICE_ROW}>
+        <s style={ANCHOR}>£12.99</s>
+        <span style={HERO_PRICE}>£7.99</span>
+        <span>a month for life</span>
       </span>
     </div>
   )

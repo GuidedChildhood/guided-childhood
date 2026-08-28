@@ -555,13 +555,15 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 }
 
 /* ── PLACARD FLIP CARDS ── */
+/* Three cards, three columns. The old repeat(4) left a dead column on the
+   right of every desktop. */
 .placard-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
 @media (max-width: 900px) { .placard-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 500px)  { .placard-grid { grid-template-columns: 1fr 1fr; gap: 10px; } }
+@media (max-width: 600px)  { .placard-grid { grid-template-columns: 1fr; gap: 10px; } }
 
 .placard-wrapper {
   perspective: 1200px;
@@ -571,18 +573,25 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 }
 .placard-wrapper:focus-visible { box-shadow: 0 0 0 3px var(--terracotta); border-radius: 20px; }
 
+/* Both faces sit in the same grid cell instead of position:absolute inside a
+   fixed 220px box. The card is as tall as its tallest face, so longer text
+   (the back copy, or a phone with iOS text size turned up) grows the card
+   instead of spilling over the neighbours and the next section, which is what
+   Justin photographed on 28 Aug 2026. height:100% keeps cards in a grid row
+   equal. */
 .placard-inner {
   position: relative;
+  display: grid;
   width: 100%;
-  height: 220px;
+  height: 100%;
+  min-height: 220px;
   transform-style: preserve-3d;
   transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .placard-inner.flipped { transform: rotateY(180deg); }
 
 .placard-face {
-  position: absolute;
-  inset: 0;
+  grid-area: 1 / 1;
   border-radius: 20px;
   padding: 22px 20px;
   display: flex;
@@ -596,7 +605,7 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
 }
 
 @media (max-width: 600px) {
-  .placard-inner { height: 200px; }
+  .placard-inner { min-height: 0; }
   .placard-face  { padding: 16px 14px; }
 }
 
