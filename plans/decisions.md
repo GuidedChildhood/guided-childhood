@@ -8952,3 +8952,40 @@ totals 46 confirmed, 16 corrected, 2 demoted). New citable facts and rules:
   the first of both.
 - **V4 if commissioned**: the state legislator lens (statute tracking on where
   each state's Meta money goes before the 2027 sessions close).
+
+## 29 August 2026 — The five value surfacing fixes shipped (Justin: "go ahead")
+
+From plans/2026-08-28-value-and-revenue-review.md. What changed:
+
+1. **Both public money pages now show the full product.** The homepage annual
+   card lists nine rows led by the star quest (stale "Weekly three action plan"
+   retired); /join gains four feature blocks (star quest FIRST per THE-STORY
+   §10, the child's own app, the homework decoder, the passport and
+   printables), wording matched to WhatYouAreBuying so the promise outside
+   equals the product inside.
+2. **What is working has a permanent door**: an Explore tile in DiGi and
+   reports, and the weekly working-on rotation card points there directly.
+   week-numbers now points at /dashboard/week (the round up that actually
+   reads the week back), so the two weekly cards stop sharing a door.
+3. **Stale rotation targets fixed** (journey and stance now hit
+   /dashboard/pathway directly instead of the /dashboard/road redirect) and
+   four Explore tiles added: Devices and The toolbox (Family), The guide
+   (Learn), Screen balance (DiGi and reports). DiGi insights sub reworded so
+   it stops sharing a sentence with the new What is working tile.
+4. **The check in completion now opens the whole picture**: a quiet link to
+   what-is-working when any concern has history, closing the "data goes in,
+   comes back only on Sunday" gap. The per row verdict already read today
+   against last time; that stays.
+5. **Two new daily rotation slots**: printables ("One for the fridge") and an
+   age gated setup guides card (phone-setup from Stage 2, social-settings from
+   Stage 3, via a new optional stageId signal). Daily cycle grows 11 to 13
+   items; scripts/check-next-up.mjs updated to prove coverage over two cycles
+   (13 days always contains two Mondays, so one cycle can no longer prove it).
+
+Verified: tsc clean, next build clean, wiring check 0 new, check-next-up all
+passing, homepage pricing and /join screenshotted at 390px and 1440px (the
+GSAP fade up hides the pricing grid from anchor jumps in headless shots; a
+real scroll renders it, pre existing behaviour, not touched). Dashboard
+surfaces (ExploreGrid, check in door) are typechecked and build clean; visual
+check of those falls to the Vercel preview since the local container has no
+Supabase auth.

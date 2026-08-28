@@ -43,6 +43,9 @@ function groups(scriptHref: string): Group[] {
         { href: '/dashboard/lessons', label: 'Lessons', sub: 'Watch together, five minutes', icon: 'lessons' },
         { href: '/dashboard/printables', label: 'Printables', sub: 'The offline pathway', icon: 'printables' },
         { href: '/dashboard/quests/play', label: 'Learning games', sub: 'Play and earn stars', icon: 'games' },
+        // The watch together films had one inbound link and a 1 in 12 rotation
+        // slot, which is a page that exists only for families who get lucky.
+        { href: '/dashboard/guide', label: 'The guide', sub: 'Short films to watch together', emoji: '📺' },
         // The decoder needs a door or it does not exist. It sits under Learn
         // rather than Family because a parent looking for it is looking for
         // help with the work, not with the week.
@@ -64,6 +67,12 @@ function groups(scriptHref: string): Group[] {
         // for it, school reminders is theirs, and this tile was unfindable
         // because it answered a question nobody asks in those words.
         { href: '/dashboard/school', label: 'School reminders', sub: 'PE kit, library day, trips', emoji: '🎒' },
+        // Devices had three rotation slots and no tile anywhere, so between
+        // rotation days the whole setup guide layer was unreachable by intent.
+        { href: '/dashboard/devices', label: 'Devices', sub: 'Every screen, set up right', emoji: '📱' },
+        // Vetted outside tools, evidence graded. One inbound link before this,
+        // from a report block most families never open.
+        { href: '/dashboard/toolbox', label: 'The toolbox', sub: 'Outside tools, graded honestly', emoji: '🧰' },
       ],
     },
     {
@@ -71,7 +80,15 @@ function groups(scriptHref: string): Group[] {
       ink: '#2E6F8E', plate: 'var(--tint-blue)',
       tiles: [
         { href: '/dashboard/digi', label: 'Ask DiGi', sub: 'Knows your whole setup', emoji: '⭐' },
-        { href: '/dashboard/insights', label: 'DiGi insights', sub: 'What is actually working', emoji: '🔍' },
+        // The payoff page of the whole measurement spine, which until now had
+        // no door of its own: only a conditional link on the pathway and the
+        // Sunday email. The one page that shows the numbers moving should not
+        // depend on luck to be found.
+        { href: '/dashboard/what-is-working', label: 'What is working', sub: 'Each worry, and how it has moved', emoji: '📈' },
+        { href: '/dashboard/stats', label: 'Screen balance', sub: 'Hours, and the weekly swing', emoji: '⚖️' },
+        // Sub reworded from "What is actually working" so the new tile above
+        // and this one stop describing themselves in the same sentence.
+        { href: '/dashboard/insights', label: 'DiGi insights', sub: 'Patterns DiGi has noticed', emoji: '🔍' },
         { href: '/dashboard/week', label: 'Weekly round up', sub: 'Your week, read back', emoji: '🗞️' },
         { href: '/dashboard#turn-on-check-ins', label: 'Reminders', sub: 'Gentle nudges for you both', emoji: '🔔' },
       ],

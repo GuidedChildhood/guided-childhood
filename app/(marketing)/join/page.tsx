@@ -25,7 +25,29 @@ async function getFounderData() {
   }
 }
 
+// The star quest leads, per THE-STORY §10: it is the one piece competitors do
+// not have, and until 29 August 2026 it was missing from this page entirely,
+// along with the child's own app, the homework decoder, the passport and the
+// printables. A parent deciding whether to pay was shown about half the
+// product. The wording matches WhatYouAreBuying on /dashboard/upgrade, so the
+// promise a buyer reads here is the one a subscriber finds inside.
 const FEATURES = [
+  {
+    icon: '✶',
+    title: 'The star quest',
+    desc: 'Jobs, chores and time outside earn stars, and stars become screen minutes at the rate you set. Screen time stops being the argument and becomes the thing they earn. The one piece no other app has.',
+    tag: 'Stars become screen time',
+    tagColor: 'var(--terracotta)',
+    tagBg: 'var(--stage-3)',
+  },
+  {
+    icon: '◇',
+    title: 'Your child’s own app',
+    desc: 'A link, no login, no account. They tick off jobs, watch their stars become minutes, pitch their own quests and fill in the passport. Works on paper too, with the printable star chart, so the youngest need no screen at all.',
+    tag: 'No login needed',
+    tagColor: 'var(--terracotta)',
+    tagBg: 'var(--stage-1)',
+  },
   {
     icon: '⌂',
     title: 'The stage pathway',
@@ -89,6 +111,22 @@ const FEATURES = [
     tag: '100 lessons',
     tagColor: 'var(--terracotta)',
     tagBg: 'var(--stage-4)',
+  },
+  {
+    icon: '◐',
+    title: 'The homework decoder',
+    desc: 'Photograph tonight’s sheet and get what it is really asking, how to help, and a lesson matched to what their class is covering this term. The curriculum for their school year, decoded.',
+    tag: 'Snap the sheet',
+    tagColor: 'var(--terracotta)',
+    tagBg: 'var(--stage-3)',
+  },
+  {
+    icon: '▦',
+    title: 'The passport and printables',
+    desc: 'A passport to sixteen filled in together, a stamp each stage, and printable star charts, planners and craft sheets made for your child by name. The record of the whole journey, on paper.',
+    tag: 'Made with their name',
+    tagColor: 'var(--terracotta)',
+    tagBg: 'var(--stage-5)',
   },
   {
     icon: '▤',

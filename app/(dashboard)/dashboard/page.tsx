@@ -797,6 +797,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   const nextUp = pickNextUp({
     childName: questsChildName,
     stageName: stage.name,
+    // For the setup guides rotation card: first phone ladder from Stage 2,
+    // social settings from Stage 3, nothing before either.
+    stageId: stage.id,
     // For the weekly tier's streak missions card. Already read above for
     // TodayPathBig, so this costs nothing.
     streakCount: streak.count,
