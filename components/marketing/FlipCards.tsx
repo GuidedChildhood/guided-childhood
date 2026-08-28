@@ -52,6 +52,9 @@ export default function FlipCards({ cards }: { cards: Placard[] }) {
                 }}>
                   {card.frontLabel}
                 </p>
+                {/* The card is as tall as its longer back face, so the quote
+                    centres in the spare room instead of leaving a hole under
+                    itself. */}
                 <p style={{
                   fontFamily: 'var(--font-display)',
                   fontSize: '.88rem',
@@ -60,6 +63,8 @@ export default function FlipCards({ cards }: { cards: Placard[] }) {
                   color: 'var(--ink)',
                   lineHeight: 1.55,
                   flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
                 }}>
                   {card.front}
                 </p>
