@@ -388,3 +388,32 @@ account's own data and they override folklore where they conflict.
    2,838 at 2.26, both healthy; the ban series built the 26 August spike day
    (7,109 impressions). A daily series compounds day on day, which is the
    operating model for Follow the Money week.
+
+---
+
+## PART 9. THE BETA = 0.061 CITATION (pinned 28 August 2026)
+
+The winning post's centrepiece stat finally has its verified citation. Use it whenever
+the stat appears anywhere:
+
+> Ferguson, C.J., Kaye, L.K., Branley-Bell, D., and Markey, P. (2025). "There Is No
+> Evidence That Time Spent on Social Media Is Correlated With Adolescent Mental Health
+> Problems: Findings From a Meta-Analysis." Professional Psychology: Research and
+> Practice, 56(1), 73 to 83. DOI 10.1037/pro0000589.
+
+Verified against the indexed primary: 46 studies, pooled beta = .061, below the
+authors' preset r = .10 threshold for evidentiary value. Three rules:
+
+1. DROP two flourishes from the old copy until someone reads the full PDF: "79 effect
+   sizes" and "pre registered on the Open Science Framework". Neither is pinned to the
+   text yet. "46 studies" and the beta are safe.
+2. Know the counterattack: Rausch and Haidt contest Ferguson's methods (SSRN 5224958).
+   Concede the dispute exists, then stand on the convergence: NASEM 2024 consensus
+   ("did not support the conclusion that social media causes changes in adolescent
+   health at the population level"), Orben and Przybylski's 0.4% of variance
+   (n=355,358), and the causal work (Braghieri AER 2022: severe depression +7%,
+   anxiety disorder +20%, concentrated in predisposed students). The argument never
+   rests on one paper.
+3. Never conflate this meta analysis with Ferguson's separate experiments meta
+   (Psychology of Popular Media 2024, 27 experiments, d = 0.088). Different paper,
+   different design, different number.
