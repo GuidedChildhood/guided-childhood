@@ -328,3 +328,63 @@ When asked to make a post "perform like the best one", score it against Part 6 o
 every miss, and rewrite to close them. The three most common misses in our own posts: the hook is
 a sentence not a number, the CTA stack is softened to just a question, and there is no prepared
 first comment. Fix those three and most posts jump.
+
+---
+
+## PART 8. WHAT OUR OWN ANALYTICS SAY (analysed 27 August 2026, 90 day export)
+
+Evidence from Justin's real numbers, 30 May to 27 August 2026: 183,020
+impressions, 89,279 members reached, 8,984 followers. These findings are the
+account's own data and they override folklore where they conflict.
+
+1. **Consistency is the engine, and decay is fast.** The June wave (the beta
+   0.061 post) peaked at 53k weekly impressions, then posting slowed and the
+   account decayed to 2,000 weekly impressions by mid August, near cold.
+   Resuming daily posting from 19 August rebuilt impressions 378 percent week
+   on week within eight days (1,300 to 7,100 a day). The 90 day authority
+   compounding claim in Part 5 is confirmed in our own data, and so is its
+   inverse: two quiet weeks give most of it back. Never let the account go
+   quiet during a series; 3 to 5 posts a week is a floor, not a target.
+2. **Two metrics, two different jobs, judge every post on both.** Impressions
+   measure new audience, engagement rate measures resonance. Account
+   benchmarks from the 90 days: median ER on top posts ~2.8 percent; ER above
+   3.5 percent = strong resonance; ER below 1.5 percent on a high reach post =
+   audience mismatch, not success. The champion (75,174 impressions) ran 2.64
+   percent, high reach always dilutes ER a little.
+3. **The Australia lesson: news hooks export reach to the news country.** The
+   Australia ban post (22 Aug, the handwritten 8 in 10 card, Part 04) is the
+   best August post by reach (9,703 impressions) and the third best of the
+   whole 90 days, but its ER was 1.19 percent and its content demographics
+   were roughly a third Australian (Melbourne 13, Sydney 11, Brisbane 4,
+   Perth 3 percent, plus Australian universities and education departments).
+   Reach without the home audience converts weakly. The fix, not the ban of
+   the format: keep the news hook, and re anchor to the UK inside the post
+   ("the same pattern is heading here in Spring 2027") so the algorithm keeps
+   a UK signal. News hook posts are authority plays (professors and
+   departments reached), never funnel plays.
+4. **Naming the live debate earns the highest resonance.** The top ER posts of
+   the 90 days all engage the named argument directly: the school leadership
+   piece (4.98), Haidt's supporters and 2020 (4.89), Haidt's 2024 book and
+   2012 (4.39), the developmental psychologist tracker (4.34), being accused
+   of defending big tech (4.17). Naming Haidt or Odgers and taking a position
+   is worth roughly double the ER of a neutral summary. The champion post
+   fused both modes: a precise number hook plus a position in the named
+   debate. Aim every flagship at that fusion.
+5. **Reach without resonance does not compound.** The 15 June post reached
+   9,958 impressions at 0.82 percent ER and left no follower bump. The 4 June
+   champion converted ~700 followers inside its week. Follower conversion
+   happens in the viral window, which is why golden hour presence matters
+   most exactly when a post is taking off.
+6. **The audience is senior and the register must stay evidence grade.** 22
+   percent London, one third senior plus 16 percent director; founders,
+   headmasters, professors and CEOs in the top job titles, and the 90 day
+   content reach is thick with King's, UCL, Oxford, Melbourne and Utrecht.
+   The people reading are literally the hostile experts the Odgers test
+   imagines. Nothing below that bar ever ships.
+7. **Series numbering works.** The Part 04 labelled post is the best August
+   performer; parts create return readers. Keep numbering every series post.
+8. **August cadence proof points for the next series**: the 0.4 percent post
+   (20 Aug) ran 4,179 impressions at 2.87 ER and the new study post (24 Aug)
+   2,838 at 2.26, both healthy; the ban series built the 26 August spike day
+   (7,109 impressions). A daily series compounds day on day, which is the
+   operating model for Follow the Money week.

@@ -8809,3 +8809,61 @@ settlement's parent removable defaults are our calibrated model in a
 consent judgment, and the star tiers already shipped the architecture for
 UK families. Open follow up: a Litigator V3 on the consent judgment PDF
 before any money or enforcement claim reaches marketing.
+
+## 27 August 2026 — the fines history package and the six part thriller (PR 915)
+Justin commissioned the full arc: every government and legal case against
+big tech from first to most recent, the politics, where the money goes,
+the tobacco and opioid precedents, and a six part thriller series.
+Delivered briefings/2026-08-27-big-tech-fines-v2.html (six flexed lenses
+including the Litigator; 54 ledger rows: 40 confirmed, 14 corrected, 0
+demoted) plus content/packs/2026-08-27-big-tech-fines/ (content potential
+note and the drafted series). Spine findings now citable: before August
+2026 no big tech fine anywhere was legally required to be spent on the
+harm it punished (EU fines cut member state contributions, US penalties go
+to the Treasury); no fine ever changed a business model (the 5B order was
+followed by Messenger Kids violation allegations); only final after appeal
+figures count (AdSense annulled, Intel ended at 237M with the EU paying
+Intel 515.5M interest); tobacco 3.5 percent FY2025; opioids' new failure
+mode is unspent money; the un fined UK design code beat every fine on
+reach; the guaranteed 12.7B is about six weeks of the expanded Child Tax
+Credit (our arithmetic, always labelled). Series branding: The Wrong
+Villain: Follow the Money, Part N of 6; Parts 3 and 6 as carousels. The
+never post list in the content pack is binding, including: never the
+stock went up as proof the fine was weak, never "proved and hid", never
+the drivers pie chart as one study, never sum announcement figures, New
+Mexico always with "Meta is appealing". Settlement approval resolved:
+final judgment entered 26 to 27 August with appeals waived (MLex). Named
+V3: the State Treasurer lens plus the consent judgment clause read (2027
+statute scoreboard), superseding the earlier standalone Litigator V3 ask.
+
+## 27 August 2026 — the analytics loop closed into the agents
+Parsed Justin's 7 and 90 day LinkedIn exports (183,020 impressions, 89,279
+reached, 8,984 followers). Written into viral-post SKILL.md Part 8 so every
+future draft inherits it: consistency is the engine (decay to 2,000 weekly
+impressions after quiet weeks, 378 percent rebuild in eight days of daily
+posting); judge posts on reach AND engagement rate (account benchmarks:
+~2.8 median on top posts, above 3.5 strong, below 1.5 on high reach means
+audience mismatch); the Australia ban post (9,703 impressions, best of
+August) taught that news hooks export reach to the news country, a third
+of its readers were Australian, so news posts are authority plays and
+carry a UK re anchor line; naming the Haidt or Odgers debate directly
+earns roughly double the ER of neutral summaries and the champion fused
+number hook plus named position; followers convert only in the viral
+window (~700 in the June wave week); the readership is senior (founders,
+headmasters, professors at King's, UCL, Oxford, Melbourne), so the
+Odgers bar is literal. Publish pack updated with the cadence and UK
+anchor rules.
+
+## 27 August 2026 — ban positioning language locked (Justin, in comment thread)
+Two framings adopted for all ban content and comment replies, born in the
+Tristan thread on the Australia post and Odgers tested: (1) "the ban is
+failing as a wall and working as a stick": exclusion failed on its own
+terms (8 in 10 Australian under 16s still on social media) while the
+threat of listing produces design change in boardrooms, and the thing
+doing the work in the success half is design change, so crediting the
+stick concedes nothing and argues for writing design rules directly;
+(2) "risk changes shape, not size" on migration: children leaving
+engagement engineered feeds land in less algorithmic but less moderated
+spaces, trading amplification harms for contact and moderation harms.
+Both lines feed docs/11 Stage 4 content ahead of Spring 2027 and the
+Part 6 close of the Follow the Money series.
