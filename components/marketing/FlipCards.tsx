@@ -43,7 +43,7 @@ export default function FlipCards({ cards }: { cards: Placard[] }) {
               <div className="placard-face" style={{ background: card.bg }}>
                 <p style={{
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '.58rem',
+                  fontSize: '.62rem',
                   fontWeight: 700,
                   letterSpacing: '.12em',
                   textTransform: 'uppercase',
@@ -57,7 +57,7 @@ export default function FlipCards({ cards }: { cards: Placard[] }) {
                     itself. */}
                 <p style={{
                   fontFamily: 'var(--font-display)',
-                  fontSize: '.88rem',
+                  fontSize: 'var(--text-sm)',
                   fontWeight: 700,
                   fontStyle: 'italic',
                   color: 'var(--ink)',
@@ -69,7 +69,7 @@ export default function FlipCards({ cards }: { cards: Placard[] }) {
                   {card.front}
                 </p>
                 <p style={{
-                  fontSize: '.6rem',
+                  fontSize: '.62rem',
                   color: 'var(--ink-muted)',
                   fontWeight: 600,
                   letterSpacing: '.04em',
@@ -96,7 +96,7 @@ export default function FlipCards({ cards }: { cards: Placard[] }) {
               <div className="placard-face placard-back-face">
                 <p style={{
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '.58rem',
+                  fontSize: '.62rem',
                   fontWeight: 700,
                   letterSpacing: '.12em',
                   textTransform: 'uppercase',
@@ -106,7 +106,7 @@ export default function FlipCards({ cards }: { cards: Placard[] }) {
                   {card.backLabel}
                 </p>
                 <p style={{
-                  fontSize: '.84rem',
+                  fontSize: 'var(--text-sm)',
                   color: 'rgba(255,255,255,.92)',
                   lineHeight: 1.65,
                   flex: 1,
@@ -114,7 +114,7 @@ export default function FlipCards({ cards }: { cards: Placard[] }) {
                   {card.back}
                 </p>
                 <p style={{
-                  fontSize: '.6rem',
+                  fontSize: '.62rem',
                   color: 'rgba(255,255,255,.35)',
                   fontWeight: 600,
                   letterSpacing: '.06em',

@@ -41,6 +41,23 @@ export default function HomeReveals() {
           onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.09, clearProps: 'transform,opacity' }),
         })
       }
+
+      // The proof numbers count up once as they arrive. Anything that is not
+      // a plain number above 1 (or already on screen at load) stays as the
+      // server painted it, so the row can never show a wrong or empty stat.
+      gsap.utils.toArray<HTMLElement>('.stat-num').forEach(el => {
+        const target = Number(el.textContent)
+        if (!Number.isFinite(target) || target <= 1) return
+        if (el.getBoundingClientRect().top <= window.innerHeight * 0.9) return
+        const counter = { n: 0 }
+        gsap.to(counter, {
+          n: target,
+          duration: 1.1,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+          onUpdate: () => { el.textContent = String(Math.round(counter.n)) },
+        })
+      })
     })
 
     return () => ctx.revert()

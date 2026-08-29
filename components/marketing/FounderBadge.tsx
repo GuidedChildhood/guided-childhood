@@ -59,26 +59,26 @@ const WRAP: React.CSSProperties = {
   textAlign: 'center',
 }
 const LABEL: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)', fontSize: '.66rem', fontWeight: 700,
+  fontFamily: 'var(--font-mono)', fontSize: '.62rem', fontWeight: 700,
   letterSpacing: '.09em', textTransform: 'uppercase',
   color: 'var(--terracotta-dark)',
 }
 const PRICE_ROW: React.CSSProperties = {
   fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--ink)',
-  fontSize: '.96rem', lineHeight: 1.3,
+  fontSize: 'var(--text-base)', lineHeight: 1.3,
   display: 'flex', alignItems: 'baseline', gap: '7px',
   flexWrap: 'wrap', justifyContent: 'center',
 }
 const ANCHOR: React.CSSProperties = {
   color: 'var(--ink-muted)', textDecoration: 'line-through',
-  textDecorationThickness: '1.5px', fontWeight: 700, fontSize: '.9rem',
+  textDecorationThickness: '1.5px', fontWeight: 700, fontSize: 'var(--text-sm)',
 }
 const HERO_PRICE: React.CSSProperties = {
   fontSize: '1.45rem', fontWeight: 900, letterSpacing: '-.02em',
   color: 'var(--terracotta-dark)', lineHeight: 1,
 }
 const TEXT: React.CSSProperties = {
-  fontFamily: 'var(--font-display)', fontSize: '.96rem', fontWeight: 800,
+  fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800,
   color: 'var(--ink)',
 }
 

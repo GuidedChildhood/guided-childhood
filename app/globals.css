@@ -609,6 +609,32 @@ body.gc-input-focused .bottom-tab-bar { display: none; }
   .placard-face  { padding: 16px 14px; }
 }
 
+/* Pointer feedback on the placards, mouse devices only so touch scrolling
+   never sticks a card in its hover state. The lift is on the wrapper, not
+   .placard-inner, whose transform is the flip itself. */
+@media (hover: hover) {
+  .placard-wrapper {
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .placard-wrapper:hover  { transform: translateY(-4px); }
+  .placard-wrapper:active { transform: translateY(0) scale(0.98); }
+}
+
+/* The hero chips drift gently on desktop, each on its own phase so the ring
+   breathes rather than bounces in unison. Desktop only: on phones the chips
+   are stacked full width and movement there reads as jitter, not polish. */
+@media (min-width: 820px) and (prefers-reduced-motion: no-preference) {
+  .hero-circle .chip { animation: chip-float 6s ease-in-out infinite; }
+  .hero-circle .chip-1 { animation-delay: 0s; }
+  .hero-circle .chip-2 { animation-delay: -1.3s; }
+  .hero-circle .chip-3 { animation-delay: -2.6s; }
+  .hero-circle .chip-4 { animation-delay: -3.9s; }
+  .hero-circle .chip-5 { animation-delay: -5.2s; }
+}
+@keyframes chip-float {
+  50% { transform: translateY(-7px); }
+}
+
 /* ── HERO BENEFIT CHECK ── */
 .hero-benefit-check {
   color: var(--terracotta);
