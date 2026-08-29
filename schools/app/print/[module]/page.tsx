@@ -25,7 +25,7 @@ type TeacherNotes = {
   worksheet?: { title?: string; directions?: string; verdict_options?: string[] }
   commitment_stem?: string
 }
-type ParentNote = { headline?: string; taught?: string; try_this?: string; family_question?: string }
+type ParentNote = { headline?: string; taught?: string; try_this?: string; family_question?: string; passport?: string }
 type DslNote = { note?: string }
 
 const VERDICT_LABEL: Record<string, string> = {
@@ -206,12 +206,17 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         <div style={mono}>Photocopy per pupil · goes home · Parent note</div>
         <h2 style={h2}>{parent.headline ?? 'What we taught today'}</h2>
         {parent.taught && <p style={body}>{parent.taught}</p>}
+        {/* The module's own tool, from the same fallback chain as page one.
+            This box used to hardcode module 12's three checks, so a Reception
+            family got misinformation checks on the back of a lesson about
+            asking a grown up. The tool const above already knew better. */}
         <div style={box}>
-          <span style={{ ...mono, color: 'var(--gold-dark)' }}>The three checks we learned</span>
-          <p style={body}>1. Who made this, and how do they know? &nbsp; 2. What do other places say? &nbsp; 3. How is it trying to make me feel?</p>
+          <span style={{ ...mono, color: 'var(--gold-dark)' }}>{tool.heading}</span>
+          <p style={body}>{tool.lines.map((l, i) => `${/^\d/.test(l) ? '' : `${i + 1}. `}${l}`).join('   ')}</p>
         </div>
         {parent.try_this && <div style={box}><span style={mono}>Try this at home</span><p style={body}>{parent.try_this}</p></div>}
         {parent.family_question && <div style={box}><span style={mono}>Dinner table question</span><p style={{ ...body, fontWeight: 700 }}>{parent.family_question}</p></div>}
+        {parent.passport && <div style={box}><span style={{ ...mono, color: 'var(--gold-dark)' }}>The passport</span><p style={body}>{parent.passport}</p></div>}
         <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-light)', marginTop: '14px' }}>Guided Childhood Schools · no login needed, nothing to sign up for. This note is yours.</p>
         <PrintBrandFooter />
       </section>
