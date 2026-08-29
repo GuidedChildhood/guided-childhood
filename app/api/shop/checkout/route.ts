@@ -67,7 +67,7 @@ export async function POST(request: Request) {
 
   const { data: child } = await supabase
     .from('children')
-    .select('id, name')
+    .select('id, name, passport_code')
     .eq('parent_id', user.id)
     .eq('is_primary', true)
     .maybeSingle()
@@ -124,9 +124,10 @@ export async function POST(request: Request) {
       unit_price_pence: i.product.price_pence,
       // The passport is printed from this child's real stamps, so the name and
       // the child go on the line. Fulfilment reads the stamps from the child_id
-      // rather than trusting a name typed into a box.
+      // rather than trusting a name typed into a box. The passport code rides
+      // along so the printed book carries its own number and /verify QR.
       personalisation: i.product.personalised
-        ? { childName: child?.name ?? null, childId: child?.id ?? null, ...(i.personalisation ?? {}) }
+        ? { childName: child?.name ?? null, childId: child?.id ?? null, passportCode: child?.passport_code ?? null, ...(i.personalisation ?? {}) }
         : (i.personalisation ?? null),
     })),
   )
