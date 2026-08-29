@@ -9,6 +9,7 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { keyStageFor, strandFor } from '@gc/shared/curriculum-badges'
 import { lessonCoverForTitle, lessonCoverForAiCategory } from '@/lib/content/lesson-covers'
 import LessonsBrowser, { type WatchItem, type LibraryItem } from './LessonsBrowser'
+import SchoolCodeCard from '@/components/lessons/SchoolCodeCard'
 
 // The Lessons hub: one place for every lesson type, split into two tidy
 // views (Watch together films and the interactive Lessons library) so it
@@ -180,6 +181,11 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
         initialStage={initialStage}
         initialView={initialStage ? 'library' : undefined}
       />
+
+      {/* The school to home bridge (migration 230): a code from a class sheet
+          or home learning pack, stamped into the record here. At the foot on
+          purpose, beside the library rather than on the road. */}
+      <SchoolCodeCard childId={child?.id ?? null} childName={childName} />
     </div>
   )
 }
