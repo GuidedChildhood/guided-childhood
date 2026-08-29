@@ -9018,3 +9018,10 @@ locked privacy promises), printing the kid_links token, or the name
 record venue: same syllabus, any venue, one certificate (the Cambridge
 private candidate rule), which is what makes home learning the same
 mechanism, not a feature.
+
+## 2026-08-29, late — Phase 1 and 2 of the passport plan claimed (migration 227)
+
+Plan PR #922 merged by Justin, which per the weekly rhythm is the approval to
+build. This session builds the platform code half in order: migration 227
+(children.passport_code), the surfacing, then /verify/[code]. Migrations 228
+and 229 stay with the curriculum session per the White Rose plan (#923).
