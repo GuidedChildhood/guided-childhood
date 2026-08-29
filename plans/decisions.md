@@ -9074,3 +9074,42 @@ naturally goes. The Explorer age label inconsistency in the PARENT app
 (readiness.ts, email blocks, ScriptDetailView still say 11 to 13 after
 stages.ts moved to 11 to 12) was found during this work but belongs to the
 passport application lane; reported, not touched.
+
+---
+
+## 2026-08-30 — The research fleet reports: the ban reframes the passport, the name is doubly collided, and the map wants to be free
+
+Twelve agents (six lenses, each adversarially audited) came back on the White
+Rose model, credential precedent, living risk sources, AI careers evidence,
+the philosophy canon and lawful testing. Distillation with sources and
+corrections: research/2026-08-30-passport-curriculum-research.md. Full plan:
+plans/week-of-2026-08-31-white-rose-passport-curriculum-plan.md. The three
+findings that change decisions rather than details:
+
+**The under 16 social media ban (announced 15 June 2026, force expected
+spring 2027) makes "social media ready at 16" legal alignment rather than
+aspiration.** The social_media_law flag was built for exactly this and now
+has a date. The ban excludes WhatsApp, Discord and gaming, so under 16 social
+life migrates there and the risk layer must never treat the ban as coverage.
+KCSIE 2026 (in force 1 September, days away) names generative AI, deepfakes
+and misinformation; the coverage map must show them this term.
+
+**"Digital Passport" is doubly collided**: a live US trademark (Common Sense
+Media, reg 4246911, product retired, mark surviving) and a UKCIS safeguarding
+tool of the same name for care experienced children. The existing ban on the
+name in UK school marketing is confirmed and extends to everywhere public.
+Candidates: DiGi Passport, The Road to 16 Passport, The Passport to Sixteen,
+pending a UK IPO clearance search that could not be run from this sandbox.
+
+**White Rose became the standard by giving the progression away and selling
+the classroom materials.** Free small step maps are why every publisher
+aligns to them. Publishing our 21 module step progression and EfCW/RSHE
+mapping openly while keeping lessons, scripts, packs and assessment behind
+the code would narrow the 15 August full gate decision, so it is put to
+Justin as a decision, not taken.
+
+Assessment law from the testing lens, now written into the plan: Demonstrated
+or Not Yet, never pass or fail, never a score against a child, no free text
+about a child in the database, no readiness computed from usage (Children's
+Code), the claim worded like national curriculum swimming, and the credential
+never positioned as age assurance.
