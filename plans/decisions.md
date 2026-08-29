@@ -9054,3 +9054,28 @@ follow up rather than done badly.
 DPIA line (already flagged for the go live checklist): a child's first name
 and stamp states are reachable by anyone holding the printed code, by design,
 and by nobody else.
+
+## 2026-08-29, late — Bridge a and the graduation certificate (built, migration 230)
+
+Justin: "Go ahead with bridge a and the graduation gate."
+
+Bridge a. Migration 230 gives every school module a static HOME-XXXX code
+(Crockford, trigger plus backfill, same pattern as 227), printed on the
+parent note page of the module's print pack, the sheet that already goes
+home. A parent enters it on the Lessons page ("Brought home from school"
+card at the foot, beside the library rather than on the road) and
+/api/school-code writes a lesson_completions row with lesson_source
+'school_lesson', the slot open since migration 023. The lookup goes through
+star-lesson-catalogue, still the parent app's one door to school lessons.
+Deliberately NOT counted toward stage stamps: a module is credit, not a
+stage lesson. Whole class shares one code because this is credit, not
+assessment; home educators use the same codes, and the record never says
+which door the credit came through.
+
+Graduation. The certificate is now the passport's final page: PassportBook
+grows a sixth page only when every stage is stamped, in the book's own
+burgundy and gold, with the locked wording ("has completed the preparation
+for digital life... done and on the record"), the passport number, and the
+verify pointer. Never "safe", never "ready". The graduation film slots in
+behind the same gate when its assets are commissioned; the gate ships first
+as the plan ordered.

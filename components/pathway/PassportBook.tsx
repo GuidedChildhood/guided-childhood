@@ -131,6 +131,12 @@ export default function PassportBook({
 
   const earnedCount = stamps.filter(s => s.status === 'earned').length
   const allEarned = earnedCount === stamps.length && stamps.length > 0
+  // The certificate is the passport's FINAL PAGE, never a separate artefact
+  // (Justin, 28 August: "maybe we weave into passport as the cert also"). It
+  // exists only when every stage is stamped, so the book grows a page the
+  // moment the journey is genuinely complete. Its wording is fixed by the
+  // plan: completed the preparation, never "safe" or "ready".
+  const lastPage = stamps.length + (allEarned ? 1 : 0)
   // Stages the child has already aged past without stamping. The book opens on
   // their own page, which is right, and the cost of that is that these become
   // invisible unless somebody thinks to flip backwards.
@@ -287,6 +293,49 @@ export default function PassportBook({
                 Tap to open
               </div>
             </div>
+          ) : page > stamps.length && allEarned ? (
+            /* ── The certificate, the passport's final page ── */
+            /* Rendered only when every stamp is earned, in the book's own
+               burgundy and gold so it reads as the last page of the object
+               rather than a pop up. The wording is the locked line from the
+               plan: completed the preparation. It never says safe, never
+               says ready, and it points at /verify so the page can be
+               checked by anyone the family shows it to. */
+            <div
+              style={{
+                background: 'linear-gradient(160deg, #6B2333 0%, #571C2A 55%, #4A1723 100%)',
+                borderRadius: '14px 18px 18px 14px',
+                padding: '34px 26px 28px', textAlign: 'center', minHeight: '420px',
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between',
+                boxShadow: 'inset 0 0 0 2px rgba(237,195,95,0.55), inset 0 0 0 5px rgba(237,195,95,0.14), inset 12px 0 24px rgba(0,0,0,0.25)',
+                position: 'relative',
+              }}
+            >
+              {/* Back tap zone only: this is the last page */}
+              <div onClick={() => goTo(page - 1)} aria-hidden style={{ position: 'absolute', inset: '0 50% 0 0', cursor: 'pointer', zIndex: 2 }} />
+              <div>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--terracotta)' }}>
+                  Certificate
+                </div>
+                <div style={{ width: '46px', height: '1.5px', background: 'rgba(237,195,95,0.55)', margin: '10px auto 0' }} />
+              </div>
+              <div>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--terracotta)', letterSpacing: '0.02em', lineHeight: 1.15 }}>
+                  {childName === 'your child' ? 'This family' : childName}
+                </div>
+                <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'rgba(255,255,255,0.9)', lineHeight: 1.6, margin: '14px 0 0' }}>
+                  has completed the preparation for digital life. Every stage, every lesson, every conversation, done and on the record.
+                </p>
+                {passportCode && (
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.14em', color: 'rgba(237,195,95,0.85)', marginTop: '16px' }}>
+                    № {passportCode}
+                  </div>
+                )}
+              </div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.6)', lineHeight: 1.6 }}>
+                {passportCode ? 'Check it any time at guidedchildhood.co.uk/verify' : 'The record behind every stamp is live'}
+              </div>
+            </div>
           ) : stamp && theme && (
             /* ── A stage page ──────────────────────────── */
             <div
@@ -303,7 +352,7 @@ export default function PassportBook({
             >
               {/* Tap zones: left half back, right half forward */}
               <div onClick={() => goTo(page - 1)} aria-hidden style={{ position: 'absolute', inset: '0 50% 0 0', cursor: 'pointer', zIndex: 2 }} />
-              <div onClick={() => page < stamps.length && goTo(page + 1)} aria-hidden style={{ position: 'absolute', inset: '0 0 0 50%', cursor: page < stamps.length ? 'pointer' : 'default', zIndex: 2 }} />
+              <div onClick={() => page < lastPage && goTo(page + 1)} aria-hidden style={{ position: 'absolute', inset: '0 0 0 50%', cursor: page < lastPage ? 'pointer' : 'default', zIndex: 2 }} />
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
                 {/* "Digital Passport · Stage 3" no longer fits on one line.
@@ -629,21 +678,22 @@ export default function PassportBook({
           ←
         </button>
         <div style={{ display: 'flex', gap: '7px', alignItems: 'center' }}>
-          {[0, ...stamps.map(s => s.id)].map(i => {
+          {[0, ...stamps.map(s => s.id), ...(allEarned ? [stamps.length + 1] : [])].map(i => {
             const active = i === page
-            const t = i >= 1 ? STAGE_THEME[i] : null
+            const isCert = i > stamps.length
+            const t = i >= 1 && !isCert ? STAGE_THEME[i] : null
             // A page left behind gets a ring, so the flip control itself says
             // which stages are still open rather than only the banner below.
-            const behind = i >= 1 && stamps.find(s => s.id === i)?.status === 'catchup'
+            const behind = i >= 1 && !isCert && stamps.find(s => s.id === i)?.status === 'catchup'
             return (
               <button
                 key={i}
                 onClick={() => goTo(i)}
-                aria-label={i === 0 ? 'Cover' : behind ? `Stage ${i}, not stamped yet` : `Stage ${i}`}
+                aria-label={i === 0 ? 'Cover' : isCert ? 'Certificate' : behind ? `Stage ${i}, not stamped yet` : `Stage ${i}`}
                 style={{
                   width: active ? 22 : 8, height: 8, borderRadius: '100px', border: 'none', padding: 0,
                   cursor: 'pointer', transition: 'all 0.25s ease',
-                  background: active ? (t ? t.bold : 'var(--deep-teal)') : behind ? 'var(--terracotta)' : 'var(--border)',
+                  background: active ? (t ? t.bold : 'var(--deep-teal)') : behind ? 'var(--terracotta)' : isCert ? 'var(--terracotta-dark)' : 'var(--border)',
                   boxShadow: behind && !active ? '0 0 0 2px var(--terracotta-lt)' : 'none',
                 }}
               />
@@ -651,13 +701,13 @@ export default function PassportBook({
           })}
         </div>
         <button
-          onClick={() => goTo(Math.min(stamps.length, page + 1))}
+          onClick={() => goTo(Math.min(lastPage, page + 1))}
           aria-label="Next page"
-          disabled={page === stamps.length}
+          disabled={page === lastPage}
           style={{
             background: '#fff', border: '1.5px solid var(--border)', borderRadius: '10px',
-            width: 34, height: 34, cursor: page === stamps.length ? 'default' : 'pointer',
-            opacity: page === stamps.length ? 0.4 : 1, fontSize: 'var(--text-md)', color: 'var(--ink)',
+            width: 34, height: 34, cursor: page === lastPage ? 'default' : 'pointer',
+            opacity: page === lastPage ? 0.4 : 1, fontSize: 'var(--text-md)', color: 'var(--ink)',
           }}
         >
           →
