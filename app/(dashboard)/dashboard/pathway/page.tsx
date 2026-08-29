@@ -75,7 +75,7 @@ import { stagePace, paceLine } from '@/lib/pathway/pace'
 
 // date_of_birth feeds the timeline's pace arithmetic: the one true date in
 // the system is the birthday that ends the stage.
-type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null; date_of_birth: string | null }
+type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null; date_of_birth: string | null; passport_code: string | null }
 
 export default async function PathwayPage({ searchParams }: { searchParams: Promise<{ child?: string; from?: string }> }) {
   const supabase = await createClient()
@@ -85,7 +85,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
 
   const [profileResult, childrenResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
-    supabase.from('children').select('id, name, age_band, stage_id, is_primary, streak_weeks, date_of_birth').eq('parent_id', user.id).order('is_primary', { ascending: false }),
+    supabase.from('children').select('id, name, age_band, stage_id, is_primary, streak_weeks, date_of_birth, passport_code').eq('parent_id', user.id).order('is_primary', { ascending: false }),
   ])
 
   const isPaid = hasFullAccess(profileResult.data, user.email)
@@ -434,6 +434,7 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
               currentStage={currentStageNum}
               childId={primaryChild?.id ?? null}
               catchupLines={catchupLines}
+              passportCode={primaryChild?.passport_code ?? null}
             />
             {socialRoad && socialRoad.total > 0 && primaryChild?.id && (
               <SocialRoadNova

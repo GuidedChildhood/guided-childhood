@@ -62,9 +62,17 @@ export default function PassportBook({
   openAtStage = null,
   currentStage = null,
   childId = null,
+  passportCode = null,
 }: {
   stamps: Stamp[]
   childName: string
+  /**
+   * The child's public passport number (migration 227), printed on the cover
+   * the way a real passport carries its number. Public by design: it reveals
+   * nothing on its own and resolves only through /verify. It is NOT the kid
+   * link token, which is a secret and is never rendered anywhere.
+   */
+  passportCode?: string | null
   /**
    * One paced sentence per catch up stage id, from the page's own pace
    * arithmetic ("One a month fills this page"). Optional because every other
@@ -269,6 +277,11 @@ export default function PassportBook({
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.65)', marginTop: '8px' }}>
                   The journey to 16
                 </div>
+                {passportCode && (
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', color: 'rgba(237,195,95,0.85)', marginTop: '12px' }}>
+                    № {passportCode}
+                  </div>
+                )}
               </div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(237,195,95,0.5)' }}>
                 Tap to open
