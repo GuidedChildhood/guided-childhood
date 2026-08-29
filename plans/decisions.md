@@ -8989,3 +8989,32 @@ real scroll renders it, pre existing behaviour, not touched). Dashboard
 surfaces (ExploreGrid, check in door) are typechecked and build clean; visual
 check of those falls to the Vercel preview since the local container has no
 Supabase auth.
+
+## 2026-08-29 — Passport codes, school and home sync, graduation (planned, migration 227 claimed)
+
+The "Cambridge idea" Justin referenced is identified: Professor Sander van der
+Linden (Cambridge, Social Decision Making Lab) proposed a "social media
+passport" of gradual supervised exposure plus safety by design, in Nature
+Health (Feb 2026) and Cambridge's expert reaction to the UK consultation. Our
+five stages are that programme already built, so the plan finishes the part
+his proposal needs and ours lacks: verification.
+
+Plan written to plans/2026-08-29-passport-codes-and-graduation-plan.md.
+Decisions locked in it: children.passport_code is migration 227 (Crockford
+base32, GC-XXXX-XXXX, collision retry, backfill); public verify page at
+/verify/[code] on the app/m/[id] pattern, exact match or silence (DofE
+style), first name and stamp dates only, one DPIA line; school to home
+bridge is bridge a only (static home codes per school module through the
+existing parent_note jsonb, redeemed as lesson_source 'school_lesson'
+completions, class shares one code because this is credit not assessment);
+the certificate is the final page of the passport, never a separate
+artefact; graduation film unlocks on the all passed gate, master per stage
+plus personalised end card, assets commissioned later; at sixteen a
+readiness review worded by the social_media_law flag, certificate always
+says "completed the preparation", never "safe" or "ready". Never build:
+bridge b (teacher accounts), bridge c (pupil identity sync, violates the
+locked privacy promises), printing the kid_links token, or the name
+"digital passport" in UK school marketing (UKCIS collision). Stamps never
+record venue: same syllabus, any venue, one certificate (the Cambridge
+private candidate rule), which is what makes home learning the same
+mechanism, not a feature.
