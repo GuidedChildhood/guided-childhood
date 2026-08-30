@@ -9224,3 +9224,17 @@ never by index. The Supabase MCP is not attached to this session, so the
 migration ships as a file and needs applying: paste it into the Supabase
 SQL editor, or any session with the MCP runs it as written. Backup table
 schools._backup_lesson_233 follows the RLS pattern from migration 232.
+---
+
+## 2026-08-30 — Daily health sweep: green, one small fix (migration 232)
+
+Schema: all 11 required columns present. Cron heartbeats: all 34 jobs on
+schedule, no failures in the last 7 days, no zero counts that looked like a
+hidden fault (checked followups and digi-insights by hand, both genuinely
+had nothing due). Security advisors: one ERROR, `schools._backup_lesson_230`
+had RLS disabled and was readable by anon and authenticated, same shape of
+hole as `_backup_lesson_199` closed by migration 202 on 15 August. Fixed the
+same way in migration 232: RLS enabled, no policy, table left in place as
+someone's safety net. Performance advisors: 626 findings, all the known
+multiple-permissive-policies and auth-rls-initplan backlog plus routine
+unindexed foreign keys and unused indexes, nothing new.
