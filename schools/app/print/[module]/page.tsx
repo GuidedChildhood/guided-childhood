@@ -25,7 +25,7 @@ type TeacherNotes = {
   worksheet?: { title?: string; directions?: string; verdict_options?: string[] }
   commitment_stem?: string
 }
-type ParentNote = { headline?: string; taught?: string; try_this?: string; family_question?: string }
+type ParentNote = { headline?: string; taught?: string; try_this?: string; family_question?: string; passport?: string }
 type DslNote = { note?: string }
 
 const VERDICT_LABEL: Record<string, string> = {
@@ -206,17 +206,27 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         <div style={mono}>Photocopy per pupil · goes home · Parent note</div>
         <h2 style={h2}>{parent.headline ?? 'What we taught today'}</h2>
         {parent.taught && <p style={body}>{parent.taught}</p>}
+        {/* The module's own tool, from the same fallback chain as page one.
+            This box used to hardcode module 12's three checks, so a Reception
+            family got misinformation checks on the back of a lesson about
+            asking a grown up. The tool const above already knew better. */}
         <div style={box}>
-          <span style={{ ...mono, color: 'var(--gold-dark)' }}>The three checks we learned</span>
-          <p style={body}>1. Who made this, and how do they know? &nbsp; 2. What do other places say? &nbsp; 3. How is it trying to make me feel?</p>
+          <span style={{ ...mono, color: 'var(--gold-dark)' }}>{tool.heading}</span>
+          <p style={body}>{tool.lines.map((l, i) => `${/^\d/.test(l) ? '' : `${i + 1}. `}${l}`).join('   ')}</p>
         </div>
         {parent.try_this && <div style={box}><span style={mono}>Try this at home</span><p style={body}>{parent.try_this}</p></div>}
         {parent.family_question && <div style={box}><span style={mono}>Dinner table question</span><p style={{ ...body, fontWeight: 700 }}>{parent.family_question}</p></div>}
-        {/* The home code (migration 230): the one line that turns this sheet
-            into the school to home bridge. A family on the Guided Childhood
-            app enters it and their child's record shows the class covered
-            this. Renders only once the code is seeded, so old sheets print
-            unchanged. */}
+        {/* Both halves of the school to home bridge, in reading order: the
+            passport line says what the family is part of, the home code lets
+            them act on it. The curriculum lane wrote the first, the passport
+            codes lane wrote the second, and they were designed to sit
+            together (PR #925 and #926). */}
+        {parent.passport && <div style={box}><span style={{ ...mono, color: 'var(--gold-dark)' }}>The passport</span><p style={body}>{parent.passport}</p></div>}
+        {/* The home code (migration 230 on main): the one line that turns
+            this sheet into the school to home bridge. A family on the Guided
+            Childhood app enters it and their child's record shows the class
+            covered this. Renders only once the code is seeded, so old sheets
+            print unchanged. */}
         {(lesson as { home_code?: string | null }).home_code && (
           <div style={box}>
             <span style={{ ...mono, color: 'var(--gold-dark)' }}>On the Guided Childhood app at home?</span>

@@ -23,8 +23,15 @@ type SchoolLesson = {
   slides: unknown
 }
 
-export default async function TeachLessonPage({ params }: { params: Promise<{ module: string }> }) {
+export default async function TeachLessonPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ module: string }>
+  searchParams: Promise<{ slide?: string }>
+}) {
   const { module: moduleId } = await params
+  const { slide: slideParam } = await searchParams
 
   const { data } = await supabase
     .from('school_lessons')
@@ -37,6 +44,15 @@ export default async function TeachLessonPage({ params }: { params: Promise<{ mo
 
   const slides = parseSlides(lesson.slides)
   if (!slides) notFound()
+
+  // ?slide=N (1 based, from the run sheet) opens the player at that slide, so
+  // a teacher can step out mid lesson and step back in where they were. A
+  // value off either end clamps rather than 404s: the run sheet may be a
+  // print out from last term while the deck has since grown or shrunk.
+  const requested = Number(slideParam)
+  const initialIndex = Number.isFinite(requested) && requested >= 1
+    ? Math.min(Math.round(requested) - 1, slides.length - 1)
+    : 0
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--cream)' }}>
@@ -64,6 +80,7 @@ export default async function TeachLessonPage({ params }: { params: Promise<{ mo
           backHref="/curriculum"
           teacherView
           completeEndpoint={null}
+          initialIndex={initialIndex}
         />
       </div>
     </main>

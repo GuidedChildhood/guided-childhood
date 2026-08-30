@@ -9019,6 +9019,102 @@ record venue: same syllabus, any venue, one certificate (the Cambridge
 private candidate rule), which is what makes home learning the same
 mechanism, not a feature.
 
+---
+
+## 2026-08-30 — One lesson, everything, in one run: the run sheet, the passport moment, and the friend at the door
+
+Justin, 29 August: one lesson from start to finish, teacher scripts, guidance,
+what exactly to teach, how to run it, walk them through it, all the paperwork,
+everything in one run, explaining the concept of earning the passport, with the
+best friend animations at top presentation level. Lesson 1 is that lesson now.
+
+**The run sheet, /lesson/[module]/run.** The lesson home page answers "should I
+teach this"; the player answers "what does the class see"; nothing answered the
+Sunday night question in between, WHAT DO I DO, in order, with the words. The
+run sheet is Before as tick rows, During as one card per phase carrying every
+slide's minutes, headline and full script, After as tick rows, printable as one
+clipboard document, and every teaching line on it comes from the lesson row
+(scripts live in the database, so one page serves all 21 modules unchanged).
+Each slide row deep links into the player at that slide (?slide=N, clamped).
+
+**The passport moment.** Migration 231 (claimed as 230, renumbered in the #926
+merge after the passport codes lane's 230 merged first; content unchanged and
+already applied to production) gives lesson 1 a digi slide between the
+chant and the goodbye: DiGi Junior's special book, every lesson and every job
+fills the page, a full page brings the big check and the big check earns the
+stamp. Vocabulary follows the 29 August passport language audit to the letter:
+the passport, never "digital passport" (UKCIS collision, locked decision);
+filling and earning, never testing; nobody can fail it; no venue claim. The
+printed parent note gains a passport line written for a family that has never
+heard of us, and the lesson page tells the teacher which stage page their key
+stage fills, with the two honesty lines: the passport never records where a
+page was filled, and none of this creates pupil data.
+
+**The friend at the door.** Lesson 1's title slide carried no character key, so
+the intro regex matched "screen" and played ORBIT'S FOOTBALL CLIP on a lesson
+whose cast is Pebble with DiGi Junior. One data field ('character':
+'celebrate') puts Pebble at the door. Found by the animation audit, which also
+established the toolkit: five DiGi moods, three intro clips, five friend
+cutouts, GSAP only. The player now runs phase choreography on that toolkit:
+when a slide crosses into a new phase the star takes the phase's stance (wave,
+thinking, speak, happy) and the current phase pill takes one small pulse. One
+beat per phase, six per lesson, deliberately not one per slide, because a pop
+on every slide is wallpaper by slide four. Reduced motion skips the pulse.
+
+**Two bugs out.** The printed parent note hardcoded module 12's three
+misinformation checks on every module, so a Reception family would have got
+"who made this and how do they know" on the back of a lesson about asking a
+grown up; it now prints the module's own tool through the fallback chain that
+page one already used. And the schools homepage said "digital passport" in
+marketing copy, which the naming decision forbids; it now says "the passport
+to sixteen".
+
+**Left alone, on purpose.** No completion write, no stamp write, no redemption
+code: that plumbing is bridge a, claimed by the passport codes lane (migration
+227). When it lands, the parent note's passport line is where the home code
+naturally goes. The Explorer age label inconsistency in the PARENT app
+(readiness.ts, email blocks, ScriptDetailView still say 11 to 13 after
+stages.ts moved to 11 to 12) was found during this work but belongs to the
+passport application lane; reported, not touched.
+
+---
+
+## 2026-08-30 — The research fleet reports: the ban reframes the passport, the name is doubly collided, and the map wants to be free
+
+Twelve agents (six lenses, each adversarially audited) came back on the White
+Rose model, credential precedent, living risk sources, AI careers evidence,
+the philosophy canon and lawful testing. Distillation with sources and
+corrections: research/2026-08-30-passport-curriculum-research.md. Full plan:
+plans/week-of-2026-08-31-white-rose-passport-curriculum-plan.md. The three
+findings that change decisions rather than details:
+
+**The under 16 social media ban (announced 15 June 2026, force expected
+spring 2027) makes "social media ready at 16" legal alignment rather than
+aspiration.** The social_media_law flag was built for exactly this and now
+has a date. The ban excludes WhatsApp, Discord and gaming, so under 16 social
+life migrates there and the risk layer must never treat the ban as coverage.
+KCSIE 2026 (in force 1 September, days away) names generative AI, deepfakes
+and misinformation; the coverage map must show them this term.
+
+**"Digital Passport" is doubly collided**: a live US trademark (Common Sense
+Media, reg 4246911, product retired, mark surviving) and a UKCIS safeguarding
+tool of the same name for care experienced children. The existing ban on the
+name in UK school marketing is confirmed and extends to everywhere public.
+Candidates: DiGi Passport, The Road to 16 Passport, The Passport to Sixteen,
+pending a UK IPO clearance search that could not be run from this sandbox.
+
+**White Rose became the standard by giving the progression away and selling
+the classroom materials.** Free small step maps are why every publisher
+aligns to them. Publishing our 21 module step progression and EfCW/RSHE
+mapping openly while keeping lessons, scripts, packs and assessment behind
+the code would narrow the 15 August full gate decision, so it is put to
+Justin as a decision, not taken.
+
+Assessment law from the testing lens, now written into the plan: Demonstrated
+or Not Yet, never pass or fail, never a score against a child, no free text
+about a child in the database, no readiness computed from usage (Children's
+Code), the claim worded like national curriculum swimming, and the credential
+never positioned as age assurance.
 ## 2026-08-29, late — Phase 1 and 2 of the passport plan claimed (migration 227)
 
 Plan PR #922 merged by Justin, which per the weekly rhythm is the approval to

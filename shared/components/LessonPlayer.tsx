@@ -634,10 +634,41 @@ export default function LessonPlayer({
     gsap.to(barRef.current, { width: `${pct}%`, duration: 0.5, ease: 'power2.out' })
   }, [index, finished, slides.length])
 
+  // ── Phase choreography ── the star acts the lesson's shape.
+  //
+  // The slide type rules below came first and still win (a choice slide is
+  // always a thinking moment, whatever phase it sits in). What changed: when
+  // a slide CROSSES into a new phase, the star takes the new phase's stance
+  // instead of dropping back to idle, and the strip's current pill takes one
+  // small pulse. One beat per phase, six beats per lesson, so the moment
+  // stays meaningful; a pop on every slide would be wallpaper by slide four.
+  const PHASE_MOOD: Record<string, DigiMood> = {
+    connect: 'wave', starter: 'thinking', teach: 'speak',
+    practise: 'happy', prove: 'thinking', close: 'wave',
+  }
+  const prevPhaseRef = useRef<string | null>(null)
+  const stripRef = useRef<HTMLDivElement>(null)
   useEffect(() => {
+    const phase = slide?.phase ?? null
+    const phaseChanged = phase !== null && phase !== prevPhaseRef.current
+    prevPhaseRef.current = phase
+
     if (slide?.type === 'choice' && !answered) setDigiMood('thinking')
     else if (slide?.type === 'recap') setDigiMood('wave')
+    else if (phaseChanged && PHASE_MOOD[phase]) setDigiMood(PHASE_MOOD[phase])
     else if (!finished) setDigiMood('idle')
+
+    if (phaseChanged && stripRef.current &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const pill = stripRef.current.querySelector('[aria-current="step"]')
+      if (pill) {
+        gsap.fromTo(pill, { scale: 1 }, {
+          scale: 1.12, duration: 0.18, ease: 'power2.out',
+          yoyo: true, repeat: 1, clearProps: 'scale',
+        })
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, slide?.type, answered, finished])
 
   const onAnswered = (correct: boolean) => {
@@ -1073,6 +1104,7 @@ export default function LessonPlayer({
       {/* The phase strip: six pills, the shape of the lesson at a glance */}
       {teacherView && !finished && deckPhases.length > 1 && (
         <div
+          ref={stripRef}
           aria-label="Lesson phases"
           style={{
             display: 'flex', gap: '6px', flexShrink: 0, flexWrap: 'wrap',

@@ -2,6 +2,7 @@ import { anon as supabase } from '@/lib/supabase/anon'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { parseSlides, PHASE_LABELS, PHASE_ORDER, type LessonPhase } from '@gc/shared/lesson-slides'
+import { EFCW_STRANDS } from '@gc/shared/efcw'
 
 // THE LESSON HOME PAGE, the page a teacher opens the night before.
 //
@@ -45,6 +46,22 @@ type Lesson = {
   teacher_notes: TeacherNotes | null
   parent_note: ParentNote | null
   dsl_note: DslNote | null
+  efcw_strands: number[] | null
+  statutory_hooks: string[] | null
+  evidence_anchor: string | null
+}
+
+// Which passport page this key stage's lessons fill. The five stages and
+// their ages are the parents app's single source (lib/content/stages.ts);
+// this map only translates a key stage into that vocabulary for the teacher.
+// KS3 straddles two stages because Explorer hands over to Shaper at 13.
+const PASSPORT_STAGE: Record<string, string> = {
+  EYFS: 'Foundation (ages 4 to 7)',
+  KS1: 'Foundation (ages 4 to 7)',
+  KS2: 'Builder (ages 8 to 10)',
+  KS3: 'Explorer (ages 11 to 12) and Shaper (ages 13 to 15)',
+  KS4: 'Shaper (ages 13 to 15)',
+  KS5: 'Independent (ages 16 and above)',
 }
 
 const mono: React.CSSProperties = {
@@ -76,7 +93,7 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
 
   const { data } = await supabase
     .from('school_lessons')
-    .select('module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes, parent_note, dsl_note')
+    .select('module_id, title, key_stage, year_band, single_action_outcome, character_cast, slides, teacher_notes, parent_note, dsl_note, efcw_strands, statutory_hooks, evidence_anchor')
     .eq('module_id', moduleId)
     .maybeSingle()
 
@@ -145,6 +162,14 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           }}>
             Print the pack
           </Link>
+          <Link href={`/lesson/${lesson.module_id}/run`} className="btn" style={{
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+            padding: '15px 26px', borderRadius: '16px', textDecoration: 'none',
+            color: 'var(--ink)', background: '#fff', border: '1.5px solid var(--border)',
+            boxShadow: '0 5px 0 var(--border)',
+          }}>
+            Walk me through it
+          </Link>
           {/* Only offered where the three statements have been written, so a
               module that is not ready cannot hand out a blank sheet. */}
           {(notes.i_can?.length ?? 0) > 0 && (
@@ -186,6 +211,28 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             </p>
           )}
         </div>
+
+        {/* What this lesson earns. The passport is the parents app's journey
+            to sixteen; the school's part is credit toward the page, said in
+            the approved vocabulary and none of the forbidden words: the
+            passport never records where a page was filled, it is never a
+            test of the child, and nothing here creates pupil data. */}
+        {PASSPORT_STAGE[lesson.key_stage] && (
+          <div style={{ ...card, marginBottom: '16px' }}>
+            <h2 style={h2}>What this lesson earns</h2>
+            <p style={body}>
+              Many of your families keep the passport at home: the journey to sixteen, filled one
+              stage at a time and finished by DiGi&rsquo;s five question check, which a child cannot
+              fail. This lesson belongs to the <strong style={{ color: 'var(--ink)' }}>{PASSPORT_STAGE[lesson.key_stage]}</strong> page.
+              Teaching it is credit toward that page: the parent note going home says so, and home
+              carries it on with jobs and small wins of their own.
+            </p>
+            <p style={{ ...body, marginTop: '8px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)' }}>
+              The passport never records where a page was filled, school or home, and none of this
+              creates pupil data here: this site holds class codes, never pupil accounts.
+            </p>
+          </div>
+        )}
 
         {/* The tool, which is the thing a child leaves with */}
         {notes.tool?.lines?.length ? (
@@ -263,6 +310,36 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
             </p>
             <Link href="/hub/dsl" style={{ ...mono, color: 'var(--terracotta-dark)', textDecoration: 'none', display: 'inline-block', marginTop: '10px' }}>
               The DSL briefing →
+            </Link>
+          </div>
+        )}
+
+        {/* The statutory cover, from the row's own mapping fields, so a
+            subject lead can answer "where does this sit" without leaving the
+            page. The full grid stays in the Hub. */}
+        {((lesson.efcw_strands?.length ?? 0) > 0 || (lesson.statutory_hooks?.length ?? 0) > 0) && (
+          <div style={{ ...card, marginBottom: '16px' }}>
+            <h2 style={h2}>Where this sits in the framework</h2>
+            {(lesson.efcw_strands?.length ?? 0) > 0 && (
+              <p style={body}>
+                <strong style={{ color: 'var(--ink)' }}>Education for a Connected World. </strong>
+                {lesson.efcw_strands!.map(n => EFCW_STRANDS[n - 1]).filter(Boolean).join('; ')}
+              </p>
+            )}
+            {(lesson.statutory_hooks?.length ?? 0) > 0 && (
+              <p style={{ ...body, marginTop: '8px' }}>
+                <strong style={{ color: 'var(--ink)' }}>Statutory hooks. </strong>
+                {lesson.statutory_hooks!.join('; ')}
+              </p>
+            )}
+            {lesson.evidence_anchor && (
+              <p style={{ ...body, marginTop: '8px' }}>
+                <strong style={{ color: 'var(--ink)' }}>Evidence anchor. </strong>
+                {lesson.evidence_anchor}
+              </p>
+            )}
+            <Link href="/hub/rshe-mapping" style={{ ...mono, color: 'var(--terracotta-dark)', textDecoration: 'none', display: 'inline-block', marginTop: '10px' }}>
+              The full RSHE mapping →
             </Link>
           </div>
         )}

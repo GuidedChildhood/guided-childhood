@@ -279,7 +279,7 @@ export default function SchoolsPage() {
               The learning carries on at home
             </h2>
             <p style={{ fontSize: 'clamp(1rem, 2.4vw, 1.18rem)', lineHeight: 1.6, color: 'var(--ink-soft)', maxWidth: '680px', margin: '0 auto 14px' }}>
-              Every pupil’s family gets the Guided Childhood parent app, with DiGi, the daily practice and the same digital passport your curriculum follows. What a child meets in class, a parent can carry on that evening, so the message is one message and not two.
+              Every pupil’s family gets the Guided Childhood parent app, with DiGi, the daily practice and the same passport to sixteen your curriculum follows. What a child meets in class, a parent can carry on that evening, so the message is one message and not two.
             </p>
             <p style={{ fontSize: 'clamp(1rem, 2.4vw, 1.18rem)', lineHeight: 1.6, color: 'var(--ink-soft)', maxWidth: '680px', margin: '0 auto' }}>
               The passport earns a stamp for each stage on the road to 16, and in time a family will be able to print it as a keepsake book of the journey. One shared pathway, school and home walking it together.
