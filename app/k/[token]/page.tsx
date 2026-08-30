@@ -62,7 +62,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
   const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10)
 
   const [childRes, jobs, weekTicksRes, goalRes, streakTicksRes] = await Promise.all([
-    supabase.from('children').select('name, age_band, buddy, accent, daily_limit_minutes, date_of_birth').eq('id', link.child_id).maybeSingle(),
+    supabase.from('children').select('name, age_band, buddy, accent, daily_limit_minutes, date_of_birth, passport_code').eq('id', link.child_id).maybeSingle(),
     // Which jobs are due and ticked, through the same read the jobs page
     // uses, so the two screens can never disagree about the day.
     readKidJobs(supabase, link.user_id, link.child_id),
@@ -760,6 +760,7 @@ export default async function KidPage({ params }: { params: Promise<{ token: str
       agreementItems={agreementItems}
       agreementSigned={agreementSigned}
       childName={childRes.data?.name ?? 'Superstar'}
+      passportCode={(childRes.data as { passport_code?: string | null } | null)?.passport_code ?? null}
       buddy={(childRes.data?.buddy as string | null) ?? null}
       accent={(childRes.data?.accent as string | null) ?? null}
       stageId={stageId}

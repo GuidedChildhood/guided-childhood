@@ -1,5 +1,13 @@
--- Guided Childhood — Migration 230
+-- Guided Childhood — Migration 231
 -- The passport moment: lesson 1 learns to explain what it is earning.
+--
+-- RENUMBERED from 230 in the merge of main into PR #926: two lanes claimed
+-- 230 within minutes on 29 August and the passport codes lane's
+-- 230_school_home_codes.sql merged first (#925). Renumbering the newer one is
+-- the repo convention (see the wiring check). The content is unchanged and
+-- had already been applied to production under its old number; it is
+-- idempotent (strips its own slide before re-inserting), so running it again
+-- as 231 is safe and changes nothing.
 --
 -- Justin, 29 August: one lesson from start to finish, everything in one run,
 -- explaining the concept of earning the passport. The lesson had everything

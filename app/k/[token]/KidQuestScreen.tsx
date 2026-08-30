@@ -93,10 +93,13 @@ export default function KidQuestScreen({
   tutorLesson = null,
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
-  fiveADayInitial = null,
+  fiveADayInitial = null, passportCode = null,
 }: {
   token: string
   childName: string
+  // The public passport number on the child's own book (migration 227). Not
+  // the kid link token, which stays secret and unrendered.
+  passportCode?: string | null
   // How many Planet Friends this child has earned, the further of the passport
   // stages and the streak unlock, so the picker only offers earned Friends.
   earnedStages?: number
@@ -1958,6 +1961,7 @@ export default function KidQuestScreen({
             childName={childName}
             stickers={stickers}
             celebrateStickers={celebrateStickers}
+            passportCode={passportCode}
           />
         )}
 

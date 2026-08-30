@@ -22,13 +22,17 @@ import KidStickers, { type KidSticker } from '@/components/kid/KidStickers'
 // places to live.
 
 export default function KidPassport({
-  onClose, token, childName, stickers, celebrateStickers,
+  onClose, token, childName, stickers, celebrateStickers, passportCode = null,
 }: {
   onClose: () => void
   token: string
   childName: string
   stickers: KidSticker[]
   celebrateStickers: string[]
+  // The public passport number (migration 227), printed under the title the
+  // way a real passport carries its number. Public by design; never the kid
+  // link token.
+  passportCode?: string | null
 }) {
   return (
     <div
@@ -58,6 +62,14 @@ export default function KidPassport({
             cursor: 'pointer', fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', flexShrink: 0,
           }}>✕</button>
         </div>
+        {passportCode && (
+          <p style={{
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '0.14em', color: 'var(--ink-muted)', margin: '0 0 8px',
+          }}>
+            № {passportCode}
+          </p>
+        )}
         <p style={{
           fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600,
           color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 14px',

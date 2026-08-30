@@ -55,6 +55,15 @@ export function getStarLesson(supabase: SupabaseClient, id: string, columns: str
   )
 }
 
+// One lesson by its home code (migration 230): the code printed on the parent
+// note sheet that goes home with a class lesson, redeemed in the parent app as
+// a school_lesson completion. Same one door rule as everything above.
+export function getStarLessonByHomeCode(supabase: SupabaseClient, homeCode: string) {
+  return firstHit<StarLessonRow>(supabase, from =>
+    from('school_lessons').select('id, module_id, title, year_band').eq('home_code', homeCode).maybeSingle() as never,
+  )
+}
+
 // Titles for a set of lesson ids: the replacement for the old
 // school_lessons(title) join on the kid page, which cannot survive the FK
 // drop (PostgREST embeds ride foreign keys). One extra query, cached by

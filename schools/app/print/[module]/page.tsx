@@ -46,7 +46,7 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
 
   const { data: lesson } = await supabase
     .from('school_lessons')
-    .select('module_id, title, key_stage, year_band, single_action_outcome, statutory_hooks, efcw_strands, evidence_anchor, slides, teacher_notes, parent_note, dsl_note')
+    .select('module_id, title, key_stage, year_band, single_action_outcome, statutory_hooks, efcw_strands, evidence_anchor, slides, teacher_notes, parent_note, dsl_note, home_code')
     .eq('module_id', moduleId)
     .maybeSingle()
   if (!lesson) notFound()
@@ -216,7 +216,23 @@ export default async function PrintPackPage({ params }: { params: Promise<{ modu
         </div>
         {parent.try_this && <div style={box}><span style={mono}>Try this at home</span><p style={body}>{parent.try_this}</p></div>}
         {parent.family_question && <div style={box}><span style={mono}>Dinner table question</span><p style={{ ...body, fontWeight: 700 }}>{parent.family_question}</p></div>}
+        {/* Both halves of the school to home bridge, in reading order: the
+            passport line says what the family is part of, the home code lets
+            them act on it. The curriculum lane wrote the first, the passport
+            codes lane wrote the second, and they were designed to sit
+            together (PR #925 and #926). */}
         {parent.passport && <div style={box}><span style={{ ...mono, color: 'var(--gold-dark)' }}>The passport</span><p style={body}>{parent.passport}</p></div>}
+        {/* The home code (migration 230 on main): the one line that turns
+            this sheet into the school to home bridge. A family on the Guided
+            Childhood app enters it and their child's record shows the class
+            covered this. Renders only once the code is seeded, so old sheets
+            print unchanged. */}
+        {(lesson as { home_code?: string | null }).home_code && (
+          <div style={box}>
+            <span style={{ ...mono, color: 'var(--gold-dark)' }}>On the Guided Childhood app at home?</span>
+            <p style={body}>Enter this code on the Lessons page and the passport records what we covered today: <strong style={{ letterSpacing: '0.08em' }}>{(lesson as { home_code?: string | null }).home_code}</strong></p>
+          </div>
+        )}
         <p style={{ ...body, fontSize: 'var(--text-sm)', color: 'var(--ink-light)', marginTop: '14px' }}>Guided Childhood Schools · no login needed, nothing to sign up for. This note is yours.</p>
         <PrintBrandFooter />
       </section>
