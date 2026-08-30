@@ -36,6 +36,25 @@ export const INTRO_CHARACTERS: Record<string, IntroCharacter> = {
     line: 'You are doing so well. One more brilliant thing to learn, come on!',
     accent: '#E6B93E',
   },
+  // Nova, steady and calm, hosts the KS4 modules, which carry the heaviest
+  // topics in the scheme, so the welcome is level rather than bouncy.
+  // Generated 30 August 2026 from the stage-characters cutout art, so the
+  // film cannot drift off model. INERT until a lesson's title slide names
+  // the key: introCharacterFor only serves these on an explicit request.
+  nova: {
+    key: 'nova',
+    clip: CDN + 'hf_20260830_005603_cfd531b3-9541-4de5-a5ec-826f8eeea6a1.mp4',
+    line: 'Good to see you. Today is one that really matters, so let us take it on together.',
+    accent: '#9B72CF',
+  },
+  // Cosmo, bright and forward looking, hosts the KS5 modules: AI, data
+  // rights and the working life ahead.
+  cosmo: {
+    key: 'cosmo',
+    clip: CDN + 'hf_20260830_005603_76794415-8bc1-45e5-ba88-dd47b7d49c14.mp4',
+    line: 'Big one today: the tools, your rights, and the road ahead. Let us get you ready.',
+    accent: '#E8873C',
+  },
 }
 
 // Choose a character for a lesson. Explicit key wins; otherwise a gentle

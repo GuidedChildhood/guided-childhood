@@ -44,8 +44,17 @@ function secret(): string {
 }
 
 /** Routes anyone may see. Everything else needs the cookie. Kept here rather
- *  than in the proxy so the copy checks and the tests can read the same list. */
-export const OPEN_PATHS = ['/', '/pricing', '/unlock']
+ *  than in the proxy so the copy checks and the tests can read the same list.
+ *
+ *  THE OPEN MAP, decided by Justin on 30 August 2026: the curriculum map and
+ *  the RSHE mapping matrix are public, because a free progression is how a
+ *  scheme becomes the standard everyone else aligns to (White Rose proved
+ *  it), and neither page can be taught from. The paid wall stays exactly
+ *  where it earns its keep: the lessons, the scripts, the packs and the
+ *  testing. A visitor who reads the map and taps into a lesson meets
+ *  /unlock, and /unlock points at /pricing, which is the funnel working as
+ *  designed rather than a leak. */
+export const OPEN_PATHS = ['/', '/pricing', '/unlock', '/curriculum', '/hub/rshe-mapping']
 
 export function isOpenPath(pathname: string): boolean {
   if (OPEN_PATHS.includes(pathname)) return true

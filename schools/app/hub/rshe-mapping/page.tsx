@@ -42,7 +42,7 @@ export default async function RsheMappingPage() {
         <p style={{ ...body, fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginBottom: '20px' }}>
           Honesty note: a module is marked only where it substantively teaches the topic. This scheme is a
           digital literacy and online safety programme designed to sit inside your wider PSHE provision,
-          not to replace it. Each lesson additionally carries its KCSIE 2025 hooks and Education for a
+          not to replace it. Each lesson additionally carries its KCSIE hooks and Education for a
           Connected World strands, shown beneath the matrix.
         </p>
 
@@ -76,7 +76,38 @@ export default async function RsheMappingPage() {
           </table>
         </div>
 
-        <div style={mono}>Per module statutory hooks (KCSIE 2025 and framework anchors)</div>
+        {/* KCSIE 2026, in force 1 September 2026, names four additions a DSL
+            will be asked about this term. Each row resolves its modules from
+            the live manifest, so a renamed module can never leave this table
+            pointing at a title that no longer exists. The wording stays
+            honest: where coverage is a foundation rather than the full
+            treatment, the row says so. */}
+        <div style={mono}>KCSIE 2026 · the newly named risks, and where this scheme teaches them</div>
+        <p style={{ ...body, maxWidth: '640px', margin: '8px 0 12px' }}>
+          Keeping Children Safe in Education 2026 is in force from 1 September 2026. Alongside the four
+          Cs of online risk it now names generative AI, deepfakes, misinformation, disinformation and
+          conspiracy theories. Where those are taught here:
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '28px' }}>
+          {([
+            { risk: 'Generative AI and AI chatbots', note: 'seeded in the early years, taught in full at KS3 and KS5', ns: [3, 9, 12, 20] },
+            { risk: 'Deepfakes and AI generated images', note: 'real and made up from Reception, the full treatment at KS3', ns: [3, 12] },
+            { risk: 'Misinformation and disinformation', note: 'foundations at KS1, taught substantively at KS3, applied to persuasion at KS4', ns: [3, 12, 15] },
+            { risk: 'Conspiracy theories', note: 'how false things spread at KS3, the communities that weaponise them at KS4', ns: [12, 18] },
+          ] as { risk: string; note: string; ns: number[] }[]).map(row => (
+            <p key={row.risk} style={{ ...body, fontSize: 'var(--text-base)' }}>
+              <strong>{row.risk}:</strong>{' '}
+              {row.ns
+                .map(n => CURRICULUM.find(m => m.n === n))
+                .filter(Boolean)
+                .map(m => `M${String(m!.n).padStart(2, '0')} ${m!.title}`)
+                .join(' · ')}
+              <span style={{ color: 'var(--ink-muted)' }}> ({row.note})</span>
+            </p>
+          ))}
+        </div>
+
+        <div style={mono}>Per module statutory hooks (KCSIE and framework anchors)</div>
         <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
           {CURRICULUM.map(m => {
             const db = dbByModule.get(m.moduleId)
