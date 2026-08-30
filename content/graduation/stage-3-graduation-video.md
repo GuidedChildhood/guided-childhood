@@ -1,11 +1,15 @@
 # Stage 3 graduation video: The Stamp Ceremony (Explorer, ages 11 to 13)
 
-The pilot of the five graduation videos. One master video per stage, DiGi only
-on screen; the personalised end card (name, passport code, date, and the Planet
-Friends this child has actually earned via `earnedFriends()`) is rendered live
-by the app over the closing seconds, never baked into the video. Unlocks only
-when every Explorer lesson and the stage quiz are passed, the same gate as the
-certificate page.
+The pilot of the five graduation videos. Cast: DiGi and Orbit (the Stage 3
+Friend), per the system doc: the stage's own Friend appears in the master
+film for everyone, while the personalised end card (name, passport code,
+date, and the Planet Friends this child has actually earned via
+`earnedFriends()`) is rendered live by the app over the closing seconds,
+never baked into the video. Unlocks only when every Explorer lesson and the
+stage quiz are passed, the same gate as the certificate page.
+
+Pilot note: the produced 30 August cut predates Orbit's addition and the red
+pen; blocks regenerate individually from this script once it is approved.
 
 Runtime target: 75 seconds. Tone: proud, warm, a little ceremonial, never
 saccharine. DiGi's voice throughout, no other characters in the video.
@@ -17,8 +21,10 @@ digi world palette, captions burned in, assembler stitch).
 ### Beat 1. The gate (0:00 to 0:08)
 Scene: a tall friendly border gate in the Explorer world colours, early
 morning light, a small desk beside it with a lamp and an enormous stamp.
-DiGi behind the desk, straightening things, expectant.
-VO: "Ah. There you are. I have been expecting this one for a while."
+DiGi behind the desk, straightening things; Orbit orbits the lamp once and
+settles on the desk corner, expectant.
+VO: "Ah. There you are. Orbit and I have been expecting this one for a
+while."
 
 ### Beat 2. The journey montage (0:08 to 0:28)
 Four quick echo scenes, two to three seconds each, of what Stage 3 actually
