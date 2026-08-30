@@ -9212,3 +9212,15 @@ hosts, get intro animation clips first (generated from their existing cutout
 art so the style cannot drift), and the roughly ninety lesson video beats
 wait until real classes have run the lessons. No new character designs, no
 new art style, motion on the art that exists.
+
+## 30 August 2026: Nova and Cosmo clips approved
+
+Justin: "Happy with clips." The two intro clips generated from the
+stage-characters cutout art (PR 928) are approved as they stand, no
+regeneration. Migration 233 (claimed in its draft PR) writes
+character: nova onto the title slide of every KS4 deck (modules 15 to 19)
+and character: cosmo onto KS5 (modules 20 and 21), located by slide type,
+never by index. The Supabase MCP is not attached to this session, so the
+migration ships as a file and needs applying: paste it into the Supabase
+SQL editor, or any session with the MCP runs it as written. Backup table
+schools._backup_lesson_233 follows the RLS pattern from migration 232.

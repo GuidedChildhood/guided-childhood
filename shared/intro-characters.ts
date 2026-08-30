@@ -39,8 +39,8 @@ export const INTRO_CHARACTERS: Record<string, IntroCharacter> = {
   // Nova, steady and calm, hosts the KS4 modules, which carry the heaviest
   // topics in the scheme, so the welcome is level rather than bouncy.
   // Generated 30 August 2026 from the stage-characters cutout art, so the
-  // film cannot drift off model. INERT until a lesson's title slide names
-  // the key: introCharacterFor only serves these on an explicit request.
+  // film cannot drift off model. Approved by Justin the same day; migration
+  // 233 writes the key onto the KS4 and KS5 title slides.
   nova: {
     key: 'nova',
     clip: CDN + 'hf_20260830_005603_cfd531b3-9541-4de5-a5ec-826f8eeea6a1.mp4',
