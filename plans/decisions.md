@@ -9175,3 +9175,40 @@ for digital life... done and on the record"), the passport number, and the
 verify pointer. Never "safe", never "ready". The graduation film slots in
 behind the same gate when its assets are commissioned; the gate ships first
 as the plan ordered.
+
+---
+
+## 2026-08-30 — Four decisions from Justin: the open map, the name, the board, and the clips
+
+Justin, replying to the curriculum plan's decision list: "2 yes. Take advice:
+The Guided Childhood Passport. 4 take advice. 5."
+
+**The open map: yes.** The curriculum map (/curriculum) and the RSHE mapping
+matrix (/hub/rshe-mapping) are public from this commit, no school code. This
+deliberately narrows the 15 August "everything behind the code" decision on
+the White Rose evidence: a free progression is how a scheme becomes the
+standard others align to, and neither page can be taught from. The paid wall
+stays around the lessons, scripts, packs and testing, and a visitor tapping
+from the open map into a module meets /unlock, which points at /pricing.
+That is the funnel, not a leak.
+
+**The name: The Guided Childhood Passport.** Chosen on the advice that the
+brand leads and the dangerous shortening disappears: it abbreviates to "the
+passport" or "the GC Passport", never to "the digital passport" (which is
+both a live US trademark and a UKCIS safeguarding tool). Still conditional
+on the UK IPO clearance search, which has to be run from a normal
+connection. Two consequences recorded for the passport application lane:
+the PassportBook cover in the parents app still reads "Digital Passport"
+and should become "The Guided Childhood Passport", and the child facing
+copy can keep saying just "the passport", which was always the safe form.
+
+**Board, not tablets.** The classroom interactives stay designed for one
+screen and thirty children: teacher taps, class votes with hands and bodies.
+This is now the standing assumption for rolling the Lesson Standard across
+the other twenty modules. Tablets revisit at secondary if ever.
+
+**The clips: proceed as advised.** Nova and Cosmo, the KS4 and KS5 lesson
+hosts, get intro animation clips first (generated from their existing cutout
+art so the style cannot drift), and the roughly ninety lesson video beats
+wait until real classes have run the lessons. No new character designs, no
+new art style, motion on the art that exists.

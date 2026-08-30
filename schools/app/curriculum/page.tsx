@@ -3,10 +3,12 @@ import Link from 'next/link'
 import { CURRICULUM, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 
 // THE CURRICULUM MAP: the whole programme, Reception to Year 13, as
-// character colour coded module cards. Behind the school code (proxy.ts), so
-// only a licensed school sees it, but still anonymous once inside: the
-// coverage rings from the old educator workspace do not exist here because a
-// code is a door, not an identity, and this page has no idea who is looking.
+// character colour coded module cards. PUBLIC since 30 August 2026 (the open
+// map decision): the map is the shop window and the standard others align
+// to, and it cannot be taught from. Tapping into any module meets the school
+// code gate, which is the funnel, not a leak. Still anonymous by design: the
+// coverage rings from the old educator workspace do not exist here because
+// this page has no idea who is looking, and never will.
 
 export const revalidate = 3600
 

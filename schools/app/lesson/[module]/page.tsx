@@ -221,9 +221,9 @@ export default async function LessonHomePage({ params }: { params: Promise<{ mod
           <div style={{ ...card, marginBottom: '16px' }}>
             <h2 style={h2}>What this lesson earns</h2>
             <p style={body}>
-              Many of your families keep the passport at home: the journey to sixteen, filled one
-              stage at a time and finished by DiGi&rsquo;s five question check, which a child cannot
-              fail. This lesson belongs to the <strong style={{ color: 'var(--ink)' }}>{PASSPORT_STAGE[lesson.key_stage]}</strong> page.
+              Many of your families keep the Guided Childhood Passport at home: the journey to
+              sixteen, filled one stage at a time and finished by DiGi&rsquo;s five question check,
+              which a child cannot fail. This lesson belongs to the <strong style={{ color: 'var(--ink)' }}>{PASSPORT_STAGE[lesson.key_stage]}</strong> page.
               Teaching it is credit toward that page: the parent note going home says so, and home
               carries it on with jobs and small wins of their own.
             </p>
