@@ -198,7 +198,9 @@ export default function PhilosophyPage() {
   return (
     <main style={{ background: 'var(--cream)', minHeight: '100vh' }}>
       {/* Header */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 300, height: '64px', padding: '0 clamp(16px, 4vw, 40px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', background: 'rgba(249,248,246,0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid var(--border)' }}>
+      {/* Wraps instead of overlapping at large accessibility text sizes,
+          the same fix as the home header (31 August). */}
+      <header style={{ position: 'sticky', top: 0, zIndex: 300, minHeight: '64px', padding: '8px clamp(16px, 4vw, 40px)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '4px 10px', background: 'rgba(249,248,246,0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid var(--border)' }}>
         <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', textDecoration: 'none', whiteSpace: 'nowrap' }}>
           ⭐ Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
         </Link>

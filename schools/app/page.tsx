@@ -213,14 +213,18 @@ export default function SchoolsPage() {
       <HomeReveals />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* Nav. One row that can never wrap: on a phone the in page links hide
-          (the sections are one thumb scroll away) and the logo shrinks a
-          step, so the bar always holds exactly logo + the pilot button. */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 300, height: '64px', padding: '0 clamp(16px, 4vw, 40px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', background: 'rgba(249,248,246,0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid var(--border)' }}>
+      {/* Nav. On a phone the in page links hide (the sections are one thumb
+          scroll away), and the bar is allowed to WRAP rather than overlap:
+          a fixed 64px height broke on 31 August for readers with larger
+          accessibility text sizes, where the logo and the pilot button
+          collided because neither could shrink. flex wrap plus min height
+          means the button drops to a tidy second row whenever it cannot
+          share the line, at any text size, and nothing ever overlaps. */}
+      <header style={{ position: 'sticky', top: 0, zIndex: 300, minHeight: '64px', padding: '8px clamp(16px, 4vw, 40px)', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '4px 10px', background: 'rgba(249,248,246,0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid var(--border)' }}>
         <Link href="/" className="schools-nav-logo" style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
           ⭐ Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
         </Link>
-        <nav style={{ display: 'flex', gap: '4px', alignItems: 'center', minWidth: 0 }}>
+        <nav style={{ display: 'flex', gap: '4px', alignItems: 'center', minWidth: 0, marginLeft: 'auto' }}>
           <a className="schools-nav-link" href="https://www.guidedchildhood.com" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>For parents</a>
           <Link className="schools-nav-link" href="#journey" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>Curriculum</Link>
           <Link className="schools-nav-link" href="/philosophy" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>Philosophy</Link>
