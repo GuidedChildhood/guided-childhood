@@ -2,7 +2,6 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { CURRICULUM as MODULES, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
 import { INTRO_CHARACTERS } from '@gc/shared/intro-characters'
-import AnimatedIntro from '@gc/shared/components/AnimatedIntro'
 import Reveal from '@/components/Reveal'
 import HomeReveals from '@/components/HomeReveals'
 
@@ -112,6 +111,100 @@ function MapPreview() {
       <Link href="/curriculum" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
         All {MODULES.length} modules on the open map →
       </Link>
+    </div>
+  )
+}
+
+// THE WALL AT SIXTEEN: the hero visual, asked for by Justin on 31 August
+// after two rounds ("the character is covered too much, maybe a small
+// brick wall representing the wall at 16"). It draws the whole pitch in
+// one picture: the ban builds a wall at sixteen, the curriculum is the
+// road that walks a child up to it, and the passport is what opens the
+// door when they arrive. Drawn in SVG and DOM, no stock art, no AI image,
+// so it stays crisp at any size. The five Planet Friends walk the road in
+// age order using the same cutout art the lessons use.
+function WallAtSixteen() {
+  const BRICK = '#C97B54'
+  const MORTAR = '#A85E3D'
+  const rows = 8
+  const wallW = 190
+  const wallH = 250
+  const bh = wallH / rows
+  // The five friends in stage order, youngest at the start of the road.
+  const walkers = [
+    { key: 'pebble' as const, x: 4, y: 76, size: 46 },
+    { key: 'bloop' as const, x: 22, y: 66, size: 50 },
+    { key: 'orbit' as const, x: 40, y: 54, size: 54 },
+    { key: 'nova' as const, x: 57, y: 42, size: 58 },
+    { key: 'cosmo' as const, x: 73, y: 30, size: 62 },
+  ]
+  return (
+    <div style={{ background: '#fff', borderRadius: '24px', padding: 'clamp(18px, 2.5vw, 26px)', boxShadow: '0 2px 4px rgba(46,40,24,0.08), 0 50px 90px -40px rgba(46,40,24,0.6)' }}>
+      <div style={{ position: 'relative', width: '100%', aspectRatio: '10 / 8', background: 'linear-gradient(180deg, #FBF6EA 0%, #F6EDDA 100%)', borderRadius: '18px', overflow: 'hidden' }}>
+
+        {/* The wall, offset brick courses drawn one rectangle at a time */}
+        <svg viewBox={`0 0 ${wallW} ${wallH}`} preserveAspectRatio="none" style={{ position: 'absolute', right: 0, top: 0, height: '100%', width: '38%' }} aria-hidden>
+          <rect x="0" y="0" width={wallW} height={wallH} fill={MORTAR} />
+          {Array.from({ length: rows }).map((_, r) => {
+            const offset = r % 2 === 0 ? 0 : -34
+            return Array.from({ length: 5 }).map((_, c) => (
+              <rect
+                key={`${r}-${c}`}
+                x={offset + c * 68 + 3}
+                y={r * bh + 3}
+                width={62}
+                height={bh - 6}
+                rx={3}
+                fill={BRICK}
+              />
+            ))
+          })}
+          {/* The door: gold, arched, slightly open with warm light inside */}
+          <path d={`M ${wallW * 0.30} ${wallH} L ${wallW * 0.30} ${wallH * 0.52} Q ${wallW * 0.50} ${wallH * 0.36} ${wallW * 0.70} ${wallH * 0.52} L ${wallW * 0.70} ${wallH} Z`} fill="#7A5A0E" />
+          <path d={`M ${wallW * 0.33} ${wallH} L ${wallW * 0.33} ${wallH * 0.54} Q ${wallW * 0.50} ${wallH * 0.40} ${wallW * 0.67} ${wallH * 0.54} L ${wallW * 0.67} ${wallH} Z`} fill="#EDC35F" />
+          <path d={`M ${wallW * 0.36} ${wallH} L ${wallW * 0.36} ${wallH * 0.56} Q ${wallW * 0.50} ${wallH * 0.44} ${wallW * 0.60} ${wallH * 0.55} L ${wallW * 0.60} ${wallH} Z`} fill="#FEF08A" opacity="0.85" />
+          <circle cx={wallW * 0.62} cy={wallH * 0.78} r="4" fill="#7A5A0E" />
+        </svg>
+
+        {/* The 16 sign on the wall */}
+        <div style={{ position: 'absolute', right: '12%', top: '10%', background: '#FDF4D9', border: '2px solid #7A5A0E', borderRadius: '10px', padding: '4px 12px', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.1rem, 2.6vw, 1.6rem)', color: '#7A5A0E', boxShadow: '0 3px 0 rgba(122,90,14,0.35)', transform: 'rotate(3deg)' }}>
+          16
+        </div>
+
+        {/* The rising dashed road, start of the journey to the door */}
+        <svg viewBox="0 0 100 80" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} aria-hidden>
+          <path d="M -2 76 C 25 74, 45 62, 66 44 S 82 30, 88 26" fill="none" stroke="#C99A28" strokeWidth="2.6" strokeDasharray="5 4" strokeLinecap="round" opacity="0.75" />
+        </svg>
+
+        {/* The five friends walking the road in age order */}
+        {walkers.map((wk, i) => {
+          const ch = CHARACTERS[wk.key]
+          return (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={wk.key}
+              src={ch.img}
+              alt={ch.name}
+              style={{
+                position: 'absolute', left: `${wk.x}%`, top: `${wk.y}%`,
+                width: `${wk.size}px`, height: 'auto',
+                filter: 'drop-shadow(0 4px 6px rgba(46,40,24,0.28))',
+                zIndex: 5 + i,
+              }}
+            />
+          )
+        })}
+
+        {/* The passport, waiting at the door */}
+        <div style={{ position: 'absolute', right: '26%', top: '46%', background: '#7C2D3E', border: '2px solid #EDC35F', borderRadius: '7px', padding: '5px 7px 6px', transform: 'rotate(-7deg)', boxShadow: '0 4px 8px rgba(46,40,24,0.3)', zIndex: 20 }}>
+          <div style={{ fontSize: '13px', textAlign: 'center', lineHeight: 1 }}>⭐</div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '6.5px', fontWeight: 700, letterSpacing: '0.1em', color: '#EDC35F', marginTop: '3px' }}>PASSPORT</div>
+        </div>
+      </div>
+
+      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--ink-muted)', textAlign: 'center', margin: '14px 0 0' }}>
+        The ban builds a wall at sixteen. We build the road, and the passport opens the door.
+      </p>
     </div>
   )
 }
@@ -262,18 +355,8 @@ export default function SchoolsPage() {
               Free one term pilot for the first schools. We reply within 48 hours.
             </p>
           </Reveal>
-          {/* The real product, not a mockup: the actual lesson opening with
-              Pebble's clip and the typed script bubble, exactly as a class
-              sees it. The strongest proof on the page that this is a made
-              thing, not a template. */}
           <Reveal delay={0.12} y={34}>
-            <div style={{ background: '#fff', borderRadius: '24px', padding: 'clamp(16px, 2.5vw, 26px)', boxShadow: '0 2px 4px rgba(46,40,24,0.08), 0 50px 90px -40px rgba(46,40,24,0.6)' }}>
-              <AnimatedIntro
-                eyebrow="Module 1 · Reception"
-                title="Screens and kindness, real and not real"
-                character="celebrate"
-              />
-            </div>
+            <WallAtSixteen />
           </Reveal>
         </div>
       </section>
