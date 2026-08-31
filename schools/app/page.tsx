@@ -85,17 +85,20 @@ export default function SchoolsPage() {
   return (
     <div style={{ background: 'var(--cream)', overflowX: 'hidden' }}>
 
-      {/* Nav */}
-      <header style={{ position: 'sticky', top: 0, zIndex: 300, height: '64px', padding: '0 clamp(20px, 4vw, 40px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(249,248,246,0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid var(--border)' }}>
-        <Link href="/" style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', textDecoration: 'none' }}>
+      {/* Nav. One row that can never wrap: on a phone the in page links hide
+          (the sections are one thumb scroll away) and the logo shrinks a
+          step, so the bar always holds exactly logo + the pilot button.
+          Fixes the 30 August mobile bug where "Schools" escaped the bar. */}
+      <header style={{ position: 'sticky', top: 0, zIndex: 300, height: '64px', padding: '0 clamp(16px, 4vw, 40px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', background: 'rgba(249,248,246,0.82)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)', borderBottom: '1px solid var(--border)' }}>
+        <Link href="/" className="schools-nav-logo" style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', letterSpacing: '-0.02em', textDecoration: 'none', whiteSpace: 'nowrap', flexShrink: 0 }}>
           ⭐ Guided Childhood <span style={{ color: 'var(--terracotta-dark)' }}>Schools</span>
         </Link>
-        <nav style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-          <a href="https://www.guidedchildhood.com" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>For parents</a>
-          <Link href="#curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Curriculum</Link>
-          <Link href="#pricing" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Pricing</Link>
-          <Link href="/curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none' }}>Open the catalogue</Link>
-          <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '10px 22px', fontSize: 'var(--text-sm)', marginLeft: '6px' }}>
+        <nav style={{ display: 'flex', gap: '4px', alignItems: 'center', minWidth: 0 }}>
+          <a className="schools-nav-link" href="https://www.guidedchildhood.com" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>For parents</a>
+          <Link className="schools-nav-link" href="#curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>Curriculum</Link>
+          <Link className="schools-nav-link" href="#pricing" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>Pricing</Link>
+          <Link className="schools-nav-link" href="/curriculum" style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-soft)', padding: '8px 14px', textDecoration: 'none', whiteSpace: 'nowrap' }}>Open the catalogue</Link>
+          <a href={MAILCHIMP_ENQUIRY} target="_blank" rel="noopener noreferrer" className="btn btn-gold" style={{ padding: '10px 22px', fontSize: 'var(--text-sm)', marginLeft: '6px', whiteSpace: 'nowrap', flexShrink: 0 }}>
             Request a pilot
           </a>
         </nav>
@@ -408,11 +411,18 @@ export default function SchoolsPage() {
         </div>
       </footer>
 
-      {/* Responsive: stack the two column grids on small screens */}
+      {/* Responsive: stack the two column grids on small screens, and
+          collapse the header to logo + pilot button so it never wraps. */}
       <style>{`
         @media (max-width: 860px) {
           .schools-hero-grid { grid-template-columns: 1fr !important; }
           .schools-curric-row { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 960px) {
+          .schools-nav-link { display: none; }
+        }
+        @media (max-width: 420px) {
+          .schools-nav-logo { font-size: var(--text-base) !important; }
         }
       `}</style>
     </div>
