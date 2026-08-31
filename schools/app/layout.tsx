@@ -28,10 +28,11 @@ export const metadata: Metadata = {
   description:
     'A complete digital literacy scheme of work for UK schools, Reception to Year 13, built on the Education for a Connected World framework and the 2025 RSHE guidance. Twenty one modules, zero prep, one licence for the whole school.',
   // Launched 14 August 2026 on schools.guidedchildhood.com: indexable. The
-  // open surface is home, pricing, the curriculum map and the RSHE mapping
-  // matrix (the open map decision, 30 August 2026), and all four are pages
-  // we want indexed; everything else redirects to /unlock, which sets
-  // noindex on itself, so crawlers never reach the gated content.
+  // open surface is home, pricing, the curriculum map, the RSHE mapping
+  // matrix and the philosophy page (the open map decision, 30 August 2026,
+  // extended 31 August), all pages we want indexed; everything else
+  // redirects to /unlock, which sets noindex on itself, so crawlers never
+  // reach the gated content. app/sitemap.ts lists the same open set.
   robots: { index: true, follow: true },
 }
 

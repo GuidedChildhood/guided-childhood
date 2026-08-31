@@ -54,7 +54,10 @@ function secret(): string {
  *  testing. A visitor who reads the map and taps into a lesson meets
  *  /unlock, and /unlock points at /pricing, which is the funnel working as
  *  designed rather than a leak. */
-export const OPEN_PATHS = ['/', '/pricing', '/unlock', '/curriculum', '/hub/rshe-mapping']
+/** /philosophy joined the open list on 31 August 2026: the evidence spine
+ *  is the sales argument, and it cites public sources, so it sells best in
+ *  the open. Still nothing teachable outside the code. */
+export const OPEN_PATHS = ['/', '/pricing', '/unlock', '/curriculum', '/hub/rshe-mapping', '/philosophy']
 
 export function isOpenPath(pathname: string): boolean {
   if (OPEN_PATHS.includes(pathname)) return true
