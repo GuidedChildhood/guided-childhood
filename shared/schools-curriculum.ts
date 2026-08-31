@@ -88,6 +88,27 @@ export const KEY_STAGE_META: Record<KeyStage, { label: string; years: string; st
   KS5: { label: 'KS5', years: 'Years 12 and 13', strapline: 'AI mastery, data rights and the working life ahead.' },
 }
 
+// WHY each stage's content lands at that age, one line per stage, written
+// once here so the marketing page and the curriculum map can never drift
+// apart (the White Rose habit: the map explains its own order). The KS3
+// line leans on the Cambridge windows finding and stays inside what it
+// shows: timing, never causation.
+export const KEY_STAGE_WHY: Record<KeyStage, string> = {
+  EYFS: 'Screens shared with a grown up, and the first seed of real versus made. The very first lesson also teaches the adult move that matters most: stay calm, stay curious, so telling a grown up always feels safe.',
+  KS1: 'Feelings and screens, kindness, and the first spotting skills. Children learn to name how screen time makes their body feel, and that a picture can be made up.',
+  KS2: 'The habits years, before the first phone. Routines that hold, what games want, and how the feed decides, taught with a paper algorithm before any child meets a real one.',
+  KS3: 'The detective years, timed on purpose. Cambridge research points to windows of sensitivity in early adolescence, so this is where feeds, fakes, scams and honest self checks land: before the pressure peaks, not after.',
+  KS4: 'The serious cases, named plainly and taught calmly: persuasion, consent and the law, sextortion, radicalisation. The crown module prepares full access in the ban world, because the ban removes the apps, it does not build the judgement.',
+  KS5: 'Past the gate. AI used well and checked properly, data rights, and the working life ahead: the module a sixth former actually needs before the first CV.',
+}
+
+// The ten behaviours that spiral through every stage, deeper each time.
+// Naming them is what turns a list of topics into a progression.
+export const SPIRAL_BEHAVIOURS = [
+  'Privacy', 'Verification', 'Persuasion resistance', 'AI judgement',
+  'Help seeking', 'Footprint', 'Balance', 'Money', 'Identity', 'Kindness',
+] as const
+
 export const CURRICULUM: CurriculumModule[] = [
   {
     n: 1, moduleId: 'eyfs-01-screens-kindness', keyStage: 'EYFS', yearBand: 'Reception',
