@@ -83,51 +83,35 @@ const FAQS = [
   },
 ]
 
-// A miniature of the real product, framed in browser chrome, so a head can
-// SEE the curriculum map before they ever ask for a code. Built from the
-// same character manifest the live product renders from.
-function ProductMockup() {
+// A clean taste of the real map for the second section: six real modules,
+// no fake browser chrome and no invented progress bars. The old hero
+// mockup faked 3/3 tracking, which looked like a feature we deliberately
+// do not have (no pupil data, ever) and read as a broken screenshot on a
+// phone. Justin killed it on 31 August; the hero now shows the real
+// lesson opening instead, and this preview stays honest.
+function MapPreview() {
   const showcase = MODULES.slice(0, 6)
   return (
-    <div style={{
-      background: '#fff', borderRadius: '18px', overflow: 'hidden',
-      boxShadow: '0 2px 4px rgba(46,40,24,0.08), 0 50px 90px -40px rgba(46,40,24,0.6)',
-      border: '1px solid rgba(255,255,255,0.12)',
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '7px', padding: '11px 14px', background: '#F1EFEA', borderBottom: '1px solid var(--border)' }}>
-        <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#E06C5A' }} />
-        <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#E9B949' }} />
-        <span style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#7BB662' }} />
-        <span style={{ marginLeft: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)', background: '#fff', borderRadius: '6px', padding: '3px 12px', flex: 1, maxWidth: '260px' }}>
-          schools.guidedchildhood.com/curriculum
-        </span>
-      </div>
-      <div style={{ padding: '18px', background: 'var(--cream)' }}>
-        <div style={{ ...eyebrow('var(--green-dark)'), fontSize: 'var(--text-sm)', marginBottom: '3px' }}>The whole programme · Reception to Year 13</div>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', letterSpacing: '-0.01em', marginBottom: '12px' }}>The curriculum map</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-          {showcase.map((m, i) => {
-            const ch = CHARACTERS[m.character]
-            return (
-              <div key={m.moduleId} style={{ background: '#fff', border: `1.5px solid ${ch.accent}`, borderRadius: '11px', overflow: 'hidden' }}>
-                <div style={{ background: ch.soft, padding: '5px 7px', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                  <span style={{ width: '15px', height: '15px', borderRadius: '50%', background: '#fff', border: `1.5px solid ${ch.accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-sm)' }}>{ch.emblem}</span>
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>M{String(m.n).padStart(2, '0')}</span>
-                </div>
-                <div style={{ padding: '6px 7px 8px' }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.25, marginBottom: '5px', minHeight: '20px' }}>{m.title}</div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <span style={{ height: '4px', flex: 1, borderRadius: '4px', background: 'var(--border)', overflow: 'hidden' }}>
-                      <span style={{ display: 'block', height: '100%', width: i === 0 ? '100%' : i === 1 ? '66%' : i === 2 ? '33%' : '0%', background: ch.accent }} />
-                    </span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>{i === 0 ? '3/3' : i === 1 ? '2/3' : i === 2 ? '1/3' : '0/3'}</span>
-                  </div>
-                </div>
+    <div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '10px', marginBottom: '14px' }}>
+        {showcase.map(m => {
+          const ch = CHARACTERS[m.character]
+          return (
+            <div key={m.moduleId} style={{ background: '#fff', border: `1.5px solid ${ch.accent}`, borderRadius: '14px', overflow: 'hidden' }}>
+              <div style={{ background: ch.soft, padding: '6px 10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ fontSize: 'var(--text-sm)' }}>{ch.emblem}</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: ch.ink, marginLeft: 'auto' }}>M{String(m.n).padStart(2, '0')}</span>
               </div>
-            )
-          })}
-        </div>
+              <div style={{ padding: '9px 10px 11px' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.3 }}>{m.title}</div>
+              </div>
+            </div>
+          )
+        })}
       </div>
+      <Link href="/curriculum" style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--terracotta-dark)', textDecoration: 'none' }}>
+        All {MODULES.length} modules on the open map →
+      </Link>
     </div>
   )
 }
@@ -274,8 +258,18 @@ export default function SchoolsPage() {
               Free one term pilot for the first schools. We reply within 48 hours.
             </p>
           </Reveal>
+          {/* The real product, not a mockup: the actual lesson opening with
+              Pebble's clip and the typed script bubble, exactly as a class
+              sees it. The strongest proof on the page that this is a made
+              thing, not a template. */}
           <Reveal delay={0.12} y={34}>
-            <ProductMockup />
+            <div style={{ background: '#fff', borderRadius: '24px', padding: 'clamp(16px, 2.5vw, 26px)', boxShadow: '0 2px 4px rgba(46,40,24,0.08), 0 50px 90px -40px rgba(46,40,24,0.6)' }}>
+              <AnimatedIntro
+                eyebrow="Module 1 · Reception"
+                title="Screens and kindness, real and not real"
+                character="celebrate"
+              />
+            </div>
           </Reveal>
         </div>
       </section>
@@ -317,12 +311,8 @@ export default function SchoolsPage() {
               Under the slides sits a word for word script, the misconceptions to expect, the differentiation both ways, and a run sheet that walks any teacher through the whole lesson, no specialist knowledge needed.
             </p>
           </div>
-          <div className="fu" style={{ background: '#fff', border: '1px solid var(--border)', borderRadius: '24px', padding: 'clamp(18px, 3vw, 30px)', boxShadow: softShadow }}>
-            <AnimatedIntro
-              eyebrow="Module 1 · Reception"
-              title="Screens and kindness, real and not real"
-              character="celebrate"
-            />
+          <div className="fu">
+            <MapPreview />
           </div>
         </div>
       </section>
