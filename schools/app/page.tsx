@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { CURRICULUM as MODULES, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER } from '@gc/shared/schools-curriculum'
+import { CURRICULUM as MODULES, CHARACTERS, KEY_STAGE_META, KEY_STAGE_ORDER, KEY_STAGE_WHY } from '@gc/shared/schools-curriculum'
 import { INTRO_CHARACTERS } from '@gc/shared/intro-characters'
 import Reveal from '@/components/Reveal'
 import HomeReveals from '@/components/HomeReveals'
@@ -222,17 +222,9 @@ const SQUAD: { key: keyof typeof CHARACTERS; clip?: string; line: string }[] = [
   { key: 'cosmo', clip: INTRO_CHARACTERS.cosmo.clip, line: 'Street smart: scams, workarounds, AI and the road to work.' },
 ]
 
-// The one line a head needs per stage: what the years cover and why the
-// content belongs at that age. The KS3 line leans on the Cambridge windows
-// finding and stays inside what it shows: timing, never causation.
-const STAGE_WHY: Record<string, string> = {
-  EYFS: 'Screens shared with a grown up, and the first seed of real versus made. The very first lesson also teaches the adult move that matters most: stay calm, stay curious, so telling a grown up always feels safe.',
-  KS1: 'Feelings and screens, kindness, and the first spotting skills. Children learn to name how screen time makes their body feel, and that a picture can be made up.',
-  KS2: 'The habits years, before the first phone. Routines that hold, what games want, and how the feed decides, taught with a paper algorithm before any child meets a real one.',
-  KS3: 'The detective years, timed on purpose. Cambridge research points to windows of sensitivity in early adolescence, so this is where feeds, fakes, scams and honest self checks land: before the pressure peaks, not after.',
-  KS4: 'The serious cases, named plainly and taught calmly: persuasion, consent and the law, sextortion, radicalisation. The crown module prepares full access in the ban world, because the ban removes the apps, it does not build the judgement.',
-  KS5: 'Past the gate. AI used well and checked properly, data rights, and the working life ahead: the module a sixth former actually needs before the first CV.',
-}
+// The one line a head needs per stage now lives in the shared manifest
+// (KEY_STAGE_WHY) so this page and the curriculum map can never disagree.
+const STAGE_WHY = KEY_STAGE_WHY
 
 // The evidence spine, four rows, only verified claims. The deep version
 // with sources lives on /philosophy; this is the shop window of it.
