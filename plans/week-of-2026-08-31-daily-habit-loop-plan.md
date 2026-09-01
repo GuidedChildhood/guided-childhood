@@ -145,3 +145,22 @@ complete flow, readers). PR C: steps 6 and 7 (DiGi declutter, passport
 day). PR D: steps 8 and 9 (learning loop, polish). Small PRs, merged same
 day where possible, per the house sync rules. Migrations 237 and 238 are
 claimed by this plan.
+
+## BUILT, 1 September 2026, all nine steps in one evening
+
+PR A merged as 941 (rotation on completed days, the one main tick with the
+also today seam, the lesson rung, rankScripts and the top five shelf,
+migration 237). PR B merged as 942 (the four beat day close with balance,
+quests and see you tomorrow; the TakeoverReader shell with the script
+reader as first user). PR C merged as 943 (DiGi's sized welcome and two
+chip trim; passport day landing on #passport; plus a fifth flake mode
+hardening in the checkin guard that CI itself surfaced). PR D carries
+steps 8 and 9: migration 238's surface_events stream, written by the
+scripts shelf (shown), the script reader (opened), the moment and lesson
+completions and the day close (completed), and read back by the
+recommender, which now demotes a pick shown three days and never opened so
+the shelf turns. Every step verified as it shipped: tsc, wiring, the
+checkin guard against a live server, the recommender rotation check, and
+Playwright walks of the path, the close flow and the reader at phone and
+desktop widths. The live end to end walkthrough belongs to the weekly UX
+walkthrough routine, which judges the deployed product every week.

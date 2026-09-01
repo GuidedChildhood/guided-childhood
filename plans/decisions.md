@@ -9625,3 +9625,20 @@ Justin's Duolingo brief. Decisions in the first build slice:
   said once. The flag link stays.
 - Passport day's link lands on #passport so the weekly check opens on the
   stamps, not the top of a long page.
+
+## 1 September 2026: the habit loop, part four (the learning stream)
+
+- surface_events (migration 238) is the loop's memory: shown, opened, read,
+  completed, per child per London day, one thin uniform stream. Our tables,
+  our rules, no third party analytics; every event feeds a decision the
+  product makes for this family.
+- One shown per pick per day, enforced by a unique index over
+  coalesce(child_id), so impressions are facts about days, not visits.
+- The first read ships with the write: the recommender demotes a script
+  shown on three separate days and never opened (a smaller demotion than
+  opened and abandoned), so the top five turns toward fresh choices instead
+  of repeating an ignored one. Failing soft everywhere: a database without
+  the table simply learns nothing yet.
+- Writers: the scripts shelf (shown), the script reader (opened), moment
+  and lesson completions and the day close (completed). Best effort by
+  design; the page always wins over the ledger.

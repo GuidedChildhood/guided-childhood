@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { recordSurfaceEvents } from '@/lib/events/record'
 
 // The pass mark for the end of lesson check: at least 70 percent of the
 // choice questions right. A lesson with no choice slides passes on finishing.
@@ -107,6 +108,9 @@ export async function POST(req: NextRequest) {
         .insert({ user_id: user.id, lesson_id, who: 'parent', child_id: forChild })
     } catch { /* already recorded, or pre migration 162 */ }
   }
+
+  // The learning stream (migration 238), best effort beside the real ledger.
+  await recordSurfaceEvents(supabase, user.id, [{ surface: 'lesson', item: `${lesson_source}:${lesson_id}`, event: 'completed', childId: forChild }])
 
   return NextResponse.json({ ok: true, passed })
 }

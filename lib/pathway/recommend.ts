@@ -66,6 +66,8 @@ type ScriptSignals = {
   scoreOf: (category: string | null) => number
   opened: Set<number>
   returned: Set<number>
+  /** Shown on the shelf three separate days, never opened. See recommend-pick.ts. */
+  tired: Set<number>
   challengeCategory: string | null
 }
 
@@ -115,7 +117,18 @@ async function gatherSignals(
     .eq('parent_id', userId)
   if (childOr) checksQ = checksQ.or(childOr)
 
-  const [{ data: scripts }, { data: completions }, { data: concerns }, { data: devices }, { data: checks }] = await Promise.all([
+  // What the shelf has been showing (surface_events, migration 238). Failing
+  // soft to an empty list on a database the migration has not reached, the
+  // same reasoning as the only_on_signal guard below.
+  let shownQ = supabase
+    .from('surface_events')
+    .select('item, day')
+    .eq('user_id', userId)
+    .eq('surface', 'script')
+    .eq('event', 'shown')
+  if (childOr) shownQ = shownQ.or(childOr)
+
+  const [{ data: scripts }, { data: completions }, { data: concerns }, { data: devices }, { data: checks }, { data: shownRows }] = await Promise.all([
     supabase
       .from('scripts')
       .select('sort_order, title, situation, category, is_free')
@@ -135,6 +148,9 @@ async function gatherSignals(
     checksQ
       .order('week_start', { ascending: false })
       .limit(12),
+    shownQ
+      .order('day', { ascending: false })
+      .limit(400),
   ])
 
   if (!scripts || scripts.length === 0) return null
@@ -197,6 +213,23 @@ async function gatherSignals(
   const pool = scripts.filter(s => !resolved.has(s.sort_order))
   if (pool.length === 0) return null
 
+  // Shown for three separate days and never once opened: the family has seen
+  // the card and walked past it, and the shelf should turn rather than
+  // repeat itself. Distinct DAYS, not renders, because the write side
+  // records at most one shown per pick per day.
+  const shownDays = new Map<number, Set<string>>()
+  for (const e of (shownRows ?? []) as { item: string; day: string }[]) {
+    const so = Number(e.item)
+    if (!Number.isFinite(so)) continue
+    const held = shownDays.get(so) ?? new Set<string>()
+    held.add(e.day)
+    shownDays.set(so, held)
+  }
+  const tired = new Set<number>()
+  for (const [so, days] of shownDays) {
+    if (days.size >= 3 && !opened.has(so)) tired.add(so)
+  }
+
   // Category to best reason, built once. Where two concerns point at the same
   // category the stronger one wins, so the reason a parent reads is the one
   // they would have given themselves.
@@ -258,7 +291,7 @@ async function gatherSignals(
   // there was nothing honest left to recommend anyway.
   if (eligible.length === 0) return null
 
-  return { eligible, byCategory, scoreOf, opened, returned, challengeCategory }
+  return { eligible, byCategory, scoreOf, opened, returned, tired, challengeCategory }
 }
 
 export async function getRecommendedScript(
@@ -270,7 +303,7 @@ export async function getRecommendedScript(
 ): Promise<RecommendedScript | null> {
   const sig = await gatherSignals(supabase, userId, stageId, challenge, opts?.childId ?? null)
   if (!sig) return null
-  const { eligible, byCategory, scoreOf, opened, returned, challengeCategory } = sig
+  const { eligible, byCategory, scoreOf, opened, returned, tired, challengeCategory } = sig
 
   const freeOnly = opts?.preferFree ? eligible.filter(s => s.is_free) : []
   // Restricted to free scripts when the parent cannot open a paid one, and
@@ -278,8 +311,8 @@ export async function getRecommendedScript(
   // all, which is a content gap rather than something to solve here.
   const searchable = opts?.preferFree && freeOnly.length > 0 ? freeOnly : eligible
 
-  const chosen = chooseScript(searchable, { scoreOfCategory: scoreOf, opened, returned, dayIndex: dayIndex() })
-  const best = scoreScript(chosen, { scoreOfCategory: scoreOf, opened, returned })
+  const chosen = chooseScript(searchable, { scoreOfCategory: scoreOf, opened, returned, tired, dayIndex: dayIndex() })
+  const best = scoreScript(chosen, { scoreOfCategory: scoreOf, opened, returned, tired })
 
   const signal = chosen.category ? byCategory.get(chosen.category) : undefined
   const carried = best > 0 && !!signal
@@ -326,9 +359,9 @@ export async function getTopScripts(
 ): Promise<RecommendedScript[]> {
   const sig = await gatherSignals(supabase, userId, stageId, challenge, opts?.childId ?? null)
   if (!sig) return []
-  const { eligible, byCategory, scoreOf, opened, returned, challengeCategory } = sig
+  const { eligible, byCategory, scoreOf, opened, returned, tired, challengeCategory } = sig
 
-  const scoring = { scoreOfCategory: scoreOf, opened, returned }
+  const scoring = { scoreOfCategory: scoreOf, opened, returned, tired }
   const ranked = rankScripts(eligible, { ...scoring, dayIndex: dayIndex() }, opts?.limit ?? 5)
 
   return ranked.map(s => {

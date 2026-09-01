@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { recordSurfaceEvents } from '@/lib/events/record'
 
 // A parent opening a moment card and reading it counts as doing today's moment,
 // so the daily pathway ticks the Moment step from the library too, not only
@@ -48,5 +49,9 @@ export async function POST(request: Request) {
   }
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // The learning stream (migration 238), best effort beside the real ledger.
+  await recordSurfaceEvents(supabase, user.id, [{ surface: 'moment', item: momentId, event: 'completed', childId: forChild }])
+
   return NextResponse.json({ ok: true })
 }

@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server'
 import { londonToday } from '@/lib/pathway/today'
 import { dayFocusFor, focusLine, type DayFocus } from '@/lib/pathway/day-focus'
 import { recommendedDailyMinutes, bandLabelFor } from '@/lib/quests/screen-balance'
+import { recordSurfaceEvents } from '@/lib/events/record'
 
 // The day's ONE tick landed, however it landed.
 //
@@ -71,6 +72,7 @@ export async function POST(req: Request) {
     if (Object.keys(patch).length > 0) {
       await supabase.from('daily_sessions').update(patch).eq('id', row.id)
     }
+    await recordSurfaceEvents(supabase, user.id, [{ surface: 'path', item: focus ?? 'connect', event: 'completed', childId }])
     return NextResponse.json(await closeFacts(supabase, user.id, childId, ageBand, childName, today))
   }
 
@@ -92,6 +94,7 @@ export async function POST(req: Request) {
       { onConflict: 'user_id,session_date' },
     )
   }
+  await recordSurfaceEvents(supabase, user.id, [{ surface: 'path', item: focus ?? 'connect', event: 'completed', childId }])
   return NextResponse.json(await closeFacts(supabase, user.id, childId, ageBand, childName, today))
 }
 
