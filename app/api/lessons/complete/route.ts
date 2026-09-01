@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { recordSurfaceEvents } from '@/lib/events/record'
+import { sanitizeAnswers, recordQuestionAnswers } from '@/lib/lessons/answers'
 
 // The pass mark for the end of lesson check: at least 70 percent of the
 // choice questions right. A lesson with no choice slides passes on finishing.
 const PASS_MARK = 0.7
 
 export async function POST(req: NextRequest) {
-  const { lesson_id, lesson_source, correct, total, child_id } = await req.json()
+  const { lesson_id, lesson_source, correct, total, child_id, answers } = await req.json()
   if (!lesson_id || !['lesson', 'ai_lesson', 'school_lesson'].includes(lesson_source)) {
     return NextResponse.json({ error: 'missing or invalid lesson_id / lesson_source' }, { status: 400 })
   }
@@ -111,6 +112,14 @@ export async function POST(req: NextRequest) {
 
   // The learning stream (migration 238), best effort beside the real ledger.
   await recordSurfaceEvents(supabase, user.id, [{ surface: 'lesson', item: `${lesson_source}:${lesson_id}`, event: 'completed', childId: forChild }])
+
+  // Every question answered, kept (migration 239), so the stage check can
+  // put this child's missed ones first. Best effort, same doctrine.
+  await recordQuestionAnswers(
+    supabase,
+    { userId: user.id, childId: forChild, source: lesson_source, lessonId: lesson_id },
+    sanitizeAnswers(answers),
+  )
 
   return NextResponse.json({ ok: true, passed })
 }

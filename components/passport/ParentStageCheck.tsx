@@ -46,9 +46,12 @@ export default function ParentStageCheck({
   pool: StageQuizQuestion[]
   backHref: string
 }) {
-  // One sampled, shuffled run per mount: a replay differs, same as the child's.
+  // The pool arrives ORDERED from the server (migration 239): this child's
+  // missed questions first, then unmet, then held, shuffled within each
+  // group per load. The run is the FRONT of the pool so the wobbly ones
+  // come round first; only the answer positions shuffle here.
   const run = useMemo(() =>
-    shuffle(pool).slice(0, STAGE_QUIZ_LENGTH).map(q => {
+    pool.slice(0, STAGE_QUIZ_LENGTH).map(q => {
       const order = shuffle(q.options.map((_, i) => i))
       return { ...q, order }
     }), [pool])
@@ -58,6 +61,8 @@ export default function ParentStageCheck({
   const [correct, setCorrect] = useState(0)
   const [finished, setFinished] = useState<{ passed: boolean; score: number } | null>(null)
   const [saving, setSaving] = useState(false)
+  // Question by question, for the answer store (migration 239).
+  const [answers, setAnswers] = useState<{ question: string; chosen: string; correct: boolean }[]>([])
 
   const q = run[at]
   const total = Math.min(STAGE_QUIZ_LENGTH, run.length)
@@ -74,7 +79,7 @@ export default function ParentStageCheck({
       await fetch('/api/pathway/stage-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ childId, stageId, correct: finalCorrect }),
+        body: JSON.stringify({ childId, stageId, correct: finalCorrect, answers }),
       })
     } catch { /* the score still shows even if saving fails */ }
     setSaving(false)
@@ -134,6 +139,7 @@ export default function ParentStageCheck({
               onClick={() => {
                 setPicked(optionIndex)
                 if (isRight) setCorrect(c => c + 1)
+                setAnswers(a => [...a, { question: q.q, chosen: q.options[optionIndex], correct: isRight }])
               }}
               style={{
                 textAlign: 'left', cursor: revealed ? 'default' : 'pointer',

@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { pickChild } from '@/lib/children/select'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { stageQuizPool } from '@/lib/pathway/stage-quiz-gather'
+import { fetchAnswerFacts, orderPoolByHistory } from '@/lib/lessons/answers'
 import { READINESS } from '@/lib/content/readiness'
 import BackTo from '@/components/nav/BackTo'
 import ParentStageCheck from '@/components/passport/ParentStageCheck'
@@ -42,7 +43,12 @@ export default async function ParentCheckPage({
     ? STAGES.find(st => st.id === asked) ?? ownStage
     : ownStage
 
+  // Ordered by this child's own history (migration 239): missed questions
+  // first, never met next, already held last. The component runs the front
+  // of the pool, so the wobbly ones come round first.
   const { questions } = await stageQuizPool(supabase, stage.id)
+  const facts = await fetchAnswerFacts(supabase, user.id, child.id)
+  const ordered = orderPoolByHistory(questions, facts)
   const stampName = READINESS[Math.min(4, Math.max(0, stage.id - 1))].stamp
   const kidName = child.name && child.name !== 'Your child' ? child.name : 'your child'
   const backHref = withChild('/dashboard/pathway#passport', childParam)
@@ -64,7 +70,7 @@ export default async function ParentCheckPage({
         stageId={stage.id}
         stageName={stage.name}
         stampName={stampName}
-        pool={questions}
+        pool={ordered}
         backHref={backHref}
       />
     </div>

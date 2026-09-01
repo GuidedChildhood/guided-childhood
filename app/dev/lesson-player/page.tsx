@@ -11,6 +11,12 @@ export const dynamic = 'force-dynamic'
 
 const SLIDES: LessonSlide[] = [
   {
+    type: 'title', phase: 'connect', minutes: 1,
+    eyebrow: 'Explorer stage', title: 'How the feed decides what you see',
+    character: 'football',
+    body: 'A five minute look inside the machine.',
+  },
+  {
     type: 'concept', phase: 'teach', minutes: 2, emoji: '🧲',
     heading: 'The feed is built to hold you',
     body: 'Every scroll is a guess about what keeps you watching one more minute. The app is not being kind when it shows you exactly what you love. It is doing its job, and its job is your attention.',

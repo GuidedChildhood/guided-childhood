@@ -293,7 +293,12 @@ export default function LessonsBrowser({
                       {w.done && (
                         <span style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: '#1F7A54', letterSpacing: '0.06em', textTransform: 'uppercase', background: '#D4EDDF', borderRadius: '100px', padding: '2px 8px' }}>✓ Done</span>
                       )}
-                      <span style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', width: 46, height: 46, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 10px rgba(0,0,0,0.15)' }}>
+                      {/* Play chip in the corner, not dead centre: the posters
+                          are character art, and a white circle centred on the
+                          frame lands on the character's face (the blocked out
+                          by text report, 1 September 2026). Corner chips leave
+                          the character clear, same as the duration pill. */}
+                      <span style={{ position: 'absolute', bottom: '8px', right: '10px', width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,255,255,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 3px 10px rgba(0,0,0,0.15)' }}>
                         <span style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', marginLeft: '3px' }}>▶</span>
                       </span>
                       <span style={{ position: 'absolute', bottom: '10px', left: '12px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em', textTransform: 'uppercase', background: 'rgba(255,255,255,0.75)', borderRadius: '100px', padding: '2px 8px' }}>

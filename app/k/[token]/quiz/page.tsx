@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, STAGES, type AgeBand } from '@/lib/content/stages'
 import { stageQuizPool } from '@/lib/pathway/stage-quiz-gather'
+import { fetchAnswerFacts, orderPoolByHistory } from '@/lib/lessons/answers'
 import { READINESS } from '@/lib/content/readiness'
 import KidStageQuiz from '@/components/kid/KidStageQuiz'
 import { resolveTheme } from '@/lib/kid/theme'
@@ -51,8 +52,13 @@ export default async function KidStageQuizPage({ params, searchParams }: {
     ? STAGES.find(st => st.id === asked) ?? ownStage
     : ownStage
 
-  // The questions this stage's own lessons already asked.
+  // The questions this stage's own lessons already asked, ordered by this
+  // child's own history (migration 239): missed first, never met next,
+  // already held last. The component runs the front of the pool, so the
+  // check is retrieval practice by design rather than luck.
   const { questions } = await stageQuizPool(supabase, stage.id)
+  const facts = await fetchAnswerFacts(supabase, link.user_id, link.child_id)
+  const ordered = orderPoolByHistory(questions, facts)
 
   // Already stamped? Read it the same way the pathway page does, so the child
   // is told rather than quietly given the quiz again. Fails soft to not passed
@@ -80,7 +86,7 @@ export default async function KidStageQuizPage({ params, searchParams }: {
       stageName={stage.name}
       stampName={stampName}
       childName={child?.name ?? 'you'}
-      pool={questions}
+      pool={ordered}
       alreadyPassed={alreadyPassed}
       lessonsHref={`/k/${token}/lessons`}
     />

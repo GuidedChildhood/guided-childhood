@@ -9642,3 +9642,26 @@ Justin's Duolingo brief. Decisions in the first build slice:
 - Writers: the scripts shelf (shown), the script reader (opened), moment
   and lesson completions and the day close (completed). Best effort by
   design; the page always wins over the ledger.
+
+## 1 September 2026: lesson excellence, parts one and two
+
+- Justin: characters seemed to be blocked out with text; lessons must match
+  school lessons in a slightly reduced form; every question stored and fed
+  into the stage final for the passport pass. Full plan in
+  plans/week-of-2026-08-31-lesson-excellence-plan.md.
+- The lesson intro's speech bubble never sits over the character again: it
+  moved above the frame with a tail pointing down, the Duolingo register
+  from the Mobbin references. The mascot is never covered, anywhere: browse
+  tiles reserve the corner their art lives in, the passport stamp lost the
+  label that sat on the Friend's feet, the watch tile play chip moved off
+  the face, the player header label gives way before it crowds DiGi.
+- lesson_question_answers (migration 239) keeps every question answered,
+  from the lesson player in both apps and from both stage check surfaces.
+  Append only, question stored as text (questions live in slides JSONB and
+  carry no ids; text matching is how the pool already dedupes).
+- The stage check is now retrieval practice by design: the server orders
+  the pool missed first, never met next, already held last, and the run is
+  the front of the pool. Pass rules untouched (4 of 5, never downgraded).
+- Question depth and the full school arc (keywords, scenario, third
+  question, recap, tryit) land per stage in migrations 240 to 244, claimed
+  by PR 945.

@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
-import { sampleFromPool, STAGE_QUIZ_PASS, STAGE_QUIZ_LENGTH, type StageQuizQuestion } from '@/lib/content/stage-quizzes'
+import { STAGE_QUIZ_PASS, STAGE_QUIZ_LENGTH, type StageQuizQuestion } from '@/lib/content/stage-quizzes'
 import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 
 // The big check at the end of a stage, on the child's side, in whatever colour
@@ -48,11 +48,14 @@ export default function KidStageQuiz({
   // back to slate grey. Optional, and the fallback is that same slate grey.
   theme?: KidTheme
 }) {
-  // A fresh seed each mount, so coming back gives a fresh five and a fresh
-  // answer order. Client only, so Date is fine here.
+  // The pool arrives ORDERED from the server (migration 239): this child's
+  // missed questions first, then ones never met, then the rest, shuffled
+  // within each group per load. So the run is the FRONT of the pool, which
+  // makes the check retrieval practice by design: the wobbly ones come round
+  // first. The seed still shuffles answer positions so there is no pattern.
   const [seed] = useState(() => Math.floor(Date.now() % 2147483647) || 1)
   const questions = useMemo<Shuffled[]>(
-    () => sampleFromPool(pool, seed).map((item, i) => shuffleOptions(item, seed + i * 101)),
+    () => pool.slice(0, STAGE_QUIZ_LENGTH).map((item, i) => shuffleOptions(item, seed + i * 101)),
     [pool, seed],
   )
 
@@ -62,6 +65,9 @@ export default function KidStageQuiz({
   const [correct, setCorrect] = useState(0)
   const [finished, setFinished] = useState<{ passed: boolean; score: number } | null>(null)
   const [saving, setSaving] = useState(false)
+  // Question by question, for the answer store (migration 239): what was
+  // asked, what was picked, right or not. Kept in state order, sent once.
+  const [answers, setAnswers] = useState<{ question: string; chosen: string; correct: boolean }[]>([])
 
   const q = questions[step]
 
@@ -72,7 +78,7 @@ export default function KidStageQuiz({
       await fetch('/api/kid/stage-quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token, stage_id: stageId, correct: finalCorrect }),
+        body: JSON.stringify({ token, stage_id: stageId, correct: finalCorrect, answers }),
       })
     } catch { /* the score still shows even if saving fails */ }
     setSaving(false)
@@ -83,6 +89,7 @@ export default function KidStageQuiz({
     if (picked !== null) return
     setPicked(i)
     if (i === q.answer) setCorrect(c => c + 1)
+    setAnswers(a => [...a, { question: q.q, chosen: q.options[i], correct: i === q.answer }])
   }
 
   function next() {

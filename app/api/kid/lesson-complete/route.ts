@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { markStepQuietly } from '@/lib/kid/day-store'
 import { sendPush } from '@/lib/push/send'
+import { sanitizeAnswers, recordQuestionAnswers } from '@/lib/lessons/answers'
 
 // A child finished a family stage lesson on their own link. Token is the
 // auth, exactly like quest ticks. The completion upserts into
@@ -18,7 +19,7 @@ const STAGE_NUM: Record<string, number> = {
 }
 
 export async function POST(req: NextRequest) {
-  let body: { token?: string; lesson_id?: string; correct?: number; total?: number }
+  let body: { token?: string; lesson_id?: string; correct?: number; total?: number; answers?: unknown }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
 
   const { token, lesson_id } = body
@@ -127,6 +128,15 @@ export async function POST(req: NextRequest) {
         .insert({ user_id: link.user_id, lesson_id, who: 'child', child_id: link.child_id })
     } catch { /* already recorded, or pre migration 162 */ }
   }
+
+  // Every question the child answered, kept (migration 239), under the
+  // parent user_id like everything on this route, against THIS child. The
+  // stage check reads it to put their missed questions first. Best effort.
+  await recordQuestionAnswers(
+    supabase,
+    { userId: link.user_id, childId: link.child_id, source: 'lesson', lessonId: lesson_id },
+    sanitizeAnswers(body.answers),
+  )
 
   // The good news reaches the parent's phone, best effort.
   try {
