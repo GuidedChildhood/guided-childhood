@@ -63,8 +63,10 @@ export async function POST(req: NextRequest) {
     hardest?: string[]
     focus?: string | null
     plan?: PlanStep[]
+    child_id?: string
   }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
+  const bodyChildId = typeof body.child_id === 'string' ? body.child_id : null
 
   const mood = typeof body.parentMood === 'number' && body.parentMood >= 1 && body.parentMood <= 5 ? Math.round(body.parentMood) : null
   const wentWell = Array.isArray(body.wentWell) ? body.wentWell.slice(0, 12).map(String) : []
@@ -152,10 +154,18 @@ export async function POST(req: NextRequest) {
     const now = new Date().toISOString()
     const knownSlugs = hardest.filter(s => CHALLENGE_LABEL.has(s as never))
     if (knownSlugs.length > 0) {
-      const { data: child } = await supabase.from('children').select('id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle()
-      const { data: existing } = await supabase.from('concerns').select('slug, status, times_flagged').eq('user_id', user.id).in('slug', knownSlugs)
+      // The child off the wire (validated), primary only as a fallback: an
+      // unconditional is_primary here attached the Sunday worries to the
+      // wrong child for ever. Prior rows scoped the same way, because the
+      // upsert keys on (user, child, slug).
+      const { data: kids } = await supabase.from('children').select('id, is_primary').eq('parent_id', user.id)
+      const childId = ((typeof bodyChildId === 'string' && (kids ?? []).find(k => k.id === bodyChildId))
+        || (kids ?? []).find(k => k.is_primary)
+        || (kids ?? [])[0]
+        || null)?.id ?? null
+      const priorQuery = supabase.from('concerns').select('slug, status, times_flagged').eq('user_id', user.id).in('slug', knownSlugs)
+      const { data: existing } = await (childId ? priorQuery.eq('child_id', childId) : priorQuery)
       const priorBySlug = new Map((existing ?? []).map(c => [c.slug, c]))
-      const childId = (child as { id?: string } | null)?.id ?? null
       const rows = knownSlugs.map(slug => {
         const prior = priorBySlug.get(slug)
         return {

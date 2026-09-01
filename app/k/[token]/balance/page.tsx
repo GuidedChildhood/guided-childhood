@@ -57,7 +57,7 @@ export default async function KidBalancePage({ params }: { params: Promise<{ tok
   const theme = resolveTheme(child?.accent as string | null)
   const today = new Date().toISOString().slice(0, 10)
   const [banks, usedMap, region, questsRes, ticksRes] = await Promise.all([
-    getStarBanks(supabase, link.user_id, [link.child_id]),
+    getStarBanks(supabase, link.user_id, [link.child_id], { [link.child_id]: (child?.age_band as string | null) ?? null }),
     getMinutesUsedToday(supabase, link.user_id, [link.child_id]),
     getFamilyRegion(supabase, link.user_id),
     supabase.from('family_quests')

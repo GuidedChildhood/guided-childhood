@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { getChildren } from '@/lib/children/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect } from 'next/navigation'
 import type { StageId } from '@/lib/pathway/progress'
@@ -16,8 +17,8 @@ const STAGE_LABELS: Record<StageId, string> = {
   independent: 'Stage 5 · Independent',
 }
 
-export default async function AgreementPage({ searchParams }: { searchParams: Promise<{ from?: string }> }) {
-  const { from } = await searchParams
+export default async function AgreementPage({ searchParams }: { searchParams: Promise<{ from?: string; child?: string }> }) {
+  const { from, child: childParam } = await searchParams
 
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -35,9 +36,14 @@ export default async function AgreementPage({ searchParams }: { searchParams: Pr
   // as one.
   const { complete: setupComplete } = await getSetupState(supabase, user.id)
 
-  const [{ data: profile }, { data: child }, { data: agreement }] = await Promise.all([
+  // The agreement itself is one per family by design; the child this page
+  // NAMES (their name, stage, phone, last week's verdict) follows ?child=
+  // like the rest of the dashboard, which matters doubly now the weekly
+  // verdict pays the stars to the child the parent has open.
+  const [{ data: profile }, { child }, { data: agreement }] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, created_at').eq('id', user.id).single(),
-    supabase.from('children').select('id, name, stage_id, phone').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    getChildren<{ id: string; name: string | null; stage_id: string | null; phone: string | null; is_primary: boolean | null }>(
+      supabase, user.id, childParam, 'id, name, stage_id, phone'),
     supabase.from('family_agreements').select('*').eq('user_id', user.id).maybeSingle(),
   ])
 

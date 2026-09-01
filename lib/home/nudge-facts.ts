@@ -23,6 +23,8 @@ export async function readNudgeFacts(
   supabase: SupabaseClient,
   userId: string,
   childIds: string[],
+  /** Age band per child, so the bank's weekly ceiling is each child's own. */
+  ageBands: Record<string, string | null> = {},
 ): Promise<NudgeFacts | null> {
   if (childIds.length === 0) return null
   try {
@@ -69,7 +71,7 @@ export async function readNudgeFacts(
     // The bank, and how long it has sat. Imported lazily so a change to the
     // bank's own reads can never be the reason the home page fails to render.
     const { getStarBanks } = await import('@/lib/quests/bank')
-    const banks = await getStarBanks(supabase, userId, childIds).catch(() => [])
+    const banks = await getStarBanks(supabase, userId, childIds, ageBands).catch(() => [])
     const bankedStars = banks.reduce((s, b) => s + Math.max(0, b.balance), 0)
 
     const { data: lastSpend } = await supabase.from('star_spends')

@@ -86,13 +86,20 @@ export default async function LessonDetailPage({ params, searchParams }: {
   // so every parent lesson plays as slides, never a flat wall of text.
   const slides = parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson, { eyebrow: stageForEyebrow.label })
 
-  const { data: completion } = await supabase
+  // THIS child's completion or the household's. Unscoped with .maybeSingle(),
+  // the moment two children each had a row for this lesson the read errored
+  // to null and Mark as done showed unticked for a child who had passed it.
+  const completionQuery = supabase
     .from('lesson_completions')
     .select('lesson_id')
     .eq('user_id', user.id)
     .eq('lesson_id', lesson.id)
     .eq('lesson_source', 'lesson')
-    .maybeSingle()
+    .limit(1)
+  const { data: completionRows } = await (child
+    ? completionQuery.or(`child_id.eq.${child.id},child_id.is.null`)
+    : completionQuery)
+  const completion = (completionRows ?? [])[0] ?? null
 
   const stage = STAGE_LABEL[lesson.stage_id] ?? STAGE_LABEL.foundation
 

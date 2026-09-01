@@ -9487,3 +9487,35 @@ DiGi still blends wellbeing scores and concerns across children, and six
 star cap call sites price every child on the middle band. Fix order is in
 the report; nothing is architectural. Awaiting Justin's word before the
 fixes are built.
+
+## 1 September 2026 — every child switcher audit finding, fixed
+
+Justin: "Fix and do all suggested fixes." All A, B and C items from
+plans/multi-child-audit-01-sep.md, one session, one pattern: the child off
+the wire, validated against this parent's children, primary only as the
+fallback, legacy null rows still speaking for the household.
+
+Wrong writes closed: the quest boards send the row's own child so a shared
+job no longer banks stars for every child (A1, the last silent corruption);
+the weekly agreement verdict, the Sunday and monthly check ins, the
+tracker, moment outcomes and moment quests, DiGi's reflection, Right Now,
+school send to child, and the keepsake order all take the selected child;
+the lesson carry over read is scoped so two children passing the same
+lesson can no longer void the never taken away rule.
+
+Wrong advice closed: DiGi's wellbeing scores and live concerns are scoped
+to the selected child (legacy rows still count for everybody), the
+get_child_history tool's weekly table too, and every star cap call site
+now passes each child's own age band so the board, the child's balance,
+the printed contract and the till all quote the same ceiling. The three
+child specific pushes name their child instead of buzzing the house.
+
+Wrong display closed: the Today loop's rungs, Home's tiles, the lessons
+grid and the together lesson's back link all carry ?child=; the lessons
+library and lesson page read completions per child; agreement and
+keepsakes joined CHILD_ROUTES and honour the toggle; the homework picker
+opens on the selected child; school, printables, social settings, tell a
+parent, crafts, agreement print, the tracker check in, the device sweep
+and the rehearsal all follow ?child= instead of pinning to the primary
+child. Deliberately unchanged: the quests page still shows every child's
+board (that is its design), and the agreement stays one per family.

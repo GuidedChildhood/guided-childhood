@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
+import { getChildren } from '@/lib/children/server'
 
 // The per platform social media settings, delivered at the right age. The
 // settings to lock on each app a UK family meets, kept in the database so they
@@ -28,13 +29,16 @@ type Guide = {
   official_url: string
 }
 
-export default async function SocialSettingsPage() {
+export default async function SocialSettingsPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
+  const { child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: child }, { data: guidesData }] = await Promise.all([
-    supabase.from('children').select('name, age_band').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+  // The stage the guides are split by follows ?child= like everywhere else.
+  const [{ child }, { data: guidesData }] = await Promise.all([
+    getChildren<{ id: string; name: string | null; age_band: string | null; is_primary: boolean | null }>(
+      supabase, user.id, childParam, 'id, name, age_band'),
     supabase.from('social_platform_guides').select('platform_key, name, emoji, min_age, first_seen_stage, blurb, settings, watch_fors, supervision, official_url').eq('active', true).order('first_seen_stage', { ascending: true }).order('sort_order', { ascending: true }),
   ])
 

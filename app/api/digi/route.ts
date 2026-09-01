@@ -198,10 +198,14 @@ export async function POST(request: Request) {
       .order('is_primary', { ascending: false }),
     supabase
       .from('wellbeing_checks')
-      .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication, concern_level, notes')
+      // child_id rides along so the rows can be scoped to the selected child
+      // once pickChild has run below. Unscoped, .limit(6) blended two
+      // children's weeks into one average and one trend. Wider limit so the
+      // filter still has six of THIS child's weeks to keep.
+      .select('child_id, week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication, concern_level, notes')
       .eq('parent_id', user.id)
       .order('week_start', { ascending: false })
-      .limit(6),
+      .limit(24),
     supabase
       .from('digi_feedback')
       .select('feedback_date, question, parent_response, digi_insight')
@@ -230,11 +234,15 @@ export async function POST(request: Request) {
       : Promise.resolve({ data: null }),
     supabase
       .from('concerns')
-      .select('id, slug, label, status, times_flagged')
+      // child_id rides along for the same post pickChild scoping: every
+      // child is seeded the same four baseline worries, so unscoped rows
+      // gave DiGi two identical "Bedtime screens" lines with no way to tell
+      // whose was whose. Wider limit so six of THIS child's survive.
+      .select('id, child_id, slug, label, status, times_flagged')
       .eq('user_id', user.id)
       .in('status', ['open', 'improving'])
       .order('last_flagged_at', { ascending: false })
-      .limit(6),
+      .limit(24),
     getFamilyMemory(supabase, user.id, message),
     getWhatWorked(supabase, user.id),
     supabase
@@ -532,7 +540,12 @@ IMPORTANT: this guide is the ONLY device the parent is asking about right now. I
   }
 
   let concernsKnowledge = ''
-  const liveConcerns = concernsResult.data ?? []
+  // THIS child's worries (a legacy row with no child speaks for everybody),
+  // capped back to the six the prompt was sized for.
+  const liveConcerns = (concernsResult.data ?? [])
+    .filter(c => ((c as { child_id?: string | null }).child_id ?? null) === (child?.id ?? null)
+      || (c as { child_id?: string | null }).child_id == null)
+    .slice(0, 6)
   if (liveConcerns.length > 0) {
     // ── DIGI CAN SEE THE STARS NOW (1 September 2026) ────────────────────────
     //
@@ -687,7 +700,12 @@ When a parent asks whether or for how long their child should use any device, do
     child,
     children,
     profile?.onboarding_answers,
-    trackerResult.data ?? [],
+    // THIS child's tracker weeks (legacy rows with no child count for
+    // everybody), back down to the six week window the prompt describes.
+    (trackerResult.data ?? [])
+      .filter(t => ((t as { child_id?: string | null }).child_id ?? null) === (child?.id ?? null)
+        || (t as { child_id?: string | null }).child_id == null)
+      .slice(0, 6),
     feedbackResult.data ?? [],
     aiKnowledge,
     // The order these are concatenated in is not the order they should be

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { currentChildId } from '@/lib/children/current'
 import { CHALLENGE_OPTIONS, type ChallengeId } from '@/lib/content/stages'
 
 // The monthly wellbeing check in. Once a month we ask how the parent is doing,
@@ -40,7 +41,9 @@ export default function WellbeingCheckin({ firstName }: { firstName: string }) {
       const res = await fetch('/api/wellbeing/checkin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ parentMood: mood, fixed, newConcerns, note }),
+        // The child the worries are about rides along, so a concern raised
+        // here lands on the child the parent has open, not always the primary.
+        body: JSON.stringify({ parentMood: mood, fixed, newConcerns, note, child_id: currentChildId() }),
       })
       if (!res.ok) throw new Error('save failed')
       setDone(true)

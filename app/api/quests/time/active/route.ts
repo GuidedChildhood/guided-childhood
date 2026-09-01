@@ -29,7 +29,7 @@ export async function GET() {
   // "Today" follows the same UTC day the rest of the board uses.
   const dayStartIso = new Date(new Date().toISOString().slice(0, 10) + 'T00:00:00.000Z').toISOString()
   const [banks, { data: sessions }, { data: requests }, usedToday, { data: weekSessions }] = await Promise.all([
-    getStarBanks(supabase, user.id, ids),
+    getStarBanks(supabase, user.id, ids, Object.fromEntries(kids.map(c => [c.id as string, (c.age_band as string | null) ?? null]))),
     // family_device_id arrives with migration 106. Asked for optimistically and
     // retried without it on an older database, so the timer keeps working
     // whether or not the migration has been run yet.

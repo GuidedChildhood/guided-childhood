@@ -77,14 +77,20 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { situation } = await request.json() as { situation: string }
+  const { situation, child_id } = await request.json() as { situation: string; child_id?: string }
   const def = SITUATIONS[situation as SituationKey]
   if (!def) return NextResponse.json({ error: 'Unknown situation' }, { status: 400 })
 
-  const [{ data: profile }, { data: child }] = await Promise.all([
+  const [{ data: profile }, { data: kids }] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, created_at').eq('id', user.id).single(),
-    supabase.from('children').select('id, stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    // Every child, so the rescue and the concern land on the child the moment
+    // is about (off the wire, validated) rather than always the primary one.
+    supabase.from('children').select('id, stage_id, is_primary').eq('parent_id', user.id),
   ])
+  const child = (typeof child_id === 'string' && (kids ?? []).find(k => k.id === child_id))
+    || (kids ?? []).find(k => k.is_primary)
+    || (kids ?? [])[0]
+    || null
 
   const preferFree = !hasFullAccess(profile, user.email)
   const stageId = child?.stage_id ?? null

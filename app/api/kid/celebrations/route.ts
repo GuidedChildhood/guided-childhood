@@ -55,7 +55,13 @@ async function currentTotals(admin: Admin, userId: string, childId: string) {
       .eq('child_id', childId).not('completed_at', 'is', null)
       .gte('day', since).order('day', { ascending: true }).limit(500)
       .then(r => r, () => ({ data: [] as { day: string }[] })),
-    getStarBanks(admin as never, userId, [childId]).catch(() => []),
+    // The child's own age band, so the weekly ceiling behind the balance is
+    // theirs rather than the middle band fallback.
+    admin.from('children').select('age_band').eq('id', childId).maybeSingle()
+      .then(
+        r => getStarBanks(admin as never, userId, [childId], { [childId]: (r.data?.age_band as string | null) ?? null }).catch(() => []),
+        () => [] as Awaited<ReturnType<typeof getStarBanks>>,
+      ),
   ])
 
   const days = ((daysRes as { data?: { day: string }[] }).data ?? []).map(d => String(d.day))

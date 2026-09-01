@@ -14,7 +14,7 @@ const CHALLENGE_LABEL = new Map(CHALLENGE_OPTIONS.map(o => [o.value, o.label]))
 // follow up carry them forward, and anything marked better nudges its concern
 // along the arc, exactly like the daily concern check.
 export async function POST(req: NextRequest) {
-  let body: { parentMood?: number; fixed?: string[]; newConcerns?: string[]; note?: string }
+  let body: { parentMood?: number; fixed?: string[]; newConcerns?: string[]; note?: string; child_id?: string }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
 
   const supabase = await createClient()
@@ -38,12 +38,22 @@ export async function POST(req: NextRequest) {
     const now = new Date().toISOString()
     const knownSlugs = [...newConcerns, ...fixed].filter(s => CHALLENGE_LABEL.has(s as never))
     if (knownSlugs.length > 0) {
-      const [{ data: existing }, { data: child }] = await Promise.all([
-        supabase.from('concerns').select('slug, status, times_flagged').eq('user_id', user.id).in('slug', knownSlugs),
-        supabase.from('children').select('id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
-      ])
+      // Whose worries these are: the child off the wire (validated as this
+      // parent's), the primary child only as a fallback. This read is_primary
+      // unconditionally, so a worry raised about the second child was
+      // permanently attached to the first and surfaced on the wrong check in.
+      const { data: kids } = await supabase
+        .from('children').select('id, is_primary').eq('parent_id', user.id)
+      const childId = ((typeof body.child_id === 'string' && (kids ?? []).find(k => k.id === body.child_id))
+        || (kids ?? []).find(k => k.is_primary)
+        || (kids ?? [])[0]
+        || null)?.id ?? null
+      // Prior rows for THIS child only: the upsert keys on (user, child, slug),
+      // so reading a sibling's row here would bump the wrong counter.
+      const priorQuery = supabase.from('concerns')
+        .select('slug, status, times_flagged').eq('user_id', user.id).in('slug', knownSlugs)
+      const { data: existing } = await (childId ? priorQuery.eq('child_id', childId) : priorQuery)
       const priorBySlug = new Map((existing ?? []).map(c => [c.slug, c]))
-      const childId = child?.id ?? null
 
       // New worries: open a concern (reopen if it had been resolved) and bump
       // the count, so a repeat theme lands on the same row.
@@ -74,9 +84,12 @@ export async function POST(req: NextRequest) {
         const prior = priorBySlug.get(slug)
         if (!prior || newConcerns.includes(slug)) continue
         const status = prior.status === 'improving' ? 'resolved' : 'improving'
-        await supabase.from('concerns')
+        // Scoped to this child: unscoped, "better" here marked every
+        // sibling's same worry better too.
+        const upd = supabase.from('concerns')
           .update({ status, last_checked_at: now })
           .eq('user_id', user.id).eq('slug', slug)
+        await (childId ? upd.eq('child_id', childId) : upd)
       }
     }
   } catch { /* the ledger never blocks the check in */ }

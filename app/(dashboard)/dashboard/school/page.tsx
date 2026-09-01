@@ -2,13 +2,15 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { getFamilyRegion } from '@/lib/learning/region'
 import SchoolActionsCard, { type SchoolAction } from '@/components/school/SchoolActionsCard'
+import { getChildren } from '@/lib/children/server'
 
 // The school section: your live alerts first (the things you need to know,
 // pulled from forwarded school emails and anything added by hand, stored in
 // the school_actions table), then the connection setup below. This is the
 // findable in app home for school reminders, not only the push notification.
 
-export default async function SchoolPage() {
+export default async function SchoolPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
+  const { child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -21,7 +23,9 @@ export default async function SchoolPage() {
       .eq('status', 'open')
       .order('due_date', { ascending: true, nullsFirst: false })
       .limit(30),
-    supabase.from('children').select('name').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    // The selected child rather than always the primary one; the page's own
+    // per action child chips still name whoever a row is for.
+    getChildren<{ id: string; name: string | null; is_primary: boolean | null }>(supabase, user.id, childParam, 'id, name'),
     supabase.from('children').select('id, name').eq('parent_id', user.id),
   ])
 
@@ -78,7 +82,7 @@ export default async function SchoolPage() {
       runs_in_holidays: runsInHolidays.get(String(a.id)) ?? false,
     }
   })
-  const childName = childResult.data?.name ?? null
+  const childName = childResult.child?.name ?? null
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px 48px' }}>

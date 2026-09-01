@@ -95,12 +95,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Bad request' }, { status: 400 })
   }
 
-  const { data: child } = await supabase
+  // The rehearsal plays the child the parent has open, off the wire and
+  // validated, primary as the fallback: practising against a fifteen year
+  // old's protest style for an argument with the six year old helps nobody.
+  const bodyChildId = (body as { child_id?: string }).child_id
+  const { data: kids } = await supabase
     .from('children')
-    .select('name, age_band')
+    .select('id, name, age_band, is_primary')
     .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .maybeSingle()
+  const child = (typeof bodyChildId === 'string' && (kids ?? []).find(k => k.id === bodyChildId))
+    || (kids ?? []).find(k => k.is_primary)
+    || (kids ?? [])[0]
+    || null
 
   const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
   const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'

@@ -104,7 +104,7 @@ export async function getBoardStatus(
   // The star balance needs the children first, so it runs alongside the four
   // counts rather than after them: one extra round trip for the whole board,
   // not one per tile.
-  const kidsPromise = supabase.from('children').select('id').eq('parent_id', userId)
+  const kidsPromise = supabase.from('children').select('id, age_band').eq('parent_id', userId)
 
   const nowIso = new Date().toISOString()
   const [ticks, sheets, school, agreement, kids, chartPrints, timeAsks, timers, jobAsks] = await Promise.all([
@@ -141,7 +141,8 @@ export async function getBoardStatus(
   const childIds = kids.error ? [] : (kids.data ?? []).map(k => k.id as string)
   if (childIds.length > 0) {
     try {
-      const banks = await getStarBanks(supabase, userId, childIds)
+      const banks = await getStarBanks(supabase, userId, childIds,
+        Object.fromEntries((kids.data ?? []).map(k => [k.id as string, (k.age_band as string | null) ?? null])))
       starsToSpend = banks.reduce((sum, b) => sum + Math.max(0, b.balance), 0)
     } catch { starsToSpend = 0 }
   }

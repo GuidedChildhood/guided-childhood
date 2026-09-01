@@ -39,17 +39,22 @@ function daysSinceBirthday(dob: string | null | undefined, on = new Date()): num
 type Focus =
   | { kind: 'birthday' | 'games' | 'generic'; headline: string; sub: string; chat?: { label: string; q: string } }
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ due: false })
 
-  const { data: child } = await supabase
+  // The sweep is about one child's devices: ?child= decides which, primary
+  // as the fallback, so the card on Home follows the toggle.
+  const childParam = req.nextUrl.searchParams.get('child')
+  const { data: kids } = await supabase
     .from('children')
-    .select('id, name, date_of_birth')
+    .select('id, name, date_of_birth, is_primary')
     .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .maybeSingle()
+  const child = (childParam && (kids ?? []).find(k => k.id === childParam))
+    || (kids ?? []).find(k => k.is_primary)
+    || (kids ?? [])[0]
+    || null
   if (!child) return NextResponse.json({ due: false })
 
   const since = new Date(Date.now() - SWEEP_GAP_DAYS * 86_400_000).toISOString()

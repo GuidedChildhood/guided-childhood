@@ -647,6 +647,9 @@ export default function DigiChat({
         body: JSON.stringify({
           question: reflectionQuestion,
           response: reflectionInput.trim(),
+          // Filed against the child the parent has open, like every other
+          // DiGi write.
+          child_id: currentChildId(),
         }),
       })
       const data = await res.json().catch(() => null)
@@ -667,7 +670,7 @@ export default function DigiChat({
     await fetch('/api/digi/feedback', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: reflectionQuestion, response: '' }),
+      body: JSON.stringify({ question: reflectionQuestion, response: '', child_id: currentChildId() }),
     }).catch(() => null)
     setReflectionQuestion(null)
     setReflectionDone(true)

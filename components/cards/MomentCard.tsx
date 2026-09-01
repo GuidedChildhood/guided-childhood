@@ -354,7 +354,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                     if (questMade || questBusy) return
                     setQuestBusy(true)
                     try {
-                      const res = await fetch('/api/moments/make-quest', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ momentId: moment.id }) })
+                      const res = await fetch('/api/moments/make-quest', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ momentId: moment.id, child_id: currentChildId() }) })
                       if (res.ok) setQuestMade(true)
                     } catch { /* leave as is */ } finally { setQuestBusy(false) }
                   }}
@@ -371,7 +371,7 @@ export default function MomentCard({ moment, childName, ageBand, onFlip }: Momen
                       const res = await fetch('/api/moments/tried', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ momentId: moment.id }),
+                        body: JSON.stringify({ momentId: moment.id, child_id: currentChildId() }),
                       })
                       if (res.ok) setTried(true)
                     } catch { /* leave as is */ } finally { setTriedBusy(false) }

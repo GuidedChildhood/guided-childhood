@@ -5,6 +5,7 @@ import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { STAGE_CHARACTERS } from '@/lib/content/stage-characters'
 import { canBuy, characterForKey, formatPence, lockedReason, MAX_QTY, type Product } from '@/lib/shop/catalogue'
 import { shopArt } from '@/lib/shop/art'
+import { currentChildId } from '@/lib/children/current'
 
 // The keepsake shop. The physical end of the same pathway: a passport printed
 // from the stamps a child actually earned, and the Planet Friends as things you
@@ -82,7 +83,7 @@ export default function Shop({
       const res = await fetch('/api/shop/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: lines.map(l => ({ key: l.product.key, qty: l.qty })) }),
+        body: JSON.stringify({ items: lines.map(l => ({ key: l.product.key, qty: l.qty })), child_id: currentChildId() }),
       })
       const data = await res.json().catch(() => ({}))
       if (res.ok && data.url) {

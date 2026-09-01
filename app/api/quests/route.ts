@@ -74,7 +74,9 @@ export async function GET() {
   const ticks = [...ticksById.values()]
 
   const children = childrenRes.data ?? []
-  const banks = await getStarBanks(supabase, user.id, children.map(c => c.id))
+  // Each child's own age band, so the weekly ceiling on the board matches
+  // the one the spend route enforces at the till.
+  const banks = await getStarBanks(supabase, user.id, children.map(c => c.id), Object.fromEntries(children.map(c => [c.id as string, (c.age_band as string | null) ?? null])))
 
   // The holiday bank, alongside the ordinary star bank rather than folded into
   // it. The two are different kinds of money and the board was adding them up

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import PrintButton from '@/components/agreement/PrintButton'
 import PrintFit from '@/components/agreement/PrintFit'
 import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
+import { getChildren } from '@/lib/children/server'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,14 +13,16 @@ function formatDate(iso: string | null): string {
   return new Date(`${iso}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
-export default async function AgreementPrintPage() {
+export default async function AgreementPrintPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
+  const { child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: agreement }, { data: child }] = await Promise.all([
+  // The printed name follows ?child= like the agreement page it comes from.
+  const [{ data: agreement }, { child }] = await Promise.all([
     supabase.from('family_agreements').select('*').eq('user_id', user.id).maybeSingle(),
-    supabase.from('children').select('name').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    getChildren<{ id: string; name: string | null; is_primary: boolean | null }>(supabase, user.id, childParam, 'id, name'),
   ])
 
   if (!agreement) redirect('/dashboard/agreement')

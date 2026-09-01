@@ -139,3 +139,16 @@ Then the A list top to bottom (each is a small route fix accepting a
 child_id with primary as fallback), then B4's age bands, B5's pushes, B1
 to B3 in DiGi, then the C display fixes. Nothing here is architectural;
 it is the same pattern applied to the routes that missed it.
+
+## FIXED, same day (Justin: "Fix and do all suggested fixes")
+
+Every A, B and C item above is fixed except C5, which stays by design: the
+quests page deliberately shows every child's board, and A1 (its harm) is
+closed by sending the row's own child instead of reading a URL param the
+page never carries. C6 is fixed proportionately: the agreement stays one
+per family by design, but the page now honours ?child= for the child it
+names and the weekly verdict pays that child; a fully per child agreement
+remains open work if Justin ever wants it. The A route fixes all follow one
+pattern: the child off the wire, validated as this parent's, primary only
+as the fallback, and legacy rows with no child still speak for the
+household.

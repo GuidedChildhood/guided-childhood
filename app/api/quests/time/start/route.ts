@@ -235,7 +235,7 @@ export async function POST(req: NextRequest) {
   }
 
   const stars = minutesToStars(mins, childRate)
-  const [bank] = await getStarBanks(supabase, link.user_id, [link.child_id])
+  const [bank] = await getStarBanks(supabase, link.user_id, [link.child_id], { [link.child_id]: childRow?.age_band ?? null })
 
   // Two pockets pay for a block: this week's stars, and during a school holiday
   // the minutes banked from weeks the child did more than the cap had room for.

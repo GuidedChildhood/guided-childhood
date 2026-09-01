@@ -53,6 +53,12 @@ const CHILD_ROUTES = [
   // taking over.
   '/dashboard/pathway',
   '/dashboard/passport',
+  // The agreement page names one child (their stage, phone, last week's
+  // verdict) and the weekly verdict pays that child's bank, so the pills
+  // decide who. The keepsakes shop prints one child's passport from their
+  // own stamps, same reasoning.
+  '/dashboard/agreement',
+  '/dashboard/keepsakes',
 ]
 
 export default function ChildRail({ kids, forceShow = false }: { kids: SwitcherChild[]; forceShow?: boolean }) {

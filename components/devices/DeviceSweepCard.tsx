@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
+import { currentChildId } from '@/lib/children/current'
 
 // DiGi's fortnightly nudge on the Device Safety Hub: has a new device come
 // into the house, and do the settings still match the child's age. It shows
@@ -16,7 +17,7 @@ export default function DeviceSweepCard() {
   const seenSent = useRef(false)
 
   useEffect(() => {
-    fetch('/api/devices/sweep')
+    fetch(`/api/devices/sweep${currentChildId() ? `?child=${currentChildId()}` : ''}`)
       .then(r => r.json())
       .then((d: Sweep) => { if (d?.due) setSweep(d) })
       .catch(() => { /* stay quiet on error */ })

@@ -132,7 +132,9 @@ export async function POST(req: NextRequest) {
     const origin = process.env.NEXT_PUBLIC_APP_URL ?? req.nextUrl.origin
     const ics = `${origin}/api/school/${data.id}/ics`
     const send = (extra: Record<string, unknown>) => sendPush({ userId: user.id, title: `Added: ${title} 🎒`, body: 'Tap to add it to your calendar.', url: ics, ...extra })
-    await Promise.allSettled([send({}), send({ audience: 'kids' })])
+    // The kids side goes to the ONE child the action was just written for,
+    // not every child's phone in the house.
+    await Promise.allSettled([send({}), send({ audience: 'kids', childId })])
   } catch { /* best effort */ }
 
   return NextResponse.json({ action: data })

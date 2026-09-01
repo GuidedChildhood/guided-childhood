@@ -202,6 +202,16 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // switcher pills and DiGi's whole family greeting in the welcome sheet.
   const allKids = childResult.data ?? []
   const child = pickChild(allKids, childParam)
+
+  // Every tile below carries the child the page is about, so a tap never
+  // quietly lands on the primary child's version of the destination. The
+  // Today path does the same inside getTodayLoop; these are the links that
+  // sit around it.
+  const qc = (href: string) =>
+    child?.id && !href.includes('child=')
+      ? `${href.includes('#') ? href.replace('#', `${href.includes('?') ? '&' : '?'}child=${child.id}#`) : `${href}${href.includes('?') ? '&' : '?'}child=${child.id}`}`
+      : href
+
   const welcomeChildren = allKids
     .filter(k => k.name)
     .map(k => ({ name: k.name as string, ageBand: (k.age_band as string | null) ?? null }))
@@ -221,7 +231,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
   // Both still fail soft: a nudge or a missing region must never be the reason
   // Home does not render.
   const [nudgeFacts, familyRegion, visit] = await Promise.all([
-    readNudgeFacts(supabase, user.id, allKids.map(k => k.id as string)),
+    readNudgeFacts(supabase, user.id, allKids.map(k => k.id as string),
+      Object.fromEntries(allKids.map(k => [k.id as string, (k.age_band as string | null) ?? null]))),
     getFamilyRegion(supabase, user.id).catch(() => 'uk' as const),
     // The visit marks, rolled here rather than four hundred lines down, where
     // they were the last blocking await left on this page.
@@ -913,7 +924,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           : schoolWaitingToday === 1
           ? 'One thing due today at school'
           : `${schoolWaitingToday} things due today at school`}
-        href="/dashboard/school"
+        href={qc('/dashboard/school')}
       />
     </div>
   )
@@ -1195,7 +1206,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           label={checkupNeeds === 1
             ? 'One thing to check on for them'
             : `${checkupNeeds} things to check on for them`}
-          href="/dashboard/pathway#four-things"
+          href={qc('/dashboard/pathway#four-things')}
         />
       )}
 
@@ -1261,7 +1272,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         const doneCount = setupSteps.filter(s => setupFlags[s.key]).length
         const next = setupSteps.find(s => !setupFlags[s.key])
         return (
-          <Link href="/dashboard/setup" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+          <Link href={qc('/dashboard/setup')} style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: '14px',
               background: '#fff', border: '1.5px solid var(--terracotta)', borderRadius: '18px', padding: '15px 18px',
@@ -1417,7 +1428,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
             </>
           )}
 
-          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '14px', display: 'inline-block' }}>
+          <Link href={qc('/dashboard/digi')} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '14px', display: 'inline-block' }}>
             Continue with DiGi →
           </Link>
         </div>
@@ -1441,7 +1452,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
             <p className="eyebrow" style={{ margin: 0 }}>Moment cards</p>
             <Link
-              href="/dashboard/moments"
+              href={qc('/dashboard/moments')}
               style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--terracotta)', textDecoration: 'none', fontWeight: 500 }}
             >
               Browse all →
@@ -1482,7 +1493,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               />
             ))}
             {/* The grid always closes with quick help to every moment */}
-            <Link href="/dashboard/moments" style={{ textDecoration: 'none' }}>
+            <Link href={qc('/dashboard/moments')} style={{ textDecoration: 'none' }}>
               <div style={{
                 height: '100%', minHeight: '170px',
                 background: 'var(--deep-teal)', borderRadius: '20px',
@@ -1519,7 +1530,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               Last script insight
             </div>
             <Link
-              href={`/dashboard/scripts/${lastInsight.sort_order}/deck`}
+              href={qc(`/dashboard/scripts/${lastInsight.sort_order}/deck`)}
               style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', textDecoration: 'none', letterSpacing: '0.06em' }}
             >
               Read again →
@@ -1542,7 +1553,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       {/* Monthly wellbeing check in prompt: the mission made real, you in view
           not only your child. Shown when a check in is due. */}
       {checkinDue && (
-        <Link href="/dashboard/checkin" style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
+        <Link href={qc('/dashboard/checkin')} style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}>
           <div style={{
             background: 'var(--stage-4)', border: '1.5px solid var(--stage-4)',
             borderRadius: '16px', padding: '20px 22px',
@@ -1605,7 +1616,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               ? 'The algorithm conversation opens more than any rule will close. Curiosity, not alarm.'
               : 'The weekly check in, same day same time, is your relationship maintenance. It does not have to be about screens.'}
           </p>
-          <Link href="/dashboard/digi" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '8px', display: 'block' }}>
+          <Link href={qc('/dashboard/digi')} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', textDecoration: 'none', marginTop: '8px', display: 'block' }}>
             Ask DiGi →
           </Link>
         </div>
@@ -1635,7 +1646,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           {getStagePrompts(stage.id).map((prompt, i) => (
             <Link
               key={i}
-              href={`/dashboard/digi?q=${encodeURIComponent(prompt)}`}
+              href={qc(`/dashboard/digi?q=${encodeURIComponent(prompt)}`)}
               style={{
                 display: 'block',
                 padding: '10px 14px',
@@ -1653,7 +1664,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           ))}
         </div>
 
-        <Link href="/dashboard/digi" className="btn btn-gold" style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+        <Link href={qc('/dashboard/digi')} className="btn btn-gold" style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
           Open DiGi
         </Link>
       </div>

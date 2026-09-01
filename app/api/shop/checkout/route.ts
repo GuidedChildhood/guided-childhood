@@ -23,7 +23,7 @@ export const dynamic = 'force-dynamic'
 // The order row is written before Stripe is called, so a payment always has
 // something to land against, and the webhook flips it to paid.
 
-type Body = { items?: BasketLine[] }
+type Body = { items?: BasketLine[]; child_id?: string }
 
 export async function POST(request: Request) {
   const supabase = await createClient()
@@ -65,12 +65,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Something in your basket is no longer available' }, { status: 400 })
   }
 
-  const { data: child } = await supabase
+  // Whose stamps the keepsake is printed from: the child off the wire
+  // (validated as this parent's), primary as the fallback. Unconditional
+  // is_primary here printed the wrong child's passport when the parent had a
+  // sibling open.
+  const { data: kids } = await supabase
     .from('children')
-    .select('id, name, passport_code')
+    .select('id, name, passport_code, is_primary')
     .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .maybeSingle()
+  const child = (typeof body.child_id === 'string' && (kids ?? []).find(k => k.id === body.child_id))
+    || (kids ?? []).find(k => k.is_primary)
+    || (kids ?? [])[0]
+    || null
 
   // Only pay for the earned read when something in the basket actually needs
   // it. Most Phase 1 baskets are a sticker sheet and a passport.

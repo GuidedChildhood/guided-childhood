@@ -9,14 +9,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
-  const { scores, notes } = await request.json()
+  const { scores, notes, child_id } = await request.json()
 
-  const { data: child } = await supabase
+  // The child off the wire (validated as this parent's), the primary child
+  // only as a fallback. Unconditional is_primary here wrote every tracker
+  // week against the first child whoever the toggle showed. Also .single()
+  // errors outright with two primaries or none, which is its own bug.
+  const { data: kids } = await supabase
     .from('children')
-    .select('id')
+    .select('id, is_primary')
     .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .single()
+  const child = (typeof child_id === 'string' && (kids ?? []).find(k => k.id === child_id))
+    || (kids ?? []).find(k => k.is_primary)
+    || (kids ?? [])[0]
+    || null
 
   const weekStart = new Date()
   weekStart.setDate(weekStart.getDate() - weekStart.getDay())
