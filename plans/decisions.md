@@ -9314,3 +9314,46 @@ and routine WARN items. Performance advisors: 627 findings, two categories
 not seen in the 30 August sweep (no_primary_key on the three backup snapshot
 tables, and one duplicate_index on public.child_time_settings), both minor
 and neither fixed today as they need a human decision on which index to keep.
+
+## 1 September 2026 — the weekly tester: DiGi examined every Monday, on our philosophy
+
+Justin: "go" on plans/week-of-2026-08-31-digi-weekly-tester-plan.md. Built
+as four extensions to the machinery that already ran, per the plan's rule
+that the safest build extends rather than replaces (PR #938, migration 234).
+
+1. ROTATING DIFFICULT QUESTIONS. lib/digi/weekly-tester.ts drafts five hard
+   cases each Monday: four grown from the week's real parent questions
+   (clustered into themes first, never quoted with a family attached), one
+   from the research queue's newest pending finding. Each runs through
+   EXACTLY the fixed suite's pipeline (runCase is now exported from
+   lib/digi/evals.ts), so a rotating score means the same as a fixed one.
+   The fixed suite stays frozen; the rotation never edits it.
+2. THE THREE LENSES. Every rotating reply is also graded 0 to 1 on: trauma
+   informed (behaviour as communication, zero shame), connection first
+   (sturdy leader, repair over punishment, never allow or deny), and
+   evidence discipline (cited or silent, no panic numbers). The lenses are
+   OUR philosophy sharpened by research on published work. Justin's line,
+   held in code: no expert's name in any model visible prompt, stored
+   result, or anything a parent could see; nothing writes in anyone's
+   voice; no endorsement said or implied.
+3. THE MONDAY EMAIL GREW. digi-quality now reports the rotating cases with
+   each one's weakest lens, what parents asked this week (themes with
+   counts), script gaps (themes no script category matches, via the same
+   signal map the live recommender uses), and a science watch line naming
+   how many findings await Justin's OK. A rotating safety breach counts
+   against the all clear: a breach is a breach whichever case provoked it.
+4. STORED AND WATCHED. digi_tester_runs (migration 234, applied to live,
+   RLS on with no policies so only the service role reads it) keeps one row
+   per Monday, upserted on week_start so reruns correct rather than stack.
+   The health sweep's REQUIRED_COLUMNS gained the check in spine
+   (concerns.last_checked_at, concern_events.score,
+   profiles.first_checkin_at) and the learning loop
+   (expert_knowledge_candidates.status, digi_tester_runs.week_start).
+
+Fail soft rule: the rotation is wrapped so a bad morning never stops the
+fixed suite's verdict reaching Justin, and testerRan lands in the cron body
+so the board sees a silent failure of the new half.
+
+First real run: Monday 8 September. The plan's own gate stands: four weeks
+of runs, then judge whether the lenses agree with Justin's reading before
+trusting them further.
