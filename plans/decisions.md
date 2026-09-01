@@ -9688,3 +9688,29 @@ Justin's Duolingo brief. Decisions in the first build slice:
   lesson) got a bespoke rebuild recorded in migration 242.
 - gc_add_school_arc (migration 240) is the reusable splicer: character
   onto the title, keywords after the objective, extras before the close.
+
+## 1 September 2026, evening: the two answer tells, killed
+
+- Review of the day's lesson work found the loops clean and the decks
+  strong, but the questions carried two tells a child learns in two
+  lessons: the right answer was the longest option in 80 to 98 percent of
+  questions per stage, and the player never shuffled, so it sat in the
+  middle almost every time. Both fixed on PR 947.
+- LessonPlayer deals a seeded option order per run: Back then Next keeps
+  the order, Run it again redeals, the salt lands after mount so the
+  server and first client render agree. Kid mode and projector inherit it.
+- Migrations 245 to 249 rewrite the weakest distractor on 333 questions
+  into a plausible misconception a child that age actually holds, each
+  with its own marking feedback, because a good teacher marks the wrong
+  answer too. Over long right answers trimmed, a second distractor
+  extended where needed, so the right answer's length rank is spread:
+  longest 20 to 30 percent per stage, shortest 24 to 43. Two questions
+  the school arc had duplicated inside their own decks became fresh
+  scenarios. Verified by SQL: one correct per question, every option with
+  feedback, zero dashes.
+- gc_swap_option_text(deck, fixes) is the reusable, idempotent text
+  swapper: it matches on (question, old option text), so a reapply is a
+  no op and a typo in a fix simply does nothing, which the audit catches.
+- Rule from this: a question is not finished when the right answer is
+  written. It is finished when the wrong answers could each be argued by
+  a child of that age, and the lengths give nothing away.
