@@ -180,6 +180,14 @@ const REQUIRED_COLUMNS: { table: string; column: string; breaks: string }[] = [
   { table: 'cron_runs', column: 'job', breaks: 'this board' },
   { table: 'spotlight_shown', column: 'spotlight_key', breaks: 'the weekly spotlight repeats itself' },
   { table: 'push_subscriptions', column: 'device_id', breaks: 'every push send, silently: the route replies 200 with the failure in the body' },
+  // The check in and learning loop joined the watch on 1 September 2026,
+  // after the audit found the whole retention spine sat outside the only
+  // daily schema monitoring.
+  { table: 'concerns', column: 'last_checked_at', breaks: 'the daily check in asks about everything every day, or nothing' },
+  { table: 'concern_events', column: 'score', breaks: 'the movement spine: What is working, the weekly email block, the Today rung' },
+  { table: 'profiles', column: 'first_checkin_at', breaks: 'the baseline framing, and every first check in reads as a returning one' },
+  { table: 'expert_knowledge_candidates', column: 'status', breaks: 'the research updater queues findings nobody can review' },
+  { table: 'digi_tester_runs', column: 'week_start', breaks: 'the Monday tester stores nothing and week on week drift goes invisible' },
 ]
 
 /**

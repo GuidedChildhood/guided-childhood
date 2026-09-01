@@ -280,7 +280,13 @@ Score how many of the requirements are genuinely met as a fraction from 0 to 1. 
   return { score: 0, notes: 'grader unavailable' }
 }
 
-async function runCase(caseItem: EvalCase): Promise<CaseResult> {
+// Exported since 1 September 2026 for the weekly tester: the rotating
+// difficult questions run through EXACTLY this pipeline, same reply
+// generation, same verifier, same rubric, so a rotating case's score means
+// the same thing as a fixed one's. The fixed suite above stays frozen; new
+// permanent cases are added by hand when a failure mode is worth guarding
+// forever, never by the rotation.
+export async function runCase(caseItem: EvalCase): Promise<CaseResult> {
   const reply = await generateReply(caseItem)
   const [verdict, rubric] = await Promise.all([
     verifyReply(caseItem.prompt, reply),
