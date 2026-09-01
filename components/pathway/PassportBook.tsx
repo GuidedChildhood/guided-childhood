@@ -404,16 +404,18 @@ export default function PassportBook({
                             src={friend.cutout}
                             alt=""
                             style={{
-                              width: 56, height: 56, objectFit: 'contain',
+                              width: 64, height: 64, objectFit: 'contain',
                               filter: 'grayscale(1) contrast(1.2) opacity(0.85)',
                             }}
                           />
                           {/* The ink: the stage colour laid over the grey art,
-                              so every stamp presses in its page's own colour. */}
+                              so every stamp presses in its page's own colour.
+                              No label inside the circle: 56px of art plus a
+                              line of text in an 84px stamp put the word on the
+                              Friend's feet (the blocked out by text report,
+                              1 September 2026). The character IS the stamp;
+                              the ring and the ink already say earned. */}
                           <span aria-hidden style={{ position: 'absolute', inset: 0, background: theme.text, mixBlendMode: 'screen', opacity: 0.28, pointerEvents: 'none' }} />
-                          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: '1px' }}>
-                            Earned
-                          </span>
                         </>
                       ) : (
                         <>

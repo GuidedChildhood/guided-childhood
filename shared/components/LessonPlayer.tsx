@@ -1082,6 +1082,9 @@ export default function LessonPlayer({
         <span style={{
           fontFamily: 'var(--font-mono)', fontSize: projector ? '13px' : '10.5px', fontWeight: 700,
           letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+          // The label gives way, never the star: on a narrow phone a long
+          // phase line was crowding DiGi and the star chip to the edge.
+          flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
         }}>
           {finished
             ? classMode ? 'The showcase' : 'The finish'

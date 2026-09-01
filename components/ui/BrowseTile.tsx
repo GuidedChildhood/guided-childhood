@@ -43,7 +43,11 @@ export default function BrowseTile({
         position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden',
         minHeight: 128, textDecoration: 'none', opacity: locked ? 0.82 : 1,
         background: `var(--stage-${stageNum}-bold)`,
-        borderRadius: '20px', padding: '17px 18px',
+        // The bottom padding reserves the corner where the cover art lives.
+        // Without it a long wrapped title paints straight over the badge
+        // (part of the "characters blocked out with text" report, 1 September
+        // 2026): text and art each get their own room, never each other's.
+        borderRadius: '20px', padding: '17px 18px 56px',
       }}
     >
       <span style={{

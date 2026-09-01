@@ -79,9 +79,37 @@ export default function AnimatedIntro({
         </div>
       )}
 
-      {/* The character clip in a rounded frame */}
+      {/* Speech bubble ABOVE the frame, tail pointing down at the character.
+          It used to sit inside the frame, absolutely positioned over the
+          clip, and on a phone it covered most of the character's body with a
+          white block of text. Justin, 1 September 2026: "characters seemed
+          to be blocked out with text". The Duolingo register (Mobbin refs,
+          lesson plan) never lets the bubble touch the mascot: bubble first,
+          tail down, character fully visible underneath. */}
+      <div data-bubble style={{ opacity: 0 }}>
+        <div style={{
+          maxWidth: 300, margin: '0 auto',
+          background: '#fff', borderRadius: '16px', padding: '11px 14px',
+          textAlign: 'left', boxShadow: '0 4px 0 rgba(0,0,0,0.18)', minHeight: '2.6em',
+        }}>
+          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4 }}>
+            {typed}
+            {typed.length < c.line.length && <span style={{ display: 'inline-block', width: '2px', height: '1em', background: 'var(--terracotta)', marginLeft: '1px', verticalAlign: '-2px', animation: 'introCaret 0.7s step-end infinite' }} />}
+          </span>
+        </div>
+        <div style={{
+          width: 0, height: 0, margin: '0 auto 10px',
+          borderLeft: '10px solid transparent', borderRight: '10px solid transparent',
+          borderTop: '12px solid #fff',
+        }} />
+      </div>
+
+      {/* The character clip in a rounded frame, nothing over it */}
       <div data-frame style={{
-        opacity: 0, position: 'relative', width: '100%', maxWidth: 280, margin: '0 auto',
+        // 200 rather than the old 280: with the bubble now OUTSIDE the frame
+        // the intro runs taller, and the Continue button must stay on a phone
+        // screen without scrolling. The clip reads perfectly at this size.
+        opacity: 0, position: 'relative', width: '100%', maxWidth: 200, margin: '0 auto',
         aspectRatio: '1 / 1', borderRadius: '20px', overflow: 'hidden',
         border: '3px solid rgba(237,195,95,0.5)', boxShadow: '0 12px 34px rgba(0,0,0,0.3)',
         background: '#0F2A32',
@@ -91,17 +119,6 @@ export default function AnimatedIntro({
           autoPlay muted loop playsInline
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
-        {/* Speech bubble over the lower corner */}
-        <div data-bubble style={{
-          opacity: 0, position: 'absolute', left: '8px', right: '8px', bottom: '8px',
-          background: '#fff', borderRadius: '14px 14px 14px 4px', padding: '9px 12px',
-          textAlign: 'left', boxShadow: '0 4px 0 rgba(0,0,0,0.18)', minHeight: '2.6em',
-        }}>
-          <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.4 }}>
-            {typed}
-            {typed.length < c.line.length && <span style={{ display: 'inline-block', width: '2px', height: '1em', background: 'var(--terracotta)', marginLeft: '1px', verticalAlign: '-2px', animation: 'introCaret 0.7s step-end infinite' }} />}
-          </span>
-        </div>
       </div>
 
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 5vw, 1.9rem)', fontWeight: 900, color: '#fff', lineHeight: 1.14, letterSpacing: '-0.02em', margin: '18px 0 18px' }}>
