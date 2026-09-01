@@ -42,28 +42,53 @@ function BadgeChips({ badges }: { badges: CurriculumBadges }) {
   )
 }
 
+// The order the options are shown in, for one choice slide in one run. The
+// decks are authored with the right answer wherever it reads best, which on
+// most of them is the middle line, and a child learns that in two lessons.
+// A seeded shuffle hides the pattern; seeding from the run salt plus the
+// slide index means Back then Next shows the same order, and Run it again
+// deals a fresh one.
+function optionOrder(count: number, seed: number): number[] {
+  const idx = Array.from({ length: count }, (_, i) => i)
+  let s = (seed % 2147483647) || 1
+  const rnd = () => (s = (s * 48271) % 2147483647) / 2147483647
+  for (let i = idx.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1))
+    ;[idx[i], idx[j]] = [idx[j], idx[i]]
+  }
+  return idx
+}
+
+const freshSalt = () => Math.floor(Math.random() * 2147483646) + 1
+
 function ChoiceBlock({
   slide,
   onAnswered,
   projector = false,
+  seed = 0,
 }: {
   slide: ChoiceSlide
   onAnswered: (correct: boolean, chosen: string) => void
   projector?: boolean
+  seed?: number
 }) {
   const [picked, setPicked] = useState<number | null>(null)
+  // Fixed for the life of this slide's mount, so a later salt change can
+  // never move an answer out from under a pick.
+  const [order] = useState(() => optionOrder(slide.options.length, seed))
   const rootRef = useRef<HTMLDivElement>(null)
 
   const pick = (i: number) => {
     if (picked !== null) return
+    const opt = slide.options[order[i]]
     setPicked(i)
-    onAnswered(slide.options[i].correct, slide.options[i].text)
+    onAnswered(opt.correct, opt.text)
     // The tactile beat: the picked answer pops the moment it is tapped.
     const el = rootRef.current?.querySelector(`[data-choice-opt="${i}"]`)
     if (el) {
       gsap.fromTo(el, { scale: 0.97 }, {
         scale: 1, duration: 0.45,
-        ease: slide.options[i].correct ? 'back.out(3)' : 'power2.out',
+        ease: opt.correct ? 'back.out(3)' : 'power2.out',
       })
     }
   }
@@ -81,7 +106,8 @@ function ChoiceBlock({
         {slide.question}
       </h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: projector ? '760px' : '520px', margin: '0 auto' }}>
-        {slide.options.map((opt, i) => {
+        {order.map((optIndex, i) => {
+          const opt = slide.options[optIndex]
           const isPicked = picked === i
           const revealed = picked !== null
           const showRight = revealed && opt.correct
@@ -375,11 +401,12 @@ function DigiClosingBlock({ slide }: { slide: DigiSlide }) {
 }
 
 function SlideBody({
-  slide, onAnswered, projector,
+  slide, onAnswered, projector, seed,
 }: {
   slide: LessonSlide
   onAnswered: (correct: boolean, chosen: string) => void
   projector?: boolean
+  seed?: number
 }) {
   switch (slide.type) {
     case 'title':
@@ -476,7 +503,7 @@ function SlideBody({
         </div>
       )
     case 'choice':
-      return <ChoiceBlock slide={slide} onAnswered={onAnswered} projector={projector} />
+      return <ChoiceBlock slide={slide} onAnswered={onAnswered} projector={projector} seed={seed} />
     case 'discussion':
       return <DiscussionBlock slide={slide} />
     case 'stat':
@@ -590,6 +617,10 @@ export default function LessonPlayer({
   const [digiMood, setDigiMood] = useState<DigiMood>('idle')
   const [finished, setFinished] = useState(false)
   const [scriptOpen, setScriptOpen] = useState(false)
+  // The run salt behind the option shuffle. It lands after mount rather than
+  // in the initial state so the server and the first client render agree.
+  const [runSalt, setRunSalt] = useState(0)
+  useEffect(() => { setRunSalt(freshSalt()) }, [])
   // Per choice slide result, keyed by slide index so revisits do not double count.
   const answersRef = useRef<Record<number, boolean>>({})
   // What was actually picked, question by question (migration 239): the
@@ -748,6 +779,7 @@ export default function LessonPlayer({
   const runAgain = () => {
     answersRef.current = {}
     answerDetailRef.current = {}
+    setRunSalt(freshSalt())
     dirRef.current = 1
     setAnswered(false)
     setFinished(false)
@@ -980,7 +1012,7 @@ export default function LessonPlayer({
             paddingTop: '18px', paddingBottom: '24px',
           }}
         >
-          <SlideBody key={index} slide={slide} onAnswered={onAnswered} projector={projector} />
+          <SlideBody key={index} slide={slide} onAnswered={onAnswered} projector={projector} seed={runSalt + index * 101} />
           {index === 0 && badges && <BadgeChips badges={badges} />}
         </div>
 

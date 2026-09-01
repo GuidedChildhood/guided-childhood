@@ -122,3 +122,27 @@ count rose from 169 to 368 and every deck verified live by SQL: keywords,
 four plus questions with one correct each, recap, tryit, character, zero
 dashes. Step 7: tsc, wiring, checkin guard, rotation check, and Playwright
 walks of the intro, a full lesson run and the new slide types, all green.
+
+## REVIEWED, 1 September 2026 evening (PR 947)
+
+Justin: make sure all loops work well and the lessons are top school
+teacher quality, questions to match, better than any digital lessons out
+there, progressing by age. The loops walk clean (day path, lesson, day
+close, kid lessons, zero page errors). Two decks read in full are genuinely
+strong. The questions had two tells a child learns in two lessons: the
+right answer was the longest option in 80 to 98 percent of questions per
+stage, and the player never shuffled, so it sat in the middle almost every
+time (Shaper: 102 of 102 three option questions).
+
+Fixed on PR 947. The player deals a seeded option order per run (Back then
+Next keeps it, Run it again redeals). Migrations 245 to 249 rewrite the
+weakest distractor on 333 questions into a plausible misconception a child
+that age actually holds, each with its own marking feedback, trim over long
+right answers, extend a second distractor where needed, and replace two
+questions the school arc had duplicated inside their own decks. After:
+right answer longest 20 to 30 percent per stage, shortest 24 to 43,
+longest by a visible margin 1 to 4 questions per stage, every option with
+feedback, exactly one correct per question, zero dashes, all verified by
+SQL. The three questions in the per stage top up file (stage-quizzes.ts)
+are only used when a stage has fewer than five lesson questions, which no
+stage does now, so they were left alone.

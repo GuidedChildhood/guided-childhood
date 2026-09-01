@@ -2,9 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
-import { QUEST_TEMPLATES, type QuestTemplate } from '@/lib/quests/templates'
 import ShareQrButton from '@/components/quests/ShareQrButton'
 import JobComposer from '@/components/quests/JobComposer'
+import JobPicker from '@/components/quests/JobPicker'
 import type { JobBand } from '@/lib/quests/job-time'
 import SentToast from '@/components/ui/SentToast'
 import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
@@ -54,7 +54,7 @@ import TimeEarnedPrompt from '@/components/quests/TimeEarnedPrompt'
 // said something at five jobs. So the page built for adding jobs was the one
 // that could not choose when a job repeated. One composer now, on both pages.
 
-type Child = { id: string; name: string }
+type Child = { id: string; name: string; age_band?: string | null }
 type Quest = { id: string; title: string; emoji: string; stars: number; schedule: string; child_id: string | null; is_family_job?: boolean; steps?: string[] | null }
 type Tick = { id: string; quest_id: string; child_id: string | null; status: string; tick_date: string }
 type Ask = { id: string; child_id: string | null; title: string; status: string; swap_quest_id?: string | null }
@@ -74,13 +74,6 @@ const LINK_BTN: React.CSSProperties = {
   background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0,
   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
   color: 'var(--terracotta)', letterSpacing: '0.04em', padding: '6px 4px',
-}
-// The chip, which is now the only shape a suggestion takes on this page.
-const CHIP: React.CSSProperties = {
-  display: 'inline-flex', alignItems: 'center', gap: 6,
-  border: '1.5px solid var(--border)', borderRadius: 100, background: '#fff',
-  padding: '8px 13px', cursor: 'pointer',
-  fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink)',
 }
 // A quiet line for a tab with nothing in it. An empty tab has to say so in
 // words, because an empty panel reads as a page that failed to load.
@@ -130,7 +123,6 @@ export default function ManageJobs({
   const [busy, setBusy] = useState(false)
   // What the bottom confirmation is saying, null when nothing.
   const [justAdded, setJustAdded] = useState<string | null>(null)
-  const [allIdeas, setAllIdeas] = useState(false)
   // What the last yes just landed, so the parent's side of that second says
   // something too. Cleared by hand or by leaving the tab.
   const [earned, setEarned] = useState<{ childName: string; stars: number } | null>(null)
@@ -234,19 +226,27 @@ export default function ManageJobs({
   // just added right above the box. A toast as well would confirm the same add
   // twice in two places. The chips below still flash, because they have no
   // confirmation of their own.
+  //
+  // Answers true when the job landed, so the picker's row can turn its plus
+  // into a tick honestly rather than on hope. A failed add used to look
+  // identical to a successful one from here.
   async function add(
     t: { title: string; emoji: string; stars: number; schedule: string; band?: JobBand | null },
     opts: { flash?: boolean } = {},
-  ) {
-    if (busy) return
+  ): Promise<boolean> {
+    if (busy) return false
     setBusy(true)
     try {
-      await fetch('/api/quests', {
+      const res = await fetch('/api/quests', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...t, child_id: activeChild }),
       })
+      if (!res.ok) return false
       if (opts.flash !== false) flash(t.title)
       await load()
+      return true
+    } catch {
+      return false
     } finally { setBusy(false) }
   }
 
@@ -329,13 +329,6 @@ export default function ManageJobs({
   const myAsks = useMemo(() => asks.filter(a => a.child_id === activeChild || a.child_id === null), [asks, activeChild])
   const questById = useMemo(() => new Map(quests.map(q => [q.id, q])), [quests])
 
-  // Ideas we have not already put on their board. Play first, because play pays
-  // the most stars and is the job families most often forget counts.
-  const usedTitles = new Set(mine.map(q => q.title.toLowerCase()))
-  const ideas = QUEST_TEMPLATES
-    .filter(t => !usedTitles.has(t.title.toLowerCase()))
-    .sort((a, b) => Number(!!b.play) - Number(!!a.play))
-
   const hasApp = !!activeChild && links.some(l => l.child_id === activeChild)
 
   // Per child, because one child having a phone says nothing about the next.
@@ -355,7 +348,8 @@ export default function ManageJobs({
       window.localStorage.setItem(codeKey, String(Date.now() + 7 * 86400000))
     } catch { /* private mode. It stays hidden for this visit, which is enough. */ }
   }
-  const childName = children.find(c => c.id === activeChild)?.name
+  const activeKid = children.find(c => c.id === activeChild)
+  const childName = activeKid?.name
   const name = childName && childName !== 'Your child' ? childName : 'your child'
 
   // Everything on this tab strip that has a number, so the tab can carry it.
@@ -373,8 +367,11 @@ export default function ManageJobs({
     { key: 'theirs', label: `Waiting for ${name === 'your child' ? 'them' : name}`, count: mine.length, alert: false },
   ]
 
+  // The bottom padding clears the tab bar AND the Now button. Justin's
+  // screenshot had the last chip bleeding under the tab bar and the Now
+  // button sitting on the list, because 48px is less than the bar.
   return (
-    <div style={{ maxWidth: 620, margin: '0 auto', padding: '22px 20px 48px' }}>
+    <div style={{ maxWidth: 620, margin: '0 auto', padding: '22px 20px calc(150px + env(safe-area-inset-bottom))' }}>
       <Link href="/dashboard/quests" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', marginBottom: 16 }}>
         ← Quests
       </Link>
@@ -591,57 +588,26 @@ export default function ManageJobs({
               />
             </div>
 
-            {/* Chips under the input, both rows of them, which is the Superlist
-                shape. These were a chip row and then six full width rows at
-                56px each, so the suggestions alone ran most of a phone screen
-                and the board was pushed off the bottom of it. As chips the same
-                fourteen suggestions fit in the space the six rows took. */}
-            {myPrevious.length > 0 && !midQuestion && (
-              <>
-                <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', margin: '0 0 8px' }}>
-                  You have used these before
-                </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7, marginBottom: 14 }}>
-                  {myPrevious.slice(0, 10).map(q => (
-                    <button
-                      key={q.id}
-                      onClick={() => setPending({ title: q.title, emoji: q.emoji, stars: q.stars })}
-                      disabled={busy}
-                      style={CHIP}
-                    >
-                      <span aria-hidden>{q.emoji}</span>{q.title}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-
-            {!midQuestion && (
-            <>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-light)', margin: '0 0 8px' }}>
-              Or tap an idea
-            </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 7 }}>
-              {(allIdeas ? ideas : ideas.slice(0, 8)).map((t: QuestTemplate) => (
-                <button key={t.title} onClick={() => setPending({ title: t.title, emoji: t.emoji, stars: t.stars })} disabled={busy} style={CHIP}>
-                  <span aria-hidden>{t.emoji}</span>
-                  {t.title}
-                  {/* The value pill, from Tiimo. A chip that does not say what
-                      it pays is asking a parent to add a job blind. */}
-                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)' }}>
-                    ⭐{t.stars}
-                  </span>
-                </button>
-              ))}
-            </div>
-            {ideas.length > 8 && (
-              <button onClick={() => setAllIdeas(v => !v)} style={{ ...LINK_BTN, marginTop: 10 }}>
-                {allIdeas ? 'Show fewer' : `Show all ${ideas.length} ideas`}
-              </button>
-            )}
-            </>
-            )}
           </section>
+
+          {/* The picker: the best jobs for this child's age in order of most
+              useful, one tap to add and send, the tiles the child app uses.
+              This replaced two rows of chips (used before, then thirty ideas
+              with play first), which on Justin's phone with the text turned up
+              wrapped into a wall three lines deep. Hidden while the composer
+              above is mid question, for the same reason the chips were: a tap
+              here mid answer would swap the job out from under the parent. */}
+          {!midQuestion && (
+            <JobPicker
+              childName={childName ?? null}
+              ageBand={activeKid?.age_band ?? null}
+              hasApp={hasApp}
+              onBoard={mine.map(q => q.title)}
+              previous={myPrevious.map(q => ({ title: q.title, emoji: q.emoji, stars: q.stars, schedule: q.schedule }))}
+              busy={busy}
+              onAdd={job => add(job, { flash: false })}
+            />
+          )}
 
           {/* One line, so a parent adding their fourth job can see it landing
               without leaving the composer to check. The full list is a tab
