@@ -9714,3 +9714,35 @@ Justin's Duolingo brief. Decisions in the first build slice:
 - Rule from this: a question is not finished when the right answer is
   written. It is finished when the wrong answers could each be argued by
   a child of that age, and the lengths give nothing away.
+
+## 1 September 2026, late evening: add a job, the Apple level picker
+
+- Justin, with a screenshot of the Add a job tab on his phone: top visual
+  UX like the best Mobbin examples, the best jobs for the child's age in
+  order of most useful, super easy to add and send to the child's app,
+  happy news style icons, matching the look of the child's app. What he
+  had was a tag cloud of chips that wrapped three lines deep with the text
+  turned up, one flat list of thirty for every age, and a two question
+  wizard behind every tap.
+- Mobbin, read that evening: Greenlight (own chore first, suggestions as
+  rows), GoHenry (tinted icon tile left, value right), Finch (kind tabs,
+  a plus per row, the added row turns green in place), Liven. The shape:
+  rows, not chips. One tile, one title, one value, one plus.
+- lib/quests/best-jobs.ts is the ranked library: twelve to fourteen jobs
+  per stage in usefulness order, each with a one line why and a kind.
+  Usefulness means what the job does for the family's day and the
+  child's growing up, so the routine that removes the morning fight comes
+  first, then screens in their place, then real help, then the growing up
+  skills, with play in the mix because play still pays the top stars.
+- components/quests/JobPicker.tsx is the picker, on the Add a job tab
+  under the composer, which stays for typed jobs. One tap adds with the
+  job's own repeat and the create route sends it to the child; the row
+  turns sage with a tick and says Sent to Alfie's app, honestly, because
+  the add now answers true or false. The repeat chips sit inline behind a
+  tap on the row for anyone who wants weekends instead, no wizard.
+- The tiles are the child app's rounded squares tinted from the stage
+  palette by kind, and the header is the Planet Friend in the happy news
+  ring, so what a parent adds looks like what the child sees.
+- Rule from this: suggestions are rows with a fixed tile and a fixed
+  button, never chips. Chips size to their words and fall apart the
+  moment a parent turns their text up.
