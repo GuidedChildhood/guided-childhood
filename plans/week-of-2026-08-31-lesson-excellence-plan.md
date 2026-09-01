@@ -105,3 +105,20 @@ PR one: step 1 + this plan (claims migrations 239 to 244). PR two: steps
 2 and 3. PR three: step 4 (Foundation + Builder). PR four: step 5
 (Explorer + Shaper). PR five: step 6 (Independent) + step 7. Small PRs,
 merged same day where possible, per the house sync rules.
+
+## BUILT, 1 September 2026, the whole plan in one evening
+
+All on PR 945, one branch, three commits. Step 1: the intro bubble moved
+above the character with a tail pointing down (the Duolingo register from
+the Mobbin pull), plus the four smaller overlap sites, verified by
+screenshot at phone and desktop widths. Steps 2 and 3: migration 239's
+lesson_question_answers written by both apps' players and both stage
+check surfaces, and the stage check ordering its pool missed first, never
+met next, held last, so the passport final asks the wobbly ones first.
+Steps 4 to 6: migrations 240 to 244 carried every one of the 92 decks to
+the school arc, additively, registers held per stage, Nova fronting the
+heavy Shaper decks and Cosmo the Independent ones; the library's question
+count rose from 169 to 368 and every deck verified live by SQL: keywords,
+four plus questions with one correct each, recap, tryit, character, zero
+dashes. Step 7: tsc, wiring, checkin guard, rotation check, and Playwright
+walks of the intro, a full lesson run and the new slide types, all green.
