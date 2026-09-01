@@ -9468,3 +9468,22 @@ What was wrong and is now fixed:
    or earlier, authored deck), so a ping can never point at a lesson that
    would 404 on the child's side. Same ping route, already scoped to the
    one child's subscriptions.
+
+## 1 September 2026 — the child switcher audit, run again and written down
+
+Justin: "run a check that child ticks works on every aspect of platform."
+Full sweep verified in code, report at plans/multi-child-audit-01-sep.md.
+
+The verdict: the August plumbing landed (layout rail, nav params, per
+child lesson completions, quest ticks, DiGi filing and now its thread),
+but the Today path and Home tiles still drop ?child=, one silent
+corruption survives (a shared job approved from /dashboard/quests banks
+stars for every child, because that page carries no child param and the
+null tick counts for everyone), and twelve API routes still write to the
+primary child whatever the toggle says (weekly agreement stars, Sunday
+and weekly check in concerns, tracker, moment outcomes, DiGi feedback,
+Right Now concerns, school send to child, keepsake orders). Advice side:
+DiGi still blends wellbeing scores and concerns across children, and six
+star cap call sites price every child on the middle band. Fix order is in
+the report; nothing is architectural. Awaiting Justin's word before the
+fixes are built.
