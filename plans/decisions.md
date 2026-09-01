@@ -9570,3 +9570,27 @@ picture. Decisions made:
 - DB repoint with no migration, same as the 18 August repair: the segment
   rows carry no URLs in any seed file. Record in
   content/packs/2026-09-01-lesson-video-rerender/production.md.
+
+## 1 September 2026: the habit loop, part one (rotation, one tick, top five)
+
+Justin's Duolingo brief. Decisions in the first build slice:
+
+- The day rotation runs on COMPLETED days, never calendar days: a parent who
+  opens the app twice a week walks the same road in order, no missed day
+  pile up. Seven completed days make a lap: connect, lesson, connect, digi,
+  connect, lesson, passport. Derived (count of completed daily_sessions
+  before today), nothing written on read; migration 237 stamps the focus on
+  the completed row as the record.
+- ONE main tick decides the day. The engine marks a single lead rung, it
+  walks to the front of the road, and the rest sit under an "also today, if
+  you fancy it" seam. The minutes budget survives as the invitation to do
+  more, never the gate.
+- Passport day completes on a LOOK, not a finish: arriving on the pathway
+  from the road records the day (passportday=1 link + MarkPassportLook),
+  because checking progress weekly is the ask, not clearing every section.
+- The top five scripts share one engine with the single pick
+  (gatherSignals extracted in lib/pathway/recommend.ts), so position one IS
+  the road's card and the never speak first guard covers all five. Free
+  users keep a free lead card; the shelf shows locks honestly.
+- /api/daily/day-done records non deck completions idempotently; the deck's
+  own route keeps its meaning.

@@ -5,6 +5,7 @@ import type { StageId } from './progress'
 import type { ChallengeId } from '@/lib/content/stages'
 import { londonToday, londonDayStart } from '@/lib/pathway/today'
 import { currentStagePassportSections, type CurrentStageChild } from '@/lib/pathway/passport-sections'
+import { dayFocusFor, type DayFocus } from '@/lib/pathway/day-focus'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
 
@@ -17,10 +18,20 @@ export interface DailyTask {
 }
 
 export interface TodayLoopTask {
-  key: 'checkin' | 'setup' | 'moment' | 'agreement' | 'script' | 'quests' | 'passport' | 'digi' | 'done'
+  key: 'checkin' | 'setup' | 'moment' | 'agreement' | 'script' | 'quests' | 'passport' | 'digi' | 'lesson' | 'done'
   label: string
   href: string
   done: boolean
+  /**
+   * The day's ONE tick. Justin, 1 September 2026: "only have to click one
+   * tick per day but have other recommended." Exactly one task carries this
+   * flag, the day completes when it is done, and everything else on the road
+   * is a recommendation rather than a requirement. Which task leads follows
+   * the day's focus (lib/pathway/day-focus.ts): connect days lead with the
+   * check in or the moment, lesson days with the next lesson for the age,
+   * DiGi days with DiGi, and passport day with the weekly look at progress.
+   */
+  lead?: boolean
 }
 
 // ── TODAY. THE ORDER IS THE DESIGN. ─────────────────────────────────────────
@@ -128,6 +139,10 @@ export async function getTodayLoop(
     { data: scoredToday },
     { data: agreementRow },
     passportRead,
+    { data: completedBefore },
+    { data: stageLessons },
+    { data: aiLessons },
+    { data: lessonRows },
   ] = await Promise.all([
     // Concerns flagged before today that have not been checked today:
     // the same query the daily deck uses to build its check in card.
@@ -206,6 +221,27 @@ export async function getTodayLoop(
     // passport page uses. See the child parameter above for why this is
     // fetched here rather than handed in.
     currentStagePassportSections(supabase, userId, child),
+    // ── THE ROTATION'S ODOMETER ────────────────────────────────────────────
+    //
+    // How many days this child's road has completed, strictly BEFORE today,
+    // which is what makes the day's focus stable for the whole of a day and
+    // gap proof for a family who opens the app twice a week. See
+    // lib/pathway/day-focus.ts for the argument.
+    supabase.from('daily_sessions')
+      .select('session_date, child_id')
+      .eq('user_id', userId)
+      .not('completed_at', 'is', null)
+      .lt('session_date', today)
+      .limit(500),
+    // The next lesson for the age, for lesson days: the same two shelves the
+    // legacy trail read, the stage's own lessons first, then the AI modules
+    // for the stage's audience.
+    supabase.from('lessons').select('id, title').eq('stage_id', stageId).eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
+    supabase.from('ai_lessons').select('id, title').eq('audience', STAGE_TO_AUDIENCE[stageId]),
+    // One read serves both questions: which lessons are behind this child
+    // (per child, a row with no child speaks for the household), and whether
+    // a lesson landed TODAY, which is what ticks a lesson day.
+    supabase.from('lesson_completions').select('lesson_id, lesson_source, passed, child_id, completed_at').eq('user_id', userId).limit(1000),
   ])
 
   // THIS CHILD'S DAY, out of the rows for today.
@@ -258,6 +294,45 @@ export async function getTodayLoop(
   const passportOutstanding = passportRead === null
     ? null
     : passportRead.sections.filter(sec => sec.pct < 100).length
+
+  // ── THE DAY'S FOCUS ────────────────────────────────────────────────────────
+  //
+  // Counted on completed days before today, per child (a household row from
+  // before migration 210 counts for everybody), so the rotation advances only
+  // when a day actually finished and holds still all day.
+  const completedDaysBefore = new Set(
+    ((completedBefore ?? []) as { session_date: string; child_id: string | null }[])
+      .filter(r => r.child_id === (child?.id ?? null) || r.child_id === null)
+      .map(r => r.session_date),
+  ).size
+
+  // The next lesson for the age, per child. A completion with passed false is
+  // a lesson still owed; passed null is a row from before scoring existed and
+  // counts as done rather than asking an old family to redo their history.
+  type LessonCompletionRow = { lesson_id: string; lesson_source: string; passed: boolean | null; child_id: string | null; completed_at: string | null }
+  const myLessonRows = ((lessonRows ?? []) as LessonCompletionRow[])
+    .filter(r => r.child_id === (child?.id ?? null) || r.child_id === null)
+  const doneLessonKeys = new Set(
+    myLessonRows.filter(r => r.passed !== false).map(r => `${r.lesson_source}:${r.lesson_id}`),
+  )
+  const nextLesson =
+    (stageLessons ?? []).find(l => !doneLessonKeys.has(`lesson:${l.id}`)) ??
+    (aiLessons ?? []).find(l => !doneLessonKeys.has(`ai_lesson:${l.id}`))
+  const nextLessonHref = nextLesson
+    ? (stageLessons ?? []).some(l => l.id === nextLesson.id)
+      ? `/dashboard/lessons/${nextLesson.id}`
+      : `/dashboard/ai-module/${nextLesson.id}`
+    : '/dashboard/lessons'
+  const lessonDoneToday = myLessonRows.some(r => r.completed_at !== null && r.completed_at >= dayStart)
+
+  // The focus, with its honest fallbacks: a lesson day with every lesson done
+  // falls back to connect (there is nothing to lead with), and passport day
+  // needs a passport to look at with something still open on it. The day the
+  // fallback fires the rotation still advances next time, so nobody gets
+  // stuck on a day type their family has outgrown.
+  let focus: DayFocus = dayFocusFor(completedDaysBefore)
+  if (focus === 'lesson' && !nextLesson) focus = 'connect'
+  if (focus === 'passport' && (passportOutstanding === null || passportOutstanding === 0)) focus = 'connect'
 
   const scriptHref = await safeScriptHref(supabase, userId, isPaid, recommended)
   // Doing a moment counts whether it came from the daily deck (a session) or
@@ -405,6 +480,19 @@ export async function getTodayLoop(
       href: withChild('/dashboard/daily'),
       done: momentDone,
     },
+    // ── THE LESSON, ON LESSON DAYS ONLY ────────────────────────────────────
+    //
+    // Justin, 1 September 2026: rotate days "to go through lessons needed for
+    // age one by one which tick off". The rung leads a lesson day and stays
+    // off the road otherwise, because a standing lesson rung is how a road
+    // grows into a chores list. Done is a lesson landed TODAY, any lesson:
+    // the parent who took a different one still did the day's real thing.
+    ...(focus === 'lesson' && nextLesson ? [{
+      key: 'lesson' as const,
+      label: 'Lesson',
+      href: withChild(nextLessonHref),
+      done: lessonDoneToday,
+    }] : []),
     // ── THE AGREEMENT, ONCE A WEEK, RIGHT AFTER THE MOMENTS ────────────────
     //
     // Justin, 14 August 2026, walking his own loop: "after going through the
@@ -479,8 +567,17 @@ export async function getTodayLoop(
       // 13 August, which is the whole reason that split was worth doing: this
       // rung can land ON the passport rather than near it. The from=today is
       // main's, so the way back to the loop is on the page when they arrive.
-      href: withChild('/dashboard/pathway?from=today'),
-      done: passportOutstanding === 0,
+      // On passport day the link carries passportday=1 so the pathway page
+      // knows this visit IS the day's one thing and records the look; any
+      // other day the same page records nothing.
+      href: withChild(focus === 'passport' ? '/dashboard/pathway?from=today&passportday=1' : '/dashboard/pathway?from=today'),
+      // On passport day the ask is a LOOK, not a finish: reading the record
+      // is the day's one thing, and the pathway page records the look when it
+      // is opened from the road. Every other day keeps the honest reading the
+      // page itself shows: nothing outstanding on the parent's side.
+      done: focus === 'passport'
+        ? (!!session?.completed_at || passportOutstanding === 0)
+        : passportOutstanding === 0,
     }] : []),
     // ── DIGI CLOSES THE DAY ────────────────────────────────────────────────
     //
@@ -504,11 +601,44 @@ export async function getTodayLoop(
     },
   ]
 
+  // ── ONE MAIN TICK ──────────────────────────────────────────────────────────
+  //
+  // Justin, 1 September 2026: "only have to click one tick per day but have
+  // other recommended." The day's focus names its lead: setup while it is
+  // unfinished (nothing works before it), then the check in or the moment on
+  // connect days, the lesson on lesson days, DiGi on DiGi days, the passport
+  // look on passport day. The lead walks to the front of the road so the one
+  // thing is the first thing, and the done flag below reads the lead alone:
+  // everything after it is a recommendation, never a requirement.
+  const leadKey: TodayLoopTask['key'] =
+    setupNextStep ? 'setup'
+    : focus === 'lesson' && tasks.some(t => t.key === 'lesson') ? 'lesson'
+    : focus === 'digi' ? 'digi'
+    : focus === 'passport' && tasks.some(t => t.key === 'passport') ? 'passport'
+    : tasks.some(t => t.key === 'checkin') ? 'checkin'
+    : 'moment'
+  const leadIdx = tasks.findIndex(t => t.key === leadKey)
+  if (leadIdx >= 0) {
+    tasks[leadIdx].lead = true
+    if (leadIdx > 0) {
+      const [lead] = tasks.splice(leadIdx, 1)
+      // Setup, when present and not itself the lead, stays in front of
+      // everything: a half set up family's road starts at setup whatever the
+      // rotation says.
+      const insertAt = tasks[0]?.key === 'setup' ? 1 : 0
+      tasks.splice(insertAt, 0, lead)
+    }
+  }
+
+  const lead = tasks.find(t => t.lead)
   tasks.push({
     key: 'done',
     label: 'Done',
     href: withChild('/dashboard/pathway'),
-    done: tasks.every(t => t.done),
+    // The day completes on the ONE tick. Before the rotation this required
+    // every rung, which made the road a checklist; now the lead alone decides
+    // and the rest of the ticks are bonuses that never gate the day.
+    done: lead ? lead.done : tasks.every(t => t.done),
   })
 
   return tasks

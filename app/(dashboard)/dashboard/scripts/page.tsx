@@ -6,7 +6,7 @@ import Link from 'next/link'
 import BrowseTile from '@/components/ui/BrowseTile'
 import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
 import { momentImageForTitle } from '@/lib/content/moment-images'
-import { getRecommendedScript } from '@/lib/pathway/recommend'
+import { getRecommendedScript, getTopScripts } from '@/lib/pathway/recommend'
 import { countsTowardPathway } from '@/lib/pathway/script-status'
 import type { ChallengeId } from '@/lib/content/stages'
 import ScriptFinder from '@/components/scripts/ScriptFinder'
@@ -141,8 +141,8 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
     // the child the parent chose. Justin: "scripts page for all children with
     // toggle." It read the primary child, so switching to the six year old left
     // the teenager's scripts on top.
-    getChildren<{ id: string; stage_id: string | null; is_primary: boolean | null }>(
-      supabase, user.id, childParam, 'stage_id'),
+    getChildren<{ id: string; stage_id: string | null; is_primary: boolean | null; name: string | null }>(
+      supabase, user.id, childParam, 'stage_id, name'),
     supabase.from('scripts').select('id, stage_id, title, situation, category, is_free, sort_order').order('sort_order', { ascending: true }),
     supabase.from('script_completions').select('script_sort_order, completed_at, status').eq('user_id', user.id),
   ])
@@ -197,9 +197,22 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
   // The recommendation is about THIS child: their stage, and since 20 August
   // 2026 their own concerns and check ins too, so switching the pills changes
   // the pick rather than only the shelf it sits on.
+  //
+  // Five now, not one. Justin, 1 September 2026: "a top 5 of scripts that
+  // apply to details we gather for each child ... recommended scripts to
+  // choose from." Position one is the same pick the road carries; the other
+  // four are the choice. For an unpaid parent the lead card keeps its free
+  // first pick so the big butter button never opens onto a paywall, while
+  // the shelf below shows the honest ranking with locks on its face.
+  const topPicks = currentStageId
+    ? await getTopScripts(supabase, user.id, currentStageId, challenge ?? null, { childId: child?.id ?? null })
+    : []
   const recommended = currentStageId
-    ? await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null, { preferFree: !isPaid, childId: child?.id ?? null })
+    ? (isPaid
+        ? topPicks[0] ?? null
+        : await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null, { preferFree: true, childId: child?.id ?? null }))
     : null
+  const morePicks = topPicks.filter(p => p.sort_order !== recommended?.sort_order).slice(0, 4)
 
   // The chip row. Counted from the real library rather than from the eight
   // keys, so a category with nothing in it never gets a chip and a chip never
@@ -371,6 +384,44 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
             )}
           </div>
         </Link>
+      )}
+
+      {/* ── THE OTHER FOUR OF THE TOP FIVE ─────────────────────────────────────
+          The lead above is a decision made for the family; this shelf is the
+          choice Justin asked for: the next four the same signals point at,
+          each carrying its reason so a parent can check it against their own
+          week. Locks are shown honestly rather than hiding paid rows. */}
+      {morePicks.length > 0 && (
+        <section style={{ marginBottom: '24px' }}>
+          <p className="eyebrow" style={{ marginBottom: '8px' }}>
+            {child?.name && child.name !== 'Your child' ? `Also picked for ${child.name}` : 'Also picked for your child'}
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {morePicks.map((pick, i) => {
+              const isLocked = !isPaid && !pick.is_free
+              const isDone = completedOrders.has(pick.sort_order)
+              return (
+                <Link
+                  key={pick.sort_order}
+                  href={isLocked ? '/dashboard/upgrade' : withChild(`/dashboard/scripts/${pick.sort_order}`)}
+                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '15px 16px', textDecoration: 'none', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px' }}
+                >
+                  <span aria-hidden style={{ flexShrink: 0, width: 30, height: 30, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', color: 'var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)' }}>
+                    {i + 2}
+                  </span>
+                  <span style={{ flex: 1, minWidth: 0 }}>
+                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25 }}>{pick.title}</span>
+                    <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '2px' }}>{pick.situation}</span>
+                    {pick.reason && (
+                      <span style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: '5px' }}>{pick.reason}</span>
+                    )}
+                  </span>
+                  <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink-muted)' }}>{isDone ? '✓' : isLocked ? '🔒' : '›'}</span>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
       )}
 
       {/* The four days are up. This card used to be the free plan's weekly

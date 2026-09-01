@@ -63,6 +63,11 @@ export function nextHint(key: TodayLoopTask['key']): string {
       afternoon: 'The words for the tricky moment coming after school',
       evening: 'Tonight’s words for the wind down, ready to read',
     },
+    lesson: {
+      morning: 'The next lesson for their age, about three minutes',
+      afternoon: 'The next lesson for their age, about three minutes',
+      evening: 'Three quiet minutes on the next lesson for their age',
+    },
     digi: {
       morning: 'Ask DiGi the thing on your mind before the day starts',
       afternoon: 'Ask DiGi one question about your day',
@@ -86,6 +91,7 @@ const NODE_LOOK: Record<TodayLoopTask['key'], { fill: string; tick: string; icon
   agreement: { fill: 'var(--tint-blue)',  tick: 'var(--ink)',          icon: '🤝' },
   passport: { fill: 'var(--stage-3-bold)', tick: 'var(--stage-3-text)', icon: '🛂' },
   digi:    { fill: 'var(--stage-5-bold)', tick: 'var(--stage-5-text)', icon: '✦' },
+  lesson:  { fill: 'var(--tint-amber)',   tick: 'var(--ink)',          icon: '📚' },
   done:    { fill: 'var(--stage-3-bold)', tick: 'var(--stage-3-text)', icon: '🏁' },
 }
 
