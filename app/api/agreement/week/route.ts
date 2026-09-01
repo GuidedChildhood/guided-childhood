@@ -13,17 +13,23 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { verdict } = await request.json().catch(() => ({}))
+  const { verdict, child_id } = await request.json().catch(() => ({}))
   if (!(verdict in VERDICT_STARS)) {
     return NextResponse.json({ error: 'verdict required' }, { status: 400 })
   }
 
-  const { data: child } = await supabase
+  // The child the verdict is about, off the wire with the primary child as
+  // the fallback. This read is_primary unconditionally, so a parent
+  // reviewing the deal with the older child paid the younger one the stars.
+  // Checked, not trusted: the id must belong to this parent.
+  const { data: kids } = await supabase
     .from('children')
-    .select('id, name')
+    .select('id, name, is_primary')
     .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .maybeSingle()
+  const child = (typeof child_id === 'string' && (kids ?? []).find(k => k.id === child_id))
+    || (kids ?? []).find(k => k.is_primary)
+    || (kids ?? [])[0]
+    || null
   if (!child) return NextResponse.json({ error: 'No child on the account yet' }, { status: 400 })
 
   // One verdict a week: look for an agreement check tick in the last six days.

@@ -175,11 +175,13 @@ export async function POST(request: Request) {
       .select('subscription_status, trial_ends_at, created_at, onboarding_answers')
       .eq('id', user.id)
       .single(),
+    // Every thread this family has, one per child since migration 235. Which
+    // one feeds the prompt is decided after the child is resolved below; all
+    // of them together are what the daily cap counts.
     supabase
       .from('digi_conversations')
-      .select('messages, messages_today, last_message_date')
-      .eq('user_id', user.id)
-      .single(),
+      .select('id, child_id, messages, messages_today, last_message_date')
+      .eq('user_id', user.id),
     // Every child, not only the primary one.
     //
     // This asked for is_primary and nothing else, so DiGi genuinely did not
@@ -196,10 +198,14 @@ export async function POST(request: Request) {
       .order('is_primary', { ascending: false }),
     supabase
       .from('wellbeing_checks')
-      .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication, concern_level, notes')
+      // child_id rides along so the rows can be scoped to the selected child
+      // once pickChild has run below. Unscoped, .limit(6) blended two
+      // children's weeks into one average and one trend. Wider limit so the
+      // filter still has six of THIS child's weeks to keep.
+      .select('child_id, week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication, concern_level, notes')
       .eq('parent_id', user.id)
       .order('week_start', { ascending: false })
-      .limit(6),
+      .limit(24),
     supabase
       .from('digi_feedback')
       .select('feedback_date, question, parent_response, digi_insight')
@@ -228,11 +234,15 @@ export async function POST(request: Request) {
       : Promise.resolve({ data: null }),
     supabase
       .from('concerns')
-      .select('id, slug, label, status, times_flagged')
+      // child_id rides along for the same post pickChild scoping: every
+      // child is seeded the same four baseline worries, so unscoped rows
+      // gave DiGi two identical "Bedtime screens" lines with no way to tell
+      // whose was whose. Wider limit so six of THIS child's survive.
+      .select('id, child_id, slug, label, status, times_flagged')
       .eq('user_id', user.id)
       .in('status', ['open', 'improving'])
       .order('last_flagged_at', { ascending: false })
-      .limit(6),
+      .limit(24),
     getFamilyMemory(supabase, user.id, message),
     getWhatWorked(supabase, user.id),
     supabase
@@ -267,7 +277,12 @@ export async function POST(request: Request) {
   timer.mark('gather1')
 
   const profile = profileResult.data
-  const convData = convResult.data
+  type ConvRow = {
+    id: string; child_id: string | null
+    messages: Array<{ role: string; content: string; timestamp?: string }> | null
+    messages_today: number | null; last_message_date: string | null
+  }
+  const convRows = (convResult.data ?? []) as ConvRow[]
   // The whole family, and the one to assume when the parent has not said.
   type DigiChild = {
     id: string; name: string | null; age_band: string | null; stage_id: string | null
@@ -294,6 +309,13 @@ export async function POST(request: Request) {
   // child answers, exactly as before. No extra read, no way to file against
   // somebody else's child.
   const child = pickChild(children, typeof childParam === 'string' ? childParam : null)
+
+  // THIS child's thread, so the history in DiGi's head belongs to the child
+  // the parent has open. One blended family thread meant a question about one
+  // child was answered with the other's recent conversation as context, which
+  // is exactly the drift the per child filing was built to stop. A child with
+  // no thread yet simply starts one.
+  const convData = convRows.find(r => (r.child_id ?? null) === (child?.id ?? null)) ?? null
 
   const isPaid = hasFullAccess(profile, user.email)
 
@@ -326,8 +348,13 @@ export async function POST(request: Request) {
   const limitApplies = inStarterTrial(profile) && !isAllowlisted(user.email)
 
   const today = new Date().toISOString().split('T')[0]
-  const isNewDay = !convData || convData.last_message_date !== today
-  const currentCount = isNewDay ? 0 : (convData?.messages_today ?? 0)
+  // The cap counts the FAMILY, not the thread. Splitting conversations per
+  // child (migration 235) must not hand a two child family double the free
+  // allowance, so today's messages are summed across every thread; the per
+  // row count below is only what the selected thread writes back.
+  const rowCountToday = convData && convData.last_message_date === today ? (convData.messages_today ?? 0) : 0
+  const currentCount = convRows.reduce(
+    (n, r) => n + (r.last_message_date === today ? (r.messages_today ?? 0) : 0), 0)
 
   // Checked before any streaming starts, so a parent at their limit gets a
   // clean answer rather than a half written one.
@@ -513,7 +540,12 @@ IMPORTANT: this guide is the ONLY device the parent is asking about right now. I
   }
 
   let concernsKnowledge = ''
-  const liveConcerns = concernsResult.data ?? []
+  // THIS child's worries (a legacy row with no child speaks for everybody),
+  // capped back to the six the prompt was sized for.
+  const liveConcerns = (concernsResult.data ?? [])
+    .filter(c => ((c as { child_id?: string | null }).child_id ?? null) === (child?.id ?? null)
+      || (c as { child_id?: string | null }).child_id == null)
+    .slice(0, 6)
   if (liveConcerns.length > 0) {
     // ── DIGI CAN SEE THE STARS NOW (1 September 2026) ────────────────────────
     //
@@ -668,7 +700,12 @@ When a parent asks whether or for how long their child should use any device, do
     child,
     children,
     profile?.onboarding_answers,
-    trackerResult.data ?? [],
+    // THIS child's tracker weeks (legacy rows with no child count for
+    // everybody), back down to the six week window the prompt describes.
+    (trackerResult.data ?? [])
+      .filter(t => ((t as { child_id?: string | null }).child_id ?? null) === (child?.id ?? null)
+        || (t as { child_id?: string | null }).child_id == null)
+      .slice(0, 6),
     feedbackResult.data ?? [],
     aiKnowledge,
     // The order these are concatenated in is not the order they should be
@@ -698,6 +735,7 @@ When a parent asks whether or for how long their child should use any device, do
   const conversation: Anthropic.MessageParam[] = [...messages]
 
   const newCount = currentCount + 1
+  const newRowCount = rowCountToday + 1
 
   // Everything above this line is our own work, and the parent has seen none of
   // it. The prompt is now built, so close that phase off before the one part of
@@ -832,16 +870,17 @@ When a parent asks whether or for how long their child should use any device, do
       await supabase.from('digi_conversations').update({
         messages: updatedMessages,
         message_count: Math.floor(updatedMessages.length / 2),
-        messages_today: newCount,
+        messages_today: newRowCount,
         last_message_date: today,
         updated_at: new Date().toISOString(),
-      }).eq('user_id', user.id)
+      }).eq('id', convData.id)
     } else {
       await supabase.from('digi_conversations').insert({
         user_id: user.id,
+        child_id: child?.id ?? null,
         messages: updatedMessages,
         message_count: 1,
-        messages_today: newCount,
+        messages_today: newRowCount,
         last_message_date: today,
       })
     }

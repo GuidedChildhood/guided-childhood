@@ -329,6 +329,16 @@ export async function getTodayLoop(
   // whether anybody is ever asked to pay. See lib/access.ts.
   const neverCheckedIn = !firstCheckInAt
 
+  // Every rung's link carries the child the loop is about, so tapping a rung
+  // never quietly snaps the destination back to the primary child. This was
+  // the August audit's root cause and it was still live here on the main
+  // loop: the pills said Alma, the rung opened Teo. Idempotent, because the
+  // script link already names its child.
+  const withChild = (href: string) =>
+    child?.id && !href.includes('child=')
+      ? `${href}${href.includes('?') ? '&' : '?'}child=${child.id}`
+      : href
+
   const tasks: TodayLoopTask[] = [
     // ── SETUP LEADS, AND THE CHECK IN WAITS FOR IT ─────────────────────────
     //
@@ -351,7 +361,7 @@ export async function getTodayLoop(
     ...(setupNextStep ? [{
       key: 'setup' as const,
       label: 'Set up',
-      href: '/dashboard/setup',
+      href: withChild('/dashboard/setup'),
       // Never done while a step is outstanding. That is the whole point of it
       // staying: a half green road is an honest one.
       done: false,
@@ -359,7 +369,7 @@ export async function getTodayLoop(
     ...(!setupNextStep && (hasLiveConcerns || neverCheckedIn) ? [{
       key: 'checkin' as const,
       label: neverCheckedIn ? 'Where things are now' : 'Check in',
-      href: '/dashboard/checkin',
+      href: withChild('/dashboard/checkin'),
       // ── DONE MEANS A NUMBER WAS RECORDED TODAY ─────────────────────────
       //
       // Justin: "just looking at the check in is not enough to tick it off,
@@ -392,7 +402,7 @@ export async function getTodayLoop(
     {
       key: 'moment',
       label: 'Moment',
-      href: '/dashboard/daily',
+      href: withChild('/dashboard/daily'),
       done: momentDone,
     },
     // ── THE AGREEMENT, ONCE A WEEK, RIGHT AFTER THE MOMENTS ────────────────
@@ -415,13 +425,13 @@ export async function getTodayLoop(
     ...(agreementUpdatedAt ? [{
       key: 'agreement' as const,
       label: 'The deal',
-      href: '/dashboard/agreement?from=today',
+      href: withChild('/dashboard/agreement?from=today'),
       done: agreementFreshThisWeek,
     }] : []),
     {
       key: 'script',
       label: 'Script',
-      href: scriptHref,
+      href: withChild(scriptHref),
       // This child's row or the household's. A sibling's script must not tick
       // this child's rung. See migration 219.
       done: (scriptToday ?? []).some(r => (r as { child_id?: string | null }).child_id === (child?.id ?? null) || (r as { child_id?: string | null }).child_id == null),
@@ -438,7 +448,7 @@ export async function getTodayLoop(
     {
       key: 'quests',
       label: !anyQuests ? 'First job' : questsWaiting > 0 ? 'Approve' : 'Quests',
-      href: !anyQuests ? '/dashboard/quests' : '/dashboard/quests#quest-board',
+      href: !anyQuests ? withChild('/dashboard/quests') : `${withChild('/dashboard/quests')}#quest-board`,
       // Nothing waiting and jobs already set is a genuinely finished step.
       // No jobs at all is never done, because that is the thing the whole star
       // system runs on and a tick against it would be a lie.
@@ -469,7 +479,7 @@ export async function getTodayLoop(
       // 13 August, which is the whole reason that split was worth doing: this
       // rung can land ON the passport rather than near it. The from=today is
       // main's, so the way back to the loop is on the page when they arrive.
-      href: '/dashboard/pathway?from=today',
+      href: withChild('/dashboard/pathway?from=today'),
       done: passportOutstanding === 0,
     }] : []),
     // ── DIGI CLOSES THE DAY ────────────────────────────────────────────────
@@ -489,7 +499,7 @@ export async function getTodayLoop(
     {
       key: 'digi' as const,
       label: neverCheckedIn ? 'Meet DiGi' : 'Ask DiGi',
-      href: '/dashboard/digi',
+      href: withChild('/dashboard/digi'),
       done: (digiToday ?? []).some(r => (r as { child_id?: string | null }).child_id === (child?.id ?? null) || (r as { child_id?: string | null }).child_id == null),
     },
   ]
@@ -497,7 +507,7 @@ export async function getTodayLoop(
   tasks.push({
     key: 'done',
     label: 'Done',
-    href: '/dashboard/pathway',
+    href: withChild('/dashboard/pathway'),
     done: tasks.every(t => t.done),
   })
 
@@ -605,12 +615,18 @@ export async function getDailyTasks(
   const setUpKeys = new Set((deviceProgress ?? []).map(d => d.device_key))
   const nextDevice = (stageDevices ?? []).find(d => !setUpKeys.has(d.device_key))
 
+  // Same rule as getTodayLoop: every link carries the child it is about.
+  const withChild = (href: string) =>
+    childId && !href.includes('child=')
+      ? `${href}${href.includes('?') ? '&' : '?'}child=${childId}`
+      : href
+
   return [
     {
       key: 'moment',
       label: 'Daily moments',
       detail: momentDone ? 'Done for today' : 'Two minutes, today’s cards',
-      href: '/dashboard/daily',
+      href: withChild('/dashboard/daily'),
       done: momentDone,
     },
     {
@@ -619,28 +635,28 @@ export async function getDailyTasks(
       detail: recommended
         ? 'Tonight’s script, picked for you'
         : 'Every script for this stage is read',
-      href: await safeScriptHref(supabase, userId, isPaid, recommended),
+      href: withChild(await safeScriptHref(supabase, userId, isPaid, recommended)),
       done: !recommended || (scriptDoneToday ?? []).some(r => (r as { child_id?: string | null }).child_id === childId || (r as { child_id?: string | null }).child_id == null),
     },
     {
       key: 'lesson',
       label: nextLesson ? nextLesson.title : 'Lessons',
       detail: nextLesson ? 'Your next lesson, about 3 minutes' : 'All lessons for this stage are done',
-      href: nextLessonHref,
+      href: withChild(nextLessonHref),
       done: !nextLesson,
     },
     {
       key: 'device',
       label: nextDevice ? `Set up ${nextDevice.name}` : 'Devices',
       detail: nextDevice ? 'Step by step, DiGi can walk you through it' : 'Every device for this stage is set up',
-      href: '/dashboard/devices',
+      href: withChild('/dashboard/devices'),
       done: !nextDevice,
     },
     {
       key: 'checkin',
       label: 'Weekly check in',
       detail: checkin ? 'Done for this week' : 'Five questions, once a week',
-      href: '/dashboard/pathway',
+      href: withChild('/dashboard/pathway'),
       done: !!checkin,
     },
   ]

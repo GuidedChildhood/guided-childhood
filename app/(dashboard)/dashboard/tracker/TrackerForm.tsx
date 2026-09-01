@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import Link from 'next/link'
 
 const QUESTIONS = [
@@ -77,7 +78,7 @@ export default function TrackerForm({
       await fetch('/api/tracker', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ scores, notes }),
+        body: JSON.stringify({ scores, notes, child_id: currentChildId() }),
       })
       setSubmitted(true)
     } catch {

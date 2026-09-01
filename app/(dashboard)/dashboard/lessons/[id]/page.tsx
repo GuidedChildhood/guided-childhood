@@ -1,6 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
+import { getChildren } from '@/lib/children/server'
+import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
+import LessonSendButton from '../together/LessonSendButton'
 import MarkLessonDone from '@/components/lessons/MarkLessonDone'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { parseSlides, autoSlidesFromLesson } from '@gc/shared/lesson-slides'
@@ -42,36 +45,61 @@ type Lesson = {
   slides: unknown
 }
 
-export default async function LessonDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function LessonDetailPage({ params, searchParams }: {
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ child?: string }>
+}) {
   const { id } = await params
+  const { child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data } = await supabase
-    .from('lessons')
-    .select('id, stage_id, category, title, the_idea, why_it_matters, try_this, key_message, digi_prompt, slides')
-    .eq('id', id)
-    .maybeSingle()
+  const [{ data }, { child }] = await Promise.all([
+    supabase
+      .from('lessons')
+      .select('id, stage_id, category, title, the_idea, why_it_matters, try_this, key_message, digi_prompt, slides')
+      .eq('id', id)
+      .maybeSingle(),
+    // Which child this lesson is being looked at FOR, so the send button
+    // below pings the right phone and the back link keeps the toggle.
+    getChildren<{ id: string; name: string | null; age_band: string | null; is_primary: boolean | null }>(
+      supabase, user.id, childParam, 'id, name, age_band'),
+  ])
 
   const lesson = data as Lesson | null
   if (!lesson) notFound()
 
   const stageForEyebrow = STAGE_LABEL[lesson.stage_id] ?? STAGE_LABEL.foundation
+  const childQS = childParam && child ? `&child=${child.id}` : ''
   // Back returns to this lesson's own stage, so the parent lands on the set
   // they were working through, not the whole All ages shelf.
-  const lessonsBackHref = `/dashboard/lessons?stage=${STAGE_NUM[lesson.stage_id] ?? 2}`
+  const lessonsBackHref = `/dashboard/lessons?stage=${STAGE_NUM[lesson.stage_id] ?? 2}${childQS}`
+  // The child can only be told about a lesson their own list will show them:
+  // their stage or earlier, with an authored deck. The kid app's list and its
+  // age gate enforce exactly this, so a ping must never point at a lesson
+  // that would 404 on their side.
+  const childStageNum = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand).id : 2
+  const childName = child?.name && child.name !== 'Your child' ? child.name : 'your child'
+  const sendable = !!child && !!parseSlides(lesson.slides) && (STAGE_NUM[lesson.stage_id] ?? 99) <= childStageNum
   // Authored deck wins; otherwise build one from the lesson's own four parts
   // so every parent lesson plays as slides, never a flat wall of text.
   const slides = parseSlides(lesson.slides) ?? autoSlidesFromLesson(lesson, { eyebrow: stageForEyebrow.label })
 
-  const { data: completion } = await supabase
+  // THIS child's completion or the household's. Unscoped with .maybeSingle(),
+  // the moment two children each had a row for this lesson the read errored
+  // to null and Mark as done showed unticked for a child who had passed it.
+  const completionQuery = supabase
     .from('lesson_completions')
     .select('lesson_id')
     .eq('user_id', user.id)
     .eq('lesson_id', lesson.id)
     .eq('lesson_source', 'lesson')
-    .maybeSingle()
+    .limit(1)
+  const { data: completionRows } = await (child
+    ? completionQuery.or(`child_id.eq.${child.id},child_id.is.null`)
+    : completionQuery)
+  const completion = (completionRows ?? [])[0] ?? null
 
   const stage = STAGE_LABEL[lesson.stage_id] ?? STAGE_LABEL.foundation
 
@@ -115,13 +143,25 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
   if (slides) {
     return (
       <div style={{ maxWidth: '620px', margin: '0 auto', padding: '24px 20px 48px' }}>
-        <div style={{ marginBottom: '20px' }}>
+        <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' }}>
           <Link
             href={lessonsBackHref}
             style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
           >
             ← Lessons
           </Link>
+          {/* Justin, 1 September 2026: "we can send to relevant childs app
+              from here if needed to let child know that lesson." Only when
+              this child's own list will actually show it: their stage or
+              earlier, with an authored deck. */}
+          {sendable && (
+            <LessonSendButton
+              childId={child?.id ?? null}
+              childName={childName}
+              title={lesson.title}
+              message={`New lesson for you: ${lesson.title}. It is on your lessons page ⭐`}
+            />
+          )}
         </div>
         <LessonPlayer
           lessonId={lesson.id}
@@ -208,7 +248,7 @@ export default async function LessonDetailPage({ params }: { params: Promise<{ i
           </p>
         </div>
         <Link
-          href={`/dashboard/digi?q=${encodeURIComponent(lesson.digi_prompt)}`}
+          href={`/dashboard/digi?q=${encodeURIComponent(lesson.digi_prompt)}${childQS}`}
           className="btn btn-gold"
           style={{ flexShrink: 0, padding: '11px 20px', fontSize: 'var(--text-base)' }}
         >

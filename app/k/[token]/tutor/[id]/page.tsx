@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import LessonPlayer from '@gc/shared/components/LessonPlayer'
 import { parseSlides } from '@gc/shared/lesson-slides'
 import { resolveTheme } from '@/lib/kid/theme'
+import KidBackLink from '@/components/kid/KidBackLink'
 
 // A tutor lesson, on the child's phone.
 //
@@ -62,12 +62,7 @@ export default async function KidTutorLessonPage({ params }: { params: Promise<{
     <div style={{ minHeight: '100dvh', background: theme.bg, padding: '20px 14px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', gap: '10px' }}>
-          <Link href={`/k/${token}`} style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
-            color: theme.inkSoft, textDecoration: 'none',
-          }}>
-            ← My quests
-          </Link>
+          <KidBackLink href={`/k/${token}`} color={theme.inkSoft} fontSize="var(--text-sm)" />
           <span style={{
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-sm)',
             color: 'var(--ink)', background: 'var(--gold, #F2C94C)', borderRadius: '100px',

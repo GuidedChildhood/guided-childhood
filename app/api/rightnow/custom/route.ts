@@ -56,7 +56,7 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const body = await request.json().catch(() => ({} as { detail?: string }))
+  const body = await request.json().catch(() => ({} as { detail?: string; child_id?: string }))
   const detail = typeof body.detail === 'string' ? body.detail.replace(/\s+/g, ' ').trim().slice(0, 280) : ''
   if (!detail) return NextResponse.json({ error: 'Tell us in one line what is happening' }, { status: 400 })
 
@@ -65,12 +65,17 @@ export async function POST(request: Request) {
     return NextResponse.json(CRISIS_RESPONSE)
   }
 
-  const { data: child } = await supabase
+  // The child off the wire (validated as this parent's), primary as the
+  // fallback, so the rescue is written for the right age and the concern
+  // lands on the right child.
+  const { data: kids } = await supabase
     .from('children')
-    .select('id, name, age_band')
+    .select('id, name, age_band, is_primary')
     .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .maybeSingle()
+  const child = (typeof body.child_id === 'string' && (kids ?? []).find(k => k.id === body.child_id))
+    || (kids ?? []).find(k => k.is_primary)
+    || (kids ?? [])[0]
+    || null
 
   const stage = child?.age_band ? getStageFromAgeBand(child.age_band as AgeBand) : STAGES[2]
   const childName = child?.name && child.name !== 'Your child' ? child.name : 'their child'

@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import { londonNow } from '@/lib/time/london'
 import Link from 'next/link'
 import { AGREEMENT_TYPES, CLAUSES_BY_TYPE, recommendedType, type Clause } from '@/lib/content/agreement-clauses'
@@ -187,7 +188,9 @@ export default function AgreementBuilder({ childName, stageId, stageLabel, saved
       const res = await fetch('/api/agreement/week', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ verdict }),
+        // Which child's bank the verdict pays, read from the URL at send time
+        // so the stars follow the toggle rather than always the primary child.
+        body: JSON.stringify({ verdict, child_id: currentChildId() }),
       })
       const data = await res.json()
       if (data.already) setWeekResult('This week is already checked. See you next Friday.')

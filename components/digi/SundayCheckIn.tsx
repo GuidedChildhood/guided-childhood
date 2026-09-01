@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { currentChildId } from '@/lib/children/current'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 
 // The Sunday check in with DiGi. Once a week, proactively on a Sunday, DiGi asks
@@ -82,7 +83,9 @@ export default function SundayCheckIn() {
     try {
       await fetch('/api/wellbeing/weekly', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode: 'save', parentMood: mood, wentWell, hardest, focus, plan: draftPlan }),
+        // The child rides along so a hard week's worry lands on the child the
+        // parent has open rather than always the primary one.
+        body: JSON.stringify({ mode: 'save', parentMood: mood, wentWell, hardest, focus, plan: draftPlan, child_id: currentChildId() }),
       })
       setPlan(draftPlan)
       setFocusSaved(focus)

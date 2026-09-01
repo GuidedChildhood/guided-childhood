@@ -19,7 +19,15 @@ type Result =
 export type DecoderChild = { id: string; name: string; hasBirthday: boolean }
 
 export default function HomeworkDecoder({ kids }: { kids: DecoderChild[] }) {
-  const [childId, setChildId] = useState(kids[0]?.id ?? '')
+  // The picker opens on the child the parent already has selected (?child= in
+  // the URL) rather than making them pick twice; first child otherwise.
+  const [childId, setChildId] = useState(() => {
+    try {
+      const fromUrl = new URLSearchParams(window.location.search).get('child')
+      if (fromUrl && kids.some(k => k.id === fromUrl)) return fromUrl
+    } catch { /* SSR or no URL, fall through */ }
+    return kids[0]?.id ?? ''
+  })
   const [text, setText] = useState('')
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')

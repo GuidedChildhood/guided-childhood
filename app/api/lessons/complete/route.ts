@@ -20,14 +20,30 @@ export async function POST(req: NextRequest) {
   const correctQ = Math.min(Number(correct) || 0, totalQ)
   const passedNow = totalQ === 0 || correctQ / totalQ >= PASS_MARK
 
+  // Whose lesson (migration 213, key 219): the completion belongs to the open
+  // child, so Jody's pass stops marking Tray's library done. Checked, and null
+  // (no child sent, or not theirs) stays the household row. Resolved BEFORE
+  // the carry over read below, which has to ask about the same row the upsert
+  // will write.
+  let forChild: string | null = null
+  if (typeof child_id === 'string' && child_id) {
+    const { data: owned } = await supabase
+      .from('children').select('id').eq('id', child_id).eq('parent_id', user.id).maybeSingle()
+    forChild = owned?.id ?? null
+  }
+
   // A pass is never taken away by a later wobbly replay: if an earlier run
-  // already passed, the row stays passed and keeps its best score.
-  const { data: existing } = await supabase
+  // already passed, the row stays passed and keeps its best score. Scoped to
+  // THIS child's row: unscoped with .maybeSingle(), the moment two children
+  // had a row for the same lesson the read errored to null and a previously
+  // earned pass silently lost its never taken away protection.
+  const priorQuery = supabase
     .from('lesson_completions')
     .select('score, passed')
     .eq('user_id', user.id)
     .eq('lesson_id', lesson_id)
     .eq('lesson_source', lesson_source)
+  const { data: existing } = await (forChild ? priorQuery.eq('child_id', forChild) : priorQuery.is('child_id', null))
     .maybeSingle()
   const priorPassScore = existing?.passed === true ? existing.score ?? null : null
   const passed = passedNow || existing?.passed === true
@@ -36,16 +52,6 @@ export async function POST(req: NextRequest) {
     : passedNow
     ? Math.max(correctQ, priorPassScore ?? 0)
     : priorPassScore ?? correctQ
-
-  // Whose lesson (migration 213, key 219): the completion belongs to the open
-  // child, so Jody's pass stops marking Tray's library done. Checked, and null
-  // (no child sent, or not theirs) stays the household row.
-  let forChild: string | null = null
-  if (typeof child_id === 'string' && child_id) {
-    const { data: owned } = await supabase
-      .from('children').select('id').eq('id', child_id).eq('parent_id', user.id).maybeSingle()
-    forChild = owned?.id ?? null
-  }
 
   const { error } = await supabase
     .from('lesson_completions')

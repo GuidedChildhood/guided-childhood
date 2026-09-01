@@ -245,10 +245,14 @@ async function doChildHistory(ctx: ToolContext, arg: Record<string, unknown>): P
   // client: a tool the model chooses to call is exactly the wrong place to be
   // holding a key that can read every family.
   const [tracker, concerns, sessions] = await Promise.all([
-    ctx.supabase
+    // Scoped like the two below. This was the one read here with no child
+    // filter, so the tool introduced a BLENDED weekly table as "their data,
+    // so it outranks any general finding" when two children each had rows.
+    (() => { const q = ctx.supabase
       .from('wellbeing_checks')
       .select('week_start, mood_score, sleep_score, social_score, screen_mood_score, open_communication, concern_level, notes')
-      .gte('week_start', since).order('week_start', { ascending: false }).limit(26),
+      .gte('week_start', since).order('week_start', { ascending: false }).limit(26)
+      return ctx.childId ? q.or(`child_id.eq.${ctx.childId},child_id.is.null`) : q })(),
     // The conversation names ONE child (ctx.childId), so their history plus
     // the household's, never a sibling's: DiGi reading the teenager's ledger
     // to answer about the six year old is the drift this tool exists to stop.

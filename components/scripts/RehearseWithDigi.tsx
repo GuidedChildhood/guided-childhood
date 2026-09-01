@@ -112,6 +112,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode, scriptTitle, situation, sayThis, notThis,
+          child_id: currentChildId(),
           messages: history.map(m => ({ role: m.role, content: m.content })),
         }),
       })

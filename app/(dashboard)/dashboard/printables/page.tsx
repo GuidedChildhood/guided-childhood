@@ -7,6 +7,7 @@ import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { hasFullAccess } from '@/lib/access'
 import PrintableActions from './PrintableActions'
 import FridgeChartLog from '@/components/quests/FridgeChartLog'
+import { getChildren } from '@/lib/children/server'
 
 // The Printables library: the offline pathway. Beautiful colouring book
 // sheets a family prints and completes away from screens, each worth
@@ -19,14 +20,16 @@ const SETTING_LABEL: Record<string, string> = {
   indoors: 'Indoors', outdoors: 'Outdoors', anywhere: 'Anywhere',
 }
 
-export default async function PrintablesPage() {
+export default async function PrintablesPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
+  const { child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: child }, { data: kids }, { data: profile }] = await Promise.all([
-    supabase.from('children').select('name, age_band').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
-    supabase.from('children').select('id, name, is_primary').eq('parent_id', user.id).order('is_primary', { ascending: false }),
+  const [{ kids, child }, { data: profile }] = await Promise.all([
+    // One read serves the selected child (?child= honoured) and the list.
+    getChildren<{ id: string; name: string | null; age_band: string | null; is_primary: boolean | null }>(
+      supabase, user.id, childParam, 'id, name, age_band'),
     supabase.from('profiles').select('subscription_status, trial_ends_at').eq('id', user.id).maybeSingle(),
   ])
   // The named children, for the log a week card under the star chart builder.

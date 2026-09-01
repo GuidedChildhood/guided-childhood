@@ -53,10 +53,13 @@ export default async function WatchTogetherLessonPage({
   const completions = child ? await getCompletionsForChild(supabase, child.id) : new Map()
   const completion = completions.get(lesson.lesson_code)
   const stageName = STAGES.find(s => s.id === lesson.stage_id)?.name ?? `Stage ${lesson.stage_id}`
+  // The way back keeps the child that was watched with, so the hub does not
+  // snap to the primary child the moment the credits roll.
+  const backHref = `/dashboard/lessons/together${childParam && child ? `?child=${child.id}` : ''}`
 
   return (
     <div style={{ maxWidth: '640px', margin: '0 auto', padding: '24px 20px' }}>
-      <Link href="/dashboard/lessons/together" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', textDecoration: 'none', display: 'inline-block', marginBottom: '16px' }}>
+      <Link href={backHref} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', textDecoration: 'none', display: 'inline-block', marginBottom: '16px' }}>
         ← All lessons
       </Link>
 
@@ -92,7 +95,7 @@ export default async function WatchTogetherLessonPage({
           segments={segments}
           cards={cards}
           stageName={stageName}
-          backHref="/dashboard/lessons/together"
+          backHref={backHref}
           childName={child.name}
           childId={child.id}
           timesCompleted={completion?.times_completed ?? 0}

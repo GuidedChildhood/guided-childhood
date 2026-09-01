@@ -200,7 +200,13 @@ export default function QuestManager() {
       await fetch('/api/quests/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quest_id: questId, child_id: currentChildId() }),
+        // The same answer the optimistic row above gives: the quest's own
+        // child, then the board's active child. currentChildId() reads ?child=
+        // from the URL, and this page never carries one, so it answered null,
+        // the route inserted a null tick, and the bank counted a null tick for
+        // EVERY child: one shared job paid the whole family. The screen showed
+        // it credited to one child while the database credited all of them.
+        body: JSON.stringify({ quest_id: questId, child_id: quest?.child_id ?? activeChild ?? currentChildId() }),
       })
       await load()
     } catch { /* the optimistic tick stands, next load reconciles */ }

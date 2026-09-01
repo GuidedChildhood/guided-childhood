@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { getChildren } from '@/lib/children/server'
 
 // The parent's side of the telling card.
 //
@@ -151,13 +152,16 @@ function CardBody({ card, scripts }: { card: Card; scripts: ChildScript[] }) {
   )
 }
 
-export default async function TellAParentPage() {
+export default async function TellAParentPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
+  const { child: childParam } = await searchParams
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const [{ data: child }, { data: cardRows }, { data: scriptRows }] = await Promise.all([
-    supabase.from('children').select('name, stage_id').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+  // The stage and the name follow ?child= like everywhere else.
+  const [{ child }, { data: cardRows }, { data: scriptRows }] = await Promise.all([
+    getChildren<{ id: string; name: string | null; stage_id: string | null; is_primary: boolean | null }>(
+      supabase, user.id, childParam, 'id, name, stage_id'),
     supabase.from('tell_a_parent_cards').select('stage_id, headline, intro, tell_now, tell_soon, what_happens, the_promise, never').eq('active', true).order('sort_order', { ascending: true }),
     supabase.from('child_scripts').select('id, stage_id, title, emoji, say_this, urgent').eq('active', true).order('sort_order', { ascending: true }),
   ])

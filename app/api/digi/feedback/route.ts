@@ -38,15 +38,22 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { question, response } = await request.json()
+  const { question, response, child_id } = await request.json()
   if (!question?.trim()) return NextResponse.json({ error: 'question is required' }, { status: 400 })
 
   const today = new Date().toISOString().split('T')[0]
 
-  const [childResult] = await Promise.all([
-    supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).eq('is_primary', true).single(),
-  ])
-  const child = childResult.data
+  // The child off the wire (validated as this parent's), primary as the
+  // fallback. The main DiGi route files everything per child since 18 August;
+  // this sibling route was the one it missed, so the reflective answer went
+  // to the primary child whoever the conversation was about. Also .single()
+  // errored outright when no child was flagged primary.
+  const { data: kids } = await supabase
+    .from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id)
+  const child = (typeof child_id === 'string' && (kids ?? []).find(k => k.id === child_id))
+    || (kids ?? []).find(k => k.is_primary)
+    || (kids ?? [])[0]
+    || null
 
   const { error } = await supabase
     .from('digi_feedback')

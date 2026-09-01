@@ -26,7 +26,7 @@ export default async function ContractPage() {
   const weekStartIso = weekStart.toISOString().slice(0, 10)
 
   const [childrenRes, questsRes, ticksRes, spendsRes] = await Promise.all([
-    supabase.from('children').select('id, name').eq('parent_id', user.id).order('created_at'),
+    supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).order('created_at'),
     supabase.from('family_quests').select('id, title, emoji, stars, schedule, child_id, blocks_screens').eq('user_id', user.id).eq('active', true).order('created_at'),
     supabase.from('quest_ticks').select('quest_id, child_id, status').eq('user_id', user.id).eq('status', 'approved').gte('tick_date', weekStartIso),
     supabase.from('star_spends').select('child_id, minutes, created_at').eq('user_id', user.id).gte('created_at', `${weekStartIso}T00:00:00Z`),
@@ -36,7 +36,9 @@ export default async function ContractPage() {
   const quests = questsRes.data ?? []
   const ticks = ticksRes.data ?? []
   const spends = spendsRes.data ?? []
-  const banks = await getStarBanks(supabase, user.id, children.map(c => c.id))
+  // The printed contract states the deal in writing, so the ceiling on it
+  // must be each child's own, not the middle band for everybody.
+  const banks = await getStarBanks(supabase, user.id, children.map(c => c.id), Object.fromEntries(children.map(c => [c.id as string, (c.age_band as string | null) ?? null])))
   const starsByQuest = new Map(quests.map(q => [q.id, q.stars]))
   const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 

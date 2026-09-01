@@ -209,22 +209,25 @@ export default function QuestStatusBoard() {
   // claimed yet, so it goes by quest_id, which is the printed sheet path the
   // approve route has always had: it lands straight in as approved, ticked by
   // the parent, and it promotes any pending tick rather than doubling it.
-  async function approve(id: string, kind: 'tick' | 'quest'): Promise<boolean> {
+  async function approve(id: string, kind: 'tick' | 'quest', childId?: string | null): Promise<boolean> {
     try {
       const res = await fetch('/api/quests/approve', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
+        // The quest path names the row's own child. currentChildId() reads
+        // ?child= from a URL this page never carries, so it answered null and
+        // a null tick banks stars for every child on the account.
         body: kind === 'tick'
           ? JSON.stringify({ tick_id: id, decision: 'approve' })
-          : JSON.stringify({ quest_id: id, child_id: currentChildId() }),
+          : JSON.stringify({ quest_id: id, child_id: childId ?? currentChildId() }),
       })
       return res.ok
     } catch { return false }
   }
 
-  async function sayYes(id: string, kind: 'tick' | 'quest') {
+  async function sayYes(id: string, kind: 'tick' | 'quest', childId?: string | null) {
     if (busyKey || allBusy) return
     setBusyKey(id); setFailed(null)
-    const ok = await approve(id, kind)
+    const ok = await approve(id, kind, childId)
     if (ok) setAgreed(prev => new Set(prev).add(id))
     else setFailed('That did not save. Try again.')
     setBusyKey(null)
@@ -525,7 +528,7 @@ export default function QuestStatusBoard() {
                   theirs to tick, and a job already agreed is a receipt. */}
               {canMark && (
                 <button
-                  onClick={() => sayYes(r.key, shown === 'waiting' ? 'tick' : 'quest')}
+                  onClick={() => sayYes(r.key, shown === 'waiting' ? 'tick' : 'quest', r.childId ?? null)}
                   disabled={busyKey === r.key || allBusy}
                   aria-label={shown === 'waiting' ? `Say yes to ${r.title}` : `Mark ${r.title} done`}
                   style={{

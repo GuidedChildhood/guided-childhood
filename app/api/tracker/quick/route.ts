@@ -16,14 +16,18 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { rating, label } = await request.json() as { rating: number; label: string }
+  const { rating, label, child_id } = await request.json() as { rating: number; label: string; child_id?: string }
 
-  const { data: child } = await supabase
+  // The child off the wire (validated), primary as the fallback: the quick
+  // tap wrote to the primary child's week whoever the deck was about.
+  const { data: kids } = await supabase
     .from('children')
-    .select('id')
+    .select('id, is_primary')
     .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .single()
+  const child = (typeof child_id === 'string' && (kids ?? []).find(k => k.id === child_id))
+    || (kids ?? []).find(k => k.is_primary)
+    || (kids ?? [])[0]
+    || null
 
   const weekStart = new Date()
   weekStart.setDate(weekStart.getDate() - weekStart.getDay())

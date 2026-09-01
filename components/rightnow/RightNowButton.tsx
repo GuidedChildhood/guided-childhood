@@ -9,6 +9,7 @@ import { scriptVoiceUrl } from '@/lib/content/script-voice'
 import { POPUP_DELAY, openPopup, closePopup, whenClear } from '@/lib/ui/popupQueue'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import ShareWithChildPanel, { type ShareChild } from '@/components/rightnow/ShareWithChildPanel'
+import { currentChildId } from '@/lib/children/current'
 
 // The Right Now button: the emergency entry point in the centre of the
 // mobile tab bar. A child is crying because the TV went off and the parent
@@ -194,7 +195,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
     fetch('/api/rightnow', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ situation: key }),
+      body: JSON.stringify({ situation: key, child_id: currentChildId() }),
     })
       .then(res => (res.ok ? res.json() : Promise.reject(new Error('bad status'))))
       .then((data: ScriptResult) => setScript(data))
@@ -213,7 +214,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
     fetch('/api/rightnow/custom', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ detail }),
+      body: JSON.stringify({ detail, child_id: currentChildId() }),
     })
       .then(res => (res.ok ? res.json() : Promise.reject(new Error('bad status'))))
       .then((data: ScriptResult) => setScript(data))

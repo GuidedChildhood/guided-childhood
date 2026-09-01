@@ -94,7 +94,13 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
     supabase.from('profiles').select('full_name, subscription_status, trial_ends_at').eq('id', user.id).maybeSingle(),
     supabase.from('lessons').select('id, stage_id, category, title, key_message, sort_order, slides').eq('audience', 'parent').neq('status', 'stub').order('sort_order', { ascending: true }),
     supabase.from('ai_lessons').select('id, audience, category, title, key_message, sort_order').in('audience', ['age_7', 'age_9', 'age_11', 'age_13', 'age_16']).order('sort_order', { ascending: true }),
-    supabase.from('lesson_completions').select('lesson_id, lesson_source, score, passed').eq('user_id', user.id).in('lesson_source', ['lesson', 'ai_lesson']),
+    // THIS child's completions (a legacy row with no child speaks for the
+    // household). Unscoped, one child's passes ticked the other's library
+    // green, so the writes were per child (migration 213) but the reads never
+    // followed.
+    (child
+      ? supabase.from('lesson_completions').select('lesson_id, lesson_source, score, passed').eq('user_id', user.id).in('lesson_source', ['lesson', 'ai_lesson']).or(`child_id.eq.${child.id},child_id.is.null`)
+      : supabase.from('lesson_completions').select('lesson_id, lesson_source, score, passed').eq('user_id', user.id).in('lesson_source', ['lesson', 'ai_lesson'])),
     getParentLessons(supabase),
     child ? getCompletionsForChild(supabase, child.id) : Promise.resolve(new Map()),
   ])
@@ -136,7 +142,10 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
       const locked = l.source === 'lesson' && !isPaid && !freeIds.has(l.id) && !completedLessonIds.has(l.id)
       return {
         id: `${l.source}-${l.id}`,
-        href: l.source === 'ai' ? `/dashboard/ai-module/${l.id}` : `/dashboard/lessons/${l.id}`,
+        // The child rides along on every tile, so opening a lesson and coming
+        // back never quietly snaps the page back to the primary child.
+        href: (l.source === 'ai' ? `/dashboard/ai-module/${l.id}` : `/dashboard/lessons/${l.id}`)
+          + (childParam && child ? `?child=${child.id}` : ''),
         stageNum: meta?.num ?? 2, stageLabel: meta?.label ?? '', stageAges: meta?.ages ?? '',
         categoryLabel: CATEGORY_LABEL[l.category] ?? l.category,
         title: l.title, keyMessage: l.key_message, locked, done, attempted,
@@ -173,6 +182,10 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
       </div>
 
       <LessonsBrowser
+        // Remounted per child: the stage filter is seeded into client state on
+        // mount, so without the key a toggle from an 8 year old to a 13 year
+        // old would keep showing the 8 year old's stage under the new name.
+        key={child?.id ?? 'family'}
         childId={child?.id ?? null}
         childName={childName}
         childStageNum={childStageNum}

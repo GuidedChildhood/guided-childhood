@@ -9357,3 +9357,190 @@ so the board sees a silent failure of the new half.
 First real run: Monday 8 September. The plan's own gate stands: four weeks
 of runs, then judge whether the lenses agree with Justin's reading before
 trusting them further.
+
+## 1 September 2026 — lesson videos audited, 1.10 repaired, the Common Sense gap list
+
+Justin's screenshot: The Yes No Button opened on ten seconds of black. All
+41 lesson video files probed frame by frame in the Higgsfield sandbox. The
+fault is in the exports, not the player: the video track starts late (or
+drops stretches) while the narration runs on time. 1.10 was the only lesson
+opening on black (parts one and three, and the full cut); 1.2 and 1.7 each
+carry one 20 to 25 second stretch of missing picture mid video that plays
+as a frozen frame. The other 34 files are clean.
+
+Decided and done: the three 1.10 files were rebuilt with ffmpeg (opening
+title frame held from second zero, internal hole filled, narration
+untouched), uploaded to the same CDN, and the parent_lesson_segments rows
+repointed. Live data change, no migration: the rows were created by hand
+originally and the seed file carries no URLs. ParentLessonPlayer now passes
+poster_url to the video element so the pre play box shows lesson art, never
+black. 1.2 and 1.7 left as they play today (nothing opens on black there);
+the honest cure for all three is a re render through the lesson video
+pipeline, offered to Justin, not started.
+
+Decided: the age fit review found the library sound (uniform 7 to 8 slide
+decks, reading level rising with stage, EFCW strands, RSHE 2025 named
+topics present, AI ahead of schools). The Common Sense Media curriculum (73
+lessons, verified against their published scope and sequence) maps onto our
+stages with twelve genuine gaps, the largest being news literacy between 8
+and 12. The per age list and build order live in
+plans/week-of-2026-08-31-lesson-quality-and-common-sense-gaps.md. No deck
+gets written until Justin says go.
+
+## 1 September 2026 — the child app's three little lies, fixed
+
+Justin's review of the child app, now acted on with his go ahead:
+
+1. A DAY WITH NO JOBS CAN FINISH. allDone in KidQuestScreen demanded at
+   least one quest, so on an empty board the jobs step in the five a day
+   could never mark itself, which quietly made the whole day unfinishable:
+   no fifth tick, no streak, no celebration. An empty board now counts as
+   done, the five a day row says "No jobs today, this one is free" (no
+   strikethrough, it is a fact not a chore), and the step's note records
+   why. The screen time unlocked banner now asks for at least one real job
+   before claiming jobs were done.
+2. MY QUESTS IS INSTANT. The back link on the five kid subpages (suggest,
+   tell, adventures, lesson, tutor) was a fresh server render of the
+   heaviest screen in the child app. KidBackLink goes back through history
+   instead, restoring home from the router cache in a frame, guarded by a
+   session flag the home screen sets so a cold deep link still navigates
+   normally and a child is never thrown out of the app by their own back
+   button.
+3. THE TILE SAYS SENT. Tapping a preset on Ask for a job made the tile
+   vanish mid tap (a pending ask filters the grid) with only a toast at the
+   screen edge. The tapped tile now holds for a beat as a sage "Sent!"
+   tick, then leaves. Verified in the browser on the ask-for-job fixture.
+
+Deliberately unchanged: the balance step still ticks on reading the page,
+because reading it is the whole of that step.
+
+## 1 September 2026 — DiGi's conversation follows the child toggle
+
+Justin: "make sure the child toggle works on digi and the history moves with
+child select so digi can take correct details into thinking."
+
+The route has filed memory, concerns, questions and feedback against the
+selected child since 18 August, and the page already swapped prompts and
+name. The conversation was the last blended piece: one thread per USER
+(migration 001), shown unchanged whichever pill was lit, and fed back into
+the prompt, so a question about one child carried the other child's recent
+conversation in DiGi's head.
+
+Migration 235, applied to live: digi_conversations gains child_id, one row
+per (user, child), partial unique indexes so the no children account still
+gets exactly one row, and the existing thread backfilled to the primary
+child (verified: all three live rows attached). The route picks the
+selected child's row for history and writes back to it by id, inserting
+with child_id when the child has no thread yet. The page shows the selected
+child's thread and remounts DigiChat keyed by child so a soft navigation
+never leaves the previous child's bubbles under the new name.
+
+THE CAP STAYS PER FAMILY, decided deliberately: today's messages are summed
+across every thread for the 429 and the badge, so splitting threads hands
+nobody a doubled free allowance. The admin members board merges the rows
+back per member (counts summed, newest date wins). The weekly tester's
+question clustering reads all rows and needed nothing.
+
+## 1 September 2026 — lessons follow the child, and a lesson can be handed over
+
+Justin: "Lessons should have child toggle and show lessons relating to age
+and name, the child app only shows age relevant, and we can send to the
+relevant child's app from here to let the child know about that lesson."
+
+What was already true and stays: the hub honours ?child= (heading names the
+child, library opens on their stage), the child rail shows on every lessons
+page, the kid app lists only the child's own stage decks and its opener
+gates anything above their age, and watch together films plus the Social
+Media Ready module already had send buttons wired to the one child's phone.
+
+What was wrong and is now fixed:
+1. The stage filter did not move on toggle. LessonsBrowser seeds the filter
+   into client state on mount, so switching from an 8 year old to a 13 year
+   old kept the 8 year old's stage under the new name. The browser is now
+   remounted keyed by child.
+2. Opening a lesson dropped the toggle. Tile links and the detail page's
+   back link carried no ?child=, so coming back from a lesson quietly
+   snapped the page to the primary child. The child now rides along tile
+   href, back link and the Ask DiGi link.
+3. Interactive lessons could not be handed over. Only films and the module
+   had send buttons. The lesson detail page now carries Send to <name>,
+   shown ONLY when that child's own list will show the lesson (their stage
+   or earlier, authored deck), so a ping can never point at a lesson that
+   would 404 on the child's side. Same ping route, already scoped to the
+   one child's subscriptions.
+
+## 1 September 2026 — the child switcher audit, run again and written down
+
+Justin: "run a check that child ticks works on every aspect of platform."
+Full sweep verified in code, report at plans/multi-child-audit-01-sep.md.
+
+The verdict: the August plumbing landed (layout rail, nav params, per
+child lesson completions, quest ticks, DiGi filing and now its thread),
+but the Today path and Home tiles still drop ?child=, one silent
+corruption survives (a shared job approved from /dashboard/quests banks
+stars for every child, because that page carries no child param and the
+null tick counts for everyone), and twelve API routes still write to the
+primary child whatever the toggle says (weekly agreement stars, Sunday
+and weekly check in concerns, tracker, moment outcomes, DiGi feedback,
+Right Now concerns, school send to child, keepsake orders). Advice side:
+DiGi still blends wellbeing scores and concerns across children, and six
+star cap call sites price every child on the middle band. Fix order is in
+the report; nothing is architectural. Awaiting Justin's word before the
+fixes are built.
+
+## 1 September 2026 — every child switcher audit finding, fixed
+
+Justin: "Fix and do all suggested fixes." All A, B and C items from
+plans/multi-child-audit-01-sep.md, one session, one pattern: the child off
+the wire, validated against this parent's children, primary only as the
+fallback, legacy null rows still speaking for the household.
+
+Wrong writes closed: the quest boards send the row's own child so a shared
+job no longer banks stars for every child (A1, the last silent corruption);
+the weekly agreement verdict, the Sunday and monthly check ins, the
+tracker, moment outcomes and moment quests, DiGi's reflection, Right Now,
+school send to child, and the keepsake order all take the selected child;
+the lesson carry over read is scoped so two children passing the same
+lesson can no longer void the never taken away rule.
+
+Wrong advice closed: DiGi's wellbeing scores and live concerns are scoped
+to the selected child (legacy rows still count for everybody), the
+get_child_history tool's weekly table too, and every star cap call site
+now passes each child's own age band so the board, the child's balance,
+the printed contract and the till all quote the same ceiling. The three
+child specific pushes name their child instead of buzzing the house.
+
+Wrong display closed: the Today loop's rungs, Home's tiles, the lessons
+grid and the together lesson's back link all carry ?child=; the lessons
+library and lesson page read completions per child; agreement and
+keepsakes joined CHILD_ROUTES and honour the toggle; the homework picker
+opens on the selected child; school, printables, social settings, tell a
+parent, crafts, agreement print, the tracker check in, the device sweep
+and the rehearsal all follow ?child= instead of pinning to the primary
+child. Deliberately unchanged: the quests page still shows every child's
+board (that is its design), and the agreement stays one per family.
+
+## 1 September 2026: the twelve Common Sense gap lessons are live (migration 236)
+
+Justin: "Yes lessons." The full gap list from the Common Sense curriculum
+review was built and shipped the same day. Twelve decks, sort orders 975 to
+986, all status live: two Foundation (app traffic light, online
+neighbourhood), four Builder (altered images, news vs opinion vs advert,
+game chat sportsmanship, gender stereotypes), three Explorer (sideways
+check, phishing, app data collection), two Shaper (hate speech and the
+ratchet, confirmation bias), one Independent (privacy as a citizen).
+
+Decisions made in the writing:
+
+- No stat slides anywhere in the twelve. Every earlier deck that claimed a
+  number needed a proof path; these teach mechanisms (the ratchet, the
+  sideways check, the hook, the permissions test) that need no citation and
+  cannot go stale.
+- Each deck opens with a retrieval hook naming the earlier lesson on the
+  same strand, so the staircase teaches itself (e.g. "The bait message" at
+  11 recalls "Spot the trick" from 8).
+- Titles are the dedupe key: every insert is guarded by
+  `where not exists (... title = ...)`, the house idempotency pattern from
+  migration 076.
+- Applied live in three chunks through MCP (Foundation+Builder, Explorer,
+  Shaper+Independent); the single file in the repo is the record.

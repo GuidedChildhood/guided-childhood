@@ -5,6 +5,7 @@ import Shop from '@/components/shop/Shop'
 import Keepsakes from '@/components/rewards/Keepsakes'
 import { earnedFriendCount } from '@/lib/shop/earned'
 import type { Product } from '@/lib/shop/catalogue'
+import { getChildren } from '@/lib/children/server'
 
 // The keepsakes surface, now a real shop. Phase 1 sells the two lines that need
 // no toy safety testing: the personalised passport and the sticker sheet. The
@@ -23,7 +24,7 @@ const FOUNDER_EMAIL = (process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbill
 export default async function KeepsakesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ ordered?: string; cancelled?: string }>
+  searchParams: Promise<{ ordered?: string; cancelled?: string; child?: string }>
 }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -31,12 +32,10 @@ export default async function KeepsakesPage({
 
   const params = await searchParams
 
-  const { data: child } = await supabase
-    .from('children')
-    .select('id, name')
-    .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .maybeSingle()
+  // Which child's stamps and name the keepsakes are about: honour ?child=
+  // like the rest of the dashboard rather than pinning to the primary child.
+  const { child } = await getChildren<{ id: string; name: string | null; is_primary: boolean | null }>(
+    supabase, user.id, params.child, 'id, name')
 
   const childName = child?.name && child.name !== 'Your child' ? child.name : null
 

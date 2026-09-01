@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
+import { KID_HOME_SEEN_KEY } from '@/components/kid/KidBackLink'
 import { useRouter } from 'next/navigation'
 
 function urlBase64ToUint8Array(base64String: string) {
@@ -979,8 +980,21 @@ export default function KidQuestScreen({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 
+  // Tells every subpage's My quests link that home is genuinely behind it in
+  // this tab, so the link can go back through history (instant, from the
+  // router cache) instead of rebuilding this whole screen. See KidBackLink.
+  useEffect(() => {
+    try { sessionStorage.setItem(KID_HOME_SEEN_KEY, '1') } catch { /* private mode, the link falls back to a normal navigation */ }
+  }, [])
+
   const doneCount = quests.filter(q => ticks[q.id]).length
-  const allDone = quests.length > 0 && doneCount === quests.length
+  // An empty board counts as done. This demanded at least one quest, so a day
+  // with no jobs could never finish: the jobs step in the five a day waits on
+  // this flag, and it held the whole day hostage (no fifth tick, no streak,
+  // no celebration) on exactly the days a child had done nothing wrong. The
+  // board's own empty state still says the board is empty; this flag is about
+  // whether anything is left to DO, and on a no jobs day nothing is.
+  const allDone = doneCount === quests.length
 
   // WHERE A TAB TAKES YOU.
   //
@@ -1652,7 +1666,7 @@ export default function KidQuestScreen({
                   </span>
                   {/* All jobs done today unlocks the ask: a warm line so the
                       child sees the door open, still an ask, never an auto start. */}
-                  {allDone && bankBalance > 0 && (
+                  {allDone && quests.length > 0 && bankBalance > 0 && (
                     <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: '#2F8F6B', marginTop: '3px' }}>
                       🔓 All your jobs are done, screen time is unlocked
                     </span>

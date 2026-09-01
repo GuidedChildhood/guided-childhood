@@ -34,16 +34,25 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
 
-  const { momentId } = await request.json().catch(() => ({})) as { momentId?: string }
+  const { momentId, child_id } = await request.json().catch(() => ({})) as { momentId?: string; child_id?: string }
   if (!momentId || !/^[0-9a-f-]{36}$/i.test(momentId)) {
     return NextResponse.json({ error: 'bad request' }, { status: 400 })
   }
 
-  const [{ data: moment }, { data: child }] = await Promise.all([
+  const [{ data: moment }, { data: kids }] = await Promise.all([
     supabase.from('daily_moments').select('title, category, science_brief, solutions').eq('id', momentId).single(),
-    supabase.from('children').select('id, name, age_band').eq('parent_id', user.id).eq('is_primary', true).maybeSingle(),
+    // Every child: the quest lands on the child the moment was about (off the
+    // wire, validated as this parent's), not always the primary one, whose
+    // name and age band would otherwise shape a task written for a sibling.
+    supabase.from('children').select('id, name, age_band, is_primary').eq('parent_id', user.id),
   ])
   if (!moment) return NextResponse.json({ error: 'moment not found' }, { status: 404 })
+  type Kid = { id: string; name: string | null; age_band: string | null; is_primary: boolean | null }
+  const kidList = (kids ?? []) as Kid[]
+  const child = (typeof child_id === 'string' && kidList.find(k => k.id === child_id))
+    || kidList.find(k => k.is_primary)
+    || kidList[0]
+    || null
 
   const childName = (child as { name?: string } | null)?.name ?? 'your child'
   const ageBand = (child as { age_band?: string } | null)?.age_band ?? null

@@ -53,6 +53,12 @@ export default function KidAskForJob({
   const [text, setText] = useState('')
   const [busy, setBusy] = useState(false)
   const [note, setNote] = useState<string | null>(null)
+  // The tile a child just tapped. Without this the tile vanished the instant
+  // it was tapped (a pending ask filters it out of the grid below), so the
+  // grid reflowed under the child's finger and the only confirmation was a
+  // toast at the far edge of the screen. The tile itself says Sent for a
+  // beat, then leaves.
+  const [sentTitle, setSentTitle] = useState<string | null>(null)
 
   const say = (msg: string) => { setNote(msg); setTimeout(() => setNote(null), 3500) }
   const pending = asks.filter(a => a.status === 'pending').length
@@ -72,6 +78,8 @@ export default function KidAskForJob({
     // believes in that was never saved is the worse of the two bugs.
     const localId = `local-${asks.length}-${clean}`
     setAsks(prev => [{ id: localId, title: clean, emoji, status: 'pending' }, ...prev])
+    setSentTitle(clean)
+    setTimeout(() => setSentTitle(null), 1200)
     say('Quest idea sent to your grown up! ⭐')
     try {
       const res = await fetch('/api/quests/request', {
@@ -138,8 +146,9 @@ export default function KidAskForJob({
   // ask still sitting in the queue is worth suppressing, because asking twice
   // for the same undecided thing is the one case that genuinely clutters a
   // parent's approvals.
+  // The just sent tile stays for its Sent beat even though it is now pending.
   const ideas = KID_REQUEST_IDEAS.filter(
-    i => !asks.some(a => a.title === i.title && a.status === 'pending'),
+    i => i.title === sentTitle || !asks.some(a => a.title === i.title && a.status === 'pending'),
   )
 
   return (
@@ -159,21 +168,27 @@ export default function KidAskForJob({
           // runs off the edge: measured 7px over on a 320px phone, with "Read to
           // someone smaller" doing the holding.
           <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '9px', marginBottom: '14px' }}>
-            {ideas.map(idea => (
-              <button
-                key={idea.title}
-                onClick={() => { submit(idea.title, idea.emoji); playKidSound('tap') }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left', cursor: 'pointer',
-                  padding: '13px 14px', borderRadius: '14px',
-                  background: 'var(--cream)', border: '1.5px solid rgba(26,26,46,0.08)',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25,
-                }}
-              >
-                <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{idea.emoji}</span>
-                <span style={{ minWidth: 0, overflowWrap: 'anywhere' }}>{idea.title}</span>
-              </button>
-            ))}
+            {ideas.map(idea => {
+              const justSent = idea.title === sentTitle
+              return (
+                <button
+                  key={idea.title}
+                  disabled={justSent}
+                  onClick={() => { submit(idea.title, idea.emoji); playKidSound('tap') }}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left', cursor: justSent ? 'default' : 'pointer',
+                    padding: '13px 14px', borderRadius: '14px',
+                    background: justSent ? 'var(--tint-sage)' : 'var(--cream)',
+                    border: justSent ? '1.5px solid #2F8F6B' : '1.5px solid rgba(26,26,46,0.08)',
+                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25,
+                    transition: 'background .2s ease, border-color .2s ease',
+                  }}
+                >
+                  <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{justSent ? '✓' : idea.emoji}</span>
+                  <span style={{ minWidth: 0, overflowWrap: 'anywhere' }}>{justSent ? 'Sent!' : idea.title}</span>
+                </button>
+              )
+            })}
           </div>
         )}
 

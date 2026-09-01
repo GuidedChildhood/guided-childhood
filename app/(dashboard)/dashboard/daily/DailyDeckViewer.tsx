@@ -406,7 +406,7 @@ export default function DailyDeckViewer({
                     fetch('/api/tracker/quick', {
                       method: 'POST',
                       headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ rating: 4 - i, label }),
+                      body: JSON.stringify({ rating: 4 - i, label, child_id: currentChildId() }),
                     }).catch(() => {})
                   }}
                   style={{

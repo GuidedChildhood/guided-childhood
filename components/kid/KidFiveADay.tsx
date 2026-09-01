@@ -167,7 +167,9 @@ export default function KidFiveADay({
   useEffect(() => {
     if (!state || !jobsAllDone) return
     if (!state.steps.includes('jobs') || state.done.includes('jobs')) return
-    void mark('jobs', true)
+    // On a day with nothing on the board the step marks itself the same way,
+    // and the note says why, so the record never claims jobs were done.
+    void mark('jobs', true, jobsProgress && jobsProgress.total === 0 ? 'No jobs today' : null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, jobsAllDone])
 
@@ -295,9 +297,20 @@ export default function KidFiveADay({
               </span>
               <span style={{
                 fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                color: 'var(--ink-muted)', textDecoration: 'line-through', lineHeight: 1.2,
+                // "No jobs today" is a fact, not a chore the child crossed off,
+                // so it does not wear the strikethrough the real ones earn.
+                color: 'var(--ink-muted)',
+                textDecoration: key === 'jobs' && jobsProgress?.total === 0 ? 'none' : 'line-through',
+                lineHeight: 1.2,
               }}>
-                {key === 'reading' && readingMinutes ? `${readingMinutes} minutes reading` : def.label}
+                {key === 'reading' && readingMinutes
+                  ? `${readingMinutes} minutes reading`
+                  : key === 'jobs' && jobsProgress?.total === 0
+                    // Justin, from the child app: "there is no jobs so should
+                    // know that." The row says so instead of pretending a job
+                    // list was finished.
+                    ? 'No jobs today, this one is free'
+                    : def.label}
               </span>
             </div>
           )
@@ -340,7 +353,12 @@ export default function KidFiveADay({
                 </span>
                 {!isDone && (
                   <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.35, marginTop: '1px' }}>
-                    {key === 'move' && moveJobs
+                    {key === 'jobs' && jobsProgress && jobsProgress.total === 0
+                      // Seen only for the moment before the step marks itself
+                      // done, but that moment must not say "tick off what your
+                      // grown up sent" when nothing was sent.
+                      ? 'Nothing on the board today'
+                      : key === 'move' && moveJobs
                       ? `You have ${moveJobs.total === 1 ? 'a job' : `${moveJobs.total} jobs`} for this. Tap to see ${moveJobs.total === 1 ? 'it' : 'them'}`
                       : key === 'jobs' && newQuestCount > 0
                         // A fresh job beats the running count: the child has

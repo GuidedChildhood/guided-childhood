@@ -29,30 +29,38 @@ export async function POST(req: NextRequest) {
 
   const { data: action } = await supabase
     .from('school_actions')
-    .select('id, kind, title, sent_to_child')
+    .select('id, kind, title, sent_to_child, child_id')
     .eq('id', id)
     .eq('user_id', user.id)
     .maybeSingle()
   if (!action) return NextResponse.json({ error: 'not found' }, { status: 404 })
   if (action.sent_to_child) return NextResponse.json({ ok: true, already: true })
 
-  const { data: child } = await supabase
+  // The action row names its own child since migration 215; the primary
+  // child is only the fallback for legacy rows. This read is_primary
+  // unconditionally and pushed to the whole household, so sending the older
+  // child's exam reminder buzzed the younger one's phone under the wrong
+  // name.
+  const { data: kids } = await supabase
     .from('children')
-    .select('id, name')
+    .select('id, name, is_primary')
     .eq('parent_id', user.id)
-    .eq('is_primary', true)
-    .maybeSingle()
+  const child = (action.child_id && (kids ?? []).find(k => k.id === action.child_id))
+    || (kids ?? []).find(k => k.is_primary)
+    || (kids ?? [])[0]
+    || null
   if (!child) return NextResponse.json({ error: 'No child on the account yet' }, { status: 400 })
 
   const { error } = await supabase
     .from('school_actions').update({ sent_to_child: true }).eq('id', action.id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // Straight to the child's phone, best effort.
+  // Straight to THIS child's phone, best effort.
   try {
     await sendPush({
         userId: user.id,
         audience: 'kids',
+        childId: child.id,
         title: 'On your calendar 🗓️',
         body: `${action.title}. It is on your calendar.`,
         url: '/',

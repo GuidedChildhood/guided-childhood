@@ -219,7 +219,11 @@ export default function QuestBoard() {
       await fetch('/api/quests/approve', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ quest_id: questId, child_id: currentChildId() }),
+        // The caller already resolved which child this tick is for, and the
+        // optimistic row above uses it. currentChildId() reads ?child= from a
+        // URL that never carries one on this page, so it sent null and a null
+        // tick banks stars for every child.
+        body: JSON.stringify({ quest_id: questId, child_id: childId }),
       })
     } catch { load() }
   }

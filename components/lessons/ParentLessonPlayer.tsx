@@ -234,7 +234,7 @@ export default function ParentLessonPlayer({
   kidMode = false,
   timesCompleted = 0,
 }: {
-  lesson: Pick<ParentLesson, 'lesson_code' | 'title' | 'catchphrase' | 'keyword'>
+  lesson: Pick<ParentLesson, 'lesson_code' | 'title' | 'catchphrase' | 'keyword' | 'poster_url'>
   segments: ParentLessonSegment[]
   cards: ParentLessonCard[]
   stageName: string
@@ -424,6 +424,7 @@ export default function ParentLessonPlayer({
             </div>
             <video
               src={step.segment.video_url}
+              poster={lesson.poster_url ?? undefined}
               controls
               playsInline
               onEnded={() => setVideoEnded(true)}
