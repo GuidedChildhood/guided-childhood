@@ -15,9 +15,13 @@ import { friendOfTheDay } from '@/lib/pathway/friend-of-the-day'
 // five this fixture used to draw, and the widest case is the one worth
 // checking, because the bonus coin has to clear a node that has meandered to
 // the right at 390 wide.
+// The lead flag rides on the first rung, matching what the engine now marks:
+// one main tick makes the day (September 2026), the rest sit under the "also
+// today" seam. The fixture keeps day one's longest road so the coin clearance
+// check still means something.
 const TASKS = [
+  { key: 'setup' as const, label: 'Set up', href: '#', done: false, lead: true },
   { key: 'checkin' as const, label: 'Where things are now', href: '#', done: false },
-  { key: 'setup' as const, label: 'Set up', href: '#', done: false },
   { key: 'moment' as const, label: 'Moment', href: '#', done: false },
   { key: 'script' as const, label: 'Script', href: '#', done: false },
   { key: 'quests' as const, label: 'First job', href: '#', done: false },

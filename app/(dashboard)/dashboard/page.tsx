@@ -739,6 +739,9 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
   const dailySteps = todayLoop.filter(t => t.key !== 'done')
   const dayComplete = dailyDone
+    // The one main tick (September 2026): the lead rung done makes the day,
+    // the same reading TodayPathBig folds on, so the two never disagree.
+    || dailySteps.some(t => t.lead && t.done)
     || investedMinutes(todayLoop) >= ((profile?.daily_minutes as number | null) ?? 10)
     || (dailySteps.length > 0 && dailySteps.every(t => t.done))
   const questsChildName = child?.name && child.name !== 'Your child' ? child.name : null
@@ -1014,7 +1017,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
       {/* The Planet Friend beside the road, chosen against the daily lead so
           the road and the coin never offer the same thing on the same day. */}
-      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonus={friendToday} />
+      <TodayPathBig tasks={todayLoop} dailyMinutes={(profile?.daily_minutes as number | null) ?? 10} childName={child?.name ?? undefined} streakCount={streak.count} bonus={friendToday} childId={child?.id ?? null} />
 
       {/* ── THE DAY, WHERE THE SIX COINS USED TO BE ──────────────────────────
           Justin, 13 August 2026: "we can also now lose the planets underneath

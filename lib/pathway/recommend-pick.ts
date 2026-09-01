@@ -113,4 +113,39 @@ export function chooseScript<T extends Pick<ScriptRow, 'sort_order' | 'category'
   return tied.length === 1 ? tied[0] : tied[((sc.dayIndex % tied.length) + tied.length) % tied.length]
 }
 
+/**
+ * The top N scripts for this family today, strongest first.
+ *
+ * Justin, 1 September 2026: "a top 5 of scripts that apply to details we
+ * gather for each child ... recommended scripts to choose from."
+ *
+ * Same scores, same rules, plural: every tied group is rotated by the day
+ * number exactly as chooseScript rotates its single winner, so position one
+ * here IS chooseScript's answer and the whole shelf turns over daily rather
+ * than fossilising in sort order. The never speak first guard is the
+ * caller's job (pass an eligible pool), because it applies to all five, not
+ * just the first.
+ */
+export function rankScripts<T extends Pick<ScriptRow, 'sort_order' | 'category'>>(
+  pool: T[],
+  sc: Scoring & { dayIndex: number },
+  n: number,
+): T[] {
+  const byScore = new Map<number, T[]>()
+  for (const s of pool) {
+    const score = scoreScript(s, sc)
+    const held = byScore.get(score)
+    if (held) held.push(s)
+    else byScore.set(score, [s])
+  }
+  const out: T[] = []
+  for (const score of [...byScore.keys()].sort((a, b) => b - a)) {
+    const group = byScore.get(score)!
+    const rot = ((sc.dayIndex % group.length) + group.length) % group.length
+    out.push(...group.slice(rot), ...group.slice(0, rot))
+    if (out.length >= n) break
+  }
+  return out.slice(0, n)
+}
+
 type ScriptRow = { sort_order: number; category: string | null }

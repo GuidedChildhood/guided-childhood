@@ -31,6 +31,7 @@ import BalanceZone, { type DayDot } from '@/components/passport/BalanceZone'
 import { starWeekStart } from '@/lib/quests/star-week'
 import { londonToday } from '@/lib/pathway/today'
 import { stagePace, paceLine } from '@/lib/pathway/pace'
+import MarkPassportLook from '@/components/daily/MarkPassportLook'
 
 // ═══ THE PASSPORT IS THE APPLICATION, AND THE APPLICATION IS THE WHOLE PAGE ═
 //
@@ -77,11 +78,11 @@ import { stagePace, paceLine } from '@/lib/pathway/pace'
 // the system is the birthday that ends the stage.
 type Child = { id: string; name: string; age_band: string | null; stage_id: string | null; is_primary: boolean; streak_weeks: number | null; date_of_birth: string | null; passport_code: string | null }
 
-export default async function PathwayPage({ searchParams }: { searchParams: Promise<{ child?: string; from?: string }> }) {
+export default async function PathwayPage({ searchParams }: { searchParams: Promise<{ child?: string; from?: string; passportday?: string }> }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
-  const { child: childParam, from } = await searchParams
+  const { child: childParam, from, passportday } = await searchParams
 
   const [profileResult, childrenResult] = await Promise.all([
     supabase.from('profiles').select('subscription_status, trial_ends_at, onboarding_answers').eq('id', user.id).single(),
@@ -335,6 +336,11 @@ export default async function PathwayPage({ searchParams }: { searchParams: Prom
   return (
     <div style={{ padding: '20px 0 32px' }}>
       <div style={{ padding: '0 20px', maxWidth: '720px', margin: '0 auto' }}>
+        {/* On passport day, arriving here FROM the road is the day's one
+            thing, so the look is recorded. Any other visit records nothing. */}
+        {from === 'today' && passportday === '1' && (
+          <MarkPassportLook childId={primaryChild?.id ?? null} />
+        )}
         {/* The way back to Today, only for a parent who genuinely came from
             somewhere: a back button to a page you were never on is furniture. */}
         {from && <BackTo from={from} fallback={{ href: '/dashboard#today', label: 'Today' }} />}

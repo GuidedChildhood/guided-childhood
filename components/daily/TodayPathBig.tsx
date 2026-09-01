@@ -43,7 +43,7 @@ const GREEN = '#2F8F6B'
 const GREEN_DARK = '#236F52'
 
 const NODE_ICON: Record<TodayLoopTask['key'], string> = {
-  checkin: '✦', setup: '🧰', moment: '☀️', agreement: '🤝', script: '💬', quests: '⭐', passport: '🛂', digi: '✦', done: '🏁',
+  checkin: '✦', setup: '🧰', moment: '☀️', agreement: '🤝', script: '💬', quests: '⭐', passport: '🛂', digi: '✦', lesson: '📚', done: '🏁',
 }
 
 function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked: boolean }) {
@@ -70,7 +70,7 @@ function Connector({ fromX, toX, walked }: { fromX: number; toX: number; walked:
   )
 }
 
-export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, streakCount = 0, bonus = null }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number; bonus?: FriendOfTheDay | null }) {
+export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, streakCount = 0, bonus = null, childId = null }: { tasks: TodayLoopTask[]; dailyMinutes?: number; childName?: string; streakCount?: number; bonus?: FriendOfTheDay | null; childId?: string | null }) {
   const kid = childName && childName !== 'Your child' ? childName : 'your child'
   // ── THE PLANET FRIEND BESIDE THE ROAD ─────────────────────────────────────
   //
@@ -103,7 +103,17 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   const steps = tasks.filter(t => t.key !== 'done')
   const doneCount = steps.filter(t => t.done).length
   const investedMinutes = steps.filter(t => t.done).reduce((sum, t) => sum + (TASK_MINUTES[t.key] ?? 0), 0)
-  const dayDone = investedMinutes >= minutes || (steps.length > 0 && doneCount === steps.length)
+  // ── ONE TICK MAKES THE DAY ─────────────────────────────────────────────────
+  //
+  // Justin, 1 September 2026: "only have to click one tick per day but have
+  // other recommended." The engine marks exactly one rung as the lead
+  // (lib/pathway/daily-tasks.ts) and that rung alone completes the day; the
+  // minutes budget stays as the invitation to do more, never the gate. Roads
+  // built before the rotation carry no lead flag and keep the old reading.
+  const lead = steps.find(t => t.lead)
+  const dayDone = lead
+    ? lead.done
+    : investedMinutes >= minutes || (steps.length > 0 && doneCount === steps.length)
   const toBudgetMin = Math.max(0, minutes - investedMinutes)
   const nextWeight = TASK_MINUTES[tasks[currentIndex].key] ?? 0
   const pressure = !dayDone && !allDone
@@ -126,6 +136,28 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       body: JSON.stringify({ minutes: m }),
     }).catch(() => { /* the choice still holds for this view */ })
   }
+
+  // The recorded day. When the lead rung lands, the day is done and the
+  // rotation may advance tomorrow, so it is written down: once, per child,
+  // per day, idempotent on the server too. The moments deck records its own
+  // finishes; this catches the days that complete on a lesson, a check in, a
+  // DiGi question or a passport look.
+  const leadDone = !!lead?.done
+  const leadKey = lead?.key
+  useEffect(() => {
+    if (!leadDone || !leadKey) return
+    const day = new Date().toDateString()
+    const storageKey = `gc_daydone_${childId ?? 'family'}`
+    try { if (localStorage.getItem(storageKey) === day) return } catch { /* still post; the server is idempotent */ }
+    const focus = leadKey === 'lesson' ? 'lesson' : leadKey === 'digi' ? 'digi' : leadKey === 'passport' ? 'passport' : 'connect'
+    fetch('/api/daily/day-done', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ child_id: childId ?? undefined, focus }),
+    }).then(() => {
+      try { localStorage.setItem(storageKey, day) } catch { /* fine, the server dedupes */ }
+    }).catch(() => { /* the next open retries */ })
+  }, [leadDone, leadKey, childId])
 
   useEffect(() => {
     const el = pathRef.current
@@ -271,9 +303,14 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           {dayDone ? `${kid}'s path, done` : `${kid}'s path today`}
         </h2>
         <p style={{ fontFamily: 'var(--font-body)', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: 0 }}>
+          {/* The promise names the ONE tick. A parent should know from this
+              line alone what makes today count, and that the rest is theirs
+              to take or leave. */}
           {dayDone
-            ? 'You understood a moment and you have the words. That is the day.'
-            : 'Understand one moment, and walk away with the exact words for it.'}
+            ? 'Today is made. Anything more is yours to take.'
+            : lead
+              ? `One tick makes today: ${lead.label.toLowerCase()}. The rest is extra, not homework.`
+              : 'Understand one moment, and walk away with the exact words for it.'}
         </p>
       </div>
 
@@ -327,6 +364,23 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           const digiOnRight = x <= 0
           return (
             <div key={task.key}>
+              {/* The seam between the day's one thing and the extras. One
+                  quiet line, so the road reads as a small promise followed by
+                  an open invitation rather than one long list of homework. */}
+              {tasks.findIndex(t => t.lead) >= 0 && i === tasks.findIndex(t => t.lead) + 1 && (
+                <div style={{ textAlign: 'center', margin: '14px 0 0', position: 'relative', zIndex: 2 }}>
+                  {/* A pill, not bare text: the connector curve runs up behind
+                      this line and the words have to sit on something. */}
+                  <span style={{
+                    display: 'inline-block', padding: '4px 12px', borderRadius: '100px',
+                    background: 'var(--cream)', border: '1.5px solid var(--border)',
+                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
+                    letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+                  }}>
+                    Also today, if you fancy it
+                  </span>
+                </div>
+              )}
               {i > 0 && (
                 <Connector
                   fromX={MEANDER[(i - 1) % MEANDER.length]}
@@ -564,7 +618,7 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           background: 'var(--tint-sage)', borderRadius: '14px',
         }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)' }}>
-            That is your {minutes} minutes, day done 🎉
+            {lead ? 'Today’s one thing, done 🎉' : `That is your ${minutes} minutes, day done 🎉`}
           </div>
           <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginTop: '3px' }}>
             You are readier for {kid} today than yesterday.{streakCount >= 2 ? ` ${streakCount} days in a row now.` : ''} Streak safe, the rest waits for tomorrow. Got a spare minute?

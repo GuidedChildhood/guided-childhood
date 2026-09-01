@@ -3,7 +3,7 @@ import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
 import { categoryForConcern, DEVICE_KIND_TO_CATEGORIES } from '@/lib/content/signal-map'
 import type { ChallengeId } from '@/lib/content/stages'
 import type { StageId } from './progress'
-import { chooseScript, eligibleScripts, scoreScript } from './recommend-pick'
+import { chooseScript, eligibleScripts, rankScripts, scoreScript } from './recommend-pick'
 import { dipsFrom, type WellbeingCheck } from './checkin-dips'
 
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>
@@ -60,13 +60,25 @@ export interface RecommendedScript {
 // With preferFree set, free scripts win over paid ones, so an unpaid parent
 // following "open my recommended script" is never routed into the reader's
 // paywall redirect.
-export async function getRecommendedScript(
+type ScriptSignals = {
+  eligible: ScriptRow[]
+  byCategory: Map<string, { score: number; reason: string; key: RecommendedScript['reasonKey'] }>
+  scoreOf: (category: string | null) => number
+  opened: Set<number>
+  returned: Set<number>
+  challengeCategory: string | null
+}
+
+// Everything the recommender knows about this family, gathered once. Shared
+// by the single pick below and the top five (getTopScripts), so the two can
+// never rank the same day from different evidence.
+async function gatherSignals(
   supabase: SupabaseClient,
   userId: string,
   stageId: StageId,
   challenge: ChallengeId | null | undefined,
-  opts?: { preferFree?: boolean; childId?: string | null }
-): Promise<RecommendedScript | null> {
+  childId: string | null,
+): Promise<ScriptSignals | null> {
   const today = londonToday()
 
   // WHOSE signals. Justin, 20 August 2026: scripts "should relate to each
@@ -77,7 +89,7 @@ export async function getRecommendedScript(
   // done-already signals are that child's own. A row with no child on it is a
   // household fact and still counts for everyone; devices and the signup
   // answer stay family wide because they genuinely are.
-  const childOr = opts?.childId ? `child_id.eq.${opts.childId},child_id.is.null` : null
+  const childOr = childId ? `child_id.eq.${childId},child_id.is.null` : null
 
   let completionsQ = supabase
     .from('script_completions')
@@ -239,11 +251,26 @@ export async function getRecommendedScript(
   const scoreOf = (category: string | null) => (category ? byCategory.get(category)?.score ?? 0 : 0)
 
   // Scripts that assert something about a child never speak first. The rule,
-  // and the morning it was written on, are in eligibleScripts.
+  // and the morning it was written on, are in eligibleScripts. It guards
+  // every recommendation, the top five included, not just the first card.
   const eligible = eligibleScripts(pool, flagged)
   // Never strand a family with no card at all. If the guard emptied the pool
   // there was nothing honest left to recommend anyway.
   if (eligible.length === 0) return null
+
+  return { eligible, byCategory, scoreOf, opened, returned, challengeCategory }
+}
+
+export async function getRecommendedScript(
+  supabase: SupabaseClient,
+  userId: string,
+  stageId: StageId,
+  challenge: ChallengeId | null | undefined,
+  opts?: { preferFree?: boolean; childId?: string | null }
+): Promise<RecommendedScript | null> {
+  const sig = await gatherSignals(supabase, userId, stageId, challenge, opts?.childId ?? null)
+  if (!sig) return null
+  const { eligible, byCategory, scoreOf, opened, returned, challengeCategory } = sig
 
   const freeOnly = opts?.preferFree ? eligible.filter(s => s.is_free) : []
   // Restricted to free scripts when the parent cannot open a paid one, and
@@ -277,6 +304,53 @@ export async function getRecommendedScript(
         : carried ? signal!.reason : null,
     reasonKey: returning ? 'returning' : reopened ? 'opened' : carried ? signal!.key : null,
   }
+}
+
+// The top five scripts for this child, strongest first.
+//
+// Justin, 1 September 2026: "a top 5 of scripts that apply to details we
+// gather for each child and they are recommended scripts to choose from
+// based on what they have told us and what's best for the age."
+//
+// Position one is exactly getRecommendedScript's answer (same signals, same
+// tie rotation), so the road's lead card and this shelf can never disagree.
+// Free is not filtered here: the shelf is the honest library view and a
+// locked card says so on its face, while the road's own lead link keeps its
+// paywall safe route through safeScriptHref.
+export async function getTopScripts(
+  supabase: SupabaseClient,
+  userId: string,
+  stageId: StageId,
+  challenge: ChallengeId | null | undefined,
+  opts?: { childId?: string | null; limit?: number }
+): Promise<RecommendedScript[]> {
+  const sig = await gatherSignals(supabase, userId, stageId, challenge, opts?.childId ?? null)
+  if (!sig) return []
+  const { eligible, byCategory, scoreOf, opened, returned, challengeCategory } = sig
+
+  const scoring = { scoreOfCategory: scoreOf, opened, returned }
+  const ranked = rankScripts(eligible, { ...scoring, dayIndex: dayIndex() }, opts?.limit ?? 5)
+
+  return ranked.map(s => {
+    const best = scoreScript(s, scoring)
+    const signal = s.category ? byCategory.get(s.category) : undefined
+    const carried = best > 0 && !!signal
+    const returning = returned.has(s.sort_order)
+    const reopened = !returning && opened.has(s.sort_order)
+    return {
+      sort_order: s.sort_order,
+      title: s.title,
+      situation: s.situation,
+      is_free: s.is_free,
+      matchesChallenge: !!challengeCategory && s.category === challengeCategory,
+      reason: returning
+        ? 'You set this aside a while back. Worth another look now'
+        : reopened
+          ? 'You have opened this one before'
+          : carried ? signal!.reason : null,
+      reasonKey: returning ? 'returning' : reopened ? 'opened' : carried ? signal!.key : null,
+    }
+  })
 }
 
 type ScriptRow = { sort_order: number; title: string; situation: string; category: string | null; is_free: boolean }

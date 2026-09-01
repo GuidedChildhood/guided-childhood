@@ -14,7 +14,7 @@ export const TASK_MINUTES: Record<TodayLoopTask['key'], number> = {
   // the end of it, and approving a child's ticks is a conversation. Counting
   // them as nothing would let a parent finish a genuinely useful ten minutes
   // and be told the day had barely started.
-  checkin: 2, setup: 3, moment: 3, agreement: 4, script: 4, quests: 3, passport: 2, digi: 4, done: 0,
+  checkin: 2, setup: 3, moment: 3, agreement: 4, script: 4, quests: 3, passport: 2, digi: 4, lesson: 3, done: 0,
 }
 
 export function investedMinutes(tasks: TodayLoopTask[]): number {
