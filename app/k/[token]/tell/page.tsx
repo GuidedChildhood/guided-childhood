@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { resolveTheme } from '@/lib/kid/theme'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
+import KidBackLink from '@/components/kid/KidBackLink'
 
 // Telling a grown up: the child's own page, and the other half of the scripts
 // library.
@@ -99,12 +99,7 @@ export default async function KidTellPage({ params }: { params: Promise<{ token:
     <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px 60px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ marginBottom: '18px' }}>
-          <Link href={`/k/${token}`} style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            color: theme.inkSoft, textDecoration: 'none',
-          }}>
-            ← My quests
-          </Link>
+          <KidBackLink href={`/k/${token}`} color={theme.inkSoft} fontSize="var(--text-base)" />
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '6px' }}>

@@ -9386,3 +9386,30 @@ stages with twelve genuine gaps, the largest being news literacy between 8
 and 12. The per age list and build order live in
 plans/week-of-2026-08-31-lesson-quality-and-common-sense-gaps.md. No deck
 gets written until Justin says go.
+
+## 1 September 2026 — the child app's three little lies, fixed
+
+Justin's review of the child app, now acted on with his go ahead:
+
+1. A DAY WITH NO JOBS CAN FINISH. allDone in KidQuestScreen demanded at
+   least one quest, so on an empty board the jobs step in the five a day
+   could never mark itself, which quietly made the whole day unfinishable:
+   no fifth tick, no streak, no celebration. An empty board now counts as
+   done, the five a day row says "No jobs today, this one is free" (no
+   strikethrough, it is a fact not a chore), and the step's note records
+   why. The screen time unlocked banner now asks for at least one real job
+   before claiming jobs were done.
+2. MY QUESTS IS INSTANT. The back link on the five kid subpages (suggest,
+   tell, adventures, lesson, tutor) was a fresh server render of the
+   heaviest screen in the child app. KidBackLink goes back through history
+   instead, restoring home from the router cache in a frame, guarded by a
+   session flag the home screen sets so a cold deep link still navigates
+   normally and a child is never thrown out of the app by their own back
+   button.
+3. THE TILE SAYS SENT. Tapping a preset on Ask for a job made the tile
+   vanish mid tap (a pending ask filters the grid) with only a toast at the
+   screen edge. The tapped tile now holds for a beat as a sage "Sent!"
+   tick, then leaves. Verified in the browser on the ask-for-job fixture.
+
+Deliberately unchanged: the balance step still ticks on reading the page,
+because reading it is the whole of that step.

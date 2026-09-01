@@ -1,9 +1,9 @@
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
 import { createAdminClient } from '@/lib/supabase/admin'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import KidAskForJob, { type KidAsk } from '@/components/kid/KidAskForJob'
 import { resolveTheme } from '@/lib/kid/theme'
+import KidBackLink from '@/components/kid/KidBackLink'
 
 // Ask for a job: the child's own page for pitching a quest to their grown up.
 //
@@ -61,12 +61,7 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
     <div style={{ minHeight: '100dvh', background: theme.bg, padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ marginBottom: '18px' }}>
-          <Link href={`/k/${token}`} style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            color: theme.inkSoft, textDecoration: 'none',
-          }}>
-            ← My quests
-          </Link>
+          <KidBackLink href={`/k/${token}`} color={theme.inkSoft} fontSize="var(--text-base)" />
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '6px' }}>
