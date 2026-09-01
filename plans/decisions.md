@@ -9357,3 +9357,32 @@ so the board sees a silent failure of the new half.
 First real run: Monday 8 September. The plan's own gate stands: four weeks
 of runs, then judge whether the lenses agree with Justin's reading before
 trusting them further.
+
+## 1 September 2026 — lesson videos audited, 1.10 repaired, the Common Sense gap list
+
+Justin's screenshot: The Yes No Button opened on ten seconds of black. All
+41 lesson video files probed frame by frame in the Higgsfield sandbox. The
+fault is in the exports, not the player: the video track starts late (or
+drops stretches) while the narration runs on time. 1.10 was the only lesson
+opening on black (parts one and three, and the full cut); 1.2 and 1.7 each
+carry one 20 to 25 second stretch of missing picture mid video that plays
+as a frozen frame. The other 34 files are clean.
+
+Decided and done: the three 1.10 files were rebuilt with ffmpeg (opening
+title frame held from second zero, internal hole filled, narration
+untouched), uploaded to the same CDN, and the parent_lesson_segments rows
+repointed. Live data change, no migration: the rows were created by hand
+originally and the seed file carries no URLs. ParentLessonPlayer now passes
+poster_url to the video element so the pre play box shows lesson art, never
+black. 1.2 and 1.7 left as they play today (nothing opens on black there);
+the honest cure for all three is a re render through the lesson video
+pipeline, offered to Justin, not started.
+
+Decided: the age fit review found the library sound (uniform 7 to 8 slide
+decks, reading level rising with stage, EFCW strands, RSHE 2025 named
+topics present, AI ahead of schools). The Common Sense Media curriculum (73
+lessons, verified against their published scope and sequence) maps onto our
+stages with twelve genuine gaps, the largest being news literacy between 8
+and 12. The per age list and build order live in
+plans/week-of-2026-08-31-lesson-quality-and-common-sense-gaps.md. No deck
+gets written until Justin says go.
