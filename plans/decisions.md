@@ -9611,3 +9611,17 @@ Justin's Duolingo brief. Decisions in the first build slice:
   paint the same, and a page's own back row steps aside via
   gc-takeover-hide. The script reader is the first user; moments
   (MomentCard) and lessons (SlidePlayer) already fill the screen.
+
+## 1 September 2026: the habit loop, part three (DiGi decluttered, passport day lands)
+
+- DiGi's welcome now sizes itself to the moment: the full hero with its
+  instructions only when there is no conversation, one warm line when there
+  is. Both of Justin's asks are honoured at once (August: always welcome;
+  September: less clutter).
+- The block after every settled answer shrinks from a butter card plus
+  eyebrow plus three chips to at most two quiet chips that act on THIS
+  answer (the scripts finder carrying the exact question, and the school
+  chip only when relevant). The way back to today lives in the header,
+  said once. The flag link stays.
+- Passport day's link lands on #passport so the weekly check opens on the
+  stamps, not the top of a long page.

@@ -181,14 +181,32 @@ check('and they run worst to best',
   labels.join(' | ') === 'Really tough | Hard going | Up and down | Getting there | Going great',
   labels.join(' | '))
 
+// THE FIFTH FLAKE MODE (1 September 2026, found by CI, not locally).
+// boundingBox() does not throw when the dev server's RSC refresh lands
+// mid read, it returns NULL, so the stable() wrapper above never sees an
+// error and the bare property read below it crashed the whole guard with a
+// TypeError instead of a finding. Same event as the other four modes, one
+// more disguise. So a box is read like every other DOM fact here: retried
+// through the refresh, and failed LOUDLY as a check rather than a crash if
+// it still has no box after that.
+async function boxOf(locator, label) {
+  for (let i = 0; i < 4; i++) {
+    const bb = await stable(() => locator.boundingBox())
+    if (bb) return bb
+    await p.waitForTimeout(600)
+  }
+  check(`${label} has a box on screen`, false, 'no bounding box after the refresh settled')
+  return null
+}
+
 // Every word is a real thumb target, and the row is full width, which is the
 // reason for stacking them in the first place.
-const box = await words.nth(0).boundingBox()
-check('each star is a proper tap target', box.height >= 44 && box.width >= 44, `${Math.round(box.width)}x${Math.round(box.height)}`)
+const box = await boxOf(words.nth(0), 'the first star')
+if (box) check('each star is a proper tap target', box.height >= 44 && box.width >= 44, `${Math.round(box.width)}x${Math.round(box.height)}`)
 // Five of them have to sit on one line at 390, which is the whole reason the
 // row is short enough not to need an accordion.
-const fifth = await words.nth(4).boundingBox()
-check('all five sit on one row', Math.abs(fifth.y - box.y) < 4, `first y ${Math.round(box.y)}, fifth y ${Math.round(fifth.y)}`)
+const fifth = await boxOf(words.nth(4), 'the fifth star')
+if (box && fifth) check('all five sit on one row', Math.abs(fifth.y - box.y) < 4, `first y ${Math.round(box.y)}, fifth y ${Math.round(fifth.y)}`)
 
 // No word may be cut off. A truncated answer is a worse answer, and it is the
 // failure stacking them was meant to prevent.

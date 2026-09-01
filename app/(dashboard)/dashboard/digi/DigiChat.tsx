@@ -731,26 +731,30 @@ export default function DigiChat({
       <div ref={scrollRef} onScroll={onMessagesScroll} style={{ flex: 1, overflowY: 'auto', padding: '20px 20px 0', background: '#fff' }}>
 
         {/* The front door, every time the tab is opened, not only on a first
-            ever visit.
-
-            It used to render only when there were NO messages, so the moment a
-            family had any history at all, opening DiGi dropped them into an old
-            conversation with no greeting and no idea what to do. Worse, the
-            open behaviour laid a full viewport of blank space below the last
-            message to push a fresh start line to the top, so what a parent
-            actually met was a blank screen. Justin: "this is confusing, it
-            should welcome and give instructions like the first page does."
-
-            So the hero sits above the thread now. Open DiGi and you are
-            greeted and told what this is for; the conversation is underneath,
-            where a conversation belongs. */}
-        <div style={{ margin: '0 -20px 24px' }}>
-          <DigiHero
-            title={<>Let&apos;s make today a little easier.</>}
-            subtitle="I am trained on the research and I get more useful the more you tell me. What is on your mind?"
-            curved={false}
-          />
-        </div>
+            ever visit. Justin, August: "this is confusing, it should welcome
+            and give instructions like the first page does." And Justin,
+            1 September: DiGi "can seem a bit cluttered". Both are honoured by
+            sizing the welcome to the moment: a family with no conversation
+            gets the full hero and its instructions, and a family returning to
+            a thread gets one warm line, because for them the greeting's job
+            is done in a breath and the conversation is what they came for. */}
+        {messages.length === 0 ? (
+          <div style={{ margin: '0 -20px 24px' }}>
+            <DigiHero
+              title={<>Let&apos;s make today a little easier.</>}
+              subtitle="I am trained on the research and I get more useful the more you tell me. What is on your mind?"
+              curved={false}
+            />
+          </div>
+        ) : (
+          <p style={{
+            margin: '0 0 18px', textAlign: 'center',
+            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
+            color: 'var(--ink-soft)',
+          }}>
+            Let&apos;s make today a little easier.
+          </p>
+        )}
 
         {messages.length === 0 && (
           <div style={{ paddingTop: '4px' }}>
@@ -1050,56 +1054,19 @@ export default function DigiChat({
           const lastAsk = [...messages].reverse().find(m => m.role === 'user')?.content?.slice(0, 140) ?? ''
           return (
           <div style={{ marginBottom: '26px' }}>
-            {/* Answered, so the useful next move is almost never another
-                question. It is going back and doing the thing. The pathway
-                already knows what today needs, so this hands them back to it
-                rather than leaving them sat in a chat box wondering. */}
-            <Link
-              href="/dashboard"
-              style={{
-                display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none',
-                background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)',
-                borderRadius: 16, padding: '13px 15px', marginBottom: 18,
-              }}
-            >
-              <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>🧭</span>
-              <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
-                  Back to today&apos;s pathway
-                </span>
-                <span style={{ display: 'block', fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
-                  It picks up where you left off and says what to do next.
-                </span>
-              </span>
-              <span aria-hidden style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--terracotta-dark)' }}>›</span>
-            </Link>
-
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '9px' }}>
-              More that might help
-            </div>
+            {/* One row of at most two quiet chips, never a card. Justin,
+                1 September 2026: DiGi "can seem a bit cluttered", and the
+                block that lived here was most of why: a full butter card
+                repeating the pathway link the header already carries, an
+                eyebrow, and three chips, rendered after every settled answer.
+                What survives is the two suggestions that act on THIS answer:
+                the scripts finder carrying the exact question (Justin, 11
+                August), and the school chip when, and only when, the question
+                was a school one (lib/digi/school-chip.ts owns that judgement).
+                The way back to today stays in the header, said once. */}
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               {[
-                // The question goes WITH them. This said "scripts for moments
-                // like this" and linked to the whole library, so a parent who
-                // had just described their evening was handed 236 scripts and
-                // left to find the one. Justin, 11 August 2026: "can we make
-                // script suggestions actually pull up scripts that relate to
-                // the question, and ability to search others." The finder
-                // opens on the matches and stays editable, which is both.
                 { icon: '❝', label: 'Scripts for moments like this', href: lastAsk ? `/dashboard/scripts?q=${encodeURIComponent(lastAsk)}` : '/dashboard/scripts' },
-                { icon: '🎬', label: 'A lesson to watch together', href: '/dashboard/lessons' },
-                // The school pages, but ONLY when the question was a school
-                // question. Justin, 11 August 2026: "DiGi prompts now and
-                // again, not too often, especially when tired questions or
-                // homework questions are asked in DiGi."
-                //
-                // Not too often is the design rather than a counter. A chip
-                // advertising the curriculum checker under every answer becomes
-                // furniture in a week, and furniture does not get tapped. The
-                // cap is relevance: see lib/digi/school-chip.ts, which stays
-                // silent on screens, social media and a parent's own tiredness,
-                // and speaks on homework, the class, and a child who is
-                // shattered every school morning.
                 ...(schoolChipFor(lastAsk) ? [schoolChipFor(lastAsk)!] : []),
               ].map(r => (
                 <Link key={r.href} href={r.href} style={{
