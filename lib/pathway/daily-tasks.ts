@@ -569,8 +569,14 @@ export async function getTodayLoop(
       // main's, so the way back to the loop is on the page when they arrive.
       // On passport day the link carries passportday=1 so the pathway page
       // knows this visit IS the day's one thing and records the look; any
-      // other day the same page records nothing.
-      href: withChild(focus === 'passport' ? '/dashboard/pathway?from=today&passportday=1' : '/dashboard/pathway?from=today'),
+      // other day the same page records nothing. The #passport anchor lands
+      // the parent ON the stamps rather than at the top of a long page,
+      // which is most of what makes the weekly check feel easy to follow.
+      // Appended after withChild so the fragment stays last and the child
+      // param stays a real query param.
+      href: focus === 'passport'
+        ? `${withChild('/dashboard/pathway?from=today&passportday=1')}#passport`
+        : withChild('/dashboard/pathway?from=today'),
       // On passport day the ask is a LOOK, not a finish: reading the record
       // is the day's one thing, and the pathway page records the look when it
       // is opened from the road. Every other day keeps the honest reading the
