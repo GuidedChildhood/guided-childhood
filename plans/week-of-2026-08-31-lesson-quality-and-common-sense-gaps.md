@@ -36,13 +36,14 @@ picture from 0.0s and exact duration match, uploaded to the same CDN, and
 the `parent_lesson_segments` rows for 1.10 A, C and full now point at the
 fixed files. Part two was already clean and keeps its original URL.
 
-**Still imperfect, held honestly:** the filled stretches show a held frame
-while the narration talks, because the original picture for those seconds
-does not exist in any export we have. The proper cure for 1.10, 1.2 and 1.7
-is a re render of those segments through the lesson video pipeline. The 1.2
-and 1.7 faults were left as they are for now since a held frame is exactly
-what browsers already showed there; nothing gets worse and nothing opens on
-black.
+**Re-rendered, 1 September 2026 (Justin: "Re render").** Every held frame
+and frozen stretch across 1.10, 1.2 and 1.7 now carries real new picture:
+the narration in each window was transcribed, a matching illustration was
+generated in the existing style (clean frames from each video used as the
+style and character reference), and each was spliced in with a gentle slow
+zoom, audio untouched and verified bit identical. All seven files (1.10 A,
+C and full, 1.2 C and full, 1.7 B and full) rebuilt, uploaded and repointed.
+Full record in content/packs/2026-09-01-lesson-video-rerender/production.md.
 
 **Player hardening:** `ParentLessonPlayer` now passes the lesson's
 `poster_url` to the video element, so the box before pressing play shows the

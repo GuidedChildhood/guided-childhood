@@ -9544,3 +9544,29 @@ Decisions made in the writing:
   migration 076.
 - Applied live in three chunks through MCP (Foundation+Builder, Explorer,
   Shaper+Independent); the single file in the repo is the record.
+
+## 1 September 2026: lesson video re-render, the proper cure shipped
+
+Justin: "Re render." The five damaged windows across lessons 1.10, 1.2 and
+1.7 (held title frames and frozen stretches) were replaced with real new
+picture. Decisions made:
+
+- The narration is the source of truth: each window was transcribed with
+  faster whisper and the new illustration depicts what is being said, so
+  the picture finally matches the words (DiGi's snuggle up intro, the
+  puzzle pieces, the word permission, the pop-up game, the kind message
+  close, the go and check photo rule).
+- Style continuity by reference, not description: clean frames pulled from
+  beside each window were fed to the image model as style and character
+  references, keeping DiGi and the children on model without guessing.
+- One still per beat with a slow Ken Burns zoom, not AI video generation:
+  gentle motion in the house spirit, no risk of off-model animation, any
+  window length fillable.
+- Audio untouched, provably: the audio stream md5 in every fixed file is
+  identical to its original.
+- Bonus fix: both 1.2 files carried inflated container durations (video
+  timestamps running 14s past the audio); the rebuilt files match the
+  database durations exactly.
+- DB repoint with no migration, same as the 18 August repair: the segment
+  rows carry no URLs in any seed file. Record in
+  content/packs/2026-09-01-lesson-video-rerender/production.md.
