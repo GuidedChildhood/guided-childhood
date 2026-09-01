@@ -9238,3 +9238,51 @@ same way in migration 232: RLS enabled, no policy, table left in place as
 someone's safety net. Performance advisors: 626 findings, all the known
 multiple-permissive-policies and auth-rls-initplan backlog plus routine
 unindexed foreign keys and unused indexes, nothing new.
+
+## 1 September 2026 — the check in keeps its result, and its promises became wires
+
+Justin, after the five lane audit: "all and make sure apply level of UX."
+The instrument did not change: five stars, bands posting 2, 4, 6, 8, 10,
+band against band on the server, per the 12 to 19 August decisions.
+
+What was decided and built (PR #937):
+
+1. A saved row folds to a slim line that KEEPS the verdict ("Up from hard
+   going"), instead of destroying it 2.6 seconds after it appeared. The fold
+   settles via a grid rows transition; reduced motion keeps the jump. A dip's
+   folded line carries two real buttons: Ask DiGi (lands on the chat with the
+   question pre written via ?ask=) and See the script (via signal-map).
+2. The card counts the run ("2 of 5") and spotlights the live question;
+   waiting rows sit at reduced strength. One at a time by light, not by
+   hiding.
+3. The baseline now makes the daily promise out loud: "We check in each day
+   from here and show you the movement." First save says "Tomorrow reads
+   against this one."
+4. DiGi can see the stars: the chat context's live concerns block reads the
+   latest scored concern_events per concern (word, drift, recency), so a dip
+   logged this morning is known this afternoon. The wisdom bank aggregate
+   was never per family; this is.
+5. The history row is written FIRST in /api/daily/concern-check and its
+   failure is a 500 the row retries from. Status can no longer advance with
+   no event behind it.
+6. The Sunday review email gate reads scored check ins as a sign of life,
+   not just quest ticks. Check in only families get their movement email.
+7. Moment keys map onto the concern slugs they are (bedtime to
+   bedtime-screens, come_off to wont-put-down, tv_morning to morning-tv), so
+   "log it as a moment and it returns here on its own" is true for the
+   seeded worries. Only unambiguous pairs are mapped; everything else stays
+   its own concern.
+8. Movement carries the child's name everywhere (getMovements, What is
+   working, the email block, the Sunday round up), shown only when more than
+   one child is named.
+9. review.md gained section 4a, the check in's own bar. The Playwright guard
+   (scripts/check-concern-dots.mjs) was brought back in line with the
+   shipped design, gained assertions for the folded verdict and the counter,
+   and now runs in CI (wiring.yml, no secrets needed, against the
+   /dev/concern-scale fixture). THE-STORY.md describes the five stars. The
+   Wednesday walkthrough now walks the RETURNING check in, not only the
+   first.
+
+Accessibility ruling inside the same change: only the star AT last time's
+band carries the "what you said last time" aria label. The grey fill stays
+cumulative; the fact is singular.

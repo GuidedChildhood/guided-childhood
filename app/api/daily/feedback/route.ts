@@ -97,10 +97,33 @@ export async function POST(request: Request) {
   // else tag is a picker, not a real moment, so it is never tracked as a
   // concern; only the specific moments the parent lands on are.
   const GENERIC_CONCERN_SLUGS = new Set(['something-else', 'something_else', 'other'])
+
+  // ── A MOMENT LANDS ON THE CONCERN IT IS, NOT ON ITS OWN SPELLING ──────────
+  //
+  // The check in tells a parent who five stars a worry: "If it comes back,
+  // log it as a moment and it returns here on its own." The wake-up wire is
+  // real (last_flagged_at newer than the resting score un-rests the row, see
+  // lib/concerns/resting.ts), but it matches on SLUG, and the moment deck and
+  // the seeded baseline grew separate vocabularies for the same worries. So
+  // logging the bedtime moment created a brand new "Getting to bed" concern
+  // and the retired "Bedtime screens" row, with the family's whole history on
+  // it, slept on. Found by the 1 September 2026 audit.
+  //
+  // Only the unambiguous same-worry pairs are mapped, carrying the ledger
+  // row's own label so an upsert never renames it. Every other moment stays
+  // its own concern, because "Snacks and food" genuinely is not "Mood after
+  // screens" and guessing would file a parent's worry under the wrong name.
+  const MOMENT_TO_CONCERN: Record<string, { slug: string; label: string }> = {
+    bedtime: { slug: 'bedtime-screens', label: 'Bedtime screens' },
+    come_off: { slug: 'wont-put-down', label: 'Will not put it down' },
+    tv_morning: { slug: 'morning-tv', label: 'Morning TV' },
+  }
   try {
-    const slugs = (moments ?? []).filter(m => dailyMomentLabel(m) !== null && !GENERIC_CONCERN_SLUGS.has(m))
-    if (slugs.length > 0) {
+    const momentKeys = (moments ?? []).filter(m => dailyMomentLabel(m) !== null && !GENERIC_CONCERN_SLUGS.has(m))
+    if (momentKeys.length > 0) {
       const now = new Date().toISOString()
+      const targets = momentKeys.map(key => MOMENT_TO_CONCERN[key] ?? { slug: key, label: dailyMomentLabel(key) as string })
+      const slugs = [...new Set(targets.map(t => t.slug))]
 
       // THIS child's prior rows, so a repeat of Jody's bedtime battle bumps
       // Jody's count rather than finding a sibling's row by slug alone.
@@ -115,13 +138,14 @@ export async function POST(request: Request) {
       const childId = forChild
 
       const rows = slugs.map(slug => {
+        const target = targets.find(t => t.slug === slug)!
         const prior = existing.find(c => c.slug === slug)
         return {
           user_id: user.id,
           child_id: childId,
           source: 'moment',
           slug,
-          label: dailyMomentLabel(slug) as string,
+          label: target.label,
           // A repeat flag bumps the count. A resolved concern that comes
           // back reopens; otherwise the current status is kept.
           status: prior ? (prior.status === 'resolved' ? 'open' : prior.status) : 'open',

@@ -228,7 +228,7 @@ export async function POST(request: Request) {
       : Promise.resolve({ data: null }),
     supabase
       .from('concerns')
-      .select('slug, label, status, times_flagged')
+      .select('id, slug, label, status, times_flagged')
       .eq('user_id', user.id)
       .in('status', ['open', 'improving'])
       .order('last_flagged_at', { ascending: false })
@@ -515,9 +515,47 @@ IMPORTANT: this guide is the ONLY device the parent is asking about right now. I
   let concernsKnowledge = ''
   const liveConcerns = concernsResult.data ?? []
   if (liveConcerns.length > 0) {
+    // ── DIGI CAN SEE THE STARS NOW (1 September 2026) ────────────────────────
+    //
+    // The check in verdict has promised "DiGi has the next move" since August,
+    // and until today that was copy: DiGi's context had label, status and a
+    // flag count, but the daily scores lived in concern_events and nothing on
+    // this path read them. So a parent who logged a dip this morning opened
+    // the chat and DiGi did not know. One extra query per chat turn, latest
+    // scored event per live concern, and the dip arrives with its size and
+    // its recency instead of having to be retyped.
+    const word = (n: number) =>
+      n <= 2 ? 'really tough' : n <= 4 ? 'hard going' : n <= 6 ? 'up and down' : n <= 8 ? 'getting there' : 'going great'
+    const { data: scoreRows } = await supabase
+      .from('concern_events')
+      .select('concern_id, score, created_at')
+      .in('concern_id', liveConcerns.map(c => c.id))
+      .not('score', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(60)
+    // Newest first, so the first two rows seen per concern are today and the
+    // time before: enough to say not just where it stands but which way it
+    // just moved.
+    const history = new Map<string, { score: number; at: string }[]>()
+    for (const r of scoreRows ?? []) {
+      const rows = history.get(r.concern_id) ?? []
+      if (rows.length < 2) history.set(r.concern_id, [...rows, { score: r.score as number, at: r.created_at as string }])
+    }
+    const scoreLine = (id: string) => {
+      const rows = history.get(id)
+      if (!rows?.length) return ''
+      const [latest, prev] = rows
+      const days = Math.floor((Date.now() - new Date(latest.at).getTime()) / 86400000)
+      const when = days <= 0 ? 'today' : days === 1 ? 'yesterday' : `${days} days ago`
+      const band = (n: number) => Math.ceil(Math.min(10, Math.max(1, n)) / 2)
+      const drift = prev == null ? '' :
+        band(latest.score) > band(prev.score) ? ', up from ' + word(prev.score) :
+        band(latest.score) < band(prev.score) ? ', A DIP from ' + word(prev.score) : ', holding'
+      return `; last check in ${when}: ${word(latest.score)}${drift}`
+    }
     concernsKnowledge = `\n\nLIVE CONCERNS THIS FAMILY HAS FLAGGED (from daily check ins and flagged moments, most recent first):\n` +
-      liveConcerns.map(c => `- ${c.label}: ${c.status}, flagged ${c.times_flagged} time${c.times_flagged === 1 ? '' : 's'}`).join('\n') +
-      `\nWhen the conversation touches one of these, acknowledge it with empathy as something you know has been coming up for them, and move them to the NEXT practical step rather than repeating what they have already tried. A concern that keeps returning means the approach needs adjusting, never that the parent is failing. No guilt, ever.`
+      liveConcerns.map(c => `- ${c.label}: ${c.status}, flagged ${c.times_flagged} time${c.times_flagged === 1 ? '' : 's'}${scoreLine(c.id)}`).join('\n') +
+      `\nWhen the conversation touches one of these, acknowledge it with empathy as something you know has been coming up for them, and move them to the NEXT practical step rather than repeating what they have already tried. A concern marked A DIP just got harder for them, so start there: name it gently and offer one concrete move for tonight. A concern that keeps returning means the approach needs adjusting, never that the parent is failing. No guilt, ever.`
   }
 
   // This family's actual screen life: the agreement, the trust level, the

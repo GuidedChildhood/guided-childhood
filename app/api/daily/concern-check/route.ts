@@ -116,6 +116,34 @@ export async function POST(request: Request) {
     ? (concern.status === 'improving' ? 'resolved' : 'improving')
     : 'open'
 
+  // ── THE HISTORY ROW GOES FIRST, AND ITS FAILURE IS AN ERROR ───────────────
+  //
+  // Until 1 September 2026 this ran the other way: status moved, then the
+  // event write ran best effort with its result thrown away. So a failed
+  // insert still returned saved:true, the status advanced with no history
+  // row behind it, and the Today rung, which is done only when a SCORED
+  // event exists for the day, stayed undone with no error anywhere. That is
+  // the same silent-failure family as the 15 August loop, one layer down.
+  //
+  // The event is the record a parent's tap actually creates, everything else
+  // reads from it, so it is written first and a failure comes back as a 500
+  // the row can retry from. If the status update then fails, the retry logs
+  // a second event with the same score: a duplicate reading is benign (every
+  // reader takes the latest), a missing one is not.
+  //
+  // One parent action, one event. A check in that tips the concern over into
+  // resolved is recorded as the resolution rather than as a check plus a
+  // resolution, so counting resolutions never double counts the same tap.
+  const logged = await logConcernEventById(supabase, user.id, concern.id as string, {
+    event: status === 'resolved' ? 'resolved' : 'checked',
+    answer: verdict,
+    score: isScore(score) ? score : null,
+    source: 'daily',
+  })
+  if (!logged) {
+    return NextResponse.json({ error: 'Could not save the check in' }, { status: 500 })
+  }
+
   const { error } = await supabase
     .from('concerns')
     .update({ status, last_checked_at: new Date().toISOString() })
@@ -125,16 +153,6 @@ export async function POST(request: Request) {
   if (error) {
     return NextResponse.json({ error: 'Could not save the check in' }, { status: 500 })
   }
-
-  // One parent action, one event. A check in that tips the concern over into
-  // resolved is recorded as the resolution rather than as a check plus a
-  // resolution, so counting resolutions never double counts the same tap.
-  await logConcernEventById(supabase, user.id, concern.id as string, {
-    event: status === 'resolved' ? 'resolved' : 'checked',
-    answer: verdict,
-    score: isScore(score) ? score : null,
-    source: 'daily',
-  })
 
   // The first one is the baseline, and it is also what earns the right to ask
   // them to choose a way in. Both read one timestamp. See lib/checkin/first.

@@ -24,3 +24,31 @@ jobs:
         with:
           node-version: '22'
       - run: node scripts/wiring-check.mjs
+
+  # The check in guard, against the live component on the dev fixture.
+  #
+  # scripts/check-concern-dots.mjs is the only automated check of the daily
+  # check in card, and until 1 September 2026 it was wired into nothing: it
+  # had already gone stale against the shipped design twice, and a guard that
+  # only runs when someone remembers it is a comment, not a guard. The
+  # fixture at /dev/concern-scale renders the real ConcernCheckIn with static
+  # props and the guard mocks the save route, so this needs no database and
+  # no secrets, the same bar as the wiring check above.
+  checkin-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Start the app and run the guard
+        run: |
+          npm run dev &
+          for i in $(seq 1 60); do
+            curl -sf -o /dev/null http://localhost:3000/dev/concern-scale && break
+            sleep 2
+          done
+          npm run checkin-guard

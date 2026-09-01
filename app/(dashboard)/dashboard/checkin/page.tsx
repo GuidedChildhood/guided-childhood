@@ -102,7 +102,7 @@ export default async function CheckInPage({
             whole instance away at the border: fresh child, fresh card, nothing
             carried, whichever bundle the phone cached. */}
         {rows.length > 0 ? (
-          <ConcernCheckIn key={childId ?? 'none'} baseline={baseline} concerns={rows} childName={childName} nextChild={nextChild} />
+          <ConcernCheckIn key={childId ?? 'none'} baseline={baseline} concerns={rows} childName={childName} childId={childId} nextChild={nextChild} />
         ) : (
           // NOTHING TO CHECK IN ON IS NOT A FAILURE, and it must not read as
           // one. A family who has answered everything today lands here from a

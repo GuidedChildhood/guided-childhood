@@ -41,10 +41,15 @@ function getStagePrompts(stageId: number, childName: string | null): string[] {
 
 type StoredMessage = { role: string; content: string; timestamp?: string }
 
-export default async function DigiPage({ searchParams }: { searchParams: Promise<{ child?: string }> }) {
+export default async function DigiPage({ searchParams }: { searchParams: Promise<{ child?: string; ask?: string }> }) {
   // Which child this page is about, so the switcher in the layout actually
   // changes the page rather than only the pills. See lib/children/server.ts.
-  const { child: childParam } = await searchParams
+  // ?ask= arrives from a dip at the check in with the question already
+  // written, so a parent lands here one tap from sending rather than having
+  // to retype what the app already knows. Capped so a mangled link cannot
+  // stuff the box.
+  const { child: childParam, ask } = await searchParams
+  const initialAsk = typeof ask === 'string' ? ask.slice(0, 300) : null
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -120,6 +125,7 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
   return (
     <DigiChat
       initialMessages={initialMessages}
+      initialAsk={initialAsk}
       initialCount={initialCount}
       dailyLimit={dailyLimit}
       stagePrompts={stagePrompts}

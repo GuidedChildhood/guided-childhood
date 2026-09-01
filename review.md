@@ -67,6 +67,33 @@ a plan, not a ban. Judge every surface as that parent:
 - No new console errors, and no route that answers 200 with a failure hidden
   in the body. Read bodies, not status codes.
 
+## 4a. The check in test (the first thing a member does each day)
+
+The daily star check in is the retention loop's front door, so any change
+near it is judged against the instrument's own rules, decided 12 to 19
+August 2026 and recorded in `plans/decisions.md`:
+
+- Five stars are five bands. Star n posts the TOP of its band (2, 4, 6, 8,
+  10) to `concern_events`; the stored column stays 1 to 10 and every
+  downstream reader (weekly email, What is working, DiGi wisdom) carries on
+  unchanged.
+- The server compares BANDS, never raw numbers
+  (`app/api/daily/concern-check/route.ts`). A within band wobble is not
+  movement.
+- Comparison is said in words, never as two numbers ("up and down today,
+  hard going last time").
+- Last time is grey stars filled to its band; today is gold. Never a single
+  outlined star.
+- Per child: every child with a live worry needs a scored event today before
+  the Today rung ticks. State is keyed by concern id, never by slug.
+- The history row is the record: the scored `concern_events` write comes
+  first and its failure is an error, never a silent Saved.
+- A five star answer rests the worry and says so; logging its moment brings
+  it back (`lib/concerns/resting.ts` is the only copy of the rule).
+- The baseline framing tells the parent it is the starting point AND that we
+  check in daily and show movement.
+- `scripts/check-concern-dots.mjs` passes against the change.
+
 ## 5. The design test
 
 - Checker design tokens only. Nunito display and body, IBM Plex Mono for

@@ -38,6 +38,11 @@ export type Movement = {
   concernId: string
   label: string
   status: string
+  /** Whose worry this is. Null for a family wide row. Concerns went per child
+   *  with migration 194 and every child is seeded the SAME four starting
+   *  worries, so without this a two child family reads two identical
+   *  "Bedtime screens" lines with no way to tell whose is whose. */
+  childName: string | null
   /** Every scored check in, oldest first. The line, and the only history. */
   points: MovementPoint[]
   startScore: number | null
@@ -114,16 +119,19 @@ export async function getMovements(
   supabase: SupabaseClient,
   userId: string,
 ): Promise<Movement[]> {
-  const [{ data: concerns }, { data: events }] = await Promise.all([
-    supabase.from('concerns').select('id, label, status').eq('user_id', userId),
+  const [{ data: concerns }, { data: events }, { data: children }] = await Promise.all([
+    supabase.from('concerns').select('id, label, status, child_id').eq('user_id', userId),
     supabase
       .from('concern_events')
       .select('concern_id, event, score, score_at_start, backfilled, linked_type, created_at')
       .eq('user_id', userId)
       .order('created_at', { ascending: true }),
+    supabase.from('children').select('id, name').eq('user_id', userId),
   ])
 
   if (!concerns?.length || !events?.length) return []
+
+  const childName = new Map((children ?? []).map(k => [k.id as string, (k.name as string | null) ?? null]))
 
   const byConcern = new Map<string, EventRow[]>()
   for (const e of events as EventRow[]) {
@@ -166,6 +174,7 @@ export async function getMovements(
       concernId: c.id as string,
       label: c.label as string,
       status: c.status as string,
+      childName: c.child_id ? (childName.get(c.child_id as string) ?? null) : null,
       points,
       startScore,
       endScore,
