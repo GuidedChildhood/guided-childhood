@@ -205,8 +205,22 @@ const box = await boxOf(words.nth(0), 'the first star')
 if (box) check('each star is a proper tap target', box.height >= 44 && box.width >= 44, `${Math.round(box.width)}x${Math.round(box.height)}`)
 // Five of them have to sit on one line at 390, which is the whole reason the
 // row is short enough not to need an accordion.
-const fifth = await boxOf(words.nth(4), 'the fifth star')
-if (box && fifth) check('all five sit on one row', Math.abs(fifth.y - box.y) < 4, `first y ${Math.round(box.y)}, fifth y ${Math.round(fifth.y)}`)
+//
+// THE SIXTH FLAKE MODE (1 September 2026, found by CI on a diff with no UI
+// change at all). The stars arrive on a staggered entrance, so for a few
+// frames the first and fifth sit at different heights, and a box read mid
+// flight reported the row as wrapped: first y 365, fifth y 359. Six pixels
+// is an animation; a genuine wrap is a full row of offset and it persists.
+// So the pair is re read until the heights agree or stop changing, and only
+// a difference that SURVIVES the settling is a finding.
+let rowFirst = box
+let rowFifth = await boxOf(words.nth(4), 'the fifth star')
+for (let i = 0; i < 5 && rowFirst && rowFifth && Math.abs(rowFifth.y - rowFirst.y) >= 4; i++) {
+  await p.waitForTimeout(600)
+  rowFirst = await boxOf(words.nth(0), 'the first star')
+  rowFifth = await boxOf(words.nth(4), 'the fifth star')
+}
+if (rowFirst && rowFifth) check('all five sit on one row', Math.abs(rowFifth.y - rowFirst.y) < 4, `first y ${Math.round(rowFirst.y)}, fifth y ${Math.round(rowFifth.y)}`)
 
 // No word may be cut off. A truncated answer is a worse answer, and it is the
 // failure stacking them was meant to prevent.
