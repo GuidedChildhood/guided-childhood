@@ -9413,3 +9413,30 @@ Justin's review of the child app, now acted on with his go ahead:
 
 Deliberately unchanged: the balance step still ticks on reading the page,
 because reading it is the whole of that step.
+
+## 1 September 2026 — DiGi's conversation follows the child toggle
+
+Justin: "make sure the child toggle works on digi and the history moves with
+child select so digi can take correct details into thinking."
+
+The route has filed memory, concerns, questions and feedback against the
+selected child since 18 August, and the page already swapped prompts and
+name. The conversation was the last blended piece: one thread per USER
+(migration 001), shown unchanged whichever pill was lit, and fed back into
+the prompt, so a question about one child carried the other child's recent
+conversation in DiGi's head.
+
+Migration 235, applied to live: digi_conversations gains child_id, one row
+per (user, child), partial unique indexes so the no children account still
+gets exactly one row, and the existing thread backfilled to the primary
+child (verified: all three live rows attached). The route picks the
+selected child's row for history and writes back to it by id, inserting
+with child_id when the child has no thread yet. The page shows the selected
+child's thread and remounts DigiChat keyed by child so a soft navigation
+never leaves the previous child's bubbles under the new name.
+
+THE CAP STAYS PER FAMILY, decided deliberately: today's messages are summed
+across every thread for the 429 and the badge, so splitting threads hands
+nobody a doubled free allowance. The admin members board merges the rows
+back per member (counts summed, newest date wins). The weekly tester's
+question clustering reads all rows and needed nothing.

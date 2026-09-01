@@ -175,11 +175,13 @@ export async function POST(request: Request) {
       .select('subscription_status, trial_ends_at, created_at, onboarding_answers')
       .eq('id', user.id)
       .single(),
+    // Every thread this family has, one per child since migration 235. Which
+    // one feeds the prompt is decided after the child is resolved below; all
+    // of them together are what the daily cap counts.
     supabase
       .from('digi_conversations')
-      .select('messages, messages_today, last_message_date')
-      .eq('user_id', user.id)
-      .single(),
+      .select('id, child_id, messages, messages_today, last_message_date')
+      .eq('user_id', user.id),
     // Every child, not only the primary one.
     //
     // This asked for is_primary and nothing else, so DiGi genuinely did not
@@ -267,7 +269,12 @@ export async function POST(request: Request) {
   timer.mark('gather1')
 
   const profile = profileResult.data
-  const convData = convResult.data
+  type ConvRow = {
+    id: string; child_id: string | null
+    messages: Array<{ role: string; content: string; timestamp?: string }> | null
+    messages_today: number | null; last_message_date: string | null
+  }
+  const convRows = (convResult.data ?? []) as ConvRow[]
   // The whole family, and the one to assume when the parent has not said.
   type DigiChild = {
     id: string; name: string | null; age_band: string | null; stage_id: string | null
@@ -294,6 +301,13 @@ export async function POST(request: Request) {
   // child answers, exactly as before. No extra read, no way to file against
   // somebody else's child.
   const child = pickChild(children, typeof childParam === 'string' ? childParam : null)
+
+  // THIS child's thread, so the history in DiGi's head belongs to the child
+  // the parent has open. One blended family thread meant a question about one
+  // child was answered with the other's recent conversation as context, which
+  // is exactly the drift the per child filing was built to stop. A child with
+  // no thread yet simply starts one.
+  const convData = convRows.find(r => (r.child_id ?? null) === (child?.id ?? null)) ?? null
 
   const isPaid = hasFullAccess(profile, user.email)
 
@@ -326,8 +340,13 @@ export async function POST(request: Request) {
   const limitApplies = inStarterTrial(profile) && !isAllowlisted(user.email)
 
   const today = new Date().toISOString().split('T')[0]
-  const isNewDay = !convData || convData.last_message_date !== today
-  const currentCount = isNewDay ? 0 : (convData?.messages_today ?? 0)
+  // The cap counts the FAMILY, not the thread. Splitting conversations per
+  // child (migration 235) must not hand a two child family double the free
+  // allowance, so today's messages are summed across every thread; the per
+  // row count below is only what the selected thread writes back.
+  const rowCountToday = convData && convData.last_message_date === today ? (convData.messages_today ?? 0) : 0
+  const currentCount = convRows.reduce(
+    (n, r) => n + (r.last_message_date === today ? (r.messages_today ?? 0) : 0), 0)
 
   // Checked before any streaming starts, so a parent at their limit gets a
   // clean answer rather than a half written one.
@@ -698,6 +717,7 @@ When a parent asks whether or for how long their child should use any device, do
   const conversation: Anthropic.MessageParam[] = [...messages]
 
   const newCount = currentCount + 1
+  const newRowCount = rowCountToday + 1
 
   // Everything above this line is our own work, and the parent has seen none of
   // it. The prompt is now built, so close that phase off before the one part of
@@ -832,16 +852,17 @@ When a parent asks whether or for how long their child should use any device, do
       await supabase.from('digi_conversations').update({
         messages: updatedMessages,
         message_count: Math.floor(updatedMessages.length / 2),
-        messages_today: newCount,
+        messages_today: newRowCount,
         last_message_date: today,
         updated_at: new Date().toISOString(),
-      }).eq('user_id', user.id)
+      }).eq('id', convData.id)
     } else {
       await supabase.from('digi_conversations').insert({
         user_id: user.id,
+        child_id: child?.id ?? null,
         messages: updatedMessages,
         message_count: 1,
-        messages_today: newCount,
+        messages_today: newRowCount,
         last_message_date: today,
       })
     }

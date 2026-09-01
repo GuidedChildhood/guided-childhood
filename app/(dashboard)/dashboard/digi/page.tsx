@@ -62,10 +62,12 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
     // other read, so honouring ?child= costs no extra round trip.
     getChildren<{ id: string; name: string | null; age_band: string | null; is_primary: boolean | null }>(
       supabase, user.id, childParam, 'age_band, name'),
+    // Every thread, one per child since migration 235. The selected child's
+    // is picked below once ?child= has resolved; the count badge sums them
+    // all, because the daily cap is per family, not per thread.
     supabase.from('digi_conversations')
-      .select('messages, messages_today, last_message_date')
-      .eq('user_id', user.id)
-      .single(),
+      .select('child_id, messages, messages_today, last_message_date')
+      .eq('user_id', user.id),
     supabase.from('digi_feedback')
       .select('question, parent_response, responded_at')
       .eq('user_id', user.id)
@@ -103,9 +105,20 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
     ...stagePrompts,
   ].slice(0, 4)
 
-  const conv = convResult.data
-  const isNewDay = !conv || conv.last_message_date !== today
-  const initialCount = isNewDay ? 0 : (conv?.messages_today ?? 0)
+  type ConvRow = {
+    child_id: string | null
+    messages: StoredMessage[] | null
+    messages_today: number | null
+    last_message_date: string | null
+  }
+  const convRows = (convResult.data ?? []) as ConvRow[]
+  // The history shown is the SELECTED child's own thread, so the toggle at
+  // the top changes the conversation, not just the prompts. Justin, 1
+  // September 2026: "the history moves with child select so DiGi can take
+  // correct details into thinking."
+  const conv = convRows.find(r => (r.child_id ?? null) === (childResult.child?.id ?? null)) ?? null
+  const initialCount = convRows.reduce(
+    (n, r) => n + (r.last_message_date === today ? (r.messages_today ?? 0) : 0), 0)
 
   // Empty entries (saved by a failed stream) render as blank bubbles and the
   // reflective marker is a separate card, so both are stripped for display.
@@ -124,6 +137,10 @@ export default async function DigiPage({ searchParams }: { searchParams: Promise
 
   return (
     <DigiChat
+      // Remounted per child. DigiChat seeds its message list into state on
+      // mount, so without the key a soft navigation between children would
+      // keep the previous child's bubbles on screen under the new name.
+      key={childResult.child?.id ?? 'family'}
       initialMessages={initialMessages}
       initialAsk={initialAsk}
       initialCount={initialCount}

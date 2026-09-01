@@ -82,7 +82,19 @@ export async function GET() {
   // you whether the paywall sits in the right place.
   const asked = { paidWeek: 0, paidTotal: 0, freeWeek: 0, freeTotal: 0 }
 
-  const convoByUser = new Map((convos ?? []).map(c => [c.user_id as string, c]))
+  // One thread per child since migration 235, so a family can hold several
+  // rows. The board thinks per member: counts summed, the newest date wins.
+  const convoByUser = new Map<string, { user_id: string; last_message_date: string | null; message_count: number | null }>()
+  for (const c of convos ?? []) {
+    const key = c.user_id as string
+    const prev = convoByUser.get(key)
+    if (!prev) {
+      convoByUser.set(key, { user_id: key, last_message_date: c.last_message_date ?? null, message_count: c.message_count ?? 0 })
+    } else {
+      prev.message_count = (prev.message_count ?? 0) + (c.message_count ?? 0)
+      if ((c.last_message_date ?? '') > (prev.last_message_date ?? '')) prev.last_message_date = c.last_message_date
+    }
+  }
 
   for (const p of rows) {
     const state = lifecycleState(p as { subscription_status: string | null; trial_ends_at: string | null })
