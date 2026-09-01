@@ -9594,3 +9594,20 @@ Justin's Duolingo brief. Decisions in the first build slice:
   users keep a free lead card; the shelf shows locks honestly.
 - /api/daily/day-done records non deck completions idempotently; the deck's
   own route keeps its meaning.
+
+## 1 September 2026: the habit loop, part two (day close and full screen readers)
+
+- The day's close is a four beat walk (done, balance, quests, see you
+  tomorrow), opened once per day by the visit that actually completed the
+  day, through the popup queue. The balance beat quotes the healthy guide
+  for THIS child's age, surfaces the settings sweep only when one is due,
+  and always ends on the offline trade. The last beat names tomorrow's
+  focus, which is the Duolingo hook: leave knowing the one thing next.
+- The /api/daily/day-done response carries the close screen's facts
+  (tomorrow's focus, the age guide), counted after the write so the number
+  agrees with what the road will show in the morning.
+- One shared TakeoverReader shell gives any page the Good Inside mobile
+  treatment: CSS decides mobile versus desktop so server and client always
+  paint the same, and a page's own back row steps aside via
+  gc-takeover-hide. The script reader is the first user; moments
+  (MomentCard) and lessons (SlidePlayer) already fill the screen.

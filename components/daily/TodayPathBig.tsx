@@ -8,6 +8,7 @@ import type { TodayLoopTask } from '@/lib/pathway/daily-tasks'
 import { TASK_MINUTES } from '@/lib/pathway/task-minutes'
 import { nextHint } from '@/components/daily/TodayPathStrip'
 import type { FriendOfTheDay } from '@/lib/pathway/friend-of-the-day'
+import DayCompleteFlow, { type DayCloseFacts } from '@/components/daily/DayCompleteFlow'
 
 // ── THE THING IS CALLED TODAY ───────────────────────────────────────────────
 //
@@ -144,6 +145,11 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   // DiGi question or a passport look.
   const leadDone = !!lead?.done
   const leadKey = lead?.key
+  // The day's close: recorded, then walked through. The response carries what
+  // the close screen says (tomorrow's focus, the balance guide for the age),
+  // and the localStorage guard is what makes the flow a once a day moment
+  // rather than a thing every visit replays.
+  const [closeFacts, setCloseFacts] = useState<DayCloseFacts | null>(null)
   useEffect(() => {
     if (!leadDone || !leadKey) return
     const day = new Date().toDateString()
@@ -154,8 +160,10 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ child_id: childId ?? undefined, focus }),
-    }).then(() => {
+    }).then(async r => {
       try { localStorage.setItem(storageKey, day) } catch { /* fine, the server dedupes */ }
+      const facts = await r.json().catch(() => null)
+      setCloseFacts(facts ?? {})
     }).catch(() => { /* the next open retries */ })
   }, [leadDone, leadKey, childId])
 
@@ -220,8 +228,24 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
   // Done work is worth one line and a way back in, not the same room it took
   // while it still needed doing. It is not hidden: the line says what was
   // finished and opens the whole path again on a tap.
+  // The walk through the close: balance, quests, see you tomorrow. Rendered
+  // above whichever state the card itself is in, and only on the visit that
+  // actually completed the day.
+  const closeFlow = closeFacts && (
+    <DayCompleteFlow
+      childName={childName}
+      childId={childId}
+      streakCount={streakCount + 1}
+      facts={closeFacts}
+      quests={(() => { const q = tasks.find(t => t.key === 'quests'); return q ? { label: q.label, href: q.href, done: q.done } : null })()}
+      onClose={() => setCloseFacts(null)}
+    />
+  )
+
   if (dayDone && !openAnyway) {
     return (
+      <>
+      {closeFlow}
       <button
         onClick={() => setOpenAnyway(true)}
         style={{
@@ -248,10 +272,13 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
           Show ›
         </span>
       </button>
+      </>
     )
   }
 
   return (
+    <>
+    {closeFlow}
     <div style={{
       background: '#fff',
       border: '1.5px solid var(--border)',
@@ -646,5 +673,6 @@ export default function TodayPathBig({ tasks, dailyMinutes = 10, childName, stre
         </Link>
       ) : null}
     </div>
+    </>
   )
 }

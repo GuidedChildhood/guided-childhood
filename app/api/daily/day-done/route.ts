@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { londonToday } from '@/lib/pathway/today'
+import { dayFocusFor, focusLine, type DayFocus } from '@/lib/pathway/day-focus'
+import { recommendedDailyMinutes, bandLabelFor } from '@/lib/quests/screen-balance'
 
 // The day's ONE tick landed, however it landed.
 //
@@ -23,12 +25,23 @@ export async function POST(req: Request) {
   const body = await req.json().catch(() => ({} as { child_id?: string; focus?: string }))
 
   // The child off the wire, validated as this parent's, null meaning the
-  // household, exactly as every other daily write does it.
+  // household, exactly as every other daily write does it. The age band rides
+  // along for the reply: the close screen's balance card quotes the healthy
+  // guide for THIS child's age, and reading it here beats a second request.
   let childId: string | null = null
+  let ageBand: string | null = null
+  let childName: string | null = null
   if (typeof body.child_id === 'string' && body.child_id) {
     const { data: owned } = await supabase
-      .from('children').select('id').eq('id', body.child_id).eq('parent_id', user.id).maybeSingle()
+      .from('children').select('id, age_band, name').eq('id', body.child_id).eq('parent_id', user.id).maybeSingle()
     childId = owned?.id ?? null
+    ageBand = (owned?.age_band as string | null) ?? null
+    childName = (owned?.name as string | null) ?? null
+  } else {
+    const { data: primary } = await supabase
+      .from('children').select('age_band, name').eq('parent_id', user.id).eq('is_primary', true).maybeSingle()
+    ageBand = (primary?.age_band as string | null) ?? null
+    childName = (primary?.name as string | null) ?? null
   }
 
   const focus = typeof body.focus === 'string' && ['connect', 'lesson', 'digi', 'passport'].includes(body.focus)
@@ -58,7 +71,7 @@ export async function POST(req: Request) {
     if (Object.keys(patch).length > 0) {
       await supabase.from('daily_sessions').update(patch).eq('id', row.id)
     }
-    return NextResponse.json({ ok: true })
+    return NextResponse.json(await closeFacts(supabase, user.id, childId, ageBand, childName, today))
   }
 
   const insert: Record<string, unknown> = {
@@ -79,5 +92,39 @@ export async function POST(req: Request) {
       { onConflict: 'user_id,session_date' },
     )
   }
-  return NextResponse.json({ ok: true })
+  return NextResponse.json(await closeFacts(supabase, user.id, childId, ageBand, childName, today))
+}
+
+// What the close screen says: tomorrow's focus (the hook is knowing what
+// comes next) and the healthy screen guide for this child's age. Counted
+// AFTER the write, so today's completion is in the number and tomorrow's
+// focus is exactly what the road will show in the morning.
+async function closeFacts(
+  supabase: Awaited<ReturnType<typeof createClient>>,
+  userId: string,
+  childId: string | null,
+  ageBand: string | null,
+  childName: string | null,
+  today: string,
+) {
+  const { data: done } = await supabase
+    .from('daily_sessions')
+    .select('session_date, child_id')
+    .eq('user_id', userId)
+    .not('completed_at', 'is', null)
+    .lte('session_date', today)
+    .limit(500)
+  const completedThroughToday = new Set(
+    ((done ?? []) as { session_date: string; child_id: string | null }[])
+      .filter(r => r.child_id === childId || r.child_id === null)
+      .map(r => r.session_date),
+  ).size
+  const nextFocus: DayFocus = dayFocusFor(completedThroughToday)
+  return {
+    ok: true,
+    next_focus: nextFocus,
+    next_line: focusLine(nextFocus, childName ?? undefined),
+    guide_mins: recommendedDailyMinutes(ageBand),
+    band_label: bandLabelFor(ageBand),
+  }
 }
