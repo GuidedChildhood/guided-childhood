@@ -61,10 +61,14 @@ Three additional rubric lenses, applied to every rotating case:
 - **The Odgers lens** (evidence discipline): is every claim defensible to
   a hostile expert, cited or silent, no moral panic numbers?
 
-One important line to hold: these are lenses built from their PUBLISHED
-work, used to test our answers. We never say or imply the experts
-themselves reviewed or endorsed DiGi, in product or in marketing, and the
-graders never write in their voices.
+One important line to hold, in Justin's words (1 September 2026): "we
+don't want to say they endorse DiGi, we just researched them and use all
+we learned, in line with our own philosophy, with scientific data." So
+the lenses are research we did on their published work, folded into our
+own philosophy and held to the evidence. No expert's name appears in the
+product, in marketing, or in DiGi's answers; the graders never write in
+their voices; and nothing ever says or implies a review or an
+endorsement by any of them.
 
 ### 3. The Monday email grows three sections
 
