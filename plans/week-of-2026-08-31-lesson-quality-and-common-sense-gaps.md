@@ -135,4 +135,17 @@ our staircase model.
 rungs), then 3, 8, 9 (the pre teen judgement cluster), then 10, 6 (the RSHE
 2025 alignment pair), then 1, 2, 5, 11, and 12 last. Twelve decks in the
 established 7 to 8 slide shape with sourced stats where a number is claimed.
-Awaiting Justin's go before any deck is written.
+
+**BUILT, 1 September 2026.** Justin said "Yes lessons" and all twelve went
+live the same day via migration 236, sort orders 975 to 986: Foundation "Is
+this app safe to open?" and "My online neighbourhood"; Builder "Is seeing
+believing?", "Reading news online", "Keeping games fun" and "Boys, girls
+and the screen"; Explorer "Finding news you can trust", "The bait message"
+and "What the app knows about you"; Shaper "When banter becomes hate" and
+"Why the feed agrees with you"; Independent "The privacy line". Every deck
+follows the house 7 slide arc (title, objective, two teach concepts or a
+scenario, practise choice, prove choice, DiGi close), choice option counts
+rise with stage, retrieval hooks open each deck by recalling the earlier
+rung on the same strand, and no invented statistics: mechanisms are taught
+instead of numbers, so nothing needs a citation to survive review. All 12
+rows verified live in the database with 7 slide decks and zero dashes.

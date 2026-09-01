@@ -9519,3 +9519,28 @@ parent, crafts, agreement print, the tracker check in, the device sweep
 and the rehearsal all follow ?child= instead of pinning to the primary
 child. Deliberately unchanged: the quests page still shows every child's
 board (that is its design), and the agreement stays one per family.
+
+## 1 September 2026: the twelve Common Sense gap lessons are live (migration 236)
+
+Justin: "Yes lessons." The full gap list from the Common Sense curriculum
+review was built and shipped the same day. Twelve decks, sort orders 975 to
+986, all status live: two Foundation (app traffic light, online
+neighbourhood), four Builder (altered images, news vs opinion vs advert,
+game chat sportsmanship, gender stereotypes), three Explorer (sideways
+check, phishing, app data collection), two Shaper (hate speech and the
+ratchet, confirmation bias), one Independent (privacy as a citizen).
+
+Decisions made in the writing:
+
+- No stat slides anywhere in the twelve. Every earlier deck that claimed a
+  number needed a proof path; these teach mechanisms (the ratchet, the
+  sideways check, the hook, the permissions test) that need no citation and
+  cannot go stale.
+- Each deck opens with a retrieval hook naming the earlier lesson on the
+  same strand, so the staircase teaches itself (e.g. "The bait message" at
+  11 recalls "Spot the trick" from 8).
+- Titles are the dedupe key: every insert is guarded by
+  `where not exists (... title = ...)`, the house idempotency pattern from
+  migration 076.
+- Applied live in three chunks through MCP (Foundation+Builder, Explorer,
+  Shaper+Independent); the single file in the repo is the record.
