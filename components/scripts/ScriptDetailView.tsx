@@ -5,6 +5,7 @@ import RehearseWithDigi, { type RehearseFixture } from '@/components/scripts/Reh
 import ScriptHelpPrompt from '@/components/scripts/ScriptHelpPrompt'
 import ScriptStatusButtons from '@/components/scripts/ScriptStatusButtons'
 import MarkReadOnEnd from '@/components/scripts/MarkReadOnEnd'
+import TakeoverReader from '@/components/ui/TakeoverReader'
 import { card, cardPad, eyebrow } from '@/components/scripts/card-system'
 
 // The whole script detail page as one presentational view: the page route
@@ -80,17 +81,24 @@ export default function ScriptDetailView({
   const stageMeta = STAGE_META[script.stage_id] ?? STAGE_META.foundation
   const withChild = (href: string) =>
     childIdParam ? `${href}${href.includes('?') ? '&' : '?'}child=${childIdParam}` : href
+  const backHref = backToPathway ? '/dashboard/pathway' : withChild('/dashboard/scripts')
 
   return (
+    // On a phone the reader fills the screen, Good Inside style, with one bar
+    // and one way back; on desktop the shell renders as nothing and the page
+    // keeps the layout below exactly as it was.
+    <TakeoverReader backHref={backHref} eyebrow="Script">
     <div style={{ maxWidth: '680px', margin: '0 auto', padding: '24px 20px 56px' }}>
 
       {/* Back and the deck door, one quiet row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '28px', flexWrap: 'wrap', gap: '8px' }}>
         {/* Back to where they came from. A parent who followed their own
             pathway here and is handed "All scripts" has been quietly moved to
-            a different place from the one they were in. */}
+            a different place from the one they were in. On mobile the sheet's
+            own bar carries the way back, so this link steps aside there. */}
         <Link
-          href={backToPathway ? '/dashboard/pathway' : withChild('/dashboard/scripts')}
+          href={backHref}
+          className="gc-takeover-hide"
           style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}
         >
           {backToPathway ? '← Back to the pathway' : '← All scripts'}
@@ -307,5 +315,6 @@ export default function ScriptDetailView({
 
       </div>
     </div>
+    </TakeoverReader>
   )
 }
