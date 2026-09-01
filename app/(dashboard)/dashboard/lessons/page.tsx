@@ -136,7 +136,10 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
       const locked = l.source === 'lesson' && !isPaid && !freeIds.has(l.id) && !completedLessonIds.has(l.id)
       return {
         id: `${l.source}-${l.id}`,
-        href: l.source === 'ai' ? `/dashboard/ai-module/${l.id}` : `/dashboard/lessons/${l.id}`,
+        // The child rides along on every tile, so opening a lesson and coming
+        // back never quietly snaps the page back to the primary child.
+        href: (l.source === 'ai' ? `/dashboard/ai-module/${l.id}` : `/dashboard/lessons/${l.id}`)
+          + (childParam && child ? `?child=${child.id}` : ''),
         stageNum: meta?.num ?? 2, stageLabel: meta?.label ?? '', stageAges: meta?.ages ?? '',
         categoryLabel: CATEGORY_LABEL[l.category] ?? l.category,
         title: l.title, keyMessage: l.key_message, locked, done, attempted,
@@ -173,6 +176,10 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
       </div>
 
       <LessonsBrowser
+        // Remounted per child: the stage filter is seeded into client state on
+        // mount, so without the key a toggle from an 8 year old to a 13 year
+        // old would keep showing the 8 year old's stage under the new name.
+        key={child?.id ?? 'family'}
         childId={child?.id ?? null}
         childName={childName}
         childStageNum={childStageNum}

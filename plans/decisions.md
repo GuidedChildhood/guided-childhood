@@ -9440,3 +9440,31 @@ across every thread for the 429 and the badge, so splitting threads hands
 nobody a doubled free allowance. The admin members board merges the rows
 back per member (counts summed, newest date wins). The weekly tester's
 question clustering reads all rows and needed nothing.
+
+## 1 September 2026 — lessons follow the child, and a lesson can be handed over
+
+Justin: "Lessons should have child toggle and show lessons relating to age
+and name, the child app only shows age relevant, and we can send to the
+relevant child's app from here to let the child know about that lesson."
+
+What was already true and stays: the hub honours ?child= (heading names the
+child, library opens on their stage), the child rail shows on every lessons
+page, the kid app lists only the child's own stage decks and its opener
+gates anything above their age, and watch together films plus the Social
+Media Ready module already had send buttons wired to the one child's phone.
+
+What was wrong and is now fixed:
+1. The stage filter did not move on toggle. LessonsBrowser seeds the filter
+   into client state on mount, so switching from an 8 year old to a 13 year
+   old kept the 8 year old's stage under the new name. The browser is now
+   remounted keyed by child.
+2. Opening a lesson dropped the toggle. Tile links and the detail page's
+   back link carried no ?child=, so coming back from a lesson quietly
+   snapped the page to the primary child. The child now rides along tile
+   href, back link and the Ask DiGi link.
+3. Interactive lessons could not be handed over. Only films and the module
+   had send buttons. The lesson detail page now carries Send to <name>,
+   shown ONLY when that child's own list will show the lesson (their stage
+   or earlier, authored deck), so a ping can never point at a lesson that
+   would 404 on the child's side. Same ping route, already scoped to the
+   one child's subscriptions.
