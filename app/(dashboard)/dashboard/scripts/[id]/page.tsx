@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { getChildren } from '@/lib/children/server'
+import { recordSurfaceEvents } from '@/lib/events/record'
 import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
 import { SOCIAL_MEDIA_LAW } from '@gc/shared/social-media-law'
@@ -100,6 +101,10 @@ export default async function ScriptDetailPage({
   await supabase
     .from('script_completions')
     .upsert({ user_id: user.id, child_id: readChild, script_sort_order: sortOrder, completed_at: new Date().toISOString() }, { onConflict: 'user_id,child_id,script_sort_order' })
+  // The learning stream (migration 238): the open, alongside the tick it
+  // already earns, so the recommender can tell a script this family opens
+  // from one it only ever scrolls past.
+  await recordSurfaceEvents(supabase, user.id, [{ surface: 'script', item: sortOrder, event: 'opened', childId: readChild }])
 
   const showBanNote = script.law_flag !== 'none' && SOCIAL_MEDIA_LAW !== 'none'
 

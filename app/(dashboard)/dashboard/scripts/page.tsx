@@ -7,6 +7,7 @@ import BrowseTile from '@/components/ui/BrowseTile'
 import { CHALLENGE_TO_CATEGORY } from '@/lib/content/challenge-map'
 import { momentImageForTitle } from '@/lib/content/moment-images'
 import { getRecommendedScript, getTopScripts } from '@/lib/pathway/recommend'
+import { recordSurfaceEvents } from '@/lib/events/record'
 import { countsTowardPathway } from '@/lib/pathway/script-status'
 import type { ChallengeId } from '@/lib/content/stages'
 import ScriptFinder from '@/components/scripts/ScriptFinder'
@@ -213,6 +214,15 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         : await getRecommendedScript(supabase, user.id, currentStageId, challenge ?? null, { preferFree: true, childId: child?.id ?? null }))
     : null
   const morePicks = topPicks.filter(p => p.sort_order !== recommended?.sort_order).slice(0, 4)
+
+  // The learning stream (migration 238): what the shelf actually put in
+  // front of this family today. One row per pick per day, the daily index
+  // dedupes repeat visits, and the recommender reads these back so a pick
+  // shown for three days and never opened gives way to a fresh one.
+  const shownToday = [...new Set([...(recommended ? [recommended.sort_order] : []), ...topPicks.map(p => p.sort_order)])]
+  if (shownToday.length > 0) {
+    await recordSurfaceEvents(supabase, user.id, shownToday.map(so => ({ surface: 'script' as const, item: so, event: 'shown' as const, childId: child?.id ?? null })))
+  }
 
   // The chip row. Counted from the real library rather than from the eight
   // keys, so a category with nothing in it never gets a chip and a chip never

@@ -12,6 +12,16 @@ export type Scoring = {
   opened: Set<number>
   /** Set aside, and the return date has come. */
   returned: Set<number>
+  /**
+   * Shown on the shelf for three separate days and never once opened
+   * (surface_events, migration 238). The family has seen this card and
+   * walked past it, which is quieter evidence than opening and abandoning
+   * it, so the demotion is smaller than opened's: enough to let a fresh
+   * pick with the same signal step forward, never enough to bury a script
+   * a real concern points at. Optional so the rotation checker and older
+   * callers need not know it exists.
+   */
+  tired?: ReadonlySet<number>
 }
 
 /** What one script is worth to this family today. */
@@ -20,6 +30,8 @@ export function scoreScript(s: Pick<ScriptRow, 'sort_order' | 'category'>, sc: S
   // A script already glanced at loses to anything unseen carrying the same
   // signal, and still beats a script with no signal at all.
   if (sc.opened.has(s.sort_order)) score -= 30
+  // Seen for days and never opened: the smaller demotion, argued above.
+  else if (sc.tired?.has(s.sort_order)) score -= 10
   // One nudge for a script that was set aside and whose day has come, so a
   // return actually happens rather than waiting for the category to win on its
   // own.
