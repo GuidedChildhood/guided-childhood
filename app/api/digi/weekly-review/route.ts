@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
         .not('score', 'is', null)
         .order('created_at', { ascending: true })
         .limit(400),
-      supabase.from('children').select('id, name').eq('user_id', user.id),
+      supabase.from('children').select('id, name').eq('parent_id', user.id),
     ])
     // Whose worry each line is. Only worth saying when more than one child is
     // named: every child is seeded the same four starting worries, so without

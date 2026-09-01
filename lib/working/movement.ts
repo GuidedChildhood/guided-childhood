@@ -126,7 +126,7 @@ export async function getMovements(
       .select('concern_id, event, score, score_at_start, backfilled, linked_type, created_at')
       .eq('user_id', userId)
       .order('created_at', { ascending: true }),
-    supabase.from('children').select('id, name').eq('user_id', userId),
+    supabase.from('children').select('id, name').eq('parent_id', userId),
   ])
 
   if (!concerns?.length || !events?.length) return []
