@@ -9665,3 +9665,26 @@ Justin's Duolingo brief. Decisions in the first build slice:
 - Question depth and the full school arc (keywords, scenario, third
   question, recap, tryit) land per stage in migrations 240 to 244, claimed
   by PR 945.
+
+## 1 September 2026: lesson excellence, the school arc across all five stages
+
+- Migrations 240 to 244, applied live: every slide built lesson in the
+  library (92 decks) now carries the full school shape. Keywords on the
+  board after the objective, at least four choice questions with exactly
+  one right answer (so the 70 percent pass forgives one miss instead of
+  demanding perfection), a recap in three lines, a try it tonight, and the
+  title slide naming its Planet Friend instead of a regex guessing one.
+- Question depth: the library holds 368 choice questions, up from 169.
+  Stage check pools roughly double everywhere, and every question now
+  lands in lesson_question_answers when answered.
+- Registers held per stage: Foundation plays, Builder builds judgement,
+  Explorer names the machines, Shaper carries the heavy topics in Nova's
+  steady voice (the safeguarding lines worded to UK guidance: never in
+  trouble for telling, never pay, the fault is the pressurer's), and
+  Independent hands over the wheel with Cosmo on AI, data and money.
+- All additive: not one existing slide changed, so nothing a family has
+  seen moves under them. Guarded on keywords so a reapply is a no op.
+  The one deck with no objective and no DiGi close (the algorithm parent
+  lesson) got a bespoke rebuild recorded in migration 242.
+- gc_add_school_arc (migration 240) is the reusable splicer: character
+  onto the title, keywords after the objective, extras before the close.

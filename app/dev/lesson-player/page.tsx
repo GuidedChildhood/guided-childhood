@@ -17,6 +17,13 @@ const SLIDES: LessonSlide[] = [
     body: 'A five minute look inside the machine.',
   },
   {
+    type: 'keywords', phase: 'starter', minutes: 1, heading: 'Words on the board',
+    words: [
+      { word: 'watch time', meaning: 'The one number the feed is built to grow.' },
+      { word: 'signals', meaning: 'Pauses, replays, likes: everything the machine reads.' },
+    ],
+  },
+  {
     type: 'concept', phase: 'teach', minutes: 2, emoji: '🧲',
     heading: 'The feed is built to hold you',
     body: 'Every scroll is a guess about what keeps you watching one more minute. The app is not being kind when it shows you exactly what you love. It is doing its job, and its job is your attention.',
@@ -29,6 +36,18 @@ const SLIDES: LessonSlide[] = [
       { text: 'It likes me and wants to be kind', correct: false, feedback: 'It feels that way, and that is the clever part. The feed is a machine guessing what keeps you watching.' },
       { text: 'It is random, nobody chooses', correct: false, feedback: 'It is the opposite of random. Every video is a guess about what holds you one more minute.' },
     ],
+  },
+  {
+    type: 'recap', phase: 'close', minutes: 1, heading: 'The lesson in three lines',
+    points: [
+      'The feed has one job: your watch time.',
+      'It reads signals, not feelings.',
+      'See the machine, and you hold the controls.',
+    ],
+  },
+  {
+    type: 'tryit', phase: 'close', minutes: 1, heading: 'Retrain one feed this week',
+    body: 'Pick a topic you actually want more of and spend ten minutes deliberately pausing on, liking and finishing only that. Watch the feed obey you over the week.',
   },
   {
     type: 'digi', phase: 'close', minutes: 1, heading: 'DiGi says',
