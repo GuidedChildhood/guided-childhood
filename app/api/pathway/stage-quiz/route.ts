@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { stageQuizFor, STAGE_QUIZ_LENGTH, STAGE_QUIZ_PASS } from '@/lib/content/stage-quizzes'
+import { sanitizeAnswers, recordQuestionAnswers } from '@/lib/lessons/answers'
 
 // The passport stage quiz result, recorded parent side. This is a grown up
 // surface, so the auth is the logged in parent (auth.uid()), not a kid token,
@@ -9,7 +10,7 @@ import { stageQuizFor, STAGE_QUIZ_LENGTH, STAGE_QUIZ_PASS } from '@/lib/content/
 // soft before migration 098 so a preview without the table never errors the page.
 
 export async function POST(req: NextRequest) {
-  const { childId, stageId, correct } = await req.json().catch(() => ({}))
+  const { childId, stageId, correct, answers } = await req.json().catch(() => ({}))
   const stage = Number(stageId)
   if (!Number.isInteger(stage) || stage < 1 || stage > 5) {
     return NextResponse.json({ error: 'bad stage' }, { status: 400 })
@@ -59,6 +60,14 @@ export async function POST(req: NextRequest) {
   if (error) {
     return NextResponse.json({ error: 'not ready', needsMigration: true }, { status: 409 })
   }
+
+  // The run's questions, kept one by one (migration 239): the next check
+  // puts the missed ones first. Best effort, after the pass is banked.
+  await recordQuestionAnswers(
+    supabase,
+    { userId: user.id, childId: child, source: 'stage_check', stageId: stage },
+    sanitizeAnswers(answers),
+  )
 
   return NextResponse.json({ ok: true, passed, score: right, total })
 }

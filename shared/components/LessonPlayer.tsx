@@ -48,7 +48,7 @@ function ChoiceBlock({
   projector = false,
 }: {
   slide: ChoiceSlide
-  onAnswered: (correct: boolean) => void
+  onAnswered: (correct: boolean, chosen: string) => void
   projector?: boolean
 }) {
   const [picked, setPicked] = useState<number | null>(null)
@@ -57,7 +57,7 @@ function ChoiceBlock({
   const pick = (i: number) => {
     if (picked !== null) return
     setPicked(i)
-    onAnswered(slide.options[i].correct)
+    onAnswered(slide.options[i].correct, slide.options[i].text)
     // The tactile beat: the picked answer pops the moment it is tapped.
     const el = rootRef.current?.querySelector(`[data-choice-opt="${i}"]`)
     if (el) {
@@ -378,7 +378,7 @@ function SlideBody({
   slide, onAnswered, projector,
 }: {
   slide: LessonSlide
-  onAnswered: (correct: boolean) => void
+  onAnswered: (correct: boolean, chosen: string) => void
   projector?: boolean
 }) {
   switch (slide.type) {
@@ -592,6 +592,11 @@ export default function LessonPlayer({
   const [scriptOpen, setScriptOpen] = useState(false)
   // Per choice slide result, keyed by slide index so revisits do not double count.
   const answersRef = useRef<Record<number, boolean>>({})
+  // What was actually picked, question by question (migration 239): the
+  // completion write carries these so the stage check can put this child's
+  // missed questions first. Keyed by slide index like answersRef, so a
+  // retake's fresh answer replaces the old one rather than doubling it.
+  const answerDetailRef = useRef<Record<number, { question: string; chosen: string; correct: boolean }>>({})
   const slideRef = useRef<HTMLDivElement>(null)
   const barRef = useRef<HTMLDivElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
@@ -671,9 +676,12 @@ export default function LessonPlayer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index, slide?.type, answered, finished])
 
-  const onAnswered = (correct: boolean) => {
+  const onAnswered = (correct: boolean, chosen: string) => {
     setAnswered(true)
     answersRef.current[index] = correct
+    if (slide?.type === 'choice') {
+      answerDetailRef.current[index] = { question: slide.question, chosen, correct }
+    }
     setDigiMood(correct ? 'happy' : 'speak')
   }
 
@@ -694,6 +702,7 @@ export default function LessonPlayer({
             lesson_source: lessonSource,
             correct: Object.values(answersRef.current).filter(Boolean).length,
             total: choiceCount,
+            answers: Object.values(answerDetailRef.current),
             ...completeBody,
           }),
         })
@@ -738,6 +747,7 @@ export default function LessonPlayer({
   // and just runs the deck again from the top.
   const runAgain = () => {
     answersRef.current = {}
+    answerDetailRef.current = {}
     dirRef.current = 1
     setAnswered(false)
     setFinished(false)

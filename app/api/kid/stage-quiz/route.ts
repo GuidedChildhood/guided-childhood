@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { STAGE_QUIZ_LENGTH, STAGE_QUIZ_PASS } from '@/lib/content/stage-quizzes'
 import { sendPush } from '@/lib/push/send'
+import { sanitizeAnswers, recordQuestionAnswers } from '@/lib/lessons/answers'
 
 // The child finished the end of stage check on their own link. Token is the
 // auth, exactly like quest ticks and lesson completions.
@@ -21,7 +22,7 @@ const STAGE_NUM: Record<string, number> = {
 }
 
 export async function POST(req: NextRequest) {
-  let body: { token?: string; stage_id?: number; correct?: number }
+  let body: { token?: string; stage_id?: number; correct?: number; answers?: unknown }
   try { body = await req.json() } catch { return NextResponse.json({ error: 'bad request' }, { status: 400 }) }
 
   const { token } = body
@@ -68,6 +69,14 @@ export async function POST(req: NextRequest) {
   if (error) {
     return NextResponse.json({ error: 'not ready', needsMigration: true }, { status: 409 })
   }
+
+  // The run's questions, kept one by one (migration 239): the next check
+  // puts the missed ones first. Best effort, after the pass is banked.
+  await recordQuestionAnswers(
+    supabase,
+    { userId: link.user_id, childId: link.child_id, source: 'stage_check', stageId: stage },
+    sanitizeAnswers(body.answers),
+  )
 
   // The grown up hears, best effort. A stage check is the biggest thing a child
   // does on their side, so this one is worth the parent's phone buzzing.
