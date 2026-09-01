@@ -60,7 +60,11 @@ export function bodyReportsFailure(body: unknown): boolean {
 export function processedFrom(body: unknown): number | null {
   if (!body || typeof body !== 'object') return null
   const b = body as Record<string, unknown>
-  for (const field of ['processed', 'sent', 'delivered', 'moved', 'updated', 'created', 'count', 'due']) {
+  // 'inserted' covers the research updater and the script refresh, which both
+  // draft candidates and then report how many actually landed in the review
+  // queue. Without this they always recorded null, so the board could never
+  // tell a fortnight with nothing to draft from a fortnight the insert failed.
+  for (const field of ['processed', 'sent', 'delivered', 'moved', 'updated', 'created', 'count', 'due', 'inserted']) {
     const v = b[field]
     if (typeof v === 'number' && Number.isFinite(v)) return v
   }

@@ -9238,3 +9238,32 @@ same way in migration 232: RLS enabled, no policy, table left in place as
 someone's safety net. Performance advisors: 626 findings, all the known
 multiple-permissive-policies and auth-rls-initplan backlog plus routine
 unindexed foreign keys and unused indexes, nothing new.
+
+## 2026-09-01 — Daily health sweep: one small fix (heartbeat processed count)
+
+Schema: all 11 required columns present. Cron heartbeats: /api/cron/answer-review,
+/api/cron/legal-watch and /api/cron/passport-check show no run at all under
+their current path, which looked alarming at first glance. Checked the git
+history: all three were only added on 19 August (PR 883), and their schedules
+are monthly or quarterly, so none of them has reached its first scheduled day
+yet (passport-check's first day is today, answer-review's is tomorrow,
+legal-watch's is 3 October). Not a fault, just new jobs waiting their turn.
+
+Found and fixed one real gap: knowledge-refresh and script-refresh (the
+fortnightly research and script updaters) report their result as `inserted`,
+which was not in the list of field names the health board reads to judge a
+run by what it did. Every run of both jobs recorded "count unknown" on the
+board forever, healthy or not, which is exactly the class of fault this board
+exists to catch. Added `inserted` to lib/ops/heartbeat.ts processedFrom.
+Small, certain, no schema change, no behaviour change for parents. PR opened
+against claude/serene-cori-afd525.
+
+Also checked by hand: invoice-requests failed twice on 14 August with a
+missing table, already fixed and healthy since. settings-nudge has processed
+zero for four straight weekly runs, explained by there being exactly one
+paying family in the database with push enabled, not a bug. Security
+advisors: no ERROR level findings, only the known INFO-level locked tables
+and routine WARN items. Performance advisors: 627 findings, two categories
+not seen in the 30 August sweep (no_primary_key on the three backup snapshot
+tables, and one duplicate_index on public.child_time_settings), both minor
+and neither fixed today as they need a human decision on which index to keep.
