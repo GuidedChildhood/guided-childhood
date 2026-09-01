@@ -50,6 +50,7 @@ function renderInline(text: string): ReactNode[] {
 
 export default function DigiChat({
   initialMessages,
+  initialAsk,
   initialCount,
   dailyLimit,
   stagePrompts,
@@ -60,6 +61,9 @@ export default function DigiChat({
   childName,
 }: {
   initialMessages: Message[]
+  /** A question pre written by another surface (a dip at the check in), so
+   *  the box arrives filled and the parent only has to send it. */
+  initialAsk?: string | null
   initialCount: number
   /**
    * Messages a day, or null when there is no limit.
@@ -101,7 +105,7 @@ export default function DigiChat({
   const router = useRouter()
   const [messages, setMessages] = useState<Message[]>([])
   const [historyOpen, setHistoryOpen] = useState(false)
-  const [input, setInput] = useState('')
+  const [input, setInput] = useState(initialAsk ?? '')
   const [loading, setLoading] = useState(false)
   const [streamingReply, setStreamingReply] = useState(false)
   // Justin: "when you ask for DiGi's help it does run through what is

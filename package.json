@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "wiring": "node scripts/wiring-check.mjs"
+    "wiring": "node scripts/wiring-check.mjs",
+    "checkin-guard": "node scripts/check-concern-dots.mjs"
   },
   "dependencies": {
     "@gc/shared": "file:./shared",

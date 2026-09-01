@@ -202,12 +202,15 @@ check('each concern says which child it belongs to',
 
 // WHY IT IS WORTH DOING, said before the ask rather than after it.
 check('it says why the check in matters',
-  /read these every week/i.test(bodyText) && /different approach/i.test(bodyText))
+  /read these every week/i.test(bodyText) && /change the approach/i.test(bodyText))
 
 // LAST TIME IS MARKED ON THE SCALE, before anything is tapped. The fixture's
 // first concern carries lastScore 3, which is band 2, "Hard going".
-// Last time keeps its red, now as a ring round its own star rather than round
-// a word. Read off the aria-label, which is the accessible half of the fact.
+// Last time is the GREY FILL up to its band (18 August 2026), and exactly one
+// star, the one AT the band, carries the "what you said last time" label: the
+// fill is cumulative but the fact is singular, and a screen reader must never
+// be told the parent said "Really tough" when they said "Hard going". Read
+// off the aria-label, which is the accessible half of the fact.
 const ringed = await stable(() => p.evaluate(() => {
   const g = document.querySelector('[role="radiogroup"]')
   return [...g.querySelectorAll('[role="radio"]')]
@@ -263,6 +266,20 @@ check('then it saves once, with the number behind the word tapped',
 t = await stable(() => p.locator('body').innerText())
 check('and the row stays on screen as a record',
   /up and down today, hard going last time/i.test(t) && /Saved/i.test(t))
+
+// THE FOLDED LINE KEEPS THE RESULT (1 September 2026). A saved row folds to
+// one slim line, and that line carries the movement rather than the word
+// "Saved": the verdict used to be destroyed 2.6 seconds after it appeared,
+// which is the opposite of "pops up a result to show it's moved".
+// Fixture row one: 6 (up and down) against last time 3 (hard going) is a
+// band up, so the folded line reads "Up from hard going".
+check('the folded row keeps its verdict', /Up from hard going/i.test(t),
+  t.split('\n').find(l => /up from/i.test(l)) ?? 'no folded verdict')
+
+// THE RUN HAS A PLACE IN IT: one saved of three shows as a counter, so a
+// parent mid list always knows how much is left.
+check('the counter counts the run', /1 of 3/.test(t),
+  t.split('\n').find(l => /of 3/.test(l)) ?? 'no counter')
 
 // SAVED KEEPS THE COLOUR OF THE THING YOU CHOSE. The old check asserted the
 // chosen dot turned green, which is exactly what 12 August removed: repainting

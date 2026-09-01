@@ -17,7 +17,7 @@ import { movementSentence, spanWords, usedWords, type Movement } from '@/lib/wor
 
 const FIXTURES: Movement[] = [
   {
-    concernId: '1', label: 'Bedtime', status: 'improving',
+    concernId: '1', label: 'Bedtime', status: 'improving', childName: 'Teo',
     points: [
       { at: '2026-06-30T20:00:00Z', score: 5 },
       { at: '2026-07-07T20:00:00Z', score: 4 },
@@ -30,7 +30,7 @@ const FIXTURES: Movement[] = [
     used: [{ type: 'script', count: 4 }, { type: 'digi', count: 1 }],
   },
   {
-    concernId: '2', label: 'Gaming on school nights', status: 'open',
+    concernId: '2', label: 'Gaming on school nights', status: 'open', childName: 'Olga',
     points: [
       { at: '2026-07-07T20:00:00Z', score: 7 },
       { at: '2026-07-21T20:00:00Z', score: 6 },
@@ -40,7 +40,7 @@ const FIXTURES: Movement[] = [
     used: [{ type: 'rightnow', count: 2 }],
   },
   {
-    concernId: '3', label: 'Handing the phone over', status: 'resolved',
+    concernId: '3', label: 'Handing the phone over', status: 'resolved', childName: 'Teo',
     points: [
       { at: '2026-06-16T20:00:00Z', score: 6 },
       { at: '2026-07-14T20:00:00Z', score: 6 },

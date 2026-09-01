@@ -94,7 +94,8 @@ Five commitments, and every feature either honours them or does not ship.
 
 ## 4. The science, honestly stated
 
-- **The measurement spine.** A parent names concerns, scores them 1 to 10,
+- **The measurement spine.** A parent names concerns, rates them daily on
+  five stars (each star posts its band top onto the stored 1 to 10 scale),
   and the first check in is the baseline every later number is measured
   against. `concern_events` stores the journey. No overall family score is
   ever computed, because a parent asking "where did that number come from"
@@ -150,8 +151,9 @@ Three surfaces, one database, one design language.
 Home is the daily page: one clear lead a day picked by `lib/home/next-up.ts`,
 a Duolingo style winding path (`components/daily/TodayPathBig.tsx`), the
 rotating bonus, the school chest beside the road. Behind it: the check in
-(`components/daily/ConcernCheckIn.tsx`, 1 to 10 per named concern, first one
-is the baseline), moments (`components/daily/MomentTimeline.tsx`, the day as
+(`components/daily/ConcernCheckIn.tsx`, five stars per named concern posting
+band tops onto the 1 to 10 column, grey stars show last time, first one is
+the baseline), moments (`components/daily/MomentTimeline.tsx`, the day as
 tappable tiles, each flagged moment becomes a concern), scripts (the words
 for every hard conversation, stored in the database, five free), the lessons
 hub, the homework decoder and private tutor, devices (per screen setup

@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { categoryForConcern } from '@/lib/content/signal-map'
 
 // A running check in, not a one day question: this card asks about whatever
 // is still open, however many days it has been coming up, and keeps asking
@@ -39,10 +40,10 @@ import { useRouter } from 'next/navigation'
 // app/api/daily/concern-check/route.ts.
 //
 // What survives, because none of it was the problem: the save beat, so the
-// verdict can be read and the answer changed; the row LOCKING AND STAYING
-// afterwards, so the before and after of every check in is left on screen; the
-// green that means set; the red ring on last time; and the hand over to the
-// next one.
+// verdict can be read and the answer changed; the green that means set; and
+// the hand over to the next one. A saved row folds to one line that KEEPS its
+// verdict (1 September 2026, "pops up a result to show it's moved"), because
+// the old fold threw the comparison away 2.6 seconds after it appeared.
 
 export type ConcernCheckItem = {
   /** The concern's own row id, which is what the save posts. See CheckInRow. */
@@ -132,16 +133,29 @@ function verdictLine(score: number, last: number | null): string {
   if (last == null) {
     return score >= 9
       ? `First one down, and already going great. One more like this and we mark it done.`
-      : `First one down: ${word.toLowerCase()}. Your next check in reads against this one.`
+      : `First one down: ${word.toLowerCase()}. Tomorrow reads against this one.`
   }
   const lastWord = scoreWord(last)
   if (bandOf(score) > bandOf(last)) {
     return `${word} today, ${lastWord.toLowerCase()} last time. The line is climbing.`
   }
   if (bandOf(score) < bandOf(last)) {
-    return `${word} today, ${lastWord.toLowerCase()} last time. A dip is information, not a verdict. DiGi has the next move whenever you want it.`
+    // The next move is not a sentence any more: when this row saves, the
+    // folded line grows real Ask DiGi and script buttons. See the collapsed
+    // render below.
+    return `${word} today, ${lastWord.toLowerCase()} last time. A dip is information, not a verdict.`
   }
   return `Holding at ${word.toLowerCase()}, same as last check in. Steady counts.`
+}
+
+// Which way today's answer moved against last time, for the folded row's
+// verdict chip. 'first' covers both the baseline and any worry's first score.
+function movementOf(score: number | undefined, last: number | null): 'up' | 'dip' | 'held' | 'first' | 'skipped' {
+  if (score == null) return 'skipped'
+  if (last == null) return 'first'
+  const a = bandOf(score)
+  const b = bandOf(last)
+  return a > b ? 'up' : a < b ? 'dip' : 'held'
 }
 
 // How long the note sits before the answer posts. Long enough to read the
@@ -152,11 +166,14 @@ export default function ConcernCheckIn({
   concerns,
   baseline = false,
   childName = null,
+  childId = null,
   nextChild = null,
 }: {
   concerns: ConcernCheckItem[]
   /** Whose list this is, so finishing it can say their name. */
   childName?: string | null
+  /** Their id, so a dip's Ask DiGi button lands on the right child's chat. */
+  childId?: string | null
   /** Who is still waiting, if anybody. See the hand off at the foot. */
   nextChild?: { id: string; name: string | null } | null
   /**
@@ -193,6 +210,11 @@ export default function ConcernCheckIn({
   if (concerns.length === 0) return null
 
   const allSaved = concerns.every(c => saved[c.id])
+  const savedCount = concerns.filter(c => saved[c.id]).length
+  // The one question whose turn it is: the first unanswered row. Everything
+  // else waits at reduced strength, which is what makes a visible list read
+  // as one question at a time without hiding anything (1 September 2026).
+  const activeId = concerns.find(c => !saved[c.id])?.id
 
   // Hand over to the next one that still needs an answer.
   //
@@ -405,12 +427,25 @@ export default function ConcernCheckIn({
       padding: '20px',
       marginBottom: '16px',
     }}>
-      <div style={{
-        fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-        letterSpacing: '.12em', textTransform: 'uppercase',
-        color: 'var(--stage-2-text)', marginBottom: '8px',
-      }}>
-        {baseline ? 'Where things are now' : 'Still on the list'}
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '8px' }}>
+        <div style={{
+          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+          letterSpacing: '.12em', textTransform: 'uppercase',
+          color: 'var(--stage-2-text)',
+        }}>
+          {baseline ? 'Where things are now' : 'Still on the list'}
+        </div>
+        {/* The place in the run, so a parent mid list always knows how much is
+            left. Counts answers, not children: the page heading owns whose day
+            this is. Hidden for a single question, where 0 of 1 is just noise. */}
+        {concerns.length > 1 && !allSaved && (
+          <div aria-label={`${savedCount} of ${concerns.length} answered`} style={{
+            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+            letterSpacing: '.08em', color: 'var(--ink-muted)', flexShrink: 0,
+          }}>
+            {savedCount} of {concerns.length}
+          </div>
+        )}
       </div>
 
       {/* WHY THIS IS WORTH THIRTY SECONDS.
@@ -423,14 +458,13 @@ export default function ConcernCheckIn({
           honestly, and honest numbers are the only ones worth having. */}
       <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.55, margin: '0 0 6px' }}>
         {baseline
-          ? 'One tap each. This is your starting point, so there is no right answer and nothing to work up to. Everything from here is measured against it.'
+          ? 'One tap each. This is your starting point, so there is no right answer and nothing to work up to. We check in each day from here and show you the movement.'
           : 'One tap each. More stars is a better week.'}
       </p>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', lineHeight: 1.5, margin: '0 0 18px' }}>
-        We read these every week. It is how we tell which of the things we have
-        suggested is actually working for you, and when something is not moving,
-        it is what tells us to try a different approach rather than more of the
-        same.
+        We read these every week to see which of our suggestions is working for
+        you, and when something is not moving we change the approach rather
+        than push more of the same.
       </p>
 
       {concerns.map((c, idx) => {
@@ -451,36 +485,83 @@ export default function ConcernCheckIn({
                 {c.childName}
               </div>
             )}
-            {/* ── A SAVED LINE FOLDS AWAY (19 August 2026) ─────────────────
-                Justin: "you enter stars per line, that line then drops off and
-                moves to the next line, until all done." A rated row used to
-                stay at full height, greyed, so the page never got shorter and
-                a parent could not feel the list emptying. It collapses to one
-                slim tick line now: still there, still readable as done, but
-                the work visibly shrinks toward the hand over. */}
-            {isSaved ? (
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: '8px', padding: '9px 0',
-                borderTop: idx === 0 || newChild ? 'none' : '1px solid var(--border)',
-                color: 'var(--ink-muted)',
-              }}>
-                <span aria-hidden style={{
-                  width: 20, height: 20, borderRadius: '50%', background: 'var(--tint-sage)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.7rem', color: '#1F7A54', fontWeight: 900,
-                }}>✓</span>
-                <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)' }}>
-                  {c.label}
-                </span>
-                <span style={{ fontSize: 'var(--text-sm)', marginLeft: 'auto' }}>Saved</span>
-              </div>
-            ) : (
+            {/* ── A SAVED LINE FOLDS, AND KEEPS ITS RESULT (1 September 2026)
+                Justin, 19 August: "you enter stars per line, that line then
+                drops off and moves to the next line, until all done." Then
+                1 September: the fold was eating the one thing worth keeping,
+                the movement. So the slim line a row folds to now carries the
+                verdict ("Up from hard going") instead of the word "Saved",
+                and a dip keeps its two next moves as real buttons. The fold
+                itself settles via the grid rows transition in globals.css
+                rather than snapping, and reduced motion keeps the jump. */}
+            {isSaved && (() => {
+              const move = movementOf(value[c.id], c.lastScore)
+              const verdictText =
+                move === 'up' ? `Up from ${scoreWord(c.lastScore!).toLowerCase()}`
+                : move === 'dip' ? 'Dipped this time'
+                : move === 'held' ? 'Holding steady'
+                : move === 'first' ? (baseline ? 'Starting point set' : 'First one logged')
+                : 'Skipped'
+              const verdictColor =
+                move === 'up' ? '#1F7A54'
+                : move === 'dip' ? 'var(--terracotta-dark)'
+                : 'var(--ink-muted)'
+              const scriptCat = move === 'dip' ? categoryForConcern(c.slug, c.label) : null
+              const digiHref = `/dashboard/digi?${childId ? `child=${childId}&` : ''}ask=${encodeURIComponent(
+                `${c.label} dipped at today's check in${c.childName ? ` for ${c.childName}` : ''}. What is our next move?`
+              )}`
+              const pill: React.CSSProperties = {
+                display: 'inline-flex', alignItems: 'center', minHeight: 38,
+                padding: '7px 14px', borderRadius: '100px', textDecoration: 'none',
+                border: '1.5px solid var(--terracotta)', color: 'var(--terracotta-dark)',
+                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-sm)',
+                background: '#fff',
+              }
+              return (
+                <div className="ci-collapsed" style={{
+                  padding: '9px 0',
+                  borderTop: idx === 0 || newChild ? 'none' : '1px solid var(--border)',
+                  color: 'var(--ink-muted)',
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span aria-hidden style={{
+                      width: 20, height: 20, borderRadius: '50%',
+                      background: move === 'dip' ? 'var(--terracotta-lt)' : 'var(--tint-sage)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '0.7rem', color: verdictColor, fontWeight: 900, flexShrink: 0,
+                    }}>{move === 'dip' ? '↓' : '✓'}</span>
+                    <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink)', flex: 1, minWidth: 0 }}>
+                      {c.label}
+                    </span>
+                    <span style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: verdictColor, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                      {verdictText}
+                    </span>
+                  </div>
+                  {/* A dip's next moves, real and one tap away: DiGi opens with
+                      the dip already typed, and the script link lands on the
+                      matched category. This is the wire behind the promise the
+                      old copy made and never kept. */}
+                  {move === 'dip' && (
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', padding: '8px 0 4px 28px' }}>
+                      <Link href={digiHref} style={pill}>Ask DiGi about this</Link>
+                      {scriptCat && (
+                        <Link href={`/dashboard/scripts/category/${scriptCat}`} style={pill}>See the script</Link>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )
+            })()}
+            <div className={`ci-fold${isSaved ? ' ci-folded' : ''}`} aria-hidden={isSaved || undefined}>
+            <div className="ci-fold-inner">
             <div
               ref={el => { rows.current[c.id] = el }}
               style={{
                 padding: '12px 0',
                 borderTop: idx === 0 || newChild ? 'none' : '1px solid var(--border)',
                 scrollMarginTop: 'calc(env(safe-area-inset-top, 0px) + 76px)',
+                opacity: c.id === activeId || isTouched || isSaved ? 1 : 0.55,
+                transition: 'opacity .3s ease',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px' }}>
@@ -496,10 +577,15 @@ export default function ConcernCheckIn({
                   )}
                 </div>
                 {!isSaved && (
+                  // A real 44px target like the stars beside it: the padding
+                  // makes the touch area and the negative margin keeps the
+                  // visual layout where the small underlined word always sat.
                   <button
                     onClick={() => post(c.id, { answer: 'same', score: null })}
                     style={{
-                      background: 'none', border: 'none', padding: 0,
+                      background: 'none', border: 'none',
+                      padding: '12px 0 12px 14px', margin: '-12px 0',
+                      minHeight: 44, display: 'inline-flex', alignItems: 'center',
                       fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)',
                       fontWeight: 700, color: 'var(--ink-muted)',
                       textDecoration: 'underline', cursor: 'pointer', flexShrink: 0,
@@ -512,9 +598,11 @@ export default function ConcernCheckIn({
 
               {/* FIVE STARS, ONE TAP. Each one is a 44px target with its own
                   label, so it is a proper radio group for a screen reader and a
-                  proper thumb target for everyone else. Last time keeps the red
-                  it always had, now as a dashed outline on its own star, which
-                  is the same spatial comparison the ring used to make. */}
+                  proper thumb target for everyone else. Last time is the grey
+                  fill (see the 18 August note above), and only the star AT last
+                  time's band carries the "what you said last time" label, so a
+                  screen reader is never told the parent said something they
+                  did not. */}
               <div
                 role="radiogroup"
                 aria-label={`${c.label}${c.childName ? `, ${c.childName}` : ''}: how has this week been, one star worst to five stars best`}
@@ -533,7 +621,7 @@ export default function ConcernCheckIn({
                       key={b.score}
                       role="radio"
                       aria-checked={chosenBand === n}
-                      aria-label={past ? `${b.label}, what you said last time` : b.label}
+                      aria-label={past && lastBand === n ? `${b.label}, what you said last time` : b.label}
                       disabled={!!isSaved}
                       onClick={() => pick(c.id, b.score)}
                       style={{
@@ -553,7 +641,11 @@ export default function ConcernCheckIn({
                   comparison the moment a star is tapped, so the answer is still
                   in language rather than in a count of stars. */}
               {(isTouched || isSaved) && (
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
+                // Keyed by the chosen score so changing your answer pops the
+                // new verdict in fresh rather than silently editing the old
+                // sentence. The pop is a one shot scale settle in globals.css,
+                // off under reduced motion.
+                <div key={value[c.id]} className="ci-pop" style={{ display: 'flex', alignItems: 'baseline', gap: '8px', marginTop: '4px' }}>
                   <span style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: isSaved ? 'var(--ink)' : 'var(--ink-soft)', lineHeight: 1.45 }}>
                     {`${verdictLine(value[c.id], c.lastScore)}${isSaved ? ' Saved.' : failed[c.id] ? ' That did not save, tap a star to try again.' : isPending ? ' Saving.' : ''}`}
                   </span>
@@ -587,9 +679,11 @@ export default function ConcernCheckIn({
               {/* Before anything is tapped, last time is said in prose as well
                   as spatially, because the dashed star alone does not tell a
                   parent what that star MEANT. */}
+              {/* Body face, not mono: this is a sentence, and the token rule
+                  keeps mono for eyebrows and labels only. */}
               {!isTouched && !isSaved && (
                 <div style={{
-                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 600,
+                  fontSize: 'var(--text-sm)', fontWeight: 600,
                   color: 'var(--ink-muted)', marginTop: '4px',
                 }}>
                   {recencyLabel(c, baseline)}
@@ -597,7 +691,8 @@ export default function ConcernCheckIn({
                 </div>
               )}
             </div>
-            )}
+            </div>
+            </div>
           </div>
         )
       })}

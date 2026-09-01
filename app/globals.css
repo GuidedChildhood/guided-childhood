@@ -998,3 +998,29 @@ body.gc-bare .bottom-tab-bar,
 body.gc-bare .gc-chrome {
   display: none !important;
 }
+
+/* ── THE CHECK IN'S MOTION (1 September 2026) ───────────────────────────────
+   Three small movements for components/daily/ConcernCheckIn.tsx, all guarded.
+   The fold: a saved row settles shut through the grid rows trick instead of
+   snapping 115px to 38px in one frame, which was the least Apple moment of
+   the whole flow. The pop: the verdict sentence and the folded line arrive
+   with a one shot scale settle, the same spring curve as the placard hover.
+   Reduced motion keeps the jump and skips the pops entirely. */
+.ci-fold {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.38s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+.ci-fold.ci-folded { grid-template-rows: 0fr; opacity: 0; }
+.ci-fold-inner { overflow: hidden; min-height: 0; }
+
+@keyframes ci-pop {
+  from { opacity: 0; transform: scale(0.94) translateY(3px); }
+  to   { opacity: 1; transform: none; }
+}
+.ci-pop, .ci-collapsed { animation: ci-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ci-fold { transition: none; }
+  .ci-pop, .ci-collapsed { animation: none; }
+}

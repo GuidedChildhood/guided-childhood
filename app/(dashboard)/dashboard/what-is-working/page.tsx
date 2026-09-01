@@ -49,6 +49,26 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
   const slipped = withMovement.filter(m => (m.endScore as number) < (m.startScore as number))
   const cameBack = movements.filter(m => m.recurrences > 0)
 
+  // Whose line is whose. Every child is seeded the same four starting
+  // worries, so in a two child family "Bedtime screens" appears twice and
+  // the label alone says nothing. Names show only when they distinguish:
+  // one child, or none named, and the suffix is noise.
+  const namedChildren = new Set(movements.map(m => m.childName).filter(Boolean))
+  const showNames = namedChildren.size > 1
+  const withChild = (m: { label: string; childName: string | null }) =>
+    showNames && m.childName ? `${m.label} · ${m.childName}` : m.label
+
+  // A dip's most useful travel companion is the dip itself: the DiGi button
+  // used to open the chat cold, so the parent had to retype what this page
+  // was already displaying. The question rides along in ?ask= now.
+  const dipAsk = slipped.length > 0
+    ? encodeURIComponent(
+        slipped.length === 1
+          ? `${withChild(slipped[0])} slipped at our check ins. What is our next move?`
+          : `A few of our worries slipped at check in: ${slipped.map(withChild).join(', ')}. Where do we start?`
+      )
+    : null
+
   // The one line at the top is the best real sentence there is, not a summary
   // of all of them. A summary would be a composite by the back door.
   const lead = climbed[0] ?? withMovement[0] ?? null
@@ -100,6 +120,11 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
                     {m.label}
+                    {showNames && m.childName && (
+                      <span style={{ fontFamily: 'var(--font-body)', fontWeight: 600, color: 'var(--ink-muted)', fontSize: 'var(--text-base)' }}>
+                        {' '}· {m.childName}
+                      </span>
+                    )}
                   </div>
                   <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.45, marginTop: '3px' }}>
                     {start} to {end}
@@ -128,12 +153,12 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
       {slipped.length > 0 && (
         <div style={{ background: 'var(--stage-1)', border: '1.5px solid var(--terracotta)', borderRadius: '16px', padding: '15px 17px', marginBottom: '18px' }}>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '4px' }}>
-            {slipped.length === 1 ? `${slipped[0].label} has gone the other way` : `${slipped.length} of these have gone the other way`}
+            {slipped.length === 1 ? `${withChild(slipped[0])} has gone the other way` : `${slipped.length} of these have gone the other way`}
           </div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 12px' }}>
             A dip is information, not a verdict. It usually means something changed at home rather than that anything failed, and it is the most useful thing to bring to DiGi.
           </p>
-          <Link href="/dashboard/digi" style={{
+          <Link href={dipAsk ? `/dashboard/digi?ask=${dipAsk}` : '/dashboard/digi'} style={{
             display: 'inline-flex', alignItems: 'center', background: 'var(--terracotta)', color: 'var(--ink)',
             borderRadius: '14px', padding: '11px 18px', textDecoration: 'none',
             fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
@@ -156,7 +181,7 @@ export default async function WhatIsWorkingPage({ searchParams }: { searchParams
             Waiting on a second check in
           </div>
           <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 4px' }}>
-            {waiting.map(w => w.label).join(', ')}. One number is a day. Two is a direction, and that is when {waiting.length === 1 ? 'it appears' : 'they appear'} above.
+            {waiting.map(withChild).join(', ')}. One number is a day. Two is a direction, and that is when {waiting.length === 1 ? 'it appears' : 'they appear'} above.
           </p>
         </div>
       )}

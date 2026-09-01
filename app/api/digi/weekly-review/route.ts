@@ -45,16 +45,25 @@ export async function GET(req: NextRequest) {
   const scoreMoves: { label: string; from: number | null; to: number }[] = []
   try {
     const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString()
-    const [{ data: concerns }, { data: events }] = await Promise.all([
-      supabase.from('concerns').select('id, label').eq('user_id', user.id),
+    const [{ data: concerns }, { data: events }, { data: children }] = await Promise.all([
+      supabase.from('concerns').select('id, label, child_id').eq('user_id', user.id),
       supabase.from('concern_events')
         .select('concern_id, score, created_at')
         .eq('user_id', user.id)
         .not('score', 'is', null)
         .order('created_at', { ascending: true })
         .limit(400),
+      supabase.from('children').select('id, name').eq('parent_id', user.id),
     ])
-    const labelById = new Map((concerns ?? []).map(c => [c.id as string, c.label as string]))
+    // Whose worry each line is. Only worth saying when more than one child is
+    // named: every child is seeded the same four starting worries, so without
+    // the name a two child family reads duplicate lines on the round up.
+    const childName = new Map((children ?? []).map(k => [k.id as string, (k.name as string | null) ?? null]))
+    const named = new Set((concerns ?? []).map(c => c.child_id ? childName.get(c.child_id as string) : null).filter(Boolean))
+    const labelById = new Map((concerns ?? []).map(c => {
+      const name = named.size > 1 && c.child_id ? childName.get(c.child_id as string) : null
+      return [c.id as string, name ? `${c.label} · ${name}` : (c.label as string)]
+    }))
     const byConcern = new Map<string, { score: number; created_at: string }[]>()
     for (const e of (events ?? []) as { concern_id: string; score: number; created_at: string }[]) {
       const list = byConcern.get(e.concern_id)

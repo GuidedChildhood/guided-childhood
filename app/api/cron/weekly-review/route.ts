@@ -25,15 +25,30 @@ async function handler(request: Request) {
   const admin = createAdminClient()
   const sinceIso = new Date(Date.now() - 7 * 86_400_000).toISOString().slice(0, 10)
 
-  // Families with at least one approved tick this week get a review; a dead
-  // account gets nothing rather than an empty note.
-  const { data: active } = await admin
-    .from('quest_ticks')
-    .select('user_id')
-    .eq('status', 'approved')
-    .gte('tick_date', sinceIso)
-    .limit(5000)
-  const userIds = [...new Set((active ?? []).map(t => t.user_id))]
+  // Families with signs of life this week get a review; a dead account gets
+  // nothing rather than an empty note. Two signs count, and both must be
+  // read: an approved quest tick, and a scored daily check in. The check in
+  // audit of 1 September 2026 found this gate read ticks alone, so a family
+  // faithfully rating their worries every morning but running no quests
+  // never received the very email that reports their movement back to them.
+  const [{ data: active }, { data: checked }] = await Promise.all([
+    admin
+      .from('quest_ticks')
+      .select('user_id')
+      .eq('status', 'approved')
+      .gte('tick_date', sinceIso)
+      .limit(5000),
+    admin
+      .from('concern_events')
+      .select('user_id')
+      .not('score', 'is', null)
+      .gte('created_at', sinceIso)
+      .limit(5000),
+  ])
+  const userIds = [...new Set([
+    ...(active ?? []).map(t => t.user_id),
+    ...(checked ?? []).map(t => t.user_id),
+  ])]
 
   let built = 0
 
@@ -112,10 +127,15 @@ async function handler(request: Request) {
               let movement: { label: string; from: number; to: number; span: string }[] | null = null
               try {
                 const ms = await getMovements(admin, userId)
+                // Whose line is whose: every child is seeded the same four
+                // worries, so with two children named the label alone reads
+                // as a duplicate. The name joins the label only when it
+                // distinguishes anything.
+                const named = new Set(ms.map(m => m.childName).filter(Boolean))
                 movement = ms
                   .filter(m => m.points.length >= 2 && m.startScore != null && m.endScore != null)
                   .map(m => ({
-                    label: m.label,
+                    label: named.size > 1 && m.childName ? `${m.label} · ${m.childName}` : m.label,
                     from: m.startScore as number,
                     to: m.endScore as number,
                     span: m.observed && m.weeks >= 1 ? spanWords(m.weeks) : '',
