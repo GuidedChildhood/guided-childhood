@@ -64,12 +64,13 @@ export default function TabBarHarness() {
     // puts it on each child of the shell so the fixed bar sits under no
     // zoomed ancestor (see globals.css). Measured here at three scroll
     // positions by the tab bar check in the scratch tests.
-    <div className="gc-shell" style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: 'var(--app-bg)' }}>
+    <div className="gc-shell gc-dash" style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: 'var(--app-bg)' }}>
     <style>{`
       body { zoom: 1; }
-      body > * { zoom: 1.07; }
-      body > .gc-shell { zoom: 1; }
-      .gc-shell > * { zoom: 1.07; }
+      .gc-dash > main, .gc-dash > header { zoom: 1.07; }
+      .gc-dash > .bottom-tab-bar { height: calc(77px + env(safe-area-inset-bottom, 0px)); }
+      .gc-dash .tab-item { font-size: 0.75rem; }
+      .gc-dash .tab-item svg { width: 26px; height: 26px; }
     `}</style>
     <main style={{ flex: 1, minHeight: '200vh', padding: '20px 16px calc(88px + env(safe-area-inset-bottom))' }}>
       <p className="eyebrow" style={{ marginBottom: 10 }}>Bottom tab bar</p>

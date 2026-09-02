@@ -66,7 +66,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const cardBounced = paymentNeedsAttention(profile)
 
   return (
-    <div className="gc-shell" style={{ minHeight: '100dvh', background: 'var(--app-bg)', display: 'flex', flexDirection: 'column' }}>
+    <div className="gc-shell gc-dash" style={{ minHeight: '100dvh', background: 'var(--app-bg)', display: 'flex', flexDirection: 'column' }}>
       {/* ── THE ZOOM COMES OFF BODY IN HERE (2 September 2026) ─────────────
           shared/tokens.css zooms body by 1.07 for readability. On an iPhone
           that puts every fixed element (this layout's tab bar, the NOW button,
@@ -76,14 +76,22 @@ export default async function DashboardLayout({ children }: { children: React.Re
           zoom the ancestors of fixed things. So while this layout is mounted:
           body is unzoomed, every direct child of body (the portalled sheets
           and pills) and every direct child of the shell (header, main, the
-          bars) is zoomed on itself instead. Same sizes everywhere, no zoomed
-          ancestor over anything fixed at this level. Fixed things INSIDE main
-          are as they were. See .bottom-tab-bar in globals.css. */}
+          bars) is handled instead. The in flow things (header, main) are
+          zoomed on themselves, so the page looks exactly as it did. Nothing
+          fixed carries zoom, in itself or in its children: a zoomed fixed box
+          is painted out of step with where it is laid out, and zoomed
+          children inside a fixed box clip. So the tab bar is sized in real
+          pixels to what 1.07 used to make it (77px tall, 12px labels, 26px
+          icons), and the setup bar, install prompt and NOW sheet keep their
+          rem type at the same size with px paddings a shade tighter. Fixed
+          things INSIDE main are as they were. See .bottom-tab-bar in
+          globals.css. */}
       <style>{`
         body { zoom: 1; }
-        body > * { zoom: 1.07; }
-        body > .gc-shell { zoom: 1; }
-        .gc-shell > * { zoom: 1.07; }
+        .gc-dash > main, .gc-dash > header { zoom: 1.07; }
+        .gc-dash > .bottom-tab-bar { height: calc(77px + env(safe-area-inset-bottom, 0px)); }
+        .gc-dash .tab-item { font-size: 0.75rem; }
+        .gc-dash .tab-item svg { width: 26px; height: 26px; }
       `}</style>
       {/* Desktop top nav */}
       <header style={{

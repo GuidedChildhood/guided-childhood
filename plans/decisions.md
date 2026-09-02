@@ -9833,11 +9833,16 @@ showed there first and read as "a little" elsewhere.
 Decision, revised the same morning after a second screenshot from the
 check in page ("tabs should be fixed to bottom not floating"): the cure
 is not to zoom the ancestors of fixed things. While the dashboard layout
-is mounted, body is unzoomed and every direct child of body (the
-portalled sheets and pills) and of the shell (header, main, the bars,
-the tab bar) is zoomed on itself instead. Same sizes everywhere, and the
-tab bar, the setup bar, the install prompt and the NOW sheet sit under no
-zoomed ancestor at all, so fixed means fixed. The NOW button is portalled
+is mounted, body is unzoomed and the in flow things (header, main) are
+zoomed on themselves instead, so the page looks exactly as it did.
+Nothing fixed carries zoom, in itself or in its children: a zoomed fixed
+box paints out of step with where it is laid out, and zoomed children
+inside a fixed box clip. The tab bar is sized in real pixels to what the
+zoom used to make it (77px tall, 12px labels, 26px icons); the setup bar,
+install prompt and NOW sheet keep their rem type with px paddings a shade
+tighter. The tab bar, the setup bar, the install prompt and the NOW sheet
+sit under no zoomed ancestor at all, so fixed means fixed. Measured in
+the harness: the bar paints at the foot at scroll 0, 600 and the end. The NOW button is portalled
 into the bar and sits on its top edge. The compositor hints (translateZ,
 will change) went with the fault they were compensating for. Fixed things
 inside main (toasts, page level bars, sheets) still have main as a zoomed
