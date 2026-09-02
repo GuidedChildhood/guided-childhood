@@ -385,6 +385,11 @@ export default function KidQuestScreen({
       } else if (deep === 'print') {
         setTab('print')
         setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 300)
+      } else if (deep === 'five') {
+        // Back from a builder whose print just landed one of today's five:
+        // the day itself, with the next step lit (see fiveADayHref).
+        setTab('quests')
+        setTimeout(() => document.getElementById('kid-five')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300)
       }
     } catch { /* fine */ }
   }, [])
@@ -1022,6 +1027,22 @@ export default function KidQuestScreen({
     })
   }, [])
 
+  // A print just landed one of today's five.
+  //
+  // Justin, 2 September 2026, from the star chart's print page: "it should
+  // update the 1 of 5 jobs on child app and go back to the 5 a day marked as
+  // completed and onto next." So: whatever sheet was open closes, the day
+  // comes back on screen, and the card (already ticked by the event the tick
+  // raised) leads with the next step. Only on a tick that landed: a second
+  // print on a day already ticked, or a day with no printable in it, leaves
+  // the child where they were.
+  const afterPrintableTicked = useCallback(() => {
+    setPrintOverlay(null)
+    setActiveLesson(null)
+    setTab('quests')
+    goToTab('quests')
+  }, [goToTab])
+
   // The child's band, from their stage. Derived once because two places want it
   // now: the quiz below, and the reading row, which states its own number of
   // minutes and gets that number from the band.
@@ -1136,7 +1157,7 @@ export default function KidQuestScreen({
     // A deep link named the destination; that effect already handled it.
     try {
       const deep = new URLSearchParams(window.location.search).get('tab')
-      if (deep === 'games' || deep === 'print') return
+      if (deep === 'games' || deep === 'print' || deep === 'five') return
     } catch { /* fine */ }
 
     // Stop the browser putting them back where they were, which would otherwise
@@ -1278,7 +1299,7 @@ export default function KidQuestScreen({
 
       {/* A sheet being printed, in place. Nothing to block, nowhere to strand.
           Keyed by the sheet, so one failed load never haunts the next open. */}
-      <KidSheetOverlay key={printOverlay?.url ?? 'none'} sheet={printOverlay} onClose={() => setPrintOverlay(null)} onPrinted={() => tickPrintableStep(token)} />
+      <KidSheetOverlay key={printOverlay?.url ?? 'none'} sheet={printOverlay} onClose={() => setPrintOverlay(null)} onPrinted={() => { void tickPrintableStep(token).then(t => { if (t?.ticked) afterPrintableTicked() }) }} />
 
       {/* The sent it toast */}
       {toast && (
@@ -2611,6 +2632,7 @@ export default function KidQuestScreen({
             sheetStars={sheetStars}
             onHappyNews={setHappyNews}
             tallyColor={theme.inkSoft}
+            onStepTicked={afterPrintableTicked}
           />
         )}
 

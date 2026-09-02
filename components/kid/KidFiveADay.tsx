@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { STEPS, type StepKey } from '@/lib/kid/five-a-day'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 import KidStepSheet from '@/components/kid/KidStepSheet'
+import { KID_DAY_EVENT, type PrintableTick } from '@/lib/kid/print-anywhere'
 
 // The five a day card: the whole of a child's day, one step at a time.
 //
@@ -130,36 +131,83 @@ export default function KidFiveADay({
   // of folding is that the next visit leads with the day done, not the list.
   const [openAnyway, setOpenAnyway] = useState(false)
 
-  useEffect(() => {
-    if (initialState) return
-    let live = true
-    fetch(`/api/kid/day?token=${encodeURIComponent(token)}`)
-      .then(r => (r.ok ? r.json() : null))
-      .then(d => {
-        if (!live || !d || !Array.isArray(d.steps)) return
-        setState(d)
-        // The day may have been finished somewhere else entirely.
-        //
-        // Three of the five are ticked by the routes that know the child did
-        // the thing: passing a lesson, passing the quiz, sending a printable.
-        // Any of those can be the fifth, and when it is, the child is on
-        // another page and mark() never runs, so the celebration below never
-        // fires. They would come back to a finished list and no moment at all,
-        // which is the whole reward for the day quietly missing.
-        //
-        // Remembered per day in localStorage rather than in the database. It is
-        // a moment on a screen, not a record: completed_at and the streak are
-        // the record, and they are already right. Worst case on a cleared phone
-        // is one replay of a good thing.
-        if (d.complete && !celebratedToday(d.day)) {
-          rememberCelebrated(d.day)
-          onDayComplete?.(d.streak)
-        }
-      })
-      .catch(() => { /* the card simply does not show */ })
-    return () => { live = false }
+  const liveRef = useRef(true)
+  useEffect(() => { liveRef.current = true; return () => { liveRef.current = false } }, [])
+  const stateRef = useRef(state)
+  useEffect(() => { stateRef.current = state }, [state])
+
+  const load = useCallback(async () => {
+    try {
+      const r = await fetch(`/api/kid/day?token=${encodeURIComponent(token)}`, { cache: 'no-store' })
+      const d = r.ok ? await r.json() : null
+      if (!liveRef.current || !d || !Array.isArray(d.steps)) return
+      setState(d)
+      // The day may have been finished somewhere else entirely.
+      //
+      // Three of the five are ticked by the routes that know the child did
+      // the thing: passing a lesson, passing the quiz, sending a printable.
+      // Any of those can be the fifth, and when it is, the child is on
+      // another page and mark() never runs, so the celebration below never
+      // fires. They would come back to a finished list and no moment at all,
+      // which is the whole reward for the day quietly missing.
+      //
+      // Remembered per day in localStorage rather than in the database. It is
+      // a moment on a screen, not a record: completed_at and the streak are
+      // the record, and they are already right. Worst case on a cleared phone
+      // is one replay of a good thing.
+      if (d.complete && !celebratedToday(d.day)) {
+        rememberCelebrated(d.day)
+        onDayComplete?.(d.streak)
+      }
+    } catch { /* the card simply does not show, or keeps what it had */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
+
+  // Fetched on mount, and again every time the child comes BACK to this
+  // screen: from Safari after a print, from a lesson, from the app switcher.
+  //
+  // It used to fetch once and trust itself for the rest of the day. On the
+  // installed app that is a long time: the print page opens in Safari, ticks
+  // the printable in the database, and the child returns to an app that has
+  // been sitting in the background with the old answer, A printable still
+  // open, four of five for ever. Justin, 2 September 2026, from that print
+  // page: "go back to the 5 a day marked as completed and onto next."
+  // Coming back to the screen is now a reason to ask again. Cheap, fails soft
+  // to what it had.
+  useEffect(() => {
+    if (initialState) return
+    void load()
+    const onVis = () => { if (document.visibilityState === 'visible') void load() }
+    const onShow = () => { void load() }
+    document.addEventListener('visibilitychange', onVis)
+    window.addEventListener('pageshow', onShow)
+    return () => {
+      document.removeEventListener('visibilitychange', onVis)
+      window.removeEventListener('pageshow', onShow)
+    }
+  }, [load, initialState])
+
+  // A tick made elsewhere on THIS page arrives as an event, so the card moves
+  // on the instant it lands, no round trip: the print buttons on the
+  // printables tab and the assigned sheet both raise it (see
+  // tickPrintableStep). The done row shrinks up, the next step lights, and
+  // the star plays for a step that genuinely just landed.
+  useEffect(() => {
+    const onTick = (e: Event) => {
+      const t = (e as CustomEvent<PrintableTick>).detail
+      if (!t || !Array.isArray(t.done)) return
+      const before = stateRef.current
+      setState(s => (s ? { ...s, steps: t.steps.length > 0 ? t.steps : s.steps, done: t.done, complete: t.complete, streak: t.streak } : s))
+      if (t.ticked) playKidSound('star')
+      if (t.justCompleted) {
+        rememberCelebrated(before?.day)
+        onDayComplete?.(t.streak)
+      }
+    }
+    window.addEventListener(KID_DAY_EVENT, onTick)
+    return () => window.removeEventListener(KID_DAY_EVENT, onTick)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Jobs is the one step the child does not tick here: it is true when every job
   // due today is ticked, which the board already knows. Marked through on its

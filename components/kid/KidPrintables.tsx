@@ -7,7 +7,7 @@ import type { Printable } from '@/lib/printables/registry'
 import type { HappyNewsItem } from '@/components/celebrate/HappyNews'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { printPack } from '@/lib/kid/print-sheet'
-import { printOrOpen, tickPrintableStep } from '@/lib/kid/print-anywhere'
+import { printOrOpen, tickPrintableStep, type PrintableTick } from '@/lib/kid/print-anywhere'
 import KidSheetPaper from '@/components/kid/KidSheetPaper'
 import { HAPPY, HappyMasthead, Burst, Sticker, SmileyDot, StarShape, WavyRule, CloseCross, HappyScatter } from '@/components/kid/HappyNewsBits'
 
@@ -62,7 +62,7 @@ const KIND_CHIPS: { key: 'all' | Printable['kind']; label: string }[] = [
 
 export default function KidPrintables({
   token, childName, printables, asks, submitAsk, printablesUnlocked, sheetsDone, sheetStars, onHappyNews,
-  initialStatuses, fetchStatuses = true, openKey = null, tallyColor = 'rgba(255,255,255,0.86)',
+  initialStatuses, fetchStatuses = true, openKey = null, tallyColor = 'rgba(255,255,255,0.86)', onStepTicked,
 }: {
   token: string
   childName: string
@@ -78,6 +78,8 @@ export default function KidPrintables({
   fetchStatuses?: boolean
   /** The dev fixture opens one sheet straight away. */
   openKey?: string | null
+  /** A print just landed one of today's five: the home screen walks the child back to the day. */
+  onStepTicked?: (tick: PrintableTick) => void
   /** Text straight on the child's background, from their theme. */
   tallyColor?: string
 }) {
@@ -268,6 +270,7 @@ export default function KidPrintables({
           onSent={() => setStatuses(s => ({ ...s, [open.key]: 'pending' }))}
           submitAsk={submitAsk}
           onHappyNews={onHappyNews}
+          onStepTicked={onStepTicked}
         />
       )}
     </div>
@@ -304,7 +307,7 @@ function MakeTile({ href, emoji, title, sub, tint, accent }: {
  * because that is what prints when the browser can print in place, and on
  * paper it is the only thing that shows.
  */
-export function KidPrintableSheet({ token, printable: p, status, canOpen, ask, onClose, onSent, submitAsk, onHappyNews }: {
+export function KidPrintableSheet({ token, printable: p, status, canOpen, ask, onClose, onSent, submitAsk, onHappyNews, onStepTicked }: {
   token: string
   printable: Printable
   status: Status
@@ -314,6 +317,7 @@ export function KidPrintableSheet({ token, printable: p, status, canOpen, ask, o
   onSent: () => void
   submitAsk: (title: string, emoji: string) => void
   onHappyNews: (item: HappyNewsItem) => void
+  onStepTicked?: (tick: PrintableTick) => void
 }) {
   const [note, setNote] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
@@ -330,7 +334,10 @@ export function KidPrintableSheet({ token, printable: p, status, canOpen, ask, o
 
   function print() {
     playKidSound('tap')
-    tickPrintableStep(token)
+    // The tick leaves before the print (same tap, so Safari still opens), and
+    // its answer decides what happens after: a landed step walks the child
+    // back to their day with the next one lit.
+    void tickPrintableStep(token).then(t => { if (t?.ticked) onStepTicked?.(t) })
     if (isPack) {
       printPack(p.pdfColourIn as string, p.title)
       return

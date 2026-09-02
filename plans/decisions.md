@@ -9883,3 +9883,26 @@ in today (every live, non resting worry checked today, and at least
 one), the dashboard layout hands the set to the child rail inside its
 own Suspense, and the switcher pill wears a small green tick on the
 initial. One place decides, so the rail and the check in cannot disagree.
+
+## 2 September 2026: a print walks the child on to the next step
+
+Justin, from the star chart's print page: "When I click print here it should
+update the 1 of 5 jobs on child app and go back to the 5 a day marked as
+completed and onto next."
+
+**Decided.** A printable tick answers with the day (ticked, done, complete,
+streak) instead of a bare ok, and every print button acts on it: when THIS
+print landed one of today's five, the child is walked back to the five a day
+with the next step lit. On the home screen that is close the sheet, quests
+tab, scroll to the card. From the builders it is a push home with ?tab=five.
+A print on a day already ticked, or a day with no printable in it, leaves the
+child where they are.
+
+**The card asks again.** The five a day used to fetch once per mount. It now
+refetches whenever the screen comes back into view, and ticks itself at once
+from a window event the tick raises, so a step landed in Safari or on another
+page is never stale on the screen the child returns to.
+
+**The Safari print page owns the way back.** After the dialog it turns green
+and says close this tab, open your app, the next one is waiting. A tab cannot
+open the installed app, so the instruction is the whole of it.
