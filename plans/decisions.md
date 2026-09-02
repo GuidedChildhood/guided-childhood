@@ -9990,3 +9990,13 @@ a nudge to do ten minutes with no screen), the timer rule if they checked
 their balance, or what passing a lesson is for. The Monday to Sunday strip
 rides on it once a star week. The old streak takeover is retired into it.
 Nothing on the screen waits on the network.
+
+## 2 September 2026: printable sheets are A4 in millimetres, never flowing pixels
+
+The bucket list printed over two sides from Justin's iPhone. The sheet was
+drawn in screen pixels and left to flow, and the print page's own page margin
+shrank the width on a phone while the drawing kept its height. Decided: every
+sheet that has to be one side is a piece of A4 in real millimetres with no
+page margin (210 by 285mm, its margins as padding), the pattern the Planet
+Friends poster proved on his phone in August. Each sheet owns its own @page
+rule; the pages that host sheets set none. PR 954.
