@@ -2,6 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 import { logConcernEventById, isScore } from '@/lib/concerns/events'
 import { markFirstCheckIn } from '@/lib/checkin/first'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { pushToChild } from '@/lib/quests/kid-push'
 
 // The morning after a concern is flagged, the daily loop asks how it went.
 //
@@ -68,9 +70,9 @@ export async function POST(request: Request) {
   // path from throwing on the ambiguity rather than resolving it wrongly.
   const byId = hasId
   const { data: concern } = byId
-    ? await supabase.from('concerns').select('id, status')
+    ? await supabase.from('concerns').select('id, status, label, child_id')
         .eq('user_id', user.id).eq('id', concernId).maybeSingle()
-    : await supabase.from('concerns').select('id, status')
+    : await supabase.from('concerns').select('id, status, label, child_id')
         .eq('user_id', user.id).eq('slug', slug)
         .order('created_at', { ascending: true }).limit(1).maybeSingle()
 
@@ -79,6 +81,9 @@ export async function POST(request: Request) {
   }
 
   let verdict: 'better' | 'same' | 'hard'
+  // True on the tap that takes a worry to five stars for the first time since
+  // it was last below, which is the tap the child's stamp lands on.
+  let justSorted = false
   if (legacyAnswer) {
     verdict = legacyAnswer
   } else {
@@ -110,6 +115,7 @@ export async function POST(request: Request) {
     verdict = s >= 9 ? 'better'
       : typeof last === 'number' ? (band(s) > band(last) ? 'better' : band(s) < band(last) ? 'hard' : 'same')
       : 'same'
+    justSorted = s >= 9 && !(typeof last === 'number' && last >= 9)
   }
 
   const status = verdict === 'better'
@@ -157,6 +163,29 @@ export async function POST(request: Request) {
   // The first one is the baseline, and it is also what earns the right to ask
   // them to choose a way in. Both read one timestamp. See lib/checkin/first.
   await markFirstCheckIn(supabase, user.id)
+
+  // ── THE CHILD HEARS ABOUT IT ──────────────────────────────────────────────
+  //
+  // Justin, 2 September 2026: "trace the moment the parent said phones in
+  // the car were a problem: as the star went to 5 stars, so great, you scored
+  // a stamp in your passport." The stamp itself is derived when the child's
+  // app next reads (lib/concerns/sorted feeds the sticker book and the wins
+  // queue), so nothing here has to be remembered. This is only the knock on
+  // the door: one nudge, on the tap that sorted it, never on a repeat five,
+  // and never at night, which pushToChild enforces for every caller.
+  if (justSorted && concern.child_id) {
+    try {
+      const admin = createAdminClient()
+      const { data: kid } = await admin.from('children').select('name').eq('id', concern.child_id).maybeSingle()
+      const name = kid?.name && kid.name !== 'Your child' ? String(kid.name) : null
+      const label = String(concern.label ?? 'A worry')
+      await pushToChild(
+        admin, user.id, String(concern.child_id),
+        name ? `${name}, a stamp in your passport 🛂` : 'A stamp in your passport 🛂',
+        `${label}: sorted. Your grown up gave it five stars. That was you.`,
+      )
+    } catch { /* the check in saved; the stamp still lands on their next open */ }
+  }
 
   return NextResponse.json({ saved: true, status, verdict })
 }

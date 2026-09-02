@@ -9934,3 +9934,35 @@ celebration or the ask, for a skipped first run or a co parent.
 **Not touched.** DiGi's dashboard welcome sheet and the rotating mission
 cards on later visits. Whether they stay now the first welcome does their
 job is Justin's call.
+
+## 2 September 2026: the child's passport pays the thing the product is for
+
+Justin: "check the passport on the child's app makes sense ... lessons done
+are added ... syncs with the parent app ... a moment rated five stars puts a
+reward on the child's app ... you scored a stamp in your passport ... Planet
+Friends as the success animations."
+
+**Decided.** A worry the parent raises for a child is a stamp in that
+child's passport: locked while it is live, showing the stars the parent gave
+it last, stamped the moment the parent gives it five (resolved, or resting
+at the top band). One reading, lib/concerns/sorted, feeds the sticker book
+and the wins queue, so the stamp and the celebration cannot disagree. It
+ratchets: a worry that comes back keeps its stamp on the child's side.
+
+**The celebration.** A sorted worry is a milestone, so it pops once as the
+full screen win with the child's newest Planet Friend holding a stamp that
+lands on the tilt, and "Show me the stamp" opens the passport. The parent's
+tap that sorts it also knocks on the child's door with one push, never at
+night, never on a repeat five.
+
+**Lessons count now.** A lessons ladder (one, five, ten) and the stage stamp
+tiles read lessons done of the stage's total instead of "0 of 1". A school
+lesson redeemed with a home code counts on the ladder and, by the standing
+rule, not toward the stage stamp.
+
+**One definition of stamped.** The audit found four. lib/pathway/stamped is
+the rule (content complete and the big check passed by this child) and the
+parent's book, the child's book and the verify page all read it. The
+unreachable child passport route with its own rule is gone. The parent's
+moments row now counts a resting worry as sorted, so the check in and the
+passport agree.

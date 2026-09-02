@@ -26,6 +26,8 @@ function have(rule: KidSticker['rule']): number {
     case 'credits': return CREDITS
     case 'sheets': return SHEETS
     case 'stamp': return STAMPS
+    case 'lessons': return 1
+    case 'sorted': return 3
   }
 }
 function need(rule: KidSticker['rule']): number {

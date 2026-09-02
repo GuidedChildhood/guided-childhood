@@ -92,7 +92,7 @@ function Tile({ s }: { s: KidSticker }) {
             <span style={{ display: 'block', height: '100%', borderRadius: 100, width: `${Math.round((have / need) * 100)}%`, background: s.colour }} />
           </span>
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)' }}>
-            {have} of {need}
+            {have} of {need}{s.rule.kind === 'sorted' ? ' stars' : s.rule.kind === 'stamp' || s.rule.kind === 'lessons' ? ' lessons' : ''}
           </span>
         </>
       )}
@@ -175,9 +175,27 @@ export default function KidStickers({ token, stickers, celebrate }: {
       note: 'Finish full days to bring them home',
       of: stickers.filter(s => s.rule.kind === 'friend'),
     },
+    // SORTED TOGETHER. Justin, 2 September 2026: "reflect positively with
+    // moments being rated 5 stars and rewards appearing on the child's app."
+    // The worries a grown up raised for this child, each a stamp waiting on
+    // five stars. Said as the two of them fixing it, because that is what a
+    // check in that climbs to five actually is, and a child who can see the
+    // stars climbing is a child who knows the trying is being noticed.
+    {
+      name: 'Sorted together',
+      how: 'Your grown up keeps an eye on the tricky bits, like screens at bedtime, and gives each one stars at their check in. When one gets five stars it is sorted, and it stamps here. That is the two of you fixing it together.',
+      note: 'Five stars from your grown up stamps it',
+      of: stickers.filter(s => s.rule.kind === 'sorted'),
+    },
+    {
+      name: 'Lessons',
+      how: 'Every lesson you pass counts here, and every one fills the stamp for your stage too.',
+      note: 'Pass lessons to fill this page',
+      of: stickers.filter(s => s.rule.kind === 'lessons'),
+    },
     {
       name: 'The Stamps',
-      how: 'A stamp is a whole stage of your passport finished, lessons and all. These take months, which is what makes them the rarest thing in here.',
+      how: 'A stamp is a whole stage of your passport finished, every lesson passed. The bar under each one is how far you have got. These take months, which is what makes them the rarest thing in here.',
       note: 'The rare ones. A whole stage each',
       of: stickers.filter(s => s.rule.kind === 'stamp'),
     },
@@ -334,10 +352,12 @@ export default function KidStickers({ token, stickers, celebrate }: {
               ))}
             </div>
             <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: 'var(--ink)', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
-              {toCheer.length > 1 ? 'You earned new stickers' : `You earned ${toCheer[0]?.name}`}
+              {toCheer.length > 1 ? 'You earned new stickers' : toCheer[0]?.rule.kind === 'sorted' ? `${toCheer[0].name}: sorted` : `You earned ${toCheer[0]?.name}`}
             </h2>
             <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 18px' }}>
-              Straight into your sticker book. Keep going for more.
+              {toCheer.length === 1 && toCheer[0]?.rule.kind === 'sorted'
+                ? 'Your grown up gave it five stars. That was you. Stamped in your passport.'
+                : 'Straight into your sticker book. Keep going for more.'}
             </p>
             <button onClick={() => setShowCheer(false)} style={{
               width: '100%', padding: '14px', borderRadius: 16, border: 'none', cursor: 'pointer',

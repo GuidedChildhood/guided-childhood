@@ -1995,6 +1995,7 @@ export default function KidQuestScreen({
             stickers={stickers}
             celebrateStickers={celebrateStickers}
             passportCode={passportCode}
+            stageId={stageId}
           />
         )}
 
@@ -2022,6 +2023,7 @@ export default function KidQuestScreen({
             token={token}
             wins={pendingWins}
             onDone={() => { setPendingWins([]); setWinsOpen(true) }}
+            onOpenBook={() => { setPendingWins([]); setWinsOpen(false); setPassportOpen(true) }}
           />
         )}
 

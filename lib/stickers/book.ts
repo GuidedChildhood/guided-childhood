@@ -1,7 +1,10 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import { getAllStagesProgress } from '@/lib/pathway/progress'
+import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
+import { isStageStamped } from '@/lib/pathway/stamped'
 import { earnedFriends, streakCurrency } from '@/lib/pathway/streak-unlock'
-import { STICKERS, type Sticker } from './catalog'
+import { childWorries, type ChildWorry } from '@/lib/concerns/sorted'
+import { STICKERS, sortedSticker, type Sticker } from './catalog'
 
 // The sticker book, read for one child. Earning is reconciled on read from the
 // real numbers so it can never disagree with the rest of the app: sticker
@@ -32,6 +35,9 @@ export type StickerBook = {
   total: number
 }
 
+/** One stage's lessons for this child: how many passed, how many there are, and whether the page is stamped. */
+export type StageLessons = { done: number; total: number; complete: boolean }
+
 type Ctx = {
   credits: number
   sheets: number
@@ -39,8 +45,10 @@ type Ctx = {
   streaks: number
   /** Friends actually earned, which is completed days and nothing else. */
   friends: number
-  /** Passport pages stamped. */
-  stamps: number
+  /** Lessons passed by this child, all stages. */
+  lessons: number
+  /** Each stage's lessons, by stage number 1 to 5, for the stamp tiles. */
+  stages: Record<number, StageLessons>
 }
 
 /** How far along this sticker is, in whatever it is counted in. */
@@ -53,13 +61,20 @@ function progressFor(rule: Sticker['rule'], ctx: Ctx): number {
     // Friends toward a Friend.
     case 'friend': return ctx.streaks
     case 'streak': return ctx.streaks
-    case 'stamp': return ctx.stamps
+    // A stamp tile used to say "0 of 1", a number nobody could act on. Now it
+    // counts the lessons of its stage, so a child sees the page filling.
+    case 'stamp': return ctx.stages[rule.n]?.done ?? 0
+    case 'lessons': return ctx.lessons
+    // Sorted stamps are built below from the worries themselves.
+    case 'sorted': return 0
   }
 }
 
 /** The target, in the same units as progressFor. */
-function targetFor(rule: Sticker['rule']): number {
-  return rule.kind === 'friend' ? rule.streaks : rule.n
+function targetFor(rule: Sticker['rule'], ctx: Ctx): number {
+  if (rule.kind === 'friend') return rule.streaks
+  if (rule.kind === 'stamp') return Math.max(1, ctx.stages[rule.n]?.total ?? 0)
+  return rule.n
 }
 
 /**
@@ -72,6 +87,10 @@ function targetFor(rule: Sticker['rule']): number {
  */
 function isEarned(rule: Sticker['rule'], ctx: Ctx): boolean {
   if (rule.kind === 'friend') return ctx.friends >= rule.n
+  // A stamp is the whole stage done, lessons and scripts, the same test the
+  // parent's passport page seals a page on. Not the lesson count alone.
+  if (rule.kind === 'stamp') return ctx.stages[rule.n]?.complete ?? false
+  if (rule.kind === 'sorted') return false
   return progressFor(rule, ctx) >= rule.n
 }
 
@@ -103,22 +122,24 @@ export async function getStickerBook(
   //
   // Nor is the age band. That was the age rule, and killing it is the whole
   // point of this pass: see the note on the friend rule in catalog.ts.
-  const [credits, sheets, streaks, stamps, owned] = await Promise.all([
+  const [credits, sheets, streaks, stages, lessons, worries, owned] = await Promise.all([
     creditsFor(supabase, child.id),
     countSheets(supabase, userId, child.id),
     streaksFor(supabase, child.id),
-    stampsFor(supabase, userId, child.id),
+    stageLessonsFor(supabase, userId, child.id),
+    lessonsFor(supabase, userId, child.id),
+    childWorries(supabase, userId, child.id),
     ownedKeys(supabase, child.id),
   ])
-  // Friends come from completed days only. `stamps` sits alongside them and
-  // feeds its own tier rather than being folded in: it is read by user_id, so
-  // it is the parent's stage progress, and adding it here is what let a grown up
-  // finishing lessons hand every child in the house a Planet Friend.
-  const ctx: Ctx = { credits, sheets, streaks, stamps, friends: earnedFriends(streaks) }
+  // Friends come from completed days only. The stages sit alongside them and
+  // feed their own tier rather than being folded in: they used to be read by
+  // user_id, the parent's stage progress, and adding that here is what let a
+  // grown up finishing lessons hand every child in the house a Planet Friend.
+  const ctx: Ctx = { credits, sheets, streaks, lessons, stages, friends: earnedFriends(streaks) }
 
   const toPersist: { user_id: string; child_id: string; sticker_key: string; reason: string }[] = []
   const stickers: StickerState[] = STICKERS.map(s => {
-    const need = targetFor(s.rule)
+    const need = targetFor(s.rule, ctx)
     const have = progressFor(s.rule, ctx)
     const derived = isEarned(s.rule, ctx)
     if (derived && !owned.has(s.key)) {
@@ -151,6 +172,28 @@ export async function getStickerBook(
     const ratchet = s.rule.kind === 'credits' || s.rule.kind === 'sheets'
     return { ...s, earned: (ratchet && owned.has(s.key)) || derived, have: Math.min(have, need), need }
   })
+
+  // THE SORTED STAMPS, one per worry the parent has raised for this child.
+  //
+  // Justin, 2 September 2026: "trace the moment that the parent said phones in
+  // the car were a problem: as the star went to 5 stars, so great, you scored a
+  // stamp in your passport."
+  //
+  // A live worry is a locked stamp showing the stars so far, the same five the
+  // parent tapped at the check in. Five stars sorts it and stamps it. It
+  // RATCHETS: a worry that comes back later (the parent logs the moment again,
+  // the rest lifts on their side) keeps its stamp on the child's, because the
+  // child did sort it once and a stamp taken back is a punishment for their
+  // grown up's honesty. A worry the parent has since deleted disappears with
+  // its stamp, which is the one way the row can go.
+  for (const w of worries) {
+    const s = sortedSticker(w)
+    const earned = w.sorted || owned.has(s.key)
+    if (w.sorted && !owned.has(s.key)) {
+      toPersist.push({ user_id: userId, child_id: child.id, sticker_key: s.key, reason: 'sorted' })
+    }
+    stickers.push({ ...s, earned, have: earned ? 5 : Math.min(w.stars, 5), need: 5 })
+  }
 
   // Make the newly earned permanent. Idempotent and best effort: the derived
   // earning above already shows the sticker even if this write cannot run yet.
@@ -209,24 +252,57 @@ async function streaksFor(supabase: SupabaseClient, childId: string): Promise<nu
 }
 
 /**
- * Passport pages stamped, which is the rare tier.
+ * Each stage's lessons for this child, and whether its page is stamped.
  *
  * The same reading the parent's passport uses, so a page that shows a seal on
- * the grown up side is the page that hands the child their stamp. Fails soft to
- * zero: a stamp is a reward, and a query that cannot answer should hand back
- * the quiet number rather than invent one.
+ * the grown up side is the page that hands the child their stamp, and the
+ * lessons done of total under a locked stamp is the same count the parent's
+ * checklist prints. Fails soft to empty: a stamp is a reward, and a query
+ * that cannot answer should hand back the quiet answer rather than invent one.
  */
-async function stampsFor(supabase: SupabaseClient, userId: string, childId: string | null = null): Promise<number> {
+async function stageLessonsFor(supabase: SupabaseClient, userId: string, childId: string | null = null): Promise<Record<number, StageLessons>> {
   const STAGES = ['foundation', 'builder', 'explorer', 'shaper', 'independent'] as const
+  const out: Record<number, StageLessons> = {}
   try {
-    // THIS child's stamped pages, not the household's. The comment this call
-    // used to lean on, "the same reading the parent's passport uses", went
-    // stale the day the passport went per child: without the child the
-    // youngest's sticker rarity tier was paid out of the eldest's lessons.
-    const progress = await getAllStagesProgress(supabase, userId, 0, childId)
-    return STAGES.filter(s => progress[s]?.contentComplete).length
+    // THIS child's pages, not the household's. Without the child the
+    // youngest's rarity tier was paid out of the eldest's lessons.
+    const [progress, passed] = await Promise.all([
+      getAllStagesProgress(supabase, userId, 0, childId),
+      getPassedStageQuizzes(supabase, userId, childId),
+    ])
+    STAGES.forEach((s, i) => {
+      const p = progress[s]
+      if (!p) return
+      // The one rule, shared with the parent's book and the verify page.
+      out[i + 1] = { done: p.lessonsDone, total: p.lessonsTotal, complete: isStageStamped(p, passed, i + 1) }
+    })
+  } catch { /* quiet */ }
+  return out
+}
+
+/**
+ * Lessons this child has passed, across every stage.
+ *
+ * Distinct lessons, passed at the player's real seventy percent line, scoped
+ * the way the stage progress scopes them: this child's rows plus the
+ * household rows with no child on them, so a lesson a parent led with the
+ * child beside them counts. A retake does not count twice.
+ */
+async function lessonsFor(supabase: SupabaseClient, userId: string, childId: string): Promise<number> {
+  try {
+    const { data } = await supabase
+      .from('lesson_completions')
+      .select('lesson_id')
+      .eq('user_id', userId)
+      .eq('passed', true)
+      .or(`child_id.eq.${childId},child_id.is.null`)
+    return new Set((data ?? []).map(r => String(r.lesson_id))).size
   } catch { return 0 }
 }
+
+// The worries reach the book through lib/concerns/sorted, the one reading the
+// wins queue shares, so the stamp and the celebration can never disagree.
+export type { ChildWorry }
 
 async function ownedKeys(supabase: SupabaseClient, childId: string): Promise<Set<string>> {
   try {

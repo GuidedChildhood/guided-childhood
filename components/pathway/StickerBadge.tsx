@@ -97,7 +97,7 @@ export default function StickerBadge({ s, size = 54 }: { s: BadgeShape; size?: n
           printing it drew "3" on the Explorer stamp and read as a threshold
           nobody could act on. The stage is already named underneath the tile;
           what the disc should carry is the seal. */}
-      {s.rule.kind === 'stamp' ? (
+      {s.rule.kind === 'stamp' || s.rule.kind === 'sorted' ? (
         <Seal size={size * 0.62} ink={ink} />
       ) : isFirst ? (
         <Star size={size * 0.5} fill={earned ? '#fff' : 'none'} stroke={ink} />

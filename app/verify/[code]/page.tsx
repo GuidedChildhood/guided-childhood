@@ -3,6 +3,8 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getAllStagesProgress, type StageId } from '@/lib/pathway/progress'
+import { getPassedStageQuizzes } from '@/lib/pathway/stage-quiz-status'
+import { isStageStamped } from '@/lib/pathway/stamped'
 import type { createClient } from '@/lib/supabase/server'
 import { STAGES } from '@/lib/content/stages'
 
@@ -69,11 +71,16 @@ export default async function VerifyPassportPage({ params }: { params: Promise<{
   // The admin client speaks the same query dialect as the server client; the
   // cast bridges the two factory types.
   const admin = createAdminClient() as unknown as Awaited<ReturnType<typeof createClient>>
-  const progress = await getAllStagesProgress(admin, child.parent_id, child.streak_weeks ?? 0, child.id)
+  const [progress, passed] = await Promise.all([
+    getAllStagesProgress(admin, child.parent_id, child.streak_weeks ?? 0, child.id),
+    getPassedStageQuizzes(admin, child.parent_id, child.id),
+  ])
 
   const firstName = child.name.trim().split(/\s+/)[0] || 'This child'
   const checkedOn = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-  const stamped = STAGE_ORDER.filter(s => progress[s]?.contentComplete)
+  // The one rule (lib/pathway/stamped): a page anyone can verify is a page
+  // the parent's book and the child's book both call stamped.
+  const stamped = STAGE_ORDER.filter((s, i) => isStageStamped(progress[s], passed, i + 1))
 
   return (
     <div style={{

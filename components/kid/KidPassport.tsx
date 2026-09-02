@@ -22,7 +22,7 @@ import KidStickers, { type KidSticker } from '@/components/kid/KidStickers'
 // places to live.
 
 export default function KidPassport({
-  onClose, token, childName, stickers, celebrateStickers, passportCode = null,
+  onClose, token, childName, stickers, celebrateStickers, passportCode = null, stageId = null,
 }: {
   onClose: () => void
   token: string
@@ -33,7 +33,16 @@ export default function KidPassport({
   // way a real passport carries its number. Public by design; never the kid
   // link token.
   passportCode?: string | null
+  /**
+   * The child's stage, 1 to 5, so the book can lead with THEIR page: how many
+   * lessons in, and that the big check finishes it. Justin, 2 September 2026:
+   * "all works towards the stage for each age group." The stamp tile lower
+   * down carries the same numbers; this is the sentence version, first.
+   */
+  stageId?: number | null
 }) {
+  const page = stageId ? stickers.find(s => s.rule.kind === 'stamp' && s.rule.n === stageId) : null
+  const pageName = page ? page.name.replace(/ Stamp$/, '') : null
   return (
     <div
       onClick={onClose}
@@ -76,6 +85,34 @@ export default function KidPassport({
         }}>
           Your own book. Every sticker says what it takes, so you always know what you are working on next.
         </p>
+
+        {page && pageName && (
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: 12,
+            background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16,
+            padding: '12px 14px', margin: '0 0 14px',
+          }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{
+                fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
+                letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)',
+              }}>
+                Your {pageName} page
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25, marginTop: 2 }}>
+                {page.earned
+                  ? 'Stamped. The whole page, done.'
+                  : `${page.have ?? 0} of ${page.need ?? 0} lessons passed, then the big check`}
+              </div>
+              {!page.earned && (page.need ?? 0) > 0 && (
+                <div style={{ height: 6, borderRadius: 100, background: 'var(--border)', overflow: 'hidden', marginTop: 8 }}>
+                  <div style={{ height: '100%', width: `${Math.round(((page.have ?? 0) / (page.need ?? 1)) * 100)}%`, background: page.colour, borderRadius: 100 }} />
+                </div>
+              )}
+            </div>
+            <span aria-hidden style={{ fontSize: 'var(--text-2xl)', lineHeight: 1, flexShrink: 0 }}>🛂</span>
+          </div>
+        )}
 
         <KidStickers token={token} stickers={stickers} celebrate={celebrateStickers} />
       </div>
