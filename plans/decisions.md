@@ -9906,3 +9906,31 @@ page is never stale on the screen the child returns to.
 **The Safari print page owns the way back.** After the dialog it turns green
 and says close this tab, open your app, the next one is waiting. A tab cannot
 open the installed app, so the instruction is the whole of it.
+
+## 2 September 2026: the first welcome is a walkthrough, written not generated
+
+Justin: "it then goes to celebration and walk through, can we make this super
+simple, explaining step by step what happens each day ... cover everything we
+do, why, and how DiGi works ... get rid of what is there."
+
+**Decided.** Setup ends on one walkthrough (components/onboarding/
+WelcomeWalkthrough): a celebration with the child's name, then eight cards
+that slide up one at a time, each one part of a day with its why: home, the
+check in, moments, scripts, DiGi, the child's app, the payoff, the reminder
+ask. Designed on a canvas first against Finch, Duolingo, Klima and Lloyds
+from Mobbin, then built to the same tokens.
+
+**Gone.** The DiGi greeting and first task written by a model call at the
+end of setup, and the wait for them. The walkthrough is written copy, so
+setup ends the instant the saves land, and the same words greet every parent.
+
+**Kept.** The reminder ask, as the last card: a parent who has just seen the
+plan says yes to a nudge protecting it. The plan choice still sits in front
+of the dashboard through the middleware, not on a wizard screen.
+
+**Revisit.** Settings carries How it works, the same cards without the
+celebration or the ask, for a skipped first run or a co parent.
+
+**Not touched.** DiGi's dashboard welcome sheet and the rotating mission
+cards on later visits. Whether they stay now the first welcome does their
+job is Justin's call.

@@ -8,13 +8,13 @@ import { holidayOn } from '@/lib/learning/holidays'
 import { BUCKET_META, BUCKET_ORDER } from '@/lib/balance/parent-report'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import { TRIAL_DAYS } from '@/lib/access'
-import Celebration from '@/components/ui/Celebration'
+import WelcomeWalkthrough from '@/components/onboarding/WelcomeWalkthrough'
 import { DEVICE_SUGGESTIONS } from '@/lib/devices/family'
 import { getDeviceId } from '@/lib/push/device-id'
 
 // No 'founding' any more. The two doors moved to /dashboard/choose, after the
 // first check in, and setup no longer asks anybody for money.
-type Screen = 'init' | 'welcome' | 'children' | 'devices' | 'challenges' | 'loading' | 'digi-intro' | 'first-task' | 'notifications'
+type Screen = 'init' | 'welcome' | 'children' | 'devices' | 'challenges' | 'loading' | 'tour'
 
 function urlBase64ToUint8Array(base64String: string) {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
@@ -23,12 +23,6 @@ function urlBase64ToUint8Array(base64String: string) {
   return Uint8Array.from(rawData, c => c.charCodeAt(0))
 }
 
-interface DigiData {
-  intro: string
-  taskQuestion: string
-  taskAction: string
-  taskScript: string
-}
 
 const CHALLENGES = [
   { id: 'morning_tv', label: 'Morning TV' },
@@ -171,13 +165,10 @@ export default function OnboardingPage() {
   const [homeDevices, setHomeDevices] = useState<string[]>([])
   const [challenges, setChallenges] = useState<string[]>([])
   const [timeCommitment, setTimeCommitment] = useState<StarterAnswers['timeCommitment']>(undefined)
-  const [digiData, setDigiData] = useState<DigiData | null>(null)
   const [saving, setSaving] = useState(false)
   // True when the starter quiz already gave us age and challenges, so
   // onboarding skips re asking them and goes straight to the pathway.
   const [prefilled, setPrefilled] = useState(false)
-  const [notifDest, setNotifDest] = useState<'script' | 'dashboard'>('script')
-  const [notifStatus, setNotifStatus] = useState<'idle' | 'asking' | 'done'>('idle')
   const nameInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -382,26 +373,12 @@ export default function OnboardingPage() {
 
     localStorage.removeItem('gc_starter_answers')
 
-    try {
-      const res = await fetch('/api/onboarding/digi', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ childName: name, ageBand, challenges }),
-      })
-      const data = await res.json()
-      setDigiData(data)
-    } catch {
-      const n = name === 'Your child' ? 'your child' : name
-      setDigiData({
-        intro: `Hi, I'm DiGi. You mentioned the hard moments with ${n} and I know that feeling well. It is very fixable. I will give you the exact words, not just theory.`,
-        taskQuestion: `What does tomorrow morning usually look like before things get difficult?`,
-        taskAction: `Pick one moment tomorrow where you will give a five-minute heads-up before asking them to stop. Say it once, calmly.`,
-        taskScript: `"Five more minutes, then we're done." That's it. Say it once. The calm consistency is what builds the habit.`,
-      })
-    }
-
+    // No model call here any more. The walkthrough that follows is written,
+    // not generated (see components/onboarding/WelcomeWalkthrough), so setup
+    // ends the moment the saves land instead of waiting on DiGi to compose
+    // a greeting. That wait was the "Setting up your pathway..." screen.
     setSaving(false)
-    setScreen('digi-intro')
+    setScreen('tour')
   }
 
   function toggleChallenge(id: string) {
@@ -802,220 +779,56 @@ export default function OnboardingPage() {
     )
   }
 
-  // ── DIGI INTRO ────────────────────────────────────────────────────────────
+  // ── THE FIRST WELCOME ───────────────────────────────────────────────────
+  //
+  // Justin, 2 September 2026: "it then goes to celebration and walk through.
+  // Can we make this super simple, explaining step by step what happens each
+  // day ... get rid of what is there." What was here: a DiGi speech bubble
+  // written by a model call, a first task screen from the same call, and the
+  // notifications ask. All three are now components/onboarding/
+  // WelcomeWalkthrough: the celebration, seven cards on the day, and the
+  // reminder ask as the eighth, with the push subscription kept here because
+  // it needs the session and the keys.
+  //
+  // THE LAST SCREEN OF SETUP, AND THE CHOICE IS NOT ON IT. The two paths ARE
+  // at the end of sign up, which is what the front page promises, and they
+  // are still not a screen in this wizard. onboarding_complete is written at
+  // personalisation, so any reload between here and the dashboard sends the
+  // parent to the dashboard, and a screen here that asked for money would be
+  // deleted by that reload for good. So the walkthrough just goes where the
+  // parent was headed, and the middleware catches them on the way and puts
+  // /dashboard/choose in front, carrying the destination.
 
-  if (screen === 'digi-intro') {
-    return (
-      <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
-        <style>{ANIM}</style>
-        {/* The pathway is ready: a soft confetti burst as DiGi arrives, so
-            finishing setup feels like a welcome, not a form submit. */}
-        <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 50 }}>
-          <Celebration />
-        </div>
-        <div style={{ maxWidth: 480, width: '100%' }}>
+  if (screen === 'tour') {
+    const goNext = () => router.push('/dashboard')
 
-          {/* DiGi avatar with pulse rings — animates in */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', animation: 'fadeUp 0.45s ease both' }}>
-            <div style={{ position: 'relative', width: 64, height: 64, flexShrink: 0 }}>
-              <div style={{ position: 'absolute', inset: '-6px', borderRadius: '50%', border: '2px solid rgba(220,88,50,0.4)', animation: 'pulseRing 2.1s ease-out infinite' }} />
-              <div style={{ position: 'absolute', inset: '-6px', borderRadius: '50%', border: '2px solid rgba(220,88,50,0.22)', animation: 'pulseRing 2.1s ease-out 1.05s infinite' }} />
-              <img
-                src="/digi-squad/DiGi-star.svg" alt="DiGi" width={64} height={64}
-                style={{ animation: 'digiFloat 3.5s ease-in-out infinite', display: 'block', position: 'relative', zIndex: 1 }}
-              />
-            </div>
-            <div style={{ animation: 'fadeUp 0.45s ease 0.1s both' }}>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-xl)', color: 'var(--ink)', letterSpacing: '-0.02em' }}>DiGi</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-light)', letterSpacing: '0.06em', marginTop: 2 }}>Your evidence led guide</div>
-            </div>
-          </div>
-
-          {/* Message */}
-          <div style={{
-            background: '#fff', border: '1.5px solid var(--border)',
-            borderRadius: 20, padding: '22px 24px',
-            marginBottom: '24px',
-            boxShadow: '0 4px 24px rgba(26,26,46,0.08)',
-            animation: 'fadeUp 0.45s ease 0.25s both',
-          }}>
-            <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.75, margin: 0, fontWeight: 500 }}>
-              {digiData?.intro ?? 'Loading...'}
-            </p>
-          </div>
-
-          {/* Bouncing arrow pointing to the button */}
-          <div style={{ textAlign: 'center', marginBottom: '10px', animation: 'arrowBounce 1.3s ease-in-out 1.8s infinite both' }}>
-            <span style={{ color: 'var(--terracotta)', fontSize: 'var(--text-xl)', lineHeight: 1 }}>↓</span>
-          </div>
-
-          {/* CTA — glows after appearing */}
-          <div style={{ animation: 'fadeUp 0.45s ease 0.45s both' }}>
-            <button
-              style={{ ...BTN, animation: 'btnGlow 2.2s ease-in-out 2.2s infinite' }}
-              onClick={() => setScreen('first-task')}
-            >
-              Sounds good
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  // ── FOUNDING ──────────────────────────────────────────────────────────────
-
-  // ── FIRST TASK ────────────────────────────────────────────────────────────
-
-  if (screen === 'first-task') {
-    const name = childName.trim() || 'your child'
-    return (
-      <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px 48px' }}>
-        <style>{ANIM}</style>
-        <div style={{ maxWidth: 480, width: '100%' }}>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 3.5vw, 2rem)', fontWeight: 900, letterSpacing: '-0.025em', lineHeight: 1.15, color: 'var(--ink)', marginBottom: '24px', textAlign: 'center' }}>
-            Let's set tomorrow up.
-          </h2>
-
-          {digiData ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-              {/* DiGi question */}
-              <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                <img src="/digi-squad/DiGi-star.svg" alt="" width={36} height={36} style={{ flexShrink: 0, animation: 'digiFloat 3.5s ease-in-out infinite' }} />
-                <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 16, padding: '16px 18px', flex: 1, boxShadow: '0 2px 12px rgba(26,26,46,0.06)' }}>
-                  <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.65, color: 'var(--ink)', margin: 0, fontWeight: 500 }}>
-                    {digiData.taskQuestion}
-                  </p>
-                </div>
-              </div>
-
-              {/* Action */}
-              <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderLeft: '3px solid var(--terracotta)', borderRadius: '0 14px 14px 0', padding: '20px' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 8 }}>
-                  Try this tomorrow
-                </div>
-                <p style={{ fontSize: 'var(--text-md)', lineHeight: 1.65, color: 'var(--ink)', margin: 0 }}>
-                  {digiData.taskAction}
-                </p>
-              </div>
-
-              {/* Script */}
-              <div style={{ background: 'var(--terracotta-lt)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '20px' }}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--terracotta)', marginBottom: 8 }}>
-                  Say this
-                </div>
-                <p style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', lineHeight: 1.65, color: 'var(--ink)', margin: 0, fontStyle: 'italic' }}>
-                  {digiData.taskScript}
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div style={{ textAlign: 'center', padding: '40px 0' }}>
-              <img src="/digi-squad/DiGi-star.svg" alt="" width={48} height={48} style={{ margin: '0 auto 16px', animation: 'digiFloat 2s ease-in-out infinite', display: 'block' }} />
-              <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-light)', letterSpacing: '0.06em' }}>DiGi is preparing your first task...</p>
-            </div>
-          )}
-
-          <button style={{ ...BTN, marginTop: '28px' }} onClick={() => { setNotifDest('script'); setScreen('notifications') }}>
-            Open my first script
-          </button>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-light)', textAlign: 'center', marginTop: 14, lineHeight: 1.5 }}>
-            DiGi picked it from what you told us. Two minutes, the exact words for tonight.
-          </p>
-          <button type="button" onClick={() => { setNotifDest('dashboard'); setScreen('notifications') }} style={BACK_BTN}>
-            Take me to my dashboard instead
-          </button>
-        </div>
-      </div>
-    )
-  }
-
-  // ── NOTIFICATIONS ─────────────────────────────────────────────────────────
-  // Asked here, at the exact moment DiGi named tonight's real moment, not
-  // buried in Settings for later. Duolingo asks the same way: once someone
-  // has already invested in a concrete plan, protecting that plan with a
-  // reminder is an easy, obvious yes.
-
-  if (screen === 'notifications') {
-    // ── THE LAST SCREEN OF SETUP, AND THE CHOICE IS NOT ON IT ───────────────
-    //
-    // The two paths ARE at the end of sign up now, which is what the front
-    // page promises, and they are still not a screen in this wizard. That is
-    // the distinction that matters and it is why nothing here changed.
-    //
-    // A screen here was tried and it was lost: onboarding_complete is written
-    // four screens earlier, at personalisation, so any reload between DiGi's
-    // introduction and this point sent the parent to the dashboard and deleted
-    // the one screen in the product that asks for money, for good.
-    //
-    // So this screen still just goes where the parent was headed, and the
-    // middleware catches them on the way and puts /dashboard/choose in front,
-    // carrying the destination so both paths hand it straight back. A reload
-    // or a closed tab now lands on the choice instead of skipping it.
-    const goNext = () => router.push(notifDest === 'script' ? '/dashboard/scripts/recommended' : '/dashboard')
-
-    async function enableNotifications() {
-      setNotifStatus('asking')
-      try {
-        if (!('serviceWorker' in navigator) || !('PushManager' in window)) { goNext(); return }
-        const perm = await Notification.requestPermission()
-        if (perm !== 'granted') { goNext(); return }
-        const reg = await navigator.serviceWorker.register('/sw.js')
-        await navigator.serviceWorker.ready
-        const sub = await reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
-        })
-        const { data: { user } } = await supabase.auth.getUser()
-        await fetch('/api/push/subscribe', {
-          method: 'POST',
-          headers: { 'content-type': 'application/json' },
-          // deviceId so this browser keeps ONE row instead of gaining another
-          // every time the push service rotates its endpoint. See migration 166.
-          body: JSON.stringify({ subscription: sub.toJSON(), userId: user?.id, deviceId: getDeviceId() }),
-        })
-        setNotifStatus('done')
-        setTimeout(goNext, 900)
-      } catch {
-        goNext()
-      }
+    async function enableNotifications(): Promise<boolean> {
+      if (!('serviceWorker' in navigator) || !('PushManager' in window)) return false
+      const perm = await Notification.requestPermission()
+      if (perm !== 'granted') return false
+      const reg = await navigator.serviceWorker.register('/sw.js')
+      await navigator.serviceWorker.ready
+      const sub = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+      })
+      const { data: { user } } = await supabase.auth.getUser()
+      await fetch('/api/push/subscribe', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        // deviceId so this browser keeps ONE row instead of gaining another
+        // every time the push service rotates its endpoint. See migration 166.
+        body: JSON.stringify({ subscription: sub.toJSON(), userId: user?.id, deviceId: getDeviceId() }),
+      })
+      return true
     }
 
     return (
-      <div style={{ minHeight: '100dvh', background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '32px 24px' }}>
-        <style>{ANIM}</style>
-        <div style={{ maxWidth: 440, width: '100%', textAlign: 'center' }}>
-          <img src="/digi-squad/DiGi-star.svg" alt="" width={56} height={56} style={{ margin: '0 auto 22px', animation: 'digiFloat 2.4s ease-in-out infinite', display: 'block' }} />
-
-          {notifStatus === 'done' ? (
-            <>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3.5vw, 1.8rem)', fontWeight: 900, color: 'var(--ink)', marginBottom: 10 }}>
-                Done! DiGi will be there.
-              </h2>
-              <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-muted)', lineHeight: 1.6 }}>Taking you in...</p>
-            </>
-          ) : (
-            <>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.4rem, 3.5vw, 1.8rem)', fontWeight: 900, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: 14 }}>
-                Want me to remind you?
-              </h2>
-              <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.7, marginBottom: '28px' }}>
-                The moment you just planned for happens tonight, not next week. A nudge right before it, and one after school, and that is genuinely it. No spam, and I will stop the second it stops helping.
-              </p>
-              <button
-                style={{ ...BTN, animation: notifStatus === 'idle' ? 'btnGlow 2.2s ease-in-out 1s infinite' : 'none' }}
-                onClick={enableNotifications}
-                disabled={notifStatus === 'asking'}
-              >
-                {notifStatus === 'asking' ? 'One second...' : 'Yes, remind me'}
-              </button>
-              <button type="button" onClick={goNext} style={BACK_BTN}>
-                Not now
-              </button>
-            </>
-          )}
-        </div>
-      </div>
+      <WelcomeWalkthrough
+        childName={childName}
+        onFinish={goNext}
+        onEnableNotifications={enableNotifications}
+      />
     )
   }
 
