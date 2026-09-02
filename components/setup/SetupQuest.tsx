@@ -200,7 +200,15 @@ function StepCard({ step, number, state, child, childList, userId }: {
       data-quest-step
       id={live ? ANCHOR[step.key] : undefined}
       style={{
-        display: 'flex', gap: '14px', alignItems: 'flex-start',
+        // A COLUMN, NOT A ROW. Justin, 2 September 2026, with the home screen
+        // step on his phone: "too long in text and stretched while screen and
+        // looks messy please tidy." The number, the title AND the whole body
+        // sat in one flex row, so on a 390px phone the body had the number's
+        // column and the status circle taken off both sides and was left about
+        // 160px wide: three word lines, a page of them. Now the header is the
+        // row (number, title, status) and the live body sits under it at the
+        // card's full width.
+        display: 'flex', flexDirection: 'column', gap: 0,
         // A done step is sage rather than white, so the finished block reads as
         // one run of green at a glance without anybody counting ticks.
         background: live ? '#fff' : done ? 'var(--tint-sage)' : 'var(--cream)',
@@ -213,6 +221,7 @@ function StepCard({ step, number, state, child, childList, userId }: {
         scrollMarginTop: '80px',
       }}
     >
+      <div style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
       {/* THE NUMBER STAYS ON THE LEFT. Justin, on the first build: "it says
           build family agreement as number 1 which is great." The numbers are
           what make this a sequence rather than a pile, so a done step keeps its
@@ -233,7 +242,7 @@ function StepCard({ step, number, state, child, childList, userId }: {
         {number}
       </span>
 
-      <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ flex: 1, minWidth: 0, alignSelf: 'center' }}>
         <h2 style={{
           fontFamily: 'var(--font-display)', fontWeight: live ? 900 : 700,
           fontSize: live ? 'var(--text-lg)' : 'var(--text-md)',
@@ -242,26 +251,6 @@ function StepCard({ step, number, state, child, childList, userId }: {
         }}>
           {step.title}
         </h2>
-
-        {/* Only the live step explains itself. A waiting step is a promise that
-            there is more, and a paragraph under it is a wall of jobs by
-            another name. A done step has nothing left to ask. */}
-        {live && (
-          <>
-            {/* Room to read, then room to act. Justin, 18 August 2026: "a gap
-                with text to read better." The explanation and the thing you do
-                about it were 14px apart, which on a step with two child cards
-                under it made one solid block of type and buttons with no way
-                in. The paragraph gets its own line height and a real gap after
-                it, so the eye finishes the sentence before it meets the work. */}
-            <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: '8px 0 0', maxWidth: '52ch' }}>
-              {step.what}
-            </p>
-            <div style={{ marginTop: '22px' }}>
-              <StepAction step={step} child={child} childList={childList} userId={userId} />
-            </div>
-          </>
-        )}
       </div>
 
       {/* ── THE STATUS CIRCLE, ON THE RIGHT ───────────────────────────────────
@@ -292,6 +281,27 @@ function StepCard({ step, number, state, child, childList, userId }: {
       >
         {done ? '✓' : ''}
       </span>
+      </div>
+
+      {/* Only the live step explains itself. A waiting step is a promise that
+          there is more, and a paragraph under it is a wall of jobs by
+          another name. A done step has nothing left to ask. */}
+      {live && (
+        <div style={{ marginTop: '12px' }}>
+          {/* Room to read, then room to act. Justin, 18 August 2026: "a gap
+              with text to read better." The explanation and the thing you do
+              about it were 14px apart, which on a step with two child cards
+              under it made one solid block of type and buttons with no way
+              in. The paragraph gets its own line height and a real gap after
+              it, so the eye finishes the sentence before it meets the work. */}
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.6, margin: 0, maxWidth: '52ch' }}>
+            {step.what}
+          </p>
+          <div style={{ marginTop: '18px' }}>
+            <StepAction step={step} child={child} childList={childList} userId={userId} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -751,7 +761,7 @@ function HomeScreenHow() {
   }
   const marker: React.CSSProperties = {
     fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-xs)',
-    color: 'var(--terracotta-dark)', flexShrink: 0, paddingTop: '2px', minWidth: 52,
+    color: 'var(--terracotta-dark)', flexShrink: 0, paddingTop: '3px', minWidth: 58,
   }
   const line: React.CSSProperties = { fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5 }
 
@@ -764,21 +774,20 @@ function HomeScreenHow() {
           web notifications only work at all once the app is on the home screen,
           so this is not decoration, it is the difference between the check ins
           reaching a parent and not. */}
-      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.55, margin: '0 0 2px', fontWeight: 600 }}>
-        On a phone this is what lets the check ins actually reach you. Apple only
-        allows notifications once we are on the home screen.
+      <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.5, margin: '0 0 2px', fontWeight: 600 }}>
+        This is what lets the check ins reach you. Apple only allows notifications from the home screen.
       </p>
 
       <div style={row}>
         <span style={marker}>iPhone</span>
         <span style={line}>
-          Tap <strong>Share</strong> in the Safari bar at the bottom, then <strong>Add to Home Screen</strong>, then <strong>Add</strong>.
+          <strong>Share</strong>, then <strong>Add to Home Screen</strong>, then <strong>Add</strong>.
         </span>
       </div>
       <div style={row}>
         <span style={marker}>Android</span>
         <span style={line}>
-          Tap the <strong>three dots</strong> in Chrome, then <strong>Add to Home screen</strong>, then <strong>Install</strong>.
+          <strong>Three dots</strong> in Chrome, then <strong>Add to Home screen</strong>, then <strong>Install</strong>.
         </span>
       </div>
       {/* THE LAPTOP, which had no path at all and is where Justin was sitting
@@ -790,7 +799,7 @@ function HomeScreenHow() {
       <div style={row}>
         <span style={marker}>Laptop</span>
         <span style={line}>
-          Click the <strong>install icon</strong> in the address bar in Chrome or Edge, or <strong>Share, Add to Dock</strong> in Safari. Notifications work there too.
+          The <strong>install icon</strong> in the address bar in Chrome or Edge. In Safari, <strong>Share</strong>, then <strong>Add to Dock</strong>.
         </span>
       </div>
 
