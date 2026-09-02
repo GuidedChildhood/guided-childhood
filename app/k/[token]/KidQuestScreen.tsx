@@ -2288,8 +2288,8 @@ export default function KidQuestScreen({
           onClick={() => { playKidSound('tap'); window.location.assign(`/k/${token}/suggest`) }}
           style={{
             display: 'flex', alignItems: 'center', gap: '13px', width: '100%', textAlign: 'left', cursor: 'pointer',
-            marginTop: '18px', background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)',
-            borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
+            marginTop: '18px', background: '#fff', border: '2px solid var(--ink)',
+            borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 var(--ink)',
           }}
         >
           <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>💡</span>

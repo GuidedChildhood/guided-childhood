@@ -36,9 +36,9 @@ const ASKS: KidAsk[] = [
 export default async function AskForJobFixture({
   searchParams,
 }: {
-  searchParams: Promise<{ accent?: string }>
+  searchParams: Promise<{ accent?: string; age?: string }>
 }) {
-  const { accent } = await searchParams
+  const { accent, age } = await searchParams
   const theme = resolveTheme(accent ?? null)
 
   return (
@@ -50,7 +50,7 @@ export default async function AskForJobFixture({
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.inkMuted, margin: '0 0 16px' }}>
           {theme.name}
         </p>
-        <KidAskForJob token="0000000000000000ff" initialAsks={ASKS} childName="Teo" theme={theme} />
+        <KidAskForJob token="0000000000000000ff" initialAsks={ASKS} childName="Teo" theme={theme} ageBand={age ?? '8-10'} />
       </div>
     </div>
   )

@@ -1,3 +1,4 @@
+import { BEST_JOBS } from '@/lib/quests/best-jobs'
 import { NextRequest, NextResponse } from 'next/server'
 import { randomBytes } from 'crypto'
 import { createClient } from '@/lib/supabase/server'
@@ -343,11 +344,15 @@ export async function POST(req: NextRequest) {
         // job landed worth the default 2, while the same sheet added by a
         // parent was worth 5 (found 2 September 2026).
         const isSheetAsk = /^Finish the .+ sheet$/.test(request.title)
+        // A pitched idea from the ranked best jobs list (the child's Ask for
+        // a job tiles) is worth what that list says it is worth at their age,
+        // so a four star hour outside does not land as a two star job.
+        const catalogue = Object.values(BEST_JOBS).flat().find(j => j.title === request.title)
         const stars = swapOld
           ? Math.min(10, Math.max(1, Number(swapOld.stars) || 2))
           : isSheetAsk
             ? Math.min(10, Math.max(1, Number(body.stars) || 5))
-            : Math.min(10, Math.max(1, Number(body.stars) || 2))
+            : Math.min(10, Math.max(1, Number(body.stars) || catalogue?.stars || 2))
         const schedule = ['daily', 'weekdays', 'weekend', 'once'].includes(body.schedule) ? body.schedule : 'once'
         const { error: questError } = await supabase.from('family_quests').insert({
           user_id: user.id,
