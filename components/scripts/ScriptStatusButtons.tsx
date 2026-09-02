@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { currentChildId } from '@/lib/children/current'
 import { useRouter } from 'next/navigation'
+import { card, cardPad, band, chunky } from '@/components/scripts/card-system'
 
 // Did you use this, or does it not apply?
 //
@@ -61,11 +62,10 @@ export default function ScriptStatusButtons({
   const done = current !== 'opened'
 
   return (
-    <div style={{
-      background: 'var(--cream)', border: '1.5px solid var(--border)',
-      borderRadius: 16, padding: '14px 16px', marginTop: 18,
-    }}>
-      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 9 }}>
+    // Used it is a landed state, so it wears the green band the child's
+    // Printed! screen wears; the question and the set aside stay on a card.
+    <div style={{ ...(current === 'used' ? band('green') : { ...card, padding: cardPad }), marginTop: 18 }}>
+      <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: current === 'used' ? 'rgba(255,255,255,0.85)' : 'var(--ink-muted)', marginBottom: 9 }}>
         {current === 'used' ? 'You marked this used'
           : current === 'not_needed' ? 'Set aside for now'
           : 'Where are you with this one?'}
@@ -76,8 +76,8 @@ export default function ScriptStatusButtons({
           It will come back in a few months in case it fits better then. Nothing to do.
         </p>
       ) : current === 'used' ? (
-        <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 11px' }}>
-          Counted towards this stage of the passport.
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', color: '#fff', lineHeight: 1.15, margin: '0 0 12px' }}>
+          Nice one. Counted towards this stage of the passport.
         </p>
       ) : (
         <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 11px' }}>
@@ -91,12 +91,8 @@ export default function ScriptStatusButtons({
           onClick={() => set('used')}
           disabled={!!busy}
           style={{
-            flex: '1 1 150px', cursor: busy ? 'default' : 'pointer',
-            background: current === 'used' ? 'var(--tint-green)' : '#fff',
-            border: `1.5px solid ${current === 'used' ? 'var(--retro-green)' : 'var(--border)'}`,
-            borderRadius: 13, padding: '11px 14px',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            color: 'var(--ink)', opacity: busy === 'not_needed' ? 0.45 : 1,
+            ...chunky(current === 'used' ? 'white' : 'green'), flex: '1 1 150px',
+            cursor: busy ? 'default' : 'pointer', opacity: busy === 'not_needed' ? 0.45 : 1,
           }}
         >
           {busy === 'used' ? 'Saving...' : current === 'used' ? 'We used this ✓' : 'We used this'}
@@ -106,12 +102,8 @@ export default function ScriptStatusButtons({
           onClick={() => set('not_needed')}
           disabled={!!busy}
           style={{
-            flex: '1 1 150px', cursor: busy ? 'default' : 'pointer',
-            background: current === 'not_needed' ? 'var(--terracotta-lt)' : '#fff',
-            border: `1.5px solid ${current === 'not_needed' ? 'var(--terracotta)' : 'var(--border)'}`,
-            borderRadius: 13, padding: '11px 14px',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            color: 'var(--ink)', opacity: busy === 'used' ? 0.45 : 1,
+            ...chunky(current === 'not_needed' ? 'butter' : 'white'), flex: '1 1 150px',
+            cursor: busy ? 'default' : 'pointer', opacity: busy === 'used' ? 0.45 : 1,
           }}
         >
           {busy === 'not_needed' ? 'Saving...' : current === 'not_needed' ? 'Not needed ✓' : 'Not needed right now'}

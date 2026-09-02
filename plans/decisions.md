@@ -10017,3 +10017,20 @@ deal (minutes per star, the daily core, the bedtime, the protected windows)
 is written onto the Deal and the Bed sheets when the printer knows it, so
 the paper on the fridge never disagrees with the app. Every sheet is one
 side of A4 from a phone or a desktop, on the poster's millimetre paper.
+
+
+## 2 September 2026: the parent's scripts wear the child's finish, in parent tokens
+
+Justin, with the child's Printed! screen: "make sure the scripts and cards
+on parent screen have this finish you did on kids app, looks super good, but
+use our chosen colours. Looks great how it fills the screen." Decided: the
+finish travels, the decoration does not. Every card on the script pages now
+has a 2px ink edge and a hard ink ledge, the sheet a 2.5px edge and a butter
+band with an ink rule under it, buttons are butter or white with an ink edge
+and ledge in Nunito 900, and a landed state (read to the end, used it) is a
+full width retro green band with white words, the child's Printed! bar. No
+smiley dots or stickers on the parent side. It all lives in one place,
+components/scripts/card-system.ts, so the library, the category page, the
+detail page and the shared BrowseTile changed together. The old rule in
+HappyNewsBits ("none of this reaches the parent dashboard") now reads: the
+dots stay on the child's side, the finish is shared.

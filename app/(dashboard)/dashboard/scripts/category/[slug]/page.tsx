@@ -1,3 +1,4 @@
+import { chunky, INK_EDGE } from '@/components/scripts/card-system'
 import { createClient } from '@/lib/supabase/server'
 import { hasFullAccess } from '@/lib/access'
 import { redirect, notFound } from 'next/navigation'
@@ -120,10 +121,11 @@ export default async function CategoryPage({
             <div
               key={script.sort_order}
               style={{
-                background: isDone ? 'var(--stage-2)' : 'var(--cream)',
-                border: `1.5px solid ${isDone ? 'var(--stage-2)' : 'var(--border)'}`,
-                borderRadius: '16px',
-                padding: '18px 20px',
+                background: isDone ? 'var(--stage-2)' : '#fff',
+                border: INK_EDGE,
+                borderRadius: '20px',
+                padding: '20px 20px',
+                boxShadow: '0 4px 0 var(--ink)',
                 opacity: isLocked ? 0.7 : 1,
               }}
             >
@@ -158,18 +160,17 @@ export default async function CategoryPage({
                 )}
               </div>
 
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', color: 'var(--ink)', marginBottom: '6px' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', lineHeight: 1.12, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: '6px' }}>
                 {script.title}
               </div>
-              <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', fontStyle: 'italic', margin: '0 0 14px' }}>
+              <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.45, margin: '0 0 14px' }}>
                 {script.situation}
               </p>
 
               {isLocked ? (
                 <Link
                   href="/dashboard/upgrade"
-                  className="btn btn-gold"
-                  style={{ display: 'inline-flex', padding: '9px 18px', fontSize: 'var(--text-sm)' }}
+                  style={chunky('butter')}
                 >
                   Unlock
                 </Link>
@@ -177,25 +178,13 @@ export default async function CategoryPage({
                 <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                   <Link
                     href={`/dashboard/scripts/${script.sort_order}/deck`}
-                    className="btn btn-green"
-                    style={{ padding: '9px 18px', fontSize: 'var(--text-sm)' }}
+                    style={chunky('butter')}
                   >
                     {isDone ? 'Read again' : 'Start deck'}
                   </Link>
                   <Link
                     href={`/dashboard/digi?q=${encodeURIComponent(`Help me with: ${script.title}`)}`}
-                    style={{
-                      padding: '9px 18px',
-                      fontSize: 'var(--text-xs)',
-                      fontFamily: 'var(--font-mono)',
-                      letterSpacing: '0.05em',
-                      textTransform: 'uppercase',
-                      color: 'var(--terracotta)',
-                      background: 'var(--stage-5)',
-                      border: '1px solid var(--stage-5)',
-                      borderRadius: 'var(--radius-btn)',
-                      textDecoration: 'none',
-                    }}
+                    style={chunky('white')}
                   >
                     Ask DiGi
                   </Link>

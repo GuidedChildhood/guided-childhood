@@ -5,7 +5,7 @@ import { currentChildId } from '@/lib/children/current'
 import Link from 'next/link'
 import Image from 'next/image'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
-import { card, cardPad, eyebrow } from '@/components/scripts/card-system'
+import { card, cardPad, eyebrow, chunky } from '@/components/scripts/card-system'
 import { characterByKey } from '@/lib/content/stage-characters'
 import { ladderStep, STEP_NOTE, BOUNDARY_LINES, CLOSE_LINES, AFTER_THE_STANDOFF } from '@/lib/content/refusal-ladder'
 import { speakEnglish, warmVoices } from '@/lib/voice/english-voice'
@@ -268,7 +268,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
           Rehearse the words out loud in a safe place. DiGi plays {childLabel}, reacting the way a real
           child might, so the real conversation is not the first time you say it. Then DiGi coaches you on how it went.
         </p>
-        <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ marginTop: 16, display: 'inline-flex', padding: '11px 20px', fontSize: 'var(--text-base)' }}>
+        <Link href="/dashboard/upgrade" style={{ ...chunky('butter'), marginTop: 16 }}>
           Unlock rehearsals
         </Link>
       </div>
@@ -298,7 +298,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
           A safe run through before the real moment. DiGi plays {childLabel} and reacts the way a real
           child might, so you can find your footing, then coaches you on how it went.
         </p>
-        <button onClick={start} className="btn btn-gold" style={{ marginTop: 16, padding: '12px 22px', fontSize: 'var(--text-base)', cursor: 'pointer' }}>
+        <button onClick={start} style={{ ...chunky('butter'), marginTop: 16 }}>
           Start a practice run
         </button>
       </div>
@@ -541,7 +541,7 @@ export default function RehearseWithDigi({ sortOrder, scriptTitle, situation, sa
                 Write the rule down together →
               </Link>
             </div>
-            <button onClick={reset} disabled={busy} className="btn btn-green" style={{ width: '100%', padding: '12px', fontSize: 'var(--text-base)', cursor: 'pointer' }}>
+            <button onClick={reset} disabled={busy} style={{ ...chunky('butter'), width: '100%' }}>
               Practise it again
             </button>
           </>

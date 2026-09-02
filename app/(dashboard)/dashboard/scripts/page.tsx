@@ -1,3 +1,4 @@
+import { chunky, pill, INK_EDGE } from '@/components/scripts/card-system'
 import { createClient } from '@/lib/supabase/server'
 import { getChildren } from '@/lib/children/server'
 import { hasFullAccess } from '@/lib/access'
@@ -308,9 +309,9 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           it is the other half of the library. */}
       <Link
         href="/dashboard/tell-a-parent"
-        style={{ display: 'flex', alignItems: 'center', gap: '13px', textDecoration: 'none', background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: '16px', padding: '15px 17px', marginBottom: '20px' }}
+        style={{ display: 'flex', alignItems: 'center', gap: '13px', textDecoration: 'none', background: 'var(--tint-sage)', border: INK_EDGE, borderRadius: '18px', padding: '15px 17px', marginBottom: '20px', boxShadow: '0 4px 0 var(--ink)' }}
       >
-        <span aria-hidden style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>💬</span>
+        <span aria-hidden style={{ flexShrink: 0, width: 44, height: 44, borderRadius: '13px', background: '#fff', border: INK_EDGE, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>💬</span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
             When they come to you
@@ -330,7 +331,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           deck cards, so the words carry the same weight on screen as on paper. */}
       {topicScripts.length > 0 && (
         <section style={{ marginBottom: '24px' }}>
-          <div style={{ background: 'var(--terracotta)', borderRadius: '18px', padding: '16px 20px 14px', marginBottom: '12px', boxShadow: '0 4px 0 var(--terracotta-dark)' }}>
+          <div style={{ background: 'var(--terracotta)', border: '2.5px solid var(--ink)', borderRadius: '20px', padding: '16px 20px 14px', marginBottom: '14px', boxShadow: '0 5px 0 var(--ink)' }}>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--stage-1-text)', marginBottom: '4px' }}>
               {topicScripts.length} script{topicScripts.length > 1 ? 's' : ''} for this moment
             </div>
@@ -352,9 +353,9 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
                 <Link
                   key={script.id}
                   href={isLocked ? '/dashboard/upgrade' : withChild(`/dashboard/scripts/${script.sort_order}`)}
-                  style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '18px 18px', textDecoration: 'none', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', borderRadius: '18px' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '18px 18px', textDecoration: 'none', background: '#fff', border: INK_EDGE, borderRadius: '20px', boxShadow: '0 4px 0 var(--ink)' }}
                 >
-                  <span style={{ flexShrink: 0, width: 34, height: 34, borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--stage-1-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)' }}>
+                  <span style={{ flexShrink: 0, width: 36, height: 36, borderRadius: '50%', background: 'var(--terracotta)', color: 'var(--ink)', border: INK_EDGE, boxSizing: 'border-box', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)' }}>
                     {i + 1}
                   </span>
                   <span style={{ flex: 1, minWidth: 0 }}>
@@ -374,21 +375,21 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           href={withChild(`/dashboard/scripts/${recommended.sort_order}`)}
           style={{ textDecoration: 'none', display: 'block', marginBottom: '20px' }}
         >
-          <div style={{ background: 'var(--terracotta)', borderRadius: '16px', padding: '18px 20px', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.85)', marginBottom: '6px' }}>
+          <div style={{ background: 'var(--terracotta)', border: '2.5px solid var(--ink)', borderRadius: '22px', padding: '20px 20px 18px', boxShadow: '0 5px 0 var(--ink)' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--ink)', opacity: 0.7, marginBottom: '6px' }}>
               Recommended next
             </div>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-lg)', color: '#fff', marginBottom: '4px' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.45rem, 6vw, 1.9rem)', lineHeight: 1.1, letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: '8px' }}>
               {recommended.title}
             </div>
-            <div style={{ fontSize: 'var(--text-base)', color: 'rgba(255,255,255,0.8)', fontStyle: 'italic' }}>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', lineHeight: 1.4, color: 'var(--ink)', opacity: 0.85 }}>
               {recommended.situation}
             </div>
             {/* Why this one, in a line a parent can check against their own
                 week. A recommendation that cannot say why it is here is
                 indistinguishable from the next row down. */}
             {recommended.reason && (
-              <div style={{ fontSize: 'var(--text-sm)', color: 'rgba(255,255,255,0.92)', fontWeight: 700, marginTop: '9px' }}>
+              <div style={{ display: 'inline-block', marginTop: '12px', background: '#fff', border: INK_EDGE, borderRadius: 100, padding: '6px 12px', fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', color: 'var(--ink)', fontWeight: 800 }}>
                 {recommended.reason}
               </div>
             )}
@@ -414,9 +415,9 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
                 <Link
                   key={pick.sort_order}
                   href={isLocked ? '/dashboard/upgrade' : withChild(`/dashboard/scripts/${pick.sort_order}`)}
-                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '15px 16px', textDecoration: 'none', background: '#fff', border: '1.5px solid var(--border)', borderRadius: '16px' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '15px 16px', textDecoration: 'none', background: '#fff', border: INK_EDGE, borderRadius: '18px', boxShadow: '0 4px 0 var(--ink)' }}
                 >
-                  <span aria-hidden style={{ flexShrink: 0, width: 30, height: 30, borderRadius: '50%', background: 'var(--terracotta-lt)', border: '1.5px solid var(--terracotta)', color: 'var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)' }}>
+                  <span aria-hidden style={{ flexShrink: 0, width: 32, height: 32, borderRadius: '50%', background: 'var(--terracotta)', border: INK_EDGE, boxSizing: 'border-box', color: 'var(--ink)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)' }}>
                     {i + 2}
                   </span>
                   <span style={{ flex: 1, minWidth: 0 }}>
@@ -445,7 +446,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           membership, and saying so is the difference between a parent who
           upgrades later and one who stops opening the app. */}
       {!isPaid && (
-        <div style={{ background: 'var(--stage-5)', border: '2px solid var(--stage-5)', borderRadius: '16px', padding: '16px 20px', marginBottom: '24px' }}>
+        <div style={{ background: 'var(--stage-5)', border: INK_EDGE, borderRadius: '20px', padding: '16px 20px', marginBottom: '24px', boxShadow: '0 4px 0 var(--ink)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px', flexWrap: 'wrap', marginBottom: '10px' }}>
             <div>
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--terracotta)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Your free days are up</span>
@@ -453,7 +454,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
                 Every script is part of the membership now. All {scripts.length} of them, the exact words for the conversations that are coming, and DiGi whenever you want them rewritten for your own child.
               </p>
             </div>
-            <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ flexShrink: 0, padding: '10px 20px', fontSize: 'var(--text-base)' }}>
+            <Link href="/dashboard/upgrade" style={{ ...chunky('butter'), flexShrink: 0 }}>
               Unlock all
             </Link>
           </div>
@@ -492,15 +493,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
               key={c.key ?? 'all'}
               href={withChild(c.key ? `/dashboard/scripts?cat=${c.key}` : '/dashboard/scripts')}
               scroll={false}
-              style={{
-                flexShrink: 0, textDecoration: 'none', borderRadius: 100,
-                padding: '9px 15px', whiteSpace: 'nowrap',
-                background: on ? 'var(--terracotta)' : '#fff',
-                border: `1.5px solid ${on ? 'var(--terracotta-dark)' : 'var(--border)'}`,
-                boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
-                fontFamily: 'var(--font-display)', fontWeight: on ? 800 : 700,
-                fontSize: 'var(--text-base)', color: 'var(--ink)',
-              }}
+              style={{ ...pill(on), flexShrink: 0 }}
             >
               {c.label}
               <span style={{
@@ -528,7 +521,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           it was never said out loud anywhere, so the only way to learn it was to
           read a script, go back, and find nothing had moved. */}
       {askedStage && (
-        <div style={{ background: 'var(--tint-sage)', border: '1.5px solid var(--border)', borderRadius: 16, padding: '14px 16px', marginBottom: 18 }}>
+        <div style={{ background: 'var(--tint-sage)', border: INK_EDGE, borderRadius: 18, padding: '14px 16px', marginBottom: 18, boxShadow: '0 4px 0 var(--ink)' }}>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', margin: '0 0 4px' }}>
             {STAGE_META[askedStage].label}, {STAGE_META[askedStage].ages.toLowerCase()}
           </p>
@@ -616,8 +609,8 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
         ) : (
           <details key={group.stageId} style={{ marginBottom: '14px' }}>
             <summary style={{
-              cursor: 'pointer', listStyle: 'none', padding: '11px 14px',
-              background: '#fff', border: '1.5px solid var(--border)', borderRadius: 14,
+              cursor: 'pointer', listStyle: 'none', padding: '12px 14px',
+              background: '#fff', border: INK_EDGE, borderRadius: 16, boxShadow: '0 4px 0 var(--ink)',
             }}>
               {header}
             </summary>
@@ -628,8 +621,8 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
 
       {!isPaid && (
         <div style={{
-          background: 'var(--cream)', border: '2px dashed var(--border)',
-          borderRadius: '16px', padding: '24px 20px', textAlign: 'center',
+          background: '#fff', border: '2px dashed var(--ink)',
+          borderRadius: '20px', padding: '24px 20px', textAlign: 'center',
         }}>
           <div style={{ fontSize: 'var(--text-xl)', marginBottom: '12px' }}>🔒</div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', marginBottom: '8px' }}>
@@ -638,7 +631,7 @@ export default async function ScriptsPage({ searchParams }: { searchParams: Prom
           <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: '16px' }}>
             Every stage from 4 to 16. Gaming, safety, social media, AI, body image, sleep, and the hard moments in between.
           </p>
-          <Link href="/dashboard/upgrade" className="btn btn-gold" style={{ display: 'inline-flex' }}>
+          <Link href="/dashboard/upgrade" style={chunky('butter', 'lg')}>
             Unlock all scripts
           </Link>
         </div>

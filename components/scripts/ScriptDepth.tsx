@@ -1,9 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import {
-  card, cardPad, eyebrow, sheet, dottedRule, sheetBody, stageAccent, stageCircle,
-} from '@/components/scripts/card-system'
+import { card, cardPad, eyebrow, sheet, dottedRule, sheetBody, stageAccent, stageCircle, chunky } from '@/components/scripts/card-system'
 
 // The deeper half of every script: what to say when the child pushes
 // back, how to check back later in the week, and a short note written
@@ -178,32 +176,26 @@ export default function ScriptDepth({ sortOrder, initial, childName, childPhone,
               number needed. The read together and copy paths stay for the
               young ages and the no app families. */}
           {childHasApp && !isYoung && childId && (
-            <button onClick={sendToApp} disabled={sending} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: sending ? 'wait' : 'pointer' }}>
+            <button onClick={sendToApp} disabled={sending} style={{ ...chunky('butter'), cursor: sending ? 'wait' : 'pointer' }}>
               {sending ? 'Sending…' : `💛 Send to ${childName ?? 'their'}'s app`}
             </button>
           )}
           {smsHref && (
-            <a href={smsHref} className={childHasApp && !isYoung ? '' : 'btn btn-gold'} style={{
-              padding: '10px 18px', fontSize: 'var(--text-base)', textDecoration: 'none',
-              ...(childHasApp && !isYoung ? { background: 'var(--white)', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: '16px', fontFamily: 'var(--font-display)', fontWeight: 700, boxShadow: '0 3px 0 var(--border)' } : {}),
+            <a href={smsHref} style={{
+              ...(childHasApp && !isYoung ? {} : chunky('butter')),
+              ...(childHasApp && !isYoung ? chunky('white') : {}),
             }}>
               Text it instead
             </a>
           )}
           {!(childHasApp && !isYoung) && (
-            <button onClick={share} className="btn btn-gold" style={{ padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer' }}>
+            <button onClick={share} style={chunky('butter')}>
               {smsHref ? 'Share another way' : `Share it with ${childName ?? 'your child'}`}
             </button>
           )}
           <button
             onClick={copy}
-            style={{
-              padding: '10px 18px', fontSize: 'var(--text-base)', cursor: 'pointer',
-              background: 'var(--white)', color: 'var(--ink)',
-              border: '1.5px solid var(--border)', borderRadius: '16px',
-              fontFamily: 'var(--font-display)', fontWeight: 700,
-              boxShadow: '0 3px 0 var(--border)',
-            }}
+            style={chunky('white')}
           >
             {copied ? 'Copied ✓' : 'Copy the note'}
           </button>
