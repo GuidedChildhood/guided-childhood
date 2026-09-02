@@ -10139,3 +10139,13 @@ migration 252 drops its tables and creates planet_homes and planet_events.
 The garden code is removed; the design document is rewritten as
 plans/planet-friends-architecture.md. The My planet tile sits after the
 games on the Games tab, so the games stay first.
+## 2 September 2026: child home tiles wear the happy news finish, Games on the front
+
+Justin, with the child's home grid: make it Apple level with happy news
+style icons, without changing anything underneath, and where do games
+appear? The grid moved into `components/kid/KidHomeTiles.tsx` (Duolingo
+Math Games shape from Mobbin: one big drawn icon centred, the label under),
+in the same ink edge, hard ledge and crayon colours as the printables. What
+each tap does stays in KidQuestScreen and is handed in. Games were only a
+sub tab of Lessons; a Games tile now sits on the home grid when the stage
+has any, opening that sub tab. Fixture: /dev/kid-home.
