@@ -5,6 +5,17 @@ import { STEPS, type StepKey } from '@/lib/kid/five-a-day'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 import KidStepSheet from '@/components/kid/KidStepSheet'
+import { Ribbon } from '@/components/kid/HappyNewsBits'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
+import { CRAYON } from '@/components/printables/drawn/HappyPaper'
+
+// Each step's drawn icon (the Happy Newspaper pass). Steps without one keep
+// their emoji.
+const STEP_ICON: Partial<Record<StepKey, HappyIconName>> = {
+  jobs: 'jobs', lesson: 'lessons', quiz: 'quiz', balance: 'balance', ask: 'ask', reading: 'read',
+  homework: 'homework', printable: 'print', move: 'move', maths: 'maths', tidy: 'tidy', make: 'make',
+  kind: 'kind', talk: 'tell', grownup_break: 'phonebed',
+}
 import { KID_DAY_EVENT, type PrintableTick } from '@/lib/kid/print-anywhere'
 
 // The five a day card: the whole of a child's day, one step at a time.
@@ -305,13 +316,15 @@ export default function KidFiveADay({
 
   return (
     <div style={{
-      background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '22px',
-      padding: '16px 16px 12px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: '22px',
+      padding: '16px 16px 12px', marginBottom: '16px', boxShadow: '0 4px 0 var(--ink)',
     }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: 0, lineHeight: 1.15 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
+        {/* The one ribbon heading on the screen (the Happy Newspaper pass):
+            the five a day is the heading that matters, so it gets the banner. */}
+        <Ribbon tone={state.complete ? 'green' : 'butter'}>
           {state.complete ? 'Today is done! 🎉' : 'Your five for today'}
-        </p>
+        </Ribbon>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
           {doneCount} of {total}
         </span>
@@ -336,10 +349,10 @@ export default function KidFiveADay({
               padding: '6px 10px', opacity: 0.68,
             }}>
               <span style={{
-                width: 24, height: 24, borderRadius: '50%', flexShrink: 0,
+                width: 26, height: 26, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 'var(--text-sm)', lineHeight: 1,
-                background: 'var(--tint-sage)', border: '1.5px solid #2F8F6B',
+                fontSize: 'var(--text-sm)', fontWeight: 900, lineHeight: 1, color: '#fff',
+                background: 'var(--retro-green)', border: '2px solid var(--ink)',
               }}>
                 ✓
               </span>
@@ -378,13 +391,13 @@ export default function KidFiveADay({
           const inner = (
             <>
               <span style={{
-                width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
+                width: 48, height: 48, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 'var(--text-lg)', lineHeight: 1,
-                background: isDone ? 'var(--tint-sage)' : 'var(--cream)',
-                border: isDone ? '1.5px solid #2F8F6B' : '1.5px solid rgba(26,26,46,0.1)',
+                background: isDone ? 'var(--retro-green)' : CRAYON.paper,
+                border: '2px solid var(--ink)',
               }}>
-                {isDone ? '✓' : def.emoji}
+                {isDone ? '✓' : STEP_ICON[key] ? <HappyIcon name={STEP_ICON[key]!} size={32} /> : def.emoji}
               </span>
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{
@@ -439,10 +452,10 @@ export default function KidFiveADay({
           const rowStyle: React.CSSProperties = {
             display: 'flex', alignItems: 'center', gap: '11px', width: '100%',
             textAlign: 'left', cursor: 'pointer',
-            background: 'var(--cream)',
-            border: `2px solid ${t.hex}`,
-            borderRadius: '16px', padding: '14px 13px',
-            boxShadow: `0 4px 0 ${t.hexDark}`,
+            background: '#fff',
+            border: '2px solid var(--ink)',
+            borderRadius: '16px', padding: '12px 13px',
+            boxShadow: '0 4px 0 var(--ink)',
             textDecoration: 'none',
           }
 
@@ -489,9 +502,8 @@ export default function KidFiveADay({
             promise rather than a mystery. */}
         {total - doneCount > 1 && (
           <p style={{
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700,
-            letterSpacing: '0.06em', color: 'var(--ink-muted)',
-            margin: '2px 2px 0', textAlign: 'center',
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 700,
+            color: 'var(--ink-muted)', margin: '4px 2px 0', textAlign: 'center',
           }}>
             {total - doneCount - 1} more to come. The next appears when this one is done.
           </p>

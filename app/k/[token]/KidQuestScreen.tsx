@@ -32,6 +32,8 @@ import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
+import KidTabBar from '@/components/kid/KidTabBar'
+import HappyIcon from '@/components/kid/HappyIcon'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
@@ -2111,49 +2113,11 @@ export default function KidQuestScreen({
             shadow instead of a cream strip that melted into the page, the
             labels a size up in full ink, the icons bigger, the tap targets
             taller. Same three tabs, same sticky behaviour. */}
-        <div
-          id="kid-tabs"
-          style={{
-            position: 'sticky', top: 0, zIndex: 30,
-            display: 'flex', gap: '4px', background: '#fff',
-            border: '2px solid rgba(26,26,46,0.16)', borderRadius: '18px',
-            padding: '5px', marginBottom: '16px', scrollMarginTop: '12px',
-            boxShadow: '0 5px 0 rgba(26,26,46,0.12), 0 10px 24px rgba(26,26,46,0.16)',
-          }}
-        >
-          {([['quests', 'Quests', 'star', 0], ['lessons', 'Lessons', 'lessons', totalNewLessons], ['print', 'Printables', 'printables', newPrint]] as const).map(([key, label, icon, dot]) => {
-            const on = tab === key
-            return (
-              <button
-                key={key}
-                onClick={() => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
-                style={{
-                  position: 'relative',
-                  flex: 1, padding: '12px 4px', borderRadius: '14px', cursor: 'pointer', border: 'none',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                  background: on ? 'var(--terracotta)' : 'transparent',
-                  color: 'var(--ink)',
-                  boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
-                  transition: 'background 0.15s',
-                }}
-              >
-                <KidIcon name={icon as KidIconName} size={24} color={on ? 'var(--ink)' : 'var(--ink-soft)'} />
-                {label}
-                {dot > 0 && (
-                  <span style={{
-                    position: 'absolute', top: '-5px', right: '-2px', minWidth: 20, height: 20, padding: '0 5px',
-                    borderRadius: '100px', background: '#E5484D', color: '#fff',
-                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, lineHeight: '20px',
-                    textAlign: 'center', boxShadow: '0 0 0 2px var(--cream)',
-                  }}>
-                    {dot > 9 ? '9+' : dot}
-                  </span>
-                )}
-              </button>
-            )
-          })}
-        </div>
+        <KidTabBar
+          current={tab}
+          badges={{ lessons: totalNewLessons, print: newPrint }}
+          onSelect={key => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
+        />
 
         {tab === 'quests' && (<>
         {/* The balance insight surface: a bigger, brighter, character led card
@@ -3079,12 +3043,15 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
       <a
         href={`/k/${token}/week`}
         style={{
-          display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
-          background: '#fff', border: '2px solid var(--border)', borderRadius: 18,
-          boxShadow: '0 4px 0 var(--border)', padding: '12px 14px', marginBottom: 16,
+          display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none',
+          background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
+          boxShadow: '0 4px 0 var(--ink)', padding: '10px 14px 10px 10px', marginBottom: 16,
         }}
       >
-        <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>🗓️</span>
+        {/* The drawn calendar in a crayon well (the Happy Newspaper pass). */}
+        <span aria-hidden style={{ width: 48, height: 48, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: CRAYON.paper, border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          <HappyIcon name="calendar" size={32} />
+        </span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
             My calendar
@@ -3093,7 +3060,7 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
             {weekCount === 0 ? 'Nothing on it yet. Add PE kit, clubs and homework' : 'Nothing due today. See the week, add your own'}
           </span>
         </span>
-        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)' }}>→</span>
+        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>›</span>
       </a>
     )
   }
@@ -3135,16 +3102,17 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
   return (
     <div style={{
       background: '#fff', borderRadius: '18px', padding: '14px 16px', marginBottom: '16px',
-      border: anyUrgent ? '2.5px solid #E5484D' : '2px solid var(--terracotta)',
-      boxShadow: anyUrgent ? '0 5px 0 rgba(185,59,63,0.55)' : '0 5px 0 var(--terracotta-dark)',
+      border: anyUrgent ? '2.5px solid #E5484D' : '2px solid var(--ink)',
+      boxShadow: anyUrgent ? '0 4px 0 #B93B3F' : '0 4px 0 var(--ink)',
       animation: anyUrgent ? 'gcKidSchoolPulse 1.3s ease-in-out infinite' : undefined,
     }}>
       <style>{`@keyframes gcKidSchoolPulse { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }`}</style>
 
       {todayItems.length > 0 && (
         <>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: anyUrgent ? '#B93B3F' : 'var(--terracotta-dark)', marginBottom: '9px' }}>
-            {anyUrgent ? '🔴 Don’t forget, it is nearly time' : '🗓️ To remember today'}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, color: anyUrgent ? '#B93B3F' : 'var(--ink)', marginBottom: '9px' }}>
+            <HappyIcon name="calendar" size={26} />
+            {anyUrgent ? 'Don’t forget, it is nearly time' : 'To remember today'}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {todayItems.map(i => row(i, urgentOf(i.time)))}
@@ -3154,8 +3122,9 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
 
       {tomorrowItems.length > 0 && (
         <div style={{ marginTop: todayItems.length > 0 ? '12px' : 0, paddingTop: todayItems.length > 0 ? '12px' : 0, borderTop: todayItems.length > 0 ? '1px solid var(--border)' : 'none' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '9px' }}>
-            🎒 Tomorrow, get it ready tonight
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, color: 'var(--ink)', marginBottom: '9px' }}>
+            <HappyIcon name="bag" size={26} />
+            Tomorrow, get it ready tonight
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {tomorrowItems.map(i => row(i, false))}

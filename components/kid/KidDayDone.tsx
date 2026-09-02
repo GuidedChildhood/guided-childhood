@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useMemo, useRef } from 'react'
+import { Plate } from '@/components/kid/HappyNewsBits'
+import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 import { gsap } from 'gsap'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { buddyFor } from '@/lib/kid/buddy'
@@ -196,9 +198,13 @@ export default function KidDayDone({
           }} />
         </div>
 
-        <div className="gc-dd-friend" style={{ width: 168, height: 168, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={friend.img} alt={friend.name} width={160} height={160} style={{ width: 160, height: 160, objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 10px 18px rgba(26,26,46,0.18))' }} />
+        <div className="gc-dd-friend" style={{ width: 200, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* The friend on a circle plate: the picture book page, from the
+              Happy Newspaper pass (design-refs/happy-newspaper-notes.md). */}
+          <Plate size={196} tint={CRAYON.sky}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={friend.img} alt={friend.name} width={150} height={150} style={{ width: 150, height: 150, objectFit: 'contain', display: 'block', filter: 'drop-shadow(0 10px 18px rgba(26,26,46,0.18))' }} />
+          </Plate>
         </div>
 
         <div className="gc-dd-rise" style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--terracotta-dark)' }}>

@@ -8,6 +8,7 @@
 // nothing.
 
 import { rungLength, streaksBankedTowardNext, streaksToNextFriend, nextFriendToEarn } from '@/lib/pathway/streak-unlock'
+import HappyIcon from '@/components/kid/HappyIcon'
 
 export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { completedStreaks?: number; earnedStages?: number }) {
   const banked = streaksBankedTowardNext(completedStreaks)
@@ -24,15 +25,18 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
   // to say the number and the next prize.
   return (
     <div style={{
-      background: 'var(--terracotta-lt)', border: '1.5px solid #F1E4BE', borderRadius: 14,
-      padding: '8px 12px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 10,
+      background: '#fff', border: '2px solid var(--ink)', borderRadius: 16,
+      padding: '7px 12px 7px 8px', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8,
+      boxShadow: '0 4px 0 var(--ink)',
     }}>
-      <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--terracotta-dark)', flexShrink: 0 }}>
-        🔥 {completedStreaks}
+      {/* The flame, drawn (the Happy Newspaper pass), and the count beside it. */}
+      <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, flexShrink: 0 }}>
+        <HappyIcon name="flame" size={26} />
+        <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, color: 'var(--ink)' }}>{completedStreaks}</span>
       </span>
 
       {done ? (
-        <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.3 }}>
+        <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
           The whole family is home. Superstar.
         </span>
       ) : (
@@ -43,13 +47,14 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
           <span style={{ flex: 1, minWidth: 0, display: 'flex', gap: 4, alignItems: 'center' }}>
             {Array.from({ length: rungLength(completedStreaks) }).map((_, i) => (
               <span key={i} style={{
-                flex: 1, height: 7, borderRadius: 100, maxWidth: 26,
-                background: i < banked ? 'var(--terracotta)' : 'rgba(201,154,40,0.22)',
+                flex: 1, height: 10, borderRadius: 100, maxWidth: 26, boxSizing: 'border-box',
+                background: i < banked ? 'var(--terracotta)' : '#fff',
+                border: '2px solid var(--ink)',
                 transition: 'background 0.3s ease',
               }} />
             ))}
           </span>
-          <span style={{ flexShrink: 0, fontFamily: 'var(--font-body)', fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)', lineHeight: 1.3 }}>
+          <span style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>
             {toNext === 1 ? <><b>1</b> more for <b>{next!.name}</b>!</> : <><b>{toNext}</b> more for <b>{next!.name}</b></>}
           </span>
         </>
@@ -57,7 +62,9 @@ export default function StreakBar({ completedStreaks = 0, earnedStages = 0 }: { 
 
       {next && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={next.cutout} alt={next.name} width={34} height={34} style={{ objectFit: 'contain', flexShrink: 0, filter: 'grayscale(0.7) opacity(0.55) drop-shadow(0 3px 4px rgba(26,26,46,0.14))' }} />
+        <span style={{ width: 38, height: 38, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: '#FEF7E0', border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+          <img src={next.cutout} alt={next.name} width={30} height={30} style={{ objectFit: 'contain', filter: 'grayscale(0.6) opacity(0.7)' }} />
+        </span>
       )}
     </div>
   )

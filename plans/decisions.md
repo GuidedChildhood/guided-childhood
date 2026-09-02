@@ -10125,3 +10125,16 @@ in the same ink edge, hard ledge and crayon colours as the printables. What
 each tap does stays in KidQuestScreen and is handed in. Games were only a
 sub tab of Lessons; a Games tile now sits on the home grid when the stage
 has any, opening that sub tab. Fixture: /dev/kid-home.
+
+## 2 September 2026: the Happy News pass, all six, through the existing letterbox
+
+Justin, after the teardown (design-refs/happy-newspaper-notes.md): "go for
+your pick", then "do all, finish with your view on best option". Built:
+circle plates behind the hero friends (day done, squad intro, arrival),
+story icons on the home tiles, the child tab bar on a butter surface
+(KidTabBar), one ribbon heading on the five a day, and the schools free
+class pack draw at schools /draw. The draw writes to
+schools.invoice_requests with band "draw" and PO "DRAW", so the hourly cron
+emails Justin every entry and no migration was needed. The one not built is
+the product in a hand photo on printable listings: it needs real photographs
+from Justin, and a render in a fake hand would break the evidence rule.

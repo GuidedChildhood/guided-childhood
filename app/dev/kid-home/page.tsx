@@ -2,6 +2,10 @@
 
 import { notFound } from 'next/navigation'
 import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
+import KidTabBar from '@/components/kid/KidTabBar'
+import { Ribbon } from '@/components/kid/HappyNewsBits'
+import KidAskBanner from '@/components/kid/KidAskBanner'
+import StreakBar from '@/components/kid/StreakBar'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 import { TIMER_RULE } from '@/lib/quests/device-time'
 
@@ -25,6 +29,11 @@ export default function KidHomeFixture() {
   return (
     <div style={{ minHeight: '100dvh', background: '#3B3F47', padding: '16px 16px 40px' }}>
       <div style={{ maxWidth: 460, margin: '0 auto' }}>
+        <KidTabBar current="quests" onSelect={noop} badges={{ lessons: 2, print: 0 }} />
+        <KidAskBanner ask={{ id: 'a', device: 'tv', minutes: 10, status: 'pending' }} blockingJobs={[]} nudges={[{ id: 'n', message: 'Nearly there. One more job and the TV is yours.' }]} hasSession={false} startBusy={false} onStart={noop} onDismissDeclined={noop} onDismissNudge={noop} />
+        <KidAskBanner ask={{ id: 'b', device: 'tv', minutes: 30, status: 'approved' }} blockingJobs={[]} outstandingJobs={['Tidy my room']} nudges={[]} hasSession={false} startBusy={false} onStart={noop} onDismissDeclined={noop} onDismissNudge={noop} />
+        <StreakBar completedStreaks={1} earnedStages={0} />
+        <div style={{ background: '#fff', borderRadius: 22, padding: '16px', marginBottom: 16, display: 'flex', gap: 12, alignItems: 'center' }}><Ribbon>Your five for today</Ribbon><Ribbon tone="green">Today is done! 🎉</Ribbon></div>
         <KidHomeTiles minutesReady={0} unlocked={false} rule={TIMER_RULE} onUseTime={noop} tiles={tiles} onFriends={noop} tellHref="#" />
         <div style={{ height: 24 }} />
         <KidHomeTiles minutesReady={30} unlocked rule={TIMER_RULE} onUseTime={noop} tiles={tiles.slice(0, 4)} onFriends={noop} tellHref={null} />
