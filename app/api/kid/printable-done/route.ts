@@ -76,7 +76,10 @@ export async function POST(req: NextRequest) {
   } catch { /* pre 089, nothing to clear */ }
 
   // The grown up is asked to confirm, best effort push. Their phone opens the
-  // quests board where the confirm control lives.
+  // quests board AT the confirm card. It used to open Manage jobs, which has
+  // no printable on it at all (found on 2 September 2026 tracing Justin's
+  // "is it one click for the parent" question), so the parent was landed on
+  // the wrong page by the very notification that promised the button.
   try {
     const { data: child } = await supabase.from('children').select('name').eq('id', link.child_id).maybeSingle()
     const name = child?.name && child.name !== 'Your child' ? child.name : 'Your child'
@@ -84,7 +87,7 @@ export async function POST(req: NextRequest) {
         userId: link.user_id,
         title: `${name} finished a printable 🖍️`,
         body: `${printable.emoji} ${printable.title}. Have a look and confirm it to land their ${printable.stars} stars.`,
-        url: '/dashboard/quests/manage',
+        url: '/dashboard/quests#printables-to-confirm',
       })
   } catch { /* best effort */ }
 

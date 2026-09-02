@@ -336,9 +336,18 @@ export async function POST(req: NextRequest) {
         // whatever default the deciding surface happened to send, because a
         // trade that quietly changed the price is not the trade the child
         // proposed or the parent read.
+        // A sheet the child built and asked to make a job (the bucket list's
+        // "Make it a job ⭐ 5") is worth the five stars the button promised.
+        // quest_requests carries no stars column, so the ask arrives as its
+        // title, and the deciding surface sends none either; without this the
+        // job landed worth the default 2, while the same sheet added by a
+        // parent was worth 5 (found 2 September 2026).
+        const isSheetAsk = /^Finish the .+ sheet$/.test(request.title)
         const stars = swapOld
           ? Math.min(10, Math.max(1, Number(swapOld.stars) || 2))
-          : Math.min(10, Math.max(1, Number(body.stars) || 2))
+          : isSheetAsk
+            ? Math.min(10, Math.max(1, Number(body.stars) || 5))
+            : Math.min(10, Math.max(1, Number(body.stars) || 2))
         const schedule = ['daily', 'weekdays', 'weekend', 'once'].includes(body.schedule) ? body.schedule : 'once'
         const { error: questError } = await supabase.from('family_quests').insert({
           user_id: user.id,

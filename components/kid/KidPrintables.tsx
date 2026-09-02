@@ -100,15 +100,38 @@ export default function KidPrintables({
   // The real state of every sheet, from the completions table rather than
   // from the ask list, so a sheet a child finished last week reads as done
   // whichever phone they open.
+  //
+  // And kept live: once on open, again whenever the app comes back to the
+  // front, and every fifteen seconds while any sheet is waiting on a grown
+  // up, so "Sent, stars on the way" turns into "Done, stars in your bank"
+  // on the tab the child is actually looking at, without a reload. The
+  // confirmed answer wins over the local guess; a pending one never
+  // overwrites a confirm the child already saw.
+  const waiting = Object.values(statuses).some(s => s === 'pending')
   useEffect(() => {
     if (!fetchStatuses) return
     let alive = true
-    fetch(`/api/kid/printable-status?token=${encodeURIComponent(token)}`)
-      .then(r => r.ok ? r.json() : null)
-      .then(d => { if (alive && d?.statuses) setStatuses(s => ({ ...d.statuses, ...s })) })
-      .catch(() => { /* the grid still shows */ })
-    return () => { alive = false }
-  }, [token, fetchStatuses])
+    const load = () => {
+      fetch(`/api/kid/printable-status?token=${encodeURIComponent(token)}`)
+        .then(r => r.ok ? r.json() : null)
+        .then(d => {
+          if (!alive || !d?.statuses) return
+          setStatuses(s => {
+            const next = { ...s }
+            for (const [k, v] of Object.entries(d.statuses as Record<string, string>)) {
+              if (v === 'confirmed' || !next[k]) next[k] = v
+            }
+            return next
+          })
+        })
+        .catch(() => { /* the grid still shows */ })
+    }
+    load()
+    const onVis = () => { if (!document.hidden) load() }
+    document.addEventListener('visibilitychange', onVis)
+    const id = waiting ? setInterval(load, 15000) : null
+    return () => { alive = false; document.removeEventListener('visibilitychange', onVis); if (id) clearInterval(id) }
+  }, [token, fetchStatuses, waiting])
 
   const askFor = (p: Printable) => asks.find(a => a.title === `Please can I do the ${p.title} printable`)
   const openFor = (p: Printable) => printablesUnlocked || !!p.free || askFor(p)?.status === 'added'

@@ -145,6 +145,9 @@ const TILES: Tile[] = [
     href: '/dashboard/printables', label: 'Printables', sub: 'Every other sheet',
     icon: 'printables', bg: 'var(--tint-blue)', iconBg: 'rgba(255,255,255,0.72)', iconColor: '#2E6F8E',
     badge: s => s.printablesToConfirm > 0 ? `${s.printablesToConfirm} waiting` : null,
+    // The badge counts finished sheets waiting for a confirm, and the confirm
+    // card lives on the quests board, not the printables page.
+    hrefWithBadge: '/dashboard/quests#printables-to-confirm',
   },
   {
     href: '/dashboard/quests/play', label: 'Learning games', sub: 'Play and earn stars',
