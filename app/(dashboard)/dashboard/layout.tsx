@@ -13,6 +13,7 @@ import BackToToday from '@/components/home/BackToToday'
 import ChildRail from '@/components/children/ChildRail'
 import { checkedInToday } from '@/lib/checkin/done-today'
 import { Suspense } from 'react'
+import AskPopup from '@/components/quests/AskPopup'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -235,6 +236,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
             there anyway. */}
         <Suspense fallback={null}><ChildRailWithTicks kids={kids} userId={user?.id ?? null} /></Suspense>
         {children}
+        {/* A child's screen time ask, popped up wherever the parent is. */}
+        <AskPopup />
       </main>
 
       {/* Install prompt: Android gets the real install event, iPhone gets

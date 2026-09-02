@@ -85,6 +85,29 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  // THE YES ALREADY PAID. Since 2 September 2026 the parent's yes charges the
+  // bank at approval (see /api/quests/time/request), so a start from that ask
+  // reuses the charge rather than spending twice. The charge is a star_spends
+  // row whose note names the ask; the holiday and core parts ride in the note
+  // so the session row can carry them for the refund on an early stop.
+  let preCharge: { spendId: string | null; stars: number; holidayMinutes: number; coreMinutes: number } | null = null
+  if (approvedAsk) {
+    const { data: paid } = await supabase
+      .from('star_spends').select('id, stars, note')
+      .eq('child_id', link.child_id).like('note', `Device time ask ${approvedAsk.id}%`)
+      .order('created_at', { ascending: false }).limit(1).maybeSingle()
+    const note = (paid as { note?: string } | null)?.note ?? ''
+    const m = /\[(\d+)h (\d+)c\]/.exec(note)
+    if (paid) {
+      preCharge = {
+        spendId: (paid as { id?: string } | null)?.id ?? null,
+        stars: Number((paid as { stars?: number } | null)?.stars) || 0,
+        holidayMinutes: m ? Number(m[1]) : 0,
+        coreMinutes: m ? Number(m[2]) : 0,
+      }
+    }
+  }
+
   const device = approvedAsk ? approvedAsk.device : rawDevice
   if (!isDeviceKey(device)) {
     return NextResponse.json({ error: 'bad device' }, { status: 400 })
@@ -257,20 +280,23 @@ export async function POST(req: NextRequest) {
   // bank. Core costs nothing, it is the unconditional part of the day.
   const [holidayBank] = await getHolidayBanks(supabase, link.user_id, [link.child_id], new Date(), region)
   const plan = planTieredSpend(mins, coreLeftToday, bank?.balance ?? 0, holidayBank?.remaining ?? 0, holidayBank?.spendableNow ?? false, childRate)
-  if (!bank || !plan.enough) {
-    return NextResponse.json({
-      error: 'not enough stars',
-      balance: bank?.balance ?? 0,
-      holidayMinutes: plan.holidayMinutes,
-    }, { status: 400 })
-  }
+  // NEVER A REFUSAL HERE. Justin, 2 September 2026: a child "can still
+  // request if no time". A start the bank cannot pay for is not a no, it is
+  // an ask: the grown up sees what it costs and what the child has, and
+  // their yes covers the rest. The refusal used to sit above the ask branch,
+  // so a child with no stars could not even put the question, which
+  // contradicted the first non-negotiable. The yes already paid case skips
+  // the check entirely: that bank was charged when the parent said yes.
+  const balanceNow = bank?.balance ?? 0
+  const short = !preCharge && (!bank || !plan.enough)
+  const askBecauseShort = short && !approvedAsk
 
   // Ask first: record the ask and nudge the parent, but do not start or spend.
   // The parent says yes from their screen time card or the locked banner, and
   // the child's own Start button then begins the timer. This branch also
   // carries the gentle brake: a trusted child past the day's line lands here
   // instead of starting, and the only difference is the words on the push.
-  if (willJustAsk) {
+  if (willJustAsk || askBecauseShort) {
     // Clear any earlier pending or approved but unstarted ask so one child
     // never stacks a queue.
     await supabase.from('device_requests')
@@ -311,7 +337,9 @@ export async function POST(req: NextRequest) {
           // The brake: this block would take today well past the healthy
           // amount for their age. A protected window: it is bedtime, a meal
           // or school hours, and the parent is always the override.
-          body: protectedReason
+          body: short
+            ? `${mins} minutes on ${onScreen}, that is ${stars} star${stars === 1 ? '' : 's'} and they have ${balanceNow}.${jobsLine} Your yes covers the rest, or say not today.`
+            : protectedReason
             ? `${mins} minutes on ${onScreen}. ${PROTECTED_PARENT_LINE[protectedReason]}${jobsLine} Yes runs it anyway, your call.`
             : overDayLine
             ? `${mins} more minutes on ${onScreen} would take today well past the healthy amount for their age.${jobsLine} Yes runs it as a treat, or say not today.`
@@ -323,11 +351,17 @@ export async function POST(req: NextRequest) {
       pending: true,
       request: askRow ?? { device, minutes: mins },
       overGuide: overDayLine,
+      short,
       // The child's screen shows the boundary in the sturdy leadership shape,
       // the boundary holds AND the feeling is real. Never a flat no.
       ...(protectedReason ? { protectedReason, protectedLine: PROTECTED_CHILD_LINE[protectedReason] } : {}),
     })
   }
+
+  // Only an approved ask reaches here short, and it is not refused: the
+  // parent said yes knowing what the child had, so the block runs on what
+  // the pockets can cover and the rest is their treat. planTieredSpend's
+  // parts are already clamped to the pockets, so charging them is safe.
 
   // A start the grown up said yes to past the day's healthy amount is a
   // treat: they granted it knowingly from the ask box (which names it), so it
@@ -356,8 +390,8 @@ export async function POST(req: NextRequest) {
   // now. A short draw is a failure, never a discount, so whatever was taken goes
   // straight back and the child is told to try again rather than quietly getting
   // a block they cannot pay for.
-  let holidayDrawn = 0
-  if (plan.holidayMinutes > 0) {
+  let holidayDrawn = preCharge ? preCharge.holidayMinutes : 0
+  if (!preCharge && plan.holidayMinutes > 0) {
     holidayDrawn = await drawFromHolidayBank(supabase, link.user_id, link.child_id, plan.holidayMinutes)
     if (holidayDrawn < plan.holidayMinutes) {
       await refundToHolidayBank(supabase, link.user_id, link.child_id, holidayDrawn)
@@ -380,8 +414,10 @@ export async function POST(req: NextRequest) {
   // spend_id (052), and the stop route already guards both, so a zero star
   // block simply has no bank row to trim, the same as there being nothing
   // to refund.
-  let spendId: string | null = null
-  if (plan.starCost > 0) {
+  let spendId: string | null = preCharge?.spendId ?? null
+  const chargedStars = preCharge ? preCharge.stars : plan.starCost
+  const chargedCore = preCharge ? preCharge.coreMinutes : plan.coreMinutes
+  if (!preCharge && plan.starCost > 0) {
     const { data: spend, error: spendError } = await supabase.from('star_spends').insert({
       user_id: link.user_id, child_id: link.child_id, stars: plan.starCost, minutes: mins,
       note: holidayDrawn > 0
@@ -397,7 +433,7 @@ export async function POST(req: NextRequest) {
 
   const endsAt = new Date(Date.now() + mins * 60000).toISOString()
   const { data: session, error: sessionError } = await supabase.from('device_sessions').insert({
-    user_id: link.user_id, child_id: link.child_id, device, minutes: mins, stars: plan.starCost,
+    user_id: link.user_id, child_id: link.child_id, device, minutes: mins, stars: chargedStars,
     spend_id: spendId, ends_at: endsAt, treat,
     // Spread rather than set, so a database still short of migration 138 keeps
     // taking sessions instead of rejecting every one of them on an unknown
@@ -410,12 +446,12 @@ export async function POST(req: NextRequest) {
     // The part today's core baseline paid for (migration 223). Spread for the
     // same reason as the two above, and the drawdown is computed from these
     // rows, so a database without the column simply never has core to draw.
-    ...(plan.coreMinutes > 0 ? { core_minutes: plan.coreMinutes } : {}),
+    ...(chargedCore > 0 ? { core_minutes: chargedCore } : {}),
     ...(homeDevice ? { family_device_id: homeDevice.id } : {}),
   }).select('id, device, minutes, stars, ends_at, started_at, treat').single()
   if (sessionError) {
-    if (spendId) await supabase.from('star_spends').delete().eq('id', spendId)
-    await refundToHolidayBank(supabase, link.user_id, link.child_id, holidayDrawn)
+    if (spendId && !preCharge) await supabase.from('star_spends').delete().eq('id', spendId)
+    if (!preCharge) await refundToHolidayBank(supabase, link.user_id, link.child_id, holidayDrawn)
     return NextResponse.json({ error: sessionError.message }, { status: 500 })
   }
 

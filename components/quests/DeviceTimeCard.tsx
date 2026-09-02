@@ -10,6 +10,7 @@ import { STAR_MINUTES } from '@/lib/quests/templates'
 import { planTieredSpend } from '@/lib/quests/time-tiers'
 import { startErrorMessage, START_RETRY } from '@/lib/quests/start-errors'
 import Celebration from '@/components/ui/Celebration'
+import { HAPPY } from '@/components/kid/HappyNewsBits'
 
 // The child's own device time timer. They have earned stars; here they turn
 // some into minutes on an agreed device, on their own screen. The countdown
@@ -152,7 +153,8 @@ export default function DeviceTimeCard({
   // because that is what the session and the ask are keyed on.
   const homeDevices = familyDevices.filter(d => !d.retiredAt)
   const [homeDeviceId, setHomeDeviceId] = useState<string | null>(null)
-  const [minutes, setMinutes] = useState<number>(Math.min(30, balanceStars * starMinutes))
+  // A child with no stars still gets a sensible first number to ask for.
+  const [minutes, setMinutes] = useState<number>(balanceStars > 0 ? Math.min(30, balanceStars * starMinutes) : Math.min(30, 2 * starMinutes))
   const [remaining, setRemaining] = useState<number>(0)
   const [busy, setBusy] = useState(false)
   const [note, setNote] = useState<string | null>(null)
@@ -188,9 +190,17 @@ export default function DeviceTimeCard({
   // raises what can be picked exactly like the holiday pot does.
   const corePot = Math.max(0, Math.round(coreMinutesLeft))
   const maxMinutes = Math.max(0, Math.min(corePot + balanceStars * starMinutes + holidayPot, remainingToday))
-  // Keep the chosen minutes inside the cap, so the picker never shows more than
-  // is allowed today.
-  useEffect(() => { setMinutes(m => Math.min(m, maxMinutes)) }, [maxMinutes])
+  // THE ASK IS ALWAYS ALLOWED. Justin, 2 September 2026: a child "can still
+  // request if no time". What the pockets can pay for is maxMinutes; what a
+  // child may ASK for goes up to an hour whatever they have, because a start
+  // the bank cannot pay for becomes an ask on the server (never a refusal)
+  // and the grown up decides with the cost and the bank in front of them.
+  const askCeiling = Math.max(maxMinutes, Math.ceil(60 / starMinutes) * starMinutes)
+  const short = minutes > maxMinutes
+  // Keep the chosen minutes inside what may be asked for.
+  useEffect(() => { setMinutes(m => Math.max(starMinutes, Math.min(m, askCeiling))) }, [askCeiling, starMinutes])
+  // The chips: the usual sizes at this child's star rate, inside the ceiling.
+  const presets = [10, 15, 20, 30, 45, 60].filter(p => p % starMinutes === 0 && p <= askCeiling)
   const costStars = Math.ceil(minutes / starMinutes)
   // How the picked block would actually be paid for, by the same function the
   // start route uses. Sharing it is the point: the child is never shown a split
@@ -413,7 +423,7 @@ export default function DeviceTimeCard({
   }, [session, token, recommendedMinutes, soundAlarm, countdownFx, say])
 
   async function start() {
-    if (busy || minutes < starMinutes || minutes > maxMinutes) return
+    if (busy || minutes < starMinutes || minutes > askCeiling) return
     setBusy(true)
     // Open the audio on this tap (a user gesture) so the alarm is allowed to
     // sound later when the time is up.
@@ -609,8 +619,8 @@ export default function DeviceTimeCard({
     const guideToday = Math.max(0, Math.round(recommendedMinutes))
     const exceedsGuide = guideToday > 0 && Math.round(usedTodayMinutes) + minutes > guideToday
     return (
-      <div style={{ background: '#fff', borderRadius: '20px', padding: '18px 20px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(0,0,0,0.14)' }}>
-        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', marginBottom: asksFirst ? '4px' : '12px' }}>
+      <div style={{ background: '#fff', borderRadius: '20px', padding: '18px 18px', marginBottom: '16px', border: `2px solid ${HAPPY.ink}`, boxShadow: `0 5px 0 ${HAPPY.ink}` }}>
+        <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', letterSpacing: '-0.02em', color: 'var(--ink)', marginBottom: asksFirst ? '4px' : '12px' }}>
           What will you use?
         </div>
         {/* The deal, said plainly before anything is picked: an ask is an
@@ -632,12 +642,14 @@ export default function DeviceTimeCard({
                 onClick={() => { setDevice(d.kind); setHomeDeviceId(d.homeId); setActivity(null) }}
                 aria-pressed={on}
                 style={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '5px',
-                  minHeight: 86, padding: '12px 6px', borderRadius: '16px', cursor: 'pointer',
-                  border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
-                  background: on ? 'var(--terracotta-lt)' : 'var(--cream)',
-                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
-                  lineHeight: 1.2, textAlign: 'center',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                  minHeight: 92, padding: '12px 6px', borderRadius: '18px', cursor: 'pointer',
+                  border: `2px solid ${HAPPY.ink}`,
+                  background: on ? HAPPY.butter : '#fff',
+                  boxShadow: on ? `0 4px 0 ${HAPPY.ink}` : 'none',
+                  transform: on ? 'none' : 'translateY(2px)',
+                  fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)',
+                  lineHeight: 1.2, textAlign: 'center', transition: 'transform 0.12s, background 0.12s',
                 }}
               >
                 <span style={{ fontSize: 'var(--text-3xl)', lineHeight: 1 }}>{d.emoji}</span>
@@ -680,8 +692,9 @@ export default function DeviceTimeCard({
                     style={{
                       display: 'flex', alignItems: 'center', gap: '8px',
                       minHeight: 56, padding: '10px 12px', borderRadius: '14px', cursor: 'pointer',
-                      border: `2px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
-                      background: on ? 'var(--terracotta-lt)' : 'var(--cream)',
+                      border: `2px solid ${HAPPY.ink}`,
+                      background: on ? HAPPY.butter : '#fff',
+                      boxShadow: on ? `0 3px 0 ${HAPPY.ink}` : 'none',
                       fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: 'var(--ink)',
                       lineHeight: 1.2, textAlign: 'left',
                     }}
@@ -701,8 +714,10 @@ export default function DeviceTimeCard({
               stars" is nonsense. Naming the holiday minutes instead is also the
               only place a child is told, at the moment of spending, that the
               extra jobs they did weeks ago are what is paying. */}
-          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: holidayCost > 0 || coreCost > 0 ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
-            {coreCost > 0 && starCost === 0 && holidayCost === 0
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: short ? 'var(--terracotta-dark)' : holidayCost > 0 || coreCost > 0 ? 'var(--gold-dark)' : 'var(--ink-muted)' }}>
+            {short
+              ? `${costStars} stars, you have ${balanceStars}`
+              : coreCost > 0 && starCost === 0 && holidayCost === 0
               ? `${coreCost} free min, no stars`
               : coreCost > 0
               ? `${coreCost} free min + ${starCost} star${starCost === 1 ? '' : 's'}${holidayCost > 0 ? ` + ${holidayCost} holiday min` : ''}`
@@ -711,21 +726,63 @@ export default function DeviceTimeCard({
               : `${costStars} of your ${balanceStars} stars`}
           </span>
         </div>
+        {/* The usual sizes as chips, one tap each; the stepper below is
+            for fine tuning. */}
+        {presets.length > 1 && (
+          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${presets.length}, minmax(0, 1fr))`, gap: 6, marginBottom: '12px' }}>
+            {presets.map(p => {
+              const on = minutes === p
+              return (
+                <button
+                  key={p}
+                  onClick={() => setMinutes(p)}
+                  aria-pressed={on}
+                  style={{
+                    minWidth: 0, padding: '9px 2px', borderRadius: 100, cursor: 'pointer',
+                    border: `2px solid ${HAPPY.ink}`, background: on ? HAPPY.butter : '#fff', color: 'var(--ink)',
+                    boxShadow: on ? `0 3px 0 ${HAPPY.ink}` : 'none', transform: on ? 'none' : 'translateY(2px)',
+                    fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+                    transition: 'transform 0.12s, background 0.12s',
+                  }}
+                >
+                  {p}
+                </button>
+              )
+            })}
+          </div>
+        )}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
           <button
             onClick={() => setMinutes(m => Math.max(starMinutes, m - starMinutes))}
-            style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: 'pointer', fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--ink)', flexShrink: 0 }}
+            style={{ width: 46, height: 46, borderRadius: '14px', border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: 'pointer', fontSize: 'var(--text-xl)', fontWeight: 900, color: 'var(--ink)', flexShrink: 0, boxShadow: `0 3px 0 ${HAPPY.ink}` }}
           >−</button>
           <div style={{ flex: 1, textAlign: 'center' }}>
             <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-3xl)', lineHeight: 1, color: 'var(--ink)' }}>{minutes}</div>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>minutes</div>
           </div>
           <button
-            onClick={() => setMinutes(m => Math.min(maxMinutes, m + starMinutes))}
-            disabled={minutes + starMinutes > maxMinutes}
-            style={{ width: 44, height: 44, borderRadius: '12px', border: '1.5px solid var(--border)', background: 'var(--cream)', cursor: minutes + starMinutes > maxMinutes ? 'default' : 'pointer', fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--ink)', opacity: minutes + starMinutes > maxMinutes ? 0.4 : 1, flexShrink: 0 }}
+            onClick={() => setMinutes(m => Math.min(askCeiling, m + starMinutes))}
+            disabled={minutes + starMinutes > askCeiling}
+            style={{ width: 46, height: 46, borderRadius: '14px', border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: minutes + starMinutes > askCeiling ? 'default' : 'pointer', fontSize: 'var(--text-xl)', fontWeight: 900, color: 'var(--ink)', opacity: minutes + starMinutes > askCeiling ? 0.4 : 1, flexShrink: 0, boxShadow: `0 3px 0 ${HAPPY.ink}` }}
           >+</button>
         </div>
+        {/* Short of stars: never a dead end. The grown up can still say yes,
+            and the jobs still to do today are the way to earn the rest. */}
+        {short && (
+          <div style={{ background: HAPPY.butterLt, border: `2px solid ${HAPPY.ink}`, borderRadius: '14px', padding: '11px 13px', marginBottom: '12px' }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)', lineHeight: 1.4, margin: 0 }}>
+              You are {Math.max(0, costStars - balanceStars)} star{costStars - balanceStars === 1 ? '' : 's'} short. You can still ask, your grown up decides.
+            </p>
+            {outstandingMinutes > 0 && (
+              <button
+                onClick={() => { setPhase('idle'); try { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ } }}
+                style={{ marginTop: 8, padding: '9px 14px', borderRadius: 100, border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)', boxShadow: `0 3px 0 ${HAPPY.ink}` }}
+              >
+                Jobs today could earn {outstandingMinutes} more minutes →
+              </button>
+            )}
+          </div>
+        )}
         {/* An ask past today's healthy amount is allowed, just named: the
             grown up decides, and the good offline stuff sits right there. */}
         {asksFirst && exceedsGuide && (
@@ -744,7 +801,7 @@ export default function DeviceTimeCard({
         <div style={{ display: 'flex', gap: '8px' }}>
           <button
             onClick={() => setPhase('idle')}
-            style={{ padding: '13px 18px', borderRadius: '14px', border: '1.5px solid var(--border)', background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, color: 'var(--ink-soft)' }}
+            style={{ padding: '13px 18px', borderRadius: '16px', border: `2px solid ${HAPPY.ink}`, background: '#fff', cursor: 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', boxShadow: `0 4px 0 ${HAPPY.ink}` }}
           >Back</button>
           {/* Blocked until the question is answered, for the one device that
               asks it. Starting anyway would write a session we then have to
@@ -755,12 +812,12 @@ export default function DeviceTimeCard({
           <button
             onClick={start}
             disabled={busy || minutes < starMinutes || needsActivity}
-            style={{ flex: 1, padding: '13px', borderRadius: '14px', border: 'none', background: 'var(--terracotta)', color: 'var(--ink)', cursor: busy || needsActivity ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 800, boxShadow: '0 4px 0 var(--terracotta-dark)', opacity: busy || needsActivity ? 0.6 : 1 }}
+            style={{ flex: 1, padding: '13px', borderRadius: '16px', border: `2px solid ${HAPPY.ink}`, background: HAPPY.butter, color: 'var(--ink)', cursor: busy || needsActivity ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, boxShadow: `0 4px 0 ${HAPPY.ink}`, opacity: busy || needsActivity ? 0.6 : 1 }}
           >
             {busy
-              ? (asksFirst ? 'Asking...' : 'Starting...')
+              ? (asksFirst || short ? 'Asking...' : 'Starting...')
               : needsActivity ? 'Pick what you are doing'
-              : asksFirst ? `Ask for ${minutes} min 🙋` : `Start ${minutes} min ⏱️`}
+              : asksFirst || short ? `Ask for ${minutes} min 🙋` : `Start ${minutes} min ⏱️`}
           </button>
         </div>
       </div>
@@ -868,41 +925,38 @@ export default function DeviceTimeCard({
           end: a warm doorway to earning, so the answer to no time is always do
           a job, never a minus number or a locked screen. */}
       <button
-        onClick={() => {
-          // Only open the picker when there is time left today inside the limit.
-          // At the cap, point back to jobs so the next screen time is earned.
-          if (canSpend && maxMinutes >= starMinutes) { setPhase('picking'); return }
-          try { document.getElementById('my-todo')?.scrollIntoView({ behavior: 'smooth' }) } catch { /* no target */ }
-        }}
+        // The picker always opens. With nothing to spend the pick becomes an
+        // ask the grown up decides on, never a dead end (2 September 2026).
+        onClick={() => { setPhase('picking') }}
         style={{
           width: '100%', display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left',
-          background: '#fff', border: 'none',
-          borderRadius: '18px', padding: '15px 18px', cursor: 'pointer',
-          boxShadow: '0 5px 0 rgba(0,0,0,0.14)',
+          background: canSpend ? HAPPY.butter : '#fff', border: `2px solid ${HAPPY.ink}`,
+          borderRadius: '20px', padding: '15px 16px', cursor: 'pointer',
+          boxShadow: `0 5px 0 ${HAPPY.ink}`,
         }}
       >
-        <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>{canSpend ? '⏱️' : '⭐'}</span>
+        <span aria-hidden style={{ flexShrink: 0, width: 48, height: 48, borderRadius: '50%', background: '#fff', border: `2px solid ${HAPPY.ink}`, boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>{canSpend ? '⏱️' : '🙋'}</span>
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', letterSpacing: '-0.01em', color: 'var(--ink)', lineHeight: 1.15 }}>
             {canSpend
               ? (reachedGuide && !asksFirst ? 'That is your screen time for today 🌱' : 'Use device time now')
-              : 'Earn your screen time'}
+              : 'Ask for screen time'}
           </span>
-          <span style={{ display: 'block', fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink-muted)', marginTop: '2px' }}>
+          <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)', marginTop: '3px', lineHeight: 1.35 }}>
             {canSpend
               ? (reachedGuide && !asksFirst
-                ? 'Your stars are safe for tomorrow. Do a job to earn more'
+                ? 'Your stars are safe for tomorrow. You can still ask'
                 : asksFirst
                 // "minutes of stars" stops being true the moment the holiday
                 // bank is part of the number, so it says where it came from.
-                ? `Pick your screen and ask your grown up. You have ${maxMinutes} minutes ${corePot > 0 ? 'ready, your free time included' : holidayPot > 0 ? 'ready, holiday savings included' : 'of stars'}`
+                ? `Pick your screen and how long. You have ${maxMinutes} minutes ${corePot > 0 ? 'ready, your free time included' : holidayPot > 0 ? 'ready, holiday savings included' : 'of stars'}`
                 : corePot > 0
                 ? `You have ${maxMinutes} minutes to use now, ${corePot} of them free time`
                 : `You have ${maxMinutes} minutes to use now`)
-              : 'Do a job to earn stars, then swap them for time. Tap to see your jobs'}
+              : 'No minutes ready yet. You can still ask, your grown up decides. Or do a job to earn some'}
           </span>
         </span>
-        <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>{canSpend ? '▶' : '→'}</span>
+        <span aria-hidden style={{ fontSize: 'var(--text-xl)', flexShrink: 0, fontWeight: 900 }}>›</span>
       </button>
 
       {/* The device rule, said the same way here as everywhere else, so the

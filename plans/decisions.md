@@ -10034,3 +10034,23 @@ components/scripts/card-system.ts, so the library, the category page, the
 detail page and the shared BrowseTile changed together. The old rule in
 HappyNewsBits ("none of this reaches the parent dashboard") now reads: the
 dots stay on the child's side, the finish is shared.
+
+
+## 2 September 2026: the ask is always allowed, and the yes takes the stars
+
+Justin, with the child's balance card: "easy to select device type and
+minutes, can still request if no time, pops up on parent app so they can
+agree it, deducts from star account." Traced: a child with no stars was
+refused twice (the card would not open the picker, the start route said
+"not enough stars" before the ask branch), which contradicted never allow
+or deny; the yes wrote a status and the stars came off on the child's later
+Start. Decided: the picker always opens and a child may ask for up to an
+hour whatever they have; a start the pockets cannot pay for becomes an ask
+for every trust level; the parent's yes charges the bank (core, stars,
+holiday, the same plan a start uses) and the child's Start reuses that
+charge, marked by the star row's note naming the ask; when the bank cannot
+cover the ask the yes covers the rest as the grown up's treat. A pop up
+sheet (components/quests/AskPopup) rises anywhere in the parent dashboard
+when an ask is waiting, polled every twenty seconds. Minute chips at the
+child's star rate, the happy news finish on the card, and an earn more path
+(the jobs still to do today and the minutes they bring) when a pick is short.

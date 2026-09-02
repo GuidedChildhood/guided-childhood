@@ -972,7 +972,13 @@ export default function KidQuestScreen({
           setScreenAsk(null)
         } else {
           setScreenAsk(prev => {
-            if (a.status === 'approved' && prev?.status === 'pending') playKidSound('star')
+            if (a.status === 'approved' && prev?.status === 'pending') {
+              playKidSound('star')
+              // The yes took the stars (since 2 September 2026), and the bank
+              // number on this screen is a server prop, so fetch it again: the
+              // stars the child sees should be the stars they have.
+              router.refresh()
+            }
             return { id: a.id, device: a.device, minutes: a.minutes, status: a.status as KidAskState['status'] }
           })
         }
@@ -1810,7 +1816,7 @@ export default function KidQuestScreen({
               ? 'Lovely balance. You have earned more than you have watched.'
               : 'Screen has run a little ahead. Do a job or make something to bring your balance back.'
           return (
-        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', overflow: 'hidden' }}>
+        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', overflow: 'hidden' }}>
           <button onClick={() => { setDeviceOpen(o => !o); setPickNow(false); playKidSound('tap') }} aria-expanded={deviceOpen} style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {/* TWO ROWS, NOT ONE. Justin, 16:47, with the card wrapping one
                 word per line: "need to look tidier not messy." The star count,
@@ -1847,10 +1853,10 @@ export default function KidQuestScreen({
               <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', transform: deviceOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
             </div>
             <div style={{ marginTop: '-2px' }}>
-              <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)', lineHeight: 1.4 }}>{bankBalance * STAR_MINUTES} minutes ready to use</span>
+              <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)', lineHeight: 1.4 }}>{bankBalance * (bank?.starMinutes ?? STAR_MINUTES)} minutes ready to use</span>
               {pendingStars > 0 && (
                 <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: '2px', lineHeight: 1.4 }}>
-                  {pendingStars * STAR_MINUTES} more waiting on a grown up to say yes
+                  {pendingStars * (bank?.starMinutes ?? STAR_MINUTES)} more waiting on a grown up to say yes
                 </span>
               )}
             </div>
