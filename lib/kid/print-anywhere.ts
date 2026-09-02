@@ -23,6 +23,8 @@
 // because handing them a new tab would be a worse experience than the one
 // they already have.
 
+import type { StepKey } from '@/lib/kid/five-a-day'
+
 /** True when this is an iPhone or iPad. iPadOS reports itself as a Mac with a touch screen. */
 export function isIos(): boolean {
   if (typeof navigator === 'undefined') return false
@@ -87,16 +89,68 @@ export function unpackFromUrl<T = unknown>(s: string | null | undefined): T | nu
   }
 }
 
+/** What a printable tick did to today's five, as the route answers it. */
+export type PrintableTick = {
+  /** True when THIS print landed one of today's five: the step was open and is now done. */
+  ticked: boolean
+  steps: StepKey[]
+  done: StepKey[]
+  complete: boolean
+  justCompleted: boolean
+  holidayMinutes: number
+  streak: number
+}
+
 /**
- * Tell the five a day that a printable happened. Fire and forget: the print
- * must never wait on it, and a failed tick is a tick the next print retries.
+ * The window event a tick raises on the page it happened on, carrying the
+ * PrintableTick, so the five a day card moves on at once without a round
+ * trip of its own.
  */
-export function tickPrintableStep(token: string): void {
-  if (!token || typeof fetch !== 'function') return
-  fetch('/api/kid/printable-step', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ token }),
-    keepalive: true,
-  }).catch(() => { /* the paper still prints */ })
+export const KID_DAY_EVENT = 'gc:kid-day'
+
+/** The home screen address that lands on the five a day with the next step lit. */
+export function fiveADayHref(token: string): string {
+  return `/k/${token}?tab=five`
+}
+
+/**
+ * Tell the five a day that a printable happened, and learn what it did.
+ *
+ * Justin, 2 September 2026, from the star chart's print page: "When I click
+ * print here it should update the 1 of 5 jobs on child app and go back to the
+ * 5 a day marked as completed and onto next." The tick was landing but this
+ * was fire and forget, so no button could act on it. Now it resolves to the
+ * day as the route answers it (null when nothing can be said), and raises the
+ * KID_DAY_EVENT on this page so the card ticks itself.
+ *
+ * The request leaves synchronously, before the first await, so a caller can
+ * call this and then window.open in the same tap: the tap is still the tap.
+ * The print must never wait on it, and a failed tick is a tick the next
+ * print retries.
+ */
+export async function tickPrintableStep(token: string): Promise<PrintableTick | null> {
+  if (!token || typeof fetch !== 'function') return null
+  try {
+    const res = await fetch('/api/kid/printable-step', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ token }),
+      keepalive: true,
+    })
+    const d = await res.json().catch(() => null)
+    if (!res.ok || !d?.ok || !Array.isArray(d.done)) return null
+    const tick: PrintableTick = {
+      ticked: d.ticked === true,
+      steps: Array.isArray(d.steps) ? d.steps : [],
+      done: d.done,
+      complete: d.complete === true,
+      justCompleted: d.justCompleted === true,
+      holidayMinutes: Number(d.holidayMinutes) || 0,
+      streak: Number(d.streak) || 0,
+    }
+    try { window.dispatchEvent(new CustomEvent(KID_DAY_EVENT, { detail: tick })) } catch { /* no page to tell */ }
+    return tick
+  } catch {
+    return null
+  }
 }

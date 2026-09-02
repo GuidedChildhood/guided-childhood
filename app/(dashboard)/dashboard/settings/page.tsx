@@ -305,6 +305,16 @@ export default function SettingsPage() {
       )}
 
       {/* Profile section */}
+      {/* The first welcome, again. The walkthrough runs once at the end of
+          setup; a parent who skipped it, or wants to show a co parent what
+          the app does, gets the same cards back from here. */}
+      <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '18px 22px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '2px', color: 'var(--ink)' }}>How it works</h2>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', margin: 0 }}>The day, step by step, and how DiGi works. One minute.</p>
+        </div>
+        <Link href="/dashboard/how-it-works" className="btn" style={{ padding: '10px 18px', fontSize: 'var(--text-sm)', textDecoration: 'none', flexShrink: 0 }}>Show me</Link>
+      </section>
       <section style={{ background: 'var(--cream)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px', marginBottom: '16px' }}>
         <h2 style={{ fontSize: 'var(--text-md)', marginBottom: '18px', color: 'var(--ink)' }}>Your profile</h2>
         <form onSubmit={saveProfile} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>

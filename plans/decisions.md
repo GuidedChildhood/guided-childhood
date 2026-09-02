@@ -9883,3 +9883,54 @@ in today (every live, non resting worry checked today, and at least
 one), the dashboard layout hands the set to the child rail inside its
 own Suspense, and the switcher pill wears a small green tick on the
 initial. One place decides, so the rail and the check in cannot disagree.
+
+## 2 September 2026: a print walks the child on to the next step
+
+Justin, from the star chart's print page: "When I click print here it should
+update the 1 of 5 jobs on child app and go back to the 5 a day marked as
+completed and onto next."
+
+**Decided.** A printable tick answers with the day (ticked, done, complete,
+streak) instead of a bare ok, and every print button acts on it: when THIS
+print landed one of today's five, the child is walked back to the five a day
+with the next step lit. On the home screen that is close the sheet, quests
+tab, scroll to the card. From the builders it is a push home with ?tab=five.
+A print on a day already ticked, or a day with no printable in it, leaves the
+child where they are.
+
+**The card asks again.** The five a day used to fetch once per mount. It now
+refetches whenever the screen comes back into view, and ticks itself at once
+from a window event the tick raises, so a step landed in Safari or on another
+page is never stale on the screen the child returns to.
+
+**The Safari print page owns the way back.** After the dialog it turns green
+and says close this tab, open your app, the next one is waiting. A tab cannot
+open the installed app, so the instruction is the whole of it.
+
+## 2 September 2026: the first welcome is a walkthrough, written not generated
+
+Justin: "it then goes to celebration and walk through, can we make this super
+simple, explaining step by step what happens each day ... cover everything we
+do, why, and how DiGi works ... get rid of what is there."
+
+**Decided.** Setup ends on one walkthrough (components/onboarding/
+WelcomeWalkthrough): a celebration with the child's name, then eight cards
+that slide up one at a time, each one part of a day with its why: home, the
+check in, moments, scripts, DiGi, the child's app, the payoff, the reminder
+ask. Designed on a canvas first against Finch, Duolingo, Klima and Lloyds
+from Mobbin, then built to the same tokens.
+
+**Gone.** The DiGi greeting and first task written by a model call at the
+end of setup, and the wait for them. The walkthrough is written copy, so
+setup ends the instant the saves land, and the same words greet every parent.
+
+**Kept.** The reminder ask, as the last card: a parent who has just seen the
+plan says yes to a nudge protecting it. The plan choice still sits in front
+of the dashboard through the middleware, not on a wizard screen.
+
+**Revisit.** Settings carries How it works, the same cards without the
+celebration or the ask, for a skipped first run or a co parent.
+
+**Not touched.** DiGi's dashboard welcome sheet and the rotating mission
+cards on later visits. Whether they stay now the first welcome does their
+job is Justin's call.

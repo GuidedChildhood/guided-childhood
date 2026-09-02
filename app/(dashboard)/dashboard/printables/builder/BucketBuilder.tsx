@@ -2,10 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import BucketSheet, { type BucketIdea } from '@/components/printables/BucketSheet'
 import KidBackLink from '@/components/kid/KidBackLink'
 import { HAPPY, HappyMasthead, Burst, Sticker, WavyRule } from '@/components/kid/HappyNewsBits'
-import { printOrOpen, packForUrl, tickPrintableStep } from '@/lib/kid/print-anywhere'
+import { printOrOpen, packForUrl, tickPrintableStep, fiveADayHref } from '@/lib/kid/print-anywhere'
 
 // The interactive bucket list maker. A family picks from the idea pool or
 // writes their own, we lay it out as a colour in sheet in the house style
@@ -87,6 +88,7 @@ export default function BucketBuilder({
   backLabel?: string
 } = {}) {
   const kid = variant === 'kid'
+  const router = useRouter()
   const [title, setTitle] = useState(kid ? 'My Bucket List' : 'Our Bucket List')
   const [childName, setChildName] = useState(defaultChildName)
   const [picked, setPicked] = useState<Idea[]>([])
@@ -113,10 +115,14 @@ export default function BucketBuilder({
   function print() {
     if (picked.length === 0) return
     if (kid && kidToken) {
-      tickPrintableStep(kidToken)
+      // The tick leaves first, in the same tap as the print. When it answers
+      // that one of today's five just landed, the app goes home to the day
+      // with the next step lit (the star chart does the same).
+      const tick = tickPrintableStep(kidToken)
       const packed = packForUrl({ title, childName, picked })
       const how = printOrOpen(`/k/${kidToken}/print?bucket=${packed}`)
-      if (how === 'opened') setPrintNote('Opened in Safari so it can print. Come back here when it is done.')
+      if (how === 'opened') setPrintNote('Opened in Safari so it can print. When it is done, close that tab and come back.')
+      void tick.then(t => { if (t?.ticked) router.push(fiveADayHref(kidToken)) })
       return
     }
     window.print()

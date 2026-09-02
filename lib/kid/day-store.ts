@@ -204,6 +204,12 @@ export interface MarkResult {
   /** True only on the transition, so a refresh never replays the takeover. */
   justCompleted: boolean
   holidayMinutes: number
+  /**
+   * True when the step was ticked before this call. A caller that walks the
+   * child on to the next step needs to tell a fresh landing from a repeat:
+   * the second print of a day should not send them anywhere.
+   */
+  already: boolean
 }
 
 /**
@@ -230,7 +236,8 @@ export async function markStep(
 ): Promise<MarkResult> {
   const { day, row } = await loadDay(admin, userId, childId, available)
   const steps = row.steps as StepKey[]
-  const base = { day, steps, done: row.done as StepKey[], complete: !!row.completed_at, justCompleted: false, holidayMinutes: 0 }
+  const already = (row.done as StepKey[]).includes(step)
+  const base = { day, steps, done: row.done as StepKey[], complete: !!row.completed_at, justCompleted: false, holidayMinutes: 0, already }
 
   // A step that is not part of today is not marked done. Without this a stale
   // tab from yesterday could complete a day it was never shown.
@@ -275,6 +282,7 @@ export async function markStep(
     complete,
     justCompleted,
     holidayMinutes: justCompleted ? MINUTES_PER_COMPLETED_DAY : 0,
+    already,
   }
 }
 

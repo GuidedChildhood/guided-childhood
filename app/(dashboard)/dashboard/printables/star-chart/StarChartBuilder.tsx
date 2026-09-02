@@ -2,10 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import StarChartSheet, { MAX_ROWS } from '@/components/printables/StarChartSheet'
 import KidBackLink from '@/components/kid/KidBackLink'
 import { HAPPY, HappyMasthead, Burst } from '@/components/kid/HappyNewsBits'
-import { printOrOpen, packForUrl, tickPrintableStep } from '@/lib/kid/print-anywhere'
+import { printOrOpen, packForUrl, tickPrintableStep, fiveADayHref } from '@/lib/kid/print-anywhere'
 
 // Build the star chart, THEN print it. The paper chart has four blank rows for
 // a pen, which is fine on the fridge and useless before it is on the fridge: a
@@ -121,6 +122,7 @@ export default function StarChartBuilder({
   rateByChild?: Record<string, number>
   defaultRate?: number
 } = {}) {
+  const router = useRouter()
   const [childName, setChildName] = useState(defaultChildName)
   // WHICH WEEK. Defaults to the first, which is this week every day except
   // Sunday, when it is the week about to start. See chartWeekStart.
@@ -465,9 +467,16 @@ export default function StarChartBuilder({
               // Safari where it cannot (the installed iOS app). See
               // lib/kid/print-anywhere.
               if (variant === 'kid' && kidToken) {
-                tickPrintableStep(kidToken)
+                // The tick leaves first, in the same tap as the print. When
+                // it answers that one of today's five just landed, the app
+                // goes home to the day with the next step lit. Justin, 2
+                // September 2026: "go back to the 5 a day marked as completed
+                // and onto next." On the installed app that happens behind
+                // Safari, so the child returns to a day that has moved on.
+                const tick = tickPrintableStep(kidToken)
                 const packed = packForUrl({ name, weekLabel: week?.label ?? null, jobs: picked, starMinutes: rate })
                 printOrOpen(`/k/${kidToken}/print?star=${packed}`)
+                void tick.then(t => { if (t?.ticked) router.push(fiveADayHref(kidToken)) })
                 return
               }
               window.print()
