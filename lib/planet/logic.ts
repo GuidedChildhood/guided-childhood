@@ -34,11 +34,42 @@ export type Friend = {
   cloud: boolean
 }
 
+export type MissionProof = 'grownup_tap' | 'timer' | 'code' | 'lesson'
+export type RewardKey = 'dome' | 'flag' | 'ring' | 'pool' | 'lamp' | 'star' | 'blanket' | 'moon'
+
+/** The mechanics of a mission. The words live in lib/planet/missions.ts. */
+export type MissionDef = {
+  key: string
+  tiers: Tier[]
+  proof: MissionProof
+  /** For proof timer: the real minutes it takes. */
+  timerMinutes?: number
+  /** For proof code: the answer, one token per tap (digits, letters or pictures). */
+  answer?: string[]
+  reward: RewardKey
+}
+
+export type MissionStatus = 'doing' | 'claimed' | 'approved' | 'notnow' | 'done'
+
+export type MissionState = {
+  key: string
+  status: MissionStatus
+  startedAt: string
+  /** For proof timer: when the server says the minutes are up. */
+  timerEndsAt: string | null
+  claimedAt: string | null
+  approvedAt: string | null
+}
+
 /** The child's home planet: the Friends on it and how far it has grown. */
 export type Home = {
   version: 1
   tier: Tier
   friends: Friend[]
+  /** Missions started, claimed or landed. A mission not listed here is simply on the board. */
+  missions: MissionState[]
+  /** What the missions brought home, in the order they landed. */
+  rewards: RewardKey[]
   /** 0 bare rock, 1 first grass, 2 a flag, 3 a little house, 4 rings, 5 a moon. */
   growthStage: number
   /** 0 to 100 toward the next stage. Moves only when a rest closes. */
@@ -53,15 +84,18 @@ export type Home = {
   lastSeenAt: string
 }
 
-/** The one door every locked state has. At most one at a time. */
+/** The one door every locked state has, and the grown up's tap on a mission. At most one at a time. */
 export type HomeAsk = {
   id: string
-  kind: 'wake'
+  kind: 'wake' | 'mission'
   status: 'pending' | 'approved' | 'declined'
   createdAt: string
   answeredAt: string | null
-  /** Minutes the Friends had left to rest when the child asked. */
+  /** Wake asks: minutes the Friends had left to rest when the child asked. */
   minutesLeft: number
+  /** Mission asks: which mission, and the line the parent reads ("says you planted a real seed together"). */
+  missionKey?: string
+  title?: string
 }
 
 export type Mood = 'happy' | 'sleepy' | 'tired' | 'asleep' | 'sunbathing' | 'resting'
@@ -172,6 +206,8 @@ export function newHome(tier: Tier, nowIso: string, nightKey: string | null): Ho
     version: 1,
     tier,
     friends: ACTIVE_BY_TIER[tier].map(newFriend),
+    missions: [],
+    rewards: [],
     growthStage: 1,
     growthProgress: 0,
     grewWhileAway: 0,
@@ -223,6 +259,11 @@ export function closeCooldown(friend: Friend, fraction = 1): { friend: Friend; p
  * Runs before every event and every read. Idempotent.
  */
 export function reconcile(home: Home, nowIso: string, nightKey: string | null): Home {
+  // A planet saved by slice 1 has no missions yet. Filled in here, once, so
+  // nothing downstream has to ask.
+  if (!Array.isArray(home.missions) || !Array.isArray(home.rewards)) {
+    home = { ...home, missions: Array.isArray(home.missions) ? home.missions : [], rewards: Array.isArray(home.rewards) ? home.rewards : [] }
+  }
   let points = 0
   let friends = home.friends.map(f => {
     if (f.cooldown && new Date(f.cooldown.endsAt).getTime() <= new Date(nowIso).getTime()) {
@@ -254,6 +295,11 @@ export type HomeEvent =
   | { kind: 'cloud'; friend: FriendKey; on: boolean }
   | { kind: 'seen' }
   | { kind: 'wake_all' }
+  | { kind: 'mission_start'; key: string }
+  | { kind: 'mission_claim'; key: string; code?: string[] }
+  | { kind: 'mission_approve'; key: string }
+  | { kind: 'mission_notnow'; key: string }
+  | { kind: 'mission_seen'; key: string }
 
 /** Starlight lost per minute of play for this tier and cloud. */
 export function drainPerMinute(cfg: TierConfig, cloud: boolean): number {
@@ -266,12 +312,69 @@ export function drainPerMinute(cfg: TierConfig, cloud: boolean): number {
  * return the planet unchanged rather than throwing, because a stale client
  * is a fact of life on a child's phone and must never break it.
  */
-export function applyEvent(home: Home, ev: HomeEvent, nowIso: string): Home {
+export function applyEvent(home: Home, ev: HomeEvent, nowIso: string, defs: Record<string, MissionDef> = {}): Home {
   const cfg = TIERS[home.tier]
   const forFriend = (key: FriendKey, f: (fr: Friend) => Friend): Home =>
     ({ ...home, friends: home.friends.map(fr => (fr.key === key ? f(fr) : fr)) })
+  const missionOf = (key: string): MissionState | undefined => home.missions.find(m => m.key === key)
+  const withMission = (m: MissionState): Home =>
+    ({ ...home, missions: [...home.missions.filter(x => x.key !== m.key), m] })
+  const land = (m: MissionState): Home => {
+    const def = defs[m.key]
+    const rewards = def && !home.rewards.includes(def.reward) ? [...home.rewards, def.reward] : home.rewards
+    return { ...withMission({ ...m, status: 'approved', approvedAt: nowIso }), rewards }
+  }
 
   switch (ev.kind) {
+    case 'mission_start': {
+      // From the board, or back from a not now. A mission already under way
+      // or already landed stays as it is.
+      const def = defs[ev.key]
+      if (!def || !def.tiers.includes(home.tier)) return home
+      const cur = missionOf(ev.key)
+      if (cur && cur.status !== 'notnow') return home
+      return withMission({
+        key: ev.key, status: 'doing', startedAt: nowIso,
+        timerEndsAt: def.proof === 'timer' ? addMinutes(nowIso, def.timerMinutes ?? 5) : null,
+        claimedAt: null, approvedAt: null,
+      })
+    }
+    case 'mission_claim': {
+      // We did it. What that means depends on the proof, and the server is
+      // the one holding the clock and the answer.
+      const def = defs[ev.key]
+      const cur = missionOf(ev.key)
+      if (!def || !cur || cur.status !== 'doing') return home
+      if (def.proof === 'timer') {
+        if (!cur.timerEndsAt || new Date(cur.timerEndsAt).getTime() > new Date(nowIso).getTime()) return home
+        return land({ ...cur, claimedAt: nowIso })
+      }
+      if (def.proof === 'code') {
+        const want = (def.answer ?? []).join('').toLowerCase()
+        const got = (ev.code ?? []).join('').toLowerCase()
+        if (!want || got !== want) return home
+        return land({ ...cur, claimedAt: nowIso })
+      }
+      // A grown up's tap and a lesson are decided outside this file: the
+      // claim is recorded and the server layer asks or checks.
+      return withMission({ ...cur, status: 'claimed', claimedAt: nowIso })
+    }
+    case 'mission_approve': {
+      const cur = missionOf(ev.key)
+      if (!cur || (cur.status !== 'claimed' && cur.status !== 'doing')) return home
+      return land({ ...cur, claimedAt: cur.claimedAt ?? nowIso })
+    }
+    case 'mission_notnow': {
+      // Back on the board, kindly. No cooldown, no count.
+      const cur = missionOf(ev.key)
+      if (!cur || cur.status !== 'claimed') return home
+      return withMission({ ...cur, status: 'notnow', claimedAt: null })
+    }
+    case 'mission_seen': {
+      const cur = missionOf(ev.key)
+      if (!cur || cur.status !== 'approved') return home
+      return withMission({ ...cur, status: 'done' })
+    }
     case 'tick': {
       // Only real play drains: the seconds since the last tick, capped, and
       // only Friends that are awake. A resting Friend is not playing.
@@ -310,6 +413,22 @@ export function applyEvent(home: Home, ev: HomeEvent, nowIso: string): Home {
     default:
       return home
   }
+}
+
+/** How many missions the board offers at once. Tier 1 is one at a time, with a grown up. */
+export const BOARD_SIZE: Record<Tier, number> = { 1: 1, 2: 3, 3: 3 }
+
+/**
+ * What the board shows: missions under way first, then the next ones not yet
+ * landed, up to the tier's board size. Landed missions leave the board so a
+ * new one comes on. Pure, so the server and the screen agree.
+ */
+export function boardFor(home: Home, defs: MissionDef[]): string[] {
+  const eligible = defs.filter(d => d.tiers.includes(home.tier))
+  const stateOf = (key: string) => home.missions.find(m => m.key === key)
+  const active = eligible.filter(d => { const st = stateOf(d.key); return st && (st.status === 'doing' || st.status === 'claimed' || st.status === 'approved') })
+  const fresh = eligible.filter(d => { const st = stateOf(d.key); return !st || st.status === 'notnow' })
+  return [...active, ...fresh].slice(0, BOARD_SIZE[home.tier]).map(d => d.key)
 }
 
 export function moodOf(friend: Friend): Mood {

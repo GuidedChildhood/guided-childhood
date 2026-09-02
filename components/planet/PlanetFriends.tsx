@@ -15,6 +15,9 @@ import { soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
 import KidBackLink from '@/components/kid/KidBackLink'
 import HomePlanet, { type DropZone, type Sky } from './HomePlanet'
 import FriendFigure from './FriendFigure'
+import MissionBoard, { type ClaimResult } from './MissionBoard'
+import { MISSION_DEFS, MISSION_LINES, missionByKey } from '@/lib/planet/missions'
+import { boardFor } from '@/lib/planet/logic'
 
 // Planet Friends: Growing Up Digital, the toy, on the child link.
 //
@@ -51,7 +54,17 @@ function fixtureApply(v: HomeView, ev: ClientEvent): HomeView {
   } else if (ev.kind === 'ask_seen') {
     ask = null
   } else {
-    home = applyEvent(home, ev, nowIso)
+    home = applyEvent(home, ev, nowIso, MISSION_DEFS)
+    // The two proofs the server decides: in the fixture a grown up's tap
+    // becomes a pending ask, and a lesson counts as passed.
+    if (ev.kind === 'mission_claim') {
+      const def = MISSION_DEFS[ev.key]
+      const st = home.missions.find(m => m.key === ev.key)
+      if (def?.proof === 'grownup_tap' && st?.status === 'claimed') {
+        ask = { id: `fixture_${ev.key}`, kind: 'mission', status: 'pending', createdAt: nowIso, answeredAt: null, minutesLeft: 0, missionKey: ev.key, title: missionByKey(ev.key)?.askLine }
+      }
+      if (def?.proof === 'lesson' && st?.status === 'claimed') home = applyEvent(home, { kind: 'mission_approve', key: ev.key }, nowIso, MISSION_DEFS)
+    }
   }
   return { ...v, home, ask, serverNow: nowIso }
 }
@@ -66,6 +79,10 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   fixture?: boolean
 }) {
   const [view, setView] = useState<HomeView>(initial)
+  // The fixture applies the rules in the browser and needs the latest view
+  // at once, not after React's next render, so it keeps a mirror.
+  const viewRef = useRef<HomeView>(initial)
+  useEffect(() => { viewRef.current = view }, [view])
   // The first render uses the server's clock on both sides, so the star sits
   // in the same place on the server and on the phone and hydration never
   // disagrees. The real clock takes over a second after mount.
@@ -80,6 +97,11 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   const [grewShown, setGrewShown] = useState(false)
   const [nightAsked, setNightAsked] = useState(false)
   const [busy, setBusy] = useState(false)
+  const [boardOpen, setBoardOpen] = useState(false)
+  // One ask column, two kinds. The pods and the orbit only care about a wake
+  // ask; a mission ask belongs to the board. A save from before the kinds
+  // existed reads as a wake ask.
+  const wakeAsk = view.ask && view.ask.kind !== 'mission' ? view.ask : null
   const lastInteractRef = useRef(Date.now())
   const ambientSentRef = useRef<Set<string>>(new Set())
   const overlayRef = useRef<Overlay>('none')
@@ -125,15 +147,21 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     } catch { /* the next poll tries again */ }
   }, [fixture, token])
 
-  const send = useCallback(async (ev: ClientEvent) => {
-    if (fixture || !token) { setView(v => fixtureApply(v, ev)); return }
+  const send = useCallback(async (ev: ClientEvent): Promise<HomeView | null> => {
+    if (fixture || !token) {
+      const next = fixtureApply(viewRef.current, ev)
+      viewRef.current = next
+      setView(next)
+      return next
+    }
     try {
       const r = await fetch('/api/kid/planet/event', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, ...ev }),
       })
-      if (r.ok) setView(await r.json())
+      if (r.ok) { const next = await r.json() as HomeView; setView(next); return next }
     } catch { /* the next poll tries again */ }
+    return null
   }, [fixture, token])
 
   // Only real play drains: one tick a minute while the planet is open and on
@@ -148,7 +176,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
   // While something rests or an ask is out, ask the server every twenty
   // seconds, the same cadence the parent's pop up uses. And on every return
   // to the tab, because the Friends may have woken while it was away.
-  const askOut = view.ask?.status === 'pending' || view.screenAsk?.status === 'pending'
+  const missionWaiting = live.missions.some(m => m.status === 'claimed')
+  const askOut = view.ask?.status === 'pending' || view.screenAsk?.status === 'pending' || missionWaiting
   useEffect(() => {
     const id = setInterval(() => {
       if (document.visibilityState !== 'visible') return
@@ -194,13 +223,20 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     return stop
   }, [overlay, muted, live.tier])
 
-  // The grown up's answer to the wake ask: say it once, then clear it.
+  // The grown up's answer: say it once, then clear it. A wake ask speaks the
+  // wake lines. A mission ask that landed shows its reveal card instead, and
+  // one that was not now says so once, with the mission back on the board.
   useEffect(() => {
     const ask = view.ask
     if (!ask || ask.status === 'pending' || askSeenRef.current === ask.id) return
     askSeenRef.current = ask.id
-    say(ask.status === 'approved' ? LINES.yes : LINES.notNow)
-    if (ask.status === 'approved') playFx('chime')
+    if (ask.kind === 'mission') {
+      if (ask.status === 'approved') playFx('chime')
+      else say(MISSION_LINES.notNow)
+    } else {
+      say(ask.status === 'approved' ? LINES.yes : LINES.notNow)
+      if (ask.status === 'approved') playFx('chime')
+    }
     void send({ kind: 'ask_seen' })
   }, [view.ask, say, send])
 
@@ -310,6 +346,39 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
     finally { setBusy(false) }
   }
 
+  const board = boardFor(live, Object.values(MISSION_DEFS))
+  const landed = live.missions.find(m => m.status === 'approved')
+  const landedCard = landed ? missionByKey(landed.key) : null
+  const inProgress = live.missions.filter(m => m.status === 'doing' || m.status === 'claimed').length
+
+  async function startMission(key: string) {
+    interact(); playFx('tap')
+    setBusy(true)
+    try { await send({ kind: 'mission_start', key }) } finally { setBusy(false) }
+  }
+
+  async function claimMission(key: string, code?: string[]): Promise<ClaimResult> {
+    interact()
+    setBusy(true)
+    try {
+      const next = await send({ kind: 'mission_claim', key, code })
+      const st = next?.home.missions.find(m => m.key === key)
+      const def = MISSION_DEFS[key]
+      if (!st || !def) return null
+      if (st.status === 'approved') { playFx('chime'); return 'landed' }
+      if (st.status === 'claimed') { playFx('tap'); return 'asked' }
+      if (def.proof === 'timer') return 'not_yet'
+      if (def.proof === 'code') return 'not_quite'
+      if (def.proof === 'lesson') return 'lesson_first'
+      return null
+    } finally { setBusy(false) }
+  }
+
+  async function seenMission(key: string) {
+    playFx('chime')
+    await send({ kind: 'mission_seen', key })
+  }
+
   function toggleMute() {
     const next = !muted
     setMuted(next)
@@ -412,6 +481,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             sky={sky}
             starEnergy={starEnergy}
             growthStage={live.growthStage}
+            rewards={live.rewards}
             accent={theme.hex}
             pyjamas={bedtimeLocked}
             wiggle={wiggle}
@@ -426,7 +496,35 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
             onInteract={interact}
           />
 
-          {grewTotal > 0 && !grewShown && overlay === 'none' && (
+          {landed && landedCard && !boardOpen && overlay !== 'night' && (
+            <div style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{ fontSize: 28 }} aria-hidden>{landedCard.emoji}</span>
+              <p style={{ margin: 0, flex: 1, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', lineHeight: 1.2, color: 'var(--ink)' }}>
+                {landedCard.rewardLabel}. {MISSION_LINES.landed}
+              </p>
+              <button onClick={() => seenMission(landed.key)} style={{ ...chunky('accent'), padding: '10px 14px' }}>Yay!</button>
+            </div>
+          )}
+
+          {boardOpen && overlay !== 'night' && (
+            <MissionBoard
+              home={live}
+              board={board}
+              tier={live.tier}
+              ask={view.ask}
+              nowMs={nowMs + offset}
+              token={token}
+              theme={theme}
+              leadName={leadName}
+              busy={busy}
+              onStart={startMission}
+              onClaim={claimMission}
+              onSeen={seenMission}
+              onClose={() => setBoardOpen(false)}
+            />
+          )}
+
+          {grewTotal > 0 && !grewShown && overlay === 'none' && !landed && (
             <div ref={grewRef} style={{ position: 'absolute', left: 14, right: 14, bottom: 14, zIndex: 4, background: '#fff', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span style={{ fontSize: 28 }} aria-hidden>🪐</span>
@@ -455,8 +553,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               {smallRow('asleep', { blanket: true })}
               <p style={overlayLine}>{LINES.pods}</p>
               {words && restLeft > 0 && <p style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', opacity: 0.8 }}>{restLeft} minute{restLeft === 1 ? '' : 's'}</p>}
-              {overlayButtons(view.ask?.status === 'pending' ? null : LINES.askDoor, askWake,
-                view.ask?.status === 'pending' ? <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, opacity: 0.9 }}>{LINES.asked}</p> : null)}
+              {overlayButtons(wakeAsk?.status === 'pending' ? null : LINES.askDoor, askWake,
+                wakeAsk?.status === 'pending' ? <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, opacity: 0.9 }}>{LINES.asked}</p> : null)}
             </div>
           )}
 
@@ -470,8 +568,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               {smallRow('resting', { clockFor: true })}
               <p style={overlayLine}>{LINES.orbit}</p>
               {words && restLeft > 0 && <p style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', opacity: 0.8 }}>{restLeft} minute{restLeft === 1 ? '' : 's'}</p>}
-              {overlayButtons(view.ask?.status === 'pending' ? null : LINES.askDoor, askWake,
-                view.ask?.status === 'pending' ? <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800 }}>{LINES.asked}</p> : null)}
+              {overlayButtons(wakeAsk?.status === 'pending' ? null : LINES.askDoor, askWake,
+                wakeAsk?.status === 'pending' ? <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800 }}>{LINES.asked}</p> : null)}
             </div>
           )}
 
@@ -524,9 +622,14 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
           )}
         </div>
 
-        {overlay === 'none' && live.tier >= 2 && awake.length > 1 && (
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: 14 }}>
-            <button onClick={everyoneToBed} style={chunky('white')}>🌙 {LINES.everyoneToBed}</button>
+        {overlay !== 'night' && overlay !== 'sunlight' && (
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginTop: 14, flexWrap: 'wrap' }}>
+            <button onClick={() => { interact(); playFx('tap'); setBoardOpen(o => !o) }} style={chunky(boardOpen ? 'white' : 'accent')}>
+              🎯 {live.tier === 1 ? MISSION_LINES.boardTier1 : MISSION_LINES.board}{inProgress > 0 ? ` (${inProgress})` : ''}
+            </button>
+            {overlay === 'none' && live.tier >= 2 && awake.length > 1 && (
+              <button onClick={everyoneToBed} style={chunky('white')}>🌙 {LINES.everyoneToBed}</button>
+            )}
           </div>
         )}
 

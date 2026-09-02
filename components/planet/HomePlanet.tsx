@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import type { Friend, FriendKey, Mood, Tier } from '@/lib/planet/logic'
+import type { Friend, FriendKey, Mood, RewardKey, Tier } from '@/lib/planet/logic'
 import { FRIEND_KEYS, isGrownUp } from '@/lib/planet/logic'
 import { friendArt } from '@/lib/planet/registry'
 import FriendFigure from './FriendFigure'
@@ -60,10 +60,12 @@ export function standingX(count: number): number[] {
 }
 
 export default function HomePlanet({
-  friends, moods, tier, childAge, sky, starEnergy, growthStage, accent, pyjamas, wiggle, sparkle, boopCrater,
+  friends, moods, tier, childAge, sky, starEnergy, growthStage, rewards = [], accent, pyjamas, wiggle, sparkle, boopCrater,
   onDropFriend, onTickle, onSprinkle, onBoop, onCloud, onNursery, onInteract,
 }: {
   friends: Friend[]
+  /** What the missions brought home (design 3.2), drawn on the planet. */
+  rewards?: RewardKey[]
   moods: Record<string, Mood>
   tier: Tier
   childAge: number
@@ -235,6 +237,53 @@ export default function HomePlanet({
           <path d="M-22 2 V-18 a22 22 0 0 1 44 0 V2 z" fill="#FFF6DD" stroke="#1A1A2E" strokeWidth={2} />
           <rect x={-6} y={-16} width={12} height={18} rx={3} fill={accent} stroke="#1A1A2E" strokeWidth={1.5} />
           <circle cx={12} cy={-20} r={4} fill="#BFE3F7" stroke="#1A1A2E" strokeWidth={1.2} />
+        </g>
+      )}
+
+      {/* what the missions brought home, in the sky and on the ground */}
+      {rewards.includes('star') && (
+        <path data-reward="star" d="M250 28 l5 12 l13 1 l-10 8 l3 13 l-11 -7 l-11 7 l3 -13 l-10 -8 l13 -1 z" fill="#FFF3B0" stroke="#1A1A2E" strokeWidth={1.8} strokeLinejoin="round" className="pl-float" />
+      )}
+      {rewards.includes('moon') && (
+        <g data-reward="moon">
+          <circle cx={355} cy={140} r={13} fill="#EDE9F5" stroke="#1A1A2E" strokeWidth={1.8} />
+          <circle cx={350} cy={136} r={2.5} fill="#CFC9DE" />
+          <circle cx={359} cy={144} r={1.8} fill="#CFC9DE" />
+        </g>
+      )}
+      {rewards.includes('ring') && (
+        <g data-reward="ring" clipPath="url(#pl-body)">
+          <ellipse cx={PLANET.cx} cy={445} rx={235} ry={26} fill="none" stroke="#F4C542" strokeWidth={10} opacity={0.85} />
+          <ellipse cx={PLANET.cx} cy={445} rx={235} ry={26} fill="none" stroke="#1A1A2E" strokeWidth={1.5} opacity={0.5} />
+        </g>
+      )}
+      {rewards.includes('pool') && (
+        <ellipse data-reward="pool" cx={150} cy={400} rx={13} ry={7} fill="#5FA8E8" stroke="#1A1A2E" strokeWidth={1.2} />
+      )}
+      {rewards.includes('flag') && (
+        <g data-reward="flag" transform={`translate(24 ${surfaceY(24)})`}>
+          <path d="M0 2 V-40" stroke="#1A1A2E" strokeWidth={2.5} strokeLinecap="round" />
+          <path d="M1 -40 h22 l-5 7 l5 7 h-22 z" fill="#4E9A5B" stroke="#1A1A2E" strokeWidth={1.8} strokeLinejoin="round" />
+        </g>
+      )}
+      {rewards.includes('dome') && (
+        <g data-reward="dome" transform="translate(330 424)">
+          <ellipse cx={0} cy={4} rx={24} ry={6} fill="#1A1A2E" opacity={0.15} />
+          <path d="M-22 2 a22 22 0 0 1 44 0 z" fill="rgba(255,255,255,0.6)" stroke="#1A1A2E" strokeWidth={2} />
+          <path d="M0 0 V-12 M0 -8 q-6 -2 -8 -8 M0 -10 q6 -2 8 -8" stroke="#4E9A5B" strokeWidth={2.5} fill="none" strokeLinecap="round" />
+        </g>
+      )}
+      {rewards.includes('lamp') && (
+        <g data-reward="lamp" transform="translate(120 528)">
+          <path d="M0 2 V-40" stroke="#1A1A2E" strokeWidth={3} strokeLinecap="round" />
+          <path d="M-9 -40 h18 l-3 -12 h-12 z" fill="#FFF3B0" stroke="#1A1A2E" strokeWidth={2} strokeLinejoin="round" />
+          {sky === 'night' && <circle cx={0} cy={-46} r={22} fill="url(#pl-glow)" />}
+        </g>
+      )}
+      {rewards.includes('blanket') && (
+        <g data-reward="blanket" transform="translate(280 520)">
+          <rect x={-30} y={-12} width={60} height={24} rx={4} fill="#FBE0CC" stroke="#1A1A2E" strokeWidth={1.8} transform="skewX(-12)" />
+          <path d="M-20 -12 V12 M-8 -12 V12 M4 -12 V12 M16 -12 V12 M-30 -4 H30 M-30 4 H30" stroke="#E8873C" strokeWidth={1.2} opacity={0.6} transform="skewX(-12)" />
         </g>
       )}
 

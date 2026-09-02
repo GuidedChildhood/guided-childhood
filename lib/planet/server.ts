@@ -8,6 +8,7 @@ import {
   type Home, type HomeAsk, type Tier,
 } from './logic'
 import { friendArt } from './registry'
+import { MISSION_DEFS, missionByKey } from './missions'
 export type { HomeView, ScreenAsk, ClientEvent } from './view'
 import type { HomeView, ScreenAsk, ClientEvent } from './view'
 
@@ -145,7 +146,22 @@ export async function loadHomeView(admin: Admin, userId: string, childId: string
   return toView(admin, childId, loaded)
 }
 
-const LOGGED: Set<string> = new Set(['nap_start', 'sunlight_start', 'ambient_start'])
+const LOGGED: Set<string> = new Set(['nap_start', 'sunlight_start', 'ambient_start', 'mission_start', 'mission_claim', 'mission_approve', 'mission_notnow'])
+
+/**
+ * A Star Lesson passed on the child's own link since the mission started.
+ * The lesson's own pass is the proof (design 3.2), read from the same table
+ * the lessons hub writes, never trusted from the client.
+ */
+async function lessonPassedSince(admin: Admin, childId: string, sinceIso: string): Promise<boolean> {
+  try {
+    const { count } = await admin
+      .from('kid_lesson_missions')
+      .select('id', { count: 'exact', head: true })
+      .eq('child_id', childId).eq('status', 'done').gte('completed_at', sinceIso)
+    return (count ?? 0) > 0
+  } catch { return false }
+}
 
 /**
  * One event from the child's screen. Reconcile, apply, save, and answer with
@@ -183,14 +199,49 @@ export async function applyHomeEvent(admin: Admin, userId: string, childId: stri
       ask = null
       await saveState(admin, childId, home, { ask: null })
     }
+  } else if (ev.kind === 'mission_approve' || ev.kind === 'mission_notnow') {
+    // Only a grown up (through the ask) or the server itself lands a mission.
+    return toView(admin, childId, { ...loaded, home, ask })
   } else {
-    const next = applyEvent(home, ev, loaded.nowIso)
-    if (JSON.stringify(next) !== JSON.stringify(home)) {
+    let next = applyEvent(home, ev, loaded.nowIso, MISSION_DEFS)
+    // The two proofs decided outside the pure rules.
+    if (ev.kind === 'mission_claim') {
+      const def = MISSION_DEFS[ev.key]
+      const st = next.missions.find(m => m.key === ev.key)
+      if (def && st && st.status === 'claimed') {
+        if (def.proof === 'lesson') {
+          if (await lessonPassedSince(admin, childId, st.startedAt)) {
+            next = applyEvent(next, { kind: 'mission_approve', key: ev.key }, loaded.nowIso, MISSION_DEFS)
+          } else {
+            // Not yet: the claim is undone so the child can try again after the lesson.
+            next = { ...next, missions: next.missions.map(m => (m.key === ev.key ? { ...m, status: 'doing' as const, claimedAt: null } : m)) }
+          }
+        } else if (def.proof === 'grownup_tap' && !(ask && ask.status === 'pending')) {
+          const card = missionByKey(ev.key)
+          ask = {
+            id: `ask_${Date.now().toString(36)}`, kind: 'mission', status: 'pending',
+            createdAt: loaded.nowIso, answeredAt: null, minutesLeft: 0,
+            missionKey: ev.key, title: card?.askLine ?? 'did a mission.',
+          }
+          const name = child.name ?? 'Your child'
+          try {
+            await sendPush({
+              userId,
+              title: `${name} did a mission 🪐`,
+              body: `${name} ${card?.askLine ?? 'did a mission.'} Say yes on your board and it lands on their planet.`,
+              url: '/dashboard/quests',
+            })
+          } catch { /* best effort, the pop up carries it */ }
+        }
+      }
+    }
+    if (JSON.stringify(next) !== JSON.stringify(home) || ask !== loaded.ask) {
       home = next
-      await saveState(admin, childId, home)
+      await saveState(admin, childId, home, ask !== loaded.ask ? { ask } : {})
       if (LOGGED.has(ev.kind)) {
-        const key = 'friend' in ev ? ev.friend : null
-        await log(admin, userId, childId, ev.kind, { friend: key, name: key ? friendArt(key).name : null })
+        const friend = 'friend' in ev ? ev.friend : null
+        const key = 'key' in ev ? ev.key : null
+        await log(admin, userId, childId, ev.kind, { friend, name: friend ? friendArt(friend).name : null, mission: key })
       }
     }
   }
@@ -215,8 +266,12 @@ export async function answerHomeAsk(
   if (row.ask.status !== 'pending') return { ok: true }
   const nowIso = new Date().toISOString()
   const ask: HomeAsk = { ...row.ask, status, answeredAt: nowIso }
-  let home = row.state
-  if (status === 'approved') home = applyEvent(home, { kind: 'wake_all' }, nowIso)
+  let home = reconcile(row.state, nowIso, null)
+  if (row.ask.kind === 'mission' && row.ask.missionKey) {
+    home = applyEvent(home, { kind: status === 'approved' ? 'mission_approve' : 'mission_notnow', key: row.ask.missionKey }, nowIso, MISSION_DEFS)
+  } else if (status === 'approved') {
+    home = applyEvent(home, { kind: 'wake_all' }, nowIso)
+  }
   await client.from('planet_homes')
     .update({ state: home, ask, updated_at: nowIso })
     .eq('child_id', childId)

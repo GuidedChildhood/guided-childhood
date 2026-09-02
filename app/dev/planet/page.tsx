@@ -1,6 +1,10 @@
 import PlanetFriends from '@/components/planet/PlanetFriends'
 import { resolveTheme } from '@/lib/kid/theme'
-import { applyEvent, newHome, type Tier } from '@/lib/planet/logic'
+import { applyEvent, newHome, type RewardKey, type Tier } from '@/lib/planet/logic'
+import { MISSION_DEFS } from '@/lib/planet/missions'
+
+const REWARD_KEYS: RewardKey[] = ['dome', 'flag', 'ring', 'pool', 'lamp', 'star', 'blanket', 'moon']
+const isRewardKey = (k: string): k is RewardKey => (REWARD_KEYS as string[]).includes(k)
 import type { HomeView } from '@/lib/planet/view'
 
 // Dev fixture for Planet Friends: the home planet with a pretend save and no
@@ -14,6 +18,9 @@ import type { HomeView } from '@/lib/planet/view'
 //   ?phase=day|winddown|bedtime
 //   ?rest=nap          every Friend already in the pod
 //   ?grew=1            a while you were away card waiting
+//   ?rewards=dome,flag what the missions have already brought home
+//   ?doing=spider_legs  missions already under way, the first on the board
+//   ?landed=plant_seed a mission just approved, the reveal waiting
 //   ?accent=coral      the child's theme
 // Never reachable in production (the dev layout gates on VERCEL_ENV).
 
@@ -29,6 +36,12 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
   home = { ...home, growthStage: stage, friends: home.friends.map(f => ({ ...f, energy })) }
   if (sp.rest === 'nap') for (const f of home.friends) home = applyEvent(home, { kind: 'nap_start', friend: f.key }, now)
   if (sp.grew === '1') home = { ...home, grewWhileAway: 25 }
+  if (sp.rewards) home = { ...home, rewards: sp.rewards.split(',').filter(isRewardKey) }
+  if (sp.doing) for (const key of sp.doing.split(',')) if (MISSION_DEFS[key]) home = applyEvent(home, { kind: 'mission_start', key }, now, MISSION_DEFS)
+  if (sp.landed && MISSION_DEFS[sp.landed]) {
+    home = applyEvent(home, { kind: 'mission_start', key: sp.landed }, now, MISSION_DEFS)
+    home = applyEvent(home, { kind: 'mission_approve', key: sp.landed }, now, MISSION_DEFS)
+  }
   const phase = sp.phase === 'winddown' ? 'winddown' : sp.phase === 'bedtime' ? 'bedtime' : 'day'
   const view: HomeView = {
     home, serverNow: now, tier,

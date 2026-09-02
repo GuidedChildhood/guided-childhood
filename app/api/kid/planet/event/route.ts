@@ -10,7 +10,7 @@ import { FRIEND_KEYS, type FriendKey } from '@/lib/planet/logic'
 
 export const dynamic = 'force-dynamic'
 
-const KINDS = new Set(['tick', 'nap_start', 'sunlight_start', 'ambient_start', 'cloud', 'seen', 'ask_wake', 'ask_seen'])
+const KINDS = new Set(['tick', 'nap_start', 'sunlight_start', 'ambient_start', 'cloud', 'seen', 'ask_wake', 'ask_seen', 'mission_start', 'mission_claim', 'mission_seen'])
 
 function parseEvent(body: Record<string, unknown>): ClientEvent | null {
   const kind = String(body.kind ?? '')
@@ -23,6 +23,15 @@ function parseEvent(body: Record<string, unknown>): ClientEvent | null {
   if (kind === 'cloud') {
     if (!friend) return null
     return { kind, friend, on: Boolean(body.on) }
+  }
+  if (kind === 'mission_start' || kind === 'mission_claim' || kind === 'mission_seen') {
+    const key = typeof body.key === 'string' && /^[a-z_]{2,32}$/.test(body.key) ? body.key : null
+    if (!key) return null
+    if (kind === 'mission_claim') {
+      const code = Array.isArray(body.code) ? body.code.filter((t): t is string => typeof t === 'string' && t.length <= 4).slice(0, 12) : undefined
+      return { kind, key, code }
+    }
+    return { kind, key }
   }
   return { kind } as ClientEvent
 }

@@ -10,9 +10,20 @@
 
 import assert from 'node:assert/strict'
 import {
-  TIERS, GROWTH, SLEEPY_AT, TICK_CAP_SECONDS, ACTIVE_BY_TIER, FRIEND_MIN_AGE,
-  tierFor, childAgeFor, isGrownUp, newHome, applyEvent, reconcile, moodOf, restOverlay, bedtimePhase, nightKeyFor, minutesLeft, addMinutes,
+  TIERS, GROWTH, SLEEPY_AT, TICK_CAP_SECONDS, ACTIVE_BY_TIER, FRIEND_MIN_AGE, BOARD_SIZE,
+  tierFor, childAgeFor, isGrownUp, newHome, applyEvent, reconcile, moodOf, restOverlay, bedtimePhase, nightKeyFor, minutesLeft, addMinutes, boardFor,
 } from '../lib/planet/logic.ts'
+
+// The mission mechanics, stated here rather than imported from the registry
+// so this file stays free of app imports.
+const DEFS = {
+  plant_seed: { key: 'plant_seed', tiers: [1, 2], proof: 'grownup_tap', reward: 'dome' },
+  leaf_walk: { key: 'leaf_walk', tiers: [1, 2], proof: 'grownup_tap', reward: 'flag' },
+  stretch: { key: 'stretch', tiers: [1, 2], proof: 'timer', timerMinutes: 5, reward: 'ring' },
+  water_plant: { key: 'water_plant', tiers: [1, 2], proof: 'grownup_tap', reward: 'pool' },
+  spider_legs: { key: 'spider_legs', tiers: [2], proof: 'code', answer: ['8'], reward: 'moon' },
+  do_lesson: { key: 'do_lesson', tiers: [2], proof: 'lesson', reward: 'star' },
+}
 
 const T0 = '2026-09-02T15:00:00.000Z'
 const at = (min) => addMinutes(T0, min)
@@ -170,6 +181,74 @@ check('the night key is today once the window has ended, yesterday before that, 
   assert.equal(nightKeyFor('2026-09-02', 6 * 60, 7 * 60), '2026-09-01')
   assert.equal(nightKeyFor('2026-03-01', 1, 7 * 60), '2026-02-28')
   assert.equal(nightKeyFor('2026-09-02', 8 * 60, null), null)
+})
+
+check('the board: one mission at Tier 1, three at Tier 2, missions under way first, landed ones gone', () => {
+  const defs = Object.values(DEFS)
+  let h1 = newHome(1, T0, null)
+  assert.equal(boardFor(h1, defs).length, BOARD_SIZE[1])
+  assert.equal(boardFor(h1, defs).length, 1)
+  let h2 = newHome(2, T0, null)
+  assert.deepEqual(boardFor(h2, defs), ['plant_seed', 'leaf_walk', 'stretch'])
+  h2 = applyEvent(h2, { kind: 'mission_start', key: 'stretch' }, T0, DEFS)
+  assert.equal(boardFor(h2, defs)[0], 'stretch')
+  h2 = applyEvent(h2, { kind: 'mission_start', key: 'plant_seed' }, T0, DEFS)
+  h2 = applyEvent(h2, { kind: 'mission_claim', key: 'plant_seed' }, at(1), DEFS)
+  h2 = applyEvent(h2, { kind: 'mission_approve', key: 'plant_seed' }, at(2), DEFS)
+  h2 = applyEvent(h2, { kind: 'mission_seen', key: 'plant_seed' }, at(3), DEFS)
+  assert.ok(!boardFor(h2, defs).includes('plant_seed'))
+  assert.equal(boardFor(h2, defs).length, 3)
+  // A Tier 1 planet never sees a Tier 2 mission.
+  h1 = applyEvent(h1, { kind: 'mission_start', key: 'spider_legs' }, T0, DEFS)
+  assert.equal(h1.missions.length, 0)
+})
+
+check('a timer mission lands only when the real minutes are up, and pays its reward once', () => {
+  let h = newHome(2, T0, null)
+  h = applyEvent(h, { kind: 'mission_start', key: 'stretch' }, T0, DEFS)
+  assert.equal(h.missions[0].timerEndsAt, at(5))
+  h = applyEvent(h, { kind: 'mission_claim', key: 'stretch' }, at(3), DEFS)
+  assert.equal(h.missions[0].status, 'doing')
+  h = applyEvent(h, { kind: 'mission_claim', key: 'stretch' }, at(5), DEFS)
+  assert.equal(h.missions[0].status, 'approved')
+  assert.deepEqual(h.rewards, ['ring'])
+  h = applyEvent(h, { kind: 'mission_seen', key: 'stretch' }, at(6), DEFS)
+  assert.equal(h.missions[0].status, 'done')
+  assert.deepEqual(h.rewards, ['ring'])
+})
+
+check('a code mission lands on the right answer and stays put on a wrong one, with no count of tries', () => {
+  let h = newHome(2, T0, null)
+  h = applyEvent(h, { kind: 'mission_start', key: 'spider_legs' }, T0, DEFS)
+  h = applyEvent(h, { kind: 'mission_claim', key: 'spider_legs', code: ['7'] }, at(1), DEFS)
+  assert.equal(h.missions[0].status, 'doing')
+  h = applyEvent(h, { kind: 'mission_claim', key: 'spider_legs', code: ['8'] }, at(2), DEFS)
+  assert.equal(h.missions[0].status, 'approved')
+  assert.deepEqual(h.rewards, ['moon'])
+})
+
+check('a grown up mission waits as claimed, a yes lands it, a not now puts it back on the board', () => {
+  let h = newHome(1, T0, null)
+  h = applyEvent(h, { kind: 'mission_start', key: 'leaf_walk' }, T0, DEFS)
+  h = applyEvent(h, { kind: 'mission_claim', key: 'leaf_walk' }, at(1), DEFS)
+  assert.equal(h.missions[0].status, 'claimed')
+  const no = applyEvent(h, { kind: 'mission_notnow', key: 'leaf_walk' }, at(2), DEFS)
+  assert.equal(no.missions[0].status, 'notnow')
+  assert.deepEqual(no.rewards, [])
+  const again = applyEvent(no, { kind: 'mission_start', key: 'leaf_walk' }, at(3), DEFS)
+  assert.equal(again.missions[0].status, 'doing')
+  const yes = applyEvent(h, { kind: 'mission_approve', key: 'leaf_walk' }, at(2), DEFS)
+  assert.equal(yes.missions[0].status, 'approved')
+  assert.deepEqual(yes.rewards, ['flag'])
+})
+
+check('a planet saved before the missions existed is filled in, not broken', () => {
+  const old = { ...newHome(1, T0, null) }
+  delete old.missions
+  delete old.rewards
+  const fixed = reconcile(old, T0, null)
+  assert.deepEqual(fixed.missions, [])
+  assert.deepEqual(fixed.rewards, [])
 })
 
 console.log(`\nPASS  ${passed} checks. The loop ends itself, the planet grows while the child is away, the cast grows up with them, and the night lands once.`)
