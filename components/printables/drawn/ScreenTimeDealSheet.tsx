@@ -1,4 +1,4 @@
-import { HappyPaper, Caption, WriteLine, TickCircle, INK, INK_MUTED } from './HappyPaper'
+import { HappyPaper, Caption, WriteLine, TickCircle, INK, INK_MUTED, CRAYON, useExample } from './HappyPaper'
 import type { Bedtime } from './PhonesToBedSheet'
 
 // My Screen Time Deal, ages 8 to 16 (stages 2 to 5).
@@ -22,13 +22,14 @@ export type DealFacts = {
   schoolHours?: boolean | null
 }
 
-function Jar({ label, children }: { label: string; children: React.ReactNode }) {
+function Jar({ label, crayon, children }: { label: string; crayon: string; children: React.ReactNode }) {
+  const ex = useExample()
   return (
     <div style={{ position: 'relative', width: 218, height: 300, flexShrink: 0 }}>
       <svg viewBox="0 0 218 300" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} aria-hidden>
-        <rect x="52" y="6" width="114" height="26" rx="8" fill="#fff" stroke={INK} strokeWidth="5" />
-        <path d="M40 50 Q40 32 60 32 H158 Q178 32 178 50 V60 Q200 70 200 100 V270 Q200 294 176 294 H42 Q18 294 18 270 V100 Q18 70 40 60 Z" fill="#fff" stroke={INK} strokeWidth="6" strokeLinejoin="round" />
-        <rect x="36" y="118" width="146" height="34" rx="8" fill="#fff" stroke={INK} strokeWidth="4" />
+        <rect x="52" y="6" width="114" height="26" rx="8" fill={ex ? CRAYON.paper : '#fff'} stroke={INK} strokeWidth="5" />
+        <path d="M40 50 Q40 32 60 32 H158 Q178 32 178 50 V60 Q200 70 200 100 V270 Q200 294 176 294 H42 Q18 294 18 270 V100 Q18 70 40 60 Z" fill={ex ? crayon : '#fff'} stroke={INK} strokeWidth="6" strokeLinejoin="round" />
+        <rect x="36" y="118" width="146" height="34" rx="8" fill={ex ? CRAYON.paper : '#fff'} stroke={INK} strokeWidth="4" />
         <text x="109" y="141" textAnchor="middle" fontFamily="var(--font-mono)" fontSize="11.5" fontWeight="700" letterSpacing="1.4" fill={INK}>{label.toUpperCase()}</text>
       </svg>
       <div style={{ position: 'absolute', left: 30, right: 30, top: 164, bottom: 16, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6 }}>
@@ -43,9 +44,10 @@ export default function ScreenTimeDealSheet({ childName, stars, facts = {} }: {
   stars: number
   facts?: DealFacts
 }) {
+  const ex = useExample()
   const core = facts.coreMinutesDaily && facts.coreMinutesDaily > 0 ? String(facts.coreMinutesDaily) : null
   const rate = facts.starMinutes && facts.starMinutes > 0 ? String(facts.starMinutes) : null
-  const bed = facts.bedtime ? `${facts.bedtime.start} to ${facts.bedtime.end}` : null
+  const bed = facts.bedtime ? `${facts.bedtime.start} to ${facts.bedtime.end}` : ex ? '8 to 7' : null
   return (
     <HappyPaper
       title="My screen time deal"
@@ -54,32 +56,32 @@ export default function ScreenTimeDealSheet({ childName, stars, facts = {} }: {
       deal="Signed by both of you and on the fridge?"
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', flexShrink: 0, padding: '0 6px' }}>
-        <Jar label="Mine every day">
-          <WriteLine label="" height={34} size={13} value={core} />
+        <Jar label="Mine every day" crayon={CRAYON.sky}>
+          <WriteLine label="" height={34} size={13} value={core} sample="30" />
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13, textAlign: 'center', lineHeight: 1.3, color: INK }}>
             minutes, no strings. Mine because I am me.
           </div>
         </Jar>
-        <Jar label="Earned with stars">
+        <Jar label="Earned with stars" crayon={CRAYON.butter}>
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6 }}>
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 15, color: INK, paddingBottom: 3, whiteSpace: 'nowrap', flexShrink: 0 }}>1 ⭐ =</span>
-            <WriteLine height={34} size={13} value={rate} />
+            <WriteLine height={34} size={13} value={rate} sample="5" />
           </div>
           <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13, textAlign: 'center', lineHeight: 1.3, color: INK }}>
             minutes. Jobs turn into stars, stars turn into time.
           </div>
         </Jar>
-        <Jar label="Nobody's">
+        <Jar label="Nobody's" crayon={CRAYON.coral}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <TickCircle size={20} filled={!!bed} />
+            <TickCircle size={20} filled={!!facts.bedtime} sample />
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 12.5, color: INK, lineHeight: 1.2 }}>Bedtime{bed ? ` ${bed}` : ''}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <TickCircle size={20} filled={!!facts.mealtimes} />
+            <TickCircle size={20} filled={!!facts.mealtimes} sample />
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 12.5, color: INK }}>Mealtimes</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <TickCircle size={20} filled={!!facts.schoolHours} />
+            <TickCircle size={20} filled={!!facts.schoolHours} sample />
             <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 12.5, color: INK }}>School hours</span>
           </div>
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: INK_MUTED, textAlign: 'center', marginTop: 2 }}>
@@ -95,14 +97,14 @@ export default function ScreenTimeDealSheet({ childName, stars, facts = {} }: {
         </div>
         <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12, height: 178, padding: '0 8px' }}>
           {[
-            { title: 'Set for me', sub: 'A grown up holds it', h: 96 },
-            { title: 'Set together', sub: 'We hold it together', h: 136 },
-            { title: 'Set by me', sub: 'I hold it myself', h: 176 },
+            { title: 'Set for me', sub: 'A grown up holds it', h: 96, on: false },
+            { title: 'Set together', sub: 'We hold it together', h: 136, on: true },
+            { title: 'Set by me', sub: 'I hold it myself', h: 176, on: false },
           ].map(step => (
-            <div key={step.title} style={{ flex: 1, height: step.h, boxSizing: 'border-box', border: `3px solid ${INK}`, borderRadius: 16, background: '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, padding: 10 }}>
-              <TickCircle size={26} />
+            <div key={step.title} style={{ flex: 1, height: step.h, boxSizing: 'border-box', border: `3px solid ${INK}`, borderRadius: 16, background: ex && step.on ? CRAYON.butter : '#fff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, padding: 10 }}>
+              <TickCircle size={26} sample={step.on} />
               <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, color: INK, lineHeight: 1.1, textAlign: 'center' }}>{step.title}</div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: INK_MUTED, textAlign: 'center' }}>{step.sub}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: ex && step.on ? INK : INK_MUTED, textAlign: 'center' }}>{step.sub}</div>
             </div>
           ))}
         </div>
@@ -113,8 +115,8 @@ export default function ScreenTimeDealSheet({ childName, stars, facts = {} }: {
       </Caption>
 
       <div style={{ display: 'flex', gap: 30, padding: '6px 20px 0', flexShrink: 0 }}>
-        <WriteLine label="Signed (me)" height={38} size={14} />
-        <WriteLine label="Signed (grown up)" height={38} size={14} />
+        <WriteLine label="Signed (me)" height={38} size={14} sample={childName || 'Alfie'} />
+        <WriteLine label="Signed (grown up)" height={38} size={14} sample="Mum" />
       </div>
     </HappyPaper>
   )

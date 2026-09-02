@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { DrawnKey } from '@/components/printables/drawn'
-import DrawnPaper from '@/components/printables/drawn/DrawnPaper'
+import DrawnCover from '@/components/printables/drawn/DrawnCover'
 import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
 import { KID_HOME_SEEN_KEY } from '@/components/kid/KidBackLink'
 import { useRouter } from 'next/navigation'
@@ -1580,9 +1580,7 @@ export default function KidQuestScreen({
                 border: '1.5px solid var(--border)', boxShadow: '0 4px 0 rgba(26,26,46,0.10)',
               }}>
                 {assignedPrintable.drawn ? (
-                  <div style={{ position: 'absolute', left: '8%', right: '8%', top: 4 }} aria-hidden>
-                    <DrawnPaper spec={{ key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars }} />
-                  </div>
+                  <DrawnCover spec={{ key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars }} />
                 ) : (
                   <Image src={assignedPrintable.previewUrl} alt="" fill sizes="152px" style={{ objectFit: 'contain' }} />
                 )}

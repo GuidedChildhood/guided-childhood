@@ -1,4 +1,4 @@
-import { HappyPaper, Caption, WriteLine, Heart, INK, INK_MUTED } from './HappyPaper'
+import { HappyPaper, Caption, WriteLine, Heart, INK, INK_MUTED, CRAYON, useExample } from './HappyPaper'
 
 // My Helping Hand, ages 4 to 12 (stages 1 to 3).
 //
@@ -10,8 +10,10 @@ import { HappyPaper, Caption, WriteLine, Heart, INK, INK_MUTED } from './HappyPa
 // names are there on the day they are needed.
 
 const FINGERS = ['1', '2', '3', '4', '5']
+const SAMPLE_NAMES = ['Mum', 'Dad', 'Nana', 'Mr Shaw at school', 'Auntie Jo']
 
 export default function HelpingHandSheet({ childName, stars }: { childName: string; stars: number }) {
+  const ex = useExample()
   return (
     <HappyPaper
       title="My helping hand"
@@ -25,17 +27,17 @@ export default function HelpingHandSheet({ childName, stars }: { childName: stri
           <svg viewBox="0 0 300 420" style={{ width: 330, height: 462 }} aria-hidden>
             <path
               d="M85 415 L85 300 C60 270 30 225 25 198 C22 182 40 176 52 189 C65 203 80 226 90 241 L90 112 C90 88 120 88 120 112 L120 205 L128 62 C130 38 160 38 160 62 L160 205 L168 84 C170 58 200 58 200 84 L200 214 L206 124 C208 102 236 102 236 124 L236 255 C236 305 230 345 215 415 Z"
-              fill="#fff" stroke={INK} strokeWidth="6" strokeLinejoin="round" strokeLinecap="round"
+              fill={ex ? CRAYON.butter : '#fff'} stroke={INK} strokeWidth="6" strokeLinejoin="round" strokeLinecap="round"
             />
             {/* finger numbers */}
             {[[44, 200], [105, 128], [144, 78], [184, 100], [221, 140]].map(([x, y], i) => (
               <g key={i}>
-                <circle cx={x} cy={y} r="14" fill="#fff" stroke={INK} strokeWidth="3" />
+                <circle cx={x} cy={y} r="14" fill={ex ? [CRAYON.sky, CRAYON.coral, CRAYON.green, CRAYON.sky, CRAYON.coral][i] : '#fff'} stroke={INK} strokeWidth="3" />
                 <text x={x} y={y + 5} textAnchor="middle" fontFamily="var(--font-display)" fontWeight="900" fontSize="15" fill={INK}>{FINGERS[i]}</text>
               </g>
             ))}
             {/* a heart on the palm, to colour */}
-            <path d="M150 335 S118 312 118 292 a16 16 0 0 1 32 -8 a16 16 0 0 1 32 8 c0 20 -32 43 -32 43 z" fill="#fff" stroke={INK} strokeWidth="4" strokeLinejoin="round" />
+            <path d="M150 335 S118 312 118 292 a16 16 0 0 1 32 -8 a16 16 0 0 1 32 8 c0 20 -32 43 -32 43 z" fill={ex ? CRAYON.coral : '#fff'} stroke={INK} strokeWidth="4" strokeLinejoin="round" />
           </svg>
         </div>
 
@@ -44,10 +46,10 @@ export default function HelpingHandSheet({ childName, stars }: { childName: stri
           <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: INK_MUTED }}>
             Grown ups I can always tell
           </div>
-          {FINGERS.map(n => (
+          {FINGERS.map((n, i) => (
             <div key={n} style={{ display: 'flex', alignItems: 'flex-end', gap: 10 }}>
-              <span style={{ width: 30, height: 30, borderRadius: '50%', border: `3px solid ${INK}`, boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15, color: INK, flexShrink: 0 }}>{n}</span>
-              <WriteLine height={44} size={15} />
+              <span style={{ width: 30, height: 30, borderRadius: '50%', border: `3px solid ${INK}`, boxSizing: 'border-box', background: ex ? [CRAYON.sky, CRAYON.coral, CRAYON.green, CRAYON.sky, CRAYON.coral][i] : '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 15, color: INK, flexShrink: 0 }}>{n}</span>
+              <WriteLine height={44} size={15} sample={SAMPLE_NAMES[i]} />
             </div>
           ))}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 6 }}>
@@ -60,11 +62,11 @@ export default function HelpingHandSheet({ childName, stars }: { childName: stri
       </div>
 
       {/* The palm sentence */}
-      <div style={{ border: `3px solid ${INK}`, borderRadius: 18, padding: '12px 18px 14px', flexShrink: 0, marginTop: 6 }}>
+      <div style={{ border: `3px solid ${INK}`, borderRadius: 18, padding: '12px 18px 14px', flexShrink: 0, marginTop: 6, background: ex ? CRAYON.paper : '#fff' }}>
         <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 17, color: INK, lineHeight: 1.3 }}>
           If something online feels odd, wrong or scary, I stop, I do not reply, and I tell
         </div>
-        <WriteLine height={40} size={16} />
+        <WriteLine height={40} size={16} sample="Mum or Dad straight away" />
       </div>
 
       <Caption size={15} top={8}>

@@ -10,6 +10,7 @@ import { printPack } from '@/lib/kid/print-sheet'
 import { printOrOpen, tickPrintableStep, type PrintableTick } from '@/lib/kid/print-anywhere'
 import KidSheetPaper from '@/components/kid/KidSheetPaper'
 import DrawnPaper from '@/components/printables/drawn/DrawnPaper'
+import DrawnCover from '@/components/printables/drawn/DrawnCover'
 import type { DealFacts } from '@/components/printables/drawn'
 import { HAPPY, HappyMasthead, Burst, Sticker, SmileyDot, StarShape, WavyRule, CloseCross, HappyScatter } from '@/components/kid/HappyNewsBits'
 
@@ -242,11 +243,10 @@ export default function KidPrintables({
                       cropping an A4 portrait threw away a third of every sheet. */}
                   <div style={{ position: 'relative', aspectRatio: '3 / 3.6', background: '#FFFDF8', borderBottom: `2px solid ${HAPPY.ink}` }}>
                     {p.drawn ? (
-                      // A drawn sheet is its own preview: the real paper,
-                      // scaled to the tile, the child's name already on it.
-                      <div style={{ position: 'absolute', left: '6%', right: '6%', top: 6, overflow: 'hidden' }} aria-hidden>
-                        <DrawnPaper spec={{ key: p.drawn, childName, stars: p.stars, facts: dealFacts }} />
-                      </div>
+                      // A drawn sheet's front is a filled in, coloured in
+                      // window onto its picture, not the whole blank page
+                      // shrunk to a smudge (DrawnCover has the story).
+                      <DrawnCover spec={{ key: p.drawn, childName, stars: p.stars }} />
                     ) : (
                       <Image src={p.previewUrl} alt="" fill sizes="(max-width: 600px) 45vw, 260px" style={{ objectFit: 'contain', padding: 8 }} />
                     )}
@@ -414,6 +414,10 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
 
   const requested = asked || !!ask
   const saidNo = ask?.status === 'declined'
+  // "See one filled in": the drawn sheet coloured and written on, so a child
+  // can see what theirs could look like. On screen only; the paper that
+  // prints is the blank one underneath, always.
+  const [showExample, setShowExample] = useState(false)
 
   return (
     <div className="kid-print-root" style={{ position: 'fixed', inset: 0, zIndex: 220, background: HAPPY.cream, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
@@ -425,6 +429,7 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
         .kid-print-root, .kid-print-root .kid-sheet-paper, .kid-print-root .kid-sheet-paper * { visibility: visible !important; }
         .kid-print-root { position: absolute !important; inset: 0 !important; overflow: visible !important; background: #fff !important; }
         .kid-print-root .kid-print-chrome { display: none !important; }
+        .kid-print-root .kid-print-paper { display: block !important; }
         @page { margin: 8mm; }
       }`}</style>
 
@@ -532,7 +537,26 @@ export function KidPrintableSheet({ token, childName = '', dealFacts, printable:
       {/* The paper. For a pack the preview stands in, since the pages are a
           PDF the button opens; for a sheet this IS the print. */}
       <div style={{ maxWidth: 560, margin: '0 auto', padding: '0 16px 40px' }}>
-        <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 16, overflow: 'hidden', boxShadow: `0 4px 0 ${HAPPY.ink}` }} className={isPack ? 'kid-print-chrome' : undefined}>
+        {p.drawn && (
+          <div className="kid-print-chrome" style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+            <button
+              onClick={() => { playKidSound('tap'); setShowExample(v => !v) }}
+              style={{
+                padding: '10px 18px', borderRadius: 100, cursor: 'pointer',
+                border: `2px solid ${HAPPY.ink}`, background: showExample ? '#fff' : HAPPY.butter, color: HAPPY.ink, boxShadow: `0 4px 0 ${HAPPY.ink}`,
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+              }}
+            >
+              {showExample ? 'Back to the blank one' : 'See one filled in ✏️'}
+            </button>
+          </div>
+        )}
+        {p.drawn && showExample && (
+          <div className="kid-print-chrome" style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 16, overflow: 'hidden', boxShadow: `0 4px 0 ${HAPPY.ink}` }} aria-hidden>
+            <DrawnPaper spec={{ key: p.drawn, childName, stars: p.stars, facts: dealFacts, example: true }} />
+          </div>
+        )}
+        <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 16, overflow: 'hidden', boxShadow: `0 4px 0 ${HAPPY.ink}`, display: p.drawn && showExample ? 'none' : undefined }} className={isPack ? 'kid-print-chrome' : 'kid-print-paper'}>
           {isPack ? (
             <div style={{ position: 'relative', aspectRatio: '3 / 4' }}>
               <Image src={p.previewUrl} alt={p.title} fill sizes="560px" style={{ objectFit: 'contain', padding: 10 }} />
