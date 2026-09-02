@@ -37,11 +37,15 @@ export function HappyIcon({ name, size = 40 }: { name: HappyIconName; size?: num
   const s = { width: size, height: size, viewBox: '0 0 64 64', fill: 'none', stroke: INK, strokeWidth: 3, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, 'aria-hidden': true }
   switch (name) {
     case 'time':
+      // A timer, and the job ticked beside it: time you earned.
       return (
         <svg {...s}>
-          <circle cx="32" cy="34" r="22" fill={CRAYON.butter} />
-          <path d="M26 8h12M32 8v4" />
-          <path d="M27 24v20l16-10z" fill="#fff" />
+          <circle cx="26" cy="36" r="20" fill={CRAYON.butter} />
+          <path d="M20 12h12M26 12v4" />
+          <path d="M26 24v12l8 5" strokeWidth="3.5" />
+          <rect x="40" y="30" width="20" height="24" rx="5" fill="#fff" />
+          <path d="M44 42l4 4 8-8" stroke={CRAYON.green} strokeWidth="4" />
+          <path d="M44 42l4 4 8-8" strokeWidth="2" />
         </svg>
       )
     case 'wins':
@@ -64,12 +68,16 @@ export function HappyIcon({ name, size = 40 }: { name: HappyIconName; size?: num
         </svg>
       )
     case 'lessons':
+      // An open book with a bulb lit over it: learn it, pass it.
       return (
         <svg {...s}>
-          <path d="M8 14q12-4 24 2v36q-12-6-24-2z" fill={CRAYON.green} />
-          <path d="M56 14q-12-4-24 2v36q12-6 24-2z" fill="#fff" />
-          <path d="M38 24h10M38 31h10M38 38h6" strokeWidth="2.5" />
-          <path d="M14 26h10M14 33h10" stroke="#fff" strokeWidth="2.5" />
+          <path d="M8 24q12-4 24 2v30q-12-6-24-2z" fill={CRAYON.green} />
+          <path d="M56 24q-12-4-24 2v30q12-6 24-2z" fill="#fff" />
+          <path d="M38 34h10M38 41h10" strokeWidth="2.5" />
+          <path d="M14 36h10M14 43h10" stroke="#fff" strokeWidth="2.5" />
+          <path d="M32 4a9 9 0 0 0-5 16v3h10v-3a9 9 0 0 0-5-16z" fill={CRAYON.butter} />
+          <path d="M29 26h6" />
+          <path d="M14 10l3 3M50 10l-3 3M32 0v2" strokeWidth="2.5" stroke={CRAYON.coral} />
         </svg>
       )
     case 'deal':
@@ -93,21 +101,29 @@ export function HappyIcon({ name, size = 40 }: { name: HappyIconName; size?: num
         </svg>
       )
     case 'ask':
+      // A hand holding up an idea card: the pitch, not the object.
       return (
         <svg {...s}>
-          <path d="M32 8a15 15 0 0 0-9 27v6h18v-6a15 15 0 0 0-9-27z" fill={CRAYON.butter} />
-          <path d="M25 47h14M27 53h10" />
-          <path d="M32 18v10M27 23h10" stroke="#fff" strokeWidth="3.5" />
-          <path d="M52 8l1.5 3.5 3.5 1.5-3.5 1.5L52 18l-1.5-3.5L47 13l3.5-1.5z" fill={CRAYON.coral} strokeWidth="2" />
+          <rect x="22" y="6" width="34" height="26" rx="5" fill={CRAYON.paper} transform="rotate(-6 39 19)" />
+          <path d="M31 14l1.5 3.4 3.7.4-2.8 2.5.8 3.6-3.2-1.9-3.2 1.9.8-3.6-2.8-2.5 3.7-.4z" fill={CRAYON.butter} strokeWidth="2" transform="rotate(-6 39 19)" />
+          <path d="M40 15h10M40 21h8" strokeWidth="2.5" transform="rotate(-6 39 19)" />
+          <path d="M14 58V40c0-6 4-10 10-10h4l6 4h8a4 4 0 0 1 0 8h-8" fill={CRAYON.coral} />
+          <path d="M34 42h6a4 4 0 0 1 0 8h-6M34 50h4a4 4 0 0 1 0 8H24" fill={CRAYON.coral} />
+          <path d="M14 40l-6 4v14h6" fill={CRAYON.coral} />
         </svg>
       )
     case 'print':
+      // A crayon drawing a smiley on the paper: colour and do.
       return (
         <svg {...s}>
-          <path d="M40 6l10 10-26 26-12 2 2-12z" fill={CRAYON.coral} />
-          <path d="M34 12l10 10" />
-          <path d="M12 54q8-8 14 0t14 0t12-4" strokeWidth="3.5" stroke={CRAYON.sky} />
-          <path d="M12 54q8-8 14 0t14 0t12-4" strokeWidth="1.5" />
+          <rect x="6" y="10" width="36" height="46" rx="4" fill="#fff" />
+          <circle cx="24" cy="30" r="10" fill={CRAYON.butter} strokeWidth="2.5" />
+          <circle cx="20.5" cy="28" r="1.4" fill={INK} stroke="none" /><circle cx="27.5" cy="28" r="1.4" fill={INK} stroke="none" />
+          <path d="M20 33q4 3 8 0" strokeWidth="2.2" />
+          <path d="M14 48h14" strokeWidth="3" stroke={CRAYON.sky} />
+          <path d="M40 60l6-14 9 4-6 14z" fill={CRAYON.coral} />
+          <path d="M46 46l9-20 9 4-9 20z" fill={CRAYON.coral} />
+          <path d="M55 26l3-6 6 3-2 6" fill={CRAYON.paper} />
         </svg>
       )
     case 'games':

@@ -32,6 +32,7 @@ import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
+import KidTabBar from '@/components/kid/KidTabBar'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
@@ -2109,49 +2110,11 @@ export default function KidQuestScreen({
             shadow instead of a cream strip that melted into the page, the
             labels a size up in full ink, the icons bigger, the tap targets
             taller. Same three tabs, same sticky behaviour. */}
-        <div
-          id="kid-tabs"
-          style={{
-            position: 'sticky', top: 0, zIndex: 30,
-            display: 'flex', gap: '4px', background: '#fff',
-            border: '2px solid rgba(26,26,46,0.16)', borderRadius: '18px',
-            padding: '5px', marginBottom: '16px', scrollMarginTop: '12px',
-            boxShadow: '0 5px 0 rgba(26,26,46,0.12), 0 10px 24px rgba(26,26,46,0.16)',
-          }}
-        >
-          {([['quests', 'Quests', 'star', 0], ['lessons', 'Lessons', 'lessons', totalNewLessons], ['print', 'Printables', 'printables', newPrint]] as const).map(([key, label, icon, dot]) => {
-            const on = tab === key
-            return (
-              <button
-                key={key}
-                onClick={() => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
-                style={{
-                  position: 'relative',
-                  flex: 1, padding: '12px 4px', borderRadius: '14px', cursor: 'pointer', border: 'none',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                  background: on ? 'var(--terracotta)' : 'transparent',
-                  color: 'var(--ink)',
-                  boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
-                  transition: 'background 0.15s',
-                }}
-              >
-                <KidIcon name={icon as KidIconName} size={24} color={on ? 'var(--ink)' : 'var(--ink-soft)'} />
-                {label}
-                {dot > 0 && (
-                  <span style={{
-                    position: 'absolute', top: '-5px', right: '-2px', minWidth: 20, height: 20, padding: '0 5px',
-                    borderRadius: '100px', background: '#E5484D', color: '#fff',
-                    fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, lineHeight: '20px',
-                    textAlign: 'center', boxShadow: '0 0 0 2px var(--cream)',
-                  }}>
-                    {dot > 9 ? '9+' : dot}
-                  </span>
-                )}
-              </button>
-            )
-          })}
-        </div>
+        <KidTabBar
+          current={tab}
+          badges={{ lessons: totalNewLessons, print: newPrint }}
+          onSelect={key => { setTab(key); setActiveLesson(null); playKidSound('tap'); goToTab(key) }}
+        />
 
         {tab === 'quests' && (<>
         {/* The balance insight surface: a bigger, brighter, character led card

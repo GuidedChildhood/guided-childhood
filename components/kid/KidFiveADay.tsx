@@ -5,6 +5,7 @@ import { STEPS, type StepKey } from '@/lib/kid/five-a-day'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 import KidStepSheet from '@/components/kid/KidStepSheet'
+import { Ribbon } from '@/components/kid/HappyNewsBits'
 import { KID_DAY_EVENT, type PrintableTick } from '@/lib/kid/print-anywhere'
 
 // The five a day card: the whole of a child's day, one step at a time.
@@ -308,10 +309,12 @@ export default function KidFiveADay({
       background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '22px',
       padding: '16px 16px 12px', marginBottom: '16px', boxShadow: '0 5px 0 rgba(26,26,46,0.08)',
     }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: 0, lineHeight: 1.15 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '4px' }}>
+        {/* The one ribbon heading on the screen (the Happy Newspaper pass):
+            the five a day is the heading that matters, so it gets the banner. */}
+        <Ribbon tone={state.complete ? 'green' : 'butter'}>
           {state.complete ? 'Today is done! 🎉' : 'Your five for today'}
-        </p>
+        </Ribbon>
         <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink-muted)', flexShrink: 0 }}>
           {doneCount} of {total}
         </span>

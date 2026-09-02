@@ -653,6 +653,9 @@ export default function SchoolsPage() {
             <Link href="/pricing" className="btn btn-gold" style={{ padding: '15px 32px', fontSize: 'var(--text-md)' }}>
               See what is included and request an invoice
             </Link>
+            <p style={{ marginTop: '14px', fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>
+              Not buying yet? <Link href="/draw" style={{ color: 'var(--terracotta-dark)', fontWeight: 700, textDecoration: 'none' }}>Enter the free class pack draw</Link>, one school wins every term.
+            </p>
             <p style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--ink-muted)' }}>
               Every band includes everything · one code opens it for your whole staff room
             </p>

@@ -230,6 +230,10 @@ export default function KidSquadIntro({
 
             <span style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 12, animation: 'gcFloat 3.2s ease-in-out infinite' }}>
               <span aria-hidden style={{ position: 'absolute', width: 250, height: 250, borderRadius: '50%', background: `radial-gradient(circle, ${friend.colour}${isYours || isNext ? '55' : '2E'} 0%, ${friend.colour}00 68%)`, animation: 'gcGlow 2.6s ease-in-out infinite' }} />
+              {/* The circle plate under the friend (the Happy Newspaper
+                  pass): a pale disc of the friend's own colour, so the cutout
+                  reads as a page rather than a sticker on the dark. */}
+              <span aria-hidden style={{ position: 'absolute', width: 200, height: 200, borderRadius: '50%', background: `color-mix(in srgb, ${friend.colour} 28%, #FEF7E0)`, border: '2px solid var(--ink)', boxSizing: 'border-box' }} />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={friend.cutout} alt={friend.name} width={196} height={196}

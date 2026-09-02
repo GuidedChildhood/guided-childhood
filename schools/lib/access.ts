@@ -57,7 +57,7 @@ function secret(): string {
 /** /philosophy joined the open list on 31 August 2026: the evidence spine
  *  is the sales argument, and it cites public sources, so it sells best in
  *  the open. Still nothing teachable outside the code. */
-export const OPEN_PATHS = ['/', '/pricing', '/unlock', '/curriculum', '/hub/rshe-mapping', '/philosophy']
+export const OPEN_PATHS = ['/', '/pricing', '/draw', '/unlock', '/curriculum', '/hub/rshe-mapping', '/philosophy']
 
 export function isOpenPath(pathname: string): boolean {
   if (OPEN_PATHS.includes(pathname)) return true

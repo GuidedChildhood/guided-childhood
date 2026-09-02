@@ -16,6 +16,8 @@ export const dynamic = 'force-dynamic'
 const FOUNDER_EMAIL = process.env.FOUNDER_NOTIFY_EMAIL ?? 'justin@thesocialbillboard.com'
 
 const BAND_LABELS: Record<string, string> = {
+  // A free class pack draw entry (schools /draw) uses the same letterbox.
+  draw: 'Free class pack draw entry',
   primary_small: 'Primary up to 200 pupils · £495',
   primary_large: 'Primary 200 to 500 · £795',
   secondary: 'Secondary up to 1,000 · £1,495',

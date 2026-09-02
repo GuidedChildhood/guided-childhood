@@ -201,3 +201,45 @@ export function CloseCross({ size = 40, color = HAPPY.ink }: { size?: number; co
     </svg>
   )
 }
+
+/**
+ * A circle plate behind a hero drawing: the way The Happy Newspaper sits its
+ * post box in a soft pink circle, a flat drawing becomes a picture book page.
+ * A crayon tint, a thin ink edge, two small stars in the corners. The
+ * drawing goes on top, at whatever size it already was.
+ */
+export function Plate({ size, tint = '#FEF7E0', children, style }: {
+  size: number; tint?: string; children: ReactNode; style?: CSSProperties
+}) {
+  return (
+    <span style={{ position: 'relative', width: size, height: size, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, ...style }}>
+      <span aria-hidden style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: tint, border: `2px solid ${HAPPY.ink}`, boxSizing: 'border-box' }} />
+      <span aria-hidden style={{ position: 'absolute', top: size * 0.06, right: size * 0.08 }}><StarShape size={Math.max(12, size * 0.12)} color={HAPPY.butter} /></span>
+      <span aria-hidden style={{ position: 'absolute', bottom: size * 0.1, left: size * 0.06 }}><StarShape size={Math.max(9, size * 0.08)} color={HAPPY.coral} /></span>
+      <span style={{ position: 'relative' }}>{children}</span>
+    </span>
+  )
+}
+
+/**
+ * A small ribbon heading: the masthead banner from the drawn sheets, app
+ * sized, for the ONE heading on a screen that matters (the five a day).
+ * Butter band, ink edge, the words in Nunito 900. Never for every heading:
+ * the Happy Newspaper uses a ribbon where a label would be, once.
+ */
+export function Ribbon({ children, tone = 'butter' }: { children: ReactNode; tone?: 'butter' | 'green' }) {
+  const fill = tone === 'green' ? HAPPY.green : HAPPY.butter
+  const fg = tone === 'green' ? '#fff' : HAPPY.ink
+  return (
+    <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 40, padding: '0 22px' }}>
+      <svg aria-hidden viewBox="0 0 200 40" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+        <path d="M 12 6 Q 100 0 188 6 L 184 34 Q 100 40 16 34 Z" fill={fill} stroke={HAPPY.ink} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+        <path d="M 12 6 L 3 20 L 16 34" fill={fill} stroke={HAPPY.ink} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+        <path d="M 188 6 L 197 20 L 184 34" fill={fill} stroke={HAPPY.ink} strokeWidth="2.5" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      </svg>
+      <span style={{ position: 'relative', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: fg, letterSpacing: '-0.01em', whiteSpace: 'nowrap', lineHeight: 1 }}>
+        {children}
+      </span>
+    </span>
+  )
+}

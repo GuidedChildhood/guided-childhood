@@ -373,6 +373,9 @@ export default function KidFriendArrival({
               }} />
             ))}
 
+            {/* The circle plate (the Happy Newspaper pass): a pale disc in the
+                friend's colour behind the cutout, inside the rays. */}
+            <span aria-hidden style={{ position: 'absolute', inset: '9%', borderRadius: '50%', background: `color-mix(in srgb, ${friend.colour} 30%, #FEF7E0)`, border: '2px solid var(--ink)', boxSizing: 'border-box' }} />
             <div className="gc-fa-hero" style={{
               position: 'absolute', inset: 0,
               animation: 'gcFaBob 3.4s ease-in-out infinite',
