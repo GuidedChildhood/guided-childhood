@@ -457,6 +457,9 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
       {/* Floating action, mobile: now that the bottom bar carries five real
           tabs, Help now lives as a thumb reachable button just above the bar.
           One tap to the same sheet. Hidden on desktop, which uses the pill. */}
+      {/* Into the tab bar when there is one, so the button rides the sticky
+          bar instead of drifting on its own fixed position (see .bottom-tab-bar
+          in globals.css). The body is the fallback for pages with no bar. */}
       {variant === 'fab' && mounted && !hideFab && createPortal(
         <button
           type="button"
@@ -467,7 +470,7 @@ export default function RightNowButton({ variant = 'tab' }: { variant?: 'tab' | 
           <BoltIcon />
           <span>Now</span>
         </button>,
-        document.body,
+        (document.querySelector('.bottom-tab-bar') ?? document.body),
       )}
 
       {/* Full screen sheet, portalled to body: the tab bar's backdrop filter

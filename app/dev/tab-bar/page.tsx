@@ -58,7 +58,13 @@ export default function TabBarHarness() {
   }, [scale])
 
   return (
-    <div style={{ minHeight: '200vh', padding: '20px 16px 120px' }}>
+    // The same shell as the dashboard layout: a flex column at least a screen
+    // tall, the page in a main that grows, and the bar as the LAST thing in the
+    // column. The bar is sticky now (globals.css), and sticky only holds the
+    // foot of the screen when the element's own place is at the foot of the
+    // page, so a harness that put it mid page would prove nothing.
+    <div className="gc-shell" style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: 'var(--app-bg)' }}>
+    <main style={{ flex: 1, minHeight: '200vh', padding: '20px 16px 88px' }}>
       <p className="eyebrow" style={{ marginBottom: 10 }}>Bottom tab bar</p>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: 14 }}>
         Drag the text size the way a parent does in iOS Settings. The row has to
@@ -85,6 +91,7 @@ export default function TabBarHarness() {
           be driven without a login, and because the behaviour is impossible to
           check by reading it. */}
       <OpenAtTheTop />
+    </main>
 
       <MobileTabBar pendingAsks={2} />
     </div>

@@ -6,10 +6,29 @@
 
 /* ── BOTTOM TAB BAR (app) ── */
 .bottom-tab-bar {
-  position: fixed;
+  /* STICKY, NOT FIXED (2 September 2026).
+
+     Justin, with a screenshot of the dashboard on his iPhone: "when you scroll
+     on Dashboard the tabs at bottom stay in middle but should always be at
+     bottom of screen." The NOW button in the same picture had drifted by the
+     same amount, so it was not this bar, it was fixed positioning itself.
+
+     body carries zoom: 1.07 (shared/tokens.css). iPhone Safari positions a
+     fixed element inside a zoomed ancestor against the unzoomed viewport while
+     laying it out in zoomed coordinates, and the difference grows with the
+     scroll: the further down a long page you are, the higher the bar floats.
+     The home page is the longest page in the app, which is why it showed
+     there first and only "a little" elsewhere.
+
+     A sticky element is placed in the document's own coordinates, so the two
+     never disagree. The bar is the last thing in the shell's flex column,
+     stuck to the foot of the viewport while the page is longer than the
+     screen and simply at the foot of the page when it is not. The compositor
+     hints that used to sit here (translateZ, will-change) are gone with the
+     fixed positioning they were compensating for. */
+  position: sticky;
   bottom: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   /* THE HOME INDICATOR WAS EATING THE TABS.
 
      box-sizing is border-box globally, so `height: 72px` with
@@ -47,11 +66,18 @@
      cause of exactly this lag on fixed elements in iOS Safari, and at 96%
      opaque the blur behind it was doing almost nothing anyone could see. Four
      percent of translucency is not worth a tab bar that judders. */
-  transform: translateZ(0);
-  will-change: transform;
-  backface-visibility: hidden;
 }
 @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
+
+/* The NOW button rides on the bar rather than floating on its own fixed
+   position, which drifts on an iPhone for the reason above. It is portalled
+   into the bar by RightNowButton and sits just above its top edge, exactly
+   where the fixed version used to be (78px plus the inset from the floor). */
+.bottom-tab-bar .rightnow-fab {
+  position: absolute;
+  right: 16px;
+  bottom: calc(100% + 6px);
+}
 
 /* A page's own sticky action bar (the shop basket, for one) has to sit ABOVE
    the global tab bar on mobile or the tab bar covers it, and on the floor on

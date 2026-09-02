@@ -9817,3 +9817,25 @@ home first of all; confirmed sheets last, ticked.
 close cross) and uses router.back() whenever one of our screens is behind
 it, which lands on the tab the child left, from the router cache, in a
 frame. The push to the home page is only the fallback for a cold open.
+
+## 2 September 2026 — The tab bar is sticky, because fixed drifts under body zoom on an iPhone
+
+Justin, with a screenshot of the dashboard road on his iPhone: "when you
+scroll on Dashboard the tabs at bottom stay in middle but should always
+be at bottom of screen." The NOW button in the same picture had drifted
+by exactly the same amount, which rules out the bar and points at fixed
+positioning itself. body carries zoom 1.07, and iPhone Safari places a
+fixed element inside a zoomed ancestor against the unzoomed viewport
+while laying it out in zoomed coordinates, so the error grows with the
+scroll. The home page is the longest page in the app, which is why it
+showed there first and read as "a little" elsewhere.
+
+Decision: the bar is position sticky, the last thing in the shell's flex
+column, so it is placed in the document's own coordinates and the two can
+never disagree. The NOW button is portalled into the bar and sits on its
+top edge rather than floating on its own fixed position. The compositor
+hints (translateZ, will change) went with the fixed positioning they were
+compensating for. Every other fixed thing under body zoom (toasts, page
+level bars, sheets) carries the same drift in principle and is left alone
+until it is seen, because most of them open near the top of a page where
+the drift is nothing.

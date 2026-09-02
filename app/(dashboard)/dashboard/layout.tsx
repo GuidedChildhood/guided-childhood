@@ -153,7 +153,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Main content */}
       {/* Clear the fixed bottom bar and the phone's own home indicator, so the
           last card on a page is never tucked under the tabs. */}
-      <main style={{ flex: 1, paddingBottom: 'calc(88px + env(safe-area-inset-bottom))' }}>
+      {/* 88px of room at the foot for the NOW button; the tab bar itself is in
+          flow now (sticky, see globals.css) so it carries its own height and
+          the safe area inset. */}
+      <main style={{ flex: 1, paddingBottom: '88px' }}>
         {/* The way back from a welcome card action, above the page it sent them
             to. One place for every destination. useSearchParams needs the
             boundary, and the bar is nothing until the param is there anyway. */}
