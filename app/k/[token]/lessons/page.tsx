@@ -57,7 +57,10 @@ export default async function KidLessonsPage({ params, searchParams }: {
     // for somebody else. They belong on the parent hub, which still shows them,
     // and they come back here the moment a deck is written for them.
     .not('slides', 'is', null)
+    // Same tie break as lib/content/lesson-access, so the list shows the
+    // lessons in the exact order the access rules read them.
     .order('sort_order', { ascending: true })
+    .order('id', { ascending: true })
   const stageLessons = (allLessons ?? []).filter(l => l.stage_id === stage.name.toLowerCase())
 
   // Whether the big end of stage check is already passed, so the card at the

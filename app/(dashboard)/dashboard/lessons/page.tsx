@@ -3,7 +3,7 @@ import { getChildren } from '@/lib/children/server'
 import BackTo from '@/components/nav/BackTo'
 import { redirect } from 'next/navigation'
 import { hasFullAccess } from '@/lib/access'
-import { freeLessonIds } from '@/lib/content/lesson-access'
+import { freeLessonIds, byLessonOrder } from '@/lib/content/lesson-access'
 import { getParentLessons, getCompletionsForChild, durationLabel } from '@/lib/lessons/parent-lessons'
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { keyStageFor, strandFor } from '@gc/shared/curriculum-badges'
@@ -132,7 +132,7 @@ export default async function LessonsPage({ searchParams }: { searchParams: Prom
   const attemptedAi = attemptedSet('ai_lesson')
 
   const libraryItems: LibraryItem[] = allLessons
-    .sort((a, b) => a.sort_order - b.sort_order)
+    .sort((a, b) => byLessonOrder({ id: a.id, stage_id: a.stageKey, sort_order: a.sort_order }, { id: b.id, stage_id: b.stageKey, sort_order: b.sort_order }))
     .map(l => {
       const meta = STAGE_META[l.stageKey]
       const passMap = l.source === 'ai' ? passedAi : passedLessons

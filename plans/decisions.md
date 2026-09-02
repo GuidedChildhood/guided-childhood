@@ -9746,3 +9746,31 @@ Justin's Duolingo brief. Decisions in the first build slice:
 - Rule from this: suggestions are rows with a fixed tile and a fixed
   button, never chips. Chips size to their words and fall apart the
   moment a parent turns their text up.
+
+## 1 September 2026, late: Add a job is a ranked picker, not a chip cloud
+
+- The Add a job tab lost its two rows of chips (used before, then thirty
+  ideas with play first) for a picker built on the Mobbin shape Greenlight,
+  GoHenry, Finch and Liven all share: own job first, then rows with an icon
+  tile, a value and a plus each, the added row turning green in place.
+  Chips size to their words, so on a phone with the text turned up they
+  wrapped three lines deep. Rows hold their shape at any text size.
+- `lib/quests/best-jobs.ts` holds twelve to fourteen jobs per stage in
+  order of most useful at that age, each with a one line why and a kind.
+  Usefulness means what the job does for the family's day and the child's
+  growing up, not what it pays: routine first, screens in their place,
+  real help, growing up skills, with play in the mix because play still
+  pays the top stars on purpose. Titles reuse library wording so the
+  board's dedupe still works.
+- One tap adds with the job's own repeat and sends it to the child's app.
+  The repeat chips sit inline behind a tap on the row for anyone who wants
+  weekends instead. This reverses the July decision that routed every
+  suggestion through the two question wizard: the template already knows
+  its repeat, and Justin asked for super easy to add and send.
+- The tiles are the child app's rounded squares with the stage pastels,
+  and the stage's Planet Friend heads the list in the happy news ring, so
+  what a parent adds looks like what the child sees. Emoji in tiles rather
+  than a new icon set: consistent today, swappable later.
+- `add` in ManageJobs answers true or false so a tick is only ever shown
+  for a job that landed. The page carries 150px of bottom padding so the
+  last row clears the tab bar and the Now button.
