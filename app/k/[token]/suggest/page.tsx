@@ -34,7 +34,7 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
 
   const { data: child } = await supabase
     .from('children')
-    .select('name, accent')
+    .select('name, accent, age_band')
     .eq('id', link.child_id)
     .maybeSingle()
 
@@ -64,22 +64,16 @@ export default async function KidSuggestPage({ params }: { params: Promise<{ tok
           <KidBackLink href={`/k/${token}`} color={theme.inkSoft} fontSize="var(--text-base)" />
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '6px' }}>
-          <DigiCharacter mood="wave" size={56} once />
-          <div>
-            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.5rem, 6vw, 1.9rem)', color: theme.ink, letterSpacing: '-0.02em', lineHeight: 1.1, margin: 0 }}>
-              Ask for a job
-            </h1>
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: theme.inkMuted, margin: '5px 0 0' }}>
-              Your idea, their yes
-            </p>
-          </div>
+        {/* DiGi waves the child in; the card below carries the headline as
+            its happy news masthead, so the page does not say it twice. */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
+          <DigiCharacter mood="wave" size={52} once />
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: theme.inkSoft, lineHeight: 1.45, margin: 0 }}>
+            Think of something you could do to help{childName ? `, ${childName}` : ''}. Your grown up gets it on their phone and can turn it into a real job with stars.
+          </p>
         </div>
-        <p style={{ fontSize: 'var(--text-base)', color: theme.inkSoft, lineHeight: 1.6, margin: '10px 0 20px' }}>
-          Think of something you could do to help{childName ? `, ${childName}` : ''}. Your grown up gets it on their phone and can turn it into a real job with stars.
-        </p>
 
-        <KidAskForJob token={token} initialAsks={asks} childName={childName || undefined} theme={theme} />
+        <KidAskForJob token={token} initialAsks={asks} childName={childName || undefined} theme={theme} ageBand={(child?.age_band as string | null) ?? null} />
       </div>
     </div>
   )

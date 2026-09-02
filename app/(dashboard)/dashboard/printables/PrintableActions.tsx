@@ -117,7 +117,13 @@ export default function PrintableActions({ printable, isPaid = true }: { printab
 
   return (
     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-      {hasLocal ? (
+      {printable.drawn ? (
+        // A drawn sheet has no PDF to fetch: its print page draws it at true
+        // size with the child's name and the family's real deal on it.
+        <a href={`/dashboard/printables/sheet/${printable.key}`} {...OPEN_AWAY} style={downloadStyle}>
+          🖨️ Print it
+        </a>
+      ) : hasLocal ? (
         <>
           <a href={printable.pdfColour} {...OPEN_AWAY} style={downloadStyle}>
             ⬇ Colour

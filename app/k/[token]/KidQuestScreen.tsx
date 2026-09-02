@@ -1,6 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import type { DrawnKey } from '@/components/printables/drawn'
+import DrawnPaper from '@/components/printables/drawn/DrawnPaper'
 import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
 import { KID_HOME_SEEN_KEY } from '@/components/kid/KidBackLink'
 import { useRouter } from 'next/navigation'
@@ -190,7 +192,7 @@ export default function KidQuestScreen({
   focusLesson?: { id: string; title: string; emoji: string; stars: number } | null
   // A printable a grown up sent to this child, shown at the top of the to do:
   // print it, do it, then send it to be confirmed like any printable.
-  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; previewUrl: string; sheetHeading?: { name: string; kicker: string }; extraSheetUrls?: string[] } | null
+  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; drawn?: DrawnKey; previewUrl: string; sheetHeading?: { name: string; kicker: string }; extraSheetUrls?: string[] } | null
   // A tutor lesson a grown up read and sent, written from this child's own
   // homework. It sits at the top of the to do rather than joining the five a
   // day rotation, for the same reason the printable above does: a grown up
@@ -970,7 +972,13 @@ export default function KidQuestScreen({
           setScreenAsk(null)
         } else {
           setScreenAsk(prev => {
-            if (a.status === 'approved' && prev?.status === 'pending') playKidSound('star')
+            if (a.status === 'approved' && prev?.status === 'pending') {
+              playKidSound('star')
+              // The yes took the stars (since 2 September 2026), and the bank
+              // number on this screen is a server prop, so fetch it again: the
+              // stars the child sees should be the stars they have.
+              router.refresh()
+            }
             return { id: a.id, device: a.device, minutes: a.minutes, status: a.status as KidAskState['status'] }
           })
         }
@@ -1571,7 +1579,13 @@ export default function KidQuestScreen({
                 overflow: 'hidden', background: '#fff',
                 border: '1.5px solid var(--border)', boxShadow: '0 4px 0 rgba(26,26,46,0.10)',
               }}>
-                <Image src={assignedPrintable.previewUrl} alt="" fill sizes="152px" style={{ objectFit: 'contain' }} />
+                {assignedPrintable.drawn ? (
+                  <div style={{ position: 'absolute', left: '8%', right: '8%', top: 4 }} aria-hidden>
+                    <DrawnPaper spec={{ key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars }} />
+                  </div>
+                ) : (
+                  <Image src={assignedPrintable.previewUrl} alt="" fill sizes="152px" style={{ objectFit: 'contain' }} />
+                )}
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
@@ -1592,7 +1606,7 @@ export default function KidQuestScreen({
                 onClick={() => {
                   playKidSound('tap')
                   if (assignedPrintable.pdfColourIn) printPack(assignedPrintable.pdfColourIn, assignedPrintable.title)
-                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading, stars: assignedPrintable.stars, printHref: `/k/${token}/print?sheet=${encodeURIComponent(assignedPrintable.key)}` })
+                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading, stars: assignedPrintable.stars, drawn: assignedPrintable.drawn ? { key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars, facts: { starMinutes: bank?.starMinutes ?? STAR_MINUTES } } : undefined, printHref: `/k/${token}/print?sheet=${encodeURIComponent(assignedPrintable.key)}` })
                 }}
                 style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
                 🖨️ Print it
@@ -1802,7 +1816,7 @@ export default function KidQuestScreen({
               ? 'Lovely balance. You have earned more than you have watched.'
               : 'Screen has run a little ahead. Do a job or make something to bring your balance back.'
           return (
-        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '1.5px solid rgba(26,26,46,0.08)', boxShadow: '0 4px 0 rgba(26,26,46,0.08)', overflow: 'hidden' }}>
+        <div id="my-device-time" style={{ scrollMarginTop: '80px', marginBottom: '16px', background: '#fff', borderRadius: '20px', border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)', overflow: 'hidden' }}>
           <button onClick={() => { setDeviceOpen(o => !o); setPickNow(false); playKidSound('tap') }} aria-expanded={deviceOpen} style={{ width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: '16px 18px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {/* TWO ROWS, NOT ONE. Justin, 16:47, with the card wrapping one
                 word per line: "need to look tidier not messy." The star count,
@@ -1839,10 +1853,10 @@ export default function KidQuestScreen({
               <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)', transform: deviceOpen ? 'rotate(90deg)' : 'none', transition: 'transform 0.18s' }}>›</span>
             </div>
             <div style={{ marginTop: '-2px' }}>
-              <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)', lineHeight: 1.4 }}>{bankBalance * STAR_MINUTES} minutes ready to use</span>
+              <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink-soft)', lineHeight: 1.4 }}>{bankBalance * (bank?.starMinutes ?? STAR_MINUTES)} minutes ready to use</span>
               {pendingStars > 0 && (
                 <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--terracotta-dark)', marginTop: '2px', lineHeight: 1.4 }}>
-                  {pendingStars * STAR_MINUTES} more waiting on a grown up to say yes
+                  {pendingStars * (bank?.starMinutes ?? STAR_MINUTES)} more waiting on a grown up to say yes
                 </span>
               )}
             </div>
@@ -2280,8 +2294,8 @@ export default function KidQuestScreen({
           onClick={() => { playKidSound('tap'); window.location.assign(`/k/${token}/suggest`) }}
           style={{
             display: 'flex', alignItems: 'center', gap: '13px', width: '100%', textAlign: 'left', cursor: 'pointer',
-            marginTop: '18px', background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)',
-            borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
+            marginTop: '18px', background: '#fff', border: '2px solid var(--ink)',
+            borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 var(--ink)',
           }}
         >
           <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>💡</span>
@@ -2638,6 +2652,7 @@ export default function KidQuestScreen({
             onHappyNews={setHappyNews}
             tallyColor={theme.inkSoft}
             onStepTicked={afterPrintableTicked}
+            dealFacts={{ starMinutes: bank?.starMinutes ?? STAR_MINUTES }}
           />
         )}
 

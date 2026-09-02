@@ -48,6 +48,9 @@ export default function BrowseTile({
         // (part of the "characters blocked out with text" report, 1 September
         // 2026): text and art each get their own room, never each other's.
         borderRadius: '20px', padding: '17px 18px 56px',
+        // The bold finish (2 September 2026): an ink edge and a hard ink
+        // ledge, the child app's card exactly, in the stage pastel.
+        border: '2px solid var(--ink)', boxShadow: '0 4px 0 var(--ink)',
       }}
     >
       <span style={{

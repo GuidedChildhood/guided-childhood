@@ -9,6 +9,8 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 import { printPack } from '@/lib/kid/print-sheet'
 import { printOrOpen, tickPrintableStep, type PrintableTick } from '@/lib/kid/print-anywhere'
 import KidSheetPaper from '@/components/kid/KidSheetPaper'
+import DrawnPaper from '@/components/printables/drawn/DrawnPaper'
+import type { DealFacts } from '@/components/printables/drawn'
 import { HAPPY, HappyMasthead, Burst, Sticker, SmileyDot, StarShape, WavyRule, CloseCross, HappyScatter } from '@/components/kid/HappyNewsBits'
 
 // The Printables tab on the child app, the happy news edition.
@@ -62,7 +64,7 @@ const KIND_CHIPS: { key: 'all' | Printable['kind']; label: string }[] = [
 
 export default function KidPrintables({
   token, childName, printables, asks, submitAsk, printablesUnlocked, sheetsDone, sheetStars, onHappyNews,
-  initialStatuses, fetchStatuses = true, openKey = null, tallyColor = 'rgba(255,255,255,0.86)', onStepTicked,
+  initialStatuses, fetchStatuses = true, openKey = null, tallyColor = 'rgba(255,255,255,0.86)', onStepTicked, dealFacts,
 }: {
   token: string
   childName: string
@@ -82,6 +84,8 @@ export default function KidPrintables({
   onStepTicked?: (tick: PrintableTick) => void
   /** Text straight on the child's background, from their theme. */
   tallyColor?: string
+  /** What the app already knows about this child's deal, written onto the drawn sheets. */
+  dealFacts?: DealFacts
 }) {
   const [kind, setKind] = useState<'all' | Printable['kind']>('all')
   const [open, setOpen] = useState<Printable | null>(() => printables.find(p => p.key === openKey) ?? null)
@@ -96,15 +100,38 @@ export default function KidPrintables({
   // The real state of every sheet, from the completions table rather than
   // from the ask list, so a sheet a child finished last week reads as done
   // whichever phone they open.
+  //
+  // And kept live: once on open, again whenever the app comes back to the
+  // front, and every fifteen seconds while any sheet is waiting on a grown
+  // up, so "Sent, stars on the way" turns into "Done, stars in your bank"
+  // on the tab the child is actually looking at, without a reload. The
+  // confirmed answer wins over the local guess; a pending one never
+  // overwrites a confirm the child already saw.
+  const waiting = Object.values(statuses).some(s => s === 'pending')
   useEffect(() => {
     if (!fetchStatuses) return
     let alive = true
-    fetch(`/api/kid/printable-status?token=${encodeURIComponent(token)}`)
-      .then(r => r.ok ? r.json() : null)
-      .then(d => { if (alive && d?.statuses) setStatuses(s => ({ ...d.statuses, ...s })) })
-      .catch(() => { /* the grid still shows */ })
-    return () => { alive = false }
-  }, [token, fetchStatuses])
+    const load = () => {
+      fetch(`/api/kid/printable-status?token=${encodeURIComponent(token)}`)
+        .then(r => r.ok ? r.json() : null)
+        .then(d => {
+          if (!alive || !d?.statuses) return
+          setStatuses(s => {
+            const next = { ...s }
+            for (const [k, v] of Object.entries(d.statuses as Record<string, string>)) {
+              if (v === 'confirmed' || !next[k]) next[k] = v
+            }
+            return next
+          })
+        })
+        .catch(() => { /* the grid still shows */ })
+    }
+    load()
+    const onVis = () => { if (!document.hidden) load() }
+    document.addEventListener('visibilitychange', onVis)
+    const id = waiting ? setInterval(load, 15000) : null
+    return () => { alive = false; document.removeEventListener('visibilitychange', onVis); if (id) clearInterval(id) }
+  }, [token, fetchStatuses, waiting])
 
   const askFor = (p: Printable) => asks.find(a => a.title === `Please can I do the ${p.title} printable`)
   const openFor = (p: Printable) => printablesUnlocked || !!p.free || askFor(p)?.status === 'added'
@@ -214,7 +241,15 @@ export default function KidPrintables({
                   {/* The paper, tall, the whole sheet visible. A square tile
                       cropping an A4 portrait threw away a third of every sheet. */}
                   <div style={{ position: 'relative', aspectRatio: '3 / 3.6', background: '#FFFDF8', borderBottom: `2px solid ${HAPPY.ink}` }}>
-                    <Image src={p.previewUrl} alt="" fill sizes="(max-width: 600px) 45vw, 260px" style={{ objectFit: 'contain', padding: 8 }} />
+                    {p.drawn ? (
+                      // A drawn sheet is its own preview: the real paper,
+                      // scaled to the tile, the child's name already on it.
+                      <div style={{ position: 'absolute', left: '6%', right: '6%', top: 6, overflow: 'hidden' }} aria-hidden>
+                        <DrawnPaper spec={{ key: p.drawn, childName, stars: p.stars, facts: dealFacts }} />
+                      </div>
+                    ) : (
+                      <Image src={p.previewUrl} alt="" fill sizes="(max-width: 600px) 45vw, 260px" style={{ objectFit: 'contain', padding: 8 }} />
+                    )}
                     <span style={{ position: 'absolute', top: 7, right: 7 }}>
                       {status === 'confirmed'
                         ? <Sticker accent="green" rotate={6} size="sm">Done ✓</Sticker>
@@ -262,6 +297,8 @@ export default function KidPrintables({
       {open && (
         <KidPrintableSheet
           token={token}
+          childName={childName}
+          dealFacts={dealFacts}
           printable={open}
           status={statusOf(open)}
           canOpen={openFor(open)}
@@ -307,8 +344,10 @@ function MakeTile({ href, emoji, title, sub, tint, accent }: {
  * because that is what prints when the browser can print in place, and on
  * paper it is the only thing that shows.
  */
-export function KidPrintableSheet({ token, printable: p, status, canOpen, ask, onClose, onSent, submitAsk, onHappyNews, onStepTicked }: {
+export function KidPrintableSheet({ token, childName = '', dealFacts, printable: p, status, canOpen, ask, onClose, onSent, submitAsk, onHappyNews, onStepTicked }: {
   token: string
+  childName?: string
+  dealFacts?: DealFacts
   printable: Printable
   status: Status
   canOpen: boolean
@@ -499,7 +538,7 @@ export function KidPrintableSheet({ token, printable: p, status, canOpen, ask, o
               <Image src={p.previewUrl} alt={p.title} fill sizes="560px" style={{ objectFit: 'contain', padding: 10 }} />
             </div>
           ) : (
-            <KidSheetPaper sheet={{ url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn }} />
+            <KidSheetPaper sheet={{ url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn, drawn: p.drawn ? { key: p.drawn, childName, stars: p.stars, facts: dealFacts } : undefined }} />
           )}
         </div>
       </div>

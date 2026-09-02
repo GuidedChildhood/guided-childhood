@@ -6,6 +6,7 @@ import { LIBRARY_PRINTABLES, printablesForStage } from '@/lib/printables/registr
 import { getStageFromAgeBand, type AgeBand } from '@/lib/content/stages'
 import { hasFullAccess } from '@/lib/access'
 import PrintableActions from './PrintableActions'
+import DrawnPaper from '@/components/printables/drawn/DrawnPaper'
 import FridgeChartLog from '@/components/quests/FridgeChartLog'
 import { getChildren } from '@/lib/children/server'
 
@@ -65,7 +66,15 @@ export default async function PrintablesPage({ searchParams }: { searchParams: P
                   the card size, serves webp, and lazy loads the ones below the
                   fold, so a full grid paints fast instead of pulling megabytes. */}
               <div style={{ position: 'relative', width: '100%', aspectRatio: '1 / 1', background: 'var(--cream)' }}>
-                <Image src={p.previewUrl} alt={`${p.title} preview`} fill sizes="(max-width: 640px) 50vw, 300px" style={{ objectFit: 'cover' }} />
+                {p.drawn ? (
+                  // A drawn sheet is its own preview: the real paper scaled
+                  // to the card, the child's name already on it.
+                  <div style={{ position: 'absolute', left: '13%', right: '13%', top: 0 }} aria-hidden>
+                    <DrawnPaper spec={{ key: p.drawn, childName: childName ?? '', stars: p.stars }} />
+                  </div>
+                ) : (
+                  <Image src={p.previewUrl} alt={`${p.title} preview`} fill sizes="(max-width: 640px) 50vw, 300px" style={{ objectFit: 'cover' }} />
+                )}
               </div>
               <div style={{ padding: '16px 18px 18px', display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
                 <div>

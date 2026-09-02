@@ -10,6 +10,7 @@
 // back, the parent ticks it, the stars land in the time bank.
 
 import { characterByKey } from '@/lib/content/stage-characters'
+import type { DrawnKey } from '@/components/printables/drawn'
 
 const BASE = 'https://d8j0ntlcm91z4.cloudfront.net/user_3DfAawD3Umi5iqU3oLyR59j3JKD/'
 
@@ -60,6 +61,16 @@ export type Printable = {
   // Justin, 12 August 2026, on the reading list: "add here a place of them
   // adding books they want to read."
   writeIn?: { title: string; blurb: string; lines: number }
+  /**
+   * A sheet drawn in code rather than fetched as art (components/printables/
+   * drawn). The happy news device balance set, 2 September 2026. A drawn
+   * sheet has no sheetUrl or previewUrl: both grids render the real sheet
+   * scaled down, the print page draws it at true size, and the family's own
+   * numbers are written on it when the printer knows them. Everything else
+   * (the ask and confirm loop, the five a day tick, the stage gating) is the
+   * same as for a sheet of art, because it is still a registry entry.
+   */
+  drawn?: DrawnKey
   /**
    * Free to download without a membership. Almost nothing is: the printables
    * are a member feature and the preview is the sell. The exception is the
@@ -137,6 +148,60 @@ export const PRINTABLES: Printable[] = [
     sheetUrl: BASE + 'hf_20260723_213701_edd87579-52fb-4064-afe7-2ec65759e841.png',
     sheetUrlEs: BASE + 'hf_20260722_122923_526700d3-41c9-417f-8b31-f781821d8582.png',
     previewUrl: BASE + 'hf_20260713_125344_3aaa7475-b816-4b0b-8d3f-932fd86f48f2.png',
+  },
+  // THE HAPPY NEWS DEVICE BALANCE SET. Justin, 2 September 2026: "add more
+  // happy news style printables just as other ones like this. Come up with
+  // ideas using this style for age related device balance use." Drawn in
+  // code on the bucket list's paper, one device balance idea each, gated by
+  // stage so each lands at the age that needs it. See components/printables/
+  // drawn/index.tsx for the set and the plan file of the same name.
+  {
+    key: 'balance-wheel',
+    title: 'My Balance Wheel', emoji: '🎨', kind: 'challenge',
+    stages: [1, 2], minutes: 'One day', setting: 'anywhere', skill: 'Balance',
+    stars: 3,
+    blurb: 'Eight slices, one for each kind of good day thing. Colour a slice every time you do it. Screen is one slice, not the whole wheel.',
+    sheetUrl: '', previewUrl: '', drawn: 'balance-wheel',
+  },
+  {
+    key: 'phones-to-bed',
+    title: 'Phones Go To Bed', emoji: '🛏️', kind: 'craft',
+    stages: [1, 2, 3, 4, 5], minutes: 'One sitting', setting: 'indoors', skill: 'Sleep',
+    stars: 3,
+    blurb: 'A poster for the charging spot. Write the bedtime, colour the sleepy phones, stick it where the chargers live. Grown ups included.',
+    sheetUrl: '', previewUrl: '', drawn: 'phones-to-bed',
+  },
+  {
+    key: 'screen-time-deal',
+    title: 'My Screen Time Deal', emoji: '🤝', kind: 'challenge',
+    stages: [2, 3, 4, 5], minutes: 'One sitting', setting: 'anywhere', skill: 'Screen time',
+    stars: 5,
+    blurb: 'Three jars: the time that is yours every day, the time you earn with stars, and the time nobody can buy. Sign it together and it goes on the fridge.',
+    sheetUrl: '', previewUrl: '', drawn: 'screen-time-deal',
+  },
+  {
+    key: 'helping-hand',
+    title: 'My Helping Hand', emoji: '✋', kind: 'brain',
+    stages: [1, 2, 3], minutes: 'One sitting', setting: 'anywhere', skill: 'Staying safe',
+    stars: 3,
+    blurb: 'Five grown ups you can always tell, one on each finger, and what you would do if something online felt odd.',
+    sheetUrl: '', previewUrl: '', drawn: 'helping-hand',
+  },
+  {
+    key: 'ready-for-my-phone',
+    title: 'Ready For My Phone', emoji: '🚀', kind: 'challenge',
+    stages: [3, 4], minutes: 'A few months', setting: 'anywhere', skill: 'Phone ready',
+    stars: 5,
+    blurb: 'Ten things that are true before the phone. Colour a stop when a grown up agrees. No test, no rush, just the road.',
+    sheetUrl: '', previewUrl: '', drawn: 'ready-for-my-phone',
+  },
+  {
+    key: 'kindness-postcards',
+    title: 'Kindness Postcards', emoji: '💌', kind: 'craft',
+    stages: [1, 2, 3, 4, 5], minutes: 'One afternoon', setting: 'anywhere', skill: 'Kindness',
+    stars: 4,
+    blurb: 'Four postcards to colour, cut out and hand to someone today. A real card beats a message every time.',
+    sheetUrl: '', previewUrl: '', drawn: 'kindness-postcards',
   },
   {
     key: 'nature-scavenger-hunt',

@@ -13,6 +13,7 @@ import BackToToday from '@/components/home/BackToToday'
 import ChildRail from '@/components/children/ChildRail'
 import { checkedInToday } from '@/lib/checkin/done-today'
 import { Suspense } from 'react'
+import AskPopup from '@/components/quests/AskPopup'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -40,7 +41,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // The profile rides in the same wave: this layout renders on every page,
   // so a separate await here was one extra database round trip on every
   // single navigation.
-  const [ticksRes, asksRes, profileRes, kidsRes] = user
+  // Finished printables waiting for a confirm are the third thing the quests
+  // board answers, and on a phone this badge is the only way a parent learns
+  // one is waiting (there is no bell below 768px).
+  const [ticksRes, asksRes, profileRes, kidsRes, sheetsRes] = user
     ? await Promise.all([
         supabase.from('quest_ticks').select('id', { count: 'exact', head: true })
           .eq('user_id', user.id).eq('status', 'pending'),
@@ -53,9 +57,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
         // trip everywhere.
         supabase.from('children').select('id, name, is_primary, age_band').eq('parent_id', user.id)
           .order('is_primary', { ascending: false }).order('created_at', { ascending: true }),
+        supabase.from('printable_completions').select('id', { count: 'exact', head: true })
+          .eq('user_id', user.id).eq('status', 'pending'),
       ])
-    : [{ count: 0 }, { count: 0 }, { data: null }, { data: [] }]
-  const pendingAsks = (ticksRes.count ?? 0) + (asksRes.count ?? 0)
+    : [{ count: 0 }, { count: 0 }, { data: null }, { data: [] }, { count: 0 }]
+  const pendingAsks = (ticksRes.count ?? 0) + (asksRes.count ?? 0) + ((sheetsRes as { count: number | null }).count ?? 0)
   const kids = ((kidsRes as { data: { id: string; name: string | null; is_primary: boolean | null; age_band: string | null }[] | null }).data) ?? []
   const profile = (profileRes as { data: { full_name: string | null; subscription_tier: string | null; subscription_status: string | null } | null }).data
 
@@ -230,6 +236,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
             there anyway. */}
         <Suspense fallback={null}><ChildRailWithTicks kids={kids} userId={user?.id ?? null} /></Suspense>
         {children}
+        {/* A child's screen time ask, popped up wherever the parent is. */}
+        <AskPopup />
       </main>
 
       {/* Install prompt: Android gets the real install event, iPhone gets

@@ -6,7 +6,7 @@ import ScriptHelpPrompt from '@/components/scripts/ScriptHelpPrompt'
 import ScriptStatusButtons from '@/components/scripts/ScriptStatusButtons'
 import MarkReadOnEnd from '@/components/scripts/MarkReadOnEnd'
 import TakeoverReader from '@/components/ui/TakeoverReader'
-import { card, cardPad, eyebrow } from '@/components/scripts/card-system'
+import { card, cardPad, eyebrow, chunky, INK_EDGE } from '@/components/scripts/card-system'
 
 // The whole script detail page as one presentational view: the page route
 // fetches the data, this file owns how it looks. One card system, one spacing
@@ -66,8 +66,9 @@ type Props = {
 const chip: React.CSSProperties = {
   ...eyebrow,
   fontSize: 'var(--text-sm)',
-  padding: '5px 11px',
+  padding: '6px 12px',
   borderRadius: 100,
+  border: INK_EDGE,
   display: 'inline-flex',
   alignItems: 'center',
 }
@@ -105,8 +106,7 @@ export default function ScriptDetailView({
         </Link>
         <Link
           href={withChild(`/dashboard/scripts/${sortOrder}/deck`)}
-          className="btn btn-green"
-          style={{ padding: '8px 16px', fontSize: 'var(--text-sm)' }}
+          style={{ ...chunky('white'), padding: '9px 16px', fontSize: 'var(--text-sm)' }}
         >
           Try as deck
         </Link>
@@ -126,7 +126,7 @@ export default function ScriptDetailView({
           )}
         </div>
 
-        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(1.9rem, 6vw, 2.6rem)', lineHeight: 1.1, letterSpacing: '-0.03em', marginBottom: '14px' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(2.1rem, 7.5vw, 2.8rem)', lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: '14px' }}>
           {script.title}
         </h1>
         <p style={{ fontSize: 'var(--text-lg)', color: 'var(--ink-soft)', lineHeight: 1.65, maxWidth: '62ch', margin: 0 }}>
@@ -225,8 +225,7 @@ export default function ScriptDetailView({
           </div>
           <Link
             href={`/dashboard/digi?q=${encodeURIComponent(`I need help with the script: ${script.title}. My situation: `)}`}
-            className="btn btn-gold"
-            style={{ flexShrink: 0, padding: '11px 20px', fontSize: 'var(--text-base)' }}
+            style={{ ...chunky('butter'), flexShrink: 0 }}
           >
             Ask DiGi about this
           </Link>
@@ -289,26 +288,14 @@ export default function ScriptDetailView({
         {backToPathway && stageSlug && (
           <Link
             href={withChild(`/dashboard/scripts/next?stage=${stageSlug}`)}
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              background: '#fff', color: 'var(--ink)', textDecoration: 'none',
-              border: '1.5px solid var(--border)', borderRadius: 16, padding: '13px 20px',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-              marginBottom: 10,
-            }}
+            style={{ ...chunky('white', 'lg'), display: 'flex', width: '100%', marginBottom: 10 }}
           >
             The next one for this stage →
           </Link>
         )}
         <Link
           href={backToPathway ? '/dashboard/pathway' : '/dashboard'}
-          style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-            background: 'var(--terracotta)', color: 'var(--ink)', textDecoration: 'none',
-            borderRadius: 16, padding: '15px 20px',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-            boxShadow: '0 5px 0 var(--terracotta-dark)',
-          }}
+          style={{ ...chunky('butter', 'lg'), display: 'flex', width: '100%', boxShadow: '0 5px 0 var(--ink)' }}
         >
           {backToPathway ? 'Back to your pathway →' : 'Continue your pathway →'}
         </Link>

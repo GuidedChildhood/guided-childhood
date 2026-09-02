@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import DrawnPaper from '@/components/printables/drawn/DrawnPaper'
+import type { DrawnSpec } from '@/components/printables/drawn'
 
 // The paper: one printable sheet as it lands on the printer.
 //
@@ -22,6 +24,8 @@ export type SheetPaperSpec = {
   extraUrls?: string[]
   heading?: { name: string; kicker: string }
   writeIn?: { title: string; blurb: string; lines: number }
+  /** A sheet drawn in code (the happy news device balance set): no image, the real sheet at any size. */
+  drawn?: DrawnSpec
 }
 
 export default function KidSheetPaper({ sheet, onFailed, onLoaded }: {
@@ -34,6 +38,14 @@ export default function KidSheetPaper({ sheet, onFailed, onLoaded }: {
   // explanation, so this says what happened.
   const [failed, setFailed] = useState(false)
   const fail = () => { setFailed(true); onFailed?.() }
+
+  if (sheet.drawn) {
+    return (
+      <div className="kid-sheet-paper">
+        <DrawnPaper spec={sheet.drawn} />
+      </div>
+    )
+  }
 
   if (failed) {
     return (

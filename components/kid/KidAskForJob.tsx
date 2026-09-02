@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import { KID_REQUEST_IDEAS } from '@/lib/quests/templates'
+import { bestJobsFor, KIND_TINT, type BestJob } from '@/lib/quests/best-jobs'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
+import { HAPPY, HappyMasthead, Sticker, StarShape } from '@/components/kid/HappyNewsBits'
 
 // The child pitches their own job.
 //
@@ -23,6 +25,18 @@ import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 // turns it into a real job with stars. Same pattern as the parent's own Manage
 // jobs earlier today, and the same fix: give it a page and point the tile at it.
 //
+// THE HAPPY NEWS EDITION. Justin, 2 September 2026, with the card on Jonny's
+// phone: "tidy up child job request, have the best options as first ones,
+// make sure it has a great happy news type set, work icons super child
+// friendly, and change recommended ones by age." The old card offered the
+// same flat seven ideas to a four year old and a fifteen year old, and its
+// tiles broke words in half ("footbal l"). Now the ideas are the ranked best
+// jobs for the child's own stage (lib/quests/best-jobs, the same list the
+// parent's Add a job leads with), most useful first, each tile a proper
+// happy news sticker: the icon in a tinted circle, the stars it is worth,
+// the words whole. The old seven ride along at the end so nothing a child
+// liked disappears.
+//
 // Extracted here so the page and the Quests screen cannot drift apart. The
 // printable asks on the Quests screen still call the route directly, because
 // those are a different ask ("send me this sheet") that happens to share a
@@ -34,11 +48,25 @@ export type KidAsk = { id: string; title: string; emoji: string; status: string 
 // child gets a warm sentence instead of a silent refusal from the server.
 const MAX_PENDING = 5
 
+// Eight tiles first, the rest behind one tap. Twenty tiles is a catalogue.
+const FOLD = 8
+
+type Idea = { title: string; emoji: string; stars: number; tint: string }
+
+function ideasFor(ageBand: string | null | undefined): Idea[] {
+  const best = bestJobsFor(ageBand).jobs.map((j: BestJob) => ({ title: j.title, emoji: j.emoji, stars: j.stars, tint: KIND_TINT[j.kind].bg }))
+  const extra = KID_REQUEST_IDEAS
+    .filter(i => !best.some(b => b.title === i.title))
+    .map(i => ({ title: i.title, emoji: i.emoji, stars: 2, tint: 'var(--stage-3)' }))
+  return [...best, ...extra]
+}
+
 export default function KidAskForJob({
   token,
   initialAsks,
   childName,
   theme,
+  ageBand,
 }: {
   token: string
   initialAsks: KidAsk[]
@@ -47,12 +75,15 @@ export default function KidAskForJob({
   // background rather than inside the white card, so they were white on dark
   // and would have vanished the moment the page took a pastel wash.
   theme?: KidTheme
+  /** The child's age band, which picks the ranked ideas. */
+  ageBand?: string | null
 }) {
   const t = theme ?? resolveTheme(null)
   const [asks, setAsks] = useState<KidAsk[]>(initialAsks)
   const [text, setText] = useState('')
   const [busy, setBusy] = useState(false)
   const [note, setNote] = useState<string | null>(null)
+  const [showAll, setShowAll] = useState(false)
   // The tile a child just tapped. Without this the tile vanished the instant
   // it was tapped (a pending ask filters it out of the grid below), so the
   // grid reflowed under the child's finger and the only confirmation was a
@@ -147,76 +178,112 @@ export default function KidAskForJob({
   // for the same undecided thing is the one case that genuinely clutters a
   // parent's approvals.
   // The just sent tile stays for its Sent beat even though it is now pending.
-  const ideas = KID_REQUEST_IDEAS.filter(
+  const ideas = ideasFor(ageBand).filter(
     i => i.title === sentTitle || !asks.some(a => a.title === i.title && a.status === 'pending'),
   )
+  const shown = showAll ? ideas : ideas.slice(0, FOLD)
+  const hidden = ideas.length - shown.length
+  const canPitch = text.trim().length >= 3
 
   return (
     <div>
-      <div style={{ background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px 18px', boxShadow: '0 4px 0 rgba(26,26,46,0.08)' }}>
-        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', margin: '0 0 4px' }}>
-          Got a quest idea? 💡
-        </p>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.5, margin: '0 0 14px' }}>
-          Tap one, or write your own. Your grown up says yes to turn it into a real quest with stars.
-        </p>
+      <HappyMasthead
+        kicker="Pitch a job"
+        title="Got a quest idea?"
+        sub="Tap one, or write your own. Your grown up says yes and it turns into a real quest with stars."
+        right={<Sticker accent="white" rotate={8}><StarShape size={13} /> Best for you</Sticker>}
+        style={{ marginBottom: 14 }}
+      />
 
-        {ideas.length > 0 && (
-          // minmax(0, 1fr) rather than 1fr, which is the difference between a
-          // column that can shrink and one that cannot. A grid item's default
-          // min width is auto, so a long word holds the track open and the pair
-          // runs off the edge: measured 7px over on a 320px phone, with "Read to
-          // someone smaller" doing the holding.
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '9px', marginBottom: '14px' }}>
-            {ideas.map(idea => {
+      {ideas.length > 0 && (
+        <>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: t.inkMuted, margin: '0 0 10px' }}>
+            Best ones first{childName ? `, ${childName}` : ''}
+          </p>
+          {/* minmax(0, 1fr) rather than 1fr: a grid item's default min width
+              is auto, so a long word would hold the track open. Words are
+              never broken in half; the tile is a column, so the title has the
+              whole width to wrap on spaces. */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 10, marginBottom: 12 }}>
+            {shown.map(idea => {
               const justSent = idea.title === sentTitle
               return (
                 <button
                   key={idea.title}
                   disabled={justSent}
                   onClick={() => { submit(idea.title, idea.emoji); playKidSound('tap') }}
+                  aria-label={`${idea.title}, ${idea.stars} ${idea.stars === 1 ? 'star' : 'stars'}`}
                   style={{
-                    display: 'flex', alignItems: 'center', gap: '9px', textAlign: 'left', cursor: justSent ? 'default' : 'pointer',
-                    padding: '13px 14px', borderRadius: '14px',
-                    background: justSent ? 'var(--tint-sage)' : 'var(--cream)',
-                    border: justSent ? '1.5px solid #2F8F6B' : '1.5px solid rgba(26,26,46,0.08)',
-                    fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.25,
-                    transition: 'background .2s ease, border-color .2s ease',
+                    position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 10,
+                    textAlign: 'left', cursor: justSent ? 'default' : 'pointer', minHeight: 132,
+                    padding: '12px 12px 12px', borderRadius: 18,
+                    background: justSent ? HAPPY.green : '#fff', color: justSent ? '#fff' : HAPPY.ink,
+                    border: `2px solid ${HAPPY.ink}`, boxShadow: `0 4px 0 ${HAPPY.ink}`,
+                    transition: 'background .2s ease',
                   }}
                 >
-                  <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{justSent ? '✓' : idea.emoji}</span>
-                  <span style={{ minWidth: 0, overflowWrap: 'anywhere' }}>{justSent ? 'Sent!' : idea.title}</span>
+                  <span aria-hidden style={{
+                    width: 46, height: 46, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
+                    background: justSent ? '#fff' : idea.tint, border: `2px solid ${HAPPY.ink}`,
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, lineHeight: 1,
+                  }}>
+                    {justSent ? '✓' : idea.emoji}
+                  </span>
+                  <span style={{ position: 'absolute', top: 8, right: 8 }}>
+                    <Sticker accent={justSent ? 'white' : 'butter'} rotate={7} size="sm">
+                      <StarShape size={11} color={HAPPY.ink} /> {idea.stars}
+                    </Sticker>
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.2, minWidth: 0, overflowWrap: 'normal', wordBreak: 'normal' }}>
+                    {justSent ? 'Sent!' : idea.title}
+                  </span>
                 </button>
               )
             })}
           </div>
-        )}
+          {hidden > 0 && (
+            <button
+              onClick={() => { setShowAll(true); playKidSound('tap') }}
+              style={{
+                display: 'block', margin: '0 auto 14px', padding: '11px 18px', borderRadius: 100, cursor: 'pointer',
+                border: `2px solid ${HAPPY.ink}`, background: '#fff', color: HAPPY.ink, boxShadow: `0 4px 0 ${HAPPY.ink}`,
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+              }}
+            >
+              Show {hidden} more ideas ↓
+            </button>
+          )}
+        </>
+      )}
 
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'stretch' }}>
+      {/* Write your own */}
+      <div style={{ background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 20, padding: '14px 14px 14px', boxShadow: `0 4px 0 ${HAPPY.ink}` }}>
+        <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: HAPPY.ink, margin: '0 0 10px' }}>
+          Or write your own ✏️
+        </p>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'stretch' }}>
           <input
             value={text}
             onChange={e => setText(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter') submit(text, '⭐') }}
-            placeholder="Write your own idea..."
+            placeholder="Your idea..."
             maxLength={60}
             style={{
-              flex: 1, minWidth: 0, padding: '13px 14px', borderRadius: '14px',
-              border: '1.5px solid rgba(26,26,46,0.12)', background: 'var(--cream)',
-              fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
+              flex: 1, minWidth: 0, padding: '13px 14px', borderRadius: 14,
+              border: `2px solid ${HAPPY.ink}`, background: HAPPY.cream,
+              fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: HAPPY.ink, outline: 'none',
             }}
-            onFocus={e => { e.currentTarget.style.borderColor = 'var(--terracotta)' }}
-            onBlur={e => { e.currentTarget.style.borderColor = 'rgba(26,26,46,0.12)' }}
           />
           <button
             onClick={() => submit(text, '⭐')}
-            disabled={text.trim().length < 3}
+            disabled={!canPitch}
             style={{
-              padding: '13px 20px', borderRadius: '14px', border: 'none', flexShrink: 0,
-              cursor: text.trim().length < 3 ? 'default' : 'pointer',
-              background: 'var(--terracotta)', color: 'var(--ink)',
-              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-              boxShadow: text.trim().length < 3 ? 'none' : '0 4px 0 var(--terracotta-dark)',
-              opacity: text.trim().length < 3 ? 0.55 : 1,
+              padding: '13px 18px', borderRadius: 14, flexShrink: 0,
+              border: `2px solid ${HAPPY.ink}`, cursor: canPitch ? 'pointer' : 'default',
+              background: canPitch ? HAPPY.butter : '#fff', color: HAPPY.ink,
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+              boxShadow: canPitch ? `0 4px 0 ${HAPPY.ink}` : 'none',
+              opacity: canPitch ? 1 : 0.55,
             }}
           >
             Pitch it
@@ -228,28 +295,32 @@ export default function KidAskForJob({
           half that was missing from a bare ping: the child could ask and then
           had no way of ever seeing what happened next. */}
       {asks.length > 0 && (
-        <div style={{ marginTop: '18px' }}>
+        <div style={{ marginTop: 20 }}>
           {/* From the theme, because this sits on the page background rather
               than inside the white card, and that background is whatever colour
               the child picked. A fixed colour here is invisible on half of them. */}
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: t.inkMuted, margin: '0 0 8px' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: t.inkMuted, margin: '0 0 8px' }}>
             Your ideas so far
           </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {asks.slice(0, 8).map(a => (
-              <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '14px', padding: '11px 13px' }}>
-                <span style={{ fontSize: 'var(--text-md)', flexShrink: 0 }}>{a.emoji}</span>
-                <span style={{ flex: 1, minWidth: 0, fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.3 }}>{a.title}</span>
-                <span style={{ flexShrink: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: a.status === 'added' ? 'var(--retro-green-dark, var(--deep-teal))' : 'var(--ink-muted)' }}>
-                  {a.status === 'added' ? 'IT IS ON ⭐' : a.status === 'declined' ? 'NOT THIS TIME' : 'WAITING'}
+              <div key={a.id} style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 16, padding: '11px 12px', boxShadow: `0 3px 0 ${HAPPY.ink}` }}>
+                <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>{a.emoji}</span>
+                <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: HAPPY.ink, lineHeight: 1.25 }}>{a.title}</span>
+                <span style={{ flexShrink: 0 }}>
+                  {a.status === 'added'
+                    ? <Sticker accent="green" rotate={5} size="sm">It is on ⭐</Sticker>
+                    : a.status === 'declined'
+                      ? <Sticker accent="white" rotate={5} size="sm">Not this time</Sticker>
+                      : <Sticker accent="butter" rotate={5} size="sm">Waiting</Sticker>}
                 </span>
               </div>
             ))}
           </div>
-          {/* Said plainly, because a child watching a WAITING row needs to know
+          {/* Said plainly, because a child watching a Waiting row needs to know
               nothing is stuck and nobody is ignoring them. */}
           {pending > 0 && (
-            <p style={{ fontSize: 'var(--text-base)', color: t.inkSoft, lineHeight: 1.5, margin: '10px 0 0' }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: t.inkSoft, lineHeight: 1.5, margin: '10px 0 0' }}>
               {pending === 1 ? 'One idea is' : `${pending} ideas are`} with your grown up. They get a message on their phone, so it is not lost.
             </p>
           )}
@@ -257,15 +328,9 @@ export default function KidAskForJob({
       )}
 
       {note && (
-        <div role="status" style={{ position: 'fixed', left: '50%', bottom: '22px', transform: 'translateX(-50%)', zIndex: 60, maxWidth: 'calc(100% - 32px)', background: 'var(--ink)', color: '#fff', borderRadius: '14px', padding: '12px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', textAlign: 'center', lineHeight: 1.35 }}>
+        <div role="status" style={{ position: 'fixed', left: '50%', bottom: 22, transform: 'translateX(-50%)', zIndex: 60, maxWidth: 'calc(100% - 32px)', background: HAPPY.ink, color: '#fff', border: `2px solid ${HAPPY.ink}`, borderRadius: 14, padding: '12px 18px', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', textAlign: 'center', lineHeight: 1.35 }}>
           {note}
         </div>
-      )}
-
-      {childName && asks.length === 0 && (
-        <p style={{ fontSize: 'var(--text-base)', color: t.inkSoft, lineHeight: 1.55, marginTop: '16px' }}>
-          Anything you think you could help with counts, {childName}. Even a small one.
-        </p>
       )}
     </div>
   )

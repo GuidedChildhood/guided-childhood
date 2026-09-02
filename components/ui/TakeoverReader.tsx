@@ -42,7 +42,7 @@ export default function TakeoverReader({ backHref, eyebrow, children }: Props) {
             position: sticky; top: 0; z-index: 5;
             background: var(--cream);
             padding: calc(env(safe-area-inset-top, 0px) + 10px) 16px 10px;
-            border-bottom: 1.5px solid var(--border);
+            border-bottom: 2px solid var(--ink);
           }
           .gc-takeover-hide { display: none !important; }
         }
@@ -60,7 +60,7 @@ export default function TakeoverReader({ backHref, eyebrow, children }: Props) {
           aria-label="Back"
           style={{
             flexShrink: 0, width: 36, height: 36, borderRadius: '50%',
-            background: '#fff', border: '1.5px solid var(--border)',
+            background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             textDecoration: 'none', color: 'var(--ink)',
             fontSize: 'var(--text-lg)', fontWeight: 800, lineHeight: 1,

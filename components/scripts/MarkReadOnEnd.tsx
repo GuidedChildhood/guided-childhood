@@ -1,5 +1,6 @@
 'use client'
 
+import { band } from '@/components/scripts/card-system'
 import { useEffect, useRef, useState } from 'react'
 import { currentChildId } from '@/lib/children/current'
 
@@ -76,11 +77,12 @@ export default function MarkReadOnEnd({
       {marked && (
         <p
           role="status"
+          // The child's Printed! bar, for the parent: a green band with
+          // white words, because reading to the end is the moment that lands.
           style={{
-            fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700,
-            letterSpacing: '0.06em', color: 'var(--retro-green-dark)',
-            background: 'var(--tint-green)', border: '1.5px solid var(--retro-green)',
-            borderRadius: 12, padding: '9px 13px', margin: '0 0 12px',
+            ...band('green'),
+            fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 900,
+            lineHeight: 1.2, margin: '0 0 12px',
           }}
         >
           Read. Your pathway has moved.

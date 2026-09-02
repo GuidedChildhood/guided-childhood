@@ -57,7 +57,7 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
         {deviceEmoji(request.device)} {childName} is asking for {request.minutes} minutes
       </div>
       <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginBottom: '9px' }}>
-        That is {minutesToStars(request.minutes, starMinutes)} star{minutesToStars(request.minutes, starMinutes) === 1 ? '' : 's'} on {request.deviceName ?? `the ${deviceLabel(request.device)}`}. Your yes lets {childName} tap Start on their screen.
+        That is {minutesToStars(request.minutes, starMinutes)} star{minutesToStars(request.minutes, starMinutes) === 1 ? '' : 's'} on {request.deviceName ?? `the ${deviceLabel(request.device)}`}. Your yes takes the stars now, and {childName} taps Start when they are at the screen.
       </div>
       {/* Saying yes here past the day's guide is a treat, named warmly
           before the tap so the parent grants it knowingly. Never a block. */}
@@ -67,7 +67,7 @@ export function PendingAskBox({ childName, request, exceedsGuide, busy, onApprov
         </p>
       )}
       <div style={{ display: 'flex', gap: '8px' }}>
-        <button onClick={onApprove} disabled={busy} style={{ flex: 1, padding: '10px', borderRadius: '12px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes, start it</button>
+        <button onClick={onApprove} disabled={busy} style={{ flex: 1, padding: '10px', borderRadius: '12px', border: 'none', cursor: busy ? 'default' : 'pointer', background: 'var(--terracotta)', color: 'var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>Yes ⭐</button>
         <button onClick={onDecline} disabled={busy} style={{ flexShrink: 0, padding: '10px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', cursor: busy ? 'default' : 'pointer', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}>Not yet</button>
       </div>
     </div>

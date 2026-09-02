@@ -10000,3 +10000,57 @@ sheet that has to be one side is a piece of A4 in real millimetres with no
 page margin (210 by 285mm, its margins as padding), the pattern the Planet
 Friends poster proved on his phone in August. Each sheet owns its own @page
 rule; the pages that host sheets set none. PR 954.
+
+
+## 2 September 2026: the happy news device balance set, drawn in code
+
+Justin: "add more happy news style printables just as other ones like this
+(The Happy Newspaper). Come up with ideas using this style for age related
+device balance use." Six sheets, one device balance idea each, gated by
+stage: My Balance Wheel (4 to 10), Phones Go To Bed (all), My Screen Time
+Deal (8 to 16), My Helping Hand (4 to 12), Ready For My Phone (10 to 15),
+Kindness Postcards (all). Decided: a sheet drawn in code is still a registry
+entry (a `drawn` key instead of CDN art), so both grids, the ask and confirm
+loop, the five a day tick and the stage gating work unchanged. The tile is
+the real sheet scaled down, so the preview is the print. The family's real
+deal (minutes per star, the daily core, the bedtime, the protected windows)
+is written onto the Deal and the Bed sheets when the printer knows it, so
+the paper on the fridge never disagrees with the app. Every sheet is one
+side of A4 from a phone or a desktop, on the poster's millimetre paper.
+
+
+## 2 September 2026: the parent's scripts wear the child's finish, in parent tokens
+
+Justin, with the child's Printed! screen: "make sure the scripts and cards
+on parent screen have this finish you did on kids app, looks super good, but
+use our chosen colours. Looks great how it fills the screen." Decided: the
+finish travels, the decoration does not. Every card on the script pages now
+has a 2px ink edge and a hard ink ledge, the sheet a 2.5px edge and a butter
+band with an ink rule under it, buttons are butter or white with an ink edge
+and ledge in Nunito 900, and a landed state (read to the end, used it) is a
+full width retro green band with white words, the child's Printed! bar. No
+smiley dots or stickers on the parent side. It all lives in one place,
+components/scripts/card-system.ts, so the library, the category page, the
+detail page and the shared BrowseTile changed together. The old rule in
+HappyNewsBits ("none of this reaches the parent dashboard") now reads: the
+dots stay on the child's side, the finish is shared.
+
+
+## 2 September 2026: the ask is always allowed, and the yes takes the stars
+
+Justin, with the child's balance card: "easy to select device type and
+minutes, can still request if no time, pops up on parent app so they can
+agree it, deducts from star account." Traced: a child with no stars was
+refused twice (the card would not open the picker, the start route said
+"not enough stars" before the ask branch), which contradicted never allow
+or deny; the yes wrote a status and the stars came off on the child's later
+Start. Decided: the picker always opens and a child may ask for up to an
+hour whatever they have; a start the pockets cannot pay for becomes an ask
+for every trust level; the parent's yes charges the bank (core, stars,
+holiday, the same plan a start uses) and the child's Start reuses that
+charge, marked by the star row's note naming the ask; when the bank cannot
+cover the ask the yes covers the rest as the grown up's treat. A pop up
+sheet (components/quests/AskPopup) rises anywhere in the parent dashboard
+when an ask is waiting, polled every twenty seconds. Minute chips at the
+child's star rate, the happy news finish on the card, and an earn more path
+(the jobs still to do today and the minutes they bring) when a pick is short.

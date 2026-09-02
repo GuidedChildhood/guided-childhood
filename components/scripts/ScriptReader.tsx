@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
-  eyebrow, sheet, sheetBand, dottedRule, sheetBody, stageAccent, stageCircle,
+  eyebrow, sheet, sheetBand, dottedRule, sheetBody, stageAccent, stageCircle, chunky,
 } from '@/components/scripts/card-system'
 
 // The heart of a script: the line to say, made to feel like the single most
@@ -106,12 +106,12 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
       {/* The band, with the same convex arc the daily deck cards wear, so a
           script and a card read as one family. It names what the sheet is. */}
       <div style={sheetBand}>
-        <div style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: '#4A3410', opacity: 0.75 }}>
+        <div style={{ ...eyebrow, fontSize: 'var(--text-sm)', color: 'var(--ink)', opacity: 0.7 }}>
           The script
         </div>
         <div style={{
-          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-          color: '#3A2C0C', lineHeight: 1.2, letterSpacing: '-0.01em', marginTop: 2,
+          fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)',
+          color: 'var(--ink)', lineHeight: 1.1, letterSpacing: '-0.02em', marginTop: 2,
         }}>
           Four steps, in order
         </div>
@@ -125,10 +125,10 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
           margin: 0,
           fontFamily: 'var(--font-display)',
           fontWeight: 900,
-          fontSize: 'clamp(24px, 6.6vw, 30px)',
-          lineHeight: 1.3,
-          letterSpacing: '-0.015em',
-          color: '#4A3410',
+          fontSize: 'clamp(26px, 7vw, 34px)',
+          lineHeight: 1.25,
+          letterSpacing: '-0.02em',
+          color: 'var(--ink)',
           textWrap: 'balance',
         }}>
           <span aria-hidden style={{ opacity: 0.35 }}>&ldquo;</span>{sayThis}<span aria-hidden style={{ opacity: 0.35 }}>&rdquo;</span>
@@ -171,16 +171,7 @@ export default function ScriptReader({ sayThis, notThis, whyItWorks, tonight, st
   )
 }
 
-// The hero action: one chunky, tactile button, filled when active.
+// The hero action: the one chunky button, butter while it speaks.
 function heroBtn(active: boolean): React.CSSProperties {
-  return {
-    display: 'inline-flex', alignItems: 'center', gap: 8,
-    padding: '11px 18px', borderRadius: 14, cursor: 'pointer',
-    fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)',
-    background: active ? 'var(--terracotta)' : 'var(--terracotta-lt)',
-    color: active ? '#fff' : '#4A3410',
-    border: '1.5px solid rgba(201,154,40,0.35)',
-    boxShadow: active ? 'none' : '0 3px 0 rgba(201,154,40,0.3)',
-    transition: 'transform 0.12s, box-shadow 0.12s',
-  }
+  return { ...chunky(active ? 'butter' : 'white'), transition: 'transform 0.12s, box-shadow 0.12s' }
 }

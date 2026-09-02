@@ -1,4 +1,5 @@
 'use client'
+import { card, cardPad, chunky } from '@/components/scripts/card-system'
 import { useState } from 'react'
 import { currentChildId } from '@/lib/children/current'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
@@ -76,7 +77,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
   const askWhich = settled && worked !== 'no' && !chosen && (lines?.length ?? 0) >= 2
 
   return (
-    <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: '20px', padding: 'clamp(20px, 5vw, 24px)', boxShadow: '0 4px 0 rgba(26,26,46,0.05)' }}>
+    <div style={{ ...card, padding: cardPad }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: settled && !askWhich ? 0 : '14px' }}>
         <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: '50%', background: 'var(--terracotta-lt)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <DigiCharacter size={26} mood={worked === 'yes' ? 'happy' : 'idle'} />
@@ -96,12 +97,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
               key={w}
               onClick={() => rate(w)}
               disabled={saving}
-              style={{
-                flex: 1, padding: '11px 6px', borderRadius: '12px', cursor: saving ? 'default' : 'pointer',
-                background: 'var(--cream)', border: '1.5px solid var(--border)', color: 'var(--ink)',
-                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                boxShadow: '0 3px 0 rgba(26,26,46,0.12)', opacity: saving ? 0.7 : 1,
-              }}
+              style={{ ...chunky('white'), flex: 1, padding: '12px 6px', cursor: saving ? 'default' : 'pointer', opacity: saving ? 0.7 : 1 }}
             >
               {label}
             </button>
@@ -121,11 +117,7 @@ export default function ScriptHelpPrompt({ sortOrder, initialWorked }: { sortOrd
             <button
               key={line}
               onClick={() => pickLine(line)}
-              style={{
-                textAlign: 'left', padding: '11px 14px', borderRadius: '12px', cursor: 'pointer',
-                background: 'var(--cream)', border: '1.5px solid var(--border)', color: 'var(--ink)',
-                fontSize: 'var(--text-base)', lineHeight: 1.45,
-              }}
+              style={{ ...chunky('white'), justifyContent: 'flex-start', textAlign: 'left', fontWeight: 700, lineHeight: 1.4, whiteSpace: 'normal' }}
             >
               &ldquo;{line}&rdquo;
             </button>

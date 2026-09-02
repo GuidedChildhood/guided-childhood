@@ -10,8 +10,11 @@
 // gold on cream, ink outlines, Nunito 900 for the words, the celebrate palette
 // the child app already uses for confetti.
 //
-// Small pieces, composed by the screens. None of this reaches the parent
-// dashboard, which keeps its calmer register.
+// Small pieces, composed by the screens. The dots, stickers and scatter never
+// reach the parent dashboard, which keeps its calmer register. The FINISH
+// does (ink edges, hard ink ledges, big Nunito, a colour band for a state):
+// since 2 September 2026 the parent's script pages wear it in their own
+// tokens, through components/scripts/card-system.ts.
 
 import type { CSSProperties, ReactNode } from 'react'
 
