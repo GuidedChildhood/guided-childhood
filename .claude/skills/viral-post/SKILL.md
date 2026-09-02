@@ -417,3 +417,60 @@ authors' preset r = .10 threshold for evidentiary value. Three rules:
 3. Never conflate this meta analysis with Ferguson's separate experiments meta
    (Psychology of Popular Media 2024, 27 experiments, d = 0.088). Different paper,
    different design, different number.
+
+## PART 10. THE 2026 ALGORITHM REWRITE (added 1 September 2026)
+
+Source and confidence, stated honestly: a September 2026 creator video claiming
+LinkedIn replaced its ranking rules wholesale with an AI model. The sweeping
+version is unverified and the creator sells a course, so strip the guarantees.
+But the direction matches LinkedIn's own published move to LLM based ranking
+(the 360Brew shift in Part 5), and it fits what accounts are seeing. Treat
+everything below as operating assumptions to test against Part 8's own
+analytics, never as physics.
+
+What changes in how we write:
+
+1. **Write for a nameable reader, never for everyone.** The model reads the
+   whole post and the whole profile, then pilots the post to a small group it
+   believes the post is FOR. A generic topic scatters to random people and
+   dies in the pilot group. "Five screen time tips" classifies as nobody's;
+   "the week your ten year old joins the class WhatsApp group" classifies as
+   one exact parent's. Name the reader's situation inside the first three
+   lines so the model and the reader both know whose post this is.
+
+2. **Falling impressions are not failure.** The model optimises for the right
+   small room, not the big one. Judge a post by who it brings, not how many:
+   profile views from UK parents, heads and DSLs, DMs, starter pack arrivals.
+   A three thousand impression post that fills the stage check beats a forty
+   thousand impression post of fellow commentators. Do not chase the old
+   numbers back.
+
+3. **Dwell is the whole scoreboard now.** Part 5 called it the master signal;
+   upgrade that: the see more click and the full read are the only votes that
+   matter. Structure posts to earn the click through and reward the full
+   read. Vanity counts mean even less than before.
+
+4. **The buyer is silent.** The parents most likely to join never like or
+   comment. They read in full, click the profile, and decide alone. So the
+   profile is the conversion surface: headline, featured section and the
+   plain route to the starter pack must carry the whole story for a reader
+   who will never announce themselves. Write every post assuming its most
+   important reader will not engage with it.
+
+5. **The coherence trio.** Profile headline, about section and the content
+   lane must point at the same reader, because the model classifies the
+   account, not just the post. Our lane stays children, screens, evidence,
+   preparation. A stray post outside the lane muddies classification well
+   beyond that post. The profile headline reword of 31 August 2026 matters
+   here algorithmically, not only diplomatically.
+
+6. **The sixty second test, weekly.** Open who viewed your profile and audit
+   the job titles. Parents, school leaders, DSLs, child safety journalists
+   mean the classification is working. Random growth marketers mean the trio
+   has drifted: fix content, messaging and profile until the viewers change,
+   then re run the test in a fortnight.
+
+7. **What does not change.** The golden hour reply discipline, no links in
+   the body, real photos, the honest pivot, the research card, and depth as
+   the moat. Good craft is still what earns the dwell that feeds the model.
+   Nothing in this part licenses lazy posts to a tiny audience.
