@@ -11,7 +11,7 @@ import type { HomeView } from '@/lib/planet/view'
 // database, so every slot can be dragged and every overlay reached by
 // Playwright. The same pure rules run locally in fixture mode.
 //
-//   ?tier=1|2          one Friend or two (default 1)
+//   ?tier=1|2|3        one Friend, two, or three (default 1)
 //   ?age=3..16         the child's age, which decides who is still a baby (default 4)
 //   ?energy=0..100     starting starlight for every Friend (default 100)
 //   ?stage=0..5        how far the planet has grown (default 1)
@@ -28,7 +28,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function PlanetFixture({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const sp = await searchParams
-  const tier: Tier = sp.tier === '2' ? 2 : 1
+  const tier: Tier = sp.tier === '3' ? 3 : sp.tier === '2' ? 2 : 1
   const now = new Date().toISOString()
   let home = newHome(tier, now, null)
   const energy = sp.energy !== undefined ? Math.max(0, Math.min(100, Number(sp.energy))) : 100

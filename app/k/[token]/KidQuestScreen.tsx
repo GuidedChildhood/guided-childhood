@@ -104,7 +104,7 @@ export default function KidQuestScreen({
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
   fiveADayInitial = null, passportCode = null, planetTier = null,
 }: {
-  /** Planet Friends: 1 or 2 shows the My planet tile; 3 and null hide it until slice 4. */
+  /** Planet Friends: the child's tier (1, 2 or 3) shows the My planet tile; null hides it. */
   planetTier?: 1 | 2 | 3 | null
   token: string
   childName: string
@@ -1664,6 +1664,11 @@ export default function KidQuestScreen({
             // appear?" They lived only as a sub tab of Lessons, so a child
             // had to know to look there. Only when the stage has any.
             ...(hasGames ? [{ icon: 'games' as const, label: 'Games', sub: 'Play and learn', tint: CRAYON.sky, onClick: () => { setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } }] : []),
+            // Planet Friends, the digital toy, on the front. Justin, 2 September
+            // 2026: "can't see the new game?" It sat at the bottom of the Games
+            // sub tab, under every game, and was hidden at 10 plus. Every age
+            // has a planet now; Tier 3's own schedule comes in slice 4.
+            ...(planetTier ? [{ icon: 'friends' as const, label: 'My planet', sub: 'Your Planet Friends', tint: CRAYON.green, onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/planet` } }] : []),
             { icon: 'deal', label: 'Our deal', sub: 'How it works', tint: CRAYON.paper, onClick: () => { setDealOpen(true); playKidSound('tap') } },
             { icon: 'make', label: 'Make it mine', sub: 'Buddy, colour, new Friends', tint: CRAYON.green, onClick: () => { setMakeMineOpen(true); playKidSound('tap') } },
             // Opens the ask page, always, in both states.
@@ -2499,7 +2504,7 @@ export default function KidQuestScreen({
                   on a home planet that grows while the child is away. After the
                   games, so the games stay first. Tier 1 and 2 only in slice 1
                   (see plans/planet-friends-architecture.md). */}
-              {activeLessonTab === 'games' && (planetTier === 1 || planetTier === 2) && (
+              {activeLessonTab === 'games' && planetTier !== null && (
                 <>
                   <SectionHead icon="🪐">My planet</SectionHead>
                   <a href={`/k/${token}/planet`} onClick={() => playKidSound('tap')} style={bigCardShell(false)}>
