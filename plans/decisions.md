@@ -10054,3 +10054,18 @@ sheet (components/quests/AskPopup) rises anywhere in the parent dashboard
 when an ask is waiting, polled every twenty seconds. Minute chips at the
 child's star rate, the happy news finish on the card, and an earn more path
 (the jobs still to do today and the minutes they bring) when a pick is short.
+
+## 2 September 2026: drawn sheets show a filled in, coloured in example on the tile
+
+Justin, with the child's Printables tab: "new printables need a better front
+page display on app, misaligned. We need a filled out, coloured in example.
+Check all new ones as they look messy." The six drawn sheets showed the whole
+blank A4 shrunk into a phone tile, every word a smudge and the page bottom cut
+off. Decided: every drawn sheet has an example mode (DrawnSpec.example, one
+context in HappyPaper) that colours the drawings in crayon and writes a
+child's words on the lines; DrawnCover shows a per sheet window onto that
+example, cropped to the tile's own shape and scaled to fill it, on the child's
+grid, the parent's grid and the quest thumbnail. The paper that prints stays
+blank, always. The sheet screen gets a "See one filled in" toggle so a child
+can see what theirs could look like; it is screen only. Crop windows live in
+COVER in components/printables/drawn/index.tsx, in paper pixels.

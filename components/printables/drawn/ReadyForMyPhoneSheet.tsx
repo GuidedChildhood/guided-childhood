@@ -1,4 +1,4 @@
-import { HappyPaper, Caption, TickCircle, Phone, INK, INK_MUTED } from './HappyPaper'
+import { HappyPaper, Caption, TickCircle, Phone, INK, INK_MUTED, CRAYON, useExample } from './HappyPaper'
 
 // Ready For My Phone, ages 10 to 15 (stages 3 and 4).
 //
@@ -21,8 +21,12 @@ const STOPS = [
   'I have shown a grown up how I would ask for help.',
   'We have signed our screen time deal, both of us.',
 ]
+/** How far along the road the filled in example has got. */
+const SAMPLE_DONE = 4
+const STOP_CRAYONS = [CRAYON.butter, CRAYON.sky, CRAYON.coral, CRAYON.green]
 
 export default function ReadyForMyPhoneSheet({ childName, stars }: { childName: string; stars: number }) {
+  const ex = useExample()
   return (
     <HappyPaper
       title="Ready for my phone"
@@ -36,7 +40,7 @@ export default function ReadyForMyPhoneSheet({ childName, stars }: { childName: 
 
         {/* The destination */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16, position: 'relative', flexShrink: 0 }}>
-          <div style={{ background: '#fff', border: `3px solid ${INK}`, borderRadius: 16, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ background: ex ? CRAYON.paper : '#fff', border: `3px solid ${INK}`, borderRadius: 16, padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <Phone size={64} face="happy" />
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: INK_MUTED }}>The last stop</div>
@@ -50,17 +54,18 @@ export default function ReadyForMyPhoneSheet({ childName, stars }: { childName: 
           {[...STOPS].reverse().map((s, idx) => {
             const n = STOPS.length - idx
             const left = n % 2 === 1
+            const done = ex && n <= SAMPLE_DONE
             return (
               <div key={n} style={{ display: 'flex', justifyContent: left ? 'flex-start' : 'flex-end' }}>
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: 10, width: '52%',
                   flexDirection: left ? 'row-reverse' : 'row',
-                  background: '#fff', border: `2.5px solid ${INK}`, borderRadius: 14, padding: '7px 10px',
+                  background: done ? STOP_CRAYONS[(n - 1) % STOP_CRAYONS.length] : '#fff', border: `2.5px solid ${INK}`, borderRadius: 14, padding: '7px 10px',
                 }}>
-                  <TickCircle size={30} />
+                  <TickCircle size={30} sample={n <= SAMPLE_DONE} />
                   <div style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 8, flexDirection: left ? 'row-reverse' : 'row' }}>
                     <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 13, lineHeight: 1.25, color: INK, textAlign: left ? 'right' : 'left', flex: 1 }}>{s}</span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: INK_MUTED, flexShrink: 0 }}>{n}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, color: done ? INK : INK_MUTED, flexShrink: 0 }}>{n}</span>
                   </div>
                 </div>
               </div>
@@ -70,7 +75,7 @@ export default function ReadyForMyPhoneSheet({ childName, stars }: { childName: 
 
         {/* Start */}
         <div style={{ display: 'flex', justifyContent: 'center', position: 'relative', flexShrink: 0 }}>
-          <span style={{ background: '#fff', border: `3px solid ${INK}`, borderRadius: 100, padding: '5px 16px', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color: INK }}>START HERE</span>
+          <span style={{ background: ex ? CRAYON.butter : '#fff', border: `3px solid ${INK}`, borderRadius: 100, padding: '5px 16px', fontFamily: 'var(--font-mono)', fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color: INK }}>START HERE</span>
         </div>
       </div>
 
