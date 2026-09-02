@@ -10090,3 +10090,15 @@ than the family deal but later is an ask; no new child data beyond one play
 state document per child, no free text below Tier 3, and the Tier 3 schedule
 labels come from a list. Three questions left for Justin in section 6.
 Migration numbers unclaimed until the build.
+
+## 2 September 2026: Planter Friends, the three decisions, and slice 1 starts
+
+Justin, on the design document (PR 957): "1 agreed with direction 2 ship
+together 3 new can be typed let's go ahead." Decided: missions pay in the
+garden only, never stars directly (a parent who wants stars adds the same
+activity as a quest on the board they already have); slice 1 ships to Tier 1
+and Tier 2 together; typed plant names are allowed at Tier 3, the toy's one
+free text field. Slice 1 (the greenhouse, the nap, the photosynthesis loop,
+the bedtime sync) is claimed on the same branch and PR, with migration 251
+for `planter_gardens` and `planter_events`. Plan:
+`plans/week-of-2026-08-31-planter-friends-slice-1-plan.md`.

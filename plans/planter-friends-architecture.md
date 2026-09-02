@@ -1025,15 +1025,17 @@ every slot dragged and every button tapped, the child guard script green, the
 dash check over every registry line, and a real evening where the greenhouse
 dims at the family's bedtime on a real phone.
 
-**Three things for Justin to decide.**
+**Three things Justin decided, 2 September 2026.** ("1 agreed with
+direction 2 ship together 3 new can be typed let's go ahead.")
 
-1. Missions pay in the garden only, never stars, unless the parent adds the
-   same activity as a quest on the board. Keep that, or let a mission carry
-   stars directly?
-2. Slice 1 ships to Tier 1 and Tier 2 together, or Tier 2 first so the first
-   testers are children who already use the child link?
-3. Plant names at Tier 3 are typed. That is the toy's only free text field.
-   Allow it, or keep names to a list at every tier until the DPIA is signed?
+1. Missions pay in the garden only, never stars directly. A parent who wants
+   the same activity to earn stars adds it as a quest on the board they
+   already have.
+2. Slice 1 ships to Tier 1 and Tier 2 together.
+3. Plant names at Tier 3 are typed, the toy's only free text field.
+
+Slice 1 is being built on the same branch. Its plan is
+`plans/week-of-2026-08-31-planter-friends-slice-1-plan.md`.
 
 ---
 

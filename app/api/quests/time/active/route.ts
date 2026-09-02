@@ -174,6 +174,26 @@ export async function GET() {
     }
   } catch { /* informational only, never blocks the timer */ }
 
+  // THE GARDEN ASK. Planter Friends (slice 1): a child whose plants are
+  // napping can ask to wake them early, and the ask has to reach the parent
+  // the same way a screen time ask does, in the pop up, or "never allow or
+  // deny" is not true inside the toy. Read off the garden row, pending and
+  // fresh, and fails soft to nothing on a database still short of migration
+  // 251.
+  const gardenAskBy = new Map<string, { id: string; minutesLeft: number; createdAt: string }>()
+  try {
+    const { data: gardens, error } = await supabase
+      .from('planter_gardens').select('child_id, ask').eq('user_id', user.id).in('child_id', ids)
+    if (!error) {
+      for (const g of gardens ?? []) {
+        const ask = (g as { ask?: { id?: string; status?: string; minutesLeft?: number; createdAt?: string } | null }).ask
+        if (!ask || ask.status !== 'pending' || !ask.id || !ask.createdAt) continue
+        if (Date.now() - new Date(ask.createdAt).getTime() > 2 * 3600000) continue
+        gardenAskBy.set(String(g.child_id), { id: ask.id, minutesLeft: Number(ask.minutesLeft) || 0, createdAt: ask.createdAt })
+      }
+    }
+  } catch { /* no garden yet, nothing to ask */ }
+
   return NextResponse.json({
     children: kids.map(c => {
       const ageBand = (c as { age_band?: string | null }).age_band ?? null
@@ -201,6 +221,7 @@ export async function GET() {
         giftOwed: giftOwedBy.get(c.id as string) ?? 0,
         agreedAt: agreedBy.get(c.id as string) ?? null,
         jobsLeft: jobsLeftBy.get(c.id as string) ?? { count: 0, first: null },
+        garden: gardenAskBy.get(c.id as string) ?? null,
       }
     }),
   })
