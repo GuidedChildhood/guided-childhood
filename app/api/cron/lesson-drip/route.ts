@@ -50,6 +50,7 @@ async function handler(request: Request) {
     .select('id, stage_id, category, title, sort_order')
     .eq('audience', 'parent').neq('status', 'stub')
     .order('sort_order', { ascending: true })
+    .order('id', { ascending: true })
   if (lessonsErr) return NextResponse.json({ ok: true, sent: 0 })
 
   const byStage = new Map<string, { id: string; category: string; title: string }[]>()
