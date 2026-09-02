@@ -33,6 +33,7 @@ import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
 import KidTabBar from '@/components/kid/KidTabBar'
+import HappyIcon from '@/components/kid/HappyIcon'
 import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
@@ -3022,12 +3023,15 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
       <a
         href={`/k/${token}/week`}
         style={{
-          display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none',
-          background: '#fff', border: '2px solid var(--border)', borderRadius: 18,
-          boxShadow: '0 4px 0 var(--border)', padding: '12px 14px', marginBottom: 16,
+          display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none',
+          background: '#fff', border: '2px solid var(--ink)', borderRadius: 18,
+          boxShadow: '0 4px 0 var(--ink)', padding: '10px 14px 10px 10px', marginBottom: 16,
         }}
       >
-        <span aria-hidden style={{ fontSize: 'var(--text-lg)', lineHeight: 1 }}>🗓️</span>
+        {/* The drawn calendar in a crayon well (the Happy Newspaper pass). */}
+        <span aria-hidden style={{ width: 48, height: 48, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: CRAYON.paper, border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          <HappyIcon name="calendar" size={32} />
+        </span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)' }}>
             My calendar
@@ -3036,7 +3040,7 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
             {weekCount === 0 ? 'Nothing on it yet. Add PE kit, clubs and homework' : 'Nothing due today. See the week, add your own'}
           </span>
         </span>
-        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--terracotta-dark)' }}>→</span>
+        <span aria-hidden style={{ flexShrink: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink-muted)' }}>›</span>
       </a>
     )
   }
@@ -3078,16 +3082,17 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
   return (
     <div style={{
       background: '#fff', borderRadius: '18px', padding: '14px 16px', marginBottom: '16px',
-      border: anyUrgent ? '2.5px solid #E5484D' : '2px solid var(--terracotta)',
-      boxShadow: anyUrgent ? '0 5px 0 rgba(185,59,63,0.55)' : '0 5px 0 var(--terracotta-dark)',
+      border: anyUrgent ? '2.5px solid #E5484D' : '2px solid var(--ink)',
+      boxShadow: anyUrgent ? '0 4px 0 #B93B3F' : '0 4px 0 var(--ink)',
       animation: anyUrgent ? 'gcKidSchoolPulse 1.3s ease-in-out infinite' : undefined,
     }}>
       <style>{`@keyframes gcKidSchoolPulse { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-2px) } }`}</style>
 
       {todayItems.length > 0 && (
         <>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: anyUrgent ? '#B93B3F' : 'var(--terracotta-dark)', marginBottom: '9px' }}>
-            {anyUrgent ? '🔴 Don’t forget, it is nearly time' : '🗓️ To remember today'}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, color: anyUrgent ? '#B93B3F' : 'var(--ink)', marginBottom: '9px' }}>
+            <HappyIcon name="calendar" size={26} />
+            {anyUrgent ? 'Don’t forget, it is nearly time' : 'To remember today'}
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {todayItems.map(i => row(i, urgentOf(i.time)))}
@@ -3097,8 +3102,9 @@ export function KidSchoolBanner({ items, token, weekCount }: { items: KidSchoolT
 
       {tomorrowItems.length > 0 && (
         <div style={{ marginTop: todayItems.length > 0 ? '12px' : 0, paddingTop: todayItems.length > 0 ? '12px' : 0, borderTop: todayItems.length > 0 ? '1px solid var(--border)' : 'none' }}>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '9px' }}>
-            🎒 Tomorrow, get it ready tonight
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900, color: 'var(--ink)', marginBottom: '9px' }}>
+            <HappyIcon name="bag" size={26} />
+            Tomorrow, get it ready tonight
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {tomorrowItems.map(i => row(i, false))}

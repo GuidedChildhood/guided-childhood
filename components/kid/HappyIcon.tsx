@@ -14,7 +14,7 @@ const INK = HAPPY.ink
 export type HappyIconName =
   | 'time' | 'wins' | 'passport' | 'lessons' | 'deal' | 'make' | 'ask' | 'print' | 'games' | 'tell' | 'friends'
   | 'jobs' | 'quiz' | 'balance' | 'read' | 'homework' | 'move' | 'maths' | 'tidy' | 'kind' | 'phonebed'
-  | 'hand' | 'cheer' | 'heart' | 'sprout' | 'flame'
+  | 'hand' | 'cheer' | 'heart' | 'sprout' | 'flame' | 'calendar' | 'bag'
 
 
 export default function HappyIcon({ name, size = 40 }: { name: HappyIconName; size?: number }) {
@@ -269,6 +269,29 @@ export default function HappyIcon({ name, size = 40 }: { name: HappyIconName; si
         <svg {...s}>
           <path d="M34 6c1 8 6 11 9 15 3 4 5 8 5 13a16 16 0 0 1-32 0c0-4 1-7 3-10 1 3 3 5 6 6-2-8 2-14 9-18-1 3-1 6 1 8 2-5 1-10-1-14z" fill={CRAYON.coral} />
           <path d="M32 54a8 8 0 0 1-8-8c0-4 3-6 4-8 1 2 2 3 4 3-1-3 1-6 4-8 0 2 0 4 1 5 2-1 5 1 5 5a8 8 0 0 1-10 11z" fill={CRAYON.butter} strokeWidth="2" />
+        </svg>
+      )
+    case 'calendar':
+      // A wall calendar with today ringed: my calendar.
+      return (
+        <svg {...s}>
+          <rect x="8" y="14" width="48" height="42" rx="6" fill="#fff" />
+          <path d="M8 26h48" />
+          <rect x="8" y="14" width="48" height="12" rx="6" fill={CRAYON.coral} />
+          <path d="M20 8v10M44 8v10" strokeWidth="3.5" />
+          <circle cx="20" cy="36" r="2.5" fill={INK} stroke="none" /><circle cx="32" cy="36" r="2.5" fill={INK} stroke="none" /><circle cx="44" cy="36" r="2.5" fill={INK} stroke="none" />
+          <circle cx="20" cy="47" r="2.5" fill={INK} stroke="none" />
+          <circle cx="32" cy="47" r="6" fill={CRAYON.butter} strokeWidth="2.5" />
+        </svg>
+      )
+    case 'bag':
+      // A school bag packed the night before.
+      return (
+        <svg {...s}>
+          <path d="M14 24h36v26a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6z" fill={CRAYON.sky} />
+          <path d="M22 24v-6a10 10 0 0 1 20 0v6" strokeWidth="3.5" />
+          <rect x="22" y="36" width="20" height="12" rx="4" fill={CRAYON.butter} />
+          <path d="M32 36v12" strokeWidth="2.5" />
         </svg>
       )
     case 'friends':
