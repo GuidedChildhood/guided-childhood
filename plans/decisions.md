@@ -10069,3 +10069,16 @@ grid, the parent's grid and the quest thumbnail. The paper that prints stays
 blank, always. The sheet screen gets a "See one filled in" toggle so a child
 can see what theirs could look like; it is screen only. Crop windows live in
 COVER in components/printables/drawn/index.tsx, in paper pixels.
+
+## 2 September 2026: the starter pack reveal explains the platform
+
+Justin, with the old reveal on his phone: text not UX quality, overlapping,
+remake at Mobbin and Apple level and introduce exactly how the platform
+works. Decided: the reveal is app/(marketing)/starter-pack/ResultScreen.tsx,
+written as the Mobbin references are (Hers How it works, Gentler Streak,
+Withings): one drawn picture of the real product beside a few plain
+sentences, one idea per section, body at 17px, mono for the smallest labels
+only. Order: what you told us, how it works in three steps, how DiGi works,
+screen time and balance, the child's own app, the road to 16, what you get,
+the door. The product pictures are drawn in code in Mocks.tsx so they
+survive redesigns. Dev preview: /starter-pack?preview=result.
