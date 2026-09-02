@@ -9830,15 +9830,20 @@ while laying it out in zoomed coordinates, so the error grows with the
 scroll. The home page is the longest page in the app, which is why it
 showed there first and read as "a little" elsewhere.
 
-Decision: the bar is position sticky, the last thing in the shell's flex
-column, so it is placed in the document's own coordinates and the two can
-never disagree. The NOW button is portalled into the bar and sits on its
-top edge rather than floating on its own fixed position. The compositor
-hints (translateZ, will change) went with the fixed positioning they were
-compensating for. Every other fixed thing under body zoom (toasts, page
-level bars, sheets) carries the same drift in principle and is left alone
-until it is seen, because most of them open near the top of a page where
-the drift is nothing.
+Decision, revised the same morning after a second screenshot from the
+check in page ("tabs should be fixed to bottom not floating"): the cure
+is not to zoom the ancestors of fixed things. While the dashboard layout
+is mounted, body is unzoomed and every direct child of body (the
+portalled sheets and pills) and of the shell (header, main, the bars,
+the tab bar) is zoomed on itself instead. Same sizes everywhere, and the
+tab bar, the setup bar, the install prompt and the NOW sheet sit under no
+zoomed ancestor at all, so fixed means fixed. The NOW button is portalled
+into the bar and sits on its top edge. The compositor hints (translateZ,
+will change) went with the fault they were compensating for. Fixed things
+inside main (toasts, page level bars, sheets) still have main as a zoomed
+ancestor and are left alone until one is seen, because most open near the
+top of a page where the drift is nothing. The child app keeps body zoom
+for now.
 
 ## 2 September 2026 — The first check in asks two things per child, and keeps what was chosen at sign up
 

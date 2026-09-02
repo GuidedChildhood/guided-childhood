@@ -59,12 +59,19 @@ export default function TabBarHarness() {
 
   return (
     // The same shell as the dashboard layout: a flex column at least a screen
-    // tall, the page in a main that grows, and the bar as the LAST thing in the
-    // column. The bar is sticky now (globals.css), and sticky only holds the
-    // foot of the screen when the element's own place is at the foot of the
-    // page, so a harness that put it mid page would prove nothing.
+    // tall, the page in a main that grows, the bar the last thing in the
+    // column, and the layout's zoom block, which takes the zoom off body and
+    // puts it on each child of the shell so the fixed bar sits under no
+    // zoomed ancestor (see globals.css). Measured here at three scroll
+    // positions by the tab bar check in the scratch tests.
     <div className="gc-shell" style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: 'var(--app-bg)' }}>
-    <main style={{ flex: 1, minHeight: '200vh', padding: '20px 16px 88px' }}>
+    <style>{`
+      body { zoom: 1; }
+      body > * { zoom: 1.07; }
+      body > .gc-shell { zoom: 1; }
+      .gc-shell > * { zoom: 1.07; }
+    `}</style>
+    <main style={{ flex: 1, minHeight: '200vh', padding: '20px 16px calc(88px + env(safe-area-inset-bottom))' }}>
       <p className="eyebrow" style={{ marginBottom: 10 }}>Bottom tab bar</p>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: 14 }}>
         Drag the text size the way a parent does in iOS Settings. The row has to

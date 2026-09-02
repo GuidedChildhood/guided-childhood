@@ -67,6 +67,24 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <div className="gc-shell" style={{ minHeight: '100dvh', background: 'var(--app-bg)', display: 'flex', flexDirection: 'column' }}>
+      {/* ── THE ZOOM COMES OFF BODY IN HERE (2 September 2026) ─────────────
+          shared/tokens.css zooms body by 1.07 for readability. On an iPhone
+          that puts every fixed element (this layout's tab bar, the NOW button,
+          the setup bar, the install prompt) under a zoomed ancestor, and
+          Safari then lets them drift up the screen as the page scrolls; Justin
+          saw the tabs sat mid screen twice in one morning. The cure is not to
+          zoom the ancestors of fixed things. So while this layout is mounted:
+          body is unzoomed, every direct child of body (the portalled sheets
+          and pills) and every direct child of the shell (header, main, the
+          bars) is zoomed on itself instead. Same sizes everywhere, no zoomed
+          ancestor over anything fixed at this level. Fixed things INSIDE main
+          are as they were. See .bottom-tab-bar in globals.css. */}
+      <style>{`
+        body { zoom: 1; }
+        body > * { zoom: 1.07; }
+        body > .gc-shell { zoom: 1; }
+        .gc-shell > * { zoom: 1.07; }
+      `}</style>
       {/* Desktop top nav */}
       <header style={{
         display: 'none',
@@ -154,10 +172,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Main content */}
       {/* Clear the fixed bottom bar and the phone's own home indicator, so the
           last card on a page is never tucked under the tabs. */}
-      {/* 88px of room at the foot for the NOW button; the tab bar itself is in
-          flow now (sticky, see globals.css) so it carries its own height and
-          the safe area inset. */}
-      <main style={{ flex: 1, paddingBottom: '88px' }}>
+      <main style={{ flex: 1, paddingBottom: 'calc(88px + env(safe-area-inset-bottom))' }}>
         {/* The way back from a welcome card action, above the page it sent them
             to. One place for every destination. useSearchParams needs the
             boundary, and the bar is nothing until the param is there anyway. */}

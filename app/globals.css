@@ -6,29 +6,30 @@
 
 /* ── BOTTOM TAB BAR (app) ── */
 .bottom-tab-bar {
-  /* STICKY, NOT FIXED (2 September 2026).
+  /* FIXED, WITH NO ZOOMED ANCESTOR (2 September 2026).
 
-     Justin, with a screenshot of the dashboard on his iPhone: "when you scroll
-     on Dashboard the tabs at bottom stay in middle but should always be at
-     bottom of screen." The NOW button in the same picture had drifted by the
-     same amount, so it was not this bar, it was fixed positioning itself.
+     Justin, twice in one morning, with screenshots from his iPhone: "when you
+     scroll on Dashboard the tabs at bottom stay in middle but should always be
+     at bottom of screen", then on the check in page, "tabs should be fixed to
+     bottom not floating." The NOW button had drifted by the same amount in
+     both pictures, so it was never this bar, it was fixed positioning itself.
 
      body carries zoom: 1.07 (shared/tokens.css). iPhone Safari positions a
      fixed element inside a zoomed ancestor against the unzoomed viewport while
      laying it out in zoomed coordinates, and the difference grows with the
-     scroll: the further down a long page you are, the higher the bar floats.
-     The home page is the longest page in the app, which is why it showed
-     there first and only "a little" elsewhere.
+     scroll: the further down a page you are, the higher the bar floats.
 
-     A sticky element is placed in the document's own coordinates, so the two
-     never disagree. The bar is the last thing in the shell's flex column,
-     stuck to the foot of the viewport while the page is longer than the
-     screen and simply at the foot of the page when it is not. The compositor
-     hints that used to sit here (translateZ, will-change) are gone with the
-     fixed positioning they were compensating for. */
-  position: sticky;
+     So the dashboard layout takes the zoom OFF body and puts it on each thing
+     inside the shell instead (header, main, the bars, this nav), see the style
+     block in app/(dashboard)/dashboard/layout.tsx. Everything looks exactly as
+     it did, but this bar, the setup bar, the install prompt and the NOW sheet
+     now sit under no zoomed ancestor at all, and fixed means fixed. The
+     compositor hints that used to sit here (translateZ, will-change) were
+     compensating for the same fault and are gone. */
+  position: fixed;
   bottom: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
   /* THE HOME INDICATOR WAS EATING THE TABS.
 
      box-sizing is border-box globally, so `height: 72px` with
