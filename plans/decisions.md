@@ -10114,3 +10114,14 @@ only. Order: what you told us, how it works in three steps, how DiGi works,
 screen time and balance, the child's own app, the road to 16, what you get,
 the door. The product pictures are drawn in code in Mocks.tsx so they
 survive redesigns. Dev preview: /starter-pack?preview=result.
+
+## 2 September 2026: child home tiles wear the happy news finish, Games on the front
+
+Justin, with the child's home grid: make it Apple level with happy news
+style icons, without changing anything underneath, and where do games
+appear? The grid moved into `components/kid/KidHomeTiles.tsx` (Duolingo
+Math Games shape from Mobbin: one big drawn icon centred, the label under),
+in the same ink edge, hard ledge and crayon colours as the printables. What
+each tap does stays in KidQuestScreen and is handed in. Games were only a
+sub tab of Lessons; a Games tile now sits on the home grid when the stage
+has any, opening that sub tab. Fixture: /dev/kid-home.

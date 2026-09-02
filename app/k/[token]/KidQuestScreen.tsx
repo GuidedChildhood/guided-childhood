@@ -31,6 +31,8 @@ import HappyScene from '@/components/celebrate/HappyScene'
 import BalanceInsight from '@/components/celebrate/BalanceInsight'
 import { VAPID_PUBLIC_KEY } from '@/lib/config/vapid'
 import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
+import KidHomeTiles, { type HomeTile } from '@/components/kid/KidHomeTiles'
+import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
 import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
@@ -1642,140 +1644,47 @@ export default function KidQuestScreen({
 
         {/* The tile grid keeps only what is NOT a to do. Use my time leads,
             full width, carrying the device rule so a child reads it right
-            where they would reach for a screen. Then My road, Our deal,
-            Make it mine and New job. */}
+            where they would reach for a screen. Then the tiles. The grid's
+            look lives in KidHomeTiles (the happy news finish); what each tap
+            does is decided here and handed in, unchanged. */}
         {(() => {
-          const tiles: { icon?: KidIconName; emoji?: string; iconColor?: string; label: string; sub: string; tint: string; onClick: () => void }[] = [
-            // My wins, where My path used to be.
-            //
-            // Justin: "yes lets lose the pathway as advised for children only
-            // NOT parents." The road was a second copy of this screen's five a
-            // day, with the same lessons, printables and jobs on it, so a child
-            // finished their day in one place and it still looked unfinished in
-            // the other. The parent's passport at /dashboard/pathway is
-            // untouched: that is the ramp to 16 and it is for the grown up.
-            //
-            // The slot goes to the thing the road was actually good at, which is
-            // showing a child how far they have come.
-            { emoji: '🏆', label: 'My wins', sub: 'Streaks and best runs', tint: 'var(--tint-blue, #E4ECF7)', onClick: () => { playKidSound('tap'); setWinsOpen(true) } },
-            // The sticker book, on its own. It used to sit at the foot of the
-            // wins panel, under four stat tiles and a row of faces, which is
-            // the wrong place for the thing a child is collecting. A wins
-            // panel is a scoreboard you glance at; a passport is an object you
-            // open. The sub line counts anything earned and not yet seen, so a
-            // new sticker still pulls them in now the book is behind a tap.
-            { emoji: '🛂', label: 'My passport', sub: celebrateStickers.length > 0 ? `${celebrateStickers.length} new sticker${celebrateStickers.length > 1 ? 's' : ''}` : `${stickers.filter(s => s.earned).length} of ${stickers.length} collected`, tint: 'var(--terracotta-lt)', onClick: () => { playKidSound('tap'); setPassportOpen(true) } },
-            // The stage lessons, taken by the child themselves: a pass here
-            // lights the same tick their grown up sees on the pathway.
-            { emoji: '📚', label: 'My lessons', sub: 'Learn it, pass it', tint: 'var(--terracotta-lt)', onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
-            { icon: 'deal', iconColor: 'var(--terracotta-dark)', label: 'Our deal', sub: 'How it works', tint: 'var(--cream)', onClick: () => { setDealOpen(true); playKidSound('tap') } },
-            { emoji: '🎨', label: 'Make it mine', sub: 'Buddy, colour, new Friends', tint: 'var(--terracotta-lt)', onClick: () => { setMakeMineOpen(true); playKidSound('tap') } },
-            // Opens the ask page, always, in both states. It used to fire a bare
-            // "wants more quests" ping that could not say WHAT the child had in
-            // mind, and then flip to "Asked, grown up knows" and do nothing at
-            // all, so the one tile a child would press became a dead end.
+          const tiles: HomeTile[] = [
+            // My wins, where My path used to be. Justin: "yes lets lose the
+            // pathway as advised for children only NOT parents." The slot
+            // shows a child how far they have come.
+            { icon: 'wins', label: 'My wins', sub: 'Streaks and best runs', tint: CRAYON.sky, onClick: () => { playKidSound('tap'); setWinsOpen(true) } },
+            // The sticker book, on its own: an object a child opens. The sub
+            // line counts anything earned and not yet seen.
+            { icon: 'passport', label: 'My passport', sub: celebrateStickers.length > 0 ? `${celebrateStickers.length} new sticker${celebrateStickers.length > 1 ? 's' : ''}` : `${stickers.filter(s => s.earned).length} of ${stickers.length} collected`, tint: CRAYON.butter, onClick: () => { playKidSound('tap'); setPassportOpen(true) } },
+            // The stage lessons, taken by the child themselves.
+            { icon: 'lessons', label: 'My lessons', sub: 'Learn it, pass it', tint: CRAYON.paper, onClick: () => { playKidSound('tap'); window.location.href = `/k/${token}/lessons` } },
+            // Games, on the front. Justin, 2 September 2026: "where do games
+            // appear?" They lived only as a sub tab of Lessons, so a child
+            // had to know to look there. Only when the stage has any.
+            ...(hasGames ? [{ icon: 'games' as const, label: 'Games', sub: 'Play and learn', tint: CRAYON.sky, onClick: () => { setTab('lessons'); setLessonTab('games'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } }] : []),
+            { icon: 'deal', label: 'Our deal', sub: 'How it works', tint: CRAYON.paper, onClick: () => { setDealOpen(true); playKidSound('tap') } },
+            { icon: 'make', label: 'Make it mine', sub: 'Buddy, colour, new Friends', tint: CRAYON.green, onClick: () => { setMakeMineOpen(true); playKidSound('tap') } },
+            // Opens the ask page, always, in both states.
             {
-              icon: 'newjob', iconColor: '#3D739A',
+              icon: 'ask',
               label: 'Ask for a job',
               sub: pendingAsks > 0 ? `${pendingAsks} waiting on a yes` : 'Pitch your own idea',
-              tint: pendingAsks > 0 ? 'var(--tint-sage)' : 'var(--tint-blue, #E4ECF7)',
+              tint: CRAYON.butter,
               onClick: () => { playKidSound('tap'); window.location.assign(`/k/${token}/suggest`) },
             },
-            // Printables fills the last grid slot: a tap opens the printables
-            // tab, where the child does the ones sent to them and asks for more.
-            { emoji: '🖍️', label: 'Printables', sub: 'Colour and do', tint: 'var(--tint-sage)', onClick: () => { setTab('print'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } },
+            // Printables: a tap opens the printables tab.
+            { icon: 'print', label: 'Printables', sub: 'Colour and do', tint: CRAYON.coral, onClick: () => { setTab('print'); setActiveLesson(null); playKidSound('tap'); setTimeout(() => document.getElementById('kid-tabs')?.scrollIntoView({ behavior: 'smooth' }), 120) } },
           ]
           return (
-            <div style={{ marginBottom: '18px' }}>
-              <button
-                onClick={() => { setDeviceOpen(true); setPickNow(bankBalance > 0); playKidSound('tap'); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '13px', width: '100%', cursor: 'pointer',
-                  background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '15px 16px', textAlign: 'left',
-                  boxShadow: '0 4px 0 rgba(26,26,46,0.08)', marginBottom: '12px',
-                }}
-              >
-                <span style={{ width: 48, height: 48, borderRadius: '14px', background: 'var(--tint-sage)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><KidIcon name="time" size={26} color="#2F8F6B" /></span>
-                <span style={{ flex: 1, minWidth: 0 }}>
-                  <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.1 }}>
-                    Use my time <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--ink-muted)' }}>· {bankBalance * STAR_MINUTES} min ready</span>
-                  </span>
-                  {/* All jobs done today unlocks the ask: a warm line so the
-                      child sees the door open, still an ask, never an auto start. */}
-                  {allDone && quests.length > 0 && bankBalance > 0 && (
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: '#2F8F6B', marginTop: '3px' }}>
-                      🔓 All your jobs are done, screen time is unlocked
-                    </span>
-                  )}
-                  {/* The device rule, right where the screen would start. */}
-                  <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-md)', color: 'var(--ink-muted)', marginTop: '3px', lineHeight: 1.45 }}>
-                    {TIMER_RULE}
-                  </span>
-                </span>
-              </button>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                {tiles.map((t, i) => (
-                  <button key={i} onClick={t.onClick} style={{
-                    display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '10px', cursor: 'pointer',
-                    background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '20px', padding: '16px', textAlign: 'left',
-                    boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
-                  }}>
-                    <span style={{ width: 48, height: 48, borderRadius: '14px', background: t.tint, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>
-                      {t.icon ? <KidIcon name={t.icon} size={26} color={t.iconColor ?? 'var(--ink)'} /> : t.emoji}
-                    </span>
-                    <span style={{ minWidth: 0 }}>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.1 }}>{t.label}</span>
-                      <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '2px' }}>{t.sub}</span>
-                    </span>
-                  </button>
-                ))}
-              </div>
-              {/* Reopen the meet the Planet Friends intro any time: who they can
-                  earn and how, so it is never a one time thing they miss. */}
-              <button
-                onClick={() => { setShowIntro(true); playKidSound('tap') }}
-                style={{
-                  width: '100%', marginTop: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer',
-                  background: 'var(--tint-blue, #E4ECF7)', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '18px', padding: '13px 16px',
-                  fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)',
-                  boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
-                }}
-              >
-                <span aria-hidden>⭐</span> Meet the Planet Friends
-              </button>
-              {/* Telling a grown up.
-
-                  Full width and on its own rather than a seventh tile in the
-                  grid, for two reasons. Seven into a two column grid leaves an
-                  orphan, and more to the point this is not the same kind of
-                  thing as Make it mine. A child looking for it is usually
-                  looking for it at a bad moment, so it does not compete for
-                  attention with the playful tiles, it sits under them with room
-                  around it.
-                  A plain link, not a button with a handler: no sound, and it
-                  works if the JavaScript has not arrived. */}
-              {token && (
-                <a
-                  href={`/k/${token}/tell`}
-                  style={{
-                    width: '100%', marginTop: '12px', display: 'flex', alignItems: 'center', gap: '12px',
-                    background: '#fff', border: '1.5px solid rgba(26,26,46,0.08)', borderRadius: '18px', padding: '14px 16px',
-                    textDecoration: 'none', boxShadow: '0 4px 0 rgba(26,26,46,0.08)',
-                  }}
-                >
-                  <span aria-hidden style={{ width: 44, height: 44, borderRadius: '13px', background: 'var(--terracotta-lt)', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xl)' }}>💬</span>
-                  <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.1 }}>
-                      Telling a grown up
-                    </span>
-                    <span style={{ display: 'block', fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-base)', color: 'var(--ink-muted)', marginTop: '2px', lineHeight: 1.4 }}>
-                      Hard things to say, and what happens after
-                    </span>
-                  </span>
-                  <span aria-hidden style={{ flexShrink: 0, fontSize: 'var(--text-md)', color: 'var(--ink-muted)' }}>›</span>
-                </a>
-              )}
-            </div>
+            <KidHomeTiles
+              minutesReady={bankBalance * STAR_MINUTES}
+              unlocked={allDone && quests.length > 0 && bankBalance > 0}
+              rule={TIMER_RULE}
+              onUseTime={() => { setDeviceOpen(true); setPickNow(bankBalance > 0); playKidSound('tap'); setTimeout(() => document.getElementById('my-timer')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 160) }}
+              tiles={tiles}
+              onFriends={() => { setShowIntro(true); playKidSound('tap') }}
+              tellHref={token ? `/k/${token}/tell` : null}
+            />
           )
         })()}
 
