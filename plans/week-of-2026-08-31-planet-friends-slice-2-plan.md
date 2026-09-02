@@ -57,3 +57,12 @@ the `scripts` table is a follow up.
 - Playwright against `/dev/planet` at 390 and 1280: open the board, start a
   timer mission, claim a grown up mission and see Asked, enter a wrong code
   then the right one, see the reward land and the decor appear.
+
+## Status, 2 September 2026
+
+Built and checked: tsc clean, wiring check with nothing new, child side
+guard green, 18 logic checks, 24 mission checks and 21 slice 1 checks in
+Playwright at 390 and 1280 with no console errors. Two things found on the
+way and fixed in the same PR: the pods and the orbit read any pending ask as
+a wake ask (a mission ask would have hidden the wake door), and the fixture
+returned nothing from a claim. Slice 2b stays as written above.

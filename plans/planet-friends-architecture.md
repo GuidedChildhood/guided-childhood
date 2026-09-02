@@ -2,9 +2,9 @@
 
 **System architecture and feature design, Fable 5.1 edition.** Written
 2 September 2026 from Justin's brief, rebuilt the same day after the brief's
-own typo was found. Status: design plus slice 1 built. When the code and this
-file disagree, the code is right and this file gets updated, the same rule
-THE-STORY.md runs on.
+own typo was found. Status: design plus slices 1 and 2 built. When the code
+and this file disagree, the code is right and this file gets updated, the
+same rule THE-STORY.md runs on.
 
 **What this file is.** The whole design for an open ended digital toy on the
 child link, built on the cast the platform already has: the Planet Friends
@@ -582,7 +582,22 @@ No buttons except the AskDoor and Back to my quests. The intent is a screen
 that is boring in the most beautiful way, so the child puts the device down
 and plays with something real while the Friends recharge.
 
-### 3.2 The Real World Copycat Engine (slice 2)
+### 3.2 The Real World Copycat Engine (slice 2, built)
+
+**As built, 2 September 2026.** The engine below shipped as the MissionBoard
+in `components/planet/MissionBoard.tsx`, the catalogue in
+`lib/planet/missions.ts`, and the mission machine in `lib/planet/logic.ts`,
+with the proofs decided in `lib/planet/server.ts`. Where the build differs
+from the design that follows: the proof names are `grownup_tap`, `timer`,
+`code` and `lesson` (the `self` proof waits for Tier 3 trust in slice 4);
+the eight starter missions for Tiers 1 and 2 are in, the two Tier 3
+missions wait for slice 4; a grown up's tap reaches the parent as a mission
+ask in the same AskPopup the time asks use, and their not now puts the
+mission back on the board with no language of failure; the reward lands on
+the planet as fixed decor (`RewardKey`) drawn by HomePlanet; the paper twin
+and the per child code card, and the grown up prompts as `scripts` rows,
+are slice 2b. The timer and the code are checked against the server's clock
+and the server's answer, never the phone's.
 
 The engine that turns a real world activity into a change on the planet.
 Rare moons and custom flags come only from here, so "rare" has a precise
@@ -1004,7 +1019,9 @@ cast keep their own names at every tier.
    and Tier 2 timings, the babies in the nursery, the MoonPhone on its
    charger, and the Learn door on the growth reveal. Built.
 2. The Copycat Engine with the starter catalogue including the lesson
-   mission, the paper twins, the ask in AskPopup, hidden codes.
+   mission, the ask in AskPopup, the codes. Built. The paper twins and
+   the per child code card, and the grown up prompts as scripts rows, are
+   slice 2b.
 3. The Digital Playground, the Screen Time Cafe and the malware loop.
 4. StarNet with the dome tool, and the Tier 3 schedule and GrowAndRest.
 
