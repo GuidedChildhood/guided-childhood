@@ -19,14 +19,16 @@ const KIDS = [
 
 export default async function RefChildRail({
   searchParams,
-}: { searchParams: Promise<{ kids?: string; child?: string }> }) {
-  const { kids } = await searchParams
+}: { searchParams: Promise<{ kids?: string; child?: string; done?: string }> }) {
+  const { kids, done } = await searchParams
+  // ?done=a,b ticks those children, the way the layout does after a check in.
+  const ticked = new Set((done ?? '').split(',').filter(Boolean))
   const count = Math.min(3, Math.max(2, Number(kids) || 2))
 
   return (
     <main style={{ background: 'var(--app-bg)', minHeight: '100vh' }}>
       <Suspense fallback={null}>
-        <ChildRail kids={KIDS.slice(0, count)} forceShow />
+        <ChildRail kids={KIDS.slice(0, count).map(k => ({ ...k, done: ticked.has(k.id) }))} forceShow />
       </Suspense>
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '0 20px 40px' }}>
         <div style={{ background: '#fff', border: '1.5px solid var(--border)', borderRadius: 20, padding: '20px' }}>

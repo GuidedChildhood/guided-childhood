@@ -300,7 +300,10 @@ export default function OnboardingPage() {
       // server side grant that exists for exactly this, it runs once ever, and
       // it takes the length from the database.
       supabase.from('profiles').update({
-        onboarding_answers: { ageBand, challenge: challenges[0] ?? null, feeling: null, timeCommitment: timeCommitment ?? null },
+        // challenges, the whole list, alongside the single one everything else
+        // reads: a parent who picks two worries at sign up gets both on their
+        // first check in (lib/concerns/baseline), not only the first.
+        onboarding_answers: { ageBand, challenge: challenges[0] ?? null, challenges, feeling: null, timeCommitment: timeCommitment ?? null },
         onboarding_complete: true,
       }).eq('id', user.id),
       supabase.from('children').select('id').eq('parent_id', user.id).limit(1),

@@ -108,6 +108,33 @@ export const COMMON_BASELINE_SLUGS = [
   'phones-and-messaging',
 ] as const
 
+// ── TWO TO START, NOT FOUR (2 September 2026) ───────────────────────────────
+//
+// Justin, looking at his own first check in with three children: "maybe we
+// should have 2 each basic standard questions to start to keep it easy, then
+// we add based on parents' moments etc from then on each day... just don't
+// want too many on first check in until we know issues."
+//
+// He is right about the shape of the product. The worries a family actually
+// has arrive through DiGi, Right now, the moments and the wellbeing check in,
+// each of which raises a row for the child it was about (lib/concerns/raise),
+// and a worry scored top rests (lib/concerns/resting). The baseline is only
+// the first two rungs of that ladder, so it should be the two everybody with
+// a screen in the house can honestly answer on day one. The other two common
+// ones are still in COMMON_BASELINE_SLUGS for the older readers of it.
+export const STARTER_SLUGS = ['bedtime-screens', 'wont-put-down'] as const
+const STARTER_COUNT = STARTER_SLUGS.length
+
+/** The starters, minus any the chosen list already carries, up to the count. */
+function topUp(chosen: string[]): string[] {
+  const out = [...chosen]
+  for (const s of STARTER_SLUGS) {
+    if (out.length >= STARTER_COUNT) break
+    if (!out.includes(s)) out.push(s)
+  }
+  return out
+}
+
 /**
  * Turn what a parent named at signup into their first real concern rows.
  *
@@ -136,6 +163,8 @@ export async function seedBaselineConcerns(
   supabase: SupabaseClient,
   userId: string,
   onboardingAnswers: unknown,
+  /** The child the sign up answers were about. Looked up as the primary when absent. */
+  childId?: string | null,
 ): Promise<BaselineConcern[]> {
   const answers = (onboardingAnswers ?? {}) as {
     challenge?: string | null
@@ -166,24 +195,39 @@ export async function seedBaselineConcerns(
   // The four are a fair thing to ask anybody with a screen in the house, and a
   // parent who finds one irrelevant answers "going great" once and it rests. An
   // approximate question they can answer beats a perfect one they never see.
-  const slugs = mapped.length > 0 ? mapped : COMMON_BASELINE_SLUGS
+  // What was chosen at sign up, topped up from the two starters to two. A
+  // parent who chose two sees exactly those two; one who chose one sees it
+  // plus a starter; one whose answer has no slug sees the two starters.
+  const slugs = topUp(mapped)
   if (slugs.length === 0) return []
 
-  // Only ever on a genuinely empty ledger. A family with concerns already has
-  // a real list and does not need one conjured behind it.
+  // ── PER CHILD, NOT PER FAMILY (2 September 2026) ─────────────────────────
+  //
+  // This used to refuse to run once the family had ANY concern. Setup adds the
+  // other children before the first check in and seeds each of them as they
+  // arrive, so by the time the primary child was looked at the family already
+  // had rows, this returned nothing, and the primary fell through to the stock
+  // list like everybody else. Justin, on his own account: "I'm not sure where
+  // the first options are coming from? When we signed up I only selected 2."
+  // He had, and the app had thrown them away. The guard is now the same one
+  // seedChildBaseline uses: nothing for a child who already has a worry.
+  const { data: child } = childId
+    ? { data: { id: childId } }
+    : await supabase
+        .from('children')
+        .select('id')
+        .eq('parent_id', userId)
+        .eq('is_primary', true)
+        .maybeSingle()
+  if (!child?.id) return []
+
   const { data: existing, error: readError } = await supabase
     .from('concerns')
     .select('id')
     .eq('user_id', userId)
+    .eq('child_id', child.id)
     .limit(1)
   if (readError || (existing ?? []).length > 0) return []
-
-  const { data: child } = await supabase
-    .from('children')
-    .select('id')
-    .eq('parent_id', userId)
-    .eq('is_primary', true)
-    .maybeSingle()
 
   // ── A BASELINE IS AS OF YESTERDAY, AND THAT IS WHAT MAKES IT ANSWERABLE ───
   //
@@ -213,7 +257,7 @@ export async function seedBaselineConcerns(
     .from('concerns')
     .insert(slugs.map(slug => ({
       user_id: userId,
-      child_id: child?.id ?? null,
+      child_id: child.id,
       source: BASELINE_SOURCE,
       slug,
       label: LABEL[slug] ?? slug,
@@ -270,7 +314,7 @@ export async function seedChildBaseline(
   const now = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
   const { data: inserted, error } = await supabase
     .from('concerns')
-    .insert(COMMON_BASELINE_SLUGS.map(slug => ({
+    .insert(STARTER_SLUGS.map(slug => ({
       user_id: userId,
       child_id: childId,
       source: BASELINE_SOURCE,

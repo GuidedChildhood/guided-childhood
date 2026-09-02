@@ -11,6 +11,7 @@ import AppBadge from '@/components/pwa/AppBadge'
 import SetupNextBar from '@/components/setup/SetupNextBar'
 import BackToToday from '@/components/home/BackToToday'
 import ChildRail from '@/components/children/ChildRail'
+import { checkedInToday } from '@/lib/checkin/done-today'
 import { Suspense } from 'react'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -204,7 +205,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             Alma on Home, go to Lessons, and it is still Alma. useSearchParams
             needs the boundary, and the rail is nothing until the params are
             there anyway. */}
-        <Suspense fallback={null}><ChildRail kids={kids} /></Suspense>
+        <Suspense fallback={null}><ChildRailWithTicks kids={kids} userId={user?.id ?? null} /></Suspense>
         {children}
       </main>
 
@@ -237,4 +238,17 @@ export default async function DashboardLayout({ children }: { children: React.Re
       `}</style>
     </div>
   )
+}
+
+// The rail with today's ticks. Its own async component inside the rail's
+// Suspense, so the two reads that work out who has checked in today stream
+// in behind the page rather than holding every dashboard page for them.
+async function ChildRailWithTicks({ kids, userId }: {
+  kids: { id: string; name: string | null; is_primary: boolean | null; age_band: string | null }[]
+  userId: string | null
+}) {
+  if (kids.length < 2) return null
+  const supabase = await createClient()
+  const done = userId ? await checkedInToday(supabase, userId) : new Set<string>()
+  return <ChildRail kids={kids.map(k => ({ ...k, done: done.has(k.id) }))} />
 }
