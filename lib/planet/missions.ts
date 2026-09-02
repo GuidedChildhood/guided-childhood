@@ -23,21 +23,21 @@ export type Mission = MissionDef & {
 
 export const MISSIONS: Mission[] = [
   {
-    key: 'plant_seed', title: 'Plant a real seed', emoji: '🌱', tiers: [1, 2],
+    key: 'plant_seed', title: 'Plant a real seed', emoji: '🌱', tiers: [1, 2, 3],
     proof: 'grownup_tap', together: 'required', reward: 'dome', rewardLabel: 'A little garden dome',
     steps: ['Find a pot and some soil.', 'Push a seed in with your finger.', 'Give it a little water.'],
     askLine: 'says you planted a real seed together.',
     grownupLine: 'Ask what the seed needs first: water, light or time.',
   },
   {
-    key: 'leaf_walk', title: 'A walk for three leaves', emoji: '🍂', tiers: [1, 2],
+    key: 'leaf_walk', title: 'A walk for three leaves', emoji: '🍂', tiers: [1, 2, 3],
     proof: 'grownup_tap', together: 'required', reward: 'flag', rewardLabel: 'A leaf flag',
     steps: ['Go outside with your grown up.', 'Find three different leaves.', 'Bring them home.'],
     askLine: 'says you went out and found three leaves together.',
     grownupLine: 'Ask which leaf was hardest to find, and why.',
   },
   {
-    key: 'stretch', title: 'Five minute stretch', emoji: '🤸', tiers: [1, 2],
+    key: 'stretch', title: 'Five minute stretch', emoji: '🤸', tiers: [1, 2, 3],
     proof: 'timer', timerMinutes: 5, together: 'invited', reward: 'ring', rewardLabel: 'A ring around the planet',
     steps: ['Stand up tall.', 'Reach for the sky, then touch your toes.', 'Keep going until the ring fills.'],
     askLine: 'stretched for five whole minutes.',
@@ -51,7 +51,7 @@ export const MISSIONS: Mission[] = [
     grownupLine: 'Ask how they can tell when a plant is thirsty.',
   },
   {
-    key: 'read_book', title: 'Read a real book', emoji: '📖', tiers: [2],
+    key: 'read_book', title: 'Read a real book', emoji: '📖', tiers: [2, 3],
     proof: 'timer', timerMinutes: 10, together: 'invited', reward: 'lamp', rewardLabel: 'A story lamp',
     steps: ['Pick a real book, paper and all.', 'Find a comfy spot.', 'Read until the ring fills.'],
     askLine: 'read a real book for ten minutes.',
@@ -65,14 +65,14 @@ export const MISSIONS: Mission[] = [
     grownupLine: 'Ask where they found it, and whether it was scary or interesting.',
   },
   {
-    key: 'screens_off_dinner', title: 'Screens off dinner', emoji: '🍽️', tiers: [2],
+    key: 'screens_off_dinner', title: 'Screens off dinner', emoji: '🍽️', tiers: [2, 3],
     proof: 'grownup_tap', together: 'required', reward: 'blanket', rewardLabel: 'A picnic blanket under the stars',
     steps: ['Every screen goes on the charger. Grown ups too.', 'Eat together.', 'Tell each other one good thing about today.'],
     askLine: 'says the whole family had a screens off dinner.',
     grownupLine: 'Ask which good thing they picked, and tell them yours.',
   },
   {
-    key: 'do_lesson', title: 'Do a lesson', emoji: '📚', tiers: [2],
+    key: 'do_lesson', title: 'Do a lesson', emoji: '📚', tiers: [2, 3],
     proof: 'lesson', together: 'invited', reward: 'star', rewardLabel: 'A bright new star',
     steps: ['Open the Learn tab.', 'Pass a lesson your grown up sent you.', 'Come back to your planet.'],
     askLine: 'passed a lesson.',

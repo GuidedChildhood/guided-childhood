@@ -1,10 +1,8 @@
 import { notFound } from 'next/navigation'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { resolveTheme } from '@/lib/kid/theme'
-import { tierFor } from '@/lib/planet/logic'
 import { loadHomeView } from '@/lib/planet/server'
 import PlanetFriends from '@/components/planet/PlanetFriends'
-import KidBackLink from '@/components/kid/KidBackLink'
 
 // My planet: Planet Friends on the child link. Same trust model as every
 // child screen: no account, no login, the token scopes everything to one
@@ -12,8 +10,9 @@ import KidBackLink from '@/components/kid/KidBackLink'
 // up to now on the server, so the screen opens on what the Friends actually
 // did while the child was away.
 //
-// Slice 1 is Tier 1 and Tier 2 (ages 3 to 9). A Tier 3 child who reaches
-// this page by link gets a plain note and the way back, never a broken toy.
+// Every tier opens the planet. A Tier 3 child (10 plus) looks after three
+// Friends on the Tier 2 rules until slice 4 brings their own schedule and the
+// study timer. Justin, 2 September 2026: "can't see the new game?"
 
 export const dynamic = 'force-dynamic'
 
@@ -35,24 +34,6 @@ export default async function KidPlanetPage({ params }: { params: Promise<{ toke
     .from('children').select('name, age_band, accent, date_of_birth').eq('id', link.child_id).maybeSingle()
 
   const theme = resolveTheme((child?.accent as string | null) ?? null)
-  const tier = tierFor((child as { date_of_birth?: string | null } | null)?.date_of_birth ?? null, (child?.age_band as string | null) ?? null)
-
-  if (tier === 3) {
-    return (
-      <div style={{ minHeight: '100dvh', background: theme.bg, color: theme.ink, padding: '20px 16px', fontFamily: 'var(--font-body)' }}>
-        <div style={{ maxWidth: 480, margin: '0 auto' }}>
-          <KidBackLink href={`/k/${token}`} color={theme.ink} />
-          <div style={{ marginTop: 24, background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 20, boxShadow: '0 5px 0 var(--ink)', padding: '20px 18px' }}>
-            <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', lineHeight: 1.2 }}>Your planet is still being built.</p>
-            <p style={{ margin: '8px 0 0', fontFamily: 'var(--font-display)', fontWeight: 700, color: 'var(--ink-soft)', lineHeight: 1.4 }}>
-              The version for your age lets you plan your Friends&apos; day yourself. It is on its way.
-            </p>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   const view = await loadHomeView(supabase, link.user_id as string, link.child_id as string, child ?? {})
 
   return (
