@@ -6,6 +6,9 @@ import KidPrintPage, { type PrintJob } from '@/components/kid/KidPrintPage'
 import type { BucketIdea } from '@/components/printables/BucketSheet'
 import type { SheetJob } from '@/components/printables/StarChartSheet'
 import { MAX_ROWS } from '@/components/printables/StarChartSheet'
+import { getTimeSettings } from '@/lib/quests/time-tiers'
+import { dealFactsFrom } from '@/lib/printables/deal-facts'
+import type { DrawnSpec } from '@/components/printables/drawn'
 
 // The child's print page. See lib/kid/print-anywhere for why it exists:
 // inside an installed iOS app window.print() does nothing, so every print
@@ -36,7 +39,7 @@ export default async function KidPrintRoute({ params, searchParams }: { params: 
 
   const supabase = createAdminClient()
   const { data: link } = await supabase
-    .from('kid_links').select('child_id').eq('token', token).maybeSingle()
+    .from('kid_links').select('user_id, child_id').eq('token', token).maybeSingle()
   if (!link) notFound()
 
   let job: PrintJob | null = null
@@ -44,9 +47,26 @@ export default async function KidPrintRoute({ params, searchParams }: { params: 
   if (q.sheet) {
     const p = getPrintable(q.sheet)
     if (!p || p.pdfColourIn) notFound()
+    // A drawn sheet carries the child's name and the family's real deal
+    // (minutes per star, the daily core, the bedtime, the protected windows)
+    // so the paper on the fridge never disagrees with the app. Each read
+    // fails soft to a dotted line the family writes on.
+    let drawn: DrawnSpec | undefined
+    if (p.drawn) {
+      const { data: child } = await supabase
+        .from('children').select('name, age_band').eq('id', link.child_id).maybeSingle()
+      const childName = child?.name && child.name !== 'Your child' ? String(child.name) : ''
+      let facts = {}
+      try {
+        const settings = await getTimeSettings(supabase, link.user_id as string, [{ id: link.child_id as string, age_band: (child?.age_band as string | null) ?? null }])
+        const s = settings.get(link.child_id as string)
+        if (s) facts = dealFactsFrom(s)
+      } catch { /* dotted lines */ }
+      drawn = { key: p.drawn, childName, stars: p.stars, facts }
+    }
     job = {
       kind: 'sheet', key: p.key,
-      sheet: { url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn },
+      sheet: { url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn, drawn },
     }
   } else if (q.bucket) {
     const d = unpackFromUrl<{ title?: string; childName?: string; picked?: BucketIdea[] }>(q.bucket)

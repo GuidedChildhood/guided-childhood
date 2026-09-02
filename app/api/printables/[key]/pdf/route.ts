@@ -101,6 +101,12 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ key: string
       : NextResponse.json({ error: 'unknown printable' }, { status: 404 })
   }
 
+  // A drawn sheet (the happy news device balance set) is not a PDF on a
+  // CDN; its own page draws it at true size. Same paywall, checked there.
+  if (printable.drawn) {
+    return NextResponse.redirect(new URL(`/dashboard/printables/sheet/${key}`, req.url))
+  }
+
   // Printables are a member feature: the download is gated server side so
   // the paywall holds even against a direct link to this route. The sheet is
   // looked up FIRST because the gate depends on which sheet it is: the ones

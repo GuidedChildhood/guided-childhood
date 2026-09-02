@@ -10000,3 +10000,20 @@ sheet that has to be one side is a piece of A4 in real millimetres with no
 page margin (210 by 285mm, its margins as padding), the pattern the Planet
 Friends poster proved on his phone in August. Each sheet owns its own @page
 rule; the pages that host sheets set none. PR 954.
+
+
+## 2 September 2026: the happy news device balance set, drawn in code
+
+Justin: "add more happy news style printables just as other ones like this
+(The Happy Newspaper). Come up with ideas using this style for age related
+device balance use." Six sheets, one device balance idea each, gated by
+stage: My Balance Wheel (4 to 10), Phones Go To Bed (all), My Screen Time
+Deal (8 to 16), My Helping Hand (4 to 12), Ready For My Phone (10 to 15),
+Kindness Postcards (all). Decided: a sheet drawn in code is still a registry
+entry (a `drawn` key instead of CDN art), so both grids, the ask and confirm
+loop, the five a day tick and the stage gating work unchanged. The tile is
+the real sheet scaled down, so the preview is the print. The family's real
+deal (minutes per star, the daily core, the bedtime, the protected windows)
+is written onto the Deal and the Bed sheets when the printer knows it, so
+the paper on the fridge never disagrees with the app. Every sheet is one
+side of A4 from a phone or a desktop, on the poster's millimetre paper.

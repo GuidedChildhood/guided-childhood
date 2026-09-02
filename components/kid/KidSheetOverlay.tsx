@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { playKidSound } from '@/lib/sound/kidSounds'
 import { printOrOpen } from '@/lib/kid/print-anywhere'
 import KidSheetPaper from '@/components/kid/KidSheetPaper'
+import type { DrawnSpec } from '@/components/printables/drawn'
 import { HAPPY, CloseCross, Sticker, StarShape } from '@/components/kid/HappyNewsBits'
 
 // A printable sheet, printed from right where the child is standing.
@@ -35,6 +36,8 @@ export type OverlaySheet = {
   heading?: { name: string; kicker: string }
   // A write in page after the sheet: a titled set of dotted lines.
   writeIn?: { title: string; blurb: string; lines: number }
+  /** A sheet drawn in code, no image. */
+  drawn?: DrawnSpec
   /** The sheet's own print page, for the installed app that cannot print in place. */
   printHref?: string
   stars?: number

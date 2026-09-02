@@ -1,6 +1,8 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import type { DrawnKey } from '@/components/printables/drawn'
+import DrawnPaper from '@/components/printables/drawn/DrawnPaper'
 import KidPrivacyNote from '@/components/kid/KidPrivacyNote'
 import { KID_HOME_SEEN_KEY } from '@/components/kid/KidBackLink'
 import { useRouter } from 'next/navigation'
@@ -190,7 +192,7 @@ export default function KidQuestScreen({
   focusLesson?: { id: string; title: string; emoji: string; stars: number } | null
   // A printable a grown up sent to this child, shown at the top of the to do:
   // print it, do it, then send it to be confirmed like any printable.
-  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; previewUrl: string; sheetHeading?: { name: string; kicker: string }; extraSheetUrls?: string[] } | null
+  assignedPrintable?: { key: string; title: string; emoji: string; stars: number; sheetUrl: string; pdfColourIn?: string; drawn?: DrawnKey; previewUrl: string; sheetHeading?: { name: string; kicker: string }; extraSheetUrls?: string[] } | null
   // A tutor lesson a grown up read and sent, written from this child's own
   // homework. It sits at the top of the to do rather than joining the five a
   // day rotation, for the same reason the printable above does: a grown up
@@ -1571,7 +1573,13 @@ export default function KidQuestScreen({
                 overflow: 'hidden', background: '#fff',
                 border: '1.5px solid var(--border)', boxShadow: '0 4px 0 rgba(26,26,46,0.10)',
               }}>
-                <Image src={assignedPrintable.previewUrl} alt="" fill sizes="152px" style={{ objectFit: 'contain' }} />
+                {assignedPrintable.drawn ? (
+                  <div style={{ position: 'absolute', left: '8%', right: '8%', top: 4 }} aria-hidden>
+                    <DrawnPaper spec={{ key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars }} />
+                  </div>
+                ) : (
+                  <Image src={assignedPrintable.previewUrl} alt="" fill sizes="152px" style={{ objectFit: 'contain' }} />
+                )}
               </div>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
@@ -1592,7 +1600,7 @@ export default function KidQuestScreen({
                 onClick={() => {
                   playKidSound('tap')
                   if (assignedPrintable.pdfColourIn) printPack(assignedPrintable.pdfColourIn, assignedPrintable.title)
-                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading, stars: assignedPrintable.stars, printHref: `/k/${token}/print?sheet=${encodeURIComponent(assignedPrintable.key)}` })
+                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading, stars: assignedPrintable.stars, drawn: assignedPrintable.drawn ? { key: assignedPrintable.drawn, childName, stars: assignedPrintable.stars, facts: { starMinutes: bank?.starMinutes ?? STAR_MINUTES } } : undefined, printHref: `/k/${token}/print?sheet=${encodeURIComponent(assignedPrintable.key)}` })
                 }}
                 style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
                 🖨️ Print it
@@ -2638,6 +2646,7 @@ export default function KidQuestScreen({
             onHappyNews={setHappyNews}
             tallyColor={theme.inkSoft}
             onStepTicked={afterPrintableTicked}
+            dealFacts={{ starMinutes: bank?.starMinutes ?? STAR_MINUTES }}
           />
         )}
 

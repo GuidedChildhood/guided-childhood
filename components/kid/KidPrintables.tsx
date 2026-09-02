@@ -9,6 +9,8 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 import { printPack } from '@/lib/kid/print-sheet'
 import { printOrOpen, tickPrintableStep, type PrintableTick } from '@/lib/kid/print-anywhere'
 import KidSheetPaper from '@/components/kid/KidSheetPaper'
+import DrawnPaper from '@/components/printables/drawn/DrawnPaper'
+import type { DealFacts } from '@/components/printables/drawn'
 import { HAPPY, HappyMasthead, Burst, Sticker, SmileyDot, StarShape, WavyRule, CloseCross, HappyScatter } from '@/components/kid/HappyNewsBits'
 
 // The Printables tab on the child app, the happy news edition.
@@ -62,7 +64,7 @@ const KIND_CHIPS: { key: 'all' | Printable['kind']; label: string }[] = [
 
 export default function KidPrintables({
   token, childName, printables, asks, submitAsk, printablesUnlocked, sheetsDone, sheetStars, onHappyNews,
-  initialStatuses, fetchStatuses = true, openKey = null, tallyColor = 'rgba(255,255,255,0.86)', onStepTicked,
+  initialStatuses, fetchStatuses = true, openKey = null, tallyColor = 'rgba(255,255,255,0.86)', onStepTicked, dealFacts,
 }: {
   token: string
   childName: string
@@ -82,6 +84,8 @@ export default function KidPrintables({
   onStepTicked?: (tick: PrintableTick) => void
   /** Text straight on the child's background, from their theme. */
   tallyColor?: string
+  /** What the app already knows about this child's deal, written onto the drawn sheets. */
+  dealFacts?: DealFacts
 }) {
   const [kind, setKind] = useState<'all' | Printable['kind']>('all')
   const [open, setOpen] = useState<Printable | null>(() => printables.find(p => p.key === openKey) ?? null)
@@ -214,7 +218,15 @@ export default function KidPrintables({
                   {/* The paper, tall, the whole sheet visible. A square tile
                       cropping an A4 portrait threw away a third of every sheet. */}
                   <div style={{ position: 'relative', aspectRatio: '3 / 3.6', background: '#FFFDF8', borderBottom: `2px solid ${HAPPY.ink}` }}>
-                    <Image src={p.previewUrl} alt="" fill sizes="(max-width: 600px) 45vw, 260px" style={{ objectFit: 'contain', padding: 8 }} />
+                    {p.drawn ? (
+                      // A drawn sheet is its own preview: the real paper,
+                      // scaled to the tile, the child's name already on it.
+                      <div style={{ position: 'absolute', left: '6%', right: '6%', top: 6, overflow: 'hidden' }} aria-hidden>
+                        <DrawnPaper spec={{ key: p.drawn, childName, stars: p.stars, facts: dealFacts }} />
+                      </div>
+                    ) : (
+                      <Image src={p.previewUrl} alt="" fill sizes="(max-width: 600px) 45vw, 260px" style={{ objectFit: 'contain', padding: 8 }} />
+                    )}
                     <span style={{ position: 'absolute', top: 7, right: 7 }}>
                       {status === 'confirmed'
                         ? <Sticker accent="green" rotate={6} size="sm">Done ✓</Sticker>
@@ -262,6 +274,8 @@ export default function KidPrintables({
       {open && (
         <KidPrintableSheet
           token={token}
+          childName={childName}
+          dealFacts={dealFacts}
           printable={open}
           status={statusOf(open)}
           canOpen={openFor(open)}
@@ -307,8 +321,10 @@ function MakeTile({ href, emoji, title, sub, tint, accent }: {
  * because that is what prints when the browser can print in place, and on
  * paper it is the only thing that shows.
  */
-export function KidPrintableSheet({ token, printable: p, status, canOpen, ask, onClose, onSent, submitAsk, onHappyNews, onStepTicked }: {
+export function KidPrintableSheet({ token, childName = '', dealFacts, printable: p, status, canOpen, ask, onClose, onSent, submitAsk, onHappyNews, onStepTicked }: {
   token: string
+  childName?: string
+  dealFacts?: DealFacts
   printable: Printable
   status: Status
   canOpen: boolean
@@ -499,7 +515,7 @@ export function KidPrintableSheet({ token, printable: p, status, canOpen, ask, o
               <Image src={p.previewUrl} alt={p.title} fill sizes="560px" style={{ objectFit: 'contain', padding: 10 }} />
             </div>
           ) : (
-            <KidSheetPaper sheet={{ url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn }} />
+            <KidSheetPaper sheet={{ url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn, drawn: p.drawn ? { key: p.drawn, childName, stars: p.stars, facts: dealFacts } : undefined }} />
           )}
         </div>
       </div>
