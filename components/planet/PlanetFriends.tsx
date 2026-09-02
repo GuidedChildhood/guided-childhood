@@ -7,8 +7,7 @@ import type { ClientEvent, HomeView } from '@/lib/planet/view'
 import {
   GROWTH, TIERS, TICK_CAP_SECONDS, AMBIENT_AFTER_SECONDS,
   applyEvent, drainPerMinute, isGrownUp, minutesLeft, moodOf, reconcile, restOverlay,
-  type Home, type FriendKey, type Mood,
-} from '@/lib/planet/logic'
+  type Home, type FriendKey, type Mood, withChildAnswers, type MissionDef } from '@/lib/planet/logic'
 import { LINES, friendArt } from '@/lib/planet/registry'
 import { playFx, startTune } from '@/lib/planet/sounds'
 import { soundEnabled, setSoundEnabled } from '@/lib/sound/kidSounds'
@@ -44,7 +43,7 @@ function liveHome(home: Home, nowIso: string): Home {
   }
 }
 
-function fixtureApply(v: HomeView, ev: ClientEvent): HomeView {
+function fixtureApply(v: HomeView, ev: ClientEvent, defs: Record<string, MissionDef> = MISSION_DEFS): HomeView {
   const nowIso = new Date().toISOString()
   let home = reconcile(v.home, nowIso, null)
   let ask = v.ask
@@ -54,7 +53,7 @@ function fixtureApply(v: HomeView, ev: ClientEvent): HomeView {
   } else if (ev.kind === 'ask_seen') {
     ask = null
   } else {
-    home = applyEvent(home, ev, nowIso, MISSION_DEFS)
+    home = applyEvent(home, ev, nowIso, defs)
     // The two proofs the server decides: in the fixture a grown up's tap
     // becomes a pending ask, and a lesson counts as passed.
     if (ev.kind === 'mission_claim') {
@@ -71,18 +70,21 @@ function fixtureApply(v: HomeView, ev: ClientEvent): HomeView {
 
 const reduceMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 
-export default function PlanetFriends({ token, initial, theme, childName, fixture = false }: {
+export default function PlanetFriends({ token, initial, theme, childName, fixture = false, fixtureAnswers }: {
   token: string | null
   initial: HomeView
   theme: KidTheme
   childName: string
   fixture?: boolean
+  /** Fixture only: the pretend codes on pretend cards, so the pad can be driven with no database. */
+  fixtureAnswers?: Record<string, string[]>
 }) {
   const [view, setView] = useState<HomeView>(initial)
   // The fixture applies the rules in the browser and needs the latest view
   // at once, not after React's next render, so it keeps a mirror.
   const viewRef = useRef<HomeView>(initial)
   useEffect(() => { viewRef.current = view }, [view])
+  const fixtureDefs = useMemo(() => (fixtureAnswers ? withChildAnswers(MISSION_DEFS, fixtureAnswers) : MISSION_DEFS), [fixtureAnswers])
   // The first render uses the server's clock on both sides, so the star sits
   // in the same place on the server and on the phone and hydration never
   // disagrees. The real clock takes over a second after mount.
@@ -149,7 +151,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
 
   const send = useCallback(async (ev: ClientEvent): Promise<HomeView | null> => {
     if (fixture || !token) {
-      const next = fixtureApply(viewRef.current, ev)
+      const next = fixtureApply(viewRef.current, ev, fixtureDefs)
       viewRef.current = next
       setView(next)
       return next
@@ -162,7 +164,7 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
       if (r.ok) { const next = await r.json() as HomeView; setView(next); return next }
     } catch { /* the next poll tries again */ }
     return null
-  }, [fixture, token])
+  }, [fixture, token, fixtureDefs])
 
   // Only real play drains: one tick a minute while the planet is open and on
   // screen. Hidden or resting, nothing is sent and nothing drains.
@@ -517,6 +519,8 @@ export default function PlanetFriends({ token, initial, theme, childName, fixtur
               theme={theme}
               leadName={leadName}
               busy={busy}
+              childAge={view.childAge}
+              cards={view.cards ?? []}
               onStart={startMission}
               onClaim={claimMission}
               onSeen={seenMission}

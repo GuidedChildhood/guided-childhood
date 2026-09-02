@@ -35,7 +35,7 @@ export type Friend = {
 }
 
 export type MissionProof = 'grownup_tap' | 'timer' | 'code' | 'lesson'
-export type RewardKey = 'dome' | 'flag' | 'ring' | 'pool' | 'lamp' | 'star' | 'blanket' | 'moon'
+export type RewardKey = 'dome' | 'flag' | 'ring' | 'pool' | 'lamp' | 'star' | 'blanket' | 'moon' | 'moonflower'
 
 /** The mechanics of a mission. The words live in lib/planet/missions.ts. */
 export type MissionDef = {
@@ -46,6 +46,8 @@ export type MissionDef = {
   timerMinutes?: number
   /** For proof code: the answer, one token per tap (digits, letters or pictures). */
   answer?: string[]
+  /** For proof code: the answer is made by the server for this child and printed on a card (slice 2b). The server merges it into `answer` before a claim. */
+  perChild?: boolean
   reward: RewardKey
 }
 
@@ -483,4 +485,39 @@ export function nightKeyFor(dateStr: string, minutesNow: number, endMin: number 
   if (!m) return null
   const d = new Date(Date.UTC(Number(m[1]), Number(m[2]) - 1, Number(m[3]) - 1))
   return d.toISOString().slice(0, 10)
+}
+
+// ── The hidden code card (design 5.2, slice 2b) ─────────────────────────────
+// A code the server makes for one child and prints on a card the grown up
+// hides. At 6 and 7 it is three pictures tapped in order, no reading needed.
+// From 8 it is a four letter word. Both are tokens, one per tap, and the
+// check above joins them and compares. The randomness is handed in, so this
+// file stays pure and the checks can be exact.
+
+export type CodeMode = 'pictures' | 'letters'
+
+export const PICTURE_TOKENS = ['star', 'moon', 'rocket', 'planet', 'comet', 'sun'] as const
+export const CODE_WORDS = ['moon', 'star', 'glow', 'dust', 'beam', 'leaf', 'seed', 'dawn', 'nest', 'wave', 'wind', 'snow', 'rain', 'rock', 'ship', 'leap'] as const
+
+/** Pictures before 8, letters from 8: the reading line the tiers already draw. */
+export function codeModeFor(childAge: number): CodeMode {
+  return childAge < 8 ? 'pictures' : 'letters'
+}
+
+/** One code. `pick(n)` returns an integer from 0 to n minus 1. */
+export function makeCode(mode: CodeMode, pick: (n: number) => number): string[] {
+  if (mode === 'letters') return CODE_WORDS[pick(CODE_WORDS.length)].split('')
+  const left = [...PICTURE_TOKENS]
+  const out: string[] = []
+  while (out.length < 3 && left.length) out.push(left.splice(pick(left.length), 1)[0])
+  return out
+}
+
+/** The mission defs with one child's answers merged in, so a claim can be checked. */
+export function withChildAnswers(defs: Record<string, MissionDef>, answers: Record<string, string[]>): Record<string, MissionDef> {
+  const out: Record<string, MissionDef> = { ...defs }
+  for (const [key, code] of Object.entries(answers)) {
+    if (out[key]?.perChild) out[key] = { ...out[key], answer: code }
+  }
+  return out
 }

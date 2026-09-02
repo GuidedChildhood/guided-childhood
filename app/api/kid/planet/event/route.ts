@@ -28,7 +28,7 @@ function parseEvent(body: Record<string, unknown>): ClientEvent | null {
     const key = typeof body.key === 'string' && /^[a-z_]{2,32}$/.test(body.key) ? body.key : null
     if (!key) return null
     if (kind === 'mission_claim') {
-      const code = Array.isArray(body.code) ? body.code.filter((t): t is string => typeof t === 'string' && t.length <= 4).slice(0, 12) : undefined
+      const code = Array.isArray(body.code) ? body.code.filter((t): t is string => typeof t === 'string' && t.length <= 8).slice(0, 12) : undefined
       return { kind, key, code }
     }
     return { kind, key }

@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import type { KidTheme } from '@/lib/kid/theme'
-import type { Home, HomeAsk, MissionState, Tier } from '@/lib/planet/logic'
-import { MISSION_LINES, missionByKey, type Mission } from '@/lib/planet/missions'
+import { PICTURE_TOKENS, type CodeMode, type Home, type HomeAsk, type MissionState, type Tier } from '@/lib/planet/logic'
+import type { HomeView } from '@/lib/planet/view'
+import { MISSION_LINES, PICTURE_ART, missionByKey, type Mission } from '@/lib/planet/missions'
 import { CloseCross } from '@/components/kid/HappyNewsBits'
 
 // The MissionBoard (design section 3.2): the real world missions, as cards.
@@ -13,7 +14,10 @@ import { CloseCross } from '@/components/kid/HappyNewsBits'
 
 export type ClaimResult = 'asked' | 'landed' | 'not_yet' | 'not_quite' | 'lesson_first' | null
 
-export default function MissionBoard({ home, board, tier, ask, nowMs, token, theme, leadName, busy, onStart, onClaim, onSeen, onClose }: {
+const DIGITS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+const LETTERS = 'abcdefghijklmnopqrstuvwxyz'.split('')
+
+export default function MissionBoard({ home, board, tier, ask, nowMs, token, theme, leadName, busy, childAge, cards, onStart, onClaim, onSeen, onClose }: {
   home: Home
   board: string[]
   tier: Tier
@@ -23,6 +27,10 @@ export default function MissionBoard({ home, board, tier, ask, nowMs, token, the
   theme: KidTheme
   leadName: string
   busy: boolean
+  /** Decides nothing here yet; carried for the pad copy at Tier 3 and the fixture. */
+  childAge: number
+  /** The hidden code cards made for this child, from the server. Never the code. */
+  cards: HomeView['cards']
   onStart: (key: string) => void
   onClaim: (key: string, code?: string[]) => Promise<ClaimResult>
   onSeen: (key: string) => void
@@ -64,6 +72,14 @@ export default function MissionBoard({ home, board, tier, ask, nowMs, token, the
     const askPending = ask?.kind === 'mission' && ask.missionKey === key && ask.status === 'pending'
     const note = notes[key]
     const typed = codes[key] ?? []
+    // The pad a code mission gets: digits for a fixed answer, and for a card
+    // mission the shape the server printed, or no pad until it has.
+    const card = cards.find(c => c.key === key)
+    const mode: 'digits' | CodeMode | null = m.proof !== 'code' ? null : m.perChild ? (card?.printed ? card.mode : null) : 'digits'
+    const cap = mode === 'pictures' ? 3 : 4
+    const tokens = mode === 'digits' ? DIGITS : mode === 'pictures' ? [...PICTURE_TOKENS] : mode === 'letters' ? LETTERS : []
+    const tileW = mode === 'pictures' ? 54 : mode === 'letters' ? 34 : 40
+    void childAge
 
     return (
       <div key={key} style={{ background: '#fff', color: 'var(--ink)', border: '2px solid var(--ink)', borderRadius: 18, boxShadow: '0 5px 0 var(--ink)', padding: '14px 14px 12px', display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -106,19 +122,36 @@ export default function MissionBoard({ home, board, tier, ask, nowMs, token, the
               </div>
             )}
 
-            {status === 'doing' && m.proof === 'code' && (
+            {status === 'doing' && m.proof === 'code' && mode === null && (
+              <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', lineHeight: 1.3, color: 'var(--ink-soft)' }}>{MISSION_LINES.cardFirst}</p>
+            )}
+
+            {status === 'doing' && m.proof === 'code' && mode !== null && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <p style={{ margin: 0, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>
-                  {MISSION_LINES.tapNumber}: <span style={{ fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 900, color: 'var(--ink)', letterSpacing: 0, textTransform: 'none' }}>{typed.join('') || '…'}</span>
+                  {mode === 'digits' ? MISSION_LINES.tapNumber : mode === 'pictures' ? MISSION_LINES.tapPictures : MISSION_LINES.tapLetters}
                 </p>
+                {mode === 'pictures' ? (
+                  <div style={{ display: 'flex', gap: 8 }} aria-label="What you tapped">
+                    {[0, 1, 2].map(i => (
+                      <span key={i} style={{ width: 46, height: 46, borderRadius: '50%', border: `2px ${typed[i] ? 'solid' : 'dashed'} var(--ink)`, background: typed[i] ? 'var(--butter-lt)' : '#fff', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>
+                        {typed[i] ? PICTURE_ART[typed[i]] ?? '' : ''}
+                      </span>
+                    ))}
+                  </div>
+                ) : (
+                  <p style={{ margin: 0, fontFamily: 'var(--font-display)', fontSize: 'var(--text-lg)', fontWeight: 900, color: 'var(--ink)', letterSpacing: mode === 'letters' ? '0.18em' : 0, minHeight: 28 }}>
+                    {typed.length ? typed.join('').toUpperCase() : '…'}
+                  </p>
+                )}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                  {['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].map(d => (
-                    <button key={d} onClick={() => setCodes(c => ({ ...c, [key]: [...(c[key] ?? []), d].slice(-4) }))} aria-label={`Tap ${d}`}
-                      style={{ width: 40, height: 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', cursor: 'pointer', color: 'var(--ink)' }}>
-                      {d}
+                  {tokens.map(t => (
+                    <button key={t} onClick={() => setCodes(c => ({ ...c, [key]: [...(c[key] ?? []), t].slice(-cap) }))} aria-label={`Tap ${t}`}
+                      style={{ width: tileW, height: mode === 'pictures' ? 54 : 40, borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: mode === 'pictures' ? 26 : 'var(--text-md)', cursor: 'pointer', color: 'var(--ink)', padding: 0 }}>
+                      {mode === 'pictures' ? PICTURE_ART[t] : t.toUpperCase()}
                     </button>
                   ))}
-                  <button onClick={() => setCodes(c => ({ ...c, [key]: [] }))} aria-label="Clear" style={{ height: 40, padding: '0 12px', borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, cursor: 'pointer', color: 'var(--ink)' }}>
+                  <button onClick={() => setCodes(c => ({ ...c, [key]: [] }))} aria-label="Clear" style={{ height: mode === 'pictures' ? 54 : 40, padding: '0 12px', borderRadius: 12, background: '#fff', border: '2px solid var(--ink)', boxShadow: '0 3px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 800, cursor: 'pointer', color: 'var(--ink)' }}>
                     ↺
                   </button>
                 </div>
@@ -137,7 +170,7 @@ export default function MissionBoard({ home, board, tier, ask, nowMs, token, the
                   {timerDone ? MISSION_LINES.weDidIt : MISSION_LINES.keepGoing}
                 </button>
               )}
-              {status === 'doing' && m.proof === 'code' && (
+              {status === 'doing' && m.proof === 'code' && mode !== null && (
                 <button onClick={() => claim(m)} disabled={busy || typed.length === 0} style={chunky('accent', busy || typed.length === 0)}>{MISSION_LINES.thatIsIt}</button>
               )}
               {status === 'doing' && (m.proof === 'grownup_tap' || m.proof === 'lesson') && (

@@ -1,9 +1,11 @@
 import PlanetFriends from '@/components/planet/PlanetFriends'
 import { resolveTheme } from '@/lib/kid/theme'
-import { applyEvent, newHome, type RewardKey, type Tier } from '@/lib/planet/logic'
+import { applyEvent, newHome, type CodeMode, type RewardKey, type Tier } from '@/lib/planet/logic'
 import { MISSION_DEFS } from '@/lib/planet/missions'
 
-const REWARD_KEYS: RewardKey[] = ['dome', 'flag', 'ring', 'pool', 'lamp', 'star', 'blanket', 'moon']
+const REWARD_KEYS: RewardKey[] = ['dome', 'flag', 'ring', 'pool', 'lamp', 'star', 'blanket', 'moon', 'moonflower']
+// The pretend code on the pretend card, one per shape, so the pad can be driven.
+export const FIXTURE_CODES: Record<CodeMode, string[]> = { pictures: ['star', 'moon', 'rocket'], letters: ['m', 'o', 'o', 'n'] }
 const isRewardKey = (k: string): k is RewardKey => (REWARD_KEYS as string[]).includes(k)
 import type { HomeView } from '@/lib/planet/view'
 
@@ -21,6 +23,7 @@ import type { HomeView } from '@/lib/planet/view'
 //   ?rewards=dome,flag what the missions have already brought home
 //   ?doing=spider_legs  missions already under way, the first on the board
 //   ?landed=plant_seed a mission just approved, the reveal waiting
+//   ?card=pictures|letters  the Moonflower card printed, in that shape (the code is FIXTURE_CODES)
 //   ?accent=coral      the child's theme
 // Never reachable in production (the dev layout gates on VERCEL_ENV).
 
@@ -48,6 +51,7 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
     childAge: sp.age !== undefined ? Math.max(0, Math.min(16, Number(sp.age))) : 4,
     bedtime: { phase, startMin: 19 * 60, endMin: 7 * 60, minutesNow: phase === 'bedtime' ? 20 * 60 : phase === 'winddown' ? 18 * 60 + 40 : 15 * 60, windowUntil: null },
     ask: null, screenAsk: null, starMinutes: 5,
+    cards: sp.card === 'pictures' || sp.card === 'letters' ? [{ key: 'moonflower_card', mode: sp.card, printed: true }] : [],
   }
   return (
     <PlanetFriends
@@ -56,6 +60,7 @@ export default async function PlanetFixture({ searchParams }: { searchParams: Pr
       initial={view}
       theme={resolveTheme(sp.accent ?? null)}
       childName="Teo"
+      fixtureAnswers={sp.card === 'pictures' || sp.card === 'letters' ? { moonflower_card: FIXTURE_CODES[sp.card] } : undefined}
     />
   )
 }

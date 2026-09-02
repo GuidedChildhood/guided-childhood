@@ -1,11 +1,12 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { randomInt } from 'node:crypto'
 import { londonNow } from '@/lib/time/london'
 import { getTimeSettings } from '@/lib/quests/time-tiers'
 import { getActiveSession, isAskLive } from '@/lib/quests/device-time'
 import { sendPush } from '@/lib/push/send'
 import {
-  ACTIVE_BY_TIER, applyEvent, bedtimePhase, childAgeFor, minutesLeft, newFriend, newHome, nightKeyFor, reconcile, tierFor,
-  type Home, type HomeAsk, type Tier,
+  ACTIVE_BY_TIER, applyEvent, bedtimePhase, childAgeFor, codeModeFor, makeCode, minutesLeft, newFriend, newHome, nightKeyFor, reconcile, tierFor, withChildAnswers,
+  type CodeMode, type Home, type HomeAsk, type Tier,
 } from './logic'
 import { friendArt } from './registry'
 import { MISSION_DEFS, missionByKey } from './missions'
@@ -66,6 +67,57 @@ async function saveState(admin: Admin, childId: string, home: Home, extra: Recor
   await admin.from('planet_homes')
     .update({ state: home, updated_at: new Date().toISOString(), ...extra })
     .eq('child_id', childId)
+}
+
+// ── The hidden code cards (slice 2b) ────────────────────────────────────────
+// One row per child per card mission in planet_codes (migration 253). The
+// code is made here, printed by the parent, and checked here. The child's
+// screen learns only that a card exists and what shape its pad should be.
+
+type CodeRow = { mission_key: string; code: string[]; mode: CodeMode; printed_at: string | null }
+
+async function codeRows(client: Admin, childId: string): Promise<CodeRow[]> {
+  try {
+    const { data, error } = await client.from('planet_codes').select('mission_key, code, mode, printed_at').eq('child_id', childId)
+    if (error) return []
+    return (data ?? []).map(r => ({
+      mission_key: String(r.mission_key),
+      code: Array.isArray(r.code) ? (r.code as unknown[]).map(String) : [],
+      mode: r.mode === 'letters' ? 'letters' : 'pictures',
+      printed_at: r.printed_at ? String(r.printed_at) : null,
+    }))
+  } catch { return [] }
+}
+
+const cardsOf = (rows: CodeRow[]) => rows.map(r => ({ key: r.mission_key, mode: r.mode, printed: !!r.printed_at }))
+const answersOf = (rows: CodeRow[]) => Object.fromEntries(rows.filter(r => r.printed_at).map(r => [r.mission_key, r.code]))
+
+/**
+ * The code for one child's card: made on the first print, the same on every
+ * print after, so a lost card prints again and still matches. Pictures
+ * before 8, letters from 8, fixed at the moment it is made. Runs on the
+ * parent's session client, so RLS scopes it to their own children.
+ */
+export async function ensureMissionCode(client: Admin, childId: string, missionKey: string, childAge: number): Promise<{ code: string[]; mode: CodeMode } | null> {
+  const def = MISSION_DEFS[missionKey]
+  if (!def?.perChild) return null
+  const nowIso = new Date().toISOString()
+  try {
+    const { data } = await client.from('planet_codes').select('code, mode, printed_at')
+      .eq('child_id', childId).eq('mission_key', missionKey).maybeSingle()
+    if (data && Array.isArray(data.code) && (data.code as unknown[]).length > 0) {
+      if (!data.printed_at) {
+        await client.from('planet_codes').update({ printed_at: nowIso }).eq('child_id', childId).eq('mission_key', missionKey)
+      }
+      return { code: (data.code as unknown[]).map(String), mode: data.mode === 'letters' ? 'letters' : 'pictures' }
+    }
+    const mode = codeModeFor(childAge)
+    const code = makeCode(mode, n => randomInt(n))
+    const { error } = await client.from('planet_codes')
+      .upsert({ child_id: childId, mission_key: missionKey, code, mode, printed_at: nowIso }, { onConflict: 'child_id,mission_key' })
+    if (error) return null
+    return { code, mode }
+  } catch { return null }
 }
 
 async function log(admin: Admin, userId: string, childId: string, kind: string, payload: Record<string, unknown> = {}) {
@@ -138,6 +190,7 @@ async function toView(admin: Admin, childId: string, loaded: Awaited<ReturnType<
     ask: loaded.ask,
     screenAsk,
     starMinutes: loaded.starMinutes,
+    cards: cardsOf(await codeRows(admin, childId)),
   }
 }
 
@@ -203,7 +256,10 @@ export async function applyHomeEvent(admin: Admin, userId: string, childId: stri
     // Only a grown up (through the ask) or the server itself lands a mission.
     return toView(admin, childId, { ...loaded, home, ask })
   } else {
-    let next = applyEvent(home, ev, loaded.nowIso, MISSION_DEFS)
+    // A claim on a card mission is checked against the code made for this
+    // child; the pure rules see it as an ordinary answer.
+    const defs = ev.kind === 'mission_claim' ? withChildAnswers(MISSION_DEFS, answersOf(await codeRows(admin, childId))) : MISSION_DEFS
+    let next = applyEvent(home, ev, loaded.nowIso, defs)
     // The two proofs decided outside the pure rules.
     if (ev.kind === 'mission_claim') {
       const def = MISSION_DEFS[ev.key]
@@ -211,7 +267,7 @@ export async function applyHomeEvent(admin: Admin, userId: string, childId: stri
       if (def && st && st.status === 'claimed') {
         if (def.proof === 'lesson') {
           if (await lessonPassedSince(admin, childId, st.startedAt)) {
-            next = applyEvent(next, { kind: 'mission_approve', key: ev.key }, loaded.nowIso, MISSION_DEFS)
+            next = applyEvent(next, { kind: 'mission_approve', key: ev.key }, loaded.nowIso, defs)
           } else {
             // Not yet: the claim is undone so the child can try again after the lesson.
             next = { ...next, missions: next.missions.map(m => (m.key === ev.key ? { ...m, status: 'doing' as const, claimedAt: null } : m)) }
