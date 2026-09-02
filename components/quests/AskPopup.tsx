@@ -28,8 +28,8 @@ type Kid = {
   starMinutes?: number
   session: { id: string } | null
   request: { id: string; device: string; minutes: number; deviceName?: string | null } | null
-  /** Planet Friends: the child asked to wake the Friends in their pods early. */
-  planet?: { id: string; minutesLeft: number; createdAt: string } | null
+  /** Planet Friends: the child asked to wake the Friends early, or says a mission is done. */
+  planet?: { id: string; minutesLeft: number; createdAt: string; kind?: 'wake' | 'mission'; title?: string | null } | null
 }
 
 const DISMISSED_KEY = 'gc-ask-popup-dismissed'
@@ -167,7 +167,7 @@ export default function AskPopup({ initial }: {
 // none and spends none.
 function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
   kid: Kid
-  planet: { id: string; minutesLeft: number; createdAt: string }
+  planet: { id: string; minutesLeft: number; createdAt: string; kind?: 'wake' | 'mission'; title?: string | null }
   dismissed: Set<string>
   setDismissed: (s: Set<string>) => void
   setKids: (f: (ks: Kid[]) => Kid[]) => void
@@ -185,7 +185,9 @@ function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
         body: JSON.stringify({ childId: kid.id, askId: planet.id, status }),
       })
       if (r.ok) {
-        setDone(status === 'approved' ? `The Planet Friends are waking up for ${kid.name}.` : `Told ${kid.name} the Friends are still sleepy. The nap carries on.`)
+        setDone(mission
+          ? (status === 'approved' ? `Yes sent. The reward is landing on ${kid.name}'s planet.` : `Told ${kid.name} not this time. The mission stays on their board.`)
+          : (status === 'approved' ? `The Planet Friends are waking up for ${kid.name}.` : `Told ${kid.name} the Friends are still sleepy. The nap carries on.`))
         setTimeout(() => {
           setDone(null)
           setKids(ks => ks.map(k => k.id === kid.id ? { ...k, planet: null } : k))
@@ -201,6 +203,7 @@ function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
   }
 
   const left = planet.minutesLeft
+  const mission = planet.kind === 'mission'
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 190, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', background: 'rgba(26,26,46,0.35)', padding: '0 12px calc(env(safe-area-inset-bottom, 0px) + 12px)' }}>
       <style>{`@keyframes gc-ask-up { from { transform: translateY(24px); opacity: 0 } to { transform: none; opacity: 1 } }`}</style>
@@ -216,7 +219,7 @@ function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
         ) : (
           <>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
-              Planet ask
+              {mission ? 'Mission done' : 'Planet ask'}
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <span aria-hidden style={{ flexShrink: 0, width: 54, height: 54, borderRadius: '50%', background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
@@ -224,10 +227,12 @@ function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
               </span>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
-                  {kid.name} wants to wake the Planet Friends
+                  {mission ? `${kid.name} ${planet.title ?? 'did a mission.'}` : `${kid.name} wants to wake the Planet Friends`}
                 </div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: 4, lineHeight: 1.35 }}>
-                  The Friends have {left} minute{left === 1 ? '' : 's'} of rest left in their pods. Yes wakes them now. Not now keeps the nap, and no stars are involved.
+                  {mission
+                    ? 'Your yes lands the reward on their planet. Not now puts the mission back on their board, kindly. No stars are involved.'
+                    : `The Friends have ${left} minute${left === 1 ? '' : 's'} of rest left in their pods. Yes wakes them now. Not now keeps the nap, and no stars are involved.`}
                 </div>
               </div>
             </div>

@@ -180,16 +180,22 @@ export async function GET() {
   // "never allow or deny" is not true inside the toy. Read off the planet
   // row, pending and fresh, and fails soft to nothing on a database still
   // short of migration 252.
-  const planetAskBy = new Map<string, { id: string; minutesLeft: number; createdAt: string }>()
+  const planetAskBy = new Map<string, { id: string; minutesLeft: number; createdAt: string; kind: 'wake' | 'mission'; title: string | null }>()
   try {
     const { data: homes, error } = await supabase
       .from('planet_homes').select('child_id, ask').eq('user_id', user.id).in('child_id', ids)
     if (!error) {
       for (const g of homes ?? []) {
-        const ask = (g as { ask?: { id?: string; status?: string; minutesLeft?: number; createdAt?: string } | null }).ask
+        const ask = (g as { ask?: { id?: string; status?: string; minutesLeft?: number; createdAt?: string; kind?: string; title?: string } | null }).ask
         if (!ask || ask.status !== 'pending' || !ask.id || !ask.createdAt) continue
-        if (Date.now() - new Date(ask.createdAt).getTime() > 2 * 3600000) continue
-        planetAskBy.set(String(g.child_id), { id: ask.id, minutesLeft: Number(ask.minutesLeft) || 0, createdAt: ask.createdAt })
+        // A wake ask is about a nap that ends within the hour; a mission ask
+        // waits for the grown up, who may be at work. Twelve hours for those.
+        const fresh = ask.kind === 'mission' ? 12 * 3600000 : 2 * 3600000
+        if (Date.now() - new Date(ask.createdAt).getTime() > fresh) continue
+        planetAskBy.set(String(g.child_id), {
+          id: ask.id, minutesLeft: Number(ask.minutesLeft) || 0, createdAt: ask.createdAt,
+          kind: ask.kind === 'mission' ? 'mission' : 'wake', title: typeof ask.title === 'string' ? ask.title : null,
+        })
       }
     }
   } catch { /* no planet yet, nothing to ask */ }
