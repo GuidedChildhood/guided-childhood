@@ -2,14 +2,18 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { PrintBrandHeader, PrintBrandFooter } from '@gc/shared/components/PrintBrand'
+import BucketSheet, { type BucketIdea } from '@/components/printables/BucketSheet'
+import KidBackLink from '@/components/kid/KidBackLink'
+import { HAPPY, HappyMasthead, Burst, Sticker, WavyRule } from '@/components/kid/HappyNewsBits'
+import { printOrOpen, packForUrl, tickPrintableStep } from '@/lib/kid/print-anywhere'
 
 // The interactive bucket list maker. A family picks from the idea pool or
-// writes their own, we lay it out as a colour in sheet in the house style,
-// and the browser's print dialog turns it into paper (or a PDF). Original
-// layout and artwork throughout, emoji as the colour spot.
+// writes their own, we lay it out as a colour in sheet in the house style
+// (components/printables/BucketSheet), and the browser's print dialog turns
+// it into paper (or a PDF). Original layout and artwork throughout, emoji as
+// the colour spot.
 
-type Idea = { emoji: string; text: string }
+type Idea = BucketIdea
 
 const IDEA_POOL: { group: string; ideas: Idea[] }[] = [
   {
@@ -61,6 +65,14 @@ const MAX_ITEMS = 12
 // back link, prefills their name, and turns Add to quests into an ask
 // through the child request pipeline, because a child never writes to the
 // family quest list directly, they ask and a grown up says yes.
+//
+// 2 September 2026, the happy news edition for the child: a butter masthead
+// instead of a form heading, the ideas as stickers that pop when picked, a
+// count burst that fills as they choose, and a Print it bar that stays in
+// reach. Print goes through printOrOpen, because inside the installed iOS
+// app window.print does nothing; there it opens the child's print page in
+// Safari with the picks packed into the URL. Printing ticks the five a day.
+// The parent variant keeps its calmer dashboard register and the same sheet.
 export default function BucketBuilder({
   variant = 'parent',
   kidToken = null,
@@ -81,6 +93,7 @@ export default function BucketBuilder({
   const [custom, setCustom] = useState('')
   const [added, setAdded] = useState(false)
   const [askNote, setAskNote] = useState<string | null>(null)
+  const [printNote, setPrintNote] = useState<string | null>(null)
 
   function toggle(idea: Idea) {
     setPicked(prev => prev.some(p => p.text === idea.text)
@@ -95,6 +108,18 @@ export default function BucketBuilder({
       setPicked(prev => [...prev, { emoji: '⭐', text: clean }])
     }
     setCustom('')
+  }
+
+  function print() {
+    if (picked.length === 0) return
+    if (kid && kidToken) {
+      tickPrintableStep(kidToken)
+      const packed = packForUrl({ title, childName, picked })
+      const how = printOrOpen(`/k/${kidToken}/print?bucket=${packed}`)
+      if (how === 'opened') setPrintNote('Opened in Safari so it can print. Come back here when it is done.')
+      return
+    }
+    window.print()
   }
 
   async function addToQuests() {
@@ -135,62 +160,102 @@ export default function BucketBuilder({
   }
 
   const pickedKeys = new Set(picked.map(p => p.text))
+  const inputStyle: React.CSSProperties = {
+    padding: '12px 15px', borderRadius: 12, border: `${kid ? 2 : 1.5}px solid ${kid ? HAPPY.ink : 'var(--border)'}`,
+    background: '#fff', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none',
+  }
 
   return (
-    <div style={{ maxWidth: '760px', margin: '0 auto', padding: '24px 20px 48px' }}>
+    <div style={{ maxWidth: '760px', margin: '0 auto', padding: kid ? '16px 16px 120px' : '24px 20px 48px' }}>
       <style>{`
         @media print {
-          .no-print { display: none !important; }
+          header, .bottom-tab-bar, .rightnow-desktop, .no-print { display: none !important; }
           .print-sheet { box-shadow: none !important; border: none !important; margin: 0 !important; }
           @page { size: A4 portrait; margin: 10mm; }
         }
+        .bucket-chip { transition: transform 0.12s, background 0.12s; }
+        .bucket-chip:active { transform: translateY(2px) scale(0.98); }
       `}</style>
 
       {/* Controls, hidden on paper */}
       <div className="no-print">
-        <Link href={backHref} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
-          ← {backLabel}
-        </Link>
-        <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '14px 0 8px' }}>Bucket list builder</p>
-        <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '10px' }}>
-          {kid ? 'Build your bucket list' : 'Build your own bucket list'}
-        </h1>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px', maxWidth: '540px' }}>
-          {kid
-            ? `Pick up to ${MAX_ITEMS} things you want to do, or write your own. Print it for the fridge, and the finished page is worth 5 stars.`
-            : `Pick up to ${MAX_ITEMS} ideas or write your own, put their name on it, print it for the fridge. The finished page is worth 5 stars through the quest list.`}
-        </p>
+        {kid ? (
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 12 }}>
+              <KidBackLink href={backHref} label={backLabel} color="var(--ink)" />
+              <KidBackLink href={backHref} label="Close" variant="close" />
+            </div>
+            <HappyMasthead
+              kicker="Bucket list builder"
+              title="Build your bucket list"
+              sub={`Pick up to ${MAX_ITEMS} things you want to do, or write your own. Print it for the fridge.`}
+              right={<Burst size={72} color={picked.length > 0 ? HAPPY.butterLt : '#fff'}><span style={{ fontSize: 24 }}>{picked.length}</span><br /><span style={{ fontSize: 10, letterSpacing: '0.08em' }}>OF {MAX_ITEMS}</span></Burst>}
+              style={{ marginBottom: 16 }}
+            />
+          </>
+        ) : (
+          <>
+            <Link href={backHref} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+              ← {backLabel}
+            </Link>
+            <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '14px 0 8px' }}>Bucket list builder</p>
+            <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: '10px' }}>
+              Build your own bucket list
+            </h1>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.65, marginBottom: '20px', maxWidth: '540px' }}>
+              Pick up to {MAX_ITEMS} ideas or write your own, put their name on it, print it for the fridge. The finished page is worth 5 stars through the quest list.
+            </p>
+          </>
+        )}
 
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '18px' }}>
           <input
             value={title}
             onChange={e => setTitle(e.target.value)}
             maxLength={30}
-            placeholder="Our Bucket List"
-            style={{ flex: 2, minWidth: '180px', padding: '12px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none' }}
+            placeholder={kid ? 'My Bucket List' : 'Our Bucket List'}
+            aria-label="List name"
+            style={{ ...inputStyle, flex: 2, minWidth: '180px', fontFamily: 'var(--font-display)', fontWeight: 800 }}
           />
           <input
             value={childName}
             onChange={e => setChildName(e.target.value)}
             maxLength={20}
-            placeholder="Their name (optional)"
-            style={{ flex: 1, minWidth: '140px', padding: '12px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none' }}
+            placeholder={kid ? 'Your name' : 'Their name (optional)'}
+            aria-label="Name"
+            style={{ ...inputStyle, flex: 1, minWidth: '140px', fontFamily: 'var(--font-body)' }}
           />
         </div>
 
-        {IDEA_POOL.map(group => (
-          <div key={group.group} style={{ marginBottom: '14px' }}>
-            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
-              {group.group}
-            </div>
-            <div style={{ display: 'flex', gap: '7px', flexWrap: 'wrap' }}>
+        {IDEA_POOL.map((group, gi) => (
+          <div key={group.group} style={{ marginBottom: kid ? 16 : 14 }}>
+            {kid ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 9 }}>
+                <Sticker accent={gi === 0 ? 'green' : gi === 1 ? 'coral' : 'sky'} rotate={gi % 2 ? 3 : -3} size="sm">{group.group}</Sticker>
+                <WavyRule color={HAPPY.butterDark} style={{ flex: 1, width: 'auto', opacity: 0.7 }} />
+              </div>
+            ) : (
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: '8px' }}>
+                {group.group}
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: kid ? 8 : 7, flexWrap: 'wrap' }}>
               {group.ideas.map(idea => {
                 const on = pickedKeys.has(idea.text)
                 return (
                   <button
                     key={idea.text}
+                    className="bucket-chip"
                     onClick={() => toggle(idea)}
-                    style={{
+                    aria-pressed={on}
+                    style={kid ? {
+                      padding: '10px 14px', borderRadius: 100, cursor: 'pointer',
+                      border: `2px solid ${HAPPY.ink}`,
+                      background: on ? HAPPY.butter : '#fff',
+                      boxShadow: on ? `0 3px 0 ${HAPPY.ink}` : 'none',
+                      transform: on ? 'none' : 'translateY(2px)',
+                      fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 800, color: HAPPY.ink,
+                    } : {
                       padding: '9px 14px', borderRadius: '100px', cursor: 'pointer',
                       border: `1.5px solid ${on ? 'var(--terracotta)' : 'var(--border)'}`,
                       background: on ? 'var(--terracotta-lt)' : '#fff',
@@ -212,39 +277,42 @@ export default function BucketBuilder({
             onKeyDown={e => { if (e.key === 'Enter') addCustom() }}
             maxLength={40}
             placeholder="Or write your own idea..."
-            style={{ flex: 1, minWidth: 0, padding: '12px 15px', borderRadius: '12px', border: '1.5px solid var(--border)', background: '#fff', fontFamily: 'var(--font-body)', fontSize: 'var(--text-md)', color: 'var(--ink)', outline: 'none' }}
+            aria-label="Your own idea"
+            style={{ ...inputStyle, flex: 1, minWidth: 0, fontFamily: 'var(--font-body)' }}
           />
           <button
             onClick={addCustom}
-            style={{ padding: '12px 18px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700 }}
+            style={kid
+              ? { padding: '12px 18px', borderRadius: 12, border: `2px solid ${HAPPY.ink}`, cursor: 'pointer', background: HAPPY.green, color: '#fff', boxShadow: `0 3px 0 ${HAPPY.ink}`, fontFamily: 'var(--font-display)', fontSize: 'var(--text-base)', fontWeight: 900 }
+              : { padding: '12px 18px', borderRadius: '12px', border: 'none', cursor: 'pointer', background: 'var(--deep-teal)', color: '#fff', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', fontWeight: 700 }}
           >
             Add
           </button>
         </div>
 
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '26px' }}>
-          <button
-            onClick={() => window.print()}
-            disabled={picked.length === 0}
-            className="btn btn-gold"
-            style={{ padding: '13px 22px', fontSize: 'var(--text-md)', opacity: picked.length === 0 ? 0.55 : 1, cursor: picked.length === 0 ? 'default' : 'pointer' }}
-          >
-            🖨️ Print it ({picked.length}/{MAX_ITEMS})
-          </button>
-          <button
-            onClick={addToQuests}
-            disabled={added || picked.length === 0}
-            style={{
-              background: added ? 'var(--tint-sage)' : '#fff', border: '1.5px solid var(--border)', borderRadius: '16px',
-              padding: '13px 22px', cursor: added || picked.length === 0 ? 'default' : 'pointer',
-              fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
-            }}
-          >
-            {kid
-              ? (added ? 'Asked! They will say yes or not ✓' : 'Ask to make it a job · ⭐ 5')
-              : (added ? 'On the quest list ✓' : 'Add to quests · ⭐ 5')}
-          </button>
-        </div>
+        {!kid && (
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '26px' }}>
+            <button
+              onClick={print}
+              disabled={picked.length === 0}
+              className="btn btn-gold"
+              style={{ padding: '13px 22px', fontSize: 'var(--text-md)', opacity: picked.length === 0 ? 0.55 : 1, cursor: picked.length === 0 ? 'default' : 'pointer' }}
+            >
+              🖨️ Print it ({picked.length}/{MAX_ITEMS})
+            </button>
+            <button
+              onClick={addToQuests}
+              disabled={added || picked.length === 0}
+              style={{
+                background: added ? 'var(--tint-sage)' : '#fff', border: '1.5px solid var(--border)', borderRadius: '16px',
+                padding: '13px 22px', cursor: added || picked.length === 0 ? 'default' : 'pointer',
+                fontFamily: 'var(--font-display)', fontSize: 'var(--text-md)', fontWeight: 800, color: 'var(--ink)',
+              }}
+            >
+              {added ? 'On the quest list ✓' : 'Add to quests · ⭐ 5'}
+            </button>
+          </div>
+        )}
 
         {askNote && (
           <p style={{
@@ -257,96 +325,50 @@ export default function BucketBuilder({
         )}
       </div>
 
-      {/* The sheet itself: what prints. The list lives INSIDE a big drawn
-          bucket (original line art, drawn right here in SVG), so the print
-          out is the bucket shaped page from the craft, with their own
-          picks written on it. Everything uncoloured is theirs to colour. */}
-      <div className="print-sheet" style={{
-        background: '#fff', border: '1.5px solid var(--border)', borderRadius: '18px',
-        padding: '30px 26px 22px', boxShadow: '0 8px 30px rgba(26,26,46,0.10)',
-      }}>
-        <PrintBrandHeader />
+      {/* The sheet itself: what prints. */}
+      <BucketSheet title={title} childName={childName} picked={picked} />
 
-        <div style={{ position: 'relative', maxWidth: '470px', margin: '0 auto', aspectRatio: '400 / 508' }}>
-          {/* The bucket: handle with ring ends, rim, tapered body */}
-          <svg viewBox="0 0 400 508" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} aria-hidden>
-            <path d="M 62 132 C 62 18, 338 18, 338 132" fill="none" stroke="#1A1A2E" strokeWidth="11" strokeLinecap="round" />
-            <circle cx="62" cy="132" r="11" fill="#fff" stroke="#1A1A2E" strokeWidth="7" />
-            <circle cx="338" cy="132" r="11" fill="#fff" stroke="#1A1A2E" strokeWidth="7" />
-            <rect x="34" y="128" width="332" height="40" rx="20" fill="#fff" stroke="#1A1A2E" strokeWidth="8" />
-            <path d="M 52 168 L 348 168 L 317 480 Q 315 500 295 500 L 105 500 Q 85 500 83 480 Z" fill="#fff" stroke="#1A1A2E" strokeWidth="8" strokeLinejoin="round" />
-            {/* A little smiling sun on the rim corner, theirs to colour */}
-            <circle cx="356" cy="112" r="17" fill="#fff" stroke="#1A1A2E" strokeWidth="5" />
-            <path d="M 356 88 v-9 M 356 136 v9 M 332 112 h-9 M 380 112 h9 M 339 95 l-6 -6 M 373 95 l6 -6 M 339 129 l-6 6 M 373 129 l6 6" stroke="#1A1A2E" strokeWidth="4" strokeLinecap="round" />
-            <circle cx="350" cy="108" r="1.8" fill="#1A1A2E" />
-            <circle cx="362" cy="108" r="1.8" fill="#1A1A2E" />
-            <path d="M 350 116 q 6 5 12 0" fill="none" stroke="#1A1A2E" strokeWidth="2.5" strokeLinecap="round" />
-          </svg>
-
-          {/* The list, laid out inside the bucket body. Rows share the
-              bucket's height evenly, like ruled lines, so any count from 1
-              to 12 always fits inside the drawing. */}
-          {(() => {
-            const n = picked.length
-            const size = n <= 6 ? { text: 15, emoji: 18, circle: 20 } : n <= 9 ? { text: 13, emoji: 15, circle: 17 } : { text: 11.5, emoji: 13, circle: 14 }
-            return (
-              <div style={{
-                position: 'absolute', left: '17.5%', right: '17.5%', top: '35%', bottom: '4.5%',
-                display: 'flex', flexDirection: 'column', overflow: 'hidden',
-              }}>
-                <div style={{
-                  textAlign: 'center', fontFamily: 'var(--font-display)', fontWeight: 900,
-                  fontSize: n > 9 ? '18px' : '21px', letterSpacing: '-0.02em',
-                  color: 'var(--ink)', lineHeight: 1.1,
-                }}>
-                  {title.trim() || 'Our Bucket List'}
-                </div>
-                <div style={{ textAlign: 'center', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)', margin: '3px 0 2px' }}>
-                  {childName.trim() ? `${childName.trim()}'s list · ` : ''}Colour the circle when it is done
-                </div>
-                <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
-                  {n === 0 ? (
-                    <p style={{ textAlign: 'center', fontSize: 'var(--text-base)', color: 'var(--ink-muted)', margin: 'auto 0' }}>
-                      Your picks appear in the bucket as you choose them.
-                    </p>
-                  ) : picked.map((idea, i) => (
-                    // The bucket tapers inward, so lower rows tuck in a
-                    // touch further to stay clear of the drawn wall.
-                    <div key={idea.text} style={{
-                      flex: 1, minHeight: 0,
-                      display: 'flex', alignItems: 'center', gap: '9px',
-                      borderBottom: '1.5px solid var(--border)',
-                      padding: `0 ${Math.max(0, ((i + 0.5) / n) * 7.7 - 2.2).toFixed(1)}%`,
-                    }}>
-                      <span style={{
-                        width: size.circle, height: size.circle,
-                        borderRadius: '50%', border: '2.5px solid var(--ink)', flexShrink: 0,
-                      }} />
-                      <span style={{ fontSize: `${size.emoji}px`, flexShrink: 0, lineHeight: 1 }}>{idea.emoji}</span>
-                      <span style={{
-                        fontFamily: 'var(--font-display)', fontWeight: 700,
-                        fontSize: `${size.text}px`,
-                        color: 'var(--ink)', lineHeight: 1.15, minWidth: 0,
-                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                      }}>
-                        {idea.text}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )
-          })()}
+      {/* The child's action bar, always in reach however long the idea list
+          runs: one big Print it, and the ask beside it. */}
+      {kid && (
+        <div className="no-print" style={{
+          position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 40,
+          padding: '10px 14px calc(12px + env(safe-area-inset-bottom))',
+          background: 'rgba(249,248,246,0.94)', backdropFilter: 'blur(8px)', borderTop: `2px solid ${HAPPY.ink}`,
+        }}>
+          {printNote && (
+            <p style={{ margin: '0 auto 8px', maxWidth: 560, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-sm)', color: HAPPY.ink, lineHeight: 1.35 }}>
+              {printNote}
+            </p>
+          )}
+          <div style={{ maxWidth: 560, margin: '0 auto', display: 'flex', gap: 8 }}>
+            <button
+              onClick={print}
+              disabled={picked.length === 0}
+              style={{
+                flex: 1.4, padding: '14px 12px', borderRadius: 16, border: `2px solid ${HAPPY.ink}`,
+                cursor: picked.length === 0 ? 'default' : 'pointer', opacity: picked.length === 0 ? 0.55 : 1,
+                background: HAPPY.butter, color: HAPPY.ink, boxShadow: `0 4px 0 ${HAPPY.ink}`,
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
+              }}
+            >
+              🖨️ Print it{picked.length > 0 ? ` (${picked.length})` : ''}
+            </button>
+            <button
+              onClick={addToQuests}
+              disabled={added || picked.length === 0}
+              style={{
+                flex: 1, padding: '14px 10px', borderRadius: 16, border: `2px solid ${HAPPY.ink}`,
+                cursor: added || picked.length === 0 ? 'default' : 'pointer', opacity: picked.length === 0 ? 0.55 : 1,
+                background: added ? '#E8F0EE' : '#fff', color: HAPPY.ink, boxShadow: added ? 'none' : `0 4px 0 ${HAPPY.ink}`,
+                fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+              }}
+            >
+              {added ? 'Asked ✓' : 'Make it a job ⭐ 5'}
+            </button>
+          </div>
         </div>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'var(--deep-teal)', borderRadius: '14px', padding: '13px 18px', marginTop: '14px' }}>
-          <span style={{ fontSize: 'var(--text-xl)' }}>⭐</span>
-          <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: '#fff', lineHeight: 1.45 }}>
-            Whole list done? Hand this to your grown up. Worth 5 stars toward your screen time.
-          </span>
-        </div>
-        <PrintBrandFooter />
-      </div>
+      )}
     </div>
   )
 }

@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import { playKidSound } from '@/lib/sound/kidSounds'
+import { printOrOpen } from '@/lib/kid/print-anywhere'
+import KidSheetPaper from '@/components/kid/KidSheetPaper'
+import { HAPPY, CloseCross, Sticker, StarShape } from '@/components/kid/HappyNewsBits'
 
 // A printable sheet, printed from right where the child is standing.
 //
@@ -16,36 +19,48 @@ import { playKidSound } from '@/lib/sound/kidSounds'
 // the child is already on: a bar with the way back and a print button, the
 // sheet below it, and a print rule that hides everything except the sheet.
 // Nothing can be blocked and nothing can strand, because nothing leaves.
+//
+// 2 September 2026: the print button inside the installed iOS app did
+// nothing at all (window.print is silent there), so Print it now goes
+// through printOrOpen, which prints in place where it can and otherwise
+// opens the sheet's own print page in Safari. The bar wears the happy news
+// butter and the round close cross the rest of the child app uses.
 
-// When a heading rides along, the overlay composes a proper sheet: the name
-// and kicker printed as crisp text above the art, instead of trusting words
-// baked into an image. Justin, 12 August 2026, on a photographed mockup of
-// the Bloop sheet standing in for the sheet itself: "We need proper
-// printable here not image."
 export type OverlaySheet = {
   url: string
   title: string
   // The remaining pages of a multi page sheet (the crafts). Each prints as
-  // its own sheet of paper. Justin, 12 August 2026, on the two page bucket
-  // craft losing its cut out page: "it also failed when trying to print."
+  // its own sheet of paper.
   extraUrls?: string[]
   heading?: { name: string; kicker: string }
-  // A write in page after the sheet: a titled set of dotted lines, printed
-  // as its own second page. Justin, 12 August 2026, on the reading list:
-  // "add here a place of them adding books they want to read."
+  // A write in page after the sheet: a titled set of dotted lines.
   writeIn?: { title: string; blurb: string; lines: number }
+  /** The sheet's own print page, for the installed app that cannot print in place. */
+  printHref?: string
+  stars?: number
 }
 
-export default function KidSheetOverlay({ sheet, onClose }: {
+export default function KidSheetOverlay({ sheet, onClose, onPrinted }: {
   sheet: OverlaySheet | null
   onClose: () => void
+  /** Fired when the child asks for the print, however it is served. */
+  onPrinted?: () => void
 }) {
-  // The sheet art lives on the CDN, so on a bad connection the image is the
-  // one thing here that can fail. Failing silently left the old window
-  // blank with no explanation, so this one says what happened and the bar
-  // above still works either way.
-  const [failed, setFailed] = useState(false)
+  const [note, setNote] = useState<string | null>(null)
   if (!sheet) return null
+
+  function print() {
+    if (!sheet) return
+    playKidSound('tap')
+    onPrinted?.()
+    if (sheet.printHref) {
+      const how = printOrOpen(sheet.printHref)
+      if (how === 'opened') setNote('Opened in Safari so it can print. Come back here when it is done.')
+    } else {
+      try { window.print() } catch { /* nothing to do */ }
+    }
+  }
+
   return (
     <div className="kid-sheet-overlay" style={{ position: 'fixed', inset: 0, zIndex: 220, background: '#fff', overflowY: 'auto' }}>
       {/* On paper, only the sheet: everything else on the page is hidden and
@@ -55,124 +70,48 @@ export default function KidSheetOverlay({ sheet, onClose }: {
         body * { visibility: hidden !important; }
         .kid-sheet-overlay, .kid-sheet-overlay * { visibility: visible !important; }
         .kid-sheet-overlay { position: absolute !important; inset: 0 !important; overflow: visible !important; }
-        .kid-sheet-overlay .kid-sheet-bar { display: none !important; }
-        .kid-sheet-writein { page-break-before: always; break-before: page; }
-        .kid-sheet-extra { page-break-before: always; break-before: page; }
+        .kid-sheet-overlay .kid-sheet-bar, .kid-sheet-overlay .kid-sheet-note { display: none !important; }
         @page { margin: 8mm; }
       }`}</style>
 
       <div className="kid-sheet-bar" style={{
         position: 'sticky', top: 0, zIndex: 2, display: 'flex', gap: 10, alignItems: 'center',
-        padding: '12px 14px', background: 'var(--terracotta-lt)', borderBottom: '1.5px solid rgba(26,26,46,0.12)',
+        padding: '10px 14px', background: HAPPY.butter, borderBottom: `2.5px solid ${HAPPY.ink}`,
       }}>
         <button
           onClick={() => { playKidSound('tap'); onClose() }}
+          aria-label="Back"
           style={{
-            flex: 1, padding: '12px 10px', border: 'none', borderRadius: 14, cursor: 'pointer',
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-            color: 'var(--ink)', background: '#fff', boxShadow: '0 4px 0 rgba(26,26,46,0.14)',
+            width: 42, height: 42, borderRadius: '50%', flexShrink: 0, cursor: 'pointer',
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            background: '#fff', border: `2px solid ${HAPPY.ink}`, boxShadow: `0 3px 0 ${HAPPY.ink}`,
           }}
         >
-          ← Back
+          <CloseCross size={42} />
         </button>
+        <div style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: HAPPY.ink, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {sheet.title}
+        </div>
+        {sheet.stars ? <Sticker accent="white" rotate={6}><StarShape size={13} /> {sheet.stars}</Sticker> : null}
         <button
-          onClick={() => { playKidSound('tap'); window.print() }}
+          onClick={print}
           style={{
-            flex: 1, padding: '12px 10px', border: 'none', borderRadius: 14, cursor: 'pointer',
+            flexShrink: 0, padding: '11px 16px', border: `2px solid ${HAPPY.ink}`, borderRadius: 14, cursor: 'pointer',
             fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)',
-            color: 'var(--ink)', background: 'var(--terracotta)', boxShadow: '0 4px 0 var(--terracotta-dark)',
+            color: HAPPY.ink, background: '#fff', boxShadow: `0 3px 0 ${HAPPY.ink}`,
           }}
         >
           🖨️ Print it
         </button>
       </div>
 
-      {failed ? (
-        <p style={{ padding: '30px 22px', textAlign: 'center', fontSize: 'var(--text-md)', fontWeight: 700, lineHeight: 1.55, color: 'var(--ink)' }}>
-          That sheet did not come through. Check the wifi and try again, or ask a grown up to print it for you.
+      {note && (
+        <p className="kid-sheet-note" style={{ margin: 0, padding: '10px 16px', background: HAPPY.butterLt, borderBottom: `1.5px solid ${HAPPY.butterDark}`, fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: HAPPY.ink, lineHeight: 1.4 }}>
+          {note}
         </p>
-      ) : sheet.heading ? (
-        // The composed sheet: crisp text, clean art, a sprinkle of stars to
-        // colour. What lands on paper is a real colouring sheet, not a photo
-        // of one.
-        <div style={{ maxWidth: 700, margin: '0 auto', padding: '26px 22px 40px', textAlign: 'center' }}>
-          <div style={{
-            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(44px, 13vw, 72px)',
-            letterSpacing: '0.04em', textTransform: 'uppercase', lineHeight: 1, color: '#1A1A2E',
-          }}>
-            {sheet.heading.name}
-          </div>
-          <div style={{
-            fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-md)',
-            letterSpacing: '0.14em', textTransform: 'uppercase', color: '#1A1A2E', margin: '10px 0 4px',
-          }}>
-            {sheet.heading.kicker}
-          </div>
-          <div aria-hidden style={{ fontSize: 'var(--text-xl)', letterSpacing: '0.35em', color: '#1A1A2E', margin: '6px 0 2px' }}>
-            ☆ ☆ ☆ ☆ ☆
-          </div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={sheet.url}
-            alt={sheet.title}
-            loading="eager"
-            decoding="sync"
-            onError={() => setFailed(true)}
-            style={{ width: '100%', display: 'block' }}
-          />
-        </div>
-      ) : (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={sheet.url}
-          alt={sheet.title}
-          loading="eager"
-          decoding="sync"
-          onError={() => setFailed(true)}
-          style={{ width: '100%', display: 'block' }}
-        />
       )}
 
-      {/* The remaining pages of a multi page craft, each its own sheet of
-          paper. These used to be dropped entirely: the overlay only knew one
-          url, so the bucket craft printed its list page and lost the cut out
-          bucket it exists for. */}
-      {!failed && (sheet.extraUrls ?? []).map(u => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          key={u}
-          className="kid-sheet-extra"
-          src={u}
-          alt={sheet.title}
-          loading="eager"
-          decoding="sync"
-          style={{ width: '100%', display: 'block', marginTop: 14 }}
-        />
-      ))}
-
-      {/* The write in page, its own sheet of paper when printed. On screen it
-          sits under the sheet so a child scrolling knows page two is coming. */}
-      {!failed && sheet.writeIn && (
-        <div className="kid-sheet-writein" style={{ maxWidth: 700, margin: '0 auto', padding: '30px 26px 60px' }}>
-          <div style={{
-            fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'clamp(30px, 9vw, 44px)',
-            lineHeight: 1.1, color: '#1A1A2E', textAlign: 'center',
-          }}>
-            {sheet.writeIn.title}
-          </div>
-          <p style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: '#52526A', lineHeight: 1.5, textAlign: 'center', margin: '10px 0 26px' }}>
-            {sheet.writeIn.blurb}
-          </p>
-          {Array.from({ length: sheet.writeIn.lines }, (_, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'flex-end', gap: 12, height: 46 }}>
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, fontSize: 'var(--text-sm)', color: '#9A9AB0', paddingBottom: 4 }}>
-                {i + 1}.
-              </span>
-              <div style={{ flex: 1, borderBottom: '2.5px dotted #B9B9CC', height: '100%' }} />
-            </div>
-          ))}
-        </div>
-      )}
+      <KidSheetPaper sheet={sheet} />
     </div>
   )
 }
