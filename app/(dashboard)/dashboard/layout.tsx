@@ -11,6 +11,7 @@ import AppBadge from '@/components/pwa/AppBadge'
 import SetupNextBar from '@/components/setup/SetupNextBar'
 import BackToToday from '@/components/home/BackToToday'
 import ChildRail from '@/components/children/ChildRail'
+import { checkedInToday } from '@/lib/checkin/done-today'
 import { Suspense } from 'react'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -65,7 +66,33 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const cardBounced = paymentNeedsAttention(profile)
 
   return (
-    <div className="gc-shell" style={{ minHeight: '100dvh', background: 'var(--app-bg)', display: 'flex', flexDirection: 'column' }}>
+    <div className="gc-shell gc-dash" style={{ minHeight: '100dvh', background: 'var(--app-bg)', display: 'flex', flexDirection: 'column' }}>
+      {/* ── THE ZOOM COMES OFF BODY IN HERE (2 September 2026) ─────────────
+          shared/tokens.css zooms body by 1.07 for readability. On an iPhone
+          that puts every fixed element (this layout's tab bar, the NOW button,
+          the setup bar, the install prompt) under a zoomed ancestor, and
+          Safari then lets them drift up the screen as the page scrolls; Justin
+          saw the tabs sat mid screen twice in one morning. The cure is not to
+          zoom the ancestors of fixed things. So while this layout is mounted:
+          body is unzoomed, every direct child of body (the portalled sheets
+          and pills) and every direct child of the shell (header, main, the
+          bars) is handled instead. The in flow things (header, main) are
+          zoomed on themselves, so the page looks exactly as it did. Nothing
+          fixed carries zoom, in itself or in its children: a zoomed fixed box
+          is painted out of step with where it is laid out, and zoomed
+          children inside a fixed box clip. So the tab bar is sized in real
+          pixels to what 1.07 used to make it (77px tall, 12px labels, 26px
+          icons), and the setup bar, install prompt and NOW sheet keep their
+          rem type at the same size with px paddings a shade tighter. Fixed
+          things INSIDE main are as they were. See .bottom-tab-bar in
+          globals.css. */}
+      <style>{`
+        body { zoom: 1; }
+        .gc-dash > main, .gc-dash > header { zoom: 1.07; }
+        .gc-dash > .bottom-tab-bar { height: calc(77px + env(safe-area-inset-bottom, 0px)); }
+        .gc-dash .tab-item { font-size: 0.75rem; }
+        .gc-dash .tab-item svg { width: 26px; height: 26px; }
+      `}</style>
       {/* Desktop top nav */}
       <header style={{
         display: 'none',
@@ -201,7 +228,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             Alma on Home, go to Lessons, and it is still Alma. useSearchParams
             needs the boundary, and the rail is nothing until the params are
             there anyway. */}
-        <Suspense fallback={null}><ChildRail kids={kids} /></Suspense>
+        <Suspense fallback={null}><ChildRailWithTicks kids={kids} userId={user?.id ?? null} /></Suspense>
         {children}
       </main>
 
@@ -234,4 +261,17 @@ export default async function DashboardLayout({ children }: { children: React.Re
       `}</style>
     </div>
   )
+}
+
+// The rail with today's ticks. Its own async component inside the rail's
+// Suspense, so the two reads that work out who has checked in today stream
+// in behind the page rather than holding every dashboard page for them.
+async function ChildRailWithTicks({ kids, userId }: {
+  kids: { id: string; name: string | null; is_primary: boolean | null; age_band: string | null }[]
+  userId: string | null
+}) {
+  if (kids.length < 2) return null
+  const supabase = await createClient()
+  const done = userId ? await checkedInToday(supabase, userId) : new Set<string>()
+  return <ChildRail kids={kids.map(k => ({ ...k, done: done.has(k.id) }))} />
 }

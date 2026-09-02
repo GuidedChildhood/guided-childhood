@@ -6,6 +6,26 @@
 
 /* ── BOTTOM TAB BAR (app) ── */
 .bottom-tab-bar {
+  /* FIXED, WITH NO ZOOMED ANCESTOR (2 September 2026).
+
+     Justin, twice in one morning, with screenshots from his iPhone: "when you
+     scroll on Dashboard the tabs at bottom stay in middle but should always be
+     at bottom of screen", then on the check in page, "tabs should be fixed to
+     bottom not floating." The NOW button had drifted by the same amount in
+     both pictures, so it was never this bar, it was fixed positioning itself.
+
+     body carries zoom: 1.07 (shared/tokens.css). iPhone Safari positions a
+     fixed element inside a zoomed ancestor against the unzoomed viewport while
+     laying it out in zoomed coordinates, and the difference grows with the
+     scroll: the further down a page you are, the higher the bar floats.
+
+     So the dashboard layout takes the zoom OFF body and puts it on each thing
+     inside the shell instead (header, main, the bars, this nav), see the style
+     block in app/(dashboard)/dashboard/layout.tsx. Everything looks exactly as
+     it did, but this bar, the setup bar, the install prompt and the NOW sheet
+     now sit under no zoomed ancestor at all, and fixed means fixed. The
+     compositor hints that used to sit here (translateZ, will-change) were
+     compensating for the same fault and are gone. */
   position: fixed;
   bottom: 0;
   left: 0;
@@ -47,11 +67,18 @@
      cause of exactly this lag on fixed elements in iOS Safari, and at 96%
      opaque the blur behind it was doing almost nothing anyone could see. Four
      percent of translucency is not worth a tab bar that judders. */
-  transform: translateZ(0);
-  will-change: transform;
-  backface-visibility: hidden;
 }
 @media (min-width: 768px) { .bottom-tab-bar { display: none; } }
+
+/* The NOW button rides on the bar rather than floating on its own fixed
+   position, which drifts on an iPhone for the reason above. It is portalled
+   into the bar by RightNowButton and sits just above its top edge, exactly
+   where the fixed version used to be (78px plus the inset from the floor). */
+.bottom-tab-bar .rightnow-fab {
+  position: absolute;
+  right: 16px;
+  bottom: calc(100% + 6px);
+}
 
 /* A page's own sticky action bar (the shop basket, for one) has to sit ABOVE
    the global tab bar on mobile or the tab bar covers it, and on the floor on

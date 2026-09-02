@@ -177,9 +177,16 @@ export async function getTodayCheckIn(
     ((coveredRows ?? []) as { child_id: string | null }[])
       .map(r => r.child_id).filter((id): id is string => !!id),
   )
-  const uncovered = ((kids ?? []) as { id: string }[]).filter(k => !covered.has(k.id))
+  // The primary child is seeded from what the parent said at sign up, every
+  // other child from the two starters, whichever order they were added in.
+  // Before 2 September the primary only got the sign up answers when the
+  // family had no concerns at all, which setup's add a child step makes false
+  // before the first check in ever opens.
+  const uncovered = ((kids ?? []) as { id: string; is_primary?: boolean | null }[]).filter(k => !covered.has(k.id))
   const childSeeded = uncovered.length > 0
-    ? (await Promise.all(uncovered.map(k => seedChildBaseline(supabase, userId, k.id)))).flat()
+    ? (await Promise.all(uncovered.map(k => k.is_primary
+        ? seedBaselineConcerns(supabase, userId, profile?.onboarding_answers, k.id)
+        : seedChildBaseline(supabase, userId, k.id)))).flat()
     : []
 
   const rows = seeded.length > 0 ? seeded : [...liveRowsFiltered, ...childSeeded]

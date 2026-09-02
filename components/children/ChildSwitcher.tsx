@@ -20,6 +20,8 @@ export interface SwitcherChild {
   is_primary?: boolean | null
   /** Drives the pill's colour. See STAGE_PILL below. */
   age_band?: string | null
+  /** Checked in on today. A small green tick on the initial. */
+  done?: boolean
 }
 
 export default function ChildSwitcher({
@@ -58,6 +60,7 @@ export default function ChildSwitcher({
             prefetch
             onClick={() => setPending(kid.id)}
             aria-current={active ? 'page' : undefined}
+            aria-label={kid.done ? `${label}, checked in today` : undefined}
             className="child-switch-pill"
             style={{
               display: 'inline-flex',
@@ -92,6 +95,7 @@ export default function ChildSwitcher({
             <span
               aria-hidden
               style={{
+                position: 'relative',
                 flexShrink: 0, width: 24, height: 24, borderRadius: '50%',
                 background: active ? 'rgba(255,255,255,0.55)' : c.bold,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -101,6 +105,24 @@ export default function ChildSwitcher({
               }}
             >
               {initial}
+              {/* ── THE TICK (2 September 2026) ───────────────────────────
+                  Justin: "when we do check in for first time when we do each
+                  child can they have a green tick go by their name at top
+                  indicating done." Sits on the initial so the name stays
+                  the name; retro green, white edge, so it reads on every
+                  stage colour and on the active fill. */}
+              {kid.done && (
+                <span
+                  aria-hidden
+                  style={{
+                    position: 'absolute', right: -5, bottom: -5, width: 15, height: 15, borderRadius: '50%',
+                    background: 'var(--retro-green)', border: '2px solid #fff',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}
+                >
+                  <svg width="9" height="9" viewBox="0 0 24 24" fill="none" aria-hidden><path d="M5 12.5 10 17.5 19 7.5" stroke="#fff" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                </span>
+              )}
             </span>
             {label}
             {/* ── AND A SECOND SIGNAL, NOT ONLY COLOUR ────────────────────

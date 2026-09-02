@@ -9817,3 +9817,69 @@ home first of all; confirmed sheets last, ticked.
 close cross) and uses router.back() whenever one of our screens is behind
 it, which lands on the tab the child left, from the router cache, in a
 frame. The push to the home page is only the fallback for a cold open.
+
+## 2 September 2026 — The tab bar is sticky, because fixed drifts under body zoom on an iPhone
+
+Justin, with a screenshot of the dashboard road on his iPhone: "when you
+scroll on Dashboard the tabs at bottom stay in middle but should always
+be at bottom of screen." The NOW button in the same picture had drifted
+by exactly the same amount, which rules out the bar and points at fixed
+positioning itself. body carries zoom 1.07, and iPhone Safari places a
+fixed element inside a zoomed ancestor against the unzoomed viewport
+while laying it out in zoomed coordinates, so the error grows with the
+scroll. The home page is the longest page in the app, which is why it
+showed there first and read as "a little" elsewhere.
+
+Decision, revised the same morning after a second screenshot from the
+check in page ("tabs should be fixed to bottom not floating"): the cure
+is not to zoom the ancestors of fixed things. While the dashboard layout
+is mounted, body is unzoomed and the in flow things (header, main) are
+zoomed on themselves instead, so the page looks exactly as it did.
+Nothing fixed carries zoom, in itself or in its children: a zoomed fixed
+box paints out of step with where it is laid out, and zoomed children
+inside a fixed box clip. The tab bar is sized in real pixels to what the
+zoom used to make it (77px tall, 12px labels, 26px icons); the setup bar,
+install prompt and NOW sheet keep their rem type with px paddings a shade
+tighter. The tab bar, the setup bar, the install prompt and the NOW sheet
+sit under no zoomed ancestor at all, so fixed means fixed. Measured in
+the harness: the bar paints at the foot at scroll 0, 600 and the end. The NOW button is portalled
+into the bar and sits on its top edge. The compositor hints (translateZ,
+will change) went with the fault they were compensating for. Fixed things
+inside main (toasts, page level bars, sheets) still have main as a zoomed
+ancestor and are left alone until one is seen, because most open near the
+top of a page where the drift is nothing. The child app keeps body zoom
+for now.
+
+## 2 September 2026 — The first check in asks two things per child, and keeps what was chosen at sign up
+
+Justin, from his own first check in with three children: "I'm not sure
+where the first options are coming from? When we signed up I only
+selected 2. Maybe we should have 2 each basic standard questions to start
+to keep it easy, then we add based on parents' moments etc from then on
+each day... just don't want too many on first check in until we know
+issues." And: "when we do check in for first time, when we do each child
+can they have a green tick go by their name at top indicating done."
+
+**Where they came from.** Every child got the same four stock worries.
+Two faults. Sign up saved only the FIRST chosen worry, so a parent who
+picked two lost the second. And the primary child's sign up seeding was
+guarded on "no worries for this family yet", which setup's add a child
+step makes false before the first check in ever opens, so the primary
+fell through to the stock four too. His account showed it exactly: Alma,
+named at sign up with a phone worry chosen, got the four at 09:15.
+
+**Decisions.** Two starters, not four: Bedtime screens and Will not put
+it down. Every child added later gets those two. The primary child gets
+what was chosen at sign up, topped up from the starters to two, so a
+parent who chose two sees exactly those two. Sign up now keeps the whole
+chosen list. The seeding is per child, not per family, whatever order
+the children arrived in. Adding worries from then on was already built
+and is untouched: DiGi, Right now, the wellbeing check in and moment
+feedback raise a worry for the child they were about, a worry scored top
+rests, and the monthly email reports what worked.
+
+**The tick.** lib/checkin/done-today decides which children have checked
+in today (every live, non resting worry checked today, and at least
+one), the dashboard layout hands the set to the child rail inside its
+own Suspense, and the switcher pill wears a small green tick on the
+initial. One place decides, so the rail and the check in cannot disagree.

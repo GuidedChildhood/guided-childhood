@@ -58,7 +58,21 @@ export default function TabBarHarness() {
   }, [scale])
 
   return (
-    <div style={{ minHeight: '200vh', padding: '20px 16px 120px' }}>
+    // The same shell as the dashboard layout: a flex column at least a screen
+    // tall, the page in a main that grows, the bar the last thing in the
+    // column, and the layout's zoom block, which takes the zoom off body and
+    // puts it on each child of the shell so the fixed bar sits under no
+    // zoomed ancestor (see globals.css). Measured here at three scroll
+    // positions by the tab bar check in the scratch tests.
+    <div className="gc-shell gc-dash" style={{ minHeight: '100dvh', display: 'flex', flexDirection: 'column', background: 'var(--app-bg)' }}>
+    <style>{`
+      body { zoom: 1; }
+      .gc-dash > main, .gc-dash > header { zoom: 1.07; }
+      .gc-dash > .bottom-tab-bar { height: calc(77px + env(safe-area-inset-bottom, 0px)); }
+      .gc-dash .tab-item { font-size: 0.75rem; }
+      .gc-dash .tab-item svg { width: 26px; height: 26px; }
+    `}</style>
+    <main style={{ flex: 1, minHeight: '200vh', padding: '20px 16px calc(88px + env(safe-area-inset-bottom))' }}>
       <p className="eyebrow" style={{ marginBottom: 10 }}>Bottom tab bar</p>
       <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.5, marginBottom: 14 }}>
         Drag the text size the way a parent does in iOS Settings. The row has to
@@ -85,6 +99,7 @@ export default function TabBarHarness() {
           be driven without a login, and because the behaviour is impossible to
           check by reading it. */}
       <OpenAtTheTop />
+    </main>
 
       <MobileTabBar pendingAsks={2} />
     </div>
