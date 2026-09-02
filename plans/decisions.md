@@ -10162,3 +10162,23 @@ schools.invoice_requests with band "draw" and PO "DRAW", so the hourly cron
 emails Justin every entry and no migration was needed. The one not built is
 the product in a hand photo on printable listings: it needs real photographs
 from Justin, and a render in a fake hand would break the evidence rule.
+
+## 2 September 2026: Planet Friends is the toy, rebuilt in full, and slice 2 starts
+
+The brief had arrived as "Planter Friends" and the first build was a garden
+(PR 957, migration 251). Justin: "it's not Planter Friends, it's Planet
+Friends ... the cast we have as Planet Friends already designed and planets
+not gardens ... give it a full rebuild ... the younger one could be mini
+characters as babies until they all reach the age ... remember we are trying
+to combine offline activity and balance responsible device use with online
+education." Decided and built (PR 961, merged): the child's own Planet
+Friends on a home planet, every Friend on the planet from day one as a baby
+in a bonnet until the child reaches the bottom of that Friend's stage, the
+ones not yet looked after asleep in a nursery dome in orbit; the planet grows
+while the child is away; each Friend's MoonPhone goes to the charger when it
+gets sleepy; the growth reveal opens the child's lessons. Migration 252
+retired the empty garden tables and created planet_homes and planet_events;
+applied in production on Justin's "ready". The design document is
+plans/planet-friends-architecture.md. Slice 2 (the missions) is claimed on
+the same branch: plans/week-of-2026-08-31-planet-friends-slice-2-plan.md.
+No migration needed.
