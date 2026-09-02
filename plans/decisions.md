@@ -10069,3 +10069,24 @@ grid, the parent's grid and the quest thumbnail. The paper that prints stays
 blank, always. The sheet screen gets a "See one filled in" toggle so a child
 can see what theirs could look like; it is screen only. Crop windows live in
 COVER in components/printables/drawn/index.tsx, in paper pixels.
+
+## 2 September 2026: Planter Friends, the digital toy, designed before it is built
+
+Justin's brief: an open ended Toca Boca style toy, "Planter Friends: Growing
+Up Digital", on the platform, with hybrid loops that push the child off the
+screen, designed as modular nodes, explicit state machines and real world
+sync hooks. Written up as `plans/planter-friends-architecture.md`. Nothing
+built. Decided in the design: growth only happens while the child is away
+(naps, missions, overnight), so returning is rewarded and staying grows
+nothing; the real world is proved by time and by a grown up, never by a
+sensor (no camera, microphone, location or light sensor); the toy mints no
+stars and spends none, its rewards are seeds, pots and growth, so there is no
+second currency beside streakCurrency; every locked state (nap, bedtime,
+recharge) carries one door, Ask my grown up, landing in AskPopup, so never
+allow or deny holds inside a toy; the toy never pushes a child, a nap that
+ends waits for the next open; bedtime is read from child_time_settings and
+never set by the toy, and a Tier 3 child can set the plant's bedtime earlier
+than the family deal but later is an ask; no new child data beyond one play
+state document per child, no free text below Tier 3, and the Tier 3 schedule
+labels come from a list. Three questions left for Justin in section 6.
+Migration numbers unclaimed until the build.
