@@ -105,7 +105,7 @@ export default function KidFiveADay({
   /** Jobs completes on this screen, so the parent scrolls the list into view. */
   onOpenJobs: () => void
   /** Fired once when the fifth step lands, for the celebration. */
-  onDayComplete?: (streak: number) => void
+  onDayComplete?: (streak: number, day: { steps: StepKey[]; done: StepKey[]; completedDays?: number }) => void
   /**
    * A ready made day, for the ref fixtures only. When set, the card renders
    * it and never calls /api/kid/day, which no fixture can answer. Production
@@ -157,7 +157,7 @@ export default function KidFiveADay({
       // is one replay of a good thing.
       if (d.complete && !celebratedToday(d.day)) {
         rememberCelebrated(d.day)
-        onDayComplete?.(d.streak)
+        onDayComplete?.(d.streak, { steps: d.steps, done: d.done ?? d.steps })
       }
     } catch { /* the card simply does not show, or keeps what it had */ }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -201,7 +201,7 @@ export default function KidFiveADay({
       if (t.ticked) playKidSound('star')
       if (t.justCompleted) {
         rememberCelebrated(before?.day)
-        onDayComplete?.(t.streak)
+        onDayComplete?.(t.streak, { steps: t.steps.length > 0 ? t.steps : (before?.steps ?? []), done: t.done })
       }
     }
     window.addEventListener(KID_DAY_EVENT, onTick)
@@ -258,7 +258,7 @@ export default function KidFiveADay({
           // Remembered here too, so coming back to the list does not replay a
           // takeover the child has just watched.
           rememberCelebrated(state?.day)
-          onDayComplete?.(d.streak)
+          onDayComplete?.(d.streak, { steps: state?.steps ?? [], done: d.done })
         }
       }
     } catch {

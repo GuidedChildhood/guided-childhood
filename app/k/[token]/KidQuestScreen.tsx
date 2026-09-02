@@ -32,7 +32,7 @@ import KidIcon, { type KidIconName } from '@/components/kid/KidIcon'
 import KidRemindersPrompt, { remindersSnoozed } from '@/components/kid/KidRemindersPrompt'
 import KidFiveADay from '@/components/kid/KidFiveADay'
 import { isMoveJob, readingMinutesFor } from '@/lib/kid/five-a-day'
-import KidStreakTakeover from '@/components/kid/KidStreakTakeover'
+import KidDayDone, { type DayDoneInput } from '@/components/kid/KidDayDone'
 import KidContract from '@/components/kid/KidContract'
 import KidRoad from '@/components/kid/KidRoad'
 import KidSplash from '@/components/kid/KidSplash'
@@ -1057,7 +1057,10 @@ export default function KidQuestScreen({
     ? { total: moveQuests.length, done: moveQuests.every(q => !!ticks[q.id]) }
     : null
   // The five a day streak takeover, shown once when the fifth step lands.
-  const [streakWon, setStreakWon] = useState<number | null>(null)
+  // The finished day, held for the Day done screen. Every completed day gets
+  // it (Justin, 2 September 2026: "when 5 in a row done it does a
+  // celebration"); the Monday to Sunday strip inside it is the weekly extra.
+  const [dayDone, setDayDone] = useState<DayDoneInput | null>(null)
   const pendingStars = quests.filter(q => ticks[q.id] === 'pending').reduce((s, q) => s + q.stars, 0)
   // The bank is what is really there to spend: earned ever, minus the
   // screen time already used. Falls back to the week count until the
@@ -1494,14 +1497,14 @@ export default function KidQuestScreen({
           moveJobs={moveJobs}
           initialState={fiveADayInitial}
           onOpenJobs={() => { window.location.assign(`/k/${token}/jobs`) }}
-          onDayComplete={n => {
+          onDayComplete={(n, day) => {
             playKidSound('done')
             const next = bumpDay()
-            // The weekly reminder, if it is owed. When it is not, the day still
-            // completes and the Friend still arrives: only the reminder is
-            // skipped.
-            if (streakDueThisWeek) { setStreakWon(n); markStreakWeekSeen() }
-            else openArrivalIfEarned(next)
+            // The day's own screen, every day. The week strip rides on it
+            // once a star week, and the Friend arrival follows it on the
+            // days a Friend is earned (see the close handler below).
+            if (streakDueThisWeek) markStreakWeekSeen()
+            setDayDone({ streak: n, completedDays: next, steps: day?.steps ?? [] })
           }}
         />
 
@@ -2671,16 +2674,17 @@ export default function KidQuestScreen({
       {/* All five done. Fires once on the transition, never on a refresh of an
           already finished day, because the API only reports justCompleted when
           completed_at was previously null. */}
-      {streakWon !== null && (
-        <KidStreakTakeover
-          streak={streakWon}
-          completedStreaks={liveStreaks}
+      {dayDone && (
+        <KidDayDone
+          day={dayDone}
           childName={childName}
+          buddy={chosenBuddy}
+          weekStrip={streakDueThisWeek || weekSeen === starWeek}
           onClose={() => {
-            setStreakWon(null)
+            setDayDone(null)
             // If today was the day, the rocket goes up the moment they close
-            // the streak screen. Two takeovers back to back is the right order
-            // rather than one too many: the streak is what they did, the Friend
+            // the day screen. Two takeovers back to back is the right order
+            // rather than one too many: the day is what they did, the Friend
             // is what it bought, and the second one is the rarer of the two.
             openArrivalIfEarned(liveStreaks)
           }}

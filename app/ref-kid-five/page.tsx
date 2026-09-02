@@ -4,7 +4,7 @@ import { Suspense, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { pickDay } from '@/lib/kid/five-a-day'
 import KidFiveADay from '@/components/kid/KidFiveADay'
-import KidStreakTakeover from '@/components/kid/KidStreakTakeover'
+import KidDayDone from '@/components/kid/KidDayDone'
 import { resolveTheme } from '@/lib/kid/theme'
 
 // Fixture reference page for the five a day card and the streak takeover, so
@@ -65,7 +65,7 @@ function Fixture() {
       {/* streak is the run of days, completedStreaks the cumulative count the
           Friends are bought with. Four of them lands one, so this fixture shows
           the friend earned state. */}
-      {open && <KidStreakTakeover streak={5} completedStreaks={4} childName="Alfie" onClose={() => setOpen(false)} />}
+      {open && <KidDayDone day={{ streak: 5, completedDays: 4, steps: ['jobs', 'lesson', 'printable', 'balance', 'ask'] }} childName="Alfie" buddy="bloop" weekStrip onClose={() => setOpen(false)} />}
     </div>
   )
 }
