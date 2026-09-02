@@ -55,8 +55,11 @@ export default function BucketSheet({ title, childName, picked, framed = true }:
           position: 'absolute', left: '18%', right: '18%', top: 0, bottom: 0,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontFamily: 'var(--font-display)', fontWeight: 900, letterSpacing: '-0.02em',
-          fontSize: heading.length > 18 ? 13 : heading.length > 12 ? 16 : 19, color: '#1A1A2E', textAlign: 'center', lineHeight: 1.05,
-          textTransform: 'uppercase', padding: '0 4px',
+          // One line, always: the ribbon is narrow on a phone preview and the
+          // title must never climb out of it, so the size steps down with the
+          // length and the line never wraps.
+          fontSize: heading.length > 16 ? 12 : heading.length > 12 ? 15 : 18, color: '#1A1A2E', textAlign: 'center', lineHeight: 1,
+          textTransform: 'uppercase', padding: '0 4px', whiteSpace: 'nowrap', overflow: 'hidden',
         }}>
           {heading}
         </div>

@@ -9774,3 +9774,46 @@ Justin's Duolingo brief. Decisions in the first build slice:
 - `add` in ManageJobs answers true or false so a tick is only ever shown
   for a job that landed. The page carries 150px of bottom padding so the
   last row clears the tab bar and the Now button.
+
+## 2 September 2026 — The child's printables are a newspaper, and the print button opens Safari when it has to
+
+Justin, from Jonny's app: printables need a happy news type UI, easy to
+select, most common first, simple, fun and luxury; check the print
+button, the known issue on the web app; doing a printable must complete
+one of the five things; back should go back to where the child came from
+with a better close button, and quicker.
+
+**The print button was silent inside the installed app.** Every print on
+the child app called window.print(), and inside an installed iOS web app
+that opens nothing at all: no dialog, no error. Decision: every print
+goes through printOrOpen (lib/kid/print-anywhere). It prints in place
+where the browser can, and where it cannot it opens the printable's own
+print page (/k/token/print) in real Safari, which prints itself. The
+builders pack their picks into the URL, because a Safari tab shares no
+storage with the app that opened it. Detection is narrow, iOS and
+installed, so desktop, Android and Safari keep the in place dialog.
+
+**Printing ticks the five a day.** The tab's sheets sent "Finished the X
+sheet" through the quest ask pipeline, and the builders told nobody, so
+A printable never completed from the tab. Decision: printing anything
+ticks the row (/api/kid/printable-step, tick only), and I finished it
+goes through printable-done, which ticks and asks the grown up to
+confirm the stars. Stars still wait for the confirm; the row does not.
+
+**The look is our own.** The Happy Newspaper is the mood reference, as it
+already is for the family social account: vibrant colour blocking,
+smiley dots, sticker doodles, hand lettered warmth. We take the energy
+and draw everything ourselves in SVG (components/kid/HappyNewsBits):
+butter and ink, Nunito 900, the celebrate palette. Nothing copied.
+
+**One tap opens one sheet.** The grid only says what each sheet is (the
+paper, a star sticker, the title). Every button a sheet needs lives on
+its own screen: one big Print it, then I finished it, then No printer.
+Eight sheets first, the rest behind one tap. Planner first (the best
+three, 12 August), then lists, colouring, hunts, dares, learn; a yes from
+home first of all; confirmed sheets last, ticked.
+
+**Back goes through history.** KidBackLink says Back (or shows the round
+close cross) and uses router.back() whenever one of our screens is behind
+it, which lands on the tab the child left, from the router cache, in a
+frame. The push to the home page is only the fallback for a cold open.
