@@ -9966,3 +9966,27 @@ parent's book, the child's book and the verify page all read it. The
 unreachable child passport route with its own rule is gone. The parent's
 moments row now counts a resting worry as sorted, so the check in and the
 passport agree.
+
+## 2 September 2026: every finished day gets its own screen, and the rocket never freezes
+
+Justin: "When 5 in a row done it does a celebration but seemed to freeze.
+Make the best design relevant for the right Planet Friend, the best
+animation, encouraging offline activity, linked to safe device use and
+learning about social media. Duolingo for inspiration."
+
+**The freeze.** Finishing the fifth step opened nothing on most days (the
+streak screen was a weekly reminder) and, on a Friend day, a ten second
+rocket video from a CDN. On a slow connection that was a dark sky with
+nothing moving for up to eleven seconds. The rocket now drops the video if
+it has not started in two seconds and draws the flight instead, and carries
+a Skip.
+
+**Decided.** Every completed day gets KidDayDone, Duolingo's lesson
+complete shape: the child's own chosen buddy up top, one big line, three
+tiles (the run, full days, days to the next Friend), Continue. The buddy
+says one true thing about today in a bubble, chosen from what the child
+actually did and rotated by the day count: the offline thing they did (or
+a nudge to do ten minutes with no screen), the timer rule if they checked
+their balance, or what passing a lesson is for. The Monday to Sunday strip
+rides on it once a star week. The old streak takeover is retired into it.
+Nothing on the screen waits on the network.

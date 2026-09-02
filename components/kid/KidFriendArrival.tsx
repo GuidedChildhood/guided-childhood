@@ -60,7 +60,7 @@ export default function KidFriendArrival({
   friend,
   completedStreaks,
   childName,
-  rocketVideo,
+  rocketVideo: rocketVideoProp,
   onClose,
   onOpenBook,
 }: {
@@ -77,6 +77,22 @@ export default function KidFriendArrival({
   const [beat, setBeat] = useState<Beat>('flight')
   const stageRef = useRef<HTMLDivElement>(null)
   const skipped = useRef(false)
+
+  // THE VIDEO GETS TWO SECONDS. Justin, 2 September 2026: "it does a
+  // celebration but seemed to freeze." On a slow connection the ten second
+  // clip was a dark sky with nothing moving until the net under it fired at
+  // eleven seconds, which is what a freeze looks like. If the clip has not
+  // started playing two seconds in, it is dropped and the drawn flight runs
+  // instead, which needs no network at all. And a Skip sits in the corner
+  // the whole time, because a tap anywhere already skipped and nobody knew.
+  const [useVideo, setUseVideo] = useState(!!rocketVideoProp)
+  const playing = useRef(false)
+  const rocketVideo = useVideo ? rocketVideoProp : undefined
+  useEffect(() => {
+    if (!rocketVideoProp) return
+    const t = window.setTimeout(() => { if (!playing.current) setUseVideo(false) }, 2000)
+    return () => window.clearTimeout(t)
+  }, [rocketVideoProp])
 
   // Reduced motion goes straight to the arrival. The flight is the decoration;
   // the Friend and the reason are the content, and a child who has asked their
@@ -208,6 +224,18 @@ export default function KidFriendArrival({
 
       {beat === 'flight' && (
         <>
+          <button
+            type="button"
+            onClick={e => { e.stopPropagation(); land.current() }}
+            style={{
+              position: 'absolute', top: 'max(14px, env(safe-area-inset-top))', right: 14, zIndex: 3,
+              background: 'rgba(255,255,255,0.14)', color: '#FFF6DE', border: '1.5px solid rgba(255,246,222,0.4)',
+              borderRadius: 100, padding: '8px 14px', cursor: 'pointer',
+              fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase',
+            }}
+          >
+            Skip
+          </button>
           {/* The night sky. Same stars either way, so the video and the drawn
               flight sit on one background and the cut between them is invisible. */}
           {stars.map((s, i) => (
@@ -229,6 +257,8 @@ export default function KidFriendArrival({
             <video
               src={rocketVideo}
               autoPlay muted playsInline
+              onPlaying={() => { playing.current = true }}
+              onError={() => setUseVideo(false)}
               onEnded={() => land.current()}
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
             />
