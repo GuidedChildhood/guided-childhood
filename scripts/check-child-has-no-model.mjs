@@ -28,7 +28,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative } from 'node:path'
 
-const ROOTS = ['app/k', 'app/api/kid', 'lib/kid', 'components/kid', 'lib/quests/kid-push.ts', 'lib/planter', 'components/planter']
+const ROOTS = ['app/k', 'app/api/kid', 'lib/kid', 'components/kid', 'lib/quests/kid-push.ts', 'lib/planet', 'components/planet']
 
 // The SDK by name, its API host, and the model ids themselves. The last one
 // catches the shortcut of calling the endpoint by hand with fetch, which

@@ -28,8 +28,8 @@ type Kid = {
   starMinutes?: number
   session: { id: string } | null
   request: { id: string; device: string; minutes: number; deviceName?: string | null } | null
-  /** Planter Friends: the child asked to wake the napping plants early. */
-  garden?: { id: string; minutesLeft: number; createdAt: string } | null
+  /** Planet Friends: the child asked to wake the Friends in their pods early. */
+  planet?: { id: string; minutesLeft: number; createdAt: string } | null
 }
 
 const DISMISSED_KEY = 'gc-ask-popup-dismissed'
@@ -71,12 +71,12 @@ export default function AskPopup({ initial }: {
   }, [initial])
 
   if (pathname?.startsWith('/dashboard/quests/timer')) return null
-  // The garden ask rides the same sheet. It is asked first only when no
+  // The planet ask rides the same sheet. It is asked first only when no
   // screen time ask is waiting, so a parent is never shown two at once.
-  const gardenKid = kids.find(k => k.garden && !dismissed.has(k.garden.id))
-  const asking = kids.find(k => k.request && !k.session && !dismissed.has(k.request.id)) ?? gardenKid
+  const planetKid = kids.find(k => k.planet && !dismissed.has(k.planet.id))
+  const asking = kids.find(k => k.request && !k.session && !dismissed.has(k.request.id)) ?? planetKid
   if (!asking) return null
-  if (!asking.request && asking.garden) return <GardenAsk kid={asking} garden={asking.garden} dismissed={dismissed} setDismissed={setDismissed} setKids={setKids} initial={Boolean(initial)} />
+  if (!asking.request && asking.planet) return <PlanetAsk kid={asking} planet={asking.planet} dismissed={dismissed} setDismissed={setDismissed} setKids={setKids} initial={Boolean(initial)} />
   if (!asking.request) return null
   const req = asking.request
   const rate = asking.starMinutes ?? 5
@@ -161,13 +161,13 @@ export default function AskPopup({ initial }: {
   )
 }
 
-// Planter Friends: "can the plants wake up early". Yes wakes them now and
-// pays the growth for the minutes they did sleep; Not now keeps the nap and
+// Planet Friends: "can the Friends wake up early". Yes wakes them now and
+// pays the planet's growth for the minutes they did sleep; Not now keeps the nap and
 // the child's screen says so kindly. No stars change hands, the toy mints
 // none and spends none.
-function GardenAsk({ kid, garden, dismissed, setDismissed, setKids, initial }: {
+function PlanetAsk({ kid, planet, dismissed, setDismissed, setKids, initial }: {
   kid: Kid
-  garden: { id: string; minutesLeft: number; createdAt: string }
+  planet: { id: string; minutesLeft: number; createdAt: string }
   dismissed: Set<string>
   setDismissed: (s: Set<string>) => void
   setKids: (f: (ks: Kid[]) => Kid[]) => void
@@ -180,15 +180,15 @@ function GardenAsk({ kid, garden, dismissed, setDismissed, setKids, initial }: {
     if (busy || initial) return
     setBusy(true)
     try {
-      const r = await fetch('/api/quests/planter/ask', {
+      const r = await fetch('/api/quests/planet/ask', {
         method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ childId: kid.id, askId: garden.id, status }),
+        body: JSON.stringify({ childId: kid.id, askId: planet.id, status }),
       })
       if (r.ok) {
-        setDone(status === 'approved' ? `The plants are waking up for ${kid.name}.` : `Told ${kid.name} the plants are still sleepy. The nap carries on.`)
+        setDone(status === 'approved' ? `The Planet Friends are waking up for ${kid.name}.` : `Told ${kid.name} the Friends are still sleepy. The nap carries on.`)
         setTimeout(() => {
           setDone(null)
-          setKids(ks => ks.map(k => k.id === kid.id ? { ...k, garden: null } : k))
+          setKids(ks => ks.map(k => k.id === kid.id ? { ...k, planet: null } : k))
         }, 2200)
       }
     } catch { /* leave it up so they can try again */ }
@@ -196,11 +196,11 @@ function GardenAsk({ kid, garden, dismissed, setDismissed, setKids, initial }: {
   }
 
   function later() {
-    const next = new Set(dismissed); next.add(garden.id)
+    const next = new Set(dismissed); next.add(planet.id)
     setDismissed(next); writeDismissed(next)
   }
 
-  const left = garden.minutesLeft
+  const left = planet.minutesLeft
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 190, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', background: 'rgba(26,26,46,0.35)', padding: '0 12px calc(env(safe-area-inset-bottom, 0px) + 12px)' }}>
       <style>{`@keyframes gc-ask-up { from { transform: translateY(24px); opacity: 0 } to { transform: none; opacity: 1 } }`}</style>
@@ -216,24 +216,24 @@ function GardenAsk({ kid, garden, dismissed, setDismissed, setKids, initial }: {
         ) : (
           <>
             <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 6 }}>
-              Garden ask
+              Planet ask
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <span aria-hidden style={{ flexShrink: 0, width: 54, height: 54, borderRadius: '50%', background: 'var(--terracotta)', border: '2px solid var(--ink)', boxSizing: 'border-box', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 26 }}>
-                🌱
+                🪐
               </span>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-xl)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
-                  {kid.name} wants to wake the plants
+                  {kid.name} wants to wake the Planet Friends
                 </div>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', marginTop: 4, lineHeight: 1.35 }}>
-                  The plants in the greenhouse have {left} minute{left === 1 ? '' : 's'} of rest left. Yes wakes them now. Not now keeps the nap, and no stars are involved.
+                  The Friends have {left} minute{left === 1 ? '' : 's'} of rest left in their pods. Yes wakes them now. Not now keeps the nap, and no stars are involved.
                 </div>
               </div>
             </div>
             <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
               <button onClick={() => answer('approved')} disabled={busy} style={{ ...chunky('butter', 'lg'), flex: 1, opacity: busy ? 0.6 : 1 }}>
-                Yes 🌱
+                Yes 🪐
               </button>
               <button onClick={() => answer('declined')} disabled={busy} style={{ ...chunky('white', 'lg'), flexShrink: 0, opacity: busy ? 0.6 : 1 }}>
                 Not now
