@@ -19,6 +19,7 @@ import { resolveTheme } from '@/lib/kid/theme'
 //   /dev/kid-printables?view=bucket     the bucket list builder, child variant
 //   /dev/kid-printables?view=print      the print page, bucket list, no dialog
 //   /dev/kid-printables?view=sheet      the print page, a sheet, no dialog
+//   /dev/kid-printables?view=star       the print page, the star chart
 //
 // The query is read after mount so the first client paint matches the
 // server's. Never reachable in production.
@@ -51,6 +52,18 @@ export default function KidPrintablesFixture() {
         job={{ kind: 'bucket', title: 'My Bucket List', childName: 'Alfie', picked: [
           { emoji: '🚲', text: 'Family bike ride' }, { emoji: '🪁', text: 'Fly a kite' }, { emoji: '🍪', text: 'Bake together' },
           { emoji: '📚', text: 'Read a whole book' }, { emoji: '⭐', text: 'Sleep in the garden' },
+        ] }}
+      />
+    )
+  }
+  if (view === 'star') {
+    return (
+      <KidPrintPage
+        token={token}
+        job={{ kind: 'star', name: 'Alfie', weekLabel: 'Monday 31 August', starMinutes: 5, jobs: [
+          { emoji: '👕', text: 'Get dressed on my own', stars: 1 }, { emoji: '🧸', text: 'Tidy my toys away', stars: 1 },
+          { emoji: '🍽️', text: 'Lay or clear the table', stars: 1 }, { emoji: '🦷', text: 'Brush my teeth', stars: 1 },
+          { emoji: '📚', text: 'Ten minutes reading', stars: 2 },
         ] }}
       />
     )
