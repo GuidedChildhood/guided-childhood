@@ -193,13 +193,16 @@ export default function StarChartSheet({ name, weekLabel, jobs, starMinutes = 5 
         </div>
 
         {/* The grid of cut-out stars, dashed guides around each so a child can
-            cut them cleanly. Sized to drop into a chart cell. */}
+            cut them cleanly. Sized to drop into a chart cell. Eight across in
+            five rows: six across in six rows was a taller grid than the page
+            had room for, and the no phone loop below it printed alone on a
+            third side (Justin, 2 September 2026, "appears on several pages"). */}
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 0,
+          display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 0,
           border: '1.3px dashed var(--ink-muted)', borderRadius: 6, overflow: 'hidden',
           margin: '16px 0 20px',
         }}>
-          {Array.from({ length: 36 }, (_, i) => (
+          {Array.from({ length: 40 }, (_, i) => (
             <div key={i} style={{
               aspectRatio: '1 / 1', display: 'flex', alignItems: 'center', justifyContent: 'center',
               borderRight: '1.3px dashed var(--ink-muted)', borderBottom: '1.3px dashed var(--ink-muted)',

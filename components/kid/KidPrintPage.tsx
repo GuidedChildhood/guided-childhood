@@ -92,10 +92,21 @@ export default function KidPrintPage({ job, token }: {
   const total = tick ? tick.steps.length : 0
 
   return (
-    <div style={{ minHeight: '100dvh', background: '#fff', fontFamily: 'var(--font-body)' }}>
+    <div className="kid-print-root" style={{ minHeight: '100dvh', background: '#fff', fontFamily: 'var(--font-body)' }}>
       <style>{`@media print {
         .kid-print-bar { display: none !important; }
-        @page { margin: 8mm; }
+        /* Nothing but the sheet takes any room on paper. The page's own
+           minimum height and the wrapper's padding were adding up to a page
+           and a bit, which put a footer alone on page two. The body zoom is
+           the one screen readability dial and has no place on paper. */
+        body { zoom: 1 !important; }
+        .kid-print-root { min-height: 0 !important; }
+        .kid-print-wrap { padding: 0 !important; max-width: none !important; }
+        /* No @page rule here on purpose. Each sheet declares its own paper
+           (the bucket is an A4 sheet with no page margin, the star chart
+           wants 10mm) and a page margin set here fought the bucket's: the
+           phone laid the sheet out narrower than its drawing and the footer
+           tipped onto page two. */
       }`}</style>
 
       {printed ? (
@@ -176,12 +187,12 @@ export default function KidPrintPage({ job, token }: {
         <KidSheetPaper sheet={job.sheet} />
       )}
       {job.kind === 'bucket' && (
-        <div style={{ maxWidth: 760, margin: '0 auto', padding: '10px 16px 30px' }}>
+        <div className="kid-print-wrap" style={{ maxWidth: 760, margin: '0 auto', padding: '10px 16px 30px' }}>
           <BucketSheet title={job.title} childName={job.childName} picked={job.picked} framed={false} />
         </div>
       )}
       {job.kind === 'star' && (
-        <div style={{ maxWidth: 820, margin: '0 auto', padding: '10px 12px 30px', overflowX: 'auto' }}>
+        <div className="kid-print-wrap" style={{ maxWidth: 820, margin: '0 auto', padding: '10px 12px 30px', overflowX: 'auto' }}>
           <style>{`@media print { .sheet-scroll { overflow: visible !important } .sheet-scroll > div { min-width: 0 !important } }`}</style>
           <div className="sheet-scroll" style={{ overflowX: 'auto' }}>
             <div style={{ minWidth: 560 }}>

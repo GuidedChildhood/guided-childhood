@@ -177,7 +177,10 @@ export default function BucketBuilder({
         @media print {
           header, .bottom-tab-bar, .rightnow-desktop, .no-print { display: none !important; }
           .print-sheet { box-shadow: none !important; border: none !important; margin: 0 !important; }
-          @page { size: A4 portrait; margin: 10mm; }
+          body { zoom: 1 !important; }
+          /* The paper itself (A4, no page margin, 285mm sheet) is declared by
+             BucketSheet, so the builder and the child's print page print the
+             same one side. */
         }
         .bucket-chip { transition: transform 0.12s, background 0.12s; }
         .bucket-chip:active { transform: translateY(2px) scale(0.98); }
