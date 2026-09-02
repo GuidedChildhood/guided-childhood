@@ -1,5 +1,7 @@
 'use client'
 
+import KidBackLink from '@/components/kid/KidBackLink'
+
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
@@ -606,9 +608,7 @@ export default function KidPath({
       `}</style>
       <div style={{ maxWidth: '520px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', gap: '10px' }}>
-          <Link href={`/k/${token}`} style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink-soft)', textDecoration: 'none' }}>
-            ← My quests
-          </Link>
+          <KidBackLink href={`/k/${token}`} color="var(--ink-soft)" />
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink)', background: 'var(--terracotta)', borderRadius: '100px', padding: '5px 12px', boxShadow: '0 3px 0 var(--terracotta-dark)' }}>
             ⭐ {bankStars} in the bank
           </span>

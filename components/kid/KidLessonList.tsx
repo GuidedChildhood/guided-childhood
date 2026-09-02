@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import KidBackLink from '@/components/kid/KidBackLink'
 import DigiCharacter from '@gc/shared/components/DigiCharacter'
 import { resolveTheme, type KidTheme } from '@/lib/kid/theme'
 
@@ -40,12 +41,7 @@ export default function KidLessonList({
     <div style={{ minHeight: '100dvh', background: t.bg, padding: '22px 16px 50px', fontFamily: 'var(--font-body)' }}>
       <div style={{ maxWidth: '560px', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', gap: '10px' }}>
-          <Link href={backHref} style={{
-            fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-            color: t.inkSoft, textDecoration: 'none',
-          }}>
-            ← My quests
-          </Link>
+          <KidBackLink href={backHref} color={t.inkSoft} />
           {items.length > 0 && (
             <span style={{
               fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.1em',

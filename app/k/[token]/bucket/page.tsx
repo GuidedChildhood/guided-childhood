@@ -43,7 +43,7 @@ export default async function KidBucketPage({ params }: { params: Promise<{ toke
         kidToken={token}
         defaultChildName={name}
         backHref={`/k/${token}?tab=print`}
-        backLabel="My quests"
+        backLabel="Printables"
       />
     </div>
   )

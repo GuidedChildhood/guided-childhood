@@ -81,6 +81,8 @@ import { resolveTheme, knownAccent, DEFAULT_ACCENT, PICKER_ACCENTS } from '@/lib
 // nothing to popup block, nowhere to strand), and PDF packs go through
 // printPack, the written window that carries its own way back.
 import KidSheetOverlay, { type OverlaySheet } from '@/components/kid/KidSheetOverlay'
+import KidPrintables from '@/components/kid/KidPrintables'
+import { tickPrintableStep } from '@/lib/kid/print-anywhere'
 import { printPack } from '@/lib/kid/print-sheet'
 
 export default function KidQuestScreen({
@@ -600,10 +602,6 @@ export default function KidQuestScreen({
   // from /api/kid/celebrations, which is also what writes the milestone rows.
   const [winRecord, setWinRecord] = useState<WinRecord | null>(null)
   const [pendingWins, setPendingWins] = useState<Win[]>([])
-  // Which kind of printable is showing. The whole library on one scroll was a
-  // long way to the sheet you wanted, so it filters by the kind already in the
-  // registry rather than a new grouping invented for the child app.
-  const [printKind, setPrintKind] = useState<string>('all')
   // The squad welcome: DiGi and the Planet Friends introduced one at a time.
   // Once a week, not every open. Six cards is nearly half a minute of splash
   // standing between a child and their jobs, and however lovely it is, the
@@ -1280,7 +1278,7 @@ export default function KidQuestScreen({
 
       {/* A sheet being printed, in place. Nothing to block, nowhere to strand.
           Keyed by the sheet, so one failed load never haunts the next open. */}
-      <KidSheetOverlay key={printOverlay?.url ?? 'none'} sheet={printOverlay} onClose={() => setPrintOverlay(null)} />
+      <KidSheetOverlay key={printOverlay?.url ?? 'none'} sheet={printOverlay} onClose={() => setPrintOverlay(null)} onPrinted={() => tickPrintableStep(token)} />
 
       {/* The sent it toast */}
       {toast && (
@@ -1570,7 +1568,7 @@ export default function KidQuestScreen({
                 onClick={() => {
                   playKidSound('tap')
                   if (assignedPrintable.pdfColourIn) printPack(assignedPrintable.pdfColourIn, assignedPrintable.title)
-                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading })
+                  else setPrintOverlay({ url: assignedPrintable.sheetUrl, title: assignedPrintable.title, extraUrls: assignedPrintable.extraSheetUrls, heading: assignedPrintable.sheetHeading, stars: assignedPrintable.stars, printHref: `/k/${token}/print?sheet=${encodeURIComponent(assignedPrintable.key)}` })
                 }}
                 style={{ flex: 1, textAlign: 'center', background: '#fff', color: 'var(--ink)', border: '1.5px solid var(--border)', borderRadius: 14, padding: '12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', boxSizing: 'border-box' }}>
                 🖨️ Print it
@@ -2599,220 +2597,21 @@ export default function KidQuestScreen({
             a grown up. When unlocked they can print and finish for stars; when
             not, the ask still goes through so the grown up can sort it. */}
         {tab === 'print' && (
-          <div>
-            {/* The star chart leads the tab. Justin, 10 August 2026: "this is
-                a key printable." It was parent only until then; now the child
-                prints the same chart the builder makes, with the family's
-                real jobs on it. */}
-            <KidStarChartHero token={token} />
-
-            {/* The bucket list builder, the child's way in. Same component
-                as the parent dashboard's, so the two can never drift. */}
-            <KidBucketHero token={token} />
-
-            {/* The next Friend rides along on this screen too, so the one they
-                are working toward keeps showing up rather than living on one
-                tab. Seeing who is close is what keeps the streak going. */}
-
-            {/* Their own off screen tally. The grown up's stats already count
-                every confirmed sheet into the off screen total, and this is the
-                same number said back to the child, in the place they earned it,
-                so the work away from a screen is visible on both sides. */}
-            {sheetsDone > 0 && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 11, background: 'var(--tint-sage)', border: '1.5px solid #CFE3D9', borderRadius: 16, padding: '12px 14px', marginBottom: 12 }}>
-                <span aria-hidden style={{ fontSize: 'var(--text-xl)', lineHeight: 1, flexShrink: 0 }}>🖍️</span>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.2 }}>
-                    {sheetsDone} {sheetsDone === 1 ? 'sheet' : 'sheets'} done away from a screen
-                  </div>
-                  <div style={{ fontSize: 'var(--text-base)', color: 'var(--ink-soft)', lineHeight: 1.4, marginTop: 2 }}>
-                    That is {sheetStars} {sheetStars === 1 ? 'star' : 'stars'} earned with a pencil, not a screen.
-                  </div>
-                </div>
-              </div>
-            )}
-            <p style={{ textAlign: 'center', color: 'var(--ink-soft)', fontSize: 'var(--text-md)', lineHeight: 1.5, margin: '0 0 14px' }}>
-              Colour a sheet away from the screen, then show your grown up for stars.
-            </p>
-            {stagePrintables.length === 0 ? (
-              <HappyScene headline="More printables soon" sub="New colouring sheets land here. Check back soon!" />
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {/* Sections, so the whole library is not one long scroll. The
-                    groups are the kinds the registry already carries, so nothing
-                    here invents a second way of sorting the same sheets. Only
-                    kinds that actually have a sheet for this age show up. */}
-                {(() => {
-                  const KINDS: { key: string; label: string; emoji: string }[] = [
-                    { key: 'all', label: 'All', emoji: '📚' },
-                    { key: 'craft', label: 'Colour', emoji: '🎨' },
-                    { key: 'bucket', label: 'Lists', emoji: '📋' },
-                    { key: 'brain', label: 'Learn', emoji: '🧠' },
-                    { key: 'challenge', label: 'Dares', emoji: '🏆' },
-                    { key: 'hunt', label: 'Hunts', emoji: '🔍' },
-                  ]
-                  const live = KINDS.filter(k => k.key === 'all' || stagePrintables.some(p => p.kind === k.key))
-                  if (live.length <= 2) return null
-                  return (
-                    <div style={{ display: 'flex', gap: '5px', overflowX: 'auto', paddingBottom: '2px', marginBottom: '2px' }}>
-                      {live.map(k => {
-                        const on = k.key === printKind
-                        return (
-                          <button
-                            key={k.key}
-                            onClick={() => { setPrintKind(k.key); playKidSound('tap') }}
-                            style={{
-                              flexShrink: 0, padding: '9px 14px', borderRadius: '13px', cursor: 'pointer',
-                              border: on ? 'none' : '1.5px solid rgba(26,26,46,0.12)',
-                              background: on ? 'var(--terracotta)' : 'var(--cream)',
-                              color: 'var(--ink)', display: 'flex', alignItems: 'center', gap: '6px',
-                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)',
-                              boxShadow: on ? '0 3px 0 var(--terracotta-dark)' : 'none',
-                            }}
-                          >
-                            <span aria-hidden>{k.emoji}</span>{k.label}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  )
-                })()}
-                {/* Anything a grown up has already said yes to comes first. A
-                    yes buried eight cards down is a yes the child never acts
-                    on, and this tab is long. */}
-                {[...stagePrintables].filter(p => printKind === 'all' || p.kind === printKind).sort((a, b) => {
-                  const yes = (x: typeof a) => asks.find(k => k.title === `Please can I do the ${x.title} printable`)?.status === 'added' ? 0 : 1
-                  return yes(a) - yes(b)
-                }).map(p => {
-                  const finishedTitle = `Finished the ${p.title} sheet`
-                  const printTitle = `Print the ${p.title} sheet`
-                  const wantTitle = `Please can I do the ${p.title} printable`
-                  const finished = asks.some(a => a.title === finishedTitle)
-                  // The ask and, crucially, its ANSWER. Reading only that an ask
-                  // exists meant a child who had been told yes saw exactly the
-                  // same card as a child still waiting, so the yes only ever
-                  // arrived as a notification they might never have seen.
-                  const ask = asks.find(a => a.title === wantTitle)
-                  const requested = !!ask
-                  const saidYes = ask?.status === 'added'
-                  const saidNo = ask?.status === 'declined'
-                  return (
-                    <div key={p.key} style={{ ...bigCardShell(false), padding: '11px 13px 13px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '13px', marginBottom: '11px' }}>
-                        {/* Paper shaped, and the whole page in it. A square tile
-                            cropping an A4 portrait threw away a third of every
-                            sheet before the child had seen any of it. */}
-                        <div style={{ position: 'relative', width: 68, height: 96, borderRadius: '9px', flexShrink: 0, overflow: 'hidden', background: '#fff', border: '1.5px solid var(--border)' }}>
-                          <Image src={p.previewUrl} alt="" fill sizes="68px" style={{ objectFit: 'contain' }} />
-                          <span style={{ position: 'absolute', bottom: '5px', left: '5px', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)', background: 'rgba(255,255,255,0.9)', borderRadius: '100px', padding: '2px 7px' }}>
-                            ⭐ {p.stars}
-                          </span>
-                        </div>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.22 }}>
-                            {p.emoji} {p.title}
-                          </div>
-                          <div style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-muted)', lineHeight: 1.35, marginTop: '2px' }}>
-                            Colour the whole page for {p.stars} stars
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Either the family is unlocked, or this sheet is one of
-                          the free ones, or a grown up said yes to THIS sheet. A
-                          yes is permission for the sheet it was given for, so it
-                          has to open the same door: saying yes and then leaving
-                          the child with nothing to tap is worse than never
-                          having asked. */}
-                      {(printablesUnlocked || p.free || saidYes) ? (
-                        <>
-                          {saidYes && !printablesUnlocked && !p.free && (
-                            <p style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--retro-green-dark, var(--deep-teal))', textAlign: 'center', margin: '0 0 8px', lineHeight: 1.4 }}>
-                              Your grown up said yes to this one ⭐
-                            </p>
-                          )}
-                          <button
-                            // Both doors carry the way back. PDF packs go
-                            // through printPack's written window; image sheets
-                            // open in place as the overlay, which nothing can
-                            // block because nothing leaves the page.
-                            onClick={() => { playKidSound('tap'); if (p.pdfColourIn) { printPack(p.pdfColourIn, p.title) } else { setPrintOverlay({ url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn }) } }}
-                            style={{
-                              width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
-                              cursor: 'pointer', marginBottom: '7px',
-                              background: 'var(--terracotta)', color: 'var(--ink)',
-                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                              boxShadow: '0 4px 0 var(--terracotta-dark)',
-                            }}
-                          >
-                            🖨️ Print it now
-                          </button>
-                          {/* The earn step, made plain: once it is coloured in, the
-                              child shows their grown up, who approves the stars. */}
-                          <button
-                            onClick={() => {
-                              submitAsk(finishedTitle, p.emoji)
-                              setHappyNews({ character: 'bloop', headline: 'Beautiful work!', sub: `${p.stars} star${p.stars === 1 ? '' : 's'} on the way once your grown up sees it.` })
-                            }}
-                            disabled={finished}
-                            style={{
-                              width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
-                              cursor: finished ? 'default' : 'pointer', marginBottom: '7px',
-                              background: finished ? 'var(--tint-sage)' : 'var(--deep-teal)',
-                              color: finished ? 'var(--ink)' : '#fff',
-                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                              boxShadow: finished ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
-                            }}
-                          >
-                            {finished ? 'Shown to your grown up ✓ Stars on the way' : `I finished it! Show my grown up ⭐ ${p.stars}`}
-                          </button>
-                          <button
-                            onClick={() => submitAsk(printTitle, '🖨️')}
-                            style={{
-                              width: '100%', padding: '9px', borderRadius: '12px',
-                              border: 'none', cursor: 'pointer', background: 'none',
-                              fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 'var(--text-base)',
-                              color: 'var(--ink-muted)',
-                            }}
-                          >
-                            No printer? Ask a grown up to print it
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <button
-                            onClick={() => {
-                              submitAsk(wantTitle, p.emoji)
-                              setHappyNews({ character: 'bloop', headline: 'Asked your grown up!', sub: `They can set up ${p.title} for you to colour in.` })
-                            }}
-                            disabled={requested}
-                            style={{
-                              width: '100%', padding: '12px', borderRadius: '13px', border: 'none',
-                              cursor: requested ? 'default' : 'pointer',
-                              // A no is quiet, still waiting is the calm sage it
-                              // always was. A yes never lands here now, it opens
-                              // the print actions above instead.
-                              background: requested ? 'var(--tint-sage)' : 'var(--deep-teal)',
-                              color: requested ? 'var(--ink)' : '#fff',
-                              fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)',
-                              boxShadow: requested ? 'none' : '0 4px 0 rgba(0,0,0,0.22)',
-                            }}
-                          >
-                            {saidNo ? 'Not this one for now' : requested ? 'Asked your grown up ✓' : 'Ask a grown up for this one ⭐'}
-                          </button>
-                          <p style={{ fontSize: 'var(--text-base)', color: 'var(--ink-muted)', textAlign: 'center', margin: '8px 0 0', lineHeight: 1.4 }}>
-                            {saidNo
-                              ? 'Maybe another time. Plenty more to colour.'
-                              : 'Your grown up can set up printables for you.'}
-                          </p>
-                        </>
-                      )}
-                    </div>
-                  )
-                })}
-              </div>
-            )}
-          </div>
+          // The happy news edition, its own component. See KidPrintables for
+          // the grid, the sheet screen, the print that works inside the
+          // installed app and the five a day tick.
+          <KidPrintables
+            token={token}
+            childName={childName}
+            printables={stagePrintables}
+            asks={asks}
+            submitAsk={submitAsk}
+            printablesUnlocked={printablesUnlocked}
+            sheetsDone={sheetsDone}
+            sheetStars={sheetStars}
+            onHappyNews={setHappyNews}
+            tallyColor={theme.inkSoft}
+          />
         )}
 
         {/* The offer and the iOS how to both moved to the top of the screen, in

@@ -91,7 +91,8 @@ export default async function KidStarChartPage({ params }: { params: Promise<{ t
         recordUrl="/api/kid/star-chart-print"
         recordBody={{ token }}
         backHref={`/k/${token}?tab=print`}
-        backLabel="My quests"
+        backLabel="Printables"
+        kidToken={token}
         defaultRate={kidRate}
       />
     </div>

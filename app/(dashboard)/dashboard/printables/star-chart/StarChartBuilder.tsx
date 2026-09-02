@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import StarChartSheet, { MAX_ROWS } from '@/components/printables/StarChartSheet'
+import KidBackLink from '@/components/kid/KidBackLink'
+import { HAPPY, HappyMasthead, Burst } from '@/components/kid/HappyNewsBits'
+import { printOrOpen, packForUrl, tickPrintableStep } from '@/lib/kid/print-anywhere'
 
 // Build the star chart, THEN print it. The paper chart has four blank rows for
 // a pen, which is fine on the fridge and useless before it is on the fridge: a
@@ -71,6 +74,7 @@ export default function StarChartBuilder({
   recordBody = {},
   backHref = '/dashboard/printables',
   backLabel = 'All printables',
+  kidToken = null,
   rateByChild = {},
   defaultRate = 5,
 }: {
@@ -108,6 +112,8 @@ export default function StarChartBuilder({
   recordBody?: Record<string, unknown>
   backHref?: string
   backLabel?: string
+  /** The child's link token, for the print page the installed app opens in Safari. */
+  kidToken?: string | null
   /**
    * What one star buys, per child (migration 225), so the printed deal
    * matches the app's money. The signed out lead magnet gets the default.
@@ -178,20 +184,38 @@ export default function StarChartBuilder({
       `}</style>
 
       <div className="no-print">
-        <Link href={backHref} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
-          ← {backLabel}
-        </Link>
-        <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '14px 0 8px' }}>
-          {variant === 'kid' ? 'My star chart' : 'Star chart builder'}
-        </p>
-        <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 10 }}>
-          {variant === 'kid' ? 'Pick your jobs, then print' : 'Put your own jobs on it, then print'}
-        </h1>
-        <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 26, maxWidth: 560 }}>
-          {variant === 'kid'
-            ? 'Put it on the fridge and do your jobs on paper all week. At the end of the week your grown up puts your stars in the app and they land in your bank.'
-            : 'One press prints two pages: the chart with your jobs on it, and a sheet of gold stars to cut out. No phone needed on their side: you tick the jobs in the app, and their screen time runs from your phone on the family TV, console or tablet. The whole loop is printed on the sheet.'}
-        </p>
+        {variant === 'kid' ? (
+          // The child's way in: the way back through history, the round close,
+          // and the happy news masthead with the row count on a burst.
+          <>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 12 }}>
+              <KidBackLink href={backHref} label={backLabel} color="var(--ink)" />
+              <KidBackLink href={backHref} label="Close" variant="close" />
+            </div>
+            <HappyMasthead
+              kicker="My star chart"
+              title="Pick your jobs, then print"
+              sub="On the fridge all week. Your grown up puts the stars in your bank."
+              right={<Burst size={72} color={HAPPY.butterLt}><span style={{ fontSize: 24 }}>{picked.length}</span><br /><span style={{ fontSize: 10, letterSpacing: '0.08em' }}>JOBS</span></Burst>}
+              style={{ marginBottom: 18 }}
+            />
+          </>
+        ) : (
+          <>
+            <Link href={backHref} style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-sm)', color: 'var(--ink-muted)', textDecoration: 'none' }}>
+              ← {backLabel}
+            </Link>
+            <p className="eyebrow" style={{ color: 'var(--terracotta-dark)', margin: '14px 0 8px' }}>
+              Star chart builder
+            </p>
+            <h1 style={{ fontSize: 'clamp(1.6rem, 5vw, 2.1rem)', fontWeight: 900, letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 10 }}>
+              Put your own jobs on it, then print
+            </h1>
+            <p style={{ fontSize: 'var(--text-md)', color: 'var(--ink-soft)', lineHeight: 1.6, marginBottom: 26, maxWidth: 560 }}>
+              One press prints two pages: the chart with your jobs on it, and a sheet of gold stars to cut out. No phone needed on their side: you tick the jobs in the app, and their screen time runs from your phone on the family TV, console or tablet. The whole loop is printed on the sheet.
+            </p>
+          </>
+        )}
 
         {/* Their name, its own tidy field with a label above it. */}
         <label style={{ display: 'block', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--ink-muted)', marginBottom: 8 }}>
@@ -436,6 +460,16 @@ export default function StarChartBuilder({
                 // runs on the child app, where there is no session.
                 body: JSON.stringify({ ...recordBody, weekStart: week?.start ?? null }),
               }).catch(() => { /* the chart still prints */ })
+              // The child's print: tick the five a day, then print in place
+              // where the browser can, or open the chart's print page in
+              // Safari where it cannot (the installed iOS app). See
+              // lib/kid/print-anywhere.
+              if (variant === 'kid' && kidToken) {
+                tickPrintableStep(kidToken)
+                const packed = packForUrl({ name, weekLabel: week?.label ?? null, jobs: picked, starMinutes: rate })
+                printOrOpen(`/k/${kidToken}/print?star=${packed}`)
+                return
+              }
               window.print()
             }}
             className="btn btn-gold"
