@@ -1,6 +1,9 @@
 'use client'
 
 import { deviceLabel } from '@/lib/quests/device-time'
+import HappyIcon, { type HappyIconName } from '@/components/kid/HappyIcon'
+import { Sticker } from '@/components/kid/HappyNewsBits'
+import { CRAYON } from '@/components/printables/drawn/HappyPaper'
 
 // The fate of the child's screen time ask, right at the top of their screen
 // so it is never hunted for. One banner, four states: asked and waiting,
@@ -17,10 +20,23 @@ export type KidAskState = {
 
 export type KidNudge = { id: string; message: string }
 
+// The happy news finish (design-refs/happy-newspaper-notes.md): ink edge,
+// hard ledge, a drawn icon in a crayon well instead of a phone emoji.
 const cardBase: React.CSSProperties = {
   display: 'flex', alignItems: 'center', gap: 13,
-  borderRadius: '20px', padding: '14px 17px', marginBottom: '12px',
-  boxShadow: '0 5px 0 rgba(0,0,0,0.18)', textAlign: 'left',
+  border: '2px solid var(--ink)', borderRadius: '20px', padding: '13px 15px', marginBottom: '12px',
+  boxShadow: '0 4px 0 var(--ink)', textAlign: 'left',
+}
+const okBtn: React.CSSProperties = {
+  flexShrink: 0, border: '2px solid var(--ink)', background: '#fff', borderRadius: '12px', padding: '8px 12px', cursor: 'pointer',
+  boxShadow: '0 3px 0 var(--ink)', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)', color: 'var(--ink)',
+}
+function Well({ icon, tint }: { icon: HappyIconName; tint: string }) {
+  return (
+    <span aria-hidden style={{ width: 52, height: 52, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box', background: tint, border: '2px solid var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+      <HappyIcon name={icon} size={34} />
+    </span>
+  )
 }
 
 export default function KidAskBanner({
@@ -49,14 +65,14 @@ export default function KidAskBanner({
       {/* Nudges from the grown up: always show, they carry the way forward. */}
       {nudges.map(n => (
         <div key={n.id} style={{ ...cardBase, background: '#fff' }}>
-          <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>💛</span>
+          <Well icon="heart" tint={CRAYON.paper} />
           <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.4 }}>
             {n.message}
           </span>
           <button
             onClick={() => onDismissNudge(n.id)}
             aria-label="Got it"
-            style={{ flexShrink: 0, border: 'none', background: 'var(--cream)', borderRadius: '10px', padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}
+            style={okBtn}
           >
             OK
           </button>
@@ -65,22 +81,20 @@ export default function KidAskBanner({
 
       {showAsk && ask.status === 'pending' && (
         <div style={{ ...cardBase, background: '#fff' }}>
-          <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>🙋</span>
+          <Well icon="hand" tint={CRAYON.butter} />
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
               Asked your grown up for {ask.minutes} min on the {deviceLabel(ask.device)}
             </span>
-            <span style={{ display: 'block', fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink-muted)', marginTop: 2 }}>
-              Waiting for their yes ⏳
-            </span>
+            <span style={{ display: 'inline-block', marginTop: 6 }}><Sticker accent="white" rotate={-3} size="sm">Waiting for their yes ⏳</Sticker></span>
           </span>
         </div>
       )}
 
       {showAsk && ask.status === 'approved' && (
-        <div style={{ ...cardBase, flexDirection: 'column', alignItems: 'stretch', gap: 10, background: 'var(--terracotta)', boxShadow: '0 5px 0 var(--terracotta-dark)' }}>
+        <div style={{ ...cardBase, flexDirection: 'column', alignItems: 'stretch', gap: 10, background: 'var(--terracotta)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontSize: 'var(--text-2xl)', flexShrink: 0 }}>🎉</span>
+            <Well icon="cheer" tint="#fff" />
             <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: 'var(--ink)', lineHeight: 1.3 }}>
               They said yes! Tap to start your timer
             </span>
@@ -88,8 +102,8 @@ export default function KidAskBanner({
           {/* Jobs still to do today: a soft steer to finish those first, the
               same one their grown up saw. Never a block, the Start still works. */}
           {outstandingJobs.length > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: 'rgba(26,26,46,0.10)', borderRadius: '13px', padding: '10px 13px' }}>
-              <span style={{ fontSize: 'var(--text-lg)', flexShrink: 0 }}>🌱</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9, background: '#fff', border: '2px solid var(--ink)', borderRadius: '13px', padding: '8px 12px' }}>
+              <HappyIcon name="sprout" size={26} />
               <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink)', lineHeight: 1.35 }}>
                 Finish {outstandingJobs[0]}{outstandingJobs.length > 1 ? ` and ${outstandingJobs.length - 1} more` : ''} first
               </span>
@@ -102,7 +116,7 @@ export default function KidAskBanner({
               width: '100%', padding: '15px', borderRadius: '16px', border: 'none',
               background: 'var(--ink)', color: '#fff', cursor: startBusy ? 'default' : 'pointer',
               fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
-              boxShadow: '0 5px 0 rgba(0,0,0,0.35)', opacity: startBusy ? 0.7 : 1,
+              boxShadow: '0 4px 0 rgba(0,0,0,0.45)', opacity: startBusy ? 0.7 : 1,
             }}
           >
             {startBusy ? 'Starting...' : `▶ Start my ${ask.minutes} minutes`}
@@ -112,7 +126,7 @@ export default function KidAskBanner({
 
       {showAsk && ask.status === 'declined' && (
         <div style={{ ...cardBase, background: '#fff' }}>
-          <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>💛</span>
+          <Well icon="heart" tint={CRAYON.paper} />
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
               Not right now
@@ -124,7 +138,7 @@ export default function KidAskBanner({
           <button
             onClick={onDismissDeclined}
             aria-label="OK"
-            style={{ flexShrink: 0, border: 'none', background: 'var(--cream)', borderRadius: '10px', padding: '8px 12px', cursor: 'pointer', fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: 'var(--ink-soft)' }}
+            style={okBtn}
           >
             OK
           </button>
@@ -135,7 +149,7 @@ export default function KidAskBanner({
           one story at a time. */}
       {blocked && !(showAsk && (ask.status === 'pending' || ask.status === 'approved')) && (
         <div style={{ ...cardBase, background: '#fff' }}>
-          <span style={{ fontSize: 'var(--text-xl)', flexShrink: 0 }}>🌱</span>
+          <Well icon="sprout" tint={CRAYON.paper} />
           <span style={{ flex: 1, minWidth: 0 }}>
             <span style={{ display: 'block', fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-md)', color: 'var(--ink)', lineHeight: 1.3 }}>
               Do {blockingJobs[0]}{blockingJobs.length > 1 ? ` and ${blockingJobs.length - 1} more` : ''} first, then ask again
