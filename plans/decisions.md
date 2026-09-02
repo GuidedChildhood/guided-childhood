@@ -10115,6 +10115,30 @@ screen time and balance, the child's own app, the road to 16, what you get,
 the door. The product pictures are drawn in code in Mocks.tsx so they
 survive redesigns. Dev preview: /starter-pack?preview=result.
 
+## 2 September 2026: it is Planet Friends, not Planter Friends, and the toy is rebuilt
+
+Justin, on the merged garden: "it's not Planter Friends it's Planet Friends
+... is that why you have gone for garden? It should be the cast we have as
+Planet Friends already designed and planets not gardens ... give it a full
+rebuild please and the younger one could be mini characters as babies until
+they all reach the age ... I did migrate the 251 so please redo all of it
+properly ... remember we are trying to combine offline activity and balance
+responsible device use with online education." The brief had arrived as
+"Planter Friends" and was plant themed end to end, so the first build was a
+garden. Decided: the toy is Planet Friends: Growing Up Digital, the child's
+own Planet Friends (Pebble, Bloop, Orbit, Nova, Cosmo, from
+lib/content/stage-characters) on a home planet that grows while the child is
+away; the whole cast is on the planet from day one, each Friend a baby until
+the child reaches the bottom of that Friend's stage, then grown up alongside
+them; the loop, the rests, the bedtime sync and the ask doors stay exactly as
+designed; the Friends model balanced device use (a MoonPhone that goes on
+the charger when the star goes down) and the growth reveal carries a door
+into the child's lessons, so offline activity, responsible device use and
+online education meet on one screen. Migration 251 is applied and empty, so
+migration 252 drops its tables and creates planet_homes and planet_events.
+The garden code is removed; the design document is rewritten as
+plans/planet-friends-architecture.md. The My planet tile sits after the
+games on the Games tab, so the games stay first.
 ## 2 September 2026: child home tiles wear the happy news finish, Games on the front
 
 Justin, with the child's home grid: make it Apple level with happy news
