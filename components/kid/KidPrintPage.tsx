@@ -4,17 +4,23 @@ import { useEffect, useState } from 'react'
 import KidSheetPaper, { type SheetPaperSpec } from '@/components/kid/KidSheetPaper'
 import BucketSheet, { type BucketIdea } from '@/components/printables/BucketSheet'
 import StarChartSheet, { type SheetJob } from '@/components/printables/StarChartSheet'
-import { canPrintHere, tickPrintableStep, type PrintableTick } from '@/lib/kid/print-anywhere'
+import { tickPrintableStep, type PrintableTick } from '@/lib/kid/print-anywhere'
 import { HAPPY, SmileyDot } from '@/components/kid/HappyNewsBits'
 
-// The print page: one printable, drawn alone, asking for the print dialog
-// the moment it is ready.
+// The print page: one printable, drawn alone, with one big Print button.
 //
 // This is where the installed app sends a child when it cannot print for
 // itself (see lib/kid/print-anywhere). It opens in real Safari, which can.
-// The page is deliberately plain: a thin bar saying what to do if the dialog
-// does not appear, the paper, and nothing else. Nothing here needs the app
-// behind it, so it works opened cold.
+// The page is deliberately plain: a bar with the Print button, the paper, and
+// nothing else. Nothing here needs the app behind it, so it works opened cold.
+//
+// NO AUTOMATIC PRINT. The first cut asked for the dialog the moment the paper
+// had loaded, and Safari on the iPhone answered with a box of its own: "This
+// website has been blocked from automatically printing", Ignore or Allow
+// (Justin's screenshot, 2 September 2026). Safari only opens the print sheet
+// for a print asked for by a tap, so the tap is the whole design now: the
+// button is the first thing on the page, big enough to be the obvious next
+// move, and window.print runs inside its handler and nowhere else.
 //
 // Three shapes of paper share it: a sheet from the registry, the bucket
 // list with the child's picks, and the star chart with their jobs. The
@@ -39,14 +45,10 @@ export type PrintJob =
   | { kind: 'bucket'; title: string; childName: string; picked: BucketIdea[] }
   | { kind: 'star'; name: string; weekLabel: string | null; jobs: SheetJob[]; starMinutes: number }
 
-export default function KidPrintPage({ job, token, autoPrint = true }: {
+export default function KidPrintPage({ job, token }: {
   job: PrintJob
   token: string
-  /** Off in the dev fixture, where a print dialog would only get in the way. */
-  autoPrint?: boolean
 }) {
-  const [ready, setReady] = useState(job.kind !== 'sheet')
-  const [asked, setAsked] = useState(false)
   // What landing here did to today's five, once the route has answered.
   const [tick, setTick] = useState<PrintableTick | null>(null)
   // The dialog has been and gone: the paper is theirs, the bar becomes the way back.
@@ -70,16 +72,7 @@ export default function KidPrintPage({ job, token, autoPrint = true }: {
     return () => window.removeEventListener('afterprint', done)
   }, [])
 
-  // Ask for the dialog once the art is on the page, and only once. A short
-  // wait lets fonts and the last image settle so the paper is not half drawn.
-  useEffect(() => {
-    if (!autoPrint || !ready || asked) return
-    if (!canPrintHere()) return
-    setAsked(true)
-    const t = setTimeout(() => { try { window.focus(); window.print() } catch { /* the bar still says how */ } }, 500)
-    return () => clearTimeout(t)
-  }, [autoPrint, ready, asked])
-
+  // Inside the tap, always: that is the one place Safari lets a page print.
   function printNow() {
     try { window.print() } catch { /* nothing to do */ }
     // print() holds the page until the dialog closes where it can, so by
@@ -150,35 +143,37 @@ export default function KidPrintPage({ job, token, autoPrint = true }: {
         </div>
       ) : (
         <div className="kid-print-bar" style={{
-          position: 'sticky', top: 0, zIndex: 2, display: 'flex', alignItems: 'center', gap: 10,
-          padding: '10px 14px', background: HAPPY.butter, borderBottom: `2.5px solid ${HAPPY.ink}`,
+          position: 'sticky', top: 0, zIndex: 2,
+          padding: '12px 14px 14px', background: HAPPY.butter, borderBottom: `2.5px solid ${HAPPY.ink}`,
         }}>
-          <SmileyDot size={22} color="#fff" />
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'var(--text-base)', color: HAPPY.ink, lineHeight: 1.3 }}>
-              {title}. No print box? Tap share, then Print.
-            </div>
-            {counted && (
-              <div style={{ marginTop: 3, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: HAPPY.ink, opacity: 0.85 }}>
-                ✓ {tick?.ticked ? 'ONE OF YOUR FIVE FOR TODAY' : 'ON YOUR FIVE FOR TODAY'} · {doneCount} OF {total} DONE
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+            <SmileyDot size={24} color="#fff" />
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)', color: HAPPY.ink, lineHeight: 1.15 }}>
+                {title} is ready
               </div>
-            )}
+              <div style={{ marginTop: 3, fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', fontWeight: 700, letterSpacing: '0.06em', color: HAPPY.ink, opacity: 0.85 }}>
+                {counted
+                  ? `✓ ${tick?.ticked ? 'ONE OF YOUR FIVE FOR TODAY' : 'ON YOUR FIVE FOR TODAY'} · ${doneCount} OF ${total} DONE`
+                  : 'TAP PRINT AND THE PRINT BOX OPENS'}
+              </div>
+            </div>
           </div>
           <button
             onClick={printNow}
             style={{
-              flexShrink: 0, padding: '10px 14px', borderRadius: 14, border: `2px solid ${HAPPY.ink}`, cursor: 'pointer',
-              background: '#fff', color: HAPPY.ink, boxShadow: `0 3px 0 ${HAPPY.ink}`,
-              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-base)',
+              display: 'block', width: '100%', padding: '14px 18px', borderRadius: 16, border: `2px solid ${HAPPY.ink}`, cursor: 'pointer',
+              background: '#fff', color: HAPPY.ink, boxShadow: `0 5px 0 ${HAPPY.ink}`,
+              fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 'var(--text-lg)',
             }}
           >
-            🖨️ Print
+            🖨️ Print it
           </button>
         </div>
       )}
 
       {job.kind === 'sheet' && (
-        <KidSheetPaper sheet={job.sheet} onLoaded={() => setReady(true)} onFailed={() => setReady(false)} />
+        <KidSheetPaper sheet={job.sheet} />
       )}
       {job.kind === 'bucket' && (
         <div style={{ maxWidth: 760, margin: '0 auto', padding: '10px 16px 30px' }}>

@@ -48,7 +48,6 @@ export default function KidPrintablesFixture() {
     return (
       <KidPrintPage
         token={token}
-        autoPrint={false}
         job={{ kind: 'bucket', title: 'My Bucket List', childName: 'Alfie', picked: [
           { emoji: '🚲', text: 'Family bike ride' }, { emoji: '🪁', text: 'Fly a kite' }, { emoji: '🍪', text: 'Bake together' },
           { emoji: '📚', text: 'Read a whole book' }, { emoji: '⭐', text: 'Sleep in the garden' },
@@ -62,7 +61,6 @@ export default function KidPrintablesFixture() {
     return (
       <KidPrintPage
         token={token}
-        autoPrint={false}
         job={{ kind: 'sheet', key: p.key, sheet: { url: p.sheetUrl, title: p.title, extraUrls: p.extraSheetUrls, heading: p.sheetHeading, writeIn: p.writeIn } }}
       />
     )
