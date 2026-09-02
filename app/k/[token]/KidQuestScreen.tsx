@@ -98,8 +98,10 @@ export default function KidQuestScreen({
   tutorLesson = null,
   earnedStages = 0, completedStreaks = 0, jobStreaks = 0, completedDays = 0, sheetsDone = 0, sheetStars = 0, familyDevices = [],
   stickers = [], celebrateStickers = [], celebratedStickers = [], streakWeekSeen = null, starWeek = '',
-  fiveADayInitial = null, passportCode = null,
+  fiveADayInitial = null, passportCode = null, gardenTier = null,
 }: {
+  /** Planter Friends: 1 or 2 shows the My garden tile; 3 and null hide it until slice 4. */
+  gardenTier?: 1 | 2 | 3 | null
   token: string
   childName: string
   // The public passport number on the child's own book (migration 227). Not
@@ -2601,6 +2603,24 @@ export default function KidQuestScreen({
                 )
               })}
 
+              {/* Planter Friends, the digital toy: a garden that grows while the
+                  child is away. Tier 1 and 2 only in slice 1 (see
+                  plans/planter-friends-architecture.md). */}
+              {activeLessonTab === 'games' && (gardenTier === 1 || gardenTier === 2) && (
+                <>
+                  <SectionHead icon="🌱">My garden</SectionHead>
+                  <a href={`/k/${token}/garden`} onClick={() => playKidSound('tap')} style={bigCardShell(false)}>
+                    <CardFace
+                      seed="planter-garden" done={false}
+                      emoji="🌱" isNew
+                      title="Planter Friends"
+                      subtitle="A garden that grows while you are away. Water, tickle, tuck in."
+                      pill="Toy"
+                      actionIcon="🌱"
+                    />
+                  </a>
+                </>
+              )}
               {activeLessonTab === 'games' && stageGames.length > 0 && <SectionHead kidIcon="games">Games to play</SectionHead>}
               {activeLessonTab === 'games' && stageGames.map(game => {
                 const done = doneGames.has(game.key)
